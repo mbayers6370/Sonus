@@ -6,6 +6,9 @@ Mandarin-first language learning app with:
 - Fastify + Prisma backend (`backend`)
 - Postgres persistence (local dev)
 
+## Live Demo
+- https://sonus-1.onrender.com
+
 ## What Sonus Does
 Sonus helps users build speaking and recognition accuracy in a target language through short lesson flows:
 - `Learn`: introduction/review of words in small lesson chunks
