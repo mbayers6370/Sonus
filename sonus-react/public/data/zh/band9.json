@@ -1,0 +1,16 @@
+{
+  "language": "zh",
+  "source": "hsk3.0",
+  "bandId": "band9",
+  "band": 9,
+  "wordCount": 0,
+  "availableWords": 0,
+  "unallocatedWords": 0,
+  "units": {
+    "b9-nuance": {
+      "targetWords": 180,
+      "allocatedWords": 0,
+      "words": []
+    }
+  }
+}

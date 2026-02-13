@@ -1,0 +1,40 @@
+I need you to categorize 237 Chinese HSK words into thematic units.
+
+Here are the available units:
+- b1-pronouns: Personal pronouns (I, you, he, she, etc.)
+- b1-greetings: Greetings and farewells
+- b1-politeness: Polite expressions (please, thank you, sorry, etc.)
+- b1-numbers: Numbers and measure words
+- b1-time: Time-related words (day, month, today, tomorrow, etc.)
+- b1-family: Family members
+- b1-verbs: Common action verbs
+- b1-adjectives: Descriptive adjectives
+- b1-food: Food and beverages
+- b1-school: School, work, and learning-related words
+- b1-body: Body parts
+- b1-colors: Colors
+- b1-clothing: Clothing items
+- b1-places: Locations and buildings
+- b1-transport: Transportation vehicles
+- b1-weather: Weather-related words
+- b1-hobbies: Hobbies and activities
+- b1-routine: Daily routine activities
+- b1-questions: Question words and phrases
+
+Please categorize each word from the list below into ONE of these units. Return the result as a JSON object in this EXACT format:
+
+{
+  "别的": "b1-pronouns",
+  "别人": "b1-pronouns",
+  "不": "b1-verbs",
+  ...
+}
+
+Just the JSON object, nothing else. Here are the words to categorize:
+
+[PASTE THE CONTENTS OF needs-review-list.json HERE]
+
+Remember:
+- Each word should go in the MOST appropriate unit
+- If a word could fit multiple units, choose the PRIMARY meaning
+- Return ONLY the JSON object, no explanations

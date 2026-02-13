@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sonus-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: sonus
+      POSTGRES_USER: sonus
+      POSTGRES_PASSWORD: sonus_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - sonus_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sonus -d sonus"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  sonus_postgres_data:

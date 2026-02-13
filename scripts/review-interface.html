@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Categorization Review</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f1ed;
+      padding: 20px;
+      color: #2d2a26;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    .header {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .progress {
+      background: #e8e4df;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+    .progress-bar {
+      background: #4a8fe7;
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+    .card {
+      background: white;
+      padding: 32px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .word-display {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .chinese {
+      font-size: 72px;
+      font-weight: 300;
+      margin-bottom: 12px;
+      color: #1a1815;
+    }
+    .pinyin {
+      font-size: 24px;
+      color: #7a7570;
+      margin-bottom: 8px;
+    }
+    .english {
+      font-size: 20px;
+      color: #4a4641;
+      margin-bottom: 16px;
+    }
+    .pos-tag {
+      display: inline-block;
+      background: #e8e4df;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      color: #5a5651;
+    }
+    .definitions {
+      background: #faf8f6;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+      font-size: 14px;
+      color: #5a5651;
+      line-height: 1.6;
+    }
+    .units-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .unit-btn {
+      background: white;
+      border: 2px solid #d4cec7;
+      padding: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+      font-size: 14px;
+    }
+    .unit-btn:hover {
+      border-color: #4a8fe7;
+      background: #f0f7ff;
+    }
+    .unit-btn.suggested {
+      border-color: #ffa726;
+      background: #fff8e1;
+    }
+    .unit-name {
+      font-weight: 600;
+      color: #1a1815;
+      margin-bottom: 4px;
+    }
+    .unit-hanzi {
+      font-size: 12px;
+      color: #7a7570;
+    }
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #e8e4df;
+    }
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .btn-skip {
+      background: #e8e4df;
+      color: #5a5651;
+    }
+    .btn-skip:hover {
+      background: #d4cec7;
+    }
+    .btn-export {
+      background: #4a8fe7;
+      color: white;
+      flex: 1;
+    }
+    .btn-export:hover {
+      background: #3a7ed6;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .stat {
+      background: #faf8f6;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a1815;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #7a7570;
+      margin-top: 4px;
+    }
+    .complete {
+      text-align: center;
+      padding: 48px;
+    }
+    .complete h2 {
+      font-size: 32px;
+      margin-bottom: 16px;
+      color: #1a1815;
+    }
+    .complete p {
+      font-size: 18px;
+      color: #5a5651;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Word Categorization Review</h1>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value" id="reviewed">0</div>
+          <div class="stat-label">Reviewed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="remaining">0</div>
+          <div class="stat-label">Remaining</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="skipped">0</div>
+          <div class="stat-label">Skipped</div>
+        </div>
+      </div>
+      <div class="progress">
+        <div class="progress-bar" id="progress"></div>
+      </div>
+    </div>
+
+    <div id="review-area"></div>
+  </div>
+
+  <script>
+    const units = [
+      { id: 'b1-pronouns', name: 'Personal Pronouns', hanzi: '人称代词' },
+      { id: 'b1-greetings', name: 'Greetings', hanzi: '问候语' },
+      { id: 'b1-politeness', name: 'Politeness', hanzi: '礼貌用语' },
+      { id: 'b1-numbers', name: 'Numbers', hanzi: '数字' },
+      { id: 'b1-time', name: 'Time', hanzi: '时间' },
+      { id: 'b1-family', name: 'Family', hanzi: '家庭' },
+      { id: 'b1-verbs', name: 'Common Verbs', hanzi: '动词' },
+      { id: 'b1-adjectives', name: 'Adjectives', hanzi: '形容词' },
+      { id: 'b1-food', name: 'Food & Drink', hanzi: '食物饮料' },
+      { id: 'b1-school', name: 'School & Work', hanzi: '学校工作' },
+      { id: 'b1-body', name: 'Body Parts', hanzi: '身体部位' },
+      { id: 'b1-colors', name: 'Colors', hanzi: '颜色' },
+      { id: 'b1-clothing', name: 'Clothing', hanzi: '服装' },
+      { id: 'b1-places', name: 'Places', hanzi: '地方' },
+      { id: 'b1-transport', name: 'Transport', hanzi: '交通' },
+      { id: 'b1-weather', name: 'Weather', hanzi: '天气' },
+      { id: 'b1-hobbies', name: 'Hobbies & Activities', hanzi: '爱好活动' },
+      { id: 'b1-routine', name: 'Daily Routine', hanzi: '日常生活' },
+      { id: 'b1-questions', name: 'Questions', hanzi: '疑问词' }
+    ];
+
+    let reviewQueue = [];
+    let currentIndex = 0;
+    let results = [];
+    let skippedWords = [];
+
+    // Load review queue
+    fetch('./review-queue.json')
+      .then(r => r.json())
+      .then(data => {
+        reviewQueue = data.tier3;
+        updateStats();
+        renderCurrentWord();
+      })
+      .catch(err => {
+        console.error('Failed to load review queue:', err);
+        document.getElementById('review-area').innerHTML = `
+          <div class="card complete">
+            <h2>⚠️ Error Loading Data</h2>
+            <p>Could not find review-queue.json. Make sure you ran the reorganize-band1-v2.js script first!</p>
+            <p style="margin-top: 16px; color: #7a7570;">Expected file: ${window.location.href.replace('review-interface.html', 'review-queue.json')}</p>
+          </div>
+        `;
+      });
+
+    function updateStats() {
+      document.getElementById('reviewed').textContent = results.length;
+      document.getElementById('remaining').textContent = reviewQueue.length - currentIndex;
+      document.getElementById('skipped').textContent = skippedWords.length;
+      const progress = (currentIndex / reviewQueue.length) * 100;
+      document.getElementById('progress').style.width = progress + '%';
+    }
+
+    function renderCurrentWord() {
+      if (currentIndex >= reviewQueue.length) {
+        renderComplete();
+        return;
+      }
+
+      const word = reviewQueue[currentIndex];
+      const area = document.getElementById('review-area');
+
+      area.innerHTML = `
+        <div class="card">
+          <div class="word-display">
+            <div class="chinese">${word.word}</div>
+            <div class="pinyin">${word.pinyin}</div>
+            <div class="english">${word.en}</div>
+            ${word.pos ? `<span class="pos-tag">${word.pos}</span>` : ''}
+            ${word.defs && word.defs.length > 0 ? `
+              <div class="definitions">
+                <strong>All definitions:</strong><br>
+                ${word.defs.join('<br>')}
+              </div>
+            ` : ''}
+          </div>
+
+          <div class="units-grid">
+            ${units.map(unit => `
+              <button class="unit-btn ${unit.id === word.suggested ? 'suggested' : ''}"
+                      onclick="categorize('${unit.id}')">
+                <div class="unit-name">${unit.name}</div>
+                <div class="unit-hanzi">${unit.hanzi}</div>
+              </button>
+            `).join('')}
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-skip" onclick="skipWord()">Skip for Now</button>
+            <button class="btn btn-export" onclick="exportResults()">💾 Export Results</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function categorize(unitId) {
+      const word = reviewQueue[currentIndex];
+      results.push({
+        word: word.word,
+        unitId: unitId,
+        data: word
+      });
+      currentIndex++;
+      updateStats();
+      renderCurrentWord();
+    }
+
+    function skipWord() {
+      const word = reviewQueue[currentIndex];
+      skippedWords.push(word);
+      currentIndex++;
+      updateStats();
+      renderCurrentWord();
+    }
+
+    function renderComplete() {
+      const area = document.getElementById('review-area');
+      area.innerHTML = `
+        <div class="card complete">
+          <h2>✨ Review Complete!</h2>
+          <p>You've reviewed all ${results.length} words. Click export to save your categorization.</p>
+          <button class="btn btn-export" onclick="exportResults()" style="margin-top: 24px;">
+            💾 Export Results
+          </button>
+        </div>
+      `;
+    }
+
+    function exportResults() {
+      const output = {
+        categorized: results,
+        skipped: skippedWords,
+        timestamp: new Date().toISOString()
+      };
+
+      const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'manual-categorization.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 's' || e.key === 'S') {
+        skipWord();
+      }
+    });
+  </script>
+</body>
+</html>

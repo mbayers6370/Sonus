@@ -1,0 +1,16 @@
+{
+  "language": "zh",
+  "source": "hsk3.0",
+  "bandId": "band8",
+  "band": 8,
+  "wordCount": 0,
+  "availableWords": 0,
+  "unallocatedWords": 0,
+  "units": {
+    "b8-writing": {
+      "targetWords": 180,
+      "allocatedWords": 0,
+      "words": []
+    }
+  }
+}

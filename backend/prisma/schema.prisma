@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId             String   @unique @map("user_id") @db.Uuid
+  email              String?  @db.Text
+  displayName        String?  @map("display_name") @db.Text
+  targetLanguage     String?  @map("target_language") @db.Text
+  timezone           String?  @db.Text
+  onboardingComplete Boolean  @default(false) @map("onboarding_complete")
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  progress UserProgress?
+
+  @@map("profiles")
+}
+
+model UserProgress {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId           String    @unique @map("user_id") @db.Uuid
+  streak           Int       @default(0)
+  lastActiveDate   DateTime? @map("last_active_date") @db.Timestamptz(6)
+  currentBandId    String?   @map("current_band_id") @db.Text
+  currentUnitId    String?   @map("current_unit_id") @db.Text
+  currentLessonIdx Int?      @map("current_lesson_idx")
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  profile Profile @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@map("user_progress")
+}
+
+model QuizAttempt {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  wordId     String   @map("word_id") @db.Text
+  isCorrect  Boolean  @map("is_correct")
+  responseMs Int?     @map("response_ms")
+  answerText String?  @map("answer_text") @db.Text
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([userId, createdAt])
+  @@index([userId, wordId, createdAt])
+  @@map("quiz_attempts")
+}
+
+model SpeakAttempt {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId         String   @map("user_id") @db.Uuid
+  wordId         String   @map("word_id") @db.Text
+  transcript     String?  @db.Text
+  detectedPinyin String?  @map("detected_pinyin") @db.Text
+  initialOk      Boolean  @default(false) @map("initial_ok")
+  finalOk        Boolean  @default(false) @map("final_ok")
+  toneOk         Boolean  @default(false) @map("tone_ok")
+  score          Int?
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([userId, createdAt])
+  @@index([userId, wordId, createdAt])
+  @@map("speak_attempts")
+}
+
+model WordMemoryState {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId            String    @map("user_id") @db.Uuid
+  wordId            String    @map("word_id") @db.Text
+  quizEase          Float     @default(2.5) @map("quiz_ease")
+  quizIntervalDays  Int       @default(1) @map("quiz_interval_days")
+  quizDueAt         DateTime  @default(now()) @map("quiz_due_at") @db.Timestamptz(6)
+  pronunciationRisk Float     @default(0) @map("pronunciation_risk")
+  missedQuizCount   Int       @default(0) @map("missed_quiz_count")
+  mispronounceCount Int       @default(0) @map("mispronounce_count")
+  lastSeenAt        DateTime? @map("last_seen_at") @db.Timestamptz(6)
+  lastCorrectAt     DateTime? @map("last_correct_at") @db.Timestamptz(6)
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@unique([userId, wordId])
+  @@index([userId, quizDueAt])
+  @@index([userId, pronunciationRisk])
+  @@map("word_memory_state")
+}
+
+model ProgressEvent {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  eventType   String   @map("event_type") @db.Text
+  streakDelta Int      @default(0) @map("streak_delta")
+  payloadJson Json?    @map("payload_json")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([userId, createdAt])
+  @@map("progress_events")
+}

@@ -1,0 +1,16 @@
+{
+  "language": "zh",
+  "source": "hsk3.0",
+  "bandId": "band7",
+  "band": 7,
+  "wordCount": 0,
+  "availableWords": 0,
+  "unallocatedWords": 0,
+  "units": {
+    "b7-academic": {
+      "targetWords": 170,
+      "allocatedWords": 0,
+      "words": []
+    }
+  }
+}

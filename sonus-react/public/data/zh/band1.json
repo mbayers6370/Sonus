@@ -1,0 +1,6205 @@
+{
+  "language": "zh",
+  "source": "hsk3.0",
+  "bandId": "band1",
+  "band": 1,
+  "wordCount": 517,
+  "availableWords": 517,
+  "unallocatedWords": 0,
+  "units": {
+    "_unallocated": {
+      "targetWords": 0,
+      "allocatedWords": 1,
+      "words": [
+        {
+          "id": "L1-0075",
+          "simp": "第",
+          "trad": "第",
+          "pinyin": "dì",
+          "pos": "Prefix",
+          "en": "(prefix indicating ordinal number, as in 第六[di4 liu4] \"sixth\")",
+          "defs": [
+            "(prefix indicating ordinal number, as in 第六[di4 liu4] \"sixth\")",
+            "(literary) grades in which successful candidates in the imperial examinations were placed",
+            "(old) residence of a high official",
+            "(literary) but; however",
+            "(literary) only; just"
+          ]
+        }
+      ]
+    },
+    "b1-pronouns": {
+      "targetWords": 0,
+      "allocatedWords": 25,
+      "words": [
+        {
+          "id": "L1-0013",
+          "simp": "帮",
+          "trad": "幫",
+          "pinyin": "bāng",
+          "pos": "V",
+          "en": "to help",
+          "defs": [
+            "to help",
+            "to assist",
+            "to support",
+            "for sb (i.e. as a help)",
+            "hired (as worker)",
+            "side (of pail, boat etc)",
+            "outer layer",
+            "upper (of a shoe)",
+            "group",
+            "gang",
+            "clique",
+            "party",
+            "secret society"
+          ]
+        },
+        {
+          "id": "L1-0026",
+          "simp": "别的",
+          "trad": "別的",
+          "pinyin": "biéde",
+          "pos": "Pron",
+          "en": "else",
+          "defs": [
+            "else",
+            "other"
+          ]
+        },
+        {
+          "id": "L1-0027",
+          "simp": "别人",
+          "trad": "別人",
+          "pinyin": "biérén",
+          "pos": "Pron",
+          "en": "other people; others; other person",
+          "defs": [
+            "other people; others; other person"
+          ]
+        },
+        {
+          "id": "L1-0034",
+          "simp": "不",
+          "trad": "不",
+          "pinyin": "bù",
+          "pos": "Adv",
+          "en": "no; not so",
+          "defs": [
+            "no; not so",
+            "(bound form) not; un-"
+          ]
+        },
+        {
+          "id": "L1-0030",
+          "simp": "不大",
+          "trad": "不大",
+          "pinyin": "bù dà",
+          "pos": "",
+          "en": "not very (clear, far away etc); not too",
+          "defs": [
+            "not very (clear, far away etc); not too",
+            "not often; infrequently"
+          ]
+        },
+        {
+          "id": "L1-0074",
+          "simp": "弟",
+          "trad": "弟",
+          "pinyin": "dì",
+          "pos": "N",
+          "en": "younger brother",
+          "defs": [
+            "younger brother",
+            "junior male",
+            "I (modest word in letter)",
+            "variant of 悌[ti4]"
+          ]
+        },
+        {
+          "id": "L1-0114",
+          "simp": "干什么",
+          "trad": "幹什麼",
+          "pinyin": "gàn shénme",
+          "pos": "",
+          "en": "what are you doing?",
+          "defs": [
+            "what are you doing?",
+            "what's he up to?"
+          ]
+        },
+        {
+          "id": "L1-0232",
+          "simp": "没",
+          "trad": "沒",
+          "pinyin": "méi",
+          "pos": "Adv/V",
+          "en": "(negative prefix for verbs) have not; not",
+          "defs": [
+            "(negative prefix for verbs) have not; not",
+            "drowned",
+            "to end",
+            "to die",
+            "to inundate"
+          ]
+        },
+        {
+          "id": "L1-0234",
+          "simp": "没什么",
+          "trad": "沒什麼",
+          "pinyin": "méi shénme",
+          "pos": "",
+          "en": "it doesn't matter; it's nothing; never mind",
+          "defs": [
+            "it doesn't matter; it's nothing; never mind",
+            "think nothing of it; it's my pleasure; you're welcome"
+          ]
+        },
+        {
+          "id": "L1-0235",
+          "simp": "没事儿",
+          "trad": "沒事兒",
+          "pinyin": "méishìr",
+          "pos": "",
+          "en": "to have spare time",
+          "defs": [
+            "to have spare time",
+            "free from work",
+            "it's not important",
+            "it's nothing",
+            "never mind"
+          ]
+        },
+        {
+          "id": "L1-0253",
+          "simp": "哪些",
+          "trad": "哪些",
+          "pinyin": "nǎxiē",
+          "pos": "Pron",
+          "en": "which ones?",
+          "defs": [
+            "which ones?",
+            "who?",
+            "what?"
+          ]
+        },
+        {
+          "id": "L1-0255",
+          "simp": "那边",
+          "trad": "那邊",
+          "pinyin": "nàbiān",
+          "pos": "Pron",
+          "en": "over there",
+          "defs": [
+            "over there",
+            "yonder"
+          ]
+        },
+        {
+          "id": "L1-0257",
+          "simp": "那儿",
+          "trad": "那兒",
+          "pinyin": "nàr",
+          "pos": "Pron",
+          "en": "there",
+          "defs": [
+            "there"
+          ]
+        },
+        {
+          "id": "L1-0258",
+          "simp": "那些",
+          "trad": "那些",
+          "pinyin": "nàxiē",
+          "pos": "Pron",
+          "en": "those",
+          "defs": [
+            "those"
+          ]
+        },
+        {
+          "id": "L1-0271",
+          "simp": "你",
+          "trad": "你",
+          "pinyin": "nǐ",
+          "pos": "Pron",
+          "en": "you (informal, as opposed to courteous 您[nin2])",
+          "defs": [
+            "you (informal, as opposed to courteous 您[nin2])"
+          ]
+        },
+        {
+          "id": "L1-0272",
+          "simp": "你们",
+          "trad": "你們",
+          "pinyin": "nǐmen",
+          "pos": "Pron",
+          "en": "you (plural)",
+          "defs": [
+            "you (plural)"
+          ]
+        },
+        {
+          "id": "L1-0274",
+          "simp": "您",
+          "trad": "您",
+          "pinyin": "nín",
+          "pos": "Pron",
+          "en": "you (courteous, as opposed to informal 你[ni3])",
+          "defs": [
+            "you (courteous, as opposed to informal 你[ni3])"
+          ]
+        },
+        {
+          "id": "L1-0299",
+          "simp": "请问",
+          "trad": "請問",
+          "pinyin": "qǐngwèn",
+          "pos": "V",
+          "en": "Excuse me, may I ask...?",
+          "defs": [
+            "Excuse me, may I ask...?"
+          ]
+        },
+        {
+          "id": "L1-0338",
+          "simp": "是不是",
+          "trad": "是不是",
+          "pinyin": "shì bu shì",
+          "pos": "",
+          "en": "is or isn't",
+          "defs": [
+            "is or isn't",
+            "yes or no",
+            "whether or not"
+          ]
+        },
+        {
+          "id": "L1-0354",
+          "simp": "他",
+          "trad": "他",
+          "pinyin": "tā",
+          "pos": "Pron",
+          "en": "(third-person singular) (since the early 20th century, usu. male) he; him; his",
+          "defs": [
+            "(third-person singular) (since the early 20th century, usu. male) he; him; his",
+            "(bound form) other; another; some other (as in 他日[ta1 ri4] and 他人[ta1 ren2])"
+          ]
+        },
+        {
+          "id": "L1-0355",
+          "simp": "他们",
+          "trad": "他們",
+          "pinyin": "tāmen",
+          "pos": "Pron",
+          "en": "they; them",
+          "defs": [
+            "they; them"
+          ]
+        },
+        {
+          "id": "L1-0356",
+          "simp": "她",
+          "trad": "她",
+          "pinyin": "tā",
+          "pos": "Pron",
+          "en": "she",
+          "defs": [
+            "she"
+          ]
+        },
+        {
+          "id": "L1-0357",
+          "simp": "她们",
+          "trad": "她們",
+          "pinyin": "tāmen",
+          "pos": "Pron",
+          "en": "they; them (females)",
+          "defs": [
+            "they; them (females)"
+          ]
+        },
+        {
+          "id": "L1-0380",
+          "simp": "我",
+          "trad": "我",
+          "pinyin": "wǒ",
+          "pos": "Pron",
+          "en": "I; me; my",
+          "defs": [
+            "I; me; my"
+          ]
+        },
+        {
+          "id": "L1-0381",
+          "simp": "我们",
+          "trad": "我們",
+          "pinyin": "wǒmen",
+          "pos": "Pron",
+          "en": "we; us; ourselves; our",
+          "defs": [
+            "we; us; ourselves; our"
+          ]
+        }
+      ]
+    },
+    "b1-politeness": {
+      "targetWords": 0,
+      "allocatedWords": 8,
+      "words": [
+        {
+          "id": "L1-0032",
+          "simp": "不客气",
+          "trad": "不客氣",
+          "pinyin": "bù kèqì",
+          "pos": "",
+          "en": "you're welcome",
+          "defs": [
+            "you're welcome",
+            "don't mention it",
+            "impolite",
+            "rude",
+            "blunt"
+          ]
+        },
+        {
+          "id": "L1-0093",
+          "simp": "对不起",
+          "trad": "對不起",
+          "pinyin": "duìbuqǐ",
+          "pos": "V",
+          "en": "I'm sorry; excuse me; I beg your pardon",
+          "defs": [
+            "I'm sorry; excuse me; I beg your pardon",
+            "to let (sb) down; to disappoint"
+          ]
+        },
+        {
+          "id": "L1-0183",
+          "simp": "进来",
+          "trad": "進來",
+          "pinyin": "jìnlái",
+          "pos": "",
+          "en": "to come in",
+          "defs": [
+            "to come in"
+          ]
+        },
+        {
+          "id": "L1-0233",
+          "simp": "没关系",
+          "trad": "沒關係",
+          "pinyin": "méi guānxi",
+          "pos": "",
+          "en": "it doesn't matter",
+          "defs": [
+            "it doesn't matter"
+          ]
+        },
+        {
+          "id": "L1-0296",
+          "simp": "请",
+          "trad": "請",
+          "pinyin": "qǐng",
+          "pos": "V",
+          "en": "to ask",
+          "defs": [
+            "to ask",
+            "to invite",
+            "please (do sth)",
+            "to treat (to a meal etc)",
+            "to request"
+          ]
+        },
+        {
+          "id": "L1-0298",
+          "simp": "请进",
+          "trad": "請進",
+          "pinyin": "qǐng jìn",
+          "pos": "",
+          "en": "\"please come in\"",
+          "defs": [
+            "\"please come in\""
+          ]
+        },
+        {
+          "id": "L1-0300",
+          "simp": "请坐",
+          "trad": "請坐",
+          "pinyin": "qǐng zuò",
+          "pos": "",
+          "en": "please, have a seat",
+          "defs": [
+            "please, have a seat"
+          ]
+        },
+        {
+          "id": "L1-0410",
+          "simp": "谢谢",
+          "trad": "謝謝",
+          "pinyin": "xièxie",
+          "pos": "V",
+          "en": "to thank",
+          "defs": [
+            "to thank",
+            "thanks",
+            "thank you"
+          ]
+        }
+      ]
+    },
+    "b1-numbers": {
+      "targetWords": 0,
+      "allocatedWords": 15,
+      "words": [
+        {
+          "id": "L1-0216",
+          "simp": "〇",
+          "trad": "〇",
+          "pinyin": "líng",
+          "pos": "Num",
+          "en": "zero",
+          "defs": [
+            "zero"
+          ]
+        },
+        {
+          "id": "L1-0427",
+          "simp": "一",
+          "trad": "一",
+          "pinyin": "yī",
+          "pos": "Num",
+          "en": "one",
+          "defs": [
+            "one"
+          ]
+        },
+        {
+          "id": "L1-0098",
+          "simp": "二",
+          "trad": "二",
+          "pinyin": "èr",
+          "pos": "Num",
+          "en": "two",
+          "defs": [
+            "two"
+          ]
+        },
+        {
+          "id": "L1-0311",
+          "simp": "三",
+          "trad": "三",
+          "pinyin": "sān",
+          "pos": "Num",
+          "en": "three",
+          "defs": [
+            "three"
+          ]
+        },
+        {
+          "id": "L1-0351",
+          "simp": "四",
+          "trad": "四",
+          "pinyin": "sì",
+          "pos": "Num",
+          "en": "four",
+          "defs": [
+            "four"
+          ]
+        },
+        {
+          "id": "L1-0382",
+          "simp": "五",
+          "trad": "五",
+          "pinyin": "wǔ",
+          "pos": "Num",
+          "en": "five",
+          "defs": [
+            "five"
+          ]
+        },
+        {
+          "id": "L1-0217",
+          "simp": "六",
+          "trad": "六",
+          "pinyin": "liù",
+          "pos": "Num",
+          "en": "six",
+          "defs": [
+            "six"
+          ]
+        },
+        {
+          "id": "L1-0286",
+          "simp": "七",
+          "trad": "七",
+          "pinyin": "qī",
+          "pos": "Num",
+          "en": "seven",
+          "defs": [
+            "seven"
+          ]
+        },
+        {
+          "id": "L1-0003",
+          "simp": "八",
+          "trad": "八",
+          "pinyin": "bā",
+          "pos": "Num",
+          "en": "eight",
+          "defs": [
+            "eight"
+          ]
+        },
+        {
+          "id": "L1-0185",
+          "simp": "九",
+          "trad": "九",
+          "pinyin": "jiǔ",
+          "pos": "Num",
+          "en": "nine",
+          "defs": [
+            "nine"
+          ]
+        },
+        {
+          "id": "L1-0332",
+          "simp": "十",
+          "trad": "十",
+          "pinyin": "shí",
+          "pos": "Num",
+          "en": "ten",
+          "defs": [
+            "ten"
+          ]
+        },
+        {
+          "id": "L1-0008",
+          "simp": "百",
+          "trad": "百",
+          "pinyin": "bǎi",
+          "pos": "Num",
+          "en": "hundred",
+          "defs": [
+            "hundred"
+          ]
+        },
+        {
+          "id": "L1-0215",
+          "simp": "两",
+          "trad": "兩",
+          "pinyin": "liǎng",
+          "pos": "Num",
+          "en": "two (for counting objects)",
+          "defs": [
+            "two (for counting objects)"
+          ]
+        },
+        {
+          "id": "L1-0010",
+          "simp": "半",
+          "trad": "半",
+          "pinyin": "bàn",
+          "pos": "Num",
+          "en": "half",
+          "defs": [
+            "half"
+          ]
+        },
+        {
+          "id": "L1-0431",
+          "simp": "一半",
+          "trad": "一半",
+          "pinyin": "yībàn",
+          "pos": "Num",
+          "en": "half",
+          "defs": [
+            "half"
+          ]
+        }
+      ]
+    },
+    "b1-time": {
+      "targetWords": 0,
+      "allocatedWords": 35,
+      "words": [
+        {
+          "id": "L1-0007",
+          "simp": "白天",
+          "trad": "白天",
+          "pinyin": "báitiān",
+          "pos": "N",
+          "en": "daytime",
+          "defs": [
+            "daytime",
+            "during the day",
+            "day",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0011",
+          "simp": "半年",
+          "trad": "半年",
+          "pinyin": "bàn nián",
+          "pos": "",
+          "en": "half a year",
+          "defs": [
+            "half a year"
+          ]
+        },
+        {
+          "id": "L1-0012",
+          "simp": "半天",
+          "trad": "半天",
+          "pinyin": "bàntiān",
+          "pos": "",
+          "en": "half of the day",
+          "defs": [
+            "half of the day",
+            "a long time",
+            "quite a while",
+            "midair",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0076",
+          "simp": "点",
+          "trad": "點",
+          "pinyin": "diǎn",
+          "pos": "M/V/N",
+          "en": "to touch briefly; to tap",
+          "defs": [
+            "to touch briefly; to tap",
+            "to mark with a dot; to check off (on a list)",
+            "to order (food etc); to select",
+            "to mention; to bring up (a topic or person)",
+            "to hint at; to imply",
+            "to administer (eye medicine etc) in drops",
+            "to light (a fire, a lamp etc); to ignite",
+            "to nod (one's head) in agreement; to beckon by moving (one's hand) up and down",
+            "point; dot; spot; speck",
+            "dot stroke in Chinese characters",
+            "(math.) decimal point",
+            "point in time or space",
+            "(after a number) o'clock",
+            "a small amount; a bit; (after a verb or adjective) a bit more",
+            "classifier for small amounts"
+          ]
+        },
+        {
+          "id": "L1-0105",
+          "simp": "放学",
+          "trad": "放學",
+          "pinyin": "fàngxué",
+          "pos": "",
+          "en": "to dismiss students at the end of the school day",
+          "defs": [
+            "to dismiss students at the end of the school day"
+          ]
+        },
+        {
+          "id": "L1-0109",
+          "simp": "分",
+          "trad": "分",
+          "pinyin": "fēn",
+          "pos": "N/M",
+          "en": "to divide; to separate",
+          "defs": [
+            "to divide; to separate",
+            "to distribute; to allocate",
+            "to distinguish (good and bad)",
+            "(bound form) branch of (an organization); sub- (as in 分局[fen1 ju2])",
+            "fraction",
+            "one tenth (of certain units)",
+            "unit of length equivalent to 0.33 cm",
+            "minute (unit of time)",
+            "minute (angular measurement unit)",
+            "a point (in sports or games)",
+            "0.01 yuan (unit of money)",
+            "part",
+            "share",
+            "ingredient",
+            "component"
+          ]
+        },
+        {
+          "id": "L1-0131",
+          "simp": "过",
+          "trad": "過",
+          "pinyin": "guò",
+          "pos": "V",
+          "en": "to cross",
+          "defs": [
+            "to cross",
+            "to go over",
+            "to pass (time)",
+            "to celebrate (a holiday)",
+            "to live",
+            "to get along",
+            "excessively",
+            "too-",
+            "(experienced action marker)"
+          ]
+        },
+        {
+          "id": "L1-0149",
+          "simp": "后天",
+          "trad": "後天",
+          "pinyin": "hòutiān",
+          "pos": "N",
+          "en": "the day after tomorrow",
+          "defs": [
+            "the day after tomorrow",
+            "life after birth (the period in which one develops through experiences, contrasted with 先天[xian1 tian1])",
+            "acquired (not innate or congenital)",
+            "a posteriori"
+          ]
+        },
+        {
+          "id": "L1-0180",
+          "simp": "今年",
+          "trad": "今年",
+          "pinyin": "jīnnián",
+          "pos": "N",
+          "en": "this year",
+          "defs": [
+            "this year"
+          ]
+        },
+        {
+          "id": "L1-0181",
+          "simp": "今天",
+          "trad": "今天",
+          "pinyin": "jīntiān",
+          "pos": "N",
+          "en": "today",
+          "defs": [
+            "today",
+            "the present time; now"
+          ]
+        },
+        {
+          "id": "L1-0192",
+          "simp": "看",
+          "trad": "看",
+          "pinyin": "kàn",
+          "pos": "V",
+          "en": "to look after",
+          "defs": [
+            "to look after",
+            "to take care of",
+            "to watch",
+            "to guard",
+            "to see; to look at",
+            "to read",
+            "to visit; to call on",
+            "to consider; to regard as",
+            "to treat (a patient or illness)",
+            "to depend on",
+            "to feel (that)",
+            "(after a verb) to give it a try",
+            "to watch out for"
+          ]
+        },
+        {
+          "id": "L1-0247",
+          "simp": "明年",
+          "trad": "明年",
+          "pinyin": "míngnián",
+          "pos": "N",
+          "en": "next year",
+          "defs": [
+            "next year"
+          ]
+        },
+        {
+          "id": "L1-0248",
+          "simp": "明天",
+          "trad": "明天",
+          "pinyin": "míngtiān",
+          "pos": "N",
+          "en": "tomorrow",
+          "defs": [
+            "tomorrow"
+          ]
+        },
+        {
+          "id": "L1-0273",
+          "simp": "年",
+          "trad": "年",
+          "pinyin": "nián",
+          "pos": "M",
+          "en": "year",
+          "defs": [
+            "year",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0293",
+          "simp": "前天",
+          "trad": "前天",
+          "pinyin": "qiántiān",
+          "pos": "N",
+          "en": "the day before yesterday",
+          "defs": [
+            "the day before yesterday"
+          ]
+        },
+        {
+          "id": "L1-0302",
+          "simp": "去",
+          "trad": "去",
+          "pinyin": "qù",
+          "pos": "V",
+          "en": "to go",
+          "defs": [
+            "to go",
+            "to go to (a place)",
+            "(of a time etc) last",
+            "just passed",
+            "to send",
+            "to remove",
+            "to get rid of",
+            "to reduce",
+            "to be apart from in space or time",
+            "to die (euphemism)",
+            "to play (a part)",
+            "(when used either before or after a verb) to go in order to do sth",
+            "(after a verb of motion indicates movement away from the speaker)",
+            "(used after certain verbs to indicate detachment or separation)"
+          ]
+        },
+        {
+          "id": "L1-0303",
+          "simp": "去年",
+          "trad": "去年",
+          "pinyin": "qùnián",
+          "pos": "N",
+          "en": "last year",
+          "defs": [
+            "last year"
+          ]
+        },
+        {
+          "id": "L1-0308",
+          "simp": "日",
+          "trad": "日",
+          "pinyin": "rì",
+          "pos": "N",
+          "en": "abbr. for 日本[Ri4 ben3], Japan",
+          "defs": [
+            "abbr. for 日本[Ri4 ben3], Japan",
+            "sun",
+            "day",
+            "date, day of the month"
+          ]
+        },
+        {
+          "id": "L1-0309",
+          "simp": "日期",
+          "trad": "日期",
+          "pinyin": "rìqī",
+          "pos": "N",
+          "en": "date",
+          "defs": [
+            "date",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0319",
+          "simp": "上次",
+          "trad": "上次",
+          "pinyin": "shàng cì",
+          "pos": "",
+          "en": "last time",
+          "defs": [
+            "last time"
+          ]
+        },
+        {
+          "id": "L1-0322",
+          "simp": "上午",
+          "trad": "上午",
+          "pinyin": "shàngwǔ",
+          "pos": "N",
+          "en": "morning",
+          "defs": [
+            "morning",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0333",
+          "simp": "时候",
+          "trad": "時候",
+          "pinyin": "shíhou",
+          "pos": "N",
+          "en": "time",
+          "defs": [
+            "time",
+            "length of time",
+            "moment",
+            "period"
+          ]
+        },
+        {
+          "id": "L1-0334",
+          "simp": "时间",
+          "trad": "時間",
+          "pinyin": "shíjiān",
+          "pos": "N",
+          "en": "(concept of) time",
+          "defs": [
+            "(concept of) time",
+            "(duration of) time",
+            "(point in) time"
+          ]
+        },
+        {
+          "id": "L1-0359",
+          "simp": "天",
+          "trad": "天",
+          "pinyin": "tiān",
+          "pos": "N/M",
+          "en": "day",
+          "defs": [
+            "day",
+            "sky",
+            "heaven"
+          ]
+        },
+        {
+          "id": "L1-0374",
+          "simp": "晚上",
+          "trad": "晚上",
+          "pinyin": "wǎnshang",
+          "pos": "N",
+          "en": "evening",
+          "defs": [
+            "evening",
+            "night",
+            "CL:個|个[ge4]",
+            "in the evening"
+          ]
+        },
+        {
+          "id": "L1-0393",
+          "simp": "下次",
+          "trad": "下次",
+          "pinyin": "xià cì",
+          "pos": "",
+          "en": "next time",
+          "defs": [
+            "next time"
+          ]
+        },
+        {
+          "id": "L1-0395",
+          "simp": "下午",
+          "trad": "下午",
+          "pinyin": "xiàwǔ",
+          "pos": "N",
+          "en": "afternoon",
+          "defs": [
+            "afternoon",
+            "CL:個|个[ge4]",
+            "p.m."
+          ]
+        },
+        {
+          "id": "L1-0399",
+          "simp": "现在",
+          "trad": "現在",
+          "pinyin": "xiànzài",
+          "pos": "N",
+          "en": "now; at present; currently",
+          "defs": [
+            "now; at present; currently"
+          ]
+        },
+        {
+          "id": "L1-0405",
+          "simp": "小时",
+          "trad": "小時",
+          "pinyin": "xiǎoshí",
+          "pos": "N",
+          "en": "hour",
+          "defs": [
+            "hour",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0412",
+          "simp": "新年",
+          "trad": "新年",
+          "pinyin": "xīnnián",
+          "pos": "N",
+          "en": "New Year",
+          "defs": [
+            "New Year",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0413",
+          "simp": "星期",
+          "trad": "星期",
+          "pinyin": "xīngqī",
+          "pos": "N",
+          "en": "week",
+          "defs": [
+            "week",
+            "CL:個|个[ge4]",
+            "day of the week",
+            "Sunday"
+          ]
+        },
+        {
+          "id": "L1-0414",
+          "simp": "星期日",
+          "trad": "星期日",
+          "pinyin": "xīngqīrì",
+          "pos": "N",
+          "en": "Sunday",
+          "defs": [
+            "Sunday"
+          ]
+        },
+        {
+          "id": "L1-0415",
+          "simp": "星期天",
+          "trad": "星期天",
+          "pinyin": "xīngqītiān",
+          "pos": "N",
+          "en": "Sunday",
+          "defs": [
+            "Sunday"
+          ]
+        },
+        {
+          "id": "L1-0432",
+          "simp": "一会儿",
+          "trad": "一會兒",
+          "pinyin": "yīhuìr",
+          "pos": "",
+          "en": "a moment",
+          "defs": [
+            "a moment",
+            "a while",
+            "in a moment",
+            "now...now...",
+            "also pr. [yi1 hui3 r5]"
+          ]
+        },
+        {
+          "id": "L1-0434",
+          "simp": "一下儿",
+          "trad": "一下兒",
+          "pinyin": "yīxiàr",
+          "pos": "",
+          "en": "erhua form of 一下[yi1 xia4]",
+          "defs": [
+            "erhua form of 一下[yi1 xia4]"
+          ]
+        }
+      ]
+    },
+    "b1-family": {
+      "targetWords": 0,
+      "allocatedWords": 35,
+      "words": [
+        {
+          "id": "L1-0004",
+          "simp": "爸",
+          "trad": "爸",
+          "pinyin": "bà",
+          "pos": "N",
+          "en": "father",
+          "defs": [
+            "father",
+            "dad",
+            "pa",
+            "papa"
+          ]
+        },
+        {
+          "id": "L1-0061",
+          "simp": "大",
+          "trad": "大",
+          "pinyin": "dà",
+          "pos": "Adj",
+          "en": "big; large; great",
+          "defs": [
+            "big; large; great",
+            "older (than another person)",
+            "eldest (as in 大姐[da4 jie3])",
+            "greatly; freely; fully",
+            "(dialect) father",
+            "(dialect) uncle (father's brother)",
+            "see 大夫[dai4 fu5]"
+          ]
+        },
+        {
+          "id": "L1-0097",
+          "simp": "儿子",
+          "trad": "兒子",
+          "pinyin": "érzi",
+          "pos": "N",
+          "en": "son",
+          "defs": [
+            "son"
+          ]
+        },
+        {
+          "id": "L1-0118",
+          "simp": "哥",
+          "trad": "哥",
+          "pinyin": "gē",
+          "pos": "N",
+          "en": "elder brother",
+          "defs": [
+            "elder brother"
+          ]
+        },
+        {
+          "id": "L1-0135",
+          "simp": "孩子",
+          "trad": "孩子",
+          "pinyin": "háizi",
+          "pos": "N",
+          "en": "child",
+          "defs": [
+            "child"
+          ]
+        },
+        {
+          "id": "L1-0169",
+          "simp": "家",
+          "trad": "家",
+          "pinyin": "jiā",
+          "pos": "N/M",
+          "en": "home",
+          "defs": [
+            "home",
+            "family",
+            "(polite) my (sister, uncle etc)",
+            "classifier for families or businesses",
+            "refers to the philosophical schools of pre-Han China",
+            "noun suffix for a specialist in some activity, such as a musician or revolutionary, corresponding to English -ist, -er, -ary or -ian",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0171",
+          "simp": "家人",
+          "trad": "家人",
+          "pinyin": "jiārén",
+          "pos": "N",
+          "en": "family member",
+          "defs": [
+            "family member",
+            "(old) servant"
+          ]
+        },
+        {
+          "id": "L1-0178",
+          "simp": "姐",
+          "trad": "姐",
+          "pinyin": "jiě",
+          "pos": "N",
+          "en": "older sister",
+          "defs": [
+            "older sister"
+          ]
+        },
+        {
+          "id": "L1-0193",
+          "simp": "看病",
+          "trad": "看病",
+          "pinyin": "kànbìng",
+          "pos": "",
+          "en": "to visit a doctor",
+          "defs": [
+            "to visit a doctor",
+            "to see a patient"
+          ]
+        },
+        {
+          "id": "L1-0224",
+          "simp": "妈",
+          "trad": "媽",
+          "pinyin": "mā",
+          "pos": "N",
+          "en": "ma",
+          "defs": [
+            "ma",
+            "mom",
+            "mother"
+          ]
+        },
+        {
+          "id": "L1-0237",
+          "simp": "妹",
+          "trad": "妹",
+          "pinyin": "mèi",
+          "pos": "N",
+          "en": "younger sister",
+          "defs": [
+            "younger sister"
+          ]
+        },
+        {
+          "id": "L1-0245",
+          "simp": "名字",
+          "trad": "名字",
+          "pinyin": "míngzi",
+          "pos": "N",
+          "en": "name (of a person or thing)",
+          "defs": [
+            "name (of a person or thing)",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0260",
+          "simp": "奶奶",
+          "trad": "奶奶",
+          "pinyin": "nǎinai",
+          "pos": "N",
+          "en": "(informal) grandma (paternal grandmother)",
+          "defs": [
+            "(informal) grandma (paternal grandmother)",
+            "(respectful) mistress of the house",
+            "CL:位[wei4]",
+            "(coll.) boobies",
+            "breasts"
+          ]
+        },
+        {
+          "id": "L1-0262",
+          "simp": "男孩儿",
+          "trad": "男孩兒",
+          "pinyin": "nánháir",
+          "pos": "N",
+          "en": "erhua form of 男孩[nan2 hai2]",
+          "defs": [
+            "erhua form of 男孩[nan2 hai2]"
+          ]
+        },
+        {
+          "id": "L1-0263",
+          "simp": "男朋友",
+          "trad": "男朋友",
+          "pinyin": "nánpéngyou",
+          "pos": "N",
+          "en": "boyfriend",
+          "defs": [
+            "boyfriend"
+          ]
+        },
+        {
+          "id": "L1-0264",
+          "simp": "男人",
+          "trad": "男人",
+          "pinyin": "nánrén",
+          "pos": "N",
+          "en": "a man",
+          "defs": [
+            "a man",
+            "a male",
+            "men",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0265",
+          "simp": "男生",
+          "trad": "男生",
+          "pinyin": "nánshēng",
+          "pos": "N",
+          "en": "schoolboy",
+          "defs": [
+            "schoolboy",
+            "male student",
+            "boy",
+            "guy (young adult male)"
+          ]
+        },
+        {
+          "id": "L1-0277",
+          "simp": "女儿",
+          "trad": "女兒",
+          "pinyin": "nǚ'ér",
+          "pos": "N",
+          "en": "daughter",
+          "defs": [
+            "daughter"
+          ]
+        },
+        {
+          "id": "L1-0278",
+          "simp": "女孩儿",
+          "trad": "女孩兒",
+          "pinyin": "nǚháir",
+          "pos": "N",
+          "en": "erhua form of 女孩[nu : 3 hai2]",
+          "defs": [
+            "erhua form of 女孩[nu : 3 hai2]"
+          ]
+        },
+        {
+          "id": "L1-0279",
+          "simp": "女朋友",
+          "trad": "女朋友",
+          "pinyin": "nǚpéngyou",
+          "pos": "N",
+          "en": "girlfriend",
+          "defs": [
+            "girlfriend"
+          ]
+        },
+        {
+          "id": "L1-0280",
+          "simp": "女人",
+          "trad": "女人",
+          "pinyin": "nǚrén",
+          "pos": "N",
+          "en": "woman",
+          "defs": [
+            "woman",
+            "wife"
+          ]
+        },
+        {
+          "id": "L1-0281",
+          "simp": "女生",
+          "trad": "女生",
+          "pinyin": "nǚshēng",
+          "pos": "N",
+          "en": "schoolgirl",
+          "defs": [
+            "schoolgirl",
+            "female student",
+            "girl"
+          ]
+        },
+        {
+          "id": "L1-0284",
+          "simp": "朋友",
+          "trad": "朋友",
+          "pinyin": "péngyou",
+          "pos": "N",
+          "en": "friend",
+          "defs": [
+            "friend",
+            "CL:個|个[ge4],位[wei4]"
+          ]
+        },
+        {
+          "id": "L1-0241",
+          "simp": "朋友们",
+          "trad": "朋友們",
+          "pinyin": "péngyoumen",
+          "pos": "N",
+          "en": "",
+          "defs": []
+        },
+        {
+          "id": "L1-0285",
+          "simp": "票",
+          "trad": "票",
+          "pinyin": "piào",
+          "pos": "N",
+          "en": "ticket",
+          "defs": [
+            "ticket",
+            "ballot",
+            "banknote",
+            "CL:張|张[zhang1]",
+            "person held for ransom",
+            "amateur performance of Chinese opera",
+            "classifier for groups, batches, business transactions"
+          ]
+        },
+        {
+          "id": "L1-0305",
+          "simp": "人",
+          "trad": "人",
+          "pinyin": "rén",
+          "pos": "N",
+          "en": "person; people",
+          "defs": [
+            "person; people",
+            "CL:個|个[ge4],位[wei4]"
+          ]
+        },
+        {
+          "id": "L1-0331",
+          "simp": "生日",
+          "trad": "生日",
+          "pinyin": "shēngrì",
+          "pos": "N",
+          "en": "birthday",
+          "defs": [
+            "birthday",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0339",
+          "simp": "手",
+          "trad": "手",
+          "pinyin": "shǒu",
+          "pos": "N",
+          "en": "hand",
+          "defs": [
+            "hand",
+            "(formal) to hold",
+            "person engaged in certain types of work",
+            "person skilled in certain types of work",
+            "personal(ly)",
+            "convenient",
+            "classifier for skill",
+            "CL:雙|双[shuang1],隻|只[zhi1]"
+          ]
+        },
+        {
+          "id": "L1-0376",
+          "simp": "网友",
+          "trad": "網友",
+          "pinyin": "wǎngyǒu",
+          "pos": "N",
+          "en": "online friend",
+          "defs": [
+            "online friend",
+            "netizen; Internet user"
+          ]
+        },
+        {
+          "id": "L1-0398",
+          "simp": "先生",
+          "trad": "先生",
+          "pinyin": "xiānsheng",
+          "pos": "N",
+          "en": "teacher",
+          "defs": [
+            "teacher",
+            "gentleman; sir; mister (Mr.)",
+            "husband",
+            "(dialect) doctor",
+            "CL:位[wei4]"
+          ]
+        },
+        {
+          "id": "L1-0402",
+          "simp": "小孩儿",
+          "trad": "小孩兒",
+          "pinyin": "xiǎoháir",
+          "pos": "N",
+          "en": "erhua variant of 小孩[xiao3 hai2]",
+          "defs": [
+            "erhua variant of 小孩[xiao3 hai2]"
+          ]
+        },
+        {
+          "id": "L1-0403",
+          "simp": "小姐",
+          "trad": "小姐",
+          "pinyin": "xiǎojiě",
+          "pos": "N",
+          "en": "young lady",
+          "defs": [
+            "young lady",
+            "miss",
+            "(slang) prostitute",
+            "CL:個|个[ge4],位[wei4]"
+          ]
+        },
+        {
+          "id": "L1-0404",
+          "simp": "小朋友",
+          "trad": "小朋友",
+          "pinyin": "xiǎopéngyǒu",
+          "pos": "N",
+          "en": "child; kid (used to refer to a child, or by an adult to address a child, or, in Taiwan, to refer to sb's own child)",
+          "defs": [
+            "child; kid (used to refer to a child, or by an adult to address a child, or, in Taiwan, to refer to sb's own child)",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0424",
+          "simp": "爷爷",
+          "trad": "爺爺",
+          "pinyin": "yéye",
+          "pos": "N",
+          "en": "(coll.) paternal grandfather; grandpa",
+          "defs": [
+            "(coll.) paternal grandfather; grandpa"
+          ]
+        },
+        {
+          "id": "L1-0429",
+          "simp": "医生",
+          "trad": "醫生",
+          "pinyin": "yīshēng",
+          "pos": "N",
+          "en": "doctor",
+          "defs": [
+            "doctor",
+            "CL:個|个[ge4],位[wei4],名[ming2]"
+          ]
+        }
+      ]
+    },
+    "b1-routine": {
+      "targetWords": 0,
+      "allocatedWords": 23,
+      "words": [
+        {
+          "id": "L1-0028",
+          "simp": "病",
+          "trad": "病",
+          "pinyin": "bìng",
+          "pos": "N/V",
+          "en": "illness",
+          "defs": [
+            "illness",
+            "CL:場|场[chang2]",
+            "disease",
+            "to fall ill",
+            "defect"
+          ]
+        },
+        {
+          "id": "L1-0046",
+          "simp": "吃",
+          "trad": "吃",
+          "pinyin": "chī",
+          "pos": "V",
+          "en": "to eat; to consume",
+          "defs": [
+            "to eat; to consume",
+            "to eat at (a cafeteria etc)",
+            "to eradicate; to destroy",
+            "to absorb",
+            "to suffer (shock, injury, defeat etc)"
+          ]
+        },
+        {
+          "id": "L1-0047",
+          "simp": "吃饭",
+          "trad": "吃飯",
+          "pinyin": "chīfàn",
+          "pos": "",
+          "en": "to have a meal",
+          "defs": [
+            "to have a meal",
+            "to eat",
+            "to make a living"
+          ]
+        },
+        {
+          "id": "L1-0110",
+          "simp": "风",
+          "trad": "風",
+          "pinyin": "fēng",
+          "pos": "N",
+          "en": "wind",
+          "defs": [
+            "wind",
+            "news",
+            "style",
+            "custom",
+            "manner",
+            "CL:陣|阵[zhen4],絲|丝[si1]"
+          ]
+        },
+        {
+          "id": "L1-0113",
+          "simp": "干",
+          "trad": "幹",
+          "pinyin": "gàn",
+          "pos": "V",
+          "en": "tree trunk",
+          "defs": [
+            "tree trunk",
+            "main part of sth",
+            "to manage",
+            "to work",
+            "to do",
+            "capable",
+            "cadre",
+            "to kill (slang)",
+            "to fuck (vulgar)",
+            "(coll.) pissed off",
+            "annoyed"
+          ]
+        },
+        {
+          "id": "L1-0124",
+          "simp": "工作",
+          "trad": "工作",
+          "pinyin": "gōngzuò",
+          "pos": "V/N",
+          "en": "to work",
+          "defs": [
+            "to work",
+            "(of a machine) to operate",
+            "job",
+            "work",
+            "task",
+            "CL:個|个[ge4],份[fen4],項|项[xiang4]"
+          ]
+        },
+        {
+          "id": "L1-0144",
+          "simp": "喝",
+          "trad": "喝",
+          "pinyin": "hē",
+          "pos": "V",
+          "en": "to drink",
+          "defs": [
+            "to drink",
+            "variant of 嗬[he1]",
+            "to shout"
+          ]
+        },
+        {
+          "id": "L1-0287",
+          "simp": "起",
+          "trad": "起",
+          "pinyin": "qǐ",
+          "pos": "V",
+          "en": "to rise",
+          "defs": [
+            "to rise",
+            "to raise",
+            "to get up",
+            "to set out",
+            "to start",
+            "to appear",
+            "to launch",
+            "to initiate (action)",
+            "to draft",
+            "to establish",
+            "to get (from a depot or counter)",
+            "verb suffix, to start",
+            "starting from (a time, place, price etc)",
+            "classifier for occurrences or unpredictable events: case, instance",
+            "classifier for groups: batch, group"
+          ]
+        },
+        {
+          "id": "L1-0288",
+          "simp": "起床",
+          "trad": "起床",
+          "pinyin": "qǐchuáng",
+          "pos": "",
+          "en": "to get out of bed; to get up",
+          "defs": [
+            "to get out of bed; to get up"
+          ]
+        },
+        {
+          "id": "L1-0316",
+          "simp": "上班",
+          "trad": "上班",
+          "pinyin": "shàngbān",
+          "pos": "",
+          "en": "to go to work",
+          "defs": [
+            "to go to work",
+            "to be on duty",
+            "to start work",
+            "to go to the office"
+          ]
+        },
+        {
+          "id": "L1-0327",
+          "simp": "身体",
+          "trad": "身體",
+          "pinyin": "shēntǐ",
+          "pos": "N",
+          "en": "the body",
+          "defs": [
+            "the body",
+            "one's health"
+          ]
+        },
+        {
+          "id": "L1-0329",
+          "simp": "生病",
+          "trad": "生病",
+          "pinyin": "shēngbìng",
+          "pos": "",
+          "en": "to fall ill",
+          "defs": [
+            "to fall ill"
+          ]
+        },
+        {
+          "id": "L1-0335",
+          "simp": "事",
+          "trad": "事",
+          "pinyin": "shì",
+          "pos": "N",
+          "en": "matter",
+          "defs": [
+            "matter",
+            "thing",
+            "item",
+            "work",
+            "affair",
+            "CL:件[jian4],樁|桩[zhuang1],回[hui2]"
+          ]
+        },
+        {
+          "id": "L1-0347",
+          "simp": "睡",
+          "trad": "睡",
+          "pinyin": "shuì",
+          "pos": "V",
+          "en": "to sleep",
+          "defs": [
+            "to sleep",
+            "to lie down"
+          ]
+        },
+        {
+          "id": "L1-0348",
+          "simp": "睡觉",
+          "trad": "睡覺",
+          "pinyin": "shuìjiào",
+          "pos": "",
+          "en": "to go to bed",
+          "defs": [
+            "to go to bed",
+            "to sleep"
+          ]
+        },
+        {
+          "id": "L1-0360",
+          "simp": "天气",
+          "trad": "天氣",
+          "pinyin": "tiānqì",
+          "pos": "N",
+          "en": "weather",
+          "defs": [
+            "weather"
+          ]
+        },
+        {
+          "id": "L1-0373",
+          "simp": "晚饭",
+          "trad": "晚飯",
+          "pinyin": "wǎnfàn",
+          "pos": "N",
+          "en": "evening meal",
+          "defs": [
+            "evening meal",
+            "dinner",
+            "supper",
+            "CL:份[fen4],頓|顿[dun4],次[ci4],餐[can1]"
+          ]
+        },
+        {
+          "id": "L1-0383",
+          "simp": "午饭",
+          "trad": "午飯",
+          "pinyin": "wǔfàn",
+          "pos": "N",
+          "en": "lunch",
+          "defs": [
+            "lunch",
+            "CL:份[fen4],頓|顿[dun4],次[ci4],餐[can1]"
+          ]
+        },
+        {
+          "id": "L1-0386",
+          "simp": "洗",
+          "trad": "洗",
+          "pinyin": "xǐ",
+          "pos": "V",
+          "en": "to wash; to bathe",
+          "defs": [
+            "to wash; to bathe",
+            "to develop (photographs)",
+            "to shuffle (cards etc)",
+            "to erase (a recording)",
+            "used in 洗馬|洗马[xian3 ma3]"
+          ]
+        },
+        {
+          "id": "L1-0390",
+          "simp": "下班",
+          "trad": "下班",
+          "pinyin": "xiàbān",
+          "pos": "",
+          "en": "to finish work; to get off work",
+          "defs": [
+            "to finish work; to get off work",
+            "next service (train, bus etc)"
+          ]
+        },
+        {
+          "id": "L1-0394",
+          "simp": "下课",
+          "trad": "下課",
+          "pinyin": "xiàkè",
+          "pos": "",
+          "en": "to finish class",
+          "defs": [
+            "to finish class",
+            "to get out of class",
+            "(fig.) (esp. of a sports coach) to be dismissed",
+            "to be fired"
+          ]
+        },
+        {
+          "id": "L1-0396",
+          "simp": "下雨",
+          "trad": "下雨",
+          "pinyin": "xià yǔ",
+          "pos": "",
+          "en": "to rain",
+          "defs": [
+            "to rain"
+          ]
+        },
+        {
+          "id": "L1-0417",
+          "simp": "休息",
+          "trad": "休息",
+          "pinyin": "xiūxi",
+          "pos": "V",
+          "en": "rest",
+          "defs": [
+            "rest",
+            "to rest"
+          ]
+        }
+      ]
+    },
+    "b1-food": {
+      "targetWords": 0,
+      "allocatedWords": 19,
+      "words": [
+        {
+          "id": "L1-0016",
+          "simp": "包子",
+          "trad": "包子",
+          "pinyin": "bāozi",
+          "pos": "N",
+          "en": "baozi; bao (steamed stuffed bun)",
+          "defs": [
+            "baozi; bao (steamed stuffed bun)",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0018",
+          "simp": "杯子",
+          "trad": "杯子",
+          "pinyin": "bēizi",
+          "pos": "N",
+          "en": "cup",
+          "defs": [
+            "cup",
+            "glass",
+            "CL:個|个[ge4],隻|只[zhi1]"
+          ]
+        },
+        {
+          "id": "L1-0035",
+          "simp": "菜",
+          "trad": "菜",
+          "pinyin": "cài",
+          "pos": "N",
+          "en": "vegetable; greens (CL:棵[ke1])",
+          "defs": [
+            "vegetable; greens (CL:棵[ke1])",
+            "dish (of food) (CL:樣|样[yang4],道[dao4],盤|盘[pan2])",
+            "(of one's skills etc) weak; poor",
+            "(coll.) (one's) type"
+          ]
+        },
+        {
+          "id": "L1-0036",
+          "simp": "茶",
+          "trad": "茶",
+          "pinyin": "chá",
+          "pos": "N",
+          "en": "tea",
+          "defs": [
+            "tea",
+            "tea plant",
+            "CL:杯[bei1],壺|壶[hu2]"
+          ]
+        },
+        {
+          "id": "L1-0060",
+          "simp": "打球",
+          "trad": "打球",
+          "pinyin": "dǎ qiú",
+          "pos": "",
+          "en": "to play ball",
+          "defs": [
+            "to play ball",
+            "to play with a ball"
+          ]
+        },
+        {
+          "id": "L1-0096",
+          "simp": "饿",
+          "trad": "餓",
+          "pinyin": "è",
+          "pos": "Adj/V",
+          "en": "hungry",
+          "defs": [
+            "hungry",
+            "to starve (sb)"
+          ]
+        },
+        {
+          "id": "L1-0099",
+          "simp": "饭",
+          "trad": "飯",
+          "pinyin": "fàn",
+          "pos": "N",
+          "en": "cooked rice",
+          "defs": [
+            "cooked rice",
+            "CL:碗[wan3]",
+            "meal",
+            "CL:頓|顿[dun4]",
+            "(loanword) fan",
+            "devotee"
+          ]
+        },
+        {
+          "id": "L1-0139",
+          "simp": "好吃",
+          "trad": "好吃",
+          "pinyin": "hǎochī",
+          "pos": "Adj",
+          "en": "tasty; delicious",
+          "defs": [
+            "tasty; delicious",
+            "to be fond of eating; to be gluttonous"
+          ]
+        },
+        {
+          "id": "L1-0164",
+          "simp": "鸡蛋",
+          "trad": "雞蛋",
+          "pinyin": "jīdàn",
+          "pos": "N",
+          "en": "(chicken) egg",
+          "defs": [
+            "(chicken) egg",
+            "hen's egg",
+            "CL:個|个[ge4],打[da2]"
+          ]
+        },
+        {
+          "id": "L1-0198",
+          "simp": "渴",
+          "trad": "渴",
+          "pinyin": "kě",
+          "pos": "Adj",
+          "en": "thirsty",
+          "defs": [
+            "thirsty"
+          ]
+        },
+        {
+          "id": "L1-0242",
+          "simp": "米饭",
+          "trad": "米飯",
+          "pinyin": "mǐfàn",
+          "pos": "N",
+          "en": "(cooked) rice",
+          "defs": [
+            "(cooked) rice"
+          ]
+        },
+        {
+          "id": "L1-0243",
+          "simp": "面包",
+          "trad": "麵包",
+          "pinyin": "miànbāo",
+          "pos": "N",
+          "en": "bread",
+          "defs": [
+            "bread",
+            "CL:片[pian4],塊|块[kuai4]"
+          ]
+        },
+        {
+          "id": "L1-0244",
+          "simp": "面条儿",
+          "trad": "麵條兒",
+          "pinyin": "miàntiáor",
+          "pos": "N",
+          "en": "erhua variant of 麵條|面条[mian4 tiao2]",
+          "defs": [
+            "erhua variant of 麵條|面条[mian4 tiao2]"
+          ]
+        },
+        {
+          "id": "L1-0259",
+          "simp": "奶",
+          "trad": "奶",
+          "pinyin": "nǎi",
+          "pos": "N",
+          "en": "breast",
+          "defs": [
+            "breast",
+            "milk",
+            "to breastfeed"
+          ]
+        },
+        {
+          "id": "L1-0275",
+          "simp": "牛奶",
+          "trad": "牛奶",
+          "pinyin": "niúnǎi",
+          "pos": "N",
+          "en": "cow's milk",
+          "defs": [
+            "cow's milk",
+            "CL:瓶[ping2],杯[bei1]"
+          ]
+        },
+        {
+          "id": "L1-0301",
+          "simp": "球",
+          "trad": "球",
+          "pinyin": "qiú",
+          "pos": "N",
+          "en": "ball",
+          "defs": [
+            "ball",
+            "sphere",
+            "globe",
+            "CL:個|个[ge4]",
+            "ball game",
+            "match",
+            "CL:場|场[chang3]"
+          ]
+        },
+        {
+          "id": "L1-0310",
+          "simp": "肉",
+          "trad": "肉",
+          "pinyin": "ròu",
+          "pos": "N",
+          "en": "meat",
+          "defs": [
+            "meat",
+            "flesh",
+            "pulp (of a fruit)",
+            "(coll.) (of a fruit) squashy",
+            "(of a person) flabby",
+            "irresolute",
+            "Kangxi radical 130"
+          ]
+        },
+        {
+          "id": "L1-0345",
+          "simp": "水",
+          "trad": "水",
+          "pinyin": "shuǐ",
+          "pos": "N",
+          "en": "water",
+          "defs": [
+            "water",
+            "(after a name) ... River",
+            "to swim (used mostly in 會水|会水[hui4 shui3] and 水性[shui3 xing4])",
+            "(coll.) lacking in substance; shoddy",
+            "(bound form) additional cost; extra income",
+            "classifier for washings of a garment"
+          ]
+        },
+        {
+          "id": "L1-0346",
+          "simp": "水果",
+          "trad": "水果",
+          "pinyin": "shuǐguǒ",
+          "pos": "N",
+          "en": "fruit",
+          "defs": [
+            "fruit",
+            "CL:個|个[ge4]"
+          ]
+        }
+      ]
+    },
+    "b1-shopping": {
+      "targetWords": 0,
+      "allocatedWords": 12,
+      "words": [
+        {
+          "id": "L1-0086",
+          "simp": "东西",
+          "trad": "東西",
+          "pinyin": "dōngxi",
+          "pos": "N",
+          "en": "east and west",
+          "defs": [
+            "east and west",
+            "thing",
+            "stuff",
+            "person",
+            "CL:個|个[ge4],件[jian4]"
+          ]
+        },
+        {
+          "id": "L1-0103",
+          "simp": "放",
+          "trad": "放",
+          "pinyin": "fàng",
+          "pos": "V",
+          "en": "to put",
+          "defs": [
+            "to put",
+            "to place",
+            "to release",
+            "to free",
+            "to let go",
+            "to let out",
+            "to set off (fireworks)"
+          ]
+        },
+        {
+          "id": "L1-0127",
+          "simp": "贵",
+          "trad": "貴",
+          "pinyin": "guì",
+          "pos": "Adj",
+          "en": "abbr. for Guizhou Province 貴州|贵州[Gui4 zhou1]",
+          "defs": [
+            "abbr. for Guizhou Province 貴州|贵州[Gui4 zhou1]",
+            "expensive",
+            "(bound form) highly valued; precious",
+            "(bound form) noble; of high rank",
+            "(prefix) (honorific) your"
+          ]
+        },
+        {
+          "id": "L1-0150",
+          "simp": "花",
+          "trad": "花",
+          "pinyin": "huā",
+          "pos": "N",
+          "en": "flower",
+          "defs": [
+            "flower",
+            "blossom",
+            "CL:朵[duo3],支[zhi1],束[shu4],把[ba3],盆[pen2],簇[cu4]",
+            "fancy pattern",
+            "florid",
+            "to spend (money, time)",
+            "(coll.) lecherous",
+            "lustful"
+          ]
+        },
+        {
+          "id": "L1-0203",
+          "simp": "块",
+          "trad": "塊",
+          "pinyin": "kuài",
+          "pos": "N/M",
+          "en": "lump; chunk; piece",
+          "defs": [
+            "lump; chunk; piece",
+            "classifier for pieces of cloth, cake, soap etc",
+            "(coll.) classifier for money and currency units"
+          ]
+        },
+        {
+          "id": "L1-0228",
+          "simp": "买",
+          "trad": "買",
+          "pinyin": "mǎi",
+          "pos": "V",
+          "en": "to buy",
+          "defs": [
+            "to buy",
+            "to purchase"
+          ]
+        },
+        {
+          "id": "L1-0231",
+          "simp": "毛",
+          "trad": "毛",
+          "pinyin": "máo",
+          "pos": "M",
+          "en": "hair",
+          "defs": [
+            "hair",
+            "feather",
+            "down",
+            "wool",
+            "mildew",
+            "mold",
+            "coarse or semifinished",
+            "young",
+            "raw",
+            "careless",
+            "unthinking",
+            "nervous",
+            "scared",
+            "(of currency) to devalue or depreciate",
+            "classifier for Chinese fractional monetary unit ( = 角[jiao3] , = one-tenth of a yuan or 10 fen 分[fen1])"
+          ]
+        },
+        {
+          "id": "L1-0294",
+          "simp": "钱",
+          "trad": "錢",
+          "pinyin": "qián",
+          "pos": "N",
+          "en": "coin",
+          "defs": [
+            "coin",
+            "money",
+            "CL:筆|笔[bi3]",
+            "unit of weight, one tenth of a tael 兩|两[liang3]"
+          ]
+        },
+        {
+          "id": "L1-0295",
+          "simp": "钱包",
+          "trad": "錢包",
+          "pinyin": "qiánbāo",
+          "pos": "N",
+          "en": "purse",
+          "defs": [
+            "purse",
+            "wallet"
+          ]
+        },
+        {
+          "id": "L1-0313",
+          "simp": "商场",
+          "trad": "商場",
+          "pinyin": "shāngchǎng",
+          "pos": "N",
+          "en": "shopping mall",
+          "defs": [
+            "shopping mall",
+            "shopping center",
+            "department store",
+            "emporium",
+            "CL:家[jia1]",
+            "the business world"
+          ]
+        },
+        {
+          "id": "L1-0314",
+          "simp": "商店",
+          "trad": "商店",
+          "pinyin": "shāngdiàn",
+          "pos": "N",
+          "en": "store; shop",
+          "defs": [
+            "store; shop",
+            "CL:家[jia1],個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0428",
+          "simp": "衣服",
+          "trad": "衣服",
+          "pinyin": "yīfu",
+          "pos": "N",
+          "en": "clothes",
+          "defs": [
+            "clothes",
+            "CL:件[jian4],套[tao4]"
+          ]
+        }
+      ]
+    },
+    "b1-locations": {
+      "targetWords": 0,
+      "allocatedWords": 37,
+      "words": [
+        {
+          "id": "L1-0021",
+          "simp": "北京",
+          "trad": "北京",
+          "pinyin": "Běijīng",
+          "pos": "N",
+          "en": "Beijing municipality, capital of the People's Republic of China (abbr. to 京[Jing1])",
+          "defs": [
+            "Beijing municipality, capital of the People's Republic of China (abbr. to 京[Jing1])"
+          ]
+        },
+        {
+          "id": "L1-0029",
+          "simp": "病人",
+          "trad": "病人",
+          "pinyin": "bìngrén",
+          "pos": "N",
+          "en": "sick person",
+          "defs": [
+            "sick person",
+            "patient",
+            "invalid",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0057",
+          "simp": "打车",
+          "trad": "打車",
+          "pinyin": "dǎchē",
+          "pos": "",
+          "en": "to take a taxi (in town)",
+          "defs": [
+            "to take a taxi (in town)",
+            "to hitch a lift"
+          ]
+        },
+        {
+          "id": "L1-0069",
+          "simp": "地",
+          "trad": "地",
+          "pinyin": "dì",
+          "pos": "N",
+          "en": "-ly",
+          "defs": [
+            "-ly",
+            "structural particle: used before a verb or adjective, linking it to preceding modifying adverbial adjunct",
+            "earth",
+            "ground",
+            "field",
+            "place",
+            "land",
+            "CL:片[pian4]"
+          ]
+        },
+        {
+          "id": "L1-0070",
+          "simp": "地点",
+          "trad": "地點",
+          "pinyin": "dìdiǎn",
+          "pos": "N",
+          "en": "place",
+          "defs": [
+            "place",
+            "site",
+            "location",
+            "venue",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0071",
+          "simp": "地方",
+          "trad": "地方",
+          "pinyin": "dìfang",
+          "pos": "N",
+          "en": "region",
+          "defs": [
+            "region",
+            "regional (away from the central administration)",
+            "local",
+            "area",
+            "place",
+            "space",
+            "room",
+            "territory",
+            "CL:處|处[chu4],個|个[ge4],塊|块[kuai4]"
+          ]
+        },
+        {
+          "id": "L1-0072",
+          "simp": "地上",
+          "trad": "地上",
+          "pinyin": "dìshang",
+          "pos": "",
+          "en": "on the ground",
+          "defs": [
+            "on the ground",
+            "on the floor"
+          ]
+        },
+        {
+          "id": "L1-0083",
+          "simp": "电影院",
+          "trad": "電影院",
+          "pinyin": "diànyǐngyuàn",
+          "pos": "N",
+          "en": "cinema; movie theater",
+          "defs": [
+            "cinema; movie theater",
+            "CL:家[jia1],座[zuo4]"
+          ]
+        },
+        {
+          "id": "L1-0100",
+          "simp": "饭店",
+          "trad": "飯店",
+          "pinyin": "fàndiàn",
+          "pos": "N",
+          "en": "restaurant",
+          "defs": [
+            "restaurant",
+            "hotel",
+            "CL:家[jia1],個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0101",
+          "simp": "房间",
+          "trad": "房間",
+          "pinyin": "fángjiān",
+          "pos": "N",
+          "en": "room",
+          "defs": [
+            "room",
+            "CL:間|间[jian1],個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0102",
+          "simp": "房子",
+          "trad": "房子",
+          "pinyin": "fángzi",
+          "pos": "N",
+          "en": "house",
+          "defs": [
+            "house",
+            "building (single- or two-story)",
+            "apartment",
+            "room",
+            "CL:棟|栋[dong4],幢[zhuang4],座[zuo4],套[tao4],間|间[jian1]"
+          ]
+        },
+        {
+          "id": "L1-0125",
+          "simp": "关",
+          "trad": "關",
+          "pinyin": "guān",
+          "pos": "V",
+          "en": "mountain pass",
+          "defs": [
+            "mountain pass",
+            "to close; to shut; to turn off",
+            "to confine; to lock (sb) up; to shut (sb in a room, a bird in a cage etc)",
+            "to concern; to involve"
+          ]
+        },
+        {
+          "id": "L1-0128",
+          "simp": "国",
+          "trad": "國",
+          "pinyin": "guó",
+          "pos": "N",
+          "en": "country; nation; state",
+          "defs": [
+            "country; nation; state",
+            "(bound form) national"
+          ]
+        },
+        {
+          "id": "L1-0129",
+          "simp": "国家",
+          "trad": "國家",
+          "pinyin": "guójiā",
+          "pos": "N",
+          "en": "country; nation; state",
+          "defs": [
+            "country; nation; state",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0134",
+          "simp": "还有",
+          "trad": "還有",
+          "pinyin": "hái yǒu",
+          "pos": "",
+          "en": "there still remain(s); there is (or are) still",
+          "defs": [
+            "there still remain(s); there is (or are) still",
+            "in addition"
+          ]
+        },
+        {
+          "id": "L1-0157",
+          "simp": "回家",
+          "trad": "回家",
+          "pinyin": "huí jiā",
+          "pos": "",
+          "en": "to return home",
+          "defs": [
+            "to return home"
+          ]
+        },
+        {
+          "id": "L1-0170",
+          "simp": "家里",
+          "trad": "家裡",
+          "pinyin": "jiā li",
+          "pos": "",
+          "en": "home",
+          "defs": [
+            "home"
+          ]
+        },
+        {
+          "id": "L1-0177",
+          "simp": "教学楼",
+          "trad": "教學樓",
+          "pinyin": "jiàoxuélóu",
+          "pos": "N",
+          "en": "school building; academic building",
+          "defs": [
+            "school building; academic building"
+          ]
+        },
+        {
+          "id": "L1-0218",
+          "simp": "楼",
+          "trad": "樓",
+          "pinyin": "lóu",
+          "pos": "N",
+          "en": "house with more than 1 story",
+          "defs": [
+            "house with more than 1 story",
+            "storied building",
+            "floor",
+            "CL:層|层[ceng2],座[zuo4],棟|栋[dong4]"
+          ]
+        },
+        {
+          "id": "L1-0219",
+          "simp": "楼上",
+          "trad": "樓上",
+          "pinyin": "lóu shàng",
+          "pos": "",
+          "en": "upstairs",
+          "defs": [
+            "upstairs",
+            "(Internet slang) previous poster in a forum thread"
+          ]
+        },
+        {
+          "id": "L1-0220",
+          "simp": "楼下",
+          "trad": "樓下",
+          "pinyin": "lóu xià",
+          "pos": "",
+          "en": "downstairs",
+          "defs": [
+            "downstairs"
+          ]
+        },
+        {
+          "id": "L1-0221",
+          "simp": "路",
+          "trad": "路",
+          "pinyin": "lù",
+          "pos": "N/M",
+          "en": "road (CL:條|条[tiao2])",
+          "defs": [
+            "road (CL:條|条[tiao2])",
+            "journey",
+            "route",
+            "line (bus etc)",
+            "sort; kind"
+          ]
+        },
+        {
+          "id": "L1-0222",
+          "simp": "路口",
+          "trad": "路口",
+          "pinyin": "lùkǒu",
+          "pos": "N",
+          "en": "crossing",
+          "defs": [
+            "crossing",
+            "intersection (of roads)"
+          ]
+        },
+        {
+          "id": "L1-0223",
+          "simp": "路上",
+          "trad": "路上",
+          "pinyin": "lùshang",
+          "pos": "N",
+          "en": "on the road",
+          "defs": [
+            "on the road",
+            "on the way; en route"
+          ]
+        },
+        {
+          "id": "L1-0225",
+          "simp": "马路",
+          "trad": "馬路",
+          "pinyin": "mǎlù",
+          "pos": "N",
+          "en": "street",
+          "defs": [
+            "street",
+            "road",
+            "CL:條|条[tiao2]"
+          ]
+        },
+        {
+          "id": "L1-0239",
+          "simp": "门口",
+          "trad": "門口",
+          "pinyin": "ménkǒu",
+          "pos": "N",
+          "en": "doorway",
+          "defs": [
+            "doorway",
+            "gate",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0240",
+          "simp": "门票",
+          "trad": "門票",
+          "pinyin": "ménpiào",
+          "pos": "N",
+          "en": "ticket (for theater, cinema etc)",
+          "defs": [
+            "ticket (for theater, cinema etc)"
+          ]
+        },
+        {
+          "id": "L1-0256",
+          "simp": "那里",
+          "trad": "那裡",
+          "pinyin": "nàlǐ",
+          "pos": "Pron",
+          "en": "there; that place",
+          "defs": [
+            "there; that place"
+          ]
+        },
+        {
+          "id": "L1-0323",
+          "simp": "上学",
+          "trad": "上學",
+          "pinyin": "shàngxué",
+          "pos": "",
+          "en": "to go to school",
+          "defs": [
+            "to go to school",
+            "to attend school"
+          ]
+        },
+        {
+          "id": "L1-0326",
+          "simp": "身上",
+          "trad": "身上",
+          "pinyin": "shēnshang",
+          "pos": "N",
+          "en": "on the body",
+          "defs": [
+            "on the body",
+            "at hand",
+            "among"
+          ]
+        },
+        {
+          "id": "L1-0366",
+          "simp": "图书馆",
+          "trad": "圖書館",
+          "pinyin": "túshūguǎn",
+          "pos": "N",
+          "en": "library",
+          "defs": [
+            "library",
+            "CL:家[jia1],個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0368",
+          "simp": "外边",
+          "trad": "外邊",
+          "pinyin": "wàibian",
+          "pos": "N",
+          "en": "outside",
+          "defs": [
+            "outside",
+            "outer surface",
+            "abroad",
+            "place other than one's home"
+          ]
+        },
+        {
+          "id": "L1-0369",
+          "simp": "外国",
+          "trad": "外國",
+          "pinyin": "wàiguó",
+          "pos": "N",
+          "en": "foreign country",
+          "defs": [
+            "foreign country"
+          ]
+        },
+        {
+          "id": "L1-0387",
+          "simp": "洗手间",
+          "trad": "洗手間",
+          "pinyin": "xǐshǒujiān",
+          "pos": "N",
+          "en": "toilet",
+          "defs": [
+            "toilet",
+            "lavatory",
+            "washroom"
+          ]
+        },
+        {
+          "id": "L1-0406",
+          "simp": "小学",
+          "trad": "小學",
+          "pinyin": "xiǎoxué",
+          "pos": "N",
+          "en": "elementary school; primary school",
+          "defs": [
+            "elementary school; primary school"
+          ]
+        },
+        {
+          "id": "L1-0421",
+          "simp": "学校",
+          "trad": "學校",
+          "pinyin": "xuéxiào",
+          "pos": "N",
+          "en": "school",
+          "defs": [
+            "school",
+            "CL:所[suo3]"
+          ]
+        },
+        {
+          "id": "L1-0430",
+          "simp": "医院",
+          "trad": "醫院",
+          "pinyin": "yīyuàn",
+          "pos": "N",
+          "en": "hospital",
+          "defs": [
+            "hospital",
+            "CL:所[suo3],家[jia1],座[zuo4]"
+          ]
+        }
+      ]
+    },
+    "b1-directions": {
+      "targetWords": 0,
+      "allocatedWords": 26,
+      "words": [
+        {
+          "id": "L1-0019",
+          "simp": "北",
+          "trad": "北",
+          "pinyin": "běi",
+          "pos": "N",
+          "en": "north",
+          "defs": [
+            "north",
+            "(classical) to be defeated"
+          ]
+        },
+        {
+          "id": "L1-0020",
+          "simp": "北边",
+          "trad": "北邊",
+          "pinyin": "běibian",
+          "pos": "N",
+          "en": "north",
+          "defs": [
+            "north",
+            "north side",
+            "northern part",
+            "to the north of"
+          ]
+        },
+        {
+          "id": "L1-0052",
+          "simp": "床",
+          "trad": "床",
+          "pinyin": "chuáng",
+          "pos": "N",
+          "en": "bed; couch (furniture that one can lie down on) (CL:張|张[zhang1])",
+          "defs": [
+            "bed; couch (furniture that one can lie down on) (CL:張|张[zhang1])",
+            "bed; bottom (of rivers, oceans, gardens etc)",
+            "frame; chassis",
+            "classifier for blankets, quilts etc"
+          ]
+        },
+        {
+          "id": "L1-0084",
+          "simp": "东",
+          "trad": "東",
+          "pinyin": "dōng",
+          "pos": "N",
+          "en": "east",
+          "defs": [
+            "east",
+            "host (i.e. sitting on east side of guest)",
+            "landlord"
+          ]
+        },
+        {
+          "id": "L1-0085",
+          "simp": "东边",
+          "trad": "東邊",
+          "pinyin": "dōngbian",
+          "pos": "N",
+          "en": "east",
+          "defs": [
+            "east",
+            "east side",
+            "eastern part",
+            "to the east of"
+          ]
+        },
+        {
+          "id": "L1-0147",
+          "simp": "后",
+          "trad": "後",
+          "pinyin": "hòu",
+          "pos": "N",
+          "en": "back",
+          "defs": [
+            "back",
+            "behind",
+            "rear",
+            "afterwards",
+            "after",
+            "later",
+            "post-"
+          ]
+        },
+        {
+          "id": "L1-0148",
+          "simp": "后边",
+          "trad": "後邊",
+          "pinyin": "hòubian",
+          "pos": "N",
+          "en": "the back; the rear; the last bit",
+          "defs": [
+            "the back; the rear; the last bit",
+            "behind; near the end; at the back",
+            "later; afterwards"
+          ]
+        },
+        {
+          "id": "L1-0158",
+          "simp": "回来",
+          "trad": "回來",
+          "pinyin": "huílái",
+          "pos": "",
+          "en": "to return; to come back",
+          "defs": [
+            "to return; to come back"
+          ]
+        },
+        {
+          "id": "L1-0159",
+          "simp": "回去",
+          "trad": "回去",
+          "pinyin": "huíqù",
+          "pos": "",
+          "en": "to return",
+          "defs": [
+            "to return",
+            "to go back"
+          ]
+        },
+        {
+          "id": "L1-0213",
+          "simp": "里",
+          "trad": "裡",
+          "pinyin": "lǐ",
+          "pos": "N",
+          "en": "lining",
+          "defs": [
+            "lining",
+            "interior",
+            "inside",
+            "internal",
+            "also written 裏|里[li3]"
+          ]
+        },
+        {
+          "id": "L1-0214",
+          "simp": "里边",
+          "trad": "裡邊",
+          "pinyin": "lǐbian",
+          "pos": "N",
+          "en": "inside",
+          "defs": [
+            "inside"
+          ]
+        },
+        {
+          "id": "L1-0266",
+          "simp": "南",
+          "trad": "南",
+          "pinyin": "nán",
+          "pos": "N",
+          "en": "used in 南無|南无[na1 mo2]",
+          "defs": [
+            "used in 南無|南无[na1 mo2]",
+            "Taiwan pr. [na2]",
+            "south"
+          ]
+        },
+        {
+          "id": "L1-0267",
+          "simp": "南边",
+          "trad": "南邊",
+          "pinyin": "nánbian",
+          "pos": "N",
+          "en": "south",
+          "defs": [
+            "south",
+            "south side",
+            "southern part",
+            "to the south of"
+          ]
+        },
+        {
+          "id": "L1-0282",
+          "simp": "旁边",
+          "trad": "旁邊",
+          "pinyin": "pángbiān",
+          "pos": "N",
+          "en": "side; adjacent place",
+          "defs": [
+            "side; adjacent place"
+          ]
+        },
+        {
+          "id": "L1-0291",
+          "simp": "前",
+          "trad": "前",
+          "pinyin": "qián",
+          "pos": "N",
+          "en": "front",
+          "defs": [
+            "front",
+            "forward",
+            "ahead",
+            "first",
+            "top (followed by a number)",
+            "future",
+            "ago",
+            "before",
+            "BC (e.g. 前293年)",
+            "former",
+            "formerly"
+          ]
+        },
+        {
+          "id": "L1-0292",
+          "simp": "前边",
+          "trad": "前邊",
+          "pinyin": "qiánbian",
+          "pos": "N",
+          "en": "front",
+          "defs": [
+            "front",
+            "the front side",
+            "in front of"
+          ]
+        },
+        {
+          "id": "L1-0315",
+          "simp": "上",
+          "trad": "上",
+          "pinyin": "shàng",
+          "pos": "N/V",
+          "en": "used in 上聲|上声[shang3 sheng1]",
+          "defs": [
+            "used in 上聲|上声[shang3 sheng1]",
+            "(bound form) up; upper; above; previous",
+            "first (of multiple parts)",
+            "to climb; to get onto; to go up",
+            "to attend (class or university)",
+            "(directional complement) up",
+            "(noun suffix) on; above"
+          ]
+        },
+        {
+          "id": "L1-0317",
+          "simp": "上边",
+          "trad": "上邊",
+          "pinyin": "shàngbian",
+          "pos": "N",
+          "en": "the top",
+          "defs": [
+            "the top",
+            "above",
+            "overhead",
+            "upwards",
+            "the top margin",
+            "above-mentioned",
+            "those higher up"
+          ]
+        },
+        {
+          "id": "L1-0337",
+          "simp": "是",
+          "trad": "是",
+          "pinyin": "shì",
+          "pos": "V",
+          "en": "to be (followed by substantives only)",
+          "defs": [
+            "to be (followed by substantives only)",
+            "correct; right; true",
+            "(respectful acknowledgement of a command) very well",
+            "(adverb for emphatic assertion)"
+          ]
+        },
+        {
+          "id": "L1-0344",
+          "simp": "树",
+          "trad": "樹",
+          "pinyin": "shù",
+          "pos": "N",
+          "en": "tree",
+          "defs": [
+            "tree",
+            "CL:棵[ke1]",
+            "to cultivate",
+            "to set up"
+          ]
+        },
+        {
+          "id": "L1-0364",
+          "simp": "听写",
+          "trad": "聽寫",
+          "pinyin": "tīngxiě",
+          "pos": "V",
+          "en": "(of a pupil) to write down (in a dictation exercise); dictation",
+          "defs": [
+            "(of a pupil) to write down (in a dictation exercise); dictation",
+            "(music) to transcribe by ear"
+          ]
+        },
+        {
+          "id": "L1-0367",
+          "simp": "外",
+          "trad": "外",
+          "pinyin": "wài",
+          "pos": "N",
+          "en": "outside",
+          "defs": [
+            "outside",
+            "in addition",
+            "foreign",
+            "external"
+          ]
+        },
+        {
+          "id": "L1-0384",
+          "simp": "西",
+          "trad": "西",
+          "pinyin": "xī",
+          "pos": "N",
+          "en": "the West",
+          "defs": [
+            "the West",
+            "abbr. for Spain 西班牙[Xi1 ban1 ya2]",
+            "Spanish",
+            "west"
+          ]
+        },
+        {
+          "id": "L1-0385",
+          "simp": "西边",
+          "trad": "西邊",
+          "pinyin": "xībian",
+          "pos": "N",
+          "en": "west",
+          "defs": [
+            "west",
+            "west side",
+            "western part",
+            "to the west of"
+          ]
+        },
+        {
+          "id": "L1-0389",
+          "simp": "下",
+          "trad": "下",
+          "pinyin": "xià",
+          "pos": "N/V",
+          "en": "down",
+          "defs": [
+            "down",
+            "downwards",
+            "below",
+            "lower",
+            "later",
+            "next (week etc)",
+            "second (of two parts)",
+            "to decline",
+            "to go down",
+            "to arrive at (a decision, conclusion etc)",
+            "measure word to show the frequency of an action"
+          ]
+        },
+        {
+          "id": "L1-0391",
+          "simp": "下边",
+          "trad": "下邊",
+          "pinyin": "xiàbian",
+          "pos": "N",
+          "en": "under",
+          "defs": [
+            "under",
+            "the underside",
+            "below"
+          ]
+        }
+      ]
+    },
+    "b1-transport": {
+      "targetWords": 0,
+      "allocatedWords": 25,
+      "words": [
+        {
+          "id": "L1-0042",
+          "simp": "车",
+          "trad": "車",
+          "pinyin": "chē",
+          "pos": "N",
+          "en": "car",
+          "defs": [
+            "car",
+            "vehicle",
+            "CL:輛|辆[liang4]",
+            "machine",
+            "to shape with a lathe",
+            "Kangxi radical 159",
+            "war chariot (archaic)",
+            "rook (in Chinese chess)",
+            "rook (in chess)"
+          ]
+        },
+        {
+          "id": "L1-0043",
+          "simp": "车票",
+          "trad": "車票",
+          "pinyin": "chēpiào",
+          "pos": "N",
+          "en": "ticket (for a bus or train)",
+          "defs": [
+            "ticket (for a bus or train)"
+          ]
+        },
+        {
+          "id": "L1-0044",
+          "simp": "车上",
+          "trad": "車上",
+          "pinyin": "chē shang",
+          "pos": "",
+          "en": "",
+          "defs": []
+        },
+        {
+          "id": "L1-0045",
+          "simp": "车站",
+          "trad": "車站",
+          "pinyin": "chēzhàn",
+          "pos": "N",
+          "en": "rail station",
+          "defs": [
+            "rail station",
+            "bus stop",
+            "CL:處|处[chu4],個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0048",
+          "simp": "出",
+          "trad": "出",
+          "pinyin": "chū",
+          "pos": "V",
+          "en": "to go out; to come out",
+          "defs": [
+            "to go out; to come out",
+            "to arise; to occur",
+            "to produce; to yield",
+            "to go beyond; to exceed",
+            "(used after a verb to indicate an outward direction or a positive result)",
+            "classifier for dramas, plays, operas etc"
+          ]
+        },
+        {
+          "id": "L1-0049",
+          "simp": "出来",
+          "trad": "出來",
+          "pinyin": "chūlái",
+          "pos": "",
+          "en": "to come out",
+          "defs": [
+            "to come out",
+            "to appear",
+            "to arise",
+            "(after a verb, indicates coming out, completion of an action, or ability to discern or detect)"
+          ]
+        },
+        {
+          "id": "L1-0050",
+          "simp": "出去",
+          "trad": "出去",
+          "pinyin": "chūqù",
+          "pos": "",
+          "en": "to go out",
+          "defs": [
+            "to go out"
+          ]
+        },
+        {
+          "id": "L1-0064",
+          "simp": "到",
+          "trad": "到",
+          "pinyin": "dào",
+          "pos": "V",
+          "en": "to reach; to arrive",
+          "defs": [
+            "to reach; to arrive",
+            "to leave for; to go to",
+            "to (a place); until (a time); up to (a point)",
+            "(verb complement indicating arriving at a place or reaching a point)",
+            "considerate; thoughtful; thorough"
+          ]
+        },
+        {
+          "id": "L1-0106",
+          "simp": "飞",
+          "trad": "飛",
+          "pinyin": "fēi",
+          "pos": "V",
+          "en": "to fly",
+          "defs": [
+            "to fly"
+          ]
+        },
+        {
+          "id": "L1-0107",
+          "simp": "飞机",
+          "trad": "飛機",
+          "pinyin": "fēijī",
+          "pos": "N",
+          "en": "airplane",
+          "defs": [
+            "airplane",
+            "CL:架[jia4]"
+          ]
+        },
+        {
+          "id": "L1-0161",
+          "simp": "火车",
+          "trad": "火車",
+          "pinyin": "huǒchē",
+          "pos": "N",
+          "en": "train",
+          "defs": [
+            "train",
+            "CL:列[lie4],節|节[jie2],班[ban1],趟[tang4]"
+          ]
+        },
+        {
+          "id": "L1-0162",
+          "simp": "机场",
+          "trad": "機場",
+          "pinyin": "jīchǎng",
+          "pos": "N",
+          "en": "airport; airfield",
+          "defs": [
+            "airport; airfield",
+            "(slang) service provider for Shadowsocks or similar software for circumventing Internet censorship",
+            "CL:家[jia1],處|处[chu4]"
+          ]
+        },
+        {
+          "id": "L1-0163",
+          "simp": "机票",
+          "trad": "機票",
+          "pinyin": "jīpiào",
+          "pos": "N",
+          "en": "plane ticket; airline ticket",
+          "defs": [
+            "plane ticket; airline ticket",
+            "CL:張|张[zhang1]"
+          ]
+        },
+        {
+          "id": "L1-0184",
+          "simp": "进去",
+          "trad": "進去",
+          "pinyin": "jìnqù",
+          "pos": "",
+          "en": "to go in",
+          "defs": [
+            "to go in"
+          ]
+        },
+        {
+          "id": "L1-0188",
+          "simp": "开",
+          "trad": "開",
+          "pinyin": "kāi",
+          "pos": "V",
+          "en": "to open (transitive or intransitive)",
+          "defs": [
+            "to open (transitive or intransitive)",
+            "(of ships, vehicles, troops etc) to start",
+            "to turn on; to put in operation; to operate; to run",
+            "to boil",
+            "to write out (a prescription, check, invoice etc)",
+            "(directional complement) away; off",
+            "carat (gold)",
+            "abbr. for Kelvin, 開爾文|开尔文[Kai1 er3 wen2]",
+            "abbr. for 開本|开本[kai1 ben3], book format"
+          ]
+        },
+        {
+          "id": "L1-0189",
+          "simp": "开车",
+          "trad": "開車",
+          "pinyin": "kāichē",
+          "pos": "",
+          "en": "to drive a car (or train etc)",
+          "defs": [
+            "to drive a car (or train etc)",
+            "(slang) to post sexual content online; to make a sexual joke"
+          ]
+        },
+        {
+          "id": "L1-0206",
+          "simp": "来到",
+          "trad": "來到",
+          "pinyin": "láidào",
+          "pos": "V",
+          "en": "to arrive; to come",
+          "defs": [
+            "to arrive; to come"
+          ]
+        },
+        {
+          "id": "L1-0283",
+          "simp": "跑",
+          "trad": "跑",
+          "pinyin": "pǎo",
+          "pos": "V",
+          "en": "(of an animal) to paw (the ground)",
+          "defs": [
+            "(of an animal) to paw (the ground)",
+            "to run",
+            "to run away",
+            "to escape",
+            "to run around (on errands etc)",
+            "(of a gas or liquid) to leak or evaporate",
+            "(verb complement) away",
+            "off"
+          ]
+        },
+        {
+          "id": "L1-0290",
+          "simp": "汽车",
+          "trad": "汽車",
+          "pinyin": "qìchē",
+          "pos": "N",
+          "en": "car",
+          "defs": [
+            "car",
+            "automobile",
+            "bus",
+            "CL:輛|辆[liang4]"
+          ]
+        },
+        {
+          "id": "L1-0297",
+          "simp": "请假",
+          "trad": "請假",
+          "pinyin": "qǐngjià",
+          "pos": "",
+          "en": "to request leave of absence",
+          "defs": [
+            "to request leave of absence"
+          ]
+        },
+        {
+          "id": "L1-0318",
+          "simp": "上车",
+          "trad": "上車",
+          "pinyin": "shàng chē",
+          "pos": "",
+          "en": "to get on or into (a bus, train, car etc)",
+          "defs": [
+            "to get on or into (a bus, train, car etc)"
+          ]
+        },
+        {
+          "id": "L1-0321",
+          "simp": "上网",
+          "trad": "上網",
+          "pinyin": "shàngwǎng",
+          "pos": "",
+          "en": "to go online",
+          "defs": [
+            "to go online",
+            "to connect to the Internet",
+            "(of a document etc) to be uploaded to the Internet",
+            "(tennis, volleyball etc) to move in close to the net"
+          ]
+        },
+        {
+          "id": "L1-0352",
+          "simp": "送",
+          "trad": "送",
+          "pinyin": "sòng",
+          "pos": "V",
+          "en": "to send; to deliver; to transmit",
+          "defs": [
+            "to send; to deliver; to transmit",
+            "to give (as a present)",
+            "to see (sb) off",
+            "to accompany; to go along with"
+          ]
+        },
+        {
+          "id": "L1-0392",
+          "simp": "下车",
+          "trad": "下車",
+          "pinyin": "xià chē",
+          "pos": "",
+          "en": "to get off or out of (a bus, train, car etc)",
+          "defs": [
+            "to get off or out of (a bus, train, car etc)"
+          ]
+        },
+        {
+          "id": "L1-0416",
+          "simp": "行",
+          "trad": "行",
+          "pinyin": "xíng",
+          "pos": "V/Adj",
+          "en": "(bound form) row; line",
+          "defs": [
+            "(bound form) row; line",
+            "(bound form) line of business; trade; profession",
+            "(bound form) commercial firm",
+            "(bound form) to rank (first, second etc) among one's siblings (by age)",
+            "(in data tables) row; (Tw) column",
+            "classifier for rows or lines",
+            "used in 道行[dao4 heng2]",
+            "(bound form) to walk; to go; to travel",
+            "(literary) trip; journey; visit",
+            "(bound form) temporary; makeshift",
+            "(bound form) current; in circulation",
+            "(bound form) to do; to perform",
+            "capable; competent",
+            "all right; OK!; will do",
+            "behavior; conduct (Taiwan pr. [xing4])",
+            "(literary) about to; soon"
+          ]
+        }
+      ]
+    },
+    "b1-school": {
+      "targetWords": 0,
+      "allocatedWords": 40,
+      "words": [
+        {
+          "id": "L1-0023",
+          "simp": "本子",
+          "trad": "本子",
+          "pinyin": "běnzi",
+          "pos": "N",
+          "en": "book",
+          "defs": [
+            "book",
+            "notebook",
+            "Japanese-style self-published comic (esp. an erotic one), aka \"dōjinshi\"",
+            "CL:本[ben3]",
+            "edition"
+          ]
+        },
+        {
+          "id": "L1-0062",
+          "simp": "大学",
+          "trad": "大學",
+          "pinyin": "dàxué",
+          "pos": "N",
+          "en": "the Great Learning, one of the Four Books 四書|四书[Si4 shu1] in Confucianism",
+          "defs": [
+            "the Great Learning, one of the Four Books 四書|四书[Si4 shu1] in Confucianism",
+            "university",
+            "college",
+            "CL:所[suo3]"
+          ]
+        },
+        {
+          "id": "L1-0063",
+          "simp": "大学生",
+          "trad": "大學生",
+          "pinyin": "dàxuéshēng",
+          "pos": "N",
+          "en": "university student; college student",
+          "defs": [
+            "university student; college student"
+          ]
+        },
+        {
+          "id": "L1-0073",
+          "simp": "地图",
+          "trad": "地圖",
+          "pinyin": "dìtú",
+          "pos": "N",
+          "en": "map",
+          "defs": [
+            "map",
+            "CL:張|张[zhang1],本[ben3]"
+          ]
+        },
+        {
+          "id": "L1-0078",
+          "simp": "电话",
+          "trad": "電話",
+          "pinyin": "diànhuà",
+          "pos": "N",
+          "en": "telephone",
+          "defs": [
+            "telephone",
+            "CL:部[bu4]",
+            "phone call",
+            "CL:通[tong1]",
+            "phone number"
+          ]
+        },
+        {
+          "id": "L1-0079",
+          "simp": "电脑",
+          "trad": "電腦",
+          "pinyin": "diànnǎo",
+          "pos": "N",
+          "en": "computer",
+          "defs": [
+            "computer",
+            "CL:臺|台[tai2]"
+          ]
+        },
+        {
+          "id": "L1-0080",
+          "simp": "电视",
+          "trad": "電視",
+          "pinyin": "diànshì",
+          "pos": "N",
+          "en": "television; TV",
+          "defs": [
+            "television; TV",
+            "CL:臺|台[tai2],部[bu4]"
+          ]
+        },
+        {
+          "id": "L1-0081",
+          "simp": "电视机",
+          "trad": "電視機",
+          "pinyin": "diànshìjī",
+          "pos": "N",
+          "en": "television set",
+          "defs": [
+            "television set",
+            "CL:臺|台[tai2]"
+          ]
+        },
+        {
+          "id": "L1-0082",
+          "simp": "电影",
+          "trad": "電影",
+          "pinyin": "diànyǐng",
+          "pos": "N",
+          "en": "movie; film",
+          "defs": [
+            "movie; film",
+            "CL:部[bu4],片[pian4],場|场[chang3]"
+          ]
+        },
+        {
+          "id": "L1-0090",
+          "simp": "读",
+          "trad": "讀",
+          "pinyin": "dú",
+          "pos": "V",
+          "en": "comma",
+          "defs": [
+            "comma",
+            "phrase marked by pause",
+            "to read out; to read aloud",
+            "to read",
+            "to attend (school); to study (a subject in school)",
+            "to pronounce"
+          ]
+        },
+        {
+          "id": "L1-0091",
+          "simp": "读书",
+          "trad": "讀書",
+          "pinyin": "dúshū",
+          "pos": "",
+          "en": "to read a book",
+          "defs": [
+            "to read a book",
+            "to study",
+            "to attend school"
+          ]
+        },
+        {
+          "id": "L1-0123",
+          "simp": "工人",
+          "trad": "工人",
+          "pinyin": "gōngrén",
+          "pos": "N",
+          "en": "worker",
+          "defs": [
+            "worker",
+            "CL:個|个[ge4],名[ming2]"
+          ]
+        },
+        {
+          "id": "L1-0130",
+          "simp": "国外",
+          "trad": "國外",
+          "pinyin": "guó wài",
+          "pos": "",
+          "en": "abroad",
+          "defs": [
+            "abroad",
+            "external (affairs)",
+            "overseas",
+            "foreign"
+          ]
+        },
+        {
+          "id": "L1-0136",
+          "simp": "汉语",
+          "trad": "漢語",
+          "pinyin": "Hànyǔ",
+          "pos": "N",
+          "en": "Chinese language",
+          "defs": [
+            "Chinese language"
+          ]
+        },
+        {
+          "id": "L1-0137",
+          "simp": "汉字",
+          "trad": "漢字",
+          "pinyin": "Hànzì",
+          "pos": "N",
+          "en": "Chinese character(s)",
+          "defs": [
+            "Chinese character(s)"
+          ]
+        },
+        {
+          "id": "L1-0154",
+          "simp": "回",
+          "trad": "回",
+          "pinyin": "huí",
+          "pos": "V",
+          "en": "to circle",
+          "defs": [
+            "to circle",
+            "to go back",
+            "to turn around",
+            "to answer",
+            "to return",
+            "to revolve",
+            "Hui ethnic group (Chinese Muslims)",
+            "time",
+            "classifier for acts of a play",
+            "section or chapter (of a classic book)"
+          ]
+        },
+        {
+          "id": "L1-0168",
+          "simp": "记住",
+          "trad": "記住",
+          "pinyin": "jìzhù",
+          "pos": "",
+          "en": "to remember",
+          "defs": [
+            "to remember",
+            "to bear in mind",
+            "to learn by heart"
+          ]
+        },
+        {
+          "id": "L1-0175",
+          "simp": "教",
+          "trad": "教",
+          "pinyin": "jiāo",
+          "pos": "V",
+          "en": "to teach; to instruct",
+          "defs": [
+            "to teach; to instruct",
+            "(bound form) to teach; to instruct",
+            "a religion",
+            "to cause (sb to do sth); to tell (sb to do sth)"
+          ]
+        },
+        {
+          "id": "L1-0190",
+          "simp": "开会",
+          "trad": "開會",
+          "pinyin": "kāihuì",
+          "pos": "",
+          "en": "to hold a meeting",
+          "defs": [
+            "to hold a meeting",
+            "to attend a meeting"
+          ]
+        },
+        {
+          "id": "L1-0196",
+          "simp": "考",
+          "trad": "考",
+          "pinyin": "kǎo",
+          "pos": "V",
+          "en": "to check",
+          "defs": [
+            "to check",
+            "to verify",
+            "to test",
+            "to examine",
+            "to take an exam",
+            "to take an entrance exam for",
+            "deceased father"
+          ]
+        },
+        {
+          "id": "L1-0197",
+          "simp": "考试",
+          "trad": "考試",
+          "pinyin": "kǎoshì",
+          "pos": "",
+          "en": "to take an exam",
+          "defs": [
+            "to take an exam",
+            "exam",
+            "CL:次[ci4]"
+          ]
+        },
+        {
+          "id": "L1-0199",
+          "simp": "课",
+          "trad": "課",
+          "pinyin": "kè",
+          "pos": "N",
+          "en": "subject",
+          "defs": [
+            "subject",
+            "course",
+            "CL:門|门[men2]",
+            "class",
+            "lesson",
+            "CL:堂[tang2],節|节[jie2]",
+            "to levy",
+            "tax",
+            "form of divination"
+          ]
+        },
+        {
+          "id": "L1-0200",
+          "simp": "课本",
+          "trad": "課本",
+          "pinyin": "kèběn",
+          "pos": "N",
+          "en": "textbook",
+          "defs": [
+            "textbook",
+            "CL:本[ben3]"
+          ]
+        },
+        {
+          "id": "L1-0201",
+          "simp": "课文",
+          "trad": "課文",
+          "pinyin": "kèwén",
+          "pos": "N",
+          "en": "text",
+          "defs": [
+            "text",
+            "CL:篇[pian1]"
+          ]
+        },
+        {
+          "id": "L1-0209",
+          "simp": "老师",
+          "trad": "老師",
+          "pinyin": "lǎoshī",
+          "pos": "N",
+          "en": "teacher",
+          "defs": [
+            "teacher",
+            "CL:個|个[ge4],位[wei4]"
+          ]
+        },
+        {
+          "id": "L1-0320",
+          "simp": "上课",
+          "trad": "上課",
+          "pinyin": "shàngkè",
+          "pos": "",
+          "en": "to go to class",
+          "defs": [
+            "to go to class",
+            "to attend class",
+            "to go to teach a class"
+          ]
+        },
+        {
+          "id": "L1-0336",
+          "simp": "试",
+          "trad": "試",
+          "pinyin": "shì",
+          "pos": "V",
+          "en": "to test",
+          "defs": [
+            "to test",
+            "to try",
+            "experiment",
+            "examination",
+            "test"
+          ]
+        },
+        {
+          "id": "L1-0340",
+          "simp": "手机",
+          "trad": "手機",
+          "pinyin": "shǒujī",
+          "pos": "N",
+          "en": "cell phone; mobile phone",
+          "defs": [
+            "cell phone; mobile phone",
+            "CL:部[bu4]"
+          ]
+        },
+        {
+          "id": "L1-0341",
+          "simp": "书",
+          "trad": "書",
+          "pinyin": "shū",
+          "pos": "N",
+          "en": "abbr. for 書經|书经[Shu1 jing1]",
+          "defs": [
+            "abbr. for 書經|书经[Shu1 jing1]",
+            "book",
+            "letter",
+            "document",
+            "CL:本[ben3],冊|册[ce4],部[bu4]",
+            "to write"
+          ]
+        },
+        {
+          "id": "L1-0342",
+          "simp": "书包",
+          "trad": "書包",
+          "pinyin": "shūbāo",
+          "pos": "N",
+          "en": "schoolbag",
+          "defs": [
+            "schoolbag",
+            "satchel",
+            "bookbag",
+            "CL:個|个[ge4],隻|只[zhi1]"
+          ]
+        },
+        {
+          "id": "L1-0343",
+          "simp": "书店",
+          "trad": "書店",
+          "pinyin": "shūdiàn",
+          "pos": "N",
+          "en": "bookstore",
+          "defs": [
+            "bookstore",
+            "CL:家[jia1]"
+          ]
+        },
+        {
+          "id": "L1-0365",
+          "simp": "同学",
+          "trad": "同學",
+          "pinyin": "tóngxué",
+          "pos": "N",
+          "en": "to study at the same school",
+          "defs": [
+            "to study at the same school",
+            "fellow student",
+            "classmate",
+            "CL:位[wei4],個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0370",
+          "simp": "外语",
+          "trad": "外語",
+          "pinyin": "wàiyǔ",
+          "pos": "N",
+          "en": "foreign language",
+          "defs": [
+            "foreign language",
+            "CL:門|门[men2]"
+          ]
+        },
+        {
+          "id": "L1-0375",
+          "simp": "网上",
+          "trad": "網上",
+          "pinyin": "wǎng shang",
+          "pos": "",
+          "en": "online",
+          "defs": [
+            "online"
+          ]
+        },
+        {
+          "id": "L1-0407",
+          "simp": "小学生",
+          "trad": "小學生",
+          "pinyin": "xiǎoxuéshēng",
+          "pos": "N",
+          "en": "primary school student",
+          "defs": [
+            "primary school student",
+            "schoolchild",
+            "CL:個|个[ge4],名[ming2]",
+            "(fig.) beginner"
+          ]
+        },
+        {
+          "id": "L1-0409",
+          "simp": "写",
+          "trad": "寫",
+          "pinyin": "xiě",
+          "pos": "V",
+          "en": "to write",
+          "defs": [
+            "to write",
+            "used in 寫意|写意[xie4 yi4]"
+          ]
+        },
+        {
+          "id": "L1-0418",
+          "simp": "学",
+          "trad": "學",
+          "pinyin": "xué",
+          "pos": "V",
+          "en": "to learn",
+          "defs": [
+            "to learn",
+            "to study",
+            "to imitate",
+            "science",
+            "-ology"
+          ]
+        },
+        {
+          "id": "L1-0419",
+          "simp": "学生",
+          "trad": "學生",
+          "pinyin": "xuéshēng",
+          "pos": "N",
+          "en": "student",
+          "defs": [
+            "student",
+            "schoolchild"
+          ]
+        },
+        {
+          "id": "L1-0420",
+          "simp": "学习",
+          "trad": "學習",
+          "pinyin": "xuéxí",
+          "pos": "V",
+          "en": "to learn",
+          "defs": [
+            "to learn",
+            "to study"
+          ]
+        },
+        {
+          "id": "L1-0422",
+          "simp": "学院",
+          "trad": "學院",
+          "pinyin": "xuéyuàn",
+          "pos": "N",
+          "en": "college",
+          "defs": [
+            "college",
+            "educational institute",
+            "school",
+            "faculty",
+            "CL:所[suo3]"
+          ]
+        }
+      ]
+    },
+    "b1-questions": {
+      "targetWords": 0,
+      "allocatedWords": 9,
+      "words": [
+        {
+          "id": "L1-0095",
+          "simp": "多少",
+          "trad": "多少",
+          "pinyin": "duōshao",
+          "pos": "Pron",
+          "en": "number; amount",
+          "defs": [
+            "number; amount",
+            "somewhat",
+            "how much?; how many?",
+            "(phone number, student ID etc) what number?"
+          ]
+        },
+        {
+          "id": "L1-0165",
+          "simp": "几",
+          "trad": "幾",
+          "pinyin": "jǐ",
+          "pos": "Num/Pron",
+          "en": "almost",
+          "defs": [
+            "almost",
+            "how much",
+            "how many",
+            "several",
+            "a few"
+          ]
+        },
+        {
+          "id": "L1-0227",
+          "simp": "吗",
+          "trad": "嗎",
+          "pinyin": "ma",
+          "pos": "Aux",
+          "en": "(coll.) what?",
+          "defs": [
+            "(coll.) what?",
+            "used in 嗎啡|吗啡[ma3 fei1]",
+            "(question particle for \"yes-no\" questions)"
+          ]
+        },
+        {
+          "id": "L1-0250",
+          "simp": "哪",
+          "trad": "哪",
+          "pinyin": "nǎ",
+          "pos": "Pron",
+          "en": "how",
+          "defs": [
+            "how",
+            "which",
+            "(emphatic sentence-final particle, used instead of 啊[a5] after a word ending in \"n\")",
+            "used in 哪吒[Ne2 zha1]",
+            "Taiwan pr. [nuo2]",
+            "which? (interrogative, followed by classifier or numeral-classifier)"
+          ]
+        },
+        {
+          "id": "L1-0252",
+          "simp": "哪儿",
+          "trad": "哪兒",
+          "pinyin": "nǎr",
+          "pos": "Pron",
+          "en": "where?",
+          "defs": [
+            "where?",
+            "wherever; anywhere; somewhere",
+            "(used in rhetorical questions) how can ...?; how could ...?"
+          ]
+        },
+        {
+          "id": "L1-0251",
+          "simp": "哪里",
+          "trad": "哪裡",
+          "pinyin": "nǎlǐ",
+          "pos": "Pron",
+          "en": "where?",
+          "defs": [
+            "where?",
+            "somewhere",
+            "anywhere",
+            "wherever",
+            "nowhere (negative answer to question)",
+            "humble expression denying compliment"
+          ]
+        },
+        {
+          "id": "L1-0269",
+          "simp": "呢",
+          "trad": "呢",
+          "pinyin": "ne",
+          "pos": "Aux",
+          "en": "particle indicating that a previously asked question is to be applied to the preceding word (\"What about ...?\", \"And ...?\")",
+          "defs": [
+            "particle indicating that a previously asked question is to be applied to the preceding word (\"What about ...?\", \"And ...?\")",
+            "particle for inquiring about location (\"Where is ...?\")",
+            "particle signaling a pause, to emphasize the preceding words and allow the listener time to take them on board (\"ok?\", \"are you with me?\")",
+            "(at the end of a declarative sentence) particle indicating continuation of a state or action",
+            "particle indicating strong affirmation",
+            "dense wool fabric (used for coats and jackets)"
+          ]
+        },
+        {
+          "id": "L1-0325",
+          "simp": "谁",
+          "trad": "誰",
+          "pinyin": "shéi",
+          "pos": "Pr",
+          "en": "who",
+          "defs": [
+            "who",
+            "also pr. [shui2]"
+          ]
+        },
+        {
+          "id": "L1-0328",
+          "simp": "什么",
+          "trad": "什麼",
+          "pinyin": "shénme",
+          "pos": "Pron",
+          "en": "what?",
+          "defs": [
+            "what?",
+            "something; anything"
+          ]
+        }
+      ]
+    },
+    "b1-verbs": {
+      "targetWords": 0,
+      "allocatedWords": 84,
+      "words": [
+        {
+          "id": "L1-0006",
+          "simp": "白",
+          "trad": "白",
+          "pinyin": "bái",
+          "pos": "Adj",
+          "en": "white",
+          "defs": [
+            "white",
+            "snowy",
+            "pure",
+            "bright",
+            "empty",
+            "blank",
+            "plain",
+            "clear",
+            "to make clear",
+            "in vain",
+            "gratuitous",
+            "free of charge",
+            "reactionary",
+            "anti-communist",
+            "funeral",
+            "to stare coldly",
+            "to write wrong character",
+            "to state",
+            "to explain",
+            "vernacular",
+            "spoken lines in opera"
+          ]
+        },
+        {
+          "id": "L1-0014",
+          "simp": "帮忙",
+          "trad": "幫忙",
+          "pinyin": "bāngmáng",
+          "pos": "",
+          "en": "to help",
+          "defs": [
+            "to help",
+            "to lend a hand",
+            "to do a favor",
+            "to do a good turn"
+          ]
+        },
+        {
+          "id": "L1-0025",
+          "simp": "别",
+          "trad": "別",
+          "pinyin": "bié",
+          "pos": "Adv",
+          "en": "to leave; to part (from)",
+          "defs": [
+            "to leave; to part (from)",
+            "(literary) to differentiate; to distinguish",
+            "(dialect) to turn away; to turn aside; to avert (one's face, gaze etc)",
+            "(bound form) other; another; different",
+            "don't ...!",
+            "to fasten with a pin or clip",
+            "to stick in; to insert (in order to hinder movement)",
+            "(noun suffix) category (as in 性別|性别[xing4 bie2], 派別|派别[pai4 bie2])"
+          ]
+        },
+        {
+          "id": "L1-0031",
+          "simp": "不对",
+          "trad": "不對",
+          "pinyin": "bùduì",
+          "pos": "Adj",
+          "en": "incorrect",
+          "defs": [
+            "incorrect",
+            "wrong",
+            "amiss",
+            "abnormal",
+            "queer"
+          ]
+        },
+        {
+          "id": "L1-0033",
+          "simp": "不用",
+          "trad": "不用",
+          "pinyin": "bùyòng",
+          "pos": "Adv",
+          "en": "need not",
+          "defs": [
+            "need not"
+          ]
+        },
+        {
+          "id": "L1-0037",
+          "simp": "差",
+          "trad": "差",
+          "pinyin": "chà",
+          "pos": "V/Adj",
+          "en": "difference; discrepancy",
+          "defs": [
+            "difference; discrepancy",
+            "(math.) difference (amount remaining after a subtraction)",
+            "(literary) a little; somewhat; slightly",
+            "different",
+            "wrong; mistaken",
+            "to fall short; to lack",
+            "not up to standard; inferior",
+            "Taiwan pr. [cha1]",
+            "to send (on an errand)",
+            "(archaic) person sent on such an errand",
+            "job; official post",
+            "used in 參差|参差[cen1 ci1]"
+          ]
+        },
+        {
+          "id": "L1-0038",
+          "simp": "常",
+          "trad": "常",
+          "pinyin": "cháng",
+          "pos": "Adv",
+          "en": "always",
+          "defs": [
+            "always",
+            "ever",
+            "often",
+            "frequently",
+            "common",
+            "general",
+            "constant"
+          ]
+        },
+        {
+          "id": "L1-0039",
+          "simp": "常常",
+          "trad": "常常",
+          "pinyin": "chángcháng",
+          "pos": "Adv",
+          "en": "frequently; often",
+          "defs": [
+            "frequently; often"
+          ]
+        },
+        {
+          "id": "L1-0051",
+          "simp": "穿",
+          "trad": "穿",
+          "pinyin": "chuān",
+          "pos": "V",
+          "en": "to wear",
+          "defs": [
+            "to wear",
+            "to put on",
+            "to dress",
+            "to bore through",
+            "to pierce",
+            "to perforate",
+            "to penetrate",
+            "to pass through",
+            "to thread"
+          ]
+        },
+        {
+          "id": "L1-0054",
+          "simp": "从",
+          "trad": "從",
+          "pinyin": "cóng",
+          "pos": "Prep",
+          "en": "from; through; via",
+          "defs": [
+            "from; through; via",
+            "(bound form) to follow",
+            "(bound form) to obey",
+            "(bound form) to engage in (an activity)",
+            "(used before a negative) ever",
+            "(bound form) (Taiwan pr. [zong4]) retainer; attendant",
+            "(bound form) (Taiwan pr. [zong4]) assistant; auxiliary; subordinate",
+            "(bound form) (Taiwan pr. [zong4]) related by common paternal grandfather or earlier ancestor"
+          ]
+        },
+        {
+          "id": "L1-0055",
+          "simp": "错",
+          "trad": "錯",
+          "pinyin": "cuò",
+          "pos": "Adj/N",
+          "en": "mistake",
+          "defs": [
+            "mistake",
+            "wrong",
+            "bad",
+            "interlocking",
+            "complex",
+            "to grind",
+            "to polish",
+            "to alternate",
+            "to stagger",
+            "to miss",
+            "to let slip",
+            "to evade",
+            "to inlay with gold or silver"
+          ]
+        },
+        {
+          "id": "L1-0056",
+          "simp": "打",
+          "trad": "打",
+          "pinyin": "dǎ",
+          "pos": "V",
+          "en": "(loanword) dozen",
+          "defs": [
+            "(loanword) dozen",
+            "Taiwan pr. [da3]",
+            "a semantically light, transitive verb that is combined with various grammatical objects to form compound verbs and verb-object phrases with a diverse range of meanings (e.g. 打傘|打伞[da3 san3] \"to hold an umbrella\", 打電話|打电话[da3 dian4 hua4] \"to make a phone call\", 打針|打针[da3 zhen1] \"to get an injection\", 打手套[da3 shou3 tao4] \"to knit gloves\", 打氣|打气[da3 qi4] \"to inflate\")",
+            "to hit; to strike",
+            "to fight",
+            "(coll.) from; since (as in 打那以後|打那以后[da3 na4 yi3 hou4] \"since then\")"
+          ]
+        },
+        {
+          "id": "L1-0059",
+          "simp": "打开",
+          "trad": "打開",
+          "pinyin": "dǎkāi",
+          "pos": "",
+          "en": "to open",
+          "defs": [
+            "to open",
+            "to show (a ticket)",
+            "to turn on",
+            "to switch on"
+          ]
+        },
+        {
+          "id": "L1-0065",
+          "simp": "得到",
+          "trad": "得到",
+          "pinyin": "dédào",
+          "pos": "",
+          "en": "to get; to obtain; to receive",
+          "defs": [
+            "to get; to obtain; to receive"
+          ]
+        },
+        {
+          "id": "L1-0067",
+          "simp": "的",
+          "trad": "的",
+          "pinyin": "de",
+          "pos": "Aux",
+          "en": "of; ~'s (possessive particle)",
+          "defs": [
+            "of; ~'s (possessive particle)",
+            "(used after an attribute when it modifies a noun)",
+            "(used at the end of a declarative sentence for emphasis)",
+            "(used after a noun, verb or adjective to form a nominal expression, as in 皮革的[pi2 ge2 de5] \"one made of leather\" or 跑堂兒的|跑堂儿的[pao3 tang2 r5 de5] \"a waiter (literally, one who runs back and forth in a restaurant)\" or 新的[xin1 de5] \"new one\")",
+            "also pr. [di4] or [di5] in poetry and songs",
+            "a taxi; a cab (abbr. for 的士[di1 shi4])",
+            "really and truly",
+            "(bound form) bull's-eye; target"
+          ]
+        },
+        {
+          "id": "L1-0068",
+          "simp": "等",
+          "trad": "等",
+          "pinyin": "děng",
+          "pos": "V",
+          "en": "to wait for; to await",
+          "defs": [
+            "to wait for; to await",
+            "by the time; when; till",
+            "and so on; etc.; et al.",
+            "(bound form) class; rank; grade",
+            "(bound form) equal to; same as",
+            "(used to end an enumeration)",
+            "(literary) (plural suffix attached to a personal pronoun or noun)"
+          ]
+        },
+        {
+          "id": "L1-0077",
+          "simp": "电",
+          "trad": "電",
+          "pinyin": "diàn",
+          "pos": "N",
+          "en": "lightning",
+          "defs": [
+            "lightning",
+            "electricity",
+            "electric (bound form)",
+            "to get (or give) an electric shock",
+            "phone call or telegram etc",
+            "to send via telephone or telegram etc"
+          ]
+        },
+        {
+          "id": "L1-0087",
+          "simp": "动",
+          "trad": "動",
+          "pinyin": "dòng",
+          "pos": "V",
+          "en": "(of sth) to move",
+          "defs": [
+            "(of sth) to move",
+            "to set in movement",
+            "to displace",
+            "to touch",
+            "to make use of",
+            "to stir (emotions)",
+            "to alter",
+            "abbr. for 動詞|动词[dong4 ci2], verb"
+          ]
+        },
+        {
+          "id": "L1-0088",
+          "simp": "动作",
+          "trad": "動作",
+          "pinyin": "dòngzuò",
+          "pos": "N",
+          "en": "movement; motion; action (CL:個|个[ge4])",
+          "defs": [
+            "movement; motion; action (CL:個|个[ge4])",
+            "to act; to move"
+          ]
+        },
+        {
+          "id": "L1-0089",
+          "simp": "都",
+          "trad": "都",
+          "pinyin": "dōu",
+          "pos": "Adv",
+          "en": "all; both; entirely",
+          "defs": [
+            "all; both; entirely",
+            "(used for emphasis) even",
+            "already",
+            "(not) at all",
+            "capital city",
+            "metropolis"
+          ]
+        },
+        {
+          "id": "L1-0092",
+          "simp": "对",
+          "trad": "對",
+          "pinyin": "duì",
+          "pos": "Adj",
+          "en": "right; correct",
+          "defs": [
+            "right; correct",
+            "towards; at; for",
+            "concerning; regarding",
+            "to treat (sb a certain way)",
+            "to face",
+            "(bound form) opposite; facing; matching",
+            "to match together; to adjust",
+            "to fit; to suit",
+            "to answer; to reply",
+            "to add; to pour in (a fluid)",
+            "to check; to compare",
+            "classifier: couple; pair"
+          ]
+        },
+        {
+          "id": "L1-0094",
+          "simp": "多",
+          "trad": "多",
+          "pinyin": "duō",
+          "pos": "Adj/Pron",
+          "en": "many; much; more; a lot of",
+          "defs": [
+            "many; much; more; a lot of",
+            "too many; in excess",
+            "(after a numeral) ... odd",
+            "how (to what extent) (Taiwan pr. [duo2])",
+            "(bound form) multi-; poly-"
+          ]
+        },
+        {
+          "id": "L1-0104",
+          "simp": "放假",
+          "trad": "放假",
+          "pinyin": "fàngjià",
+          "pos": "",
+          "en": "to have a holiday or vacation",
+          "defs": [
+            "to have a holiday or vacation"
+          ]
+        },
+        {
+          "id": "L1-0108",
+          "simp": "非常",
+          "trad": "非常",
+          "pinyin": "fēicháng",
+          "pos": "Adv",
+          "en": "very; really",
+          "defs": [
+            "very; really",
+            "unusual; extraordinary"
+          ]
+        },
+        {
+          "id": "L1-0111",
+          "simp": "干",
+          "trad": "乾",
+          "pinyin": "gān",
+          "pos": "Adj",
+          "en": "dry",
+          "defs": [
+            "dry",
+            "dried food",
+            "empty; hollow",
+            "taken in to nominal kinship; adoptive; foster",
+            "futile; in vain",
+            "(dialect) rude; blunt",
+            "(dialect) to cold-shoulder"
+          ]
+        },
+        {
+          "id": "L1-0112",
+          "simp": "干净",
+          "trad": "乾淨",
+          "pinyin": "gānjìng",
+          "pos": "Adj",
+          "en": "clean",
+          "defs": [
+            "clean",
+            "neat"
+          ]
+        },
+        {
+          "id": "L1-0115",
+          "simp": "高",
+          "trad": "高",
+          "pinyin": "gāo",
+          "pos": "Adj",
+          "en": "high",
+          "defs": [
+            "high",
+            "tall",
+            "above average",
+            "loud",
+            "your (honorific)"
+          ]
+        },
+        {
+          "id": "L1-0121",
+          "simp": "给",
+          "trad": "給",
+          "pinyin": "gěi",
+          "pos": "V/Prep",
+          "en": "to",
+          "defs": [
+            "to",
+            "for",
+            "for the benefit of",
+            "to give",
+            "to allow",
+            "to do sth (for sb)",
+            "(grammatical equivalent of 被)",
+            "(grammatical equivalent of 把)",
+            "(sentence intensifier)",
+            "to supply",
+            "to provide"
+          ]
+        },
+        {
+          "id": "L1-0122",
+          "simp": "跟",
+          "trad": "跟",
+          "pinyin": "gēn",
+          "pos": "Prep/Conj/V",
+          "en": "heel",
+          "defs": [
+            "heel",
+            "to follow closely",
+            "to go with",
+            "(of a woman) to marry sb",
+            "with",
+            "compared with",
+            "to",
+            "towards",
+            "and (joining two nouns)"
+          ]
+        },
+        {
+          "id": "L1-0126",
+          "simp": "关上",
+          "trad": "關上",
+          "pinyin": "guānshang",
+          "pos": "",
+          "en": "to close (a door)",
+          "defs": [
+            "to close (a door)",
+            "to turn off (light, electrical equipment etc)"
+          ]
+        },
+        {
+          "id": "L1-0132",
+          "simp": "还",
+          "trad": "還",
+          "pinyin": "hái",
+          "pos": "Adv",
+          "en": "still",
+          "defs": [
+            "still",
+            "still in progress",
+            "still more",
+            "yet",
+            "even more",
+            "in addition",
+            "fairly",
+            "passably (good)",
+            "as early as",
+            "even",
+            "also",
+            "else",
+            "to pay back",
+            "to return"
+          ]
+        },
+        {
+          "id": "L1-0153",
+          "simp": "还",
+          "trad": "還",
+          "pinyin": "huán",
+          "pos": "V",
+          "en": "still",
+          "defs": [
+            "still",
+            "still in progress",
+            "still more",
+            "yet",
+            "even more",
+            "in addition",
+            "fairly",
+            "passably (good)",
+            "as early as",
+            "even",
+            "also",
+            "else",
+            "to pay back",
+            "to return"
+          ]
+        },
+        {
+          "id": "L1-0133",
+          "simp": "还是",
+          "trad": "還是",
+          "pinyin": "háishi",
+          "pos": "Adv/Conj",
+          "en": "still (as before)",
+          "defs": [
+            "still (as before)",
+            "had better",
+            "unexpectedly",
+            "or"
+          ]
+        },
+        {
+          "id": "L1-0138",
+          "simp": "好",
+          "trad": "好",
+          "pinyin": "hǎo",
+          "pos": "Adj",
+          "en": "good",
+          "defs": [
+            "good",
+            "appropriate; proper",
+            "all right!",
+            "(before a verb) easy to",
+            "(before a verb) good to",
+            "(before an adjective for exclamatory effect) so",
+            "(verb complement indicating completion)",
+            "(of two people) close; on intimate terms",
+            "(after a personal pronoun) hello",
+            "to be fond of; to have a tendency to; to be prone to"
+          ]
+        },
+        {
+          "id": "L1-0140",
+          "simp": "好看",
+          "trad": "好看",
+          "pinyin": "hǎokàn",
+          "pos": "Adj",
+          "en": "good-looking; nice-looking",
+          "defs": [
+            "good-looking; nice-looking",
+            "(of a movie, book, TV show etc) good",
+            "in an embarrassing situation"
+          ]
+        },
+        {
+          "id": "L1-0141",
+          "simp": "好听",
+          "trad": "好聽",
+          "pinyin": "hǎotīng",
+          "pos": "Adj",
+          "en": "pleasant to hear",
+          "defs": [
+            "pleasant to hear"
+          ]
+        },
+        {
+          "id": "L1-0142",
+          "simp": "好玩儿",
+          "trad": "好玩兒",
+          "pinyin": "hǎowánr",
+          "pos": "Adj",
+          "en": "erhua variant of 好玩[hao3 wan2]",
+          "defs": [
+            "erhua variant of 好玩[hao3 wan2]"
+          ]
+        },
+        {
+          "id": "L1-0145",
+          "simp": "和",
+          "trad": "和",
+          "pinyin": "hé",
+          "pos": "Prep/Conj",
+          "en": "(joining two nouns) and; together with; with (Taiwan pr. [han4])",
+          "defs": [
+            "(joining two nouns) and; together with; with (Taiwan pr. [han4])",
+            "(math.) sum",
+            "to make peace",
+            "(sports) to draw; to tie",
+            "(bound form) harmonious",
+            "(bound form) Japan; Japanese",
+            "to compose a poem in reply (to sb's poem) using the same rhyme sequence",
+            "to join in the singing",
+            "to chime in with others",
+            "to complete a set in mahjong or playing cards",
+            "to combine a powdery substance (flour, plaster etc) with water",
+            "Taiwan pr. [huo4]",
+            "to mix (ingredients) together",
+            "to blend",
+            "classifier for rinses of clothes",
+            "classifier for boilings of medicinal herbs"
+          ]
+        },
+        {
+          "id": "L1-0146",
+          "simp": "很",
+          "trad": "很",
+          "pinyin": "hěn",
+          "pos": "Adv",
+          "en": "very; quite",
+          "defs": [
+            "very; quite",
+            "(also, often used before an adjective without intensifying its meaning, i.e. as a meaningless syntactic element)"
+          ]
+        },
+        {
+          "id": "L1-0152",
+          "simp": "坏",
+          "trad": "壞",
+          "pinyin": "huài",
+          "pos": "Adj",
+          "en": "bad",
+          "defs": [
+            "bad",
+            "spoiled",
+            "broken",
+            "to break down",
+            "(suffix) to the utmost"
+          ]
+        },
+        {
+          "id": "L1-0155",
+          "simp": "回答",
+          "trad": "回答",
+          "pinyin": "huídá",
+          "pos": "V/N",
+          "en": "to reply; to answer",
+          "defs": [
+            "to reply; to answer",
+            "reply; answer"
+          ]
+        },
+        {
+          "id": "L1-0156",
+          "simp": "回到",
+          "trad": "回到",
+          "pinyin": "huídào",
+          "pos": "V",
+          "en": "to return to",
+          "defs": [
+            "to return to"
+          ]
+        },
+        {
+          "id": "L1-0167",
+          "simp": "记得",
+          "trad": "記得",
+          "pinyin": "jìde",
+          "pos": "V",
+          "en": "to remember",
+          "defs": [
+            "to remember"
+          ]
+        },
+        {
+          "id": "L1-0174",
+          "simp": "见面",
+          "trad": "見面",
+          "pinyin": "jiànmiàn",
+          "pos": "",
+          "en": "to meet; to see each other",
+          "defs": [
+            "to meet; to see each other",
+            "CL:次[ci4]"
+          ]
+        },
+        {
+          "id": "L1-0179",
+          "simp": "介绍",
+          "trad": "介紹",
+          "pinyin": "jièshào",
+          "pos": "V",
+          "en": "to introduce (sb to sb)",
+          "defs": [
+            "to introduce (sb to sb)",
+            "to give a presentation",
+            "to present (sb for a job etc)",
+            "introduction"
+          ]
+        },
+        {
+          "id": "L1-0182",
+          "simp": "进",
+          "trad": "進",
+          "pinyin": "jìn",
+          "pos": "V",
+          "en": "to go forward",
+          "defs": [
+            "to go forward",
+            "to advance",
+            "to go in",
+            "to enter",
+            "to put in",
+            "to submit",
+            "to take in",
+            "to admit",
+            "(math.) base of a number system",
+            "classifier for sections in a building or residential compound"
+          ]
+        },
+        {
+          "id": "L1-0186",
+          "simp": "就",
+          "trad": "就",
+          "pinyin": "jiù",
+          "pos": "Adv",
+          "en": "(after a suppositional clause) in that case; then",
+          "defs": [
+            "(after a suppositional clause) in that case; then",
+            "(after a clause of action) as soon as; immediately after",
+            "(same as 就是[jiu4 shi4]) merely; nothing else but; simply; just; precisely; exactly",
+            "only; as little as",
+            "as much as; as many as",
+            "to approach; to move towards",
+            "to undertake; to engage in",
+            "(often followed by 著|着[zhe5]) taking advantage of",
+            "(of food) to go with",
+            "with regard to; concerning",
+            "(pattern: 就[jiu4] ... 也[ye3] ...) even if ... still ...",
+            "(pattern: 不[bu4] ... 就[jiu4] ...) if not ... then must be ..."
+          ]
+        },
+        {
+          "id": "L1-0191",
+          "simp": "开玩笑",
+          "trad": "開玩笑",
+          "pinyin": "kāi wánxiào",
+          "pos": "",
+          "en": "to play a joke; to make fun of; to joke",
+          "defs": [
+            "to play a joke; to make fun of; to joke"
+          ]
+        },
+        {
+          "id": "L1-0194",
+          "simp": "看到",
+          "trad": "看到",
+          "pinyin": "kàndào",
+          "pos": "",
+          "en": "to see",
+          "defs": [
+            "to see"
+          ]
+        },
+        {
+          "id": "L1-0195",
+          "simp": "看见",
+          "trad": "看見",
+          "pinyin": "kànjiàn",
+          "pos": "",
+          "en": "to see; to catch sight of",
+          "defs": [
+            "to see; to catch sight of"
+          ]
+        },
+        {
+          "id": "L1-0204",
+          "simp": "快",
+          "trad": "快",
+          "pinyin": "kuài",
+          "pos": "Adj/Adv",
+          "en": "rapid",
+          "defs": [
+            "rapid",
+            "quick",
+            "speed",
+            "rate",
+            "soon",
+            "almost",
+            "to make haste",
+            "clever",
+            "sharp (of knives or wits)",
+            "forthright",
+            "plainspoken",
+            "gratified",
+            "pleased",
+            "pleasant"
+          ]
+        },
+        {
+          "id": "L1-0205",
+          "simp": "来",
+          "trad": "來",
+          "pinyin": "lái",
+          "pos": "V",
+          "en": "to come",
+          "defs": [
+            "to come",
+            "(used as a substitute for a more specific verb)",
+            "hither (directional complement for motion toward the speaker, as in 回來|回来[hui2 lai5])",
+            "ever since (as in 自古以來|自古以来[zi4 gu3 yi3 lai2])",
+            "for the past (amount of time)",
+            "(prefix) the coming ...; the next ... (as in 來世|来世[lai2 shi4])",
+            "(between two verbs) in order to",
+            "(after a round number) approximately",
+            "(used after 得[de2] to indicate possibility, as in 談得來|谈得来[tan2 de5 lai2], or after 不[bu4] to indicate impossibility, as in 吃不來|吃不来[chi1 bu5 lai2])"
+          ]
+        },
+        {
+          "id": "L1-0207",
+          "simp": "老",
+          "trad": "老",
+          "pinyin": "lǎo",
+          "pos": "Adj",
+          "en": "prefix used before the a person or a numeral indicating the order of birth of the children in a family or to indicate affection or familiarity",
+          "defs": [
+            "prefix used before the a person or a numeral indicating the order of birth of the children in a family or to indicate affection or familiarity",
+            "old (of people)",
+            "venerable (person)",
+            "experienced",
+            "of long standing",
+            "always",
+            "all the time",
+            "of the past",
+            "very",
+            "outdated",
+            "(of meat etc) tough"
+          ]
+        },
+        {
+          "id": "L1-0208",
+          "simp": "老人",
+          "trad": "老人",
+          "pinyin": "lǎorén",
+          "pos": "N",
+          "en": "old man or woman",
+          "defs": [
+            "old man or woman",
+            "the elderly",
+            "one's aged parents or grandparents"
+          ]
+        },
+        {
+          "id": "L1-0211",
+          "simp": "累",
+          "trad": "累",
+          "pinyin": "lèi",
+          "pos": "Adj",
+          "en": "to accumulate",
+          "defs": [
+            "to accumulate",
+            "to involve or implicate (Taiwan pr. [lei4])",
+            "continuous",
+            "repeated",
+            "tired",
+            "weary",
+            "to strain",
+            "to wear out",
+            "to work hard"
+          ]
+        },
+        {
+          "id": "L1-0212",
+          "simp": "冷",
+          "trad": "冷",
+          "pinyin": "lěng",
+          "pos": "Adj",
+          "en": "cold",
+          "defs": [
+            "cold"
+          ]
+        },
+        {
+          "id": "L1-0226",
+          "simp": "马上",
+          "trad": "馬上",
+          "pinyin": "mǎshàng",
+          "pos": "Adv",
+          "en": "at once",
+          "defs": [
+            "at once",
+            "right away",
+            "immediately",
+            "on horseback (i.e. by military force)"
+          ]
+        },
+        {
+          "id": "L1-0229",
+          "simp": "慢",
+          "trad": "慢",
+          "pinyin": "màn",
+          "pos": "Adj",
+          "en": "slow",
+          "defs": [
+            "slow"
+          ]
+        },
+        {
+          "id": "L1-0230",
+          "simp": "忙",
+          "trad": "忙",
+          "pinyin": "máng",
+          "pos": "Adj",
+          "en": "busy",
+          "defs": [
+            "busy",
+            "hurriedly",
+            "to hurry",
+            "to rush"
+          ]
+        },
+        {
+          "id": "L1-0236",
+          "simp": "没有",
+          "trad": "沒有",
+          "pinyin": "méiyǒu",
+          "pos": "V/Adv",
+          "en": "haven't",
+          "defs": [
+            "haven't",
+            "hasn't",
+            "doesn't exist",
+            "to not have",
+            "to not be"
+          ]
+        },
+        {
+          "id": "L1-0246",
+          "simp": "明白",
+          "trad": "明白",
+          "pinyin": "míngbai",
+          "pos": "Adj/V",
+          "en": "clear; obvious; unequivocal",
+          "defs": [
+            "clear; obvious; unequivocal",
+            "sensible; reasonable",
+            "to understand; to realize"
+          ]
+        },
+        {
+          "id": "L1-0254",
+          "simp": "那",
+          "trad": "那",
+          "pinyin": "nà",
+          "pos": "Pron",
+          "en": "variant of 哪[na3]",
+          "defs": [
+            "variant of 哪[na3]",
+            "(specifier) that; the; those (colloquial pr. [nei4])",
+            "(pronoun) that (referring to persons, things or situations)",
+            "then (in that case)",
+            "(archaic) many",
+            "beautiful",
+            "how",
+            "old variant of 挪[nuo2]"
+          ]
+        },
+        {
+          "id": "L1-0261",
+          "simp": "男",
+          "trad": "男",
+          "pinyin": "nán",
+          "pos": "Adj",
+          "en": "(bound form) male",
+          "defs": [
+            "(bound form) male",
+            "baron, the lowest of the five ranks of nobility 五等爵位[wu3 deng3 jue2 wei4]"
+          ]
+        },
+        {
+          "id": "L1-0268",
+          "simp": "难",
+          "trad": "難",
+          "pinyin": "nán",
+          "pos": "Adj",
+          "en": "difficult (to...)",
+          "defs": [
+            "difficult (to...)",
+            "problem",
+            "difficulty",
+            "difficult",
+            "not good",
+            "disaster",
+            "distress",
+            "to scold"
+          ]
+        },
+        {
+          "id": "L1-0276",
+          "simp": "女",
+          "trad": "女",
+          "pinyin": "nǚ",
+          "pos": "Adj",
+          "en": "female",
+          "defs": [
+            "female",
+            "woman",
+            "daughter",
+            "old variant of 汝[ru3]"
+          ]
+        },
+        {
+          "id": "L1-0289",
+          "simp": "起来",
+          "trad": "起來",
+          "pinyin": "qǐlái",
+          "pos": "",
+          "en": "to stand up; to get up",
+          "defs": [
+            "to stand up; to get up",
+            "also pr. [qi3lai2]",
+            "(after a verb) indicating the beginning and continuation of an action or a state",
+            "indicating an upward movement (e.g. after 站[zhan4])",
+            "indicating completion",
+            "(after a perception verb, e.g. 看[kan4]) expressing preliminary judgment",
+            "also pr. [qi3lai5]"
+          ]
+        },
+        {
+          "id": "L1-0304",
+          "simp": "热",
+          "trad": "熱",
+          "pinyin": "rè",
+          "pos": "Adj/V",
+          "en": "to warm up",
+          "defs": [
+            "to warm up",
+            "to heat up",
+            "hot (of weather)",
+            "heat",
+            "fervent"
+          ]
+        },
+        {
+          "id": "L1-0306",
+          "simp": "认识",
+          "trad": "認識",
+          "pinyin": "rènshi",
+          "pos": "V/N",
+          "en": "to know",
+          "defs": [
+            "to know",
+            "to recognize",
+            "to be familiar with",
+            "to get acquainted with sb",
+            "knowledge",
+            "understanding",
+            "awareness",
+            "cognition"
+          ]
+        },
+        {
+          "id": "L1-0307",
+          "simp": "认真",
+          "trad": "認真",
+          "pinyin": "rènzhēn",
+          "pos": "Adj",
+          "en": "conscientious",
+          "defs": [
+            "conscientious",
+            "earnest",
+            "serious",
+            "to take seriously",
+            "to take to heart"
+          ]
+        },
+        {
+          "id": "L1-0312",
+          "simp": "山",
+          "trad": "山",
+          "pinyin": "shān",
+          "pos": "N",
+          "en": "mountain; hill (CL:座[zuo4])",
+          "defs": [
+            "mountain; hill (CL:座[zuo4])",
+            "(coll.) small bundle of straw for silkworms to spin cocoons on"
+          ]
+        },
+        {
+          "id": "L1-0324",
+          "simp": "少",
+          "trad": "少",
+          "pinyin": "shǎo",
+          "pos": "Adj/V",
+          "en": "few",
+          "defs": [
+            "few",
+            "less",
+            "to lack",
+            "to be missing",
+            "to stop (doing sth)",
+            "seldom",
+            "young"
+          ]
+        },
+        {
+          "id": "L1-0358",
+          "simp": "太",
+          "trad": "太",
+          "pinyin": "tài",
+          "pos": "Adv",
+          "en": "highest",
+          "defs": [
+            "highest",
+            "greatest",
+            "too (much)",
+            "very",
+            "extremely"
+          ]
+        },
+        {
+          "id": "L1-0371",
+          "simp": "玩儿",
+          "trad": "玩兒",
+          "pinyin": "wánr",
+          "pos": "V",
+          "en": "to play",
+          "defs": [
+            "to play",
+            "to have fun",
+            "to hang out"
+          ]
+        },
+        {
+          "id": "L1-0372",
+          "simp": "晚",
+          "trad": "晚",
+          "pinyin": "wǎn",
+          "pos": "Adj",
+          "en": "evening",
+          "defs": [
+            "evening",
+            "night",
+            "late"
+          ]
+        },
+        {
+          "id": "L1-0377",
+          "simp": "忘",
+          "trad": "忘",
+          "pinyin": "wàng",
+          "pos": "V",
+          "en": "to forget",
+          "defs": [
+            "to forget",
+            "to overlook",
+            "to neglect"
+          ]
+        },
+        {
+          "id": "L1-0378",
+          "simp": "忘记",
+          "trad": "忘記",
+          "pinyin": "wàngjì",
+          "pos": "V",
+          "en": "to forget",
+          "defs": [
+            "to forget"
+          ]
+        },
+        {
+          "id": "L1-0379",
+          "simp": "问",
+          "trad": "問",
+          "pinyin": "wèn",
+          "pos": "V",
+          "en": "to ask; to inquire",
+          "defs": [
+            "to ask; to inquire"
+          ]
+        },
+        {
+          "id": "L1-0397",
+          "simp": "先",
+          "trad": "先",
+          "pinyin": "xiān",
+          "pos": "Adv",
+          "en": "beforehand; first; earlier",
+          "defs": [
+            "beforehand; first; earlier",
+            "at first; originally",
+            "for the time being; for now",
+            "(prefix) my late (in referring to deceased relatives older than oneself)"
+          ]
+        },
+        {
+          "id": "L1-0401",
+          "simp": "小",
+          "trad": "小",
+          "pinyin": "xiǎo",
+          "pos": "Adj",
+          "en": "small",
+          "defs": [
+            "small",
+            "tiny",
+            "few",
+            "young"
+          ]
+        },
+        {
+          "id": "L1-0408",
+          "simp": "笑",
+          "trad": "笑",
+          "pinyin": "xiào",
+          "pos": "V",
+          "en": "to laugh; to smile",
+          "defs": [
+            "to laugh; to smile",
+            "to laugh at"
+          ]
+        },
+        {
+          "id": "L1-0411",
+          "simp": "新",
+          "trad": "新",
+          "pinyin": "xīn",
+          "pos": "Adj",
+          "en": "abbr. for Xinjiang 新疆[Xin1 jiang1]",
+          "defs": [
+            "abbr. for Xinjiang 新疆[Xin1 jiang1]",
+            "abbr. for Singapore 新加坡[Xin1 jia1 po1]",
+            "new",
+            "newly",
+            "meso- (chemistry)"
+          ]
+        },
+        {
+          "id": "L1-0425",
+          "simp": "也",
+          "trad": "也",
+          "pinyin": "yě",
+          "pos": "Adv",
+          "en": "also; too; as well; (not ...) either",
+          "defs": [
+            "also; too; as well; (not ...) either",
+            "(used after a verbal or nominal expression X to indicate that X is an extreme or unexpected case) even (X)",
+            "(literary) particle having functions similar to 啊[a5]"
+          ]
+        },
+        {
+          "id": "L1-0436",
+          "simp": "一边",
+          "trad": "一邊",
+          "pinyin": "yībiān",
+          "pos": "N/Adv",
+          "en": "one side",
+          "defs": [
+            "one side",
+            "either side",
+            "on the one hand",
+            "on the other hand",
+            "doing while"
+          ]
+        },
+        {
+          "id": "L1-0433",
+          "simp": "一块儿",
+          "trad": "一塊兒",
+          "pinyin": "yīkuàir",
+          "pos": "N/Adv",
+          "en": "erhua variant of 一塊|一块[yi1 kuai4]",
+          "defs": [
+            "erhua variant of 一塊|一块[yi1 kuai4]"
+          ]
+        }
+      ]
+    },
+    "b1-measure": {
+      "targetWords": 0,
+      "allocatedWords": 13,
+      "words": [
+        {
+          "id": "L1-0009",
+          "simp": "班",
+          "trad": "班",
+          "pinyin": "bān",
+          "pos": "N/M",
+          "en": "team; class; grade",
+          "defs": [
+            "team; class; grade",
+            "(military) squad",
+            "work shift",
+            "CL:個|个[ge4]",
+            "classifier for groups of people and scheduled transport vehicles"
+          ]
+        },
+        {
+          "id": "L1-0015",
+          "simp": "包",
+          "trad": "包",
+          "pinyin": "bāo",
+          "pos": "N/M/V",
+          "en": "to cover",
+          "defs": [
+            "to cover",
+            "to wrap",
+            "to hold",
+            "to include",
+            "to take charge of",
+            "to contract (to or for)",
+            "package",
+            "wrapper",
+            "container",
+            "bag",
+            "to hold or embrace",
+            "bundle",
+            "packet",
+            "CL:個|个[ge4],隻|只[zhi1]"
+          ]
+        },
+        {
+          "id": "L1-0017",
+          "simp": "杯",
+          "trad": "杯",
+          "pinyin": "bēi",
+          "pos": "M",
+          "en": "cup",
+          "defs": [
+            "cup",
+            "trophy cup",
+            "classifier for certain containers of liquids: glass, cup"
+          ]
+        },
+        {
+          "id": "L1-0022",
+          "simp": "本",
+          "trad": "本",
+          "pinyin": "běn",
+          "pos": "M",
+          "en": "(bound form) root; stem",
+          "defs": [
+            "(bound form) root; stem",
+            "(bound form) origin; source",
+            "(bound form) one's own; this",
+            "(bound form) this; the current (year etc)",
+            "(bound form) original",
+            "(bound form) inherent",
+            "originally; initially",
+            "capital; principal",
+            "classifier for books, periodicals, files etc"
+          ]
+        },
+        {
+          "id": "L1-0053",
+          "simp": "次",
+          "trad": "次",
+          "pinyin": "cì",
+          "pos": "M",
+          "en": "next in sequence",
+          "defs": [
+            "next in sequence",
+            "second",
+            "the second (day, time etc)",
+            "secondary",
+            "vice-",
+            "sub-",
+            "infra-",
+            "inferior quality",
+            "substandard",
+            "order",
+            "sequence",
+            "hypo- (chemistry)",
+            "classifier for enumerated events: time"
+          ]
+        },
+        {
+          "id": "L1-0120",
+          "simp": "个",
+          "trad": "個",
+          "pinyin": "gè",
+          "pos": "M",
+          "en": "used in 自個兒|自个儿[zi4 ge3 r5]",
+          "defs": [
+            "used in 自個兒|自个儿[zi4 ge3 r5]",
+            "(classifier used before a noun that has no specific classifier)",
+            "(bound form) individual"
+          ]
+        },
+        {
+          "id": "L1-0143",
+          "simp": "号",
+          "trad": "號",
+          "pinyin": "hào",
+          "pos": "N/M",
+          "en": "roar",
+          "defs": [
+            "roar",
+            "cry",
+            "CL:個|个[ge4]",
+            "ordinal number",
+            "day of a month",
+            "mark",
+            "sign",
+            "business establishment",
+            "size",
+            "ship suffix",
+            "horn (wind instrument)",
+            "bugle call",
+            "assumed name",
+            "to take a pulse",
+            "classifier used to indicate number of people"
+          ]
+        },
+        {
+          "id": "L1-0166",
+          "simp": "记",
+          "trad": "記",
+          "pinyin": "jì",
+          "pos": "V",
+          "en": "to record",
+          "defs": [
+            "to record",
+            "to note",
+            "to memorize",
+            "to remember",
+            "mark",
+            "sign",
+            "classifier for blows, kicks, shots"
+          ]
+        },
+        {
+          "id": "L1-0172",
+          "simp": "间",
+          "trad": "間",
+          "pinyin": "jiān",
+          "pos": "M",
+          "en": "between",
+          "defs": [
+            "between",
+            "among",
+            "within a definite time or space",
+            "room",
+            "section of a room or lateral space between two pairs of pillars",
+            "classifier for rooms",
+            "gap",
+            "to separate",
+            "to thin out (seedlings)",
+            "to sow discontent"
+          ]
+        },
+        {
+          "id": "L1-0202",
+          "simp": "口",
+          "trad": "口",
+          "pinyin": "kǒu",
+          "pos": "M/N",
+          "en": "mouth",
+          "defs": [
+            "mouth",
+            "classifier for things with mouths (people, domestic animals, cannons, wells etc)",
+            "classifier for bites or mouthfuls"
+          ]
+        },
+        {
+          "id": "L1-0238",
+          "simp": "门",
+          "trad": "門",
+          "pinyin": "mén",
+          "pos": "N/M",
+          "en": "gate",
+          "defs": [
+            "gate",
+            "door",
+            "CL:扇[shan4]",
+            "gateway",
+            "doorway",
+            "CL:個|个[ge4]",
+            "opening",
+            "valve",
+            "switch",
+            "way to do something",
+            "knack",
+            "family",
+            "house",
+            "(religious) sect",
+            "school (of thought)",
+            "class",
+            "category",
+            "phylum or division (taxonomy)",
+            "classifier for large guns",
+            "classifier for lessons, subjects, branches of technology",
+            "(suffix) -gate (i.e. scandal; derived from Watergate)"
+          ]
+        },
+        {
+          "id": "L1-0353",
+          "simp": "岁",
+          "trad": "歲",
+          "pinyin": "suì",
+          "pos": "M",
+          "en": "classifier for years (of age)",
+          "defs": [
+            "classifier for years (of age)",
+            "year",
+            "year (of crop harvests)"
+          ]
+        },
+        {
+          "id": "L1-0426",
+          "simp": "页",
+          "trad": "頁",
+          "pinyin": "yè",
+          "pos": "M",
+          "en": "head",
+          "defs": [
+            "head",
+            "page",
+            "leaf"
+          ]
+        }
+      ]
+    },
+    "b1-opinions": {
+      "targetWords": 0,
+      "allocatedWords": 9,
+      "words": [
+        {
+          "id": "L1-0001",
+          "simp": "爱",
+          "trad": "愛",
+          "pinyin": "ài",
+          "pos": "V",
+          "en": "to love; to be fond of; to like",
+          "defs": [
+            "to love; to be fond of; to like",
+            "affection",
+            "to be inclined (to do sth); to tend to (happen)"
+          ]
+        },
+        {
+          "id": "L1-0002",
+          "simp": "爱好",
+          "trad": "愛好",
+          "pinyin": "àihào",
+          "pos": "V/N",
+          "en": "to like; to be fond of; to take pleasure in; to be keen on",
+          "defs": [
+            "to like; to be fond of; to take pleasure in; to be keen on",
+            "interest; hobby",
+            "CL:個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L1-0116",
+          "simp": "高兴",
+          "trad": "高興",
+          "pinyin": "gāoxìng",
+          "pos": "Adj",
+          "en": "happy",
+          "defs": [
+            "happy",
+            "glad",
+            "willing (to do sth)",
+            "in a cheerful mood"
+          ]
+        },
+        {
+          "id": "L1-0173",
+          "simp": "见",
+          "trad": "見",
+          "pinyin": "jiàn",
+          "pos": "V",
+          "en": "to see",
+          "defs": [
+            "to see",
+            "to meet",
+            "to appear (to be sth)",
+            "to interview",
+            "opinion",
+            "view",
+            "to appear",
+            "also written 現|现[xian4]"
+          ]
+        },
+        {
+          "id": "L1-0187",
+          "simp": "觉得",
+          "trad": "覺得",
+          "pinyin": "juéde",
+          "pos": "V",
+          "en": "to think that ...; to feel that ...",
+          "defs": [
+            "to think that ...; to feel that ...",
+            "to feel (uncomfortable etc)"
+          ]
+        },
+        {
+          "id": "L1-0330",
+          "simp": "生气",
+          "trad": "生氣",
+          "pinyin": "shēngqì",
+          "pos": "",
+          "en": "to get angry; to be furious",
+          "defs": [
+            "to get angry; to be furious",
+            "vitality; liveliness"
+          ]
+        },
+        {
+          "id": "L1-0388",
+          "simp": "喜欢",
+          "trad": "喜歡",
+          "pinyin": "xǐhuan",
+          "pos": "V",
+          "en": "to like; to be fond of",
+          "defs": [
+            "to like; to be fond of"
+          ]
+        },
+        {
+          "id": "L1-0400",
+          "simp": "想",
+          "trad": "想",
+          "pinyin": "xiǎng",
+          "pos": "V",
+          "en": "to think (about)",
+          "defs": [
+            "to think (about)",
+            "to think of; to devise",
+            "to think (that); to believe (that)",
+            "to desire; to want (to)",
+            "to miss (feel wistful about the absence of)"
+          ]
+        },
+        {
+          "id": "L1-0423",
+          "simp": "要",
+          "trad": "要",
+          "pinyin": "yào",
+          "pos": "V",
+          "en": "(bound form) to demand; to coerce",
+          "defs": [
+            "(bound form) to demand; to coerce",
+            "to want; to need; to ask for",
+            "will; shall; about to",
+            "need to; should",
+            "if (same as 要是[yao4 shi5])",
+            "(bound form) important"
+          ]
+        }
+      ]
+    },
+    "b1-ability": {
+      "targetWords": 0,
+      "allocatedWords": 5,
+      "words": [
+        {
+          "id": "L1-0005",
+          "simp": "吧",
+          "trad": "吧",
+          "pinyin": "ba",
+          "pos": "Aux",
+          "en": "bar (loanword) (serving drinks, or providing Internet access etc)",
+          "defs": [
+            "bar (loanword) (serving drinks, or providing Internet access etc)",
+            "to puff (on a pipe etc)",
+            "(onom.) bang",
+            "abbr. for 貼吧|贴吧[tie1 ba1]",
+            "(modal particle indicating suggestion or surmise)",
+            "...right?",
+            "...OK?",
+            "...I presume.",
+            "(onom.) smack!"
+          ]
+        },
+        {
+          "id": "L1-0066",
+          "simp": "地",
+          "trad": "地",
+          "pinyin": "de",
+          "pos": "Aux",
+          "en": "-ly",
+          "defs": [
+            "-ly",
+            "structural particle: used before a verb or adjective, linking it to preceding modifying adverbial adjunct",
+            "earth",
+            "ground",
+            "field",
+            "place",
+            "land",
+            "CL:片[pian4]"
+          ]
+        },
+        {
+          "id": "L1-0160",
+          "simp": "会",
+          "trad": "會",
+          "pinyin": "huì",
+          "pos": "V",
+          "en": "can; to have the skill; to know how to",
+          "defs": [
+            "can; to have the skill; to know how to",
+            "to be likely to; to be sure to",
+            "to meet; to get together",
+            "meeting; gathering",
+            "(suffix) union; group; association",
+            "(bound form) a moment (Taiwan pr. [hui3])",
+            "(bound form) to reckon accounts"
+          ]
+        },
+        {
+          "id": "L1-0210",
+          "simp": "了",
+          "trad": "了",
+          "pinyin": "le",
+          "pos": "Aux",
+          "en": "(completed action marker)",
+          "defs": [
+            "(completed action marker)",
+            "(modal particle indicating change of state, situation now)",
+            "(modal particle intensifying preceding clause)",
+            "to finish",
+            "(used with 得[de2] or 不[bu4] after a verb to express (im)possibility, as in 忘不了[wang4 bu5 liao3] \"cannot forget\")",
+            "(literary) (usually followed by a negative such as 無|无[wu2] or 不[bu4]) completely (not); entirely (not); (not) in the least",
+            "to understand clearly (variant of 瞭|了[liao3])"
+          ]
+        },
+        {
+          "id": "L1-0270",
+          "simp": "能",
+          "trad": "能",
+          "pinyin": "néng",
+          "pos": "V",
+          "en": "can",
+          "defs": [
+            "can",
+            "to be able to",
+            "might possibly",
+            "ability",
+            "(physics) energy"
+          ]
+        }
+      ]
+    },
+    "b1-comparison": {
+      "targetWords": 0,
+      "allocatedWords": 3,
+      "words": [
+        {
+          "id": "L1-0024",
+          "simp": "比",
+          "trad": "比",
+          "pinyin": "bǐ",
+          "pos": "Prep/V",
+          "en": "Belgium",
+          "defs": [
+            "Belgium",
+            "Belgian",
+            "abbr. for 比利時|比利时[Bi3 li4 shi2]",
+            "euphemistic variant of 屄[bi1]",
+            "to compare",
+            "(followed by a noun and adjective) more {adj.} than {noun}",
+            "ratio",
+            "to gesture",
+            "(Taiwan pr. [bi4] in some compounds derived from Classical Chinese)"
+          ]
+        },
+        {
+          "id": "L1-0249",
+          "simp": "拿",
+          "trad": "拿",
+          "pinyin": "ná",
+          "pos": "V",
+          "en": "to hold",
+          "defs": [
+            "to hold",
+            "to seize",
+            "to catch",
+            "to apprehend",
+            "to take",
+            "(used in the same way as 把[ba3]: to mark the following noun as a direct object)"
+          ]
+        },
+        {
+          "id": "L1-0435",
+          "simp": "一样",
+          "trad": "一樣",
+          "pinyin": "yīyàng",
+          "pos": "Adj",
+          "en": "same",
+          "defs": [
+            "same",
+            "like",
+            "equal to",
+            "the same as",
+            "just like"
+          ]
+        }
+      ]
+    },
+    "b1-listening": {
+      "targetWords": 0,
+      "allocatedWords": 6,
+      "words": [
+        {
+          "id": "L1-0040",
+          "simp": "唱",
+          "trad": "唱",
+          "pinyin": "chàng",
+          "pos": "V",
+          "en": "to sing",
+          "defs": [
+            "to sing",
+            "to call loudly",
+            "to chant"
+          ]
+        },
+        {
+          "id": "L1-0041",
+          "simp": "唱歌",
+          "trad": "唱歌",
+          "pinyin": "chànggē",
+          "pos": "",
+          "en": "to sing a song",
+          "defs": [
+            "to sing a song"
+          ]
+        },
+        {
+          "id": "L1-0119",
+          "simp": "歌",
+          "trad": "歌",
+          "pinyin": "gē",
+          "pos": "N",
+          "en": "song (CL:首[shou3],支[zhi1])",
+          "defs": [
+            "song (CL:首[shou3],支[zhi1])",
+            "(bound form) to sing"
+          ]
+        },
+        {
+          "id": "L1-0361",
+          "simp": "听",
+          "trad": "聽",
+          "pinyin": "tīng",
+          "pos": "V",
+          "en": "to listen to; to hear",
+          "defs": [
+            "to listen to; to hear",
+            "to heed; to obey",
+            "a can (loanword from English \"tin\")",
+            "classifier for canned beverages",
+            "to let be; to allow (Taiwan pr. [ting4])",
+            "(literary) to administer; to deal with (Taiwan pr. [ting4])"
+          ]
+        },
+        {
+          "id": "L1-0362",
+          "simp": "听到",
+          "trad": "聽到",
+          "pinyin": "tīngdào",
+          "pos": "",
+          "en": "to hear",
+          "defs": [
+            "to hear"
+          ]
+        },
+        {
+          "id": "L1-0363",
+          "simp": "听见",
+          "trad": "聽見",
+          "pinyin": "tīngjiàn",
+          "pos": "",
+          "en": "to hear",
+          "defs": [
+            "to hear"
+          ]
+        }
+      ]
+    },
+    "b1-speaking": {
+      "targetWords": 0,
+      "allocatedWords": 6,
+      "words": [
+        {
+          "id": "L1-0058",
+          "simp": "打电话",
+          "trad": "打電話",
+          "pinyin": "dǎ diànhuà",
+          "pos": "",
+          "en": "to make a telephone call",
+          "defs": [
+            "to make a telephone call"
+          ]
+        },
+        {
+          "id": "L1-0117",
+          "simp": "告诉",
+          "trad": "告訴",
+          "pinyin": "gàosu",
+          "pos": "V",
+          "en": "to press charges; to file a complaint",
+          "defs": [
+            "to press charges; to file a complaint",
+            "to tell; to inform; to let know"
+          ]
+        },
+        {
+          "id": "L1-0151",
+          "simp": "话",
+          "trad": "話",
+          "pinyin": "huà",
+          "pos": "N",
+          "en": "dialect",
+          "defs": [
+            "dialect",
+            "language",
+            "spoken words",
+            "speech",
+            "talk",
+            "words",
+            "conversation",
+            "what sb said",
+            "CL:種|种[zhong3],席[xi2],句[ju4],口[kou3],番[fan1]"
+          ]
+        },
+        {
+          "id": "L1-0176",
+          "simp": "叫",
+          "trad": "叫",
+          "pinyin": "jiào",
+          "pos": "V",
+          "en": "to shout",
+          "defs": [
+            "to shout",
+            "to call",
+            "to order",
+            "to ask",
+            "to be called",
+            "by (indicates agent in the passive mood)"
+          ]
+        },
+        {
+          "id": "L1-0349",
+          "simp": "说",
+          "trad": "說",
+          "pinyin": "shuō",
+          "pos": "V",
+          "en": "to persuade",
+          "defs": [
+            "to persuade",
+            "to speak; to talk; to say",
+            "to explain; to comment",
+            "to scold; to tell off",
+            "(bound form) theory; doctrine"
+          ]
+        },
+        {
+          "id": "L1-0350",
+          "simp": "说话",
+          "trad": "說話",
+          "pinyin": "shuōhuà",
+          "pos": "",
+          "en": "to speak",
+          "defs": [
+            "to speak",
+            "to say",
+            "to talk",
+            "to gossip",
+            "to tell stories",
+            "talk",
+            "word"
+          ]
+        }
+      ]
+    }
+  }
+}
