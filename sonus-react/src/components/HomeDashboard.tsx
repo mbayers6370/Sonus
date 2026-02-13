@@ -289,15 +289,11 @@ export default function HomeDashboard({
           {hasSavedLessonPath ? (
             <>
               <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-2">Lesson Path</div>
-              <div className="text-sm text-text-med mb-1">
-                <span className="font-semibold text-text-dark">{formatBandLabel(progress.currentBandId)}</span>
-              </div>
-              <div className="text-sm text-text-med mb-1">
-                <span className="font-semibold text-text-dark">{formatUnitLabel(progress.currentUnitId)}</span>
+              <div className="text-sm text-text-dark font-medium mb-1">
+                {formatBandLabel(progress.currentBandId)}
               </div>
               <div className="text-sm text-text-med mb-4">
-                Lesson{' '}
-                <span className="font-semibold text-text-dark">{lessonNumber}</span>
+                {formatUnitLabel(progress.currentUnitId)} · Lesson {lessonNumber}
               </div>
             </>
           ) : (
@@ -328,25 +324,25 @@ export default function HomeDashboard({
           </div>
         </section>
 
-        <section className="bg-white text-text-dark border border-[#C2410C]/35 rounded-2xl p-5 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(194,65,12,0.26)]">
-          <div className="font-playfair text-2xl leading-none mb-3 text-[#C2410C]">Daily Phrase</div>
+        <section className="bg-[#C2410C] text-white border border-[#C2410C] rounded-2xl p-5 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(194,65,12,0.32)]">
+          <div className="font-playfair text-2xl leading-none mb-3 text-white">Daily Phrase</div>
           {selectedLanguage === 'zh' ? (
-            <>
-              <p className="font-noto-serif text-xl text-text-dark mb-1">{spotlightPhrase.text}</p>
-              <p className="text-xs text-text-med">{spotlightPhrase.source}</p>
+            <div className="flex flex-col min-h-[186px]">
+              <p className="font-noto-serif text-xl text-white mb-1">{spotlightPhrase.text}</p>
+              <p className="text-xs text-white/80">{spotlightPhrase.source}</p>
               {spotlightTranslation ? (
-                <p className="text-xs text-text-med mt-2 italic">English: {spotlightTranslation}</p>
+                <p className="text-xs text-white/85 mt-2 italic">English: {spotlightTranslation}</p>
               ) : null}
               <button
                 onClick={speakPhrase}
-                className="mt-3 w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[rgba(194,65,12,0.10)] border border-[#C2410C]/25 text-[#C2410C] text-sm font-medium hover:bg-[rgba(194,65,12,0.16)] transition-colors"
+                className="mt-auto w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-white/12 border border-white/30 text-white text-sm font-medium hover:bg-white/20 transition-colors"
               >
-                <Mic className="w-4 h-4" />
+                <Mic className="w-3.5 h-3.5" />
                 Pronounce Phrase
               </button>
-            </>
+            </div>
           ) : (
-            <p className="text-sm text-text-med">New phrase drops here for your active language.</p>
+            <p className="text-sm text-white/85">New phrase drops here for your active language.</p>
           )}
         </section>
 
