@@ -282,7 +282,7 @@ export default function HomeDashboard({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
 
         <section className="bg-white text-text-dark border border-[#1E3A8A]/35 rounded-2xl p-5 min-h-[210px] shadow-[0_20px_40px_-28px_rgba(30,58,138,0.28)]">
           <div className="font-playfair text-2xl leading-none mb-3 text-[#1E3A8A]">Resume</div>
@@ -313,13 +313,13 @@ export default function HomeDashboard({
         <section className="bg-white text-text-dark border border-[#1E3A8A]/35 rounded-2xl p-5 min-h-[210px] shadow-[0_20px_40px_-28px_rgba(30,58,138,0.28)]">
           <div className="font-playfair text-2xl leading-none mb-3 text-[#1E3A8A]">Today</div>
           <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="p-3 rounded-xl bg-[rgba(77,124,15,0.10)] border border-[#4D7C0F]/20">
-              <div className="text-[10px] uppercase tracking-wider font-mono text-text-light mb-1">Streak</div>
-              <div className="text-xl font-semibold text-[#4D7C0F]">{progress.streak}</div>
+            <div className="p-3 rounded-xl bg-[rgba(77,124,15,0.10)] border border-[#4D7C0F]/20 min-h-[96px] flex flex-col">
+              <div className="text-[10px] uppercase tracking-wider font-mono text-text-light">Streak</div>
+              <div className="mt-auto text-right text-4xl leading-none font-semibold text-[#4D7C0F]">{progress.streak}</div>
             </div>
-            <div className="p-3 rounded-xl bg-[rgba(55,65,81,0.08)] border border-[#374151]/20">
-              <div className="text-[10px] uppercase tracking-wider font-mono text-text-light mb-1">Needs Work</div>
-              <div className="text-xl font-semibold text-[#374151]">{needsWorkCount}</div>
+            <div className="p-3 rounded-xl bg-[rgba(55,65,81,0.08)] border border-[#374151]/20 min-h-[96px] flex flex-col">
+              <div className="text-[10px] uppercase tracking-wider font-mono text-text-light">Needs Work</div>
+              <div className="mt-auto text-right text-4xl leading-none font-semibold text-[#374151]">{needsWorkCount}</div>
             </div>
           </div>
         </section>
@@ -327,7 +327,7 @@ export default function HomeDashboard({
         <section className="bg-[#C2410C] text-white border border-[#C2410C] rounded-2xl p-5 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(194,65,12,0.32)]">
           <div className="font-playfair text-2xl leading-none mb-3 text-white">Daily Phrase</div>
           {selectedLanguage === 'zh' ? (
-            <div className="flex flex-col min-h-[186px]">
+            <div className="flex flex-col h-full min-h-[186px]">
               <p className="font-noto-serif text-xl text-white mb-1">{spotlightPhrase.text}</p>
               <p className="text-xs text-white/80">{spotlightPhrase.source}</p>
               {spotlightTranslation ? (
@@ -335,7 +335,7 @@ export default function HomeDashboard({
               ) : null}
               <button
                 onClick={speakPhrase}
-                className="mt-auto w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-white/12 border border-white/30 text-white text-sm font-medium hover:bg-white/20 transition-colors"
+                className="mt-auto mb-8 w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-white/12 border border-white/30 text-white text-sm font-medium hover:bg-white/20 transition-colors"
               >
                 <Mic className="w-3.5 h-3.5" />
                 Pronounce Phrase
@@ -393,7 +393,7 @@ export default function HomeDashboard({
           )}
         </section>
 
-        <section className="col-span-2 bg-white text-text-dark border border-[#374151]/35 rounded-2xl p-5 shadow-[0_20px_40px_-28px_rgba(55,65,81,0.22)]">
+        <section className="md:col-span-2 bg-white text-text-dark border border-[#374151]/35 rounded-2xl p-5 shadow-[0_20px_40px_-28px_rgba(55,65,81,0.22)]">
           <div className="font-playfair text-2xl leading-none mb-3 text-[#374151]">Shortcuts</div>
           <div className="grid grid-cols-1 gap-2">
             <button

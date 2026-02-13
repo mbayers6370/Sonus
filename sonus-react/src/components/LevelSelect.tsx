@@ -528,7 +528,7 @@ export default function LevelSelect({
   return (
     <div className="min-h-screen page-shell px-6 pt-14 pb-24">
       {/* Header */}
-      <div className="relative mb-10">
+      <div className="relative mb-10 pt-4">
         <button
           onClick={() => {
             if (state.selectedLanguage === 'zh' && activeTier !== null) {
@@ -537,13 +537,13 @@ export default function LevelSelect({
               onBack();
             }
           }}
-          className="absolute left-0 -top-1 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
+          className="absolute left-0 top-0 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
         >
           <ChevronLeft className="w-4.5 h-4.5" />
           <span className="text-sm">Back</span>
         </button>
 
-        <div className="text-center px-12">
+        <div className="text-center px-12 pt-8">
           <h1 className="font-playfair text-5xl font-normal text-text-dark mb-2">
             {getLanguageName()}
           </h1>
