@@ -7,12 +7,13 @@ import BottomNav from './BottomNav';
 import { getUnitMetadata } from '../data/unitMetadata';
 
 interface LessonScreenProps {
+  onBack: () => void;
   onGoHome: () => void;
   onOpenProfile: () => void;
 }
 
-export default function LessonScreen({ onGoHome, onOpenProfile }: LessonScreenProps) {
-  const { state, setLessonMode, nextWord, prevWord, exitLesson } = useApp();
+export default function LessonScreen({ onBack, onGoHome, onOpenProfile }: LessonScreenProps) {
+  const { state, setLessonMode, nextWord, prevWord } = useApp();
   const { activeLesson, lessonMode, lessonWordIndex, activeBandId } = state;
 
   if (!activeLesson) {
@@ -30,9 +31,11 @@ export default function LessonScreen({ onGoHome, onOpenProfile }: LessonScreenPr
   const isPracticeUnit = isListeningPractice || isSpeakingPractice;
   const unitMeta =
     activeBandId && activeLesson.unitId ? getUnitMetadata(activeBandId, activeLesson.unitId) : undefined;
-  const titleText = isPracticeUnit ? 'Skill Lab' : `Unit ${activeLesson.unitOrder ?? activeLesson.lessonIndex + 1}`;
+  const titleText = isPracticeUnit
+    ? (isListeningPractice ? 'Listening Practice' : 'Speaking Practice')
+    : `Unit ${activeLesson.unitOrder ?? activeLesson.lessonIndex + 1}`;
   const subtitleText = isPracticeUnit
-    ? unitMeta?.name || activeLesson.unitName || (isListeningPractice ? 'Listening Practice' : 'Speaking Practice')
+    ? unitMeta?.description || activeLesson.unitName || 'Focused practice'
     : activeLesson.unitName || `Unit ${activeLesson.unitId}`;
   const speakingPageTheme = isSpeakingPractice
     ? {
@@ -51,7 +54,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile }: LessonScreenPr
       };
 
   const handleBack = () => {
-    exitLesson();
+    onBack();
   };
 
   return (

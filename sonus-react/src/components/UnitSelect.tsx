@@ -66,7 +66,7 @@ export default function UnitSelect({
   onOpenProfile,
 }: UnitSelectProps) {
   const { state } = useApp();
-  const { currentLevel, activeBandData, lessonProgress } = state;
+  const { currentLevel, activeBandData, lessonProgress, resumeCheckpoint } = state;
   const [viewportWidth, setViewportWidth] = useState(
     typeof window === 'undefined' ? 1280 : window.innerWidth
   );
@@ -95,7 +95,8 @@ export default function UnitSelect({
       const unitData = activeBandData.units[metadata.id];
       if (!unitData) return null;
       const practiceType = getPracticeType(metadata.id);
-      if (!practiceType && unitData.words.length === 0) return null;
+      const isMacroBlueprint = currentLevel.band >= 7 && !practiceType && unitData.words.length === 0;
+      if (!practiceType && unitData.words.length === 0 && !isMacroBlueprint) return null;
       if (practiceType) {
         return {
           unitId: metadata.id,
@@ -106,6 +107,7 @@ export default function UnitSelect({
           completedLessons: 0,
           averageLessonProgress: 0,
           practiceType,
+          isBlueprint: false,
         };
       }
 
@@ -139,6 +141,7 @@ export default function UnitSelect({
         completedLessons,
         averageLessonProgress,
         practiceType: null as null,
+        isBlueprint: isMacroBlueprint,
       };
     })
     .filter((item): item is NonNullable<typeof item> => item !== null);
@@ -178,7 +181,7 @@ export default function UnitSelect({
       {!activeUnit && (
       <div className="pt-2">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {unitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, averageLessonProgress, practiceType }, index) => {
+          {unitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, averageLessonProgress, practiceType, isBlueprint }, index) => {
             const row = Math.floor(index / columns);
             const col = index % columns;
             const accent = CARD_ACCENTS[(col + row) % CARD_ACCENTS.length];
@@ -204,7 +207,7 @@ export default function UnitSelect({
                     <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/20 text-white">
                       <Icon className="w-3.5 h-3.5 text-white" />
                       <span className="text-xs font-semibold uppercase tracking-wider font-mono text-white">
-                        Skill Lab
+                        {practiceType === 'listening' ? 'Listening Practice' : 'Speaking Practice'}
                       </span>
                     </div>
                     <span className="text-xs font-mono text-white/85">Practice</span>
@@ -230,12 +233,16 @@ export default function UnitSelect({
               );
             }
             const isUnitComplete = lessonsCount > 0 && completedLessons === lessonsCount;
-            const depth = isUnitComplete ? 100 : Math.max(4, averageLessonProgress);
+            const depth = isBlueprint ? 0 : isUnitComplete ? 100 : Math.max(4, averageLessonProgress);
 
             return (
               <button
                 key={unitId}
-                onClick={() => setActiveUnitId(unitId)}
+                onClick={() => {
+                  if (isBlueprint) return;
+                  setActiveUnitId(unitId);
+                }}
+                disabled={isBlueprint}
                 className={`${isUnitComplete ? `${accent.badgeText === 'text-[#1E3A8A]' ? 'bg-[#1E3A8A]' : accent.badgeText === 'text-[#4D7C0F]' ? 'bg-[#4D7C0F]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : 'bg-white text-text-dark'} border-2 ${accent.borderColor} rounded-2xl min-h-[150px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`}
               >
                 <div className="flex items-start justify-between mb-4">
@@ -262,6 +269,11 @@ export default function UnitSelect({
                 <div className={`mt-3 text-[11px] leading-snug ${isUnitComplete ? 'text-white/90' : 'text-text-med'}`}>
                   {metadata.description}
                 </div>
+                {isBlueprint && metadata.microUnits && metadata.microUnits.length > 0 && (
+                  <div className={`mt-2 text-[11px] leading-snug ${isUnitComplete ? 'text-white/85' : 'text-text-light'}`}>
+                    Focus: {metadata.microUnits.slice(0, 3).join(' · ')}
+                  </div>
+                )}
 
                 <div className="mt-4">
                   <div className="h-1.5 w-full rounded-full bg-border/80 overflow-hidden">
@@ -276,7 +288,9 @@ export default function UnitSelect({
                 </div>
 
                 <div className={`mt-4 text-xs font-semibold uppercase tracking-wider font-mono ${isUnitComplete ? 'text-white' : accent.badgeText}`}>
-                  {isUnitComplete
+                  {isBlueprint
+                    ? 'Planned →'
+                    : isUnitComplete
                     ? 'Unit complete'
                     : lessonsCount > 1
                       ? `Choose lesson (${lessonsCount}) →`
@@ -304,6 +318,10 @@ export default function UnitSelect({
               const lessonKey = makeLessonKey(currentLevel.id, activeUnit.unitId, lessonIndex);
               const isLessonComplete = Boolean(lessonProgress[lessonKey]?.completed);
               const lessonStatus = lessonProgress[lessonKey];
+              const isResumeCandidate =
+                resumeCheckpoint?.bandId === currentLevel.id &&
+                resumeCheckpoint?.unitId === activeUnit.unitId &&
+                resumeCheckpoint?.lessonIndex === lessonIndex;
               const lessonChecks =
                 (lessonStatus?.introViewed ? 1 : 0) +
                 ((lessonStatus?.quizScore ?? 0) >= 90 ? 1 : 0) +
@@ -331,7 +349,13 @@ export default function UnitSelect({
                   </div>
 
                   <div className={`mt-4 text-xs font-semibold uppercase tracking-wider font-mono ${isLessonComplete ? 'text-white' : accent.badgeText}`}>
-                    {isLessonComplete ? 'Complete' : lessonChecks > 0 ? `${lessonChecks}/3 checks` : 'Start →'}
+                    {isLessonComplete
+                      ? 'Complete'
+                      : isResumeCandidate
+                        ? 'Resume →'
+                        : lessonChecks > 0
+                          ? `${lessonChecks}/3 checks`
+                          : 'Start →'}
                   </div>
                 </button>
               );

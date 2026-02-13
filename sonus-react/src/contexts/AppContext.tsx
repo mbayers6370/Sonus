@@ -34,6 +34,43 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const STORAGE_KEY = 'sonus-app-state';
+const ALL_LEVEL_IDS = [
+  'intro',
+  'band1',
+  'band2',
+  'band3',
+  'band4',
+  'band5',
+  'band6',
+  'band7',
+  'band8',
+  'band9',
+  'advanced',
+  'n5',
+  'n4',
+  'n3',
+  'n2',
+  'n1',
+  'topik1-1',
+  'topik1-2',
+  'topik2-3',
+  'topik2-4',
+  'topik2-5',
+  'topik2-6',
+  'a1',
+  'a2',
+  'b1',
+  'b2',
+  'c1',
+  'c2',
+] as const;
+
+function resolveBandDataId(bandId: string) {
+  if (bandId === 'band7' || bandId === 'band8' || bandId === 'band9' || bandId === 'advanced') {
+    return 'band7-9';
+  }
+  return bandId;
+}
 
 function formatUnitLabel(unitId: string) {
   return unitId
@@ -98,10 +135,18 @@ function isPracticeUnit(unitId: string) {
 }
 
 function buildPracticeWordPool(bandData: BandData, count: number): Word[] {
+  const sampleUnitId = Object.keys(bandData.units || {}).find((unitId) => unitId !== '_unallocated');
+  const unitStem = sampleUnitId ? sampleUnitId.split('-')[0] : `b${bandData.band}`;
+  const bandUnitPrefix = `${unitStem}-`;
   // Build a deterministic pool for skill labs from real band vocab only
   // (exclude synthetic units such as listening/speaking and unallocated slots).
   const pool = Object.entries(bandData.units)
-    .filter(([unitId]) => unitId !== '_unallocated' && !isPracticeUnit(unitId))
+    .filter(
+      ([unitId]) =>
+        unitId.startsWith(bandUnitPrefix) &&
+        unitId !== '_unallocated' &&
+        !isPracticeUnit(unitId)
+    )
     .flatMap(([, unit]) => unit.words || []);
   const uniqueById = new Map(pool.map((word) => [word.id, word]));
   return shuffleWords(Array.from(uniqueById.values()))
@@ -188,7 +233,7 @@ const initialState: AppState = {
   levelProgress: {},
   lessonProgress: {},
   completedLevels: [],
-  unlockedLevels: ['intro', 'band1'],
+  unlockedLevels: [...ALL_LEVEL_IDS],
   activeLesson: null,
   lessonMode: 'intro',
   lessonWordIndex: 0,
@@ -196,6 +241,7 @@ const initialState: AppState = {
   speakResultsByIndex: {},
   speakBreakdownByIndex: {},
   lastActiveDate: null,
+  resumeCheckpoint: null,
   activeBandId: null,
   activeBandData: null,
   activeUnitId: null,
@@ -211,6 +257,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         return {
           ...initialState,
           ...parsed,
+          unlockedLevels: Array.from(
+            new Set([...(parsed.unlockedLevels || []), ...ALL_LEVEL_IDS])
+          ),
           lessonProgress: normalizeLessonProgressKeys(parsed.lessonProgress || {}),
         };
       } catch {
@@ -237,6 +286,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       quizResultsByIndex: {},
       speakResultsByIndex: {},
       speakBreakdownByIndex: {},
+      resumeCheckpoint: null,
     }));
   };
 
@@ -252,7 +302,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const response = await fetch(`/data/zh/${level.id}.json`);
+      const dataBandId = resolveBandDataId(level.id);
+      const response = await fetch(`/data/zh/${dataBandId}.json`);
       if (!response.ok) throw new Error(`Failed to load ${level.id}`);
       const bandData: BandData = await response.json();
 
@@ -270,11 +321,42 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const openLessonPath = async (bandId: string, unitId: string, lessonIndex: number): Promise<boolean> => {
     try {
-      const response = await fetch(`/data/zh/${bandId}.json`);
+      const dataBandId = resolveBandDataId(bandId);
+      const response = await fetch(`/data/zh/${dataBandId}.json`);
       if (!response.ok) return false;
       const bandData: BandData = await response.json();
       const unit = bandData.units[unitId];
       if (!unit) return false;
+
+      const resumeCheckpoint = state.resumeCheckpoint;
+      const canResumeSameLesson =
+        Boolean(resumeCheckpoint) &&
+        resumeCheckpoint?.bandId === bandId &&
+        resumeCheckpoint?.unitId === unitId &&
+        resumeCheckpoint?.lessonIndex === lessonIndex;
+
+      if (canResumeSameLesson && resumeCheckpoint) {
+        setState((prev) => ({
+          ...prev,
+          activeBandId: bandId,
+          activeBandData: bandData,
+          activeUnitId: unitId,
+          activeLesson: resumeCheckpoint.activeLesson,
+          lessonMode: resumeCheckpoint.lessonMode,
+          lessonWordIndex: resumeCheckpoint.lessonWordIndex,
+          quizResultsByIndex: resumeCheckpoint.quizResultsByIndex,
+          speakResultsByIndex: resumeCheckpoint.speakResultsByIndex,
+          speakBreakdownByIndex: resumeCheckpoint.speakBreakdownByIndex,
+        }));
+        trackEvent('lesson_resumed', {
+          bandId,
+          unitId,
+          lessonIndex,
+          wordIndex: resumeCheckpoint.lessonWordIndex,
+          mode: resumeCheckpoint.lessonMode,
+        });
+        return true;
+      }
 
       const practiceMode = getPracticeModeFromUnit(unitId);
       const words = unit.words;
@@ -326,6 +408,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         quizResultsByIndex: {},
         speakResultsByIndex: {},
         speakBreakdownByIndex: {},
+        resumeCheckpoint: null,
       }));
       void saveCurrentLessonPath(bandId, unitId, lessonIndex);
       trackEvent('lesson_started', {
@@ -466,6 +549,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         ...prev,
         streak: newStreak,
         lastActiveDate: today,
+        resumeCheckpoint: null,
         lessonProgress: {
           ...prev.lessonProgress,
           [lessonKey]: {
@@ -492,12 +576,32 @@ export function AppProvider({ children }: { children: ReactNode }) {
       quizResultsByIndex: {},
       speakResultsByIndex: {},
       speakBreakdownByIndex: {},
+      resumeCheckpoint: null,
     }));
   };
 
   const exitLesson = () => {
     setState((prev) => ({
       ...prev,
+      resumeCheckpoint:
+        prev.activeLesson &&
+        prev.activeBandId &&
+        (prev.lessonWordIndex > 0 ||
+          prev.lessonMode !== 'intro' ||
+          Object.keys(prev.quizResultsByIndex).length > 0 ||
+          Object.keys(prev.speakResultsByIndex).length > 0)
+          ? {
+              bandId: prev.activeBandId,
+              unitId: prev.activeLesson.unitId,
+              lessonIndex: prev.activeLesson.lessonIndex,
+              lessonMode: prev.lessonMode,
+              lessonWordIndex: prev.lessonWordIndex,
+              activeLesson: prev.activeLesson,
+              quizResultsByIndex: prev.quizResultsByIndex,
+              speakResultsByIndex: prev.speakResultsByIndex,
+              speakBreakdownByIndex: prev.speakBreakdownByIndex,
+            }
+          : prev.resumeCheckpoint,
       activeLesson: null,
       lessonWordIndex: 0,
       lessonMode: 'intro',

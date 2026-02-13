@@ -46,6 +46,7 @@ export default function Quiz({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [allChoices, setAllChoices] = useState<string[]>(() => buildChoices(word, allWords));
   const { speak } = useAudio();
+  const explanationDefs = (word.defs && word.defs.length > 0 ? word.defs : [word.en]).slice(0, 2);
 
   const handleAnswer = (choice: string) => {
     if (selectedAnswer) return; // Already answered
@@ -116,15 +117,20 @@ export default function Quiz({
         >
             <div className="text-center">
               {word.isReview && (
-                <div
-                  className={`inline-flex mb-2 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
-                    listeningMode
-                      ? 'bg-white/20 text-white'
-                      : 'bg-[rgba(30,58,138,0.16)] text-[#1E3A8A]'
-                  }`}
-                >
-                  Review
-                </div>
+                <>
+                  <div
+                    className={`inline-flex mb-1 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
+                      listeningMode
+                        ? 'bg-white/20 text-white'
+                        : 'bg-[rgba(30,58,138,0.16)] text-[#1E3A8A]'
+                    }`}
+                  >
+                    Review Word
+                  </div>
+                  <div className={`mb-2 text-[11px] ${listeningMode ? 'text-white/80' : 'text-text-light'}`}>
+                    {word.reviewReason || 'Reinforcement word from your Needs Work queue.'}
+                  </div>
+                </>
               )}
               <div className={`text-sm mb-2 font-medium ${listeningMode ? 'text-white/90' : 'text-text-med'}`}>
                 {listeningMode ? 'Listen and choose the meaning' : 'What does this mean?'}
@@ -191,7 +197,7 @@ export default function Quiz({
 
         {/* Feedback */}
         {selectedAnswer && (
-          <div className="mb-4">
+          <div className="mb-4 space-y-2">
             {isCorrect ? (
               <div className="flex items-center gap-3 p-4 bg-[rgba(77,124,15,0.12)] border border-[#4D7C0F] rounded-xl text-[#4D7C0F]">
                 <CheckCircle className="w-6 h-6" />
@@ -204,7 +210,7 @@ export default function Quiz({
                 <div className="flex items-center gap-3">
                   <XCircle className="w-6 h-6" />
                   <span className="font-semibold">
-                    {word.isReview ? 'Needs reinforcement: this review word will come back.' : 'Not quite. Try again next time!'}
+                    {word.isReview ? 'Needs reinforcement: this review word will come back.' : 'Not quite. Let’s review it quickly.'}
                   </span>
                 </div>
                 {listeningMode && (
@@ -215,6 +221,24 @@ export default function Quiz({
                 )}
               </div>
             )}
+            <div className="rounded-xl border border-border bg-white p-3">
+              <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-1">
+                Why This Answer
+              </div>
+              <div className="text-sm text-text-dark font-semibold">
+                {word.simp}
+                {word.pinyin ? <span className="font-normal text-text-med"> ({word.pinyin})</span> : null}
+                {' · '}
+                {word.en}
+              </div>
+              <div className="mt-1 space-y-1">
+                {explanationDefs.map((def) => (
+                  <div key={def} className="text-sm text-text-med">
+                    • {def}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useApp } from '../contexts/AppContext';
 import type { LessonBand } from '../types/lesson.types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { getUnitsForBand } from '../data/unitMetadata';
 import BottomNav from './BottomNav';
 
 // Accent styling helpers
@@ -345,6 +346,7 @@ interface LevelCardProps {
   headerKicker?: string;
   bodyText?: string;
   accentOverride?: AccentKey;
+  showBadge?: boolean;
 }
 
 function LevelCard({
@@ -358,8 +360,13 @@ function LevelCard({
   headerKicker,
   bodyText,
   accentOverride,
+  showBadge = true,
 }: LevelCardProps) {
   const a = ACCENT[accentOverride ?? 'navy'];
+  const allUnits = getUnitsForBand(level.id);
+  const unitCount = allUnits.filter(
+    (unit) => !/listening$/i.test(unit.id) && !/speaking$/i.test(unit.id)
+  ).length;
 
   const effectiveBadge = badgeLabel ?? (level.id === 'intro' ? 'Intro' : 'Level');
   const effectiveTopRight =
@@ -382,11 +389,15 @@ function LevelCard({
     >
       <div className="w-full">
         <div className="flex items-start justify-between gap-4">
-          <span
-            className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${a.badgeBg} ${a.badgeText}`}
-          >
-            {effectiveBadge}
-          </span>
+          {showBadge ? (
+            <span
+              className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${a.badgeBg} ${a.badgeText}`}
+            >
+              {effectiveBadge}
+            </span>
+          ) : (
+            <span />
+          )}
 
           {effectiveTopRight ? (
             <div
@@ -422,7 +433,7 @@ function LevelCard({
               <div className="text-xs uppercase tracking-wider text-text-med">Vocabulary</div>
             </div>
             <div>
-              <span className="text-lg font-semibold">{level.units?.length ?? 0}</span>
+              <span className="text-lg font-semibold">{unitCount}</span>
               <div className="text-xs uppercase tracking-wider text-text-med">Units</div>
             </div>
           </div>
@@ -489,6 +500,18 @@ export default function LevelSelect({
   };
 
   const levels = getLevelsForLanguage();
+  const advancedTrackLevel: LessonBand = {
+    id: 'advanced',
+    band: 7,
+    name: 'Advanced',
+    title: 'Advanced',
+    subtitle: 'Bands 7–9 · Mastery',
+    wordCount: 0,
+    wordRange: 'Band 7–9',
+    color: 'bg-red-500',
+    description: 'Macro-unit track for Bands 7-9',
+    units: [],
+  };
 
   // Tier grouping (HSK structure for Mandarin)
   const [activeTier, setActiveTier] = useState<string | null>(null);
@@ -548,7 +571,10 @@ export default function LevelSelect({
             {getLanguageName()}
           </h1>
           <h2 className="text-base text-text-med italic">
-            Choose <span className="font-playfair">a level</span>
+            Choose{' '}
+            <span className="font-playfair">
+              {state.selectedLanguage === 'zh' && activeTier !== null ? 'a course' : 'a level'}
+            </span>
           </h2>
         </div>
       </div>
@@ -561,7 +587,13 @@ export default function LevelSelect({
             return (
             <button
               key={tier.id}
-              onClick={() => setActiveTier(tier.id)}
+              onClick={() => {
+                if (tier.id === 'advanced') {
+                  onSelectLevel(advancedTrackLevel);
+                  return;
+                }
+                setActiveTier(tier.id);
+              }}
               className={`w-full bg-white border-l-4 ${a.leftBorder} rounded-2xl p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${a.hoverShadow} active:translate-y-0`}
             >
               <div className="w-full">
@@ -587,14 +619,6 @@ export default function LevelSelect({
                       <span className="text-lg font-semibold">{tier.levels.length}</span>
                       <div className="text-xs uppercase tracking-wider text-text-med">
                         Bands
-                      </div>
-                    </div>
-                    <div>
-                      <span className="text-lg font-semibold">
-                        {tier.levels.reduce((sum, l) => sum + (l.units?.length ?? 0), 0)}
-                      </span>
-                      <div className="text-xs uppercase tracking-wider text-text-med">
-                        Units
                       </div>
                     </div>
                   </div>
@@ -652,6 +676,7 @@ export default function LevelSelect({
                     isCompleted={isCompleted}
                     onSelect={onSelectLevel}
                     badgeLabel={`Band ${level.band}`}
+                    showBadge={activeTier !== 'advanced'}
                     headerKicker={undefined}
                     bodyText={
                       level.description ||

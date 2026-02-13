@@ -50,7 +50,7 @@ export function useAudio() {
 
     const utterance = new SpeechSynthesisUtterance(textForPlayback);
     utterance.lang = lang;
-    utterance.rate = slow ? 0.3 : 0.9;
+    utterance.rate = slow ? 0.05 : 0.9;
     utterance.pitch = 1.0;
     utterance.volume = 1.0;
     if (voice) utterance.voice = voice;

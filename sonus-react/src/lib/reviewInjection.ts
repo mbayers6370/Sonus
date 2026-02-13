@@ -27,6 +27,8 @@ export function appendReviewWords(
   const pickedReviews = sampleWithoutReplacement(reviewCandidates, injectCount).map((word) => ({
     ...word,
     isReview: true,
+    reviewReason:
+      "Added from your Needs Work list after repeated misses. A correct answer clears it.",
   }));
 
   // Review words are appended so core lesson content is never replaced.

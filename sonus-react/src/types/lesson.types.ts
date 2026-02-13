@@ -1,13 +1,28 @@
 // Core vocabulary word structure
+export interface WordMetadata {
+  frequencyRank?: number;
+  strokeCount?: number;
+  tonePattern?: string; // e.g. "3", "4-1", "2-3-4"
+  difficultyWeight?: number; // relative weighting for scheduling/review
+  grammarTags?: string[]; // e.g. ["question-particle", "classifier"]
+  dependencies?: string[]; // word ids that should be introduced first
+}
+
 export interface Word {
   id: string;
   simp: string;
   trad: string;
   pinyin: string;
+  pinyinNum?: string; // canonical storage: syllables with tone numbers, e.g. "bei3 jing1"
+  variants?: string[]; // alternative real-world forms, e.g. ["星期日"] for preferred "星期天"
+  preferred?: boolean; // preferred teaching/display form when variants exist
+  mw?: string[]; // common measure words for nouns, e.g. ["个", "张", "本"]
   pos: string; // Part of speech: V, N, Adj, etc.
   en: string;
   defs: string[];
+  meta?: WordMetadata;
   isReview?: boolean;
+  reviewReason?: string;
 }
 
 // Lesson mode types
@@ -70,6 +85,18 @@ export interface BandData {
       targetWords: number;
       allocatedWords: number;
       words: Word[];
+      pedagogy?: {
+        prerequisites?: string[]; // unit ids
+        lexicalDensityTarget?: number; // target % of new words per lesson
+        grammarFocus?: string[]; // e.g. ["comparatives", "question words"]
+      };
+    };
+  };
+  curriculum?: {
+    prerequisites?: Record<string, string[]>;
+    lessonControls?: {
+      maxDefsPerWord?: number;
+      maxWordsPerLesson?: number;
     };
   };
 }
@@ -116,6 +143,17 @@ export interface AppState {
   speakResultsByIndex: Record<number, boolean>;
   speakBreakdownByIndex: Record<number, SpeakBreakdown>;
   lastActiveDate: string | null;
+  resumeCheckpoint: {
+    bandId: string;
+    unitId: string;
+    lessonIndex: number;
+    lessonMode: LessonMode;
+    lessonWordIndex: number;
+    activeLesson: ActiveLesson;
+    quizResultsByIndex: Record<number, boolean>;
+    speakResultsByIndex: Record<number, boolean>;
+    speakBreakdownByIndex: Record<number, SpeakBreakdown>;
+  } | null;
 
   // Band data cache
   activeBandId: string | null;

@@ -962,9 +962,14 @@ export default function SpeakMode({
         {!practiceMode ? (
           <div className="bg-[rgba(55,65,81,0.08)] rounded-2xl p-3 mb-3 text-center">
             {word.isReview && (
-              <div className="inline-flex mb-2 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(30,58,138,0.16)] text-[#1E3A8A]">
-                Review
-              </div>
+              <>
+                <div className="inline-flex mb-1 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(30,58,138,0.16)] text-[#1E3A8A]">
+                  Review Word
+                </div>
+                <div className="text-[11px] text-text-light mb-2">
+                  {word.reviewReason || 'Reinforcement from your Needs Work queue.'}
+                </div>
+              </>
             )}
             <div className="font-noto-serif text-4xl mb-1 text-text-dark">
               {word.simp}

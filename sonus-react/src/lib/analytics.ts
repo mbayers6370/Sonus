@@ -1,6 +1,7 @@
 export type AnalyticsEventName =
   | 'onboarding_language_selected'
   | 'lesson_started'
+  | 'lesson_resumed'
   | 'lesson_completed'
   | 'quiz_answered'
   | 'speak_retry'

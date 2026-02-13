@@ -1,0 +1,45 @@
+{
+  "language": "zh",
+  "source": "hsk3.0",
+  "bandId": "band7-9",
+  "band": 7,
+  "wordCount": 0,
+  "availableWords": 0,
+  "unallocatedWords": 0,
+  "units": {
+    "b79-m1-cause-effect": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m1-comparison-evaluation": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m1-hypothesis-speculation": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+
+    "b79-m2-agreement-concession": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m2-emphasis-reinforcement": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m2-counterargument": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+
+    "b79-m3-politics-policy": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m3-economy-finance": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m3-tech-innovation": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+
+    "b79-m4-meetings-discussion": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m4-negotiation": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m4-formal-writing": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+
+    "b79-m5-idiomatic-social": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m5-register-shift": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m5-emotional-subtlety": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+
+    "b79-m6-chengyu": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m6-literary-connectors": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m6-cultural-references": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+
+    "b79-m7-nominalization": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m7-passive-causative": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m7-discourse-chaining": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+
+    "b79-m8-legal": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m8-medical": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-m8-business-analytics": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+
+    "b79-listening": { "targetWords": 0, "allocatedWords": 0, "words": [] },
+    "b79-speaking": { "targetWords": 0, "allocatedWords": 0, "words": [] }
+  }
+}

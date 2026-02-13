@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
-import { Volume2, Zap, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Volume2, Snail, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface FlashcardProps {
   word: Word;
@@ -20,6 +20,7 @@ export default function Flashcard({
 }: FlashcardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const { speak } = useAudio();
+  const meaningList = (word.defs && word.defs.length > 0 ? word.defs : [word.en]).slice(0, 3);
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
@@ -60,9 +61,14 @@ export default function Flashcard({
             // Front side
             <div className="text-center w-full">
               {word.isReview && (
-                <div className="inline-flex mb-2 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(30,58,138,0.16)] text-[#1E3A8A]">
-                  Review
-                </div>
+                <>
+                  <div className="inline-flex mb-1 -mt-4 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(194,65,12,0.14)] text-[#C2410C]">
+                    Review Word
+                  </div>
+                  <div className="text-[11px] text-text-light mb-4">
+                    {word.reviewReason || 'Reinforcement from your Needs Work queue.'}
+                  </div>
+                </>
               )}
               <div className="font-noto-serif text-5xl mb-3 text-text-dark">
                 {word.simp}
@@ -79,18 +85,18 @@ export default function Flashcard({
           ) : (
             // Back side
             <div className="text-center w-full">
-              <div className="text-2xl font-semibold text-[#1E3A8A] mb-3">
-                {word.en}
-              </div>
-              {word.defs && word.defs.length > 1 && (
-                <div className="mt-4 text-left space-y-1.5">
-                  {word.defs.slice(0, 3).map((def, idx) => (
-                    <div key={idx} className="text-sm text-text-med leading-relaxed">
-                      • {def}
-                    </div>
-                  ))}
+              <div className="mt-1 flex justify-center">
+                <div className="w-full max-w-sm text-center space-y-4">
+                {meaningList.map((def, idx) => (
+                  <div
+                    key={idx}
+                    className="text-base md:text-lg text-text-dark leading-relaxed font-medium"
+                  >
+                    {def}
+                  </div>
+                ))}
                 </div>
-              )}
+              </div>
             </div>
           )}
         </div>
@@ -109,7 +115,7 @@ export default function Flashcard({
           onClick={() => speak(word.simp, word.pinyin, true)}
           className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(55,65,81,0.40)] text-[#374151] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)]"
         >
-          <Zap className="w-5 h-5" />
+          <Snail className="w-5 h-5" />
           Slow
         </button>
       </div>

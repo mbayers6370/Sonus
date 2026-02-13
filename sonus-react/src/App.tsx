@@ -146,6 +146,18 @@ const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
     description: 'Near-native range · Depth',
     units: [],
   },
+  advanced: {
+    id: 'advanced',
+    band: 7,
+    name: 'Advanced',
+    title: 'Advanced',
+    subtitle: 'Bands 7–9 · Mastery',
+    wordCount: 0,
+    wordRange: 'Band 7–9',
+    color: 'bg-red-500',
+    description: 'Macro-unit track for Bands 7-9',
+    units: [],
+  },
 };
 
 function AppRouter() {
@@ -154,9 +166,10 @@ function AppRouter() {
   const [showProfile, setShowProfile] = useState(false);
   const [showProfileProgress, setShowProfileProgress] = useState(false);
   const [showAboutSonus, setShowAboutSonus] = useState(false);
+  const [lessonBackTarget, setLessonBackTarget] = useState<'home' | 'level' | 'unit'>('unit');
   const { state, selectLanguage, selectLevel, startLesson, openLessonPath, restartLesson, exitLesson, setLessonMode } =
     useApp();
-  const { selectedLanguage, currentLevel, activeLesson, lessonWordIndex } = state;
+  const { selectedLanguage, currentLevel, activeLesson, lessonWordIndex, activeBandId } = state;
 
   const goHome = () => {
     setShowMandarinTones(false);
@@ -230,6 +243,44 @@ function AppRouter() {
     setShowLevelSelect(true);
   }, [activeLesson, currentLevel, exitLesson, selectLanguage, selectLevel, selectedLanguage]);
 
+  const backToLearningContext = useCallback(async () => {
+    setShowMandarinTones(false);
+    setShowLevelSelect(false);
+    setShowProfile(false);
+    setShowProfileProgress(false);
+    setShowAboutSonus(false);
+
+    const bandId = activeBandId;
+    exitLesson();
+
+    if (lessonBackTarget === 'home') {
+      goHome();
+      return;
+    }
+
+    if (lessonBackTarget === 'level') {
+      await selectLevel(null);
+      setShowLevelSelect(true);
+      return;
+    }
+
+    if (currentLevel) {
+      return;
+    }
+
+    if (bandId && CHINESE_LEVEL_BY_ID[bandId]) {
+      await selectLevel(CHINESE_LEVEL_BY_ID[bandId]);
+      return;
+    }
+
+    if (selectedLanguage) {
+      setShowLevelSelect(true);
+      return;
+    }
+
+    goHome();
+  }, [activeBandId, currentLevel, exitLesson, goHome, lessonBackTarget, selectLevel, selectedLanguage]);
+
   const openPracticeFromHome = useCallback(
     async (kind: 'listening' | 'speaking', bandId?: string | null) => {
       setShowMandarinTones(false);
@@ -237,16 +288,20 @@ function AppRouter() {
       setShowProfile(false);
       setShowProfileProgress(false);
       setShowAboutSonus(false);
+      setLessonBackTarget('home');
       exitLesson();
 
       if (selectedLanguage !== 'zh') {
         selectLanguage('zh');
       }
 
-      const requestedBandId = (bandId && /^band\d+$/i.test(bandId) ? bandId : 'band1') as string;
-      const bandNumMatch = requestedBandId.match(/^band(\d+)$/i);
-      const unitBandNum = bandNumMatch ? bandNumMatch[1] : '1';
-      const requestedUnitId = `b${unitBandNum}-${kind}`;
+      const requestedBandId = (
+        bandId && (/^band\d+$/i.test(bandId) || bandId === 'advanced') ? bandId : 'band1'
+      ) as string;
+      const requestedUnitId =
+        requestedBandId === 'advanced'
+          ? `b79-${kind}`
+          : `b${requestedBandId.match(/^band(\d+)$/i)?.[1] ?? '1'}-${kind}`;
 
       // Prefer same-band practice so user context feels continuous.
       const openedRequested = await openLessonPath(requestedBandId, requestedUnitId, 0);
@@ -279,7 +334,7 @@ function AppRouter() {
         onGoHome={goHome}
         onOpenProfile={goProfile}
         onBack={() => {
-          exitLesson();
+          void backToLearningContext();
         }}
         onStartQuiz={() => {
           restartLesson();
@@ -300,7 +355,15 @@ function AppRouter() {
   }
 
   if (activeLesson) {
-    return <LessonScreen onGoHome={goHome} onOpenProfile={goProfile} />;
+    return (
+      <LessonScreen
+        onBack={() => {
+          void backToLearningContext();
+        }}
+        onGoHome={goHome}
+        onOpenProfile={goProfile}
+      />
+    );
   }
 
   if (showProfileProgress) {
@@ -372,12 +435,17 @@ function AppRouter() {
         onGoHome={goHome}
         onOpenProfile={goProfile}
         onBack={() => {
-          selectLevel(null);
+          void (async () => {
+            await selectLevel(null);
+            setShowLevelSelect(true);
+          })();
         }}
         onOpenPractice={(unitId) => {
+          setLessonBackTarget('unit');
           startLesson(unitId, 0);
         }}
         onSelectLesson={(unitId, lessonIndex) => {
+          setLessonBackTarget('unit');
           startLesson(unitId, lessonIndex);
         }}
       />
