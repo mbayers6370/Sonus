@@ -1,9 +1,19 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import type { AppState, LessonBand, BandData, ActiveLesson, LessonMode, Word } from '../types/lesson.types';
+import type {
+  AppState,
+  LessonBand,
+  BandData,
+  ActiveLesson,
+  LessonMode,
+  Word,
+  SpeakBreakdown,
+} from '../types/lesson.types';
 import { getUnitMetadata } from '../data/unitMetadata';
 import { appendReviewWords } from '../lib/reviewInjection';
 import { trackEvent } from '../lib/analytics';
+import { sliceWordsForLesson } from '../lib/lessonChunks';
+import { makeLessonKey } from '../lib/lessonProgress';
 
 interface AppContextType {
   state: AppState;
@@ -14,6 +24,8 @@ interface AppContextType {
   setLessonMode: (mode: LessonMode) => void;
   nextWord: () => void;
   prevWord: () => void;
+  recordQuizResult: (lessonIndex: number, isCorrect: boolean) => void;
+  recordSpeakResult: (lessonIndex: number, isCorrect: boolean, breakdown?: SpeakBreakdown) => void;
   completeLessonProgress: () => void;
   exitLesson: () => void;
   restartLesson: () => void;
@@ -37,6 +49,64 @@ function shuffleWords<T>(items: T[]): T[] {
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;
+}
+
+function getCoreWordStats(words: Word[], resultsByIndex: Record<number, boolean>) {
+  const coreIndexes = words
+    .map((word, index) => ({ word, index }))
+    .filter(({ word }) => !word.isReview)
+    .map(({ index }) => index);
+  const total = coreIndexes.length;
+  const correct = coreIndexes.filter((index) => Boolean(resultsByIndex[index])).length;
+  return { total, correct };
+}
+
+function normalizeLessonProgressKeys(progress: AppState['lessonProgress']) {
+  const next: AppState['lessonProgress'] = {};
+  for (const [key, value] of Object.entries(progress || {})) {
+    const parts = key.split(':');
+    if (parts.length !== 3) {
+      next[key] = value;
+      continue;
+    }
+    const [bandId, unitId, lessonIndex] = parts;
+    if (bandId !== 'unknown-band') {
+      next[key] = value;
+      continue;
+    }
+
+    const match = unitId.match(/^b(\d+)-/i);
+    if (match) {
+      const inferredBandId = `band${match[1]}`;
+      next[`${inferredBandId}:${unitId}:${lessonIndex}`] = value;
+      continue;
+    }
+
+    next[key] = value;
+  }
+  return next;
+}
+
+function getPracticeModeFromUnit(unitId: string): LessonMode | null {
+  if (/listening$/i.test(unitId)) return 'quiz';
+  if (/speaking$/i.test(unitId)) return 'speak';
+  return null;
+}
+
+function isPracticeUnit(unitId: string) {
+  return getPracticeModeFromUnit(unitId) !== null;
+}
+
+function buildPracticeWordPool(bandData: BandData, count: number): Word[] {
+  // Build a deterministic pool for skill labs from real band vocab only
+  // (exclude synthetic units such as listening/speaking and unallocated slots).
+  const pool = Object.entries(bandData.units)
+    .filter(([unitId]) => unitId !== '_unallocated' && !isPracticeUnit(unitId))
+    .flatMap(([, unit]) => unit.words || []);
+  const uniqueById = new Map(pool.map((word) => [word.id, word]));
+  return shuffleWords(Array.from(uniqueById.values()))
+    .slice(0, Math.max(0, count))
+    .map((word) => ({ ...word, isReview: false }));
 }
 
 type ReviewQueueItem = {
@@ -116,11 +186,15 @@ const initialState: AppState = {
   currentLevel: null,
   streak: 0,
   levelProgress: {},
+  lessonProgress: {},
   completedLevels: [],
   unlockedLevels: ['intro', 'band1'],
   activeLesson: null,
   lessonMode: 'intro',
   lessonWordIndex: 0,
+  quizResultsByIndex: {},
+  speakResultsByIndex: {},
+  speakBreakdownByIndex: {},
   lastActiveDate: null,
   activeBandId: null,
   activeBandData: null,
@@ -133,7 +207,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        return { ...initialState, ...JSON.parse(saved) };
+        const parsed = JSON.parse(saved) as Partial<AppState>;
+        return {
+          ...initialState,
+          ...parsed,
+          lessonProgress: normalizeLessonProgressKeys(parsed.lessonProgress || {}),
+        };
       } catch {
         return initialState;
       }
@@ -155,6 +234,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       activeLesson: null,
       lessonMode: 'intro',
       lessonWordIndex: 0,
+      quizResultsByIndex: {},
+      speakResultsByIndex: {},
+      speakBreakdownByIndex: {},
     }));
   };
 
@@ -194,33 +276,34 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const unit = bandData.units[unitId];
       if (!unit) return false;
 
+      const practiceMode = getPracticeModeFromUnit(unitId);
       const words = unit.words;
-      const chunkSize = 10;
-      const start = lessonIndex * chunkSize;
-      const lessonChunk = words.slice(start, start + chunkSize);
+      const lessonChunk =
+        practiceMode && words.length === 0
+          // Practice units do not own word lists; they sample from band vocab.
+          ? buildPracticeWordPool(bandData, 12)
+          : sliceWordsForLesson(words, lessonIndex);
       if (!lessonChunk.length) return false;
 
-      const lessonWords: Word[] = shuffleWords(lessonChunk).map((word) => ({
+      let lessonWords: Word[] = shuffleWords(lessonChunk).map((word) => ({
         ...word,
         isReview: false,
       }));
 
       const reviewWordIds = await fetchReviewWordIds(30);
-      if (reviewWordIds.length > 0) {
+      if (!practiceMode && reviewWordIds.length > 0) {
         const lessonWordIds = new Set(lessonWords.map((w) => w.id));
         const allBandWords = Object.values(bandData.units).flatMap((nextUnit) => nextUnit.words);
         const byId = new Map(allBandWords.map((w) => [w.id, w]));
         const reviewCandidates = reviewWordIds
           .map((id) => byId.get(id))
           .filter((w): w is Word => Boolean(w) && !lessonWordIds.has((w as Word).id));
-        const nextWords = appendReviewWords(
+        lessonWords = appendReviewWords(
           lessonWords,
           reviewCandidates,
           REVIEW_INJECT_MAX,
           REVIEW_INJECT_PROBABILITY
         );
-        lessonWords.length = 0;
-        lessonWords.push(...nextWords);
       }
 
       const metadata = getUnitMetadata(bandId, unitId);
@@ -238,8 +321,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
         activeBandData: bandData,
         activeUnitId: unitId,
         activeLesson: newLesson,
-        lessonMode: 'intro',
+        lessonMode: practiceMode ?? 'intro',
         lessonWordIndex: 0,
+        quizResultsByIndex: {},
+        speakResultsByIndex: {},
+        speakBreakdownByIndex: {},
       }));
       void saveCurrentLessonPath(bandId, unitId, lessonIndex);
       trackEvent('lesson_started', {
@@ -271,6 +357,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ...prev,
       lessonMode: mode,
       lessonWordIndex: 0,
+      quizResultsByIndex: mode === 'quiz' ? {} : prev.quizResultsByIndex,
+      speakResultsByIndex: mode === 'speak' ? {} : prev.speakResultsByIndex,
+      speakBreakdownByIndex: mode === 'speak' ? {} : prev.speakBreakdownByIndex,
     }));
   };
 
@@ -301,8 +390,38 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }));
   };
 
+  const recordQuizResult = (lessonIndex: number, isCorrect: boolean) => {
+    setState((prev) => ({
+      ...prev,
+      quizResultsByIndex: {
+        ...prev.quizResultsByIndex,
+        [lessonIndex]: isCorrect,
+      },
+    }));
+  };
+
+  const recordSpeakResult = (lessonIndex: number, isCorrect: boolean, breakdown?: SpeakBreakdown) => {
+    setState((prev) => {
+      const nextBreakdownByIndex = breakdown
+        ? {
+            ...prev.speakBreakdownByIndex,
+            [lessonIndex]: breakdown,
+          }
+        : prev.speakBreakdownByIndex;
+
+      return {
+        ...prev,
+        speakResultsByIndex: {
+          ...prev.speakResultsByIndex,
+          [lessonIndex]: isCorrect,
+        },
+        speakBreakdownByIndex: nextBreakdownByIndex,
+      };
+    });
+  };
+
   const completeLessonProgress = () => {
-    const { activeLesson, streak, lastActiveDate } = state;
+    const { activeLesson, streak, lastActiveDate, lessonMode } = state;
     if (!activeLesson) return;
     const today = new Date().toDateString();
     const yesterday = new Date(Date.now() - 86400000).toDateString();
@@ -316,11 +435,48 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
     }
 
-    setState((prev) => ({
-      ...prev,
-      streak: newStreak,
-      lastActiveDate: today,
-    }));
+    setState((prev) => {
+      const bandId = prev.activeBandId || 'unknown-band';
+      const lessonKey = makeLessonKey(bandId, activeLesson.unitId, activeLesson.lessonIndex);
+      const existing = prev.lessonProgress[lessonKey] || {
+        introViewed: false,
+        quizScore: null as number | null,
+        speakAllCorrect: false,
+        completed: false,
+      };
+
+      let nextIntroViewed = existing.introViewed;
+      let nextQuizScore = existing.quizScore;
+      let nextSpeakAllCorrect = existing.speakAllCorrect;
+
+      if (lessonMode === 'intro') {
+        nextIntroViewed = true;
+      } else if (lessonMode === 'quiz') {
+        const { total, correct } = getCoreWordStats(activeLesson.words, prev.quizResultsByIndex);
+        nextQuizScore = total > 0 ? Math.round((correct / total) * 100) : 0;
+      } else if (lessonMode === 'speak') {
+        const { total, correct } = getCoreWordStats(activeLesson.words, prev.speakResultsByIndex);
+        nextSpeakAllCorrect = total > 0 && correct === total;
+      }
+
+      const completed =
+        nextIntroViewed && (nextQuizScore ?? 0) >= 90 && nextSpeakAllCorrect;
+
+      return {
+        ...prev,
+        streak: newStreak,
+        lastActiveDate: today,
+        lessonProgress: {
+          ...prev.lessonProgress,
+          [lessonKey]: {
+            introViewed: nextIntroViewed,
+            quizScore: nextQuizScore,
+            speakAllCorrect: nextSpeakAllCorrect,
+            completed,
+          },
+        },
+      };
+    });
     trackEvent('lesson_completed', {
       unitId: activeLesson.unitId,
       lessonIndex: activeLesson.lessonIndex,
@@ -333,6 +489,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ...prev,
       lessonWordIndex: 0,
       lessonMode: 'intro',
+      quizResultsByIndex: {},
+      speakResultsByIndex: {},
+      speakBreakdownByIndex: {},
     }));
   };
 
@@ -342,6 +501,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       activeLesson: null,
       lessonWordIndex: 0,
       lessonMode: 'intro',
+      quizResultsByIndex: {},
+      speakResultsByIndex: {},
+      speakBreakdownByIndex: {},
     }));
   };
 
@@ -354,6 +516,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setLessonMode,
     nextWord,
     prevWord,
+    recordQuizResult,
+    recordSpeakResult,
     completeLessonProgress,
     exitLesson,
     restartLesson,

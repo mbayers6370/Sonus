@@ -4,12 +4,14 @@ import { useAudio } from '../hooks/useAudio';
 import { Volume2, ChevronLeft, ChevronRight, CheckCircle, XCircle } from 'lucide-react';
 import { sendQuizAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
+import { useApp } from '../contexts/AppContext';
 
 interface QuizProps {
   word: Word;
   allWords: Word[];
   currentIndex: number;
   totalWords: number;
+  listeningMode?: boolean;
   onNext: () => void;
   onPrev: () => void;
 }
@@ -35,9 +37,11 @@ export default function Quiz({
   allWords,
   currentIndex,
   totalWords,
+  listeningMode = false,
   onNext,
   onPrev,
 }: QuizProps) {
+  const { recordQuizResult } = useApp();
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [allChoices, setAllChoices] = useState<string[]>(() => buildChoices(word, allWords));
@@ -56,6 +60,7 @@ export default function Quiz({
       isReview: Boolean(word.isReview),
       answerText: choice,
     });
+    recordQuizResult(currentIndex, correct);
     trackEvent('quiz_answered', {
       wordId: word.id,
       isCorrect: correct,
@@ -102,28 +107,48 @@ export default function Quiz({
 
       {/* Quiz Question */}
       <div className="flex-1 px-5">
-        <div className="bg-[rgba(55,65,81,0.08)] rounded-2xl p-3 mb-3 relative">
+        <div
+          className={`rounded-2xl p-3 mb-3 relative ${
+            listeningMode
+              ? 'bg-[#1E3A8A] text-white border border-[#1E3A8A]/30'
+              : 'bg-[rgba(55,65,81,0.08)]'
+          }`}
+        >
             <div className="text-center">
               {word.isReview && (
-                <div className="inline-flex mb-2 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(30,58,138,0.16)] text-[#1E3A8A]">
+                <div
+                  className={`inline-flex mb-2 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
+                    listeningMode
+                      ? 'bg-white/20 text-white'
+                      : 'bg-[rgba(30,58,138,0.16)] text-[#1E3A8A]'
+                  }`}
+                >
                   Review
                 </div>
               )}
-              <div className="text-sm text-text-med mb-2 font-medium">
-                What does this mean?
+              <div className={`text-sm mb-2 font-medium ${listeningMode ? 'text-white/90' : 'text-text-med'}`}>
+                {listeningMode ? 'Listen and choose the meaning' : 'What does this mean?'}
               </div>
-            <div className="font-noto-serif text-3xl mb-1 text-text-dark">
-              {word.simp}
-            </div>
-            {word.pinyin && (
-              <div className="text-lg text-text-med">{word.pinyin}</div>
+            {!listeningMode ? (
+              <>
+                <div className="font-noto-serif text-3xl mb-1 text-text-dark">
+                  {word.simp}
+                </div>
+                {word.pinyin && (
+                  <div className="text-lg text-text-med">{word.pinyin}</div>
+                )}
+              </>
+            ) : (
+              <div className="text-xs uppercase tracking-wider font-mono text-white/85">
+                Audio first
+              </div>
             )}
           </div>
 
           {/* Audio Button */}
           <button
             onClick={() => speak(word.simp, word.pinyin)}
-            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-[#1E3A8A] hover:text-white transition-all"
+            className={`absolute ${listeningMode ? 'right-3 top-1/2 -translate-y-1/2 w-11 h-11 text-[#1E3A8A] border border-[#1E3A8A]/15' : 'top-4 right-4 w-10 h-10'} rounded-full bg-white shadow-md flex items-center justify-center hover:bg-[#1E3A8A] hover:text-white transition-all`}
           >
             <Volume2 className="w-5 h-5" />
           </button>
@@ -175,11 +200,19 @@ export default function Quiz({
                 </span>
               </div>
             ) : (
-              <div className="flex items-center gap-3 p-4 bg-[rgba(194,65,12,0.12)] border border-[#C2410C] rounded-xl text-[#C2410C]">
-                <XCircle className="w-6 h-6" />
-                <span className="font-semibold">
-                  {word.isReview ? 'Needs reinforcement: this review word will come back.' : 'Not quite. Try again next time!'}
-                </span>
+              <div className="p-4 bg-[rgba(194,65,12,0.12)] border border-[#C2410C] rounded-xl text-[#C2410C]">
+                <div className="flex items-center gap-3">
+                  <XCircle className="w-6 h-6" />
+                  <span className="font-semibold">
+                    {word.isReview ? 'Needs reinforcement: this review word will come back.' : 'Not quite. Try again next time!'}
+                  </span>
+                </div>
+                {listeningMode && (
+                  <div className="mt-2 text-sm">
+                    Correct word: <span className="font-semibold text-text-dark">{word.simp}</span>
+                    {word.pinyin ? <span className="text-text-med"> ({word.pinyin})</span> : null}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -187,7 +220,7 @@ export default function Quiz({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex gap-3 px-5 pb-24 border-t border-border pt-3">
+      <div className="fixed bottom-20 left-0 right-0 z-40 flex gap-3 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm">
         <button
           onClick={handlePrev}
           disabled={currentIndex === 0}
@@ -198,7 +231,7 @@ export default function Quiz({
         </button>
         <button
           onClick={handleNext}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#1E3A8A] text-white rounded-xl font-medium transition-all hover:bg-[#182F74] hover:-translate-y-0.5 hover:shadow-lg"
+          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-xl font-medium transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
         >
           {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
           <ChevronRight className="w-5 h-5" />

@@ -20,7 +20,7 @@ export function appendReviewWords(
 ) {
   const safeMaxInject = Math.max(0, Math.min(maxInject, reviewCandidates.length, lessonWords.length));
   if (safeMaxInject === 0 || Math.random() > injectProbability) {
-    return lessonWords;
+    return [...lessonWords];
   }
 
   const injectCount = 1 + Math.floor(Math.random() * safeMaxInject);

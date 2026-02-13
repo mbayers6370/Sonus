@@ -1559,7 +1559,7 @@
     },
     "b1-routine": {
       "targetWords": 0,
-      "allocatedWords": 23,
+      "allocatedWords": 27,
       "words": [
         {
           "id": "L1-0028",
@@ -1882,6 +1882,53 @@
           "defs": [
             "rest",
             "to rest"
+          ]
+        },
+        {
+          "id": "L1-0040",
+          "simp": "唱",
+          "trad": "唱",
+          "pinyin": "chàng",
+          "pos": "V",
+          "en": "to sing",
+          "defs": [
+            "to sing",
+            "to call loudly",
+            "to chant"
+          ]
+        },
+        {
+          "id": "L1-0041",
+          "simp": "唱歌",
+          "trad": "唱歌",
+          "pinyin": "chànggē",
+          "pos": "",
+          "en": "to sing a song",
+          "defs": [
+            "to sing a song"
+          ]
+        },
+        {
+          "id": "L1-0119",
+          "simp": "歌",
+          "trad": "歌",
+          "pinyin": "gē",
+          "pos": "N",
+          "en": "song (CL:首[shou3],支[zhi1])",
+          "defs": [
+            "song (CL:首[shou3],支[zhi1])",
+            "(bound form) to sing"
+          ]
+        },
+        {
+          "id": "L1-0058",
+          "simp": "打电话",
+          "trad": "打電話",
+          "pinyin": "dǎ diànhuà",
+          "pos": "",
+          "en": "to make a telephone call",
+          "defs": [
+            "to make a telephone call"
           ]
         }
       ]
@@ -4200,7 +4247,7 @@
     },
     "b1-verbs": {
       "targetWords": 0,
-      "allocatedWords": 84,
+      "allocatedWords": 91,
       "words": [
         {
           "id": "L1-0006",
@@ -5499,6 +5546,104 @@
           "defs": [
             "erhua variant of 一塊|一块[yi1 kuai4]"
           ]
+        },
+        {
+          "id": "L1-0361",
+          "simp": "听",
+          "trad": "聽",
+          "pinyin": "tīng",
+          "pos": "V",
+          "en": "to listen to; to hear",
+          "defs": [
+            "to listen to; to hear",
+            "to heed; to obey",
+            "a can (loanword from English \"tin\")",
+            "classifier for canned beverages",
+            "to let be; to allow (Taiwan pr. [ting4])",
+            "(literary) to administer; to deal with (Taiwan pr. [ting4])"
+          ]
+        },
+        {
+          "id": "L1-0362",
+          "simp": "听到",
+          "trad": "聽到",
+          "pinyin": "tīngdào",
+          "pos": "",
+          "en": "to hear",
+          "defs": [
+            "to hear"
+          ]
+        },
+        {
+          "id": "L1-0363",
+          "simp": "听见",
+          "trad": "聽見",
+          "pinyin": "tīngjiàn",
+          "pos": "",
+          "en": "to hear",
+          "defs": [
+            "to hear"
+          ]
+        },
+        {
+          "id": "L1-0117",
+          "simp": "告诉",
+          "trad": "告訴",
+          "pinyin": "gàosu",
+          "pos": "V",
+          "en": "to press charges; to file a complaint",
+          "defs": [
+            "to press charges; to file a complaint",
+            "to tell; to inform; to let know"
+          ]
+        },
+        {
+          "id": "L1-0176",
+          "simp": "叫",
+          "trad": "叫",
+          "pinyin": "jiào",
+          "pos": "V",
+          "en": "to shout",
+          "defs": [
+            "to shout",
+            "to call",
+            "to order",
+            "to ask",
+            "to be called",
+            "by (indicates agent in the passive mood)"
+          ]
+        },
+        {
+          "id": "L1-0349",
+          "simp": "说",
+          "trad": "說",
+          "pinyin": "shuō",
+          "pos": "V",
+          "en": "to persuade",
+          "defs": [
+            "to persuade",
+            "to speak; to talk; to say",
+            "to explain; to comment",
+            "to scold; to tell off",
+            "(bound form) theory; doctrine"
+          ]
+        },
+        {
+          "id": "L1-0350",
+          "simp": "说话",
+          "trad": "說話",
+          "pinyin": "shuōhuà",
+          "pos": "",
+          "en": "to speak",
+          "defs": [
+            "to speak",
+            "to say",
+            "to talk",
+            "to gossip",
+            "to tell stories",
+            "talk",
+            "word"
+          ]
         }
       ]
     },
@@ -5749,7 +5894,7 @@
     },
     "b1-opinions": {
       "targetWords": 0,
-      "allocatedWords": 9,
+      "allocatedWords": 10,
       "words": [
         {
           "id": "L1-0001",
@@ -5873,6 +6018,25 @@
             "need to; should",
             "if (same as 要是[yao4 shi5])",
             "(bound form) important"
+          ]
+        },
+        {
+          "id": "L1-0151",
+          "simp": "话",
+          "trad": "話",
+          "pinyin": "huà",
+          "pos": "N",
+          "en": "dialect",
+          "defs": [
+            "dialect",
+            "language",
+            "spoken words",
+            "speech",
+            "talk",
+            "words",
+            "conversation",
+            "what sb said",
+            "CL:種|种[zhong3],席[xi2],句[ju4],口[kou3],番[fan1]"
           ]
         }
       ]
@@ -6027,179 +6191,13 @@
     },
     "b1-listening": {
       "targetWords": 0,
-      "allocatedWords": 6,
-      "words": [
-        {
-          "id": "L1-0040",
-          "simp": "唱",
-          "trad": "唱",
-          "pinyin": "chàng",
-          "pos": "V",
-          "en": "to sing",
-          "defs": [
-            "to sing",
-            "to call loudly",
-            "to chant"
-          ]
-        },
-        {
-          "id": "L1-0041",
-          "simp": "唱歌",
-          "trad": "唱歌",
-          "pinyin": "chànggē",
-          "pos": "",
-          "en": "to sing a song",
-          "defs": [
-            "to sing a song"
-          ]
-        },
-        {
-          "id": "L1-0119",
-          "simp": "歌",
-          "trad": "歌",
-          "pinyin": "gē",
-          "pos": "N",
-          "en": "song (CL:首[shou3],支[zhi1])",
-          "defs": [
-            "song (CL:首[shou3],支[zhi1])",
-            "(bound form) to sing"
-          ]
-        },
-        {
-          "id": "L1-0361",
-          "simp": "听",
-          "trad": "聽",
-          "pinyin": "tīng",
-          "pos": "V",
-          "en": "to listen to; to hear",
-          "defs": [
-            "to listen to; to hear",
-            "to heed; to obey",
-            "a can (loanword from English \"tin\")",
-            "classifier for canned beverages",
-            "to let be; to allow (Taiwan pr. [ting4])",
-            "(literary) to administer; to deal with (Taiwan pr. [ting4])"
-          ]
-        },
-        {
-          "id": "L1-0362",
-          "simp": "听到",
-          "trad": "聽到",
-          "pinyin": "tīngdào",
-          "pos": "",
-          "en": "to hear",
-          "defs": [
-            "to hear"
-          ]
-        },
-        {
-          "id": "L1-0363",
-          "simp": "听见",
-          "trad": "聽見",
-          "pinyin": "tīngjiàn",
-          "pos": "",
-          "en": "to hear",
-          "defs": [
-            "to hear"
-          ]
-        }
-      ]
+      "allocatedWords": 0,
+      "words": []
     },
     "b1-speaking": {
       "targetWords": 0,
-      "allocatedWords": 6,
-      "words": [
-        {
-          "id": "L1-0058",
-          "simp": "打电话",
-          "trad": "打電話",
-          "pinyin": "dǎ diànhuà",
-          "pos": "",
-          "en": "to make a telephone call",
-          "defs": [
-            "to make a telephone call"
-          ]
-        },
-        {
-          "id": "L1-0117",
-          "simp": "告诉",
-          "trad": "告訴",
-          "pinyin": "gàosu",
-          "pos": "V",
-          "en": "to press charges; to file a complaint",
-          "defs": [
-            "to press charges; to file a complaint",
-            "to tell; to inform; to let know"
-          ]
-        },
-        {
-          "id": "L1-0151",
-          "simp": "话",
-          "trad": "話",
-          "pinyin": "huà",
-          "pos": "N",
-          "en": "dialect",
-          "defs": [
-            "dialect",
-            "language",
-            "spoken words",
-            "speech",
-            "talk",
-            "words",
-            "conversation",
-            "what sb said",
-            "CL:種|种[zhong3],席[xi2],句[ju4],口[kou3],番[fan1]"
-          ]
-        },
-        {
-          "id": "L1-0176",
-          "simp": "叫",
-          "trad": "叫",
-          "pinyin": "jiào",
-          "pos": "V",
-          "en": "to shout",
-          "defs": [
-            "to shout",
-            "to call",
-            "to order",
-            "to ask",
-            "to be called",
-            "by (indicates agent in the passive mood)"
-          ]
-        },
-        {
-          "id": "L1-0349",
-          "simp": "说",
-          "trad": "說",
-          "pinyin": "shuō",
-          "pos": "V",
-          "en": "to persuade",
-          "defs": [
-            "to persuade",
-            "to speak; to talk; to say",
-            "to explain; to comment",
-            "to scold; to tell off",
-            "(bound form) theory; doctrine"
-          ]
-        },
-        {
-          "id": "L1-0350",
-          "simp": "说话",
-          "trad": "說話",
-          "pinyin": "shuōhuà",
-          "pos": "",
-          "en": "to speak",
-          "defs": [
-            "to speak",
-            "to say",
-            "to talk",
-            "to gossip",
-            "to tell stories",
-            "talk",
-            "word"
-          ]
-        }
-      ]
+      "allocatedWords": 0,
+      "words": []
     }
   }
 }

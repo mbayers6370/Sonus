@@ -79,12 +79,12 @@ export default function WeakWordsScreen({ onBack, onGoHome, onGoProfile }: WeakW
       <div className="relative mb-8">
         <button
           onClick={onBack}
-          className="absolute left-0 top-0 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
+          className="absolute left-0 -top-1 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
         >
           <ChevronLeft className="w-4.5 h-4.5" />
           <span className="text-sm">Back</span>
         </button>
-        <div className="text-center">
+        <div className="text-center px-12">
           <h1 className="font-playfair text-5xl font-normal text-text-dark mb-2">Words To Work On</h1>
           <h2 className="text-base text-text-med italic">Words needing reinforcement</h2>
         </div>

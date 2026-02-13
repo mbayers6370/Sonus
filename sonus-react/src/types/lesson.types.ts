@@ -74,12 +74,37 @@ export interface BandData {
   };
 }
 
+export interface SpeakComponentScore {
+  matched: number;
+  total: number;
+  percent: number;
+  pass: boolean;
+}
+
+export interface SpeakBreakdown {
+  heardText: string;
+  targetPinyin: string;
+  detectedPinyin: string;
+  source: 'hanzi-map' | 'latin' | 'unresolved' | 'no-speech';
+  initial: SpeakComponentScore;
+  final: SpeakComponentScore;
+  tone: SpeakComponentScore;
+}
+
 // App state
 export interface AppState {
   selectedLanguage: string | null;
   currentLevel: LessonBand | null;
   streak: number;
   levelProgress: { [key: string]: number };
+  lessonProgress: {
+    [lessonKey: string]: {
+      introViewed: boolean;
+      quizScore: number | null;
+      speakAllCorrect: boolean;
+      completed: boolean;
+    };
+  };
   completedLevels: string[];
   unlockedLevels: string[];
 
@@ -87,6 +112,9 @@ export interface AppState {
   activeLesson: ActiveLesson | null;
   lessonMode: LessonMode;
   lessonWordIndex: number;
+  quizResultsByIndex: Record<number, boolean>;
+  speakResultsByIndex: Record<number, boolean>;
+  speakBreakdownByIndex: Record<number, SpeakBreakdown>;
   lastActiveDate: string | null;
 
   // Band data cache

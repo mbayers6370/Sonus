@@ -115,7 +115,7 @@ export default function Flashcard({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex gap-3 px-5 pb-24 border-t border-border pt-4">
+      <div className="fixed bottom-20 left-0 right-0 z-40 flex gap-3 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm">
         <button
           onClick={handlePrev}
           disabled={currentIndex === 0}
@@ -126,7 +126,7 @@ export default function Flashcard({
         </button>
         <button
           onClick={handleNext}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#4D7C0F] text-white rounded-xl font-medium transition-all hover:bg-[#3F650C] hover:-translate-y-0.5 hover:shadow-lg"
+          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-xl font-medium transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
         >
           {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
           <ChevronRight className="w-5 h-5" />

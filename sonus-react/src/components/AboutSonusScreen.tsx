@@ -13,12 +13,12 @@ export default function AboutSonusScreen({ onBack, onGoHome, onGoProfile }: Abou
       <div className="relative mb-8">
         <button
           onClick={onBack}
-          className="absolute left-0 top-0 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
+          className="absolute left-0 -top-1 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
         >
           <ChevronLeft className="w-4.5 h-4.5" />
           <span className="text-sm">Back</span>
         </button>
-        <div className="text-center">
+        <div className="text-center px-12">
           <h1 className="font-playfair text-5xl font-normal text-text-dark mb-2">About Sonus</h1>
           <h2 className="text-base text-text-med italic">Why the learning system is structured this way</h2>
         </div>

@@ -25,6 +25,129 @@ type ProgressPayload = {
   };
 };
 
+const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
+  intro: {
+    id: 'intro',
+    band: 0,
+    name: 'Introduction',
+    title: '',
+    subtitle: '',
+    wordCount: 0,
+    wordRange: '',
+    color: 'bg-gray-400',
+    description: 'Start here',
+    units: [],
+  },
+  band1: {
+    id: 'band1',
+    band: 1,
+    name: 'Elementary I',
+    title: 'Elementary I',
+    subtitle: 'Foundations · Everyday Use',
+    wordCount: 500,
+    wordRange: '0–500',
+    color: 'bg-green-500',
+    description: 'Foundations · Everyday Use',
+    units: [],
+  },
+  band2: {
+    id: 'band2',
+    band: 2,
+    name: 'Elementary II',
+    title: 'Elementary II',
+    subtitle: 'Expanded Daily Life',
+    wordCount: 1272,
+    wordRange: '500–1272',
+    color: 'bg-green-600',
+    description: 'Expanded Daily Life',
+    units: [],
+  },
+  band3: {
+    id: 'band3',
+    band: 3,
+    name: 'Pre‑Intermediate',
+    title: 'Pre‑Intermediate',
+    subtitle: 'Simple Narratives',
+    wordCount: 2245,
+    wordRange: '1272–2245',
+    color: 'bg-blue-500',
+    description: 'Simple Narratives',
+    units: [],
+  },
+  band4: {
+    id: 'band4',
+    band: 4,
+    name: 'Intermediate I',
+    title: 'Intermediate I',
+    subtitle: 'Intermediate Topics',
+    wordCount: 3245,
+    wordRange: '2245–3245',
+    color: 'bg-blue-600',
+    description: 'Intermediate Topics',
+    units: [],
+  },
+  band5: {
+    id: 'band5',
+    band: 5,
+    name: 'Intermediate II',
+    title: 'Intermediate II',
+    subtitle: 'Broader Expression',
+    wordCount: 4316,
+    wordRange: '3245–4316',
+    color: 'bg-purple-500',
+    description: 'Broader Expression',
+    units: [],
+  },
+  band6: {
+    id: 'band6',
+    band: 6,
+    name: 'Upper‑Intermediate',
+    title: 'Upper‑Intermediate',
+    subtitle: 'Abstract Themes',
+    wordCount: 5456,
+    wordRange: '4316–5456',
+    color: 'bg-purple-600',
+    description: 'Abstract Themes',
+    units: [],
+  },
+  band7: {
+    id: 'band7',
+    band: 7,
+    name: 'Advanced I',
+    title: 'Advanced I',
+    subtitle: 'Complex topics · High range',
+    wordCount: 7356,
+    wordRange: '5456–7356',
+    color: 'bg-red-500',
+    description: 'Complex topics · High range',
+    units: [],
+  },
+  band8: {
+    id: 'band8',
+    band: 8,
+    name: 'Advanced II',
+    title: 'Advanced II',
+    subtitle: 'Formal language · Precision',
+    wordCount: 9256,
+    wordRange: '7356–9256',
+    color: 'bg-slate-500',
+    description: 'Formal language · Precision',
+    units: [],
+  },
+  band9: {
+    id: 'band9',
+    band: 9,
+    name: 'Advanced III',
+    title: 'Advanced III',
+    subtitle: 'Near-native range · Depth',
+    wordCount: 11092,
+    wordRange: '9256–11092',
+    color: 'bg-slate-900',
+    description: 'Near-native range · Depth',
+    units: [],
+  },
+};
+
 function AppRouter() {
   const [showMandarinTones, setShowMandarinTones] = useState(false);
   const [showLevelSelect, setShowLevelSelect] = useState(false);
@@ -50,6 +173,7 @@ function AppRouter() {
     setShowLevelSelect(false);
     setShowProfileProgress(false);
     setShowAboutSonus(false);
+    exitLesson();
     setShowProfile(true);
   };
 
@@ -65,31 +189,35 @@ function AppRouter() {
 
   const goLearn = useCallback(async () => {
     setShowMandarinTones(false);
+    setShowLevelSelect(false);
     setShowProfile(false);
     setShowProfileProgress(false);
     setShowAboutSonus(false);
+    const hasActiveLesson = Boolean(activeLesson);
+    if (hasActiveLesson) {
+      exitLesson();
+    }
+
+    // If a level is already selected, Learn should return to its unit selector.
+    if (currentLevel) {
+      return;
+    }
 
     try {
       const response = await fetch(`${API_BASE_URL}/v1/me/progress`);
       if (response.ok) {
         const payload = (await response.json()) as ProgressPayload;
         const currentBandId = payload.progress?.currentBandId;
-        const currentUnitId = payload.progress?.currentUnitId;
-        const currentLessonIdx = payload.progress?.currentLessonIdx;
+        const currentLevelFromProgress =
+          typeof currentBandId === 'string' ? CHINESE_LEVEL_BY_ID[currentBandId] : undefined;
 
-        if (
-          typeof currentBandId === 'string' &&
-          typeof currentUnitId === 'string' &&
-          typeof currentLessonIdx === 'number'
-        ) {
+        if (currentLevelFromProgress) {
           if (selectedLanguage !== 'zh') {
             selectLanguage('zh');
           }
-          const resumed = await openLessonPath(currentBandId, currentUnitId, currentLessonIdx);
-          if (resumed) {
-            setShowLevelSelect(false);
-            return;
-          }
+          await selectLevel(currentLevelFromProgress);
+          setShowLevelSelect(false);
+          return;
         }
       }
     } catch {
@@ -100,7 +228,38 @@ function AppRouter() {
       selectLanguage('zh');
     }
     setShowLevelSelect(true);
-  }, [openLessonPath, selectLanguage, selectedLanguage]);
+  }, [activeLesson, currentLevel, exitLesson, selectLanguage, selectLevel, selectedLanguage]);
+
+  const openPracticeFromHome = useCallback(
+    async (kind: 'listening' | 'speaking', bandId?: string | null) => {
+      setShowMandarinTones(false);
+      setShowLevelSelect(false);
+      setShowProfile(false);
+      setShowProfileProgress(false);
+      setShowAboutSonus(false);
+      exitLesson();
+
+      if (selectedLanguage !== 'zh') {
+        selectLanguage('zh');
+      }
+
+      const requestedBandId = (bandId && /^band\d+$/i.test(bandId) ? bandId : 'band1') as string;
+      const bandNumMatch = requestedBandId.match(/^band(\d+)$/i);
+      const unitBandNum = bandNumMatch ? bandNumMatch[1] : '1';
+      const requestedUnitId = `b${unitBandNum}-${kind}`;
+
+      // Prefer same-band practice so user context feels continuous.
+      const openedRequested = await openLessonPath(requestedBandId, requestedUnitId, 0);
+      if (openedRequested) return;
+
+      // Fallback to Band 1 practice units if the current band doesn't define them.
+      const fallbackOpened = await openLessonPath('band1', `b1-${kind}`, 0);
+      if (fallbackOpened) return;
+
+      setShowLevelSelect(true);
+    },
+    [exitLesson, openLessonPath, selectLanguage, selectedLanguage]
+  );
 
   useEffect(() => {
     const handler = () => {
@@ -125,6 +284,10 @@ function AppRouter() {
         onStartQuiz={() => {
           restartLesson();
           setLessonMode('quiz');
+        }}
+        onStartSpeak={() => {
+          restartLesson();
+          setLessonMode('speak');
         }}
         onContinue={() => {
           exitLesson();
@@ -211,6 +374,9 @@ function AppRouter() {
         onBack={() => {
           selectLevel(null);
         }}
+        onOpenPractice={(unitId) => {
+          startLesson(unitId, 0);
+        }}
         onSelectLesson={(unitId, lessonIndex) => {
           startLesson(unitId, lessonIndex);
         }}
@@ -223,6 +389,9 @@ function AppRouter() {
       <HomeDashboard
         selectedLanguage={selectedLanguage}
         onOpenLevels={() => setShowLevelSelect(true)}
+        onOpenPractice={(kind, bandId) => {
+          void openPracticeFromHome(kind, bandId);
+        }}
         onOpenWeakWords={() => setShowProfileProgress(true)}
         onOpenProfile={goProfile}
       />

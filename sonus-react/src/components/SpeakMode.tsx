@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import type { BandData, Word } from '../types/lesson.types';
+import type { BandData, Word, SpeakBreakdown } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, Mic, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { sendSpeakAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
+import { useApp } from '../contexts/AppContext';
 
 interface SpeakModeProps {
   word: Word;
   allWords: Word[];
   currentIndex: number;
   totalWords: number;
+  practiceMode?: boolean;
   onNext: () => void;
   onPrev: () => void;
 }
@@ -37,6 +39,13 @@ type PronunciationAnalysis = {
   initial: ScoreBreakdown;
   final: ScoreBreakdown;
   tone: ScoreBreakdown;
+};
+
+const EMPTY_SCORE: SpeakBreakdown['initial'] = {
+  matched: 0,
+  total: 1,
+  percent: 0,
+  pass: false,
 };
 
 type SpeakCandidate = {
@@ -237,6 +246,34 @@ function normalizeHanzi(value: string) {
   return value.replace(/[^\p{Script=Han}]/gu, '');
 }
 
+function buildSpeakBreakdown(
+  heardText: string,
+  targetPinyin: string,
+  analysis: PronunciationAnalysis | null
+): SpeakBreakdown {
+  if (!analysis) {
+    return {
+      heardText,
+      targetPinyin,
+      detectedPinyin: '',
+      source: heardText === 'No speech detected' ? 'no-speech' : 'unresolved',
+      initial: EMPTY_SCORE,
+      final: EMPTY_SCORE,
+      tone: EMPTY_SCORE,
+    };
+  }
+
+  return {
+    heardText,
+    targetPinyin,
+    detectedPinyin: analysis.detectedPinyin,
+    source: analysis.source,
+    initial: analysis.initial,
+    final: analysis.final,
+    tone: analysis.tone,
+  };
+}
+
 function levenshtein(a: string, b: string) {
   const dp: number[][] = Array.from({ length: a.length + 1 }, () =>
     Array.from({ length: b.length + 1 }, () => 0)
@@ -424,6 +461,7 @@ export default function SpeakMode({
   allWords,
   currentIndex,
   totalWords,
+  practiceMode = false,
   onNext,
   onPrev,
 }: SpeakModeProps) {
@@ -450,6 +488,7 @@ export default function SpeakMode({
   const pendingSpeakAttemptRef = useRef<SpeakCandidate | null>(null);
 
   const { speak } = useAudio();
+  const { recordSpeakResult } = useApp();
 
   const targetHanzi = normalizeHanzi(word.simp);
   const targetSyllableCount = Math.max(
@@ -599,6 +638,11 @@ export default function SpeakMode({
     const pending = pendingSpeakAttemptRef.current;
     if (pending) {
       postSpeakAttempt(sessionId, pending.recognizedText, pending.analysis, pending.match);
+      recordSpeakResult(
+        currentIndex,
+        pending.match,
+        buildSpeakBreakdown(pending.recognizedText, word.pinyin || '', pending.analysis)
+      );
       if (!pending.match) {
         trackEvent('speak_retry', {
           wordId: word.id,
@@ -616,6 +660,11 @@ export default function SpeakMode({
       setTranscript((prev) => prev || 'No speech detected');
       setMatchResult((prev) => prev ?? 'retry');
       postSpeakAttempt(sessionId, 'No speech detected', null, false);
+      recordSpeakResult(
+        currentIndex,
+        false,
+        buildSpeakBreakdown('No speech detected', word.pinyin || '', null)
+      );
       trackEvent('speak_retry', {
         wordId: word.id,
         isReview: Boolean(word.isReview),
@@ -710,6 +759,17 @@ export default function SpeakMode({
           setTranscript(chosen.recognizedText);
           setAnalysis(chosen.analysis);
           setMatchResult(chosen.match ? 'match' : 'retry');
+
+          // Auto-stop as soon as we capture a spoken result (final transcript,
+          // or a strong interim match) so users don't need to tap stop.
+          if (
+            isRecordingRef.current &&
+            recognitionStateRef.current === 'recording' &&
+            (Boolean(latestFinal) || chosen.match)
+          ) {
+            stopMediaRecorder();
+            return;
+          }
         }
         if (recognitionStateRef.current === 'finalizing') {
           scheduleFinalize(sessionId, 320);
@@ -861,6 +921,7 @@ export default function SpeakMode({
 
   const heardHanzi = normalizeHanzi(transcript);
   const isNoSpeech = transcript.toLowerCase() === 'no speech detected';
+  const showPracticeResult = practiceMode && Boolean(transcript || recordingUrl || audioError);
 
   const scoreRow = (label: string, score: ScoreBreakdown) => (
     <div className="text-sm text-text-med mb-1" key={label}>
@@ -883,33 +944,140 @@ export default function SpeakMode({
       </div>
 
       {/* Progress Text */}
-      <div className="text-center text-sm text-text-med font-medium mb-3">
-        {currentIndex + 1} / {totalWords}
-      </div>
+      {!practiceMode && (
+        <div className="text-center text-sm text-text-med font-medium mb-3">
+          {currentIndex + 1} / {totalWords}
+        </div>
+      )}
 
       {/* Instruction */}
-      <div className="text-center text-sm text-text-med font-medium mb-2 px-5">
-        Listen and repeat
-      </div>
+      {!practiceMode && (
+        <div className="text-center text-sm text-text-med font-medium mb-2 px-5">
+          Listen and repeat
+        </div>
+      )}
 
       {/* Word Display */}
       <div className="flex-1 px-5">
-        <div className="bg-[rgba(55,65,81,0.08)] rounded-2xl p-3 mb-3 text-center">
-          {word.isReview && (
-            <div className="inline-flex mb-2 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(30,58,138,0.16)] text-[#1E3A8A]">
-              Review
+        {!practiceMode ? (
+          <div className="bg-[rgba(55,65,81,0.08)] rounded-2xl p-3 mb-3 text-center">
+            {word.isReview && (
+              <div className="inline-flex mb-2 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(30,58,138,0.16)] text-[#1E3A8A]">
+                Review
+              </div>
+            )}
+            <div className="font-noto-serif text-4xl mb-1 text-text-dark">
+              {word.simp}
             </div>
-          )}
-          <div className="font-noto-serif text-4xl mb-1 text-text-dark">
-            {word.simp}
+            {word.pinyin && (
+              <div className="text-lg text-text-med mb-1">{word.pinyin}</div>
+            )}
+            <div className="text-sm text-text-light font-medium">{word.en}</div>
           </div>
-          {word.pinyin && (
-            <div className="text-lg text-text-med mb-1">{word.pinyin}</div>
-          )}
-          <div className="text-sm text-text-light font-medium">{word.en}</div>
-        </div>
+        ) : (
+          <div className="rounded-2xl border border-[#C2410C]/35 bg-[#C2410C] text-white p-3 mb-3">
+            <div className="rounded-xl bg-white/10 border border-white/20 p-3 text-center mb-2">
+              <div className="font-noto-serif text-4xl mb-1 leading-none">{word.simp}</div>
+              {word.pinyin && <div className="text-base text-white/90 mb-1">{word.pinyin}</div>}
+              <div className="text-sm text-white/80">{word.en}</div>
+            </div>
+
+            <div className="flex gap-2 mb-2">
+              <button
+                onClick={() => speak(word.simp, word.pinyin)}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-[#C2410C] rounded-xl font-semibold transition-all hover:bg-[#F3F4F6]"
+              >
+                <Volume2 className="w-5 h-5" />
+                Listen
+              </button>
+              <button
+                onClick={handleRecord}
+                disabled={isFinalizing}
+                className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all ${
+                  isRecording
+                    ? 'bg-[#9A3412] text-white animate-pulse'
+                    : 'bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#C2410C]'
+                }`}
+              >
+                {isFinalizing ? (
+                  <>
+                    <Mic className="w-5 h-5" />
+                    Finalizing...
+                  </>
+                ) : isRecording ? (
+                  <>
+                    <Mic className="w-5 h-5" />
+                    Stop
+                  </>
+                ) : (
+                  <>
+                    <Mic className="w-5 h-5" />
+                    Record
+                  </>
+                )}
+              </button>
+            </div>
+
+            {showPracticeResult ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div className="rounded-xl bg-white/10 border border-white/20 p-2.5">
+                  <div className="text-xs uppercase tracking-wider font-mono text-white/75 mb-1">
+                    Target
+                  </div>
+                  <div className="font-noto-serif text-3xl leading-tight">{word.simp}</div>
+                  {word.pinyin ? <div className="text-white/90">{word.pinyin}</div> : null}
+                  <div className="text-sm text-white/80 mt-1">{word.en}</div>
+                </div>
+                <div className="rounded-xl bg-white p-2.5 border border-border text-text-dark max-h-[210px] overflow-y-auto">
+                  <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-1">
+                    Your Speech
+                  </div>
+                  <div className="text-sm text-text-med mb-1">
+                    Heard: <span className="font-semibold text-text-dark">{transcript || '...'}</span>
+                  </div>
+                  {analysis ? (
+                    <>
+                      <div className="text-sm text-text-med mb-1">
+                        Detected pinyin:{' '}
+                        <span className="font-semibold text-text-dark">
+                          {analysis.detectedPinyin || 'unresolved'}
+                        </span>
+                      </div>
+                      {scoreRow('Initial', analysis.initial)}
+                      {scoreRow('Final', analysis.final)}
+                      {scoreRow('Tone', analysis.tone)}
+                    </>
+                  ) : null}
+                  {matchResult === 'match' && (
+                    <div className="text-sm text-[#4D7C0F] mt-1">
+                      Great job. Initial, final, and tone all matched.
+                    </div>
+                  )}
+                  {matchResult === 'retry' && (
+                    <div className="text-sm text-[#C2410C] mt-1">
+                      Not quite yet. Check the red labels and try again.
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="text-center text-sm text-white/85">
+                Record your pronunciation to see detailed feedback.
+              </div>
+            )}
+
+            {isFinalizing && (
+              <div className="text-xs text-white/85 mt-2">Finalizing recognition...</div>
+            )}
+            {audioError && <div className="text-sm text-[#FCA5A5] mt-2">{audioError}</div>}
+            <div className="mt-2 text-center text-xs font-mono uppercase tracking-wider text-white/80">
+              {currentIndex + 1} / {totalWords}
+            </div>
+          </div>
+        )}
 
         {/* Control Buttons */}
+        {!practiceMode && (
         <div className="flex gap-3 mb-3">
           <button
             onClick={() => speak(word.simp, word.pinyin)}
@@ -945,12 +1113,13 @@ export default function SpeakMode({
             )}
           </button>
         </div>
+        )}
 
-        {isFinalizing && (
+        {!practiceMode && isFinalizing && (
           <div className="text-xs text-text-med mb-3">Finalizing recognition...</div>
         )}
 
-        {recordingUrl && (
+        {!practiceMode && recordingUrl && (
           <div className="mb-6">
             <button
               onClick={() => {
@@ -979,11 +1148,18 @@ export default function SpeakMode({
           </div>
         )}
 
-        {(transcript || recordingUrl || audioError) && (
+        {!practiceMode && (transcript || recordingUrl || audioError) && (
           <div className="bg-white border border-border rounded-xl p-3 mb-3">
             <div className="text-sm font-semibold text-text-dark mb-2">
               Pronunciation compare
             </div>
+            {showPracticeResult && (
+              <div className="rounded-lg bg-[rgba(30,58,138,0.08)] border border-[rgba(30,58,138,0.16)] px-3 py-2 mb-2 text-center">
+                <div className="font-noto-serif text-3xl text-text-dark leading-tight">{word.simp}</div>
+                {word.pinyin ? <div className="text-sm text-text-med">{word.pinyin}</div> : null}
+                <div className="text-xs text-text-light">{word.en}</div>
+              </div>
+            )}
             <div className="text-sm text-text-med mb-1">
               Target: <span className="font-semibold text-text-dark">{word.simp}</span>
               {word.pinyin ? <span className="text-text-light"> ({word.pinyin})</span> : null}
@@ -1014,7 +1190,11 @@ export default function SpeakMode({
             )}
             {matchResult === 'match' && (
               <div className="text-sm text-[#4D7C0F] mt-1">
-                {word.isReview ? 'Recovered: review pronunciation improved.' : 'Match: Great pronunciation.'}
+                {practiceMode
+                  ? 'Great job. Initial, final, and tone all matched.'
+                  : word.isReview
+                    ? 'Recovered: review pronunciation improved.'
+                    : 'Match: Great pronunciation.'}
               </div>
             )}
             {matchResult === 'retry' && (
@@ -1034,9 +1214,11 @@ export default function SpeakMode({
             )}
             {matchResult === 'retry' && analysis?.source !== 'unresolved' && !isNoSpeech && (
               <div className="text-sm text-[#C2410C] mt-1">
-                {word.isReview
-                  ? 'Needs reinforcement: review pronunciation is still off.'
-                  : 'Pronunciation is close, but one or more components (initial/final/tone) is off.'}
+                {practiceMode
+                  ? 'Not quite yet. Check the red labels above and retry with slower pacing.'
+                  : word.isReview
+                    ? 'Needs reinforcement: review pronunciation is still off.'
+                    : 'Pronunciation is close, but one or more components (initial/final/tone) is off.'}
               </div>
             )}
             {audioError && (
@@ -1044,25 +1226,16 @@ export default function SpeakMode({
             )}
           </div>
         )}
-
-        {/* Pronunciation Tips */}
-        <details className="bg-white border border-border rounded-xl p-3">
-          <summary className="cursor-pointer text-sm font-semibold text-text-dark">
-            Pronunciation tips
-          </summary>
-          <div className="space-y-1 text-sm text-text-med mt-2">
-            {word.pinyin && (
-              <div>• Break it down: {word.pinyin.split('').join(' · ')}</div>
-            )}
-            <div>• Listen twice before recording</div>
-            <div>• Focus on tone contour and rhythm</div>
-            <div>• Record yourself to compare</div>
-          </div>
-        </details>
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex gap-3 px-5 pb-24 border-t border-border pt-3 mt-2">
+      <div
+        className={`fixed bottom-20 left-0 right-0 z-40 flex gap-3 px-5 pb-2 border-t pt-3 backdrop-blur-sm ${
+          practiceMode
+            ? 'bg-white/95 border-white/30'
+            : 'bg-bg-warm/95 border-border'
+        }`}
+      >
         <button
           onClick={onPrev}
           disabled={currentIndex === 0}
@@ -1073,7 +1246,7 @@ export default function SpeakMode({
         </button>
         <button
           onClick={onNext}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#4D7C0F] text-white rounded-xl font-medium transition-all hover:bg-[#3F650C] hover:-translate-y-0.5 hover:shadow-lg"
+          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-xl font-medium transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
         >
           {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
           <ChevronRight className="w-5 h-5" />

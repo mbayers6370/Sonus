@@ -27,6 +27,8 @@ export default {
         'border': '#E6E3DC',
       },
       fontFamily: {
+        'sans': ['"Lato"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+        'mono': ['"DM Mono"', 'monospace'],
         'playfair': ['"Playfair Display"', 'serif'],
         'noto-serif': ['"Noto Serif SC"', 'serif'],
         'dm-mono': ['"DM Mono"', 'monospace'],

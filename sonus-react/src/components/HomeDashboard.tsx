@@ -3,11 +3,13 @@ import {
   ArrowRight,
   Bolt,
   BookOpenText,
+  Headphones,
   ListChecks,
   Mic,
 } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { getUnitMetadata } from '../data/unitMetadata';
+import { useAudio } from '../hooks/useAudio';
 
 const API_BASE_URL =
   (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
@@ -45,6 +47,7 @@ type DailyPhraseCache = {
 interface HomeDashboardProps {
   selectedLanguage: string;
   onOpenLevels: () => void;
+  onOpenPractice: (kind: 'listening' | 'speaking', bandId?: string | null) => void;
   onOpenWeakWords: () => void;
   onOpenProfile: () => void;
 }
@@ -117,6 +120,7 @@ async function fetchChinesePhrasePg13(url: string, attempts = 6) {
 export default function HomeDashboard({
   selectedLanguage,
   onOpenLevels,
+  onOpenPractice,
   onOpenWeakWords,
   onOpenProfile,
 }: HomeDashboardProps) {
@@ -134,7 +138,7 @@ export default function HomeDashboard({
   });
   const [motivationPhrase, setMotivationPhrase] = useState(ZH_MOTIVATION_FALLBACK);
   const [spotlightTranslation, setSpotlightTranslation] = useState(ZH_SPOTLIGHT_FALLBACK.translation);
-  const [isSpeakingPhrase, setIsSpeakingPhrase] = useState(false);
+  const { speak } = useAudio();
 
   const languageLabel = LANGUAGE_LABELS[selectedLanguage] || 'Language';
   const hasSavedLessonPath =
@@ -163,85 +167,9 @@ export default function HomeDashboard({
       .replace(/\b\w/g, (c) => c.toUpperCase());
   };
 
-  const resolveSpeechLang = () =>
-    selectedLanguage === 'zh'
-      ? 'zh-CN'
-      : selectedLanguage === 'jp'
-        ? 'ja-JP'
-        : selectedLanguage === 'kr'
-          ? 'ko-KR'
-          : selectedLanguage === 'fr'
-            ? 'fr-FR'
-            : 'en-US';
-
-  const pickVoice = (voices: SpeechSynthesisVoice[], lang: string) => {
-    const exact = voices.find((voice) => voice.lang.toLowerCase() === lang.toLowerCase());
-    if (exact) return exact;
-    const broad = voices.find((voice) => voice.lang.toLowerCase().startsWith(lang.split('-')[0].toLowerCase()));
-    if (broad) return broad;
-    return undefined;
-  };
-
-  const ensureVoices = async (): Promise<SpeechSynthesisVoice[]> => {
-    const voicesNow = window.speechSynthesis.getVoices();
-    if (voicesNow.length > 0) return voicesNow;
-
-    return new Promise((resolve) => {
-      let settled = false;
-      const finish = () => {
-        if (settled) return;
-        settled = true;
-        resolve(window.speechSynthesis.getVoices());
-      };
-
-      const timeout = window.setTimeout(() => {
-        window.speechSynthesis.onvoiceschanged = null;
-        finish();
-      }, 350);
-
-      window.speechSynthesis.onvoiceschanged = () => {
-        window.clearTimeout(timeout);
-        window.speechSynthesis.onvoiceschanged = null;
-        finish();
-      };
-    });
-  };
-
-  const speakPhrase = async () => {
-    if (!spotlightPhrase.text || typeof window === 'undefined' || !window.speechSynthesis) return;
-    if (isSpeakingPhrase) {
-      window.speechSynthesis.cancel();
-      setIsSpeakingPhrase(false);
-      return;
-    }
-
-    setIsSpeakingPhrase(true);
-
-    try {
-      const lang = resolveSpeechLang();
-      const voices = await ensureVoices();
-      const utterance = new SpeechSynthesisUtterance(spotlightPhrase.text);
-      utterance.lang = lang;
-      utterance.rate = 0.92;
-      utterance.pitch = 1;
-      utterance.volume = 1;
-      const voice = pickVoice(voices, lang);
-      if (voice) utterance.voice = voice;
-
-      utterance.onend = () => setIsSpeakingPhrase(false);
-      utterance.onerror = () => setIsSpeakingPhrase(false);
-
-      window.speechSynthesis.cancel();
-      window.setTimeout(() => {
-        try {
-          window.speechSynthesis.speak(utterance);
-        } catch {
-          setIsSpeakingPhrase(false);
-        }
-      }, 110);
-    } catch {
-      setIsSpeakingPhrase(false);
-    }
+  const speakPhrase = () => {
+    if (!spotlightPhrase.text) return;
+    speak(spotlightPhrase.text, spotlightPhrase.text);
   };
 
   useEffect(() => {
@@ -357,7 +285,7 @@ export default function HomeDashboard({
       <div className="grid grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
 
         <section className="bg-white text-text-dark border border-[#1E3A8A]/35 rounded-2xl p-5 min-h-[210px] shadow-[0_20px_40px_-28px_rgba(30,58,138,0.28)]">
-          <div className="font-semibold mb-3 text-[#1E3A8A]">Resume</div>
+          <div className="font-playfair text-2xl leading-none mb-3 text-[#1E3A8A]">Resume</div>
           {hasSavedLessonPath ? (
             <>
               <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-2">Lesson Path</div>
@@ -387,7 +315,7 @@ export default function HomeDashboard({
         </section>
 
         <section className="bg-white text-text-dark border border-[#1E3A8A]/35 rounded-2xl p-5 min-h-[210px] shadow-[0_20px_40px_-28px_rgba(30,58,138,0.28)]">
-          <div className="font-semibold mb-3 text-[#1E3A8A]">Today</div>
+          <div className="font-playfair text-2xl leading-none mb-3 text-[#1E3A8A]">Today</div>
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div className="p-3 rounded-xl bg-[rgba(77,124,15,0.10)] border border-[#4D7C0F]/20">
               <div className="text-[10px] uppercase tracking-wider font-mono text-text-light mb-1">Streak</div>
@@ -401,7 +329,7 @@ export default function HomeDashboard({
         </section>
 
         <section className="bg-white text-text-dark border border-[#C2410C]/35 rounded-2xl p-5 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(194,65,12,0.26)]">
-          <div className="font-semibold mb-3 text-[#C2410C]">Phrase Spotlight</div>
+          <div className="font-playfair text-2xl leading-none mb-3 text-[#C2410C]">Daily Phrase</div>
           {selectedLanguage === 'zh' ? (
             <>
               <p className="font-noto-serif text-xl text-text-dark mb-1">{spotlightPhrase.text}</p>
@@ -414,7 +342,7 @@ export default function HomeDashboard({
                 className="mt-3 w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[rgba(194,65,12,0.10)] border border-[#C2410C]/25 text-[#C2410C] text-sm font-medium hover:bg-[rgba(194,65,12,0.16)] transition-colors"
               >
                 <Mic className="w-4 h-4" />
-                {isSpeakingPhrase ? 'Speaking...' : 'Pronounce Phrase'}
+                Pronounce Phrase
               </button>
             </>
           ) : (
@@ -422,32 +350,63 @@ export default function HomeDashboard({
           )}
         </section>
 
-        <section className="bg-white text-text-dark border border-[#4D7C0F]/35 rounded-2xl p-5 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(77,124,15,0.24)]">
-          <div className="font-semibold mb-3 text-[#4D7C0F]">Motivation</div>
+        <section className="bg-[#4D7C0F] text-white border border-[#4D7C0F] rounded-2xl p-5 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(77,124,15,0.36)]">
+          <div className="font-playfair text-2xl leading-none mb-2 text-white">Practice Focus</div>
+          <p className="text-sm text-white/85 mb-4">
+            {selectedLanguage === 'zh'
+              ? 'Run focused listening and speaking reps for your current band.'
+              : 'Practice labs are currently available for Mandarin.'}
+          </p>
           {selectedLanguage === 'zh' ? (
-            <>
-              <p className="font-noto-serif text-2xl text-text-dark mb-1">{motivationPhrase.text}</p>
-              <p className="text-xs text-text-med mb-2">{motivationPhrase.source}</p>
-            </>
+            <div className="grid grid-cols-1 gap-2.5">
+              <button
+                onClick={() => onOpenPractice('listening', progress.currentBandId)}
+                className="w-full inline-flex items-center justify-between px-3 py-2.5 rounded-xl bg-white/14 border border-white/25 hover:bg-white/20 transition-colors"
+              >
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-white">
+                  <Headphones className="w-4 h-4" />
+                  Listening Practice
+                </span>
+                <ArrowRight className="w-4 h-4 text-white/85" />
+              </button>
+              <button
+                onClick={() => onOpenPractice('speaking', progress.currentBandId)}
+                className="w-full inline-flex items-center justify-between px-3 py-2.5 rounded-xl bg-white/14 border border-white/25 hover:bg-white/20 transition-colors"
+              >
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-white">
+                  <Mic className="w-4 h-4" />
+                  Speaking Practice
+                </span>
+                <ArrowRight className="w-4 h-4 text-white/85" />
+              </button>
+            </div>
           ) : (
-            <p className="text-sm text-text-med mb-2">
-              {progress.streak > 0
-                ? `You are on a ${progress.streak}-day streak. Keep it alive today.`
-                : 'Start a new streak today with one short session.'}
+            <button
+              onClick={onOpenLevels}
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white text-[#4D7C0F] font-semibold hover:bg-[#F3F4F6] transition-colors"
+            >
+              Continue Learning
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          )}
+          {selectedLanguage === 'zh' && (
+            <p className="text-xs text-white/75 mt-3">
+              {motivationPhrase.text}
+              {motivationPhrase.source ? ` · ${motivationPhrase.source}` : ''}
             </p>
           )}
         </section>
 
         <section className="col-span-2 bg-white text-text-dark border border-[#374151]/35 rounded-2xl p-5 shadow-[0_20px_40px_-28px_rgba(55,65,81,0.22)]">
-          <div className="font-semibold mb-3 text-[#374151]">Shortcuts</div>
+          <div className="font-playfair text-2xl leading-none mb-3 text-[#374151]">Shortcuts</div>
           <div className="grid grid-cols-1 gap-2">
             <button
               onClick={onOpenWeakWords}
               className="w-full flex items-center justify-between px-3 py-3 rounded-xl border border-border hover:bg-[rgba(55,65,81,0.06)]"
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
-                <BookOpenText className="w-4 h-4 text-[#1E3A8A]" />
-                Words To Work On
+                <ListChecks className="w-4 h-4 text-[#4D7C0F]" />
+                Progress Check
               </span>
               <ArrowRight className="w-4 h-4 text-text-light" />
             </button>
@@ -456,8 +415,8 @@ export default function HomeDashboard({
               className="w-full flex items-center justify-between px-3 py-3 rounded-xl border border-border hover:bg-[rgba(55,65,81,0.06)]"
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
-                <ListChecks className="w-4 h-4 text-[#374151]" />
-                Learning Path
+                <BookOpenText className="w-4 h-4 text-[#1E3A8A]" />
+                Continue Learning
               </span>
               <ArrowRight className="w-4 h-4 text-text-light" />
             </button>
