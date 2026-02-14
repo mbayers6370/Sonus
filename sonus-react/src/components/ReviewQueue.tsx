@@ -54,7 +54,7 @@ async function loadWordLookup(selectedLanguage: string): Promise<WordLookup> {
   const bandIds = ['band1', 'band2', 'band3', 'band4', 'band5', 'band6', 'band7', 'band8', 'band9'];
   const responses = await Promise.all(
     bandIds.map(async (bandId) => {
-      const response = await fetch(`/data/zh/${bandId}.json`);
+      const response = await fetch(`/data/zh/${bandId}.json`, { cache: 'no-store' });
       if (!response.ok) return null;
       return (await response.json()) as BandData;
     })

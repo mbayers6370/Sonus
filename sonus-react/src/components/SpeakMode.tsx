@@ -191,7 +191,7 @@ async function ensureHanziLookupLoaded() {
   hanziLookupPromise = (async () => {
     const responses = await Promise.all(
       HANZI_BAND_IDS.map(async (bandId) => {
-        const response = await fetch(`/data/zh/${bandId}.json`);
+        const response = await fetch(`/data/zh/${bandId}.json`, { cache: 'no-store' });
         if (!response.ok) return null;
         return (await response.json()) as BandData;
       })

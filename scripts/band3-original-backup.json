@@ -3,13 +3,13 @@
   "source": "hsk3.0",
   "bandId": "band3",
   "band": 3,
-  "wordCount": 970,
-  "availableWords": 970,
+  "wordCount": 979,
+  "availableWords": 979,
   "unallocatedWords": 0,
   "units": {
     "b3-grammar": {
       "targetWords": 90,
-      "allocatedWords": 88,
+      "allocatedWords": 90,
       "words": [
         {
           "id": "L3-0001",
@@ -95,6 +95,23 @@
           "trad": "把",
           "pinyin": "bǎ",
           "pos": "Prep",
+          "en": "to hold; to grasp",
+          "defs": [
+            "to hold; to grasp",
+            "to hold a baby in position to help it urinate or defecate",
+            "handlebar",
+            "classifier: handful, bundle, bunch",
+            "classifier for things with handles",
+            "(used to put the object before the verb: 把[ba3] + {noun} + {verb})",
+            "handle"
+          ]
+        },
+        {
+          "id": "L3-0007",
+          "simp": "把",
+          "trad": "把",
+          "pinyin": "bǎ",
+          "pos": "M",
           "en": "to hold; to grasp",
           "defs": [
             "to hold; to grasp",
@@ -444,6 +461,25 @@
           "en": "northern part",
           "defs": [
             "northern part"
+          ]
+        },
+        {
+          "id": "L3-0030",
+          "simp": "背",
+          "trad": "背",
+          "pinyin": "bèi",
+          "pos": "N",
+          "en": "to be burdened",
+          "defs": [
+            "to be burdened",
+            "to carry on the back or shoulder",
+            "the back of a body or object",
+            "to turn one's back",
+            "to hide something from",
+            "to learn by heart",
+            "to recite from memory",
+            "(slang) unlucky",
+            "hard of hearing"
           ]
         },
         {
@@ -1290,7 +1326,7 @@
     },
     "b3-workstudy": {
       "targetWords": 90,
-      "allocatedWords": 89,
+      "allocatedWords": 90,
       "words": [
         {
           "id": "L3-0091",
@@ -1450,6 +1486,21 @@
           "trad": "初",
           "pinyin": "chū",
           "pos": "Adv",
+          "en": "at first",
+          "defs": [
+            "at first",
+            "(at the) beginning",
+            "first",
+            "junior",
+            "basic"
+          ]
+        },
+        {
+          "id": "L3-0103",
+          "simp": "初",
+          "trad": "初",
+          "pinyin": "chū",
+          "pos": "Prefix",
           "en": "at first",
           "defs": [
             "at first",
@@ -4625,7 +4676,7 @@
     },
     "b3-health": {
       "targetWords": 80,
-      "allocatedWords": 79,
+      "allocatedWords": 80,
       "words": [
         {
           "id": "L3-0339",
@@ -5253,6 +5304,28 @@
           "trad": "精神",
           "pinyin": "jīngshén",
           "pos": "N",
+          "en": "spirit",
+          "defs": [
+            "spirit",
+            "mind",
+            "consciousness",
+            "thought",
+            "mental",
+            "psychological",
+            "essence",
+            "gist",
+            "CL:個|个[ge4]",
+            "vigor; vitality",
+            "spirited",
+            "good-looking"
+          ]
+        },
+        {
+          "id": "L3-0387",
+          "simp": "精神",
+          "trad": "精神",
+          "pinyin": "jīngshen",
+          "pos": "Adj/N",
           "en": "spirit",
           "defs": [
             "spirit",
@@ -7870,7 +7943,7 @@
     },
     "b3-media": {
       "targetWords": 80,
-      "allocatedWords": 79,
+      "allocatedWords": 80,
       "words": [
         {
           "id": "L3-0579",
@@ -8131,6 +8204,27 @@
           "trad": "任",
           "pinyin": "rèn",
           "pos": "V",
+          "en": "surname Ren",
+          "defs": [
+            "surname Ren",
+            "to assign",
+            "to appoint",
+            "to take up a post",
+            "office",
+            "responsibility",
+            "to let",
+            "to allow",
+            "to give free rein to",
+            "no matter (how, what etc)",
+            "classifier for terms served in office, or for spouses, girlfriends etc (as in 前任男友)"
+          ]
+        },
+        {
+          "id": "L3-0599",
+          "simp": "任",
+          "trad": "任",
+          "pinyin": "rèn",
+          "pos": "Conj",
           "en": "surname Ren",
           "defs": [
             "surname Ren",
@@ -8910,7 +9004,7 @@
     },
     "b3-feelings": {
       "targetWords": 80,
-      "allocatedWords": 78,
+      "allocatedWords": 80,
       "words": [
         {
           "id": "L3-0659",
@@ -9403,6 +9497,25 @@
           ]
         },
         {
+          "id": "L3-0693",
+          "simp": "台",
+          "trad": "臺",
+          "pinyin": "tái",
+          "pos": "N/M",
+          "en": "Taiwan (abbr.)",
+          "defs": [
+            "Taiwan (abbr.)",
+            "platform",
+            "stage",
+            "terrace",
+            "stand",
+            "support",
+            "station",
+            "broadcasting station",
+            "classifier for vehicles or machines"
+          ]
+        },
+        {
           "id": "L3-0694",
           "simp": "谈",
           "trad": "談",
@@ -9584,6 +9697,37 @@
           "en": "sweet",
           "defs": [
             "sweet"
+          ]
+        },
+        {
+          "id": "L3-0708",
+          "simp": "调",
+          "trad": "調",
+          "pinyin": "tiáo",
+          "pos": "V",
+          "en": "to transfer",
+          "defs": [
+            "to transfer",
+            "to move (troops or cadres)",
+            "to investigate",
+            "to enquire into",
+            "accent",
+            "view",
+            "argument",
+            "key (in music)",
+            "mode (music)",
+            "tune",
+            "tone",
+            "melody",
+            "to harmonize",
+            "to reconcile",
+            "to blend",
+            "to suit well",
+            "to adjust",
+            "to regulate",
+            "to season (food)",
+            "to provoke",
+            "to incite"
           ]
         },
         {
@@ -10009,7 +10153,7 @@
     },
     "b3-story": {
       "targetWords": 90,
-      "allocatedWords": 89,
+      "allocatedWords": 90,
       "words": [
         {
           "id": "L3-0738",
@@ -10182,6 +10326,28 @@
           "trad": "為",
           "pinyin": "wéi",
           "pos": "V",
+          "en": "as (in the capacity of)",
+          "defs": [
+            "as (in the capacity of)",
+            "to take sth as",
+            "to act as",
+            "to serve as",
+            "to behave as",
+            "to become",
+            "to be",
+            "to do",
+            "by (in the passive voice)",
+            "because of",
+            "for",
+            "to"
+          ]
+        },
+        {
+          "id": "L3-0752",
+          "simp": "为",
+          "trad": "為",
+          "pinyin": "wéi",
+          "pos": "Prep",
           "en": "as (in the capacity of)",
           "defs": [
             "as (in the capacity of)",
@@ -12198,7 +12364,7 @@
     },
     "b3-review": {
       "targetWords": 70,
-      "allocatedWords": 75,
+      "allocatedWords": 76,
       "words": [
         {
           "id": "L3-0898",
@@ -12524,6 +12690,17 @@
             "aspiration",
             "ambition",
             "to volunteer"
+          ]
+        },
+        {
+          "id": "L3-0922",
+          "simp": "志愿者",
+          "trad": "志願者",
+          "pinyin": "zhìyuànzhě",
+          "pos": "N",
+          "en": "volunteer",
+          "defs": [
+            "volunteer"
           ]
         },
         {

@@ -1,0 +1,1390 @@
+Total Tier 3 words: 691
+
+JSON for ChatGPT:
+
+[
+  {
+    "word": "安排",
+    "en": "to arrange",
+    "pinyin": "ānpái",
+    "pos": "V/N",
+    "defs": [
+      "to arrange",
+      "to plan",
+      "to set up",
+      "arrangements",
+      "plans"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "按",
+    "en": "to press",
+    "pinyin": "àn",
+    "pos": "V/Prep",
+    "defs": [
+      "to press",
+      "to push",
+      "to leave aside or shelve",
+      "to control",
+      "to restrain",
+      "to keep one's hand on",
+      "to check or refer to",
+      "according to",
+      "in the light of",
+      "(of an editor or author) to make a comment"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "按照",
+    "en": "according to; in accordance with; on the basis of",
+    "pinyin": "ànzhào",
+    "pos": "Prep",
+    "defs": [
+      "according to; in accordance with; on the basis of"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "把",
+    "en": "to hold; to grasp",
+    "pinyin": "bǎ",
+    "pos": "M",
+    "defs": [
+      "to hold; to grasp",
+      "to hold a baby in position to help it urinate or defecate",
+      "handlebar",
+      "classifier: handful, bundle, bunch",
+      "classifier for things with handles",
+      "(used to put the object before the verb: 把[ba3] + {noun} + {verb})",
+      "handle"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "把握",
+    "en": "to grasp (also fig.)",
+    "pinyin": "bǎwò",
+    "pos": "V/N",
+    "defs": [
+      "to grasp (also fig.)",
+      "to seize",
+      "to hold",
+      "assurance",
+      "certainty",
+      "sure (of the outcome)"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "白菜",
+    "en": "Chinese cabbage, esp. napa cabbage (Brassica rapa subsp. pekinensis)",
+    "pinyin": "báicài",
+    "pos": "N",
+    "defs": [
+      "Chinese cabbage, esp. napa cabbage (Brassica rapa subsp. pekinensis)",
+      "sometimes used to refer to bok choy (Brassica rapa subsp. chinensis)",
+      "CL:棵[ke1],個|个[ge4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "搬",
+    "en": "to move (i.e. relocate oneself)",
+    "pinyin": "bān",
+    "pos": "V",
+    "defs": [
+      "to move (i.e. relocate oneself)",
+      "to move (sth relatively heavy or bulky)",
+      "to shift",
+      "to copy indiscriminately"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "搬家",
+    "en": "to move house; to relocate",
+    "pinyin": "bānjiā",
+    "pos": null,
+    "defs": [
+      "to move house; to relocate",
+      "to remove (sth)"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "办理",
+    "en": "to handle; to transact; to conduct",
+    "pinyin": "bànlǐ",
+    "pos": "V",
+    "defs": [
+      "to handle; to transact; to conduct"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "保",
+    "en": "Bulgaria (abbr. for 保加利亞|保加利亚[Bao3 jia1 li4 ya4])",
+    "pinyin": "bǎo",
+    "pos": "V",
+    "defs": [
+      "Bulgaria (abbr. for 保加利亞|保加利亚[Bao3 jia1 li4 ya4])",
+      "to defend; to protect; to keep",
+      "to guarantee; to ensure",
+      "(old) civil administration unit in the baojia 保甲[bao3 jia3] system"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "保持",
+    "en": "to keep",
+    "pinyin": "bǎochí",
+    "pos": "V",
+    "defs": [
+      "to keep",
+      "to maintain",
+      "to hold",
+      "to preserve"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "保存",
+    "en": "to conserve; to preserve; to keep; to store; (computing) to save (a file etc)",
+    "pinyin": "bǎocún",
+    "pos": "V",
+    "defs": [
+      "to conserve; to preserve; to keep; to store; (computing) to save (a file etc)"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "保护",
+    "en": "to protect",
+    "pinyin": "bǎohù",
+    "pos": "V",
+    "defs": [
+      "to protect",
+      "to defend",
+      "to safeguard",
+      "protection",
+      "CL:種|种[zhong3]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "保留",
+    "en": "to keep",
+    "pinyin": "bǎoliú",
+    "pos": "V",
+    "defs": [
+      "to keep",
+      "to retain",
+      "to have reservations (about sth)",
+      "to hold back (from saying sth)",
+      "to put aside for later"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "保险",
+    "en": "insurance",
+    "pinyin": "bǎoxiǎn",
+    "pos": "Adj/N",
+    "defs": [
+      "insurance",
+      "to insure",
+      "safe",
+      "secure",
+      "be sure",
+      "be bound to",
+      "CL:份[fen4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "保证",
+    "en": "guarantee",
+    "pinyin": "bǎozhèng",
+    "pos": "V/N",
+    "defs": [
+      "guarantee",
+      "to guarantee",
+      "to ensure",
+      "to safeguard",
+      "to pledge",
+      "CL:個|个[ge4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "报道",
+    "en": "to report (news)",
+    "pinyin": "bàodào",
+    "pos": "V/N",
+    "defs": [
+      "to report (news)",
+      "report",
+      "CL:篇[pian1],份[fen4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "报告",
+    "en": "to inform",
+    "pinyin": "bàogào",
+    "pos": "V/N",
+    "defs": [
+      "to inform",
+      "to report",
+      "to make known",
+      "report",
+      "speech",
+      "talk",
+      "lecture",
+      "CL:篇[pian1],份[fen4],個|个[ge4],通[tong4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "背后",
+    "en": "behind",
+    "pinyin": "bèihòu",
+    "pos": "N",
+    "defs": [
+      "behind",
+      "at the back",
+      "in the rear",
+      "behind sb's back"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "被",
+    "en": "quilt",
+    "pinyin": "bèi",
+    "pos": "Prep",
+    "defs": [
+      "quilt",
+      "to cover (with)",
+      "(literary) to suffer (a misfortune)",
+      "used to indicate passive voice (placed before the doer of the action like \"by\" in English passive-voice sentences, or, if the doer is not mentioned, before the verb)",
+      "(since c. 2009) (sarcastic or jocular) used to indicate that the following word should be regarded as being in air quotes (as in 被旅遊|被旅游[bei4 lu : 3 you2] to \"go on a trip\")"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "被子",
+    "en": "blanket; quilt",
+    "pinyin": "bèizi",
+    "pos": "N",
+    "defs": [
+      "blanket; quilt",
+      "CL:條|条[tiao2],床[chuang2]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "本来",
+    "en": "original",
+    "pinyin": "běnlái",
+    "pos": "Adj/Adv",
+    "defs": [
+      "original",
+      "originally",
+      "at first",
+      "it goes without saying",
+      "of course"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "本领",
+    "en": "skill",
+    "pinyin": "běnlǐng",
+    "pos": "N",
+    "defs": [
+      "skill",
+      "ability",
+      "capability",
+      "CL:項|项[xiang4],個|个[ge4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "本事",
+    "en": "source material",
+    "pinyin": "běnshi",
+    "pos": "N",
+    "defs": [
+      "source material",
+      "original story",
+      "ability",
+      "skill"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "比较",
+    "en": "to compare",
+    "pinyin": "bǐjiào",
+    "pos": "Adv/V",
+    "defs": [
+      "to compare",
+      "to contrast",
+      "comparatively",
+      "relatively",
+      "quite",
+      "comparison"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "比例",
+    "en": "proportion",
+    "pinyin": "bǐlì",
+    "pos": "N",
+    "defs": [
+      "proportion",
+      "scale"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "比赛",
+    "en": "competition (sports etc)",
+    "pinyin": "bǐsài",
+    "pos": "V/N",
+    "defs": [
+      "competition (sports etc)",
+      "match",
+      "CL:場|场[chang3],次[ci4]",
+      "to compete"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "必然",
+    "en": "inevitable",
+    "pinyin": "bìrán",
+    "pos": "Adj",
+    "defs": [
+      "inevitable",
+      "certain",
+      "necessity"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "必要",
+    "en": "necessary",
+    "pinyin": "bìyào",
+    "pos": "Adj/N",
+    "defs": [
+      "necessary",
+      "essential",
+      "indispensable",
+      "required"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "变化",
+    "en": "(intransitive) to change; to vary",
+    "pinyin": "biànhuà",
+    "pos": "V/N",
+    "defs": [
+      "(intransitive) to change; to vary",
+      "change; variation (CL:個|个[ge4])"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "变为",
+    "en": "to change into",
+    "pinyin": "biànwéi",
+    "pos": null,
+    "defs": [
+      "to change into"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "标题",
+    "en": "title",
+    "pinyin": "biāotí",
+    "pos": "N",
+    "defs": [
+      "title",
+      "heading",
+      "headline",
+      "caption",
+      "subject"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "标准",
+    "en": "standard; norm; criterion",
+    "pinyin": "biāozhǔn",
+    "pos": "N/Adj",
+    "defs": [
+      "standard; norm; criterion",
+      "(adjective) standard",
+      "good; correct; conforming to a standard"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "表达",
+    "en": "to express; to convey",
+    "pinyin": "biǎodá",
+    "pos": "V",
+    "defs": [
+      "to express; to convey"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "表格",
+    "en": "form; table",
+    "pinyin": "biǎogé",
+    "pos": "N",
+    "defs": [
+      "form; table",
+      "CL:張|张[zhang1],份[fen4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "表明",
+    "en": "to make clear",
+    "pinyin": "biǎomíng",
+    "pos": "V",
+    "defs": [
+      "to make clear",
+      "to make known",
+      "to state clearly",
+      "to indicate",
+      "known"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "表现",
+    "en": "to show",
+    "pinyin": "biǎoxiàn",
+    "pos": "V/N",
+    "defs": [
+      "to show",
+      "to show off",
+      "to display",
+      "to manifest",
+      "expression",
+      "manifestation",
+      "show",
+      "display",
+      "performance (at work etc)",
+      "behavior"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "表演",
+    "en": "play",
+    "pinyin": "biǎoyǎn",
+    "pos": "V/N",
+    "defs": [
+      "play",
+      "show",
+      "performance",
+      "exhibition",
+      "to perform",
+      "to act",
+      "to demonstrate",
+      "CL:場|场[chang3]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "并",
+    "en": "and",
+    "pinyin": "bìng",
+    "pos": "Adv/Conj",
+    "defs": [
+      "and",
+      "furthermore",
+      "also",
+      "together with",
+      "(not) at all",
+      "simultaneously",
+      "to combine",
+      "to join",
+      "to merge"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "并且",
+    "en": "and; besides; moreover; furthermore; in addition",
+    "pinyin": "bìngqiě",
+    "pos": "Conj",
+    "defs": [
+      "and; besides; moreover; furthermore; in addition"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "不必",
+    "en": "need not",
+    "pinyin": "bùbì",
+    "pos": "Adv",
+    "defs": [
+      "need not",
+      "does not have to",
+      "not necessarily"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "不断",
+    "en": "unceasing",
+    "pinyin": "bùduàn",
+    "pos": "V/Adv",
+    "defs": [
+      "unceasing",
+      "uninterrupted",
+      "continuous",
+      "constant"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "不论",
+    "en": "whatever",
+    "pinyin": "bùlùn",
+    "pos": "Conj",
+    "defs": [
+      "whatever",
+      "no matter what (who, how etc)",
+      "regardless of",
+      "not to discuss"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "补充",
+    "en": "to replenish",
+    "pinyin": "bǔchōng",
+    "pos": "V/N",
+    "defs": [
+      "to replenish",
+      "to supplement",
+      "to complement",
+      "additional",
+      "supplementary",
+      "CL:個|个[ge4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "不安",
+    "en": "unpeaceful",
+    "pinyin": "bù'ān",
+    "pos": "Adj",
+    "defs": [
+      "unpeaceful",
+      "unstable",
+      "uneasy",
+      "disturbed",
+      "restless",
+      "worried"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "不光",
+    "en": "not the only one",
+    "pinyin": "bùguāng",
+    "pos": "Adv/Conj",
+    "defs": [
+      "not the only one",
+      "not only"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "步",
+    "en": "surname Bu",
+    "pinyin": "bù",
+    "pos": "N/M",
+    "defs": [
+      "surname Bu",
+      "a step",
+      "a pace",
+      "walk",
+      "march",
+      "stages in a process",
+      "situation"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "部",
+    "en": "ministry",
+    "pinyin": "bù",
+    "pos": "N/M",
+    "defs": [
+      "ministry",
+      "department",
+      "section",
+      "part",
+      "division",
+      "troops",
+      "board",
+      "classifier for works of literature, films, machines etc"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "才能",
+    "en": "talent",
+    "pinyin": "cáinéng",
+    "pos": "N",
+    "defs": [
+      "talent",
+      "ability",
+      "capacity"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "采取",
+    "en": "to adopt or carry out (measures, policies, course of action)",
+    "pinyin": "cǎiqǔ",
+    "pos": "V",
+    "defs": [
+      "to adopt or carry out (measures, policies, course of action)",
+      "to take"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "采用",
+    "en": "to adopt",
+    "pinyin": "cǎiyòng",
+    "pos": "V",
+    "defs": [
+      "to adopt",
+      "to employ",
+      "to use"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "彩色",
+    "en": "color",
+    "pinyin": "cǎisè",
+    "pos": "N",
+    "defs": [
+      "color",
+      "multicolored"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "产生",
+    "en": "to arise; to come into being; to come about",
+    "pinyin": "chǎnshēng",
+    "pos": "V",
+    "defs": [
+      "to arise; to come into being; to come about",
+      "to give rise to; to bring into being; to bring about; to produce; to engender; to generate"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "长处",
+    "en": "good aspects",
+    "pinyin": "chángchù",
+    "pos": "N",
+    "defs": [
+      "good aspects",
+      "strong points"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "长期",
+    "en": "long term",
+    "pinyin": "chángqī",
+    "pos": "N",
+    "defs": [
+      "long term",
+      "long time",
+      "long range (of a forecast)"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "场所",
+    "en": "location",
+    "pinyin": "chǎngsuǒ",
+    "pos": "N",
+    "defs": [
+      "location",
+      "place"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "超级",
+    "en": "super-",
+    "pinyin": "chāojí",
+    "pos": "Adj",
+    "defs": [
+      "super-",
+      "ultra-",
+      "hyper-"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "朝",
+    "en": "abbr. for 朝鮮|朝鲜[Chao2 xian3] Korea",
+    "pinyin": "cháo",
+    "pos": "Prep/V",
+    "defs": [
+      "abbr. for 朝鮮|朝鲜[Chao2 xian3] Korea",
+      "imperial or royal court",
+      "government",
+      "dynasty",
+      "reign of a sovereign or emperor",
+      "court or assembly held by a sovereign or emperor",
+      "to make a pilgrimage to",
+      "facing",
+      "towards",
+      "morning"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "吵",
+    "en": "to quarrel",
+    "pinyin": "chǎo",
+    "pos": "Adj/V",
+    "defs": [
+      "to quarrel",
+      "to make a noise",
+      "noisy",
+      "to disturb by making a noise"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "吵架",
+    "en": "to quarrel",
+    "pinyin": "chǎojià",
+    "pos": null,
+    "defs": [
+      "to quarrel",
+      "to have a row",
+      "quarrel",
+      "CL:頓|顿[dun4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "衬衫",
+    "en": "shirt",
+    "pinyin": "chènshān",
+    "pos": "N",
+    "defs": [
+      "shirt",
+      "blouse",
+      "CL:件[jian4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "衬衣",
+    "en": "shirt",
+    "pinyin": "chènyī",
+    "pos": "N",
+    "defs": [
+      "shirt",
+      "CL:件[jian4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "称为",
+    "en": "to be called; to be known as; to call it \"...\"",
+    "pinyin": "chēngwéi",
+    "pos": null,
+    "defs": [
+      "to be called; to be known as; to call it \"...\""
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "成功",
+    "en": "Chenggong or Chengkung town in Taitung County 臺東縣|台东县[Tai2 dong1 Xian4], southeast Taiwan",
+    "pinyin": "chénggōng",
+    "pos": "V/Adj",
+    "defs": [
+      "Chenggong or Chengkung town in Taitung County 臺東縣|台东县[Tai2 dong1 Xian4], southeast Taiwan",
+      "to succeed",
+      "success",
+      "successful; fruitful"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "成果",
+    "en": "result",
+    "pinyin": "chéngguǒ",
+    "pos": "N",
+    "defs": [
+      "result",
+      "achievement",
+      "gain",
+      "profit",
+      "CL:個|个[ge4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "成就",
+    "en": "accomplishment",
+    "pinyin": "chéngjiù",
+    "pos": "N/V",
+    "defs": [
+      "accomplishment",
+      "success",
+      "achievement",
+      "CL:個|个[ge4]",
+      "to achieve (a result)",
+      "to create",
+      "to bring about"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "成立",
+    "en": "to establish",
+    "pinyin": "chénglì",
+    "pos": "V",
+    "defs": [
+      "to establish",
+      "to set up",
+      "to be tenable",
+      "to hold water"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "成熟",
+    "en": "mature; ripe",
+    "pinyin": "chéngshú",
+    "pos": "Adj",
+    "defs": [
+      "mature; ripe",
+      "to mature; to ripen",
+      "Taiwan pr. [cheng2shou2]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "成长",
+    "en": "to mature",
+    "pinyin": "chéngzhǎng",
+    "pos": "V",
+    "defs": [
+      "to mature",
+      "to grow",
+      "growth"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "城",
+    "en": "city walls",
+    "pinyin": "chéng",
+    "pos": "N",
+    "defs": [
+      "city walls",
+      "city",
+      "town",
+      "CL:座[zuo4],道[dao4],個|个[ge4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "城市",
+    "en": "city; town",
+    "pinyin": "chéngshì",
+    "pos": "N",
+    "defs": [
+      "city; town",
+      "CL:座[zuo4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "持续",
+    "en": "to continue",
+    "pinyin": "chíxù",
+    "pos": "V",
+    "defs": [
+      "to continue",
+      "to persist",
+      "to last",
+      "sustainable",
+      "preservation"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "重",
+    "en": "to repeat",
+    "pinyin": "chóng",
+    "pos": "Adv",
+    "defs": [
+      "to repeat",
+      "repetition",
+      "again",
+      "re-",
+      "classifier: layer",
+      "heavy",
+      "serious",
+      "to attach importance to"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "初",
+    "en": "at first",
+    "pinyin": "chū",
+    "pos": "Prefix",
+    "defs": [
+      "at first",
+      "(at the) beginning",
+      "first",
+      "junior",
+      "basic"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "初步",
+    "en": "initial",
+    "pinyin": "chūbù",
+    "pos": "Adj",
+    "defs": [
+      "initial",
+      "preliminary",
+      "tentative"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "初级",
+    "en": "junior",
+    "pinyin": "chūjí",
+    "pos": "Adj",
+    "defs": [
+      "junior",
+      "primary"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "除了",
+    "en": "apart from; besides; in addition to (used to exclude, as in 除了他，誰也沒來|除了他，谁也没来[chu2 le5 ta1 , shei2 ye3 mei2 lai2] \"apart from him, nobody came\", or to include, as in 除了英語，他也會法語|除了英语，他也会法语[chu2 le5 Ying1 yu3 , ta1 ye3 hui4 Fa3 yu3] \"in addition to English, he also knows French\")",
+    "pinyin": "chúle",
+    "pos": "Prep",
+    "defs": [
+      "apart from; besides; in addition to (used to exclude, as in 除了他，誰也沒來|除了他，谁也没来[chu2 le5 ta1 , shei2 ye3 mei2 lai2] \"apart from him, nobody came\", or to include, as in 除了英語，他也會法語|除了英语，他也会法语[chu2 le5 Ying1 yu3 , ta1 ye3 hui4 Fa3 yu3] \"in addition to English, he also knows French\")",
+      "(used to introduce one of two habitual alternatives in the pattern 除了[chu2 le5] + A + 就是[jiu4 shi4] + B, \"either A or B\")"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "处理",
+    "en": "to handle; to deal with",
+    "pinyin": "chǔlǐ",
+    "pos": "V/N",
+    "defs": [
+      "to handle; to deal with",
+      "to punish",
+      "to treat sth by a special process; to process",
+      "to sell at reduced prices"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "传说",
+    "en": "legend; folk tale",
+    "pinyin": "chuánshuō",
+    "pos": "V/N",
+    "defs": [
+      "legend; folk tale",
+      "to repeat from mouth to mouth; they say that..."
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "创新",
+    "en": "to bring forth new ideas; to blaze new trails",
+    "pinyin": "chuàngxīn",
+    "pos": "V/N",
+    "defs": [
+      "to bring forth new ideas; to blaze new trails",
+      "innovation"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "创造",
+    "en": "to create",
+    "pinyin": "chuàngzào",
+    "pos": "V/N",
+    "defs": [
+      "to create",
+      "to bring about",
+      "to produce",
+      "to set (a record)"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "创作",
+    "en": "to create; to produce; to write",
+    "pinyin": "chuàngzuò",
+    "pos": "V/N",
+    "defs": [
+      "to create; to produce; to write",
+      "a creative work; a creation"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "从来",
+    "en": "always",
+    "pinyin": "cónglái",
+    "pos": "Adv",
+    "defs": [
+      "always",
+      "at all times",
+      "never (if used in negative sentence)"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "从前",
+    "en": "previously",
+    "pinyin": "cóngqián",
+    "pos": "N",
+    "defs": [
+      "previously",
+      "formerly",
+      "once upon a time"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "从事",
+    "en": "to go for",
+    "pinyin": "cóngshì",
+    "pos": "V",
+    "defs": [
+      "to go for",
+      "to engage in",
+      "to undertake",
+      "to deal with",
+      "to handle",
+      "to do"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "存",
+    "en": "to exist",
+    "pinyin": "cún",
+    "pos": "V",
+    "defs": [
+      "to exist",
+      "to deposit",
+      "to store",
+      "to keep",
+      "to survive"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "存在",
+    "en": "to exist",
+    "pinyin": "cúnzài",
+    "pos": "V",
+    "defs": [
+      "to exist",
+      "to be",
+      "existence"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "错误",
+    "en": "mistaken; false; wrong",
+    "pinyin": "cuòwù",
+    "pos": "Adj/N",
+    "defs": [
+      "mistaken; false; wrong",
+      "error; mistake",
+      "CL:個|个[ge4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "达到",
+    "en": "to reach; to achieve; to attain",
+    "pinyin": "dádào",
+    "pos": null,
+    "defs": [
+      "to reach; to achieve; to attain"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "打破",
+    "en": "to break; to smash",
+    "pinyin": "dǎpò",
+    "pos": null,
+    "defs": [
+      "to break; to smash"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "打听",
+    "en": "to ask about",
+    "pinyin": "dǎting",
+    "pos": "V",
+    "defs": [
+      "to ask about",
+      "to make some inquiries",
+      "to ask around"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "大概",
+    "en": "roughly",
+    "pinyin": "dàgài",
+    "pos": "Adj/Adv",
+    "defs": [
+      "roughly",
+      "probably",
+      "rough",
+      "approximate",
+      "about",
+      "general idea"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "大使馆",
+    "en": "embassy",
+    "pinyin": "dàshǐguǎn",
+    "pos": "N",
+    "defs": [
+      "embassy",
+      "CL:座[zuo4],個|个[ge4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "大约",
+    "en": "approximately",
+    "pinyin": "dàyuē",
+    "pos": "Adv",
+    "defs": [
+      "approximately",
+      "probably"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "代",
+    "en": "to be a substitute for; to act on behalf of; to replace; to substitute",
+    "pinyin": "dài",
+    "pos": "V/N",
+    "defs": [
+      "to be a substitute for; to act on behalf of; to replace; to substitute",
+      "generation; dynasty; age; period; (historical) era; (geological) eon"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "代表",
+    "en": "representative",
+    "pinyin": "dàibiǎo",
+    "pos": "N/V",
+    "defs": [
+      "representative",
+      "delegate",
+      "CL:位[wei4],個|个[ge4],名[ming2]",
+      "to represent",
+      "to stand for",
+      "on behalf of",
+      "in the name of"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "代表团",
+    "en": "delegation",
+    "pinyin": "dàibiǎotuán",
+    "pos": "N",
+    "defs": [
+      "delegation",
+      "CL:個|个[ge4]"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "带动",
+    "en": "to spur; to provide impetus; to drive",
+    "pinyin": "dàidòng",
+    "pos": "V",
+    "defs": [
+      "to spur; to provide impetus; to drive"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "带领",
+    "en": "to guide",
+    "pinyin": "dàilǐng",
+    "pos": "V",
+    "defs": [
+      "to guide",
+      "to lead"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  },
+  {
+    "word": "单元",
+    "en": "unit (forming an entity)",
+    "pinyin": "dānyuán",
+    "pos": "N",
+    "defs": [
+      "unit (forming an entity)",
+      "element",
+      "(in a residential building) entrance or staircase"
+    ],
+    "suggested": "b3-review",
+    "confidence": 0
+  }
+]

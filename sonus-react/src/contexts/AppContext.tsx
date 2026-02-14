@@ -72,6 +72,13 @@ function resolveBandDataId(bandId: string) {
   return bandId;
 }
 
+function resolveUnitIdForBand(bandId: string, unitId: string) {
+  if (bandId === 'band2' && unitId === 'b2-directions') {
+    return 'b2-places';
+  }
+  return unitId;
+}
+
 function formatUnitLabel(unitId: string) {
   return unitId
     .replace(/^[a-z]\d+-/i, '')
@@ -106,9 +113,10 @@ function normalizeLessonProgressKeys(progress: AppState['lessonProgress']) {
       next[key] = value;
       continue;
     }
-    const [bandId, unitId, lessonIndex] = parts;
+    const [bandId, rawUnitId, lessonIndex] = parts;
+    const unitId = resolveUnitIdForBand(bandId, rawUnitId);
     if (bandId !== 'unknown-band') {
-      next[key] = value;
+      next[`${bandId}:${unitId}:${lessonIndex}`] = value;
       continue;
     }
 
@@ -273,6 +281,39 @@ export function AppProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [state]);
 
+  // Refresh active band payload after localStorage hydration so unit/data edits
+  // are reflected without requiring a manual level re-select.
+  useEffect(() => {
+    if (!state.activeBandId) return;
+
+    let cancelled = false;
+    const activeBandId = state.activeBandId;
+    const dataBandId = resolveBandDataId(activeBandId);
+
+    void fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' })
+      .then(async (response) => {
+        if (!response.ok) return null;
+        return (await response.json()) as BandData;
+      })
+      .then((bandData) => {
+        if (!bandData || cancelled) return;
+        setState((prev) => {
+          if (prev.activeBandId !== activeBandId) return prev;
+          return {
+            ...prev,
+            activeBandData: bandData,
+          };
+        });
+      })
+      .catch(() => {
+        // Keep existing in-memory data if refresh fails.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [state.activeBandId]);
+
   const selectLanguage = (langId: string | null) => {
     setState((prev) => ({
       ...prev,
@@ -303,7 +344,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
     try {
       const dataBandId = resolveBandDataId(level.id);
-      const response = await fetch(`/data/zh/${dataBandId}.json`);
+      const response = await fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' });
       if (!response.ok) throw new Error(`Failed to load ${level.id}`);
       const bandData: BandData = await response.json();
 
@@ -321,18 +362,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const openLessonPath = async (bandId: string, unitId: string, lessonIndex: number): Promise<boolean> => {
     try {
+      const resolvedUnitId = resolveUnitIdForBand(bandId, unitId);
       const dataBandId = resolveBandDataId(bandId);
-      const response = await fetch(`/data/zh/${dataBandId}.json`);
+      const response = await fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' });
       if (!response.ok) return false;
       const bandData: BandData = await response.json();
-      const unit = bandData.units[unitId];
+      const unit = bandData.units[resolvedUnitId];
       if (!unit) return false;
 
       const resumeCheckpoint = state.resumeCheckpoint;
       const canResumeSameLesson =
         Boolean(resumeCheckpoint) &&
         resumeCheckpoint?.bandId === bandId &&
-        resumeCheckpoint?.unitId === unitId &&
+        resolveUnitIdForBand(resumeCheckpoint?.bandId ?? '', resumeCheckpoint?.unitId ?? '') ===
+          resolvedUnitId &&
         resumeCheckpoint?.lessonIndex === lessonIndex;
 
       if (canResumeSameLesson && resumeCheckpoint) {
@@ -340,7 +383,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           ...prev,
           activeBandId: bandId,
           activeBandData: bandData,
-          activeUnitId: unitId,
+          activeUnitId: resolvedUnitId,
           activeLesson: resumeCheckpoint.activeLesson,
           lessonMode: resumeCheckpoint.lessonMode,
           lessonWordIndex: resumeCheckpoint.lessonWordIndex,
@@ -350,7 +393,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         }));
         trackEvent('lesson_resumed', {
           bandId,
-          unitId,
+          unitId: resolvedUnitId,
           lessonIndex,
           wordIndex: resumeCheckpoint.lessonWordIndex,
           mode: resumeCheckpoint.lessonMode,
@@ -358,7 +401,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         return true;
       }
 
-      const practiceMode = getPracticeModeFromUnit(unitId);
+      const practiceMode = getPracticeModeFromUnit(resolvedUnitId);
       const words = unit.words;
       const lessonChunk =
         practiceMode && words.length === 0
@@ -388,10 +431,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
         );
       }
 
-      const metadata = getUnitMetadata(bandId, unitId);
+      const metadata = getUnitMetadata(bandId, resolvedUnitId);
       const newLesson: ActiveLesson = {
-        unitId,
-        unitName: metadata?.name ?? formatUnitLabel(unitId),
+        unitId: resolvedUnitId,
+        unitName: metadata?.name ?? formatUnitLabel(resolvedUnitId),
         unitOrder: metadata?.order,
         lessonIndex,
         words: lessonWords,
@@ -401,7 +444,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         ...prev,
         activeBandId: bandId,
         activeBandData: bandData,
-        activeUnitId: unitId,
+        activeUnitId: resolvedUnitId,
         activeLesson: newLesson,
         lessonMode: practiceMode ?? 'intro',
         lessonWordIndex: 0,
@@ -410,10 +453,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
         speakBreakdownByIndex: {},
         resumeCheckpoint: null,
       }));
-      void saveCurrentLessonPath(bandId, unitId, lessonIndex);
+      void saveCurrentLessonPath(bandId, resolvedUnitId, lessonIndex);
       trackEvent('lesson_started', {
         bandId,
-        unitId,
+        unitId: resolvedUnitId,
         lessonIndex,
         totalWords: lessonWords.length,
         reviewWords: lessonWords.filter((w) => Boolean(w.isReview)).length,
