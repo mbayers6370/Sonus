@@ -79,6 +79,12 @@ function resolveUnitIdForBand(bandId: string, unitId: string) {
   return unitId;
 }
 
+function isMandarinBandLocked(bandId: string) {
+  const match = /^band(\d+)$/i.exec(bandId);
+  if (!match) return bandId === 'advanced';
+  return Number(match[1]) > 2;
+}
+
 function formatUnitLabel(unitId: string) {
   return unitId
     .replace(/^[a-z]\d+-/i, '')
@@ -342,6 +348,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    if (state.selectedLanguage === 'zh' && isMandarinBandLocked(level.id)) {
+      return;
+    }
+
     try {
       const dataBandId = resolveBandDataId(level.id);
       const response = await fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' });
@@ -362,6 +372,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const openLessonPath = async (bandId: string, unitId: string, lessonIndex: number): Promise<boolean> => {
     try {
+      if (state.selectedLanguage === 'zh' && isMandarinBandLocked(bandId)) {
+        return false;
+      }
       const resolvedUnitId = resolveUnitIdForBand(bandId, unitId);
       const dataBandId = resolveBandDataId(bandId);
       const response = await fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' });

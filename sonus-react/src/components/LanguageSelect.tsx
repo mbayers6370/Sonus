@@ -81,13 +81,31 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
         {languages.map((lang, index) => {
           const Icon = lang.icon;
           const accent = CARD_ACCENTS[index % CARD_ACCENTS.length];
+          const isAvailable = lang.id === 'zh';
           return (
             <button
               key={lang.id}
-              onClick={() => onSelectLanguage(lang.id)}
-              className={`w-full bg-white/95 border ${accent.borderColor} rounded-3xl p-6 text-center transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`}
+              onClick={() => {
+                if (!isAvailable) return;
+                onSelectLanguage(lang.id);
+              }}
+              disabled={!isAvailable}
+              className={`w-full bg-white/95 border ${accent.borderColor} rounded-3xl p-6 text-center transition-all ${
+                isAvailable
+                  ? `hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`
+                  : 'opacity-65 cursor-not-allowed'
+              }`}
             >
-              <div className="flex justify-center">
+              <div className="flex justify-between items-start">
+                <span />
+                {!isAvailable && (
+                  <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider font-mono bg-[rgba(55,65,81,0.12)] text-[#374151]">
+                    Coming Soon
+                  </span>
+                )}
+              </div>
+
+              <div className="flex justify-center mt-1">
                 {/* Icon Badge */}
                 <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${accent.badgeBg}`}>
                   <Icon className={`w-3 h-3 ${accent.badgeText}`} />
@@ -116,7 +134,7 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
 
       {/* Footer */}
       <div className="text-center mt-12 text-sm text-text-light">
-        <i>Start your language learning journey today!</i>
+        <i>Mandarin is live now. More languages are on the way.</i>
       </div>
 
       <BottomNav

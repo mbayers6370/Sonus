@@ -21,7 +21,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
       <button
         onClick={onHome}
         className={`flex flex-col items-center gap-1 px-6 py-2 transition-colors ${
-          active === 'home' ? 'text-text-dark' : 'text-text-light hover:text-text-dark'
+          active === 'home' ? 'text-[#186E95] font-semibold' : 'text-text-light hover:text-text-dark'
         }`}
       >
         <House className="w-6 h-6" />
@@ -30,7 +30,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
       <button
         onClick={handleLearn}
         className={`flex flex-col items-center gap-1 px-6 py-2 transition-colors ${
-          active === 'learn' ? 'text-text-dark' : 'text-text-light hover:text-text-dark'
+          active === 'learn' ? 'text-[#186E95] font-semibold' : 'text-text-light hover:text-text-dark'
         }`}
       >
         <BookOpen className="w-6 h-6" />
@@ -39,7 +39,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
       <button
         onClick={onProfile}
         className={`flex flex-col items-center gap-1 px-6 py-2 transition-colors ${
-          active === 'profile' ? 'text-text-dark' : 'text-text-light hover:text-text-dark'
+          active === 'profile' ? 'text-[#186E95] font-semibold' : 'text-text-light hover:text-text-dark'
         }`}
       >
         <User className="w-6 h-6" />

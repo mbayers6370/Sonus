@@ -161,13 +161,30 @@ export default function UnitSelect({
     ? unitMetrics.find((u) => u.unitId === activeUnitId) ?? null
     : null;
   const headerTitle = activeUnit ? `Unit ${activeUnit.metadata.order}` : currentLevel.name;
+  const isMandarinBandLocked = state.selectedLanguage === 'zh' && currentLevel.band > 2;
 
   return (
     <div className="min-h-screen page-shell pb-24 px-6">
       <GlassHeader title={headerTitle} />
 
+      {isMandarinBandLocked && (
+        <div className="pt-2">
+          <div className="rounded-3xl border border-[#186E95]/35 bg-white/95 p-6 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
+            <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.12)] text-[#186E95]">
+              Coming Soon
+            </div>
+            <h3 className="main-font text-[2rem] leading-tight font-normal mt-4 text-[#186E95]">
+              This Band Is In Progress
+            </h3>
+            <p className="text-sm text-text-med mt-2 max-w-xl mx-auto">
+              Bands 1 and 2 are available now. We are actively building this band and will unlock it soon.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Units Grid */}
-      {!activeUnit && (
+      {!activeUnit && !isMandarinBandLocked && (
       <div className="pt-2">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {unitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, averageLessonProgress, practiceType, isBlueprint }, index) => {
@@ -293,7 +310,7 @@ export default function UnitSelect({
       )}
 
       {/* Lesson Squares for Selected Unit */}
-      {activeUnit && (
+      {activeUnit && !isMandarinBandLocked && (
         <div className="pt-2">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {Array.from({ length: activeUnit.lessonsCount }).map((_, lessonIndex) => {

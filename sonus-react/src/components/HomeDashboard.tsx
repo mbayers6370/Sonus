@@ -125,7 +125,7 @@ export default function HomeDashboard({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
         <section
-          className={`${cardShell} md:order-1 bg-white/95 text-text-dark border-[#186E95]/35 min-h-[210px] text-center`}
+          className={`${cardShell} md:order-1 bg-white/95 text-text-dark border-[#186E95]/35 min-h-[210px] text-center flex flex-col justify-center`}
           style={{ animationDelay: '35ms' }}
         >
           <div className="main-font text-2xl leading-none mb-3 text-[#186E95]">Resume</div>
@@ -154,7 +154,7 @@ export default function HomeDashboard({
         </section>
 
         <section
-          className={`${cardShell} md:order-3 md:col-span-2 bg-[#3E5648] text-white border-[#3E5648]/90 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)] text-center`}
+          className={`${cardShell} md:order-3 md:col-span-2 bg-[#3E5648] text-white border-[#3E5648]/90 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)] text-center flex flex-col justify-center`}
           style={{ animationDelay: '135ms' }}
         >
           <div className="main-font text-2xl leading-none mb-2 text-white">Travel Mode</div>
@@ -185,12 +185,14 @@ export default function HomeDashboard({
         </section>
 
         <section
-          className={`${cardShell} md:order-2 bg-[#186E95] text-white border-[#186E95]/90 min-h-[210px] shadow-[0_20px_40px_-28px_rgba(24,110,149,0.36)] text-center`}
+          className={`${cardShell} md:order-2 bg-[#186E95] text-white border-[#186E95]/90 min-h-[210px] shadow-[0_20px_40px_-28px_rgba(24,110,149,0.36)] text-center flex flex-col justify-center`}
           style={{ animationDelay: '85ms' }}
         >
           <div className="main-font text-2xl leading-none mb-2 text-white">Practice Focus</div>
           <div className="inline-flex flex-col items-center px-3 py-1.5 rounded-lg border border-white/30 bg-white/12 text-white/90 mb-2">
-            <span className="text-[11px] uppercase tracking-wider font-mono leading-none">Adaptive Mix · 70% weak words · 30% reinforce</span>
+            <span className="text-[11px] uppercase tracking-wider font-mono leading-none">Adaptive Mix</span>
+            <span className="text-[11px] uppercase tracking-wider font-mono leading-tight mt-1">70% Weak Words</span>
+            <span className="text-[11px] uppercase tracking-wider font-mono leading-tight">30% Reinforce</span>
           </div>
           <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
             {selectedLanguage === 'zh'
@@ -232,7 +234,7 @@ export default function HomeDashboard({
         </section>
 
         <section
-          className={`${cardShell} md:order-4 md:col-span-2 bg-white/95 text-text-dark border-[#374151]/35`}
+          className={`${cardShell} md:order-4 md:col-span-2 bg-white/95 text-text-dark border-[#374151]/35 flex flex-col justify-center`}
           style={{ animationDelay: '235ms' }}
         >
           <div className="main-font text-2xl leading-none mb-3 text-[#374151]">Shortcuts</div>

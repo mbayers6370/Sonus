@@ -52,7 +52,7 @@ export default function ProfileScreen({
   const [displayName, setDisplayName] = useState('');
   const [targetLanguage, setTargetLanguage] = useState('');
   const [timezone, setTimezone] = useState('');
-  const [learningLanguageSelection, setLearningLanguageSelection] = useState(currentLearningLanguage || 'zh');
+  const [learningLanguageSelection, setLearningLanguageSelection] = useState('zh');
   const [pendingLearningLanguage, setPendingLearningLanguage] = useState<string | null>(null);
   const [switchingLanguage, setSwitchingLanguage] = useState(false);
 
@@ -86,7 +86,7 @@ export default function ProfileScreen({
       setDisplayName(profileJson.profile.displayName || '');
       setTargetLanguage(profileJson.profile.targetLanguage || '');
       setTimezone(resolvedTimezone);
-      setLearningLanguageSelection(currentLearningLanguage || profileJson.profile.targetLanguage || 'zh');
+      setLearningLanguageSelection('zh');
       setIsEditing(
         !profileJson.profile.displayName &&
           !profileJson.profile.targetLanguage &&
@@ -123,9 +123,7 @@ export default function ProfileScreen({
   }, [loadProfile]);
 
   useEffect(() => {
-    if (currentLearningLanguage) {
-      setLearningLanguageSelection(currentLearningLanguage);
-    }
+    setLearningLanguageSelection('zh');
   }, [currentLearningLanguage]);
 
   useEffect(() => {
@@ -333,9 +331,6 @@ export default function ProfileScreen({
               className="w-full border border-border rounded-xl px-3 py-2.5 text-sm"
             >
               <option value="zh">Mandarin</option>
-              <option value="jp">Japanese</option>
-              <option value="kr">Korean</option>
-              <option value="fr">French</option>
             </select>
             <button
               onClick={requestLanguageSwitch}
@@ -344,6 +339,9 @@ export default function ProfileScreen({
             >
               Switch Learning Language
             </button>
+            <div className="text-xs text-text-light">
+              Japanese, Korean, and French curriculum are coming soon.
+            </div>
           </div>
         </div>
 

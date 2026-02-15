@@ -18,6 +18,12 @@ const ACCENT = {
 type AccentKey = keyof typeof ACCENT;
 const CARD_ACCENT_ORDER: AccentKey[] = ['navy', 'sage', 'graphite', 'rust'];
 
+function isMandarinBandComingSoon(levelId: string) {
+  const match = /^band(\d+)$/i.exec(levelId);
+  if (!match) return levelId === 'advanced';
+  return Number(match[1]) > 2;
+}
+
 // HSK 3.0 Bands for Chinese
 const chineseLevels: LessonBand[] = [
   {
@@ -652,7 +658,8 @@ export default function LevelSelect({
             {tiers
               .find(t => t.id === activeTier)!
               .levels.map((level, index) => {
-                const isUnlocked = state.unlockedLevels.includes(level.id);
+                const isComingSoon = state.selectedLanguage === 'zh' && isMandarinBandComingSoon(level.id);
+                const isUnlocked = state.unlockedLevels.includes(level.id) && !isComingSoon;
                 const isCompleted = state.completedLevels.includes(level.id);
                 return (
                   <LevelCard
@@ -665,10 +672,13 @@ export default function LevelSelect({
                     showBadge={activeTier !== 'advanced'}
                     headerKicker={undefined}
                     bodyText={
-                      level.description ||
-                      'Core pronunciation, high‑frequency vocabulary, and functional progression within this band.'
+                      isComingSoon
+                        ? 'This band is in production and will unlock soon.'
+                        : level.description ||
+                          'Core pronunciation, high‑frequency vocabulary, and functional progression within this band.'
                     }
                     showChevronWhenUnlocked={false}
+                    topRightLabel={isComingSoon ? 'Coming Soon' : undefined}
                     accentOverride={CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]}
                   />
                 );
@@ -678,7 +688,7 @@ export default function LevelSelect({
 
         {state.selectedLanguage !== 'zh' &&
           levels.map((level, index) => {
-            const isUnlocked = state.unlockedLevels.includes(level.id);
+            const isUnlocked = false;
             const isCompleted = state.completedLevels.includes(level.id);
             return (
               <LevelCard
@@ -690,9 +700,9 @@ export default function LevelSelect({
                 badgeLabel={level.id === 'intro' ? 'Intro' : 'Level'}
                 showChevronWhenUnlocked={true}
                 bodyText={
-                  level.description ||
-                  'Structured lessons and practice built on official proficiency frameworks.'
+                  'Curriculum is in production for this language. Mandarin is currently available.'
                 }
+                topRightLabel="Coming Soon"
                 accentOverride={CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]}
               />
             );

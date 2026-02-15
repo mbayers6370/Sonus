@@ -47,6 +47,12 @@ function tierForBand(bandId: string) {
   return 'beginner';
 }
 
+function isMandarinBandLocked(bandId: string) {
+  const match = /^band(\d+)$/i.exec(bandId);
+  if (!match) return bandId === 'advanced';
+  return Number(match[1]) > 2;
+}
+
 function LessonRoutePage({
   onGoHome,
   onOpenProfile,
@@ -71,6 +77,10 @@ function LessonRoutePage({
 
   useEffect(() => {
     if (!band || !unitId || !Number.isFinite(parsedLessonIndex)) return;
+    if (isMandarinBandLocked(band)) {
+      navigate('/learn', { replace: true });
+      return;
+    }
     const loadKey = `${band}:${unitId}:${parsedLessonIndex}`;
     if (lastLoadedKeyRef.current === loadKey) return;
     lastLoadedKeyRef.current = loadKey;
@@ -192,6 +202,10 @@ function AppPages() {
         const currentBandId = payload.progress?.currentBandId;
         const level = typeof currentBandId === 'string' ? CHINESE_LEVEL_BY_ID[currentBandId] : undefined;
         if (level) {
+          if (isMandarinBandLocked(level.id)) {
+            navigate('/learn');
+            return;
+          }
           if (selectedLanguage !== 'zh') selectLanguage('zh');
           await selectLevel(level);
           navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
@@ -266,6 +280,9 @@ function AppPages() {
         onOpenProfile={goProfile}
         onOpenMandarinTones={() => navigate('/learn/tones')}
         onSelectLevel={(level: LessonBand) => {
+          if (selectedLanguage === 'zh' && isMandarinBandLocked(level.id)) {
+            return;
+          }
           void selectLevel(level);
           navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
         }}
@@ -291,6 +308,7 @@ function AppPages() {
     }, [level]);
 
     if (!level) return <Navigate to="/learn" replace />;
+    if (isMandarinBandLocked(level.id)) return <Navigate to="/learn" replace />;
     if (!currentLevel || currentLevel.id !== level.id || !state.activeBandData) {
       return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading units…</div>;
     }
@@ -314,18 +332,19 @@ function AppPages() {
   function PracticeRedirectRoute() {
     const { kind, band } = useParams<{ kind: string; band: string }>();
     const targetBand = band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : 'band1';
+    const resolvedBand = isMandarinBandLocked(targetBand) ? 'band1' : targetBand;
     const targetKind = kind === 'speaking' ? 'speaking' : 'listening';
     const targetUnitId =
-      targetBand === 'advanced'
+      resolvedBand === 'advanced'
         ? `b79-${targetKind}`
-        : `b${targetBand.match(/^band(\d+)$/i)?.[1] ?? '1'}-${targetKind}`;
+        : `b${resolvedBand.match(/^band(\d+)$/i)?.[1] ?? '1'}-${targetKind}`;
     const targetMode: LessonMode = targetKind === 'listening' ? 'quiz' : 'speak';
 
     useEffect(() => {
-      void openLessonPath(targetBand, targetUnitId, 0).then((opened) => {
+      void openLessonPath(resolvedBand, targetUnitId, 0).then((opened) => {
         if (opened) {
           navigate(
-            `/learn/${tierForBand(targetBand)}/${targetBand}/unit/${targetUnitId}/lesson/0/${targetMode}`,
+            `/learn/${tierForBand(resolvedBand)}/${resolvedBand}/unit/${targetUnitId}/lesson/0/${targetMode}`,
             { replace: true }
           );
           return;
@@ -340,7 +359,7 @@ function AppPages() {
           navigate('/learn', { replace: true });
         });
       });
-    }, [targetBand, targetKind, targetMode, targetUnitId]);
+    }, [resolvedBand, targetKind, targetMode, targetUnitId]);
 
     return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading practice…</div>;
   }
