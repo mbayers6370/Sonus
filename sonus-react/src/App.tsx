@@ -364,6 +364,7 @@ function AppPages() {
   return (
     <Routes>
       <Route path="/" element={<LanguageRoute />} />
+      <Route path="/language" element={<LanguageRoute />} />
       <Route path="/home" element={<HomeRoute />} />
       <Route
         path="/travel"

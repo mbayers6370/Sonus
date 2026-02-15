@@ -1,28 +1,28 @@
-import { Sparkles, LayoutGrid, MessageSquare, Feather } from 'lucide-react';
+import { ScrollText, Landmark, MessagesSquare, Feather } from 'lucide-react';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
 
 const CARD_ACCENTS = [
   {
-    leftBorder: 'border-[#186E95]',
+    borderColor: 'border-[#186E95]/55',
     badgeBg: 'bg-[rgba(24,110,149,0.16)]',
     badgeText: 'text-[#186E95]',
     hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(24,110,149,0.45)]',
   },
   {
-    leftBorder: 'border-[#3E5648]',
+    borderColor: 'border-[#3E5648]/55',
     badgeBg: 'bg-[rgba(62,86,72,0.16)]',
     badgeText: 'text-[#3E5648]',
     hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(62,86,72,0.40)]',
   },
   {
-    leftBorder: 'border-[#374151]',
+    borderColor: 'border-[#374151]/55',
     badgeBg: 'bg-[rgba(55,65,81,0.14)]',
     badgeText: 'text-[#374151]',
     hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(55,65,81,0.42)]',
   },
   {
-    leftBorder: 'border-[#C2410C]',
+    borderColor: 'border-[#C2410C]/55',
     badgeBg: 'bg-[rgba(194,65,12,0.16)]',
     badgeText: 'text-[#C2410C]',
     hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(194,65,12,0.45)]',
@@ -34,27 +34,31 @@ const languages = [
     id: 'zh',
     name: 'Mandarin',
     nativeName: '普通话',
-    icon: Sparkles,
+    nativeClassName: 'font-secondary',
+    icon: ScrollText,
     framework: 'HSK 3.0 · Bands 1 - 9',
   },
   {
     id: 'jp',
     name: 'Japanese',
     nativeName: '日本語',
-    icon: LayoutGrid,
+    nativeClassName: 'font-secondary',
+    icon: Landmark,
     framework: 'JLPT · N5 - N1',
   },
   {
     id: 'kr',
     name: 'Korean',
     nativeName: '한국어',
-    icon: MessageSquare,
+    nativeClassName: 'font-secondary',
+    icon: MessagesSquare,
     framework: 'TOPIK · Levels 1 - 6',
   },
   {
     id: 'fr',
     name: 'French',
     nativeName: 'Français',
+    nativeClassName: 'font-secondary',
     icon: Feather,
     framework: 'CEFR · A1 - C2',
   },
@@ -81,9 +85,9 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
             <button
               key={lang.id}
               onClick={() => onSelectLanguage(lang.id)}
-              className={`w-full bg-white border-l-4 ${accent.leftBorder} rounded-2xl p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`}
+              className={`w-full bg-white/95 border ${accent.borderColor} rounded-3xl p-6 text-center transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`}
             >
-              <div className="flex items-start gap-4">
+              <div className="flex justify-center">
                 {/* Icon Badge */}
                 <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${accent.badgeBg}`}>
                   <Icon className={`w-3 h-3 ${accent.badgeText}`} />
@@ -98,7 +102,7 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
                 <h2 className="main-font text-2xl font-normal text-text-dark mb-1">
                   {lang.name}
                 </h2>
-                <p className="text-lg text-text-med mb-3 font-noto-serif">
+                <p className={`text-lg text-text-med mb-3 ${lang.nativeClassName}`}>
                   {lang.nativeName}
                 </p>
                 <p className="text-xs text-text-med font-mono uppercase tracking-wider">
