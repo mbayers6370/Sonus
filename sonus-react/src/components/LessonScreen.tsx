@@ -100,13 +100,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             </button>
           </div>
         </div>
-      ) : (
-        <div className={`backdrop-blur-sm border-b px-4 py-2.5 -mt-8 relative z-40 ${isSpeakingPractice ? 'bg-white/80 border-[#C2410C]/20' : 'bg-bg-warm/90 border-border'}`}>
-          <div className={`inline-flex items-center rounded-xl px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${isSpeakingPractice ? 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]' : 'bg-[rgba(24,110,149,0.12)] text-[#186E95]'}`}>
-            {isListeningPractice ? 'Listening Practice' : 'Speaking Practice'}
-          </div>
-        </div>
-      )}
+      ) : null}
 
       {/* Lesson Content */}
       <div className={`flex-1 overflow-y-auto pb-40 ${speakingPageTheme.content}`}>
