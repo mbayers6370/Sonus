@@ -974,9 +974,9 @@ export default function SpeakMode({
             </div>
 
             {showMobileResult && (
-              <div className="col-span-2 rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-3 py-2.5">
+              <div className="col-span-2 rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-3 py-2.5 text-center">
                 <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Result</div>
-                <div className="secondary-font font-semibold text-xl text-text-dark leading-tight break-words mb-1">
+                <div className="secondary-font font-semibold text-xl text-text-dark leading-tight break-words mb-1 text-center">
                   {transcript || '...'}
                 </div>
                 {analysis ? (
@@ -1029,9 +1029,9 @@ export default function SpeakMode({
                   </div>
                 </div>
               ) : (
-                <div className="h-full text-left overflow-y-auto pr-7">
+                <div className="h-full flex flex-col justify-center text-center overflow-y-auto pr-7">
                   <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
-                  <div className="secondary-font font-semibold text-3xl text-text-dark leading-tight break-words mb-1">
+                  <div className="secondary-font font-semibold text-3xl text-text-dark leading-tight break-words mb-1 text-center">
                     {transcript || '...'}
                   </div>
                   {analysis ? (
@@ -1140,9 +1140,9 @@ export default function SpeakMode({
             </div>
 
             {showMobileResult && (
-              <div className="col-span-2 rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-3 py-2.5">
+              <div className="col-span-2 rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-3 py-2.5 text-center">
                 <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Result</div>
-                <div className="secondary-font font-semibold text-xl text-text-dark leading-tight break-words mb-1">
+                <div className="secondary-font font-semibold text-xl text-text-dark leading-tight break-words mb-1 text-center">
                   {transcript || '...'}
                 </div>
                 {analysis ? (
@@ -1210,9 +1210,9 @@ export default function SpeakMode({
                     </div>
                   </div>
                 ) : (
-                  <div className="h-full text-left overflow-y-auto pr-7">
+                  <div className="h-full flex flex-col justify-center text-center overflow-y-auto pr-7">
                     <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
-                    <div className="secondary-font font-semibold text-3xl text-text-dark leading-tight break-words mb-1">
+                    <div className="secondary-font font-semibold text-3xl text-text-dark leading-tight break-words mb-1 text-center">
                       {transcript || '...'}
                     </div>
                     {analysis ? (
