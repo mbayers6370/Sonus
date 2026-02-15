@@ -928,7 +928,89 @@ export default function SpeakMode({
       {/* Word Display */}
       <div className="flex-1 px-3 sm:px-5">
         {!practiceMode ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+          <>
+          <div className="sm:hidden space-y-2 mb-2">
+            <div className="relative rounded-3xl border border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] px-4 py-3 min-h-[150px] flex flex-col items-center justify-center text-center">
+              <button
+                type="button"
+                onClick={() => speak(word.simp, word.pinyin)}
+                className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(24,110,149,0.35)] text-[#186E95] bg-white/55 hover:bg-white/80 transition-colors"
+                aria-label="Play target audio"
+                title="Play target audio"
+              >
+                <Volume2 className="w-4 h-4" />
+              </button>
+              <div className="text-[11px] tracking-wide font-mono text-[#186E95] mb-1">Target</div>
+              <div className="secondary-font font-semibold text-3xl text-text-dark leading-tight">{word.simp}</div>
+              {word.pinyin ? <div className="text-base text-text-med">{word.pinyin}</div> : null}
+              <div className="text-sm text-text-light mt-1">{word.en}</div>
+            </div>
+
+            <div className="relative rounded-3xl border border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] px-4 py-3 min-h-[150px]">
+              <button
+                type="button"
+                onClick={handleRecord}
+                disabled={isFinalizing}
+                className={`absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border transition-colors ${
+                  isRecording
+                    ? 'border-[#C2410C] bg-[#C2410C] text-white animate-pulse'
+                    : 'border-[rgba(194,65,12,0.45)] text-[#C2410C] bg-white/55 hover:bg-white/80'
+                }`}
+                aria-label={isRecording ? 'Stop recording' : 'Start recording'}
+                title={isRecording ? 'Stop recording' : 'Start recording'}
+              >
+                <Mic className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowListeningDetails((prev) => !prev)}
+                className="absolute top-3 right-14 inline-flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(194,65,12,0.30)] text-[#C2410C] bg-white/45 hover:bg-white/70 transition-colors"
+                aria-label={showListeningDetails ? 'Hide details' : 'Show details'}
+                title={showListeningDetails ? 'Hide details' : 'Show details'}
+              >
+                <ChevronRight className={`w-4 h-4 transition-transform ${showListeningDetails ? 'rotate-90' : ''}`} />
+              </button>
+
+              <div className="h-full flex flex-col justify-center text-center">
+                <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
+                <div className="secondary-font font-semibold text-3xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
+                <div className="text-xs text-text-med mt-1">
+                  {isFinalizing ? 'Finalizing...' : isRecording ? 'Recording...' : 'Tap mic to compare'}
+                </div>
+              </div>
+            </div>
+
+            {(showListeningDetails || transcript || analysis || audioError || matchResult) && (
+              <div className="rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-4 py-3">
+                <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Result</div>
+                <div className="secondary-font font-semibold text-2xl text-text-dark leading-tight break-words mb-1">
+                  {transcript || '...'}
+                </div>
+                {analysis ? (
+                  <>
+                    <div className="text-sm text-text-med mb-1">
+                      Detected pinyin:{' '}
+                      <span className="font-semibold text-text-dark">{analysis.detectedPinyin || 'unresolved'}</span>
+                    </div>
+                    {scoreRow('Initial', analysis.initial)}
+                    {scoreRow('Final', analysis.final)}
+                    {scoreRow('Tone', analysis.tone)}
+                  </>
+                ) : (
+                  <div className="text-sm text-text-med">Record to see pinyin and score breakdown.</div>
+                )}
+                {matchResult === 'match' && (
+                  <div className="text-sm text-[#3E5648] mt-1 font-medium">Match: Great pronunciation.</div>
+                )}
+                {matchResult === 'retry' && (
+                  <div className="text-sm text-[#C2410C] mt-1">No match. Please try again.</div>
+                )}
+                {audioError && <div className="text-sm text-[#C2410C] mt-2">{audioError}</div>}
+              </div>
+            )}
+          </div>
+
+          <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
             <div className="rounded-3xl border border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] flex flex-col items-center justify-center text-center">
               <div className="text-[11px] tracking-wide font-mono text-[#186E95] mb-1">Target</div>
               <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight">{word.simp}</div>
@@ -1005,6 +1087,7 @@ export default function SpeakMode({
               />
             </button>
           </div>
+          </>
         ) : (
           <div className="rounded-3xl border border-[#C2410C]/25 bg-white/95 p-3 md:p-4 mb-2 sm:mb-3 shadow-[0_18px_38px_-28px_rgba(15,23,42,0.35)]">
             <div className="mb-2 flex justify-center">
@@ -1139,7 +1222,7 @@ export default function SpeakMode({
 
         {/* Control Buttons */}
         {!practiceMode && (
-        <div className="flex gap-2 sm:gap-3 mb-2 sm:mb-3">
+        <div className="hidden sm:flex gap-2 sm:gap-3 mb-2 sm:mb-3">
           <button
             onClick={() => speak(word.simp, word.pinyin)}
             className="flex-1 flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#145C7C] hover:-translate-y-0.5 hover:shadow-lg"
