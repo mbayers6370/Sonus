@@ -542,6 +542,9 @@ export default function LevelSelect({
           title: 'Beginner',
           subtitle: 'Bands 1–3 · Core Foundations',
           style: { rail: 'bg-[#3E5648]', accent: 'green' as const },
+          summary:
+            'Tone control, core grammar, and everyday communication across the first three bands. Bands 1–2 are live now.',
+          isAvailable: true,
           levels: levels.filter(l =>
             ['band1', 'band2', 'band3'].includes(l.id)
           )
@@ -551,6 +554,9 @@ export default function LevelSelect({
           title: 'Intermediate',
           subtitle: 'Bands 4–6 · Functional Fluency',
           style: { rail: 'bg-[#186E95]', accent: 'blue' as const },
+          summary:
+            'Longer conversations, work/study scenarios, and more flexible sentence patterns for real-world fluency.',
+          isAvailable: false,
           levels: levels.filter(l =>
             ['band4', 'band5', 'band6'].includes(l.id)
           )
@@ -560,6 +566,9 @@ export default function LevelSelect({
           title: 'Advanced',
           subtitle: 'Bands 7–9 · Mastery',
           style: { rail: 'bg-red-500', accent: 'red' as const },
+          summary:
+            'High-register vocabulary, abstract topics, nuanced expression, and advanced comprehension/speaking precision.',
+          isAvailable: false,
           levels: levels.filter(l =>
             ['band7', 'band8', 'band9'].includes(l.id)
           )
@@ -576,17 +585,24 @@ export default function LevelSelect({
         {state.selectedLanguage === 'zh' && activeTier === null && (
           tiers.map((tier, index) => {
             const a = ACCENT[CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]];
+            const isLocked = !tier.isAvailable;
             return (
             <button
               key={tier.id}
               onClick={() => {
+                if (isLocked) return;
                 if (tier.id === 'advanced') {
                   onSelectLevel(advancedTrackLevel);
                   return;
                 }
                 setTier(tier.id);
               }}
-              className={`w-full bg-white/95 border ${a.leftBorder} rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${a.hoverShadow} active:translate-y-0`}
+              disabled={isLocked}
+              className={`w-full bg-white/95 border ${a.leftBorder} rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
+                isLocked
+                  ? 'opacity-65 cursor-not-allowed'
+                  : `hover:-translate-y-0.5 ${a.hoverShadow} active:translate-y-0`
+              }`}
             >
               <div className="w-full">
                 <div className="flex items-start justify-between gap-4">
@@ -595,7 +611,13 @@ export default function LevelSelect({
                   >
                     Track
                   </span>
-                  <ChevronRight className="w-5 h-5 text-text-light" />
+                  {isLocked ? (
+                    <span className="text-xs font-mono uppercase tracking-wider text-text-light">
+                      Coming Soon
+                    </span>
+                  ) : (
+                    <ChevronRight className="w-5 h-5 text-text-light" />
+                  )}
                 </div>
 
                 <div className="mt-5">
@@ -616,11 +638,11 @@ export default function LevelSelect({
                   </div>
 
                   <p className="text-[11px] leading-relaxed text-text-med font-mono tracking-wide mb-4">
-                    Choose a tier to drill into the bands and start structured progression.
+                    {tier.summary}
                   </p>
 
                   <div className={`${a.ctaText} text-sm font-semibold tracking-wide`}>
-                    View bands →
+                    {isLocked ? 'Releasing soon' : 'View bands →'}
                   </div>
                 </div>
               </div>

@@ -5,6 +5,7 @@ import Quiz from './Quiz';
 import SpeakMode from './SpeakMode';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
+import { makeLessonKey } from '../lib/lessonProgress';
 
 interface LessonScreenProps {
   onGoHome: () => void;
@@ -13,8 +14,8 @@ interface LessonScreenProps {
 }
 
 export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: LessonScreenProps) {
-  const { state, setLessonMode, nextWord, prevWord } = useApp();
-  const { activeLesson, lessonMode, lessonWordIndex } = state;
+  const { state, setLessonMode, nextWord } = useApp();
+  const { activeLesson, lessonMode, lessonWordIndex, activeBandId, lessonProgress } = state;
 
   if (!activeLesson) {
     return (
@@ -43,6 +44,12 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
         title: 'text-text-dark',
         content: '',
       };
+  const lessonKey =
+    activeLesson && activeBandId ? makeLessonKey(activeBandId, activeLesson.unitId, activeLesson.lessonIndex) : null;
+  const lessonStatus = lessonKey ? lessonProgress[lessonKey] : undefined;
+  const learnDone = Boolean(lessonStatus?.introViewed);
+  const quizDone = (lessonStatus?.quizScore ?? 0) >= 90;
+  const speakDone = Boolean(lessonStatus?.speakAllCorrect);
 
   return (
     <div className={`flex flex-col h-[100dvh] page-shell ${speakingPageTheme.shell}`}>
@@ -67,6 +74,8 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
               className={`py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
                 lessonMode === 'intro'
                   ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
+                  : learnDone
+                    ? 'bg-[rgba(55,65,81,0.10)] border border-[rgba(55,65,81,0.22)] text-text-light'
                   : 'bg-white border border-border text-text-med hover:bg-[rgba(55,65,81,0.08)]'
               }`}
             >
@@ -80,6 +89,8 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
               className={`py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
                 lessonMode === 'quiz'
                   ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
+                  : quizDone
+                    ? 'bg-[rgba(55,65,81,0.10)] border border-[rgba(55,65,81,0.22)] text-text-light'
                   : 'bg-white border border-border text-text-med hover:bg-[rgba(55,65,81,0.08)]'
               }`}
             >
@@ -93,6 +104,8 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
               className={`py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
                 lessonMode === 'speak'
                   ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
+                  : speakDone
+                    ? 'bg-[rgba(55,65,81,0.10)] border border-[rgba(55,65,81,0.22)] text-text-light'
                   : 'bg-white border border-border text-text-med hover:bg-[rgba(55,65,81,0.08)]'
               }`}
             >
@@ -110,7 +123,6 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             currentIndex={lessonWordIndex}
             totalWords={totalWords}
             onNext={nextWord}
-            onPrev={prevWord}
           />
         )}
         {lessonMode === 'quiz' && (
@@ -122,7 +134,6 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             totalWords={totalWords}
             listeningMode={isListeningPractice}
             onNext={nextWord}
-            onPrev={prevWord}
           />
         )}
         {lessonMode === 'speak' && (
@@ -133,7 +144,6 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             totalWords={totalWords}
             practiceMode={isSpeakingPractice}
             onNext={nextWord}
-            onPrev={prevWord}
           />
         )}
       </div>

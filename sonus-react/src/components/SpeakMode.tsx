@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { BandData, Word, SpeakBreakdown } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
-import { Volume2, Mic, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Volume2, Mic, ChevronRight } from 'lucide-react';
 import { sendSpeakAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
@@ -13,7 +13,6 @@ interface SpeakModeProps {
   totalWords: number;
   practiceMode?: boolean;
   onNext: () => void;
-  onPrev: () => void;
 }
 
 type MatchResult = 'match' | 'retry' | null;
@@ -463,7 +462,6 @@ export default function SpeakMode({
   totalWords,
   practiceMode = false,
   onNext,
-  onPrev,
 }: SpeakModeProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [isFinalizing, setIsFinalizing] = useState(false);
@@ -904,6 +902,10 @@ export default function SpeakMode({
   const isPerfectListening = Boolean(
     analysis && analysis.initial.pass && analysis.final.pass && analysis.tone.pass
   );
+  const showMobileResult =
+    !isRecording &&
+    !isFinalizing &&
+    (Boolean(transcript) || Boolean(analysis) || Boolean(audioError) || Boolean(matchResult));
 
   const scoreRow = (label: string, score: ScoreBreakdown) => (
     <div className="text-sm text-text-med mb-1" key={label}>
@@ -929,8 +931,8 @@ export default function SpeakMode({
       <div className="flex-1 px-3 sm:px-5">
         {!practiceMode ? (
           <>
-          <div className="sm:hidden space-y-2 mb-2">
-            <div className="relative rounded-3xl border border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] px-4 py-3 min-h-[150px] flex flex-col items-center justify-center text-center">
+          <div className="sm:hidden grid grid-cols-2 gap-2 mb-2 items-stretch">
+            <div className="relative rounded-3xl border border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] px-3 py-2 min-h-[132px] flex flex-col items-center justify-center text-center">
               <button
                 type="button"
                 onClick={() => speak(word.simp, word.pinyin)}
@@ -941,12 +943,12 @@ export default function SpeakMode({
                 <Volume2 className="w-4 h-4" />
               </button>
               <div className="text-[11px] tracking-wide font-mono text-[#186E95] mb-1">Target</div>
-              <div className="secondary-font font-semibold text-3xl text-text-dark leading-tight">{word.simp}</div>
-              {word.pinyin ? <div className="text-base text-text-med">{word.pinyin}</div> : null}
-              <div className="text-sm text-text-light mt-1">{word.en}</div>
+              <div className="secondary-font font-semibold text-[1.9rem] text-text-dark leading-tight">{word.simp}</div>
+              {word.pinyin ? <div className="text-[15px] text-text-med">{word.pinyin}</div> : null}
+              <div className="text-xs text-text-light mt-1">{word.en}</div>
             </div>
 
-            <div className="relative rounded-3xl border border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] px-4 py-3 min-h-[150px]">
+            <div className="relative rounded-3xl border border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] px-3 py-2 min-h-[132px]">
               <button
                 type="button"
                 onClick={handleRecord}
@@ -961,29 +963,20 @@ export default function SpeakMode({
               >
                 <Mic className="w-4 h-4" />
               </button>
-              <button
-                type="button"
-                onClick={() => setShowListeningDetails((prev) => !prev)}
-                className="absolute top-3 right-14 inline-flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(194,65,12,0.30)] text-[#C2410C] bg-white/45 hover:bg-white/70 transition-colors"
-                aria-label={showListeningDetails ? 'Hide details' : 'Show details'}
-                title={showListeningDetails ? 'Hide details' : 'Show details'}
-              >
-                <ChevronRight className={`w-4 h-4 transition-transform ${showListeningDetails ? 'rotate-90' : ''}`} />
-              </button>
 
               <div className="h-full flex flex-col justify-center text-center">
                 <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
-                <div className="secondary-font font-semibold text-3xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
+                <div className="secondary-font font-semibold text-[1.9rem] text-text-dark leading-tight break-words">{transcript || '...'}</div>
                 <div className="text-xs text-text-med mt-1">
-                  {isFinalizing ? 'Finalizing...' : isRecording ? 'Recording...' : 'Tap mic to compare'}
+                  {isFinalizing ? 'Finalizing...' : isRecording ? 'Recording...' : 'Results appear below'}
                 </div>
               </div>
             </div>
 
-            {(showListeningDetails || transcript || analysis || audioError || matchResult) && (
-              <div className="rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-4 py-3">
+            {showMobileResult && (
+              <div className="col-span-2 rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-3 py-2.5">
                 <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Result</div>
-                <div className="secondary-font font-semibold text-2xl text-text-dark leading-tight break-words mb-1">
+                <div className="secondary-font font-semibold text-xl text-text-dark leading-tight break-words mb-1">
                   {transcript || '...'}
                 </div>
                 {analysis ? (
@@ -997,15 +990,15 @@ export default function SpeakMode({
                     {scoreRow('Tone', analysis.tone)}
                   </>
                 ) : (
-                  <div className="text-sm text-text-med">Record to see pinyin and score breakdown.</div>
+                  <div className="text-xs text-text-med">Record to see pinyin and score breakdown.</div>
                 )}
                 {matchResult === 'match' && (
-                  <div className="text-sm text-[#3E5648] mt-1 font-medium">Match: Great pronunciation.</div>
+                  <div className="text-xs text-[#3E5648] mt-1 font-medium">Match: Great pronunciation.</div>
                 )}
                 {matchResult === 'retry' && (
-                  <div className="text-sm text-[#C2410C] mt-1">No match. Please try again.</div>
+                  <div className="text-xs text-[#C2410C] mt-1">No match. Please try again.</div>
                 )}
-                {audioError && <div className="text-sm text-[#C2410C] mt-2">{audioError}</div>}
+                {audioError && <div className="text-xs text-[#C2410C] mt-2">{audioError}</div>}
               </div>
             )}
           </div>
@@ -1089,7 +1082,94 @@ export default function SpeakMode({
           </div>
           </>
         ) : (
-          <div className="rounded-3xl border border-[#C2410C]/25 bg-white/95 p-3 md:p-4 mb-2 sm:mb-3 shadow-[0_18px_38px_-28px_rgba(15,23,42,0.35)]">
+          <>
+          <div className="sm:hidden grid grid-cols-2 gap-2 mb-2 items-stretch">
+            <div className="col-span-2 mb-1 flex justify-center">
+              <div className={`inline-flex items-center rounded-xl px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
+                isRecording
+                  ? 'bg-[#C2410C] text-white'
+                  : transcript
+                    ? 'bg-[rgba(194,65,12,0.16)] text-[#C2410C]'
+                    : isFinalizing
+                      ? 'bg-[rgba(55,65,81,0.14)] text-[#374151]'
+                      : 'bg-[rgba(55,65,81,0.10)] text-text-med'
+              }`}>
+                {isFinalizing ? 'Finalizing' : isRecording ? 'Recording' : transcript ? 'Heard' : 'Listening'}
+              </div>
+            </div>
+
+            <div className="relative rounded-3xl border border-[rgba(194,65,12,0.22)] bg-[rgba(194,65,12,0.08)] px-3 py-2 min-h-[132px] flex flex-col items-center justify-center text-center">
+              <button
+                type="button"
+                onClick={() => speak(word.simp, word.pinyin)}
+                className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(194,65,12,0.35)] text-[#C2410C] bg-white/55 hover:bg-white/80 transition-colors"
+                aria-label="Play target audio"
+                title="Play target audio"
+              >
+                <Volume2 className="w-4 h-4" />
+              </button>
+              <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Target</div>
+              <div className="secondary-font font-semibold text-[1.9rem] text-text-dark leading-tight">{word.simp}</div>
+              {word.pinyin ? <div className="text-[15px] text-text-med">{word.pinyin}</div> : null}
+              <div className="text-xs text-text-light mt-1">{word.en}</div>
+            </div>
+
+            <div className="relative rounded-3xl border border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] px-3 py-2 min-h-[132px]">
+              <button
+                type="button"
+                onClick={handleRecord}
+                disabled={isFinalizing}
+                className={`absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border transition-colors ${
+                  isRecording
+                    ? 'border-[#C2410C] bg-[#C2410C] text-white animate-pulse'
+                    : 'border-[rgba(194,65,12,0.45)] text-[#C2410C] bg-white/55 hover:bg-white/80'
+                }`}
+                aria-label={isRecording ? 'Stop recording' : 'Start recording'}
+                title={isRecording ? 'Stop recording' : 'Start recording'}
+              >
+                <Mic className="w-4 h-4" />
+              </button>
+
+              <div className="h-full flex flex-col justify-center text-center">
+                <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
+                <div className="secondary-font font-semibold text-[1.9rem] text-text-dark leading-tight break-words">{transcript || '...'}</div>
+                <div className="text-xs text-text-med mt-1">
+                  {isFinalizing ? 'Finalizing...' : isRecording ? 'Recording...' : 'Results appear below'}
+                </div>
+              </div>
+            </div>
+
+            {showMobileResult && (
+              <div className="col-span-2 rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-3 py-2.5">
+                <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Result</div>
+                <div className="secondary-font font-semibold text-xl text-text-dark leading-tight break-words mb-1">
+                  {transcript || '...'}
+                </div>
+                {analysis ? (
+                  <>
+                    <div className="text-sm text-text-med mb-1">
+                      Detected pinyin:{' '}
+                      <span className="font-semibold text-text-dark">{analysis.detectedPinyin || 'unresolved'}</span>
+                    </div>
+                    {scoreRow('Initial', analysis.initial)}
+                    {scoreRow('Final', analysis.final)}
+                    {scoreRow('Tone', analysis.tone)}
+                  </>
+                ) : (
+                  <div className="text-xs text-text-med">Record to see pinyin and score breakdown.</div>
+                )}
+                {matchResult === 'match' && (
+                  <div className="text-xs text-[#3E5648] mt-1 font-medium">Match: Great pronunciation.</div>
+                )}
+                {matchResult === 'retry' && (
+                  <div className="text-xs text-[#C2410C] mt-1">No match. Please try again.</div>
+                )}
+                {audioError && <div className="text-xs text-[#C2410C] mt-2">{audioError}</div>}
+              </div>
+            )}
+          </div>
+
+          <div className="hidden sm:block rounded-3xl border border-[#C2410C]/25 bg-white/95 p-3 md:p-4 mb-2 sm:mb-3 shadow-[0_18px_38px_-28px_rgba(15,23,42,0.35)]">
             <div className="mb-2 flex justify-center">
               <div className={`inline-flex items-center rounded-xl px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
                 isRecording
@@ -1218,6 +1298,7 @@ export default function SpeakMode({
               </button>
             </div>
           </div>
+          </>
         )}
 
         {/* Control Buttons */}
@@ -1267,23 +1348,15 @@ export default function SpeakMode({
 
       {/* Navigation Buttons */}
       <div
-        className={`fixed bottom-20 left-0 right-0 z-40 flex gap-3 px-5 pb-2 border-t pt-3 backdrop-blur-sm ${
+        className={`fixed bottom-20 left-0 right-0 z-40 px-5 pb-2 border-t pt-3 backdrop-blur-sm ${
           practiceMode
             ? 'bg-white/95 border-white/30'
             : 'bg-bg-warm/95 border-border'
         }`}
       >
         <button
-          onClick={onPrev}
-          disabled={currentIndex === 0}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 border border-border rounded-2xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] hover:border-[rgba(55,65,81,0.45)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          Previous
-        </button>
-        <button
           onClick={onNext}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
+          className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
         >
           {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
           <ChevronRight className="w-5 h-5" />

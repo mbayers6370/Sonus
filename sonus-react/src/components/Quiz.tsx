@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
-import { Volume2, ChevronLeft, ChevronRight, CheckCircle, XCircle } from 'lucide-react';
+import { Volume2, ChevronRight, CheckCircle, XCircle } from 'lucide-react';
 import { sendQuizAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
@@ -13,7 +13,6 @@ interface QuizProps {
   totalWords: number;
   listeningMode?: boolean;
   onNext: () => void;
-  onPrev: () => void;
 }
 
 function shuffleArray<T>(items: T[]): T[] {
@@ -39,7 +38,6 @@ export default function Quiz({
   totalWords,
   listeningMode = false,
   onNext,
-  onPrev,
 }: QuizProps) {
   const { recordQuizResult } = useApp();
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -81,14 +79,6 @@ export default function Quiz({
     const nextWord = allWords[Math.min(currentIndex + 1, allWords.length - 1)] || word;
     setAllChoices(buildChoices(nextWord, allWords));
     onNext();
-  };
-
-  const handlePrev = () => {
-    setSelectedAnswer(null);
-    setIsCorrect(null);
-    const prevWord = allWords[Math.max(currentIndex - 1, 0)] || word;
-    setAllChoices(buildChoices(prevWord, allWords));
-    onPrev();
   };
 
   return (
@@ -247,18 +237,10 @@ export default function Quiz({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="fixed bottom-20 left-0 right-0 z-40 flex gap-3 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm">
-        <button
-          onClick={handlePrev}
-          disabled={currentIndex === 0}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 border border-border rounded-2xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] hover:border-[rgba(55,65,81,0.45)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          Previous
-        </button>
+      <div className="fixed bottom-20 left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm">
         <button
           onClick={handleNext}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
+          className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
         >
           {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
           <ChevronRight className="w-5 h-5" />

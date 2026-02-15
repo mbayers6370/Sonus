@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
-import { Volume2, Snail, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Volume2, Snail, ChevronRight } from 'lucide-react';
 
 interface FlashcardProps {
   word: Word;
   currentIndex: number;
   totalWords: number;
   onNext: () => void;
-  onPrev: () => void;
 }
 
 export default function Flashcard({
@@ -16,7 +15,6 @@ export default function Flashcard({
   currentIndex,
   totalWords,
   onNext,
-  onPrev,
 }: FlashcardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const { speak } = useAudio();
@@ -29,11 +27,6 @@ export default function Flashcard({
   const handleNext = () => {
     setIsFlipped(false);
     onNext();
-  };
-
-  const handlePrev = () => {
-    setIsFlipped(false);
-    onPrev();
   };
 
   return (
@@ -116,18 +109,10 @@ export default function Flashcard({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="fixed bottom-20 left-0 right-0 z-40 flex gap-3 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm">
-        <button
-          onClick={handlePrev}
-          disabled={currentIndex === 0}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 border border-border rounded-2xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] hover:border-[rgba(55,65,81,0.45)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          Previous
-        </button>
+      <div className="fixed bottom-20 left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm">
         <button
           onClick={handleNext}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
+          className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
         >
           {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
           <ChevronRight className="w-5 h-5" />

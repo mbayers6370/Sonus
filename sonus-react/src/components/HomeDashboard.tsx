@@ -159,7 +159,7 @@ export default function HomeDashboard({
         >
           <div className="main-font text-2xl leading-none mb-2 text-white">Travel Mode</div>
           <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
-            Built for tight timelines. Train practical {languageLabel} for airports, hotels, transport, food, and emergencies.
+            Leaving soon? Prioritize high-utility {languageLabel} for airports, hotels, transport, food, and emergencies so you can handle real situations with confidence.
           </p>
           <div className="grid grid-cols-3 gap-2 mb-4 max-w-md mx-auto">
             <button onClick={() => onOpenTravelMode('airport-arrival')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
