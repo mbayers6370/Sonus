@@ -189,9 +189,8 @@ export default function HomeDashboard({
           style={{ animationDelay: '85ms' }}
         >
           <div className="main-font text-2xl leading-none mb-2 text-white">Practice Focus</div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg border border-white/30 bg-white/12 text-[11px] uppercase tracking-wider font-mono text-white/90 mb-2">
-            <span>Adaptive Mix</span>
-            <span>70% weak words · 30% reinforce</span>
+          <div className="inline-flex flex-col items-center px-3 py-1.5 rounded-lg border border-white/30 bg-white/12 text-white/90 mb-2">
+            <span className="text-[11px] uppercase tracking-wider font-mono leading-none">Adaptive Mix · 70% weak words · 30% reinforce</span>
           </div>
           <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
             {selectedLanguage === 'zh'

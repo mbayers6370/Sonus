@@ -918,7 +918,7 @@ export default function SpeakMode({
   return (
     <div className="flex flex-col min-h-full">
       {/* Progress Bar */}
-      <div className="w-full h-2 bg-gray-200/90 rounded-full overflow-hidden mb-2">
+      <div className="w-full h-2 bg-gray-200/90 rounded-full overflow-hidden mb-1.5 sm:mb-2">
         <div
           className="h-full bg-gradient-to-r from-[#186E95] to-[#C2410C] transition-all duration-300"
           style={{ width: `${((currentIndex + 1) / totalWords) * 100}%` }}
@@ -926,12 +926,12 @@ export default function SpeakMode({
       </div>
 
       {/* Word Display */}
-      <div className="flex-1 px-5">
+      <div className="flex-1 px-3 sm:px-5">
         {!practiceMode ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
-            <div className="rounded-3xl border border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] px-4 py-4 h-[220px] flex flex-col items-center justify-center text-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+            <div className="rounded-3xl border border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] flex flex-col items-center justify-center text-center">
               <div className="text-[11px] tracking-wide font-mono text-[#186E95] mb-1">Target</div>
-              <div className="secondary-font font-semibold text-4xl text-text-dark leading-tight">{word.simp}</div>
+              <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight">{word.simp}</div>
               {word.pinyin ? <div className="text-base text-text-med">{word.pinyin}</div> : null}
               <div className="text-sm text-text-light mt-1">{word.en}</div>
             </div>
@@ -939,7 +939,7 @@ export default function SpeakMode({
             <button
               type="button"
               onClick={() => setShowListeningDetails((prev) => !prev)}
-              className={`relative rounded-3xl border px-4 py-4 h-[220px] transition-colors ${
+              className={`relative rounded-3xl border px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] transition-colors ${
                 showListeningDetails && isPerfectListening
                   ? 'border-[rgba(62,86,72,0.30)] bg-[rgba(62,86,72,0.14)]'
                   : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] hover:bg-[rgba(194,65,12,0.12)]'
@@ -948,8 +948,8 @@ export default function SpeakMode({
               {!showListeningDetails ? (
                 <div className="h-full flex flex-col items-center justify-center text-center">
                   <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
-                  <div className="secondary-font font-semibold text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
-                  <div className="text-xs text-text-med mt-1">
+                  <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
+                  <div className="hidden sm:block text-xs text-text-med mt-1">
                     {transcript ? 'Show details' : 'Record to compare'}
                   </div>
                 </div>
@@ -1006,8 +1006,8 @@ export default function SpeakMode({
             </button>
           </div>
         ) : (
-          <div className="rounded-3xl border border-[#C2410C]/25 bg-white/95 p-4 mb-3 shadow-[0_18px_38px_-28px_rgba(15,23,42,0.35)]">
-            <div className="mb-3 flex justify-center">
+          <div className="rounded-3xl border border-[#C2410C]/25 bg-white/95 p-3 md:p-4 mb-2 sm:mb-3 shadow-[0_18px_38px_-28px_rgba(15,23,42,0.35)]">
+            <div className="mb-2 flex justify-center">
               <div className={`inline-flex items-center rounded-xl px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
                 isRecording
                   ? 'bg-[#C2410C] text-white'
@@ -1021,10 +1021,10 @@ export default function SpeakMode({
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
-              <div className="rounded-3xl border border-[rgba(194,65,12,0.22)] bg-[rgba(194,65,12,0.08)] px-4 py-4 h-[220px] flex flex-col items-center justify-center text-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+              <div className="rounded-3xl border border-[rgba(194,65,12,0.22)] bg-[rgba(194,65,12,0.08)] px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] flex flex-col items-center justify-center text-center">
                 <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Target</div>
-                <div className="secondary-font font-semibold text-4xl text-text-dark leading-tight">{word.simp}</div>
+                <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight">{word.simp}</div>
                 {word.pinyin ? <div className="text-base text-text-med">{word.pinyin}</div> : null}
                 <div className="text-sm text-text-light mt-1">{word.en}</div>
               </div>
@@ -1032,7 +1032,7 @@ export default function SpeakMode({
               <button
                 type="button"
                 onClick={() => setShowListeningDetails((prev) => !prev)}
-                className={`relative rounded-3xl border px-4 py-4 h-[220px] transition-colors ${
+                className={`relative rounded-3xl border px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] transition-colors ${
                   showListeningDetails && isPerfectListening
                     ? 'border-[rgba(62,86,72,0.30)] bg-[rgba(62,86,72,0.14)]'
                     : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] hover:bg-[rgba(194,65,12,0.12)]'
@@ -1041,8 +1041,8 @@ export default function SpeakMode({
                 {!showListeningDetails ? (
                   <div className="h-full flex flex-col items-center justify-center text-center">
                     <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
-                    <div className="secondary-font font-semibold text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
-                    <div className="text-xs text-text-med mt-1">
+                    <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
+                    <div className="hidden sm:block text-xs text-text-med mt-1">
                       {transcript ? 'Show details' : 'Record to compare'}
                     </div>
                   </div>
@@ -1102,7 +1102,7 @@ export default function SpeakMode({
             <div className="flex gap-2">
               <button
                 onClick={() => speak(word.simp, word.pinyin)}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-[#C2410C] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#9A3412]"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#C2410C] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#9A3412]"
               >
                 <Volume2 className="w-5 h-5" />
                 Listen
@@ -1110,7 +1110,7 @@ export default function SpeakMode({
               <button
                 onClick={handleRecord}
                 disabled={isFinalizing}
-                className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl font-semibold tracking-wide transition-all ${
+                className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-2xl font-semibold tracking-wide transition-all ${
                   isRecording
                     ? 'bg-[#C2410C] text-white animate-pulse'
                     : 'bg-white border-2 border-[#C2410C] text-[#C2410C] hover:bg-[#C2410C] hover:text-white'
@@ -1139,10 +1139,10 @@ export default function SpeakMode({
 
         {/* Control Buttons */}
         {!practiceMode && (
-        <div className="flex gap-3 mb-3">
+        <div className="flex gap-2 sm:gap-3 mb-2 sm:mb-3">
           <button
             onClick={() => speak(word.simp, word.pinyin)}
-            className="flex-1 flex items-center justify-center gap-3 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#145C7C] hover:-translate-y-0.5 hover:shadow-lg"
+            className="flex-1 flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#145C7C] hover:-translate-y-0.5 hover:shadow-lg"
           >
             <Volume2 className="w-6 h-6" />
             Listen
@@ -1150,7 +1150,7 @@ export default function SpeakMode({
           <button
             onClick={handleRecord}
             disabled={isFinalizing}
-            className={`flex-1 flex items-center justify-center gap-3 px-6 py-3 rounded-2xl font-semibold tracking-wide transition-all ${
+            className={`flex-1 flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-semibold tracking-wide transition-all ${
               isRecording
                 ? 'bg-[#C2410C] text-white animate-pulse'
                 : 'bg-white border-2 border-[#C2410C] text-[#C2410C] hover:bg-[#C2410C] hover:text-white'
