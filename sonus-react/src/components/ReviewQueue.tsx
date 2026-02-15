@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { ChevronLeft, RefreshCw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 import type { BandData, Word } from '../types/lesson.types';
 import BottomNav from './BottomNav';
+import GlassHeader from './GlassHeader';
 
 type ReviewQueueItem = {
   wordId: string;
@@ -25,7 +26,6 @@ type ReviewQueueResponse = {
 };
 
 interface ReviewQueueProps {
-  onBack: () => void;
   selectedLanguage: string;
   onGoHome: () => void;
   onOpenProfile: () => void;
@@ -80,7 +80,6 @@ async function loadWordLookup(selectedLanguage: string): Promise<WordLookup> {
 }
 
 export default function ReviewQueue({
-  onBack,
   selectedLanguage,
   onGoHome,
   onOpenProfile,
@@ -126,23 +125,8 @@ export default function ReviewQueue({
   }, [selectedLanguage]);
 
   return (
-    <div className="min-h-screen page-shell px-6 pt-14 pb-24">
-      <div className="relative mb-8">
-        <button
-          onClick={onBack}
-          className="absolute left-0 -top-1 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
-        >
-          <ChevronLeft className="w-4.5 h-4.5" />
-          <span className="text-sm">Back</span>
-        </button>
-
-        <div className="text-center px-12">
-          <h1 className="font-playfair text-5xl font-normal text-text-dark mb-2">
-            Review Queue
-          </h1>
-          <h2 className="text-base text-text-med italic">Words that need repetition now</h2>
-        </div>
-      </div>
+    <div className="min-h-screen page-shell px-6 pb-24">
+      <GlassHeader title="Review Queue" />
 
       <div className="mb-5 flex justify-end">
         <button
@@ -179,7 +163,7 @@ export default function ReviewQueue({
             <div key={item.wordId} className="bg-white border border-border rounded-2xl p-5">
               {wordLookup[item.wordId] ? (
                 <div className="mb-3">
-                  <div className="font-noto-serif text-3xl text-text-dark leading-none">
+                  <div className="secondary-font text-3xl text-text-dark leading-none">
                     {wordLookup[item.wordId].simp}
                   </div>
                   <div className="text-sm text-text-med mt-1">
@@ -192,12 +176,12 @@ export default function ReviewQueue({
               ) : null}
 
               <div className="flex items-start justify-between gap-4 mb-3">
-                <div className="font-playfair text-2xl text-text-dark">
+                <div className="main-font text-2xl text-text-dark">
                   {wordLookup[item.wordId]?.simp || 'Word'}
                 </div>
                 <div className="text-right">
                   <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-1">Priority</div>
-                  <div className="text-xl font-semibold text-[#1E3A8A]">{item.priorityScore}</div>
+                  <div className="text-xl font-semibold text-[#186E95]">{item.priorityScore}</div>
                 </div>
               </div>
 
@@ -205,7 +189,7 @@ export default function ReviewQueue({
                 {item.reasons.map((reason) => (
                   <span
                     key={reason}
-                    className="px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-[rgba(30,58,138,0.12)] text-[#1E3A8A]"
+                    className="px-2.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-[rgba(24,110,149,0.12)] text-[#186E95]"
                   >
                     {reasonLabel(reason)}
                   </span>

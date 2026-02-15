@@ -7,9 +7,10 @@ export function useAudio() {
       return;
     }
 
-    window.speechSynthesis.cancel();
+    const synth = window.speechSynthesis;
+    synth.cancel();
 
-    const voices = window.speechSynthesis.getVoices();
+    const voices = synth.getVoices();
 
     const preferredChineseVoice = voices.find((v) =>
       v.lang.includes('zh') &&
@@ -60,10 +61,8 @@ export function useAudio() {
     };
 
     try {
-      // A short delay avoids dropped utterances on Safari.
-      setTimeout(() => {
-        window.speechSynthesis.speak(utterance);
-      }, 100);
+      // Keep speak() in the original click/tap gesture to avoid autoplay blocking on Safari/iOS.
+      synth.speak(utterance);
     } catch (e) {
       console.error('[Audio] Speech synthesis error:', e);
       alert('Audio error: ' + (e as Error).message);

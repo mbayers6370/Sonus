@@ -1,4 +1,4 @@
-import { BookOpen, Languages, User } from 'lucide-react';
+import { BookOpen, House, User } from 'lucide-react';
 
 interface BottomNavProps {
   onHome: () => void;
@@ -24,7 +24,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           active === 'home' ? 'text-text-dark' : 'text-text-light hover:text-text-dark'
         }`}
       >
-        <Languages className="w-6 h-6" />
+        <House className="w-6 h-6" />
         <span className="text-xs">Home</span>
       </button>
       <button

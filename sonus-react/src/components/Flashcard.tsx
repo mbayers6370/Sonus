@@ -39,23 +39,18 @@ export default function Flashcard({
   return (
     <div className="flex flex-col min-h-full">
       {/* Progress Bar */}
-      <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden mb-2">
+      <div className="w-full h-2 bg-gray-200/90 rounded-full overflow-hidden mb-2">
         <div
-          className="h-full bg-gradient-to-r from-[#1E3A8A] to-[#4D7C0F] transition-all duration-300"
+          className="h-full bg-gradient-to-r from-[#186E95] to-[#C2410C] transition-all duration-300"
           style={{ width: `${((currentIndex + 1) / totalWords) * 100}%` }}
         />
-      </div>
-
-      {/* Progress Text */}
-      <div className="text-center text-sm text-text-med font-medium mb-3">
-        {currentIndex + 1} / {totalWords}
       </div>
 
       {/* Flashcard */}
       <div className="flex-1 flex items-center justify-center px-5 py-2">
         <div
           onClick={handleFlip}
-          className="w-full max-w-md min-h-[210px] md:min-h-[250px] bg-white rounded-3xl shadow-xl border border-border cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center p-5"
+          className="w-full max-w-md min-h-[220px] md:min-h-[255px] bg-white/95 rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-6"
         >
           {!isFlipped ? (
             // Front side
@@ -70,11 +65,11 @@ export default function Flashcard({
                   </div>
                 </>
               )}
-              <div className="font-noto-serif text-5xl mb-3 text-text-dark">
+              <div className="secondary-font text-5xl mb-3 text-text-dark leading-tight">
                 {word.simp}
               </div>
               {word.pinyin && (
-                <div className="text-xl text-text-med mb-3">
+                <div className="text-[1.45rem] text-text-med mb-3">
                   {word.pinyin}
                 </div>
               )}
@@ -106,14 +101,14 @@ export default function Flashcard({
       <div className="flex gap-3 justify-center px-5 pb-4">
         <button
           onClick={() => speak(word.simp, word.pinyin, false)}
-          className="flex items-center gap-2 px-6 py-3 bg-[#1E3A8A] text-white rounded-xl font-medium transition-all hover:bg-[#182F74] hover:-translate-y-0.5 hover:shadow-lg"
+          className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#145C7C] hover:-translate-y-0.5 hover:shadow-lg"
         >
           <Volume2 className="w-5 h-5" />
           Listen
         </button>
         <button
           onClick={() => speak(word.simp, word.pinyin, true)}
-          className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(55,65,81,0.40)] text-[#374151] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)]"
+          className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(55,65,81,0.40)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)]"
         >
           <Snail className="w-5 h-5" />
           Slow
@@ -125,14 +120,14 @@ export default function Flashcard({
         <button
           onClick={handlePrev}
           disabled={currentIndex === 0}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 border border-border rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] hover:border-[rgba(55,65,81,0.45)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
+          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 border border-border rounded-2xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] hover:border-[rgba(55,65,81,0.45)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
         >
           <ChevronLeft className="w-5 h-5" />
           Previous
         </button>
         <button
           onClick={handleNext}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-xl font-medium transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
+          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
         >
           {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
           <ChevronRight className="w-5 h-5" />

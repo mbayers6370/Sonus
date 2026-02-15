@@ -148,7 +148,7 @@ Your color scheme is available as Tailwind classes:
 <div className="text-text-med">Medium text</div>
 <div className="border-border">Border</div>
 <div className="font-noto-serif">Chinese font</div>
-<div className="font-playfair">Title font</div>
+<div className="main-font">Title font</div>
 ```
 
 ---

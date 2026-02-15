@@ -1,44 +1,45 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
-import { ChevronLeft, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import { getUnitsForBand } from '../data/unitMetadata';
 import BottomNav from './BottomNav';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
+import GlassHeader from './GlassHeader';
 
 const CARD_ACCENTS = [
   {
-    borderColor: 'border-[#1E3A8A]',
-    badgeBg: 'bg-[rgba(30,58,138,0.16)]',
-    badgeText: 'text-[#1E3A8A]',
-    progressFill: 'bg-[#1E3A8A]/45',
-    hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(30,58,138,0.45)]',
+    borderColor: 'border-[#186E95]/55',
+    badgeBg: 'bg-[rgba(24,110,149,0.12)]',
+    badgeText: 'text-[#186E95]',
+    progressFill: 'bg-[#186E95]/55',
+    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(24,110,149,0.28)]',
   },
   {
-    borderColor: 'border-[#4D7C0F]',
-    badgeBg: 'bg-[rgba(77,124,15,0.16)]',
-    badgeText: 'text-[#4D7C0F]',
-    progressFill: 'bg-[#4D7C0F]/45',
-    hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(77,124,15,0.40)]',
+    borderColor: 'border-[#3E5648]/55',
+    badgeBg: 'bg-[rgba(62,86,72,0.12)]',
+    badgeText: 'text-[#3E5648]',
+    progressFill: 'bg-[#3E5648]/55',
+    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(62,86,72,0.26)]',
   },
   {
-    borderColor: 'border-[#374151]',
-    badgeBg: 'bg-[rgba(55,65,81,0.14)]',
+    borderColor: 'border-[#374151]/55',
+    badgeBg: 'bg-[rgba(55,65,81,0.10)]',
     badgeText: 'text-[#374151]',
-    progressFill: 'bg-[#374151]/45',
-    hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(55,65,81,0.42)]',
+    progressFill: 'bg-[#374151]/55',
+    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(55,65,81,0.24)]',
   },
   {
-    borderColor: 'border-[#C2410C]',
-    badgeBg: 'bg-[rgba(194,65,12,0.16)]',
+    borderColor: 'border-[#C2410C]/55',
+    badgeBg: 'bg-[rgba(194,65,12,0.12)]',
     badgeText: 'text-[#C2410C]',
-    progressFill: 'bg-[#C2410C]/45',
-    hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(194,65,12,0.45)]',
+    progressFill: 'bg-[#C2410C]/55',
+    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.30)]',
   },
 ] as const;
 
 interface UnitSelectProps {
-  onBack: () => void;
   onSelectLesson: (unitId: string, lessonIndex: number) => void;
   onOpenPractice: (unitId: string) => void;
   onGoHome: () => void;
@@ -59,18 +60,28 @@ function getPracticeType(unitId: string): 'listening' | 'speaking' | null {
 }
 
 export default function UnitSelect({
-  onBack,
   onSelectLesson,
   onOpenPractice,
   onGoHome,
   onOpenProfile,
 }: UnitSelectProps) {
   const { state } = useApp();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { currentLevel, activeBandData, lessonProgress, resumeCheckpoint } = state;
   const [viewportWidth, setViewportWidth] = useState(
     typeof window === 'undefined' ? 1280 : window.innerWidth
   );
-  const [activeUnitId, setActiveUnitId] = useState<string | null>(null);
+  const activeUnitId = searchParams.get('unit');
+
+  const setActiveUnit = (unitId: string | null) => {
+    const next = new URLSearchParams(searchParams);
+    if (unitId) {
+      next.set('unit', unitId);
+    } else {
+      next.delete('unit');
+    }
+    setSearchParams(next);
+  };
 
   useEffect(() => {
     const onResize = () => setViewportWidth(window.innerWidth);
@@ -149,33 +160,11 @@ export default function UnitSelect({
   const activeUnit = activeUnitId
     ? unitMetrics.find((u) => u.unitId === activeUnitId) ?? null
     : null;
+  const headerTitle = activeUnit ? `Unit ${activeUnit.metadata.order}` : currentLevel.name;
 
   return (
-    <div className="min-h-screen page-shell pb-24 px-6 pt-14">
-      {/* Header */}
-      <div className="relative mb-10 pt-4">
-        <button
-          onClick={() => {
-            if (activeUnitId) {
-              setActiveUnitId(null);
-              return;
-            }
-            onBack();
-          }}
-          className="absolute left-0 top-0 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
-        >
-          <ChevronLeft className="w-4.5 h-4.5" />
-          <span className="text-sm">Back</span>
-        </button>
-        <div className="text-center px-12 pt-8">
-          <h1 className="font-playfair text-5xl font-normal text-text-dark mb-2">
-            {activeUnit ? `Unit ${activeUnit.metadata.order}` : currentLevel.name}
-          </h1>
-          <h2 className="text-base text-text-med italic">
-            {activeUnit ? activeUnit.metadata.name : currentLevel.description}
-          </h2>
-        </div>
-      </div>
+    <div className="min-h-screen page-shell pb-24 px-6">
+      <GlassHeader title={headerTitle} />
 
       {/* Units Grid */}
       {!activeUnit && (
@@ -190,8 +179,8 @@ export default function UnitSelect({
               const practiceAccent =
                 practiceType === 'listening'
                   ? {
-                      solidBg: 'bg-[#1E3A8A]',
-                      borderColor: 'border-[#1E3A8A]',
+                      solidBg: 'bg-[#186E95]',
+                      borderColor: 'border-[#186E95]',
                     }
                   : {
                       solidBg: 'bg-[#C2410C]',
@@ -201,7 +190,7 @@ export default function UnitSelect({
                 <button
                   key={unitId}
                   onClick={() => onOpenPractice(unitId)}
-                  className={`${practiceAccent.solidBg} text-white border-2 ${practiceAccent.borderColor} rounded-2xl min-h-[150px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 flex flex-col`}
+                  className={`${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor} rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col`}
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/20 text-white">
@@ -214,20 +203,20 @@ export default function UnitSelect({
                   </div>
 
                   <div className="space-y-1">
-                    <div className="text-xs uppercase tracking-wider font-mono text-white/85">
+                    <div className="text-[11px] tracking-wide font-mono text-white/85">
                       {metadata.name}
                     </div>
-                    <div className="font-playfair text-xl font-normal leading-tight text-white">
+                    <div className="main-font text-[2rem] font-normal leading-tight text-white">
                       {metadata.hanzi}
                     </div>
                   </div>
 
-                  <div className="mt-3 text-[11px] leading-snug text-white/90">
+                  <div className="mt-3 text-xs leading-relaxed text-white/90">
                     {metadata.description}
                   </div>
 
-                  <div className="mt-auto pt-4 text-xs font-semibold uppercase tracking-wider font-mono text-white">
-                    Open practice →
+                  <div className="mt-auto pt-5 text-sm font-semibold tracking-wide text-white">
+                    Start practice →
                   </div>
                 </button>
               );
@@ -240,10 +229,10 @@ export default function UnitSelect({
                 key={unitId}
                 onClick={() => {
                   if (isBlueprint) return;
-                  setActiveUnitId(unitId);
+                  setActiveUnit(unitId);
                 }}
                 disabled={isBlueprint}
-                className={`${isUnitComplete ? `${accent.badgeText === 'text-[#1E3A8A]' ? 'bg-[#1E3A8A]' : accent.badgeText === 'text-[#4D7C0F]' ? 'bg-[#4D7C0F]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : 'bg-white text-text-dark'} border-2 ${accent.borderColor} rounded-2xl min-h-[150px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`}
+                className={`${isUnitComplete ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : 'bg-white/95 text-text-dark'} border ${accent.borderColor} rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0`}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isUnitComplete ? 'bg-white/20 text-white' : `${accent.badgeBg} ${accent.badgeText}`}`}>
@@ -258,43 +247,43 @@ export default function UnitSelect({
                 </div>
 
                 <div className="space-y-1">
-                  <div className={`text-xs uppercase tracking-wider font-mono ${isUnitComplete ? 'text-white/85' : 'text-text-med'}`}>
+                  <div className={`text-[11px] tracking-wide font-mono ${isUnitComplete ? 'text-white/85' : 'text-text-med'}`}>
                     {metadata.name}
                   </div>
-                  <div className={`font-playfair text-xl font-normal leading-tight ${isUnitComplete ? 'text-white' : 'text-text-dark'}`}>
+                  <div className={`main-font text-[2rem] font-normal leading-tight ${isUnitComplete ? 'text-white' : 'text-text-dark'}`}>
                     {metadata.hanzi}
                   </div>
                 </div>
 
-                <div className={`mt-3 text-[11px] leading-snug ${isUnitComplete ? 'text-white/90' : 'text-text-med'}`}>
+                <div className={`mt-3 text-xs leading-relaxed ${isUnitComplete ? 'text-white/90' : 'text-text-med'}`}>
                   {metadata.description}
                 </div>
                 {isBlueprint && metadata.microUnits && metadata.microUnits.length > 0 && (
-                  <div className={`mt-2 text-[11px] leading-snug ${isUnitComplete ? 'text-white/85' : 'text-text-light'}`}>
+                  <div className={`mt-2 text-xs leading-relaxed ${isUnitComplete ? 'text-white/85' : 'text-text-light'}`}>
                     Focus: {metadata.microUnits.slice(0, 3).join(' · ')}
                   </div>
                 )}
 
-                <div className="mt-4">
-                  <div className="h-1.5 w-full rounded-full bg-border/80 overflow-hidden">
+                <div className="mt-5">
+                  <div className="h-2.5 w-full rounded-full bg-border/75 overflow-hidden">
                     <div
                       className={`h-full rounded-full ${isUnitComplete ? 'bg-white/90' : accent.progressFill}`}
                       style={{ width: `${depth}%` }}
                     />
                   </div>
-                  <div className={`mt-1 text-[10px] font-mono uppercase tracking-wider ${isUnitComplete ? 'text-white/85' : 'text-text-light'}`}>
+                  <div className={`mt-1.5 text-[11px] font-mono tracking-wide ${isUnitComplete ? 'text-white/85' : 'text-text-light'}`}>
                     Progress {averageLessonProgress}%
                   </div>
                 </div>
 
-                <div className={`mt-4 text-xs font-semibold uppercase tracking-wider font-mono ${isUnitComplete ? 'text-white' : accent.badgeText}`}>
+                <div className={`mt-5 text-sm font-semibold tracking-wide ${isUnitComplete ? 'text-white' : accent.badgeText}`}>
                   {isBlueprint
-                    ? 'Planned →'
+                    ? 'Planned'
                     : isUnitComplete
                     ? 'Unit complete'
                     : lessonsCount > 1
-                      ? `Choose lesson (${lessonsCount}) →`
-                      : 'Start learning →'}
+                      ? `Continue (${lessonsCount} lessons) →`
+                      : 'Start lesson →'}
                 </div>
               </button>
             );
@@ -331,7 +320,7 @@ export default function UnitSelect({
                 <button
                   key={`${activeUnit.unitId}-${lessonIndex}`}
                   onClick={() => onSelectLesson(activeUnit.unitId, lessonIndex)}
-                  className={`${isLessonComplete ? `${accent.badgeText === 'text-[#1E3A8A]' ? 'bg-[#1E3A8A]' : accent.badgeText === 'text-[#4D7C0F]' ? 'bg-[#4D7C0F]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : 'bg-white text-text-dark'} border-2 ${accent.borderColor} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`}
+                  className={`${isLessonComplete ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : 'bg-white text-text-dark'} border-2 ${accent.borderColor} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`}
                 >
                   <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isLessonComplete ? 'bg-white/20 text-white' : `${accent.badgeBg} ${accent.badgeText}`}`}>
                     <BookOpen className={`w-3.5 h-3.5 ${isLessonComplete ? 'text-white' : accent.badgeText}`} />

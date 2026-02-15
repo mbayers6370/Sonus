@@ -1,68 +1,61 @@
-import { ChevronLeft } from 'lucide-react';
 import BottomNav from './BottomNav';
+import GlassHeader from './GlassHeader';
 
 interface AboutSonusScreenProps {
-  onBack: () => void;
   onGoHome: () => void;
   onGoProfile: () => void;
 }
 
-export default function AboutSonusScreen({ onBack, onGoHome, onGoProfile }: AboutSonusScreenProps) {
+export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusScreenProps) {
   return (
-    <div className="min-h-screen page-shell px-6 pt-14 pb-24">
-      <div className="relative mb-8">
-        <button
-          onClick={onBack}
-          className="absolute left-0 -top-1 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
-        >
-          <ChevronLeft className="w-4.5 h-4.5" />
-          <span className="text-sm">Back</span>
-        </button>
-        <div className="text-center px-12">
-          <h1 className="font-playfair text-5xl font-normal text-text-dark mb-2">About Sonus</h1>
-          <h2 className="text-base text-text-med italic">Why the learning system is structured this way</h2>
-        </div>
-      </div>
+    <div className="min-h-screen page-shell px-6 pb-24">
+      <GlassHeader title="About Sonus" />
 
-      <section className="bg-white border border-border rounded-2xl overflow-hidden">
-        <div className="px-5 py-4 bg-[#C2410C] text-white">
-          <div className="text-xs uppercase tracking-wider font-mono mb-1 text-white/80">Method</div>
-          <h3 className="font-playfair text-3xl">Built on Real Frameworks</h3>
-          <p className="text-sm text-white/90 mt-1">
+      <section className="bg-white/95 border border-border rounded-3xl overflow-hidden shadow-[0_22px_48px_-36px_rgba(31,42,55,0.35)]">
+        <div className="px-6 py-6 bg-gradient-to-r from-[#C2410C] via-[#D2571A] to-[#E0702B] text-white text-center">
+          <div className="text-xs uppercase tracking-wider font-mono mb-2 text-white/80">Method</div>
+          <h3 className="main-font text-4xl leading-tight">Built on Real Frameworks</h3>
+          <p className="text-sm text-white/90 mt-2 max-w-2xl mx-auto">
             Sonus follows official proficiency systems used by each language.
           </p>
         </div>
 
-        <div className="p-5 space-y-5">
+        <div className="p-6 space-y-6">
           <div>
-            <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-2">Framework Mapping</div>
-            <div className="grid grid-cols-1 gap-2 text-sm text-text-dark">
-              <div className="rounded-lg border border-border px-3 py-2">
-                <span className="font-semibold text-[#1E3A8A]">Mandarin:</span> HSK 3.0 (Bands 1-9)
+            <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-3">Framework Mapping</div>
+            <div className="grid grid-cols-1 gap-2.5 text-sm text-text-dark">
+              <div className="rounded-xl border border-[#186E95]/25 bg-[rgba(24,110,149,0.04)] px-4 py-2.5">
+                <span className="font-semibold text-[#186E95]">Mandarin:</span> HSK 3.0 (Bands 1-9)
               </div>
-              <div className="rounded-lg border border-border px-3 py-2">
+              <div className="rounded-xl border border-[#C2410C]/25 bg-[rgba(194,65,12,0.04)] px-4 py-2.5">
                 <span className="font-semibold text-[#C2410C]">Japanese:</span> JLPT (N5-N1)
               </div>
-              <div className="rounded-lg border border-border px-3 py-2">
-                <span className="font-semibold text-[#4D7C0F]">Korean:</span> TOPIK
+              <div className="rounded-xl border border-[#3E5648]/25 bg-[rgba(62,86,72,0.05)] px-4 py-2.5">
+                <span className="font-semibold text-[#3E5648]">Korean:</span> TOPIK
               </div>
-              <div className="rounded-lg border border-border px-3 py-2">
+              <div className="rounded-xl border border-[#374151]/25 bg-[rgba(55,65,81,0.04)] px-4 py-2.5">
                 <span className="font-semibold text-[#374151]">French:</span> CEFR
               </div>
             </div>
           </div>
 
           <div>
-            <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-2">Why This Structure</div>
-            <div className="space-y-2 text-sm text-text-med">
-              <p>You get clear milestones and a progression you can actually measure.</p>
-              <p>Your level aligns with real exams and compatible outside resources.</p>
-              <p>Practice is targeted by weak words and pronunciation gaps, not random drills.</p>
+            <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-3">Why This Structure</div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm text-text-med">
+              <div className="rounded-xl border border-border bg-[#FBFBF9] p-3.5">
+                You get clear milestones and a progression you can actually measure.
+              </div>
+              <div className="rounded-xl border border-border bg-[#FBFBF9] p-3.5">
+                Your level aligns with real exams and compatible outside resources.
+              </div>
+              <div className="rounded-xl border border-border bg-[#FBFBF9] p-3.5">
+                Practice is targeted by weak words and pronunciation gaps, not random drills.
+              </div>
             </div>
           </div>
 
-          <div className="rounded-xl border border-[#1E3A8A]/20 bg-[rgba(30,58,138,0.06)] p-4">
-            <div className="text-xs uppercase tracking-wider font-mono text-[#1E3A8A] mb-1">Important Note</div>
+          <div className="rounded-2xl border border-[#186E95]/22 bg-[linear-gradient(135deg,rgba(24,110,149,0.08),rgba(24,110,149,0.03))] p-4">
+            <div className="text-xs uppercase tracking-wider font-mono text-[#186E95] mb-1.5">Important Note</div>
             <p className="text-sm text-text-med">
               Frameworks guide the path, but the goal is practical communication in real situations.
             </p>

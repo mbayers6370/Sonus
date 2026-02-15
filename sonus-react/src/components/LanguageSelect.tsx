@@ -1,18 +1,19 @@
 import { Sparkles, LayoutGrid, MessageSquare, Feather } from 'lucide-react';
 import BottomNav from './BottomNav';
+import GlassHeader from './GlassHeader';
 
 const CARD_ACCENTS = [
   {
-    leftBorder: 'border-[#1E3A8A]',
-    badgeBg: 'bg-[rgba(30,58,138,0.16)]',
-    badgeText: 'text-[#1E3A8A]',
-    hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(30,58,138,0.45)]',
+    leftBorder: 'border-[#186E95]',
+    badgeBg: 'bg-[rgba(24,110,149,0.16)]',
+    badgeText: 'text-[#186E95]',
+    hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(24,110,149,0.45)]',
   },
   {
-    leftBorder: 'border-[#4D7C0F]',
-    badgeBg: 'bg-[rgba(77,124,15,0.16)]',
-    badgeText: 'text-[#4D7C0F]',
-    hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(77,124,15,0.40)]',
+    leftBorder: 'border-[#3E5648]',
+    badgeBg: 'bg-[rgba(62,86,72,0.16)]',
+    badgeText: 'text-[#3E5648]',
+    hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(62,86,72,0.40)]',
   },
   {
     leftBorder: 'border-[#374151]',
@@ -68,24 +69,8 @@ interface LanguageSelectProps {
 export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHome }: LanguageSelectProps) {
 
   return (
-    <div className="min-h-screen page-shell px-6 pt-8 pb-24">
-      {/* Header */}
-      <div className="text-center mb-10">
-        <img
-          src="/branding/logo_name_solo.png"
-          alt="Sonus"
-          className="h-16 md:h-20 w-auto mx-auto mb-2 object-contain"
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).style.display = 'none';
-          }}
-        />
-        <h1 className="font-playfair text-5xl font-normal text-text-dark mb-2 sr-only">
-          Sonus
-        </h1>
-        <h1 className="text-base text-text-med italic">
-          Choose <span className="font-playfair">a language</span>
-        </h1>
-      </div>
+    <div className="min-h-screen page-shell px-6 pb-24">
+      <GlassHeader title="Choose a Language" />
 
       {/* Language Cards */}
       <div className="space-y-4">
@@ -110,7 +95,7 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
 
               {/* Content */}
               <div className="mt-4">
-                <h2 className="font-playfair text-2xl font-normal text-text-dark mb-1">
+                <h2 className="main-font text-2xl font-normal text-text-dark mb-1">
                   {lang.name}
                 </h2>
                 <p className="text-lg text-text-med mb-3 font-noto-serif">

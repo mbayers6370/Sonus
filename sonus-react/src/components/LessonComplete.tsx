@@ -1,9 +1,9 @@
 import { useApp } from '../contexts/AppContext';
-import { BookOpen, ChevronLeft } from 'lucide-react';
+import { BookOpen, PartyPopper } from 'lucide-react';
 import BottomNav from './BottomNav';
+import GlassHeader from './GlassHeader';
 
 interface LessonCompleteProps {
-  onBack: () => void;
   onStartQuiz: () => void;
   onStartSpeak: () => void;
   onContinue: () => void;
@@ -13,7 +13,6 @@ interface LessonCompleteProps {
 }
 
 export default function LessonComplete({
-  onBack,
   onStartQuiz,
   onStartSpeak,
   onContinue,
@@ -56,31 +55,15 @@ export default function LessonComplete({
   };
 
   return (
-    <div className="flex flex-col h-[100dvh] page-shell pt-14">
-      <div className="relative px-6">
-        <button
-          onClick={onBack}
-          className="absolute left-6 -top-1 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
-        >
-          <ChevronLeft className="w-4.5 h-4.5" />
-          <span className="text-sm">Back</span>
-        </button>
-        <div className="h-8" />
+    <div className="flex flex-col h-[100dvh] page-shell">
+      <div className="px-6">
+        <GlassHeader title="Lesson Complete" />
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-start px-6 pt-2 pb-4 overflow-y-auto">
-        {/* Brand image */}
-        <div className="mb-4">
-          <img
-            src="/branding/bird.png"
-            alt="Sonus bird"
-            className="w-20 h-20 md:w-24 md:h-24 object-contain drop-shadow-xl"
-          />
+        <div className="mb-3 inline-flex items-center justify-center w-10 h-10 rounded-full bg-[rgba(55,65,81,0.10)]">
+          <PartyPopper className="w-5 h-5 text-[#374151]" />
         </div>
-
-        <h1 className="font-playfair text-4xl font-normal text-text-dark mb-1 text-center">
-          {isQuizCompletion && !quizPassed ? 'Please Try Again' : 'Lesson Complete!'}
-        </h1>
         <p className="text-lg text-text-med mb-5 text-center">
           {isQuizCompletion
             ? `Quiz score: ${quizScorePercent}% (${quizCorrectCount}/${totalQuizItems})`
@@ -113,13 +96,13 @@ export default function LessonComplete({
                           ) : null}
                         </div>
                         <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-mono uppercase tracking-wider">
-                          <span className={`px-2 py-1 rounded ${breakdown.initial.pass ? 'bg-[rgba(77,124,15,0.14)] text-[#4D7C0F]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}>
+                          <span className={`px-2 py-1 rounded ${breakdown.initial.pass ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}>
                             Initial {breakdown.initial.pass ? 'OK' : 'Fix'}
                           </span>
-                          <span className={`px-2 py-1 rounded ${breakdown.final.pass ? 'bg-[rgba(77,124,15,0.14)] text-[#4D7C0F]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}>
+                          <span className={`px-2 py-1 rounded ${breakdown.final.pass ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}>
                             Final {breakdown.final.pass ? 'OK' : 'Fix'}
                           </span>
-                          <span className={`px-2 py-1 rounded ${breakdown.tone.pass ? 'bg-[rgba(77,124,15,0.14)] text-[#4D7C0F]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}>
+                          <span className={`px-2 py-1 rounded ${breakdown.tone.pass ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}>
                             Tone {breakdown.tone.pass ? 'OK' : 'Fix'}
                           </span>
                         </div>
@@ -146,8 +129,8 @@ export default function LessonComplete({
           <div className="space-y-6">
             {/* Lesson summary */}
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-[rgba(77,124,15,0.16)] flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-[#4D7C0F]" />
+              <div className="w-12 h-12 rounded-full bg-[rgba(62,86,72,0.16)] flex items-center justify-center">
+                <BookOpen className="w-6 h-6 text-[#3E5648]" />
               </div>
               <div>
                 <p className="text-sm text-text-med">Words Practiced</p>
@@ -162,14 +145,14 @@ export default function LessonComplete({
           {!isSpeakCompletion && (
             <button
               onClick={isQuizCompletion ? (quizPassed ? onStartSpeak : onStartQuiz) : onStartQuiz}
-              className="w-full py-4 px-6 bg-[#1E3A8A] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
             >
               {isQuizCompletion ? (quizPassed ? 'Practice Speaking' : 'Retake Quiz') : 'Start Quiz'}
             </button>
           )}
           <button
             onClick={onContinue}
-            className="w-full py-4 px-6 bg-[#4D7C0F] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+            className="w-full py-4 px-6 bg-[#3E5648] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
           >
             Continue Learning
           </button>

@@ -94,25 +94,20 @@ export default function Quiz({
   return (
     <div className="flex flex-col min-h-full">
       {/* Progress Bar */}
-      <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden mb-2">
+      <div className="w-full h-2 bg-gray-200/90 rounded-full overflow-hidden mb-2">
         <div
-          className="h-full bg-gradient-to-r from-[#1E3A8A] to-[#4D7C0F] transition-all duration-300"
+          className="h-full bg-gradient-to-r from-[#186E95] to-[#C2410C] transition-all duration-300"
           style={{ width: `${((currentIndex + 1) / totalWords) * 100}%` }}
         />
       </div>
 
-      {/* Progress Text */}
-      <div className="text-center text-sm text-text-med font-medium mb-3">
-        {currentIndex + 1} / {totalWords}
-      </div>
-
       {/* Quiz Question */}
-      <div className="flex-1 px-5">
+      <div className="flex-1 px-4">
         <div
-          className={`rounded-2xl p-3 mb-3 relative ${
+          className={`rounded-3xl p-3.5 mb-3 border relative ${
             listeningMode
-              ? 'bg-[#1E3A8A] text-white border border-[#1E3A8A]/30'
-              : 'bg-[rgba(55,65,81,0.08)]'
+              ? 'bg-[#186E95] text-white border-[#186E95]/30 shadow-[0_14px_32px_-24px_rgba(24,110,149,0.45)]'
+              : 'bg-[rgba(55,65,81,0.08)] border-border/80'
           }`}
         >
             <div className="text-center">
@@ -122,7 +117,7 @@ export default function Quiz({
                     className={`inline-flex mb-1 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
                       listeningMode
                         ? 'bg-white/20 text-white'
-                        : 'bg-[rgba(30,58,138,0.16)] text-[#1E3A8A]'
+                        : 'bg-[rgba(24,110,149,0.16)] text-[#186E95]'
                     }`}
                   >
                     Review Word
@@ -132,46 +127,54 @@ export default function Quiz({
                   </div>
                 </>
               )}
-              <div className={`text-sm mb-2 font-medium ${listeningMode ? 'text-white/90' : 'text-text-med'}`}>
+              <div className={`text-[1.05rem] mb-2 font-medium ${listeningMode ? 'text-white/90' : 'text-text-med'}`}>
                 {listeningMode ? 'Listen and choose the meaning' : 'What does this mean?'}
               </div>
             {!listeningMode ? (
               <>
-                <div className="font-noto-serif text-3xl mb-1 text-text-dark">
+                <div className="secondary-font text-4xl mb-1 text-text-dark leading-tight">
                   {word.simp}
                 </div>
                 {word.pinyin && (
-                  <div className="text-lg text-text-med">{word.pinyin}</div>
+                  <div className="text-[1.2rem] text-text-med">{word.pinyin}</div>
                 )}
+                <div className="mt-2">
+                  <button
+                    onClick={() => speak(word.simp, word.pinyin)}
+                    className="mx-auto w-12 h-12 rounded-full border border-[#374151]/35 bg-transparent text-[#374151] flex items-center justify-center hover:bg-[rgba(55,65,81,0.08)] transition-all"
+                    aria-label="Play audio"
+                  >
+                    <Volume2 className="w-5 h-5" />
+                  </button>
+                </div>
               </>
             ) : (
-              <div className="text-xs uppercase tracking-wider font-mono text-white/85">
-                Audio first
+              <div className="mt-1">
+                <button
+                  onClick={() => speak(word.simp, word.pinyin)}
+                  className="mx-auto w-12 h-12 rounded-full border border-white/70 bg-white/10 text-white flex items-center justify-center hover:bg-white/18 transition-all"
+                  aria-label="Play audio"
+                >
+                  <Volume2 className="w-5 h-5" />
+                </button>
               </div>
             )}
           </div>
 
-          {/* Audio Button */}
-          <button
-            onClick={() => speak(word.simp, word.pinyin)}
-            className={`absolute ${listeningMode ? 'right-3 top-1/2 -translate-y-1/2 w-11 h-11 text-[#1E3A8A] border border-[#1E3A8A]/15' : 'top-4 right-4 w-10 h-10'} rounded-full bg-white shadow-md flex items-center justify-center hover:bg-[#1E3A8A] hover:text-white transition-all`}
-          >
-            <Volume2 className="w-5 h-5" />
-          </button>
         </div>
 
         {/* Answer Choices */}
-        <div className="space-y-2 mb-4">
+        <div className="space-y-2 mb-3">
           {allChoices.map((choice, idx) => {
             const isSelected = selectedAnswer === choice;
             const isCorrectAnswer = choice === word.en;
 
-            let buttonClass = 'w-full p-2.5 rounded-xl font-medium text-left transition-all border-2 ';
+            let buttonClass = 'w-full min-h-[46px] p-3 rounded-2xl font-medium text-center transition-all border-2 ';
 
             if (selectedAnswer) {
               // After answering
               if (isCorrectAnswer) {
-                buttonClass += 'bg-[rgba(77,124,15,0.12)] border-[#4D7C0F] text-[#4D7C0F]';
+                buttonClass += 'bg-[rgba(62,86,72,0.12)] border-[#3E5648] text-[#3E5648]';
               } else if (isSelected) {
                 buttonClass += 'bg-[rgba(194,65,12,0.12)] border-[#C2410C] text-[#C2410C]';
               } else {
@@ -179,7 +182,7 @@ export default function Quiz({
               }
             } else {
               // Before answering
-              buttonClass += 'border-border hover:border-[#1E3A8A] hover:bg-[rgba(30,58,138,0.08)] cursor-pointer';
+              buttonClass += 'border-border hover:border-[#186E95] hover:bg-[rgba(24,110,149,0.08)] cursor-pointer';
             }
 
             return (
@@ -199,14 +202,14 @@ export default function Quiz({
         {selectedAnswer && (
           <div className="mb-4 space-y-2">
             {isCorrect ? (
-              <div className="flex items-center gap-3 p-4 bg-[rgba(77,124,15,0.12)] border border-[#4D7C0F] rounded-xl text-[#4D7C0F]">
+              <div className="flex items-center gap-3 p-4 bg-[rgba(62,86,72,0.12)] border border-[#3E5648] rounded-2xl text-[#3E5648]">
                 <CheckCircle className="w-6 h-6" />
                 <span className="font-semibold">
                   {word.isReview ? 'Recovered: you got this review word right.' : 'Correct!'}
                 </span>
               </div>
             ) : (
-              <div className="p-4 bg-[rgba(194,65,12,0.12)] border border-[#C2410C] rounded-xl text-[#C2410C]">
+              <div className="p-4 bg-[rgba(194,65,12,0.12)] border border-[#C2410C] rounded-2xl text-[#C2410C]">
                 <div className="flex items-center gap-3">
                   <XCircle className="w-6 h-6" />
                   <span className="font-semibold">
@@ -221,7 +224,7 @@ export default function Quiz({
                 )}
               </div>
             )}
-            <div className="rounded-xl border border-border bg-white p-3">
+            <div className="rounded-2xl border border-border bg-white p-3.5">
               <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-1">
                 Why This Answer
               </div>
@@ -248,14 +251,14 @@ export default function Quiz({
         <button
           onClick={handlePrev}
           disabled={currentIndex === 0}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 border border-border rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] hover:border-[rgba(55,65,81,0.45)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
+          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 border border-border rounded-2xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] hover:border-[rgba(55,65,81,0.45)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
         >
           <ChevronLeft className="w-5 h-5" />
           Previous
         </button>
         <button
           onClick={handleNext}
-          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-xl font-medium transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
+          className="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
         >
           {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
           <ChevronRight className="w-5 h-5" />

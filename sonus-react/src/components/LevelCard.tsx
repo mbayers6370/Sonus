@@ -16,8 +16,8 @@ type LevelCardProps = {
 };
 
 const ACCENT = {
-  navy: { badgeBg: 'bg-[rgba(30,58,138,0.16)]', badgeText: 'text-[#1E3A8A]', ctaText: 'text-[#1E3A8A]', hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(30,58,138,0.45)]', leftBorder: 'border-[#1E3A8A]' },
-  sage: { badgeBg: 'bg-[rgba(77,124,15,0.16)]', badgeText: 'text-[#4D7C0F]', ctaText: 'text-[#4D7C0F]', hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(77,124,15,0.40)]', leftBorder: 'border-[#4D7C0F]' },
+  navy: { badgeBg: 'bg-[rgba(24,110,149,0.16)]', badgeText: 'text-[#186E95]', ctaText: 'text-[#186E95]', hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(24,110,149,0.45)]', leftBorder: 'border-[#186E95]' },
+  sage: { badgeBg: 'bg-[rgba(62,86,72,0.16)]', badgeText: 'text-[#3E5648]', ctaText: 'text-[#3E5648]', hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(62,86,72,0.40)]', leftBorder: 'border-[#3E5648]' },
   graphite: { badgeBg: 'bg-[rgba(55,65,81,0.14)]', badgeText: 'text-[#374151]', ctaText: 'text-[#374151]', hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(55,65,81,0.42)]', leftBorder: 'border-[#374151]' },
   rust: { badgeBg: 'bg-[rgba(194,65,12,0.16)]', badgeText: 'text-[#C2410C]', ctaText: 'text-[#C2410C]', hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(194,65,12,0.45)]', leftBorder: 'border-[#C2410C]' },
   gray: { badgeBg: 'bg-gray-100', badgeText: 'text-gray-700', ctaText: 'text-gray-700', hoverShadow: 'hover:shadow-gray-500/10', leftBorder: 'border-gray-400' },
@@ -63,7 +63,7 @@ export default function LevelCard(props: LevelCardProps) {
           </span>
         </div>
 
-        <div className="font-playfair text-2xl font-normal text-text-dark mb-1">{title}</div>
+        <div className="main-font text-2xl font-normal text-text-dark mb-1">{title}</div>
         {subtitle ? <div className="text-lg text-text-med mb-3">{subtitle}</div> : null}
 
         {(vocabRange || unitsCount != null) && (

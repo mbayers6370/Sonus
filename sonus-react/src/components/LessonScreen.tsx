@@ -1,20 +1,20 @@
+import type { LessonMode } from '../types/lesson.types';
 import { useApp } from '../contexts/AppContext';
 import Flashcard from './Flashcard';
 import Quiz from './Quiz';
 import SpeakMode from './SpeakMode';
-import { ChevronLeft } from 'lucide-react';
 import BottomNav from './BottomNav';
-import { getUnitMetadata } from '../data/unitMetadata';
+import GlassHeader from './GlassHeader';
 
 interface LessonScreenProps {
-  onBack: () => void;
   onGoHome: () => void;
   onOpenProfile: () => void;
+  onModeChange?: (mode: LessonMode) => void;
 }
 
-export default function LessonScreen({ onBack, onGoHome, onOpenProfile }: LessonScreenProps) {
+export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: LessonScreenProps) {
   const { state, setLessonMode, nextWord, prevWord } = useApp();
-  const { activeLesson, lessonMode, lessonWordIndex, activeBandId } = state;
+  const { activeLesson, lessonMode, lessonWordIndex } = state;
 
   if (!activeLesson) {
     return (
@@ -29,84 +29,70 @@ export default function LessonScreen({ onBack, onGoHome, onOpenProfile }: Lesson
   const isListeningPractice = /listening$/i.test(activeLesson.unitId);
   const isSpeakingPractice = /speaking$/i.test(activeLesson.unitId);
   const isPracticeUnit = isListeningPractice || isSpeakingPractice;
-  const unitMeta =
-    activeBandId && activeLesson.unitId ? getUnitMetadata(activeBandId, activeLesson.unitId) : undefined;
   const titleText = isPracticeUnit
     ? (isListeningPractice ? 'Listening Practice' : 'Speaking Practice')
     : `Unit ${activeLesson.unitOrder ?? activeLesson.lessonIndex + 1}`;
-  const subtitleText = isPracticeUnit
-    ? unitMeta?.description || activeLesson.unitName || 'Focused practice'
-    : activeLesson.unitName || `Unit ${activeLesson.unitId}`;
   const speakingPageTheme = isSpeakingPractice
     ? {
-        shell: 'bg-[#C2410C]',
-        title: 'text-white',
-        subtitle: 'text-white/90',
-        back: 'text-white',
-        content: 'bg-[#C2410C]',
+        shell: '',
+        title: 'text-[#C2410C]',
+        content: '',
       }
     : {
         shell: '',
         title: 'text-text-dark',
-        subtitle: 'text-text-lg',
-        back: 'text-text-dark',
         content: '',
       };
 
-  const handleBack = () => {
-    onBack();
-  };
-
   return (
-    <div className={`flex flex-col h-[100dvh] pt-14 ${isSpeakingPractice ? 'bg-[#C2410C]' : 'page-shell'} ${speakingPageTheme.shell}`}>
+    <div className={`flex flex-col h-[100dvh] page-shell ${speakingPageTheme.shell}`}>
       {/* Header */}
-      <div className="relative px-6 pb-3">
-        <button
-          onClick={handleBack}
-          className={`absolute left-6 -top-1 inline-flex items-center gap-1.5 p-2 -ml-2 ${speakingPageTheme.back} hover:opacity-70 transition-opacity`}
-        >
-          <ChevronLeft className="w-4.5 h-4.5" />
-          <span className="text-sm">Back</span>
-        </button>
-        <div className="text-center px-12">
-          <h1 className={`font-playfair text-4xl font-normal mb-1 ${speakingPageTheme.title}`}>
-            {titleText}
-          </h1>
-          <h2 className={`text-base italic ${speakingPageTheme.subtitle}`}>
-            {subtitleText}
-          </h2>
-        </div>
+      <div className="px-6 pb-1">
+        <GlassHeader
+          title={titleText}
+          className={isSpeakingPractice ? 'bg-white/75 border-[#C2410C]/25' : ''}
+          titleClassName={speakingPageTheme.title}
+        />
       </div>
 
       {/* Mode Tabs */}
       {!isPracticeUnit ? (
-        <div className="bg-bg-warm/90 backdrop-blur-sm border-b border-border px-6 py-2">
-          <div className="flex gap-2">
+        <div className="bg-bg-warm/90 backdrop-blur-sm border-b border-border px-4 py-2.5 -mt-8 relative z-40">
+          <div className="grid grid-cols-3 gap-2 rounded-3xl">
             <button
-              onClick={() => setLessonMode('intro')}
-              className={`flex-1 py-2 px-4 rounded-xl font-medium transition-all ${
+              onClick={() => {
+                onModeChange?.('intro');
+                setLessonMode('intro');
+              }}
+              className={`py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
                 lessonMode === 'intro'
-                  ? 'bg-[#1E3A8A] text-white shadow-sm'
+                  ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
                   : 'bg-white border border-border text-text-med hover:bg-[rgba(55,65,81,0.08)]'
               }`}
             >
               Learn
             </button>
             <button
-              onClick={() => setLessonMode('quiz')}
-              className={`flex-1 py-2 px-4 rounded-xl font-medium transition-all ${
+              onClick={() => {
+                onModeChange?.('quiz');
+                setLessonMode('quiz');
+              }}
+              className={`py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
                 lessonMode === 'quiz'
-                  ? 'bg-[#1E3A8A] text-white shadow-sm'
+                  ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
                   : 'bg-white border border-border text-text-med hover:bg-[rgba(55,65,81,0.08)]'
               }`}
             >
               Quiz
             </button>
             <button
-              onClick={() => setLessonMode('speak')}
-              className={`flex-1 py-2 px-4 rounded-xl font-medium transition-all ${
+              onClick={() => {
+                onModeChange?.('speak');
+                setLessonMode('speak');
+              }}
+              className={`py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
                 lessonMode === 'speak'
-                  ? 'bg-[#1E3A8A] text-white shadow-sm'
+                  ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
                   : 'bg-white border border-border text-text-med hover:bg-[rgba(55,65,81,0.08)]'
               }`}
             >
@@ -114,13 +100,13 @@ export default function LessonScreen({ onBack, onGoHome, onOpenProfile }: Lesson
             </button>
           </div>
         </div>
-      ) : !isSpeakingPractice ? (
-        <div className={`backdrop-blur-sm border-b px-6 py-2 ${isSpeakingPractice ? 'bg-[#9A3412]/95 border-white/20' : 'bg-bg-warm/90 border-border'}`}>
-          <div className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${isSpeakingPractice ? 'bg-white/15 text-white' : 'bg-[rgba(30,58,138,0.12)] text-[#1E3A8A]'}`}>
+      ) : (
+        <div className={`backdrop-blur-sm border-b px-4 py-2.5 -mt-8 relative z-40 ${isSpeakingPractice ? 'bg-white/80 border-[#C2410C]/20' : 'bg-bg-warm/90 border-border'}`}>
+          <div className={`inline-flex items-center rounded-xl px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${isSpeakingPractice ? 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]' : 'bg-[rgba(24,110,149,0.12)] text-[#186E95]'}`}>
             {isListeningPractice ? 'Listening Practice' : 'Speaking Practice'}
           </div>
         </div>
-      ) : null}
+      )}
 
       {/* Lesson Content */}
       <div className={`flex-1 overflow-y-auto pb-40 ${speakingPageTheme.content}`}>

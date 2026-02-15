@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import type { LessonBand } from '../types/lesson.types';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { getUnitsForBand } from '../data/unitMetadata';
 import BottomNav from './BottomNav';
+import GlassHeader from './GlassHeader';
 
 // Accent styling helpers
 const ACCENT = {
-  gray: { badgeBg: 'bg-gray-100', badgeText: 'text-gray-700', ctaText: 'text-gray-700', hoverShadow: 'hover:shadow-gray-500/10', leftBorder: 'border-gray-400' },
-  navy: { badgeBg: 'bg-[rgba(30,58,138,0.16)]', badgeText: 'text-[#1E3A8A]', ctaText: 'text-[#1E3A8A]', hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(30,58,138,0.45)]', leftBorder: 'border-[#1E3A8A]' },
-  sage: { badgeBg: 'bg-[rgba(77,124,15,0.16)]', badgeText: 'text-[#4D7C0F]', ctaText: 'text-[#4D7C0F]', hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(77,124,15,0.40)]', leftBorder: 'border-[#4D7C0F]' },
-  graphite: { badgeBg: 'bg-[rgba(55,65,81,0.14)]', badgeText: 'text-[#374151]', ctaText: 'text-[#374151]', hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(55,65,81,0.42)]', leftBorder: 'border-[#374151]' },
-  rust: { badgeBg: 'bg-[rgba(194,65,12,0.16)]', badgeText: 'text-[#C2410C]', ctaText: 'text-[#C2410C]', hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(194,65,12,0.45)]', leftBorder: 'border-[#C2410C]' },
+  gray: { badgeBg: 'bg-gray-100/80', badgeText: 'text-gray-700', ctaText: 'text-gray-700', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(107,114,128,0.18)]', leftBorder: 'border-gray-400/55' },
+  navy: { badgeBg: 'bg-[rgba(24,110,149,0.12)]', badgeText: 'text-[#186E95]', ctaText: 'text-[#186E95]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(24,110,149,0.28)]', leftBorder: 'border-[#186E95]/55' },
+  sage: { badgeBg: 'bg-[rgba(62,86,72,0.12)]', badgeText: 'text-[#3E5648]', ctaText: 'text-[#3E5648]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(62,86,72,0.26)]', leftBorder: 'border-[#3E5648]/55' },
+  graphite: { badgeBg: 'bg-[rgba(55,65,81,0.10)]', badgeText: 'text-[#374151]', ctaText: 'text-[#374151]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(55,65,81,0.24)]', leftBorder: 'border-[#374151]/55' },
+  rust: { badgeBg: 'bg-[rgba(194,65,12,0.12)]', badgeText: 'text-[#C2410C]', ctaText: 'text-[#C2410C]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.30)]', leftBorder: 'border-[#C2410C]/55' },
 } as const;
 
 type AccentKey = keyof typeof ACCENT;
@@ -35,7 +36,7 @@ const chineseLevels: LessonBand[] = [
     id: 'band1',
     name: 'Elementary I',
     description: 'Foundations · Everyday Use',
-    color: 'bg-green-500',
+    color: 'bg-[#3E5648]',
     band: 1,
     title: 'Elementary I',
     subtitle: 'Foundations · Everyday Use',
@@ -47,7 +48,7 @@ const chineseLevels: LessonBand[] = [
     id: 'band2',
     name: 'Elementary II',
     description: 'Expanded Daily Life',
-    color: 'bg-green-600',
+    color: 'bg-[#3E5648]',
     band: 2,
     title: 'Elementary II',
     subtitle: 'Expanded Daily Life',
@@ -59,7 +60,7 @@ const chineseLevels: LessonBand[] = [
     id: 'band3',
     name: 'Pre‑Intermediate',
     description: 'Simple Narratives',
-    color: 'bg-blue-500',
+    color: 'bg-[#186E95]',
     band: 3,
     title: 'Pre‑Intermediate',
     subtitle: 'Simple Narratives',
@@ -71,7 +72,7 @@ const chineseLevels: LessonBand[] = [
     id: 'band4',
     name: 'Intermediate I',
     description: 'Intermediate Topics',
-    color: 'bg-blue-600',
+    color: 'bg-[#186E95]',
     band: 4,
     title: 'Intermediate I',
     subtitle: 'Intermediate Topics',
@@ -153,7 +154,7 @@ const japaneseLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'n5', name: 'JLPT N5', description: 'Basic', color: 'bg-green-500',
+    id: 'n5', name: 'JLPT N5', description: 'Basic', color: 'bg-[#3E5648]',
     band: 0,
     title: '',
     subtitle: '',
@@ -162,7 +163,7 @@ const japaneseLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'n4', name: 'JLPT N4', description: 'Elementary', color: 'bg-blue-500',
+    id: 'n4', name: 'JLPT N4', description: 'Elementary', color: 'bg-[#186E95]',
     band: 0,
     title: '',
     subtitle: '',
@@ -211,7 +212,7 @@ const koreanLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'topik1-1', name: 'TOPIK I Level 1', description: 'Beginner', color: 'bg-green-500',
+    id: 'topik1-1', name: 'TOPIK I Level 1', description: 'Beginner', color: 'bg-[#3E5648]',
     band: 0,
     title: '',
     subtitle: '',
@@ -220,7 +221,7 @@ const koreanLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'topik1-2', name: 'TOPIK I Level 2', description: 'Elementary', color: 'bg-green-600',
+    id: 'topik1-2', name: 'TOPIK I Level 2', description: 'Elementary', color: 'bg-[#3E5648]',
     band: 0,
     title: '',
     subtitle: '',
@@ -229,7 +230,7 @@ const koreanLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'topik2-3', name: 'TOPIK II Level 3', description: 'Intermediate', color: 'bg-blue-500',
+    id: 'topik2-3', name: 'TOPIK II Level 3', description: 'Intermediate', color: 'bg-[#186E95]',
     band: 0,
     title: '',
     subtitle: '',
@@ -238,7 +239,7 @@ const koreanLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'topik2-4', name: 'TOPIK II Level 4', description: 'Upper Intermediate', color: 'bg-blue-600',
+    id: 'topik2-4', name: 'TOPIK II Level 4', description: 'Upper Intermediate', color: 'bg-[#186E95]',
     band: 0,
     title: '',
     subtitle: '',
@@ -278,7 +279,7 @@ const frenchLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'a1', name: 'A1', description: 'Beginner', color: 'bg-green-500',
+    id: 'a1', name: 'A1', description: 'Beginner', color: 'bg-[#3E5648]',
     band: 0,
     title: '',
     subtitle: '',
@@ -287,7 +288,7 @@ const frenchLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'a2', name: 'A2', description: 'Elementary', color: 'bg-green-600',
+    id: 'a2', name: 'A2', description: 'Elementary', color: 'bg-[#3E5648]',
     band: 0,
     title: '',
     subtitle: '',
@@ -296,7 +297,7 @@ const frenchLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'b1', name: 'B1', description: 'Intermediate', color: 'bg-blue-500',
+    id: 'b1', name: 'B1', description: 'Intermediate', color: 'bg-[#186E95]',
     band: 0,
     title: '',
     subtitle: '',
@@ -305,7 +306,7 @@ const frenchLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'b2', name: 'B2', description: 'Upper Intermediate', color: 'bg-blue-600',
+    id: 'b2', name: 'B2', description: 'Upper Intermediate', color: 'bg-[#186E95]',
     band: 0,
     title: '',
     subtitle: '',
@@ -376,14 +377,18 @@ function LevelCard({
       : !isUnlocked
         ? 'Locked'
         : '');
+  const ctaLabel =
+    effectiveBadge.toLowerCase().startsWith('band') || effectiveBadge.toLowerCase() === 'track'
+      ? 'Open →'
+      : 'Start learning →';
 
   return (
     <button
       onClick={() => isUnlocked && onSelect(level)}
       disabled={!isUnlocked}
-      className={`w-full bg-white border-l-4 ${a.leftBorder} rounded-2xl p-6 text-left transition-all ${
+      className={`w-full bg-white/95 border ${a.leftBorder} rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
         isUnlocked
-          ? `hover:-translate-y-1 hover:shadow-xl ${a.hoverShadow} active:translate-y-0`
+          ? `hover:-translate-y-0.5 ${a.hoverShadow} active:translate-y-0`
           : 'opacity-50 cursor-not-allowed'
       }`}
     >
@@ -402,7 +407,7 @@ function LevelCard({
           {effectiveTopRight ? (
             <div
               className={`text-xs font-mono uppercase tracking-wider ${
-                isCompleted ? 'text-green-600' : 'text-text-light'
+                isCompleted ? 'text-[#3E5648]' : 'text-text-light'
               }`}
             >
               {effectiveTopRight}
@@ -412,39 +417,39 @@ function LevelCard({
           ) : null}
         </div>
 
-        <div className="mt-4">
+        <div className="mt-5">
           {headerKicker && (
-            <p className="text-xs font-mono uppercase tracking-wider text-text-med mb-1">
+            <p className="text-[11px] font-mono tracking-wide text-text-med mb-1">
               {headerKicker}
             </p>
           )}
 
-          <h3 className={`font-playfair text-2xl font-normal mb-1 ${a.badgeText}`}>
+          <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${a.badgeText}`}>
             {level.title || level.name}
           </h3>
 
-          <p className="text-lg text-text-med mb-3">
+          <p className="text-[1.05rem] text-text-med mb-4">
             {level.subtitle || level.description}
           </p>
 
           <div className="flex gap-10 text-sm font-mono text-text-dark mb-4">
             <div>
               <span className="text-lg font-semibold">{level.wordRange || '—'}</span>
-              <div className="text-xs uppercase tracking-wider text-text-med">Vocabulary</div>
+              <div className="text-[11px] tracking-wide text-text-med">Vocabulary</div>
             </div>
             <div>
               <span className="text-lg font-semibold">{unitCount}</span>
-              <div className="text-xs uppercase tracking-wider text-text-med">Units</div>
+              <div className="text-[11px] tracking-wide text-text-med">Units</div>
             </div>
           </div>
 
-          <p className="text-xs text-text-med font-mono uppercase tracking-wider mb-3">
+          <p className="text-[11px] leading-relaxed text-text-med font-mono tracking-wide mb-4">
             {bodyText ||
               'Structured lessons and practice built on official proficiency frameworks.'}
           </p>
 
           {isUnlocked && (
-            <div className={`${a.ctaText} font-medium text-sm`}>Start learning →</div>
+            <div className={`${a.ctaText} text-sm font-semibold tracking-wide`}>{ctaLabel}</div>
           )}
         </div>
       </div>
@@ -453,7 +458,6 @@ function LevelCard({
 }
 
 interface LevelSelectProps {
-  onBack: () => void;
   onSelectLevel: (level: LessonBand) => void;
   onOpenMandarinTones?: () => void;
   onGoHome: () => void;
@@ -461,13 +465,13 @@ interface LevelSelectProps {
 }
 
 export default function LevelSelect({
-  onBack,
   onSelectLevel,
   onOpenMandarinTones,
   onGoHome,
   onOpenProfile,
 }: LevelSelectProps) {
   const { state } = useApp();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const getLevelsForLanguage = () => {
     switch (state.selectedLanguage) {
@@ -513,8 +517,17 @@ export default function LevelSelect({
     units: [],
   };
 
-  // Tier grouping (HSK structure for Mandarin)
-  const [activeTier, setActiveTier] = useState<string | null>(null);
+  const activeTier = state.selectedLanguage === 'zh' ? searchParams.get('tier') : null;
+
+  const setTier = (tier: string | null) => {
+    const next = new URLSearchParams(searchParams);
+    if (tier) {
+      next.set('tier', tier);
+    } else {
+      next.delete('tier');
+    }
+    setSearchParams(next);
+  };
 
   const tiers = state.selectedLanguage === 'zh'
     ? [
@@ -522,7 +535,7 @@ export default function LevelSelect({
           id: 'beginner',
           title: 'Beginner',
           subtitle: 'Bands 1–3 · Core Foundations',
-          style: { rail: 'bg-green-500', accent: 'green' as const },
+          style: { rail: 'bg-[#3E5648]', accent: 'green' as const },
           levels: levels.filter(l =>
             ['band1', 'band2', 'band3'].includes(l.id)
           )
@@ -531,7 +544,7 @@ export default function LevelSelect({
           id: 'intermediate',
           title: 'Intermediate',
           subtitle: 'Bands 4–6 · Functional Fluency',
-          style: { rail: 'bg-blue-500', accent: 'blue' as const },
+          style: { rail: 'bg-[#186E95]', accent: 'blue' as const },
           levels: levels.filter(l =>
             ['band4', 'band5', 'band6'].includes(l.id)
           )
@@ -549,38 +562,11 @@ export default function LevelSelect({
     : [];
 
   return (
-    <div className="min-h-screen page-shell px-6 pt-14 pb-24">
-      {/* Header */}
-      <div className="relative mb-10 pt-4">
-        <button
-          onClick={() => {
-            if (state.selectedLanguage === 'zh' && activeTier !== null) {
-              setActiveTier(null);
-            } else {
-              onBack();
-            }
-          }}
-          className="absolute left-0 top-0 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
-        >
-          <ChevronLeft className="w-4.5 h-4.5" />
-          <span className="text-sm">Back</span>
-        </button>
-
-        <div className="text-center px-12 pt-8">
-          <h1 className="font-playfair text-5xl font-normal text-text-dark mb-2">
-            {getLanguageName()}
-          </h1>
-          <h2 className="text-base text-text-med italic">
-            Choose{' '}
-            <span className="font-playfair">
-              {state.selectedLanguage === 'zh' && activeTier !== null ? 'a course' : 'a level'}
-            </span>
-          </h2>
-        </div>
-      </div>
+    <div className="min-h-screen page-shell px-6 pb-24">
+      <GlassHeader title={getLanguageName()} />
 
       {/* Tier or Level Cards */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {state.selectedLanguage === 'zh' && activeTier === null && (
           tiers.map((tier, index) => {
             const a = ACCENT[CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]];
@@ -592,9 +578,9 @@ export default function LevelSelect({
                   onSelectLevel(advancedTrackLevel);
                   return;
                 }
-                setActiveTier(tier.id);
+                setTier(tier.id);
               }}
-              className={`w-full bg-white border-l-4 ${a.leftBorder} rounded-2xl p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${a.hoverShadow} active:translate-y-0`}
+              className={`w-full bg-white/95 border ${a.leftBorder} rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${a.hoverShadow} active:translate-y-0`}
             >
               <div className="w-full">
                 <div className="flex items-start justify-between gap-4">
@@ -606,28 +592,28 @@ export default function LevelSelect({
                   <ChevronRight className="w-5 h-5 text-text-light" />
                 </div>
 
-                <div className="mt-4">
-                  <h3 className={`font-playfair text-2xl font-normal mb-1 ${a.badgeText}`}>
+                <div className="mt-5">
+                  <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${a.badgeText}`}>
                     {tier.title}
                   </h3>
-                  <p className="text-lg text-text-med mb-3">
+                  <p className="text-[1.05rem] text-text-med mb-4">
                     {tier.subtitle}
                   </p>
 
                   <div className="flex gap-10 text-sm font-mono text-text-dark mb-4">
                     <div>
                       <span className="text-lg font-semibold">{tier.levels.length}</span>
-                      <div className="text-xs uppercase tracking-wider text-text-med">
+                      <div className="text-[11px] tracking-wide text-text-med">
                         Bands
                       </div>
                     </div>
                   </div>
 
-                  <p className="text-xs text-text-med font-mono uppercase tracking-wider mb-3">
+                  <p className="text-[11px] leading-relaxed text-text-med font-mono tracking-wide mb-4">
                     Choose a tier to drill into the bands and start structured progression.
                   </p>
 
-                  <div className={`${a.ctaText} font-medium text-sm`}>
+                  <div className={`${a.ctaText} text-sm font-semibold tracking-wide`}>
                     View bands →
                   </div>
                 </div>
@@ -642,23 +628,23 @@ export default function LevelSelect({
             {activeTier === 'beginner' && onOpenMandarinTones && (
               <button
                 onClick={onOpenMandarinTones}
-                className={`w-full bg-white border-l-4 ${ACCENT.navy.leftBorder} rounded-2xl p-6 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${ACCENT.navy.hoverShadow} active:translate-y-0`}
+                className={`w-full bg-[#186E95] border border-[#186E95] rounded-3xl min-h-[170px] p-5 text-left text-white shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${ACCENT.navy.hoverShadow} active:translate-y-0`}
               >
                 <div className="w-full">
-                  <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono mb-4 bg-[rgba(30,58,138,0.16)] text-[#1E3A8A]">
+                  <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono mb-4 bg-white/20 text-white">
                     Tone Foundations
                   </div>
-                  <h3 className="font-playfair text-2xl font-normal text-[#1E3A8A] mb-1">
+                  <h3 className="main-font text-[2rem] leading-tight font-normal text-white mb-1">
                     Mandarin Tones
                   </h3>
-                  <p className="text-lg text-text-med mb-3">
-                    Train tones 1-4 + neutral before vocabulary study
+                  <p className="text-[1.05rem] text-white/90 mb-4">
+                    Learn tones 1-4 + neutral before vocabulary study
                   </p>
-                  <p className="text-xs text-text-med font-mono uppercase tracking-wider mb-3">
-                    Interactive cards with audio playback and quick pronunciation cues
+                  <p className="text-[11px] leading-relaxed text-white/80 font-mono tracking-wide mb-4">
+                    Tone cards with playback and pronunciation cues
                   </p>
-                  <div className="text-[#1E3A8A] font-medium text-sm">
-                    Open tones practice →
+                  <div className="text-white text-sm font-semibold tracking-wide">
+                    Open tone guide →
                   </div>
                 </div>
               </button>

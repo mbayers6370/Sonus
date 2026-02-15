@@ -9,11 +9,14 @@ import LessonScreen from './components/LessonScreen';
 import LessonComplete from './components/LessonComplete';
 import MandarinTones from './components/MandarinTones';
 import HomeDashboard from './components/HomeDashboard';
+import TravelModePage from './components/TravelModePage';
+import TravelSectionPage from './components/TravelSectionPage';
 import AboutSonusScreen from './components/AboutSonusScreen';
 import ProfileScreen from './components/ProfileScreen';
 import ProfileProgressScreen from './components/ProfileProgressScreen';
 import { saveOnboardingSelectionSafe } from './lib/backendApi';
 import { trackEvent } from './lib/analytics';
+import { getTravelSectionById } from './data/travelModeData';
 
 const API_BASE_URL =
   (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
@@ -26,10 +29,10 @@ type ProgressPayload = {
 
 const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
   intro: { id: 'intro', band: 0, name: 'Introduction', title: '', subtitle: '', wordCount: 0, wordRange: '', color: 'bg-gray-400', description: 'Start here', units: [] },
-  band1: { id: 'band1', band: 1, name: 'Elementary I', title: 'Elementary I', subtitle: 'Foundations · Everyday Use', wordCount: 500, wordRange: '0–500', color: 'bg-green-500', description: 'Foundations · Everyday Use', units: [] },
-  band2: { id: 'band2', band: 2, name: 'Elementary II', title: 'Elementary II', subtitle: 'Expanded Daily Life', wordCount: 1272, wordRange: '500–1272', color: 'bg-green-600', description: 'Expanded Daily Life', units: [] },
-  band3: { id: 'band3', band: 3, name: 'Pre‑Intermediate', title: 'Pre‑Intermediate', subtitle: 'Simple Narratives', wordCount: 2245, wordRange: '1272–2245', color: 'bg-blue-500', description: 'Simple Narratives', units: [] },
-  band4: { id: 'band4', band: 4, name: 'Intermediate I', title: 'Intermediate I', subtitle: 'Intermediate Topics', wordCount: 3245, wordRange: '2245–3245', color: 'bg-blue-600', description: 'Intermediate Topics', units: [] },
+  band1: { id: 'band1', band: 1, name: 'Elementary I', title: 'Elementary I', subtitle: 'Foundations · Everyday Use', wordCount: 500, wordRange: '0–500', color: 'bg-[#3E5648]', description: 'Foundations · Everyday Use', units: [] },
+  band2: { id: 'band2', band: 2, name: 'Elementary II', title: 'Elementary II', subtitle: 'Expanded Daily Life', wordCount: 1272, wordRange: '500–1272', color: 'bg-[#3E5648]', description: 'Expanded Daily Life', units: [] },
+  band3: { id: 'band3', band: 3, name: 'Pre‑Intermediate', title: 'Pre‑Intermediate', subtitle: 'Simple Narratives', wordCount: 2245, wordRange: '1272–2245', color: 'bg-[#186E95]', description: 'Simple Narratives', units: [] },
+  band4: { id: 'band4', band: 4, name: 'Intermediate I', title: 'Intermediate I', subtitle: 'Intermediate Topics', wordCount: 3245, wordRange: '2245–3245', color: 'bg-[#186E95]', description: 'Intermediate Topics', units: [] },
   band5: { id: 'band5', band: 5, name: 'Intermediate II', title: 'Intermediate II', subtitle: 'Broader Expression', wordCount: 4316, wordRange: '3245–4316', color: 'bg-purple-500', description: 'Broader Expression', units: [] },
   band6: { id: 'band6', band: 6, name: 'Upper‑Intermediate', title: 'Upper‑Intermediate', subtitle: 'Abstract Themes', wordCount: 5456, wordRange: '4316–5456', color: 'bg-purple-600', description: 'Abstract Themes', units: [] },
   band7: { id: 'band7', band: 7, name: 'Advanced I', title: 'Advanced I', subtitle: 'Complex topics · High range', wordCount: 7356, wordRange: '5456–7356', color: 'bg-red-500', description: 'Complex topics · High range', units: [] },
@@ -117,10 +120,6 @@ function LessonRoutePage({
       <LessonComplete
         onGoHome={onGoHome}
         onOpenProfile={onOpenProfile}
-        onBack={() => {
-          exitLesson();
-          navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
-        }}
         onStartQuiz={() => {
           restartLesson();
           setLessonMode('quiz');
@@ -145,12 +144,14 @@ function LessonRoutePage({
 
   return (
     <LessonScreen
-      onBack={() => {
-        exitLesson();
-        navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
-      }}
       onGoHome={onGoHome}
       onOpenProfile={onOpenProfile}
+      onModeChange={(nextMode) => {
+        if (nextMode === lessonMode) return;
+        navigate(
+          `/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/${nextMode}`
+        );
+      }}
     />
   );
 }
@@ -251,6 +252,9 @@ function AppPages() {
         onOpenPractice={(kind, bandId) => openPracticeFromHome(kind, bandId)}
         onOpenWeakWords={() => navigate('/profile/progress')}
         onOpenProfile={() => navigate('/profile')}
+        onOpenTravelMode={(sectionId) =>
+          navigate(sectionId ? `/travel/${sectionId}` : '/travel')
+        }
       />
     );
   }
@@ -260,7 +264,6 @@ function AppPages() {
       <LevelSelect
         onGoHome={goHome}
         onOpenProfile={goProfile}
-        onBack={() => navigate('/home')}
         onOpenMandarinTones={() => navigate('/learn/tones')}
         onSelectLevel={(level: LessonBand) => {
           void selectLevel(level);
@@ -272,7 +275,7 @@ function AppPages() {
 
   function TonesRoute() {
     if (selectedLanguage !== 'zh') return <Navigate to="/learn" replace />;
-    return <MandarinTones onBack={() => navigate('/learn')} onHome={goHome} onOpenProfile={goProfile} />;
+    return <MandarinTones onHome={goHome} onOpenProfile={goProfile} />;
   }
 
   function UnitsRoute() {
@@ -297,7 +300,6 @@ function AppPages() {
       <UnitSelect
         onGoHome={goHome}
         onOpenProfile={goProfile}
-        onBack={() => navigate('/learn')}
         onOpenPractice={(unitId) => {
           const mode: LessonMode = /listening$/i.test(unitId) ? 'quiz' : 'speak';
           navigate(`/learn/${tier}/${level.id}/unit/${unitId}/lesson/0/${mode}`);
@@ -355,7 +357,6 @@ function AppPages() {
         }}
         onOpenProgress={() => navigate('/profile/progress')}
         onOpenAbout={() => navigate('/about')}
-        onBack={() => navigate('/home')}
       />
     );
   }
@@ -364,6 +365,25 @@ function AppPages() {
     <Routes>
       <Route path="/" element={<LanguageRoute />} />
       <Route path="/home" element={<HomeRoute />} />
+      <Route
+        path="/travel"
+        element={
+          <TravelModePage
+            onGoHome={goHome}
+            onOpenProfile={goProfile}
+            onOpenSection={(sectionId) => navigate(`/travel/${sectionId}`)}
+          />
+        }
+      />
+      <Route
+        path="/travel/:sectionId"
+        element={
+          <TravelSectionRoute
+            onGoHome={goHome}
+            onOpenProfile={goProfile}
+          />
+        }
+      />
       <Route path="/learn" element={<LearnRoute />} />
       <Route path="/learn/tones" element={<TonesRoute />} />
       <Route path="/learn/:tier/:band" element={<UnitsRoute />} />
@@ -375,14 +395,29 @@ function AppPages() {
       <Route path="/profile" element={<ProfileRoute />} />
       <Route
         path="/profile/progress"
-        element={<ProfileProgressScreen onGoHome={goHome} onGoProfile={() => navigate('/profile')} onBack={() => navigate('/profile')} />}
+        element={<ProfileProgressScreen onGoHome={goHome} onGoProfile={() => navigate('/profile')} />}
       />
       <Route
         path="/about"
-        element={<AboutSonusScreen onGoHome={goHome} onGoProfile={() => navigate('/profile')} onBack={() => navigate('/profile')} />}
+        element={<AboutSonusScreen onGoHome={goHome} onGoProfile={() => navigate('/profile')} />}
       />
       <Route path="*" element={<Navigate to={selectedLanguage ? '/home' : '/'} replace />} />
     </Routes>
+  );
+}
+
+function TravelSectionRoute({ onGoHome, onOpenProfile }: { onGoHome: () => void; onOpenProfile: () => void }) {
+  const { sectionId } = useParams<{ sectionId: string }>();
+  const section = sectionId ? getTravelSectionById(sectionId) : undefined;
+
+  if (!section) return <Navigate to="/travel" replace />;
+
+  return (
+    <TravelSectionPage
+      section={section}
+      onGoHome={onGoHome}
+      onOpenProfile={onOpenProfile}
+    />
   );
 }
 

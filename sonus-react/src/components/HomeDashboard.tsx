@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   Bolt,
-  BookOpenText,
+  BriefcaseConveyorBelt,
   Headphones,
   ListChecks,
   Mic,
 } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { getUnitMetadata } from '../data/unitMetadata';
-import { useAudio } from '../hooks/useAudio';
+import GlassHeader from './GlassHeader';
 
 const API_BASE_URL =
   (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
@@ -25,31 +25,13 @@ type NeedsWorkResponse = {
   needsWork?: Array<{ wordId: string }>;
 };
 
-type HitokotoResponse = {
-  hitokoto: string;
-  from?: string;
-  from_who?: string | null;
-};
-
-type DailyPhraseCache = {
-  date: string;
-  spotlight: {
-    text: string;
-    source: string;
-  };
-  motivation: {
-    text: string;
-    source: string;
-  };
-  translation: string;
-};
-
 interface HomeDashboardProps {
   selectedLanguage: string;
   onOpenLevels: () => void;
   onOpenPractice: (kind: 'listening' | 'speaking', bandId?: string | null) => void;
   onOpenWeakWords: () => void;
   onOpenProfile: () => void;
+  onOpenTravelMode: (sectionId?: string) => void;
 }
 
 const LANGUAGE_LABELS: Record<string, string> = {
@@ -59,70 +41,13 @@ const LANGUAGE_LABELS: Record<string, string> = {
   fr: 'French',
 };
 
-const ZH_SPOTLIGHT_FALLBACK = {
-  text: '学而时习之，不亦说乎。',
-  translation: 'To learn and practice often, is that not a joy?',
-  source: '《论语》',
-};
-
-const ZH_MOTIVATION_FALLBACK = {
-  text: '千里之行，始于足下。',
-  source: '《道德经》',
-};
-
-const DAILY_PHRASE_CACHE_KEY = 'sonus:daily-phrases:zh';
-
-const PG13_BLOCKLIST = [
-  /自杀/u,
-  /杀人/u,
-  /血/u,
-  /尸/u,
-  /强奸/u,
-  /色情/u,
-  /性爱/u,
-  /\bsex\b/i,
-  /\bsuicide\b/i,
-  /\bkill\b/i,
-  /\bmurder\b/i,
-  /\brape\b/i,
-  /\bnude\b/i,
-  /\bporn\b/i,
-  /\bdrugs?\b/i,
-];
-
-function isPg13Text(value: string) {
-  const text = value.trim();
-  if (!text) return false;
-  return !PG13_BLOCKLIST.some((rule) => rule.test(text));
-}
-
-async function fetchChinesePhrase(url: string) {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error('phrase fetch failed');
-  const json = (await response.json()) as HitokotoResponse;
-  if (!json.hitokoto) throw new Error('empty phrase');
-  return {
-    text: json.hitokoto,
-    source: [json.from_who, json.from].filter(Boolean).join(' · ') || '一言',
-  };
-}
-
-async function fetchChinesePhrasePg13(url: string, attempts = 6) {
-  for (let i = 0; i < attempts; i += 1) {
-    const phrase = await fetchChinesePhrase(url);
-    if (isPg13Text(phrase.text) && isPg13Text(phrase.source)) {
-      return phrase;
-    }
-  }
-  throw new Error('No PG-13 phrase found');
-}
-
 export default function HomeDashboard({
   selectedLanguage,
   onOpenLevels,
   onOpenPractice,
   onOpenWeakWords,
   onOpenProfile,
+  onOpenTravelMode,
 }: HomeDashboardProps) {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState<Progress>({
@@ -132,13 +57,6 @@ export default function HomeDashboard({
     currentLessonIdx: null,
   });
   const [needsWorkCount, setNeedsWorkCount] = useState(0);
-  const [spotlightPhrase, setSpotlightPhrase] = useState({
-    text: ZH_SPOTLIGHT_FALLBACK.text,
-    source: ZH_SPOTLIGHT_FALLBACK.source,
-  });
-  const [motivationPhrase, setMotivationPhrase] = useState(ZH_MOTIVATION_FALLBACK);
-  const [spotlightTranslation, setSpotlightTranslation] = useState(ZH_SPOTLIGHT_FALLBACK.translation);
-  const { speak } = useAudio();
 
   const languageLabel = LANGUAGE_LABELS[selectedLanguage] || 'Language';
   const hasSavedLessonPath =
@@ -146,6 +64,8 @@ export default function HomeDashboard({
     Boolean(progress.currentUnitId) &&
     progress.currentLessonIdx !== null;
   const lessonNumber = progress.currentLessonIdx !== null ? progress.currentLessonIdx + 1 : null;
+  const cardShell =
+    'dashboard-card-enter rounded-3xl border p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
 
   const formatBandLabel = (bandId: string | null) => {
     if (!bandId) return 'Band';
@@ -167,11 +87,6 @@ export default function HomeDashboard({
       .replace(/\b\w/g, (c) => c.toUpperCase());
   };
 
-  const speakPhrase = () => {
-    if (!spotlightPhrase.text) return;
-    speak(spotlightPhrase.text, spotlightPhrase.text);
-  };
-
   useEffect(() => {
     let mounted = true;
     void (async () => {
@@ -191,69 +106,6 @@ export default function HomeDashboard({
           const json = (await weakRes.json()) as NeedsWorkResponse;
           setNeedsWorkCount((json.needsWork || []).length);
         }
-
-        if (mounted && selectedLanguage === 'zh') {
-          const today = new Date().toISOString().slice(0, 10);
-          try {
-            const cachedRaw = localStorage.getItem(DAILY_PHRASE_CACHE_KEY);
-            if (cachedRaw) {
-              const cached = JSON.parse(cachedRaw) as DailyPhraseCache;
-              if (cached.date === today) {
-                setSpotlightPhrase(cached.spotlight);
-                setMotivationPhrase(cached.motivation);
-                setSpotlightTranslation(cached.translation);
-                return;
-              }
-            }
-          } catch {
-            // cache parse/read errors should not block fetch
-          }
-
-          try {
-            const [spotlight, motivation] = await Promise.all([
-              fetchChinesePhrasePg13('https://v1.hitokoto.cn/?c=i&c=d&encode=json&max_length=22'),
-              fetchChinesePhrasePg13('https://v1.hitokoto.cn/?c=k&c=i&encode=json&max_length=22'),
-            ]);
-            setSpotlightPhrase(spotlight);
-            setMotivationPhrase(motivation);
-            setSpotlightTranslation('');
-            let translationText = '';
-
-            try {
-              const translateRes = await fetch(
-                `https://api.mymemory.translated.net/get?q=${encodeURIComponent(spotlight.text)}&langpair=zh-CN|en-US`
-              );
-              if (translateRes.ok) {
-                const translateJson = (await translateRes.json()) as {
-                  responseData?: { translatedText?: string };
-                };
-                const translated = translateJson.responseData?.translatedText?.trim();
-                if (translated && isPg13Text(translated)) {
-                  translationText = translated;
-                  setSpotlightTranslation(translated);
-                }
-              }
-            } catch {
-              setSpotlightTranslation('');
-            }
-
-            try {
-              const payload: DailyPhraseCache = {
-                date: today,
-                spotlight,
-                motivation,
-                translation: translationText,
-              };
-              localStorage.setItem(DAILY_PHRASE_CACHE_KEY, JSON.stringify(payload));
-            } catch {
-              // Cache write failures should not block phrase rendering.
-            }
-          } catch {
-            setSpotlightPhrase(ZH_SPOTLIGHT_FALLBACK);
-            setMotivationPhrase(ZH_MOTIVATION_FALLBACK);
-            setSpotlightTranslation(ZH_SPOTLIGHT_FALLBACK.translation);
-          }
-        }
       } finally {
         if (mounted) setLoading(false);
       }
@@ -265,33 +117,22 @@ export default function HomeDashboard({
   }, [selectedLanguage]);
 
   return (
-    <div className="min-h-screen page-shell px-6 pt-14 pb-24 relative overflow-hidden">
-      <div className="absolute inset-x-0 top-0 h-72 bg-gradient-to-br from-[#1E3A8A]/18 via-[#4D7C0F]/10 to-transparent pointer-events-none" />
+    <div className="min-h-screen page-shell px-6 pb-24 relative overflow-hidden">
+      <div className="absolute inset-x-0 top-0 h-72 bg-gradient-to-br from-[#186E95]/18 via-[#3E5648]/10 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-white/45 via-white/15 to-transparent pointer-events-none" />
 
-      <div className="mb-8 relative text-center">
-        <h1 className="font-playfair text-5xl font-normal text-text-dark mb-2 leading-tight">Home</h1>
-        <h2 className="text-base text-text-med italic">
-          Built around your daily rhythm in <span className="font-playfair">{languageLabel}</span>
-        </h2>
-      </div>
-
-      <div className="mb-3 relative">
-        <div className="inline-flex items-center rounded-full px-3 py-1 text-[10px] uppercase tracking-wider font-mono bg-white/70 border border-border text-text-med">
-          <span className="font-playfair normal-case tracking-normal text-xs mr-1">{languageLabel}</span>
-          Learning Hub
-        </div>
-      </div>
+      <GlassHeader title={`${languageLabel}`} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
-
-        <section className="bg-white text-text-dark border border-[#1E3A8A]/35 rounded-2xl p-5 min-h-[210px] shadow-[0_20px_40px_-28px_rgba(30,58,138,0.28)]">
-          <div className="font-playfair text-2xl leading-none mb-3 text-[#1E3A8A]">Resume</div>
+        <section
+          className={`${cardShell} md:order-1 bg-white/95 text-text-dark border-[#186E95]/35 min-h-[210px] text-center`}
+          style={{ animationDelay: '35ms' }}
+        >
+          <div className="main-font text-2xl leading-none mb-3 text-[#186E95]">Resume</div>
           {hasSavedLessonPath ? (
             <>
-              <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-2">Lesson Path</div>
-              <div className="text-sm text-text-dark font-medium mb-1">
-                {formatBandLabel(progress.currentBandId)}
-              </div>
+              <div className="text-[11px] tracking-wide font-mono text-text-light mb-2">Lesson path</div>
+              <div className="text-sm text-text-dark font-medium mb-1">{formatBandLabel(progress.currentBandId)}</div>
               <div className="text-sm text-text-med mb-4">
                 {formatUnitLabel(progress.currentUnitId)} · Lesson {lessonNumber}
               </div>
@@ -301,124 +142,115 @@ export default function HomeDashboard({
               No saved lesson path yet. Start your first lesson and Sonus will remember exactly where to continue.
             </div>
           )}
-          <button
-            onClick={onOpenLevels}
-            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#1E3A8A] text-white font-semibold hover:bg-[#182F74] transition-colors"
-          >
-            {hasSavedLessonPath ? 'Continue Learning' : 'Start Learning'}
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </section>
-
-        <section className="bg-white text-text-dark border border-[#1E3A8A]/35 rounded-2xl p-5 min-h-[210px] shadow-[0_20px_40px_-28px_rgba(30,58,138,0.28)]">
-          <div className="font-playfair text-2xl leading-none mb-3 text-[#1E3A8A]">Today</div>
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="p-3 rounded-xl bg-[rgba(77,124,15,0.10)] border border-[#4D7C0F]/20 min-h-[96px] flex flex-col">
-              <div className="text-[10px] uppercase tracking-wider font-mono text-text-light">Streak</div>
-              <div className="mt-auto text-right text-4xl leading-none font-semibold text-[#4D7C0F]">{progress.streak}</div>
-            </div>
-            <div className="p-3 rounded-xl bg-[rgba(55,65,81,0.08)] border border-[#374151]/20 min-h-[96px] flex flex-col">
-              <div className="text-[10px] uppercase tracking-wider font-mono text-text-light">Needs Work</div>
-              <div className="mt-auto text-right text-4xl leading-none font-semibold text-[#374151]">{needsWorkCount}</div>
-            </div>
+          <div className="max-w-md mx-auto">
+            <button
+              onClick={onOpenLevels}
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#186E95] text-white font-semibold hover:bg-[#145C7C] transition-colors"
+            >
+              {hasSavedLessonPath ? 'Continue learning' : 'Start learning'}
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
         </section>
 
-        <section className="bg-[#C2410C] text-white border border-[#C2410C] rounded-2xl p-5 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(194,65,12,0.32)]">
-          <div className="font-playfair text-2xl leading-none mb-3 text-white">Daily Phrase</div>
-          {selectedLanguage === 'zh' ? (
-            <div className="flex flex-col h-full min-h-[186px]">
-              <p className="font-noto-serif text-xl text-white mb-1">{spotlightPhrase.text}</p>
-              <p className="text-xs text-white/80">{spotlightPhrase.source}</p>
-              {spotlightTranslation ? (
-                <p className="text-xs text-white/85 mt-2 italic">English: {spotlightTranslation}</p>
-              ) : null}
-              <button
-                onClick={speakPhrase}
-                className="mt-auto mb-8 w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-white/12 border border-white/30 text-white text-sm font-medium hover:bg-white/20 transition-colors"
-              >
-                <Mic className="w-3.5 h-3.5" />
-                Pronounce Phrase
-              </button>
-            </div>
-          ) : (
-            <p className="text-sm text-white/85">New phrase drops here for your active language.</p>
-          )}
+        <section
+          className={`${cardShell} md:order-3 md:col-span-2 bg-[#3E5648] text-white border-[#3E5648]/90 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)] text-center`}
+          style={{ animationDelay: '135ms' }}
+        >
+          <div className="main-font text-2xl leading-none mb-2 text-white">Travel Mode</div>
+          <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
+            Built for tight timelines. Train practical {languageLabel} for airports, hotels, transport, food, and emergencies.
+          </p>
+          <div className="grid grid-cols-3 gap-2 mb-4 max-w-md mx-auto">
+            <button onClick={() => onOpenTravelMode('airport-arrival')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
+              Airport
+            </button>
+            <button onClick={() => onOpenTravelMode('hotel')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
+              Hotel
+            </button>
+            <button onClick={() => onOpenTravelMode('emergency')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
+              Emergency
+            </button>
+          </div>
+          <div className="max-w-md mx-auto">
+            <button
+              onClick={() => onOpenTravelMode()}
+              className="w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-2xl bg-white/12 border border-white/30 hover:bg-white/18 transition-colors"
+            >
+              <BriefcaseConveyorBelt className="w-4 h-4" />
+              Explore travel content
+              <ArrowRight className="w-4 h-4 text-white/85" />
+            </button>
+          </div>
         </section>
 
-        <section className="bg-[#4D7C0F] text-white border border-[#4D7C0F] rounded-2xl p-5 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(77,124,15,0.36)]">
-          <div className="font-playfair text-2xl leading-none mb-2 text-white">Practice Focus</div>
-          <p className="text-sm text-white/85 mb-4">
+        <section
+          className={`${cardShell} md:order-2 bg-[#186E95] text-white border-[#186E95]/90 min-h-[210px] shadow-[0_20px_40px_-28px_rgba(24,110,149,0.36)] text-center`}
+          style={{ animationDelay: '85ms' }}
+        >
+          <div className="main-font text-2xl leading-none mb-2 text-white">Practice Focus</div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg border border-white/30 bg-white/12 text-[11px] uppercase tracking-wider font-mono text-white/90 mb-2">
+            <span>Adaptive Mix</span>
+            <span>70% weak words · 30% reinforce</span>
+          </div>
+          <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
             {selectedLanguage === 'zh'
-              ? 'Run focused listening and speaking reps for your current band.'
-              : 'Practice labs are currently available for Mandarin.'}
+              ? needsWorkCount > 0
+                ? `${needsWorkCount} words are in your practice queue. Let's work on those first, then reinforce with current-band reps!`
+                : 'No active weak-word queue right now. Run focused reps to keep performance sharp and prevent backslide.'
+              : `Practice labs are currently available for ${languageLabel}.`}
           </p>
           {selectedLanguage === 'zh' ? (
-            <div className="grid grid-cols-1 gap-2.5">
+            <div className="flex items-center justify-center gap-3 max-w-md mx-auto">
               <button
                 onClick={() => onOpenPractice('listening', progress.currentBandId)}
-                className="w-full inline-flex items-center justify-between px-3 py-2.5 rounded-xl bg-white/14 border border-white/25 hover:bg-white/20 transition-colors"
+                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/14 border border-white/25 hover:bg-white/20 transition-colors"
+                aria-label="Listening practice"
+                title="Listening practice"
               >
-                <span className="inline-flex items-center gap-2 text-sm font-medium text-white">
-                  <Headphones className="w-4 h-4" />
-                  Listening Practice
-                </span>
-                <ArrowRight className="w-4 h-4 text-white/85" />
+                <Headphones className="w-5 h-5 text-white" />
               </button>
               <button
                 onClick={() => onOpenPractice('speaking', progress.currentBandId)}
-                className="w-full inline-flex items-center justify-between px-3 py-2.5 rounded-xl bg-white/14 border border-white/25 hover:bg-white/20 transition-colors"
+                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/14 border border-white/25 hover:bg-white/20 transition-colors"
+                aria-label="Speaking practice"
+                title="Speaking practice"
               >
-                <span className="inline-flex items-center gap-2 text-sm font-medium text-white">
-                  <Mic className="w-4 h-4" />
-                  Speaking Practice
-                </span>
-                <ArrowRight className="w-4 h-4 text-white/85" />
+                <Mic className="w-5 h-5 text-white" />
               </button>
             </div>
           ) : (
-            <button
-              onClick={onOpenLevels}
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white text-[#4D7C0F] font-semibold hover:bg-[#F3F4F6] transition-colors"
-            >
-              Continue Learning
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          )}
-          {selectedLanguage === 'zh' && (
-            <p className="text-xs text-white/75 mt-3">
-              {motivationPhrase.text}
-              {motivationPhrase.source ? ` · ${motivationPhrase.source}` : ''}
-            </p>
+            <div className="max-w-md mx-auto">
+              <button
+                onClick={onOpenLevels}
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white text-[#186E95] font-semibold hover:bg-[#F3F4F6] transition-colors"
+              >
+                Continue learning
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           )}
         </section>
 
-        <section className="md:col-span-2 bg-white text-text-dark border border-[#374151]/35 rounded-2xl p-5 shadow-[0_20px_40px_-28px_rgba(55,65,81,0.22)]">
-          <div className="font-playfair text-2xl leading-none mb-3 text-[#374151]">Shortcuts</div>
+        <section
+          className={`${cardShell} md:order-4 md:col-span-2 bg-white/95 text-text-dark border-[#374151]/35`}
+          style={{ animationDelay: '235ms' }}
+        >
+          <div className="main-font text-2xl leading-none mb-3 text-[#374151]">Shortcuts</div>
           <div className="grid grid-cols-1 gap-2">
             <button
               onClick={onOpenWeakWords}
-              className="w-full flex items-center justify-between px-3 py-3 rounded-xl border border-border hover:bg-[rgba(55,65,81,0.06)]"
+              className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(55,65,81,0.06)] transition-colors"
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
-                <ListChecks className="w-4 h-4 text-[#4D7C0F]" />
+                <ListChecks className="w-4 h-4 text-[#3E5648]" />
                 Progress Check
               </span>
               <ArrowRight className="w-4 h-4 text-text-light" />
             </button>
             <button
-              onClick={onOpenLevels}
-              className="w-full flex items-center justify-between px-3 py-3 rounded-xl border border-border hover:bg-[rgba(55,65,81,0.06)]"
-            >
-              <span className="inline-flex items-center gap-2 text-sm text-text-dark">
-                <BookOpenText className="w-4 h-4 text-[#1E3A8A]" />
-                Continue Learning
-              </span>
-              <ArrowRight className="w-4 h-4 text-text-light" />
-            </button>
-            <button
               onClick={onOpenProfile}
-              className="w-full flex items-center justify-between px-3 py-3 rounded-xl border border-border hover:bg-[rgba(55,65,81,0.06)]"
+              className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(55,65,81,0.06)] transition-colors"
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
                 <Bolt className="w-4 h-4 text-[#374151]" />

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { ChevronLeft, RefreshCw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { loadWordLookup, type WordLookup } from '../lib/wordLookup';
+import GlassHeader from './GlassHeader';
 
 const API_BASE_URL =
   (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
@@ -17,7 +18,6 @@ type NeedsWorkItem = {
 };
 
 interface WeakWordsScreenProps {
-  onBack: () => void;
   onGoHome: () => void;
   onGoProfile: () => void;
 }
@@ -35,7 +35,7 @@ function reasonLabel(reason: string) {
   }
 }
 
-export default function WeakWordsScreen({ onBack, onGoHome, onGoProfile }: WeakWordsScreenProps) {
+export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScreenProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [backendOffline, setBackendOffline] = useState(false);
@@ -75,20 +75,8 @@ export default function WeakWordsScreen({ onBack, onGoHome, onGoProfile }: WeakW
   }, []);
 
   return (
-    <div className="min-h-screen page-shell px-6 pt-14 pb-24">
-      <div className="relative mb-8">
-        <button
-          onClick={onBack}
-          className="absolute left-0 -top-1 inline-flex items-center gap-1.5 p-2 -ml-2 text-text-dark hover:opacity-70 transition-opacity"
-        >
-          <ChevronLeft className="w-4.5 h-4.5" />
-          <span className="text-sm">Back</span>
-        </button>
-        <div className="text-center px-12">
-          <h1 className="font-playfair text-5xl font-normal text-text-dark mb-2">Words To Work On</h1>
-          <h2 className="text-base text-text-med italic">Words needing reinforcement</h2>
-        </div>
-      </div>
+    <div className="min-h-screen page-shell px-6 pb-24">
+      <GlassHeader title="Words To Work On" />
 
       <div className="mb-5 flex justify-end">
         <button
@@ -124,7 +112,7 @@ export default function WeakWordsScreen({ onBack, onGoHome, onGoProfile }: WeakW
               <div key={item.wordId} className="border border-border rounded-xl p-3">
                 {wordLookup[item.wordId] ? (
                   <div className="mb-2">
-                    <div className="font-noto-serif text-2xl text-text-dark leading-none">
+                    <div className="secondary-font text-2xl text-text-dark leading-none">
                       {wordLookup[item.wordId].simp}
                     </div>
                     <div className="text-sm text-text-med mt-1">{wordLookup[item.wordId].pinyin}</div>
@@ -143,7 +131,7 @@ export default function WeakWordsScreen({ onBack, onGoHome, onGoProfile }: WeakW
                   {item.reasons.map((reason) => (
                     <span
                       key={reason}
-                      className="px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-mono bg-[rgba(30,58,138,0.12)] text-[#1E3A8A]"
+                      className="px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.12)] text-[#186E95]"
                     >
                       {reasonLabel(reason)}
                     </span>
