@@ -262,29 +262,33 @@ const initialState: AppState = {
   unitsMode: 'units',
 };
 
-export function AppProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<AppState>(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved) as Partial<AppState>;
-        return {
-          ...initialState,
-          ...parsed,
-          unlockedLevels: Array.from(
-            new Set([...(parsed.unlockedLevels || []), ...ALL_LEVEL_IDS])
-          ),
-          lessonProgress: normalizeLessonProgressKeys(parsed.lessonProgress || {}),
-        };
-      } catch {
-        return initialState;
-      }
-    }
+function loadPersistedState(): AppState {
+  try {
+    const saved = window.localStorage.getItem(STORAGE_KEY);
+    if (!saved) return initialState;
+    const parsed = JSON.parse(saved) as Partial<AppState>;
+    return {
+      ...initialState,
+      ...parsed,
+      unlockedLevels: Array.from(
+        new Set([...(parsed.unlockedLevels || []), ...ALL_LEVEL_IDS])
+      ),
+      lessonProgress: normalizeLessonProgressKeys(parsed.lessonProgress || {}),
+    };
+  } catch {
     return initialState;
-  });
+  }
+}
+
+export function AppProvider({ children }: { children: ReactNode }) {
+  const [state, setState] = useState<AppState>(() => loadPersistedState());
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      // Ignore storage failures (private mode/quota) to avoid startup crashes.
+    }
   }, [state]);
 
   // Refresh active band payload after localStorage hydration so unit/data edits

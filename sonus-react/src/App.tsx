@@ -229,6 +229,7 @@ function AppPages() {
   }, [goLearn]);
 
   function LanguageRoute() {
+    if (selectedLanguage) return <Navigate to="/home" replace />;
     return (
       <LanguageSelect
         onGoHome={goHome}
