@@ -60,6 +60,9 @@ export default function GlassHeader({
   }, []);
 
   const showStandaloneBack = isStandalone && location.pathname !== '/home';
+  const standaloneTitleWords = title.trim().split(/\s+/);
+  const standaloneFirstWord = standaloneTitleWords[0] ?? title;
+  const standaloneRemainingWords = standaloneTitleWords.slice(1).join(' ');
 
   return (
     <>
@@ -117,7 +120,14 @@ export default function GlassHeader({
           <h1
             className={`text-center main-font text-3xl md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
           >
-            {title}
+            {showStandaloneBack && standaloneRemainingWords ? (
+              <>
+                <span className="block md:inline">{standaloneFirstWord}</span>
+                <span className="block md:inline md:ml-2">{standaloneRemainingWords}</span>
+              </>
+            ) : (
+              title
+            )}
           </h1>
         </div>
       </div>
