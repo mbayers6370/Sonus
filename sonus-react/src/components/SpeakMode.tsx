@@ -1199,20 +1199,6 @@ export default function SpeakMode({
         ) : (
           <>
           <div className="sm:hidden grid grid-cols-2 gap-2 mb-2 items-stretch">
-            <div className="col-span-2 mb-1 flex justify-center">
-              <div className={`inline-flex items-center rounded-xl px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
-                isRecording
-                  ? 'bg-[#C2410C] text-white'
-                  : transcript
-                    ? 'bg-[rgba(194,65,12,0.16)] text-[#C2410C]'
-                    : isFinalizing
-                      ? 'bg-[rgba(55,65,81,0.14)] text-[#374151]'
-                      : 'bg-[rgba(55,65,81,0.10)] text-text-med'
-              }`}>
-                {isFinalizing ? 'Finalizing' : isRecording ? 'Recording' : transcript ? 'Heard' : 'Listening'}
-              </div>
-            </div>
-
             <button
               type="button"
               onClick={() => speak(word.simp, word.pinyin)}
@@ -1276,20 +1262,6 @@ export default function SpeakMode({
           </div>
 
           <div className="hidden sm:block rounded-3xl border border-[#C2410C]/25 bg-white/95 p-3 md:p-4 mb-2 sm:mb-3 shadow-[0_18px_38px_-28px_rgba(15,23,42,0.35)]">
-            <div className="mb-2 flex justify-center">
-              <div className={`inline-flex items-center rounded-xl px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
-                isRecording
-                  ? 'bg-[#C2410C] text-white'
-                  : transcript
-                    ? 'bg-[rgba(194,65,12,0.16)] text-[#C2410C]'
-                  : isFinalizing
-                    ? 'bg-[rgba(55,65,81,0.14)] text-[#374151]'
-                    : 'bg-[rgba(55,65,81,0.10)] text-text-med'
-              }`}>
-                {isFinalizing ? 'Finalizing' : isRecording ? 'Recording' : transcript ? 'Heard' : 'Listening'}
-              </div>
-            </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
               <div className="rounded-3xl border border-[rgba(194,65,12,0.22)] bg-[rgba(194,65,12,0.08)] px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] flex flex-col items-center justify-center text-center">
                 <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Target</div>
