@@ -107,19 +107,10 @@ function LessonRoutePage({
   }
 
   const isComplete = lessonWordIndex >= activeLesson.words.length;
-  if (lessonMode !== 'complete' && isComplete) {
+  if (lessonMode !== 'complete' && isComplete && state.lessonMode === lessonMode) {
     return (
       <Navigate
         to={`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/complete`}
-        replace
-      />
-    );
-  }
-
-  if (lessonMode === 'complete' && !isComplete) {
-    return (
-      <Navigate
-        to={`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/intro`}
         replace
       />
     );

@@ -1,0 +1,23 @@
+{
+  "name": "Sonus",
+  "short_name": "Sonus",
+  "start_url": "/home",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F6F2EB",
+  "theme_color": "#F6F2EB",
+  "icons": [
+    {
+      "src": "/branding/app-icon-ios.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/branding/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
