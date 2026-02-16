@@ -132,12 +132,10 @@ function LessonRoutePage({
         onOpenProfile={onOpenProfile}
         onStartQuiz={() => {
           restartLesson();
-          setLessonMode('quiz');
           navigate(`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/quiz`);
         }}
         onStartSpeak={() => {
           restartLesson();
-          setLessonMode('speak');
           navigate(`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/speak`);
         }}
         onContinue={() => {

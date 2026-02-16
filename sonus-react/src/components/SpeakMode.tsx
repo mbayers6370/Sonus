@@ -5,6 +5,7 @@ import { Volume2, Mic, ChevronRight } from 'lucide-react';
 import { sendSpeakAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
+import WordProgressRail from './WordProgressRail';
 
 interface SpeakModeProps {
   word: Word;
@@ -225,12 +226,42 @@ function mapHanziToPinyin(hanziRaw: string): string {
   }
 
   const syllables: string[] = [];
+  let mappedCount = 0;
   for (const char of Array.from(hanzi)) {
     const mapped = hanziToPinyinChar.get(char);
-    if (!mapped) return '';
+    if (!mapped) {
+      syllables.push('?');
+      continue;
+    }
+    mappedCount += 1;
     syllables.push(mapped);
   }
+  if (mappedCount === 0) return '';
   return syllables.join(' ');
+}
+
+function inferPinyinFromTargetHanzi(recognizedHanziRaw: string, targetHanziRaw: string, targetPinyinRaw: string) {
+  const recognized = Array.from(normalizeHanzi(recognizedHanziRaw));
+  const targetHanzi = Array.from(normalizeHanzi(targetHanziRaw));
+  const targetTokens = tokenizePinyin(targetPinyinRaw || '', targetHanzi.length);
+  if (!recognized.length || !targetHanzi.length || !targetTokens.length) return '';
+
+  const inferred: string[] = [];
+  for (const char of recognized) {
+    const idx = targetHanzi.indexOf(char);
+    if (idx < 0) continue;
+    const token = targetTokens[idx];
+    if (token) inferred.push(token);
+  }
+  return inferred.join(' ').trim();
+}
+
+function toneLabel(tone: number) {
+  if (tone === 1) return 'Tone 1 (high level)';
+  if (tone === 2) return 'Tone 2 (rising)';
+  if (tone === 3) return 'Tone 3 (dip)';
+  if (tone === 4) return 'Tone 4 (falling)';
+  return 'neutral tone';
 }
 
 function normalize(value: string) {
@@ -467,7 +498,6 @@ export default function SpeakMode({
   const [isFinalizing, setIsFinalizing] = useState(false);
   const [recordingUrl, setRecordingUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState('');
-  const [showListeningDetails, setShowListeningDetails] = useState(false);
   const [matchResult, setMatchResult] = useState<MatchResult>(null);
   const [audioError, setAudioError] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<PronunciationAnalysis | null>(null);
@@ -485,7 +515,7 @@ export default function SpeakMode({
   const pendingSpeakAttemptRef = useRef<SpeakCandidate | null>(null);
 
   const { speak } = useAudio();
-  const { recordSpeakResult } = useApp();
+  const { state, recordSpeakResult } = useApp();
 
   const targetHanzi = normalizeHanzi(word.simp);
   const targetSyllableCount = Math.max(
@@ -515,6 +545,19 @@ export default function SpeakMode({
       const mapped = mapHanziToPinyin(heardHanzi);
       if (mapped) {
         return { pinyin: mapped, source: 'hanzi-map' };
+      }
+
+      // If recognition only catches part of the target phrase, infer the
+      // matching syllable from the target pinyin so feedback stays useful.
+      if (heardHanzi.length === 1 && targetHanzi.length > 1 && word.pinyin) {
+        const idx = Array.from(targetHanzi).indexOf(heardHanzi);
+        if (idx >= 0) {
+          const targetTokens = tokenizePinyin(word.pinyin, targetHanzi.length);
+          const inferred = targetTokens[idx];
+          if (inferred) {
+            return { pinyin: inferred, source: 'hanzi-map' };
+          }
+        }
       }
 
       return { pinyin: '', source: 'unresolved' };
@@ -876,7 +919,6 @@ export default function SpeakMode({
     setTranscript('');
     setMatchResult(null);
     setAnalysis(null);
-    setShowListeningDetails(false);
     setIsFinalizing(false);
     if (finalizeTimerRef.current) {
       window.clearTimeout(finalizeTimerRef.current);
@@ -902,102 +944,228 @@ export default function SpeakMode({
   const isPerfectListening = Boolean(
     analysis && analysis.initial.pass && analysis.final.pass && analysis.tone.pass
   );
+  const noSpeechMobileClass = isNoSpeech ? 'text-[0.95rem] font-medium' : 'text-[1.5rem]';
+  const noSpeechResultClass = isNoSpeech ? 'text-base' : 'text-lg';
+  const hasRecordedSpeech = transcript.trim().length > 0 && !isNoSpeech;
+  const recordTileLocked = hasRecordedSpeech && !isRecording && !isFinalizing;
+  const hasAttempt =
+    Boolean(transcript.trim()) || Boolean(analysis) || Boolean(matchResult) || Boolean(audioError);
   const showMobileResult =
     !isRecording &&
     !isFinalizing &&
     (Boolean(transcript) || Boolean(analysis) || Boolean(audioError) || Boolean(matchResult));
+  const showDesktopResult = showMobileResult;
+  const detectedFromTranscript = transcript ? resolveDetectedPinyin(transcript).pinyin : '';
+  const fallbackDetectedFromChars = heardHanzi ? mapHanziToPinyin(heardHanzi) : '';
+  const inferredFromTarget = heardHanzi ? inferPinyinFromTargetHanzi(heardHanzi, word.simp, word.pinyin || '') : '';
+  const firstUsableDetected = [analysis?.detectedPinyin || '', detectedFromTranscript, fallbackDetectedFromChars, inferredFromTarget]
+    .map((value) => value.trim())
+    .find((value) => {
+      if (!value) return false;
+      if (value.toLowerCase() === 'unresolved') return false;
+      if (/^\?(\s+\?)*$/.test(value)) return false;
+      return true;
+    });
+  const detectedPinyinLabel = firstUsableDetected || '';
 
-  const scoreRow = (label: string, score: ScoreBreakdown) => (
-    <div className="text-sm text-text-med mb-1" key={label}>
-      {label}:{' '}
-      <span className={score.pass ? 'text-[#3E5648] font-semibold' : 'text-[#C2410C] font-semibold'}>
-        {score.pass ? '✔' : '✖'}
-      </span>{' '}
-      <span className="text-text-light">({score.percent}% · {score.matched}/{score.total})</span>
-    </div>
-  );
+  const scoreLine = (compact: boolean) => {
+    if (!analysis) return null;
+    const textClass = compact ? 'text-[11px]' : 'text-xs';
+    return (
+      <div className={`${textClass} text-text-med mt-1`}>
+        Initial {analysis.initial.percent}% · Final {analysis.final.percent}% · Tone {analysis.tone.percent}%
+      </div>
+    );
+  };
+
+  const buildSupportiveFeedback = () => {
+    const coaching: string[] = [];
+    const nextGoalDefault = 'Next try goal: lock one component first, then add the rest.';
+    const targetHint = word.pinyin || word.simp;
+
+    if (isNoSpeech) {
+      return {
+        label: 'Try Again!',
+        toneClass: 'text-[#C2410C]',
+        summary: '',
+        coaching,
+        nextGoal: 'Next try goal: use a clear, steady voice close to the mic.',
+      };
+    }
+
+    if (!analysis) {
+      return {
+        label: 'Try Again!',
+        toneClass: 'text-[#C2410C]',
+        summary: '',
+        coaching,
+        nextGoal: nextGoalDefault,
+      };
+    }
+
+    const targetTokens = parsePinyin(word.pinyin || '', targetSyllableCount);
+    const heardTokens = parsePinyin(analysis.detectedPinyin || '', targetTokens.length || targetSyllableCount);
+
+    if (!analysis.initial.pass) {
+      const idx = targetTokens.findIndex((token, index) => token.initial !== (heardTokens[index]?.initial || ''));
+      const tokenHint = idx >= 0 ? targetTokens[idx].raw : targetHint;
+      coaching.push(`Opening sound: reset the first consonant in "${tokenHint}".`);
+    }
+    if (!analysis.final.pass) {
+      const idx = targetTokens.findIndex((token, index) => token.final !== (heardTokens[index]?.final || ''));
+      const tokenHint = idx >= 0 ? targetTokens[idx].raw : targetHint;
+      coaching.push(`Ending sound: finish "${tokenHint}" cleanly before stopping.`);
+    }
+    if (!analysis.tone.pass) {
+      const idx = targetTokens.findIndex((token, index) => token.tone !== (heardTokens[index]?.tone || 0));
+      const tokenHint = idx >= 0 ? targetTokens[idx].raw : targetHint;
+      const wantedTone = idx >= 0 ? toneLabel(targetTokens[idx].tone) : 'target tone';
+      coaching.push(`Tone target: "${tokenHint}" should use ${wantedTone}.`);
+    }
+    if (analysis.source === 'unresolved' && heardHanzi) {
+      coaching.push(`Detected "${transcript}" but mapping is partial; try a cleaner, slower pronunciation.`);
+    }
+
+    const passCount = [analysis.initial.pass, analysis.final.pass, analysis.tone.pass].filter(Boolean).length;
+
+    if (passCount === 3) {
+      return {
+        label: 'Excellent',
+        toneClass: 'text-[#3E5648]',
+        summary: 'Great initial, final, and tone control.',
+        coaching,
+        nextGoal: 'Next try goal: keep this same clarity on the next word.',
+      };
+    }
+
+    if (passCount === 2) {
+      let summary = 'Almost there.';
+      let nextGoal = nextGoalDefault;
+      if (!analysis.tone.pass) {
+        summary = 'Great initial + final. Tone is the only miss.';
+        nextGoal = 'Next try goal: keep initial + final, focus only on tone.';
+      } else if (!analysis.initial.pass) {
+        summary = 'Great final + tone. Initial is the only miss.';
+        nextGoal = 'Next try goal: keep final + tone, focus only on initial.';
+      } else if (!analysis.final.pass) {
+        summary = 'Great initial + tone. Final is the only miss.';
+        nextGoal = 'Next try goal: keep initial + tone, focus only on final.';
+      }
+      return {
+        label: 'Almost there',
+        toneClass: 'text-[#186E95]',
+        summary,
+        coaching,
+        nextGoal,
+      };
+    }
+
+    if (passCount === 1) {
+      return {
+        label: 'Good start',
+        toneClass: 'text-[#186E95]',
+        summary: 'One component is in place. Let’s stack the next two.',
+        coaching,
+        nextGoal: 'Next try goal: keep your strongest component, then add one more.',
+      };
+    }
+
+    return {
+      label: 'Try Again!',
+      toneClass: 'text-[#C2410C]',
+      summary: '',
+      coaching,
+      nextGoal: nextGoalDefault,
+    };
+  };
+
+  const renderSupportiveFeedback = (compact: boolean) => {
+    if (!hasAttempt) return null;
+    const feedback = buildSupportiveFeedback();
+    const baseText = compact ? 'text-[12px]' : 'text-sm';
+    const firstCoaching = feedback.coaching[0];
+    return (
+      <div className="mt-1">
+        <div className={`${baseText} ${feedback.toneClass} font-semibold`}>
+          {feedback.summary ? `${feedback.label}: ${feedback.summary}` : feedback.label}
+        </div>
+        {firstCoaching ? <div className={`${baseText} text-text-med mt-1`}>{firstCoaching}</div> : null}
+        <div className={`${baseText} text-[#186E95] mt-1`}>{feedback.nextGoal}</div>
+      </div>
+    );
+  };
 
   return (
     <div className="flex flex-col min-h-full">
       {/* Progress Bar */}
-      <div className="w-full h-2 bg-gray-200/90 rounded-full overflow-hidden mb-1.5 sm:mb-2">
-        <div
-          className="h-full bg-gradient-to-r from-[#186E95] to-[#C2410C] transition-all duration-300"
-          style={{ width: `${((currentIndex + 1) / totalWords) * 100}%` }}
-        />
-      </div>
+      <WordProgressRail
+        total={totalWords}
+        currentIndex={currentIndex}
+        resultsByIndex={state.speakResultsByIndex}
+      />
 
       {/* Word Display */}
       <div className="flex-1 px-3 sm:px-5">
         {!practiceMode ? (
           <>
           <div className="sm:hidden grid grid-cols-2 gap-2 mb-2 items-stretch">
-            <div className="relative rounded-3xl border border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] px-3 py-2 min-h-[132px] flex flex-col items-center justify-center text-center">
-              <button
-                type="button"
-                onClick={() => speak(word.simp, word.pinyin)}
-                className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(24,110,149,0.35)] text-[#186E95] bg-white/55 hover:bg-white/80 transition-colors"
-                aria-label="Play target audio"
-                title="Play target audio"
-              >
-                <Volume2 className="w-4 h-4" />
-              </button>
+            <button
+              type="button"
+              onClick={() => speak(word.simp, word.pinyin)}
+              className="relative rounded-3xl border border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] px-3 py-2 min-h-[132px] flex flex-col items-center justify-center text-center transition-colors active:bg-[rgba(24,110,149,0.14)]"
+              aria-label="Play target audio"
+              title="Play target audio"
+            >
+              <Volume2 className="absolute top-3 right-3 w-5 h-5 text-[#186E95]" />
               <div className="text-[11px] tracking-wide font-mono text-[#186E95] mb-1">Target</div>
               <div className="secondary-font font-semibold text-[1.9rem] text-text-dark leading-tight">{word.simp}</div>
               {word.pinyin ? <div className="text-[15px] text-text-med">{word.pinyin}</div> : null}
               <div className="text-xs text-text-light mt-1">{word.en}</div>
-            </div>
+            </button>
 
-            <div className="relative rounded-3xl border border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] px-3 py-2 min-h-[132px]">
-              <button
-                type="button"
-                onClick={handleRecord}
-                disabled={isFinalizing}
-                className={`absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border transition-colors ${
-                  isRecording
-                    ? 'border-[#C2410C] bg-[#C2410C] text-white animate-pulse'
-                    : 'border-[rgba(194,65,12,0.45)] text-[#C2410C] bg-white/55 hover:bg-white/80'
-                }`}
-                aria-label={isRecording ? 'Stop recording' : 'Start recording'}
-                title={isRecording ? 'Stop recording' : 'Start recording'}
-              >
-                <Mic className="w-4 h-4" />
-              </button>
+            <button
+              type="button"
+              onClick={handleRecord}
+              disabled={isFinalizing || recordTileLocked}
+              className={`relative rounded-3xl border px-3 py-2 min-h-[132px] transition-colors ${
+                recordTileLocked
+                  ? 'border-[rgba(55,65,81,0.24)] bg-[rgba(55,65,81,0.12)] opacity-65 cursor-not-allowed'
+                  : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] active:bg-[rgba(194,65,12,0.14)]'
+              }`}
+              aria-label={isRecording ? 'Stop recording' : 'Start recording'}
+              title={isRecording ? 'Stop recording' : 'Start recording'}
+            >
+              <Mic
+                className={`absolute top-3 right-3 w-5 h-5 ${
+                  recordTileLocked ? 'text-[#6B7280]' : 'text-[#C2410C]'
+                } ${isRecording ? 'animate-pulse' : ''}`}
+              />
 
               <div className="h-full flex flex-col justify-center text-center">
                 <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
-                <div className="secondary-font font-semibold text-[1.9rem] text-text-dark leading-tight break-words">{transcript || '...'}</div>
+                <div className={`secondary-font font-semibold text-text-dark leading-tight break-words ${noSpeechMobileClass}`}>
+                  {transcript || '...'}
+                </div>
                 <div className="text-xs text-text-med mt-1">
                   {isFinalizing ? 'Finalizing...' : isRecording ? 'Recording...' : 'Results appear below'}
                 </div>
               </div>
-            </div>
+            </button>
 
             {showMobileResult && (
               <div className="col-span-2 rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-3 py-2.5 text-center">
                 <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Result</div>
-                <div className="secondary-font font-semibold text-xl text-text-dark leading-tight break-words mb-1 text-center">
+                <div className={`secondary-font font-semibold ${noSpeechResultClass} text-text-dark leading-tight break-words mb-1 text-center`}>
                   {transcript || '...'}
                 </div>
-                {analysis ? (
-                  <>
-                    <div className="text-sm text-text-med mb-1">
-                      Detected pinyin:{' '}
-                      <span className="font-semibold text-text-dark">{analysis.detectedPinyin || 'unresolved'}</span>
-                    </div>
-                    {scoreRow('Initial', analysis.initial)}
-                    {scoreRow('Final', analysis.final)}
-                    {scoreRow('Tone', analysis.tone)}
-                  </>
-                ) : (
-                  <div className="text-xs text-text-med">Record to see pinyin and score breakdown.</div>
-                )}
-                {matchResult === 'match' && (
-                  <div className="text-xs text-[#3E5648] mt-1 font-medium">Match: Great pronunciation.</div>
-                )}
-                {matchResult === 'retry' && (
-                  <div className="text-xs text-[#C2410C] mt-1">No match. Please try again.</div>
-                )}
+                {detectedPinyinLabel ? (
+                  <div className="text-xs text-text-med mb-1">
+                    Detected pinyin:{' '}
+                    <span className="font-semibold text-text-dark">{detectedPinyinLabel}</span>
+                  </div>
+                ) : null}
+                {scoreLine(true)}
+                {renderSupportiveFeedback(true)}
                 {audioError && <div className="text-xs text-[#C2410C] mt-2">{audioError}</div>}
               </div>
             )}
@@ -1011,74 +1179,21 @@ export default function SpeakMode({
               <div className="text-sm text-text-light mt-1">{word.en}</div>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setShowListeningDetails((prev) => !prev)}
-              className={`relative rounded-3xl border px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] transition-colors ${
-                showListeningDetails && isPerfectListening
+            <div
+              className={`rounded-3xl border px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] ${
+                isPerfectListening
                   ? 'border-[rgba(62,86,72,0.30)] bg-[rgba(62,86,72,0.14)]'
-                  : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] hover:bg-[rgba(194,65,12,0.12)]'
+                  : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)]'
               }`}
             >
-              {!showListeningDetails ? (
-                <div className="h-full flex flex-col items-center justify-center text-center">
-                  <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
-                  <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
-                  <div className="hidden sm:block text-xs text-text-med mt-1">
-                    {transcript ? 'Show details' : 'Record to compare'}
-                  </div>
+              <div className="h-full flex flex-col items-center justify-center text-center">
+                <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
+                <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
+                <div className="hidden sm:block text-xs text-text-med mt-1">
+                  {transcript ? 'Captured audio' : 'Record to compare'}
                 </div>
-              ) : (
-                <div className="h-full flex flex-col justify-center text-center overflow-y-auto pr-7">
-                  <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
-                  <div className="secondary-font font-semibold text-3xl text-text-dark leading-tight break-words mb-1 text-center">
-                    {transcript || '...'}
-                  </div>
-                  {analysis ? (
-                    <>
-                      <div className="text-sm text-text-med mb-1">
-                        Detected pinyin:{' '}
-                        <span className="font-semibold text-text-dark">{analysis.detectedPinyin || 'unresolved'}</span>
-                      </div>
-                      {scoreRow('Initial', analysis.initial)}
-                      {scoreRow('Final', analysis.final)}
-                      {scoreRow('Tone', analysis.tone)}
-                    </>
-                  ) : (
-                    <div className="text-sm text-text-med mt-2">Record to see pinyin and score breakdown.</div>
-                  )}
-                  {matchResult === 'match' && (
-                    <div className="text-sm text-[#3E5648] mt-1 font-medium">Match: Great pronunciation.</div>
-                  )}
-                  {matchResult === 'retry' && (
-                    <div className="text-sm text-[#C2410C] mt-1">No match. Please try again.</div>
-                  )}
-                  {matchResult === 'retry' && isNoSpeech && (
-                    <div className="text-sm text-[#C2410C] mt-1">
-                      We could not detect speech clearly. Try again closer to the mic.
-                    </div>
-                  )}
-                  {analysis?.source === 'unresolved' && heardHanzi && (
-                    <div className="text-sm text-[#C2410C] mt-1">
-                      Detected "{transcript}" but could not map it to pinyin with tone from local vocabulary.
-                    </div>
-                  )}
-                  {matchResult === 'retry' && analysis?.source !== 'unresolved' && !isNoSpeech && (
-                    <div className="text-sm text-[#C2410C] mt-1">
-                      Pronunciation is close, but one or more components (initial/final/tone) is off.
-                    </div>
-                  )}
-                  {audioError && <div className="text-sm text-[#C2410C] mt-2">{audioError}</div>}
-                </div>
-              )}
-              <ChevronRight
-                className={`absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 ${
-                  showListeningDetails && isPerfectListening ? 'text-[#3E5648]' : 'text-[#C2410C]'
-                } transition-transform ${
-                  showListeningDetails ? 'rotate-90' : ''
-                }`}
-              />
-            </button>
+              </div>
+            </div>
           </div>
           </>
         ) : (
@@ -1098,72 +1213,63 @@ export default function SpeakMode({
               </div>
             </div>
 
-            <div className="relative rounded-3xl border border-[rgba(194,65,12,0.22)] bg-[rgba(194,65,12,0.08)] px-3 py-2 min-h-[132px] flex flex-col items-center justify-center text-center">
-              <button
-                type="button"
-                onClick={() => speak(word.simp, word.pinyin)}
-                className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border border-[rgba(194,65,12,0.35)] text-[#C2410C] bg-white/55 hover:bg-white/80 transition-colors"
-                aria-label="Play target audio"
-                title="Play target audio"
-              >
-                <Volume2 className="w-4 h-4" />
-              </button>
+            <button
+              type="button"
+              onClick={() => speak(word.simp, word.pinyin)}
+              className="relative rounded-3xl border border-[rgba(194,65,12,0.22)] bg-[rgba(194,65,12,0.08)] px-3 py-2 min-h-[132px] flex flex-col items-center justify-center text-center transition-colors active:bg-[rgba(194,65,12,0.14)]"
+              aria-label="Play target audio"
+              title="Play target audio"
+            >
+              <Volume2 className="absolute top-3 right-3 w-5 h-5 text-[#C2410C]" />
               <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Target</div>
               <div className="secondary-font font-semibold text-[1.9rem] text-text-dark leading-tight">{word.simp}</div>
               {word.pinyin ? <div className="text-[15px] text-text-med">{word.pinyin}</div> : null}
               <div className="text-xs text-text-light mt-1">{word.en}</div>
-            </div>
+            </button>
 
-            <div className="relative rounded-3xl border border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] px-3 py-2 min-h-[132px]">
-              <button
-                type="button"
-                onClick={handleRecord}
-                disabled={isFinalizing}
-                className={`absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full border transition-colors ${
-                  isRecording
-                    ? 'border-[#C2410C] bg-[#C2410C] text-white animate-pulse'
-                    : 'border-[rgba(194,65,12,0.45)] text-[#C2410C] bg-white/55 hover:bg-white/80'
-                }`}
-                aria-label={isRecording ? 'Stop recording' : 'Start recording'}
-                title={isRecording ? 'Stop recording' : 'Start recording'}
-              >
-                <Mic className="w-4 h-4" />
-              </button>
+            <button
+              type="button"
+              onClick={handleRecord}
+              disabled={isFinalizing || recordTileLocked}
+              className={`relative rounded-3xl border px-3 py-2 min-h-[132px] transition-colors ${
+                recordTileLocked
+                  ? 'border-[rgba(55,65,81,0.24)] bg-[rgba(55,65,81,0.12)] opacity-65 cursor-not-allowed'
+                  : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] active:bg-[rgba(194,65,12,0.14)]'
+              }`}
+              aria-label={isRecording ? 'Stop recording' : 'Start recording'}
+              title={isRecording ? 'Stop recording' : 'Start recording'}
+            >
+              <Mic
+                className={`absolute top-3 right-3 w-5 h-5 ${
+                  recordTileLocked ? 'text-[#6B7280]' : 'text-[#C2410C]'
+                } ${isRecording ? 'animate-pulse' : ''}`}
+              />
 
               <div className="h-full flex flex-col justify-center text-center">
                 <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
-                <div className="secondary-font font-semibold text-[1.9rem] text-text-dark leading-tight break-words">{transcript || '...'}</div>
+                <div className={`secondary-font font-semibold text-text-dark leading-tight break-words ${noSpeechMobileClass}`}>
+                  {transcript || '...'}
+                </div>
                 <div className="text-xs text-text-med mt-1">
                   {isFinalizing ? 'Finalizing...' : isRecording ? 'Recording...' : 'Results appear below'}
                 </div>
               </div>
-            </div>
+            </button>
 
             {showMobileResult && (
               <div className="col-span-2 rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-3 py-2.5 text-center">
                 <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Result</div>
-                <div className="secondary-font font-semibold text-xl text-text-dark leading-tight break-words mb-1 text-center">
+                <div className={`secondary-font font-semibold ${noSpeechResultClass} text-text-dark leading-tight break-words mb-1 text-center`}>
                   {transcript || '...'}
                 </div>
-                {analysis ? (
-                  <>
-                    <div className="text-sm text-text-med mb-1">
-                      Detected pinyin:{' '}
-                      <span className="font-semibold text-text-dark">{analysis.detectedPinyin || 'unresolved'}</span>
-                    </div>
-                    {scoreRow('Initial', analysis.initial)}
-                    {scoreRow('Final', analysis.final)}
-                    {scoreRow('Tone', analysis.tone)}
-                  </>
-                ) : (
-                  <div className="text-xs text-text-med">Record to see pinyin and score breakdown.</div>
-                )}
-                {matchResult === 'match' && (
-                  <div className="text-xs text-[#3E5648] mt-1 font-medium">Match: Great pronunciation.</div>
-                )}
-                {matchResult === 'retry' && (
-                  <div className="text-xs text-[#C2410C] mt-1">No match. Please try again.</div>
-                )}
+                {detectedPinyinLabel ? (
+                  <div className="text-xs text-text-med mb-1">
+                    Detected pinyin:{' '}
+                    <span className="font-semibold text-text-dark">{detectedPinyinLabel}</span>
+                  </div>
+                ) : null}
+                {scoreLine(true)}
+                {renderSupportiveFeedback(true)}
                 {audioError && <div className="text-xs text-[#C2410C] mt-2">{audioError}</div>}
               </div>
             )}
@@ -1192,76 +1298,22 @@ export default function SpeakMode({
                 <div className="text-sm text-text-light mt-1">{word.en}</div>
               </div>
 
-              <button
-                type="button"
-                onClick={() => setShowListeningDetails((prev) => !prev)}
-                className={`relative rounded-3xl border px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] transition-colors ${
-                  showListeningDetails && isPerfectListening
+              <div
+                className={`rounded-3xl border px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] ${
+                  isPerfectListening
                     ? 'border-[rgba(62,86,72,0.30)] bg-[rgba(62,86,72,0.14)]'
-                    : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] hover:bg-[rgba(194,65,12,0.12)]'
+                    : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)]'
                 }`}
               >
-                {!showListeningDetails ? (
-                  <div className="h-full flex flex-col items-center justify-center text-center">
-                    <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
-                    <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
-                    <div className="hidden sm:block text-xs text-text-med mt-1">
-                      {transcript ? 'Show details' : 'Record to compare'}
-                    </div>
+                <div className="h-full flex flex-col items-center justify-center text-center">
+                  <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
+                  <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
+                  <div className="hidden sm:block text-xs text-text-med mt-1">
+                    {transcript ? 'Captured audio' : 'Record to compare'}
                   </div>
-                ) : (
-                  <div className="h-full flex flex-col justify-center text-center overflow-y-auto pr-7">
-                    <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
-                    <div className="secondary-font font-semibold text-3xl text-text-dark leading-tight break-words mb-1 text-center">
-                      {transcript || '...'}
-                    </div>
-                    {analysis ? (
-                      <>
-                        <div className="text-sm text-text-med mb-1">
-                          Detected pinyin:{' '}
-                          <span className="font-semibold text-text-dark">{analysis.detectedPinyin || 'unresolved'}</span>
-                        </div>
-                        {scoreRow('Initial', analysis.initial)}
-                        {scoreRow('Final', analysis.final)}
-                        {scoreRow('Tone', analysis.tone)}
-                      </>
-                    ) : (
-                      <div className="text-sm text-text-med mt-2">Record to see pinyin and score breakdown.</div>
-                    )}
-                    {matchResult === 'match' && (
-                      <div className="text-sm text-[#3E5648] mt-1 font-medium">Match: Great pronunciation.</div>
-                    )}
-                    {matchResult === 'retry' && (
-                      <div className="text-sm text-[#C2410C] mt-1">No match. Please try again.</div>
-                    )}
-                    {matchResult === 'retry' && isNoSpeech && (
-                      <div className="text-sm text-[#C2410C] mt-1">
-                        We could not detect speech clearly. Try again closer to the mic.
-                      </div>
-                    )}
-                    {analysis?.source === 'unresolved' && heardHanzi && (
-                      <div className="text-sm text-[#C2410C] mt-1">
-                        Detected "{transcript}" but could not map it to pinyin with tone from local vocabulary.
-                      </div>
-                    )}
-                    {matchResult === 'retry' && analysis?.source !== 'unresolved' && !isNoSpeech && (
-                      <div className="text-sm text-[#C2410C] mt-1">
-                        Pronunciation is close, but one or more components (initial/final/tone) is off.
-                      </div>
-                    )}
-                    {audioError && <div className="text-sm text-[#C2410C] mt-2">{audioError}</div>}
-                  </div>
-                )}
-                <ChevronRight
-                  className={`absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 ${
-                    showListeningDetails && isPerfectListening ? 'text-[#3E5648]' : 'text-[#C2410C]'
-                  } transition-transform ${
-                    showListeningDetails ? 'rotate-90' : ''
-                  }`}
-                />
-              </button>
+                </div>
+              </div>
             </div>
-
             <div className="flex gap-2">
               <button
                 onClick={() => speak(word.simp, word.pinyin)}
@@ -1297,6 +1349,24 @@ export default function SpeakMode({
                 )}
               </button>
             </div>
+
+            {showDesktopResult && (
+              <div className="rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-4 py-3 mt-2 text-center">
+                <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Result</div>
+                <div className="secondary-font font-semibold text-xl text-text-dark leading-tight break-words mb-1">
+                  {transcript || '...'}
+                </div>
+                {detectedPinyinLabel ? (
+                  <div className="text-sm text-text-med mb-1">
+                    Detected pinyin:{' '}
+                    <span className="font-semibold text-text-dark">{detectedPinyinLabel}</span>
+                  </div>
+                ) : null}
+                {scoreLine(false)}
+                {renderSupportiveFeedback(false)}
+                {audioError && <div className="text-sm text-[#C2410C] mt-2">{audioError}</div>}
+              </div>
+            )}
           </div>
           </>
         )}
@@ -1338,6 +1408,24 @@ export default function SpeakMode({
             )}
           </button>
         </div>
+        )}
+
+        {!practiceMode && showDesktopResult && (
+          <div className="hidden sm:block rounded-3xl border border-[rgba(194,65,12,0.20)] bg-white px-4 py-3 mb-2 text-center">
+            <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Result</div>
+            <div className="secondary-font font-semibold text-xl text-text-dark leading-tight break-words mb-1">
+              {transcript || '...'}
+            </div>
+            {detectedPinyinLabel ? (
+              <div className="text-sm text-text-med mb-1">
+                Detected pinyin:{' '}
+                <span className="font-semibold text-text-dark">{detectedPinyinLabel}</span>
+              </div>
+            ) : null}
+            {scoreLine(false)}
+            {renderSupportiveFeedback(false)}
+            {audioError && <div className="text-sm text-[#C2410C] mt-2">{audioError}</div>}
+          </div>
         )}
 
         {!practiceMode && isFinalizing && (

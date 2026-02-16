@@ -60,7 +60,11 @@ export default function LessonComplete({
         <GlassHeader title="Lesson Complete" />
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-start px-6 pt-2 pb-4 overflow-y-auto">
+      <div
+        className={`flex-1 flex flex-col items-center justify-start px-6 pt-2 overflow-y-auto ${
+          isSpeakCompletion ? 'pb-[18rem] sm:pb-[14rem]' : 'pb-[12.5rem] sm:pb-10'
+        }`}
+      >
         <div className="mb-3 inline-flex items-center justify-center w-10 h-10 rounded-full bg-[rgba(55,65,81,0.10)]">
           <PartyPopper className="w-5 h-5 text-[#374151]" />
         </div>
@@ -163,6 +167,7 @@ export default function LessonComplete({
             Practice Again
           </button>
         </div>
+        <div className={isSpeakCompletion ? 'h-36 sm:h-24' : 'h-24 sm:h-0'} />
       </div>
 
       <BottomNav active="learn" onHome={onGoHome} onProfile={onOpenProfile} />

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
-import { Volume2, ChevronRight, CheckCircle, XCircle } from 'lucide-react';
+import { Volume2, ChevronRight } from 'lucide-react';
 import { sendQuizAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
+import WordProgressRail from './WordProgressRail';
 
 interface QuizProps {
   word: Word;
@@ -39,12 +40,11 @@ export default function Quiz({
   listeningMode = false,
   onNext,
 }: QuizProps) {
-  const { recordQuizResult } = useApp();
+  const { state, recordQuizResult } = useApp();
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [allChoices, setAllChoices] = useState<string[]>(() => buildChoices(word, allWords));
   const { speak } = useAudio();
-  const explanationDefs = (word.defs && word.defs.length > 0 ? word.defs : [word.en]).slice(0, 2);
 
   const handleAnswer = (choice: string) => {
     if (selectedAnswer) return; // Already answered
@@ -84,12 +84,11 @@ export default function Quiz({
   return (
     <div className="flex flex-col min-h-full">
       {/* Progress Bar */}
-      <div className="w-full h-2 bg-gray-200/90 rounded-full overflow-hidden mb-2">
-        <div
-          className="h-full bg-gradient-to-r from-[#186E95] to-[#C2410C] transition-all duration-300"
-          style={{ width: `${((currentIndex + 1) / totalWords) * 100}%` }}
-        />
-      </div>
+      <WordProgressRail
+        total={totalWords}
+        currentIndex={currentIndex}
+        resultsByIndex={state.quizResultsByIndex}
+      />
 
       {/* Quiz Question */}
       <div className="flex-1 px-4">
@@ -100,53 +99,72 @@ export default function Quiz({
               : 'bg-[rgba(55,65,81,0.08)] border-border/80'
           }`}
         >
-            <div className="text-center">
-              {word.isReview && (
-                <>
-                  <div
-                    className={`inline-flex mb-1 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
-                      listeningMode
-                        ? 'bg-white/20 text-white'
-                        : 'bg-[rgba(24,110,149,0.16)] text-[#186E95]'
-                    }`}
-                  >
-                    Review Word
-                  </div>
-                  <div className={`mb-2 text-[11px] ${listeningMode ? 'text-white/80' : 'text-text-light'}`}>
-                    {word.reviewReason || 'Reinforcement word from your Needs Work queue.'}
-                  </div>
-                </>
-              )}
-              <div className={`text-[1.05rem] mb-2 font-medium ${listeningMode ? 'text-white/90' : 'text-text-med'}`}>
-                {listeningMode ? 'Listen and choose the meaning' : 'What does this mean?'}
-              </div>
-            {!listeningMode ? (
+          <div className="text-center">
+            {!selectedAnswer ? (
               <>
-                <div className="secondary-font text-4xl mb-1 text-text-dark leading-tight">
-                  {word.simp}
-                </div>
-                {word.pinyin && (
-                  <div className="text-[1.2rem] text-text-med">{word.pinyin}</div>
+                {word.isReview && (
+                  <>
+                    <div
+                      className={`inline-flex mb-1 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
+                        listeningMode
+                          ? 'bg-white/20 text-white'
+                          : 'bg-[rgba(24,110,149,0.16)] text-[#186E95]'
+                      }`}
+                    >
+                      Review Word
+                    </div>
+                    <div className={`mb-2 text-[11px] ${listeningMode ? 'text-white/80' : 'text-text-light'}`}>
+                      {word.reviewReason || 'Reinforcement word from your Needs Work queue.'}
+                    </div>
+                  </>
                 )}
-                <div className="mt-2">
-                  <button
-                    onClick={() => speak(word.simp, word.pinyin)}
-                    className="mx-auto w-12 h-12 rounded-full border border-[#374151]/35 bg-transparent text-[#374151] flex items-center justify-center hover:bg-[rgba(55,65,81,0.08)] transition-all"
-                    aria-label="Play audio"
-                  >
-                    <Volume2 className="w-5 h-5" />
-                  </button>
+                <div className={`text-[1.05rem] mb-2 font-medium ${listeningMode ? 'text-white/90' : 'text-text-med'}`}>
+                  {listeningMode ? 'Listen and choose the meaning' : 'What does this mean?'}
                 </div>
+                {!listeningMode ? (
+                  <>
+                    <div className="secondary-font text-4xl mb-1 text-text-dark leading-tight">
+                      {word.simp}
+                    </div>
+                    {word.pinyin && (
+                      <div className="text-[1.2rem] text-text-med">{word.pinyin}</div>
+                    )}
+                    <div className="mt-2">
+                      <button
+                        onClick={() => speak(word.simp, word.pinyin)}
+                        className="mx-auto w-12 h-12 rounded-full border border-[#374151]/35 bg-transparent text-[#374151] flex items-center justify-center hover:bg-[rgba(55,65,81,0.08)] transition-all"
+                        aria-label="Play audio"
+                      >
+                        <Volume2 className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="mt-1">
+                    <button
+                      onClick={() => speak(word.simp, word.pinyin)}
+                      className="mx-auto w-12 h-12 rounded-full border border-white/70 bg-white/10 text-white flex items-center justify-center hover:bg-white/18 transition-all"
+                      aria-label="Play audio"
+                    >
+                      <Volume2 className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
               </>
             ) : (
-              <div className="mt-1">
-                <button
-                  onClick={() => speak(word.simp, word.pinyin)}
-                  className="mx-auto w-12 h-12 rounded-full border border-white/70 bg-white/10 text-white flex items-center justify-center hover:bg-white/18 transition-all"
-                  aria-label="Play audio"
+              <div className="py-1">
+                <div
+                  className={`text-xl font-semibold mb-2 ${
+                    isCorrect ? 'text-[#3E5648]' : 'text-[#C2410C]'
+                  }`}
                 >
-                  <Volume2 className="w-5 h-5" />
-                </button>
+                  {isCorrect ? 'Correct!' : 'Not Quite'}
+                </div>
+                <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-1">
+                  Why This Answer
+                </div>
+                <div className="text-[1.2rem] text-text-med">{word.pinyin}</div>
+                <div className="text-xl font-semibold text-text-dark">{word.en}</div>
               </div>
             )}
           </div>
@@ -188,52 +206,6 @@ export default function Quiz({
           })}
         </div>
 
-        {/* Feedback */}
-        {selectedAnswer && (
-          <div className="mb-4 space-y-2">
-            {isCorrect ? (
-              <div className="flex items-center gap-3 p-4 bg-[rgba(62,86,72,0.12)] border border-[#3E5648] rounded-2xl text-[#3E5648]">
-                <CheckCircle className="w-6 h-6" />
-                <span className="font-semibold">
-                  {word.isReview ? 'Recovered: you got this review word right.' : 'Correct!'}
-                </span>
-              </div>
-            ) : (
-              <div className="p-4 bg-[rgba(194,65,12,0.12)] border border-[#C2410C] rounded-2xl text-[#C2410C]">
-                <div className="flex items-center gap-3">
-                  <XCircle className="w-6 h-6" />
-                  <span className="font-semibold">
-                    {word.isReview ? 'Needs reinforcement: this review word will come back.' : 'Not quite. Let’s review it quickly.'}
-                  </span>
-                </div>
-                {listeningMode && (
-                  <div className="mt-2 text-sm">
-                    Correct word: <span className="font-semibold text-text-dark">{word.simp}</span>
-                    {word.pinyin ? <span className="text-text-med"> ({word.pinyin})</span> : null}
-                  </div>
-                )}
-              </div>
-            )}
-            <div className="rounded-2xl border border-border bg-white p-3.5">
-              <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-1">
-                Why This Answer
-              </div>
-              <div className="text-sm text-text-dark font-semibold">
-                {word.simp}
-                {word.pinyin ? <span className="font-normal text-text-med"> ({word.pinyin})</span> : null}
-                {' · '}
-                {word.en}
-              </div>
-              <div className="mt-1 space-y-1">
-                {explanationDefs.map((def) => (
-                  <div key={def} className="text-sm text-text-med">
-                    • {def}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Navigation Buttons */}

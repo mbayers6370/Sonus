@@ -138,29 +138,31 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
 
       <div>
         <section
-          className="rounded-3xl border p-4 md:p-5 mb-4 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
+          className="rounded-3xl border p-4 sm:p-5 md:p-6 mb-4 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
           style={{ borderColor: theme, backgroundColor: theme }}
         >
-          <div className="text-center text-xs secondary-font font-bold uppercase tracking-wider mb-1.5 text-white/86">
-            Local Guide
-          </div>
-          <div className="text-center text-sm font-mono font-bold text-white mb-1.5 leading-tight">{section.focus}</div>
-          <div className="text-center text-sm text-white/84 mb-2 leading-snug">{section.scene}</div>
-          <div className="flex flex-wrap gap-1.5 justify-center mb-2.5">
-            {section.subclusters.map((item) => (
-              <span
-                key={`${section.id}-cluster-${item}`}
-                className="px-2.5 py-1 rounded-lg text-[10px] font-mono uppercase tracking-wider border"
-                style={{ borderColor: 'rgba(255,255,255,0.32)', color: 'white', backgroundColor: 'rgba(255,255,255,0.12)' }}
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-          <div className="space-y-1 text-center text-sm font-mono text-white/92">
-            {section.culturalNotes.map((note, idx) => (
-              <div key={`${section.id}-tip-${idx}`}>{note}</div>
-            ))}
+          <div className="mx-auto max-w-xl px-2 sm:px-3">
+            <div className="text-center text-xs secondary-font font-bold uppercase tracking-wider mb-1.5 text-white/86">
+              Local Guide
+            </div>
+            <div className="text-center text-sm font-mono font-bold text-white mb-1.5 leading-tight text-pretty">{section.focus}</div>
+            <div className="text-center text-sm text-white/84 mb-2 leading-snug text-pretty">{section.scene}</div>
+            <div className="flex flex-wrap gap-1.5 justify-center mb-2.5">
+              {section.subclusters.map((item) => (
+                <span
+                  key={`${section.id}-cluster-${item}`}
+                  className="px-2.5 py-1 rounded-lg text-[10px] font-mono uppercase tracking-wider border"
+                  style={{ borderColor: 'rgba(255,255,255,0.32)', color: 'white', backgroundColor: 'rgba(255,255,255,0.12)' }}
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+            <div className="space-y-1.5 text-center text-sm text-white/92 text-pretty">
+              {section.culturalNotes.map((note, idx) => (
+                <div key={`${section.id}-tip-${idx}`} className="leading-snug">{note}</div>
+              ))}
+            </div>
           </div>
         </section>
 

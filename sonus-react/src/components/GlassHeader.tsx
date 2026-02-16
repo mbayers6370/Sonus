@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ChevronLeft } from 'lucide-react';
 
 interface GlassHeaderProps {
   title: string;
@@ -23,7 +24,9 @@ export default function GlassHeader({
   showLogo = true,
 }: GlassHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => {
@@ -34,12 +37,49 @@ export default function GlassHeader({
     return () => window.removeEventListener('scroll', onScroll);
   }, [scrollThreshold]);
 
+  useEffect(() => {
+    const checkStandalone = () => {
+      const nav = navigator as Navigator & { standalone?: boolean };
+      const standaloneByMedia =
+        typeof window.matchMedia === 'function' &&
+        (window.matchMedia('(display-mode: standalone)').matches ||
+          window.matchMedia('(display-mode: fullscreen)').matches);
+      setIsStandalone(Boolean(nav.standalone) || standaloneByMedia);
+    };
+
+    checkStandalone();
+    const mq = window.matchMedia ? window.matchMedia('(display-mode: standalone)') : null;
+    const onChange = () => checkStandalone();
+    mq?.addEventListener?.('change', onChange);
+    window.addEventListener('resize', onChange);
+
+    return () => {
+      mq?.removeEventListener?.('change', onChange);
+      window.removeEventListener('resize', onChange);
+    };
+  }, []);
+
+  const showStandaloneBack = isStandalone && location.pathname !== '/home';
+
   return (
     <>
       <div
         className={`fixed top-0 left-0 right-0 z-50 h-24 md:h-20 border-b border-white/45 bg-white/62 backdrop-blur-2xl transition-colors ${className} ${isScrolled ? scrolledClassName : ''}`}
       >
         <div className="h-full px-4 md:px-6 flex flex-col md:flex-row items-center justify-center relative">
+          {showStandaloneBack ? (
+            <button
+              type="button"
+              onClick={() => {
+                if (window.history.length > 1) navigate(-1);
+                else navigate('/home');
+              }}
+              aria-label="Go back"
+              className="md:hidden absolute left-1 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-[rgba(55,65,81,0.22)] bg-white/72 text-text-dark inline-flex items-center justify-center"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+          ) : null}
           {showLogo ? (
             <button
               type="button"

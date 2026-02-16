@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, Snail, ChevronRight } from 'lucide-react';
+import WordProgressRail from './WordProgressRail';
 
 interface FlashcardProps {
   word: Word;
@@ -32,12 +33,7 @@ export default function Flashcard({
   return (
     <div className="flex flex-col min-h-full">
       {/* Progress Bar */}
-      <div className="w-full h-2 bg-gray-200/90 rounded-full overflow-hidden mb-2">
-        <div
-          className="h-full bg-gradient-to-r from-[#186E95] to-[#C2410C] transition-all duration-300"
-          style={{ width: `${((currentIndex + 1) / totalWords) * 100}%` }}
-        />
-      </div>
+      <WordProgressRail total={totalWords} currentIndex={currentIndex} />
 
       {/* Flashcard */}
       <div className="flex-1 flex items-center justify-center px-5 py-2">
