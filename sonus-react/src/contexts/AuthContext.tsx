@@ -7,6 +7,7 @@ import {
   getAccessToken,
   getDemoMode,
   getMockIdentity,
+  isAuthSessionExpired,
   setMockIdentity,
   setAuthSession,
   setDemoMode,
@@ -84,6 +85,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const mode = healthJson.authMode || 'unknown';
         if (cancelled) return;
         setAuthMode(mode);
+
+        if (isAuthSessionExpired()) {
+          clearAuthSession();
+          setDemoMode(false);
+          setMockIdentity(null, null);
+          clearLearningState();
+          setStatus('signed_out');
+          setIsDemo(false);
+          setEmail(null);
+          return;
+        }
 
         if (mode === 'mock') {
           if (getDemoMode()) {
@@ -185,6 +197,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const continueAsDemo = () => {
     if (authMode !== 'mock') return;
+    clearLearningState();
     setDemoMode(true);
     setMockIdentity(null, 'dev@local.test');
     setIsDemo(true);
@@ -198,10 +211,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     setMockIdentity(null, null);
     clearAuthSession();
+    clearLearningState();
     setIsDemo(false);
     setEmail(null);
     setStatus('signed_out');
   };
+
+  useEffect(() => {
+    if (status !== 'signed_in') return;
+    const timer = window.setInterval(() => {
+      if (!isAuthSessionExpired()) return;
+      setDemoMode(false);
+      setMockIdentity(null, null);
+      clearAuthSession();
+      clearLearningState();
+      setIsDemo(false);
+      setEmail(null);
+      setStatus('signed_out');
+    }, 60_000);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [status]);
 
   const value = useMemo<AuthContextValue>(
     () => ({

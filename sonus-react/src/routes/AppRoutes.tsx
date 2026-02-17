@@ -332,6 +332,16 @@ export default function AppRoutes() {
   }
 
   function ProfileRoute() {
+    if (!selectedLanguage) {
+      if (!languageResolved) {
+        return (
+          <div className="min-h-screen page-shell flex items-center justify-center text-text-med">
+            Loading language…
+          </div>
+        );
+      }
+      return <Navigate to="/" replace />;
+    }
     return (
       <ProfileScreen
         onGoHome={goHome}
