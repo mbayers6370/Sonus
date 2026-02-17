@@ -18,12 +18,6 @@ const ACCENT = {
 type AccentKey = keyof typeof ACCENT;
 const CARD_ACCENT_ORDER: AccentKey[] = ['navy', 'sage', 'graphite', 'rust'];
 
-function isMandarinBandComingSoon(levelId: string) {
-  const match = /^band(\d+)$/i.exec(levelId);
-  if (!match) return levelId === 'advanced';
-  return Number(match[1]) > 2;
-}
-
 // HSK 3.0 Bands for Chinese
 const chineseLevels: LessonBand[] = [
   {
@@ -544,7 +538,9 @@ export default function LevelSelect({
           style: { rail: 'bg-[#3E5648]', accent: 'green' as const },
           summary:
             'Tone control, core grammar, and everyday communication across the first three bands. Bands 1–2 are live now.',
-          isAvailable: true,
+          isAvailable: levels
+            .filter(l => ['band1', 'band2', 'band3'].includes(l.id))
+            .some((level) => state.unlockedLevels.includes(level.id)),
           levels: levels.filter(l =>
             ['band1', 'band2', 'band3'].includes(l.id)
           )
@@ -556,7 +552,9 @@ export default function LevelSelect({
           style: { rail: 'bg-[#186E95]', accent: 'blue' as const },
           summary:
             'Longer conversations, work/study scenarios, and more flexible sentence patterns for real-world fluency.',
-          isAvailable: false,
+          isAvailable: levels
+            .filter(l => ['band4', 'band5', 'band6'].includes(l.id))
+            .some((level) => state.unlockedLevels.includes(level.id)),
           levels: levels.filter(l =>
             ['band4', 'band5', 'band6'].includes(l.id)
           )
@@ -568,7 +566,9 @@ export default function LevelSelect({
           style: { rail: 'bg-red-500', accent: 'red' as const },
           summary:
             'High-register vocabulary, abstract topics, nuanced expression, and advanced comprehension/speaking precision.',
-          isAvailable: false,
+          isAvailable: levels
+            .filter(l => ['band7', 'band8', 'band9'].includes(l.id))
+            .some((level) => state.unlockedLevels.includes(level.id)),
           levels: levels.filter(l =>
             ['band7', 'band8', 'band9'].includes(l.id)
           )
@@ -680,8 +680,7 @@ export default function LevelSelect({
             {tiers
               .find(t => t.id === activeTier)!
               .levels.map((level, index) => {
-                const isComingSoon = state.selectedLanguage === 'zh' && isMandarinBandComingSoon(level.id);
-                const isUnlocked = state.unlockedLevels.includes(level.id) && !isComingSoon;
+                const isUnlocked = state.unlockedLevels.includes(level.id);
                 const isCompleted = state.completedLevels.includes(level.id);
                 return (
                   <LevelCard
@@ -694,13 +693,13 @@ export default function LevelSelect({
                     showBadge={activeTier !== 'advanced'}
                     headerKicker={undefined}
                     bodyText={
-                      isComingSoon
-                        ? 'This band is in production and will unlock soon.'
+                      !isUnlocked
+                        ? 'Unlock this band by reaching at least 90% completion in the previous band.'
                         : level.description ||
                           'Core pronunciation, high‑frequency vocabulary, and functional progression within this band.'
                     }
                     showChevronWhenUnlocked={false}
-                    topRightLabel={isComingSoon ? 'Coming Soon' : undefined}
+                    topRightLabel={!isUnlocked ? 'Locked' : undefined}
                     accentOverride={CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]}
                   />
                 );

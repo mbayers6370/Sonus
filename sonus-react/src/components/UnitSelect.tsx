@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import { BookOpen } from 'lucide-react';
-import { getUnitsForBand, isCheckpointUnitId } from '../data/unitMetadata';
+import { getUnitsForBand, isCheckpointUnitId, isPracticeUnitId, parseCheckpointIndex } from '../data/unitMetadata';
 import BottomNav from './BottomNav';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import GlassHeader from './GlassHeader';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import type { LessonMode } from '../types/lesson.types';
+
+const LESSON_UNLOCK_PASS_PERCENT = 85;
 
 const CARD_ACCENTS = [
   {
@@ -200,12 +202,90 @@ export default function UnitSelect({
       };
     })
     .filter((item): item is NonNullable<typeof item> => item !== null);
+  const unitMetricById = new Map(unitMetrics.map((metric) => [metric.unitId, metric]));
+  const hasLessonPassedThreshold = (unitId: string, lessonIndex: number) => {
+    const key = makeLessonKey(currentLevel.id, unitId, lessonIndex);
+    return (lessonProgress[key]?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT;
+  };
+  const hasUnitPassedThreshold = (unitId: string) => {
+    const metric = unitMetricById.get(unitId);
+    if (!metric || metric.lessonsCount === 0) return false;
+    return Array.from({ length: metric.lessonsCount }).every((_, lessonIndex) =>
+      hasLessonPassedThreshold(unitId, lessonIndex)
+    );
+  };
+  const hasCheckpointPassedThreshold = (checkpointUnitId: string) =>
+    hasLessonPassedThreshold(checkpointUnitId, 0);
+  const unlockedByUnitId = new Map<string, boolean>();
+  const coreUnitIds = orderedUnits
+    .filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id))
+    .map((unit) => unit.id)
+    .filter((unitId) => unitMetricById.has(unitId));
+  const checkpointUnitIds = orderedUnits
+    .filter((unit) => isCheckpointUnitId(unit.id))
+    .map((unit) => unit.id)
+    .filter((unitId) => unitMetricById.has(unitId));
+  const practiceUnitIds = orderedUnits
+    .filter((unit) => isPracticeUnitId(unit.id))
+    .map((unit) => unit.id)
+    .filter((unitId) => unitMetricById.has(unitId));
+
+  if (coreUnitIds.length > 0) {
+    unlockedByUnitId.set(coreUnitIds[0], true);
+  }
+
+  for (let coreIndex = 1; coreIndex < coreUnitIds.length; coreIndex += 1) {
+    const previousCoreUnitId = coreUnitIds[coreIndex - 1];
+    let unlocked =
+      Boolean(unlockedByUnitId.get(previousCoreUnitId)) &&
+      hasUnitPassedThreshold(previousCoreUnitId);
+
+    // Every 4 core units, the checkpoint quiz gates access to the next core block.
+    if (unlocked && coreIndex % 4 === 0) {
+      const gateCheckpointId = `checkpoint-${coreIndex / 4}`;
+      unlocked = hasCheckpointPassedThreshold(gateCheckpointId);
+    }
+
+    unlockedByUnitId.set(coreUnitIds[coreIndex], unlocked);
+  }
+
+  for (const checkpointUnitId of checkpointUnitIds) {
+    const checkpointIndex = parseCheckpointIndex(checkpointUnitId);
+    if (!checkpointIndex) {
+      unlockedByUnitId.set(checkpointUnitId, false);
+      continue;
+    }
+    const start = (checkpointIndex - 1) * 4;
+    const end = Math.min(coreUnitIds.length, checkpointIndex * 4);
+    const coveredCoreUnits = coreUnitIds.slice(start, end);
+    const unlocked =
+      coveredCoreUnits.length > 0 &&
+      coveredCoreUnits.every((unitId) => hasUnitPassedThreshold(unitId));
+    unlockedByUnitId.set(checkpointUnitId, unlocked);
+  }
+
+  for (const practiceUnitId of practiceUnitIds) {
+    const unlocked = coreUnitIds.length > 0 && coreUnitIds.every((unitId) => hasUnitPassedThreshold(unitId));
+    unlockedByUnitId.set(practiceUnitId, unlocked);
+  }
+
+  useEffect(() => {
+    if (!activeUnitId) return;
+    if (unlockedByUnitId.get(activeUnitId) ?? true) return;
+    setActiveUnit(null);
+  }, [activeUnitId, searchParams.toString(), currentLevel.id, lessonProgress]);
+
   const columns = getGridColumns(viewportWidth);
   const activeUnit = activeUnitId
-    ? unitMetrics.find((u) => u.unitId === activeUnitId) ?? null
+    ? (unlockedByUnitId.get(activeUnitId) ?? true)
+      ? unitMetrics.find((u) => u.unitId === activeUnitId) ?? null
+      : null
     : null;
   const headerTitle = activeUnit ? `Unit ${activeUnit.metadata.order}` : currentLevel.name;
-  const isMandarinBandLocked = state.selectedLanguage === 'zh' && currentLevel.band > 2;
+  const isMandarinBandLocked =
+    state.selectedLanguage === 'zh' &&
+    (/^band\d+$/i.test(currentLevel.id) || currentLevel.id === 'advanced') &&
+    !state.unlockedLevels.includes(currentLevel.id);
 
   return (
     <div className="min-h-screen page-shell pb-24 px-6">
@@ -221,7 +301,7 @@ export default function UnitSelect({
               This Band Is In Progress
             </h3>
             <p className="text-sm text-text-med mt-2 max-w-xl mx-auto">
-              Bands 1 and 2 are available now. We are actively building this band and will unlock it soon.
+              This band unlocks after achieving 90% completion in the previous band.
             </p>
           </div>
         </div>
@@ -236,6 +316,7 @@ export default function UnitSelect({
             const col = index % columns;
             const accent = CARD_ACCENTS[(col + row) % CARD_ACCENTS.length];
             const Icon = metadata.icon;
+            const isUnitUnlocked = Boolean(unlockedByUnitId.get(unitId));
             if (practiceType) {
               const practiceAccent =
                 practiceType === 'listening'
@@ -256,13 +337,15 @@ export default function UnitSelect({
                 <button
                   key={unitId}
                   onClick={() => {
+                    if (!isUnitUnlocked) return;
                     if (practiceType === 'checkpoint') {
                       onSelectLesson(unitId, 0, 'quiz');
                       return;
                     }
                     onOpenPractice(unitId);
                   }}
-                  className={`${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden`}
+                  disabled={!isUnitUnlocked}
+                  className={`${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <div className="inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/20 text-white">
@@ -295,7 +378,11 @@ export default function UnitSelect({
                   </div>
 
                   <div className="font-mono mt-auto pt-4 text-sm font-semibold tracking-wide text-white">
-                    {practiceType === 'checkpoint' ? 'Begin →' : 'Start practice →'}
+                    {!isUnitUnlocked
+                      ? `Locked (${LESSON_UNLOCK_PASS_PERCENT}%+)`
+                      : practiceType === 'checkpoint'
+                      ? 'Begin →'
+                      : 'Start practice →'}
                   </div>
                 </button>
               );
@@ -308,11 +395,11 @@ export default function UnitSelect({
               <button
                 key={unitId}
                 onClick={() => {
-                  if (isBlueprint) return;
+                  if (isBlueprint || !isUnitUnlocked) return;
                   setActiveUnit(unitId);
                 }}
-                disabled={isBlueprint}
-                className={`${isUnitMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/40' : 'bg-white/95 text-text-dark'} border ${accent.borderColor} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden`}
+                disabled={isBlueprint || !isUnitUnlocked}
+                className={`${isUnitMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/40' : 'bg-white/95 text-text-dark'} border ${accent.borderColor} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
               >
                 <div className="flex items-start justify-between gap-2 mb-3">
                   <div className={`inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitMastered ? 'bg-white/20 text-white' : `${accent.badgeBg} ${accent.badgeText}`}`}>
@@ -362,6 +449,8 @@ export default function UnitSelect({
                 <div className={`font-mono mt-auto pt-3 text-sm font-semibold tracking-wide ${isUnitMastered ? 'text-white' : accent.badgeText}`}>
                   {isBlueprint
                     ? 'Planned'
+                    : !isUnitUnlocked
+                    ? `Locked (Pass previous unit at ${LESSON_UNLOCK_PASS_PERCENT}%+)`
                     : isUnitMastered
                     ? 'Mastered'
                     : isUnitCompleted
@@ -381,7 +470,7 @@ export default function UnitSelect({
       {activeUnit && !isMandarinBandLocked && (
         <div className="pt-2">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {Array.from({ length: activeUnit.lessonsCount }).map((_, lessonIndex) => {
+          {Array.from({ length: activeUnit.lessonsCount }).map((_, lessonIndex) => {
               const row = Math.floor(lessonIndex / columns);
               const col = lessonIndex % columns;
               const accent = CARD_ACCENTS[(col + row) % CARD_ACCENTS.length];
@@ -392,6 +481,10 @@ export default function UnitSelect({
               const lessonKey = makeLessonKey(currentLevel.id, activeUnit.unitId, lessonIndex);
               const isLessonCompleted = Boolean(lessonProgress[lessonKey]?.completed);
               const isLessonMastered = Boolean(lessonProgress[lessonKey]?.mastered);
+              const isUnitUnlocked = Boolean(unlockedByUnitId.get(activeUnit.unitId));
+              const isLessonUnlocked =
+                isUnitUnlocked &&
+                (lessonIndex === 0 || hasLessonPassedThreshold(activeUnit.unitId, lessonIndex - 1));
               const lessonStatus = lessonProgress[lessonKey];
               const isResumeCandidate =
                 resumeCheckpoint?.bandId === currentLevel.id &&
@@ -405,14 +498,16 @@ export default function UnitSelect({
               return (
                 <button
                   key={`${activeUnit.unitId}-${lessonIndex}`}
-                  onClick={() =>
+                  onClick={() => {
+                    if (!isLessonUnlocked) return;
                     onSelectLesson(
                       activeUnit.unitId,
                       lessonIndex,
                       isLessonCompleted && !isLessonMastered ? 'quiz' : 'intro'
-                    )
-                  }
-                  className={`${isLessonMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : isLessonCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/45' : 'bg-white text-text-dark'} border-2 ${accent.borderColor} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`}
+                    );
+                  }}
+                  disabled={!isLessonUnlocked}
+                  className={`${isLessonMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : isLessonCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/45' : 'bg-white text-text-dark'} border-2 ${accent.borderColor} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
                   <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isLessonMastered ? 'bg-white/20 text-white' : `${accent.badgeBg} ${accent.badgeText}`}`}>
                     <BookOpen className={`w-3.5 h-3.5 ${isLessonMastered ? 'text-white' : accent.badgeText}`} />
@@ -432,6 +527,8 @@ export default function UnitSelect({
                   <div className={`mt-4 text-xs font-semibold uppercase tracking-wider font-mono ${isLessonMastered ? 'text-white' : accent.badgeText}`}>
                     {isLessonMastered
                       ? 'Mastered'
+                      : !isLessonUnlocked
+                        ? `Locked (${LESSON_UNLOCK_PASS_PERCENT}%+ on previous lesson)`
                       : isLessonCompleted
                         ? 'Completed · Mastery available'
                       : isResumeCandidate

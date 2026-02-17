@@ -21,7 +21,7 @@ import {
 } from '../data/unitMetadata';
 import { appendReviewWords } from '../lib/reviewInjection';
 import { trackEvent } from '../lib/analytics';
-import { sliceWordsForLesson } from '../lib/lessonChunks';
+import { getLessonRanges, sliceWordsForLesson } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 
@@ -83,6 +83,8 @@ const ALL_LEVEL_IDS = [
   'c1',
   'c2',
 ] as const;
+const LESSON_UNLOCK_PASS_PERCENT = 85;
+const BAND_UNLOCK_PASS_PERCENT = 90;
 
 function resolveBandDataId(bandId: string) {
   if (bandId === 'band7' || bandId === 'band8' || bandId === 'band9' || bandId === 'advanced') {
@@ -98,10 +100,26 @@ function resolveUnitIdForBand(bandId: string, unitId: string) {
   return unitId;
 }
 
-function isMandarinBandLocked(bandId: string) {
+function defaultUnlockedLevelIds() {
+  const base = ALL_LEVEL_IDS.filter((id) => !/^band\d+$/i.test(id) && id !== 'advanced');
+  return Array.from(new Set([...base, 'band1']));
+}
+
+function isMandarinBandId(levelId: string) {
+  return /^band\d+$/i.test(levelId) || levelId === 'advanced';
+}
+
+function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
+  if (!isMandarinBandId(bandId)) return false;
+  return !unlockedLevels.includes(bandId);
+}
+
+function nextBandId(bandId: string) {
   const match = /^band(\d+)$/i.exec(bandId);
-  if (!match) return bandId === 'advanced';
-  return Number(match[1]) > 2;
+  if (!match) return null;
+  const current = Number(match[1]);
+  if (!Number.isFinite(current) || current < 1 || current >= 9) return null;
+  return `band${current + 1}`;
 }
 
 function formatUnitLabel(unitId: string) {
@@ -337,7 +355,7 @@ const initialState: AppState = {
   levelProgress: {},
   lessonProgress: {},
   completedLevels: [],
-  unlockedLevels: [...ALL_LEVEL_IDS],
+  unlockedLevels: defaultUnlockedLevelIds(),
   activeLesson: null,
   lessonMode: 'intro',
   lessonWordIndex: 0,
@@ -361,12 +379,15 @@ function loadPersistedState(): AppState {
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (!saved) return initialState;
     const parsed = JSON.parse(saved) as Partial<AppState>;
+    const parsedUnlocked = Array.isArray(parsed.unlockedLevels)
+      ? parsed.unlockedLevels.filter((levelId): levelId is string => typeof levelId === 'string')
+      : [];
+    const preservedNonMandarin = parsedUnlocked.filter((levelId) => !isMandarinBandId(levelId));
+    const preservedBandOne = parsedUnlocked.filter((levelId) => levelId === 'band1');
     return {
       ...initialState,
       ...parsed,
-      unlockedLevels: Array.from(
-        new Set([...(parsed.unlockedLevels || []), ...ALL_LEVEL_IDS])
-      ),
+      unlockedLevels: Array.from(new Set([...defaultUnlockedLevelIds(), ...preservedNonMandarin, ...preservedBandOne])),
       lessonProgress: normalizeLessonProgressKeys(parsed.lessonProgress || {}),
       wordReview: parsed.wordReview || {},
       recentMisses: parsed.recentMisses || [],
@@ -450,7 +471,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    if (state.selectedLanguage === 'zh' && isMandarinBandLocked(level.id)) {
+    if (state.selectedLanguage === 'zh' && isMandarinBandLocked(level.id, state.unlockedLevels)) {
       return;
     }
 
@@ -474,7 +495,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const openLessonPath = async (bandId: string, unitId: string, lessonIndex: number): Promise<boolean> => {
     try {
-      if (state.selectedLanguage === 'zh' && isMandarinBandLocked(bandId)) {
+      if (state.selectedLanguage === 'zh' && isMandarinBandLocked(bandId, state.unlockedLevels)) {
         return false;
       }
       const resolvedUnitId = resolveUnitIdForBand(bandId, unitId);
@@ -488,6 +509,63 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const unit = getBandUnitById(bandData, resolvedUnitId);
       const words = unit?.words || [];
       let lessonChunk: Word[] = [];
+      const hasLessonPassedThreshold = (targetUnitId: string, targetLessonIndex: number) => {
+        const key = makeLessonKey(bandId, targetUnitId, targetLessonIndex);
+        return (state.lessonProgress[key]?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT;
+      };
+      const coreUnitIds = getUnitsForBand(bandId)
+        .filter((meta) => !isPracticeUnitId(meta.id) && !isCheckpointUnitId(meta.id))
+        .map((meta) => resolveUnitIdForBand(bandId, meta.id))
+        .filter((unitIdValue, idx, arr) => arr.indexOf(unitIdValue) === idx)
+        .filter((unitIdValue) => Boolean(getBandUnitById(bandData, unitIdValue)?.words?.length));
+      const unitLessonCount = (targetUnitId: string) => {
+        const targetUnit = getBandUnitById(bandData, targetUnitId);
+        return getLessonRanges((targetUnit?.words || []).length, 10).length;
+      };
+      const hasUnitPassedThreshold = (targetUnitId: string) => {
+        const lessons = unitLessonCount(targetUnitId);
+        if (lessons === 0) return false;
+        for (let lessonIdx = 0; lessonIdx < lessons; lessonIdx += 1) {
+          if (!hasLessonPassedThreshold(targetUnitId, lessonIdx)) return false;
+        }
+        return true;
+      };
+      const hasCheckpointPassedThreshold = (targetCheckpointId: string) =>
+        hasLessonPassedThreshold(targetCheckpointId, 0);
+      const unlockedByUnitId = new Map<string, boolean>();
+      if (coreUnitIds.length > 0) unlockedByUnitId.set(coreUnitIds[0], true);
+      for (let coreIdx = 1; coreIdx < coreUnitIds.length; coreIdx += 1) {
+        const previousCore = coreUnitIds[coreIdx - 1];
+        let unlocked = Boolean(unlockedByUnitId.get(previousCore)) && hasUnitPassedThreshold(previousCore);
+        if (unlocked && coreIdx % 4 === 0) {
+          unlocked = hasCheckpointPassedThreshold(`checkpoint-${coreIdx / 4}`);
+        }
+        unlockedByUnitId.set(coreUnitIds[coreIdx], unlocked);
+      }
+      for (const checkpointMeta of getUnitsForBand(bandId).filter((meta) => isCheckpointUnitId(meta.id))) {
+        const idx = parseCheckpointIndex(checkpointMeta.id);
+        if (!idx) {
+          unlockedByUnitId.set(checkpointMeta.id, false);
+          continue;
+        }
+        const start = (idx - 1) * 4;
+        const end = Math.min(coreUnitIds.length, idx * 4);
+        const covered = coreUnitIds.slice(start, end);
+        unlockedByUnitId.set(checkpointMeta.id, covered.length > 0 && covered.every((unitIdValue) => hasUnitPassedThreshold(unitIdValue)));
+      }
+      for (const practiceMeta of getUnitsForBand(bandId).filter((meta) => isPracticeUnitId(meta.id))) {
+        unlockedByUnitId.set(practiceMeta.id, coreUnitIds.length > 0 && coreUnitIds.every((unitIdValue) => hasUnitPassedThreshold(unitIdValue)));
+      }
+      if (!(unlockedByUnitId.get(resolvedUnitId) ?? false)) {
+        return false;
+      }
+      if (!practiceMode && !isCheckpointQuiz) {
+        if (lessonIndex > 0 && !hasLessonPassedThreshold(resolvedUnitId, lessonIndex - 1)) {
+          return false;
+        }
+      } else if (lessonIndex !== 0) {
+        return false;
+      }
 
       if (isCheckpointQuiz && checkpointIndex) {
         const baseUnits = getUnitsForBand(bandId)
@@ -1039,11 +1117,55 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
       const masteryJustAchieved = !existing.mastered && nextMastered;
 
+      const nextLessonProgress = {
+        ...prev.lessonProgress,
+        [lessonKey]: {
+          introViewed: nextIntroViewed,
+          quizScore: nextQuizScore,
+          speakScore: nextSpeakScore,
+          speakAllCorrect: nextSpeakAllCorrect,
+          completed,
+          mastered: nextMastered,
+        },
+      };
+
+      let nextUnlockedLevels = prev.unlockedLevels;
+      if (state.selectedLanguage === 'zh' && /^band\d+$/i.test(bandId) && prev.activeBandData) {
+        const coreUnits = getUnitsForBand(bandId)
+          .filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id))
+          .map((unit) => resolveUnitIdForBand(bandId, unit.id));
+        const lessonTotals = coreUnits.reduce(
+          (acc, resolvedUnitId) => {
+            const unit = getBandUnitById(prev.activeBandData!, resolvedUnitId);
+            const lessonRanges = getLessonRanges((unit?.words || []).length, 10);
+            if (!lessonRanges.length) return acc;
+            for (let lessonIdx = 0; lessonIdx < lessonRanges.length; lessonIdx += 1) {
+              acc.total += 1;
+              const key = makeLessonKey(bandId, resolvedUnitId, lessonIdx);
+              const score = nextLessonProgress[key]?.quizScore ?? 0;
+              if (score >= LESSON_UNLOCK_PASS_PERCENT) acc.passed += 1;
+            }
+            return acc;
+          },
+          { passed: 0, total: 0 }
+        );
+        const bandProgressPercent =
+          lessonTotals.total > 0 ? Math.round((lessonTotals.passed / lessonTotals.total) * 100) : 0;
+        if (bandProgressPercent >= BAND_UNLOCK_PASS_PERCENT) {
+          const unlocks = new Set(prev.unlockedLevels);
+          const upcoming = nextBandId(bandId);
+          if (upcoming) unlocks.add(upcoming);
+          if (bandId === 'band9') unlocks.add('advanced');
+          nextUnlockedLevels = Array.from(unlocks);
+        }
+      }
+
       return {
         ...prev,
         streak: newStreak,
         lastActiveDate: today,
         resumeCheckpoint: null,
+        unlockedLevels: nextUnlockedLevels,
         wordReview: (() => {
           if (!masteryJustAchieved || lessonMode === 'intro') return prev.wordReview;
 
@@ -1090,17 +1212,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
           return boosted;
         })(),
-        lessonProgress: {
-          ...prev.lessonProgress,
-          [lessonKey]: {
-            introViewed: nextIntroViewed,
-            quizScore: nextQuizScore,
-            speakScore: nextSpeakScore,
-            speakAllCorrect: nextSpeakAllCorrect,
-            completed,
-            mastered: nextMastered,
-          },
-        },
+        lessonProgress: nextLessonProgress,
       };
     });
     trackEvent('lesson_completed', {

@@ -18,7 +18,6 @@ import ProfileProgressScreen from './components/ProfileProgressScreen';
 import { saveOnboardingSelectionSafe } from './lib/backendApi';
 import { trackEvent } from './lib/analytics';
 import { getTravelSectionById } from './data/travelModeData';
-import { isCheckpointUnitId } from './data/unitMetadata';
 import { makeLessonKey } from './lib/lessonProgress';
 
 const API_BASE_URL =
@@ -50,10 +49,9 @@ function tierForBand(bandId: string) {
   return 'beginner';
 }
 
-function isMandarinBandLocked(bandId: string) {
-  const match = /^band(\d+)$/i.exec(bandId);
-  if (!match) return bandId === 'advanced';
-  return Number(match[1]) > 2;
+function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
+  if (!(/^band\d+$/i.test(bandId) || bandId === 'advanced')) return false;
+  return !unlockedLevels.includes(bandId);
 }
 
   function LessonRoutePage({
@@ -86,7 +84,7 @@ function isMandarinBandLocked(bandId: string) {
 
   useEffect(() => {
     if (!band || !unitId || !Number.isFinite(parsedLessonIndex)) return;
-    if (isMandarinBandLocked(band)) {
+    if (isMandarinBandLocked(band, state.unlockedLevels)) {
       navigate('/learn', { replace: true });
       return;
     }
@@ -99,15 +97,12 @@ function isMandarinBandLocked(bandId: string) {
         (word) => Boolean(word.isReattempt) || Boolean(word.reattemptOfWordId)
       )
     );
-    const isCheckpointRoute = isCheckpointUnitId(unitId);
-
     if (
       state.activeBandId === band &&
       state.activeLesson?.unitId === unitId &&
       state.activeLesson?.lessonIndex === parsedLessonIndex &&
       state.activeLesson.words.length > 0 &&
-      !hasLegacyReattemptWords &&
-      !isCheckpointRoute
+      !hasLegacyReattemptWords
     ) {
       return;
     }
@@ -136,7 +131,7 @@ function isMandarinBandLocked(bandId: string) {
           pendingLoadKeyRef.current = '';
         }
       });
-  }, [band, unitId, parsedLessonIndex, navigate, selectLanguage, state.selectedLanguage, state.activeBandId, state.activeLesson]);
+  }, [band, unitId, parsedLessonIndex, navigate, selectLanguage, state.selectedLanguage, state.activeBandId, state.activeLesson, state.unlockedLevels]);
 
   useEffect(() => {
     if (!activeLesson || isCompleteRoute || isReviewRoute || !level) return;
@@ -273,7 +268,7 @@ function AppPages() {
         const currentBandId = payload.progress?.currentBandId;
         const level = typeof currentBandId === 'string' ? CHINESE_LEVEL_BY_ID[currentBandId] : undefined;
         if (level) {
-          if (isMandarinBandLocked(level.id)) {
+          if (isMandarinBandLocked(level.id, state.unlockedLevels)) {
             navigate('/learn');
             return;
           }
@@ -289,7 +284,7 @@ function AppPages() {
 
     if (!selectedLanguage) selectLanguage('zh');
     navigate('/learn');
-  }, [currentLevel, exitLesson, navigate, selectLanguage, selectLevel, selectedLanguage]);
+  }, [currentLevel, exitLesson, navigate, selectLanguage, selectLevel, selectedLanguage, state.unlockedLevels]);
 
   const openPracticeFromHome = useCallback(
     (kind: 'listening' | 'speaking', bandId?: string | null) => {
@@ -362,7 +357,7 @@ function AppPages() {
         onOpenProfile={goProfile}
         onOpenMandarinTones={() => navigate('/learn/tones')}
         onSelectLevel={(level: LessonBand) => {
-          if (selectedLanguage === 'zh' && isMandarinBandLocked(level.id)) {
+          if (selectedLanguage === 'zh' && isMandarinBandLocked(level.id, state.unlockedLevels)) {
             return;
           }
           void selectLevel(level);
@@ -390,7 +385,7 @@ function AppPages() {
     }, [level]);
 
     if (!level) return <Navigate to="/learn" replace />;
-    if (isMandarinBandLocked(level.id)) return <Navigate to="/learn" replace />;
+    if (isMandarinBandLocked(level.id, state.unlockedLevels)) return <Navigate to="/learn" replace />;
     if (!currentLevel || currentLevel.id !== level.id || !state.activeBandData) {
       return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading units…</div>;
     }
@@ -414,7 +409,7 @@ function AppPages() {
   function PracticeRedirectRoute() {
     const { kind, band } = useParams<{ kind: string; band: string }>();
     const targetBand = band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : 'band1';
-    const resolvedBand = isMandarinBandLocked(targetBand) ? 'band1' : targetBand;
+    const resolvedBand = isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'band1' : targetBand;
     const targetKind = kind === 'speaking' ? 'speaking' : 'listening';
     const targetUnitId =
       resolvedBand === 'advanced'
@@ -449,7 +444,7 @@ function AppPages() {
   function DailyPracticeRoute() {
     const { band } = useParams<{ band: string }>();
     const targetBand = band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : 'band1';
-    const resolvedBand = isMandarinBandLocked(targetBand) ? 'band1' : targetBand;
+    const resolvedBand = isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'band1' : targetBand;
 
     useEffect(() => {
       void generateDailyReviewSet(resolvedBand).then((opened) => {
