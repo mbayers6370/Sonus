@@ -18,7 +18,6 @@ import ProfileProgressScreen from './components/ProfileProgressScreen';
 import { saveOnboardingSelectionSafe } from './lib/backendApi';
 import { trackEvent } from './lib/analytics';
 import { getTravelSectionById } from './data/travelModeData';
-import { makeLessonKey } from './lib/lessonProgress';
 
 const API_BASE_URL =
   (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
@@ -63,7 +62,7 @@ function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
 }) {
   const navigate = useNavigate();
   const { state, openLessonPath, restartLesson, exitLesson, setLessonMode, selectLanguage } = useApp();
-  const { activeLesson, lessonWordIndex, activeBandId, lessonProgress } = state;
+  const { activeLesson, lessonWordIndex, activeBandId } = state;
   const { band, unitId, lessonIndex, mode } = useParams<{
     tier: string;
     band: string;
@@ -76,7 +75,7 @@ function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
   const isCompleteRoute = routeMode === 'complete';
   const isReviewRoute = routeMode === 'review';
   const lessonMode: LessonMode =
-    routeMode === 'quiz' || routeMode === 'speak' || routeMode === 'intro'
+    routeMode === 'quiz' || routeMode === 'speak' || routeMode === 'intro' || routeMode === 'apply'
       ? routeMode
       : 'intro';
   const level = band ? CHINESE_LEVEL_BY_ID[band] : undefined;
@@ -104,7 +103,22 @@ function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
       state.activeLesson.words.length > 0 &&
       !hasLegacyReattemptWords
     ) {
-      return;
+      if (lessonMode !== 'apply') {
+        return;
+      }
+
+      const looksLikeApplyLesson =
+        state.lessonMode === 'apply' ||
+        Boolean(state.activeLesson.unitName?.includes('· Apply'));
+      const hasApplyExamples = state.activeLesson.words.every(
+        (word) =>
+          Boolean(word.example?.zh?.trim()) &&
+          Boolean(word.example?.en?.trim()) &&
+          Boolean(word.example?.pinyin?.trim())
+      );
+      if (looksLikeApplyLesson && hasApplyExamples) {
+        return;
+      }
     }
 
     if (
@@ -135,27 +149,18 @@ function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
 
   useEffect(() => {
     if (!activeLesson || isCompleteRoute || isReviewRoute || !level) return;
-    const lessonKey = makeLessonKey(
-      level.id,
-      activeLesson.unitId,
-      activeLesson.lessonIndex
-    );
-    const status = lessonProgress[lessonKey];
-    const isMasterySession = Boolean(status?.completed) && !Boolean(status?.mastered);
-    if (isMasterySession && lessonMode === 'intro') {
-      navigate(
-        `/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/quiz`,
-        { replace: true }
-      );
-      return;
-    }
     if (state.lessonMode !== lessonMode) {
       setLessonMode(lessonMode);
     }
-  }, [activeLesson, isCompleteRoute, isReviewRoute, lessonMode, setLessonMode, state.lessonMode, lessonProgress, navigate, level]);
+  }, [activeLesson, isCompleteRoute, isReviewRoute, lessonMode, setLessonMode, state.lessonMode, level]);
 
   if (!level) return <Navigate to="/learn" replace />;
-  if (!activeLesson || activeBandId !== level.id) {
+  const routeMatchesActiveLesson =
+    Boolean(activeLesson) &&
+    activeBandId === level.id &&
+    activeLesson?.unitId === unitId &&
+    activeLesson?.lessonIndex === parsedLessonIndex;
+  if (!routeMatchesActiveLesson) {
     return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading lesson…</div>;
   }
 
@@ -188,7 +193,9 @@ function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
         }}
         onRestart={() => {
           restartLesson();
-          navigate(`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/intro`);
+          navigate(
+            `/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/${state.lessonMode === 'apply' ? 'apply' : 'intro'}`
+          );
         }}
         onReviewMissed={() => {
           navigate(`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/review`);

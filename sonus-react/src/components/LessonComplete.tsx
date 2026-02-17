@@ -29,22 +29,29 @@ export default function LessonComplete({
   if (!activeLesson) return null;
 
   const isQuizCompletion = lessonMode === 'quiz';
+  const isApplyCompletion = lessonMode === 'apply';
   const coreIndexes = activeLesson.words
     .map((word, index) => ({ word, index }))
     .filter(({ word }) => !word.isReview)
     .map(({ index }) => index);
-  const totalQuizItems = coreIndexes.length;
-  const quizCorrectCount = coreIndexes.filter((index) => Boolean(quizResultsByIndex[index])).length;
-  const quizScorePercent =
-    totalQuizItems > 0 ? Math.round((quizCorrectCount / totalQuizItems) * 100) : 0;
+  const totalCoreItems = coreIndexes.length;
+  const totalQuizItems = activeLesson.words.length;
+  const quizCorrectCoreCount = coreIndexes.filter((index) => Boolean(quizResultsByIndex[index])).length;
+  const quizCorrectCount = activeLesson.words.filter((_, index) => Boolean(quizResultsByIndex[index])).length;
+  const quizScorePercentCore =
+    totalCoreItems > 0 ? Math.round((quizCorrectCoreCount / totalCoreItems) * 100) : 0;
+  const quizScorePercent = totalQuizItems > 0 ? Math.round((quizCorrectCount / totalQuizItems) * 100) : 0;
   const quizReviewThresholdPercent = 90;
-  const quizReadyForSpeak = quizScorePercent >= quizReviewThresholdPercent;
-  const quizMissedCount = Math.max(0, totalQuizItems - quizCorrectCount);
+  const quizReadyForSpeak = quizScorePercentCore >= quizReviewThresholdPercent;
+  const quizMissedTotalCount = Math.max(0, totalQuizItems - quizCorrectCount);
   const isSpeakCompletion = lessonMode === 'speak';
-  const isLearnCompletion = !isQuizCompletion && !isSpeakCompletion;
-  const speakCorrectCount = coreIndexes.filter((index) => Boolean(speakResultsByIndex[index])).length;
+  const isLearnCompletion = !isQuizCompletion && !isSpeakCompletion && !isApplyCompletion;
+  const speakCorrectCoreCount = coreIndexes.filter((index) => Boolean(speakResultsByIndex[index])).length;
+  const speakCorrectCount = activeLesson.words.filter((_, index) => Boolean(speakResultsByIndex[index])).length;
+  const speakScorePercentCore =
+    totalCoreItems > 0 ? Math.round((speakCorrectCoreCount / totalCoreItems) * 100) : 0;
   const speakScorePercent = totalQuizItems > 0 ? Math.round((speakCorrectCount / totalQuizItems) * 100) : 0;
-  const speakPassed = speakScorePercent >= SPEAK_PASS_PERCENT;
+  const speakPassed = speakScorePercentCore >= SPEAK_PASS_PERCENT;
 
   const getSpeakSuggestions = (index: number) => {
     const breakdown = speakBreakdownByIndex[index];
@@ -69,11 +76,13 @@ export default function LessonComplete({
         <GlassHeader
           title={
             isQuizCompletion
-              ? (quizReadyForSpeak ? 'Lesson Complete' : 'Lesson Review')
+              ? (quizReadyForSpeak ? 'Quiz Complete' : 'Quiz Review')
+              : isApplyCompletion
+                ? 'Apply Complete'
               : isLearnCompletion
                 ? 'Learn Complete'
                 : isSpeakCompletion
-                  ? 'Lesson Review'
+                  ? (speakPassed ? 'Lesson Complete' : 'Speaking Review')
                   : 'Lesson Complete'
           }
         />
@@ -88,16 +97,18 @@ export default function LessonComplete({
           <div className="mb-5 text-center">
             <p className="text-lg text-text-med"><b>Close!</b></p>
             <p className="text-lg text-text-med">
-              {`${quizMissedCount} ${quizMissedCount === 1 ? 'word needs' : 'words need'} refinement.`}
+              {`${quizMissedTotalCount} ${quizMissedTotalCount === 1 ? 'word needs' : 'words need'} refinement.`}
             </p>
           </div>
         ) : (
           <p className="text-lg text-text-med mb-5 text-center">
             {isSpeakCompletion
-              ? `Speak score: ${speakScorePercent}% (${speakCorrectCount}/${totalQuizItems})`
+              ? `Speak score: ${speakScorePercent}% (${speakCorrectCount}/${totalQuizItems}) · Core: ${speakScorePercentCore}%`
               : isQuizCompletion
-                ? `Quiz score: ${quizScorePercent}% (${quizCorrectCount}/${totalQuizItems})`
-                : `${totalQuizItems} words introduced.`}
+                ? `Quiz score: ${quizScorePercent}% (${quizCorrectCount}/${totalQuizItems}) · Core: ${quizScorePercentCore}%`
+                : isApplyCompletion
+                  ? `${totalCoreItems} sentence prompts completed.`
+                : `${totalCoreItems} words introduced.`}
           </p>
         )}
 
@@ -175,12 +186,14 @@ export default function LessonComplete({
         <div className="flex flex-col gap-3 w-full max-w-md">
           {isQuizCompletion && !quizReadyForSpeak && (
             <>
-              <button
-                onClick={onReviewMissed}
-                className="w-full py-4 px-6 bg-white text-[#374151] border-2 border-[rgba(55,65,81,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] active:bg-[rgba(55,65,81,0.12)]"
-              >
-                Review Missed Words
-              </button>
+              {quizMissedTotalCount > 0 && (
+                <button
+                  onClick={onReviewMissed}
+                  className="w-full py-4 px-6 bg-white text-[#374151] border-2 border-[rgba(55,65,81,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] active:bg-[rgba(55,65,81,0.12)]"
+                >
+                  Review Missed Words
+                </button>
+              )}
               <button
                 onClick={onStartQuiz}
                 className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
@@ -196,14 +209,24 @@ export default function LessonComplete({
             </>
           )}
           {isQuizCompletion && quizReadyForSpeak && (
-            <button
-              onClick={onStartSpeak}
-              className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
-            >
-              Continue to Speak
-            </button>
+            <>
+              {quizMissedTotalCount > 0 && (
+                <button
+                  onClick={onReviewMissed}
+                  className="w-full py-4 px-6 bg-white text-[#374151] border-2 border-[rgba(55,65,81,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] active:bg-[rgba(55,65,81,0.12)]"
+                >
+                  Review Missed Words
+                </button>
+              )}
+              <button
+                onClick={onStartSpeak}
+                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+              >
+                Continue to Speak
+              </button>
+            </>
           )}
-          {!isQuizCompletion && !isSpeakCompletion && (
+          {!isQuizCompletion && !isSpeakCompletion && !isApplyCompletion && (
             <>
               <button
                 onClick={onStartQuiz}
@@ -222,6 +245,22 @@ export default function LessonComplete({
                 className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
               >
                 Review Flashcards Again
+              </button>
+            </>
+          )}
+          {isApplyCompletion && (
+            <>
+              <button
+                onClick={onContinue}
+                className="w-full py-4 px-6 bg-[#3E5648] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+              >
+                Continue Learning
+              </button>
+              <button
+                onClick={onRestart}
+                className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
+              >
+                Review Sentences Again
               </button>
             </>
           )}

@@ -25,7 +25,7 @@ export default function LessonReview({
     if (!activeLesson) return [];
     return activeLesson.words
       .map((word, index) => ({ word, index }))
-      .filter(({ word, index }) => !word.isReview && !quizResultsByIndex[index]);
+      .filter(({ index }) => !quizResultsByIndex[index]);
   }, [activeLesson, quizResultsByIndex]);
 
   const [currentIndex, setCurrentIndex] = useState(0);

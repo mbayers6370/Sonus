@@ -3,6 +3,7 @@ import { useApp } from '../contexts/AppContext';
 import Flashcard from './Flashcard';
 import Quiz from './Quiz';
 import SpeakMode from './SpeakMode';
+import ApplyMode from './ApplyMode';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
 import { makeLessonKey } from '../lib/lessonProgress';
@@ -49,10 +50,13 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const isCheckpointQuiz = isCheckpointUnitId(activeLesson.unitId);
   const isDailyReview = activeLesson.unitId === 'daily-review';
   const isPracticeUnit = isListeningPractice || isSpeakingPractice;
+  const isApplyMode = lessonMode === 'apply';
   const titleText = isCheckpointQuiz
     ? (activeLesson.unitName || 'Checkpoint Quiz')
     : isPracticeUnit
     ? (isListeningPractice ? 'Listening Practice' : 'Speaking Practice')
+    : isApplyMode
+      ? (activeLesson.unitName || 'Apply')
     : isDailyReview
       ? (activeLesson.unitName || 'Daily Review')
       : `Unit ${activeLesson.unitOrder ?? activeLesson.lessonIndex + 1}`;
@@ -87,7 +91,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
       </div>
 
       {/* Mode Tabs */}
-      {!isPracticeUnit && !isCheckpointQuiz ? (
+      {!isPracticeUnit && !isCheckpointQuiz && !isApplyMode ? (
         <div className="bg-bg-warm/90 backdrop-blur-sm border-b border-border px-4 py-2.5 -mt-8 relative z-40">
           <div className={`grid ${isMasterySession ? 'grid-cols-2' : 'grid-cols-3'} gap-2 rounded-3xl`}>
             {!isMasterySession && (
@@ -179,6 +183,16 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             currentIndex={lessonWordIndex}
             totalWords={totalWords}
             practiceMode={isSpeakingPractice}
+            onNext={nextWord}
+          />
+        )}
+        {lessonMode === 'apply' && (
+          <ApplyMode
+            word={currentWord}
+            allWords={activeLesson.words}
+            currentIndex={lessonWordIndex}
+            totalWords={totalWords}
+            onPrev={prevWord}
             onNext={nextWord}
           />
         )}

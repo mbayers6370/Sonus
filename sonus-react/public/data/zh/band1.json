@@ -6,8 +6,10 @@
   "wordCount": 517,
   "availableWords": 512,
   "unallocatedWords": 5,
-  "units": {
-    "_unallocated": {
+  "units": [
+    {
+      "id": "_unallocated",
+      "band": 1,
       "targetWords": 5,
       "allocatedWords": 5,
       "words": [
@@ -88,7 +90,9 @@
         }
       ]
     },
-    "b1-pronouns": {
+    {
+      "id": "b1-pronouns",
+      "band": 1,
       "targetWords": 24,
       "allocatedWords": 24,
       "words": [
@@ -454,7 +458,9 @@
         }
       ]
     },
-    "b1-politeness": {
+    {
+      "id": "b1-politeness",
+      "band": 1,
       "targetWords": 12,
       "allocatedWords": 12,
       "words": [
@@ -640,7 +646,9 @@
         }
       ]
     },
-    "b1-numbers": {
+    {
+      "id": "b1-numbers",
+      "band": 1,
       "targetWords": 16,
       "allocatedWords": 16,
       "words": [
@@ -886,7 +894,9 @@
         }
       ]
     },
-    "b1-time": {
+    {
+      "id": "b1-time",
+      "band": 1,
       "targetWords": 47,
       "allocatedWords": 47,
       "words": [
@@ -1597,7 +1607,9 @@
         }
       ]
     },
-    "b1-verbs-1": {
+    {
+      "id": "b1-verbs-1",
+      "band": 1,
       "targetWords": 26,
       "allocatedWords": 26,
       "words": [
@@ -1993,7 +2005,9 @@
         }
       ]
     },
-    "b1-family": {
+    {
+      "id": "b1-family",
+      "band": 1,
       "targetWords": 37,
       "allocatedWords": 37,
       "words": [
@@ -2554,7 +2568,9 @@
         }
       ]
     },
-    "b1-routine": {
+    {
+      "id": "b1-routine",
+      "band": 1,
       "targetWords": 34,
       "allocatedWords": 34,
       "words": [
@@ -3070,7 +3086,9 @@
         }
       ]
     },
-    "b1-food": {
+    {
+      "id": "b1-food",
+      "band": 1,
       "targetWords": 21,
       "allocatedWords": 21,
       "words": [
@@ -3391,7 +3409,9 @@
         }
       ]
     },
-    "b1-shopping": {
+    {
+      "id": "b1-shopping",
+      "band": 1,
       "targetWords": 13,
       "allocatedWords": 13,
       "words": [
@@ -3592,7 +3612,9 @@
         }
       ]
     },
-    "b1-locations": {
+    {
+      "id": "b1-locations",
+      "band": 1,
       "targetWords": 37,
       "allocatedWords": 37,
       "words": [
@@ -4153,7 +4175,9 @@
         }
       ]
     },
-    "b1-directions": {
+    {
+      "id": "b1-directions",
+      "band": 1,
       "targetWords": 37,
       "allocatedWords": 37,
       "words": [
@@ -4714,7 +4738,9 @@
         }
       ]
     },
-    "b1-transport": {
+    {
+      "id": "b1-transport",
+      "band": 1,
       "targetWords": 27,
       "allocatedWords": 27,
       "words": [
@@ -5125,7 +5151,9 @@
         }
       ]
     },
-    "b1-school": {
+    {
+      "id": "b1-school",
+      "band": 1,
       "targetWords": 49,
       "allocatedWords": 49,
       "words": [
@@ -5866,7 +5894,9 @@
         }
       ]
     },
-    "b1-questions": {
+    {
+      "id": "b1-questions",
+      "band": 1,
       "targetWords": 17,
       "allocatedWords": 17,
       "words": [
@@ -6127,7 +6157,9 @@
         }
       ]
     },
-    "b1-verbs-2": {
+    {
+      "id": "b1-verbs-2",
+      "band": 1,
       "targetWords": 26,
       "allocatedWords": 26,
       "words": [
@@ -6523,7 +6555,9 @@
         }
       ]
     },
-    "b1-measure": {
+    {
+      "id": "b1-measure",
+      "band": 1,
       "targetWords": 15,
       "allocatedWords": 15,
       "words": [
@@ -6754,7 +6788,9 @@
         }
       ]
     },
-    "b1-opinions": {
+    {
+      "id": "b1-opinions",
+      "band": 1,
       "targetWords": 30,
       "allocatedWords": 30,
       "words": [
@@ -7210,7 +7246,9 @@
         }
       ]
     },
-    "b1-ability": {
+    {
+      "id": "b1-ability",
+      "band": 1,
       "targetWords": 9,
       "allocatedWords": 9,
       "words": [
@@ -7351,7 +7389,9 @@
         }
       ]
     },
-    "b1-verbs-3": {
+    {
+      "id": "b1-verbs-3",
+      "band": 1,
       "targetWords": 25,
       "allocatedWords": 25,
       "words": [
@@ -7732,7 +7772,9 @@
         }
       ]
     },
-    "b1-comparison": {
+    {
+      "id": "b1-comparison",
+      "band": 1,
       "targetWords": 10,
       "allocatedWords": 10,
       "words": [
@@ -7888,17 +7930,21 @@
         }
       ]
     },
-    "b1-listening": {
+    {
+      "id": "b1-listening",
+      "band": 1,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
-    "b1-speaking": {
+    {
+      "id": "b1-speaking",
+      "band": 1,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     }
-  },
+  ],
   "curriculum": {
     "prerequisites": {
       "b1-verbs-2": [

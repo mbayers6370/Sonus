@@ -31,6 +31,7 @@ export interface Word {
   example?: {
     zh?: string;
     en?: string;
+    pinyin?: string;
   };
 }
 
@@ -56,7 +57,7 @@ export interface WordReviewState {
 }
 
 // Lesson mode types
-export type LessonMode = 'intro' | 'quiz' | 'speak';
+export type LessonMode = 'intro' | 'quiz' | 'speak' | 'apply';
 
 // Active lesson state
 export interface ActiveLesson {
@@ -74,6 +75,19 @@ export interface Unit {
   name: string;
   hanzi: string;
   words: number;
+}
+
+export interface BandUnitData {
+  id?: string;
+  band?: number;
+  targetWords: number;
+  allocatedWords: number;
+  words: Word[];
+  pedagogy?: {
+    prerequisites?: string[]; // unit ids
+    lexicalDensityTarget?: number; // target % of new words per lesson
+    grammarFocus?: string[]; // e.g. ["comparatives", "question words"]
+  };
 }
 
 // Band/Level structure
@@ -110,18 +124,7 @@ export interface BandData {
   wordCount: number;
   availableWords: number;
   unallocatedWords: number;
-  units: {
-    [unitId: string]: {
-      targetWords: number;
-      allocatedWords: number;
-      words: Word[];
-      pedagogy?: {
-        prerequisites?: string[]; // unit ids
-        lexicalDensityTarget?: number; // target % of new words per lesson
-        grammarFocus?: string[]; // e.g. ["comparatives", "question words"]
-      };
-    };
-  };
+  units: BandUnitData[] | Record<string, BandUnitData>;
   curriculum?: {
     prerequisites?: Record<string, string[]>;
     lessonControls?: {

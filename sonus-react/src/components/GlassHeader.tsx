@@ -59,7 +59,7 @@ export default function GlassHeader({
     };
   }, []);
 
-  const showBackButton = location.pathname !== '/home';
+  const showBackButton = isStandalone && location.pathname !== '/home';
   const showInlineLogo = showLogo && !isStandalone;
   const showStandaloneLogo = showLogo && isStandalone;
   const headerHeightClass = showStandaloneLogo ? 'h-28 md:h-24' : 'h-24 md:h-20';

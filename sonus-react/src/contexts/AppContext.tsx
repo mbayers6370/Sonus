@@ -85,6 +85,7 @@ const ALL_LEVEL_IDS = [
 ] as const;
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const BAND_UNLOCK_PASS_PERCENT = 90;
+const APPLY_PROMPT_COUNT = 12;
 
 function resolveBandDataId(bandId: string) {
   if (bandId === 'band7' || bandId === 'band8' || bandId === 'band9' || bandId === 'advanced') {
@@ -150,9 +151,8 @@ function canonicalUnitKey(id: string) {
 }
 
 function getBandUnits(bandData: BandData): UnitRecord[] {
-  const rawUnits = bandData.units as unknown;
-  if (Array.isArray(rawUnits)) {
-    return rawUnits
+  if (Array.isArray(bandData.units)) {
+    return bandData.units
       .map((unit) => {
         const maybeUnit = unit as { id?: string; words?: Word[] } | null;
         if (!maybeUnit?.id) return null;
@@ -164,7 +164,7 @@ function getBandUnits(bandData: BandData): UnitRecord[] {
       .filter((unit): unit is UnitRecord => Boolean(unit));
   }
 
-  return Object.entries((bandData.units || {}) as Record<string, { words?: Word[] }>)
+  return Object.entries(bandData.units || {})
     .map(([id, unit]) => ({
       id,
       words: unit?.words || [],
@@ -280,19 +280,20 @@ function isPracticeDataUnit(unitId: string) {
 }
 
 function buildPracticeWordPool(bandData: BandData, count: number): Word[] {
-  const sampleUnitId = Object.keys(bandData.units || {}).find((unitId) => unitId !== '_unallocated');
+  const units = getBandUnits(bandData);
+  const sampleUnitId = units.find((unit) => unit.id !== '_unallocated')?.id;
   const unitStem = sampleUnitId ? sampleUnitId.split('-')[0] : `b${bandData.band}`;
   const bandUnitPrefix = `${unitStem}-`;
   // Build a deterministic pool for skill labs from real band vocab only
   // (exclude synthetic units such as listening/speaking and unallocated slots).
-  const pool = Object.entries(bandData.units)
+  const pool = units
     .filter(
-      ([unitId]) =>
-        unitId.startsWith(bandUnitPrefix) &&
-        unitId !== '_unallocated' &&
-        !isPracticeDataUnit(unitId)
+      (unit) =>
+        unit.id.startsWith(bandUnitPrefix) &&
+        unit.id !== '_unallocated' &&
+        !isPracticeDataUnit(unit.id)
     )
-    .flatMap(([, unit]) => unit.words || []);
+    .flatMap((unit) => unit.words || []);
   const uniqueById = new Map(pool.map((word) => [word.id, word]));
   return shuffleWords(Array.from(uniqueById.values()))
     .slice(0, Math.max(0, count))
@@ -309,6 +310,45 @@ type ReviewQueueItem = {
 type ReviewQueueResponse = {
   queue: ReviewQueueItem[];
 };
+
+type ApplySentence = {
+  id: string;
+  wordId: string;
+  zh: string;
+  en: string;
+  pinyin?: string;
+  py?: string;
+  strictUnitOnly?: boolean;
+};
+
+type ApplyBandPayload = {
+  language?: string;
+  bandId?: string;
+  units?: Record<string, ApplySentence[]>;
+};
+
+const applySentenceCache = new Map<string, Record<string, ApplySentence[]>>();
+
+async function fetchApplySentenceMap(bandId: string, forceRefresh = false) {
+  if (!forceRefresh && applySentenceCache.has(bandId)) {
+    return applySentenceCache.get(bandId) || {};
+  }
+  try {
+    const cacheBuster = forceRefresh ? `?v=${Date.now()}` : '';
+    const response = await fetch(`/data/zh/${bandId}.apply.json${cacheBuster}`, { cache: 'no-store' });
+    if (!response.ok) {
+      applySentenceCache.set(bandId, {});
+      return {};
+    }
+    const payload = (await response.json()) as ApplyBandPayload;
+    const units = payload.units || {};
+    applySentenceCache.set(bandId, units);
+    return units;
+  } catch {
+    applySentenceCache.set(bandId, {});
+    return {};
+  }
+}
 
 async function fetchReviewWordIds(limit = 30): Promise<string[]> {
   const controller = new AbortController();
@@ -506,8 +546,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const checkpointIndex = parseCheckpointIndex(resolvedUnitId);
       const isCheckpointQuiz = checkpointIndex !== null;
       const practiceMode = getPracticeModeFromUnit(resolvedUnitId);
+      const isBandOneUnlockedMode = bandId === 'band1';
       const unit = getBandUnitById(bandData, resolvedUnitId);
       const words = unit?.words || [];
+      const coreLessonCount = getLessonRanges(words.length, 10).length;
+      const isApplyLesson =
+        !practiceMode &&
+        !isCheckpointQuiz &&
+        coreLessonCount > 0 &&
+        lessonIndex === coreLessonCount;
       let lessonChunk: Word[] = [];
       const hasLessonPassedThreshold = (targetUnitId: string, targetLessonIndex: number) => {
         const key = makeLessonKey(bandId, targetUnitId, targetLessonIndex);
@@ -556,15 +603,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
       for (const practiceMeta of getUnitsForBand(bandId).filter((meta) => isPracticeUnitId(meta.id))) {
         unlockedByUnitId.set(practiceMeta.id, coreUnitIds.length > 0 && coreUnitIds.every((unitIdValue) => hasUnitPassedThreshold(unitIdValue)));
       }
-      if (!(unlockedByUnitId.get(resolvedUnitId) ?? false)) {
-        return false;
-      }
-      if (!practiceMode && !isCheckpointQuiz) {
-        if (lessonIndex > 0 && !hasLessonPassedThreshold(resolvedUnitId, lessonIndex - 1)) {
+      if (!isBandOneUnlockedMode) {
+        if (!(unlockedByUnitId.get(resolvedUnitId) ?? false)) {
           return false;
         }
-      } else if (lessonIndex !== 0) {
-        return false;
+        if (!practiceMode && !isCheckpointQuiz) {
+          if (lessonIndex > 0 && !isApplyLesson && !hasLessonPassedThreshold(resolvedUnitId, lessonIndex - 1)) {
+            return false;
+          }
+        } else if (lessonIndex !== 0) {
+          return false;
+        }
       }
 
       if (isCheckpointQuiz && checkpointIndex) {
@@ -586,7 +635,31 @@ export function AppProvider({ children }: { children: ReactNode }) {
         lessonChunk = shuffleWords(uniquePool).slice(0, Math.min(uniquePool.length, checkpointBaseSize));
       } else {
         if (!unit) return false;
+        const applySentenceByUnit = isApplyLesson ? await fetchApplySentenceMap(bandId, true) : {};
+        const applySentences = applySentenceByUnit[resolvedUnitId] || [];
+        const applyByWordId = new Map(
+          applySentences
+            .filter((item) => Boolean(item.wordId) && Boolean(item.zh?.trim()) && Boolean(item.en?.trim()))
+            .map((item) => [item.wordId, item])
+        );
         lessonChunk =
+          isApplyLesson
+            ? shuffleWords(
+                words
+                  .filter((word) => applyByWordId.has(word.id))
+                  .map((word) => {
+                    const applySentence = applyByWordId.get(word.id)!;
+                    return {
+                      ...word,
+                      example: {
+                        zh: applySentence.zh,
+                        en: applySentence.en,
+                        pinyin: applySentence.pinyin?.trim() || applySentence.py?.trim() || undefined,
+                      },
+                    };
+                  })
+              ).slice(0, APPLY_PROMPT_COUNT)
+          :
           practiceMode && words.length === 0
             // Practice units do not own word lists; they sample from band vocab.
             ? buildPracticeWordPool(bandData, 12)
@@ -610,6 +683,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         hasValidResumeWords &&
         !hasLegacyReattemptWords &&
         !isCheckpointQuiz &&
+        !isApplyLesson &&
         isResumeLengthValid &&
         resumeCheckpoint?.bandId === bandId &&
         resolveUnitIdForBand(resumeCheckpoint?.bandId ?? '', resumeCheckpoint?.unitId ?? '') ===
@@ -648,7 +722,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const lessonWordIds = new Set(lessonWordsBase.map((w) => w.id));
       let lessonWords = [...lessonWordsBase];
 
-      if (!practiceMode) {
+      if (!practiceMode && !isApplyLesson) {
         const now = Date.now();
         const reviewWordIds = await fetchReviewWordIds(40);
         const checkpointCoveredUnitIds =
@@ -707,7 +781,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           if (!combinedById.has(candidate.id)) combinedById.set(candidate.id, candidate);
         }
         const reviewCandidates = shuffleWords(Array.from(combinedById.values()));
-        const shouldInjectReviewWords = !isCheckpointQuiz || checkpointIndex > 1;
+        const shouldInjectReviewWords = !isCheckpointQuiz;
         lessonWords = shouldInjectReviewWords
           ? appendReviewWords(lessonWordsBase, reviewCandidates, 3, 1)
           : [...lessonWordsBase];
@@ -716,7 +790,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const metadata = getUnitMetadata(bandId, resolvedUnitId);
       const newLesson: ActiveLesson = {
         unitId: resolvedUnitId,
-        unitName: metadata?.name ?? formatUnitLabel(resolvedUnitId),
+        unitName: isApplyLesson
+          ? `${metadata?.name ?? formatUnitLabel(resolvedUnitId)} · Apply`
+          : (metadata?.name ?? formatUnitLabel(resolvedUnitId)),
         unitOrder: metadata?.order,
         lessonIndex,
         words: lessonWords,
@@ -747,7 +823,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           activeBandData: bandData,
           activeUnitId: resolvedUnitId,
           activeLesson: newLesson,
-          lessonMode: isCheckpointQuiz ? 'quiz' : (practiceMode ?? 'intro'),
+          lessonMode: isApplyLesson ? 'apply' : (isCheckpointQuiz ? 'quiz' : (practiceMode ?? 'intro')),
           lessonWordIndex: 0,
           quizResultsByIndex: {},
           speakResultsByIndex: {},
@@ -1091,6 +1167,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       if (lessonMode === 'intro') {
         nextIntroViewed = true;
+      } else if (lessonMode === 'apply') {
+        nextIntroViewed = true;
+        nextQuizScore = 100;
+        nextSpeakScore = 100;
+        nextSpeakAllCorrect = true;
+        nextMastered = true;
       } else if (lessonMode === 'quiz') {
         const { total, correct } = getCoreWordStats(activeLesson.words, prev.quizResultsByIndex);
         nextQuizScore = total > 0 ? Math.round((correct / total) * 100) : 0;
