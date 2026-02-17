@@ -1241,8 +1241,8 @@ export default function SpeakMode({
             onClick={() => speak(word.simp, word.pinyin)}
             className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] flex flex-col items-center justify-center text-center transition-colors ${
               practiceMode
-                ? 'border-[rgba(194,65,12,0.22)] bg-[rgba(194,65,12,0.08)] active:bg-[rgba(194,65,12,0.14)]'
-                : 'border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] active:bg-[rgba(24,110,149,0.14)]'
+                ? 'border-[#E5B8A5] bg-[#F8EEE9] active:bg-[#F3E4DC]'
+                : 'border-[#AFCFE0] bg-[#EAF3F8] active:bg-[#DFEDF5]'
             }`}
             aria-label="Play target audio"
             title="Play target audio"
@@ -1270,8 +1270,8 @@ export default function SpeakMode({
             disabled={isFinalizing}
             className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] transition-colors ${
               isPerfectListening
-                ? 'border-[rgba(62,86,72,0.30)] bg-[rgba(62,86,72,0.14)]'
-                : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] active:bg-[rgba(194,65,12,0.14)]'
+                ? 'border-[#AEBFB5] bg-[#E8F0EB]'
+                : 'border-[#E5B8A5] bg-[#F8EEE9] active:bg-[#F3E4DC]'
             }`}
             aria-label={isRecording ? 'Stop recording' : 'Start recording'}
             title={isRecording ? 'Stop recording' : 'Start recording'}
@@ -1301,7 +1301,7 @@ export default function SpeakMode({
       <div
         className={`fixed bottom-20 left-0 right-0 z-40 px-5 pb-2 border-t pt-3 backdrop-blur-sm ${
           practiceMode
-            ? 'bg-white/95 border-white/30'
+            ? 'bg-white border-white/30'
             : 'bg-bg-warm/95 border-border'
         }`}
       >

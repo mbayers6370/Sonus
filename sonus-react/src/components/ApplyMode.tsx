@@ -138,7 +138,7 @@ export default function ApplyMode({
       <WordProgressRail total={totalWords} currentIndex={currentIndex} />
 
       <div className="flex-1 flex items-center justify-center px-5 py-2">
-        <div className="w-full max-w-2xl bg-white/95 rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-5 text-center">
+        <div className="w-full max-w-2xl bg-white rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-5 text-center">
           <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.14)] text-[#186E95]">
             Apply In Context
           </div>
@@ -196,7 +196,7 @@ export default function ApplyMode({
           <button
             onClick={onPrev}
             disabled={currentIndex === 0}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(55,65,81,0.35)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(55,65,81,0.35)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)] disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-5 h-5" />
             Previous

@@ -157,7 +157,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
           </div>
         </section>
 
-        <section className="rounded-3xl border bg-white/95 p-4 mb-4 shadow-[0_14px_30px_-24px_rgba(15,23,42,0.26)]" style={{ borderColor: soft }}>
+        <section className="rounded-3xl border bg-white p-4 mb-4 shadow-[0_14px_30px_-24px_rgba(15,23,42,0.26)]" style={{ borderColor: soft }}>
           <div className="text-[11px] tracking-wide font-mono text-center mb-2" style={{ color: theme }}>Rapid recall mode</div>
           <div className="rounded-2xl border p-3.5 bg-white" style={{ borderColor: soft }}>
             {!recallDone && recallPhrase ? (
@@ -221,7 +221,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
           </div>
         </section>
 
-        <section className="rounded-3xl border border-border bg-white/95 p-4 md:p-5 mb-4 shadow-[0_14px_34px_-26px_rgba(15,23,42,0.28)]" style={{ borderColor: soft }}>
+        <section className="rounded-3xl border border-border bg-white p-4 md:p-5 mb-4 shadow-[0_14px_34px_-26px_rgba(15,23,42,0.28)]" style={{ borderColor: soft }}>
           <div className="mb-4 text-center">
             <div className="text-[11px] tracking-wide font-mono text-text-light">Essential phrases ({section.phrases.length})</div>
             <div className="text-sm text-text-med mt-1">

@@ -130,7 +130,7 @@ export default function HomeDashboard({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
         <section
-          className={`${cardShell} md:order-1 bg-white/95 text-text-dark border-[#186E95]/35 min-h-[210px] text-center flex flex-col justify-center`}
+          className={`${cardShell} md:order-1 bg-white text-text-dark border-[#186E95]/35 min-h-[210px] text-center flex flex-col justify-center`}
           style={{ animationDelay: '35ms' }}
         >
           <div className="main-font text-2xl leading-none mb-3 text-[#186E95]">Resume</div>
@@ -241,7 +241,7 @@ export default function HomeDashboard({
         </section>
 
         <section
-          className={`${cardShell} md:order-4 md:col-span-2 bg-white/95 text-text-dark border-[#374151]/35 flex flex-col justify-center`}
+          className={`${cardShell} md:order-4 md:col-span-2 bg-white text-text-dark border-[#374151]/35 flex flex-col justify-center`}
           style={{ animationDelay: '235ms' }}
         >
           <div className="main-font text-2xl leading-none mb-3 text-[#374151]">Shortcuts</div>

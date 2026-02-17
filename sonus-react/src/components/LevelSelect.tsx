@@ -406,6 +406,9 @@ function LevelCard({
   showBadge = true,
 }: LevelCardProps) {
   const a = ACCENT[accentOverride ?? 'navy'];
+  const isLocked = !isUnlocked;
+  const lockedTone = 'text-[#6B7280]';
+  const lockedSoftTone = 'text-[#9CA3AF]';
   const allUnits = getUnitsForBand(level.id);
   const unitCount = allUnits.filter(
     (unit) => !/listening$/i.test(unit.id) && !/speaking$/i.test(unit.id)
@@ -431,11 +434,13 @@ function LevelCard({
       className={`w-full border rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
         isDrenched && isUnlocked
           ? `${level.id === 'band1' || level.id === 'band2' ? 'bg-[#3E5648]' : level.id === 'band3' || level.id === 'band4' ? 'bg-[#186E95]' : level.id === 'band5' || level.id === 'band6' ? 'bg-[#374151]' : 'bg-[#C2410C]'} border-transparent text-white`
-          : `bg-white/95 ${a.leftBorder}`
+          : isLocked
+            ? 'bg-white border-[#D1D5DB]'
+            : `bg-white ${a.leftBorder}`
       } ${
         isUnlocked
           ? `hover:-translate-y-0.5 ${a.hoverShadow} active:translate-y-0`
-          : 'opacity-50 cursor-not-allowed'
+          : 'cursor-not-allowed'
       }`}
     >
       <div className="w-full">
@@ -443,7 +448,7 @@ function LevelCard({
           {showBadge ? (
             <span
               className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
-                isDrenched ? 'bg-white/20 text-white' : `${a.badgeBg} ${a.badgeText}`
+                isDrenched ? 'bg-white/20 text-white' : isLocked ? 'bg-[#F3F4F6] text-[#6B7280]' : `${a.badgeBg} ${a.badgeText}`
               }`}
             >
               {effectiveBadge}
@@ -455,7 +460,13 @@ function LevelCard({
           {effectiveTopRight ? (
             <div
               className={`text-xs font-mono uppercase tracking-wider ${
-                isDrenched ? 'text-white/85' : isCompleted ? 'text-[#3E5648]' : 'text-text-light'
+                isDrenched
+                  ? 'text-white/85'
+                  : isLocked
+                    ? lockedSoftTone
+                    : isCompleted
+                      ? 'text-[#3E5648]'
+                      : 'text-text-light'
               }`}
             >
               {effectiveTopRight}
@@ -467,31 +478,31 @@ function LevelCard({
 
         <div className="mt-5">
           {headerKicker && (
-            <p className="text-[11px] font-mono tracking-wide text-text-med mb-1">
+            <p className={`text-[11px] font-mono tracking-wide mb-1 ${isLocked ? lockedSoftTone : 'text-text-med'}`}>
               {headerKicker}
             </p>
           )}
 
-          <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${isDrenched ? 'text-white' : a.badgeText}`}>
+          <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${isDrenched ? 'text-white' : isLocked ? lockedTone : a.badgeText}`}>
             {level.title || level.name}
           </h3>
 
-          <p className={`text-[1.05rem] mb-4 ${isDrenched ? 'text-white/90' : 'text-text-med'}`}>
+          <p className={`text-[1.05rem] mb-4 ${isDrenched ? 'text-white/90' : isLocked ? lockedTone : 'text-text-med'}`}>
             {level.subtitle || level.description}
           </p>
 
-          <div className={`flex gap-10 text-sm font-mono mb-4 ${isDrenched ? 'text-white' : 'text-text-dark'}`}>
+          <div className={`flex gap-10 text-sm font-mono mb-4 ${isDrenched ? 'text-white' : isLocked ? lockedTone : 'text-text-dark'}`}>
             <div>
               <span className="text-lg font-semibold">{level.wordRange || '—'}</span>
-              <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : 'text-text-med'}`}>Vocabulary</div>
+              <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : isLocked ? lockedSoftTone : 'text-text-med'}`}>Vocabulary</div>
             </div>
             <div>
               <span className="text-lg font-semibold">{unitCount}</span>
-              <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : 'text-text-med'}`}>Units</div>
+              <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : isLocked ? lockedSoftTone : 'text-text-med'}`}>Units</div>
             </div>
           </div>
 
-          <p className={`text-[11px] leading-relaxed font-mono tracking-wide mb-4 ${isDrenched ? 'text-white/80' : 'text-text-med'}`}>
+          <p className={`text-[11px] leading-relaxed font-mono tracking-wide mb-4 ${isDrenched ? 'text-white/80' : isLocked ? lockedTone : 'text-text-med'}`}>
             {bodyText ||
               'Structured lessons and practice built on official proficiency frameworks.'}
           </p>
@@ -728,10 +739,12 @@ export default function LevelSelect({
                 className={`w-full border rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
                   isTierDrenched && !isLocked
                     ? `${index === 0 ? 'bg-[#3E5648]' : index === 1 ? 'bg-[#186E95]' : 'bg-[#C2410C]'} border-transparent text-white`
-                    : `bg-white/95 ${a.leftBorder}`
+                    : isLocked
+                      ? 'bg-white border-[#D1D5DB]'
+                      : `bg-white ${a.leftBorder}`
                 } ${
                   isLocked
-                    ? 'opacity-65 cursor-not-allowed'
+                    ? 'cursor-not-allowed'
                     : `hover:-translate-y-0.5 ${a.hoverShadow} active:translate-y-0`
                 }`}
               >
@@ -739,7 +752,11 @@ export default function LevelSelect({
                   <div className="flex items-start justify-between gap-4">
                     <span
                       className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
-                        isTierDrenched ? 'bg-white/20 text-white' : `${a.badgeBg} ${a.badgeText}`
+                        isTierDrenched
+                          ? 'bg-white/20 text-white'
+                          : isLocked
+                            ? 'bg-[#F3F4F6] text-[#6B7280]'
+                            : `${a.badgeBg} ${a.badgeText}`
                       }`}
                     >
                       Track
@@ -754,28 +771,28 @@ export default function LevelSelect({
                   </div>
 
                   <div className="mt-5">
-                    <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${isTierDrenched ? 'text-white' : a.badgeText}`}>
+                    <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${isTierDrenched ? 'text-white' : isLocked ? 'text-[#6B7280]' : a.badgeText}`}>
                       {tier.title}
                     </h3>
-                    <p className={`text-[1.05rem] mb-4 ${isTierDrenched ? 'text-white/90' : 'text-text-med'}`}>
+                    <p className={`text-[1.05rem] mb-4 ${isTierDrenched ? 'text-white/90' : isLocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
                       {tier.subtitle}
                     </p>
 
-                    <div className={`flex gap-10 text-sm font-mono mb-4 ${isTierDrenched ? 'text-white' : 'text-text-dark'}`}>
+                    <div className={`flex gap-10 text-sm font-mono mb-4 ${isTierDrenched ? 'text-white' : isLocked ? 'text-[#6B7280]' : 'text-text-dark'}`}>
                       <div>
                         <span className="text-lg font-semibold">{tier.levels.length}</span>
-                        <div className={`text-[11px] tracking-wide ${isTierDrenched ? 'text-white/75' : 'text-text-med'}`}>
+                        <div className={`text-[11px] tracking-wide ${isTierDrenched ? 'text-white/75' : isLocked ? 'text-[#9CA3AF]' : 'text-text-med'}`}>
                           Bands
                         </div>
                       </div>
                     </div>
 
-                    <p className={`text-[11px] leading-relaxed font-mono tracking-wide mb-4 ${isTierDrenched ? 'text-white/80' : 'text-text-med'}`}>
+                    <p className={`text-[11px] leading-relaxed font-mono tracking-wide mb-4 ${isTierDrenched ? 'text-white/80' : isLocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
                       {tier.summary}
                     </p>
 
                     {isLocked && (
-                      <div className="text-sm font-semibold tracking-wide text-text-light">
+                      <div className="text-sm font-semibold tracking-wide text-[#9CA3AF]">
                         Releasing soon
                       </div>
                     )}

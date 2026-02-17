@@ -56,7 +56,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </p>
         </section>
 
-        <section className="rounded-3xl border border-[#374151]/35 bg-white/95 p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
+        <section className="rounded-3xl border border-[#374151]/35 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
           <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(55,65,81,0.10)] text-[#374151]">
             How It Works
           </div>
@@ -80,7 +80,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[#C2410C]/40 bg-white/95 p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
+        <section className="rounded-3xl border border-[#C2410C]/40 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
           <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(194,65,12,0.12)] text-[#C2410C]">
             Character to Pinyin
           </div>
@@ -127,7 +127,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[#186E95]/40 bg-white/95 p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
+        <section className="rounded-3xl border border-[#186E95]/40 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
           <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.12)] text-[#186E95]">
             Build Better Pronunciation
           </div>

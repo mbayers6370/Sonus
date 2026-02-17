@@ -90,10 +90,10 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
                 onSelectLanguage(lang.id);
               }}
               disabled={!isAvailable}
-              className={`w-full bg-white/95 border ${accent.borderColor} rounded-3xl p-6 text-center transition-all ${
+              className={`w-full bg-white border ${accent.borderColor} rounded-3xl p-6 text-center transition-all ${
                 isAvailable
                   ? `hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`
-                  : 'opacity-65 cursor-not-allowed'
+                  : 'cursor-not-allowed'
               }`}
             >
               <div className="flex justify-between items-start">
@@ -117,13 +117,13 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
 
               {/* Content */}
               <div className="mt-4">
-                <h2 className="main-font text-2xl font-normal text-text-dark mb-1">
+                <h2 className={`main-font text-2xl font-normal mb-1 ${isAvailable ? 'text-text-dark' : 'text-[#6B7280]'}`}>
                   {lang.name}
                 </h2>
-                <p className={`text-lg text-text-med mb-3 ${lang.nativeClassName}`}>
+                <p className={`text-lg mb-3 ${isAvailable ? 'text-text-med' : 'text-[#6B7280]'} ${lang.nativeClassName}`}>
                   {lang.nativeName}
                 </p>
-                <p className="text-xs text-text-med font-mono uppercase tracking-wider">
+                <p className={`text-xs font-mono uppercase tracking-wider ${isAvailable ? 'text-text-med' : 'text-[#9CA3AF]'}`}>
                   {lang.framework}
                 </p>
               </div>

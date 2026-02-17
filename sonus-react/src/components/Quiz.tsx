@@ -191,8 +191,8 @@ export default function Quiz({
         <div
           className={`rounded-3xl p-3.5 mb-3 border relative ${
             listeningMode
-              ? 'bg-[rgba(24,110,149,0.06)] border-[#186E95]/20'
-              : 'bg-[rgba(55,65,81,0.08)] border-border/80'
+              ? 'bg-[#EAF3F8] border-[#AFCFE0]'
+              : 'bg-[#F0F2F5] border-[#D1D5DB]'
           }`}
         >
           <div className="text-center">

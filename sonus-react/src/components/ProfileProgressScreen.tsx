@@ -118,7 +118,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
           <button
             onClick={() => void load()}
             disabled={loading}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-white/95 border border-border rounded-xl text-sm font-medium hover:bg-[rgba(55,65,81,0.08)] disabled:opacity-60"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-border rounded-xl text-sm font-medium hover:bg-[rgba(55,65,81,0.08)] disabled:opacity-60"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             Refresh
@@ -126,18 +126,18 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
         </div>
 
         {backendOffline && (
-          <div className="bg-white/95 border border-border rounded-2xl p-4 text-sm text-text-med">
+          <div className="bg-white border border-border rounded-2xl p-4 text-sm text-text-med">
             Backend appears offline. Showing cached/empty progress.
           </div>
         )}
 
         {error && (
-          <div className="bg-white/95 border border-[#C2410C] rounded-2xl p-4 text-sm text-[#C2410C]">
+          <div className="bg-white border border-[#C2410C] rounded-2xl p-4 text-sm text-[#C2410C]">
             {error}
           </div>
         )}
 
-        <div className="bg-white/95 border border-border rounded-3xl p-5 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)]">
+        <div className="bg-white border border-border rounded-3xl p-5 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)]">
           <h3 className="font-semibold text-text-dark mb-3">Current Stats</h3>
           <div className="grid grid-cols-1 gap-4">
             <div className="p-3 rounded-xl border border-[rgba(62,86,72,0.22)] bg-[rgba(62,86,72,0.10)]">
@@ -147,7 +147,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
           </div>
         </div>
 
-        <div className="bg-white/95 border border-border rounded-3xl p-5">
+        <div className="bg-white border border-border rounded-3xl p-5">
           <h3 className="font-semibold text-text-dark mb-3">Recent Events</h3>
           {recentEvents.length === 0 ? (
             <div className="text-sm text-text-med">No recent progress events.</div>
@@ -168,7 +168,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
           )}
         </div>
 
-        <div className="bg-white/95 border border-border rounded-3xl p-5">
+        <div className="bg-white border border-border rounded-3xl p-5">
           <h3 className="font-semibold text-text-dark mb-3">Words To Work On</h3>
           {needsWork.length === 0 ? (
             <div className="text-sm text-text-med">No words currently in your needs-work list.</div>

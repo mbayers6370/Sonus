@@ -69,7 +69,7 @@ export default function FoundationsHub({
               <button
                 key={module.id}
                 onClick={onClick}
-                className={`w-full bg-white/95 border ${module.border} rounded-3xl min-h-[165px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0`}
+                className={`w-full bg-white border ${module.border} rounded-3xl min-h-[165px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0`}
               >
                 <div className="flex items-start justify-between gap-4">
                   <span className={`inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${module.badge}`}>

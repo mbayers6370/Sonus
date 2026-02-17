@@ -107,7 +107,7 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection 
                 key={section.id}
                 type="button"
                 onClick={() => onOpenSection(section.id)}
-                className={`dashboard-card-enter relative w-full text-left rounded-3xl border p-4 transition-all duration-200 bg-white/95 min-h-[208px] flex flex-col hover:-translate-y-0.5 ${accent.borderColor} ${accent.hoverShadow}`}
+                className={`dashboard-card-enter relative w-full text-left rounded-3xl border p-4 transition-all duration-200 bg-white min-h-[208px] flex flex-col hover:-translate-y-0.5 ${accent.borderColor} ${accent.hoverShadow}`}
                 aria-label={section.title}
                 style={{
                   animationDelay: `${index * 40 + 30}ms`,

@@ -11,7 +11,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
     <div className="min-h-screen page-shell px-6 pb-24">
       <GlassHeader title="About Sonus" />
 
-      <section className="bg-white/95 border border-border rounded-3xl overflow-hidden shadow-[0_22px_48px_-36px_rgba(31,42,55,0.35)]">
+      <section className="bg-white border border-border rounded-3xl overflow-hidden shadow-[0_22px_48px_-36px_rgba(31,42,55,0.35)]">
         <div className="px-6 py-6 bg-gradient-to-r from-[#C2410C] via-[#D2571A] to-[#E0702B] text-white text-center">
           <div className="text-xs uppercase tracking-wider font-mono mb-2 text-white/80">Method</div>
           <h3 className="main-font text-4xl leading-tight">Built on Real Frameworks</h3>

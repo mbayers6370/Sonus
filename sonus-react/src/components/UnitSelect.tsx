@@ -299,7 +299,7 @@ export default function UnitSelect({
 
       {isMandarinBandLocked && (
         <div className="pt-2">
-          <div className="rounded-3xl border border-[#186E95]/35 bg-white/95 p-6 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
+          <div className="rounded-3xl border border-[#186E95]/35 bg-white p-6 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
             <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.12)] text-[#186E95]">
               Coming Soon
             </div>
@@ -351,7 +351,7 @@ export default function UnitSelect({
                     onOpenPractice(unitId);
                   }}
                   disabled={!isUnitUnlocked}
-                  className={`${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <div className="inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/20 text-white">
@@ -364,11 +364,11 @@ export default function UnitSelect({
                           : 'Checkpoint'}
                       </span>
                     </div>
-                    <span className="text-[10px] font-mono text-white/85">Practice</span>
+                    <span className="text-[10px] font-mono text-white">Practice</span>
                   </div>
 
                   <div className="space-y-0.5">
-                    <div className="text-[10px] tracking-wide font-mono text-white/85">
+                    <div className="text-[10px] tracking-wide font-mono text-white">
                       {metadata.name.replace(/^Checkpoint Quiz\s+/i, 'Unit Review ')}
                     </div>
                     <div className="main-font text-[1.3rem] font-normal leading-tight text-white">
@@ -377,7 +377,7 @@ export default function UnitSelect({
                   </div>
 
                   <div
-                    className="mt-2 text-[11px] leading-4 text-white/90 overflow-hidden"
+                    className="mt-2 text-[11px] leading-4 text-white overflow-hidden"
                     style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
                   >
                     {metadata.description}
@@ -395,6 +395,14 @@ export default function UnitSelect({
                       ? 'Begin →'
                       : 'Start practice →'}
                   </div>
+                  {!isUnitUnlocked && (
+                    <div className="absolute inset-0 z-20 rounded-3xl bg-white/45 backdrop-blur-[2px] border border-white/50 flex items-center justify-center pointer-events-none">
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/80 border border-[#D1D5DB] text-[#6B7280]">
+                        <LockKeyhole className="w-3.5 h-3.5" />
+                        <span className="text-xs font-semibold uppercase tracking-wider font-mono">Locked</span>
+                      </div>
+                    </div>
+                  )}
                 </button>
               );
             }
@@ -410,7 +418,7 @@ export default function UnitSelect({
                   setActiveUnit(unitId);
                 }}
                 disabled={isBlueprint || !isUnitUnlocked}
-                className={`${isUnitMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/40' : 'bg-white/95 text-text-dark'} border ${accent.borderColor} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                className={`${isUnitMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
               >
                 <div className="flex items-start justify-between gap-2 mb-3">
                   <div className={`inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitMastered ? 'bg-white/20 text-white' : `${accent.badgeBg} ${accent.badgeText}`}`}>
@@ -475,6 +483,14 @@ export default function UnitSelect({
                       ? `Continue (${lessonsCount} lessons) →`
                       : 'Start lesson →'}
                 </div>
+                {!isUnitUnlocked && (
+                  <div className="absolute inset-0 z-20 rounded-3xl bg-white/45 backdrop-blur-[2px] border border-white/50 flex items-center justify-center pointer-events-none">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/80 border border-[#D1D5DB] text-[#6B7280]">
+                      <LockKeyhole className="w-3.5 h-3.5" />
+                      <span className="text-xs font-semibold uppercase tracking-wider font-mono">Locked</span>
+                    </div>
+                  </div>
+                )}
               </button>
             );
           })}
@@ -523,24 +539,24 @@ export default function UnitSelect({
                     );
                   }}
                   disabled={!isLessonUnlocked}
-                  className={`${isLessonMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : isLessonCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/45' : 'bg-white text-text-dark'} border-2 ${accent.borderColor} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isLessonMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : !isLessonUnlocked ? 'bg-white text-[#6B7280]' : isLessonCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/45' : 'bg-white text-text-dark'} border-2 ${isLessonUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
-                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isLessonMastered ? 'bg-white/20 text-white' : `${accent.badgeBg} ${accent.badgeText}`}`}>
-                    <BookOpen className={`w-3.5 h-3.5 ${isLessonMastered ? 'text-white' : accent.badgeText}`} />
-                    <span className={`text-xs font-semibold uppercase tracking-wider font-mono ${isLessonMastered ? 'text-white' : accent.badgeText}`}>
+                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isLessonMastered ? 'bg-white/20 text-white' : !isLessonUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
+                    <BookOpen className={`w-3.5 h-3.5 ${isLessonMastered ? 'text-white' : !isLessonUnlocked ? 'text-[#6B7280]' : accent.badgeText}`} />
+                    <span className={`text-xs font-semibold uppercase tracking-wider font-mono ${isLessonMastered ? 'text-white' : !isLessonUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
                       Lesson {lessonIndex + 1}
                     </span>
                   </div>
 
-                  <div className={`mt-4 text-sm font-mono uppercase tracking-wider ${isLessonMastered ? 'text-white/90' : 'text-text-med'}`}>
+                  <div className={`mt-4 text-sm font-mono uppercase tracking-wider ${isLessonMastered ? 'text-white/90' : !isLessonUnlocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
                     Words {chunkStart}-{chunkEnd}
                   </div>
 
-                  <div className={`mt-1 text-xs font-mono uppercase tracking-wider ${isLessonMastered ? 'text-white/85' : 'text-text-light'}`}>
+                  <div className={`mt-1 text-xs font-mono uppercase tracking-wider ${isLessonMastered ? 'text-white/85' : !isLessonUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
                     {chunkWords} {chunkWords === 1 ? 'word' : 'words'}
                   </div>
 
-                  <div className={`mt-4 text-[11px] font-semibold uppercase tracking-wider font-mono ${isLessonMastered ? 'text-white' : accent.badgeText}`}>
+                  <div className={`mt-4 text-[11px] font-semibold uppercase tracking-wider font-mono ${isLessonMastered ? 'text-white' : !isLessonUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
                     {isLessonMastered
                       ? 'Mastered'
                       : !isLessonUnlocked
@@ -578,21 +594,21 @@ export default function UnitSelect({
                     onSelectLesson(activeUnit.unitId, applyLessonIndex, 'apply');
                   }}
                   disabled={!isApplyUnlocked}
-                  className={`${isApplyCompleted ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : 'bg-white text-text-dark'} border-2 ${accent.borderColor} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isApplyCompleted ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : !isApplyUnlocked ? 'bg-white text-[#6B7280]' : 'bg-white text-text-dark'} border-2 ${isApplyUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
-                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isApplyCompleted ? 'bg-white/20 text-white' : `${accent.badgeBg} ${accent.badgeText}`}`}>
-                    <BookOpen className={`w-3.5 h-3.5 ${isApplyCompleted ? 'text-white' : accent.badgeText}`} />
-                    <span className={`text-xs font-semibold uppercase tracking-wider font-mono ${isApplyCompleted ? 'text-white' : accent.badgeText}`}>
+                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isApplyCompleted ? 'bg-white/20 text-white' : !isApplyUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
+                    <BookOpen className={`w-3.5 h-3.5 ${isApplyCompleted ? 'text-white' : !isApplyUnlocked ? 'text-[#6B7280]' : accent.badgeText}`} />
+                    <span className={`text-xs font-semibold uppercase tracking-wider font-mono ${isApplyCompleted ? 'text-white' : !isApplyUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
                       Apply
                     </span>
                   </div>
-                  <div className={`mt-4 text-sm font-mono uppercase tracking-wider ${isApplyCompleted ? 'text-white/90' : 'text-text-med'}`}>
+                  <div className={`mt-4 text-sm font-mono uppercase tracking-wider ${isApplyCompleted ? 'text-white/90' : !isApplyUnlocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
                     Sentence Context
                   </div>
-                  <div className={`mt-1 text-xs font-mono uppercase tracking-wider ${isApplyCompleted ? 'text-white/85' : 'text-text-light'}`}>
+                  <div className={`mt-1 text-xs font-mono uppercase tracking-wider ${isApplyCompleted ? 'text-white/85' : !isApplyUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
                     {Math.min(12, applySentenceCount)} prompts
                   </div>
-                  <div className={`mt-4 text-[11px] font-semibold uppercase tracking-wider font-mono ${isApplyCompleted ? 'text-white' : accent.badgeText}`}>
+                  <div className={`mt-4 text-[11px] font-semibold uppercase tracking-wider font-mono ${isApplyCompleted ? 'text-white' : !isApplyUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
                     {applySentenceCount === 0
                       ? 'No sentence data'
                       : !isApplyUnlocked

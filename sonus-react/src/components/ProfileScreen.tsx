@@ -260,7 +260,7 @@ export default function ProfileScreen({
           )}
         </SurfaceCard>
 
-        <details className="bg-white/95 border border-border rounded-3xl p-5">
+        <details className="bg-white border border-border rounded-3xl p-5">
           <summary className="cursor-pointer font-semibold text-text-dark">Profile Details</summary>
           <div className={`mt-4 space-y-3 transition-opacity ${isEditing ? 'opacity-100' : 'opacity-70'}`}>
             <label className="block">

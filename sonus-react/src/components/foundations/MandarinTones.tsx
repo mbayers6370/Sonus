@@ -112,7 +112,7 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
         {TONE_CARDS.map((tone, index) => (
           <div
             key={tone.id}
-            className={`dashboard-card-enter bg-white/95 border ${tone.accent.border} rounded-3xl p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${tone.accent.shadow}`}
+            className={`dashboard-card-enter bg-white border ${tone.accent.border} rounded-3xl p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${tone.accent.shadow}`}
             style={{ animationDelay: `${index * 45 + 40}ms` }}
           >
             <div className="flex items-start justify-between mb-4">

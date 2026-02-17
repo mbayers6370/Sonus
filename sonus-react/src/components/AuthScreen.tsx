@@ -50,7 +50,7 @@ export default function AuthScreen() {
 
   return (
     <div className="min-h-screen page-shell px-6 py-8 flex items-center justify-center">
-      <div className="w-full max-w-md bg-white/95 border border-border rounded-3xl p-6 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] text-center">
+      <div className="w-full max-w-md bg-white border border-border rounded-3xl p-6 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] text-center">
         <img
           src="/branding/logo_name_solo.png"
           alt="Sonus"
