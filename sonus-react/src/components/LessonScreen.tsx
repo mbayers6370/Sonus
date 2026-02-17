@@ -6,6 +6,9 @@ import SpeakMode from './SpeakMode';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
 import { makeLessonKey } from '../lib/lessonProgress';
+import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
+import { Check } from 'lucide-react';
+import { isCheckpointUnitId } from '../data/unitMetadata';
 
 interface LessonScreenProps {
   onGoHome: () => void;
@@ -14,7 +17,7 @@ interface LessonScreenProps {
 }
 
 export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: LessonScreenProps) {
-  const { state, setLessonMode, nextWord } = useApp();
+  const { state, setLessonMode, nextWord, prevWord } = useApp();
   const { activeLesson, lessonMode, lessonWordIndex, activeBandId, lessonProgress } = state;
 
   if (!activeLesson) {
@@ -27,12 +30,32 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
 
   const currentWord = activeLesson.words[lessonWordIndex];
   const totalWords = activeLesson.words.length;
+  if (!currentWord && totalWords > 0) {
+    return (
+      <div className="flex items-center justify-center h-screen page-shell">
+        <p className="text-text-med">Loading lesson…</p>
+      </div>
+    );
+  }
+  if (totalWords === 0) {
+    return (
+      <div className="flex items-center justify-center h-screen page-shell">
+        <p className="text-text-med">This lesson has no words yet.</p>
+      </div>
+    );
+  }
   const isListeningPractice = /listening$/i.test(activeLesson.unitId);
   const isSpeakingPractice = /speaking$/i.test(activeLesson.unitId);
+  const isCheckpointQuiz = isCheckpointUnitId(activeLesson.unitId);
+  const isDailyReview = activeLesson.unitId === 'daily-review';
   const isPracticeUnit = isListeningPractice || isSpeakingPractice;
-  const titleText = isPracticeUnit
+  const titleText = isCheckpointQuiz
+    ? (activeLesson.unitName || 'Checkpoint Quiz')
+    : isPracticeUnit
     ? (isListeningPractice ? 'Listening Practice' : 'Speaking Practice')
-    : `Unit ${activeLesson.unitOrder ?? activeLesson.lessonIndex + 1}`;
+    : isDailyReview
+      ? (activeLesson.unitName || 'Daily Review')
+      : `Unit ${activeLesson.unitOrder ?? activeLesson.lessonIndex + 1}`;
   const speakingPageTheme = isSpeakingPractice
     ? {
         shell: '',
@@ -47,9 +70,10 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const lessonKey =
     activeLesson && activeBandId ? makeLessonKey(activeBandId, activeLesson.unitId, activeLesson.lessonIndex) : null;
   const lessonStatus = lessonKey ? lessonProgress[lessonKey] : undefined;
+  const isMasterySession = Boolean(lessonStatus?.completed) && !Boolean(lessonStatus?.mastered);
   const learnDone = Boolean(lessonStatus?.introViewed);
-  const quizDone = (lessonStatus?.quizScore ?? 0) >= 90;
-  const speakDone = Boolean(lessonStatus?.speakAllCorrect);
+  const quizDone = (lessonStatus?.quizScore ?? 0) >= QUIZ_PASS_PERCENT;
+  const speakDone = (lessonStatus?.speakScore ?? 0) >= SPEAK_PASS_PERCENT;
 
   return (
     <div className={`flex flex-col h-[100dvh] page-shell ${speakingPageTheme.shell}`}>
@@ -63,30 +87,35 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
       </div>
 
       {/* Mode Tabs */}
-      {!isPracticeUnit ? (
+      {!isPracticeUnit && !isCheckpointQuiz ? (
         <div className="bg-bg-warm/90 backdrop-blur-sm border-b border-border px-4 py-2.5 -mt-8 relative z-40">
-          <div className="grid grid-cols-3 gap-2 rounded-3xl">
-            <button
-              onClick={() => {
-                onModeChange?.('intro');
-                setLessonMode('intro');
-              }}
-              className={`py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
-                lessonMode === 'intro'
-                  ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
+          <div className={`grid ${isMasterySession ? 'grid-cols-2' : 'grid-cols-3'} gap-2 rounded-3xl`}>
+            {!isMasterySession && (
+              <button
+                onClick={() => {
+                  onModeChange?.('intro');
+                  setLessonMode('intro');
+                }}
+                className={`relative py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
+                  lessonMode === 'intro'
+                    ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
                   : learnDone
-                    ? 'bg-[rgba(55,65,81,0.10)] border border-[rgba(55,65,81,0.22)] text-text-light'
-                  : 'bg-white border border-border text-text-med hover:bg-[rgba(55,65,81,0.08)]'
-              }`}
-            >
-              Learn
-            </button>
+                      ? 'bg-[rgba(55,65,81,0.10)] border border-[rgba(55,65,81,0.22)] text-text-light'
+                    : 'bg-white border border-border text-text-med hover:bg-[rgba(55,65,81,0.08)]'
+                }`}
+              >
+                <span className="inline-flex w-full items-center justify-center">Learn</span>
+                {learnDone && lessonMode !== 'intro' ? (
+                  <Check className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#9CA3AF]" />
+                ) : null}
+              </button>
+            )}
             <button
               onClick={() => {
                 onModeChange?.('quiz');
                 setLessonMode('quiz');
               }}
-              className={`py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
+              className={`relative py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
                 lessonMode === 'quiz'
                   ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
                   : quizDone
@@ -94,14 +123,17 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
                   : 'bg-white border border-border text-text-med hover:bg-[rgba(55,65,81,0.08)]'
               }`}
             >
-              Quiz
+              <span className="inline-flex w-full items-center justify-center">Quiz</span>
+              {quizDone && lessonMode !== 'quiz' ? (
+                <Check className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#9CA3AF]" />
+              ) : null}
             </button>
             <button
               onClick={() => {
                 onModeChange?.('speak');
                 setLessonMode('speak');
               }}
-              className={`py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
+              className={`relative py-2.5 px-4 rounded-2xl text-[1.03rem] font-semibold tracking-wide transition-all ${
                 lessonMode === 'speak'
                   ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
                   : speakDone
@@ -109,7 +141,10 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
                   : 'bg-white border border-border text-text-med hover:bg-[rgba(55,65,81,0.08)]'
               }`}
             >
-              Speak
+              <span className="inline-flex w-full items-center justify-center">Speak</span>
+              {speakDone && lessonMode !== 'speak' ? (
+                <Check className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#9CA3AF]" />
+              ) : null}
             </button>
           </div>
         </div>
@@ -122,6 +157,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             word={currentWord}
             currentIndex={lessonWordIndex}
             totalWords={totalWords}
+            onPrev={prevWord}
             onNext={nextWord}
           />
         )}

@@ -23,6 +23,36 @@ export interface Word {
   meta?: WordMetadata;
   isReview?: boolean;
   reviewReason?: string;
+  sourceUnitId?: string;
+  promptType?: QuizPromptType;
+  isReattempt?: boolean;
+  reattemptOfWordId?: string;
+  reattemptQueued?: boolean;
+  example?: {
+    zh?: string;
+    en?: string;
+  };
+}
+
+export type ConfidenceLevel = 'sure' | 'unsure';
+
+export type QuizPromptType =
+  | 'hanzi_to_en'
+  | 'en_to_hanzi'
+  | 'audio_to_meaning'
+  | 'cloze'
+  | 'speak_from_en';
+
+export interface WordReviewState {
+  nextReviewAt: string;
+  consecutiveCorrect: number;
+  totalCorrect: number;
+  totalWrong: number;
+  lastReviewedAt: string | null;
+  lastResult: 'correct' | 'wrong' | null;
+  lastConfidence: ConfidenceLevel | null;
+  promptCursor: number;
+  sourceUnitId?: string | null;
 }
 
 // Lesson mode types
@@ -128,8 +158,10 @@ export interface AppState {
     [lessonKey: string]: {
       introViewed: boolean;
       quizScore: number | null;
-      speakAllCorrect: boolean;
-      completed: boolean;
+      speakScore: number | null;
+      speakAllCorrect: boolean; // legacy compatibility flag
+      completed: boolean; // instructional pass complete
+      mastered: boolean; // retrieval mastery pass complete
     };
   };
   completedLevels: string[];
@@ -160,4 +192,8 @@ export interface AppState {
   activeBandData: BandData | null;
   activeUnitId: string | null;
   unitsMode: 'units' | 'lessons';
+  wordReview: Record<string, WordReviewState>;
+  recentMisses: string[];
+  dailySetDate: string | null;
+  dailySetWordIds: string[];
 }

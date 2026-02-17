@@ -10,6 +10,7 @@ import {
 import BottomNav from './BottomNav';
 import { getUnitMetadata } from '../data/unitMetadata';
 import GlassHeader from './GlassHeader';
+import { useApp } from '../contexts/AppContext';
 
 const API_BASE_URL =
   (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
@@ -32,6 +33,7 @@ interface HomeDashboardProps {
   onOpenWeakWords: () => void;
   onOpenProfile: () => void;
   onOpenTravelMode: (sectionId?: string) => void;
+  onOpenDailyPractice: (bandId?: string | null) => void;
 }
 
 const LANGUAGE_LABELS: Record<string, string> = {
@@ -48,7 +50,9 @@ export default function HomeDashboard({
   onOpenWeakWords,
   onOpenProfile,
   onOpenTravelMode,
+  onOpenDailyPractice,
 }: HomeDashboardProps) {
+  const { state } = useApp();
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState<Progress>({
     streak: 0,
@@ -66,6 +70,9 @@ export default function HomeDashboard({
   const lessonNumber = progress.currentLessonIdx !== null ? progress.currentLessonIdx + 1 : null;
   const cardShell =
     'dashboard-card-enter rounded-3xl border p-6 sm:p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
+  const nowMs = Date.now();
+  const dueCount = Object.values(state.wordReview).filter((review) => Date.parse(review.nextReviewAt) <= nowMs).length;
+  const recentMissCount = state.recentMisses.length;
 
   const formatBandLabel = (bandId: string | null) => {
     if (!bandId) return 'Band';
@@ -241,6 +248,16 @@ export default function HomeDashboard({
         >
           <div className="main-font text-2xl leading-none mb-3 text-[#374151]">Shortcuts</div>
           <div className="grid grid-cols-1 gap-2">
+            <button
+              onClick={() => onOpenDailyPractice(progress.currentBandId)}
+              className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(55,65,81,0.06)] transition-colors"
+            >
+              <span className="inline-flex items-center gap-2 text-sm text-text-dark">
+                <ListChecks className="w-4 h-4 text-[#186E95]" />
+                Daily Review Set
+              </span>
+              <span className="text-xs text-text-light">{Math.min(10, dueCount + recentMissCount)} queued</span>
+            </button>
             <button
               onClick={onOpenWeakWords}
               className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(55,65,81,0.06)] transition-colors"

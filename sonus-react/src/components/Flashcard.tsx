@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
-import { Volume2, Snail, ChevronRight } from 'lucide-react';
+import { Volume2, Snail, ChevronLeft, ChevronRight } from 'lucide-react';
 import WordProgressRail from './WordProgressRail';
 
 interface FlashcardProps {
   word: Word;
   currentIndex: number;
   totalWords: number;
+  onPrev: () => void;
   onNext: () => void;
 }
 
@@ -15,6 +16,7 @@ export default function Flashcard({
   word,
   currentIndex,
   totalWords,
+  onPrev,
   onNext,
 }: FlashcardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -48,9 +50,6 @@ export default function Flashcard({
                 <>
                   <div className="inline-flex mb-1 -mt-4 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(194,65,12,0.14)] text-[#C2410C]">
                     Review Word
-                  </div>
-                  <div className="text-[11px] text-text-light mb-4">
-                    {word.reviewReason || 'Reinforcement from your Needs Work queue.'}
                   </div>
                 </>
               )}
@@ -106,13 +105,23 @@ export default function Flashcard({
 
       {/* Navigation Buttons */}
       <div className="fixed bottom-20 left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm">
-        <button
-          onClick={handleNext}
-          className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
-        >
-          {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
-          <ChevronRight className="w-5 h-5" />
-        </button>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={onPrev}
+            disabled={currentIndex === 0}
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(55,65,81,0.35)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronLeft className="w-5 h-5" />
+            Previous
+          </button>
+          <button
+            onClick={handleNext}
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </div>
   );

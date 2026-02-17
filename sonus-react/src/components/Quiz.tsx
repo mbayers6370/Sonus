@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { ReactNode } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, ChevronRight } from 'lucide-react';
@@ -25,11 +26,84 @@ function shuffleArray<T>(items: T[]): T[] {
   return next;
 }
 
+function normalizeAnswerText(text: string) {
+  return text.trim().toLowerCase();
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function maskExample(example: string, targets: string[]) {
+  const source = example.trim();
+  if (!source) return '';
+
+  for (const target of targets) {
+    const term = target.trim();
+    if (!term) continue;
+    if (source.includes(term)) {
+      return source.replace(term, '_____');
+    }
+    const regex = new RegExp(`\\b${escapeRegExp(term)}\\b`, 'i');
+    if (regex.test(source)) {
+      return source.replace(regex, '_____');
+    }
+  }
+
+  return source;
+}
+
+function highlightFirstMatch(
+  source: string,
+  targets: string[],
+  highlightClass: string,
+  caseInsensitive = false
+): ReactNode {
+  const text = source.trim();
+  if (!text) return source;
+
+  for (const rawTarget of targets) {
+    const target = rawTarget.trim();
+    if (!target) continue;
+
+    let start = -1;
+    if (caseInsensitive) {
+      start = text.toLowerCase().indexOf(target.toLowerCase());
+    } else {
+      start = text.indexOf(target);
+    }
+    if (start < 0) continue;
+    const end = start + target.length;
+    return (
+      <>
+        {text.slice(0, start)}
+        <span className={highlightClass}>{text.slice(start, end)}</span>
+        {text.slice(end)}
+      </>
+    );
+  }
+
+  return text;
+}
+
 function buildChoices(word: Word, allWords: Word[]) {
-  const wrongAnswers = shuffleArray(allWords.filter((w) => w.simp !== word.simp))
-    .slice(0, 3)
-    .map((w) => w.en);
-  return shuffleArray([word.en, ...wrongAnswers]);
+  const correctAnswer = word.en.trim();
+  const correctKey = normalizeAnswerText(correctAnswer);
+
+  const uniqueDistractors = new Map<string, string>();
+  for (const candidate of shuffleArray(allWords)) {
+    if (candidate.simp === word.simp) continue;
+    const answer = candidate.en.trim();
+    if (!answer) continue;
+    const key = normalizeAnswerText(answer);
+    if (key === correctKey) continue;
+    if (!uniqueDistractors.has(key)) {
+      uniqueDistractors.set(key, answer);
+    }
+  }
+
+  const wrongAnswers = Array.from(uniqueDistractors.values()).slice(0, 3);
+  return shuffleArray([correctAnswer, ...wrongAnswers]);
 }
 
 export default function Quiz({
@@ -40,7 +114,7 @@ export default function Quiz({
   listeningMode = false,
   onNext,
 }: QuizProps) {
-  const { state, recordQuizResult } = useApp();
+  const { state, recordQuizResult, recordWordOutcome } = useApp();
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [allChoices, setAllChoices] = useState<string[]>(() => buildChoices(word, allWords));
@@ -74,12 +148,30 @@ export default function Quiz({
   };
 
   const handleNext = () => {
+    if (isCorrect === null) return;
+    recordWordOutcome(word, isCorrect, isCorrect ? 'sure' : 'unsure', 'quiz');
     setSelectedAnswer(null);
     setIsCorrect(null);
     const nextWord = allWords[Math.min(currentIndex + 1, allWords.length - 1)] || word;
     setAllChoices(buildChoices(nextWord, allWords));
     onNext();
   };
+
+  const clozeZh = word.example?.zh
+    ? maskExample(word.example.zh, [word.simp, word.trad])
+    : '';
+  const fullZh = word.example?.zh?.trim() || '';
+  const fullEn = word.example?.en?.trim() || '';
+  const clozeEn = fullEn
+    ? maskExample(fullEn, [word.en, ...(word.defs || [])])
+    : '';
+  const highlightClass = 'text-[#3E5648] font-semibold';
+  const zhFilled = fullZh
+    ? highlightFirstMatch(fullZh, [word.simp, word.trad], highlightClass)
+    : '';
+  const enFilled = fullEn
+    ? highlightFirstMatch(fullEn, [word.en, ...(word.defs || [])], highlightClass, true)
+    : '';
 
   return (
     <div className="flex flex-col min-h-full">
@@ -100,35 +192,48 @@ export default function Quiz({
           }`}
         >
           <div className="text-center">
-            {!selectedAnswer ? (
-              <>
-                {word.isReview && (
-                  <>
+            <>
+              {word.isReview && (
+                <>
+                  <div
+                    className={`inline-flex mb-1 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
+                      listeningMode
+                        ? 'bg-white/20 text-white'
+                        : 'bg-[rgba(24,110,149,0.16)] text-[#186E95]'
+                    }`}
+                  >
+                    Review Word
+                  </div>
+                </>
+              )}
+              {!listeningMode ? (
+                <>
+                  <div className="secondary-font text-4xl mb-1 text-text-dark leading-tight">
+                    {word.simp}
+                  </div>
+                  {word.pinyin && (
+                    <div className="text-[1.2rem] text-text-med">{word.pinyin}</div>
+                  )}
+                  {(clozeZh || clozeEn || fullEn) && (
+                    <div className="mt-2 text-center space-y-1">
+                      {selectedAnswer && fullZh ? (
+                        <div className="text-sm text-text-light leading-relaxed">{zhFilled}</div>
+                      ) : null}
+                      {selectedAnswer && fullEn ? (
+                        <div className="text-xs text-text-light leading-relaxed">{enFilled}</div>
+                      ) : null}
+                    </div>
+                  )}
+                  {selectedAnswer ? (
                     <div
-                      className={`inline-flex mb-1 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
-                        listeningMode
-                          ? 'bg-white/20 text-white'
-                          : 'bg-[rgba(24,110,149,0.16)] text-[#186E95]'
+                      className={`mt-2 text-base font-semibold ${
+                        isCorrect ? 'text-[#3E5648]' : 'text-[#C2410C]'
                       }`}
                     >
-                      Review Word
+                      {isCorrect ? 'Correct!' : 'Not Quite!'}
                     </div>
-                    <div className={`mb-2 text-[11px] ${listeningMode ? 'text-white/80' : 'text-text-light'}`}>
-                      {word.reviewReason || 'Reinforcement word from your Needs Work queue.'}
-                    </div>
-                  </>
-                )}
-                <div className={`text-[1.05rem] mb-2 font-medium ${listeningMode ? 'text-white/90' : 'text-text-med'}`}>
-                  {listeningMode ? 'Listen and choose the meaning' : 'What does this mean?'}
-                </div>
-                {!listeningMode ? (
-                  <>
-                    <div className="secondary-font text-4xl mb-1 text-text-dark leading-tight">
-                      {word.simp}
-                    </div>
-                    {word.pinyin && (
-                      <div className="text-[1.2rem] text-text-med">{word.pinyin}</div>
-                    )}
+                  ) : null}
+                  {!selectedAnswer ? (
                     <div className="mt-2">
                       <button
                         onClick={() => speak(word.simp, word.pinyin)}
@@ -138,9 +243,11 @@ export default function Quiz({
                         <Volume2 className="w-5 h-5" />
                       </button>
                     </div>
-                  </>
-                ) : (
-                  <div className="mt-1">
+                  ) : null}
+                </>
+              ) : (
+                <div className="mt-1">
+                  {!selectedAnswer ? (
                     <button
                       onClick={() => speak(word.simp, word.pinyin)}
                       className="mx-auto w-12 h-12 rounded-full border border-white/70 bg-white/10 text-white flex items-center justify-center hover:bg-white/18 transition-all"
@@ -148,36 +255,21 @@ export default function Quiz({
                     >
                       <Volume2 className="w-5 h-5" />
                     </button>
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="py-1">
-                <div
-                  className={`text-xl font-semibold mb-2 ${
-                    isCorrect ? 'text-[#3E5648]' : 'text-[#C2410C]'
-                  }`}
-                >
-                  {isCorrect ? 'Correct!' : 'Not Quite'}
+                  ) : null}
                 </div>
-                <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-1">
-                  Why This Answer
-                </div>
-                <div className="text-[1.2rem] text-text-med">{word.pinyin}</div>
-                <div className="text-xl font-semibold text-text-dark">{word.en}</div>
-              </div>
-            )}
+              )}
+            </>
           </div>
 
         </div>
 
         {/* Answer Choices */}
-        <div className="space-y-2 mb-3">
+        <div className="grid grid-cols-2 gap-2 mb-3">
           {allChoices.map((choice, idx) => {
             const isSelected = selectedAnswer === choice;
             const isCorrectAnswer = choice === word.en;
 
-            let buttonClass = 'w-full min-h-[46px] p-3 rounded-2xl font-medium text-center transition-all border-2 ';
+            let buttonClass = 'w-full min-h-[56px] p-3 rounded-2xl font-medium text-center transition-all border-2 ';
 
             if (selectedAnswer) {
               // After answering
@@ -195,7 +287,7 @@ export default function Quiz({
 
             return (
               <button
-                key={idx}
+                key={`${choice}-${idx}`}
                 onClick={() => handleAnswer(choice)}
                 disabled={!!selectedAnswer}
                 className={buttonClass}

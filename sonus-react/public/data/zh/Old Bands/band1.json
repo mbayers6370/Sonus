@@ -3,90 +3,14 @@
   "source": "hsk3.0",
   "bandId": "band1",
   "band": 1,
-  "wordCount": 517,
+  "wordCount": 512,
   "availableWords": 512,
-  "unallocatedWords": 5,
+  "unallocatedWords": 0,
   "units": {
     "_unallocated": {
-      "targetWords": 5,
-      "allocatedWords": 5,
-      "words": [
-        {
-          "id": "L1-0213b",
-          "simp": "里",
-          "trad": "裏",
-          "pinyin": "lǐ",
-          "pos": "N",
-          "en": "inside",
-          "defs": [
-            "inside"
-          ],
-          "example": {
-            "zh": "在家里",
-            "en": "at home"
-          }
-        },
-        {
-          "id": "L1-0251b",
-          "simp": "哪里",
-          "trad": "哪裏",
-          "pinyin": "nǎlǐ",
-          "pos": "Pron",
-          "en": "where",
-          "defs": [
-            "where"
-          ],
-          "example": {
-            "zh": "哪里有厕所？",
-            "en": "Where is the bathroom?"
-          }
-        },
-        {
-          "id": "L1-0256b",
-          "simp": "那里",
-          "trad": "那裏",
-          "pinyin": "nàlǐ",
-          "pos": "Pron",
-          "en": "there",
-          "defs": [
-            "that place"
-          ],
-          "example": {
-            "zh": "我在那里等你。",
-            "en": "I'll wait for you there."
-          }
-        },
-        {
-          "id": "L1-0289b",
-          "simp": "起来",
-          "trad": "起來",
-          "pinyin": "qǐlái",
-          "pos": "V",
-          "en": "to get up",
-          "defs": [
-            "to get up"
-          ],
-          "example": {
-            "zh": "快起来，要迟到了。",
-            "en": "Get up quickly, we'll be late."
-          }
-        },
-        {
-          "id": "L1-0489b",
-          "simp": "桌子",
-          "trad": "桌子",
-          "pinyin": "zhuōzi",
-          "pos": "N",
-          "en": "table",
-          "defs": [
-            "table"
-          ],
-          "example": {
-            "zh": "桌子",
-            "en": "table"
-          }
-        }
-      ]
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
     },
     "b1-pronouns": {
       "targetWords": 24,

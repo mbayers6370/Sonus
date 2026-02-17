@@ -8,12 +8,22 @@ import type {
   LessonMode,
   Word,
   SpeakBreakdown,
+  ConfidenceLevel,
+  QuizPromptType,
+  WordReviewState,
 } from '../types/lesson.types';
-import { getUnitMetadata } from '../data/unitMetadata';
+import {
+  getUnitMetadata,
+  getUnitsForBand,
+  isCheckpointUnitId,
+  isPracticeUnitId,
+  parseCheckpointIndex,
+} from '../data/unitMetadata';
 import { appendReviewWords } from '../lib/reviewInjection';
 import { trackEvent } from '../lib/analytics';
 import { sliceWordsForLesson } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
+import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 
 interface AppContextType {
   state: AppState;
@@ -26,6 +36,15 @@ interface AppContextType {
   prevWord: () => void;
   recordQuizResult: (lessonIndex: number, isCorrect: boolean) => void;
   recordSpeakResult: (lessonIndex: number, isCorrect: boolean, breakdown?: SpeakBreakdown) => void;
+  queueLessonReattempt: (lessonIndex: number, word: Word) => void;
+  recordWordOutcome: (
+    word: Word,
+    isCorrect: boolean,
+    confidence: ConfidenceLevel,
+    mode: 'quiz' | 'speak'
+  ) => void;
+  generateDailyReviewSet: (bandId?: string) => Promise<boolean>;
+  getPromptTypeForWord: (wordId: string, mode: 'quiz' | 'speak') => QuizPromptType;
   completeLessonProgress: () => void;
   exitLesson: () => void;
   restartLesson: () => void;
@@ -101,6 +120,100 @@ function shuffleWords<T>(items: T[]): T[] {
   return shuffled;
 }
 
+type UnitRecord = {
+  id: string;
+  words: Word[];
+};
+
+function canonicalUnitKey(id: string) {
+  return id
+    .replace(/^[a-z]\d+-u\d+-/i, '')
+    .replace(/^[a-z]\d+-/i, '');
+}
+
+function getBandUnits(bandData: BandData): UnitRecord[] {
+  const rawUnits = bandData.units as unknown;
+  if (Array.isArray(rawUnits)) {
+    return rawUnits
+      .map((unit) => {
+        const maybeUnit = unit as { id?: string; words?: Word[] } | null;
+        if (!maybeUnit?.id) return null;
+        return {
+          id: maybeUnit.id,
+          words: maybeUnit.words || [],
+        };
+      })
+      .filter((unit): unit is UnitRecord => Boolean(unit));
+  }
+
+  return Object.entries((bandData.units || {}) as Record<string, { words?: Word[] }>)
+    .map(([id, unit]) => ({
+      id,
+      words: unit?.words || [],
+    }));
+}
+
+function getBandUnitById(bandData: BandData, unitId: string): UnitRecord | null {
+  const units = getBandUnits(bandData);
+  const direct = units.find((unit) => unit.id === unitId);
+  if (direct) return direct;
+  const targetKey = canonicalUnitKey(unitId);
+  const matched = units.filter((unit) => canonicalUnitKey(unit.id) === targetKey);
+  if (!matched.length) return null;
+  return {
+    id: unitId,
+    words: matched.flatMap((unit) => unit.words || []),
+  };
+}
+
+function getBandWordMap(bandData: BandData) {
+  const map = new Map<string, Word>();
+  const sourceUnitByWordId = new Map<string, string>();
+
+  for (const unit of getBandUnits(bandData)) {
+    for (const word of unit.words || []) {
+      map.set(word.id, word);
+      sourceUnitByWordId.set(word.id, unit.id);
+    }
+  }
+
+  return { map, sourceUnitByWordId };
+}
+
+function todayKey(date = new Date()) {
+  return date.toISOString().slice(0, 10);
+}
+
+function isDue(nextReviewAt: string | undefined, nowMs: number) {
+  if (!nextReviewAt) return true;
+  const ts = Date.parse(nextReviewAt);
+  if (Number.isNaN(ts)) return true;
+  return ts <= nowMs;
+}
+
+function plusDays(days: number) {
+  return new Date(Date.now() + days * 86400000).toISOString();
+}
+
+function scheduleDaysForCorrectStreak(streak: number) {
+  if (streak >= 3) return 14;
+  if (streak >= 2) return 7;
+  return 3;
+}
+
+function applyConfidenceAdjustment(days: number, streak: number, confidence: ConfidenceLevel) {
+  if (confidence === 'sure') return days;
+  if (streak >= 3) return 7;
+  if (streak >= 2) return 3;
+  return 2;
+}
+
+function pickQuizPromptType(cursor: number, mode: 'quiz' | 'speak'): QuizPromptType {
+  if (mode === 'speak') return 'speak_from_en';
+  const sequence: QuizPromptType[] = ['hanzi_to_en', 'en_to_hanzi', 'audio_to_meaning', 'cloze'];
+  return sequence[cursor % sequence.length];
+}
+
 function getCoreWordStats(words: Word[], resultsByIndex: Record<number, boolean>) {
   const coreIndexes = words
     .map((word, index) => ({ word, index }))
@@ -144,7 +257,7 @@ function getPracticeModeFromUnit(unitId: string): LessonMode | null {
   return null;
 }
 
-function isPracticeUnit(unitId: string) {
+function isPracticeDataUnit(unitId: string) {
   return getPracticeModeFromUnit(unitId) !== null;
 }
 
@@ -159,7 +272,7 @@ function buildPracticeWordPool(bandData: BandData, count: number): Word[] {
       ([unitId]) =>
         unitId.startsWith(bandUnitPrefix) &&
         unitId !== '_unallocated' &&
-        !isPracticeUnit(unitId)
+        !isPracticeDataUnit(unitId)
     )
     .flatMap(([, unit]) => unit.words || []);
   const uniqueById = new Map(pool.map((word) => [word.id, word]));
@@ -168,6 +281,9 @@ function buildPracticeWordPool(bandData: BandData, count: number): Word[] {
     .map((word) => ({ ...word, isReview: false }));
 }
 
+const API_BASE_URL =
+  (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
+
 type ReviewQueueItem = {
   wordId: string;
 };
@@ -175,32 +291,6 @@ type ReviewQueueItem = {
 type ReviewQueueResponse = {
   queue: ReviewQueueItem[];
 };
-
-const API_BASE_URL =
-  (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
-
-function clampNumber(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value));
-}
-
-function envNumber(name: string, fallback: number) {
-  const raw = import.meta.env[name] as string | undefined;
-  if (!raw) return fallback;
-  const parsed = Number(raw);
-  if (!Number.isFinite(parsed)) return fallback;
-  return parsed;
-}
-
-const REVIEW_INJECT_MAX = clampNumber(
-  Math.floor(envNumber('VITE_REVIEW_INJECT_MAX', 2)),
-  0,
-  10
-);
-const REVIEW_INJECT_PROBABILITY = clampNumber(
-  envNumber('VITE_REVIEW_INJECT_PROBABILITY', 0.65),
-  0,
-  1
-);
 
 async function fetchReviewWordIds(limit = 30): Promise<string[]> {
   const controller = new AbortController();
@@ -260,6 +350,10 @@ const initialState: AppState = {
   activeBandData: null,
   activeUnitId: null,
   unitsMode: 'units',
+  wordReview: {},
+  recentMisses: [],
+  dailySetDate: null,
+  dailySetWordIds: [],
 };
 
 function loadPersistedState(): AppState {
@@ -274,6 +368,10 @@ function loadPersistedState(): AppState {
         new Set([...(parsed.unlockedLevels || []), ...ALL_LEVEL_IDS])
       ),
       lessonProgress: normalizeLessonProgressKeys(parsed.lessonProgress || {}),
+      wordReview: parsed.wordReview || {},
+      recentMisses: parsed.recentMisses || [],
+      dailySetDate: parsed.dailySetDate || null,
+      dailySetWordIds: parsed.dailySetWordIds || [],
     };
   } catch {
     return initialState;
@@ -384,12 +482,57 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const response = await fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' });
       if (!response.ok) return false;
       const bandData: BandData = await response.json();
-      const unit = bandData.units[resolvedUnitId];
-      if (!unit) return false;
+      const checkpointIndex = parseCheckpointIndex(resolvedUnitId);
+      const isCheckpointQuiz = checkpointIndex !== null;
+      const practiceMode = getPracticeModeFromUnit(resolvedUnitId);
+      const unit = getBandUnitById(bandData, resolvedUnitId);
+      const words = unit?.words || [];
+      let lessonChunk: Word[] = [];
+
+      if (isCheckpointQuiz && checkpointIndex) {
+        const baseUnits = getUnitsForBand(bandId)
+          .filter((meta) => !isPracticeUnitId(meta.id) && !isCheckpointUnitId(meta.id))
+          .sort((a, b) => a.order - b.order);
+        const coveredUnits = baseUnits.slice(0, checkpointIndex * 4).map((meta) => meta.id);
+        const pool = coveredUnits.flatMap((coveredUnitId) => {
+          const covered = getBandUnitById(bandData, coveredUnitId);
+          return covered?.words || [];
+        });
+        const uniquePool = Array.from(new Map(pool.map((word) => [word.id, word])).values());
+        // Scale checkpoint size with covered vocab so it remains meaningful:
+        // ~25% sample, bounded to avoid fatigue.
+        const checkpointBaseSize = Math.max(
+          16,
+          Math.min(32, Math.round(uniquePool.length * 0.25))
+        );
+        lessonChunk = shuffleWords(uniquePool).slice(0, Math.min(uniquePool.length, checkpointBaseSize));
+      } else {
+        if (!unit) return false;
+        lessonChunk =
+          practiceMode && words.length === 0
+            // Practice units do not own word lists; they sample from band vocab.
+            ? buildPracticeWordPool(bandData, 12)
+            : sliceWordsForLesson(words, lessonIndex);
+      }
+      if (!lessonChunk.length) return false;
 
       const resumeCheckpoint = state.resumeCheckpoint;
+      const resumeWords = resumeCheckpoint?.activeLesson?.words || [];
+      const hasValidResumeWords =
+        Boolean(resumeWords.length) &&
+        (resumeCheckpoint?.lessonWordIndex ?? 0) >= 0 &&
+        (resumeCheckpoint?.lessonWordIndex ?? 0) < resumeWords.length;
+      const hasLegacyReattemptWords = resumeWords.some(
+        (word) => Boolean(word.isReattempt) || Boolean(word.reattemptOfWordId)
+      );
+      const isResumeLengthValid =
+        resumeWords.length >= lessonChunk.length && resumeWords.length <= lessonChunk.length + 3;
       const canResumeSameLesson =
         Boolean(resumeCheckpoint) &&
+        hasValidResumeWords &&
+        !hasLegacyReattemptWords &&
+        !isCheckpointQuiz &&
+        isResumeLengthValid &&
         resumeCheckpoint?.bandId === bandId &&
         resolveUnitIdForBand(resumeCheckpoint?.bandId ?? '', resumeCheckpoint?.unitId ?? '') ===
           resolvedUnitId &&
@@ -418,34 +561,78 @@ export function AppProvider({ children }: { children: ReactNode }) {
         return true;
       }
 
-      const practiceMode = getPracticeModeFromUnit(resolvedUnitId);
-      const words = unit.words;
-      const lessonChunk =
-        practiceMode && words.length === 0
-          // Practice units do not own word lists; they sample from band vocab.
-          ? buildPracticeWordPool(bandData, 12)
-          : sliceWordsForLesson(words, lessonIndex);
-      if (!lessonChunk.length) return false;
-
-      let lessonWords: Word[] = shuffleWords(lessonChunk).map((word) => ({
+      const { map: allWordById, sourceUnitByWordId } = getBandWordMap(bandData);
+      const lessonWordsBase: Word[] = shuffleWords(lessonChunk).map((word) => ({
         ...word,
+        sourceUnitId: resolvedUnitId,
         isReview: false,
       }));
+      const lessonWordIds = new Set(lessonWordsBase.map((w) => w.id));
+      let lessonWords = [...lessonWordsBase];
 
-      const reviewWordIds = await fetchReviewWordIds(30);
-      if (!practiceMode && reviewWordIds.length > 0) {
-        const lessonWordIds = new Set(lessonWords.map((w) => w.id));
-        const allBandWords = Object.values(bandData.units).flatMap((nextUnit) => nextUnit.words);
-        const byId = new Map(allBandWords.map((w) => [w.id, w]));
-        const reviewCandidates = reviewWordIds
-          .map((id) => byId.get(id))
-          .filter((w): w is Word => Boolean(w) && !lessonWordIds.has((w as Word).id));
-        lessonWords = appendReviewWords(
-          lessonWords,
-          reviewCandidates,
-          REVIEW_INJECT_MAX,
-          REVIEW_INJECT_PROBABILITY
-        );
+      if (!practiceMode) {
+        const now = Date.now();
+        const reviewWordIds = await fetchReviewWordIds(40);
+        const checkpointCoveredUnitIds =
+          isCheckpointQuiz && checkpointIndex
+            ? new Set(
+                getUnitsForBand(bandId)
+                  .filter((meta) => !isPracticeUnitId(meta.id) && !isCheckpointUnitId(meta.id))
+                  .sort((a, b) => a.order - b.order)
+                  .slice(0, checkpointIndex * 4)
+                  .map((meta) => meta.id)
+              )
+            : null;
+        const includeCandidateUnit = (sourceUnit: string | undefined) => {
+          if (!sourceUnit) return false;
+          if (checkpointCoveredUnitIds) return checkpointCoveredUnitIds.has(sourceUnit);
+          return sourceUnit !== resolvedUnitId;
+        };
+        const dueCandidates = Object.entries(state.wordReview)
+          .filter(([wordId, review]) => {
+            if (lessonWordIds.has(wordId)) return false;
+            if (!isDue(review?.nextReviewAt, now)) return false;
+            const sourceUnit = sourceUnitByWordId.get(wordId);
+            if (!includeCandidateUnit(sourceUnit)) return false;
+            return allWordById.has(wordId);
+          })
+          .map(([wordId]) => {
+            const sourceUnitId = sourceUnitByWordId.get(wordId);
+            const base = allWordById.get(wordId);
+            if (!base || !sourceUnitId) return null;
+            return {
+              ...base,
+              sourceUnitId,
+              isReview: true,
+              reviewReason: 'Due for spaced review',
+            } as Word;
+          })
+          .filter((word): word is Word => Boolean(word));
+
+        const weakCandidates = reviewWordIds
+          .filter((wordId) => !lessonWordIds.has(wordId))
+          .map((wordId) => {
+            const sourceUnitId = sourceUnitByWordId.get(wordId);
+            const base = allWordById.get(wordId);
+            if (!base || !includeCandidateUnit(sourceUnitId)) return null;
+            return {
+              ...base,
+              sourceUnitId,
+              isReview: true,
+              reviewReason: 'Needs reinforcement from weak queue',
+            } as Word;
+          })
+          .filter((word): word is Word => Boolean(word));
+
+        const combinedById = new Map<string, Word>();
+        for (const candidate of [...weakCandidates, ...dueCandidates]) {
+          if (!combinedById.has(candidate.id)) combinedById.set(candidate.id, candidate);
+        }
+        const reviewCandidates = shuffleWords(Array.from(combinedById.values()));
+        const shouldInjectReviewWords = !isCheckpointQuiz || checkpointIndex > 1;
+        lessonWords = shouldInjectReviewWords
+          ? appendReviewWords(lessonWordsBase, reviewCandidates, 3, 1)
+          : [...lessonWordsBase];
       }
 
       const metadata = getUnitMetadata(bandId, resolvedUnitId);
@@ -457,19 +644,39 @@ export function AppProvider({ children }: { children: ReactNode }) {
         words: lessonWords,
       };
 
-      setState((prev) => ({
-        ...prev,
-        activeBandId: bandId,
-        activeBandData: bandData,
-        activeUnitId: resolvedUnitId,
-        activeLesson: newLesson,
-        lessonMode: practiceMode ?? 'intro',
-        lessonWordIndex: 0,
-        quizResultsByIndex: {},
-        speakResultsByIndex: {},
-        speakBreakdownByIndex: {},
-        resumeCheckpoint: null,
-      }));
+      setState((prev) => {
+        const nextWordReview = { ...prev.wordReview };
+        for (const [wordId] of allWordById.entries()) {
+          if (nextWordReview[wordId]) continue;
+          const sourceUnitId = sourceUnitByWordId.get(wordId) || null;
+          nextWordReview[wordId] = {
+            nextReviewAt: plusDays(0),
+            consecutiveCorrect: 0,
+            totalCorrect: 0,
+            totalWrong: 0,
+            lastReviewedAt: null,
+            lastResult: null,
+            lastConfidence: null,
+            promptCursor: 0,
+            sourceUnitId,
+          };
+        }
+
+        return {
+          ...prev,
+          wordReview: nextWordReview,
+          activeBandId: bandId,
+          activeBandData: bandData,
+          activeUnitId: resolvedUnitId,
+          activeLesson: newLesson,
+          lessonMode: isCheckpointQuiz ? 'quiz' : (practiceMode ?? 'intro'),
+          lessonWordIndex: 0,
+          quizResultsByIndex: {},
+          speakResultsByIndex: {},
+          speakBreakdownByIndex: {},
+          resumeCheckpoint: null,
+        };
+      });
       void saveCurrentLessonPath(bandId, resolvedUnitId, lessonIndex);
       trackEvent('lesson_started', {
         bandId,
@@ -487,7 +694,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const startLesson = (unitId: string, lessonIndex: number) => {
     void (async () => {
       const { activeBandData, activeBandId } = state;
-      if (!activeBandData || !activeBandData.units[unitId] || !activeBandId) {
+      const isCheckpoint = isCheckpointUnitId(unitId);
+      if (!activeBandData || (!isCheckpoint && !getBandUnitById(activeBandData, unitId)) || !activeBandId) {
         alert('No vocab loaded for this unit yet.');
         return;
       }
@@ -499,6 +707,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({
       ...prev,
       lessonMode: mode,
+      activeLesson: prev.activeLesson,
       lessonWordIndex: 0,
       quizResultsByIndex: mode === 'quiz' ? {} : prev.quizResultsByIndex,
       speakResultsByIndex: mode === 'speak' ? {} : prev.speakResultsByIndex,
@@ -563,9 +772,215 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const queueLessonReattempt = (lessonIndex: number, word: Word) => {
+    setState((prev) => {
+      if (!prev.activeLesson) return prev;
+      const sourceWord = prev.activeLesson.words[lessonIndex];
+      if (!sourceWord || sourceWord.reattemptQueued) return prev;
+      const delay = 5 + Math.floor(Math.random() * 6);
+      const insertAt = Math.min(prev.activeLesson.words.length, lessonIndex + delay + 1);
+      const clone: Word = {
+        ...word,
+        isReview: true,
+        isReattempt: true,
+        reattemptOfWordId: word.id,
+        reviewReason: 'Quick re-test to reinforce correction from an earlier miss.',
+      };
+      const nextWords = [...prev.activeLesson.words];
+      nextWords.splice(insertAt, 0, clone);
+      nextWords[lessonIndex] = {
+        ...sourceWord,
+        reattemptQueued: true,
+      };
+      return {
+        ...prev,
+        activeLesson: {
+          ...prev.activeLesson,
+          words: nextWords,
+        },
+      };
+    });
+  };
+
+  const recordWordOutcome = (
+    word: Word,
+    isCorrect: boolean,
+    confidence: ConfidenceLevel,
+    mode: 'quiz' | 'speak'
+  ) => {
+    const now = new Date().toISOString();
+    setState((prev) => {
+      const existing: WordReviewState = prev.wordReview[word.id] || {
+        nextReviewAt: now,
+        consecutiveCorrect: 0,
+        totalCorrect: 0,
+        totalWrong: 0,
+        lastReviewedAt: null,
+        lastResult: null,
+        lastConfidence: null,
+        promptCursor: 0,
+        sourceUnitId: word.sourceUnitId || prev.activeLesson?.unitId || null,
+      };
+
+      let consecutiveCorrect = existing.consecutiveCorrect;
+      let totalCorrect = existing.totalCorrect;
+      let totalWrong = existing.totalWrong;
+      let nextReviewAt = existing.nextReviewAt;
+
+      if (!isCorrect) {
+        consecutiveCorrect = 0;
+        totalWrong += 1;
+        nextReviewAt = plusDays(1);
+      } else {
+        consecutiveCorrect = Math.min(existing.consecutiveCorrect + 1, 3);
+        totalCorrect += 1;
+        const baseDays = scheduleDaysForCorrectStreak(consecutiveCorrect);
+        const adjustedDays = applyConfidenceAdjustment(baseDays, consecutiveCorrect, confidence);
+        nextReviewAt = plusDays(adjustedDays);
+      }
+
+      const nextReview: WordReviewState = {
+        ...existing,
+        nextReviewAt,
+        consecutiveCorrect,
+        totalCorrect,
+        totalWrong,
+        lastReviewedAt: now,
+        lastResult: isCorrect ? 'correct' : 'wrong',
+        lastConfidence: confidence,
+        promptCursor: existing.promptCursor + (mode === 'quiz' || mode === 'speak' ? 1 : 0),
+        sourceUnitId: existing.sourceUnitId || word.sourceUnitId || prev.activeLesson?.unitId || null,
+      };
+
+      const recentMisses = !isCorrect
+        ? [word.id, ...prev.recentMisses.filter((id) => id !== word.id)].slice(0, 80)
+        : prev.recentMisses;
+
+      return {
+        ...prev,
+        wordReview: {
+          ...prev.wordReview,
+          [word.id]: nextReview,
+        },
+        recentMisses,
+      };
+    });
+  };
+
+  const getPromptTypeForWord = (wordId: string, mode: 'quiz' | 'speak') => {
+    const cursor = state.wordReview[wordId]?.promptCursor || 0;
+    return pickQuizPromptType(cursor, mode);
+  };
+
+  const generateDailyReviewSet = async (bandId?: string): Promise<boolean> => {
+    const targetBandId = bandId || state.activeBandId || state.currentLevel?.id || 'band1';
+    const dataBandId = resolveBandDataId(targetBandId);
+
+    try {
+      const response = await fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' });
+      if (!response.ok) return false;
+      const bandData: BandData = await response.json();
+      const { map: wordById, sourceUnitByWordId } = getBandWordMap(bandData);
+      const nowMs = Date.now();
+      const today = todayKey();
+
+      const due = Object.entries(state.wordReview)
+        .filter(([wordId, review]) => isDue(review.nextReviewAt, nowMs) && wordById.has(wordId))
+        .sort((a, b) => Date.parse(a[1].nextReviewAt) - Date.parse(b[1].nextReviewAt))
+        .map(([wordId]) => wordId);
+
+      const recentMisses = state.recentMisses.filter((wordId) => wordById.has(wordId));
+
+      const agingStrong = Object.entries(state.wordReview)
+        .filter(([wordId, review]) => wordById.has(wordId) && review.consecutiveCorrect >= 3)
+        .sort((a, b) => {
+          const aTime = Date.parse(a[1].lastReviewedAt || '1970-01-01T00:00:00.000Z');
+          const bTime = Date.parse(b[1].lastReviewedAt || '1970-01-01T00:00:00.000Z');
+          return aTime - bTime;
+        })
+        .map(([wordId]) => wordId);
+
+      const picks: string[] = [];
+      const seen = new Set<string>();
+      for (const wordId of due) {
+        if (picks.length >= 5) break;
+        if (seen.has(wordId)) continue;
+        seen.add(wordId);
+        picks.push(wordId);
+      }
+      for (const wordId of recentMisses) {
+        if (picks.length >= 8) break;
+        if (seen.has(wordId)) continue;
+        seen.add(wordId);
+        picks.push(wordId);
+      }
+      for (const wordId of agingStrong) {
+        if (picks.length >= 10) break;
+        if (seen.has(wordId)) continue;
+        seen.add(wordId);
+        picks.push(wordId);
+      }
+
+      if (picks.length < 10) {
+        for (const wordId of shuffleWords(Array.from(wordById.keys()))) {
+          if (picks.length >= 10) break;
+          if (seen.has(wordId)) continue;
+          seen.add(wordId);
+          picks.push(wordId);
+        }
+      }
+
+      const words = picks
+        .map((wordId) => {
+          const base = wordById.get(wordId);
+          if (!base) return null;
+          const sourceUnitId = sourceUnitByWordId.get(wordId);
+          return {
+            ...base,
+            sourceUnitId,
+            isReview: true,
+            reviewReason: 'Daily spaced retrieval set',
+          } as Word;
+        })
+        .filter((word): word is Word => Boolean(word));
+
+      if (!words.length) return false;
+
+      setState((prev) => ({
+        ...prev,
+        activeBandId: targetBandId,
+        activeBandData: bandData,
+        activeUnitId: 'daily-review',
+        activeLesson: {
+          unitId: 'daily-review',
+          unitName: 'Daily Review',
+          lessonIndex: 0,
+          words,
+        },
+        lessonMode: 'quiz',
+        lessonWordIndex: 0,
+        quizResultsByIndex: {},
+        speakResultsByIndex: {},
+        speakBreakdownByIndex: {},
+        resumeCheckpoint: null,
+        dailySetDate: today,
+        dailySetWordIds: picks,
+      }));
+
+      trackEvent('daily_set_started', {
+        bandId: targetBandId,
+        totalWords: words.length,
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   const completeLessonProgress = () => {
     const { activeLesson, streak, lastActiveDate, lessonMode } = state;
     if (!activeLesson) return;
+    const isCheckpointQuizUnit = isCheckpointUnitId(activeLesson.unitId);
     const today = new Date().toDateString();
     const yesterday = new Date(Date.now() - 86400000).toDateString();
 
@@ -584,13 +999,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const existing = prev.lessonProgress[lessonKey] || {
         introViewed: false,
         quizScore: null as number | null,
+        speakScore: null as number | null,
         speakAllCorrect: false,
         completed: false,
+        mastered: false,
       };
 
       let nextIntroViewed = existing.introViewed;
       let nextQuizScore = existing.quizScore;
+      let nextSpeakScore = existing.speakScore ?? null;
       let nextSpeakAllCorrect = existing.speakAllCorrect;
+      let nextMastered = existing.mastered;
 
       if (lessonMode === 'intro') {
         nextIntroViewed = true;
@@ -599,24 +1018,87 @@ export function AppProvider({ children }: { children: ReactNode }) {
         nextQuizScore = total > 0 ? Math.round((correct / total) * 100) : 0;
       } else if (lessonMode === 'speak') {
         const { total, correct } = getCoreWordStats(activeLesson.words, prev.speakResultsByIndex);
+        nextSpeakScore = total > 0 ? Math.round((correct / total) * 100) : 0;
         nextSpeakAllCorrect = total > 0 && correct === total;
       }
 
-      const completed =
-        nextIntroViewed && (nextQuizScore ?? 0) >= 90 && nextSpeakAllCorrect;
+      const completed = isCheckpointQuizUnit
+        ? (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT
+        : nextIntroViewed &&
+          (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT &&
+          (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT;
+
+      if (
+        lessonMode !== 'intro' &&
+        !isCheckpointQuizUnit &&
+        existing.completed &&
+        (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT &&
+        (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT
+      ) {
+        nextMastered = true;
+      }
+      const masteryJustAchieved = !existing.mastered && nextMastered;
 
       return {
         ...prev,
         streak: newStreak,
         lastActiveDate: today,
         resumeCheckpoint: null,
+        wordReview: (() => {
+          if (!masteryJustAchieved || lessonMode === 'intro') return prev.wordReview;
+
+          const resultByIndex =
+            lessonMode === 'quiz' ? prev.quizResultsByIndex : prev.speakResultsByIndex;
+          const boostAtMs = Date.now() + 7 * 86400000;
+          const relearnAtIso = plusDays(1);
+          const boosted = { ...prev.wordReview };
+
+          activeLesson.words.forEach((word, index) => {
+            if (word.isReview) return;
+            const isCorrect = Boolean(resultByIndex[index]);
+            const existingWord: WordReviewState = boosted[word.id] || {
+              nextReviewAt: plusDays(0),
+              consecutiveCorrect: 0,
+              totalCorrect: 0,
+              totalWrong: 0,
+              lastReviewedAt: null,
+              lastResult: null,
+              lastConfidence: null,
+              promptCursor: 0,
+              sourceUnitId: activeLesson.unitId,
+            };
+
+            if (isCorrect) {
+              const currentTs = Date.parse(existingWord.nextReviewAt);
+              const mergedTs = Number.isFinite(currentTs)
+                ? Math.max(currentTs, boostAtMs)
+                : boostAtMs;
+              boosted[word.id] = {
+                ...existingWord,
+                nextReviewAt: new Date(mergedTs).toISOString(),
+                consecutiveCorrect: Math.max(existingWord.consecutiveCorrect, 2),
+              };
+              return;
+            }
+
+            boosted[word.id] = {
+              ...existingWord,
+              nextReviewAt: relearnAtIso,
+              consecutiveCorrect: 0,
+            };
+          });
+
+          return boosted;
+        })(),
         lessonProgress: {
           ...prev.lessonProgress,
           [lessonKey]: {
             introViewed: nextIntroViewed,
             quizScore: nextQuizScore,
+            speakScore: nextSpeakScore,
             speakAllCorrect: nextSpeakAllCorrect,
             completed,
+            mastered: nextMastered,
           },
         },
       };
@@ -647,7 +1129,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
         prev.activeLesson &&
         prev.activeBandId &&
         (prev.lessonWordIndex > 0 ||
-          prev.lessonMode !== 'intro' ||
           Object.keys(prev.quizResultsByIndex).length > 0 ||
           Object.keys(prev.speakResultsByIndex).length > 0)
           ? {
@@ -682,6 +1163,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     prevWord,
     recordQuizResult,
     recordSpeakResult,
+    queueLessonReattempt,
+    recordWordOutcome,
+    generateDailyReviewSet,
+    getPromptTypeForWord,
     completeLessonProgress,
     exitLesson,
     restartLesson,

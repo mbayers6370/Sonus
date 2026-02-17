@@ -5,7 +5,8 @@ export type AnalyticsEventName =
   | 'lesson_completed'
   | 'quiz_answered'
   | 'speak_retry'
-  | 'weak_word_resolved';
+  | 'weak_word_resolved'
+  | 'daily_set_started';
 
 export type AnalyticsEvent = {
   id: string;

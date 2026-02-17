@@ -1,13 +1,15 @@
 import { useApp } from '../contexts/AppContext';
-import { BookOpen, PartyPopper } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
+import { SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 
 interface LessonCompleteProps {
   onStartQuiz: () => void;
   onStartSpeak: () => void;
   onContinue: () => void;
   onRestart: () => void;
+  onReviewMissed: () => void;
   onGoHome: () => void;
   onOpenProfile: () => void;
 }
@@ -17,11 +19,12 @@ export default function LessonComplete({
   onStartSpeak,
   onContinue,
   onRestart,
+  onReviewMissed,
   onGoHome,
   onOpenProfile,
 }: LessonCompleteProps) {
   const { state } = useApp();
-  const { activeLesson, lessonMode, quizResultsByIndex, speakBreakdownByIndex } = state;
+  const { activeLesson, lessonMode, quizResultsByIndex, speakResultsByIndex, speakBreakdownByIndex } = state;
 
   if (!activeLesson) return null;
 
@@ -34,8 +37,14 @@ export default function LessonComplete({
   const quizCorrectCount = coreIndexes.filter((index) => Boolean(quizResultsByIndex[index])).length;
   const quizScorePercent =
     totalQuizItems > 0 ? Math.round((quizCorrectCount / totalQuizItems) * 100) : 0;
-  const quizPassed = quizScorePercent >= 80;
+  const quizReviewThresholdPercent = 90;
+  const quizReadyForSpeak = quizScorePercent >= quizReviewThresholdPercent;
+  const quizMissedCount = Math.max(0, totalQuizItems - quizCorrectCount);
   const isSpeakCompletion = lessonMode === 'speak';
+  const isLearnCompletion = !isQuizCompletion && !isSpeakCompletion;
+  const speakCorrectCount = coreIndexes.filter((index) => Boolean(speakResultsByIndex[index])).length;
+  const speakScorePercent = totalQuizItems > 0 ? Math.round((speakCorrectCount / totalQuizItems) * 100) : 0;
+  const speakPassed = speakScorePercent >= SPEAK_PASS_PERCENT;
 
   const getSpeakSuggestions = (index: number) => {
     const breakdown = speakBreakdownByIndex[index];
@@ -57,7 +66,17 @@ export default function LessonComplete({
   return (
     <div className="flex flex-col h-[100dvh] page-shell">
       <div className="px-6">
-        <GlassHeader title="Lesson Complete" />
+        <GlassHeader
+          title={
+            isQuizCompletion
+              ? (quizReadyForSpeak ? 'Lesson Complete' : 'Lesson Review')
+              : isLearnCompletion
+                ? 'Learn Complete'
+                : isSpeakCompletion
+                  ? 'Lesson Review'
+                  : 'Lesson Complete'
+          }
+        />
       </div>
 
       <div
@@ -65,14 +84,22 @@ export default function LessonComplete({
           isSpeakCompletion ? 'pb-[18rem] sm:pb-[14rem]' : 'pb-[12.5rem] sm:pb-10'
         }`}
       >
-        <div className="mb-3 inline-flex items-center justify-center w-10 h-10 rounded-full bg-[rgba(55,65,81,0.10)]">
-          <PartyPopper className="w-5 h-5 text-[#374151]" />
-        </div>
-        <p className="text-lg text-text-med mb-5 text-center">
-          {isQuizCompletion
-            ? `Quiz score: ${quizScorePercent}% (${quizCorrectCount}/${totalQuizItems})`
-            : 'Amazing work!'}
-        </p>
+        {isQuizCompletion && !quizReadyForSpeak ? (
+          <div className="mb-5 text-center">
+            <p className="text-lg text-text-med"><b>Close!</b></p>
+            <p className="text-lg text-text-med">
+              {`${quizMissedCount} ${quizMissedCount === 1 ? 'word needs' : 'words need'} refinement.`}
+            </p>
+          </div>
+        ) : (
+          <p className="text-lg text-text-med mb-5 text-center">
+            {isSpeakCompletion
+              ? `Speak score: ${speakScorePercent}% (${speakCorrectCount}/${totalQuizItems})`
+              : isQuizCompletion
+                ? `Quiz score: ${quizScorePercent}% (${quizCorrectCount}/${totalQuizItems})`
+                : `${totalQuizItems} words introduced.`}
+          </p>
+        )}
 
         {isSpeakCompletion && (
           <div className="bg-white border border-border rounded-2xl p-4 mb-5 w-full max-w-md">
@@ -146,26 +173,82 @@ export default function LessonComplete({
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-3 w-full max-w-md">
-          {!isSpeakCompletion && (
+          {isQuizCompletion && !quizReadyForSpeak && (
+            <>
+              <button
+                onClick={onReviewMissed}
+                className="w-full py-4 px-6 bg-white text-[#374151] border-2 border-[rgba(55,65,81,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] active:bg-[rgba(55,65,81,0.12)]"
+              >
+                Review Missed Words
+              </button>
+              <button
+                onClick={onStartQuiz}
+                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+              >
+                Retake Quiz
+              </button>
+              <button
+                onClick={onStartSpeak}
+                className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
+              >
+                Continue to Speak
+              </button>
+            </>
+          )}
+          {isQuizCompletion && quizReadyForSpeak && (
             <button
-              onClick={isQuizCompletion ? (quizPassed ? onStartSpeak : onStartQuiz) : onStartQuiz}
+              onClick={onStartSpeak}
               className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
             >
-              {isQuizCompletion ? (quizPassed ? 'Practice Speaking' : 'Retake Quiz') : 'Start Quiz'}
+              Continue to Speak
             </button>
           )}
-          <button
-            onClick={onContinue}
-            className="w-full py-4 px-6 bg-[#3E5648] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
-          >
-            Continue Learning
-          </button>
-          <button
-            onClick={onRestart}
-            className="w-full py-4 px-6 bg-white text-[#374151] border-2 border-[rgba(55,65,81,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] active:bg-[rgba(55,65,81,0.12)]"
-          >
-            Practice Again
-          </button>
+          {!isQuizCompletion && !isSpeakCompletion && (
+            <>
+              <button
+                onClick={onStartQuiz}
+                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+              >
+                Start Quiz
+              </button>
+              <button
+                onClick={onStartSpeak}
+                className="w-full py-4 px-6 bg-white text-[#374151] border-2 border-[rgba(55,65,81,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] active:bg-[rgba(55,65,81,0.12)]"
+              >
+                Start Speak
+              </button>
+              <button
+                onClick={onRestart}
+                className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
+              >
+                Review Flashcards Again
+              </button>
+            </>
+          )}
+          {isSpeakCompletion && !speakPassed && (
+            <button
+              onClick={onStartSpeak}
+              className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+            >
+              Retake Speaking
+            </button>
+          )}
+          {isSpeakCompletion && (
+            <>
+              <button
+                onClick={onContinue}
+                className="w-full py-4 px-6 bg-[#3E5648] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+              >
+                Continue Learning
+              </button>
+              <button
+                onClick={onRestart}
+                className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
+              >
+                Practice Again
+              </button>
+            </>
+          )}
         </div>
         <div className={isSpeakCompletion ? 'h-36 sm:h-24' : 'h-24 sm:h-0'} />
       </div>

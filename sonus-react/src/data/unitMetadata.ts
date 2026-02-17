@@ -16,6 +16,7 @@ import {
   Navigation,
   Bus,
   BookOpen,
+  BookOpenCheck,
   HelpCircle,
   Zap,
   Ruler,
@@ -34,6 +35,46 @@ export interface UnitMetadata {
   microUnits?: string[]; // Optional sub-focus list shown for macro units
   order: number; // Display order within the band
   icon: LucideIcon; // Lucide icon component
+}
+
+const CHECKPOINT_EVERY_UNITS = 4;
+
+export function isPracticeUnitId(unitId: string) {
+  return /listening$/i.test(unitId) || /speaking$/i.test(unitId);
+}
+
+export function isCheckpointUnitId(unitId: string) {
+  return /^checkpoint-\d+$/i.test(unitId);
+}
+
+export function parseCheckpointIndex(unitId: string): number | null {
+  const match = /^checkpoint-(\d+)$/i.exec(unitId);
+  if (!match) return null;
+  const idx = Number(match[1]);
+  return Number.isFinite(idx) && idx > 0 ? idx : null;
+}
+
+function withCheckpointQuizzes(units: UnitMetadata[]): UnitMetadata[] {
+  const sorted = [...units].sort((a, b) => a.order - b.order);
+  const coreUnits = sorted.filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id));
+  const practiceUnits = sorted.filter((unit) => isPracticeUnitId(unit.id));
+  const checkpointCount = Math.ceil(coreUnits.length / CHECKPOINT_EVERY_UNITS);
+  const checkpoints: UnitMetadata[] = [];
+
+  for (let idx = 1; idx <= checkpointCount; idx += 1) {
+    const end = Math.min(coreUnits.length, idx * CHECKPOINT_EVERY_UNITS);
+    const start = (idx - 1) * CHECKPOINT_EVERY_UNITS + 1;
+    checkpoints.push({
+      id: `checkpoint-${idx}`,
+      name: `Checkpoint Quiz ${idx}`,
+      hanzi: `阶段测验 ${idx}`,
+      description: `Quiz review covering Units ${start} - ${end}.`,
+      order: end + 0.5,
+      icon: BookOpenCheck,
+    });
+  }
+
+  return [...coreUnits, ...checkpoints, ...practiceUnits].sort((a, b) => a.order - b.order);
 }
 
 // Elementary I (Band 1) - HSK 3.0 Aligned Units
@@ -775,52 +816,31 @@ export const band79Units: UnitMetadata[] = [
 
 // Helper function to get unit metadata by ID
 export function getUnitMetadata(bandId: string, unitId: string): UnitMetadata | undefined {
-  if (bandId === 'band1') {
-    return band1Units.find(u => u.id === unitId);
-  }
-  if (bandId === 'band2') {
-    return band2Units.find(u => u.id === unitId);
-  }
-  if (bandId === 'band3') {
-    return band3Units.find(u => u.id === unitId);
-  }
-  if (bandId === 'band4') {
-    return band4Units.find(u => u.id === unitId);
-  }
-  if (bandId === 'band5') {
-    return band5Units.find(u => u.id === unitId);
-  }
-  if (bandId === 'band6') {
-    return band6Units.find(u => u.id === unitId);
-  }
-  if (bandId === 'band7' || bandId === 'band8' || bandId === 'band9' || bandId === 'advanced') {
-    return band79Units.find(u => u.id === unitId);
-  }
-  return undefined;
+  return getUnitsForBand(bandId).find((u) => u.id === unitId);
 }
 
 // Helper function to get all units for a band, sorted by order
 export function getUnitsForBand(bandId: string): UnitMetadata[] {
   if (bandId === 'band1') {
-    return [...band1Units].sort((a, b) => a.order - b.order);
+    return withCheckpointQuizzes(band1Units);
   }
   if (bandId === 'band2') {
-    return [...band2Units].sort((a, b) => a.order - b.order);
+    return withCheckpointQuizzes(band2Units);
   }
   if (bandId === 'band3') {
-    return [...band3Units].sort((a, b) => a.order - b.order);
+    return withCheckpointQuizzes(band3Units);
   }
   if (bandId === 'band4') {
-    return [...band4Units].sort((a, b) => a.order - b.order);
+    return withCheckpointQuizzes(band4Units);
   }
   if (bandId === 'band5') {
-    return [...band5Units].sort((a, b) => a.order - b.order);
+    return withCheckpointQuizzes(band5Units);
   }
   if (bandId === 'band6') {
-    return [...band6Units].sort((a, b) => a.order - b.order);
+    return withCheckpointQuizzes(band6Units);
   }
   if (bandId === 'band7' || bandId === 'band8' || bandId === 'band9' || bandId === 'advanced') {
-    return [...band79Units].sort((a, b) => a.order - b.order);
+    return withCheckpointQuizzes(band79Units);
   }
   return [];
 }

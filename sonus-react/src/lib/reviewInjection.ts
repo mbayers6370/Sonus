@@ -28,6 +28,7 @@ export function appendReviewWords(
     ...word,
     isReview: true,
     reviewReason:
+      word.reviewReason ||
       "Added from your Needs Work list after repeated misses. A correct answer clears it.",
   }));
 
