@@ -60,6 +60,7 @@ export default function GlassHeader({
   }, []);
 
   const showStandaloneBack = isStandalone && location.pathname !== '/home';
+  const showHomeLogo = showLogo && !showStandaloneBack;
   const standaloneTitleWords = title.trim().split(/\s+/);
   const standaloneFirstWord = standaloneTitleWords[0] ?? title;
   const standaloneRemainingWords = standaloneTitleWords.slice(1).join(' ');
@@ -78,12 +79,12 @@ export default function GlassHeader({
                 else navigate('/home');
               }}
               aria-label="Go back"
-              className="md:hidden absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-[rgba(55,65,81,0.22)] bg-white/72 text-text-dark inline-flex items-center justify-center"
+              className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 rounded-full border border-[rgba(55,65,81,0.22)] bg-white/72 text-text-dark inline-flex items-center justify-center"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
           ) : null}
-          {showLogo ? (
+          {showHomeLogo ? (
             <button
               type="button"
               onClick={() => navigate('/home')}
@@ -100,7 +101,7 @@ export default function GlassHeader({
               />
             </button>
           ) : null}
-          {showLogo ? (
+          {showHomeLogo ? (
             <button
               type="button"
               onClick={() => navigate('/home')}

@@ -82,7 +82,7 @@ function isMandarinBandLocked(bandId: string) {
       ? routeMode
       : 'intro';
   const level = band ? CHINESE_LEVEL_BY_ID[band] : undefined;
-  const lastLoadedKeyRef = useRef<string>('');
+  const pendingLoadKeyRef = useRef<string>('');
 
   useEffect(() => {
     if (!band || !unitId || !Number.isFinite(parsedLessonIndex)) return;
@@ -91,8 +91,6 @@ function isMandarinBandLocked(bandId: string) {
       return;
     }
     const loadKey = `${band}:${unitId}:${parsedLessonIndex}`;
-    if (lastLoadedKeyRef.current === loadKey) return;
-    lastLoadedKeyRef.current = loadKey;
 
     // Keep the hydrated in-memory lesson when it already matches the route.
     // This prevents refreshes from rebuilding/shuffling a different lesson instance.
@@ -122,13 +120,22 @@ function isMandarinBandLocked(bandId: string) {
       return;
     }
 
+    if (pendingLoadKeyRef.current === loadKey) return;
+    pendingLoadKeyRef.current = loadKey;
+
     if (state.selectedLanguage !== 'zh') {
       selectLanguage('zh');
     }
 
-    void openLessonPath(band, unitId, parsedLessonIndex).then((opened) => {
-      if (!opened) navigate(`/learn/${tierForBand(band)}/${band}`, { replace: true });
-    });
+    void openLessonPath(band, unitId, parsedLessonIndex)
+      .then((opened) => {
+        if (!opened) navigate(`/learn/${tierForBand(band)}/${band}`, { replace: true });
+      })
+      .finally(() => {
+        if (pendingLoadKeyRef.current === loadKey) {
+          pendingLoadKeyRef.current = '';
+        }
+      });
   }, [band, unitId, parsedLessonIndex, navigate, selectLanguage, state.selectedLanguage, state.activeBandId, state.activeLesson]);
 
   useEffect(() => {
