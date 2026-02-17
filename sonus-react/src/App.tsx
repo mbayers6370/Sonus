@@ -1,13 +1,10 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Navigate, BrowserRouter, HashRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { AppProvider, useApp } from './contexts/AppContext';
 import type { LessonBand, LessonMode } from './types/lesson.types';
 import LanguageSelect from './components/LanguageSelect';
 import LevelSelect from './components/LevelSelect';
 import UnitSelect from './components/UnitSelect';
-import LessonScreen from './components/LessonScreen';
-import LessonComplete from './components/LessonComplete';
-import LessonReview from './components/LessonReview';
 import MandarinTones from './components/MandarinTones';
 import HomeDashboard from './components/HomeDashboard';
 import TravelModePage from './components/TravelModePage';
@@ -15,6 +12,8 @@ import TravelSectionPage from './components/TravelSectionPage';
 import AboutSonusScreen from './components/AboutSonusScreen';
 import ProfileScreen from './components/ProfileScreen';
 import ProfileProgressScreen from './components/ProfileProgressScreen';
+import LessonRouteController from './routes/LessonRouteController';
+import { CHINESE_LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './routes/lessonRouting';
 import { saveOnboardingSelectionSafe } from './lib/backendApi';
 import { trackEvent } from './lib/analytics';
 import { getTravelSectionById } from './data/travelModeData';
@@ -25,216 +24,6 @@ type ProgressPayload = {
     currentBandId?: string | null;
   };
 };
-
-const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
-  intro: { id: 'intro', band: 0, name: 'Introduction', title: '', subtitle: '', wordCount: 0, wordRange: '', color: 'bg-gray-400', description: 'Start here', units: [] },
-  band1: { id: 'band1', band: 1, name: 'Elementary I', title: 'Elementary I', subtitle: 'Foundations · Everyday Use', wordCount: 500, wordRange: '0–500', color: 'bg-[#3E5648]', description: 'Foundations · Everyday Use', units: [] },
-  band2: { id: 'band2', band: 2, name: 'Elementary II', title: 'Elementary II', subtitle: 'Expanded Daily Life', wordCount: 1272, wordRange: '500–1272', color: 'bg-[#3E5648]', description: 'Expanded Daily Life', units: [] },
-  band3: { id: 'band3', band: 3, name: 'Pre‑Intermediate', title: 'Pre‑Intermediate', subtitle: 'Simple Narratives', wordCount: 2245, wordRange: '1272–2245', color: 'bg-[#186E95]', description: 'Simple Narratives', units: [] },
-  band4: { id: 'band4', band: 4, name: 'Intermediate I', title: 'Intermediate I', subtitle: 'Intermediate Topics', wordCount: 3245, wordRange: '2245–3245', color: 'bg-[#186E95]', description: 'Intermediate Topics', units: [] },
-  band5: { id: 'band5', band: 5, name: 'Intermediate II', title: 'Intermediate II', subtitle: 'Broader Expression', wordCount: 4316, wordRange: '3245–4316', color: 'bg-purple-500', description: 'Broader Expression', units: [] },
-  band6: { id: 'band6', band: 6, name: 'Upper‑Intermediate', title: 'Upper‑Intermediate', subtitle: 'Abstract Themes', wordCount: 5456, wordRange: '4316–5456', color: 'bg-purple-600', description: 'Abstract Themes', units: [] },
-  band7: { id: 'band7', band: 7, name: 'Advanced I', title: 'Advanced I', subtitle: 'Complex topics · High range', wordCount: 7356, wordRange: '5456–7356', color: 'bg-red-500', description: 'Complex topics · High range', units: [] },
-  band8: { id: 'band8', band: 8, name: 'Advanced II', title: 'Advanced II', subtitle: 'Formal language · Precision', wordCount: 9256, wordRange: '7356–9256', color: 'bg-slate-500', description: 'Formal language · Precision', units: [] },
-  band9: { id: 'band9', band: 9, name: 'Advanced III', title: 'Advanced III', subtitle: 'Near-native range · Depth', wordCount: 11092, wordRange: '9256–11092', color: 'bg-slate-900', description: 'Near-native range · Depth', units: [] },
-  advanced: { id: 'advanced', band: 7, name: 'Advanced', title: 'Advanced', subtitle: 'Bands 7–9 · Mastery', wordCount: 0, wordRange: 'Band 7–9', color: 'bg-red-500', description: 'Macro-unit track for Bands 7-9', units: [] },
-};
-
-function tierForBand(bandId: string) {
-  if (bandId === 'advanced' || /^band[7-9]$/i.test(bandId)) return 'advanced';
-  if (/^band[4-6]$/i.test(bandId)) return 'intermediate';
-  return 'beginner';
-}
-
-function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
-  if (!(/^band\d+$/i.test(bandId) || bandId === 'advanced')) return false;
-  return !unlockedLevels.includes(bandId);
-}
-
-  function LessonRoutePage({
-  onGoHome,
-  onOpenProfile,
-}: {
-  onGoHome: () => void;
-  onOpenProfile: () => void;
-}) {
-  const navigate = useNavigate();
-  const { state, openLessonPath, restartLesson, exitLesson, setLessonMode, selectLanguage } = useApp();
-  const { activeLesson, lessonWordIndex, activeBandId } = state;
-  const { band, unitId, lessonIndex, mode } = useParams<{
-    tier: string;
-    band: string;
-    unitId: string;
-    lessonIndex: string;
-    mode: string;
-  }>();
-  const parsedLessonIndex = Number(lessonIndex ?? '0');
-  const routeMode = mode ?? 'intro';
-  const isCompleteRoute = routeMode === 'complete';
-  const isReviewRoute = routeMode === 'review';
-  const lessonMode: LessonMode =
-    routeMode === 'quiz' || routeMode === 'speak' || routeMode === 'intro' || routeMode === 'apply'
-      ? routeMode
-      : 'intro';
-  const level = band ? CHINESE_LEVEL_BY_ID[band] : undefined;
-  const pendingLoadKeyRef = useRef<string>('');
-
-  useEffect(() => {
-    if (!band || !unitId || !Number.isFinite(parsedLessonIndex)) return;
-    if (isMandarinBandLocked(band, state.unlockedLevels)) {
-      navigate('/learn', { replace: true });
-      return;
-    }
-    const loadKey = `${band}:${unitId}:${parsedLessonIndex}`;
-
-    // Reuse the current in-memory lesson when it already matches the route
-    // to avoid unnecessary reshuffling during hydration and refresh.
-    const hasLegacyReattemptWords = Boolean(
-      state.activeLesson?.words?.some(
-        (word) => Boolean(word.isReattempt) || Boolean(word.reattemptOfWordId)
-      )
-    );
-    if (
-      state.activeBandId === band &&
-      state.activeLesson?.unitId === unitId &&
-      state.activeLesson?.lessonIndex === parsedLessonIndex &&
-      state.activeLesson.words.length > 0 &&
-      !hasLegacyReattemptWords
-    ) {
-      if (lessonMode !== 'apply') {
-        return;
-      }
-
-      const looksLikeApplyLesson =
-        state.lessonMode === 'apply' ||
-        Boolean(state.activeLesson.unitName?.includes('· Apply'));
-      const hasApplyExamples = state.activeLesson.words.every(
-        (word) =>
-          Boolean(word.example?.zh?.trim()) &&
-          Boolean(word.example?.en?.trim()) &&
-          Boolean(word.example?.pinyin?.trim())
-      );
-      if (looksLikeApplyLesson && hasApplyExamples) {
-        return;
-      }
-    }
-
-    if (
-      unitId === 'daily-review' &&
-      state.activeLesson?.unitId === 'daily-review' &&
-      state.activeBandId === band
-    ) {
-      return;
-    }
-
-    if (pendingLoadKeyRef.current === loadKey) return;
-    pendingLoadKeyRef.current = loadKey;
-
-    if (state.selectedLanguage !== 'zh') {
-      selectLanguage('zh');
-    }
-
-    void openLessonPath(band, unitId, parsedLessonIndex)
-      .then((opened) => {
-        if (!opened) navigate(`/learn/${tierForBand(band)}/${band}`, { replace: true });
-      })
-      .finally(() => {
-        if (pendingLoadKeyRef.current === loadKey) {
-          pendingLoadKeyRef.current = '';
-        }
-      });
-  }, [band, unitId, parsedLessonIndex, lessonMode, navigate, openLessonPath, selectLanguage, state.selectedLanguage, state.activeBandId, state.activeLesson, state.lessonMode, state.unlockedLevels]);
-
-  useEffect(() => {
-    if (!activeLesson || isCompleteRoute || isReviewRoute || !level) return;
-    if (state.lessonMode !== lessonMode) {
-      setLessonMode(lessonMode);
-    }
-  }, [activeLesson, isCompleteRoute, isReviewRoute, lessonMode, setLessonMode, state.lessonMode, level]);
-
-  if (!level) return <Navigate to="/learn" replace />;
-  const routeMatchesActiveLesson =
-    Boolean(activeLesson) &&
-    activeBandId === level.id &&
-    activeLesson?.unitId === unitId &&
-    activeLesson?.lessonIndex === parsedLessonIndex;
-  if (!routeMatchesActiveLesson) {
-    return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading lesson…</div>;
-  }
-
-  const isComplete = lessonWordIndex >= activeLesson.words.length;
-  if (!isCompleteRoute && !isReviewRoute && isComplete && state.lessonMode === lessonMode) {
-    return (
-      <Navigate
-        to={`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/complete`}
-        replace
-      />
-    );
-  }
-
-  if (isCompleteRoute) {
-    return (
-      <LessonComplete
-        onGoHome={onGoHome}
-        onOpenProfile={onOpenProfile}
-        onStartQuiz={() => {
-          restartLesson();
-          navigate(`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/quiz`);
-        }}
-        onStartSpeak={() => {
-          restartLesson();
-          navigate(`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/speak`);
-        }}
-        onContinue={() => {
-          exitLesson();
-          navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
-        }}
-        onRestart={() => {
-          restartLesson();
-          navigate(
-            `/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/${state.lessonMode === 'apply' ? 'apply' : 'intro'}`
-          );
-        }}
-        onReviewMissed={() => {
-          navigate(`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/review`);
-        }}
-      />
-    );
-  }
-
-  if (isReviewRoute) {
-    return (
-      <LessonReview
-        onGoHome={onGoHome}
-        onOpenProfile={onOpenProfile}
-        onRetakeQuiz={() => {
-          restartLesson();
-          navigate(`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/quiz`);
-        }}
-        onContinueToSpeak={() => {
-          restartLesson();
-          navigate(`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/speak`);
-        }}
-        onBackToResults={() => {
-          navigate(`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/complete`);
-        }}
-      />
-    );
-  }
-
-  return (
-    <LessonScreen
-      onGoHome={onGoHome}
-      onOpenProfile={onOpenProfile}
-      onModeChange={(nextMode) => {
-        if (nextMode === lessonMode) return;
-        navigate(
-          `/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/${nextMode}`
-        );
-      }}
-    />
-  );
-}
 
 function AppPages() {
   const navigate = useNavigate();
@@ -515,7 +304,7 @@ function AppPages() {
       <Route path="/learn/:tier/:band" element={<UnitsRoute />} />
       <Route
         path="/learn/:tier/:band/unit/:unitId/lesson/:lessonIndex/:mode"
-        element={<LessonRoutePage onGoHome={goHome} onOpenProfile={goProfile} />}
+        element={<LessonRouteController onGoHome={goHome} onOpenProfile={goProfile} />}
       />
       <Route path="/practice/daily/:band" element={<DailyPracticeRoute />} />
       <Route path="/practice/:kind/:band" element={<PracticeRedirectRoute />} />

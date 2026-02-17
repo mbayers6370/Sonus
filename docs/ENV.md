@@ -22,6 +22,13 @@ Defined/validated in `backend/src/env.ts`.
 - `SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
 
+### Deployment and Hardening Variables
+- `CORS_ORIGINS` (comma-separated allowlist)
+- `BODY_LIMIT_BYTES` (Fastify request body limit)
+- `RATE_LIMIT_WINDOW_MS` (rate-limit window duration)
+- `RATE_LIMIT_MAX` (max requests per window and IP)
+- `AUDIT_LOG_ENABLED` (`true`/`false`)
+
 ### Setup
 ```bash
 cp backend/.env.example backend/.env
@@ -52,3 +59,5 @@ Used by `backend/scripts/core-regression.mjs`:
 ## Validation Notes
 - Backend startup fails fast when env validation fails.
 - Missing Supabase keys are only errors when `AUTH_MODE=supabase`.
+- In `AUTH_MODE=mock`, empty `CORS_ORIGINS` allows all browser origins for local development.
+- In `AUTH_MODE=supabase`, set `CORS_ORIGINS` explicitly before deployment.

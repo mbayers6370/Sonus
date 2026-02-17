@@ -13,6 +13,14 @@ const envSchema = z
     SUPABASE_ANON_KEY: z.string().min(1).optional(),
     SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
     PORT: z.coerce.number().int().positive().default(4000),
+    CORS_ORIGINS: z.string().default(''),
+    BODY_LIMIT_BYTES: z.coerce.number().int().positive().max(10 * 1024 * 1024).default(1_048_576),
+    RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().max(10 * 60 * 1000).default(60_000),
+    RATE_LIMIT_MAX: z.coerce.number().int().positive().max(5_000).default(180),
+    AUDIT_LOG_ENABLED: z
+      .string()
+      .optional()
+      .transform((value) => value !== 'false'),
   })
   .superRefine((value, ctx) => {
     if (value.AUTH_MODE === 'supabase') {

@@ -22,6 +22,10 @@ AUTH_MODE=mock
 ```env
 DATABASE_URL=postgresql://sonus:sonus_dev_password@localhost:5432/sonus
 ```
+4. For deployed environments, define explicit allowed origins:
+```env
+CORS_ORIGINS=https://app.example.com,https://staging.example.com
+```
 
 ## Install
 ```bash
@@ -86,3 +90,14 @@ This test validates:
 x-dev-user-id: 11111111-1111-4111-8111-111111111111
 x-dev-user-email: test@example.com
 ```
+
+## Production Hardening Controls
+- CORS allowlist: `CORS_ORIGINS` (comma-separated origins)
+- Request body limit: `BODY_LIMIT_BYTES`
+- API rate limit: `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX`
+- API audit logging: `AUDIT_LOG_ENABLED`
+
+## Backend Module Layout
+- `src/routes/` exposes HTTP handlers and request validation.
+- `src/services/` contains domain/data orchestration logic used by routes.
+- `src/lib/` contains framework and integration utilities (auth, prisma, supabase).
