@@ -50,7 +50,7 @@ Core curriculum payload (`band*.json`):
 - Units
 - Word objects (hanzi, pinyin, English, examples)
 
-Apply payload (`band*.apply.json`):
+Apply payload (preferred `band*-apply.json`, legacy `band*.apply.json` still supported):
 - Sentence prompts by unit
 - Links to source word ids
 - Sentence-level Chinese, English, and pinyin

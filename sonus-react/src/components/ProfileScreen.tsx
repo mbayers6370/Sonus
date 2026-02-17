@@ -10,6 +10,7 @@ import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
 import { apiFetch } from '../lib/apiClient';
 import { useAuth } from '../contexts/AuthContext';
+import { SurfaceButtonCard, SurfaceCard } from './ui/SurfaceCard';
 
 type Profile = {
   displayName: string | null;
@@ -235,7 +236,7 @@ export default function ProfileScreen({
           </div>
         )}
 
-        <div className="bg-white/95 border border-border rounded-3xl p-5 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)]">
+        <SurfaceCard className="p-5 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)]">
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-full bg-[rgba(24,110,149,0.12)] border border-[rgba(24,110,149,0.22)] flex items-center justify-center text-[#186E95]">
@@ -257,7 +258,7 @@ export default function ProfileScreen({
               Exit Demo · Create Account
             </button>
           )}
-        </div>
+        </SurfaceCard>
 
         <details className="bg-white/95 border border-border rounded-3xl p-5">
           <summary className="cursor-pointer font-semibold text-text-dark">Profile Details</summary>
@@ -326,9 +327,9 @@ export default function ProfileScreen({
         </details>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <button
+          <SurfaceButtonCard
             onClick={onOpenProgress}
-            className="h-full min-h-[150px] bg-white/95 border border-border rounded-3xl p-4 text-left hover:bg-[rgba(55,65,81,0.04)] transition-colors flex flex-col"
+            className="h-full min-h-[150px] p-4 text-left hover:bg-[rgba(55,65,81,0.04)] transition-colors flex flex-col"
           >
             <h3 className="font-semibold text-text-dark mb-1.5">Progress Snapshot</h3>
             <div className="inline-flex items-center gap-2 w-fit px-3 py-2 rounded-xl border border-[rgba(62,86,72,0.22)] bg-[rgba(62,86,72,0.10)] mb-2">
@@ -342,9 +343,9 @@ export default function ProfileScreen({
               </span>
             </div>
             <div className="pt-1.5 text-xs text-[#186E95] font-medium">Open full progress →</div>
-          </button>
+          </SurfaceButtonCard>
 
-          <div className="h-full min-h-[150px] bg-white/95 border border-border rounded-3xl p-4 flex flex-col">
+          <SurfaceCard className="h-full min-h-[150px] p-4 flex flex-col">
             <h3 className="font-semibold text-text-dark mb-1.5">Change Language</h3>
             <div className="text-xs text-text-med mb-2">
               Current: <span className="text-text-dark font-medium">{learningLanguageName}</span>
@@ -368,32 +369,32 @@ export default function ProfileScreen({
                 Japanese, Korean, and French curriculum are coming soon.
               </div>
             </div>
-          </div>
+          </SurfaceCard>
         </div>
 
         <div className="space-y-3">
           {!isDemo && (
-            <button
+            <SurfaceButtonCard
               onClick={() => void deleteAccount()}
               disabled={deletingAccount}
-              className="w-full bg-white/95 border border-[#C2410C]/35 rounded-3xl p-4 text-left hover:bg-[rgba(194,65,12,0.06)] transition-colors disabled:opacity-60"
+              className="w-full border-[#C2410C]/35 p-4 text-left hover:bg-[rgba(194,65,12,0.06)] transition-colors disabled:opacity-60"
             >
               <div className="font-semibold text-[#C2410C]">
                 {deletingAccount ? 'Deleting Account…' : 'Delete Account'}
               </div>
               <div className="text-sm text-text-med">Permanently remove account and learning data.</div>
-            </button>
+            </SurfaceButtonCard>
           )}
-          <button
+          <SurfaceButtonCard
             onClick={onOpenAbout}
-            className="w-full bg-white/95 border border-border rounded-3xl p-4 text-left flex items-center justify-between hover:bg-[rgba(55,65,81,0.05)] transition-colors"
+            className="w-full p-4 text-left flex items-center justify-between hover:bg-[rgba(55,65,81,0.05)] transition-colors"
           >
             <div>
               <div className="font-semibold text-text-dark">About Sonus</div>
               <div className="text-sm text-text-med">Why the system uses national proficiency frameworks</div>
             </div>
             <ChevronRight className="w-5 h-5 text-text-light" />
-          </button>
+          </SurfaceButtonCard>
         </div>
       </div>
 

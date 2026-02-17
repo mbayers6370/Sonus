@@ -330,19 +330,50 @@ type ApplyBandPayload = {
 
 const applySentenceCache = new Map<string, Record<string, ApplySentence[]>>();
 
+function isApplySentence(value: unknown): value is ApplySentence {
+  if (!value || typeof value !== 'object') return false;
+  const candidate = value as Record<string, unknown>;
+  return (
+    typeof candidate.id === 'string' &&
+    typeof candidate.wordId === 'string' &&
+    typeof candidate.zh === 'string' &&
+    typeof candidate.en === 'string'
+  );
+}
+
+function normalizeApplyUnits(value: unknown): Record<string, ApplySentence[]> {
+  if (!value || typeof value !== 'object') return {};
+  const rawUnits = value as Record<string, unknown>;
+  const normalized: Record<string, ApplySentence[]> = {};
+
+  for (const [unitId, entries] of Object.entries(rawUnits)) {
+    if (!Array.isArray(entries)) continue;
+    normalized[unitId] = entries.filter(isApplySentence);
+  }
+
+  return normalized;
+}
+
+async function fetchApplyPayload(path: string) {
+  const response = await fetch(path, { cache: 'no-store' });
+  if (!response.ok) return null;
+  return (await response.json()) as ApplyBandPayload;
+}
+
 async function fetchApplySentenceMap(bandId: string, forceRefresh = false) {
   if (!forceRefresh && applySentenceCache.has(bandId)) {
     return applySentenceCache.get(bandId) || {};
   }
   try {
     const cacheBuster = forceRefresh ? `?v=${Date.now()}` : '';
-    const response = await fetch(`/data/zh/${bandId}.apply.json${cacheBuster}`, { cache: 'no-store' });
-    if (!response.ok) {
+    const payload =
+      (await fetchApplyPayload(`/data/zh/${bandId}-apply.json${cacheBuster}`)) ||
+      (await fetchApplyPayload(`/data/zh/${bandId}.apply.json${cacheBuster}`));
+    if (!payload) {
       applySentenceCache.set(bandId, {});
       return {};
     }
-    const payload = (await response.json()) as ApplyBandPayload;
-    const units = payload.units || {};
+    const units = normalizeApplyUnits(payload.units);
     applySentenceCache.set(bandId, units);
     return units;
   } catch {

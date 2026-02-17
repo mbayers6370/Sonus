@@ -685,42 +685,24 @@ export default function LevelSelect({
           <>
             <button
               onClick={onOpenFoundations}
-              className={`w-full bg-white/95 border ${ACCENT.gray.leftBorder} rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${ACCENT.gray.hoverShadow} active:translate-y-0`}
+              className="w-full bg-[#1F2A37] border border-transparent rounded-3xl min-h-[132px] p-4 text-center text-white shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
             >
-              <div className="w-full">
-                <div className="flex items-start justify-between gap-4">
+              <div className="w-full h-full flex flex-col items-center justify-center">
+                <div className="flex items-center justify-center gap-4">
                   <span
-                    className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${ACCENT.gray.badgeBg} ${ACCENT.gray.badgeText}`}
+                    className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-white/15 text-white"
                   >
                     Foundations
                   </span>
-                  <ChevronRight className="w-5 h-5 text-text-light" />
                 </div>
 
-                <div className="mt-5">
-                  <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${ACCENT.gray.badgeText}`}>
+                <div className="mt-3">
+                  <h3 className="main-font text-[1.75rem] leading-tight font-normal mb-1 text-white">
                     Sound + Script Lab
                   </h3>
-                  <p className="text-[1.05rem] text-text-med mb-4">
+                  <p className="text-[0.98rem] text-white/85">
                     Tones, pinyin, and character pattern training
                   </p>
-
-                  <div className="flex gap-10 text-sm font-mono text-text-dark mb-4">
-                    <div>
-                      <span className="text-lg font-semibold">3</span>
-                      <div className="text-[11px] tracking-wide text-text-med">
-                        Modules
-                      </div>
-                    </div>
-                  </div>
-
-                  <p className="text-[11px] leading-relaxed text-text-med font-mono tracking-wide mb-4">
-                    Optional fundamentals designed to improve pronunciation clarity and character recognition while you progress through bands.
-                  </p>
-
-                  <div className={`${ACCENT.gray.ctaText} text-sm font-semibold tracking-wide`}>
-                    Open foundations →
-                  </div>
                 </div>
               </div>
             </button>
@@ -792,9 +774,11 @@ export default function LevelSelect({
                       {tier.summary}
                     </p>
 
-                    <div className={`${isTierDrenched ? 'text-white' : a.ctaText} text-sm font-semibold tracking-wide`}>
-                      {isLocked ? 'Releasing soon' : 'View bands →'}
-                    </div>
+                    {isLocked && (
+                      <div className="text-sm font-semibold tracking-wide text-text-light">
+                        Releasing soon
+                      </div>
+                    )}
                   </div>
                 </div>
               </button>
