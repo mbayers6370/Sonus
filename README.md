@@ -85,10 +85,26 @@ npm --prefix backend run build
 
 ## Deployment Notes
 - The frontend uses hash-based routing in production to avoid deep-link refresh failures on static hosting.
-- If you switch back to browser-history routing, configure host rewrites so all app routes resolve to `index.html`.
+- Browser-history routing requires host rewrites so all application routes resolve to `index.html`.
 
 ## Demo Assets
-Screenshots for documentation and marketing are available in:
-- `sonus-react/public/Demo/`
+### Home
+![Sonus Home](sonus-react/public/Demo/demo-01-home.png)
 
-These can be embedded in GitHub docs and release notes directly from that folder.
+### Learn
+![Sonus Learn](sonus-react/public/Demo/demo-02-learn.png)
+
+### Flashcards
+![Sonus Flashcards](sonus-react/public/Demo/demo-03-flashcards.png)
+
+### Quiz
+![Sonus Quiz](sonus-react/public/Demo/demo-04-quiz.png)
+
+### Speak
+![Sonus Speak](sonus-react/public/Demo/demo-05-speak.png)
+
+### Progress
+![Sonus Progress](sonus-react/public/Demo/demo-06-progress.png)
+
+### Review
+![Sonus Review](sonus-react/public/Demo/demo-07-review.png)
