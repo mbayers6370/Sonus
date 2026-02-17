@@ -27,6 +27,7 @@ Defined/validated in `backend/src/env.ts`.
 - `BODY_LIMIT_BYTES` (Fastify request body limit)
 - `RATE_LIMIT_WINDOW_MS` (rate-limit window duration)
 - `RATE_LIMIT_MAX` (max requests per window and IP)
+- `SLOW_REQUEST_MS` (slow-request warning threshold in ms)
 - `AUDIT_LOG_ENABLED` (`true`/`false`)
 
 ### Setup
@@ -55,6 +56,13 @@ Used by `backend/scripts/core-regression.mjs`:
 - `CORE_TEST_DEV_USER_ID`
 - `CORE_TEST_DEV_USER_EMAIL`
 - `CORE_TEST_WORD_ID`
+
+## Performance Smoke Script Variables
+Used by `backend/scripts/perf-smoke.mjs`:
+- `PERF_API_BASE_URL` (default `http://127.0.0.1:4000`)
+- `PERF_RUNS` (default `20`)
+- `PERF_DEV_USER_ID`
+- `PERF_DEV_USER_EMAIL`
 
 ## Validation Notes
 - Backend startup fails fast when env validation fails.

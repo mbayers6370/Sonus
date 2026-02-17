@@ -9,6 +9,7 @@
     "lint": "tsc -p tsconfig.json --noEmit",
     "build": "tsc -p tsconfig.json",
     "test:core": "node scripts/core-regression.mjs",
+    "perf:smoke": "node scripts/perf-smoke.mjs",
     "start": "node dist/server.js",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",

@@ -15,6 +15,7 @@ In mock mode, requests can include:
 - CORS policy is controlled by `CORS_ORIGINS`.
 - Request payload size is capped by `BODY_LIMIT_BYTES`.
 - `/v1/*` endpoints are protected by IP-based rate limiting (`RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX`).
+- Slow request warnings are emitted when response time exceeds `SLOW_REQUEST_MS`.
 - API request audit logs can be enabled/disabled with `AUDIT_LOG_ENABLED`.
 
 ## Endpoints

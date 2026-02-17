@@ -71,6 +71,19 @@ This test validates:
 - weak-word appears after miss
 - weak-word removed after correct
 
+## Performance Smoke Test
+Runs lightweight latency checks against core endpoints.
+
+```bash
+npm run perf:smoke
+```
+
+Optional env controls:
+- `PERF_API_BASE_URL`
+- `PERF_RUNS`
+- `PERF_DEV_USER_ID`
+- `PERF_DEV_USER_EMAIL`
+
 ## API Endpoints
 - `GET /health`
 - `GET /v1/me/profile`
@@ -95,6 +108,7 @@ x-dev-user-email: test@example.com
 - CORS allowlist: `CORS_ORIGINS` (comma-separated origins)
 - Request body limit: `BODY_LIMIT_BYTES`
 - API rate limit: `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX`
+- Slow request warning threshold: `SLOW_REQUEST_MS`
 - API audit logging: `AUDIT_LOG_ENABLED`
 
 ## Backend Module Layout

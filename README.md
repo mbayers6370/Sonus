@@ -29,6 +29,7 @@ This repository contains both the frontend application and backend API.
 - `docs/ARCHITECTURE.md` - system boundaries and runtime flow
 - `docs/API.md` - backend endpoint contract
 - `docs/ENV.md` - environment variable reference
+- `docs/PERFORMANCE.md` - baseline targets and measurement workflow
 - `docs/PRODUCT_SETTINGS.md` - product-level defaults and settings
 
 ## Repository Hygiene Checklist

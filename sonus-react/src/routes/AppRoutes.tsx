@@ -1,0 +1,331 @@
+import { useCallback, useEffect } from 'react';
+import { Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import { useApp } from '../contexts/AppContext';
+import type { LessonBand, LessonMode } from '../types/lesson.types';
+import LanguageSelect from '../components/LanguageSelect';
+import LevelSelect from '../components/LevelSelect';
+import UnitSelect from '../components/UnitSelect';
+import MandarinTones from '../components/MandarinTones';
+import HomeDashboard from '../components/HomeDashboard';
+import TravelModePage from '../components/TravelModePage';
+import TravelSectionPage from '../components/TravelSectionPage';
+import AboutSonusScreen from '../components/AboutSonusScreen';
+import ProfileScreen from '../components/ProfileScreen';
+import ProfileProgressScreen from '../components/ProfileProgressScreen';
+import LessonRouteController from './LessonRouteController';
+import { CHINESE_LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
+import { saveOnboardingSelectionSafe } from '../lib/backendApi';
+import { trackEvent } from '../lib/analytics';
+import { getTravelSectionById } from '../data/travelModeData';
+import { API_BASE_URL } from '../lib/apiBase';
+
+type ProgressPayload = {
+  progress?: {
+    currentBandId?: string | null;
+  };
+};
+
+export default function AppRoutes() {
+  const navigate = useNavigate();
+  const {
+    state,
+    selectLanguage,
+    selectLevel,
+    openLessonPath,
+    exitLesson,
+    generateDailyReviewSet,
+  } = useApp();
+  const { selectedLanguage, currentLevel } = state;
+
+  const goHome = useCallback(() => {
+    exitLesson();
+    void selectLevel(null);
+    navigate('/home');
+  }, [exitLesson, navigate, selectLevel]);
+
+  const goProfile = useCallback(() => {
+    exitLesson();
+    navigate('/profile');
+  }, [exitLesson, navigate]);
+
+  const goLearn = useCallback(async () => {
+    exitLesson();
+    if (currentLevel) {
+      navigate(`/learn/${tierForBand(currentLevel.id)}/${currentLevel.id}`);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/v1/me/progress`);
+      if (response.ok) {
+        const payload = (await response.json()) as ProgressPayload;
+        const currentBandId = payload.progress?.currentBandId;
+        const level = typeof currentBandId === 'string' ? CHINESE_LEVEL_BY_ID[currentBandId] : undefined;
+        if (level) {
+          if (isMandarinBandLocked(level.id, state.unlockedLevels)) {
+            navigate('/learn');
+            return;
+          }
+          if (selectedLanguage !== 'zh') selectLanguage('zh');
+          await selectLevel(level);
+          navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
+          return;
+        }
+      }
+    } catch {
+      // Fall through to generic learn page.
+    }
+
+    if (!selectedLanguage) selectLanguage('zh');
+    navigate('/learn');
+  }, [currentLevel, exitLesson, navigate, selectLanguage, selectLevel, selectedLanguage, state.unlockedLevels]);
+
+  const openPracticeFromHome = useCallback(
+    (kind: 'listening' | 'speaking', bandId?: string | null) => {
+      const requestedBandId =
+        bandId && (/^band\d+$/i.test(bandId) || bandId === 'advanced') ? bandId : 'band1';
+      navigate(`/practice/${kind}/${requestedBandId}`);
+    },
+    [navigate]
+  );
+
+  const openDailyFromHome = useCallback(
+    (bandId?: string | null) => {
+      const requestedBandId =
+        bandId && (/^band\d+$/i.test(bandId) || bandId === 'advanced') ? bandId : 'band1';
+      navigate(`/practice/daily/${requestedBandId}`);
+    },
+    [navigate]
+  );
+
+  useEffect(() => {
+    const handler = () => {
+      void goLearn();
+    };
+    window.addEventListener('sonus:learn', handler);
+    return () => {
+      window.removeEventListener('sonus:learn', handler);
+    };
+  }, [goLearn]);
+
+  function LanguageRoute() {
+    if (selectedLanguage) return <Navigate to="/home" replace />;
+    return (
+      <LanguageSelect
+        onGoHome={goHome}
+        onOpenProfile={goProfile}
+        onSelectLanguage={(langId: string) => {
+          const isFirstSelection = !selectedLanguage;
+          selectLanguage(langId);
+          if (isFirstSelection) {
+            trackEvent('onboarding_language_selected', { languageId: langId });
+            saveOnboardingSelectionSafe(langId);
+          }
+          navigate('/home');
+        }}
+      />
+    );
+  }
+
+  function HomeRoute() {
+    if (!selectedLanguage) return <Navigate to="/" replace />;
+    return (
+      <HomeDashboard
+        selectedLanguage={selectedLanguage}
+        onOpenLevels={() => navigate('/learn')}
+        onOpenPractice={(kind, bandId) => openPracticeFromHome(kind, bandId)}
+        onOpenWeakWords={() => navigate('/profile/progress')}
+        onOpenProfile={() => navigate('/profile')}
+        onOpenTravelMode={(sectionId) =>
+          navigate(sectionId ? `/travel/${sectionId}` : '/travel')
+        }
+        onOpenDailyPractice={(bandId) => openDailyFromHome(bandId)}
+      />
+    );
+  }
+
+  function LearnRoute() {
+    return (
+      <LevelSelect
+        onGoHome={goHome}
+        onOpenProfile={goProfile}
+        onOpenMandarinTones={() => navigate('/learn/tones')}
+        onSelectLevel={(level: LessonBand) => {
+          if (selectedLanguage === 'zh' && isMandarinBandLocked(level.id, state.unlockedLevels)) {
+            return;
+          }
+          void selectLevel(level);
+          navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
+        }}
+      />
+    );
+  }
+
+  function TonesRoute() {
+    if (selectedLanguage !== 'zh') return <Navigate to="/learn" replace />;
+    return <MandarinTones onHome={goHome} onOpenProfile={goProfile} />;
+  }
+
+  function UnitsRoute() {
+    const { band } = useParams<{ tier: string; band: string }>();
+    const level = band ? CHINESE_LEVEL_BY_ID[band] : undefined;
+
+    useEffect(() => {
+      if (!level) return;
+      if (selectedLanguage !== 'zh') selectLanguage('zh');
+      // Ensure band payload is loaded when route band changes.
+      if (currentLevel?.id !== level.id) {
+        void selectLevel(level);
+      }
+    }, [level]);
+
+    if (!level) return <Navigate to="/learn" replace />;
+    if (isMandarinBandLocked(level.id, state.unlockedLevels)) return <Navigate to="/learn" replace />;
+    if (!currentLevel || currentLevel.id !== level.id || !state.activeBandData) {
+      return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading units…</div>;
+    }
+
+    const tier = tierForBand(level.id);
+    return (
+      <UnitSelect
+        onGoHome={goHome}
+        onOpenProfile={goProfile}
+        onOpenPractice={(unitId) => {
+          const mode: LessonMode = /listening$/i.test(unitId) ? 'quiz' : 'speak';
+          navigate(`/learn/${tier}/${level.id}/unit/${unitId}/lesson/0/${mode}`);
+        }}
+        onSelectLesson={(unitId, lessonIndex, mode = 'intro') => {
+          navigate(`/learn/${tier}/${level.id}/unit/${unitId}/lesson/${lessonIndex}/${mode}`);
+        }}
+      />
+    );
+  }
+
+  function PracticeRedirectRoute() {
+    const { kind, band } = useParams<{ kind: string; band: string }>();
+    const targetBand = band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : 'band1';
+    const resolvedBand = isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'band1' : targetBand;
+    const targetKind = kind === 'speaking' ? 'speaking' : 'listening';
+    const targetUnitId =
+      resolvedBand === 'advanced'
+        ? `b79-${targetKind}`
+        : `b${resolvedBand.match(/^band(\d+)$/i)?.[1] ?? '1'}-${targetKind}`;
+    const targetMode: LessonMode = targetKind === 'listening' ? 'quiz' : 'speak';
+
+    useEffect(() => {
+      // Try requested band first, then fall back to Band 1 practice routes.
+      void openLessonPath(resolvedBand, targetUnitId, 0).then((opened) => {
+        if (opened) {
+          navigate(
+            `/learn/${tierForBand(resolvedBand)}/${resolvedBand}/unit/${targetUnitId}/lesson/0/${targetMode}`,
+            { replace: true }
+          );
+          return;
+        }
+        void openLessonPath('band1', `b1-${targetKind}`, 0).then((fallbackOpened) => {
+          if (fallbackOpened) {
+            navigate(`/learn/beginner/band1/unit/b1-${targetKind}/lesson/0/${targetMode}`, {
+              replace: true,
+            });
+            return;
+          }
+          navigate('/learn', { replace: true });
+        });
+      });
+    }, [resolvedBand, targetKind, targetMode, targetUnitId]);
+
+    return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading practice…</div>;
+  }
+
+  function DailyPracticeRoute() {
+    const { band } = useParams<{ band: string }>();
+    const targetBand = band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : 'band1';
+    const resolvedBand = isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'band1' : targetBand;
+
+    useEffect(() => {
+      // Build a fresh daily set and route directly into its quiz lesson.
+      void generateDailyReviewSet(resolvedBand).then((opened) => {
+        if (opened) {
+          navigate(
+            `/learn/${tierForBand(resolvedBand)}/${resolvedBand}/unit/daily-review/lesson/0/quiz`,
+            { replace: true }
+          );
+          return;
+        }
+        navigate('/home', { replace: true });
+      });
+    }, [resolvedBand]);
+
+    return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Building daily set…</div>;
+  }
+
+  function ProfileRoute() {
+    return (
+      <ProfileScreen
+        onGoHome={goHome}
+        currentLearningLanguage={selectedLanguage}
+        onRequestLearningLanguageChange={async (languageId) => {
+          await selectLevel(null);
+          selectLanguage(languageId);
+          navigate('/profile');
+        }}
+        onOpenProgress={() => navigate('/profile/progress')}
+        onOpenAbout={() => navigate('/about')}
+      />
+    );
+  }
+
+  return (
+    <Routes>
+      <Route path="/" element={<LanguageRoute />} />
+      <Route path="/language" element={<LanguageRoute />} />
+      <Route path="/home" element={<HomeRoute />} />
+      <Route
+        path="/travel"
+        element={
+          <TravelModePage
+            onGoHome={goHome}
+            onOpenProfile={goProfile}
+            onOpenSection={(sectionId) => navigate(`/travel/${sectionId}`)}
+          />
+        }
+      />
+      <Route path="/travel/:sectionId" element={<TravelSectionRoute onGoHome={goHome} onOpenProfile={goProfile} />} />
+      <Route path="/learn" element={<LearnRoute />} />
+      <Route path="/learn/tones" element={<TonesRoute />} />
+      <Route path="/learn/:tier/:band" element={<UnitsRoute />} />
+      <Route
+        path="/learn/:tier/:band/unit/:unitId/lesson/:lessonIndex/:mode"
+        element={<LessonRouteController onGoHome={goHome} onOpenProfile={goProfile} />}
+      />
+      <Route path="/practice/daily/:band" element={<DailyPracticeRoute />} />
+      <Route path="/practice/:kind/:band" element={<PracticeRedirectRoute />} />
+      <Route path="/profile" element={<ProfileRoute />} />
+      <Route
+        path="/profile/progress"
+        element={<ProfileProgressScreen onGoHome={goHome} onGoProfile={() => navigate('/profile')} />}
+      />
+      <Route
+        path="/about"
+        element={<AboutSonusScreen onGoHome={goHome} onGoProfile={() => navigate('/profile')} />}
+      />
+      <Route path="*" element={<Navigate to={selectedLanguage ? '/home' : '/'} replace />} />
+    </Routes>
+  );
+}
+
+function TravelSectionRoute({ onGoHome, onOpenProfile }: { onGoHome: () => void; onOpenProfile: () => void }) {
+  const { sectionId } = useParams<{ sectionId: string }>();
+  const section = sectionId ? getTravelSectionById(sectionId) : undefined;
+
+  if (!section) return <Navigate to="/travel" replace />;
+
+  return (
+    <TravelSectionPage
+      key={section.id}
+      section={section}
+      onGoHome={onGoHome}
+      onOpenProfile={onOpenProfile}
+    />
+  );
+}

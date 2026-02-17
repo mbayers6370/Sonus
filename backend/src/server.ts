@@ -70,7 +70,22 @@ async function buildServer() {
   });
 
   app.addHook('onResponse', async (request, reply) => {
-    if (!env.AUDIT_LOG_ENABLED || !request.url.startsWith('/v1/')) return;
+    if (!request.url.startsWith('/v1/')) return;
+    const durationMs = reply.elapsedTime;
+    if (durationMs >= env.SLOW_REQUEST_MS) {
+      request.log.warn(
+        {
+          perf: true,
+          method: request.method,
+          path: request.routeOptions.url ?? request.url,
+          statusCode: reply.statusCode,
+          durationMs,
+          thresholdMs: env.SLOW_REQUEST_MS,
+        },
+        'slow_request'
+      );
+    }
+    if (!env.AUDIT_LOG_ENABLED) return;
     const userId = request.user?.id ?? 'anonymous';
     request.log.info(
       {
@@ -79,7 +94,7 @@ async function buildServer() {
         method: request.method,
         path: request.routeOptions.url ?? request.url,
         statusCode: reply.statusCode,
-        durationMs: reply.elapsedTime,
+        durationMs,
       },
       'request_completed'
     );
