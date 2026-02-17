@@ -10,7 +10,9 @@ The current product focus is Mandarin lesson flow, pronunciation scoring, and re
 ## High-Level Components
 
 ### Frontend (`sonus-react/`)
-- Router and route-level orchestration in `src/App.tsx`
+- App shell in `src/App.tsx`
+- Route-level orchestration in `src/routes/AppRoutes.tsx`
+- Lesson flow controller in `src/routes/LessonRouteController.tsx`
 - Central application state in `src/contexts/AppContext.tsx`
 - Feature surfaces in `src/components/*`:
   - Learn (`Flashcard`)
@@ -24,8 +26,13 @@ The current product focus is Mandarin lesson flow, pronunciation scoring, and re
 - Route modules:
   - `src/routes/me.ts`
   - `src/routes/attempts.ts`
+- Service modules for domain orchestration:
+  - `src/services/profileService.ts`
+  - `src/services/progressService.ts`
+  - `src/services/reviewInsightsService.ts`
 - Data layer through Prisma (`src/lib/prisma.ts`)
 - Auth mode abstraction in `src/lib/auth.ts` (`mock` or `supabase`)
+- Rate limiter abstraction in `src/lib/rateLimiter.ts` (`memory`, `redis`, `edge`)
 
 ## Frontend State Model
 `AppContext` is the primary state boundary for learning flow:
@@ -98,3 +105,9 @@ Frontend remains source of immediate UI state; backend is source of durable hist
 - Production: `HashRouter`
 
 Hash routing is used in production to avoid deep-link refresh failures on static hosting.
+
+## Scalability Notes
+- In-app `memory` rate limiting is single-instance and intended for local/demo environments.
+- Distributed enforcement uses `RATE_LIMIT_MODE=redis` with shared counters.
+- `RATE_LIMIT_MODE=edge` delegates enforcement to a gateway/CDN limiter.
+- For horizontal deployments, enable `TRUST_PROXY=true` and configure the reverse-proxy chain correctly.

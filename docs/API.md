@@ -12,9 +12,13 @@ In mock mode, requests can include:
 - `x-dev-user-email`
 
 ## API Runtime Controls
+- Rate limiter mode is controlled by `RATE_LIMIT_MODE` (`memory`, `redis`, `edge`).
 - CORS policy is controlled by `CORS_ORIGINS`.
 - Request payload size is capped by `BODY_LIMIT_BYTES`.
-- `/v1/*` endpoints are protected by IP-based rate limiting (`RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX`).
+- `/v1/*` endpoints are rate-limited by identity (`user id` when available, fallback to `ip`).
+- `memory` mode is per-instance only and not globally consistent across multi-instance deployments.
+- `redis` mode uses shared counters (`REDIS_REST_URL`, `REDIS_REST_TOKEN`) for distributed enforcement.
+- `edge` mode disables in-app enforcement and expects gateway/CDN-level rate limiting.
 - Slow request warnings are emitted when response time exceeds `SLOW_REQUEST_MS`.
 - API request audit logs can be enabled/disabled with `AUDIT_LOG_ENABLED`.
 

@@ -84,6 +84,20 @@ Optional env controls:
 - `PERF_DEV_USER_ID`
 - `PERF_DEV_USER_EMAIL`
 
+## Load Check
+Runs a short concurrency run against a key review endpoint.
+
+```bash
+npm run perf:load
+```
+
+Optional env controls:
+- `LOAD_API_BASE_URL`
+- `LOAD_CONCURRENCY`
+- `LOAD_DURATION_SECONDS`
+- `LOAD_DEV_USER_ID`
+- `LOAD_DEV_USER_EMAIL`
+
 ## API Endpoints
 - `GET /health`
 - `GET /v1/me/profile`
@@ -105,11 +119,18 @@ x-dev-user-email: test@example.com
 ```
 
 ## Production Hardening Controls
+- Proxy mode: `TRUST_PROXY`
+- Rate limit mode: `RATE_LIMIT_MODE` (`memory`, `redis`, `edge`)
 - CORS allowlist: `CORS_ORIGINS` (comma-separated origins)
 - Request body limit: `BODY_LIMIT_BYTES`
 - API rate limit: `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX`
+- Rate limit fail-open strategy: `RATE_LIMIT_FAIL_OPEN`
+- Redis rate-limit backend: `REDIS_REST_URL`, `REDIS_REST_TOKEN`
 - Slow request warning threshold: `SLOW_REQUEST_MS`
 - API audit logging: `AUDIT_LOG_ENABLED`
+
+`memory` mode is per-instance and intended for local/demo deployments.  
+Use `redis` or gateway/CDN enforcement for multi-instance production deployments.
 
 ## Backend Module Layout
 - `src/routes/` exposes HTTP handlers and request validation.

@@ -23,10 +23,15 @@ Defined/validated in `backend/src/env.ts`.
 - `SUPABASE_SERVICE_ROLE_KEY`
 
 ### Deployment and Hardening Variables
+- `TRUST_PROXY` (`true`/`false`)
+- `RATE_LIMIT_MODE` (`memory`, `redis`, `edge`)
 - `CORS_ORIGINS` (comma-separated allowlist)
 - `BODY_LIMIT_BYTES` (Fastify request body limit)
 - `RATE_LIMIT_WINDOW_MS` (rate-limit window duration)
 - `RATE_LIMIT_MAX` (max requests per window and IP)
+- `RATE_LIMIT_FAIL_OPEN` (`true`/`false`)
+- `REDIS_REST_URL` (required for `RATE_LIMIT_MODE=redis`)
+- `REDIS_REST_TOKEN` (required for `RATE_LIMIT_MODE=redis`)
 - `SLOW_REQUEST_MS` (slow-request warning threshold in ms)
 - `AUDIT_LOG_ENABLED` (`true`/`false`)
 
@@ -64,8 +69,17 @@ Used by `backend/scripts/perf-smoke.mjs`:
 - `PERF_DEV_USER_ID`
 - `PERF_DEV_USER_EMAIL`
 
+## Load Check Script Variables
+Used by `backend/scripts/load-check.mjs`:
+- `LOAD_API_BASE_URL` (default `http://127.0.0.1:4000`)
+- `LOAD_CONCURRENCY` (default `10`)
+- `LOAD_DURATION_SECONDS` (default `20`)
+- `LOAD_DEV_USER_ID`
+- `LOAD_DEV_USER_EMAIL`
+
 ## Validation Notes
 - Backend startup fails fast when env validation fails.
 - Missing Supabase keys are only errors when `AUTH_MODE=supabase`.
 - In `AUTH_MODE=mock`, empty `CORS_ORIGINS` allows all browser origins for local development.
 - In `AUTH_MODE=supabase`, set `CORS_ORIGINS` explicitly before deployment.
+- `RATE_LIMIT_MODE=redis` requires both `REDIS_REST_URL` and `REDIS_REST_TOKEN`.

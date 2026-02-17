@@ -18,6 +18,7 @@ This document defines practical performance targets and repeatable checks for th
 2. Start backend locally.
 3. Run backend performance smoke script.
 4. Record resulting p50/p95/p99 and compare against the previous run.
+5. Run a short concurrency load check before deployment.
 
 ## Commands
 
@@ -32,13 +33,16 @@ With backend running:
 
 ```bash
 npm --prefix backend run perf:smoke
+npm --prefix backend run perf:load
 ```
 
 ## Instrumentation Included
 - API request duration logging via Fastify `onResponse` hook.
 - Slow-request warning log for `/v1/*` routes when `duration >= SLOW_REQUEST_MS`.
 - Optional API audit log entries (`AUDIT_LOG_ENABLED`).
+- In-app limiter mode (`memory`, `redis`, `edge`) controlled by `RATE_LIMIT_MODE`.
 
 ## Notes
 - The smoke script is a baseline guardrail, not a full load test.
-- For release hardening, add staged load tests (k6/Artillery) and monitor p95/p99 under realistic concurrency.
+- `perf:load` is a quick local concurrency check, not a full soak/perf suite.
+- For release hardening, add staged k6/Artillery tests and monitor p95/p99 under realistic concurrency.

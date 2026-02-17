@@ -13,10 +13,21 @@ const envSchema = z
     SUPABASE_ANON_KEY: z.string().min(1).optional(),
     SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
     PORT: z.coerce.number().int().positive().default(4000),
+    TRUST_PROXY: z
+      .string()
+      .optional()
+      .transform((value) => value === 'true'),
+    RATE_LIMIT_MODE: z.enum(['memory', 'redis', 'edge']).default('memory'),
     CORS_ORIGINS: z.string().default(''),
     BODY_LIMIT_BYTES: z.coerce.number().int().positive().max(10 * 1024 * 1024).default(1_048_576),
     RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().max(10 * 60 * 1000).default(60_000),
     RATE_LIMIT_MAX: z.coerce.number().int().positive().max(5_000).default(180),
+    RATE_LIMIT_FAIL_OPEN: z
+      .string()
+      .optional()
+      .transform((value) => value !== 'false'),
+    REDIS_REST_URL: z.string().url().optional(),
+    REDIS_REST_TOKEN: z.string().min(1).optional(),
     SLOW_REQUEST_MS: z.coerce.number().int().positive().max(60_000).default(250),
     AUDIT_LOG_ENABLED: z
       .string()
@@ -44,6 +55,23 @@ const envSchema = z
           code: z.ZodIssueCode.custom,
           path: ['SUPABASE_SERVICE_ROLE_KEY'],
           message: 'required when AUTH_MODE=supabase',
+        });
+      }
+    }
+
+    if (value.RATE_LIMIT_MODE === 'redis') {
+      if (!value.REDIS_REST_URL) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['REDIS_REST_URL'],
+          message: 'required when RATE_LIMIT_MODE=redis',
+        });
+      }
+      if (!value.REDIS_REST_TOKEN) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['REDIS_REST_TOKEN'],
+          message: 'required when RATE_LIMIT_MODE=redis',
         });
       }
     }

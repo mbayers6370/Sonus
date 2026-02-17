@@ -49,6 +49,7 @@ model QuizAttempt {
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
   @@index([userId, createdAt])
+  @@index([userId, isCorrect, createdAt])
   @@index([userId, wordId, createdAt])
   @@map("quiz_attempts")
 }
@@ -67,6 +68,7 @@ model SpeakAttempt {
 
   @@index([userId, createdAt])
   @@index([userId, wordId, createdAt])
+  @@index([userId, initialOk, finalOk, toneOk, createdAt])
   @@map("speak_attempts")
 }
 
@@ -88,6 +90,8 @@ model WordMemoryState {
   @@unique([userId, wordId])
   @@index([userId, quizDueAt])
   @@index([userId, pronunciationRisk])
+  @@index([userId, missedQuizCount, mispronounceCount, quizDueAt])
+  @@index([userId, pronunciationRisk, missedQuizCount, mispronounceCount, quizDueAt])
   @@map("word_memory_state")
 }
 

@@ -1,0 +1,202 @@
+type RateLimitResult = {
+  allowed: boolean;
+  count: number;
+  limit: number;
+  remaining: number;
+  retryAfterSeconds: number;
+  source: 'memory' | 'redis' | 'edge';
+};
+
+interface RateLimiter {
+  check(identity: string): Promise<RateLimitResult>;
+}
+
+interface CreateRateLimiterInput {
+  mode: 'memory' | 'redis' | 'edge';
+  windowMs: number;
+  max: number;
+  redisRestUrl?: string;
+  redisRestToken?: string;
+  failOpen: boolean;
+}
+
+type MemoryBucket = { startedAt: number; count: number };
+
+const memoryBuckets = new Map<string, MemoryBucket>();
+
+function normalizeRedisBaseUrl(url: string) {
+  return url.endsWith('/') ? url.slice(0, -1) : url;
+}
+
+function cleanupMemoryBuckets(now: number, windowMs: number) {
+  for (const [key, bucket] of memoryBuckets.entries()) {
+    if (now - bucket.startedAt > windowMs) {
+      memoryBuckets.delete(key);
+    }
+  }
+}
+
+function createMemoryLimiter(windowMs: number, max: number): RateLimiter {
+  return {
+    async check(identity: string) {
+      const now = Date.now();
+      const existing = memoryBuckets.get(identity);
+      let count = 1;
+
+      if (!existing || now - existing.startedAt > windowMs) {
+        memoryBuckets.set(identity, { startedAt: now, count });
+      } else {
+        existing.count += 1;
+        count = existing.count;
+      }
+
+      cleanupMemoryBuckets(now, windowMs);
+      const allowed = count <= max;
+      const retryAfterSeconds = Math.max(1, Math.ceil(windowMs / 1000));
+      return {
+        allowed,
+        count,
+        limit: max,
+        remaining: Math.max(0, max - count),
+        retryAfterSeconds,
+        source: 'memory',
+      };
+    },
+  };
+}
+
+function createEdgeLimiter(max: number): RateLimiter {
+  return {
+    async check() {
+      // Edge mode delegates enforcement to a gateway/CDN layer.
+      return {
+        allowed: true,
+        count: 0,
+        limit: max,
+        remaining: max,
+        retryAfterSeconds: 0,
+        source: 'edge',
+      };
+    },
+  };
+}
+
+function createRedisLimiter(
+  windowMs: number,
+  max: number,
+  redisRestUrl: string,
+  redisRestToken: string,
+  failOpen: boolean
+): RateLimiter {
+  const baseUrl = normalizeRedisBaseUrl(redisRestUrl);
+
+  return {
+    async check(identity: string) {
+      const now = Date.now();
+      const windowKey = Math.floor(now / windowMs);
+      const redisKey = `rl:${windowKey}:${identity}`;
+      const ttlMs = windowMs - (now % windowMs) + 500;
+
+      try {
+        const response = await fetch(`${baseUrl}/pipeline`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${redisRestToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify([
+            ['INCR', redisKey],
+            ['PEXPIRE', redisKey, ttlMs],
+          ]),
+        });
+
+        if (!response.ok) {
+          throw new Error(`redis pipeline failed (${response.status})`);
+        }
+
+        const payload = (await response.json()) as Array<{ result?: unknown }>;
+        const countRaw = payload?.[0]?.result;
+        const count = typeof countRaw === 'number' ? countRaw : Number(countRaw ?? 0);
+        if (!Number.isFinite(count) || count <= 0) {
+          throw new Error('redis returned invalid counter');
+        }
+
+        const allowed = count <= max;
+        const retryAfterSeconds = Math.max(1, Math.ceil(ttlMs / 1000));
+        return {
+          allowed,
+          count,
+          limit: max,
+          remaining: Math.max(0, max - count),
+          retryAfterSeconds,
+          source: 'redis',
+        };
+      } catch (error) {
+        if (!failOpen) throw error;
+        return {
+          allowed: true,
+          count: 0,
+          limit: max,
+          remaining: max,
+          retryAfterSeconds: 0,
+          source: 'redis',
+        };
+      }
+    },
+  };
+}
+
+export function createRateLimiter(input: CreateRateLimiterInput): RateLimiter {
+  if (input.mode === 'edge') {
+    return createEdgeLimiter(input.max);
+  }
+
+  if (input.mode === 'redis') {
+    if (!input.redisRestUrl || !input.redisRestToken) {
+      throw new Error('RATE_LIMIT_MODE=redis requires REDIS_REST_URL and REDIS_REST_TOKEN');
+    }
+    return createRedisLimiter(
+      input.windowMs,
+      input.max,
+      input.redisRestUrl,
+      input.redisRestToken,
+      input.failOpen
+    );
+  }
+
+  return createMemoryLimiter(input.windowMs, input.max);
+}
+
+function decodeJwtSub(token: string) {
+  try {
+    const parts = token.split('.');
+    if (parts.length < 2) return null;
+    const payloadPart = parts[1];
+    const base64 = payloadPart.replace(/-/g, '+').replace(/_/g, '/');
+    const decoded = Buffer.from(base64, 'base64').toString('utf8');
+    const parsed = JSON.parse(decoded) as { sub?: string };
+    return typeof parsed.sub === 'string' && parsed.sub.length > 0 ? parsed.sub : null;
+  } catch {
+    return null;
+  }
+}
+
+function readHeader(value: string | string[] | undefined) {
+  if (!value) return null;
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export function resolveRateLimitIdentity(headers: Record<string, string | string[] | undefined>, ip: string) {
+  // Prefer authenticated identity keys where possible to avoid shared-IP collisions.
+  const devUserId = readHeader(headers['x-dev-user-id']);
+  if (devUserId) return `user:${devUserId}`;
+
+  const authHeader = readHeader(headers.authorization);
+  if (authHeader && authHeader.toLowerCase().startsWith('bearer ')) {
+    const token = authHeader.slice(7).trim();
+    const sub = decodeJwtSub(token);
+    if (sub) return `user:${sub}`;
+  }
+
+  return `ip:${ip || 'unknown'}`;
+}

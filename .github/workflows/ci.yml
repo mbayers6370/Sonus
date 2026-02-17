@@ -68,6 +68,8 @@ jobs:
           DEV_USER_ID=00000000-0000-4000-8000-000000000001
           DEV_USER_EMAIL=dev@local.test
           PORT=4000
+          RATE_LIMIT_MODE=memory
+          TRUST_PROXY=false
           EOF
 
       - name: Prepare database
@@ -96,3 +98,4 @@ jobs:
 
           curl -fsS http://127.0.0.1:4000/health > /dev/null
           npm --prefix backend run test:core
+          PERF_RUNS=5 npm --prefix backend run perf:smoke
