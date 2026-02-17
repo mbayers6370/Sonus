@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -15,23 +15,28 @@ export default function AuthScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const emailInputRef = useRef<HTMLInputElement | null>(null);
+  const passwordInputRef = useRef<HTMLInputElement | null>(null);
+  const autoSubmittedRef = useRef(false);
 
   const timezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone || undefined, []);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (emailOverride?: string, passwordOverride?: string) => {
     if (loading) return;
     setError(null);
     setMessage(null);
     setLoading(true);
     try {
+      const resolvedEmail = (emailOverride ?? email).trim();
+      const resolvedPassword = passwordOverride ?? password;
       if (mode === 'signin') {
-        await signIn(email, password);
+        await signIn(resolvedEmail, resolvedPassword);
       } else {
         const { requiresEmailVerification } = await signUp({
           firstName: firstName.trim(),
           lastName: lastName.trim(),
-          email: email.trim(),
-          password,
+          email: resolvedEmail,
+          password: resolvedPassword,
           timezone,
         });
         if (requiresEmailVerification) {
@@ -47,6 +52,51 @@ export default function AuthScreen() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    autoSubmittedRef.current = false;
+  }, [mode]);
+
+  useEffect(() => {
+    if (mode !== 'signin' || loading) return;
+    let checks = 0;
+    const timer = window.setInterval(() => {
+      const emailEl = emailInputRef.current;
+      const passwordEl = passwordInputRef.current;
+      if (!emailEl || !passwordEl) return;
+
+      const nextEmail = emailEl.value.trim();
+      const nextPassword = passwordEl.value;
+
+      if (nextEmail && nextEmail !== email) setEmail(nextEmail);
+      if (nextPassword && nextPassword !== password) setPassword(nextPassword);
+
+      const isAutoFilled = (() => {
+        try {
+          return (
+            emailEl.matches(':-webkit-autofill') ||
+            passwordEl.matches(':-webkit-autofill') ||
+            emailEl.matches(':autofill') ||
+            passwordEl.matches(':autofill')
+          );
+        } catch {
+          return false;
+        }
+      })();
+
+      if (!autoSubmittedRef.current && isAutoFilled && nextEmail && nextPassword) {
+        autoSubmittedRef.current = true;
+        void handleSubmit(nextEmail, nextPassword);
+      }
+
+      checks += 1;
+      if (checks >= 16) window.clearInterval(timer);
+    }, 250);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [mode, loading, email, password]);
 
   return (
     <div className="min-h-screen page-shell px-6 py-8 flex items-center justify-center">
@@ -95,51 +145,63 @@ export default function AuthScreen() {
           </p>
         )}
 
-        {mode === 'signup' && (
-          <div className="grid grid-cols-2 gap-2 mb-2">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            void handleSubmit();
+          }}
+        >
+          {mode === 'signup' && (
+            <div className="grid grid-cols-2 gap-2 mb-2">
+              <input
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="First name"
+                autoComplete="given-name"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white text-left"
+              />
+              <input
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last name"
+                autoComplete="family-name"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white text-left"
+              />
+            </div>
+          )}
+
+          <div className="space-y-2">
             <input
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="First name"
+              ref={emailInputRef}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              autoComplete="username webauthn"
               className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white text-left"
             />
             <input
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Last name"
+              ref={passwordInputRef}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
               className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white text-left"
             />
           </div>
-        )}
 
-        <div className="space-y-2">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white text-left"
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white text-left"
-          />
-        </div>
+          {error && <p className="text-sm text-[#C2410C] mt-3">{error}</p>}
+          {message && <p className="text-sm text-[#3E5648] mt-3">{message}</p>}
 
-        {error && <p className="text-sm text-[#C2410C] mt-3">{error}</p>}
-        {message && <p className="text-sm text-[#3E5648] mt-3">{message}</p>}
-
-        <button
-          type="button"
-          onClick={() => void handleSubmit()}
-          disabled={loading}
-          className="w-full mt-4 inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-[#1F2A37] text-white font-semibold hover:bg-[#111827] transition-colors disabled:opacity-60"
-        >
-          {loading ? 'Working…' : mode === 'signin' ? 'Sign In' : 'Create Account'}
-        </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full mt-4 inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-[#1F2A37] text-white font-semibold hover:bg-[#111827] transition-colors disabled:opacity-60"
+          >
+            {loading ? 'Working…' : mode === 'signin' ? 'Sign In' : 'Create Account'}
+          </button>
+        </form>
         {authMode === 'mock' && (
           <button
             type="button"
