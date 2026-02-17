@@ -28,6 +28,25 @@ type ProgressPayload = {
   };
 };
 
+const LAST_LANGUAGE_KEY = 'sonus.last_language';
+
+function readLastLanguage(): string | null {
+  try {
+    const value = window.localStorage.getItem(LAST_LANGUAGE_KEY);
+    return value?.trim() || null;
+  } catch {
+    return null;
+  }
+}
+
+function writeLastLanguage(languageId: string) {
+  try {
+    window.localStorage.setItem(LAST_LANGUAGE_KEY, languageId);
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
 export default function AppRoutes() {
   const navigate = useNavigate();
   const [languageResolved, setLanguageResolved] = useState(false);
@@ -63,12 +82,21 @@ export default function AppRoutes() {
         const payload = (await response.json()) as { profile?: { targetLanguage?: string | null } };
         const profileLanguage = payload.profile?.targetLanguage;
         if (!cancelled && typeof profileLanguage === 'string' && profileLanguage.trim()) {
-          selectLanguage(profileLanguage.trim());
+          const resolvedLanguage = profileLanguage.trim();
+          writeLastLanguage(resolvedLanguage);
+          selectLanguage(resolvedLanguage);
           navigate('/home', { replace: true });
           return;
         }
       } catch {
         // Fall back to onboarding language selection.
+      }
+
+      const cachedLanguage = readLastLanguage();
+      if (!cancelled && cachedLanguage) {
+        selectLanguage(cachedLanguage);
+        navigate('/home', { replace: true });
+        return;
       }
 
       if (!cancelled) setLanguageResolved(true);
@@ -165,6 +193,7 @@ export default function AppRoutes() {
         onOpenProfile={goProfile}
         onSelectLanguage={(langId: string) => {
           const isFirstSelection = !selectedLanguage;
+          writeLastLanguage(langId);
           selectLanguage(langId);
           if (isFirstSelection) {
             trackEvent('onboarding_language_selected', { languageId: langId });
@@ -348,6 +377,7 @@ export default function AppRoutes() {
         currentLearningLanguage={selectedLanguage}
         onRequestLearningLanguageChange={async (languageId) => {
           await selectLevel(null);
+          writeLastLanguage(languageId);
           selectLanguage(languageId);
           navigate('/profile');
         }}

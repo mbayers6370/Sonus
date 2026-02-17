@@ -127,10 +127,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         const response = await apiFetch('/v1/me/profile');
         if (!response.ok) {
-          clearAuthSession();
-          setStatus('signed_out');
-          setIsDemo(false);
-          setEmail(null);
+          // Only clear session on explicit auth failures.
+          if (response.status === 401 || response.status === 403) {
+            clearAuthSession();
+            setStatus('signed_out');
+            setIsDemo(false);
+            setEmail(null);
+          } else {
+            // Render cold starts / transient backend failures should not force logout.
+            const mockIdentity = getMockIdentity();
+            setStatus('signed_in');
+            setIsDemo(false);
+            setEmail(mockIdentity.email || null);
+          }
           return;
         }
         const profileJson = (await response.json()) as { profile?: { email?: string | null } };
@@ -139,8 +148,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setStatus('signed_in');
       } catch {
         if (cancelled) return;
-        setError('Unable to initialize authentication.');
-        setStatus('signed_out');
+        const token = getAccessToken();
+        if (token) {
+          const mockIdentity = getMockIdentity();
+          setStatus('signed_in');
+          setIsDemo(false);
+          setEmail(mockIdentity.email || null);
+          setError('Backend temporarily unavailable. Retrying in background.');
+        } else {
+          setError('Unable to initialize authentication.');
+          setStatus('signed_out');
+        }
       }
     };
     void init();
