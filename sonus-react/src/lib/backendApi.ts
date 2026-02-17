@@ -1,3 +1,5 @@
+import { API_BASE_URL } from './apiBase';
+
 type QuizAttemptPayload = {
   wordId: string;
   isCorrect: boolean;
@@ -17,9 +19,8 @@ type SpeakAttemptPayload = {
   score?: number;
 };
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
-
 async function postJson(path: string, payload: unknown) {
+  // Centralized JSON POST helper to keep request/response handling consistent.
   const response = await fetch(`${API_BASE_URL}${path}`, {
     method: 'POST',
     headers: {
@@ -43,12 +44,14 @@ export async function sendSpeakAttempt(payload: SpeakAttemptPayload) {
 }
 
 export function sendQuizAttemptSafe(payload: QuizAttemptPayload) {
+  // Fire-and-forget transport for analytics-like attempt logging.
   void sendQuizAttempt(payload).catch((error) => {
     console.warn('[API] Failed to send quiz attempt', error);
   });
 }
 
 export function sendSpeakAttemptSafe(payload: SpeakAttemptPayload) {
+  // Fire-and-forget transport for analytics-like attempt logging.
   void sendSpeakAttempt(payload).catch((error) => {
     console.warn('[API] Failed to send speak attempt', error);
   });
@@ -73,6 +76,7 @@ export async function saveOnboardingSelection(targetLanguage: string) {
 }
 
 export function saveOnboardingSelectionSafe(targetLanguage: string) {
+  // Do not block onboarding flow on telemetry/profile write failures.
   void saveOnboardingSelection(targetLanguage).catch((error) => {
     console.warn('[API] Failed to save onboarding selection', error);
   });

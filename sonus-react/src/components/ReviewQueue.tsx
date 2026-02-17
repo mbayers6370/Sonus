@@ -3,6 +3,7 @@ import { RefreshCw } from 'lucide-react';
 import type { BandData, Word } from '../types/lesson.types';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
+import { API_BASE_URL } from '../lib/apiBase';
 
 type ReviewQueueItem = {
   wordId: string;
@@ -30,8 +31,6 @@ interface ReviewQueueProps {
   onGoHome: () => void;
   onOpenProfile: () => void;
 }
-
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
 
 function reasonLabel(reason: string) {
   switch (reason) {

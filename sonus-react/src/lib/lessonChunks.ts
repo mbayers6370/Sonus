@@ -8,6 +8,7 @@ export function getBalancedLessonSizes(totalWords: number, maxChunkSize = 10): n
   if (totalWords <= 0) return [];
   if (totalWords <= maxChunkSize) return [totalWords];
 
+  // Compute chunk count first, then rebalance to avoid tiny trailing lessons.
   const lessonCount = Math.ceil(totalWords / maxChunkSize);
 
   // For two lessons:
@@ -52,6 +53,7 @@ export function sliceWordsForLesson<T>(words: T[], lessonIndex: number, maxChunk
   const sizes = getBalancedLessonSizes(words.length, maxChunkSize);
   if (lessonIndex < 0 || lessonIndex >= sizes.length) return [];
 
+  // Convert lesson index to absolute slice offsets based on balanced sizes.
   let startOffset = 0;
   for (let i = 0; i < lessonIndex; i += 1) {
     startOffset += sizes[i];

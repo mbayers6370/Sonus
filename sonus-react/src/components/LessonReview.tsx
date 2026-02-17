@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useApp } from '../contexts/AppContext';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
@@ -29,10 +29,6 @@ export default function LessonReview({
   }, [activeLesson, quizResultsByIndex]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [activeLesson?.unitId, activeLesson?.lessonIndex, missedWords.length]);
 
   if (!activeLesson) return null;
 

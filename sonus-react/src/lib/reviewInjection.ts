@@ -1,6 +1,7 @@
 import type { Word } from '../types/lesson.types';
 
 function sampleWithoutReplacement<T>(items: T[], count: number): T[] {
+  // Random sample without duplicates so injected review words are distinct.
   const pool = [...items];
   const picked: T[] = [];
   const target = Math.min(count, pool.length);
@@ -18,6 +19,7 @@ export function appendReviewWords(
   maxInject: number,
   injectProbability: number
 ) {
+  // Injection is probabilistic and bounded by both candidate supply and lesson size.
   const safeMaxInject = Math.max(0, Math.min(maxInject, reviewCandidates.length, lessonWords.length));
   if (safeMaxInject === 0 || Math.random() > injectProbability) {
     return [...lessonWords];

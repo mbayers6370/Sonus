@@ -1,91 +1,85 @@
-# Sonus (Monorepo)
+# Sonus Monorepo
 
-Sonus is a Mandarin-first language learning platform focused on short, structured practice loops:
-- `Learn` for guided vocabulary intake
-- `Quiz` for recognition and comprehension
-- `Speak` for pronunciation feedback (initial/final/tone)
+Sonus is a Mandarin-first language learning platform focused on structured practice loops:
+- `Learn` for vocabulary intake
+- `Quiz` for recognition/comprehension
+- `Speak` for pronunciation scoring (initial/final/tone)
 
-The repository contains both the frontend application and backend API used for progress tracking, weak-word review, and lesson continuity.
+This repository contains both the frontend application and backend API.
 
 ## Live Demo
 - App: https://sonus-1.onrender.com
 
-## Product Scope
-Sonus currently includes:
-- Lesson flows across multiple units and bands
+## Current Scope
+- Multi-band lesson flow with unit/lesson structure
 - Progress persistence and resume checkpoints
-- Quiz and speaking score tracking
-- Weak-word and spaced-review injection
-- Daily review generation
-- Practice tracks (listening and speaking)
-- Web-app friendly navigation behavior (mobile and desktop standalone modes)
+- Quiz and speaking attempt tracking
+- Weak-word and spaced-review workflows
+- Daily review set generation
+- Listening and speaking practice tracks
 
-## Repository Structure
+## Repository Layout
 - `sonus-react/` - React + Vite + TypeScript frontend
 - `backend/` - Fastify + Prisma + TypeScript API
 - `docs/` - product and engineering notes
 - `scripts/` - project utilities and validation scripts
+- `files/` - archived/source data assets
+
+## Core Documentation
+- `docs/ARCHITECTURE.md` - system boundaries and runtime flow
+- `docs/API.md` - backend endpoint contract
+- `docs/ENV.md` - environment variable reference
+- `docs/PRODUCT_SETTINGS.md` - product-level defaults and settings
 
 ## Prerequisites
 - Node.js 20+
 - npm 10+
 - PostgreSQL (local install or Docker)
 
-## Local Development
+## Local Setup
 1. Install dependencies:
-
 ```bash
 npm --prefix backend install
 npm --prefix sonus-react install
 ```
 
 2. Configure backend environment:
-
 ```bash
 cp backend/.env.example backend/.env
 ```
 
 3. Start PostgreSQL and sync schema:
-
 ```bash
 npm --prefix backend run prisma:push
 ```
 
-4. Run both apps:
-
+4. Run frontend and backend:
 ```bash
 npm run dev:all
 ```
 
-Local URLs:
+Local endpoints:
 - Frontend: `http://127.0.0.1:5173`
 - Backend: `http://127.0.0.1:4000`
 
-## Environment Notes
-`backend/.env.example` includes:
-- `DATABASE_URL`
-- `AUTH_MODE` (`mock` for local development)
-- `DEV_USER_ID` / `DEV_USER_EMAIL`
-- Supabase keys (required only when `AUTH_MODE="supabase"`)
-- `PORT`
-
 ## Root Scripts
-- `npm run dev:frontend` - frontend only
-- `npm run dev:backend` - backend only
-- `npm run dev:all` - frontend + backend together
-- `npm run checklist` - regression checklist
-- `npm run test:core` - backend core regression flow
+- `npm run dev:frontend` - run frontend only
+- `npm run dev:backend` - run backend only
+- `npm run dev:all` - run frontend and backend together
+- `npm run checklist` - run regression checklist helper
+- `npm run test:core` - run backend core regression test
 
 ## Quality Gates
 ```bash
 npm --prefix sonus-react run lint
 npm --prefix sonus-react run build
+npm --prefix backend run lint
 npm --prefix backend run build
 ```
 
 ## Deployment Notes
-- The frontend uses hash-based routing in production to avoid deep-link refresh failures on static hosting.
-- Browser-history routing requires host rewrites so all application routes resolve to `index.html`.
+- Frontend production builds use hash routing to avoid deep-link refresh failures on static hosts.
+- If browser-history routing is reintroduced, host rewrites must direct unknown routes to `index.html`.
 
 ## Demo Assets
 ### Home

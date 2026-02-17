@@ -190,7 +190,7 @@ async function ensureHanziLookupLoaded() {
   if (hanziLookupPromise) return hanziLookupPromise;
 
   hanziLookupPromise = (async () => {
-    const responses = await Promise.all(
+    const responses = await Promise.allSettled(
       HANZI_BAND_IDS.map(async (bandId) => {
         const response = await fetch(`/data/zh/${bandId}.json`, { cache: 'no-store' });
         if (!response.ok) return null;
@@ -198,9 +198,13 @@ async function ensureHanziLookupLoaded() {
       })
     );
 
-    for (const bandData of responses) {
+    for (const result of responses) {
+      if (result.status !== 'fulfilled') continue;
+      const bandData = result.value;
       if (!bandData) continue;
-      const units = Object.values(bandData.units || {});
+      const units = Array.isArray(bandData.units)
+        ? bandData.units
+        : Object.values(bandData.units || {});
       for (const unit of units) {
         for (const word of unit.words || []) {
           addHanziMapping(word.simp, word.pinyin);
@@ -263,6 +267,30 @@ function inferPinyinFromTargetHanzi(recognizedHanziRaw: string, targetHanziRaw: 
     if (token) inferred.push(token);
   }
   return inferred.join(' ').trim();
+}
+
+function inferSingleCharPinyinFromLessonWords(charRaw: string, words: Word[]) {
+  const char = normalizeHanzi(charRaw);
+  if (!char || Array.from(char).length !== 1) return '';
+
+  const candidates: string[] = [];
+  // Align Hanzi index to pinyin token index for each lesson word that contains the character.
+  for (const lessonWord of words) {
+    const lessonHanzi = Array.from(normalizeHanzi(lessonWord.simp || lessonWord.trad || ''));
+    if (!lessonHanzi.length) continue;
+    const idx = lessonHanzi.indexOf(char);
+    if (idx < 0) continue;
+    const tokens = tokenizePinyin(lessonWord.pinyin || '', lessonHanzi.length);
+    const token = tokens[idx];
+    if (token) candidates.push(token);
+  }
+  if (!candidates.length) return '';
+
+  const counts = new Map<string, number>();
+  for (const candidate of candidates) {
+    counts.set(candidate, (counts.get(candidate) || 0) + 1);
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || '';
 }
 
 function toneLabel(tone: number) {
@@ -510,6 +538,8 @@ export default function SpeakMode({
   const [matchResult, setMatchResult] = useState<MatchResult>(null);
   const [audioError, setAudioError] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<PronunciationAnalysis | null>(null);
+  // Forces a rerender once async lookup tables finish loading.
+  const [, setLookupVersion] = useState(0);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const mediaStreamRef = useRef<MediaStream | null>(null);
@@ -533,17 +563,26 @@ export default function SpeakMode({
   );
 
   useEffect(() => {
-    void ensureHanziLookupLoaded();
+    let cancelled = false;
+    void ensureHanziLookupLoaded().finally(() => {
+      if (cancelled) return;
+      setLookupVersion((prev) => prev + 1);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const resolveDetectedPinyin = (recognized: string): { pinyin: string; source: PronunciationAnalysis['source'] } => {
     const heardHanzi = normalizeHanzi(recognized);
 
     if (heardHanzi) {
+      // Fast path when recognition exactly matches the current target word.
       if (heardHanzi === targetHanzi && word.pinyin) {
         return { pinyin: word.pinyin, source: 'hanzi-map' };
       }
 
+      // Check current lesson vocabulary first to prioritize local context.
       const matchInLesson = allWords.find(
         (lessonWord) => normalizeHanzi(lessonWord.simp) === heardHanzi || normalizeHanzi(lessonWord.trad) === heardHanzi
       );
@@ -559,8 +598,16 @@ export default function SpeakMode({
         }
       }
 
-      // If recognition only catches part of the target phrase, infer the
-      // matching syllable from the target pinyin so feedback stays useful.
+      if (heardHanzi.length === 1) {
+        // Last Hanzi-path fallback: infer character reading from lesson-level alignments.
+        const inferredFromLesson = inferSingleCharPinyinFromLessonWords(heardHanzi, allWords);
+        if (inferredFromLesson) {
+          return { pinyin: inferredFromLesson, source: 'hanzi-map' };
+        }
+      }
+
+      // If only a subset of target Hanzi is recognized, infer the aligned
+      // syllable from target pinyin to preserve component-level scoring.
       if (heardHanzi.length === 1 && targetHanzi.length > 1 && word.pinyin) {
         const idx = Array.from(targetHanzi).indexOf(heardHanzi);
         if (idx >= 0) {
@@ -603,6 +650,7 @@ export default function SpeakMode({
     let finalMatches = 0;
     let toneMatches = 0;
 
+    // Compare by syllable index so per-component scores map to target structure.
     for (let i = 0; i < target.length; i += 1) {
       const targetSyllable = target[i];
       const heardSyllable = heard[i];
@@ -644,6 +692,7 @@ export default function SpeakMode({
     }
 
     if (!targetPinyin) return false;
+    // Accept exact or contained matches before falling back to edit distance.
     if (cleanedRecognized === targetPinyin || cleanedRecognized.includes(targetPinyin)) return true;
 
     const dist = levenshtein(cleanedRecognized, targetPinyin);
@@ -806,8 +855,7 @@ export default function SpeakMode({
           setAnalysis(chosen.analysis);
           setMatchResult(chosen.match ? 'match' : 'retry');
 
-          // Auto-stop as soon as we capture a spoken result (final transcript,
-          // or a strong interim match) so users don't need to tap stop.
+          // Auto-stop when a final transcript or strong interim match is available.
           if (
             isRecordingRef.current &&
             recognitionStateRef.current === 'recording' &&
@@ -823,12 +871,12 @@ export default function SpeakMode({
       };
 
       recognition.onerror = () => {
-        // Recognition can fail while media recording is still healthy.
+        // Speech recognition errors do not invalidate the active media stream.
       };
 
       recognition.onend = () => {
-        // In one-utterance mode, finalize immediately once we have a candidate.
-        // If nothing was captured, continue listening while still recording.
+        // In one-utterance mode, finalize immediately when a candidate exists.
+        // Otherwise, restart recognition while media recording remains active.
         if (sessionId !== recordingSessionRef.current) return;
         if (isRecordingRef.current && recognitionStateRef.current === 'recording' && pendingSpeakAttemptRef.current) {
           stopMediaRecorder();
@@ -838,7 +886,7 @@ export default function SpeakMode({
           try {
             recognition.start();
           } catch {
-            // Restart failures are non-fatal for recording.
+            // Ignore recognition restart errors while recording continues.
           }
         }
       };
@@ -846,7 +894,7 @@ export default function SpeakMode({
       recognition.start();
       recognitionRef.current = recognition;
     } catch {
-      // Recognition startup failures should not block audio recording.
+      // Recognition startup failures do not block media recording.
     }
   };
 
@@ -860,7 +908,7 @@ export default function SpeakMode({
       window.clearTimeout(recognitionStopTimerRef.current);
       recognitionStopTimerRef.current = null;
     }
-    // Stop listening immediately when user taps stop.
+    // Transition recognition state before stopping recognition/media tracks.
     recognitionStateRef.current = 'finalizing';
     setIsFinalizing(true);
     stopRecognition();
@@ -987,8 +1035,9 @@ export default function SpeakMode({
       return true;
     });
   const detectedPinyinLabel = firstUsableDetected || '';
-  const resultPinyinLabel = detectedPinyinLabel || (word.pinyin || '').trim();
-  const resultPinyinTag = detectedPinyinLabel ? 'Detected' : 'Pinyin';
+  const shouldShowTargetPinyin = !detectedPinyinLabel && (!heardHanzi || isNoSpeech);
+  const resultPinyinLabel = detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : '');
+  const resultPinyinTag = detectedPinyinLabel ? 'Detected' : 'Target';
 
   const renderScoreChips = (compact: boolean) => {
     if (!analysis) return null;
@@ -1214,7 +1263,6 @@ export default function SpeakMode({
               />
 
               <div className="h-full flex flex-col justify-center text-center">
-                <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
                 <div className={`secondary-font font-semibold text-text-dark leading-tight break-words ${noSpeechMobileClass}`}>
                   {transcript || '...'}
                 </div>
@@ -1245,7 +1293,6 @@ export default function SpeakMode({
               }`}
             >
               <div className="h-full flex flex-col items-center justify-center text-center">
-                <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
                 <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
                 <div className="hidden sm:block text-xs text-text-med mt-1">
                   {transcript ? 'Captured audio' : 'Record to compare'}
@@ -1265,10 +1312,9 @@ export default function SpeakMode({
               title="Play target audio"
             >
               <Volume2 className="absolute top-3 right-3 w-5 h-5 text-[#C2410C]" />
-              <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Speak From English</div>
-              <div className="text-base font-semibold text-text-dark leading-tight">{word.en}</div>
-              <div className="secondary-font text-xl text-text-med mt-1">{word.simp}</div>
+              <div className="secondary-font text-xl text-text-dark mt-1">{word.simp}</div>
               {word.pinyin ? <div className="text-[13px] text-text-light">{word.pinyin}</div> : null}
+              <div className="text-base font-semibold text-text-med leading-tight mt-1">{word.en}</div>
             </button>
 
             <button
@@ -1284,7 +1330,6 @@ export default function SpeakMode({
               />
 
               <div className="h-full flex flex-col justify-center text-center">
-                <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
                 <div className={`secondary-font font-semibold text-text-dark leading-tight break-words ${noSpeechMobileClass}`}>
                   {transcript || '...'}
                 </div>
@@ -1302,10 +1347,9 @@ export default function SpeakMode({
           <div className="hidden sm:block rounded-3xl border border-[#C2410C]/25 bg-white/95 p-3 md:p-4 mb-2 sm:mb-3 shadow-[0_18px_38px_-28px_rgba(15,23,42,0.35)]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
               <div className="rounded-3xl border border-[rgba(194,65,12,0.22)] bg-[rgba(194,65,12,0.08)] px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] flex flex-col items-center justify-center text-center">
-                <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Speak From English</div>
-                <div className="text-lg sm:text-xl font-semibold text-text-dark leading-tight">{word.en}</div>
-                <div className="secondary-font text-2xl sm:text-3xl text-text-med mt-1">{word.simp}</div>
+                <div className="secondary-font text-2xl sm:text-3xl text-text-dark mt-1">{word.simp}</div>
                 {word.pinyin ? <div className="text-sm text-text-light">{word.pinyin}</div> : null}
+                <div className="text-lg sm:text-xl font-semibold text-text-med leading-tight mt-1">{word.en}</div>
               </div>
 
               <div
@@ -1316,7 +1360,6 @@ export default function SpeakMode({
                 }`}
               >
                 <div className="h-full flex flex-col items-center justify-center text-center">
-                  <div className="text-[11px] tracking-wide font-mono text-[#C2410C] mb-1">Listening</div>
                   <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
                   <div className="hidden sm:block text-xs text-text-med mt-1">
                     {transcript ? 'Captured audio' : 'Record to compare'}

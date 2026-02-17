@@ -18,9 +18,7 @@ import ProfileProgressScreen from './components/ProfileProgressScreen';
 import { saveOnboardingSelectionSafe } from './lib/backendApi';
 import { trackEvent } from './lib/analytics';
 import { getTravelSectionById } from './data/travelModeData';
-
-const API_BASE_URL =
-  (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
+import { API_BASE_URL } from './lib/apiBase';
 
 type ProgressPayload = {
   progress?: {
@@ -89,8 +87,8 @@ function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
     }
     const loadKey = `${band}:${unitId}:${parsedLessonIndex}`;
 
-    // Keep the hydrated in-memory lesson when it already matches the route.
-    // This prevents refreshes from rebuilding/shuffling a different lesson instance.
+    // Reuse the current in-memory lesson when it already matches the route
+    // to avoid unnecessary reshuffling during hydration and refresh.
     const hasLegacyReattemptWords = Boolean(
       state.activeLesson?.words?.some(
         (word) => Boolean(word.isReattempt) || Boolean(word.reattemptOfWordId)
@@ -145,7 +143,7 @@ function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
           pendingLoadKeyRef.current = '';
         }
       });
-  }, [band, unitId, parsedLessonIndex, navigate, selectLanguage, state.selectedLanguage, state.activeBandId, state.activeLesson, state.unlockedLevels]);
+  }, [band, unitId, parsedLessonIndex, lessonMode, navigate, openLessonPath, selectLanguage, state.selectedLanguage, state.activeBandId, state.activeLesson, state.lessonMode, state.unlockedLevels]);
 
   useEffect(() => {
     if (!activeLesson || isCompleteRoute || isReviewRoute || !level) return;
@@ -386,6 +384,7 @@ function AppPages() {
     useEffect(() => {
       if (!level) return;
       if (selectedLanguage !== 'zh') selectLanguage('zh');
+      // Ensure band payload is loaded when route band changes.
       if (currentLevel?.id !== level.id) {
         void selectLevel(level);
       }
@@ -425,6 +424,7 @@ function AppPages() {
     const targetMode: LessonMode = targetKind === 'listening' ? 'quiz' : 'speak';
 
     useEffect(() => {
+      // Try requested band first, then fall back to Band 1 practice routes.
       void openLessonPath(resolvedBand, targetUnitId, 0).then((opened) => {
         if (opened) {
           navigate(
@@ -454,6 +454,7 @@ function AppPages() {
     const resolvedBand = isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'band1' : targetBand;
 
     useEffect(() => {
+      // Build a fresh daily set and route directly into its quiz lesson.
       void generateDailyReviewSet(resolvedBand).then((opened) => {
         if (opened) {
           navigate(
@@ -464,7 +465,7 @@ function AppPages() {
         }
         navigate('/home', { replace: true });
       });
-    }, [generateDailyReviewSet, navigate, resolvedBand]);
+    }, [resolvedBand]);
 
     return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Building daily set…</div>;
   }
@@ -540,6 +541,7 @@ function TravelSectionRoute({ onGoHome, onOpenProfile }: { onGoHome: () => void;
 
   return (
     <TravelSectionPage
+      key={section.id}
       section={section}
       onGoHome={onGoHome}
       onOpenProfile={onOpenProfile}

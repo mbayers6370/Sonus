@@ -24,6 +24,7 @@ import { trackEvent } from '../lib/analytics';
 import { getLessonRanges, sliceWordsForLesson } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
+import { API_BASE_URL } from '../lib/apiBase';
 
 interface AppContextType {
   state: AppState;
@@ -88,6 +89,7 @@ const BAND_UNLOCK_PASS_PERCENT = 90;
 const APPLY_PROMPT_COUNT = 12;
 
 function resolveBandDataId(bandId: string) {
+  // Bands 7-9 share a merged payload on disk.
   if (bandId === 'band7' || bandId === 'band8' || bandId === 'band9' || bandId === 'advanced') {
     return 'band7-9';
   }
@@ -175,6 +177,7 @@ function getBandUnitById(bandData: BandData, unitId: string): UnitRecord | null 
   const units = getBandUnits(bandData);
   const direct = units.find((unit) => unit.id === unitId);
   if (direct) return direct;
+  // Support canonical matching so equivalent ids can merge split/macro units.
   const targetKey = canonicalUnitKey(unitId);
   const matched = units.filter((unit) => canonicalUnitKey(unit.id) === targetKey);
   if (!matched.length) return null;
@@ -299,9 +302,6 @@ function buildPracticeWordPool(bandData: BandData, count: number): Word[] {
     .slice(0, Math.max(0, count))
     .map((word) => ({ ...word, isReview: false }));
 }
-
-const API_BASE_URL =
-  (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
 
 type ReviewQueueItem = {
   wordId: string;
@@ -556,6 +556,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         coreLessonCount > 0 &&
         lessonIndex === coreLessonCount;
       let lessonChunk: Word[] = [];
+      // Unlock checks are score-based so users can continue where they left off
+      // without requiring completed flags from older session states.
       const hasLessonPassedThreshold = (targetUnitId: string, targetLessonIndex: number) => {
         const key = makeLessonKey(bandId, targetUnitId, targetLessonIndex);
         return (state.lessonProgress[key]?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT;
@@ -635,6 +637,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         lessonChunk = shuffleWords(uniquePool).slice(0, Math.min(uniquePool.length, checkpointBaseSize));
       } else {
         if (!unit) return false;
+        // Apply lessons override examples with curated sentence prompts.
         const applySentenceByUnit = isApplyLesson ? await fetchApplySentenceMap(bandId, true) : {};
         const applySentences = applySentenceByUnit[resolvedUnitId] || [];
         const applyByWordId = new Map(
@@ -690,6 +693,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           resolvedUnitId &&
         resumeCheckpoint?.lessonIndex === lessonIndex;
 
+      // Resume only normal lessons with a compatible word list shape.
       if (canResumeSameLesson && resumeCheckpoint) {
         setState((prev) => ({
           ...prev,
@@ -782,6 +786,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         }
         const reviewCandidates = shuffleWords(Array.from(combinedById.values()));
         const shouldInjectReviewWords = !isCheckpointQuiz;
+        // Inject a small number of due/weak words without replacing core lesson content.
         lessonWords = shouldInjectReviewWords
           ? appendReviewWords(lessonWordsBase, reviewCandidates, 3, 1)
           : [...lessonWordsBase];
@@ -800,6 +805,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       setState((prev) => {
         const nextWordReview = { ...prev.wordReview };
+        // Ensure every known word has review metadata for spaced scheduling.
         for (const [wordId] of allWordById.entries()) {
           if (nextWordReview[wordId]) continue;
           const sourceUnitId = sourceUnitByWordId.get(wordId) || null;
@@ -931,6 +937,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (!prev.activeLesson) return prev;
       const sourceWord = prev.activeLesson.words[lessonIndex];
       if (!sourceWord || sourceWord.reattemptQueued) return prev;
+      // Reinsert a quick retest later in the same lesson sequence.
       const delay = 5 + Math.floor(Math.random() * 6);
       const insertAt = Math.min(prev.activeLesson.words.length, lessonIndex + delay + 1);
       const clone: Word = {
@@ -982,10 +989,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
       let nextReviewAt = existing.nextReviewAt;
 
       if (!isCorrect) {
+        // Wrong answers reset streak and pull the next review window closer.
         consecutiveCorrect = 0;
         totalWrong += 1;
         nextReviewAt = plusDays(1);
       } else {
+        // Correct answers expand the spacing interval based on streak/confidence.
         consecutiveCorrect = Math.min(existing.consecutiveCorrect + 1, 3);
         totalCorrect += 1;
         const baseDays = scheduleDaysForCorrectStreak(consecutiveCorrect);
@@ -1056,6 +1065,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       const picks: string[] = [];
       const seen = new Set<string>();
+      // Fill daily sets in priority order: due -> recent misses -> aging strong -> random backfill.
       for (const wordId of due) {
         if (picks.length >= 5) break;
         if (seen.has(wordId)) continue;
@@ -1212,6 +1222,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       };
 
       let nextUnlockedLevels = prev.unlockedLevels;
+      // Band unlocks are computed from per-lesson quiz thresholds across core units.
       if (state.selectedLanguage === 'zh' && /^band\d+$/i.test(bandId) && prev.activeBandData) {
         const coreUnits = getUnitsForBand(bandId)
           .filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id))

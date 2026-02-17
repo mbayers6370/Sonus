@@ -55,6 +55,7 @@ function getUnitDataById(
   unitId: string
 ) {
   if (!units) return null;
+  // Normalize id variants so merged/split unit payloads still resolve correctly.
   const canonical = (id?: string) =>
     (id || '')
       .replace(/^[a-z]\d+-u\d+-/i, '')
@@ -167,6 +168,7 @@ export default function UnitSelect({
       const totalWords = unitWords.length;
       const lessonRanges = getLessonRanges(totalWords, 10);
       const lessonsCount = lessonRanges.length;
+      // Apply prompts require full example pairs to be valid.
       const applySentenceCount = unitWords.filter(
         (word) =>
           typeof (word as { example?: { zh?: string; en?: string } }).example?.zh === 'string' &&
@@ -249,6 +251,7 @@ export default function UnitSelect({
       unlockedByUnitId.set(coreUnitIds[0], true);
     }
 
+    // Core units unlock linearly, with checkpoint quizzes gating every 4-unit block.
     for (let coreIndex = 1; coreIndex < coreUnitIds.length; coreIndex += 1) {
       const previousCoreUnitId = coreUnitIds[coreIndex - 1];
       let unlocked =
@@ -273,6 +276,7 @@ export default function UnitSelect({
       const start = (checkpointIndex - 1) * 4;
       const end = Math.min(coreUnitIds.length, checkpointIndex * 4);
       const coveredCoreUnits = coreUnitIds.slice(start, end);
+      // A checkpoint unlocks only when all covered core units passed threshold.
       const unlocked =
         coveredCoreUnits.length > 0 &&
         coveredCoreUnits.every((unitId) => hasUnitPassedThreshold(unitId));
@@ -284,12 +288,6 @@ export default function UnitSelect({
       unlockedByUnitId.set(practiceUnitId, unlocked);
     }
   }
-
-  useEffect(() => {
-    if (!activeUnitId) return;
-    if (unlockedByUnitId.get(activeUnitId) ?? true) return;
-    setActiveUnit(null);
-  }, [activeUnitId, searchParams.toString(), currentLevel.id, lessonProgress]);
 
   const columns = getGridColumns(viewportWidth);
   const activeUnit = activeUnitId

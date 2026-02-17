@@ -8,9 +8,7 @@ import {
 } from 'lucide-react';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
-
-const API_BASE_URL =
-  (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://127.0.0.1:4000';
+import { API_BASE_URL } from '../lib/apiBase';
 
 type Profile = {
   displayName: string | null;

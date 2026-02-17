@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Square, SquareCheckBig, Volume2 } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { useAudio } from '../hooks/useAudio';
@@ -56,15 +56,6 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
   const recallPhrase = typeof recallPhraseIndex === 'number' ? section.phrases[recallPhraseIndex] : undefined;
   const recallMode = getRecallMode(recallStep);
   const recallDone = recallStep >= recallQueue.length;
-
-  useEffect(() => {
-    const size = Math.min(10, section.phrases.length);
-    setRecallQueue(buildRecallQueue(section.phrases.length, size));
-    setRecallStep(0);
-    setRevealRecall(false);
-    setRecallGot(0);
-    setRecallMissed(0);
-  }, [section.id, section.phrases.length]);
 
   const resetRecallSprint = () => {
     const size = Math.min(10, section.phrases.length);

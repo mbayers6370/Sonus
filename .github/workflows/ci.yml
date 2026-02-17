@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  frontend:
+    name: Frontend Lint + Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: sonus-react/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci --prefix sonus-react
+
+      - name: Lint frontend
+        run: npm --prefix sonus-react run lint
+
+      - name: Build frontend
+        run: npm --prefix sonus-react run build
+
+  backend:
+    name: Backend Build + Core Regression
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: sonus
+          POSTGRES_PASSWORD: sonus_dev_password
+          POSTGRES_DB: sonus
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U sonus -d sonus"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        run: npm ci --prefix backend
+
+      - name: Write backend env
+        run: |
+          cat > backend/.env << 'EOF'
+          DATABASE_URL=postgresql://sonus:sonus_dev_password@localhost:5432/sonus
+          AUTH_MODE=mock
+          DEV_USER_ID=00000000-0000-4000-8000-000000000001
+          DEV_USER_EMAIL=dev@local.test
+          PORT=4000
+          EOF
+
+      - name: Prepare database
+        run: |
+          npm --prefix backend run prisma:generate
+          npm --prefix backend run prisma:push
+
+      - name: Lint backend
+        run: npm --prefix backend run lint
+
+      - name: Build backend
+        run: npm --prefix backend run build
+
+      - name: Start backend and run core regression
+        run: |
+          npm --prefix backend run dev > /tmp/backend-dev.log 2>&1 &
+          BACKEND_PID=$!
+          trap "kill ${BACKEND_PID}" EXIT
+
+          for i in {1..40}; do
+            if curl -fsS http://127.0.0.1:4000/health > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          curl -fsS http://127.0.0.1:4000/health > /dev/null
+          npm --prefix backend run test:core

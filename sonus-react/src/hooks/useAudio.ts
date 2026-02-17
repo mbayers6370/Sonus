@@ -12,6 +12,7 @@ export function useAudio() {
 
     const voices = synth.getVoices();
 
+    // Prefer high-quality Mandarin voices when available.
     const preferredChineseVoice = voices.find((v) =>
       v.lang.includes('zh') &&
       (v.name.includes('Ting-Ting') ||
@@ -43,6 +44,7 @@ export function useAudio() {
     }
 
     const textForPlayback = slow
+      // Add spacing for syllable-level pacing in slow mode.
       ? textToSpeak
           .split('')
           .join('   ')

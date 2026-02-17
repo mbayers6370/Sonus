@@ -38,6 +38,7 @@ function maskExample(example: string, targets: string[]) {
   const source = example.trim();
   if (!source) return '';
 
+  // Prefer direct term replacement, then fall back to whole-word matching.
   for (const target of targets) {
     const term = target.trim();
     if (!term) continue;
@@ -90,6 +91,8 @@ function buildChoices(word: Word, allWords: Word[]) {
   const correctAnswer = word.en.trim();
   const correctKey = normalizeAnswerText(correctAnswer);
 
+  // Build distractors from lesson vocabulary while deduplicating near-identical
+  // answers after normalization.
   const uniqueDistractors = new Map<string, string>();
   for (const candidate of shuffleArray(allWords)) {
     if (candidate.simp === word.simp) continue;
@@ -149,6 +152,7 @@ export default function Quiz({
 
   const handleNext = () => {
     if (isCorrect === null) return;
+    // Persist spaced-review outcome before advancing to the next prompt.
     recordWordOutcome(word, isCorrect, isCorrect ? 'sure' : 'unsure', 'quiz');
     setSelectedAnswer(null);
     setIsCorrect(null);

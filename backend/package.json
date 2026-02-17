@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx src/server.ts",
     "dev:watch": "tsx watch src/server.ts",
+    "lint": "tsc -p tsconfig.json --noEmit",
     "build": "tsc -p tsconfig.json",
     "test:core": "node scripts/core-regression.mjs",
     "start": "node dist/server.js",

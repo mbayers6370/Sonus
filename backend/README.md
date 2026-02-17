@@ -14,11 +14,11 @@ Fastify + Prisma API for profile, progress, weak words, and attempt tracking.
 ```bash
 cp .env.example .env
 ```
-2. Use local mock auth:
+2. Set local mock auth:
 ```env
 AUTH_MODE=mock
 ```
-3. Set a valid Postgres URL:
+3. Set a valid PostgreSQL URL:
 ```env
 DATABASE_URL=postgresql://sonus:sonus_dev_password@localhost:5432/sonus
 ```
@@ -48,6 +48,11 @@ Server: `http://127.0.0.1:4000`
 ## Build
 ```bash
 npm run build
+```
+
+## Lint
+```bash
+npm run lint
 ```
 
 ## Core Regression Test

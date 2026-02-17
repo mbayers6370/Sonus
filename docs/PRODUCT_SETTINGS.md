@@ -2,6 +2,11 @@
 
 This document records product-level decisions so behavior stays consistent while we ship.
 
+## Related Docs
+- `docs/ARCHITECTURE.md` - runtime structure and system boundaries
+- `docs/API.md` - backend contract and endpoint reference
+- `docs/ENV.md` - environment variables and local defaults
+
 ## Progress Model
 - No XP system.
 - Keep streaks as the motivation primitive.
@@ -38,4 +43,3 @@ This document records product-level decisions so behavior stays consistent while
 - Use practical daily cards (resume, streak, spotlight, motivation, shortcuts).
 - Phrase/motivation content should rotate at most once per day.
 - Tone should remain PG-13 and learner-safe.
-
