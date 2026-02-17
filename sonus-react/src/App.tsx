@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { Navigate, BrowserRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, BrowserRouter, HashRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { AppProvider, useApp } from './contexts/AppContext';
 import type { LessonBand, LessonMode } from './types/lesson.types';
 import LanguageSelect from './components/LanguageSelect';
@@ -546,11 +546,12 @@ function TravelSectionRoute({ onGoHome, onOpenProfile }: { onGoHome: () => void;
 }
 
 export default function App() {
+  const Router = import.meta.env.PROD ? HashRouter : BrowserRouter;
   return (
     <AppProvider>
-      <BrowserRouter>
+      <Router>
         <AppPages />
-      </BrowserRouter>
+      </Router>
     </AppProvider>
   );
 }
