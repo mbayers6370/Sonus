@@ -1,6 +1,9 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
+import { env } from '../env.js';
 import { requireAuth } from '../lib/auth.js';
+import { prisma } from '../lib/prisma.js';
+import { getSupabaseAdmin } from '../lib/supabase.js';
 import { fetchNeedsWork, fetchReviewQueue, fetchWeakLogs, fetchWrongWords } from '../services/reviewInsightsService.js';
 import { getOrCreateProfile, upsertProfile } from '../services/profileService.js';
 import { getProgressSnapshot, recordProgressEvent, updateProgressCurrent } from '../services/progressService.js';
@@ -73,6 +76,30 @@ export async function meRoutes(app: FastifyInstance) {
     });
 
     return { profile };
+  });
+
+  app.delete('/v1/me/account', { preHandler: [requireAuth] }, async (request) => {
+    const { id } = request.user;
+
+    await prisma.$transaction(async (tx) => {
+      await tx.quizAttempt.deleteMany({ where: { userId: id } });
+      await tx.speakAttempt.deleteMany({ where: { userId: id } });
+      await tx.wordMemoryState.deleteMany({ where: { userId: id } });
+      await tx.progressEvent.deleteMany({ where: { userId: id } });
+      await tx.userProgress.deleteMany({ where: { userId: id } });
+      await tx.profile.deleteMany({ where: { userId: id } });
+    });
+
+    if (env.AUTH_MODE === 'supabase') {
+      try {
+        const supabaseAdmin = getSupabaseAdmin();
+        await supabaseAdmin.auth.admin.deleteUser(id);
+      } catch {
+        // Account data is already removed from app tables; do not fail deletion on auth cleanup.
+      }
+    }
+
+    return { ok: true };
   });
 
   app.get('/v1/me/progress', { preHandler: [requireAuth] }, async (request) => {

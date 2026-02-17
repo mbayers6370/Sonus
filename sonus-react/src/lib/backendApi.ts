@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './apiBase';
+import { apiFetch } from './apiClient';
 
 type QuizAttemptPayload = {
   wordId: string;
@@ -21,14 +21,13 @@ type SpeakAttemptPayload = {
 
 async function postJson(path: string, payload: unknown) {
   // Centralized JSON POST helper to keep request/response handling consistent.
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await apiFetch(path, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
   });
-
   if (!response.ok) {
     const text = await response.text();
     throw new Error(`POST ${path} failed (${response.status}): ${text}`);
@@ -58,7 +57,7 @@ export function sendSpeakAttemptSafe(payload: SpeakAttemptPayload) {
 }
 
 export async function saveOnboardingSelection(targetLanguage: string) {
-  const response = await fetch(`${API_BASE_URL}/v1/me/profile`, {
+  const response = await apiFetch('/v1/me/profile', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

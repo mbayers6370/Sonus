@@ -3,7 +3,7 @@ import { RefreshCw } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { loadWordLookup, type WordLookup } from '../lib/wordLookup';
 import GlassHeader from './GlassHeader';
-import { API_BASE_URL } from '../lib/apiBase';
+import { apiFetch } from '../lib/apiClient';
 
 type Progress = {
   streak: number;
@@ -30,6 +30,14 @@ interface ProfileProgressScreenProps {
   onGoProfile: () => void;
 }
 
+const ROWS_PER_PAGE = 2;
+
+function getNeedsWorkColumns(width: number) {
+  if (width >= 1024) return 4;
+  if (width >= 640) return 3;
+  return 2;
+}
+
 export default function ProfileProgressScreen({ onGoHome, onGoProfile }: ProfileProgressScreenProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +46,10 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   const [recentEvents, setRecentEvents] = useState<ProgressEvent[]>([]);
   const [needsWork, setNeedsWork] = useState<NeedsWorkItem[]>([]);
   const [wordLookup, setWordLookup] = useState<WordLookup>({});
-  const [showAllNeedsWork, setShowAllNeedsWork] = useState(false);
+  const [visibleRows, setVisibleRows] = useState(ROWS_PER_PAGE);
+  const [needsWorkColumns, setNeedsWorkColumns] = useState(() =>
+    typeof window === 'undefined' ? 4 : getNeedsWorkColumns(window.innerWidth)
+  );
 
   const load = async () => {
     setLoading(true);
@@ -46,8 +57,8 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     setBackendOffline(false);
     try {
       const [progressResponse, needsWorkResponse] = await Promise.all([
-        fetch(`${API_BASE_URL}/v1/me/progress`),
-        fetch(`${API_BASE_URL}/v1/me/needs-work?limit=40&minTotalMisses=3`),
+        apiFetch('/v1/me/progress'),
+        apiFetch('/v1/me/needs-work?limit=40&minTotalMisses=3'),
       ]);
       if (!progressResponse.ok) throw new Error('Failed to load progress');
       const json = (await progressResponse.json()) as { progress: Progress; recentEvents: ProgressEvent[] };
@@ -79,7 +90,24 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     })();
   }, []);
 
-  const visibleNeedsWork = showAllNeedsWork ? needsWork : needsWork.slice(0, 10);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const updateColumns = () => {
+      setNeedsWorkColumns(getNeedsWorkColumns(window.innerWidth));
+    };
+
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
+
+  useEffect(() => {
+    setVisibleRows(ROWS_PER_PAGE);
+  }, [needsWork.length]);
+
+  const visibleNeedsWorkCount = Math.min(needsWork.length, visibleRows * needsWorkColumns);
+  const visibleNeedsWork = needsWork.slice(0, visibleNeedsWorkCount);
+  const hasMoreNeedsWork = visibleNeedsWorkCount < needsWork.length;
 
   return (
     <div className="min-h-screen page-shell px-6 pb-24">
@@ -146,35 +174,33 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
             <div className="text-sm text-text-med">No words currently in your needs-work list.</div>
           ) : (
             <>
-              <div className="space-y-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
                 {visibleNeedsWork.map((item) => (
-                  <div key={item.wordId} className="border border-border rounded-xl p-3 bg-[#FBFBF9]">
+                  <div
+                    key={item.wordId}
+                    className="border border-border rounded-xl p-2 bg-[#FBFBF9] min-h-[116px] sm:min-h-[124px] flex flex-col items-center justify-center text-center"
+                  >
                     {wordLookup[item.wordId] ? (
-                      <div className="mb-2">
+                      <div>
                         <div className="secondary-font text-2xl text-text-dark leading-none">
                           {wordLookup[item.wordId].simp}
                         </div>
-                        <div className="text-sm text-text-med mt-1">{wordLookup[item.wordId].pinyin}</div>
-                        <div className="text-sm text-text-light mt-0.5">{wordLookup[item.wordId].en}</div>
+                        <div className="text-xs text-text-med mt-1">{wordLookup[item.wordId].pinyin}</div>
+                        <div className="text-xs text-text-light mt-0.5">{wordLookup[item.wordId].en}</div>
                       </div>
-                    ) : null}
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="text-sm font-semibold text-text-dark">Needs Work</div>
-                      <div className="text-xs text-[#C2410C] font-semibold">{item.totalMisses} misses</div>
-                    </div>
-                    <div className="text-xs text-text-med">
-                      Risk {item.pronunciationRisk.toFixed(2)} · Quiz misses {item.missedQuizCount} · Speak misses{' '}
-                      {item.mispronounceCount}
+                    ) : <div className="text-xs text-text-med">Word</div>}
+                    <div className="mt-1 text-xs text-[#C2410C] font-semibold">
+                      {item.totalMisses} misses
                     </div>
                   </div>
                 ))}
               </div>
-              {needsWork.length > 10 && (
+              {hasMoreNeedsWork && (
                 <button
-                  onClick={() => setShowAllNeedsWork((prev) => !prev)}
+                  onClick={() => setVisibleRows((prev) => prev + ROWS_PER_PAGE)}
                   className="mt-3 text-sm font-medium text-[#186E95] hover:opacity-80"
                 >
-                  {showAllNeedsWork ? 'Show less' : `View all (${needsWork.length})`}
+                  Show more ({needsWork.length})
                 </button>
               )}
             </>

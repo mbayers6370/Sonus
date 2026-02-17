@@ -24,7 +24,7 @@ import { trackEvent } from '../lib/analytics';
 import { getLessonRanges, sliceWordsForLesson } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
-import { API_BASE_URL } from '../lib/apiBase';
+import { apiFetch } from '../lib/apiClient';
 
 interface AppContextType {
   state: AppState;
@@ -87,6 +87,7 @@ const ALL_LEVEL_IDS = [
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const BAND_UNLOCK_PASS_PERCENT = 90;
 const APPLY_PROMPT_COUNT = 12;
+const DAILY_REVIEW_WORD_COUNT = 5;
 
 function resolveBandDataId(bandId: string) {
   // Bands 7-9 share a merged payload on disk.
@@ -355,7 +356,7 @@ async function fetchReviewWordIds(limit = 30): Promise<string[]> {
   const timer = window.setTimeout(() => controller.abort(), 700);
 
   try {
-    const response = await fetch(`${API_BASE_URL}/v1/me/review-queue?limit=${limit}`, {
+    const response = await apiFetch(`/v1/me/review-queue?limit=${limit}`, {
       signal: controller.signal,
     });
     if (!response.ok) return [];
@@ -374,7 +375,7 @@ async function saveCurrentLessonPath(
   currentLessonIdx: number
 ) {
   try {
-    await fetch(`${API_BASE_URL}/v1/me/progress/current`, {
+    await apiFetch('/v1/me/progress/current', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -546,7 +547,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const checkpointIndex = parseCheckpointIndex(resolvedUnitId);
       const isCheckpointQuiz = checkpointIndex !== null;
       const practiceMode = getPracticeModeFromUnit(resolvedUnitId);
-      const isBandOneUnlockedMode = bandId === 'band1';
       const unit = getBandUnitById(bandData, resolvedUnitId);
       const words = unit?.words || [];
       const coreLessonCount = getLessonRanges(words.length, 10).length;
@@ -603,19 +603,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
         unlockedByUnitId.set(checkpointMeta.id, covered.length > 0 && covered.every((unitIdValue) => hasUnitPassedThreshold(unitIdValue)));
       }
       for (const practiceMeta of getUnitsForBand(bandId).filter((meta) => isPracticeUnitId(meta.id))) {
-        unlockedByUnitId.set(practiceMeta.id, coreUnitIds.length > 0 && coreUnitIds.every((unitIdValue) => hasUnitPassedThreshold(unitIdValue)));
+        unlockedByUnitId.set(practiceMeta.id, coreUnitIds.length > 0);
       }
-      if (!isBandOneUnlockedMode) {
-        if (!(unlockedByUnitId.get(resolvedUnitId) ?? false)) {
+      if (!(unlockedByUnitId.get(resolvedUnitId) ?? false)) {
+        return false;
+      }
+      if (!practiceMode && !isCheckpointQuiz) {
+        if (lessonIndex > 0 && !isApplyLesson && !hasLessonPassedThreshold(resolvedUnitId, lessonIndex - 1)) {
           return false;
         }
-        if (!practiceMode && !isCheckpointQuiz) {
-          if (lessonIndex > 0 && !isApplyLesson && !hasLessonPassedThreshold(resolvedUnitId, lessonIndex - 1)) {
-            return false;
-          }
-        } else if (lessonIndex !== 0) {
-          return false;
-        }
+      } else if (lessonIndex !== 0) {
+        return false;
       }
 
       if (isCheckpointQuiz && checkpointIndex) {
@@ -645,27 +643,76 @@ export function AppProvider({ children }: { children: ReactNode }) {
             .filter((item) => Boolean(item.wordId) && Boolean(item.zh?.trim()) && Boolean(item.en?.trim()))
             .map((item) => [item.wordId, item])
         );
+        const applyFallbackByWord = words
+          .filter((word) => Boolean(word.example?.zh?.trim()) && Boolean(word.example?.en?.trim()))
+          .map((word) => ({
+            ...word,
+            example: {
+              zh: word.example?.zh?.trim() || '',
+              en: word.example?.en?.trim() || '',
+              pinyin: word.example?.pinyin?.trim() || undefined,
+            },
+          }));
+        const applyWordsFromMap: Word[] = [];
+        for (const word of words) {
+          const applySentence = applyByWordId.get(word.id);
+          if (!applySentence) continue;
+          applyWordsFromMap.push({
+            ...word,
+            example: {
+              zh: applySentence.zh,
+              en: applySentence.en,
+              pinyin: applySentence.pinyin?.trim() || applySentence.py?.trim() || undefined,
+            },
+          });
+        }
+        const buildPracticePoolFromCurrentUnit = () => {
+          const resumeUnitId =
+            state.resumeCheckpoint?.bandId === bandId && state.resumeCheckpoint?.unitId
+              ? resolveUnitIdForBand(bandId, state.resumeCheckpoint.unitId)
+              : null;
+          const activeUnitId =
+            state.activeBandId === bandId && state.activeUnitId
+              ? resolveUnitIdForBand(bandId, state.activeUnitId)
+              : null;
+          const latestUnlockedCoreUnitId = coreUnitIds.filter((id) => Boolean(unlockedByUnitId.get(id))).at(-1) || null;
+          const sourceUnitId =
+            (resumeUnitId && coreUnitIds.includes(resumeUnitId) ? resumeUnitId : null) ||
+            (activeUnitId && coreUnitIds.includes(activeUnitId) ? activeUnitId : null) ||
+            latestUnlockedCoreUnitId ||
+            coreUnitIds[0];
+          if (!sourceUnitId) return buildPracticeWordPool(bandData, 5);
+
+          const sourceUnit = getBandUnitById(bandData, sourceUnitId);
+          const sourceWords = sourceUnit?.words || [];
+          const lessonCount = getLessonRanges(sourceWords.length, 10).length;
+          const unlockedLessonIndexes: number[] = [];
+          for (let idx = 0; idx < lessonCount; idx += 1) {
+            if (idx === 0 || hasLessonPassedThreshold(sourceUnitId, idx - 1)) {
+              unlockedLessonIndexes.push(idx);
+            } else {
+              break;
+            }
+          }
+          const pool = unlockedLessonIndexes.flatMap((idx) =>
+            sliceWordsForLesson(sourceWords, idx, 10)
+          );
+          const uniqueById = Array.from(new Map(pool.map((word) => [word.id, word])).values());
+          if (!uniqueById.length) return buildPracticeWordPool(bandData, 5);
+          return shuffleWords(uniqueById)
+            .slice(0, 5)
+            .map((word) => ({ ...word, sourceUnitId, isReview: false }));
+        };
+
         lessonChunk =
           isApplyLesson
             ? shuffleWords(
-                words
-                  .filter((word) => applyByWordId.has(word.id))
-                  .map((word) => {
-                    const applySentence = applyByWordId.get(word.id)!;
-                    return {
-                      ...word,
-                      example: {
-                        zh: applySentence.zh,
-                        en: applySentence.en,
-                        pinyin: applySentence.pinyin?.trim() || applySentence.py?.trim() || undefined,
-                      },
-                    };
-                  })
+                // Prefer curated apply JSON prompts; fall back to embedded examples
+                // when a unit has no mapped apply entries.
+                applyWordsFromMap.length > 0 ? applyWordsFromMap : applyFallbackByWord
               ).slice(0, APPLY_PROMPT_COUNT)
-          :
-          practiceMode && words.length === 0
-            // Practice units do not own word lists; they sample from band vocab.
-            ? buildPracticeWordPool(bandData, 12)
+          : practiceMode
+            ? buildPracticePoolFromCurrentUnit()
             : sliceWordsForLesson(words, lessonIndex);
       }
       if (!lessonChunk.length) return false;
@@ -1046,16 +1093,63 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const { map: wordById, sourceUnitByWordId } = getBandWordMap(bandData);
       const nowMs = Date.now();
       const today = todayKey();
+      const coreUnitIds = getUnitsForBand(targetBandId)
+        .filter((meta) => !isPracticeUnitId(meta.id) && !isCheckpointUnitId(meta.id))
+        .map((meta) => resolveUnitIdForBand(targetBandId, meta.id))
+        .filter((unitIdValue, idx, arr) => arr.indexOf(unitIdValue) === idx)
+        .filter((unitIdValue) => Boolean(getBandUnitById(bandData, unitIdValue)?.words?.length));
+      const fallbackUnitId = coreUnitIds[0];
+
+      const resumeUnitId =
+        state.resumeCheckpoint?.bandId === targetBandId && state.resumeCheckpoint?.unitId
+          ? resolveUnitIdForBand(targetBandId, state.resumeCheckpoint.unitId)
+          : null;
+      const activeUnitId =
+        state.activeBandId === targetBandId && state.activeUnitId
+          ? resolveUnitIdForBand(targetBandId, state.activeUnitId)
+          : null;
+      const candidateUnitId =
+        (resumeUnitId && !isPracticeUnitId(resumeUnitId) && !isCheckpointUnitId(resumeUnitId) && resumeUnitId !== 'daily-review'
+          ? resumeUnitId
+          : null) ||
+        (activeUnitId && !isPracticeUnitId(activeUnitId) && !isCheckpointUnitId(activeUnitId) && activeUnitId !== 'daily-review'
+          ? activeUnitId
+          : null) ||
+        fallbackUnitId;
+      if (!candidateUnitId) return false;
+      const candidateUnit = getBandUnitById(bandData, candidateUnitId);
+      if (!candidateUnit) return false;
+      const unitLessonCount = getLessonRanges(candidateUnit.words.length, 10).length;
+      if (unitLessonCount === 0) return false;
+      const hasLessonPassedThreshold = (targetLessonIndex: number) => {
+        const key = makeLessonKey(targetBandId, candidateUnitId, targetLessonIndex);
+        return (state.lessonProgress[key]?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT;
+      };
+      const unlockedLessonIndexes: number[] = [];
+      for (let lessonIdx = 0; lessonIdx < unitLessonCount; lessonIdx += 1) {
+        if (lessonIdx === 0 || hasLessonPassedThreshold(lessonIdx - 1)) {
+          unlockedLessonIndexes.push(lessonIdx);
+        } else {
+          break;
+        }
+      }
+      const candidateWordIds = new Set<string>();
+      for (const lessonIdx of unlockedLessonIndexes) {
+        for (const word of sliceWordsForLesson(candidateUnit.words, lessonIdx, 10)) {
+          candidateWordIds.add(word.id);
+        }
+      }
+      if (!candidateWordIds.size) return false;
 
       const due = Object.entries(state.wordReview)
-        .filter(([wordId, review]) => isDue(review.nextReviewAt, nowMs) && wordById.has(wordId))
+        .filter(([wordId, review]) => isDue(review.nextReviewAt, nowMs) && candidateWordIds.has(wordId) && wordById.has(wordId))
         .sort((a, b) => Date.parse(a[1].nextReviewAt) - Date.parse(b[1].nextReviewAt))
         .map(([wordId]) => wordId);
 
-      const recentMisses = state.recentMisses.filter((wordId) => wordById.has(wordId));
+      const recentMisses = state.recentMisses.filter((wordId) => candidateWordIds.has(wordId) && wordById.has(wordId));
 
       const agingStrong = Object.entries(state.wordReview)
-        .filter(([wordId, review]) => wordById.has(wordId) && review.consecutiveCorrect >= 3)
+        .filter(([wordId, review]) => candidateWordIds.has(wordId) && wordById.has(wordId) && review.consecutiveCorrect >= 3)
         .sort((a, b) => {
           const aTime = Date.parse(a[1].lastReviewedAt || '1970-01-01T00:00:00.000Z');
           const bTime = Date.parse(b[1].lastReviewedAt || '1970-01-01T00:00:00.000Z');
@@ -1067,27 +1161,27 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const seen = new Set<string>();
       // Fill daily sets in priority order: due -> recent misses -> aging strong -> random backfill.
       for (const wordId of due) {
-        if (picks.length >= 5) break;
+        if (picks.length >= DAILY_REVIEW_WORD_COUNT) break;
         if (seen.has(wordId)) continue;
         seen.add(wordId);
         picks.push(wordId);
       }
       for (const wordId of recentMisses) {
-        if (picks.length >= 8) break;
+        if (picks.length >= DAILY_REVIEW_WORD_COUNT) break;
         if (seen.has(wordId)) continue;
         seen.add(wordId);
         picks.push(wordId);
       }
       for (const wordId of agingStrong) {
-        if (picks.length >= 10) break;
+        if (picks.length >= DAILY_REVIEW_WORD_COUNT) break;
         if (seen.has(wordId)) continue;
         seen.add(wordId);
         picks.push(wordId);
       }
 
-      if (picks.length < 10) {
-        for (const wordId of shuffleWords(Array.from(wordById.keys()))) {
-          if (picks.length >= 10) break;
+      if (picks.length < DAILY_REVIEW_WORD_COUNT) {
+        for (const wordId of shuffleWords(Array.from(candidateWordIds))) {
+          if (picks.length >= DAILY_REVIEW_WORD_COUNT) break;
           if (seen.has(wordId)) continue;
           seen.add(wordId);
           picks.push(wordId);
@@ -1144,6 +1238,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const completeLessonProgress = () => {
     const { activeLesson, streak, lastActiveDate, lessonMode } = state;
     if (!activeLesson) return;
+    const nextCurrentPathRef: {
+      current: { bandId: string; unitId: string; lessonIdx: number } | null;
+    } = { current: null };
     const isCheckpointQuizUnit = isCheckpointUnitId(activeLesson.unitId);
     const today = new Date().toDateString();
     const yesterday = new Date(Date.now() - 86400000).toDateString();
@@ -1253,6 +1350,31 @@ export function AppProvider({ children }: { children: ReactNode }) {
         }
       }
 
+      const resolvedUnitId = resolveUnitIdForBand(bandId, activeLesson.unitId);
+      if (
+        prev.activeBandData &&
+        !isPracticeUnitId(resolvedUnitId) &&
+        !isCheckpointUnitId(resolvedUnitId) &&
+        resolvedUnitId !== 'daily-review'
+      ) {
+        const unit = getBandUnitById(prev.activeBandData, resolvedUnitId);
+        const lessonRanges = getLessonRanges((unit?.words || []).length, 10);
+        if (lessonRanges.length > 0) {
+          let latestUnlockedLessonIndex = 0;
+          for (let lessonIdx = 1; lessonIdx < lessonRanges.length; lessonIdx += 1) {
+            const priorKey = makeLessonKey(bandId, resolvedUnitId, lessonIdx - 1);
+            const priorPassed = (nextLessonProgress[priorKey]?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT;
+            if (!priorPassed) break;
+            latestUnlockedLessonIndex = lessonIdx;
+          }
+          nextCurrentPathRef.current = {
+            bandId,
+            unitId: resolvedUnitId,
+            lessonIdx: latestUnlockedLessonIndex,
+          };
+        }
+      }
+
       return {
         ...prev,
         streak: newStreak,
@@ -1313,6 +1435,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       lessonIndex: activeLesson.lessonIndex,
       totalWords: activeLesson.words.length,
     });
+    if (nextCurrentPathRef.current) {
+      void saveCurrentLessonPath(
+        nextCurrentPathRef.current.bandId,
+        nextCurrentPathRef.current.unitId,
+        nextCurrentPathRef.current.lessonIdx
+      );
+    }
   };
 
   const restartLesson = () => {

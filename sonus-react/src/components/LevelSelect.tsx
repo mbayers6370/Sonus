@@ -1,10 +1,14 @@
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import type { LessonBand } from '../types/lesson.types';
 import { ChevronRight } from 'lucide-react';
-import { getUnitsForBand } from '../data/unitMetadata';
+import { getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
+import { getLessonRanges } from '../lib/lessonChunks';
+import { makeLessonKey } from '../lib/lessonProgress';
+import { QUIZ_PASS_PERCENT } from '../lib/passCriteria';
 
 // Accent styling helpers
 const ACCENT = {
@@ -17,6 +21,42 @@ const ACCENT = {
 
 type AccentKey = keyof typeof ACCENT;
 const CARD_ACCENT_ORDER: AccentKey[] = ['navy', 'sage', 'graphite', 'rust'];
+
+type BandData = {
+  band: number;
+  units:
+    | Array<{ id?: string; words?: Array<{ id: string }> }>
+    | Record<string, { words?: Array<{ id: string }> }>;
+};
+
+function resolveBandDataId(bandId: string) {
+  if (bandId === 'band7' || bandId === 'band8' || bandId === 'band9' || bandId === 'advanced') {
+    return 'band7-9';
+  }
+  return bandId;
+}
+
+function resolveUnitIdForBand(bandId: string, unitId: string) {
+  if (bandId === 'band2' && unitId === 'b2-directions') {
+    return 'b2-places';
+  }
+  return unitId;
+}
+
+function getBandUnitsMap(bandData: BandData) {
+  const next = new Map<string, number>();
+  if (Array.isArray(bandData.units)) {
+    for (const unit of bandData.units) {
+      if (!unit?.id) continue;
+      next.set(unit.id, (unit.words || []).length);
+    }
+    return next;
+  }
+  for (const [unitId, unit] of Object.entries(bandData.units || {})) {
+    next.set(unitId, (unit?.words || []).length);
+  }
+  return next;
+}
 
 // HSK 3.0 Bands for Chinese
 const chineseLevels: LessonBand[] = [
@@ -339,6 +379,7 @@ interface LevelCardProps {
   level: LessonBand;
   isUnlocked: boolean;
   isCompleted: boolean;
+  isDrenched?: boolean;
   onSelect: (level: LessonBand) => void;
   // Optional overrides to support the Mandarin (band) view
   badgeLabel?: string;
@@ -354,6 +395,7 @@ function LevelCard({
   level,
   isUnlocked,
   isCompleted,
+  isDrenched = false,
   onSelect,
   badgeLabel,
   topRightLabel,
@@ -386,7 +428,11 @@ function LevelCard({
     <button
       onClick={() => isUnlocked && onSelect(level)}
       disabled={!isUnlocked}
-      className={`w-full bg-white/95 border ${a.leftBorder} rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
+      className={`w-full border rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
+        isDrenched && isUnlocked
+          ? `${level.id === 'band1' || level.id === 'band2' ? 'bg-[#3E5648]' : level.id === 'band3' || level.id === 'band4' ? 'bg-[#186E95]' : level.id === 'band5' || level.id === 'band6' ? 'bg-[#374151]' : 'bg-[#C2410C]'} border-transparent text-white`
+          : `bg-white/95 ${a.leftBorder}`
+      } ${
         isUnlocked
           ? `hover:-translate-y-0.5 ${a.hoverShadow} active:translate-y-0`
           : 'opacity-50 cursor-not-allowed'
@@ -396,7 +442,9 @@ function LevelCard({
         <div className="flex items-start justify-between gap-4">
           {showBadge ? (
             <span
-              className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${a.badgeBg} ${a.badgeText}`}
+              className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
+                isDrenched ? 'bg-white/20 text-white' : `${a.badgeBg} ${a.badgeText}`
+              }`}
             >
               {effectiveBadge}
             </span>
@@ -407,7 +455,7 @@ function LevelCard({
           {effectiveTopRight ? (
             <div
               className={`text-xs font-mono uppercase tracking-wider ${
-                isCompleted ? 'text-[#3E5648]' : 'text-text-light'
+                isDrenched ? 'text-white/85' : isCompleted ? 'text-[#3E5648]' : 'text-text-light'
               }`}
             >
               {effectiveTopRight}
@@ -424,32 +472,32 @@ function LevelCard({
             </p>
           )}
 
-          <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${a.badgeText}`}>
+          <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${isDrenched ? 'text-white' : a.badgeText}`}>
             {level.title || level.name}
           </h3>
 
-          <p className="text-[1.05rem] text-text-med mb-4">
+          <p className={`text-[1.05rem] mb-4 ${isDrenched ? 'text-white/90' : 'text-text-med'}`}>
             {level.subtitle || level.description}
           </p>
 
-          <div className="flex gap-10 text-sm font-mono text-text-dark mb-4">
+          <div className={`flex gap-10 text-sm font-mono mb-4 ${isDrenched ? 'text-white' : 'text-text-dark'}`}>
             <div>
               <span className="text-lg font-semibold">{level.wordRange || '—'}</span>
-              <div className="text-[11px] tracking-wide text-text-med">Vocabulary</div>
+              <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : 'text-text-med'}`}>Vocabulary</div>
             </div>
             <div>
               <span className="text-lg font-semibold">{unitCount}</span>
-              <div className="text-[11px] tracking-wide text-text-med">Units</div>
+              <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : 'text-text-med'}`}>Units</div>
             </div>
           </div>
 
-          <p className="text-[11px] leading-relaxed text-text-med font-mono tracking-wide mb-4">
+          <p className={`text-[11px] leading-relaxed font-mono tracking-wide mb-4 ${isDrenched ? 'text-white/80' : 'text-text-med'}`}>
             {bodyText ||
               'Structured lessons and practice built on official proficiency frameworks.'}
           </p>
 
           {isUnlocked && (
-            <div className={`${a.ctaText} text-sm font-semibold tracking-wide`}>{ctaLabel}</div>
+            <div className={`${isDrenched ? 'text-white' : a.ctaText} text-sm font-semibold tracking-wide`}>{ctaLabel}</div>
           )}
         </div>
       </div>
@@ -459,19 +507,20 @@ function LevelCard({
 
 interface LevelSelectProps {
   onSelectLevel: (level: LessonBand) => void;
-  onOpenMandarinTones?: () => void;
+  onOpenFoundations?: () => void;
   onGoHome: () => void;
   onOpenProfile: () => void;
 }
 
 export default function LevelSelect({
   onSelectLevel,
-  onOpenMandarinTones,
+  onOpenFoundations,
   onGoHome,
   onOpenProfile,
 }: LevelSelectProps) {
   const { state } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [bandQuizRequirementKeys, setBandQuizRequirementKeys] = useState<Record<string, string[]>>({});
 
   const getLevelsForLanguage = () => {
     switch (state.selectedLanguage) {
@@ -576,6 +625,56 @@ export default function LevelSelect({
       ]
     : [];
 
+  useEffect(() => {
+    if (state.selectedLanguage !== 'zh') return;
+    let cancelled = false;
+
+    const bandLevels = chineseLevels.filter((level) => /^band\d+$/i.test(level.id));
+    void Promise.all(
+      bandLevels.map(async (level) => {
+        try {
+          const response = await fetch(`/data/zh/${resolveBandDataId(level.id)}.json`, { cache: 'no-store' });
+          if (!response.ok) return [level.id, []] as const;
+          const bandData = (await response.json()) as BandData;
+          const unitWordsById = getBandUnitsMap(bandData);
+          const quizKeys: string[] = [];
+          for (const unit of getUnitsForBand(level.id)) {
+            if (isPracticeUnitId(unit.id)) continue;
+            if (isCheckpointUnitId(unit.id)) {
+              quizKeys.push(makeLessonKey(level.id, unit.id, 0));
+              continue;
+            }
+            const resolvedUnitId = resolveUnitIdForBand(level.id, unit.id);
+            const lessonCount = getLessonRanges(unitWordsById.get(resolvedUnitId) || 0, 10).length;
+            for (let lessonIdx = 0; lessonIdx < lessonCount; lessonIdx += 1) {
+              quizKeys.push(makeLessonKey(level.id, resolvedUnitId, lessonIdx));
+            }
+          }
+          return [level.id, quizKeys] as const;
+        } catch {
+          return [level.id, []] as const;
+        }
+      })
+    ).then((entries) => {
+      if (cancelled) return;
+      setBandQuizRequirementKeys(Object.fromEntries(entries));
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [state.selectedLanguage]);
+
+  const bandQuizCompleteById = useMemo(() => {
+    const next: Record<string, boolean> = {};
+    for (const [bandId, keys] of Object.entries(bandQuizRequirementKeys)) {
+      next[bandId] =
+        keys.length > 0 &&
+        keys.every((key) => (state.lessonProgress[key]?.quizScore ?? 0) >= QUIZ_PASS_PERCENT);
+    }
+    return next;
+  }, [bandQuizRequirementKeys, state.lessonProgress]);
+
   return (
     <div className="min-h-screen page-shell px-6 pb-24">
       <GlassHeader title={getLanguageName()} />
@@ -583,111 +682,142 @@ export default function LevelSelect({
       {/* Tier or Level Cards */}
       <div className="space-y-4">
         {state.selectedLanguage === 'zh' && activeTier === null && (
-          tiers.map((tier, index) => {
-            const a = ACCENT[CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]];
-            const isLocked = !tier.isAvailable;
-            return (
+          <>
             <button
-              key={tier.id}
-              onClick={() => {
-                if (isLocked) return;
-                if (tier.id === 'advanced') {
-                  onSelectLevel(advancedTrackLevel);
-                  return;
-                }
-                setTier(tier.id);
-              }}
-              disabled={isLocked}
-              className={`w-full bg-white/95 border ${a.leftBorder} rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
-                isLocked
-                  ? 'opacity-65 cursor-not-allowed'
-                  : `hover:-translate-y-0.5 ${a.hoverShadow} active:translate-y-0`
-              }`}
+              onClick={onOpenFoundations}
+              className={`w-full bg-white/95 border ${ACCENT.gray.leftBorder} rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${ACCENT.gray.hoverShadow} active:translate-y-0`}
             >
               <div className="w-full">
                 <div className="flex items-start justify-between gap-4">
                   <span
-                    className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${a.badgeBg} ${a.badgeText}`}
+                    className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${ACCENT.gray.badgeBg} ${ACCENT.gray.badgeText}`}
                   >
-                    Track
+                    Foundations
                   </span>
-                  {isLocked ? (
-                    <span className="text-xs font-mono uppercase tracking-wider text-text-light">
-                      Coming Soon
-                    </span>
-                  ) : (
-                    <ChevronRight className="w-5 h-5 text-text-light" />
-                  )}
+                  <ChevronRight className="w-5 h-5 text-text-light" />
                 </div>
 
                 <div className="mt-5">
-                  <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${a.badgeText}`}>
-                    {tier.title}
+                  <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${ACCENT.gray.badgeText}`}>
+                    Sound + Script Lab
                   </h3>
                   <p className="text-[1.05rem] text-text-med mb-4">
-                    {tier.subtitle}
+                    Tones, pinyin, and character pattern training
                   </p>
 
                   <div className="flex gap-10 text-sm font-mono text-text-dark mb-4">
                     <div>
-                      <span className="text-lg font-semibold">{tier.levels.length}</span>
+                      <span className="text-lg font-semibold">3</span>
                       <div className="text-[11px] tracking-wide text-text-med">
-                        Bands
+                        Modules
                       </div>
                     </div>
                   </div>
 
                   <p className="text-[11px] leading-relaxed text-text-med font-mono tracking-wide mb-4">
-                    {tier.summary}
+                    Optional fundamentals designed to improve pronunciation clarity and character recognition while you progress through bands.
                   </p>
 
-                  <div className={`${a.ctaText} text-sm font-semibold tracking-wide`}>
-                    {isLocked ? 'Releasing soon' : 'View bands →'}
+                  <div className={`${ACCENT.gray.ctaText} text-sm font-semibold tracking-wide`}>
+                    Open foundations →
                   </div>
                 </div>
               </div>
             </button>
-            );
-          })
+
+            {tiers.map((tier, index) => {
+              const a = ACCENT[CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]];
+              const isLocked = !tier.isAvailable;
+              const isTierDrenched =
+                tier.levels.length > 0 &&
+                tier.levels.every((level) => Boolean(bandQuizCompleteById[level.id]));
+              return (
+              <button
+                key={tier.id}
+                onClick={() => {
+                  if (isLocked) return;
+                  if (tier.id === 'advanced') {
+                    onSelectLevel(advancedTrackLevel);
+                    return;
+                  }
+                  setTier(tier.id);
+                }}
+                disabled={isLocked}
+                className={`w-full border rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
+                  isTierDrenched && !isLocked
+                    ? `${index === 0 ? 'bg-[#3E5648]' : index === 1 ? 'bg-[#186E95]' : 'bg-[#C2410C]'} border-transparent text-white`
+                    : `bg-white/95 ${a.leftBorder}`
+                } ${
+                  isLocked
+                    ? 'opacity-65 cursor-not-allowed'
+                    : `hover:-translate-y-0.5 ${a.hoverShadow} active:translate-y-0`
+                }`}
+              >
+                <div className="w-full">
+                  <div className="flex items-start justify-between gap-4">
+                    <span
+                      className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
+                        isTierDrenched ? 'bg-white/20 text-white' : `${a.badgeBg} ${a.badgeText}`
+                      }`}
+                    >
+                      Track
+                    </span>
+                    {isLocked ? (
+                      <span className="text-xs font-mono uppercase tracking-wider text-text-light">
+                        Coming Soon
+                      </span>
+                    ) : (
+                      <ChevronRight className="w-5 h-5 text-text-light" />
+                    )}
+                  </div>
+
+                  <div className="mt-5">
+                    <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${isTierDrenched ? 'text-white' : a.badgeText}`}>
+                      {tier.title}
+                    </h3>
+                    <p className={`text-[1.05rem] mb-4 ${isTierDrenched ? 'text-white/90' : 'text-text-med'}`}>
+                      {tier.subtitle}
+                    </p>
+
+                    <div className={`flex gap-10 text-sm font-mono mb-4 ${isTierDrenched ? 'text-white' : 'text-text-dark'}`}>
+                      <div>
+                        <span className="text-lg font-semibold">{tier.levels.length}</span>
+                        <div className={`text-[11px] tracking-wide ${isTierDrenched ? 'text-white/75' : 'text-text-med'}`}>
+                          Bands
+                        </div>
+                      </div>
+                    </div>
+
+                    <p className={`text-[11px] leading-relaxed font-mono tracking-wide mb-4 ${isTierDrenched ? 'text-white/80' : 'text-text-med'}`}>
+                      {tier.summary}
+                    </p>
+
+                    <div className={`${isTierDrenched ? 'text-white' : a.ctaText} text-sm font-semibold tracking-wide`}>
+                      {isLocked ? 'Releasing soon' : 'View bands →'}
+                    </div>
+                  </div>
+                </div>
+              </button>
+              );
+            })}
+          </>
         )}
 
         {state.selectedLanguage === 'zh' && activeTier !== null && (
           <>
-            {activeTier === 'beginner' && onOpenMandarinTones && (
-              <button
-                onClick={onOpenMandarinTones}
-                className={`w-full bg-[#186E95] border border-[#186E95] rounded-3xl min-h-[170px] p-5 text-left text-white shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${ACCENT.navy.hoverShadow} active:translate-y-0`}
-              >
-                <div className="w-full">
-                  <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono mb-4 bg-white/20 text-white">
-                    Tone Foundations
-                  </div>
-                  <h3 className="main-font text-[2rem] leading-tight font-normal text-white mb-1">
-                    Mandarin Tones
-                  </h3>
-                  <p className="text-[1.05rem] text-white/90 mb-4">
-                    Learn tones 1-4 + neutral before vocabulary study
-                  </p>
-                  <p className="text-[11px] leading-relaxed text-white/80 font-mono tracking-wide mb-4">
-                    Tone cards with playback and pronunciation cues
-                  </p>
-                  <div className="text-white text-sm font-semibold tracking-wide">
-                    Open tone guide →
-                  </div>
-                </div>
-              </button>
-            )}
             {tiers
               .find(t => t.id === activeTier)!
               .levels.map((level, index) => {
                 const isUnlocked = state.unlockedLevels.includes(level.id);
-                const isCompleted = state.completedLevels.includes(level.id);
+                const isQuizCompleted = Boolean(bandQuizCompleteById[level.id]);
+                const isCompleted = state.completedLevels.includes(level.id) || isQuizCompleted;
                 return (
                   <LevelCard
                     key={level.id}
                     level={level}
                     isUnlocked={isUnlocked}
                     isCompleted={isCompleted}
+                    isDrenched={isQuizCompleted}
                     onSelect={onSelectLevel}
                     badgeLabel={`Band ${level.band}`}
                     showBadge={activeTier !== 'advanced'}

@@ -3,6 +3,7 @@ import cors from '@fastify/cors';
 import { env } from './env.js';
 import { prisma } from './lib/prisma.js';
 import { createRateLimiter, resolveRateLimitIdentity } from './lib/rateLimiter.js';
+import { authRoutes } from './routes/auth.js';
 import { meRoutes } from './routes/me.js';
 import { attemptRoutes } from './routes/attempts.js';
 
@@ -96,6 +97,7 @@ async function buildServer() {
     return { ok: true, authMode: env.AUTH_MODE };
   });
 
+  await authRoutes(app);
   await meRoutes(app);
   await attemptRoutes(app);
 

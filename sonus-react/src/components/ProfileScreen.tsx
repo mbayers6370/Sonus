@@ -8,7 +8,8 @@ import {
 } from 'lucide-react';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
-import { API_BASE_URL } from '../lib/apiBase';
+import { apiFetch } from '../lib/apiClient';
+import { useAuth } from '../contexts/AuthContext';
 
 type Profile = {
   displayName: string | null;
@@ -40,6 +41,7 @@ export default function ProfileScreen({
   currentLearningLanguage,
   onRequestLearningLanguageChange,
 }: ProfileScreenProps) {
+  const { authMode, isDemo, signOut } = useAuth();
   const [saving, setSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -53,6 +55,7 @@ export default function ProfileScreen({
   const [learningLanguageSelection, setLearningLanguageSelection] = useState('zh');
   const [pendingLearningLanguage, setPendingLearningLanguage] = useState<string | null>(null);
   const [switchingLanguage, setSwitchingLanguage] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
 
   const learningLanguageName =
     (currentLearningLanguage === 'zh' && 'Mandarin') ||
@@ -67,8 +70,8 @@ export default function ProfileScreen({
     setBackendOffline(false);
     try {
       const [profileRes, progressRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/v1/me/profile`),
-        fetch(`${API_BASE_URL}/v1/me/progress`),
+        apiFetch('/v1/me/profile'),
+        apiFetch('/v1/me/progress'),
       ]);
 
       if (!profileRes.ok || !progressRes.ok) {
@@ -147,7 +150,7 @@ export default function ProfileScreen({
     setError(null);
     setSaveMessage(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/v1/me/profile`, {
+      const response = await apiFetch('/v1/me/profile', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -185,6 +188,30 @@ export default function ProfileScreen({
     }
   };
 
+  const deleteAccount = async () => {
+    if (deletingAccount) return;
+    const confirmed = window.confirm(
+      'Delete account permanently? This removes profile, progress, attempts, and review history.'
+    );
+    if (!confirmed) return;
+
+    setDeletingAccount(true);
+    setError(null);
+    setSaveMessage(null);
+    try {
+      const response = await apiFetch('/v1/me/account', { method: 'DELETE' });
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || 'Failed to delete account');
+      }
+      signOut();
+    } catch (err) {
+      setError((err as Error).message || 'Failed to delete account');
+    } finally {
+      setDeletingAccount(false);
+    }
+  };
+
   return (
     <div className="min-h-screen page-shell px-6 pb-24">
       <GlassHeader title="Profile" />
@@ -218,22 +245,23 @@ export default function ProfileScreen({
                 <div className="text-lg font-semibold text-text-dark">
                   {displayName.trim() || 'Learner'}
                 </div>
-                <div className="text-sm text-text-med">{profile?.email || 'dev@local.test'}</div>
+                <div className="text-sm text-text-med">{profile?.email || '—'}</div>
               </div>
             </div>
-            <div className="px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.10)] text-[#186E95] border border-[rgba(24,110,149,0.22)]">
-              {isEditing ? 'Editing' : 'View Mode'}
-            </div>
           </div>
+          {authMode === 'mock' && isDemo && (
+            <button
+              onClick={signOut}
+              className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border text-sm font-semibold text-text-dark hover:bg-[rgba(55,65,81,0.08)]"
+            >
+              Exit Demo · Create Account
+            </button>
+          )}
         </div>
 
-        <div className="bg-white/95 border border-border rounded-3xl p-5">
-          <h3 className="font-semibold text-text-dark mb-3">User Profile</h3>
-          <div className={`space-y-3 transition-opacity ${isEditing ? 'opacity-100' : 'opacity-70'}`}>
-            <div>
-              <div className="text-xs uppercase tracking-wider text-text-light font-mono mb-1">Email</div>
-              <div className="text-sm text-text-dark">{profile?.email || 'dev@local.test'}</div>
-            </div>
+        <details className="bg-white/95 border border-border rounded-3xl p-5">
+          <summary className="cursor-pointer font-semibold text-text-dark">Profile Details</summary>
+          <div className={`mt-4 space-y-3 transition-opacity ${isEditing ? 'opacity-100' : 'opacity-70'}`}>
             <label className="block">
               <div className="text-xs uppercase tracking-wider text-text-light font-mono mb-1">Display Name</div>
               <input
@@ -295,55 +323,67 @@ export default function ProfileScreen({
               </button>
             )}
           </div>
-        </div>
+        </details>
 
-        <button
-          onClick={onOpenProgress}
-          className="w-full bg-white/95 border border-border rounded-3xl p-5 text-left hover:bg-[rgba(55,65,81,0.04)] transition-colors"
-        >
-          <h3 className="font-semibold text-text-dark mb-3">Progress Snapshot</h3>
-          <div className="grid grid-cols-1 gap-4 mb-3">
-            <div className="p-3 rounded-xl border border-[rgba(62,86,72,0.22)] bg-[rgba(62,86,72,0.10)]">
-              <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-1">Streak</div>
-              <div className="text-2xl font-semibold text-[#3E5648]">{progress?.streak ?? 0}</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button
+            onClick={onOpenProgress}
+            className="h-full min-h-[150px] bg-white/95 border border-border rounded-3xl p-4 text-left hover:bg-[rgba(55,65,81,0.04)] transition-colors flex flex-col"
+          >
+            <h3 className="font-semibold text-text-dark mb-1.5">Progress Snapshot</h3>
+            <div className="inline-flex items-center gap-2 w-fit px-3 py-2 rounded-xl border border-[rgba(62,86,72,0.22)] bg-[rgba(62,86,72,0.10)] mb-2">
+              <div className="text-xs uppercase tracking-wider font-mono text-text-light">Streak</div>
+              <div className="text-lg font-semibold text-[#3E5648] leading-none">{progress?.streak ?? 0}</div>
             </div>
-          </div>
-          <div className="text-sm text-text-med">
-            Last active:{' '}
-            <span className="text-text-dark font-medium">
-              {progress?.lastActiveDate ? new Date(progress.lastActiveDate).toLocaleDateString() : 'N/A'}
-            </span>
-          </div>
-          <div className="mt-3 text-sm text-[#186E95] font-medium">Open full progress →</div>
-        </button>
+            <div className="text-xs text-text-med">
+              Last active:{' '}
+              <span className="text-text-dark font-medium">
+                {progress?.lastActiveDate ? new Date(progress.lastActiveDate).toLocaleDateString() : 'N/A'}
+              </span>
+            </div>
+            <div className="pt-1.5 text-xs text-[#186E95] font-medium">Open full progress →</div>
+          </button>
 
-        <div className="bg-white/95 border border-border rounded-3xl p-5">
-          <h3 className="font-semibold text-text-dark mb-3">Learning Language</h3>
-          <div className="text-sm text-text-med mb-3">
-            Current: <span className="text-text-dark font-medium">{learningLanguageName}</span>
-          </div>
-          <div className="flex flex-col gap-3">
-            <select
-              value={learningLanguageSelection}
-              onChange={(e) => setLearningLanguageSelection(e.target.value)}
-              className="w-full border border-border rounded-xl px-3 py-2.5 text-sm"
-            >
-              <option value="zh">Mandarin</option>
-            </select>
-            <button
-              onClick={requestLanguageSwitch}
-              disabled={!learningLanguageSelection || learningLanguageSelection === currentLearningLanguage}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#186E95] text-white text-sm font-semibold disabled:opacity-60"
-            >
-              Switch Learning Language
-            </button>
-            <div className="text-xs text-text-light">
-              Japanese, Korean, and French curriculum are coming soon.
+          <div className="h-full min-h-[150px] bg-white/95 border border-border rounded-3xl p-4 flex flex-col">
+            <h3 className="font-semibold text-text-dark mb-1.5">Change Language</h3>
+            <div className="text-xs text-text-med mb-2">
+              Current: <span className="text-text-dark font-medium">{learningLanguageName}</span>
+            </div>
+            <div className="flex flex-col gap-2">
+              <select
+                value={learningLanguageSelection}
+                onChange={(e) => setLearningLanguageSelection(e.target.value)}
+                className="w-full border border-border rounded-xl px-3 py-2 text-sm"
+              >
+                <option value="zh">Mandarin</option>
+              </select>
+              <button
+                onClick={requestLanguageSwitch}
+                disabled={!learningLanguageSelection || learningLanguageSelection === currentLearningLanguage}
+                className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-[#186E95] text-white text-sm font-semibold disabled:opacity-60"
+              >
+                Switch Language
+              </button>
+              <div className="text-[11px] leading-tight text-text-light">
+                Japanese, Korean, and French curriculum are coming soon.
+              </div>
             </div>
           </div>
         </div>
 
         <div className="space-y-3">
+          {!isDemo && (
+            <button
+              onClick={() => void deleteAccount()}
+              disabled={deletingAccount}
+              className="w-full bg-white/95 border border-[#C2410C]/35 rounded-3xl p-4 text-left hover:bg-[rgba(194,65,12,0.06)] transition-colors disabled:opacity-60"
+            >
+              <div className="font-semibold text-[#C2410C]">
+                {deletingAccount ? 'Deleting Account…' : 'Delete Account'}
+              </div>
+              <div className="text-sm text-text-med">Permanently remove account and learning data.</div>
+            </button>
+          )}
           <button
             onClick={onOpenAbout}
             className="w-full bg-white/95 border border-border rounded-3xl p-4 text-left flex items-center justify-between hover:bg-[rgba(55,65,81,0.05)] transition-colors"
@@ -357,7 +397,7 @@ export default function ProfileScreen({
         </div>
       </div>
 
-      <BottomNav active="profile" onHome={onGoHome} onProfile={() => {}} />
+      <BottomNav active="profile" onHome={onGoHome} onProfile={() => {}} onSignOut={signOut} />
 
       {pendingLearningLanguage && (
         <div className="fixed inset-0 bg-black/35 z-[60] flex items-center justify-center px-6">

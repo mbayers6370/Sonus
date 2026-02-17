@@ -214,7 +214,6 @@ export default function UnitSelect({
     })
     .filter((item): item is NonNullable<typeof item> => item !== null);
   const unitMetricById = new Map(unitMetrics.map((metric) => [metric.unitId, metric]));
-  const isBandOneUnlockedMode = currentLevel.id === 'band1';
   const hasLessonPassedThreshold = (unitId: string, lessonIndex: number) => {
     const key = makeLessonKey(currentLevel.id, unitId, lessonIndex);
     return (lessonProgress[key]?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT;
@@ -242,51 +241,44 @@ export default function UnitSelect({
     .map((unit) => unit.id)
     .filter((unitId) => unitMetricById.has(unitId));
 
-  if (isBandOneUnlockedMode) {
-    for (const unitId of [...coreUnitIds, ...checkpointUnitIds, ...practiceUnitIds]) {
-      unlockedByUnitId.set(unitId, true);
-    }
-  } else {
-    if (coreUnitIds.length > 0) {
-      unlockedByUnitId.set(coreUnitIds[0], true);
-    }
+  if (coreUnitIds.length > 0) {
+    unlockedByUnitId.set(coreUnitIds[0], true);
+  }
 
-    // Core units unlock linearly, with checkpoint quizzes gating every 4-unit block.
-    for (let coreIndex = 1; coreIndex < coreUnitIds.length; coreIndex += 1) {
-      const previousCoreUnitId = coreUnitIds[coreIndex - 1];
-      let unlocked =
-        Boolean(unlockedByUnitId.get(previousCoreUnitId)) &&
-        hasUnitPassedThreshold(previousCoreUnitId);
+  // Core units unlock linearly, with checkpoint quizzes gating every 4-unit block.
+  for (let coreIndex = 1; coreIndex < coreUnitIds.length; coreIndex += 1) {
+    const previousCoreUnitId = coreUnitIds[coreIndex - 1];
+    let unlocked =
+      Boolean(unlockedByUnitId.get(previousCoreUnitId)) &&
+      hasUnitPassedThreshold(previousCoreUnitId);
 
-      // Every 4 core units, the checkpoint quiz gates access to the next core block.
-      if (unlocked && coreIndex % 4 === 0) {
-        const gateCheckpointId = `checkpoint-${coreIndex / 4}`;
-        unlocked = hasCheckpointPassedThreshold(gateCheckpointId);
-      }
-
-      unlockedByUnitId.set(coreUnitIds[coreIndex], unlocked);
+    // Every 4 core units, the checkpoint quiz gates access to the next core block.
+    if (unlocked && coreIndex % 4 === 0) {
+      const gateCheckpointId = `checkpoint-${coreIndex / 4}`;
+      unlocked = hasCheckpointPassedThreshold(gateCheckpointId);
     }
 
-    for (const checkpointUnitId of checkpointUnitIds) {
-      const checkpointIndex = parseCheckpointIndex(checkpointUnitId);
-      if (!checkpointIndex) {
-        unlockedByUnitId.set(checkpointUnitId, false);
-        continue;
-      }
-      const start = (checkpointIndex - 1) * 4;
-      const end = Math.min(coreUnitIds.length, checkpointIndex * 4);
-      const coveredCoreUnits = coreUnitIds.slice(start, end);
-      // A checkpoint unlocks only when all covered core units passed threshold.
-      const unlocked =
-        coveredCoreUnits.length > 0 &&
-        coveredCoreUnits.every((unitId) => hasUnitPassedThreshold(unitId));
-      unlockedByUnitId.set(checkpointUnitId, unlocked);
-    }
+    unlockedByUnitId.set(coreUnitIds[coreIndex], unlocked);
+  }
 
-    for (const practiceUnitId of practiceUnitIds) {
-      const unlocked = coreUnitIds.length > 0 && coreUnitIds.every((unitId) => hasUnitPassedThreshold(unitId));
-      unlockedByUnitId.set(practiceUnitId, unlocked);
+  for (const checkpointUnitId of checkpointUnitIds) {
+    const checkpointIndex = parseCheckpointIndex(checkpointUnitId);
+    if (!checkpointIndex) {
+      unlockedByUnitId.set(checkpointUnitId, false);
+      continue;
     }
+    const start = (checkpointIndex - 1) * 4;
+    const end = Math.min(coreUnitIds.length, checkpointIndex * 4);
+    const coveredCoreUnits = coreUnitIds.slice(start, end);
+    // A checkpoint unlocks only when all covered core units passed threshold.
+    const unlocked =
+      coveredCoreUnits.length > 0 &&
+      coveredCoreUnits.every((unitId) => hasUnitPassedThreshold(unitId));
+    unlockedByUnitId.set(checkpointUnitId, unlocked);
+  }
+
+  for (const practiceUnitId of practiceUnitIds) {
+    unlockedByUnitId.set(practiceUnitId, coreUnitIds.length > 0);
   }
 
   const columns = getGridColumns(viewportWidth);
@@ -508,7 +500,7 @@ export default function UnitSelect({
               const isUnitUnlocked = Boolean(unlockedByUnitId.get(activeUnit.unitId));
               const isLessonUnlocked =
                 isUnitUnlocked &&
-                (isBandOneUnlockedMode || lessonIndex === 0 || hasLessonPassedThreshold(activeUnit.unitId, lessonIndex - 1));
+                (lessonIndex === 0 || hasLessonPassedThreshold(activeUnit.unitId, lessonIndex - 1));
               const lessonStatus = lessonProgress[lessonKey];
               const isResumeCandidate =
                 resumeCheckpoint?.bandId === currentLevel.id &&

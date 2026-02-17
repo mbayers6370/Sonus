@@ -11,7 +11,7 @@ import BottomNav from './BottomNav';
 import { getUnitMetadata } from '../data/unitMetadata';
 import GlassHeader from './GlassHeader';
 import { useApp } from '../contexts/AppContext';
-import { API_BASE_URL } from '../lib/apiBase';
+import { apiFetch } from '../lib/apiClient';
 
 type Progress = {
   streak: number;
@@ -98,8 +98,8 @@ export default function HomeDashboard({
       setLoading(true);
       try {
         const [progressRes, weakRes] = await Promise.all([
-          fetch(`${API_BASE_URL}/v1/me/progress`),
-          fetch(`${API_BASE_URL}/v1/me/needs-work?limit=30&minTotalMisses=3`),
+          apiFetch('/v1/me/progress'),
+          apiFetch('/v1/me/needs-work?limit=30&minTotalMisses=3'),
         ]);
 
         if (mounted && progressRes.ok) {
@@ -254,7 +254,7 @@ export default function HomeDashboard({
                 <ListChecks className="w-4 h-4 text-[#186E95]" />
                 Daily Review Set
               </span>
-              <span className="text-xs text-text-light">{Math.min(10, dueCount + recentMissCount)} queued</span>
+              <span className="text-xs text-text-light">{Math.min(5, dueCount + recentMissCount)} queued</span>
             </button>
             <button
               onClick={onOpenWeakWords}

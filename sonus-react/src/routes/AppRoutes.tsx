@@ -1,11 +1,14 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import type { LessonBand, LessonMode } from '../types/lesson.types';
 import LanguageSelect from '../components/LanguageSelect';
 import LevelSelect from '../components/LevelSelect';
 import UnitSelect from '../components/UnitSelect';
-import MandarinTones from '../components/MandarinTones';
+import FoundationsHub from '../components/foundations/FoundationsHub';
+import MandarinTones from '../components/foundations/MandarinTones';
+import PinyinFoundations from '../components/foundations/PinyinFoundations';
+import CharacterFoundations from '../components/foundations/CharacterFoundations';
 import HomeDashboard from '../components/HomeDashboard';
 import TravelModePage from '../components/TravelModePage';
 import TravelSectionPage from '../components/TravelSectionPage';
@@ -17,7 +20,7 @@ import { CHINESE_LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lesson
 import { saveOnboardingSelectionSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { getTravelSectionById } from '../data/travelModeData';
-import { API_BASE_URL } from '../lib/apiBase';
+import { apiFetch } from '../lib/apiClient';
 
 type ProgressPayload = {
   progress?: {
@@ -27,6 +30,7 @@ type ProgressPayload = {
 
 export default function AppRoutes() {
   const navigate = useNavigate();
+  const [languageResolved, setLanguageResolved] = useState(false);
   const {
     state,
     selectLanguage,
@@ -36,6 +40,44 @@ export default function AppRoutes() {
     generateDailyReviewSet,
   } = useApp();
   const { selectedLanguage, currentLevel } = state;
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (selectedLanguage) {
+      setLanguageResolved(true);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    setLanguageResolved(false);
+
+    void (async () => {
+      try {
+        const response = await apiFetch('/v1/me/profile');
+        if (!response.ok) {
+          if (!cancelled) setLanguageResolved(true);
+          return;
+        }
+        const payload = (await response.json()) as { profile?: { targetLanguage?: string | null } };
+        const profileLanguage = payload.profile?.targetLanguage;
+        if (!cancelled && typeof profileLanguage === 'string' && profileLanguage.trim()) {
+          selectLanguage(profileLanguage.trim());
+          navigate('/home', { replace: true });
+          return;
+        }
+      } catch {
+        // Fall back to onboarding language selection.
+      }
+
+      if (!cancelled) setLanguageResolved(true);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedLanguage]);
 
   const goHome = useCallback(() => {
     exitLesson();
@@ -56,7 +98,7 @@ export default function AppRoutes() {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/v1/me/progress`);
+      const response = await apiFetch('/v1/me/progress');
       if (response.ok) {
         const payload = (await response.json()) as ProgressPayload;
         const currentBandId = payload.progress?.currentBandId;
@@ -109,6 +151,13 @@ export default function AppRoutes() {
   }, [goLearn]);
 
   function LanguageRoute() {
+    if (!selectedLanguage && !languageResolved) {
+      return (
+        <div className="min-h-screen page-shell flex items-center justify-center text-text-med">
+          Loading language…
+        </div>
+      );
+    }
     if (selectedLanguage) return <Navigate to="/home" replace />;
     return (
       <LanguageSelect
@@ -149,7 +198,7 @@ export default function AppRoutes() {
       <LevelSelect
         onGoHome={goHome}
         onOpenProfile={goProfile}
-        onOpenMandarinTones={() => navigate('/learn/tones')}
+        onOpenFoundations={() => navigate('/learn/foundations')}
         onSelectLevel={(level: LessonBand) => {
           if (selectedLanguage === 'zh' && isMandarinBandLocked(level.id, state.unlockedLevels)) {
             return;
@@ -164,6 +213,29 @@ export default function AppRoutes() {
   function TonesRoute() {
     if (selectedLanguage !== 'zh') return <Navigate to="/learn" replace />;
     return <MandarinTones onHome={goHome} onOpenProfile={goProfile} />;
+  }
+
+  function FoundationsRoute() {
+    if (selectedLanguage !== 'zh') return <Navigate to="/learn" replace />;
+    return (
+      <FoundationsHub
+        onGoHome={goHome}
+        onOpenProfile={goProfile}
+        onOpenTones={() => navigate('/learn/foundations/tones')}
+        onOpenPinyin={() => navigate('/learn/foundations/pinyin')}
+        onOpenCharacters={() => navigate('/learn/foundations/characters')}
+      />
+    );
+  }
+
+  function PinyinRoute() {
+    if (selectedLanguage !== 'zh') return <Navigate to="/learn" replace />;
+    return <PinyinFoundations onGoHome={goHome} onOpenProfile={goProfile} />;
+  }
+
+  function CharactersRoute() {
+    if (selectedLanguage !== 'zh') return <Navigate to="/learn" replace />;
+    return <CharacterFoundations onGoHome={goHome} onOpenProfile={goProfile} />;
   }
 
   function UnitsRoute() {
@@ -292,7 +364,11 @@ export default function AppRoutes() {
       />
       <Route path="/travel/:sectionId" element={<TravelSectionRoute onGoHome={goHome} onOpenProfile={goProfile} />} />
       <Route path="/learn" element={<LearnRoute />} />
-      <Route path="/learn/tones" element={<TonesRoute />} />
+      <Route path="/learn/tones" element={<Navigate to="/learn/foundations/tones" replace />} />
+      <Route path="/learn/foundations" element={<FoundationsRoute />} />
+      <Route path="/learn/foundations/tones" element={<TonesRoute />} />
+      <Route path="/learn/foundations/pinyin" element={<PinyinRoute />} />
+      <Route path="/learn/foundations/characters" element={<CharactersRoute />} />
       <Route path="/learn/:tier/:band" element={<UnitsRoute />} />
       <Route
         path="/learn/:tier/:band/unit/:unitId/lesson/:lessonIndex/:mode"

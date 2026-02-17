@@ -46,13 +46,6 @@ export default function Flashcard({
           {!isFlipped ? (
             // Front side
             <div className="text-center w-full">
-              {word.isReview && (
-                <>
-                  <div className="inline-flex mb-1 -mt-4 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(194,65,12,0.14)] text-[#C2410C]">
-                    Review Word
-                  </div>
-                </>
-              )}
               <div className="secondary-font text-5xl mb-3 text-text-dark leading-tight">
                 {word.simp}
               </div>

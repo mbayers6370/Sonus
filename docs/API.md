@@ -11,6 +11,34 @@ In mock mode, requests can include:
 - `x-dev-user-id`
 - `x-dev-user-email`
 
+## Authentication
+- `POST /v1/auth/signup`
+- `POST /v1/auth/login`
+
+Signup payload example:
+```json
+{
+  "email": "learner@example.com",
+  "password": "strong-password",
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "targetLanguage": "zh",
+  "timezone": "America/New_York"
+}
+```
+
+Login payload example:
+```json
+{
+  "email": "learner@example.com",
+  "password": "strong-password"
+}
+```
+
+In `AUTH_MODE=supabase`, auth responses include `accessToken` and `refreshToken`.
+Subsequent authenticated requests should include:
+- `Authorization: Bearer <accessToken>`
+
 ## API Runtime Controls
 - Rate limiter mode is controlled by `RATE_LIMIT_MODE` (`memory`, `redis`, `edge`).
 - CORS policy is controlled by `CORS_ORIGINS`.
@@ -31,6 +59,7 @@ In mock mode, requests can include:
 ### Profile
 - `GET /v1/me/profile`
 - `PATCH /v1/me/profile`
+- `DELETE /v1/me/account`
 
 Patch body example:
 ```json

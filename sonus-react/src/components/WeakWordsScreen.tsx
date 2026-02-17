@@ -3,7 +3,7 @@ import { RefreshCw } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { loadWordLookup, type WordLookup } from '../lib/wordLookup';
 import GlassHeader from './GlassHeader';
-import { API_BASE_URL } from '../lib/apiBase';
+import { apiFetch } from '../lib/apiClient';
 
 type NeedsWorkItem = {
   wordId: string;
@@ -45,7 +45,7 @@ export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScre
     setError(null);
     setBackendOffline(false);
     try {
-      const response = await fetch(`${API_BASE_URL}/v1/me/needs-work?limit=30&minTotalMisses=3`);
+      const response = await apiFetch('/v1/me/needs-work?limit=30&minTotalMisses=3');
       if (!response.ok) throw new Error('Failed to load words to work on');
       const json = (await response.json()) as { needsWork: NeedsWorkItem[] };
       const normalized = (json.needsWork || [])

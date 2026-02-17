@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { BandData, Word, SpeakBreakdown } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, Mic, ChevronRight } from 'lucide-react';
@@ -6,6 +6,7 @@ import { sendSpeakAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
 import WordProgressRail from './WordProgressRail';
+import { getPrimaryMeaning } from '../lib/wordMeaning';
 
 interface SpeakModeProps {
   word: Word;
@@ -1038,6 +1039,7 @@ export default function SpeakMode({
   const shouldShowTargetPinyin = !detectedPinyinLabel && (!heardHanzi || isNoSpeech);
   const resultPinyinLabel = detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : '');
   const resultPinyinTag = detectedPinyinLabel ? 'Detected' : 'Target';
+  const displayMeaning = useMemo(() => getPrimaryMeaning(word), [word]);
 
   const renderScoreChips = (compact: boolean) => {
     if (!analysis) return null;
@@ -1233,229 +1235,65 @@ export default function SpeakMode({
 
       {/* Word Display */}
       <div className="flex-1 px-3 sm:px-5">
-        {!practiceMode ? (
-          <>
-          <div className="sm:hidden grid grid-cols-2 gap-2 mb-2 items-stretch">
-            <button
-              type="button"
-              onClick={() => speak(word.simp, word.pinyin)}
-              className="relative rounded-3xl border border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] px-3 py-2 min-h-[132px] flex flex-col items-center justify-center text-center transition-colors active:bg-[rgba(24,110,149,0.14)]"
-              aria-label="Play target audio"
-              title="Play target audio"
-            >
-              <Volume2 className="absolute top-3 right-3 w-5 h-5 text-[#186E95]" />
-              <div className="text-[11px] tracking-wide font-mono text-[#186E95] mb-1">Speak From English</div>
-              <div className="text-base font-semibold text-text-dark leading-tight">{word.en}</div>
-              <div className="secondary-font text-xl text-text-med mt-1">{word.simp}</div>
-              {word.pinyin ? <div className="text-[13px] text-text-light">{word.pinyin}</div> : null}
-            </button>
-
-            <button
-              type="button"
-              onClick={handleRecord}
-              disabled={isFinalizing}
-              className="relative rounded-3xl border px-3 py-2 min-h-[132px] transition-colors border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] active:bg-[rgba(194,65,12,0.14)]"
-              aria-label={isRecording ? 'Stop recording' : 'Start recording'}
-              title={isRecording ? 'Stop recording' : 'Start recording'}
-            >
-              <Mic
-                className={`absolute top-3 right-3 w-5 h-5 text-[#C2410C] ${isRecording ? 'animate-pulse' : ''}`}
-              />
-
-              <div className="h-full flex flex-col justify-center text-center">
-                <div className={`secondary-font font-semibold text-text-dark leading-tight break-words ${noSpeechMobileClass}`}>
-                  {transcript || '...'}
-                </div>
-                <div className="text-xs text-text-med mt-1">
-                  {isFinalizing ? 'Finalizing...' : isRecording ? 'Recording...' : 'Results appear below'}
-                </div>
-              </div>
-            </button>
-
-            {showMobileResult && (
-              <div className="col-span-2">{renderResultCard(true)}</div>
-            )}
-          </div>
-
-          <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-            <div className="rounded-3xl border border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] flex flex-col items-center justify-center text-center">
-              <div className="text-[11px] tracking-wide font-mono text-[#186E95] mb-1">Speak From English</div>
-              <div className="text-lg sm:text-xl font-semibold text-text-dark leading-tight">{word.en}</div>
-              <div className="secondary-font text-2xl sm:text-3xl text-text-med mt-1">{word.simp}</div>
-              {word.pinyin ? <div className="text-sm text-text-light">{word.pinyin}</div> : null}
-            </div>
-
-            <div
-              className={`rounded-3xl border px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] ${
-                isPerfectListening
-                  ? 'border-[rgba(62,86,72,0.30)] bg-[rgba(62,86,72,0.14)]'
-                  : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)]'
-              }`}
-            >
-              <div className="h-full flex flex-col items-center justify-center text-center">
-                <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
-                <div className="hidden sm:block text-xs text-text-med mt-1">
-                  {transcript ? 'Captured audio' : 'Record to compare'}
-                </div>
-              </div>
-            </div>
-          </div>
-          </>
-        ) : (
-          <>
-          <div className="sm:hidden grid grid-cols-2 gap-2 mb-2 items-stretch">
-            <button
-              type="button"
-              onClick={() => speak(word.simp, word.pinyin)}
-              className="relative rounded-3xl border border-[rgba(194,65,12,0.22)] bg-[rgba(194,65,12,0.08)] px-3 py-2 min-h-[132px] flex flex-col items-center justify-center text-center transition-colors active:bg-[rgba(194,65,12,0.14)]"
-              aria-label="Play target audio"
-              title="Play target audio"
-            >
-              <Volume2 className="absolute top-3 right-3 w-5 h-5 text-[#C2410C]" />
-              <div className="secondary-font text-xl text-text-dark mt-1">{word.simp}</div>
-              {word.pinyin ? <div className="text-[13px] text-text-light">{word.pinyin}</div> : null}
-              <div className="text-base font-semibold text-text-med leading-tight mt-1">{word.en}</div>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleRecord}
-              disabled={isFinalizing}
-              className="relative rounded-3xl border px-3 py-2 min-h-[132px] transition-colors border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] active:bg-[rgba(194,65,12,0.14)]"
-              aria-label={isRecording ? 'Stop recording' : 'Start recording'}
-              title={isRecording ? 'Stop recording' : 'Start recording'}
-            >
-              <Mic
-                className={`absolute top-3 right-3 w-5 h-5 text-[#C2410C] ${isRecording ? 'animate-pulse' : ''}`}
-              />
-
-              <div className="h-full flex flex-col justify-center text-center">
-                <div className={`secondary-font font-semibold text-text-dark leading-tight break-words ${noSpeechMobileClass}`}>
-                  {transcript || '...'}
-                </div>
-                <div className="text-xs text-text-med mt-1">
-                  {isFinalizing ? 'Finalizing...' : isRecording ? 'Recording...' : 'Results appear below'}
-                </div>
-              </div>
-            </button>
-
-            {showMobileResult && (
-              <div className="col-span-2">{renderResultCard(true)}</div>
-            )}
-          </div>
-
-          <div className="hidden sm:block rounded-3xl border border-[#C2410C]/25 bg-white/95 p-3 md:p-4 mb-2 sm:mb-3 shadow-[0_18px_38px_-28px_rgba(15,23,42,0.35)]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-              <div className="rounded-3xl border border-[rgba(194,65,12,0.22)] bg-[rgba(194,65,12,0.08)] px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] flex flex-col items-center justify-center text-center">
-                <div className="secondary-font text-2xl sm:text-3xl text-text-dark mt-1">{word.simp}</div>
-                {word.pinyin ? <div className="text-sm text-text-light">{word.pinyin}</div> : null}
-                <div className="text-lg sm:text-xl font-semibold text-text-med leading-tight mt-1">{word.en}</div>
-              </div>
-
-              <div
-                className={`rounded-3xl border px-4 py-3 h-[142px] sm:h-[190px] md:h-[220px] ${
-                  isPerfectListening
-                    ? 'border-[rgba(62,86,72,0.30)] bg-[rgba(62,86,72,0.14)]'
-                    : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)]'
-                }`}
-              >
-                <div className="h-full flex flex-col items-center justify-center text-center">
-                  <div className="secondary-font font-semibold text-3xl sm:text-4xl text-text-dark leading-tight break-words">{transcript || '...'}</div>
-                  <div className="hidden sm:block text-xs text-text-med mt-1">
-                    {transcript ? 'Captured audio' : 'Record to compare'}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => speak(word.simp, word.pinyin)}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#C2410C] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#9A3412]"
-              >
-                <Volume2 className="w-5 h-5" />
-                Listen
-              </button>
-              <button
-                onClick={handleRecord}
-                disabled={isFinalizing}
-                className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-2xl font-semibold tracking-wide transition-all ${
-                  isRecording
-                    ? 'bg-[#C2410C] text-white animate-pulse'
-                    : 'bg-white border-2 border-[#C2410C] text-[#C2410C] hover:bg-[#C2410C] hover:text-white'
-                }`}
-              >
-                {isFinalizing ? (
-                  <>
-                    <Mic className="w-5 h-5" />
-                    Finalizing...
-                  </>
-                ) : isRecording ? (
-                  <>
-                    <Mic className="w-5 h-5" />
-                    Stop
-                  </>
-                ) : (
-                  <>
-                    <Mic className="w-5 h-5" />
-                    Record
-                  </>
-                )}
-              </button>
-            </div>
-
-            {showDesktopResult && (
-              <div className="mt-2">{renderResultCard(false)}</div>
-            )}
-          </div>
-          </>
-        )}
-
-        {/* Control Buttons */}
-        {!practiceMode && (
-        <div className="hidden sm:flex gap-2 sm:gap-3 mb-2 sm:mb-3">
+        <div className="grid grid-cols-2 gap-2 mb-2 items-stretch">
           <button
+            type="button"
             onClick={() => speak(word.simp, word.pinyin)}
-            className="flex-1 flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#145C7C] hover:-translate-y-0.5 hover:shadow-lg"
-          >
-            <Volume2 className="w-6 h-6" />
-            Listen
-          </button>
-          <button
-            onClick={handleRecord}
-            disabled={isFinalizing}
-            className={`flex-1 flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-semibold tracking-wide transition-all ${
-              isRecording
-                ? 'bg-[#C2410C] text-white animate-pulse'
-                : 'bg-white border-2 border-[#C2410C] text-[#C2410C] hover:bg-[#C2410C] hover:text-white'
+            className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] flex flex-col items-center justify-center text-center transition-colors ${
+              practiceMode
+                ? 'border-[rgba(194,65,12,0.22)] bg-[rgba(194,65,12,0.08)] active:bg-[rgba(194,65,12,0.14)]'
+                : 'border-[rgba(24,110,149,0.18)] bg-[rgba(24,110,149,0.08)] active:bg-[rgba(24,110,149,0.14)]'
             }`}
+            aria-label="Play target audio"
+            title="Play target audio"
           >
-            {isFinalizing ? (
+            <Volume2 className={`absolute top-3 right-3 w-5 h-5 ${practiceMode ? 'text-[#C2410C]' : 'text-[#186E95]'}`} />
+            {!practiceMode ? (
               <>
-                <Mic className="w-6 h-6" />
-                Finalizing...
-              </>
-            ) : isRecording ? (
-              <>
-                <Mic className="w-6 h-6" />
-                Stop
+                <div className="text-[11px] tracking-wide font-mono text-[#186E95] mb-1">Speak From English</div>
+                <div className="text-base sm:text-lg font-semibold text-text-dark leading-tight">{displayMeaning}</div>
+                <div className="secondary-font text-xl sm:text-2xl text-text-med mt-1">{word.simp}</div>
+                {word.pinyin ? <div className="text-[13px] sm:text-sm text-text-light">{word.pinyin}</div> : null}
               </>
             ) : (
               <>
-                <Mic className="w-6 h-6" />
-                Record
+                <div className="secondary-font text-xl sm:text-2xl text-text-dark mt-1">{word.simp}</div>
+                {word.pinyin ? <div className="text-[13px] sm:text-sm text-text-light">{word.pinyin}</div> : null}
+                <div className="text-base sm:text-lg font-semibold text-text-med leading-tight mt-1">{displayMeaning}</div>
               </>
             )}
           </button>
+
+          <button
+            type="button"
+            onClick={handleRecord}
+            disabled={isFinalizing}
+            className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] transition-colors ${
+              isPerfectListening
+                ? 'border-[rgba(62,86,72,0.30)] bg-[rgba(62,86,72,0.14)]'
+                : 'border-[rgba(194,65,12,0.20)] bg-[rgba(194,65,12,0.08)] active:bg-[rgba(194,65,12,0.14)]'
+            }`}
+            aria-label={isRecording ? 'Stop recording' : 'Start recording'}
+            title={isRecording ? 'Stop recording' : 'Start recording'}
+          >
+            <Mic
+              className={`absolute top-3 right-3 w-5 h-5 text-[#C2410C] ${isRecording ? 'animate-pulse' : ''}`}
+            />
+
+            <div className="h-full flex flex-col justify-center text-center">
+              <div className={`secondary-font font-semibold text-text-dark leading-tight break-words ${noSpeechMobileClass}`}>
+                {transcript || '...'}
+              </div>
+              <div className="text-xs text-text-med mt-1">
+                {isFinalizing ? 'Finalizing...' : isRecording ? 'Recording...' : 'Results appear below'}
+              </div>
+            </div>
+          </button>
+
+          {showMobileResult && (
+            <div className="col-span-2">{renderResultCard(true)}</div>
+          )}
         </div>
-        )}
-
-        {!practiceMode && showDesktopResult && (
-          <div className="hidden sm:block mb-2">{renderResultCard(false)}</div>
-        )}
-
-        {!practiceMode && isFinalizing && (
-          <div className="text-xs text-text-med mb-3">Finalizing recognition...</div>
-        )}
 
       </div>
 

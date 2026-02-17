@@ -1,8 +1,9 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, Snail, ChevronLeft, ChevronRight } from 'lucide-react';
 import WordProgressRail from './WordProgressRail';
+import { getPrimaryMeaning, tokenizeMeaningCandidates } from '../lib/wordMeaning';
 
 interface ApplyModeProps {
   word: Word;
@@ -66,20 +67,43 @@ function highlightLessonTerms(text: string, focusWord: string, allWords: Word[])
   );
 }
 
-function highlightEnTerm(text: string, term: string) {
+function escapeRegex(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function highlightEnglishFocus(text: string, word: Word) {
   const source = text.trim();
-  const target = term.trim();
-  if (!source || !target) return source;
-  const idx = source.toLowerCase().indexOf(target.toLowerCase());
-  if (idx < 0) return source;
-  const end = idx + target.length;
-  return (
-    <>
-      {source.slice(0, idx)}
-      <span className="font-semibold text-[#186E95]">{source.slice(idx, end)}</span>
-      {source.slice(end)}
-    </>
-  );
+  if (!source) {
+    return { node: source, matched: false, matchedText: '' };
+  }
+
+  const candidates = tokenizeMeaningCandidates(word);
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    const pattern = new RegExp(`\\b${escapeRegex(candidate)}\\b`, 'i');
+    const match = source.match(pattern);
+    if (!match || typeof match.index !== 'number') continue;
+
+    const start = match.index;
+    const end = start + match[0].length;
+    return {
+      node: (
+        <>
+          {source.slice(0, start)}
+          <span className="font-semibold text-[#186E95]">{source.slice(start, end)}</span>
+          {source.slice(end)}
+        </>
+      ),
+      matched: true,
+      matchedText: source.slice(start, end),
+    };
+  }
+
+  return {
+    node: source,
+    matched: false,
+    matchedText: '',
+  };
 }
 
 export default function ApplyMode({
@@ -91,6 +115,7 @@ export default function ApplyMode({
   onNext,
 }: ApplyModeProps) {
   const { speak } = useAudio();
+  const [showWhy, setShowWhy] = useState(false);
 
   const zh = word.example?.zh?.trim() || word.simp;
   const en = word.example?.en?.trim() || 'Translation unavailable for this prompt.';
@@ -99,9 +124,9 @@ export default function ApplyMode({
     () => highlightLessonTerms(zh, word.simp, allWords),
     [zh, word.simp, allWords]
   );
-  const highlightedEn = useMemo(
-    () => highlightEnTerm(en, word.en),
-    [en, word.en]
+  const englishFocus = useMemo(
+    () => highlightEnglishFocus(en, word),
+    [en, word]
   );
 
   const handleNext = () => {
@@ -113,20 +138,39 @@ export default function ApplyMode({
       <WordProgressRail total={totalWords} currentIndex={currentIndex} />
 
       <div className="flex-1 flex items-center justify-center px-5 py-2">
-        <div className="w-full max-w-2xl bg-white/95 rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-6 text-center">
-          <div className="inline-flex mb-2 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.14)] text-[#186E95]">
+        <div className="w-full max-w-2xl bg-white/95 rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-5 text-center">
+          <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.14)] text-[#186E95]">
             Apply In Context
           </div>
-          <div className="secondary-font text-4xl text-text-dark leading-tight">
+          <div className="secondary-font text-[2rem] text-text-dark leading-tight">
             {highlighted}
           </div>
-          {sentencePinyin ? <div className="mt-3 text-base text-text-med">{sentencePinyin}</div> : null}
-          <div className="mt-3 text-sm text-text-med">
-            Focus word: <span className="font-semibold text-text-dark">{word.simp}</span> ({word.pinyin})
+          {sentencePinyin ? <div className="mt-2 text-sm text-text-med">{sentencePinyin}</div> : null}
+          <div className="mt-2 inline-flex items-center rounded-full border border-border bg-[rgba(55,65,81,0.05)] px-3 py-1 text-xs text-text-med">
+            Focus word: <span className="ml-1 font-semibold text-text-dark">{word.simp}</span> ({word.pinyin})
           </div>
-          <div className="mt-4 rounded-xl border border-border bg-[rgba(55,65,81,0.06)] px-4 py-3 text-text-dark text-center">
-            {highlightedEn}
+          <div className="mt-3 rounded-xl border border-border bg-[rgba(55,65,81,0.06)] px-4 py-3 text-text-dark text-center">
+            {englishFocus.node}
           </div>
+          <button
+            type="button"
+            onClick={() => setShowWhy((prev) => !prev)}
+            className="mt-2 text-xs text-[#186E95] hover:text-[#145C7C] transition-colors"
+          >
+            {showWhy ? 'Hide explanation' : 'Why this translation?'}
+          </button>
+          {showWhy ? (
+            <div className="mt-1.5 mx-auto w-full max-w-[24rem] text-center">
+              <div className="text-[10px] text-text-light leading-relaxed">
+                <span className="font-semibold text-text-dark">{word.simp}</span> ({word.pinyin}) means "{getPrimaryMeaning(word)}."
+              </div>
+              <div className="mt-0.5 text-[10px] text-text-light leading-relaxed">
+                {englishFocus.matched && englishFocus.matchedText
+                  ? `In this sentence, it maps to “${englishFocus.matchedText}” in English.`
+                  : 'Here, it helps complete the sentence meaning.'}
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
 

@@ -191,25 +191,12 @@ export default function Quiz({
         <div
           className={`rounded-3xl p-3.5 mb-3 border relative ${
             listeningMode
-              ? 'bg-[#186E95] text-white border-[#186E95]/30 shadow-[0_14px_32px_-24px_rgba(24,110,149,0.45)]'
+              ? 'bg-[rgba(24,110,149,0.06)] border-[#186E95]/20'
               : 'bg-[rgba(55,65,81,0.08)] border-border/80'
           }`}
         >
           <div className="text-center">
             <>
-              {word.isReview && (
-                <>
-                  <div
-                    className={`inline-flex mb-1 items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
-                      listeningMode
-                        ? 'bg-white/20 text-white'
-                        : 'bg-[rgba(24,110,149,0.16)] text-[#186E95]'
-                    }`}
-                  >
-                    Review Word
-                  </div>
-                </>
-              )}
               {!listeningMode ? (
                 <>
                   <div className="secondary-font text-4xl mb-1 text-text-dark leading-tight">
@@ -251,14 +238,20 @@ export default function Quiz({
                 </>
               ) : (
                 <div className="mt-1">
-                  {!selectedAnswer ? (
-                    <button
-                      onClick={() => speak(word.simp, word.pinyin)}
-                      className="mx-auto w-12 h-12 rounded-full border border-white/70 bg-white/10 text-white flex items-center justify-center hover:bg-white/18 transition-all"
-                      aria-label="Play audio"
-                    >
-                      <Volume2 className="w-5 h-5" />
-                    </button>
+                  <button
+                    onClick={() => speak(word.simp, word.pinyin)}
+                    className="mx-auto w-12 h-12 rounded-full border-2 border-[#186E95] bg-white text-[#186E95] flex items-center justify-center hover:bg-[rgba(24,110,149,0.08)] transition-all"
+                    aria-label="Play audio"
+                  >
+                    <Volume2 className="w-5 h-5" />
+                  </button>
+                  {selectedAnswer ? (
+                    <div className="mt-2 text-center">
+                      <div className="secondary-font text-3xl text-white leading-tight">{word.simp}</div>
+                      {word.pinyin ? (
+                        <div className="text-sm text-white/85 mt-0.5">{word.pinyin}</div>
+                      ) : null}
+                    </div>
                   ) : null}
                 </div>
               )}

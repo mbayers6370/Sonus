@@ -3,7 +3,7 @@ import { RefreshCw } from 'lucide-react';
 import type { BandData, Word } from '../types/lesson.types';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
-import { API_BASE_URL } from '../lib/apiBase';
+import { apiFetch } from '../lib/apiClient';
 
 type ReviewQueueItem = {
   wordId: string;
@@ -92,7 +92,7 @@ export default function ReviewQueue({
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/v1/me/review-queue?limit=30`);
+      const response = await apiFetch('/v1/me/review-queue?limit=30');
       if (!response.ok) throw new Error(`Failed to load review queue (${response.status})`);
       const json = (await response.json()) as ReviewQueueResponse;
       setQueue(json.queue || []);
