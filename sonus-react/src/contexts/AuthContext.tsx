@@ -98,11 +98,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         if (mode === 'mock') {
+          const mockIdentity = getMockIdentity();
+          const hasMockUser = Boolean(mockIdentity.userId || mockIdentity.email);
+          const hasToken = Boolean(getAccessToken());
           if (getDemoMode()) {
-            const mockIdentity = getMockIdentity();
             setStatus('signed_in');
             setIsDemo(true);
             setEmail(mockIdentity.email || 'dev@local.test');
+          } else if (hasMockUser || hasToken) {
+            setStatus('signed_in');
+            setIsDemo(false);
+            setEmail(mockIdentity.email || null);
           } else {
             setStatus('signed_out');
             setIsDemo(false);

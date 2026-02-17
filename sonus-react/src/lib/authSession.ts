@@ -72,7 +72,6 @@ export function setDemoMode(enabled: boolean) {
       setSessionExpiry();
     } else {
       window.localStorage.removeItem(DEMO_MODE_KEY);
-      clearSessionExpiry();
     }
   } catch {
     // Ignore localStorage failures.
