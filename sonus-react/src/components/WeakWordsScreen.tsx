@@ -73,7 +73,7 @@ export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScre
   }, []);
 
   return (
-    <div className="min-h-screen page-shell px-6 pb-24">
+    <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader title="Words To Work On" />
 
       <div className="mb-5 flex justify-end">

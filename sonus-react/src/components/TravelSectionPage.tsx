@@ -114,7 +114,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
 
   return (
     <div
-      className="min-h-screen px-6 pb-24"
+      className="min-h-screen px-6 with-bottom-nav"
       style={{
         backgroundColor: hexToRgba(theme, 0.36),
       }}

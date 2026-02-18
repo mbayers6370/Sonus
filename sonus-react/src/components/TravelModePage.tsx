@@ -68,7 +68,7 @@ function renderTileTitle(title: string, titleColor: string) {
 
 export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection }: TravelModePageProps) {
   return (
-    <div className="min-h-screen page-shell px-6 pb-24">
+    <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader
         title="Travel Mode"
         className="bg-white/18 border-white/30"

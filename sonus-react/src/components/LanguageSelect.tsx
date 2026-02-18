@@ -73,7 +73,7 @@ interface LanguageSelectProps {
 export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHome }: LanguageSelectProps) {
 
   return (
-    <div className="min-h-screen page-shell px-6 pb-24">
+    <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader title="Choose a Language" />
 
       {/* Language Cards */}

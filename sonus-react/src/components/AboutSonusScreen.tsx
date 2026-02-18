@@ -8,7 +8,7 @@ interface AboutSonusScreenProps {
 
 export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusScreenProps) {
   return (
-    <div className="min-h-screen page-shell px-6 pb-24">
+    <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader title="About Sonus" />
 
       <section className="bg-white border border-border rounded-3xl overflow-hidden shadow-[0_22px_48px_-36px_rgba(31,42,55,0.35)]">

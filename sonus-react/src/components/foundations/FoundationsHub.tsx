@@ -48,7 +48,7 @@ export default function FoundationsHub({
   onOpenCharacters,
 }: FoundationsHubProps) {
   return (
-    <div className="min-h-screen page-shell px-6 pb-24">
+    <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader title="Foundations" />
 
       <div className="space-y-4">

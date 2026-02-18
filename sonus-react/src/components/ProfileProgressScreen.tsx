@@ -110,7 +110,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   const hasMoreNeedsWork = visibleNeedsWorkCount < needsWork.length;
 
   return (
-    <div className="min-h-screen page-shell px-6 pb-24">
+    <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader title="Progress" />
 
       <div className="space-y-4">

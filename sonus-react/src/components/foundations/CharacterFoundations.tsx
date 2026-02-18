@@ -80,7 +80,7 @@ const BUILD_CARDS = [
 
 export default function CharacterFoundations({ onGoHome, onOpenProfile }: CharacterFoundationsProps) {
   return (
-    <div className="min-h-screen page-shell px-6 pb-24">
+    <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader title="Character Foundations" spacerClassName="mb-10" />
 
       <div className="space-y-4">

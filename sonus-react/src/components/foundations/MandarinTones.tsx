@@ -105,7 +105,7 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
   };
 
   return (
-    <div className="min-h-screen page-shell px-6 pb-24">
+    <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader title="Tone Foundations" spacerClassName="mb-10" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">

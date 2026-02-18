@@ -67,7 +67,7 @@ export default function HomeDashboard({
     progress.currentLessonIdx !== null;
   const lessonNumber = progress.currentLessonIdx !== null ? progress.currentLessonIdx + 1 : null;
   const cardShell =
-    'dashboard-card-enter rounded-3xl border p-6 sm:p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
+    'dashboard-card-enter rounded-3xl border p-5 sm:p-6 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
   const nowMs = Date.now();
   const dueCount = Object.values(state.wordReview).filter((review) => Date.parse(review.nextReviewAt) <= nowMs).length;
   const recentMissCount = state.recentMisses.length;
@@ -122,7 +122,7 @@ export default function HomeDashboard({
   }, [selectedLanguage]);
 
   return (
-    <div className="min-h-screen page-shell px-6 pb-24 relative overflow-hidden">
+    <div className="min-h-screen page-shell px-6 with-bottom-nav relative overflow-hidden">
       <div className="absolute inset-x-0 top-0 h-72 bg-gradient-to-br from-[#186E95]/18 via-[#3E5648]/10 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-white/45 via-white/15 to-transparent pointer-events-none" />
 

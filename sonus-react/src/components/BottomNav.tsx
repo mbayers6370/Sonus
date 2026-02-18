@@ -17,7 +17,13 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 h-20 bg-bg-warm/95 backdrop-blur-xl border-t border-border z-50">
+    <div
+      className="fixed bottom-0 left-0 right-0 bg-bg-warm/95 backdrop-blur-xl border-t border-border z-50"
+      style={{
+        height: 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px))',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+      }}
+    >
       <div className="h-full w-full flex items-center justify-center px-4">
         <div className="flex items-center justify-center gap-4 sm:gap-6">
           <button

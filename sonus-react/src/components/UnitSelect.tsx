@@ -294,7 +294,7 @@ export default function UnitSelect({
     !state.unlockedLevels.includes(currentLevel.id);
 
   return (
-    <div className="min-h-screen page-shell pb-24 px-6">
+    <div className="min-h-screen page-shell with-bottom-nav px-6">
       <GlassHeader title={headerTitle} />
 
       {isMandarinBandLocked && (

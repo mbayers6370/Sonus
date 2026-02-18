@@ -124,7 +124,7 @@ export default function ReviewQueue({
   }, [selectedLanguage]);
 
   return (
-    <div className="min-h-screen page-shell px-6 pb-24">
+    <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader title="Review Queue" />
 
       <div className="mb-5 flex justify-end">

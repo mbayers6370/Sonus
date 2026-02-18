@@ -42,7 +42,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
   const { speak } = useAudio();
 
   return (
-    <div className="min-h-screen page-shell px-6 pb-24">
+    <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader title="Pinyin Foundations" spacerClassName="mb-10" />
 
       <div className="space-y-4">
