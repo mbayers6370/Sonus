@@ -81,25 +81,25 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
     if (recallMode === 'en_to_zh') {
       return (
         <>
-          <div className="text-xs uppercase tracking-wider font-mono text-text-light">English → Speak Chinese</div>
-          <div className="text-lg text-text-dark mt-1">{recallPhrase.english}</div>
+          <div className="text-xs uppercase tracking-wider font-mono text-white/75">English → Speak Chinese</div>
+          <div className="text-lg text-white mt-1">{recallPhrase.english}</div>
         </>
       );
     }
     if (recallMode === 'zh_to_speak') {
       return (
         <>
-          <div className="text-xs uppercase tracking-wider font-mono text-text-light">Chinese → Speak</div>
-          <div className="text-3xl secondary-font text-text-dark mt-2">{recallPhrase.hanzi}</div>
+          <div className="text-xs uppercase tracking-wider font-mono text-white/75">Chinese → Speak</div>
+          <div className="text-3xl secondary-font text-white mt-2">{recallPhrase.hanzi}</div>
         </>
       );
     }
     return (
       <>
-        <div className="text-xs uppercase tracking-wider font-mono text-text-light">Audio Only → Respond</div>
+        <div className="text-xs uppercase tracking-wider font-mono text-white/75">Audio Only → Respond</div>
         <button
           onClick={() => speak(recallPhrase.hanzi, recallPhrase.pinyin)}
-          className="mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-[#186E95] text-white text-sm"
+          className="mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/14 border border-white/28 text-white text-sm"
         >
           <Volume2 className="w-4 h-4" />
           Play Audio
@@ -109,8 +109,6 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
   };
 
   const theme = section.themeColor;
-  const soft = hexToRgba(theme, 0.16);
-  const lighter = hexToRgba(theme, 0.1);
 
   return (
     <div
@@ -157,21 +155,24 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
           </div>
         </section>
 
-        <section className="rounded-3xl border bg-white p-4 mb-4 shadow-[0_14px_30px_-24px_rgba(15,23,42,0.26)]" style={{ borderColor: soft }}>
-          <div className="text-[11px] tracking-wide font-mono text-center mb-2" style={{ color: theme }}>Rapid recall mode</div>
-          <div className="rounded-2xl border p-3.5 bg-white" style={{ borderColor: soft }}>
+        <section
+          className="rounded-3xl border p-4 mb-4 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
+          style={{ borderColor: theme, backgroundColor: theme }}
+        >
+          <div className="text-[11px] tracking-wide font-mono text-center mb-2 text-white/85">Rapid recall mode</div>
+          <div className="rounded-2xl border p-3.5 bg-white/12 backdrop-blur-sm" style={{ borderColor: 'rgba(255,255,255,0.24)' }}>
             {!recallDone && recallPhrase ? (
               <div className="text-center">
-                <div className="text-xs tracking-wide font-mono text-text-light mb-2">
+                <div className="text-xs tracking-wide font-mono text-white/75 mb-2">
                   Prompt {Math.min(recallStep + 1, recallQueue.length)} / {Math.max(1, recallQueue.length)}
                 </div>
                 <div className="mb-2">{renderRecallPrompt()}</div>
 
                 {revealRecall ? (
-                  <div className="mt-3 rounded-2xl border p-3" style={{ backgroundColor: lighter, borderColor: soft }}>
-                    <div className="text-lg secondary-font text-text-dark">{recallPhrase.hanzi}</div>
-                    <div className="text-sm text-text-med">{recallPhrase.pinyin}</div>
-                    <div className="text-sm text-text-dark mt-1">{recallPhrase.english}</div>
+                  <div className="mt-3 rounded-2xl border p-3 bg-white/14" style={{ borderColor: 'rgba(255,255,255,0.24)' }}>
+                    <div className="text-lg secondary-font text-white">{recallPhrase.hanzi}</div>
+                    <div className="text-sm text-white/80">{recallPhrase.pinyin}</div>
+                    <div className="text-sm text-white mt-1">{recallPhrase.english}</div>
                   </div>
                 ) : null}
 
@@ -179,7 +180,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
                   <div className="mt-3 flex justify-center">
                     <button
                       onClick={() => setRevealRecall(true)}
-                      className="px-4 py-2 rounded-2xl border border-border text-sm text-text-dark hover:bg-[rgba(55,65,81,0.05)]"
+                      className="px-4 py-2 rounded-2xl border border-white/28 bg-white/12 text-sm text-white hover:bg-white/18"
                     >
                       Reveal answer
                     </button>
@@ -188,14 +189,13 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
                   <div className="mt-3 flex flex-col sm:flex-row items-center justify-center gap-2">
                     <button
                       onClick={() => scoreRecallPrompt(false)}
-                      className="w-full sm:w-auto px-4 py-2 rounded-2xl border border-[#C2410C]/35 text-[#C2410C] text-sm font-semibold hover:bg-[rgba(194,65,12,0.08)]"
+                      className="w-full sm:w-auto px-4 py-2 rounded-2xl border border-white/28 bg-white/10 text-white text-sm font-semibold hover:bg-white/18"
                     >
                       Missed it
                     </button>
                     <button
                       onClick={() => scoreRecallPrompt(true)}
-                      style={{ backgroundColor: theme }}
-                      className="w-full sm:w-auto px-4 py-2 rounded-2xl text-white text-sm font-semibold tracking-wide"
+                      className="w-full sm:w-auto px-4 py-2 rounded-2xl border border-white/28 bg-white/18 text-white text-sm font-semibold tracking-wide hover:bg-white/24"
                     >
                       Got it
                     </button>
@@ -204,15 +204,14 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
               </div>
             ) : (
               <div className="text-center">
-                <div className="text-xs tracking-wide font-mono text-text-light mb-2">Sprint complete</div>
-                <div className="text-sm text-text-med mb-2">
-                  Mastered <span className="font-semibold text-text-dark">{recallGot}</span> ·
-                  Missed <span className="font-semibold text-text-dark">{recallMissed}</span>
+                <div className="text-xs tracking-wide font-mono text-white/75 mb-2">Sprint complete</div>
+                <div className="text-sm text-white/85 mb-2">
+                  Mastered <span className="font-semibold text-white">{recallGot}</span> ·
+                  Missed <span className="font-semibold text-white">{recallMissed}</span>
                 </div>
                 <button
                   onClick={resetRecallSprint}
-                  style={{ backgroundColor: theme }}
-                  className="px-4 py-2 rounded-2xl text-white text-sm font-semibold tracking-wide"
+                  className="px-4 py-2 rounded-2xl border border-white/28 bg-white/18 text-white text-sm font-semibold tracking-wide hover:bg-white/24"
                 >
                   Start another sprint
                 </button>
@@ -221,10 +220,13 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
           </div>
         </section>
 
-        <section className="rounded-3xl border border-border bg-white p-4 md:p-5 mb-4 shadow-[0_14px_34px_-26px_rgba(15,23,42,0.28)]" style={{ borderColor: soft }}>
+        <section
+          className="rounded-3xl border p-4 md:p-5 mb-4 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.34)]"
+          style={{ borderColor: theme, backgroundColor: theme }}
+        >
           <div className="mb-4 text-center">
-            <div className="text-[11px] tracking-wide font-mono text-text-light">Essential phrases ({section.phrases.length})</div>
-            <div className="text-sm text-text-med mt-1">
+            <div className="text-[11px] tracking-wide font-mono text-white/75">Essential phrases ({section.phrases.length})</div>
+            <div className="text-sm text-white/85 mt-1">
               Use the top-right checkbox when you have it down. Checked cards are dimmed and locked until unchecked.
             </div>
           </div>
@@ -235,17 +237,17 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
                 <div
                   key={phrase.id}
                   className={`relative rounded-2xl border p-4 text-center md:min-h-[188px] flex flex-col justify-center ${
-                    isLearned ? 'bg-[#F6F7F5]' : 'bg-white'
+                    isLearned ? 'bg-white/10' : 'bg-white/14'
                   }`}
-                  style={{ borderColor: soft }}
+                  style={{ borderColor: 'rgba(255,255,255,0.24)' }}
                 >
                   <button
                     type="button"
                     onClick={() => setLearned((prev) => ({ ...prev, [phrase.id]: !prev[phrase.id] }))}
                     className={`absolute top-3 right-3 inline-flex items-center justify-center w-7 h-7 rounded-lg border transition-colors ${
                       isLearned
-                        ? 'border-[#3E5648] bg-[rgba(62,86,72,0.12)] text-[#3E5648]'
-                        : 'border-border bg-white text-text-light hover:text-text-med'
+                        ? 'border-white/35 bg-white/20 text-white'
+                        : 'border-white/25 bg-white/12 text-white/70 hover:text-white'
                     }`}
                     aria-label={isLearned ? `Unmark ${phrase.english}` : `Mark ${phrase.english} as learned`}
                     title={isLearned ? 'Uncheck to unlock card' : "Check when you've got this down"}
@@ -254,17 +256,16 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
                   </button>
 
                   <div className={isLearned ? 'opacity-55' : ''}>
-                    <div className="text-2xl secondary-font text-text-dark">{phrase.hanzi}</div>
-                    <div className="text-sm text-text-med">{phrase.pinyin}</div>
-                    <div className="text-sm text-text-dark mt-1">{phrase.english}</div>
+                    <div className="text-2xl secondary-font text-white">{phrase.hanzi}</div>
+                    <div className="text-sm text-white/80">{phrase.pinyin}</div>
+                    <div className="text-sm text-white mt-1">{phrase.english}</div>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-center gap-2 mt-3">
                     <button
                       onClick={() => speak(phrase.hanzi, phrase.pinyin)}
                       disabled={isLearned}
-                      style={{ backgroundColor: theme }}
-                      className="inline-flex items-center justify-center w-10 h-10 rounded-xl text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                      className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-white/28 bg-white/16 text-white disabled:opacity-40 disabled:cursor-not-allowed"
                       aria-label={`Play ${phrase.english}`}
                     >
                       <Volume2 className="w-4 h-4" />

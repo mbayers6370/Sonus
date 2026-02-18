@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import { prisma } from '../lib/prisma.js';
 import { requireAuth } from '../lib/auth.js';
+import { touchUserActivity } from '../services/progressService.js';
 
 const quizAttemptSchema = z.object({
   wordId: z.string().trim().min(1).max(80),
@@ -116,6 +117,7 @@ export async function attemptRoutes(app: FastifyInstance) {
       return { attempt, memory };
     });
 
+    await touchUserActivity(userId);
     return result;
   });
 
@@ -204,6 +206,7 @@ export async function attemptRoutes(app: FastifyInstance) {
       return { attempt, memory };
     });
 
+    await touchUserActivity(userId);
     return result;
   });
 }

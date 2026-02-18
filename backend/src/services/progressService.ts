@@ -13,8 +13,142 @@ interface ProgressEventInput {
   payloadJson?: Prisma.JsonObject;
 }
 
+type SevenDayActivity = {
+  dayKey: string;
+  active: boolean;
+};
+
+function resolveTimezone(timezone: string | null | undefined) {
+  if (!timezone) return 'UTC';
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: timezone }).format(new Date());
+    return timezone;
+  } catch {
+    return 'UTC';
+  }
+}
+
+function dayKeyAt(date: Date, timezone: string) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: timezone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date);
+  const year = parts.find((part) => part.type === 'year')?.value ?? '1970';
+  const month = parts.find((part) => part.type === 'month')?.value ?? '01';
+  const day = parts.find((part) => part.type === 'day')?.value ?? '01';
+  return `${year}-${month}-${day}`;
+}
+
+function dayDiff(fromDayKey: string, toDayKey: string) {
+  const from = Date.parse(`${fromDayKey}T00:00:00.000Z`);
+  const to = Date.parse(`${toDayKey}T00:00:00.000Z`);
+  if (Number.isNaN(from) || Number.isNaN(to)) return 0;
+  return Math.round((to - from) / 86_400_000);
+}
+
+function resolveStreakForToday(streak: number, lastActiveDate: Date | null, timezone: string) {
+  if (!lastActiveDate) return streak;
+  const todayKey = dayKeyAt(new Date(), timezone);
+  const lastKey = dayKeyAt(lastActiveDate, timezone);
+  const gap = dayDiff(lastKey, todayKey);
+  // Keep streak when active today or yesterday. Reset when at least one full day was missed.
+  if (gap <= 1) return streak;
+  return 0;
+}
+
+async function readUserTimezone(userId: string) {
+  const profile = await prisma.profile.findUnique({
+    where: { userId },
+    select: { timezone: true },
+  });
+  return resolveTimezone(profile?.timezone);
+}
+
+async function collectActivityDayKeys(userId: string, timezone: string) {
+  const since = new Date(Date.now() - 10 * 86_400_000);
+  const [quizAttempts, speakAttempts, progressEvents] = await Promise.all([
+    prisma.quizAttempt.findMany({
+      where: { userId, createdAt: { gte: since } },
+      select: { createdAt: true },
+    }),
+    prisma.speakAttempt.findMany({
+      where: { userId, createdAt: { gte: since } },
+      select: { createdAt: true },
+    }),
+    prisma.progressEvent.findMany({
+      where: { userId, createdAt: { gte: since } },
+      select: { createdAt: true },
+    }),
+  ]);
+
+  const keys = new Set<string>();
+  for (const row of quizAttempts) keys.add(dayKeyAt(row.createdAt, timezone));
+  for (const row of speakAttempts) keys.add(dayKeyAt(row.createdAt, timezone));
+  for (const row of progressEvents) keys.add(dayKeyAt(row.createdAt, timezone));
+  return keys;
+}
+
+function buildSevenDayActivity(activeDayKeys: Set<string>, timezone: string): SevenDayActivity[] {
+  const days: SevenDayActivity[] = [];
+  for (let i = 6; i >= 0; i -= 1) {
+    const date = new Date(Date.now() - i * 86_400_000);
+    const dayKey = dayKeyAt(date, timezone);
+    days.push({
+      dayKey,
+      active: activeDayKeys.has(dayKey),
+    });
+  }
+  return days;
+}
+
+export async function touchUserActivity(userId: string) {
+  return prisma.$transaction(async (tx) => {
+    const profile = await tx.profile.findUnique({
+      where: { userId },
+      select: { timezone: true },
+    });
+    const timezone = resolveTimezone(profile?.timezone);
+    const now = new Date();
+    const todayKey = dayKeyAt(now, timezone);
+
+    const existing = await tx.userProgress.findUnique({
+      where: { userId },
+      select: { streak: true, lastActiveDate: true },
+    });
+
+    const previousStreak = resolveStreakForToday(existing?.streak ?? 0, existing?.lastActiveDate ?? null, timezone);
+    const lastKey = existing?.lastActiveDate ? dayKeyAt(existing.lastActiveDate, timezone) : null;
+
+    let nextStreak = previousStreak;
+    if (!lastKey) {
+      nextStreak = 1;
+    } else if (lastKey === todayKey) {
+      nextStreak = previousStreak;
+    } else {
+      const gap = dayDiff(lastKey, todayKey);
+      nextStreak = gap === 1 ? previousStreak + 1 : 1;
+    }
+
+    return tx.userProgress.upsert({
+      where: { userId },
+      update: {
+        streak: nextStreak,
+        lastActiveDate: now,
+      },
+      create: {
+        userId,
+        streak: 1,
+        lastActiveDate: now,
+      },
+    });
+  });
+}
+
 export async function getProgressSnapshot(userId: string) {
-  const [progress, recentEvents] = await Promise.all([
+  const [timezone, progressSeed, recentEvents] = await Promise.all([
+    readUserTimezone(userId),
     prisma.userProgress.upsert({
       where: { userId },
       update: {},
@@ -27,7 +161,17 @@ export async function getProgressSnapshot(userId: string) {
     }),
   ]);
 
-  return { progress, recentEvents };
+  const streak = resolveStreakForToday(progressSeed.streak, progressSeed.lastActiveDate, timezone);
+  const progress = streak === progressSeed.streak
+    ? progressSeed
+    : await prisma.userProgress.update({
+      where: { userId },
+      data: { streak: 0 },
+    });
+  const activeDayKeys = await collectActivityDayKeys(userId, timezone);
+  const sevenDayActivity = buildSevenDayActivity(activeDayKeys, timezone);
+
+  return { progress, recentEvents, sevenDayActivity };
 }
 
 export async function updateProgressCurrent(userId: string, input: UpdateProgressCurrentInput) {
@@ -49,6 +193,12 @@ export async function updateProgressCurrent(userId: string, input: UpdateProgres
 
 export async function recordProgressEvent(userId: string, event: ProgressEventInput) {
   return prisma.$transaction(async (tx) => {
+    const profile = await tx.profile.findUnique({
+      where: { userId },
+      select: { timezone: true },
+    });
+    const timezone = resolveTimezone(profile?.timezone);
+
     const createdEvent = await tx.progressEvent.create({
       data: {
         userId,
@@ -58,15 +208,23 @@ export async function recordProgressEvent(userId: string, event: ProgressEventIn
       },
     });
 
+    const existing = await tx.userProgress.findUnique({
+      where: { userId },
+      select: { streak: true, lastActiveDate: true },
+    });
+
+    const baseStreak = resolveStreakForToday(existing?.streak ?? 0, existing?.lastActiveDate ?? null, timezone);
+    const nextStreak = Math.max(0, baseStreak + event.streakDelta);
+
     const progress = await tx.userProgress.upsert({
       where: { userId },
       update: {
-        streak: { increment: event.streakDelta },
+        streak: nextStreak,
         lastActiveDate: new Date(),
       },
       create: {
         userId,
-        streak: Math.max(0, event.streakDelta),
+        streak: nextStreak,
         lastActiveDate: new Date(),
       },
     });

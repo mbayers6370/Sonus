@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react';
-import { RefreshCw } from 'lucide-react';
+import { BookOpen, ChartNoAxesColumn, Flag, Flame } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { loadWordLookup, type WordLookup } from '../lib/wordLookup';
 import GlassHeader from './GlassHeader';
 import { apiFetch } from '../lib/apiClient';
+import { getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 
 type Progress = {
   streak: number;
   lastActiveDate: string | null;
-};
-
-type ProgressEvent = {
-  eventType: string;
-  streakDelta: number;
-  createdAt: string;
+  currentBandId: string | null;
+  currentUnitId: string | null;
+  currentLessonIdx: number | null;
 };
 
 type NeedsWorkItem = {
@@ -39,11 +37,10 @@ function getNeedsWorkColumns(width: number) {
 }
 
 export default function ProfileProgressScreen({ onGoHome, onGoProfile }: ProfileProgressScreenProps) {
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [backendOffline, setBackendOffline] = useState(false);
   const [progress, setProgress] = useState<Progress | null>(null);
-  const [recentEvents, setRecentEvents] = useState<ProgressEvent[]>([]);
+  const [sevenDayActivity, setSevenDayActivity] = useState<Array<{ dayKey: string; active: boolean }>>([]);
   const [needsWork, setNeedsWork] = useState<NeedsWorkItem[]>([]);
   const [wordLookup, setWordLookup] = useState<WordLookup>({});
   const [visibleRows, setVisibleRows] = useState(ROWS_PER_PAGE);
@@ -52,7 +49,6 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   );
 
   const load = async () => {
-    setLoading(true);
     setError(null);
     setBackendOffline(false);
     try {
@@ -61,9 +57,12 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
         apiFetch('/v1/me/needs-work?limit=40&minTotalMisses=3'),
       ]);
       if (!progressResponse.ok) throw new Error('Failed to load progress');
-      const json = (await progressResponse.json()) as { progress: Progress; recentEvents: ProgressEvent[] };
+      const json = (await progressResponse.json()) as {
+        progress: Progress;
+        sevenDayActivity?: Array<{ dayKey: string; active: boolean }>;
+      };
       setProgress(json.progress);
-      setRecentEvents(json.recentEvents || []);
+      setSevenDayActivity(json.sevenDayActivity || []);
 
       if (needsWorkResponse.ok) {
         const weakJson = (await needsWorkResponse.json()) as { needsWork: NeedsWorkItem[] };
@@ -74,11 +73,15 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     } catch {
       setBackendOffline(true);
       setError(null);
-      setProgress({ streak: 0, lastActiveDate: null });
-      setRecentEvents([]);
+      setProgress({
+        streak: 0,
+        lastActiveDate: null,
+        currentBandId: null,
+        currentUnitId: null,
+        currentLessonIdx: null,
+      });
+      setSevenDayActivity([]);
       setNeedsWork([]);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -108,23 +111,43 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   const visibleNeedsWorkCount = Math.min(needsWork.length, visibleRows * needsWorkColumns);
   const visibleNeedsWork = needsWork.slice(0, visibleNeedsWorkCount);
   const hasMoreNeedsWork = visibleNeedsWorkCount < needsWork.length;
+  const coreUnits = progress?.currentBandId
+    ? getUnitsForBand(progress.currentBandId).filter(
+      (unit) => !isCheckpointUnitId(unit.id) && !isPracticeUnitId(unit.id)
+    )
+    : [];
+  const currentCoreUnitIndex =
+    progress?.currentUnitId
+      ? coreUnits.findIndex((unit) => unit.id === progress.currentUnitId)
+      : -1;
+  const unitsCompleted = currentCoreUnitIndex > 0 ? currentCoreUnitIndex : 0;
+  const completionPercent = coreUnits.length > 0
+    ? Math.round((unitsCompleted / coreUnits.length) * 100)
+    : 0;
+  const currentUnitMeta =
+    progress?.currentBandId && progress?.currentUnitId
+      ? getUnitMetadata(progress.currentBandId, progress.currentUnitId)
+      : null;
+  const currentLessonNumber =
+    typeof progress?.currentLessonIdx === 'number' && progress.currentLessonIdx >= 0
+      ? progress.currentLessonIdx + 1
+      : null;
+  const currentUnitAndLesson = progress?.currentUnitId
+    ? `${currentUnitMeta?.name ?? 'Current Unit'}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
+    : 'Not started';
+  const calendarDays = sevenDayActivity.length
+    ? sevenDayActivity
+    : Array.from({ length: 7 }, (_, idx) => {
+      const date = new Date(Date.now() - (6 - idx) * 86_400_000);
+      const dayKey = date.toISOString().slice(0, 10);
+      return { dayKey, active: false };
+    });
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader title="Progress" />
 
-      <div className="space-y-4">
-        <div className="flex justify-end">
-          <button
-            onClick={() => void load()}
-            disabled={loading}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-border rounded-xl text-sm font-medium hover:bg-[rgba(55,65,81,0.08)] disabled:opacity-60"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
-          </button>
-        </div>
-
+      <div className="space-y-4 max-w-6xl mx-auto text-center">
         {backendOffline && (
           <div className="bg-white border border-border rounded-2xl p-4 text-sm text-text-med">
             Backend appears offline. Showing cached/empty progress.
@@ -137,75 +160,120 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
           </div>
         )}
 
-        <div className="bg-white border border-border rounded-3xl p-5 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)]">
-          <h3 className="font-semibold text-text-dark mb-3">Current Stats</h3>
-          <div className="grid grid-cols-1 gap-4">
-            <div className="p-3 rounded-xl border border-[rgba(62,86,72,0.22)] bg-[rgba(62,86,72,0.10)]">
-              <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-1">Streak</div>
-              <div className="text-2xl font-semibold text-[#3E5648]">{progress?.streak ?? 0}</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+          <div className="bg-[#C2410C] text-white border border-[#C2410C]/90 rounded-3xl p-5 shadow-[0_20px_40px_-28px_rgba(194,65,12,0.40)] flex flex-col items-center justify-center">
+            <div className="inline-flex items-center gap-2 mb-3 rounded-full border border-white/28 bg-white/12 px-3 py-1 justify-center">
+              <Flame className="w-4 h-4 text-white" />
+              <span className="text-xs font-mono uppercase tracking-wider text-white">Current Streak</span>
+            </div>
+            <div className="text-4xl font-semibold text-white leading-none">
+              {progress?.streak ?? 0}
+            </div>
+            <div className="text-sm text-white/85 mt-1">day streak</div>
+          </div>
+
+          <div className="bg-white border border-border rounded-3xl p-5">
+            <h3 className="font-semibold text-text-dark mb-3">Words To Work On</h3>
+            {needsWork.length === 0 ? (
+              <div className="text-sm text-text-med">No words currently in your needs-work list.</div>
+            ) : (
+              <>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {visibleNeedsWork.map((item) => (
+                    <div
+                      key={item.wordId}
+                      className="border border-border rounded-xl p-2 bg-[#FBFBF9] min-h-[116px] sm:min-h-[124px] flex flex-col items-center justify-center text-center"
+                    >
+                      {wordLookup[item.wordId] ? (
+                        <div>
+                          <div className="secondary-font text-2xl text-text-dark leading-none">
+                            {wordLookup[item.wordId].simp}
+                          </div>
+                          <div className="text-xs text-text-med mt-1">{wordLookup[item.wordId].pinyin}</div>
+                          <div className="text-xs text-text-light mt-0.5">{wordLookup[item.wordId].en}</div>
+                        </div>
+                      ) : <div className="text-xs text-text-med">Word</div>}
+                      <div className="mt-1 text-xs text-[#C2410C] font-semibold">
+                        {item.totalMisses} misses
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {hasMoreNeedsWork && (
+                  <button
+                    onClick={() => setVisibleRows((prev) => prev + ROWS_PER_PAGE)}
+                    className="mt-3 text-sm font-medium text-[#186E95] hover:opacity-80"
+                  >
+                    Show more ({needsWork.length})
+                  </button>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="bg-[#3E5648] text-white border border-[#3E5648]/90 rounded-3xl p-5 shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)]">
+          <h3 className="font-semibold text-white mb-2">Activity (Last 7 Days)</h3>
+          <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
+            {calendarDays.map((day) => {
+              const labelDate = new Date(`${day.dayKey}T12:00:00`);
+              const weekday = labelDate.toLocaleDateString(undefined, { weekday: 'short' });
+              const dayNumber = labelDate.toLocaleDateString(undefined, { day: 'numeric' });
+              return (
+                <div
+                  key={day.dayKey}
+                  className={`rounded-lg sm:rounded-xl border px-1.5 py-1.5 sm:p-2 text-center backdrop-blur-sm transition-colors ${
+                    day.active
+                      ? 'border-white/35 bg-white/20'
+                      : 'border-white/20 bg-white/10'
+                  }`}
+                >
+                  <div className={`text-[9px] sm:text-[10px] font-mono uppercase tracking-wider ${day.active ? 'text-white' : 'text-white/80'}`}>
+                    {weekday}
+                  </div>
+                  <div className={`text-xs sm:text-sm font-semibold mt-0.5 ${day.active ? 'text-white' : 'text-white/85'}`}>
+                    {dayNumber}
+                  </div>
+                  <div className="mt-0.5 sm:mt-1 flex justify-center">
+                    <span className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${day.active ? 'bg-white' : 'bg-white/50'}`} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="bg-[#186E95] text-white border border-[#186E95]/90 rounded-3xl p-5 shadow-[0_20px_40px_-28px_rgba(24,110,149,0.38)]">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <div className="inline-flex items-center rounded-full px-3 py-1 bg-white/14 border border-white/28 text-[10px] uppercase tracking-[0.2em] font-mono text-white/90">
+              Progress Metrics
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="rounded-xl border border-white/28 bg-white/10 p-3">
+              <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
+                <BookOpen className="w-3.5 h-3.5" />
+                Units Completed
+              </div>
+              <div className="text-2xl font-semibold text-white mt-2 leading-none">{unitsCompleted}</div>
+            </div>
+            <div className="rounded-xl border border-white/28 bg-white/10 p-3">
+              <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
+                <ChartNoAxesColumn className="w-3.5 h-3.5" />
+                Completion
+              </div>
+              <div className="text-2xl font-semibold text-white mt-2 leading-none">{completionPercent}%</div>
+            </div>
+            <div className="rounded-xl border border-white/28 bg-white/12 p-3 sm:col-span-2">
+              <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
+                <Flag className="w-3.5 h-3.5" />
+                Current Unit + Lesson
+              </div>
+              <div className="text-sm font-semibold text-white mt-2 leading-tight">{currentUnitAndLesson}</div>
             </div>
           </div>
         </div>
 
-        <div className="bg-white border border-border rounded-3xl p-5">
-          <h3 className="font-semibold text-text-dark mb-3">Recent Events</h3>
-          {recentEvents.length === 0 ? (
-            <div className="text-sm text-text-med">No recent progress events.</div>
-          ) : (
-            <div className="space-y-2">
-              {recentEvents.map((event, idx) => (
-                <div key={`${event.eventType}-${event.createdAt}-${idx}`} className="border border-border rounded-xl p-3 bg-[#FBFBF9]">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="text-sm font-semibold text-text-dark">{event.eventType}</div>
-                    <div className="text-xs text-text-light">{new Date(event.createdAt).toLocaleString()}</div>
-                  </div>
-                  <div className="text-xs text-text-med">
-                    Streak {event.streakDelta >= 0 ? '+' : ''}{event.streakDelta}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="bg-white border border-border rounded-3xl p-5">
-          <h3 className="font-semibold text-text-dark mb-3">Words To Work On</h3>
-          {needsWork.length === 0 ? (
-            <div className="text-sm text-text-med">No words currently in your needs-work list.</div>
-          ) : (
-            <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                {visibleNeedsWork.map((item) => (
-                  <div
-                    key={item.wordId}
-                    className="border border-border rounded-xl p-2 bg-[#FBFBF9] min-h-[116px] sm:min-h-[124px] flex flex-col items-center justify-center text-center"
-                  >
-                    {wordLookup[item.wordId] ? (
-                      <div>
-                        <div className="secondary-font text-2xl text-text-dark leading-none">
-                          {wordLookup[item.wordId].simp}
-                        </div>
-                        <div className="text-xs text-text-med mt-1">{wordLookup[item.wordId].pinyin}</div>
-                        <div className="text-xs text-text-light mt-0.5">{wordLookup[item.wordId].en}</div>
-                      </div>
-                    ) : <div className="text-xs text-text-med">Word</div>}
-                    <div className="mt-1 text-xs text-[#C2410C] font-semibold">
-                      {item.totalMisses} misses
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {hasMoreNeedsWork && (
-                <button
-                  onClick={() => setVisibleRows((prev) => prev + ROWS_PER_PAGE)}
-                  className="mt-3 text-sm font-medium text-[#186E95] hover:opacity-80"
-                >
-                  Show more ({needsWork.length})
-                </button>
-              )}
-            </>
-          )}
-        </div>
       </div>
 
       <BottomNav active="profile" onHome={onGoHome} onProfile={onGoProfile} />
