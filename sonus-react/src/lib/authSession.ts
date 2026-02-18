@@ -16,6 +16,10 @@ function clearSessionExpiry() {
 
 export function isAuthSessionExpired() {
   try {
+    // If we have a refresh token, prefer server-side session validity over local TTL.
+    const refreshToken = window.localStorage.getItem(REFRESH_TOKEN_KEY);
+    if (refreshToken) return false;
+
     const raw = window.localStorage.getItem(SESSION_EXPIRES_AT_KEY);
     if (!raw) return false;
     const expiresAt = Number(raw);
@@ -29,6 +33,14 @@ export function isAuthSessionExpired() {
 export function getAccessToken() {
   try {
     return window.localStorage.getItem(ACCESS_TOKEN_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function getRefreshToken() {
+  try {
+    return window.localStorage.getItem(REFRESH_TOKEN_KEY);
   } catch {
     return null;
   }

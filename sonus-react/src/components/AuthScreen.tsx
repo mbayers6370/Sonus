@@ -98,9 +98,22 @@ export default function AuthScreen() {
     };
   }, [mode, loading, email, password]);
 
+  useEffect(() => {
+    document.body.classList.add('auth-screen-open');
+    return () => {
+      document.body.classList.remove('auth-screen-open');
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen page-shell px-6 py-8 flex items-center justify-center">
-      <div className="w-full max-w-md bg-white border border-border rounded-3xl p-6 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] text-center">
+    <div
+      className="h-[100dvh] page-shell px-6 flex items-center justify-center overflow-hidden"
+      style={{
+        paddingTop: 'max(1.25rem, env(safe-area-inset-top, 0px))',
+        paddingBottom: 'max(1.25rem, env(safe-area-inset-bottom, 0px))',
+      }}
+    >
+      <div className="w-full max-w-md bg-white border border-border rounded-3xl p-5 sm:p-6 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] text-center">
         <img
           src="/branding/logo_name_solo.png"
           alt="Sonus"

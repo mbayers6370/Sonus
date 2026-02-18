@@ -5,6 +5,7 @@ import { apiFetch } from '../lib/apiClient';
 import {
   clearAuthSession,
   getAccessToken,
+  getRefreshToken,
   getDemoMode,
   getMockIdentity,
   isAuthSessionExpired,
@@ -67,6 +68,29 @@ async function readAuthResponse(response: Response): Promise<AuthApiResponse> {
   }
 }
 
+async function attemptRefreshAuthSession() {
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) return { ok: false, email: null as string | null };
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/v1/auth/refresh`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken }),
+    });
+    const payload = await readAuthResponse(response);
+    if (!response.ok || !payload.accessToken) {
+      return { ok: false, email: null as string | null };
+    }
+
+    setAuthSession(payload.accessToken, payload.refreshToken ?? refreshToken);
+    setMockIdentity(payload.user?.id ?? null, payload.user?.email ?? null);
+    return { ok: true, email: payload.user?.email ?? null };
+  } catch {
+    return { ok: false, email: null as string | null };
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [authMode, setAuthMode] = useState<AuthMode>('unknown');
   const [status, setStatus] = useState<AuthStatus>('loading');
@@ -117,7 +141,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           return;
         }
 
-        const token = getAccessToken();
+        let token = getAccessToken();
+        let refreshToken = getRefreshToken();
+        if (!token && refreshToken) {
+          const refreshed = await attemptRefreshAuthSession();
+          if (refreshed.ok) {
+            token = getAccessToken();
+            refreshToken = getRefreshToken();
+            setEmail(refreshed.email);
+          }
+        }
+
         if (!token) {
           setStatus('signed_out');
           setIsDemo(false);
@@ -129,6 +163,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!response.ok) {
           // Only clear session on explicit auth failures.
           if (response.status === 401 || response.status === 403) {
+            const refreshed = refreshToken ? await attemptRefreshAuthSession() : { ok: false, email: null };
+            if (refreshed.ok) {
+              const retry = await apiFetch('/v1/me/profile');
+              if (retry.ok) {
+                const profileJson = (await retry.json()) as { profile?: { email?: string | null } };
+                setEmail(profileJson.profile?.email ?? refreshed.email ?? null);
+                setIsDemo(false);
+                setStatus('signed_in');
+                return;
+              }
+            }
+
             clearAuthSession();
             setStatus('signed_out');
             setIsDemo(false);

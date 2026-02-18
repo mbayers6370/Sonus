@@ -20,6 +20,10 @@ const loginSchema = z.object({
   password: z.string().min(1).max(128),
 });
 
+const refreshSchema = z.object({
+  refreshToken: z.string().min(1).max(4096),
+});
+
 export async function authRoutes(app: FastifyInstance) {
   app.post('/v1/auth/signup', async (request, reply) => {
     const parsed = signupSchema.safeParse(request.body);
@@ -136,6 +140,35 @@ export async function authRoutes(app: FastifyInstance) {
     reply.send({
       user: { id: data.user.id, email: data.user.email ?? parsed.data.email },
       profile,
+      accessToken: data.session.access_token,
+      refreshToken: data.session.refresh_token,
+    });
+  });
+
+  app.post('/v1/auth/refresh', async (request, reply) => {
+    const parsed = refreshSchema.safeParse(request.body);
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+
+    if (env.AUTH_MODE !== 'supabase') {
+      reply.code(400).send({ error: 'Refresh endpoint is only available in supabase auth mode.' });
+      return;
+    }
+
+    const supabase = getSupabaseAuthClient();
+    const { data, error } = await supabase.auth.refreshSession({
+      refresh_token: parsed.data.refreshToken,
+    });
+
+    if (error || !data.session || !data.user) {
+      reply.code(401).send({ error: error?.message || 'Unable to refresh session' });
+      return;
+    }
+
+    reply.send({
+      user: { id: data.user.id, email: data.user.email ?? null },
       accessToken: data.session.access_token,
       refreshToken: data.session.refresh_token,
     });

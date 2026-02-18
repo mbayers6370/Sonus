@@ -35,6 +35,12 @@ body {
   scrollbar-color: rgba(148, 163, 184, 0.62) rgba(255, 255, 255, 0.42);
 }
 
+body.auth-screen-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+}
+
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;

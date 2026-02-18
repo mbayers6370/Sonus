@@ -14,6 +14,7 @@ In mock mode, requests can include:
 ## Authentication
 - `POST /v1/auth/signup`
 - `POST /v1/auth/login`
+- `POST /v1/auth/refresh` (supabase mode only)
 
 Signup payload example:
 ```json
@@ -38,6 +39,13 @@ Login payload example:
 In `AUTH_MODE=supabase`, auth responses include `accessToken` and `refreshToken`.
 Subsequent authenticated requests should include:
 - `Authorization: Bearer <accessToken>`
+
+Refresh payload example:
+```json
+{
+  "refreshToken": "<refresh-token>"
+}
+```
 
 ## API Runtime Controls
 - Rate limiter mode is controlled by `RATE_LIMIT_MODE` (`memory`, `redis`, `edge`).
