@@ -3,7 +3,6 @@ import {
   BookOpen,
   Flame,
   BadgeCheck,
-  ChartNoAxesColumn,
   ChevronRight,
   PencilLine,
   Flag,
@@ -18,6 +17,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useApp } from '../contexts/AppContext';
 import { SurfaceButtonCard, SurfaceCard } from './ui/SurfaceCard';
 import { getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
+import { getLessonRanges } from '../lib/lessonChunks';
 
 type Profile = {
   displayName: string | null;
@@ -62,6 +62,22 @@ function inferUnitFromLessonProgress(
   return latestStarted ?? null;
 }
 
+function inferLessonCountFromProgress(
+  bandId: string | null,
+  unitId: string,
+  lessonProgress: Record<string, unknown>
+) {
+  if (!bandId) return 0;
+  let maxSeen = -1;
+  for (const key of Object.keys(lessonProgress || {})) {
+    const [keyBandId, keyUnitId, keyLessonIdx] = key.split(':');
+    if (keyBandId !== bandId || keyUnitId !== unitId) continue;
+    const idx = Number(keyLessonIdx);
+    if (Number.isFinite(idx)) maxSeen = Math.max(maxSeen, idx);
+  }
+  return maxSeen + 1;
+}
+
 export default function ProfileScreen({
   onOpenProgress,
   onOpenAbout,
@@ -93,7 +109,7 @@ export default function ProfileScreen({
     (currentLearningLanguage === 'fr' && 'French') ||
     'Not set';
 
-  const profileTargetLanguageName =
+  const profileTargetLanguageNameRaw =
     (targetLanguage === 'zh' && 'Mandarin') ||
     (targetLanguage === 'es' && 'Spanish') ||
     (targetLanguage === 'fr' && 'French') ||
@@ -101,6 +117,8 @@ export default function ProfileScreen({
     (targetLanguage === 'ja' && 'Japanese') ||
     (targetLanguage === 'ko' && 'Korean') ||
     null;
+  const profileTargetLanguageName =
+    profileTargetLanguageNameRaw || (learningLanguageName !== 'Not set' ? learningLanguageName : null);
 
   const effectiveBandId =
     progress?.currentBandId ??
@@ -129,10 +147,20 @@ export default function ProfileScreen({
     effectiveUnitId
       ? coreUnits.findIndex((unit) => unit.id === effectiveUnitId)
       : -1;
-  const unitsCompleted = currentCoreUnitIndex > 0 ? currentCoreUnitIndex : 0;
-  const completionPercent = coreUnits.length > 0
-    ? Math.round((unitsCompleted / coreUnits.length) * 100)
+  const activeBandDataForMetrics =
+    effectiveBandId && state.activeBandId === effectiveBandId ? state.activeBandData : null;
+  const lessonsBeforeCurrent = currentCoreUnitIndex > 0
+    ? coreUnits.slice(0, currentCoreUnitIndex).reduce((sum, unit) => {
+      if (activeBandDataForMetrics) {
+        const words = Array.isArray(activeBandDataForMetrics.units)
+          ? (activeBandDataForMetrics.units.find((entry) => entry?.id === unit.id)?.words || [])
+          : (activeBandDataForMetrics.units?.[unit.id]?.words || []);
+        return sum + getLessonRanges(words.length, 10).length;
+      }
+      return sum + inferLessonCountFromProgress(effectiveBandId, unit.id, state.lessonProgress || {});
+    }, 0)
     : 0;
+  const lessonsCompleted = lessonsBeforeCurrent + Math.max(typeof effectiveLessonIdx === 'number' ? effectiveLessonIdx : 0, 0);
   const currentUnitMeta =
     effectiveBandId && effectiveUnitId
       ? getUnitMetadata(effectiveBandId, effectiveUnitId)
@@ -322,33 +350,19 @@ export default function ProfileScreen({
           </div>
         )}
 
-        <SurfaceCard className="p-5 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)]">
-          <div className="flex items-center justify-between gap-4 flex-wrap">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-full bg-[rgba(24,110,149,0.12)] border border-[rgba(24,110,149,0.22)] flex items-center justify-center text-[#186E95]">
-                <UserRound className="w-7 h-7" />
-              </div>
-              <div>
-                <div className="text-lg font-semibold text-text-dark">
-                  {displayName.trim() || 'Learner'}
-                </div>
-                <div className="text-sm text-text-med">{profile?.email || '—'}</div>
-                <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                  <span className="inline-flex items-center rounded-full border border-border bg-[rgba(55,65,81,0.06)] px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider text-text-med">
-                    {profileTargetLanguageName ? `Target: ${profileTargetLanguageName}` : 'Target: Not set'}
-                  </span>
-                  <span className="inline-flex items-center rounded-full border border-border bg-[rgba(55,65,81,0.06)] px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider text-text-med">
-                    {timezone.trim() ? timezone : 'Timezone: Not set'}
-                  </span>
-                  <button
-                    onClick={() => setProfileEditorOpen(true)}
-                    className="inline-flex items-center gap-1 rounded-full border border-[#186E95]/35 bg-[rgba(24,110,149,0.10)] px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider text-[#186E95] hover:bg-[rgba(24,110,149,0.16)] transition-colors"
-                  >
-                    <PencilLine className="w-3.5 h-3.5" />
-                    Edit
-                  </button>
-                </div>
-              </div>
+        <SurfaceCard className="relative p-5 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)]">
+          <div className="flex flex-col items-center text-center gap-2">
+            <div className="w-10 h-10 rounded-full bg-[rgba(24,110,149,0.12)] border border-[rgba(24,110,149,0.22)] flex items-center justify-center text-[#186E95]">
+              <UserRound className="w-5 h-5" />
+            </div>
+            <div className="text-lg font-semibold text-text-dark">
+              {displayName.trim() || 'Learner'}
+            </div>
+            <div className="text-sm text-text-med">{profile?.email || '—'}</div>
+            <div className="mt-1 flex flex-wrap items-center justify-center gap-1.5">
+              <span className="inline-flex items-center rounded-full border border-border bg-[rgba(55,65,81,0.06)] px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider text-text-med">
+                {profileTargetLanguageName ? `Target: ${profileTargetLanguageName}` : 'Target: Not set'}
+              </span>
             </div>
             <button
               onClick={signOut}
@@ -358,12 +372,20 @@ export default function ProfileScreen({
               {isDemo ? 'Exit Demo' : 'Sign Out'}
             </button>
           </div>
+          <button
+            onClick={() => setProfileEditorOpen(true)}
+            aria-label="Edit profile"
+            title="Edit profile"
+            className="absolute bottom-6 right-8 inline-flex items-center justify-center text-text-light hover:text-text-dark transition-colors"
+          >
+            <PencilLine className="w-3.5 h-3.5" />
+          </button>
         </SurfaceCard>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-2.5 items-stretch">
           <SurfaceButtonCard
             onClick={onOpenProgress}
-            className="h-full min-h-[150px] p-4 text-left flex flex-col !bg-[#186E95] !text-white !border-[#186E95]/90 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(24,110,149,0.38)] active:translate-y-0 lg:col-span-2"
+            className="h-full min-h-[150px] p-4 text-center flex flex-col items-center !bg-[#186E95] !text-white !border-[#186E95]/90 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(24,110,149,0.38)] active:translate-y-0 lg:col-span-2"
           >
             <div className="flex items-center justify-center gap-2 mb-3">
               <div className="inline-flex items-center rounded-full px-3 py-1 bg-white/14 border border-white/28 text-[10px] uppercase tracking-[0.2em] font-mono text-white/90">
@@ -372,29 +394,22 @@ export default function ProfileScreen({
             </div>
 
             <div className="grid grid-cols-2 gap-2 w-full">
-              <div className="rounded-2xl border border-white/28 bg-white/10 p-3">
-                <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
+              <div className="rounded-2xl border border-white/28 bg-white/10 p-3 col-span-2">
+                <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
                   <BookOpen className="w-3.5 h-3.5" />
-                  Units Completed
+                  Lessons Completed
                 </div>
-                <div className="text-2xl font-semibold text-white leading-none mt-2">{unitsCompleted}</div>
-              </div>
-              <div className="rounded-2xl border border-white/28 bg-white/10 p-3">
-                <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
-                  <ChartNoAxesColumn className="w-3.5 h-3.5" />
-                  Completion
-                </div>
-                <div className="text-2xl font-semibold text-white leading-none mt-2">{completionPercent}%</div>
+                <div className="text-2xl font-semibold text-white leading-none mt-2">{lessonsCompleted}</div>
               </div>
               <div className="rounded-2xl border border-white/28 bg-white/12 p-3 col-span-2">
-                <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
+                <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
                   <Flag className="w-3.5 h-3.5" />
                   Current Unit + Lesson
                 </div>
                 <div className="text-sm font-semibold text-white leading-tight mt-2">{currentUnitAndLesson}</div>
               </div>
               <div className="rounded-2xl border border-white/28 bg-white/12 p-3 col-span-2">
-                <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
+                <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
                   <Flame className="w-3.5 h-3.5" />
                   Streak
                 </div>
@@ -524,15 +539,6 @@ export default function ProfileScreen({
                   <option value="ja">Japanese</option>
                   <option value="ko">Korean</option>
                 </select>
-              </label>
-              <label className="block">
-                <div className="text-xs uppercase tracking-wider text-text-light font-mono mb-1">Timezone</div>
-                <input
-                  value={timezone}
-                  onChange={(e) => setTimezone(e.target.value)}
-                  className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white"
-                  placeholder="America/New_York"
-                />
               </label>
             </div>
             <div className="flex gap-2 mt-4">

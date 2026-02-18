@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { BookOpen, ChartNoAxesColumn, Flag, Flame } from 'lucide-react';
+import { BookOpen, Flag, Flame } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { loadWordLookup, type WordLookup } from '../lib/wordLookup';
 import GlassHeader from './GlassHeader';
 import { apiFetch } from '../lib/apiClient';
 import { getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import { useApp } from '../contexts/AppContext';
+import { getLessonRanges } from '../lib/lessonChunks';
 
 type Progress = {
   streak: number;
@@ -46,6 +47,22 @@ function inferUnitFromLessonProgress(
     .map((unit) => unit.id);
   const latestStarted = orderedCoreUnits.filter((unitId) => unitIds.has(unitId)).at(-1);
   return latestStarted ?? null;
+}
+
+function inferLessonCountFromProgress(
+  bandId: string | null,
+  unitId: string,
+  lessonProgress: Record<string, unknown>
+) {
+  if (!bandId) return 0;
+  let maxSeen = -1;
+  for (const key of Object.keys(lessonProgress || {})) {
+    const [keyBandId, keyUnitId, keyLessonIdx] = key.split(':');
+    if (keyBandId !== bandId || keyUnitId !== unitId) continue;
+    const idx = Number(keyLessonIdx);
+    if (Number.isFinite(idx)) maxSeen = Math.max(maxSeen, idx);
+  }
+  return maxSeen + 1;
 }
 
 const ROWS_PER_PAGE = 2;
@@ -159,10 +176,20 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     effectiveUnitId
       ? coreUnits.findIndex((unit) => unit.id === effectiveUnitId)
       : -1;
-  const unitsCompleted = currentCoreUnitIndex > 0 ? currentCoreUnitIndex : 0;
-  const completionPercent = coreUnits.length > 0
-    ? Math.round((unitsCompleted / coreUnits.length) * 100)
+  const activeBandDataForMetrics =
+    effectiveBandId && state.activeBandId === effectiveBandId ? state.activeBandData : null;
+  const lessonsBeforeCurrent = currentCoreUnitIndex > 0
+    ? coreUnits.slice(0, currentCoreUnitIndex).reduce((sum, unit) => {
+      if (activeBandDataForMetrics) {
+        const words = Array.isArray(activeBandDataForMetrics.units)
+          ? (activeBandDataForMetrics.units.find((entry) => entry?.id === unit.id)?.words || [])
+          : (activeBandDataForMetrics.units?.[unit.id]?.words || []);
+        return sum + getLessonRanges(words.length, 10).length;
+      }
+      return sum + inferLessonCountFromProgress(effectiveBandId, unit.id, state.lessonProgress || {});
+    }, 0)
     : 0;
+  const lessonsCompleted = lessonsBeforeCurrent + Math.max(typeof effectiveLessonIdx === 'number' ? effectiveLessonIdx : 0, 0);
   const currentUnitMeta =
     effectiveBandId && effectiveUnitId
       ? getUnitMetadata(effectiveBandId, effectiveUnitId)
@@ -291,19 +318,12 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div className="rounded-xl border border-white/28 bg-white/10 p-3">
+            <div className="rounded-xl border border-white/28 bg-white/10 p-3 sm:col-span-2">
               <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
                 <BookOpen className="w-3.5 h-3.5" />
-                Units Completed
+                Lessons Completed
               </div>
-              <div className="text-2xl font-semibold text-white mt-2 leading-none">{unitsCompleted}</div>
-            </div>
-            <div className="rounded-xl border border-white/28 bg-white/10 p-3">
-              <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
-                <ChartNoAxesColumn className="w-3.5 h-3.5" />
-                Completion
-              </div>
-              <div className="text-2xl font-semibold text-white mt-2 leading-none">{completionPercent}%</div>
+              <div className="text-2xl font-semibold text-white mt-2 leading-none">{lessonsCompleted}</div>
             </div>
             <div className="rounded-xl border border-white/28 bg-white/12 p-3 sm:col-span-2">
               <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
