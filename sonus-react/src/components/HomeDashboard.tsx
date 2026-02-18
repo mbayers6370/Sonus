@@ -150,7 +150,7 @@ export default function HomeDashboard({
           <div className="max-w-md mx-auto">
             <button
               onClick={onOpenLevels}
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#186E95] text-white font-semibold hover:bg-[#145C7C] transition-colors"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#186E95] text-white hover:bg-[#145C7C] transition-colors"
             >
               {hasSavedLessonPath ? 'Continue learning' : 'Start learning'}
               <ArrowRight className="w-4 h-4" />
@@ -194,12 +194,20 @@ export default function HomeDashboard({
           style={{ animationDelay: '85ms' }}
         >
           <div className="main-font text-2xl leading-none mb-2 text-white">Practice Focus</div>
-          <div className="inline-flex w-fit mx-auto flex-col md:flex-row items-center gap-0.5 md:gap-2 px-2 py-1 rounded-md border border-white/30 bg-white/12 text-white/90 mb-2">
-            <span className="text-[11px] uppercase tracking-wider font-mono leading-tight">Adaptive Mix</span>
-            <span className="hidden md:inline text-white/65" aria-hidden="true">•</span>
-            <span className="text-[11px] uppercase tracking-wider font-mono leading-tight">70% Weak Words</span>
-            <span className="hidden md:inline text-white/65" aria-hidden="true">•</span>
-            <span className="text-[11px] uppercase tracking-wider font-mono leading-tight">30% Reinforce</span>
+          <div className="w-full max-w-sm mx-auto mb-3">
+            <div className="inline-flex items-center rounded-full px-3 py-1 bg-white/14 border border-white/28 text-[10px] uppercase tracking-[0.22em] font-mono text-white/90">
+              Adaptive Mix
+            </div>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              <div className="rounded-xl border border-white/28 bg-white/10 px-2.5 py-2 text-left">
+                <div className="text-sm font-semibold leading-none text-white">70%</div>
+                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-white/85">Weak Words</div>
+              </div>
+              <div className="rounded-xl border border-white/28 bg-white/10 px-2.5 py-2 text-left">
+                <div className="text-sm font-semibold leading-none text-white">30%</div>
+                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-white/85">Reinforce</div>
+              </div>
+            </div>
           </div>
           <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
             {selectedLanguage === 'zh'
@@ -231,7 +239,7 @@ export default function HomeDashboard({
             <div className="max-w-md mx-auto">
               <button
                 onClick={onOpenLevels}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white text-[#186E95] font-semibold hover:bg-[#F3F4F6] transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white text-[#186E95] hover:bg-[#F3F4F6] transition-colors"
               >
                 Continue learning
                 <ArrowRight className="w-4 h-4" />

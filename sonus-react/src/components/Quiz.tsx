@@ -191,7 +191,7 @@ export default function Quiz({
         <div
           className={`rounded-3xl p-3.5 mb-3 border relative ${
             listeningMode
-              ? 'bg-[#EAF3F8] border-[#AFCFE0]'
+              ? 'bg-transparent border-transparent'
               : 'bg-[#F0F2F5] border-[#D1D5DB]'
           }`}
         >
@@ -240,7 +240,7 @@ export default function Quiz({
                 <div className="mt-1">
                   <button
                     onClick={() => speak(word.simp, word.pinyin)}
-                    className="mx-auto w-12 h-12 rounded-full border-2 border-[#186E95] bg-white text-[#186E95] flex items-center justify-center hover:bg-[rgba(24,110,149,0.08)] transition-all"
+                    className="mx-auto w-12 h-12 rounded-full bg-[#374151] text-white flex items-center justify-center hover:bg-[#1F2937] transition-all"
                     aria-label="Play audio"
                   >
                     <Volume2 className="w-5 h-5" />
@@ -266,7 +266,7 @@ export default function Quiz({
             const isSelected = selectedAnswer === choice;
             const isCorrectAnswer = choice === word.en;
 
-            let buttonClass = 'w-full min-h-[56px] p-3 rounded-2xl font-medium text-center transition-all border-2 ';
+            let buttonClass = 'w-full min-h-[56px] p-3 rounded-2xl font-medium text-center transition-all border-2 bg-white ';
 
             if (selectedAnswer) {
               // After answering
@@ -275,7 +275,7 @@ export default function Quiz({
               } else if (isSelected) {
                 buttonClass += 'bg-[rgba(194,65,12,0.12)] border-[#C2410C] text-[#C2410C]';
               } else {
-                buttonClass += 'border-border text-text-med opacity-50';
+                buttonClass += 'bg-white border-border text-text-med';
               }
             } else {
               // Before answering

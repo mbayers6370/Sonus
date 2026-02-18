@@ -7,61 +7,152 @@ interface AboutSonusScreenProps {
 }
 
 export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusScreenProps) {
+  const frameworks = [
+    {
+      language: 'Mandarin',
+      system: 'HSK 3.0',
+      range: 'Bands 1-9',
+      accent: 'border-[#3E5648]/26 bg-[rgba(62,86,72,0.08)] text-[#3E5648]',
+    },
+    {
+      language: 'Japanese',
+      system: 'JLPT',
+      range: 'N5-N1',
+      accent: 'border-[#374151]/26 bg-[rgba(55,65,81,0.08)] text-[#374151]',
+    },
+    {
+      language: 'Korean',
+      system: 'TOPIK',
+      range: 'Level-based track',
+      accent: 'border-[#3E5648]/26 bg-[rgba(62,86,72,0.08)] text-[#3E5648]',
+    },
+    {
+      language: 'French',
+      system: 'CEFR',
+      range: 'A1-C2 path',
+      accent: 'border-[#374151]/26 bg-[rgba(55,65,81,0.08)] text-[#374151]',
+    },
+  ];
+
+  const principles = [
+    {
+      title: 'Clear progression',
+      body: 'Bands and units map to official frameworks, so each step has a defined difficulty target.',
+    },
+    {
+      title: 'Practical first',
+      body: 'Lessons prioritize high-frequency, high-utility language before low-value edge cases.',
+    },
+    {
+      title: 'Adaptive reinforcement',
+      body: 'Practice Focus blends weak words with reinforcement reps so gains are retained.',
+    },
+  ];
+
+  const workflow = [
+    {
+      step: '1',
+      title: 'Choose a path',
+      body: 'Start in your current band and move unit by unit through a sequence designed for usable communication.',
+    },
+    {
+      step: '2',
+      title: 'Run lesson cycles',
+      body: 'Each lesson checks recognition and recall through learn, quiz, and speaking steps.',
+    },
+    {
+      step: '3',
+      title: 'Train weak spots',
+      body: 'Adaptive practice applies a 70/30 weak-word to reinforcement mix to close gaps without losing momentum.',
+    },
+    {
+      step: '4',
+      title: 'Review intentionally',
+      body: 'Missed words reappear in targeted queues so review stays focused and efficient.',
+    },
+  ];
+
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader title="About Sonus" />
 
-      <section className="bg-white border border-border rounded-3xl overflow-hidden shadow-[0_22px_48px_-36px_rgba(31,42,55,0.35)]">
-        <div className="px-6 py-6 bg-gradient-to-r from-[#C2410C] via-[#D2571A] to-[#E0702B] text-white text-center">
-          <div className="text-xs uppercase tracking-wider font-mono mb-2 text-white/80">Method</div>
-          <h3 className="main-font text-4xl leading-tight">Built on Real Frameworks</h3>
-          <p className="text-sm text-white/90 mt-2 max-w-2xl mx-auto">
-            Sonus follows official proficiency systems used by each language.
-          </p>
-        </div>
-
-        <div className="p-6 space-y-6">
-          <div>
-            <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-3">Framework Mapping</div>
-            <div className="grid grid-cols-1 gap-2.5 text-sm text-text-dark">
-              <div className="rounded-xl border border-[#186E95]/25 bg-[rgba(24,110,149,0.04)] px-4 py-2.5">
-                <span className="font-semibold text-[#186E95]">Mandarin:</span> HSK 3.0 (Bands 1-9)
-              </div>
-              <div className="rounded-xl border border-[#C2410C]/25 bg-[rgba(194,65,12,0.04)] px-4 py-2.5">
-                <span className="font-semibold text-[#C2410C]">Japanese:</span> JLPT (N5-N1)
-              </div>
-              <div className="rounded-xl border border-[#3E5648]/25 bg-[rgba(62,86,72,0.05)] px-4 py-2.5">
-                <span className="font-semibold text-[#3E5648]">Korean:</span> TOPIK
-              </div>
-              <div className="rounded-xl border border-[#374151]/25 bg-[rgba(55,65,81,0.04)] px-4 py-2.5">
-                <span className="font-semibold text-[#374151]">French:</span> CEFR
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div className="text-xs uppercase tracking-wider font-mono text-text-light mb-3">Why This Structure</div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm text-text-med">
-              <div className="rounded-xl border border-border bg-[#FBFBF9] p-3.5">
-                You get clear milestones and a progression you can actually measure.
-              </div>
-              <div className="rounded-xl border border-border bg-[#FBFBF9] p-3.5">
-                Your level aligns with real exams and compatible outside resources.
-              </div>
-              <div className="rounded-xl border border-border bg-[#FBFBF9] p-3.5">
-                Practice is targeted by weak words and pronunciation gaps, not random drills.
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-[#186E95]/22 bg-[linear-gradient(135deg,rgba(24,110,149,0.08),rgba(24,110,149,0.03))] p-4">
-            <div className="text-xs uppercase tracking-wider font-mono text-[#186E95] mb-1.5">Important Note</div>
-            <p className="text-sm text-text-med">
-              Frameworks guide the path, but the goal is practical communication in real situations.
+      <div className="space-y-4">
+        <section className="dashboard-card-enter bg-white border border-border rounded-3xl overflow-hidden shadow-[0_22px_48px_-36px_rgba(31,42,55,0.35)]">
+          <div className="px-6 py-7 bg-gradient-to-r from-[#2F4338] via-[#3E5648] to-[#4A6154] text-white">
+            <div className="text-[11px] uppercase tracking-[0.18em] font-mono mb-2 text-white/75">Method</div>
+            <h3 className="main-font text-4xl leading-tight">Built on Real Frameworks</h3>
+            <p className="text-sm text-white/92 mt-2 max-w-2xl">
+              Sonus follows the official proficiency systems used by each language so progress is structured, comparable, and practical.
             </p>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section className="dashboard-card-enter bg-white border border-border rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.30)]">
+          <div className="text-xs uppercase tracking-[0.16em] font-mono text-text-light mb-3">Framework Mapping</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {frameworks.map((item) => (
+              <div key={item.language} className={`rounded-2xl border px-4 py-3 ${item.accent}`}>
+                <div className="text-sm font-semibold">{item.language}</div>
+                <div className="text-xs uppercase tracking-wider font-mono mt-1 opacity-90">{item.system}</div>
+                <div className="text-sm mt-1.5 text-text-dark">{item.range}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="dashboard-card-enter bg-white border border-border rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.30)]">
+          <div className="text-xs uppercase tracking-[0.16em] font-mono text-text-light mb-3">The Structure</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+            {principles.map((item) => (
+              <div key={item.title} className="rounded-2xl border border-border bg-[#FBFBF9] px-3.5 py-3">
+                <div className="text-sm font-semibold text-text-dark">{item.title}</div>
+                <div className="mt-1.5 text-sm text-text-med">{item.body}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-3">
+            <div className="text-xs uppercase tracking-[0.16em] font-mono text-text-light mb-2.5">How Sonus Works</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {workflow.map((item) => (
+                <div key={item.title} className="rounded-2xl border border-border bg-white px-3.5 py-3">
+                  <div className="inline-flex items-center gap-2">
+                    <span className="inline-flex w-5 h-5 rounded-full bg-[rgba(62,86,72,0.12)] text-[#3E5648] items-center justify-center text-[11px] font-semibold font-mono">
+                      {item.step}
+                    </span>
+                    <div className="text-sm font-semibold text-text-dark">{item.title}</div>
+                  </div>
+                  <div className="mt-1.5 text-sm text-text-med">{item.body}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-3 rounded-2xl border border-[#3E5648]/24 bg-[linear-gradient(135deg,rgba(62,86,72,0.10),rgba(55,65,81,0.04))] px-4 py-3.5">
+            <div className="text-[11px] uppercase tracking-wider font-mono text-[#3E5648] mb-1.5">Core Principle</div>
+            <p className="text-sm text-text-med">
+              Frameworks provide structure, but every screen is tuned for one outcome: confident communication in real situations.
+            </p>
+          </div>
+        </section>
+
+        <section className="dashboard-card-enter border border-[#374151]/90 rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#374151_0%,#2B3440_45%,#24303A_100%)] text-white">
+          <div className="text-[11px] uppercase tracking-[0.16em] font-mono text-white/70 mb-2">Why I Started This</div>
+          <h4 className="main-font text-3xl leading-tight text-white">Learning tools should be accessible.</h4>
+          <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-white/88">
+            <p>
+              I started Sonus because too many language apps are expensive, fragmented, or locked down before people even build momentum.
+            </p>
+            <p>
+              The goal was to build something serious but affordable: clear progression, structured practice, and useful repetition without forcing a heavy subscription just to keep learning.
+            </p>
+            <p>
+              This is about lowering the barrier so more people can train consistently, even on a tight budget, and still get tools that actually help them improve.
+              If that sounds good to you, welcome to Sonus. I hope it helps you reach your goals and enjoy the process along the way.
+            </p>
+          </div>
+        </section>
+      </div>
 
       <BottomNav active="profile" onHome={onGoHome} onProfile={onGoProfile} />
     </div>
