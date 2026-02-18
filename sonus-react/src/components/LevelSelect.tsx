@@ -435,7 +435,7 @@ function LevelCard({
         isDrenched && isUnlocked
           ? `${level.id === 'band1' || level.id === 'band2' ? 'bg-[#3E5648]' : level.id === 'band3' || level.id === 'band4' ? 'bg-[#186E95]' : level.id === 'band5' || level.id === 'band6' ? 'bg-[#374151]' : 'bg-[#C2410C]'} border-transparent text-white`
           : isLocked
-            ? 'bg-white border-[#D1D5DB]'
+            ? 'bg-[#F3F4F6] border-[#D1D5DB]'
             : `bg-white ${a.leftBorder}`
       } ${
         isUnlocked
@@ -740,7 +740,7 @@ export default function LevelSelect({
                   isTierDrenched && !isLocked
                     ? `${index === 0 ? 'bg-[#3E5648]' : index === 1 ? 'bg-[#186E95]' : 'bg-[#C2410C]'} border-transparent text-white`
                     : isLocked
-                      ? 'bg-white border-[#D1D5DB]'
+                      ? 'bg-[#F3F4F6] border-[#D1D5DB]'
                       : `bg-white ${a.leftBorder}`
                 } ${
                   isLocked

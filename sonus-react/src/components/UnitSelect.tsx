@@ -351,12 +351,12 @@ export default function UnitSelect({
                     onOpenPractice(unitId);
                   }}
                   disabled={!isUnitUnlocked}
-                  className={`${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isUnitUnlocked ? `${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
                   <div className="flex items-start justify-between gap-2 mb-3">
-                    <div className="inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/20 text-white">
-                      <Icon className="w-3.5 h-3.5 text-white" />
-                      <span className="text-[10px] font-semibold uppercase tracking-wider font-mono text-white whitespace-nowrap overflow-hidden text-ellipsis">
+                    <div className={`inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitUnlocked ? 'bg-white/20 text-white' : 'bg-white text-[#6B7280] border border-[#D1D5DB]'}`}>
+                      <Icon className={`w-3.5 h-3.5 ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`} />
+                      <span className={`text-[10px] font-semibold uppercase tracking-wider font-mono whitespace-nowrap overflow-hidden text-ellipsis ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
                         {practiceType === 'listening'
                           ? 'Listening'
                           : practiceType === 'speaking'
@@ -364,26 +364,26 @@ export default function UnitSelect({
                           : 'Checkpoint'}
                       </span>
                     </div>
-                    <span className="text-[10px] font-mono text-white">Practice</span>
+                    <span className={`text-[10px] font-mono ${isUnitUnlocked ? 'text-white' : 'text-[#9CA3AF]'}`}>Practice</span>
                   </div>
 
                   <div className="space-y-0.5">
-                    <div className="text-[10px] tracking-wide font-mono text-white">
+                    <div className={`text-[10px] tracking-wide font-mono ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
                       {metadata.name.replace(/^Checkpoint Quiz\s+/i, 'Unit Review ')}
                     </div>
-                    <div className="main-font text-[1.3rem] font-normal leading-tight text-white">
+                    <div className={`main-font text-[1.3rem] font-normal leading-tight ${isUnitUnlocked ? 'text-white' : 'text-[#4B5563]'}`}>
                       {metadata.hanzi}
                     </div>
                   </div>
 
                   <div
-                    className="mt-2 text-[11px] leading-4 text-white overflow-hidden"
+                    className={`mt-2 text-[11px] leading-4 overflow-hidden ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}
                     style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
                   >
                     {metadata.description}
                   </div>
 
-                  <div className="font-mono mt-auto pt-4 text-xs font-semibold tracking-wide text-white">
+                  <div className={`font-mono mt-auto pt-4 text-xs font-semibold tracking-wide ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
                     {!isUnitUnlocked
                       ? (
                         <span className="inline-flex items-center gap-1.5">
@@ -418,37 +418,37 @@ export default function UnitSelect({
                   setActiveUnit(unitId);
                 }}
                 disabled={isBlueprint || !isUnitUnlocked}
-                className={`${isUnitMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                className={`${isUnitMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : !isUnitUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
               >
                 <div className="flex items-start justify-between gap-2 mb-3">
-                  <div className={`inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitMastered ? 'bg-white/20 text-white' : `${accent.badgeBg} ${accent.badgeText}`}`}>
-                    <Icon className={`w-3.5 h-3.5 ${isUnitMastered ? 'text-white' : accent.badgeText}`} />
-                    <span className={`text-[10px] font-semibold uppercase tracking-wider font-mono whitespace-nowrap overflow-hidden text-ellipsis ${isUnitMastered ? 'text-white' : accent.badgeText}`}>
+                  <div className={`inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitMastered ? 'bg-white/20 text-white' : !isUnitUnlocked ? 'bg-white text-[#6B7280] border border-[#D1D5DB]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
+                    <Icon className={`w-3.5 h-3.5 ${isUnitMastered ? 'text-white' : !isUnitUnlocked ? 'text-[#6B7280]' : accent.badgeText}`} />
+                    <span className={`text-[10px] font-semibold uppercase tracking-wider font-mono whitespace-nowrap overflow-hidden text-ellipsis ${isUnitMastered ? 'text-white' : !isUnitUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
                       Unit {metadata.order}
                     </span>
                   </div>
-                  <span className={`text-[10px] font-mono ${isUnitMastered ? 'text-white/85' : 'text-text-light'}`}>
+                  <span className={`text-[10px] font-mono ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
                     {totalWords} words
                   </span>
                 </div>
 
                 <div className="space-y-0.5">
-                  <div className={`text-[10px] tracking-wide font-mono ${isUnitMastered ? 'text-white/85' : 'text-text-med'}`}>
+                  <div className={`text-[10px] tracking-wide font-mono ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
                     {metadata.name}
                   </div>
-                  <div className={`main-font text-[1.3rem] font-normal leading-tight ${isUnitMastered ? 'text-white' : 'text-text-dark'}`}>
+                  <div className={`main-font text-[1.3rem] font-normal leading-tight ${isUnitMastered ? 'text-white' : !isUnitUnlocked ? 'text-[#4B5563]' : 'text-text-dark'}`}>
                     {metadata.hanzi}
                   </div>
                 </div>
 
                 <div
-                  className={`mt-2 text-[11px] leading-4 ${isUnitMastered ? 'text-white/90' : 'text-text-med'} overflow-hidden`}
+                  className={`mt-2 text-[11px] leading-4 ${isUnitMastered ? 'text-white/90' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'} overflow-hidden`}
                   style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
                 >
                   {metadata.description}
                 </div>
                 {isBlueprint && metadata.microUnits && metadata.microUnits.length > 0 && (
-                  <div className={`mt-1 text-[11px] leading-relaxed ${isUnitMastered ? 'text-white/85' : 'text-text-light'} overflow-hidden max-h-9`}>
+                  <div className={`mt-1 text-[11px] leading-relaxed ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'} overflow-hidden max-h-9`}>
                     Focus: {metadata.microUnits.slice(0, 3).join(' · ')}
                   </div>
                 )}
@@ -460,7 +460,7 @@ export default function UnitSelect({
                       style={{ width: `${depth}%` }}
                     />
                   </div>
-                  <div className={`mt-1 text-[10px] font-mono tracking-wide ${isUnitMastered ? 'text-white/85' : 'text-text-light'}`}>
+                  <div className={`mt-1 text-[10px] font-mono tracking-wide ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
                     {averageLessonProgress}% complete
                   </div>
                 </div>
@@ -539,7 +539,7 @@ export default function UnitSelect({
                     );
                   }}
                   disabled={!isLessonUnlocked}
-                  className={`${isLessonMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : !isLessonUnlocked ? 'bg-white text-[#6B7280]' : isLessonCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/45' : 'bg-white text-text-dark'} border-2 ${isLessonUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isLessonMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : !isLessonUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isLessonCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/45' : 'bg-white text-text-dark'} border-2 ${isLessonUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
                   <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isLessonMastered ? 'bg-white/20 text-white' : !isLessonUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
                     <BookOpen className={`w-3.5 h-3.5 ${isLessonMastered ? 'text-white' : !isLessonUnlocked ? 'text-[#6B7280]' : accent.badgeText}`} />
@@ -594,7 +594,7 @@ export default function UnitSelect({
                     onSelectLesson(activeUnit.unitId, applyLessonIndex, 'apply');
                   }}
                   disabled={!isApplyUnlocked}
-                  className={`${isApplyCompleted ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : !isApplyUnlocked ? 'bg-white text-[#6B7280]' : 'bg-white text-text-dark'} border-2 ${isApplyUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isApplyCompleted ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : !isApplyUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : 'bg-white text-text-dark'} border-2 ${isApplyUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
                   <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isApplyCompleted ? 'bg-white/20 text-white' : !isApplyUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
                     <BookOpen className={`w-3.5 h-3.5 ${isApplyCompleted ? 'text-white' : !isApplyUnlocked ? 'text-[#6B7280]' : accent.badgeText}`} />
