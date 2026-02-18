@@ -65,8 +65,7 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
       const hasApplyExamples = state.activeLesson.words.every(
         (word) =>
           Boolean(word.example?.zh?.trim()) &&
-          Boolean(word.example?.en?.trim()) &&
-          Boolean(word.example?.pinyin?.trim())
+          Boolean(word.example?.en?.trim())
       );
       if (looksLikeApplyLesson && hasApplyExamples) {
         return;
