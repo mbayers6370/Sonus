@@ -696,14 +696,15 @@ export default function LevelSelect({
           <>
             <button
               onClick={onOpenFoundations}
-              className="w-full bg-[#1F2A37] border border-transparent rounded-3xl min-h-[132px] p-4 text-center text-white shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+              className="relative w-full bg-[#1F2A37] border border-transparent rounded-3xl min-h-[132px] p-4 text-center text-white shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
             >
+              <ChevronRight className="absolute top-4 right-4 w-5 h-5 text-white/80" />
               <div className="w-full h-full flex flex-col items-center justify-center">
                 <div className="flex items-center justify-center gap-4">
                   <span
                     className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-white/15 text-white"
                   >
-                    Foundations
+                    Start Here
                   </span>
                 </div>
 
@@ -829,7 +830,7 @@ export default function LevelSelect({
                         : level.description ||
                           'Core pronunciation, high‑frequency vocabulary, and functional progression within this band.'
                     }
-                    showChevronWhenUnlocked={false}
+                    showChevronWhenUnlocked={true}
                     topRightLabel={!isUnlocked ? 'Locked' : undefined}
                     accentOverride={CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]}
                   />

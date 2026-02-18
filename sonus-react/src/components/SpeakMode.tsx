@@ -1250,7 +1250,6 @@ export default function SpeakMode({
             <Volume2 className={`absolute top-3 right-3 w-5 h-5 ${practiceMode ? 'text-[#C2410C]' : 'text-[#186E95]'}`} />
             {!practiceMode ? (
               <>
-                <div className="text-[11px] tracking-wide font-mono text-[#186E95] mb-1">Speak From English</div>
                 <div className="text-base sm:text-lg font-semibold text-text-dark leading-tight">{displayMeaning}</div>
                 <div className="secondary-font text-xl sm:text-2xl text-text-med mt-1">{word.simp}</div>
                 {word.pinyin ? <div className="text-[13px] sm:text-sm text-text-light">{word.pinyin}</div> : null}
