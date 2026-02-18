@@ -32,12 +32,6 @@ This repository contains both the frontend application and backend API.
 - `docs/PERFORMANCE.md` - baseline targets and measurement workflow
 - `docs/PRODUCT_SETTINGS.md` - product-level defaults and settings
 
-## Repository Hygiene Checklist
-- Set GitHub repository `About` description and topics.
-- Keep `docs/` references current when routes, env keys, or architecture change.
-- Prefer route files for transport concerns and service files for business logic.
-- Run quality gates before each push.
-
 ## Prerequisites
 - Node.js 20+
 - npm 10+
