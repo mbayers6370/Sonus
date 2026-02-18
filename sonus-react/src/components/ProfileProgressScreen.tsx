@@ -5,6 +5,7 @@ import { loadWordLookup, type WordLookup } from '../lib/wordLookup';
 import GlassHeader from './GlassHeader';
 import { apiFetch } from '../lib/apiClient';
 import { getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
+import { useApp } from '../contexts/AppContext';
 
 type Progress = {
   streak: number;
@@ -37,6 +38,7 @@ function getNeedsWorkColumns(width: number) {
 }
 
 export default function ProfileProgressScreen({ onGoHome, onGoProfile }: ProfileProgressScreenProps) {
+  const { state } = useApp();
   const [error, setError] = useState<string | null>(null);
   const [backendOffline, setBackendOffline] = useState(false);
   const [progress, setProgress] = useState<Progress | null>(null);
@@ -111,28 +113,34 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   const visibleNeedsWorkCount = Math.min(needsWork.length, visibleRows * needsWorkColumns);
   const visibleNeedsWork = needsWork.slice(0, visibleNeedsWorkCount);
   const hasMoreNeedsWork = visibleNeedsWorkCount < needsWork.length;
-  const coreUnits = progress?.currentBandId
-    ? getUnitsForBand(progress.currentBandId).filter(
+  const effectiveBandId = progress?.currentBandId ?? state.activeBandId ?? null;
+  const effectiveUnitId = progress?.currentUnitId ?? state.activeUnitId ?? state.activeLesson?.unitId ?? null;
+  const effectiveLessonIdx =
+    typeof progress?.currentLessonIdx === 'number'
+      ? progress.currentLessonIdx
+      : (state.activeLesson?.lessonIndex ?? null);
+  const coreUnits = effectiveBandId
+    ? getUnitsForBand(effectiveBandId).filter(
       (unit) => !isCheckpointUnitId(unit.id) && !isPracticeUnitId(unit.id)
     )
     : [];
   const currentCoreUnitIndex =
-    progress?.currentUnitId
-      ? coreUnits.findIndex((unit) => unit.id === progress.currentUnitId)
+    effectiveUnitId
+      ? coreUnits.findIndex((unit) => unit.id === effectiveUnitId)
       : -1;
   const unitsCompleted = currentCoreUnitIndex > 0 ? currentCoreUnitIndex : 0;
   const completionPercent = coreUnits.length > 0
     ? Math.round((unitsCompleted / coreUnits.length) * 100)
     : 0;
   const currentUnitMeta =
-    progress?.currentBandId && progress?.currentUnitId
-      ? getUnitMetadata(progress.currentBandId, progress.currentUnitId)
+    effectiveBandId && effectiveUnitId
+      ? getUnitMetadata(effectiveBandId, effectiveUnitId)
       : null;
   const currentLessonNumber =
-    typeof progress?.currentLessonIdx === 'number' && progress.currentLessonIdx >= 0
-      ? progress.currentLessonIdx + 1
+    typeof effectiveLessonIdx === 'number' && effectiveLessonIdx >= 0
+      ? effectiveLessonIdx + 1
       : null;
-  const currentUnitAndLesson = progress?.currentUnitId
+  const currentUnitAndLesson = effectiveUnitId
     ? `${currentUnitMeta?.name ?? 'Current Unit'}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
     : 'Not started';
   const calendarDays = sevenDayActivity.length
@@ -142,6 +150,10 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       const dayKey = date.toISOString().slice(0, 10);
       return { dayKey, active: false };
     });
+  const todayActivity = calendarDays[calendarDays.length - 1];
+  const streakDisplay = (progress?.streak ?? 0) > 0
+    ? (progress?.streak ?? 0)
+    : (todayActivity?.active ? 1 : 0);
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
@@ -167,7 +179,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
               <span className="text-xs font-mono uppercase tracking-wider text-white">Current Streak</span>
             </div>
             <div className="text-4xl font-semibold text-white leading-none">
-              {progress?.streak ?? 0}
+              {streakDisplay}
             </div>
             <div className="text-sm text-white/85 mt-1">day streak</div>
           </div>
