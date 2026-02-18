@@ -100,9 +100,9 @@ body {
 }
 
 .page-shell {
-  /* Global page gutters to keep card spacing consistent across mobile pages. */
-  padding-left: max(1.5rem, env(safe-area-inset-left));
-  padding-right: max(1.5rem, env(safe-area-inset-right));
+  /* Keep this intentionally simple and browser-safe. */
+  padding-left: 24px !important;
+  padding-right: 24px !important;
   background-image:
     repeating-radial-gradient(
       circle at 12% 18%,
@@ -123,4 +123,11 @@ body {
     linear-gradient(135deg, #FBFBF9 0%, #F1EFEA 100%);
   background-size: 1200px 1200px, 1200px 1200px, auto, auto, auto;
   background-attachment: fixed;
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
 }
