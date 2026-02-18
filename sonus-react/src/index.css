@@ -144,3 +144,11 @@ body.auth-screen-open {
     padding-right: 16px !important;
   }
 }
+
+/* Product rule: hover states should never dim opacity. */
+@media (hover: hover) {
+  [class*='hover:opacity-']:hover,
+  .group:hover [class*='group-hover:opacity-'] {
+    opacity: 1 !important;
+  }
+}
