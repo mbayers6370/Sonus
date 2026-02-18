@@ -18,6 +18,24 @@ function looksLikeUuid(value: string) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 }
 
+function asNonEmptyString(value: unknown) {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  return trimmed ? trimmed : null;
+}
+
+function resolveDisplayNameFromMetadata(metadata: unknown) {
+  if (!metadata || typeof metadata !== 'object') return null;
+  const map = metadata as Record<string, unknown>;
+  const explicit = asNonEmptyString(map.display_name);
+  if (explicit) return explicit;
+
+  const firstName = asNonEmptyString(map.first_name);
+  const lastName = asNonEmptyString(map.last_name);
+  if (!firstName && !lastName) return null;
+  return [firstName, lastName].filter(Boolean).join(' ');
+}
+
 export async function requireAuth(request: FastifyRequest, reply: FastifyReply) {
   if (env.AUTH_MODE === 'mock') {
     const headerUserId = headerValue(request.headers['x-dev-user-id']);
@@ -28,6 +46,7 @@ export async function requireAuth(request: FastifyRequest, reply: FastifyReply) 
     request.user = {
       id: userId,
       email,
+      displayName: null,
     };
     return;
   }
@@ -48,5 +67,6 @@ export async function requireAuth(request: FastifyRequest, reply: FastifyReply) 
   request.user = {
     id: data.user.id,
     email: data.user.email ?? null,
+    displayName: resolveDisplayNameFromMetadata(data.user.user_metadata),
   };
 }

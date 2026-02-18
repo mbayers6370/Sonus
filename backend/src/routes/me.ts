@@ -53,8 +53,15 @@ const progressCurrentPatchSchema = z.object({
 
 export async function meRoutes(app: FastifyInstance) {
   app.get('/v1/me/profile', { preHandler: [requireAuth] }, async (request) => {
-    const { id, email } = request.user;
-    const profile = await getOrCreateProfile(id, email);
+    const { id, email, displayName } = request.user;
+    let profile = await getOrCreateProfile(id, email);
+    if (!profile.displayName && displayName) {
+      profile = await upsertProfile({
+        userId: id,
+        email,
+        displayName,
+      });
+    }
     return { profile };
   });
 
