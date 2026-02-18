@@ -21,8 +21,15 @@ export default function AuthScreen() {
 
   const timezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone || undefined, []);
 
+  const releaseFormFocus = () => {
+    const active = document.activeElement as HTMLElement | null;
+    active?.blur?.();
+  };
+
   const handleSubmit = async (emailOverride?: string, passwordOverride?: string) => {
     if (loading) return;
+    releaseFormFocus();
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     setError(null);
     setMessage(null);
     setLoading(true);
@@ -101,6 +108,7 @@ export default function AuthScreen() {
   useEffect(() => {
     document.body.classList.add('auth-screen-open');
     return () => {
+      releaseFormFocus();
       document.body.classList.remove('auth-screen-open');
     };
   }, []);
