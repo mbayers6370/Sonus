@@ -153,6 +153,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         if (!token) {
+          const mockIdentity = getMockIdentity();
+          const hasMockUser = Boolean(mockIdentity.userId || mockIdentity.email);
+          if (hasMockUser) {
+            setStatus('signed_in');
+            setIsDemo(false);
+            setEmail(mockIdentity.email || null);
+            return;
+          }
           setStatus('signed_out');
           setIsDemo(false);
           setEmail(null);
@@ -195,8 +203,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch {
         if (cancelled) return;
         const token = getAccessToken();
-        if (token) {
-          const mockIdentity = getMockIdentity();
+        const mockIdentity = getMockIdentity();
+        const hasMockUser = Boolean(mockIdentity.userId || mockIdentity.email);
+        if (token || hasMockUser) {
           setStatus('signed_in');
           setIsDemo(false);
           setEmail(mockIdentity.email || null);
