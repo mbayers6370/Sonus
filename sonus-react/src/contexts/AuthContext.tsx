@@ -220,7 +220,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const continueAsDemo = () => {
-    if (authMode !== 'mock') return;
+    if (authMode === 'supabase') return;
     clearLearningState();
     setDemoMode(true);
     setMockIdentity(null, 'dev@local.test');

@@ -1,14 +1,13 @@
-import { BookOpen, House, LogOut, User } from 'lucide-react';
+import { BookOpen, House, User } from 'lucide-react';
 
 interface BottomNavProps {
   onHome: () => void;
   onProfile: () => void;
   onLearn?: () => void;
-  onSignOut?: () => void;
   active?: 'home' | 'learn' | 'profile';
 }
 
-export default function BottomNav({ onHome, onProfile, onLearn, onSignOut, active = 'home' }: BottomNavProps) {
+export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' }: BottomNavProps) {
   const handleLearn = () => {
     if (onLearn) {
       onLearn();
@@ -19,7 +18,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, onSignOut, activ
 
   return (
     <div className="fixed bottom-0 left-0 right-0 h-20 bg-bg-warm/95 backdrop-blur-xl border-t border-border z-50">
-      <div className="relative h-full w-full flex items-center justify-center px-4">
+      <div className="h-full w-full flex items-center justify-center px-4">
         <div className="flex items-center justify-center gap-4 sm:gap-6">
           <button
             onClick={onHome}
@@ -49,15 +48,6 @@ export default function BottomNav({ onHome, onProfile, onLearn, onSignOut, activ
             <span className="text-xs">Profile</span>
           </button>
         </div>
-        {onSignOut && (
-          <button
-            onClick={onSignOut}
-            className="absolute right-4 sm:right-5 flex flex-col items-center gap-1 px-3 py-2 text-text-light hover:text-text-med transition-colors"
-          >
-            <LogOut className="w-6 h-6" />
-            <span className="text-xs">Sign Out</span>
-          </button>
-        )}
       </div>
     </div>
   );

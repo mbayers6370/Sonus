@@ -4,6 +4,7 @@ import {
   ChevronRight,
   Clock3,
   Languages,
+  LogOut,
   UserRound,
 } from 'lucide-react';
 import BottomNav from './BottomNav';
@@ -42,7 +43,7 @@ export default function ProfileScreen({
   currentLearningLanguage,
   onRequestLearningLanguageChange,
 }: ProfileScreenProps) {
-  const { authMode, isDemo, signOut } = useAuth();
+  const { isDemo, signOut } = useAuth();
   const [saving, setSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -249,15 +250,14 @@ export default function ProfileScreen({
                 <div className="text-sm text-text-med">{profile?.email || '—'}</div>
               </div>
             </div>
-          </div>
-          {authMode === 'mock' && isDemo && (
             <button
               onClick={signOut}
-              className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border text-sm font-semibold text-text-dark hover:bg-[rgba(55,65,81,0.08)]"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-text-light hover:text-text-dark transition-colors"
             >
-              Exit Demo · Create Account
+              <LogOut className="w-4 h-4" />
+              {isDemo ? 'Exit Demo' : 'Sign Out'}
             </button>
-          )}
+          </div>
         </SurfaceCard>
 
         <details className="bg-white border border-border rounded-3xl p-5">
@@ -398,7 +398,7 @@ export default function ProfileScreen({
         </div>
       </div>
 
-      <BottomNav active="profile" onHome={onGoHome} onProfile={() => {}} onSignOut={signOut} />
+      <BottomNav active="profile" onHome={onGoHome} onProfile={() => {}} />
 
       {pendingLearningLanguage && (
         <div className="fixed inset-0 bg-black/35 z-[60] flex items-center justify-center px-6">
