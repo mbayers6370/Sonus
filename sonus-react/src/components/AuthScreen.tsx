@@ -171,14 +171,14 @@ export default function AuthScreen() {
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="First name"
                 autoComplete="given-name"
-                className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white text-left"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
               />
               <input
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Last name"
                 autoComplete="family-name"
-                className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white text-left"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
               />
             </div>
           )}
@@ -191,7 +191,7 @@ export default function AuthScreen() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               autoComplete="username webauthn"
-              className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white text-left"
+              className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
             />
             <input
               ref={passwordInputRef}
@@ -200,7 +200,7 @@ export default function AuthScreen() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
-              className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white text-left"
+              className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
             />
           </div>
 
