@@ -43,6 +43,25 @@ interface ProfileScreenProps {
   onRequestLearningLanguageChange: (languageId: string) => Promise<void> | void;
 }
 
+function inferUnitFromLessonProgress(
+  bandId: string | null,
+  lessonProgress: Record<string, unknown>
+) {
+  if (!bandId) return null;
+  const unitIds = new Set<string>();
+  for (const key of Object.keys(lessonProgress || {})) {
+    const [keyBandId, keyUnitId] = key.split(':');
+    if (keyBandId === bandId && keyUnitId) {
+      unitIds.add(keyUnitId);
+    }
+  }
+  const orderedCoreUnits = getUnitsForBand(bandId)
+    .filter((unit) => !isCheckpointUnitId(unit.id) && !isPracticeUnitId(unit.id))
+    .map((unit) => unit.id);
+  const latestStarted = orderedCoreUnits.filter((unitId) => unitIds.has(unitId)).at(-1);
+  return latestStarted ?? null;
+}
+
 export default function ProfileScreen({
   onOpenProgress,
   onOpenAbout,
@@ -83,12 +102,24 @@ export default function ProfileScreen({
     (targetLanguage === 'ko' && 'Korean') ||
     null;
 
-  const effectiveBandId = progress?.currentBandId ?? state.activeBandId ?? null;
-  const effectiveUnitId = progress?.currentUnitId ?? state.activeUnitId ?? state.activeLesson?.unitId ?? null;
+  const effectiveBandId =
+    progress?.currentBandId ??
+    state.resumeCheckpoint?.bandId ??
+    state.activeBandId ??
+    state.currentLevel?.id ??
+    null;
+  const inferredUnitId = inferUnitFromLessonProgress(effectiveBandId, state.lessonProgress || {});
+  const effectiveUnitId =
+    progress?.currentUnitId ??
+    state.resumeCheckpoint?.unitId ??
+    state.activeUnitId ??
+    state.activeLesson?.unitId ??
+    inferredUnitId ??
+    null;
   const effectiveLessonIdx =
     typeof progress?.currentLessonIdx === 'number'
       ? progress.currentLessonIdx
-      : (state.activeLesson?.lessonIndex ?? null);
+      : (state.resumeCheckpoint?.lessonIndex ?? state.activeLesson?.lessonIndex ?? null);
   const coreUnits = effectiveBandId
     ? getUnitsForBand(effectiveBandId).filter(
       (unit) => !isCheckpointUnitId(unit.id) && !isPracticeUnitId(unit.id)
@@ -123,7 +154,7 @@ export default function ProfileScreen({
       last.getDate() === now.getDate()
     );
   })();
-  const streakDisplay = (progress?.streak ?? 0) > 0 ? (progress?.streak ?? 0) : (isLastActiveToday ? 1 : 0);
+  const streakDisplay = Math.max(progress?.streak ?? 0, isLastActiveToday ? 1 : 0, 1);
 
   const loadProfile = useCallback(async () => {
     setError(null);
