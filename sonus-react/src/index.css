@@ -145,10 +145,20 @@ body.auth-screen-open {
   }
 }
 
-/* Product rule: hover states should never dim opacity. */
-@media (hover: hover) {
-  [class*='hover:opacity-']:hover,
-  .group:hover [class*='group-hover:opacity-'] {
-    opacity: 1 !important;
-  }
+/* Product rule: never reduce element opacity anywhere. */
+[class*='opacity-'],
+[class*='hover:opacity-'],
+[class*='group-hover:opacity-'],
+[class*='disabled:opacity-'],
+[class*='focus:opacity-'],
+[class*='active:opacity-'] {
+  opacity: 1 !important;
+}
+
+[class*='hover:opacity-']:hover,
+.group:hover [class*='group-hover:opacity-'],
+[class*='disabled:opacity-']:disabled,
+[class*='focus:opacity-']:focus,
+[class*='active:opacity-']:active {
+  opacity: 1 !important;
 }

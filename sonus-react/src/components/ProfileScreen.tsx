@@ -3,6 +3,8 @@ import {
   BadgeCheck,
   ChevronRight,
   Clock3,
+  CornerRightDown,
+  CornerRightUp,
   Languages,
   LogOut,
   UserRound,
@@ -58,6 +60,7 @@ export default function ProfileScreen({
   const [pendingLearningLanguage, setPendingLearningLanguage] = useState<string | null>(null);
   const [switchingLanguage, setSwitchingLanguage] = useState(false);
   const [deletingAccount, setDeletingAccount] = useState(false);
+  const [profileDetailsOpen, setProfileDetailsOpen] = useState(false);
 
   const learningLanguageName =
     (currentLearningLanguage === 'zh' && 'Mandarin') ||
@@ -260,8 +263,19 @@ export default function ProfileScreen({
           </div>
         </SurfaceCard>
 
-        <details className="bg-white border border-border rounded-3xl p-5">
-          <summary className="cursor-pointer font-semibold text-text-dark">Profile Details</summary>
+        <details
+          className="bg-white border border-border rounded-3xl p-5"
+          open={profileDetailsOpen}
+          onToggle={(e) => setProfileDetailsOpen((e.currentTarget as HTMLDetailsElement).open)}
+        >
+          <summary className="list-none cursor-pointer font-semibold text-text-dark flex items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+            <span>Profile Details</span>
+            {profileDetailsOpen ? (
+              <CornerRightUp className="w-4 h-4 text-text-light" />
+            ) : (
+              <CornerRightDown className="w-4 h-4 text-text-light" />
+            )}
+          </summary>
           <div className={`mt-4 space-y-3 transition-opacity ${isEditing ? 'opacity-100' : 'opacity-70'}`}>
             <label className="block">
               <div className="text-xs uppercase tracking-wider text-text-light font-mono mb-1">Display Name</div>
@@ -329,7 +343,7 @@ export default function ProfileScreen({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <SurfaceButtonCard
             onClick={onOpenProgress}
-            className="h-full min-h-[150px] p-4 text-left hover:bg-[rgba(55,65,81,0.04)] transition-colors flex flex-col"
+            className="h-full min-h-[150px] p-4 text-left flex flex-col transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(24,110,149,0.28)] active:translate-y-0"
           >
             <h3 className="font-semibold text-text-dark mb-1.5">Progress Snapshot</h3>
             <div className="inline-flex items-center gap-2 w-fit px-3 py-2 rounded-xl border border-[rgba(62,86,72,0.22)] bg-[rgba(62,86,72,0.10)] mb-2">
@@ -377,7 +391,7 @@ export default function ProfileScreen({
             <SurfaceButtonCard
               onClick={() => void deleteAccount()}
               disabled={deletingAccount}
-              className="w-full border-[#C2410C]/35 p-4 text-left hover:bg-[rgba(194,65,12,0.06)] transition-colors disabled:opacity-60"
+              className="w-full border-[#C2410C]/35 p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.30)] active:translate-y-0 disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
             >
               <div className="font-semibold text-[#C2410C]">
                 {deletingAccount ? 'Deleting Account…' : 'Delete Account'}
@@ -387,7 +401,7 @@ export default function ProfileScreen({
           )}
           <SurfaceButtonCard
             onClick={onOpenAbout}
-            className="w-full p-4 text-left flex items-center justify-between hover:bg-[rgba(55,65,81,0.05)] transition-colors"
+            className="w-full p-4 text-left flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(55,65,81,0.24)] active:translate-y-0"
           >
             <div>
               <div className="font-semibold text-text-dark">About Sonus</div>
