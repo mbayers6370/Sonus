@@ -160,7 +160,7 @@ export default function AuthScreen() {
             ? 'Sign in with your email and password.'
             : 'Use your name, email, and password to create your profile.'}
         </p>
-        {authMode !== 'supabase' && (
+        {authMode === 'mock' && (
           <p className="text-xs text-text-light mb-3">
             Demo mode uses `dev@local.test` and a shared sample profile.
           </p>
@@ -223,7 +223,7 @@ export default function AuthScreen() {
             {loading ? 'Working…' : mode === 'signin' ? 'Sign In' : 'Create Account'}
           </button>
         </form>
-        {authMode !== 'supabase' && (
+        {authMode === 'mock' && (
           <button
             type="button"
             onClick={continueAsDemo}

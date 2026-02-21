@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { env } from '../env.js';
 import { getSupabaseAdmin } from './supabase.js';
+import { verifyAccessToken } from './localAuth.js';
 
 function extractBearerToken(authHeader: string | undefined) {
   if (!authHeader) return null;
@@ -54,6 +55,20 @@ export async function requireAuth(request: FastifyRequest, reply: FastifyReply) 
   const token = extractBearerToken(request.headers.authorization);
   if (!token) {
     reply.code(401).send({ error: 'Missing bearer token' });
+    return;
+  }
+
+  if (env.AUTH_MODE === 'local') {
+    const localUser = verifyAccessToken(token);
+    if (!localUser) {
+      reply.code(401).send({ error: 'Invalid or expired token' });
+      return;
+    }
+    request.user = {
+      id: localUser.userId,
+      email: localUser.email,
+      displayName: null,
+    };
     return;
   }
 

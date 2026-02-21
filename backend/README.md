@@ -16,7 +16,13 @@ cp .env.example .env
 ```
 2. Set local mock auth:
 ```env
+NODE_ENV=development
 AUTH_MODE=mock
+```
+To run first-party auth without Supabase:
+```env
+AUTH_MODE=local
+ACCESS_TOKEN_SECRET=replace-with-at-least-32-characters
 ```
 3. Set a valid PostgreSQL URL:
 ```env
@@ -128,6 +134,20 @@ x-dev-user-email: test@example.com
 - Redis rate-limit backend: `REDIS_REST_URL`, `REDIS_REST_TOKEN`
 - Slow request warning threshold: `SLOW_REQUEST_MS`
 - API audit logging: `AUDIT_LOG_ENABLED`
+- Refresh cookie controls: `AUTH_COOKIE_NAME`, `AUTH_COOKIE_SAME_SITE`, `AUTH_COOKIE_SECURE`
+- Optional cookie domain scope: `AUTH_COOKIE_DOMAIN`
+
+Production guardrails:
+- `NODE_ENV=production` requires `AUTH_MODE=supabase` or `AUTH_MODE=local`
+- `NODE_ENV=production` requires `RATE_LIMIT_MODE=redis` or `edge`
+- `NODE_ENV=production` requires `RATE_LIMIT_FAIL_OPEN=false`
+- `NODE_ENV=production` requires `CORS_ORIGINS` to be explicitly configured
+
+CSRF controls for cookie-auth flows:
+- `Origin` allowlist checks are enforced on:
+  - `POST /v1/auth/refresh`
+  - `POST /v1/auth/logout`
+  - `DELETE /v1/me/account`
 
 `memory` mode is per-instance and intended for local/demo deployments.  
 Use `redis` or gateway/CDN enforcement for multi-instance production deployments.

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { API_BASE_URL } from '../lib/apiBase';
 import { apiFetch } from '../lib/apiClient';
@@ -8,7 +8,6 @@ import {
   clearAuthSession,
   ensureMockWindowScope,
   getAccessToken,
-  getRefreshToken,
   getDemoMode,
   getMockIdentity,
   isMockActivityExpired,
@@ -19,7 +18,7 @@ import {
   touchMockActivity,
 } from '../lib/authSession';
 
-type AuthMode = 'mock' | 'supabase' | 'unknown';
+type AuthMode = 'mock' | 'supabase' | 'local' | 'unknown';
 type AuthStatus = 'loading' | 'signed_out' | 'signed_in';
 
 type AuthContextValue = {
@@ -82,21 +81,17 @@ async function readAuthResponse(response: Response): Promise<AuthApiResponse> {
 }
 
 async function attemptRefreshAuthSession() {
-  const refreshToken = getRefreshToken();
-  if (!refreshToken) return { ok: false, email: null as string | null };
-
   try {
     const response = await fetch(`${API_BASE_URL}/v1/auth/refresh`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ refreshToken }),
+      credentials: 'include',
     });
     const payload = await readAuthResponse(response);
     if (!response.ok || !payload.accessToken) {
       return { ok: false, email: null as string | null };
     }
 
-    setAuthSession(payload.accessToken, payload.refreshToken ?? refreshToken);
+    setAuthSession(payload.accessToken);
     setMockIdentity(payload.user?.id ?? null, payload.user?.email ?? null);
     return { ok: true, email: payload.user?.email ?? null };
   } catch {
@@ -172,12 +167,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         let token = getAccessToken();
-        let refreshToken = getRefreshToken();
-        if (!token && refreshToken) {
+        if (!token) {
           const refreshed = await attemptRefreshAuthSession();
           if (refreshed.ok) {
             token = getAccessToken();
-            refreshToken = getRefreshToken();
             setEmail(refreshed.email);
           }
         }
@@ -201,7 +194,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!response.ok) {
           // Only clear session on explicit auth failures.
           if (response.status === 401 || response.status === 403) {
-            const refreshed = refreshToken ? await attemptRefreshAuthSession() : { ok: false, email: null };
+            const refreshed = await attemptRefreshAuthSession();
             if (refreshed.ok) {
               const retry = await apiFetch('/v1/me/profile');
               if (retry.ok) {
@@ -252,11 +245,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const signIn = async (emailInput: string, password: string) => {
+  const signIn = useCallback(async (emailInput: string, password: string) => {
     setError(null);
     const response = await fetch(`${API_BASE_URL}/v1/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({
         email: emailInput.trim(),
         password,
@@ -269,7 +263,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       throw new Error(payload.error || payload.message || 'Sign in failed');
     }
-    setAuthSession(payload.accessToken ?? null, payload.refreshToken ?? null);
+    setAuthSession(payload.accessToken ?? null);
     setMockIdentity(payload.user?.id ?? null, payload.user?.email ?? emailInput.trim());
     touchMockActivity();
     clearLearningState();
@@ -277,13 +271,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsDemo(false);
     setEmail(payload.user?.email ?? emailInput.trim());
     setStatus('signed_in');
-  };
+  }, []);
 
-  const signUp: AuthContextValue['signUp'] = async (payloadInput) => {
+  const signUp: AuthContextValue['signUp'] = useCallback(async (payloadInput) => {
     setError(null);
     const response = await fetch(`${API_BASE_URL}/v1/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify(payloadInput),
     });
     const payload = await readAuthResponse(response);
@@ -295,7 +290,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const requiresEmailVerification = Boolean(payload.requiresEmailVerification);
-    setAuthSession(payload.accessToken ?? null, payload.refreshToken ?? null);
+    setAuthSession(payload.accessToken ?? null);
     setMockIdentity(payload.user?.id ?? null, payload.user?.email ?? payloadInput.email.trim());
     touchMockActivity();
     clearLearningState();
@@ -304,10 +299,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setEmail(payload.user?.email ?? payloadInput.email.trim());
     setStatus(requiresEmailVerification ? 'signed_out' : 'signed_in');
     return { requiresEmailVerification };
-  };
+  }, []);
 
-  const continueAsDemo = () => {
-    if (authMode === 'supabase') return;
+  const continueAsDemo = useCallback(() => {
+    if (authMode !== 'mock') return;
     clearLearningState();
     setDemoMode(true);
     setMockIdentity(createMockUserId(), 'dev@local.test');
@@ -315,9 +310,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsDemo(true);
     setEmail('dev@local.test');
     setStatus('signed_in');
-  };
+  }, [authMode]);
 
-  const signOut = () => {
+  const signOut = useCallback(() => {
+    void fetch(`${API_BASE_URL}/v1/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    }).catch(() => {});
     if (authMode === 'mock') {
       setDemoMode(false);
     }
@@ -328,7 +327,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsDemo(false);
     setEmail(null);
     setStatus('signed_out');
-  };
+  }, [authMode]);
 
   useEffect(() => {
     if (status !== 'signed_in') return;
@@ -391,24 +390,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, [authMode, status]);
 
-  const value = useMemo<AuthContextValue>(
-    () => ({
-      authMode,
-      status,
-      email,
-      isDemo,
-      error,
-      signIn,
-      signUp,
-      continueAsDemo,
-      signOut,
-    }),
-    [authMode, email, error, isDemo, status]
-  );
+  const value: AuthContextValue = {
+    authMode,
+    status,
+    email,
+    isDemo,
+    error,
+    signIn,
+    signUp,
+    continueAsDemo,
+    signOut,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {

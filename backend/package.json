@@ -9,6 +9,7 @@
     "lint": "tsc -p tsconfig.json --noEmit",
     "build": "tsc -p tsconfig.json",
     "test:core": "node scripts/core-regression.mjs",
+    "test:security": "node scripts/security-regression.mjs",
     "perf:smoke": "node scripts/perf-smoke.mjs",
     "perf:load": "node scripts/load-check.mjs",
     "start": "node dist/server.js",

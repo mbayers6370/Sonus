@@ -22,5 +22,6 @@ export async function apiFetch(path: string, init: RequestInit = {}) {
   return fetch(url, {
     ...init,
     headers,
+    credentials: init.credentials ?? 'include',
   });
 }

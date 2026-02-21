@@ -167,36 +167,20 @@ export function createRateLimiter(input: CreateRateLimiterInput): RateLimiter {
   return createMemoryLimiter(input.windowMs, input.max);
 }
 
-function decodeJwtSub(token: string) {
-  try {
-    const parts = token.split('.');
-    if (parts.length < 2) return null;
-    const payloadPart = parts[1];
-    const base64 = payloadPart.replace(/-/g, '+').replace(/_/g, '/');
-    const decoded = Buffer.from(base64, 'base64').toString('utf8');
-    const parsed = JSON.parse(decoded) as { sub?: string };
-    return typeof parsed.sub === 'string' && parsed.sub.length > 0 ? parsed.sub : null;
-  } catch {
-    return null;
-  }
-}
-
 function readHeader(value: string | string[] | undefined) {
   if (!value) return null;
   return Array.isArray(value) ? value[0] : value;
 }
 
-export function resolveRateLimitIdentity(headers: Record<string, string | string[] | undefined>, ip: string) {
-  // Prefer authenticated identity keys where possible to avoid shared-IP collisions.
-  const devUserId = readHeader(headers['x-dev-user-id']);
-  if (devUserId) return `user:${devUserId}`;
-
-  const authHeader = readHeader(headers.authorization);
-  if (authHeader && authHeader.toLowerCase().startsWith('bearer ')) {
-    const token = authHeader.slice(7).trim();
-    const sub = decodeJwtSub(token);
-    if (sub) return `user:${sub}`;
+export function resolveRateLimitIdentity(
+  headers: Record<string, string | string[] | undefined>,
+  ip: string,
+  authMode: 'mock' | 'supabase' | 'local'
+) {
+  // Only trust caller-provided user headers in mock mode.
+  if (authMode === 'mock') {
+    const devUserId = readHeader(headers['x-dev-user-id']);
+    if (devUserId) return `user:${devUserId}`;
   }
-
   return `ip:${ip || 'unknown'}`;
 }

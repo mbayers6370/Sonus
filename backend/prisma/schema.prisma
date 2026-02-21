@@ -106,3 +106,36 @@ model ProgressEvent {
   @@index([userId, createdAt])
   @@map("progress_events")
 }
+
+model LocalAuthCredential {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String   @unique @map("user_id") @db.Uuid
+  email        String   @unique @db.Text
+  passwordHash String   @map("password_hash") @db.Text
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("local_auth_credentials")
+}
+
+model RefreshSession {
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId          String    @map("user_id") @db.Uuid
+  tokenHash       String    @unique @map("token_hash") @db.Text
+  familyId        String    @map("family_id") @db.Uuid
+  parentTokenHash String?   @map("parent_token_hash") @db.Text
+  replacedByHash  String?   @map("replaced_by_hash") @db.Text
+  createdIp       String?   @map("created_ip") @db.Text
+  createdUserAgent String?  @map("created_user_agent") @db.Text
+  revokedReason   String?   @map("revoked_reason") @db.Text
+  lastUsedAt      DateTime? @map("last_used_at") @db.Timestamptz(6)
+  expiresAt       DateTime  @map("expires_at") @db.Timestamptz(6)
+  revokedAt       DateTime? @map("revoked_at") @db.Timestamptz(6)
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([userId, createdAt])
+  @@index([familyId, createdAt])
+  @@index([userId, familyId, revokedAt])
+  @@map("refresh_sessions")
+}

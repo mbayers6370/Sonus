@@ -1,13 +1,16 @@
-const ACCESS_TOKEN_KEY = 'sonus.auth.access_token';
-const REFRESH_TOKEN_KEY = 'sonus.auth.refresh_token';
 const DEMO_MODE_KEY = 'sonus.auth.demo_mode';
 const MOCK_USER_ID_KEY = 'sonus.auth.mock_user_id';
 const MOCK_USER_EMAIL_KEY = 'sonus.auth.mock_user_email';
-const SESSION_EXPIRES_AT_KEY = 'sonus.auth.expires_at';
 const MOCK_WINDOW_ID_KEY = 'sonus.auth.mock_window_id';
 const MOCK_LAST_ACTIVE_AT_KEY = 'sonus.auth.mock_last_active_at';
 const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
 const MOCK_IDLE_TTL_MS = 60 * 60 * 1000;
+const LEGACY_ACCESS_TOKEN_KEY = 'sonus.auth.access_token';
+const LEGACY_REFRESH_TOKEN_KEY = 'sonus.auth.refresh_token';
+const LEGACY_SESSION_EXPIRES_AT_KEY = 'sonus.auth.expires_at';
+
+let accessTokenMemory: string | null = null;
+let accessTokenExpiresAt = 0;
 
 function randomHex(length: number) {
   let out = '';
@@ -26,59 +29,45 @@ export function createMockUserId() {
 }
 
 function setSessionExpiry() {
-  window.localStorage.setItem(SESSION_EXPIRES_AT_KEY, String(Date.now() + SESSION_TTL_MS));
+  accessTokenExpiresAt = Date.now() + SESSION_TTL_MS;
 }
 
 function clearSessionExpiry() {
-  window.localStorage.removeItem(SESSION_EXPIRES_AT_KEY);
+  accessTokenExpiresAt = 0;
 }
 
 export function isAuthSessionExpired() {
   try {
-    // If we have a refresh token, prefer server-side session validity over local TTL.
-    const refreshToken = window.localStorage.getItem(REFRESH_TOKEN_KEY);
-    if (refreshToken) return false;
-
-    const raw = window.localStorage.getItem(SESSION_EXPIRES_AT_KEY);
-    if (!raw) return false;
-    const expiresAt = Number(raw);
-    if (!Number.isFinite(expiresAt)) return false;
-    return Date.now() >= expiresAt;
+    if (!accessTokenMemory) return false;
+    if (!Number.isFinite(accessTokenExpiresAt) || accessTokenExpiresAt <= 0) return false;
+    return Date.now() >= accessTokenExpiresAt;
   } catch {
     return false;
   }
 }
 
 export function getAccessToken() {
-  try {
-    return window.localStorage.getItem(ACCESS_TOKEN_KEY);
-  } catch {
-    return null;
-  }
+  return accessTokenMemory;
 }
 
 export function getRefreshToken() {
-  try {
-    return window.localStorage.getItem(REFRESH_TOKEN_KEY);
-  } catch {
-    return null;
-  }
+  return null;
 }
 
 export function setAuthSession(accessToken: string | null, refreshToken?: string | null) {
+  void refreshToken;
   try {
     if (accessToken) {
-      window.localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+      accessTokenMemory = accessToken;
       setSessionExpiry();
     } else {
-      window.localStorage.removeItem(ACCESS_TOKEN_KEY);
+      accessTokenMemory = null;
       clearSessionExpiry();
     }
-    if (refreshToken) {
-      window.localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
-    } else {
-      window.localStorage.removeItem(REFRESH_TOKEN_KEY);
-    }
+    // Clear legacy storage keys from previous implementations.
+    window.localStorage.removeItem(LEGACY_ACCESS_TOKEN_KEY);
+    window.localStorage.removeItem(LEGACY_REFRESH_TOKEN_KEY);
+    window.localStorage.removeItem(LEGACY_SESSION_EXPIRES_AT_KEY);
   } catch {
     // Ignore localStorage failures.
   }

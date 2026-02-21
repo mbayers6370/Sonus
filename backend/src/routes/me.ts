@@ -4,6 +4,8 @@ import { env } from '../env.js';
 import { requireAuth } from '../lib/auth.js';
 import { prisma } from '../lib/prisma.js';
 import { getSupabaseAdmin } from '../lib/supabase.js';
+import { serializeCookie } from '../lib/cookies.js';
+import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js';
 import { fetchNeedsWork, fetchReviewQueue, fetchWeakLogs, fetchWrongWords } from '../services/reviewInsightsService.js';
 import { getOrCreateProfile, upsertProfile } from '../services/profileService.js';
 import { getProgressSnapshot, recordProgressEvent, updateProgressCurrent } from '../services/progressService.js';
@@ -52,6 +54,8 @@ const progressCurrentPatchSchema = z.object({
 });
 
 export async function meRoutes(app: FastifyInstance) {
+  const allowedOrigins = readAllowedOrigins();
+
   app.get('/v1/me/profile', { preHandler: [requireAuth] }, async (request) => {
     const { id, email, displayName } = request.user;
     let profile = await getOrCreateProfile(id, email);
@@ -85,10 +89,16 @@ export async function meRoutes(app: FastifyInstance) {
     return { profile };
   });
 
-  app.delete('/v1/me/account', { preHandler: [requireAuth] }, async (request) => {
+  app.delete('/v1/me/account', { preHandler: [requireAuth] }, async (request, reply) => {
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+
     const { id } = request.user;
 
     await prisma.$transaction(async (tx) => {
+      if (env.AUTH_MODE === 'local') {
+        await tx.refreshSession.deleteMany({ where: { userId: id } });
+        await tx.localAuthCredential.deleteMany({ where: { userId: id } });
+      }
       await tx.quizAttempt.deleteMany({ where: { userId: id } });
       await tx.speakAttempt.deleteMany({ where: { userId: id } });
       await tx.wordMemoryState.deleteMany({ where: { userId: id } });
@@ -105,6 +115,18 @@ export async function meRoutes(app: FastifyInstance) {
         // Account data is already removed from app tables; do not fail deletion on auth cleanup.
       }
     }
+
+    reply.header(
+      'Set-Cookie',
+      serializeCookie(env.AUTH_COOKIE_NAME, '', {
+        domain: env.AUTH_COOKIE_DOMAIN,
+        path: '/',
+        maxAgeSeconds: 0,
+        httpOnly: true,
+        secure: env.AUTH_COOKIE_SECURE,
+        sameSite: env.AUTH_COOKIE_SAME_SITE,
+      })
+    );
 
     return { ok: true };
   });

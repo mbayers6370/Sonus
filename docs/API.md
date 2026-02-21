@@ -6,6 +6,7 @@ Base URL (local): `http://127.0.0.1:4000`
 Configured via backend env:
 - `AUTH_MODE=mock`
 - `AUTH_MODE=supabase`
+- `AUTH_MODE=local`
 
 In mock mode, requests can include:
 - `x-dev-user-id`
@@ -14,7 +15,8 @@ In mock mode, requests can include:
 ## Authentication
 - `POST /v1/auth/signup`
 - `POST /v1/auth/login`
-- `POST /v1/auth/refresh` (supabase mode only)
+- `POST /v1/auth/refresh` (supabase/local mode)
+- `POST /v1/auth/logout`
 
 Signup payload example:
 ```json
@@ -36,16 +38,10 @@ Login payload example:
 }
 ```
 
-In `AUTH_MODE=supabase`, auth responses include `accessToken` and `refreshToken`.
+In `AUTH_MODE=supabase` and `AUTH_MODE=local`, auth responses include `accessToken`.
+Refresh tokens are stored in an `HttpOnly` cookie set by the API.
 Subsequent authenticated requests should include:
 - `Authorization: Bearer <accessToken>`
-
-Refresh payload example:
-```json
-{
-  "refreshToken": "<refresh-token>"
-}
-```
 
 ## API Runtime Controls
 - Rate limiter mode is controlled by `RATE_LIMIT_MODE` (`memory`, `redis`, `edge`).
@@ -57,6 +53,10 @@ Refresh payload example:
 - `edge` mode disables in-app enforcement and expects gateway/CDN-level rate limiting.
 - Slow request warnings are emitted when response time exceeds `SLOW_REQUEST_MS`.
 - API request audit logs can be enabled/disabled with `AUDIT_LOG_ENABLED`.
+- Cookie-auth CSRF protection: `Origin` is enforced for:
+  - `POST /v1/auth/refresh`
+  - `POST /v1/auth/logout`
+  - `DELETE /v1/me/account`
 
 ## Endpoints
 

@@ -23,4 +23,5 @@ pnpm-debug.log*
 .env.local
 .env.*.local
 backend/.env
+sonus-react/.env
 sonus-react/.env.local

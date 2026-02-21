@@ -1,27 +1,39 @@
 import Fastify from 'fastify';
+import { fileURLToPath } from 'node:url';
 import cors from '@fastify/cors';
 import { env } from './env.js';
 import { prisma } from './lib/prisma.js';
 import { createRateLimiter, resolveRateLimitIdentity } from './lib/rateLimiter.js';
+import { readAllowedOrigins } from './lib/originPolicy.js';
 import { authRoutes } from './routes/auth.js';
 import { meRoutes } from './routes/me.js';
 import { attemptRoutes } from './routes/attempts.js';
 
-function readAllowedOrigins() {
-  return new Set(
-    env.CORS_ORIGINS.split(',')
-      .map((origin) => origin.trim())
-      .filter((origin) => origin.length > 0)
-  );
+function buildCspHeader(allowedOrigins: Set<string>) {
+  const connectSrc = ["'self'", ...Array.from(allowedOrigins)];
+  return [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "frame-ancestors 'none'",
+    "object-src 'none'",
+    "script-src 'self'",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' https://fonts.gstatic.com data:",
+    "img-src 'self' data: blob:",
+    "media-src 'self' blob:",
+    `connect-src ${connectSrc.join(' ')}`,
+    "form-action 'self'",
+  ].join('; ');
 }
 
-async function buildServer() {
+export async function buildServer() {
   const app = Fastify({
     logger: true,
     bodyLimit: env.BODY_LIMIT_BYTES,
     trustProxy: env.TRUST_PROXY,
   });
   const allowedOrigins = readAllowedOrigins();
+  const cspHeader = buildCspHeader(allowedOrigins);
   const limiter = createRateLimiter({
     mode: env.RATE_LIMIT_MODE,
     windowMs: env.RATE_LIMIT_WINDOW_MS,
@@ -48,7 +60,7 @@ async function buildServer() {
 
   app.addHook('onRequest', async (request, reply) => {
     if (!request.url.startsWith('/v1/')) return;
-    const identity = resolveRateLimitIdentity(request.headers, request.ip);
+    const identity = resolveRateLimitIdentity(request.headers, request.ip, env.AUTH_MODE);
     const decision = await limiter.check(identity);
     reply.header('X-RateLimit-Limit', decision.limit.toString());
     reply.header('X-RateLimit-Remaining', decision.remaining.toString());
@@ -60,6 +72,20 @@ async function buildServer() {
         .header('Retry-After', decision.retryAfterSeconds.toString())
         .send({ error: 'Too many requests' });
     }
+  });
+
+  app.addHook('onSend', async (_request, reply, payload) => {
+    reply.header('X-Content-Type-Options', 'nosniff');
+    reply.header('X-Frame-Options', 'DENY');
+    reply.header('Referrer-Policy', 'strict-origin-when-cross-origin');
+    reply.header('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    reply.header('Cross-Origin-Opener-Policy', 'same-origin');
+    reply.header('Cross-Origin-Resource-Policy', 'same-origin');
+    reply.header('Content-Security-Policy', cspHeader);
+    if (env.NODE_ENV === 'production') {
+      reply.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+    }
+    return payload;
   });
 
   app.addHook('onResponse', async (request, reply) => {
@@ -129,9 +155,13 @@ async function start() {
   });
 }
 
-start().catch(async (error) => {
-  // eslint-disable-next-line no-console
-  console.error(error);
-  await prisma.$disconnect();
-  process.exit(1);
-});
+const isDirectExecution = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+
+if (isDirectExecution) {
+  start().catch(async (error) => {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
+}

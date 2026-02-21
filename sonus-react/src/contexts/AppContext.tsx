@@ -606,7 +606,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
         setState((prev) => {
           const serverProgress = normalizeLessonProgressKeys(payload.lessonProgress || {});
-          let nextLessonProgress = mergeLessonProgress(prev.lessonProgress, serverProgress);
+          const nextLessonProgress = mergeLessonProgress(prev.lessonProgress, serverProgress);
           const currentBandId = payload.progress?.currentBandId ?? null;
           const currentUnitId = payload.progress?.currentUnitId ?? null;
           const currentLessonIdx =

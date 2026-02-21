@@ -104,6 +104,37 @@ create table if not exists public.progress_events (
 create index if not exists progress_events_user_created_idx
   on public.progress_events (user_id, created_at desc);
 
+create table if not exists public.local_auth_credentials (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null unique,
+  email text not null unique,
+  password_hash text not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.refresh_sessions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null,
+  token_hash text not null unique,
+  family_id uuid not null,
+  parent_token_hash text,
+  replaced_by_hash text,
+  created_ip text,
+  created_user_agent text,
+  revoked_reason text,
+  last_used_at timestamptz,
+  expires_at timestamptz not null,
+  revoked_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists refresh_sessions_user_created_idx
+  on public.refresh_sessions (user_id, created_at desc);
+create index if not exists refresh_sessions_family_created_idx
+  on public.refresh_sessions (family_id, created_at desc);
+
 create or replace function public.set_updated_at()
 returns trigger
 language plpgsql
@@ -127,4 +158,14 @@ for each row execute function public.set_updated_at();
 drop trigger if exists word_memory_state_set_updated_at on public.word_memory_state;
 create trigger word_memory_state_set_updated_at
 before update on public.word_memory_state
+for each row execute function public.set_updated_at();
+
+drop trigger if exists local_auth_credentials_set_updated_at on public.local_auth_credentials;
+create trigger local_auth_credentials_set_updated_at
+before update on public.local_auth_credentials
+for each row execute function public.set_updated_at();
+
+drop trigger if exists refresh_sessions_set_updated_at on public.refresh_sessions;
+create trigger refresh_sessions_set_updated_at
+before update on public.refresh_sessions
 for each row execute function public.set_updated_at();

@@ -31,7 +31,7 @@ The current product focus is Mandarin lesson flow, pronunciation scoring, and re
   - `src/services/progressService.ts`
   - `src/services/reviewInsightsService.ts`
 - Data layer through Prisma (`src/lib/prisma.ts`)
-- Auth mode abstraction in `src/lib/auth.ts` (`mock` or `supabase`)
+- Auth mode abstraction in `src/lib/auth.ts` (`mock`, `supabase`, or `local`)
 - Rate limiter abstraction in `src/lib/rateLimiter.ts` (`memory`, `redis`, `edge`)
 
 ## Frontend State Model
