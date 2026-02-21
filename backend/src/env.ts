@@ -54,6 +54,14 @@ const envSchema = z
     ACCESS_TOKEN_SECRET: z.string().min(32).optional(),
     ACCESS_TOKEN_TTL_SECONDS: z.coerce.number().int().positive().max(60 * 60).default(900),
     REFRESH_SESSION_TTL_DAYS: z.coerce.number().int().positive().max(365).default(30),
+    LOGIN_THROTTLE_ENABLED: z
+      .string()
+      .optional()
+      .transform((value) => value !== 'false'),
+    LOGIN_THROTTLE_THRESHOLD: z.coerce.number().int().positive().max(20).default(4),
+    LOGIN_THROTTLE_BASE_MS: z.coerce.number().int().positive().max(5 * 60 * 1000).default(2000),
+    LOGIN_THROTTLE_MAX_MS: z.coerce.number().int().positive().max(30 * 60 * 1000).default(300000),
+    LOGIN_THROTTLE_RESET_MS: z.coerce.number().int().positive().max(24 * 60 * 60 * 1000).default(900000),
   })
   .superRefine((value, ctx) => {
     const isProduction = value.NODE_ENV === 'production';
@@ -128,6 +136,14 @@ const envSchema = z
         code: z.ZodIssueCode.custom,
         path: ['CORS_ORIGINS'],
         message: 'must define explicit origins when NODE_ENV=production',
+      });
+    }
+
+    if (isProduction && !value.LOGIN_THROTTLE_ENABLED) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['LOGIN_THROTTLE_ENABLED'],
+        message: 'must be true when NODE_ENV=production',
       });
     }
 

@@ -7,10 +7,12 @@ import { getOrCreateProfile, upsertProfile } from '../services/profileService.js
 import { getSupabaseAuthClient } from '../lib/supabase.js';
 import { parseCookies, serializeCookie } from '../lib/cookies.js';
 import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js';
+import { createLoginThrottle } from '../lib/loginThrottle.js';
 import {
   createAccessToken,
   createRefreshFamilyId,
   createRefreshToken,
+  evaluateRefreshRotationState,
   hashPassword,
   hashRefreshToken,
   normalizeEmail,
@@ -32,12 +34,17 @@ const loginSchema = z.object({
   password: z.string().min(1).max(128),
 });
 
-const refreshSchema = z.object({
-  refreshToken: z.string().min(1).max(4096).optional(),
-});
+const refreshSchema = z.object({});
 
 const REFRESH_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
 const allowedOrigins = readAllowedOrigins();
+const loginThrottle = createLoginThrottle({
+  enabled: env.LOGIN_THROTTLE_ENABLED,
+  threshold: env.LOGIN_THROTTLE_THRESHOLD,
+  baseDelayMs: env.LOGIN_THROTTLE_BASE_MS,
+  maxDelayMs: env.LOGIN_THROTTLE_MAX_MS,
+  resetAfterMs: env.LOGIN_THROTTLE_RESET_MS,
+});
 
 function readHeader(value: string | string[] | undefined) {
   if (!value) return null;
@@ -81,6 +88,8 @@ function clearRefreshCookie(reply: { header: (name: string, value: string) => un
 
 export async function authRoutes(app: FastifyInstance) {
   app.post('/v1/auth/signup', async (request, reply) => {
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+
     const parsed = signupSchema.safeParse(request.body);
     if (!parsed.success) {
       reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
@@ -216,11 +225,30 @@ export async function authRoutes(app: FastifyInstance) {
   });
 
   app.post('/v1/auth/login', async (request, reply) => {
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+
     const parsed = loginSchema.safeParse(request.body);
     if (!parsed.success) {
       reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
       return;
     }
+    const identity = {
+      email: parsed.data.email.trim().toLowerCase(),
+      ip: request.ip || 'unknown',
+    };
+    const throttleDecision = loginThrottle.check(identity);
+    if (!throttleDecision.allowed) {
+      reply
+        .code(429)
+        .header('Retry-After', throttleDecision.retryAfterSeconds.toString())
+        .send({ error: 'Too many login attempts. Try again later.' });
+      return;
+    }
+
+    const rejectInvalidCredentials = () => {
+      loginThrottle.registerFailure(identity);
+      reply.code(401).send({ error: 'Invalid email or password' });
+    };
 
     if (env.AUTH_MODE === 'local') {
       const email = normalizeEmail(parsed.data.email);
@@ -228,12 +256,12 @@ export async function authRoutes(app: FastifyInstance) {
         where: { email },
       });
       if (!account) {
-        reply.code(401).send({ error: 'Invalid email or password' });
+        rejectInvalidCredentials();
         return;
       }
       const passwordValid = await verifyPassword(parsed.data.password, account.passwordHash);
       if (!passwordValid) {
-        reply.code(401).send({ error: 'Invalid email or password' });
+        rejectInvalidCredentials();
         return;
       }
 
@@ -256,6 +284,7 @@ export async function authRoutes(app: FastifyInstance) {
       });
 
       setRefreshCookie(reply, sessionToken);
+      loginThrottle.registerSuccess(identity);
       reply.send({
         user: { id: account.userId, email: account.email },
         profile,
@@ -270,10 +299,12 @@ export async function authRoutes(app: FastifyInstance) {
         orderBy: { createdAt: 'asc' },
       });
       if (!existing) {
+        loginThrottle.registerFailure(identity);
         reply.code(401).send({ error: 'No account found for this email. Sign up first.' });
         return;
       }
       const profile = await getOrCreateProfile(existing.userId, parsed.data.email);
+      loginThrottle.registerSuccess(identity);
       reply.send({
         user: { id: existing.userId, email: parsed.data.email },
         profile,
@@ -289,6 +320,7 @@ export async function authRoutes(app: FastifyInstance) {
     });
 
     if (error || !data.user || !data.session) {
+      loginThrottle.registerFailure(identity);
       reply.code(401).send({ error: error?.message || 'Invalid email or password' });
       return;
     }
@@ -300,6 +332,7 @@ export async function authRoutes(app: FastifyInstance) {
       profile,
       accessToken: data.session.access_token,
     });
+    loginThrottle.registerSuccess(identity);
     setRefreshCookie(reply, data.session.refresh_token);
   });
 
@@ -313,7 +346,7 @@ export async function authRoutes(app: FastifyInstance) {
     }
 
     const cookies = parseCookies(request.headers.cookie);
-    const refreshToken = parsed.data.refreshToken ?? cookies.get(env.AUTH_COOKIE_NAME) ?? null;
+    const refreshToken = cookies.get(env.AUTH_COOKIE_NAME) ?? null;
     if (!refreshToken) {
       reply.code(401).send({ error: 'Missing refresh token' });
       return;
@@ -332,7 +365,8 @@ export async function authRoutes(app: FastifyInstance) {
           return { ok: false as const };
         }
 
-        if (existing.replacedByHash) {
+        const state = evaluateRefreshRotationState(existing, now);
+        if (state === 'reuse_detected') {
           await tx.refreshSession.updateMany({
             where: { familyId: existing.familyId, revokedAt: null },
             data: { revokedAt: now, revokedReason: 'reuse_detected' },
@@ -340,7 +374,7 @@ export async function authRoutes(app: FastifyInstance) {
           return { ok: false as const };
         }
 
-        if (existing.revokedAt || existing.expiresAt <= now) {
+        if (state !== 'rotate') {
           return { ok: false as const };
         }
 

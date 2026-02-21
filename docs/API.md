@@ -53,7 +53,10 @@ Subsequent authenticated requests should include:
 - `edge` mode disables in-app enforcement and expects gateway/CDN-level rate limiting.
 - Slow request warnings are emitted when response time exceeds `SLOW_REQUEST_MS`.
 - API request audit logs can be enabled/disabled with `AUDIT_LOG_ENABLED`.
+- Login endpoint has a dedicated progressive backoff throttle (separate from general API rate limits).
 - Cookie-auth CSRF protection: `Origin` is enforced for:
+  - `POST /v1/auth/signup`
+  - `POST /v1/auth/login`
   - `POST /v1/auth/refresh`
   - `POST /v1/auth/logout`
   - `DELETE /v1/me/account`

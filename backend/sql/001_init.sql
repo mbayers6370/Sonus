@@ -10,9 +10,7 @@ create table if not exists public.profiles (
   timezone text,
   onboarding_complete boolean not null default false,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  constraint profiles_user_id_fkey
-    foreign key (user_id) references auth.users(id) on delete cascade
+  updated_at timestamptz not null default now()
 );
 
 create table if not exists public.user_progress (
@@ -38,7 +36,7 @@ create table if not exists public.quiz_attempts (
   answer_text text,
   created_at timestamptz not null default now(),
   constraint quiz_attempts_user_id_fkey
-    foreign key (user_id) references auth.users(id) on delete cascade
+    foreign key (user_id) references public.profiles(user_id) on delete cascade
 );
 
 create index if not exists quiz_attempts_user_created_idx
@@ -58,7 +56,7 @@ create table if not exists public.speak_attempts (
   score integer,
   created_at timestamptz not null default now(),
   constraint speak_attempts_user_id_fkey
-    foreign key (user_id) references auth.users(id) on delete cascade
+    foreign key (user_id) references public.profiles(user_id) on delete cascade
 );
 
 create index if not exists speak_attempts_user_created_idx
@@ -81,7 +79,7 @@ create table if not exists public.word_memory_state (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   constraint word_memory_state_user_id_fkey
-    foreign key (user_id) references auth.users(id) on delete cascade,
+    foreign key (user_id) references public.profiles(user_id) on delete cascade,
   constraint word_memory_state_user_word_unique unique (user_id, word_id)
 );
 
@@ -98,7 +96,7 @@ create table if not exists public.progress_events (
   payload_json jsonb,
   created_at timestamptz not null default now(),
   constraint progress_events_user_id_fkey
-    foreign key (user_id) references auth.users(id) on delete cascade
+    foreign key (user_id) references public.profiles(user_id) on delete cascade
 );
 
 create index if not exists progress_events_user_created_idx
@@ -110,7 +108,9 @@ create table if not exists public.local_auth_credentials (
   email text not null unique,
   password_hash text not null,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  constraint local_auth_credentials_user_id_fkey
+    foreign key (user_id) references public.profiles(user_id) on delete cascade
 );
 
 create table if not exists public.refresh_sessions (
@@ -127,7 +127,9 @@ create table if not exists public.refresh_sessions (
   expires_at timestamptz not null,
   revoked_at timestamptz,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  constraint refresh_sessions_user_id_fkey
+    foreign key (user_id) references public.profiles(user_id) on delete cascade
 );
 
 create index if not exists refresh_sessions_user_created_idx

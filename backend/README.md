@@ -132,6 +132,7 @@ x-dev-user-email: test@example.com
 - API rate limit: `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX`
 - Rate limit fail-open strategy: `RATE_LIMIT_FAIL_OPEN`
 - Redis rate-limit backend: `REDIS_REST_URL`, `REDIS_REST_TOKEN`
+- Login throttle/backoff: `LOGIN_THROTTLE_*`
 - Slow request warning threshold: `SLOW_REQUEST_MS`
 - API audit logging: `AUDIT_LOG_ENABLED`
 - Refresh cookie controls: `AUTH_COOKIE_NAME`, `AUTH_COOKIE_SAME_SITE`, `AUTH_COOKIE_SECURE`

@@ -44,6 +44,11 @@ Defined/validated in `backend/src/env.ts`.
 - `AUTH_COOKIE_DOMAIN` (optional explicit cookie domain)
 - `AUTH_COOKIE_SAME_SITE` (`lax`, `strict`, `none`)
 - `AUTH_COOKIE_SECURE` (`true`/`false`, defaults to `true` in production)
+- `LOGIN_THROTTLE_ENABLED` (`true`/`false`)
+- `LOGIN_THROTTLE_THRESHOLD` (failed attempts before cooldown)
+- `LOGIN_THROTTLE_BASE_MS` (initial cooldown in ms)
+- `LOGIN_THROTTLE_MAX_MS` (max cooldown in ms)
+- `LOGIN_THROTTLE_RESET_MS` (idle window before failures reset)
 
 ### Setup
 ```bash
@@ -97,3 +102,4 @@ Used by `backend/scripts/load-check.mjs`:
 - In `NODE_ENV=production`, `RATE_LIMIT_MODE` cannot be `memory`.
 - In `NODE_ENV=production`, `RATE_LIMIT_FAIL_OPEN` must be `false`.
 - In `NODE_ENV=production`, `CORS_ORIGINS` must be explicitly configured.
+- In `NODE_ENV=production`, `LOGIN_THROTTLE_ENABLED` must be `true`.

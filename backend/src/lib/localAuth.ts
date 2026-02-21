@@ -1,4 +1,4 @@
-import { createHmac, randomBytes, scryptSync, timingSafeEqual, randomUUID } from 'node:crypto';
+import { createHmac, randomBytes, scrypt, timingSafeEqual, randomUUID } from 'node:crypto';
 import { env } from '../env.js';
 
 const SCRYPT_N = 1 << 15;
@@ -7,11 +7,38 @@ const SCRYPT_P = 1;
 const SCRYPT_KEYLEN = 32;
 const ACCESS_TOKEN_HEADER = { alg: 'HS256', typ: 'JWT' };
 
+function scryptAsync(password: string, salt: Buffer, keyLen: number, opts: { N: number; r: number; p: number }) {
+  return new Promise<Buffer>((resolve, reject) => {
+    scrypt(
+      password,
+      salt,
+      keyLen,
+      {
+        ...opts,
+        maxmem: 128 * 1024 * 1024,
+      },
+      (error, derivedKey) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve(derivedKey as Buffer);
+      }
+    );
+  });
+}
+
 type AccessTokenPayload = {
   sub: string;
   email: string | null;
   iat: number;
   exp: number;
+};
+
+type RefreshSessionSnapshot = {
+  replacedByHash: string | null;
+  revokedAt: Date | null;
+  expiresAt: Date;
 };
 
 function b64url(input: Buffer | string) {
@@ -41,12 +68,11 @@ function signingSecret() {
 
 export async function hashPassword(password: string) {
   const salt = randomBytes(16);
-  const derived = scryptSync(password, salt, SCRYPT_KEYLEN, {
+  const derived = await scryptAsync(password, salt, SCRYPT_KEYLEN, {
     N: SCRYPT_N,
     r: SCRYPT_R,
     p: SCRYPT_P,
-    maxmem: 128 * 1024 * 1024,
-  }) as Buffer;
+  });
   return ['scrypt', SCRYPT_N, SCRYPT_R, SCRYPT_P, b64url(salt), b64url(derived)].join('$');
 }
 
@@ -61,12 +87,11 @@ export async function verifyPassword(password: string, encoded: string) {
   const digest = fromB64url(parts[5]);
   if (!Number.isFinite(n) || !Number.isFinite(r) || !Number.isFinite(p)) return false;
 
-  const derived = scryptSync(password, salt, digest.length, {
+  const derived = await scryptAsync(password, salt, digest.length, {
     N: n,
     r,
     p,
-    maxmem: 128 * 1024 * 1024,
-  }) as Buffer;
+  });
   if (derived.length !== digest.length) return false;
   return timingSafeEqual(derived, digest);
 }
@@ -131,4 +156,11 @@ export function refreshExpiryDate() {
 
 export function createRefreshFamilyId() {
   return randomUUID();
+}
+
+export function evaluateRefreshRotationState(session: RefreshSessionSnapshot, now = new Date()) {
+  if (session.replacedByHash) return 'reuse_detected' as const;
+  if (session.revokedAt) return 'invalid' as const;
+  if (session.expiresAt <= now) return 'invalid' as const;
+  return 'rotate' as const;
 }
