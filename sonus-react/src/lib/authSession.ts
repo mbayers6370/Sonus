@@ -4,7 +4,26 @@ const DEMO_MODE_KEY = 'sonus.auth.demo_mode';
 const MOCK_USER_ID_KEY = 'sonus.auth.mock_user_id';
 const MOCK_USER_EMAIL_KEY = 'sonus.auth.mock_user_email';
 const SESSION_EXPIRES_AT_KEY = 'sonus.auth.expires_at';
+const MOCK_WINDOW_ID_KEY = 'sonus.auth.mock_window_id';
+const MOCK_LAST_ACTIVE_AT_KEY = 'sonus.auth.mock_last_active_at';
 const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
+const MOCK_IDLE_TTL_MS = 60 * 60 * 1000;
+
+function randomHex(length: number) {
+  let out = '';
+  while (out.length < length) {
+    out += Math.floor(Math.random() * 16).toString(16);
+  }
+  return out.slice(0, length);
+}
+
+export function createMockUserId() {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  // UUID v4 shape fallback.
+  return `${randomHex(8)}-${randomHex(4)}-4${randomHex(3)}-a${randomHex(3)}-${randomHex(12)}`;
+}
 
 function setSessionExpiry() {
   window.localStorage.setItem(SESSION_EXPIRES_AT_KEY, String(Date.now() + SESSION_TTL_MS));
@@ -113,6 +132,45 @@ export function setMockIdentity(userId: string | null, email: string | null) {
     } else {
       window.localStorage.removeItem(MOCK_USER_EMAIL_KEY);
     }
+  } catch {
+    // Ignore localStorage failures.
+  }
+}
+
+export function ensureMockWindowScope() {
+  try {
+    const existing = window.sessionStorage.getItem(MOCK_WINDOW_ID_KEY);
+    if (existing) return false;
+    window.sessionStorage.setItem(MOCK_WINDOW_ID_KEY, createMockUserId());
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function touchMockActivity() {
+  try {
+    window.localStorage.setItem(MOCK_LAST_ACTIVE_AT_KEY, String(Date.now()));
+  } catch {
+    // Ignore localStorage failures.
+  }
+}
+
+export function isMockActivityExpired() {
+  try {
+    const raw = window.localStorage.getItem(MOCK_LAST_ACTIVE_AT_KEY);
+    if (!raw) return false;
+    const lastActive = Number(raw);
+    if (!Number.isFinite(lastActive)) return false;
+    return Date.now() - lastActive > MOCK_IDLE_TTL_MS;
+  } catch {
+    return false;
+  }
+}
+
+export function clearMockActivity() {
+  try {
+    window.localStorage.removeItem(MOCK_LAST_ACTIVE_AT_KEY);
   } catch {
     // Ignore localStorage failures.
   }

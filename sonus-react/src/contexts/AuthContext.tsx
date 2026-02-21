@@ -3,15 +3,20 @@ import type { ReactNode } from 'react';
 import { API_BASE_URL } from '../lib/apiBase';
 import { apiFetch } from '../lib/apiClient';
 import {
+  clearMockActivity,
+  createMockUserId,
   clearAuthSession,
+  ensureMockWindowScope,
   getAccessToken,
   getRefreshToken,
   getDemoMode,
   getMockIdentity,
+  isMockActivityExpired,
   isAuthSessionExpired,
   setMockIdentity,
   setAuthSession,
   setDemoMode,
+  touchMockActivity,
 } from '../lib/authSession';
 
 type AuthMode = 'mock' | 'supabase' | 'unknown';
@@ -52,7 +57,15 @@ type AuthApiResponse = {
 
 function clearLearningState() {
   try {
-    window.localStorage.removeItem('sonus-app-state');
+    const keysToRemove: string[] = [];
+    for (let idx = 0; idx < window.localStorage.length; idx += 1) {
+      const key = window.localStorage.key(idx);
+      if (!key) continue;
+      if (key === 'sonus.last_language' || key.startsWith('sonus-app-state')) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach((key) => window.localStorage.removeItem(key));
   } catch {
     // Ignore localStorage failures.
   }
@@ -122,10 +135,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         if (mode === 'mock') {
-          const mockIdentity = getMockIdentity();
+          const isNewWindow = ensureMockWindowScope();
+          const idleExpired = isMockActivityExpired();
+          let mockIdentity = getMockIdentity();
+          if (isNewWindow || idleExpired) {
+            clearLearningState();
+            const keepEmail = getDemoMode() ? 'dev@local.test' : (mockIdentity.email || null);
+            const shouldKeepSignedIn = Boolean(getAccessToken() || mockIdentity.userId || keepEmail);
+            const nextUserId = shouldKeepSignedIn ? createMockUserId() : null;
+            setMockIdentity(nextUserId, keepEmail);
+            mockIdentity = {
+              userId: nextUserId,
+              email: keepEmail,
+            };
+          }
+          touchMockActivity();
           const hasMockUser = Boolean(mockIdentity.userId || mockIdentity.email);
           const hasToken = Boolean(getAccessToken());
           if (getDemoMode()) {
+            if (!mockIdentity.userId) {
+              setMockIdentity(createMockUserId(), 'dev@local.test');
+            }
             setStatus('signed_in');
             setIsDemo(true);
             setEmail(mockIdentity.email || 'dev@local.test');
@@ -241,6 +271,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     setAuthSession(payload.accessToken ?? null, payload.refreshToken ?? null);
     setMockIdentity(payload.user?.id ?? null, payload.user?.email ?? emailInput.trim());
+    touchMockActivity();
     clearLearningState();
     setDemoMode(false);
     setIsDemo(false);
@@ -266,6 +297,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const requiresEmailVerification = Boolean(payload.requiresEmailVerification);
     setAuthSession(payload.accessToken ?? null, payload.refreshToken ?? null);
     setMockIdentity(payload.user?.id ?? null, payload.user?.email ?? payloadInput.email.trim());
+    touchMockActivity();
     clearLearningState();
     setDemoMode(false);
     setIsDemo(false);
@@ -278,7 +310,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (authMode === 'supabase') return;
     clearLearningState();
     setDemoMode(true);
-    setMockIdentity(null, 'dev@local.test');
+    setMockIdentity(createMockUserId(), 'dev@local.test');
+    touchMockActivity();
     setIsDemo(true);
     setEmail('dev@local.test');
     setStatus('signed_in');
@@ -290,6 +323,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     setMockIdentity(null, null);
     clearAuthSession();
+    clearMockActivity();
     clearLearningState();
     setIsDemo(false);
     setEmail(null);
@@ -313,6 +347,49 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       window.clearInterval(timer);
     };
   }, [status]);
+
+  useEffect(() => {
+    if (status !== 'signed_in' || authMode !== 'mock') return;
+
+    const bump = () => touchMockActivity();
+    const resetForIdle = () => {
+      clearLearningState();
+      const current = getMockIdentity();
+      const keepEmail = getDemoMode() ? 'dev@local.test' : (current.email || null);
+      const nextUserId = createMockUserId();
+      setMockIdentity(nextUserId, keepEmail);
+      touchMockActivity();
+      setEmail(keepEmail);
+      setStatus('signed_in');
+      window.location.reload();
+    };
+    const checkForIdleReset = () => {
+      if (!isMockActivityExpired()) return;
+      resetForIdle();
+    };
+    const onVisibility = () => {
+      if (document.visibilityState !== 'visible') return;
+      if (isMockActivityExpired()) {
+        resetForIdle();
+        return;
+      }
+      bump();
+    };
+
+    window.addEventListener('pointerdown', bump);
+    window.addEventListener('keydown', bump);
+    window.addEventListener('touchstart', bump);
+    document.addEventListener('visibilitychange', onVisibility);
+    const timer = window.setInterval(checkForIdleReset, 60_000);
+
+    return () => {
+      window.removeEventListener('pointerdown', bump);
+      window.removeEventListener('keydown', bump);
+      window.removeEventListener('touchstart', bump);
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.clearInterval(timer);
+    };
+  }, [authMode, status]);
 
   const value = useMemo<AuthContextValue>(
     () => ({

@@ -25,6 +25,7 @@ import { getLessonRanges, sliceWordsForLesson } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { apiFetch } from '../lib/apiClient';
+import { getMockIdentity } from '../lib/authSession';
 
 interface AppContextType {
   state: AppState;
@@ -53,7 +54,7 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'sonus-app-state';
+const STORAGE_KEY_PREFIX = 'sonus-app-state';
 const ALL_LEVEL_IDS = [
   'intro',
   'band1',
@@ -88,6 +89,14 @@ const LESSON_UNLOCK_PASS_PERCENT = 85;
 const BAND_UNLOCK_PASS_PERCENT = 90;
 const APPLY_PROMPT_COUNT = 12;
 const DAILY_REVIEW_WORD_COUNT = 5;
+
+function resolveStateStorageKey() {
+  const { userId, email } = getMockIdentity();
+  const scope = (userId || email || 'anon')
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]/g, '_');
+  return `${STORAGE_KEY_PREFIX}:${scope}`;
+}
 
 function resolveBandDataId(bandId: string) {
   // Bands 7-9 share a merged payload on disk.
@@ -509,7 +518,7 @@ const initialState: AppState = {
 
 function loadPersistedState(): AppState {
   try {
-    const saved = window.localStorage.getItem(STORAGE_KEY);
+    const saved = window.localStorage.getItem(resolveStateStorageKey());
     if (!saved) return initialState;
     const parsed = JSON.parse(saved) as Partial<AppState>;
     const parsedUnlocked = Array.isArray(parsed.unlockedLevels)
@@ -537,7 +546,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      window.localStorage.setItem(resolveStateStorageKey(), JSON.stringify(state));
     } catch {
       // Ignore storage failures (private mode/quota) to avoid startup crashes.
     }
