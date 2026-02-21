@@ -273,6 +273,39 @@ function normalizeLessonProgressKeys(progress: AppState['lessonProgress']) {
   return next;
 }
 
+function mergeLessonProgress(
+  existingProgress: AppState['lessonProgress'],
+  incomingProgress: AppState['lessonProgress']
+) {
+  const merged: AppState['lessonProgress'] = { ...existingProgress };
+  for (const [key, incoming] of Object.entries(incomingProgress || {})) {
+    const existing = merged[key];
+    if (!existing) {
+      merged[key] = incoming;
+      continue;
+    }
+    merged[key] = {
+      introViewed: existing.introViewed || incoming.introViewed,
+      quizScore:
+        existing.quizScore === null
+          ? incoming.quizScore
+          : incoming.quizScore === null
+            ? existing.quizScore
+            : Math.max(existing.quizScore, incoming.quizScore),
+      speakScore:
+        existing.speakScore === null
+          ? incoming.speakScore
+          : incoming.speakScore === null
+            ? existing.speakScore
+            : Math.max(existing.speakScore, incoming.speakScore),
+      speakAllCorrect: existing.speakAllCorrect || incoming.speakAllCorrect,
+      completed: existing.completed || incoming.completed,
+      mastered: existing.mastered || incoming.mastered,
+    };
+  }
+  return merged;
+}
+
 function getPracticeModeFromUnit(unitId: string): LessonMode | null {
   if (/listening$/i.test(unitId)) return 'quiz';
   if (/speaking$/i.test(unitId)) return 'speak';
@@ -420,6 +453,34 @@ async function saveCurrentLessonPath(
   }
 }
 
+type LessonCompletionSnapshot = {
+  bandId: string;
+  unitId: string;
+  lessonIndex: number;
+  introViewed: boolean;
+  quizScore: number | null;
+  speakScore: number | null;
+  speakAllCorrect: boolean;
+  completed: boolean;
+  mastered: boolean;
+};
+
+async function saveLessonCompletionSnapshot(snapshot: LessonCompletionSnapshot) {
+  try {
+    await apiFetch('/v1/me/progress/events', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        eventType: 'lesson_completed',
+        streakDelta: 0,
+        payloadJson: snapshot,
+      }),
+    });
+  } catch {
+    // Offline mode should not block lesson flow.
+  }
+}
+
 const initialState: AppState = {
   selectedLanguage: null,
   currentLevel: null,
@@ -514,6 +575,72 @@ export function AppProvider({ children }: { children: ReactNode }) {
       cancelled = true;
     };
   }, [state.activeBandId]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    void (async () => {
+      try {
+        const response = await apiFetch('/v1/me/progress');
+        if (!response.ok) return;
+        const payload = (await response.json()) as {
+          progress?: {
+            streak?: number;
+            lastActiveDate?: string | null;
+            currentBandId?: string | null;
+            currentUnitId?: string | null;
+            currentLessonIdx?: number | null;
+          };
+          lessonProgress?: AppState['lessonProgress'];
+        };
+        if (cancelled) return;
+
+        setState((prev) => {
+          const serverProgress = normalizeLessonProgressKeys(payload.lessonProgress || {});
+          let nextLessonProgress = mergeLessonProgress(prev.lessonProgress, serverProgress);
+          const currentBandId = payload.progress?.currentBandId ?? null;
+          const currentUnitId = payload.progress?.currentUnitId ?? null;
+          const currentLessonIdx =
+            typeof payload.progress?.currentLessonIdx === 'number'
+              ? payload.progress.currentLessonIdx
+              : null;
+
+          if (currentBandId && currentUnitId && currentLessonIdx !== null && currentLessonIdx >= 0) {
+            for (let lessonIdx = 0; lessonIdx <= currentLessonIdx; lessonIdx += 1) {
+              const key = makeLessonKey(currentBandId, currentUnitId, lessonIdx);
+              const existing = nextLessonProgress[key] || {
+                introViewed: false,
+                quizScore: null as number | null,
+                speakScore: null as number | null,
+                speakAllCorrect: false,
+                completed: false,
+                mastered: false,
+              };
+              nextLessonProgress[key] = {
+                ...existing,
+                introViewed: true,
+                quizScore: Math.max(existing.quizScore ?? 0, LESSON_UNLOCK_PASS_PERCENT),
+                completed: true,
+              };
+            }
+          }
+
+          return {
+            ...prev,
+            streak: Math.max(prev.streak, payload.progress?.streak ?? 0),
+            lastActiveDate: payload.progress?.lastActiveDate ?? prev.lastActiveDate,
+            lessonProgress: nextLessonProgress,
+          };
+        });
+      } catch {
+        // Keep local state when backend sync is unavailable.
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const selectLanguage = (langId: string | null) => {
     setState((prev) => ({
@@ -1272,6 +1399,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const nextCurrentPathRef: {
       current: { bandId: string; unitId: string; lessonIdx: number } | null;
     } = { current: null };
+    const completionSnapshotRef: { current: LessonCompletionSnapshot | null } = { current: null };
     const isCheckpointQuizUnit = isCheckpointUnitId(activeLesson.unitId);
     const today = new Date().toDateString();
     const yesterday = new Date(Date.now() - 86400000).toDateString();
@@ -1347,6 +1475,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
           completed,
           mastered: nextMastered,
         },
+      };
+      completionSnapshotRef.current = {
+        bandId,
+        unitId: activeLesson.unitId,
+        lessonIndex: activeLesson.lessonIndex,
+        introViewed: nextIntroViewed,
+        quizScore: nextQuizScore,
+        speakScore: nextSpeakScore,
+        speakAllCorrect: nextSpeakAllCorrect,
+        completed,
+        mastered: nextMastered,
       };
 
       let nextUnlockedLevels = prev.unlockedLevels;
@@ -1472,6 +1611,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         nextCurrentPathRef.current.unitId,
         nextCurrentPathRef.current.lessonIdx
       );
+    }
+    if (completionSnapshotRef.current) {
+      void saveLessonCompletionSnapshot(completionSnapshotRef.current);
     }
   };
 

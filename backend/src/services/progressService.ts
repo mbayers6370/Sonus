@@ -18,6 +18,80 @@ type SevenDayActivity = {
   active: boolean;
 };
 
+type LessonProgressState = {
+  introViewed: boolean;
+  quizScore: number | null;
+  speakScore: number | null;
+  speakAllCorrect: boolean;
+  completed: boolean;
+  mastered: boolean;
+};
+
+function toOptionalScore(value: unknown) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return null;
+  const rounded = Math.round(value);
+  if (rounded < 0) return 0;
+  if (rounded > 100) return 100;
+  return rounded;
+}
+
+function mergeLessonState(existing: LessonProgressState | undefined, incoming: LessonProgressState) {
+  if (!existing) return incoming;
+  return {
+    introViewed: existing.introViewed || incoming.introViewed,
+    quizScore:
+      existing.quizScore === null
+        ? incoming.quizScore
+        : incoming.quizScore === null
+          ? existing.quizScore
+          : Math.max(existing.quizScore, incoming.quizScore),
+    speakScore:
+      existing.speakScore === null
+        ? incoming.speakScore
+        : incoming.speakScore === null
+          ? existing.speakScore
+          : Math.max(existing.speakScore, incoming.speakScore),
+    speakAllCorrect: existing.speakAllCorrect || incoming.speakAllCorrect,
+    completed: existing.completed || incoming.completed,
+    mastered: existing.mastered || incoming.mastered,
+  };
+}
+
+function buildLessonProgressFromEvents(
+  events: Array<{ payloadJson: Prisma.JsonValue | null }>
+): Record<string, LessonProgressState> {
+  const lessonProgress: Record<string, LessonProgressState> = {};
+
+  for (const event of events) {
+    const payload = event.payloadJson;
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) continue;
+
+    const record = payload as Record<string, unknown>;
+    const bandId = typeof record.bandId === 'string' ? record.bandId.trim() : '';
+    const unitId = typeof record.unitId === 'string' ? record.unitId.trim() : '';
+    const lessonIndex =
+      typeof record.lessonIndex === 'number' && Number.isInteger(record.lessonIndex)
+        ? record.lessonIndex
+        : null;
+
+    if (!bandId || !unitId || lessonIndex === null || lessonIndex < 0) continue;
+
+    const key = `${bandId}:${unitId}:${lessonIndex}`;
+    const incoming: LessonProgressState = {
+      introViewed: Boolean(record.introViewed),
+      quizScore: toOptionalScore(record.quizScore),
+      speakScore: toOptionalScore(record.speakScore),
+      speakAllCorrect: Boolean(record.speakAllCorrect),
+      completed: Boolean(record.completed),
+      mastered: Boolean(record.mastered),
+    };
+
+    lessonProgress[key] = mergeLessonState(lessonProgress[key], incoming);
+  }
+
+  return lessonProgress;
+}
+
 function resolveTimezone(timezone: string | null | undefined) {
   if (!timezone) return 'UTC';
   try {
@@ -147,7 +221,7 @@ export async function touchUserActivity(userId: string) {
 }
 
 export async function getProgressSnapshot(userId: string) {
-  const [timezone, progressSeed, recentEvents] = await Promise.all([
+  const [timezone, progressSeed, recentEvents, lessonCompletionEvents] = await Promise.all([
     readUserTimezone(userId),
     prisma.userProgress.upsert({
       where: { userId },
@@ -158,6 +232,11 @@ export async function getProgressSnapshot(userId: string) {
       where: { userId },
       orderBy: { createdAt: 'desc' },
       take: 20,
+    }),
+    prisma.progressEvent.findMany({
+      where: { userId, eventType: 'lesson_completed' },
+      select: { payloadJson: true },
+      orderBy: { createdAt: 'asc' },
     }),
   ]);
 
@@ -170,8 +249,9 @@ export async function getProgressSnapshot(userId: string) {
     });
   const activeDayKeys = await collectActivityDayKeys(userId, timezone);
   const sevenDayActivity = buildSevenDayActivity(activeDayKeys, timezone);
+  const lessonProgress = buildLessonProgressFromEvents(lessonCompletionEvents);
 
-  return { progress, recentEvents, sevenDayActivity };
+  return { progress, recentEvents, sevenDayActivity, lessonProgress };
 }
 
 export async function updateProgressCurrent(userId: string, input: UpdateProgressCurrentInput) {
