@@ -16,6 +16,7 @@ interface ProgressEventInput {
 type SevenDayActivity = {
   dayKey: string;
   active: boolean;
+  lessonsCompleted: number;
 };
 
 type LessonProgressState = {
@@ -164,7 +165,11 @@ async function collectActivityDayKeys(userId: string, timezone: string) {
   return keys;
 }
 
-function buildSevenDayActivity(activeDayKeys: Set<string>, timezone: string): SevenDayActivity[] {
+function buildSevenDayActivity(
+  activeDayKeys: Set<string>,
+  lessonCompletionsByDay: Map<string, number>,
+  timezone: string
+): SevenDayActivity[] {
   const days: SevenDayActivity[] = [];
   for (let i = 6; i >= 0; i -= 1) {
     const date = new Date(Date.now() - i * 86_400_000);
@@ -172,6 +177,7 @@ function buildSevenDayActivity(activeDayKeys: Set<string>, timezone: string): Se
     days.push({
       dayKey,
       active: activeDayKeys.has(dayKey),
+      lessonsCompleted: lessonCompletionsByDay.get(dayKey) ?? 0,
     });
   }
   return days;
@@ -221,7 +227,7 @@ export async function touchUserActivity(userId: string) {
 }
 
 export async function getProgressSnapshot(userId: string) {
-  const [timezone, progressSeed, recentEvents, lessonCompletionEvents] = await Promise.all([
+  const [timezone, progressSeed, recentEvents, lessonCompletionEvents, recentLessonCompletions] = await Promise.all([
     readUserTimezone(userId),
     prisma.userProgress.upsert({
       where: { userId },
@@ -238,6 +244,14 @@ export async function getProgressSnapshot(userId: string) {
       select: { payloadJson: true },
       orderBy: { createdAt: 'asc' },
     }),
+    prisma.progressEvent.findMany({
+      where: {
+        userId,
+        eventType: 'lesson_completed',
+        createdAt: { gte: new Date(Date.now() - 10 * 86_400_000) },
+      },
+      select: { createdAt: true },
+    }),
   ]);
 
   const streak = resolveStreakForToday(progressSeed.streak, progressSeed.lastActiveDate, timezone);
@@ -248,7 +262,12 @@ export async function getProgressSnapshot(userId: string) {
       data: { streak: 0 },
     });
   const activeDayKeys = await collectActivityDayKeys(userId, timezone);
-  const sevenDayActivity = buildSevenDayActivity(activeDayKeys, timezone);
+  const lessonCompletionsByDay = new Map<string, number>();
+  for (const row of recentLessonCompletions) {
+    const key = dayKeyAt(row.createdAt, timezone);
+    lessonCompletionsByDay.set(key, (lessonCompletionsByDay.get(key) ?? 0) + 1);
+  }
+  const sevenDayActivity = buildSevenDayActivity(activeDayKeys, lessonCompletionsByDay, timezone);
   const lessonProgress = buildLessonProgressFromEvents(lessonCompletionEvents);
 
   return { progress, recentEvents, sevenDayActivity, lessonProgress };

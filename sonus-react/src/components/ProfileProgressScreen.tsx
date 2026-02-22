@@ -25,6 +25,11 @@ type NeedsWorkItem = {
   mispronounceCount: number;
 };
 
+type ProgressEvent = {
+  eventType?: string;
+  createdAt?: string;
+};
+
 interface ProfileProgressScreenProps {
   onGoHome: () => void;
   onGoProfile: () => void;
@@ -78,7 +83,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   const [error, setError] = useState<string | null>(null);
   const [backendOffline, setBackendOffline] = useState(false);
   const [progress, setProgress] = useState<Progress | null>(null);
-  const [sevenDayActivity, setSevenDayActivity] = useState<Array<{ dayKey: string; active: boolean }>>([]);
+  const [sevenDayActivity, setSevenDayActivity] = useState<Array<{ dayKey: string; active: boolean; lessonsCompleted?: number }>>([]);
   const [needsWork, setNeedsWork] = useState<NeedsWorkItem[]>([]);
   const [wordLookup, setWordLookup] = useState<WordLookup>({});
   const [visibleRows, setVisibleRows] = useState(ROWS_PER_PAGE);
@@ -97,10 +102,28 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       if (!progressResponse.ok) throw new Error('Failed to load progress');
       const json = (await progressResponse.json()) as {
         progress: Progress;
-        sevenDayActivity?: Array<{ dayKey: string; active: boolean }>;
+        sevenDayActivity?: Array<{ dayKey: string; active: boolean; lessonsCompleted?: number }>;
+        recentEvents?: ProgressEvent[];
       };
       setProgress(json.progress);
-      setSevenDayActivity(json.sevenDayActivity || []);
+      const recentEvents = Array.isArray(json.recentEvents) ? json.recentEvents : [];
+      const fallbackLessonCompletionsByDay = new Map<string, number>();
+      for (const event of recentEvents) {
+        if (event?.eventType !== 'lesson_completed') continue;
+        if (!event.createdAt) continue;
+        const parsed = new Date(event.createdAt);
+        if (Number.isNaN(parsed.getTime())) continue;
+        const dayKey = parsed.toISOString().slice(0, 10);
+        fallbackLessonCompletionsByDay.set(dayKey, (fallbackLessonCompletionsByDay.get(dayKey) ?? 0) + 1);
+      }
+      const normalizedActivity = (json.sevenDayActivity || []).map((day) => ({
+        ...day,
+        lessonsCompleted:
+          typeof day.lessonsCompleted === 'number'
+            ? day.lessonsCompleted
+            : (fallbackLessonCompletionsByDay.get(day.dayKey) ?? 0),
+      }));
+      setSevenDayActivity(normalizedActivity);
 
       if (needsWorkResponse.ok) {
         const weakJson = (await needsWorkResponse.json()) as { needsWork: NeedsWorkItem[] };
@@ -206,7 +229,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     : Array.from({ length: 7 }, (_, idx) => {
       const date = new Date(Date.now() - (6 - idx) * 86_400_000);
       const dayKey = date.toISOString().slice(0, 10);
-      return { dayKey, active: false };
+      return { dayKey, active: false, lessonsCompleted: 0 };
     });
   const todayActivity = calendarDays[calendarDays.length - 1];
   const streakDisplay = Math.max(progress?.streak ?? 0, todayActivity?.active ? 1 : 0, 1);
@@ -287,6 +310,9 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
               const labelDate = new Date(`${day.dayKey}T12:00:00`);
               const weekday = labelDate.toLocaleDateString(undefined, { weekday: 'short' });
               const dayNumber = labelDate.toLocaleDateString(undefined, { day: 'numeric' });
+              const completedLessons = Math.max(0, day.lessonsCompleted ?? 0);
+              const visiblePills = Math.min(completedLessons, 5);
+              const overflowPills = Math.max(0, completedLessons - visiblePills);
               return (
                 <div
                   key={day.dayKey}
@@ -296,15 +322,32 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                       : 'border-white/20 bg-white/10'
                   }`}
                 >
+                  <div className="h-9 sm:h-10 mb-0.5 sm:mb-1 flex items-end justify-center gap-1.5">
+                    <div className="flex flex-col-reverse items-center gap-0.5 sm:gap-1">
+                      {Array.from({ length: visiblePills }).map((_, idx) => (
+                        <span
+                          key={`${day.dayKey}-pill-${idx}`}
+                          className={`w-4 sm:w-5 h-1 rounded-full ${day.active ? 'bg-white' : 'bg-white/55'}`}
+                        />
+                      ))}
+                    </div>
+                    {overflowPills > 0 && (
+                      <span className={`text-[9px] font-mono ${day.active ? 'text-white/90' : 'text-white/75'}`}>
+                        +{overflowPills}
+                      </span>
+                    )}
+                  </div>
                   <div className={`text-[9px] sm:text-[10px] font-mono uppercase tracking-wider ${day.active ? 'text-white' : 'text-white/80'}`}>
                     {weekday}
                   </div>
                   <div className={`text-xs sm:text-sm font-semibold mt-0.5 ${day.active ? 'text-white' : 'text-white/85'}`}>
                     {dayNumber}
                   </div>
-                  <div className="mt-0.5 sm:mt-1 flex justify-center">
-                    <span className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${day.active ? 'bg-white' : 'bg-white/50'}`} />
-                  </div>
+                  {completedLessons > 0 && (
+                    <div className="mt-0.5 sm:mt-1 text-[9px] sm:text-[10px] font-mono uppercase tracking-wide text-white/80">
+                      {`${completedLessons} lesson${completedLessons === 1 ? '' : 's'}`}
+                    </div>
+                  )}
                 </div>
               );
             })}

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import type { LessonMode } from '../types/lesson.types';
 import { useApp } from '../contexts/AppContext';
 import Flashcard from './Flashcard';
@@ -17,9 +18,103 @@ interface LessonScreenProps {
   onModeChange?: (mode: LessonMode) => void;
 }
 
+const LESSON_RELOAD_GUARD_KEY = 'sonus.lesson.reload_guard';
+const LESSON_RELOAD_GUARD_TTL_MS = 2 * 60 * 1000;
+
+function isBrowserReloadNavigation() {
+  try {
+    const entry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+    if (entry?.type) return entry.type === 'reload';
+    const legacyPerformance = performance as Performance & {
+      navigation?: { type?: number };
+    };
+    return legacyPerformance.navigation?.type === 1;
+  } catch {
+    return false;
+  }
+}
+
 export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: LessonScreenProps) {
-  const { state, setLessonMode, nextWord, prevWord } = useApp();
-  const { activeLesson, lessonMode, lessonWordIndex, activeBandId, lessonProgress } = state;
+  const { state, setLessonMode, nextWord, prevWord, restartLesson } = useApp();
+  const {
+    activeLesson,
+    lessonMode,
+    lessonWordIndex,
+    activeBandId,
+    lessonProgress,
+    quizResultsByIndex,
+    speakResultsByIndex,
+  } = state;
+  const hasActiveAttempt =
+    lessonMode === 'quiz'
+      ? (lessonWordIndex > 0 || Object.keys(quizResultsByIndex).length > 0)
+      : lessonMode === 'speak'
+      ? (lessonWordIndex > 0 || Object.keys(speakResultsByIndex).length > 0)
+      : false;
+  const didApplyReloadResetRef = useRef(false);
+
+  useEffect(() => {
+    if (!activeLesson) return;
+    if (didApplyReloadResetRef.current) return;
+    didApplyReloadResetRef.current = true;
+
+    let guardRaw: string | null = null;
+    try {
+      guardRaw = window.sessionStorage.getItem(LESSON_RELOAD_GUARD_KEY);
+    } catch {
+      return;
+    }
+    if (!guardRaw) return;
+
+    try {
+      const payload = JSON.parse(guardRaw) as {
+        path?: string;
+        mode?: LessonMode;
+        at?: number;
+      };
+      const isFresh = typeof payload.at === 'number' && Date.now() - payload.at <= LESSON_RELOAD_GUARD_TTL_MS;
+      const samePath = payload.path === window.location.pathname;
+      const sameMode = payload.mode === lessonMode;
+      if (isFresh && samePath && sameMode && isBrowserReloadNavigation() && (lessonMode === 'quiz' || lessonMode === 'speak')) {
+        restartLesson();
+        setLessonMode(lessonMode);
+      }
+    } catch {
+      // Ignore malformed guard payload.
+    } finally {
+      try {
+        window.sessionStorage.removeItem(LESSON_RELOAD_GUARD_KEY);
+      } catch {
+        // Ignore storage failures.
+      }
+    }
+  }, [activeLesson, lessonMode, restartLesson, setLessonMode]);
+
+  useEffect(() => {
+    if (!activeLesson) return;
+    if (lessonMode !== 'quiz' && lessonMode !== 'speak') return;
+
+    const onBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!hasActiveAttempt) return;
+      try {
+        window.sessionStorage.setItem(
+          LESSON_RELOAD_GUARD_KEY,
+          JSON.stringify({
+            path: window.location.pathname,
+            mode: lessonMode,
+            at: Date.now(),
+          })
+        );
+      } catch {
+        // Ignore storage failures.
+      }
+      event.preventDefault();
+      event.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => window.removeEventListener('beforeunload', onBeforeUnload);
+  }, [activeLesson, hasActiveAttempt, lessonMode]);
 
   if (!activeLesson) {
     return (
@@ -78,7 +173,6 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const learnDone = Boolean(lessonStatus?.introViewed);
   const quizDone = (lessonStatus?.quizScore ?? 0) >= QUIZ_PASS_PERCENT;
   const speakDone = (lessonStatus?.speakScore ?? 0) >= SPEAK_PASS_PERCENT;
-
   return (
     <div className={`flex flex-col h-[100dvh] page-shell ${speakingPageTheme.shell}`}>
       {/* Header */}

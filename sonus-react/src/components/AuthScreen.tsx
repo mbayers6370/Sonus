@@ -160,12 +160,6 @@ export default function AuthScreen() {
             ? 'Sign in with your email and password.'
             : 'Use your name, email, and password to create your profile.'}
         </p>
-        {mode === 'signin' && (
-          <p className="text-xs text-text-light mb-3">
-            Demo mode uses `dev@local.test` and a shared sample profile.
-          </p>
-        )}
-
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -232,6 +226,11 @@ export default function AuthScreen() {
           >
             Continue as Demo
           </button>
+        )}
+        {mode === 'signin' && (
+          <p className="mt-2 text-[11px] text-text-light">
+            Demo sessions end when you close this window or after 1 hour idle.
+          </p>
         )}
       </div>
     </div>
