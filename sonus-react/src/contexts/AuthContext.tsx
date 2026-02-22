@@ -117,6 +117,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setStatus('signed_out');
   }, []);
 
+  const clearDemoStateOnly = useCallback(() => {
+    setDemoMode(false);
+    clearMockActivity();
+    setIsDemo(false);
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
     const init = async () => {
@@ -128,12 +134,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const isNewWindow = ensureMockWindowScope();
-      const demoEnabled = getDemoMode();
-      const demoIdleExpired = demoEnabled && isMockActivityExpired();
-
-      if (demoEnabled && (isNewWindow || demoIdleExpired)) {
-        clearToSignedOut();
-        return;
+      const demoEnabledAtInit = getDemoMode();
+      const demoIdleExpired = demoEnabledAtInit && isMockActivityExpired();
+      const demoExpired = demoEnabledAtInit && (isNewWindow || demoIdleExpired);
+      if (demoExpired) {
+        clearDemoStateOnly();
+        setMockIdentity(null, null);
       }
 
       try {
@@ -189,10 +195,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           }
         }
 
+        const demoEnabled = getDemoMode();
+        const mockIdentity = getMockIdentity();
+        const canResumeDemo =
+          demoEnabled &&
+          !demoExpired &&
+          mockIdentity.email === 'dev@local.test' &&
+          Boolean(mockIdentity.userId);
+
         if (token) {
           if (demoEnabled) setDemoMode(false);
-        } else if (demoEnabled) {
-          const mockIdentity = getMockIdentity();
+        } else if (canResumeDemo) {
           const demoUserId = mockIdentity.userId || createMockUserId();
           const demoEmail = 'dev@local.test';
           setMockIdentity(demoUserId, demoEmail);
@@ -245,12 +258,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch {
         if (cancelled) return;
         const token = getAccessToken();
+        const demoEnabled = getDemoMode();
+        const mockIdentity = getMockIdentity();
+        const canResumeDemo =
+          demoEnabled &&
+          !demoExpired &&
+          mockIdentity.email === 'dev@local.test' &&
+          Boolean(mockIdentity.userId);
         if (token) {
           setStatus('signed_in');
           setIsDemo(false);
           setError('Backend temporarily unavailable. Retrying in background.');
-        } else if (demoEnabled) {
-          const mockIdentity = getMockIdentity();
+        } else if (canResumeDemo) {
           const demoUserId = mockIdentity.userId || createMockUserId();
           const demoEmail = 'dev@local.test';
           setMockIdentity(demoUserId, demoEmail);
@@ -269,7 +288,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [clearToSignedOut]);
+  }, [clearDemoStateOnly, clearToSignedOut]);
 
   const signIn = useCallback(async (emailInput: string, password: string) => {
     setError(null);

@@ -8,6 +8,7 @@ import { getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId 
 import { useApp } from '../contexts/AppContext';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
+import { getLessonCompletionCountForDay } from '../lib/activityLedger';
 
 type Progress = {
   streak: number;
@@ -129,10 +130,12 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       }
       const normalizedActivity = (json.sevenDayActivity || []).map((day) => ({
         ...day,
-        lessonsCompleted:
+        lessonsCompleted: Math.max(
+          getLessonCompletionCountForDay(day.dayKey),
           typeof day.lessonsCompleted === 'number'
             ? day.lessonsCompleted
-            : (fallbackLessonCompletionsByDay.get(day.dayKey) ?? 0),
+            : (fallbackLessonCompletionsByDay.get(day.dayKey) ?? 0)
+        ),
       }));
       setSevenDayActivity(normalizedActivity);
 
@@ -271,10 +274,11 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     : Array.from({ length: 7 }, (_, idx) => {
       const date = new Date(Date.now() - (6 - idx) * 86_400_000);
       const dayKey = localDayKeyFromDate(date);
-      return { dayKey, active: false, lessonsCompleted: 0 };
+      const ledgerCount = getLessonCompletionCountForDay(dayKey);
+      return { dayKey, active: ledgerCount > 0, lessonsCompleted: ledgerCount };
     });
   const todayActivity = calendarDays[calendarDays.length - 1];
-  const streakDisplay = Math.max(progress?.streak ?? 0, todayActivity?.active ? 1 : 0, 1);
+  const streakDisplay = Math.max(progress?.streak ?? 0, (todayActivity?.lessonsCompleted ?? 0) > 0 ? 1 : 0, 1);
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
@@ -353,36 +357,37 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
               const weekday = labelDate.toLocaleDateString(undefined, { weekday: 'short' });
               const dayNumber = labelDate.toLocaleDateString(undefined, { day: 'numeric' });
               const completedLessons = Math.max(0, day.lessonsCompleted ?? 0);
-              const visiblePills = Math.min(completedLessons, 5);
-              const overflowPills = Math.max(0, completedLessons - visiblePills);
+              const hasCompletedLessons = completedLessons > 0;
+              const visibleDots = Math.min(completedLessons, 10);
+              const overflowDots = Math.max(0, completedLessons - visibleDots);
               return (
                 <div
                   key={day.dayKey}
                   className={`rounded-lg sm:rounded-xl border px-1.5 py-1.5 sm:p-2 text-center backdrop-blur-sm transition-colors ${
-                    day.active
+                    hasCompletedLessons
                       ? 'border-white/35 bg-white/20'
                       : 'border-white/20 bg-white/10'
                   }`}
                 >
-                  <div className="h-9 sm:h-10 mb-0.5 sm:mb-1 flex items-end justify-center gap-1.5">
-                    <div className="flex flex-col-reverse items-center gap-0.5 sm:gap-1">
-                      {Array.from({ length: visiblePills }).map((_, idx) => (
+                  <div className="h-9 sm:h-10 mb-0.5 sm:mb-1 flex items-center justify-center gap-1">
+                    <div className="flex max-w-[56px] flex-wrap items-center justify-center gap-1">
+                      {Array.from({ length: visibleDots }).map((_, idx) => (
                         <span
-                          key={`${day.dayKey}-pill-${idx}`}
-                          className={`w-4 sm:w-5 h-1 rounded-full ${day.active ? 'bg-white' : 'bg-white/55'}`}
+                          key={`${day.dayKey}-dot-${idx}`}
+                          className={`h-1.5 w-1.5 rounded-full ${hasCompletedLessons ? 'bg-white' : 'bg-white/55'}`}
                         />
                       ))}
                     </div>
-                    {overflowPills > 0 && (
-                      <span className={`text-[9px] font-mono ${day.active ? 'text-white/90' : 'text-white/75'}`}>
-                        +{overflowPills}
+                    {overflowDots > 0 && (
+                      <span className={`text-[9px] font-mono ${hasCompletedLessons ? 'text-white/90' : 'text-white/75'}`}>
+                        +{overflowDots}
                       </span>
                     )}
                   </div>
-                  <div className={`text-[9px] sm:text-[10px] font-mono uppercase tracking-wider ${day.active ? 'text-white' : 'text-white/80'}`}>
+                  <div className={`text-[9px] sm:text-[10px] font-mono uppercase tracking-wider ${hasCompletedLessons ? 'text-white' : 'text-white/80'}`}>
                     {weekday}
                   </div>
-                  <div className={`text-xs sm:text-sm font-semibold mt-0.5 ${day.active ? 'text-white' : 'text-white/85'}`}>
+                  <div className={`text-xs sm:text-sm font-semibold mt-0.5 ${hasCompletedLessons ? 'text-white' : 'text-white/85'}`}>
                     {dayNumber}
                   </div>
                   {completedLessons > 0 && (

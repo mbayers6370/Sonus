@@ -186,11 +186,7 @@ export default function UnitSelect({
       const masteredLessons = lessonRanges.filter((_, lessonIndex) => {
         const key = makeLessonKey(currentLevel.id, metadata.id, lessonIndex);
         const status = lessonProgress[key];
-        return Boolean(
-          status?.mastered ||
-          ((status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore)) &&
-            isInstructionalComplete(status?.quizScore, status?.speakScore))
-        );
+        return Boolean(status?.mastered);
       }).length;
       const applyLessonIndex = lessonsCount;
       const applyKey = makeLessonKey(currentLevel.id, metadata.id, applyLessonIndex);
@@ -540,12 +536,7 @@ export default function UnitSelect({
               const chunkWords = range.count;
               const lessonKey = makeLessonKey(currentLevel.id, activeUnit.unitId, lessonIndex);
               const isLessonCompleted = Boolean(lessonProgress[lessonKey]?.completed);
-              const isLessonMastered = Boolean(
-                lessonProgress[lessonKey]?.mastered ||
-                (lessonProgress[lessonKey]?.completed &&
-                  (lessonProgress[lessonKey]?.quizScore ?? 0) >= QUIZ_PASS_PERCENT &&
-                  (lessonProgress[lessonKey]?.speakScore ?? 0) >= SPEAK_PASS_PERCENT)
-              );
+              const isLessonMastered = Boolean(lessonProgress[lessonKey]?.mastered);
               const isUnitUnlocked = Boolean(unlockedByUnitId.get(activeUnit.unitId));
               const isLessonUnlocked =
                 isUnitUnlocked &&

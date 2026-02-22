@@ -28,6 +28,19 @@ type LessonProgressState = {
   mastered: boolean;
 };
 
+function isCompletedByScores(quizScore: number | null, speakScore: number | null) {
+  return (quizScore ?? 0) >= 85 && (speakScore ?? 0) >= 85;
+}
+
+function isCompletedLessonPayload(payloadJson: Prisma.JsonValue | Prisma.JsonObject | undefined | null) {
+  if (!payloadJson || typeof payloadJson !== 'object' || Array.isArray(payloadJson)) return false;
+  const payload = payloadJson as Record<string, unknown>;
+  if (Boolean(payload.completed)) return true;
+  const quizScore = toOptionalScore(payload.quizScore);
+  const speakScore = toOptionalScore(payload.speakScore);
+  return isCompletedByScores(quizScore, speakScore);
+}
+
 function toOptionalScore(value: unknown) {
   if (typeof value !== 'number' || !Number.isFinite(value)) return null;
   const rounded = Math.round(value);
@@ -38,22 +51,26 @@ function toOptionalScore(value: unknown) {
 
 function mergeLessonState(existing: LessonProgressState | undefined, incoming: LessonProgressState) {
   if (!existing) return incoming;
+  const mergedQuiz =
+    existing.quizScore === null
+      ? incoming.quizScore
+      : incoming.quizScore === null
+        ? existing.quizScore
+        : Math.max(existing.quizScore, incoming.quizScore);
+  const mergedSpeak =
+    existing.speakScore === null
+      ? incoming.speakScore
+      : incoming.speakScore === null
+        ? existing.speakScore
+        : Math.max(existing.speakScore, incoming.speakScore);
+  const completed =
+    existing.completed || incoming.completed || isCompletedByScores(mergedQuiz, mergedSpeak);
   return {
     introViewed: existing.introViewed || incoming.introViewed,
-    quizScore:
-      existing.quizScore === null
-        ? incoming.quizScore
-        : incoming.quizScore === null
-          ? existing.quizScore
-          : Math.max(existing.quizScore, incoming.quizScore),
-    speakScore:
-      existing.speakScore === null
-        ? incoming.speakScore
-        : incoming.speakScore === null
-          ? existing.speakScore
-          : Math.max(existing.speakScore, incoming.speakScore),
+    quizScore: mergedQuiz,
+    speakScore: mergedSpeak,
     speakAllCorrect: existing.speakAllCorrect || incoming.speakAllCorrect,
-    completed: existing.completed || incoming.completed,
+    completed,
     mastered: existing.mastered || incoming.mastered,
   };
 }
@@ -78,12 +95,15 @@ function buildLessonProgressFromEvents(
     if (!bandId || !unitId || lessonIndex === null || lessonIndex < 0) continue;
 
     const key = `${bandId}:${unitId}:${lessonIndex}`;
+    const quizScore = toOptionalScore(record.quizScore);
+    const speakScore = toOptionalScore(record.speakScore);
+    const completed = Boolean(record.completed) || isCompletedByScores(quizScore, speakScore);
     const incoming: LessonProgressState = {
       introViewed: Boolean(record.introViewed),
-      quizScore: toOptionalScore(record.quizScore),
-      speakScore: toOptionalScore(record.speakScore),
+      quizScore,
+      speakScore,
       speakAllCorrect: Boolean(record.speakAllCorrect),
-      completed: Boolean(record.completed),
+      completed,
       mastered: Boolean(record.mastered),
     };
 
@@ -278,7 +298,7 @@ export async function getProgressSnapshot(userId: string) {
         eventType: 'lesson_completed',
         createdAt: { gte: new Date(Date.now() - 35 * 86_400_000) },
       },
-      select: { createdAt: true },
+      select: { createdAt: true, payloadJson: true },
     }),
   ]);
 
@@ -292,6 +312,7 @@ export async function getProgressSnapshot(userId: string) {
   const activeDayKeys = await collectActivityDayKeys(userId, timezone);
   const lessonCompletionsByDay = new Map<string, number>();
   for (const row of recentLessonCompletions) {
+    if (!isCompletedLessonPayload(row.payloadJson)) continue;
     const key = dayKeyAt(row.createdAt, timezone);
     lessonCompletionsByDay.set(key, (lessonCompletionsByDay.get(key) ?? 0) + 1);
   }
@@ -353,8 +374,11 @@ export async function recordProgressEvent(userId: string, event: ProgressEventIn
     const todayKey = dayKeyAt(now, timezone);
     const lastKey = existing?.lastActiveDate ? dayKeyAt(existing.lastActiveDate, timezone) : null;
 
+    const countsAsCompletedLesson =
+      event.eventType === 'lesson_completed' && isCompletedLessonPayload(event.payloadJson);
+
     const nextStreak = (() => {
-      if (event.eventType !== 'lesson_completed') {
+      if (!countsAsCompletedLesson) {
         return Math.max(0, baseStreak + event.streakDelta);
       }
       if (!lastKey) return 1;
@@ -368,12 +392,12 @@ export async function recordProgressEvent(userId: string, event: ProgressEventIn
       where: { userId },
       update: {
         streak: nextStreak,
-        lastActiveDate: now,
+        lastActiveDate: countsAsCompletedLesson ? now : (existing?.lastActiveDate ?? null),
       },
       create: {
         userId,
         streak: nextStreak,
-        lastActiveDate: now,
+        lastActiveDate: countsAsCompletedLesson ? now : null,
       },
     });
 

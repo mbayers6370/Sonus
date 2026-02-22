@@ -26,6 +26,7 @@ import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { apiFetch } from '../lib/apiClient';
 import { getMockIdentity } from '../lib/authSession';
+import { recordLessonCompletionToLedger } from '../lib/activityLedger';
 
 interface AppContextType {
   state: AppState;
@@ -293,12 +294,10 @@ function mergeLessonProgress(
     const existing = merged[key];
     if (!existing) {
       const completed = incoming.completed || isCompletedByScores(incoming.quizScore, incoming.speakScore);
-      const mastered =
-        incoming.mastered || (completed && isCompletedByScores(incoming.quizScore, incoming.speakScore));
       merged[key] = {
         ...incoming,
         completed,
-        mastered,
+        mastered: incoming.mastered,
       };
       continue;
     }
@@ -319,15 +318,13 @@ function mergeLessonProgress(
       existing.completed ||
       incoming.completed ||
       isCompletedByScores(quizScore, speakScore);
-    const computedMastered =
-      completed && isCompletedByScores(quizScore, speakScore);
     merged[key] = {
       introViewed,
       quizScore,
       speakScore,
       speakAllCorrect: existing.speakAllCorrect || incoming.speakAllCorrect,
       completed,
-      mastered: existing.mastered || incoming.mastered || computedMastered,
+      mastered: existing.mastered || incoming.mastered,
     };
   }
   return merged;
@@ -364,7 +361,7 @@ function buildLessonProgressFromRecentEvents(events: ProgressEventEnvelope[] | u
       speakScore,
       speakAllCorrect: Boolean(payload.speakAllCorrect),
       completed,
-      mastered: Boolean(payload.mastered) || completed,
+      mastered: Boolean(payload.mastered),
     };
   }
   return next;
@@ -1490,10 +1487,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
           (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT;
       const completed = existing.completed || computedCompleted;
 
-      if (
-        lessonMode !== 'intro' &&
+      const isMasteryAttempt = existing.completed && !existing.mastered;
+      if (lessonMode === 'apply') {
+        nextMastered = true;
+      } else if (
+        isMasteryAttempt &&
+        lessonMode === 'speak' &&
         !isCheckpointQuizUnit &&
-        completed &&
         (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT &&
         (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT
       ) {
@@ -1636,11 +1636,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
         lessonProgress: nextLessonProgress,
       };
     });
-    trackEvent('lesson_completed', {
-      unitId: activeLesson.unitId,
-      lessonIndex: activeLesson.lessonIndex,
-      totalWords: activeLesson.words.length,
-    });
+    if (completionSnapshotRef.current?.completed) {
+      const snapshot = completionSnapshotRef.current;
+      recordLessonCompletionToLedger(makeLessonKey(snapshot.bandId, snapshot.unitId, snapshot.lessonIndex));
+      trackEvent('lesson_completed', {
+        unitId: activeLesson.unitId,
+        lessonIndex: activeLesson.lessonIndex,
+        totalWords: activeLesson.words.length,
+      });
+    }
     if (nextCurrentPathRef.current) {
       void saveCurrentLessonPath(
         nextCurrentPathRef.current.bandId,
@@ -1648,7 +1652,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         nextCurrentPathRef.current.lessonIdx
       );
     }
-    if (completionSnapshotRef.current) {
+    if (completionSnapshotRef.current?.completed) {
       void saveLessonCompletionSnapshot(completionSnapshotRef.current);
     }
   };
