@@ -176,28 +176,35 @@ export default function UnitSelect({
           typeof (word as { example?: { zh?: string; en?: string } }).example?.en === 'string' &&
           Boolean((word as { example?: { zh?: string; en?: string } }).example?.en?.trim())
       ).length;
-      const lessonSectionProgress = lessonRanges.map((_, lessonIndex) => {
-        const key = makeLessonKey(currentLevel.id, metadata.id, lessonIndex);
-        const status = lessonProgress[key];
-        if (!status) return 0;
-        let completedSections = 0;
-        if (status.introViewed) completedSections += 1;
-        if ((status.quizScore ?? 0) >= QUIZ_PASS_PERCENT) completedSections += 1;
-        if ((status.speakScore ?? 0) >= SPEAK_PASS_PERCENT) completedSections += 1;
-        return completedSections / 3;
-      });
-      const averageLessonProgress =
-        lessonsCount > 0
-          ? Math.round((lessonSectionProgress.reduce((sum, next) => sum + next, 0) / lessonsCount) * 100)
-          : 0;
       const completedLessons = lessonRanges.filter((_, lessonIndex) => {
         const key = makeLessonKey(currentLevel.id, metadata.id, lessonIndex);
         return Boolean(lessonProgress[key]?.completed);
       }).length;
       const masteredLessons = lessonRanges.filter((_, lessonIndex) => {
         const key = makeLessonKey(currentLevel.id, metadata.id, lessonIndex);
-        return Boolean(lessonProgress[key]?.mastered);
+        const status = lessonProgress[key];
+        return Boolean(
+          status?.mastered ||
+          (status?.completed &&
+            (status.quizScore ?? 0) >= QUIZ_PASS_PERCENT &&
+            (status.speakScore ?? 0) >= SPEAK_PASS_PERCENT)
+        );
       }).length;
+      const applyLessonIndex = lessonsCount;
+      const applyKey = makeLessonKey(currentLevel.id, metadata.id, applyLessonIndex);
+      const hasApplyStage = applySentenceCount > 0;
+      const isApplyCompleted = hasApplyStage && Boolean(lessonProgress[applyKey]?.completed);
+      // Unit completion model:
+      // - core completion track: one point per regular lesson completed
+      // - apply track: one point when apply lesson is completed (if unit has apply data)
+      // - mastery track: one point per regular lesson mastered
+      const totalTrackSteps = lessonsCount * 2 + (hasApplyStage ? 1 : 0);
+      const completedTrackSteps =
+        completedLessons + masteredLessons + (isApplyCompleted ? 1 : 0);
+      const completionPercent =
+        totalTrackSteps > 0
+          ? Math.round((completedTrackSteps / totalTrackSteps) * 100)
+          : 0;
       return {
         unitId: metadata.id,
         metadata,
@@ -206,7 +213,9 @@ export default function UnitSelect({
         lessonRanges,
         completedLessons,
         masteredLessons,
-        averageLessonProgress,
+        completionPercent,
+        isApplyCompleted,
+        hasApplyStage,
         applySentenceCount,
         practiceType: null as null,
         isBlueprint: isMacroBlueprint,
@@ -317,7 +326,7 @@ export default function UnitSelect({
       {!activeUnit && !isMandarinBandLocked && (
       <div className="pt-2">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-          {unitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, masteredLessons, averageLessonProgress, practiceType, isBlueprint }, index) => {
+          {unitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, masteredLessons, completionPercent, practiceType, isBlueprint, isApplyCompleted, hasApplyStage }, index) => {
             const row = Math.floor(index / columns);
             const col = index % columns;
             const accent = CARD_ACCENTS[(col + row) % CARD_ACCENTS.length];
@@ -406,9 +415,12 @@ export default function UnitSelect({
                 </button>
               );
             }
-            const isUnitCompleted = lessonsCount > 0 && completedLessons === lessonsCount;
-            const isUnitMastered = lessonsCount > 0 && masteredLessons === lessonsCount;
-            const depth = isBlueprint ? 0 : isUnitMastered ? 100 : Math.max(4, averageLessonProgress);
+            const isUnitCompleted =
+              lessonsCount > 0 &&
+              completedLessons === lessonsCount &&
+              (!hasApplyStage || isApplyCompleted);
+            const isUnitMastered = lessonsCount > 0 && masteredLessons === lessonsCount && isUnitCompleted;
+            const depth = isBlueprint ? 0 : isUnitMastered ? 100 : Math.max(4, completionPercent);
             const currentLessonInUnit = (() => {
               if (lessonsCount <= 0) return null;
               for (let lessonIdx = 0; lessonIdx < lessonsCount; lessonIdx += 1) {
@@ -475,7 +487,7 @@ export default function UnitSelect({
                     />
                   </div>
                   <div className={`mt-1 text-[10px] font-mono tracking-wide ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
-                    {averageLessonProgress}% complete
+                    {completionPercent}% complete
                   </div>
                 </div>
 
@@ -492,10 +504,10 @@ export default function UnitSelect({
                     : isUnitMastered
                     ? 'Mastered'
                     : isUnitCompleted
-                    ? 'Completed · Mastery available'
+                    ? 'Continue Mastery Lessons →'
                     : lessonsCount > 1
-                      ? `Continue (${lessonsCount} lessons) →`
-                      : 'Start lesson →'}
+                      ? `Continue (${lessonsCount} Lessons) →`
+                      : 'Start Lesson →'}
                 </div>
                 {!isUnitUnlocked && (
                   <div className="absolute inset-0 z-20 rounded-3xl bg-white/45 backdrop-blur-[2px] border border-white/50 flex items-center justify-center pointer-events-none">
@@ -526,7 +538,12 @@ export default function UnitSelect({
               const chunkWords = range.count;
               const lessonKey = makeLessonKey(currentLevel.id, activeUnit.unitId, lessonIndex);
               const isLessonCompleted = Boolean(lessonProgress[lessonKey]?.completed);
-              const isLessonMastered = Boolean(lessonProgress[lessonKey]?.mastered);
+              const isLessonMastered = Boolean(
+                lessonProgress[lessonKey]?.mastered ||
+                (lessonProgress[lessonKey]?.completed &&
+                  (lessonProgress[lessonKey]?.quizScore ?? 0) >= QUIZ_PASS_PERCENT &&
+                  (lessonProgress[lessonKey]?.speakScore ?? 0) >= SPEAK_PASS_PERCENT)
+              );
               const isUnitUnlocked = Boolean(unlockedByUnitId.get(activeUnit.unitId));
               const isLessonUnlocked =
                 isUnitUnlocked &&

@@ -293,23 +293,31 @@ function mergeLessonProgress(
       merged[key] = incoming;
       continue;
     }
+    const introViewed = existing.introViewed || incoming.introViewed;
+    const quizScore =
+      existing.quizScore === null
+        ? incoming.quizScore
+        : incoming.quizScore === null
+          ? existing.quizScore
+          : Math.max(existing.quizScore, incoming.quizScore);
+    const speakScore =
+      existing.speakScore === null
+        ? incoming.speakScore
+        : incoming.speakScore === null
+          ? existing.speakScore
+          : Math.max(existing.speakScore, incoming.speakScore);
+    const completed = existing.completed || incoming.completed;
+    const computedMastered =
+      completed &&
+      (quizScore ?? 0) >= QUIZ_PASS_PERCENT &&
+      (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
     merged[key] = {
-      introViewed: existing.introViewed || incoming.introViewed,
-      quizScore:
-        existing.quizScore === null
-          ? incoming.quizScore
-          : incoming.quizScore === null
-            ? existing.quizScore
-            : Math.max(existing.quizScore, incoming.quizScore),
-      speakScore:
-        existing.speakScore === null
-          ? incoming.speakScore
-          : incoming.speakScore === null
-            ? existing.speakScore
-            : Math.max(existing.speakScore, incoming.speakScore),
+      introViewed,
+      quizScore,
+      speakScore,
       speakAllCorrect: existing.speakAllCorrect || incoming.speakAllCorrect,
-      completed: existing.completed || incoming.completed,
-      mastered: existing.mastered || incoming.mastered,
+      completed,
+      mastered: existing.mastered || incoming.mastered || computedMastered,
     };
   }
   return merged;
@@ -858,6 +866,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
       if (!lessonChunk.length) return false;
 
+      const targetLessonKey = makeLessonKey(bandId, resolvedUnitId, lessonIndex);
+      const targetLessonStatus = state.lessonProgress[targetLessonKey];
+      const isMasterySessionTarget = Boolean(targetLessonStatus?.completed && !targetLessonStatus?.mastered);
+
       const resumeCheckpoint = state.resumeCheckpoint;
       const resumeWords = resumeCheckpoint?.activeLesson?.words || [];
       const hasValidResumeWords =
@@ -914,8 +926,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const lessonWordIds = new Set(lessonWordsBase.map((w) => w.id));
       let lessonWords = [...lessonWordsBase];
 
-      if (!practiceMode && !isApplyLesson) {
-        const now = Date.now();
+      if (!practiceMode && !isApplyLesson && !isMasterySessionTarget) {
         const reviewWordIds = await fetchReviewWordIds(40);
         const checkpointCoveredUnitIds =
           isCheckpointQuiz && checkpointIndex
@@ -932,28 +943,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           if (checkpointCoveredUnitIds) return checkpointCoveredUnitIds.has(sourceUnit);
           return sourceUnit !== resolvedUnitId;
         };
-        const dueCandidates = Object.entries(state.wordReview)
-          .filter(([wordId, review]) => {
-            if (lessonWordIds.has(wordId)) return false;
-            if (!isDue(review?.nextReviewAt, now)) return false;
-            const sourceUnit = sourceUnitByWordId.get(wordId);
-            if (!includeCandidateUnit(sourceUnit)) return false;
-            return allWordById.has(wordId);
-          })
-          .map(([wordId]) => {
-            const sourceUnitId = sourceUnitByWordId.get(wordId);
-            const base = allWordById.get(wordId);
-            if (!base || !sourceUnitId) return null;
-            return {
-              ...base,
-              sourceUnitId,
-              isReview: true,
-              reviewReason: 'Due for spaced review',
-            } as Word;
-          })
-          .filter((word): word is Word => Boolean(word));
-
-        const weakCandidates = reviewWordIds
+        const needsWorkCandidates = reviewWordIds
           .filter((wordId) => !lessonWordIds.has(wordId))
           .map((wordId) => {
             const sourceUnitId = sourceUnitByWordId.get(wordId);
@@ -968,13 +958,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
           })
           .filter((word): word is Word => Boolean(word));
 
-        const combinedById = new Map<string, Word>();
-        for (const candidate of [...weakCandidates, ...dueCandidates]) {
-          if (!combinedById.has(candidate.id)) combinedById.set(candidate.id, candidate);
-        }
-        const reviewCandidates = shuffleWords(Array.from(combinedById.values()));
+        const reviewCandidates = shuffleWords(needsWorkCandidates);
         const shouldInjectReviewWords = !isCheckpointQuiz;
-        // Inject a small number of due/weak words without replacing core lesson content.
+        // Inject a small number of needs-work words without replacing core lesson content.
         lessonWords = shouldInjectReviewWords
           ? appendReviewWords(lessonWordsBase, reviewCandidates, 3, 1)
           : [...lessonWordsBase];
@@ -1446,16 +1432,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
         nextSpeakAllCorrect = total > 0 && correct === total;
       }
 
-      const completed = isCheckpointQuizUnit
+      const computedCompleted = isCheckpointQuizUnit
         ? (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT
         : nextIntroViewed &&
           (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT &&
           (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT;
+      const completed = existing.completed || computedCompleted;
 
       if (
         lessonMode !== 'intro' &&
         !isCheckpointQuizUnit &&
-        existing.completed &&
+        completed &&
         (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT &&
         (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT
       ) {
