@@ -136,18 +136,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      if (demoEnabled) {
-        const mockIdentity = getMockIdentity();
-        const demoUserId = mockIdentity.userId || createMockUserId();
-        const demoEmail = 'dev@local.test';
-        setMockIdentity(demoUserId, demoEmail);
-        touchMockActivity();
-        setStatus('signed_in');
-        setIsDemo(true);
-        setEmail(demoEmail);
-        return;
-      }
-
       try {
         const health = await fetch(`${API_BASE_URL}/health`);
         const healthJson = (await health.json()) as { authMode?: AuthMode };
@@ -192,23 +180,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         let token = getAccessToken();
+        let refreshedEmail: string | null = null;
         if (!token) {
           const refreshed = await attemptRefreshAuthSession();
           if (refreshed.ok) {
             token = getAccessToken();
-            setEmail(refreshed.email);
+            refreshedEmail = refreshed.email;
           }
         }
 
-        if (!token) {
+        if (token) {
+          if (demoEnabled) setDemoMode(false);
+        } else if (demoEnabled) {
           const mockIdentity = getMockIdentity();
-          const hasMockUser = Boolean(mockIdentity.userId || mockIdentity.email);
-          if (hasMockUser) {
-            setStatus('signed_in');
-            setIsDemo(false);
-            setEmail(mockIdentity.email || null);
-            return;
-          }
+          const demoUserId = mockIdentity.userId || createMockUserId();
+          const demoEmail = 'dev@local.test';
+          setMockIdentity(demoUserId, demoEmail);
+          touchMockActivity();
+          setStatus('signed_in');
+          setIsDemo(true);
+          setEmail(demoEmail);
+          return;
+        }
+
+        if (!token) {
           setStatus('signed_out');
           setIsDemo(false);
           setEmail(null);
@@ -237,10 +232,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setEmail(null);
           } else {
             // Render cold starts / transient backend failures should not force logout.
-            const mockIdentity = getMockIdentity();
             setStatus('signed_in');
             setIsDemo(false);
-            setEmail(mockIdentity.email || null);
+            if (refreshedEmail) setEmail(refreshedEmail);
           }
           return;
         }
@@ -251,13 +245,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch {
         if (cancelled) return;
         const token = getAccessToken();
-        const mockIdentity = getMockIdentity();
-        const hasMockUser = Boolean(mockIdentity.userId || mockIdentity.email);
-        if (token || hasMockUser) {
+        if (token) {
           setStatus('signed_in');
           setIsDemo(false);
-          setEmail(mockIdentity.email || null);
           setError('Backend temporarily unavailable. Retrying in background.');
+        } else if (demoEnabled) {
+          const mockIdentity = getMockIdentity();
+          const demoUserId = mockIdentity.userId || createMockUserId();
+          const demoEmail = 'dev@local.test';
+          setMockIdentity(demoUserId, demoEmail);
+          touchMockActivity();
+          setStatus('signed_in');
+          setIsDemo(true);
+          setEmail(demoEmail);
+          setError('Backend temporarily unavailable. Demo mode is active.');
         } else {
           setError('Unable to initialize authentication.');
           setStatus('signed_out');
