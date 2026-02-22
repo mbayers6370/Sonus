@@ -35,6 +35,13 @@ interface ProfileProgressScreenProps {
   onGoProfile: () => void;
 }
 
+function localDayKeyFromDate(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 function inferUnitFromLessonProgress(
   bandId: string | null,
   lessonProgress: Record<string, unknown>
@@ -71,6 +78,7 @@ function inferLessonCountFromProgress(
 }
 
 const ROWS_PER_PAGE = 2;
+const LESSON_UNLOCK_PASS_PERCENT = 85;
 
 function getNeedsWorkColumns(width: number) {
   if (width >= 1024) return 4;
@@ -113,7 +121,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
         if (!event.createdAt) continue;
         const parsed = new Date(event.createdAt);
         if (Number.isNaN(parsed.getTime())) continue;
-        const dayKey = parsed.toISOString().slice(0, 10);
+        const dayKey = localDayKeyFromDate(parsed);
         fallbackLessonCompletionsByDay.set(dayKey, (fallbackLessonCompletionsByDay.get(dayKey) ?? 0) + 1);
       }
       const normalizedActivity = (json.sevenDayActivity || []).map((day) => ({
@@ -179,30 +187,57 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     state.currentLevel?.id ??
     null;
   const inferredUnitId = inferUnitFromLessonProgress(effectiveBandId, state.lessonProgress || {});
-  const effectiveUnitId =
-    progress?.currentUnitId ??
-    state.resumeCheckpoint?.unitId ??
-    state.activeUnitId ??
-    state.activeLesson?.unitId ??
-    inferredUnitId ??
-    null;
-  const effectiveLessonIdx =
-    typeof progress?.currentLessonIdx === 'number'
-      ? progress.currentLessonIdx
-      : (state.resumeCheckpoint?.lessonIndex ?? state.activeLesson?.lessonIndex ?? null);
   const coreUnits = effectiveBandId
     ? getUnitsForBand(effectiveBandId).filter(
       (unit) => !isCheckpointUnitId(unit.id) && !isPracticeUnitId(unit.id)
     )
     : [];
-  const currentCoreUnitIndex =
-    effectiveUnitId
-      ? coreUnits.findIndex((unit) => unit.id === effectiveUnitId)
-      : -1;
   const activeBandDataForMetrics =
     effectiveBandId && state.activeBandId === effectiveBandId ? state.activeBandData : null;
-  const lessonsBeforeCurrent = currentCoreUnitIndex > 0
-    ? coreUnits.slice(0, currentCoreUnitIndex).reduce((sum, unit) => {
+  const unitLessonCount = (unitId: string) => {
+    if (activeBandDataForMetrics) {
+      const words = Array.isArray(activeBandDataForMetrics.units)
+        ? (activeBandDataForMetrics.units.find((entry) => entry?.id === unitId)?.words || [])
+        : (activeBandDataForMetrics.units?.[unitId]?.words || []);
+      return getLessonRanges(words.length, 10).length;
+    }
+    return inferLessonCountFromProgress(effectiveBandId, unitId, state.lessonProgress || {});
+  };
+  const completedLessons = effectiveBandId
+    ? Object.entries(state.lessonProgress || {}).filter(([key, progressEntry]) => {
+      const [bandId, unitId] = key.split(':');
+      if (bandId !== effectiveBandId) return false;
+      if (!progressEntry?.completed) return false;
+      if (unitId === 'daily-review') return false;
+      if (isCheckpointUnitId(unitId) || isPracticeUnitId(unitId)) return false;
+      return true;
+    }).length
+    : 0;
+
+  const currentPath = (() => {
+    if (!effectiveBandId || coreUnits.length === 0) return { unitId: inferredUnitId, lessonIdx: null as number | null };
+    for (const unit of coreUnits) {
+      const total = unitLessonCount(unit.id);
+      if (total <= 0) continue;
+      for (let lessonIdx = 0; lessonIdx < total; lessonIdx += 1) {
+        const key = `${effectiveBandId}:${unit.id}:${lessonIdx}`;
+        const score = state.lessonProgress[key]?.quizScore ?? 0;
+        if (score < LESSON_UNLOCK_PASS_PERCENT) {
+          return { unitId: unit.id, lessonIdx };
+        }
+      }
+    }
+    const lastUnit = coreUnits[coreUnits.length - 1];
+    const lastUnitLessons = lastUnit ? unitLessonCount(lastUnit.id) : 0;
+    return {
+      unitId: lastUnit?.id ?? inferredUnitId,
+      lessonIdx: lastUnitLessons > 0 ? lastUnitLessons - 1 : null,
+    };
+  })();
+
+  const lessonsBeforeCurrent = coreUnits
+    .slice(0, Math.max(0, coreUnits.findIndex((unit) => unit.id === currentPath.unitId)))
+    .reduce((sum, unit) => {
       if (activeBandDataForMetrics) {
         const words = Array.isArray(activeBandDataForMetrics.units)
           ? (activeBandDataForMetrics.units.find((entry) => entry?.id === unit.id)?.words || [])
@@ -210,25 +245,24 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
         return sum + getLessonRanges(words.length, 10).length;
       }
       return sum + inferLessonCountFromProgress(effectiveBandId, unit.id, state.lessonProgress || {});
-    }, 0)
-    : 0;
-  const lessonsCompleted = lessonsBeforeCurrent + Math.max(typeof effectiveLessonIdx === 'number' ? effectiveLessonIdx : 0, 0);
+    }, 0);
+  const lessonsCompletedDisplay = Math.max(completedLessons, lessonsBeforeCurrent + Math.max(currentPath.lessonIdx ?? 0, 0));
   const currentUnitMeta =
-    effectiveBandId && effectiveUnitId
-      ? getUnitMetadata(effectiveBandId, effectiveUnitId)
+    effectiveBandId && currentPath.unitId
+      ? getUnitMetadata(effectiveBandId, currentPath.unitId)
       : null;
   const currentLessonNumber =
-    typeof effectiveLessonIdx === 'number' && effectiveLessonIdx >= 0
-      ? effectiveLessonIdx + 1
+    typeof currentPath.lessonIdx === 'number' && currentPath.lessonIdx >= 0
+      ? currentPath.lessonIdx + 1
       : null;
-  const currentUnitAndLesson = effectiveUnitId
+  const currentUnitAndLesson = currentPath.unitId
     ? `${currentUnitMeta?.name ?? 'Current Unit'}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
     : 'Not started';
   const calendarDays = sevenDayActivity.length
     ? sevenDayActivity
     : Array.from({ length: 7 }, (_, idx) => {
       const date = new Date(Date.now() - (6 - idx) * 86_400_000);
-      const dayKey = date.toISOString().slice(0, 10);
+      const dayKey = localDayKeyFromDate(date);
       return { dayKey, active: false, lessonsCompleted: 0 };
     });
   const todayActivity = calendarDays[calendarDays.length - 1];
@@ -366,7 +400,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                 <BookOpen className="w-3.5 h-3.5" />
                 Lessons Completed
               </div>
-              <div className="text-2xl font-semibold text-white mt-2 leading-none">{lessonsCompleted}</div>
+              <div className="text-2xl font-semibold text-white mt-2 leading-none">{lessonsCompletedDisplay}</div>
             </div>
             <div className="rounded-xl border border-white/28 bg-white/12 p-3 sm:col-span-2">
               <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
