@@ -298,7 +298,12 @@ export default function Quiz({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="fixed bottom-20 left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm">
+      <div
+        className="fixed left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm"
+        style={{
+          bottom: 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 0.5rem)',
+        }}
+      >
         <button
           onClick={handleNext}
           className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"

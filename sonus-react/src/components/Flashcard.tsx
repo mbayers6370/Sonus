@@ -97,7 +97,12 @@ export default function Flashcard({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="fixed bottom-20 left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm">
+      <div
+        className="fixed left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm"
+        style={{
+          bottom: 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 0.5rem)',
+        }}
+      >
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={onPrev}

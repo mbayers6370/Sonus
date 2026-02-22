@@ -6,7 +6,7 @@ type Mode = 'signin' | 'signup';
 
 export default function AuthScreen() {
   const navigate = useNavigate();
-  const { authMode, signIn, signUp, continueAsDemo } = useAuth();
+  const { signIn, signUp, continueAsDemo } = useAuth();
   const [mode, setMode] = useState<Mode>('signin');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -160,7 +160,7 @@ export default function AuthScreen() {
             ? 'Sign in with your email and password.'
             : 'Use your name, email, and password to create your profile.'}
         </p>
-        {authMode === 'mock' && (
+        {mode === 'signin' && (
           <p className="text-xs text-text-light mb-3">
             Demo mode uses `dev@local.test` and a shared sample profile.
           </p>
@@ -223,7 +223,7 @@ export default function AuthScreen() {
             {loading ? 'Working…' : mode === 'signin' ? 'Sign In' : 'Create Account'}
           </button>
         </form>
-        {authMode === 'mock' && (
+        {mode === 'signin' && (
           <button
             type="button"
             onClick={continueAsDemo}

@@ -1298,11 +1298,14 @@ export default function SpeakMode({
 
       {/* Navigation Buttons */}
       <div
-        className={`fixed bottom-20 left-0 right-0 z-40 px-5 pb-2 border-t pt-3 backdrop-blur-sm ${
+        className={`fixed left-0 right-0 z-40 px-5 pb-2 border-t pt-3 backdrop-blur-sm ${
           practiceMode
             ? 'bg-white border-white/30'
             : 'bg-bg-warm/95 border-border'
         }`}
+        style={{
+          bottom: 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 0.5rem)',
+        }}
       >
         <button
           onClick={onNext}

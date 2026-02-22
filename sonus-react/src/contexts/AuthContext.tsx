@@ -106,11 +106,48 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isDemo, setIsDemo] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const clearToSignedOut = useCallback(() => {
+    setDemoMode(false);
+    setMockIdentity(null, null);
+    clearAuthSession();
+    clearMockActivity();
+    clearLearningState();
+    setIsDemo(false);
+    setEmail(null);
+    setStatus('signed_out');
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
     const init = async () => {
       setStatus('loading');
       setError(null);
+      if (isAuthSessionExpired()) {
+        clearToSignedOut();
+        return;
+      }
+
+      const isNewWindow = ensureMockWindowScope();
+      const demoEnabled = getDemoMode();
+      const demoIdleExpired = demoEnabled && isMockActivityExpired();
+
+      if (demoEnabled && (isNewWindow || demoIdleExpired)) {
+        clearToSignedOut();
+        return;
+      }
+
+      if (demoEnabled) {
+        const mockIdentity = getMockIdentity();
+        const demoUserId = mockIdentity.userId || createMockUserId();
+        const demoEmail = 'dev@local.test';
+        setMockIdentity(demoUserId, demoEmail);
+        touchMockActivity();
+        setStatus('signed_in');
+        setIsDemo(true);
+        setEmail(demoEmail);
+        return;
+      }
+
       try {
         const health = await fetch(`${API_BASE_URL}/health`);
         const healthJson = (await health.json()) as { authMode?: AuthMode };
@@ -118,19 +155,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (cancelled) return;
         setAuthMode(mode);
 
-        if (isAuthSessionExpired()) {
-          clearAuthSession();
-          setDemoMode(false);
-          setMockIdentity(null, null);
-          clearLearningState();
-          setStatus('signed_out');
-          setIsDemo(false);
-          setEmail(null);
-          return;
-        }
-
         if (mode === 'mock') {
-          const isNewWindow = ensureMockWindowScope();
           const idleExpired = isMockActivityExpired();
           let mockIdentity = getMockIdentity();
           if (isNewWindow || idleExpired) {
@@ -243,7 +268,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [clearToSignedOut]);
 
   const signIn = useCallback(async (emailInput: string, password: string) => {
     setError(null);
@@ -302,74 +327,52 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const continueAsDemo = useCallback(() => {
-    if (authMode !== 'mock') return;
     clearLearningState();
     setDemoMode(true);
+    clearAuthSession();
     setMockIdentity(createMockUserId(), 'dev@local.test');
     touchMockActivity();
     setIsDemo(true);
     setEmail('dev@local.test');
     setStatus('signed_in');
-  }, [authMode]);
+  }, []);
 
   const signOut = useCallback(() => {
     void fetch(`${API_BASE_URL}/v1/auth/logout`, {
       method: 'POST',
       credentials: 'include',
     }).catch(() => {});
-    if (authMode === 'mock') {
-      setDemoMode(false);
-    }
-    setMockIdentity(null, null);
-    clearAuthSession();
-    clearMockActivity();
-    clearLearningState();
-    setIsDemo(false);
-    setEmail(null);
-    setStatus('signed_out');
-  }, [authMode]);
+    clearToSignedOut();
+  }, [clearToSignedOut]);
 
   useEffect(() => {
     if (status !== 'signed_in') return;
     const timer = window.setInterval(() => {
       if (!isAuthSessionExpired()) return;
-      setDemoMode(false);
-      setMockIdentity(null, null);
-      clearAuthSession();
-      clearLearningState();
-      setIsDemo(false);
-      setEmail(null);
-      setStatus('signed_out');
+      clearToSignedOut();
     }, 60_000);
 
     return () => {
       window.clearInterval(timer);
     };
-  }, [status]);
+  }, [clearToSignedOut, status]);
 
   useEffect(() => {
-    if (status !== 'signed_in' || authMode !== 'mock') return;
+    if (status !== 'signed_in' || !isDemo) return;
 
     const bump = () => touchMockActivity();
-    const resetForIdle = () => {
-      clearLearningState();
-      const current = getMockIdentity();
-      const keepEmail = getDemoMode() ? 'dev@local.test' : (current.email || null);
-      const nextUserId = createMockUserId();
-      setMockIdentity(nextUserId, keepEmail);
-      touchMockActivity();
-      setEmail(keepEmail);
-      setStatus('signed_in');
+    const signOutForIdle = () => {
+      clearToSignedOut();
       window.location.reload();
     };
     const checkForIdleReset = () => {
       if (!isMockActivityExpired()) return;
-      resetForIdle();
+      signOutForIdle();
     };
     const onVisibility = () => {
       if (document.visibilityState !== 'visible') return;
       if (isMockActivityExpired()) {
-        resetForIdle();
+        signOutForIdle();
         return;
       }
       bump();
@@ -388,7 +391,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       document.removeEventListener('visibilitychange', onVisibility);
       window.clearInterval(timer);
     };
-  }, [authMode, status]);
+  }, [clearToSignedOut, isDemo, status]);
 
   const value: AuthContextValue = {
     authMode,

@@ -155,7 +155,12 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
       ) : null}
 
       {/* Lesson Content */}
-      <div className={`flex-1 overflow-y-auto pb-40 ${speakingPageTheme.content}`}>
+      <div
+        className={`flex-1 overflow-y-auto pb-8 ${speakingPageTheme.content}`}
+        style={{
+          paddingBottom: 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 9rem)',
+        }}
+      >
         {lessonMode === 'intro' && (
           <Flashcard
             word={currentWord}
