@@ -17,7 +17,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useApp } from '../contexts/AppContext';
 import { SurfaceButtonCard, SurfaceCard } from './ui/SurfaceCard';
 import { getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
-import { getLessonRanges } from '../lib/lessonChunks';
+import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 
 type Profile = {
   displayName: string | null;
@@ -62,20 +62,8 @@ function inferUnitFromLessonProgress(
   return latestStarted ?? null;
 }
 
-function inferLessonCountFromProgress(
-  bandId: string | null,
-  unitId: string,
-  lessonProgress: Record<string, unknown>
-) {
-  if (!bandId) return 0;
-  let maxSeen = -1;
-  for (const key of Object.keys(lessonProgress || {})) {
-    const [keyBandId, keyUnitId, keyLessonIdx] = key.split(':');
-    if (keyBandId !== bandId || keyUnitId !== unitId) continue;
-    const idx = Number(keyLessonIdx);
-    if (Number.isFinite(idx)) maxSeen = Math.max(maxSeen, idx);
-  }
-  return maxSeen + 1;
+function isInstructionalComplete(quizScore: number | null | undefined, speakScore: number | null | undefined) {
+  return (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
 }
 
 export default function ProfileScreen({
@@ -138,29 +126,20 @@ export default function ProfileScreen({
     typeof progress?.currentLessonIdx === 'number'
       ? progress.currentLessonIdx
       : (state.resumeCheckpoint?.lessonIndex ?? state.activeLesson?.lessonIndex ?? null);
-  const coreUnits = effectiveBandId
-    ? getUnitsForBand(effectiveBandId).filter(
-      (unit) => !isCheckpointUnitId(unit.id) && !isPracticeUnitId(unit.id)
-    )
-    : [];
-  const currentCoreUnitIndex =
-    effectiveUnitId
-      ? coreUnits.findIndex((unit) => unit.id === effectiveUnitId)
-      : -1;
-  const activeBandDataForMetrics =
-    effectiveBandId && state.activeBandId === effectiveBandId ? state.activeBandData : null;
-  const lessonsBeforeCurrent = currentCoreUnitIndex > 0
-    ? coreUnits.slice(0, currentCoreUnitIndex).reduce((sum, unit) => {
-      if (activeBandDataForMetrics) {
-        const words = Array.isArray(activeBandDataForMetrics.units)
-          ? (activeBandDataForMetrics.units.find((entry) => entry?.id === unit.id)?.words || [])
-          : (activeBandDataForMetrics.units?.[unit.id]?.words || []);
-        return sum + getLessonRanges(words.length, 10).length;
-      }
-      return sum + inferLessonCountFromProgress(effectiveBandId, unit.id, state.lessonProgress || {});
-    }, 0)
+  const lessonsCompleted = effectiveBandId
+    ? Object.entries(state.lessonProgress || {}).filter(([key, progressEntry]) => {
+      const entry = progressEntry as {
+        completed?: boolean;
+        quizScore?: number | null;
+        speakScore?: number | null;
+      };
+      const [bandId, unitId] = key.split(':');
+      if (bandId !== effectiveBandId) return false;
+      if (unitId === 'daily-review') return false;
+      if (isCheckpointUnitId(unitId) || isPracticeUnitId(unitId)) return false;
+      return Boolean(entry.completed || isInstructionalComplete(entry.quizScore, entry.speakScore));
+    }).length
     : 0;
-  const lessonsCompleted = lessonsBeforeCurrent + Math.max(typeof effectiveLessonIdx === 'number' ? effectiveLessonIdx : 0, 0);
   const currentUnitMeta =
     effectiveBandId && effectiveUnitId
       ? getUnitMetadata(effectiveBandId, effectiveUnitId)

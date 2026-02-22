@@ -11,6 +11,8 @@ import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import type { LessonMode } from '../types/lesson.types';
 
 const LESSON_UNLOCK_PASS_PERCENT = 85;
+const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
+  (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
 
 const CARD_ACCENTS = [
   {
@@ -178,16 +180,16 @@ export default function UnitSelect({
       ).length;
       const completedLessons = lessonRanges.filter((_, lessonIndex) => {
         const key = makeLessonKey(currentLevel.id, metadata.id, lessonIndex);
-        return Boolean(lessonProgress[key]?.completed);
+        const status = lessonProgress[key];
+        return Boolean(status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore));
       }).length;
       const masteredLessons = lessonRanges.filter((_, lessonIndex) => {
         const key = makeLessonKey(currentLevel.id, metadata.id, lessonIndex);
         const status = lessonProgress[key];
         return Boolean(
           status?.mastered ||
-          (status?.completed &&
-            (status.quizScore ?? 0) >= QUIZ_PASS_PERCENT &&
-            (status.speakScore ?? 0) >= SPEAK_PASS_PERCENT)
+          ((status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore)) &&
+            isInstructionalComplete(status?.quizScore, status?.speakScore))
         );
       }).length;
       const applyLessonIndex = lessonsCount;

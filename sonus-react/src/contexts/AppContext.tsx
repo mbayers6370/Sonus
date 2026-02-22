@@ -286,11 +286,20 @@ function mergeLessonProgress(
   existingProgress: AppState['lessonProgress'],
   incomingProgress: AppState['lessonProgress']
 ) {
+  const isCompletedByScores = (quizScore: number | null, speakScore: number | null) =>
+    (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
   const merged: AppState['lessonProgress'] = { ...existingProgress };
   for (const [key, incoming] of Object.entries(incomingProgress || {})) {
     const existing = merged[key];
     if (!existing) {
-      merged[key] = incoming;
+      const completed = incoming.completed || isCompletedByScores(incoming.quizScore, incoming.speakScore);
+      const mastered =
+        incoming.mastered || (completed && isCompletedByScores(incoming.quizScore, incoming.speakScore));
+      merged[key] = {
+        ...incoming,
+        completed,
+        mastered,
+      };
       continue;
     }
     const introViewed = existing.introViewed || incoming.introViewed;
@@ -306,11 +315,12 @@ function mergeLessonProgress(
         : incoming.speakScore === null
           ? existing.speakScore
           : Math.max(existing.speakScore, incoming.speakScore);
-    const completed = existing.completed || incoming.completed;
+    const completed =
+      existing.completed ||
+      incoming.completed ||
+      isCompletedByScores(quizScore, speakScore);
     const computedMastered =
-      completed &&
-      (quizScore ?? 0) >= QUIZ_PASS_PERCENT &&
-      (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
+      completed && isCompletedByScores(quizScore, speakScore);
     merged[key] = {
       introViewed,
       quizScore,
@@ -321,6 +331,43 @@ function mergeLessonProgress(
     };
   }
   return merged;
+}
+
+type ProgressEventEnvelope = {
+  eventType?: string;
+  payloadJson?: unknown;
+};
+
+function buildLessonProgressFromRecentEvents(events: ProgressEventEnvelope[] | undefined) {
+  const isCompletedByScores = (quizScore: number | null, speakScore: number | null) =>
+    (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
+  const next: AppState['lessonProgress'] = {};
+  for (const event of events || []) {
+    if (event?.eventType !== 'lesson_completed') continue;
+    if (!event.payloadJson || typeof event.payloadJson !== 'object' || Array.isArray(event.payloadJson)) continue;
+    const payload = event.payloadJson as Record<string, unknown>;
+    const bandId = typeof payload.bandId === 'string' ? payload.bandId.trim() : '';
+    const unitId = typeof payload.unitId === 'string' ? payload.unitId.trim() : '';
+    const lessonIndex =
+      typeof payload.lessonIndex === 'number' && Number.isInteger(payload.lessonIndex)
+        ? payload.lessonIndex
+        : null;
+    if (!bandId || !unitId || lessonIndex === null || lessonIndex < 0) continue;
+
+    const key = makeLessonKey(bandId, unitId, lessonIndex);
+    const quizScore = typeof payload.quizScore === 'number' ? payload.quizScore : null;
+    const speakScore = typeof payload.speakScore === 'number' ? payload.speakScore : null;
+    const completed = Boolean(payload.completed) || isCompletedByScores(quizScore, speakScore);
+    next[key] = {
+      introViewed: Boolean(payload.introViewed),
+      quizScore,
+      speakScore,
+      speakAllCorrect: Boolean(payload.speakAllCorrect),
+      completed,
+      mastered: Boolean(payload.mastered) || completed,
+    };
+  }
+  return next;
 }
 
 function getPracticeModeFromUnit(unitId: string): LessonMode | null {
@@ -609,11 +656,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
             currentLessonIdx?: number | null;
           };
           lessonProgress?: AppState['lessonProgress'];
+          recentEvents?: ProgressEventEnvelope[];
         };
         if (cancelled) return;
 
         setState((prev) => {
-          const serverProgress = normalizeLessonProgressKeys(payload.lessonProgress || {});
+          const snapshotProgress = normalizeLessonProgressKeys(payload.lessonProgress || {});
+          const eventProgress = normalizeLessonProgressKeys(
+            buildLessonProgressFromRecentEvents(payload.recentEvents)
+          );
+          const serverProgress = mergeLessonProgress(snapshotProgress, eventProgress);
           const nextLessonProgress = mergeLessonProgress(prev.lessonProgress, serverProgress);
 
           return {
@@ -1434,8 +1486,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       const computedCompleted = isCheckpointQuizUnit
         ? (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT
-        : nextIntroViewed &&
-          (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT &&
+        : (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT &&
           (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT;
       const completed = existing.completed || computedCompleted;
 

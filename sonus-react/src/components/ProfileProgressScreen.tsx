@@ -7,6 +7,7 @@ import { apiFetch } from '../lib/apiClient';
 import { getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import { useApp } from '../contexts/AppContext';
 import { getLessonRanges } from '../lib/lessonChunks';
+import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 
 type Progress = {
   streak: number;
@@ -79,6 +80,8 @@ function inferLessonCountFromProgress(
 
 const ROWS_PER_PAGE = 2;
 const LESSON_UNLOCK_PASS_PERCENT = 85;
+const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
+  (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
 
 function getNeedsWorkColumns(width: number) {
   if (width >= 1024) return 4;
@@ -205,9 +208,14 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   };
   const completedLessons = effectiveBandId
     ? Object.entries(state.lessonProgress || {}).filter(([key, progressEntry]) => {
+      const entry = progressEntry as {
+        completed?: boolean;
+        quizScore?: number | null;
+        speakScore?: number | null;
+      };
       const [bandId, unitId] = key.split(':');
       if (bandId !== effectiveBandId) return false;
-      if (!progressEntry?.completed) return false;
+      if (!entry?.completed && !isInstructionalComplete(entry?.quizScore, entry?.speakScore)) return false;
       if (unitId === 'daily-review') return false;
       if (isCheckpointUnitId(unitId) || isPracticeUnitId(unitId)) return false;
       return true;
