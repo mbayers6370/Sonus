@@ -607,32 +607,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setState((prev) => {
           const serverProgress = normalizeLessonProgressKeys(payload.lessonProgress || {});
           const nextLessonProgress = mergeLessonProgress(prev.lessonProgress, serverProgress);
-          const currentBandId = payload.progress?.currentBandId ?? null;
-          const currentUnitId = payload.progress?.currentUnitId ?? null;
-          const currentLessonIdx =
-            typeof payload.progress?.currentLessonIdx === 'number'
-              ? payload.progress.currentLessonIdx
-              : null;
-
-          if (currentBandId && currentUnitId && currentLessonIdx !== null && currentLessonIdx >= 0) {
-            for (let lessonIdx = 0; lessonIdx <= currentLessonIdx; lessonIdx += 1) {
-              const key = makeLessonKey(currentBandId, currentUnitId, lessonIdx);
-              const existing = nextLessonProgress[key] || {
-                introViewed: false,
-                quizScore: null as number | null,
-                speakScore: null as number | null,
-                speakAllCorrect: false,
-                completed: false,
-                mastered: false,
-              };
-              nextLessonProgress[key] = {
-                ...existing,
-                introViewed: true,
-                quizScore: Math.max(existing.quizScore ?? 0, LESSON_UNLOCK_PASS_PERCENT),
-                completed: true,
-              };
-            }
-          }
 
           return {
             ...prev,
@@ -1004,6 +978,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
         lessonWords = shouldInjectReviewWords
           ? appendReviewWords(lessonWordsBase, reviewCandidates, 3, 1)
           : [...lessonWordsBase];
+      }
+
+      if (isApplyLesson) {
+        // Apply mode must remain unit-only; never include review/retest overlays.
+        lessonWords = lessonWords
+          .filter((word) => (word.sourceUnitId || resolvedUnitId) === resolvedUnitId)
+          .map((word) => ({
+            ...word,
+            sourceUnitId: resolvedUnitId,
+            isReview: false,
+            reviewReason: undefined,
+            isReattempt: false,
+            reattemptOfWordId: undefined,
+            reattemptQueued: false,
+          }));
       }
 
       const metadata = getUnitMetadata(bandId, resolvedUnitId);

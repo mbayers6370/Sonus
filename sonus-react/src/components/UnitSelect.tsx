@@ -409,6 +409,15 @@ export default function UnitSelect({
             const isUnitCompleted = lessonsCount > 0 && completedLessons === lessonsCount;
             const isUnitMastered = lessonsCount > 0 && masteredLessons === lessonsCount;
             const depth = isBlueprint ? 0 : isUnitMastered ? 100 : Math.max(4, averageLessonProgress);
+            const currentLessonInUnit = (() => {
+              if (lessonsCount <= 0) return null;
+              for (let lessonIdx = 0; lessonIdx < lessonsCount; lessonIdx += 1) {
+                if (!hasLessonPassedThreshold(unitId, lessonIdx)) {
+                  return lessonIdx + 1;
+                }
+              }
+              return lessonsCount;
+            })();
 
             return (
               <button
@@ -436,6 +445,11 @@ export default function UnitSelect({
                   <div className={`text-[10px] tracking-wide font-mono ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
                     {metadata.name}
                   </div>
+                  {!isBlueprint && currentLessonInUnit && (
+                    <div className={`text-[10px] tracking-wide font-mono ${isUnitMastered ? 'text-white/80' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
+                      Current lesson: {currentLessonInUnit}
+                    </div>
+                  )}
                   <div className={`main-font text-[1.3rem] font-normal leading-tight ${isUnitMastered ? 'text-white' : !isUnitUnlocked ? 'text-[#4B5563]' : 'text-text-dark'}`}>
                     {metadata.hanzi}
                   </div>

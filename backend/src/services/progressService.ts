@@ -183,6 +183,34 @@ function buildSevenDayActivity(
   return days;
 }
 
+function resolveCompletionStreak(
+  completionDayKeys: Set<string>,
+  timezone: string,
+  now = new Date()
+) {
+  const today = dayKeyAt(now, timezone);
+  const yesterday = dayKeyAt(new Date(now.getTime() - 86_400_000), timezone);
+  let anchor: Date | null = null;
+
+  if (completionDayKeys.has(today)) {
+    anchor = now;
+  } else if (completionDayKeys.has(yesterday)) {
+    anchor = new Date(now.getTime() - 86_400_000);
+  } else {
+    return 0;
+  }
+
+  let streak = 0;
+  let cursor = anchor;
+  while (true) {
+    const key = dayKeyAt(cursor, timezone);
+    if (!completionDayKeys.has(key)) break;
+    streak += 1;
+    cursor = new Date(cursor.getTime() - 86_400_000);
+  }
+  return streak;
+}
+
 export async function touchUserActivity(userId: string) {
   return prisma.$transaction(async (tx) => {
     const profile = await tx.profile.findUnique({
@@ -248,7 +276,7 @@ export async function getProgressSnapshot(userId: string) {
       where: {
         userId,
         eventType: 'lesson_completed',
-        createdAt: { gte: new Date(Date.now() - 10 * 86_400_000) },
+        createdAt: { gte: new Date(Date.now() - 35 * 86_400_000) },
       },
       select: { createdAt: true },
     }),
@@ -267,10 +295,18 @@ export async function getProgressSnapshot(userId: string) {
     const key = dayKeyAt(row.createdAt, timezone);
     lessonCompletionsByDay.set(key, (lessonCompletionsByDay.get(key) ?? 0) + 1);
   }
+  const completionStreak = resolveCompletionStreak(new Set(lessonCompletionsByDay.keys()), timezone);
+  const streakWithCompletions = Math.max(progress.streak, completionStreak);
+  const normalizedProgress = streakWithCompletions === progress.streak
+    ? progress
+    : await prisma.userProgress.update({
+      where: { userId },
+      data: { streak: streakWithCompletions },
+    });
   const sevenDayActivity = buildSevenDayActivity(activeDayKeys, lessonCompletionsByDay, timezone);
   const lessonProgress = buildLessonProgressFromEvents(lessonCompletionEvents);
 
-  return { progress, recentEvents, sevenDayActivity, lessonProgress };
+  return { progress: normalizedProgress, recentEvents, sevenDayActivity, lessonProgress };
 }
 
 export async function updateProgressCurrent(userId: string, input: UpdateProgressCurrentInput) {
@@ -313,18 +349,31 @@ export async function recordProgressEvent(userId: string, event: ProgressEventIn
     });
 
     const baseStreak = resolveStreakForToday(existing?.streak ?? 0, existing?.lastActiveDate ?? null, timezone);
-    const nextStreak = Math.max(0, baseStreak + event.streakDelta);
+    const now = new Date();
+    const todayKey = dayKeyAt(now, timezone);
+    const lastKey = existing?.lastActiveDate ? dayKeyAt(existing.lastActiveDate, timezone) : null;
+
+    const nextStreak = (() => {
+      if (event.eventType !== 'lesson_completed') {
+        return Math.max(0, baseStreak + event.streakDelta);
+      }
+      if (!lastKey) return 1;
+      if (lastKey === todayKey) return Math.max(1, baseStreak);
+      const gap = dayDiff(lastKey, todayKey);
+      if (gap === 1) return Math.max(1, baseStreak) + 1;
+      return 1;
+    })();
 
     const progress = await tx.userProgress.upsert({
       where: { userId },
       update: {
         streak: nextStreak,
-        lastActiveDate: new Date(),
+        lastActiveDate: now,
       },
       create: {
         userId,
         streak: nextStreak,
-        lastActiveDate: new Date(),
+        lastActiveDate: now,
       },
     });
 

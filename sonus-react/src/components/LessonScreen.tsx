@@ -151,7 +151,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
     : isPracticeUnit
     ? (isListeningPractice ? 'Listening Practice' : 'Speaking Practice')
     : isApplyMode
-      ? (activeLesson.unitName || 'Apply')
+      ? `Unit ${activeLesson.unitOrder ?? activeLesson.lessonIndex + 1}`
     : isDailyReview
       ? (activeLesson.unitName || 'Daily Review')
       : `Unit ${activeLesson.unitOrder ?? activeLesson.lessonIndex + 1}`;
@@ -179,8 +179,12 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
       <div className="px-6 pb-1">
         <GlassHeader
           title={titleText}
+          subtitle={isApplyMode ? (
+            <span className="text-sm italic text-text-med">Apply</span>
+          ) : undefined}
           className={isSpeakingPractice ? 'bg-white/75 border-[#C2410C]/25' : ''}
           titleClassName={speakingPageTheme.title}
+          subtitleClassName="text-text-med"
         />
       </div>
 
@@ -203,7 +207,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
                 }`}
               >
                 <span className="inline-flex w-full items-center justify-center">Learn</span>
-                {learnDone && lessonMode !== 'intro' ? (
+                {learnDone ? (
                   <Check className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#9CA3AF]" />
                 ) : null}
               </button>
@@ -222,7 +226,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
               }`}
             >
               <span className="inline-flex w-full items-center justify-center">Quiz</span>
-              {quizDone && lessonMode !== 'quiz' ? (
+              {quizDone ? (
                 <Check className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#9CA3AF]" />
               ) : null}
             </button>
@@ -240,7 +244,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
               }`}
             >
               <span className="inline-flex w-full items-center justify-center">Speak</span>
-              {speakDone && lessonMode !== 'speak' ? (
+              {speakDone ? (
                 <Check className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#9CA3AF]" />
               ) : null}
             </button>

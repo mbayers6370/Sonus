@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 
 interface GlassHeaderProps {
   title: string;
+  subtitle?: ReactNode;
   className?: string;
   spacerClassName?: string;
   titleClassName?: string;
+  subtitleClassName?: string;
   scrolledClassName?: string;
   scrolledTitleClassName?: string;
   scrollThreshold?: number;
@@ -15,9 +18,11 @@ interface GlassHeaderProps {
 
 export default function GlassHeader({
   title,
+  subtitle,
   className = '',
   spacerClassName = '',
   titleClassName = 'text-text-dark',
+  subtitleClassName = 'text-text-med',
   scrolledClassName = '',
   scrolledTitleClassName = '',
   scrollThreshold = 8,
@@ -103,22 +108,29 @@ export default function GlassHeader({
                   <ChevronLeft className="w-5 h-5" />
                 </button>
               ) : null}
-              <h1
-                className={`text-center main-font text-3xl md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
-              >
-                {showBackButton && standaloneRemainingWords ? (
-                  <>
-                    <span className="block md:inline">{standaloneFirstWord}</span>
-                    <span className="block md:inline md:ml-2">{standaloneRemainingWords}</span>
-                  </>
-                ) : (
-                  title
-                )}
-              </h1>
+              <div className="text-center">
+                <h1
+                  className={`main-font text-3xl md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
+                >
+                  {showBackButton && standaloneRemainingWords ? (
+                    <>
+                      <span className="block md:inline">{standaloneFirstWord}</span>
+                      <span className="block md:inline md:ml-2">{standaloneRemainingWords}</span>
+                    </>
+                  ) : (
+                    title
+                  )}
+                </h1>
+                {subtitle ? (
+                  <div className={`mt-1 ${subtitleClassName}`}>
+                    {subtitle}
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         ) : (
-          <div className="h-full px-4 md:px-6 flex flex-col md:flex-row items-center justify-center relative">
+          <div className="h-full px-4 md:px-6 flex flex-col items-center justify-center relative">
             {showBackButton ? (
               <button
                 type="button"
@@ -166,11 +178,18 @@ export default function GlassHeader({
                 />
               </button>
             ) : null}
-            <h1
-              className={`text-center main-font text-3xl md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
-            >
-              {title}
-            </h1>
+            <div className="text-center">
+              <h1
+                className={`main-font text-3xl md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
+              >
+                {title}
+              </h1>
+              {subtitle ? (
+                <div className={`mt-1 ${subtitleClassName}`}>
+                  {subtitle}
+                </div>
+              ) : null}
+            </div>
           </div>
         )}
       </div>
