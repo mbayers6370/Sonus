@@ -41,6 +41,19 @@ function isCompletedLessonPayload(payloadJson: Prisma.JsonValue | Prisma.JsonObj
   return isCompletedByScores(quizScore, speakScore);
 }
 
+function lessonKeyFromPayload(payloadJson: Prisma.JsonValue | Prisma.JsonObject | undefined | null) {
+  if (!payloadJson || typeof payloadJson !== 'object' || Array.isArray(payloadJson)) return null;
+  const payload = payloadJson as Record<string, unknown>;
+  const bandId = typeof payload.bandId === 'string' ? payload.bandId.trim() : '';
+  const unitId = typeof payload.unitId === 'string' ? payload.unitId.trim() : '';
+  const lessonIndex =
+    typeof payload.lessonIndex === 'number' && Number.isInteger(payload.lessonIndex)
+      ? payload.lessonIndex
+      : null;
+  if (!bandId || !unitId || lessonIndex === null || lessonIndex < 0) return null;
+  return `${bandId}:${unitId}:${lessonIndex}`;
+}
+
 function toOptionalScore(value: unknown) {
   if (typeof value !== 'number' || !Number.isFinite(value)) return null;
   const rounded = Math.round(value);
@@ -322,11 +335,19 @@ export async function getProgressSnapshot(userId: string) {
       data: { streak: 0 },
     });
   const activeDayKeys = await collectActivityDayKeys(userId, timezone);
-  const lessonCompletionsByDay = new Map<string, number>();
+  const lessonCompletionSetsByDay = new Map<string, Set<string>>();
   for (const row of recentLessonCompletions) {
     if (!isCompletedLessonPayload(row.payloadJson)) continue;
+    const lessonKey = lessonKeyFromPayload(row.payloadJson);
+    if (!lessonKey) continue;
     const key = dayKeyAt(row.createdAt, timezone);
-    lessonCompletionsByDay.set(key, (lessonCompletionsByDay.get(key) ?? 0) + 1);
+    const existing = lessonCompletionSetsByDay.get(key) ?? new Set<string>();
+    existing.add(lessonKey);
+    lessonCompletionSetsByDay.set(key, existing);
+  }
+  const lessonCompletionsByDay = new Map<string, number>();
+  for (const [dayKey, lessonKeys] of lessonCompletionSetsByDay.entries()) {
+    lessonCompletionsByDay.set(dayKey, lessonKeys.size);
   }
   const completionStreak = resolveCompletionStreak(new Set(lessonCompletionsByDay.keys()), timezone);
   const streakWithCompletions = Math.max(progress.streak, completionStreak);

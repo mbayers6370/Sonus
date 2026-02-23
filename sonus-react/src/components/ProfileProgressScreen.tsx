@@ -9,7 +9,6 @@ import { useApp } from '../contexts/AppContext';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { getLessonCompletionCountForDay } from '../lib/activityLedger';
-import { getMockIdentity } from '../lib/authSession';
 
 type Progress = {
   streak: number;
@@ -31,6 +30,7 @@ type NeedsWorkItem = {
 type ProgressEvent = {
   eventType?: string;
   createdAt?: string;
+  payloadJson?: unknown;
 };
 
 interface ProfileProgressScreenProps {
@@ -93,63 +93,17 @@ function getNeedsWorkColumns(width: number) {
   return 2;
 }
 
-const CALENDAR_DAY_TOTALS_PREFIX = 'sonus.profile.calendar_day_totals';
-
-type CalendarDayTotalsState = {
-  days: Record<string, number>;
-  lastTotal: number;
-  lastDayKey: string;
-};
-
-function resolveCalendarDayTotalsKey() {
-  const { userId, email } = getMockIdentity();
-  const scope = (userId || email || 'anon').toLowerCase().replace(/[^a-z0-9._-]/g, '_');
-  return `${CALENDAR_DAY_TOTALS_PREFIX}:${scope}`;
-}
-
-function readCalendarDayTotals(): CalendarDayTotalsState {
-  try {
-    const raw = window.localStorage.getItem(resolveCalendarDayTotalsKey());
-    if (!raw) {
-      return { days: {}, lastTotal: 0, lastDayKey: localDayKeyFromDate(new Date()) };
-    }
-    const parsed = JSON.parse(raw) as Partial<CalendarDayTotalsState>;
-    const days = (parsed.days && typeof parsed.days === 'object') ? parsed.days : {};
-    const normalizedDays: Record<string, number> = {};
-    for (const [dayKey, value] of Object.entries(days)) {
-      const count = typeof value === 'number' && Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
-      normalizedDays[dayKey] = count;
-    }
-    return {
-      days: normalizedDays,
-      lastTotal: typeof parsed.lastTotal === 'number' && Number.isFinite(parsed.lastTotal) ? Math.max(0, Math.floor(parsed.lastTotal)) : 0,
-      lastDayKey: typeof parsed.lastDayKey === 'string' && parsed.lastDayKey ? parsed.lastDayKey : localDayKeyFromDate(new Date()),
-    };
-  } catch {
-    return { days: {}, lastTotal: 0, lastDayKey: localDayKeyFromDate(new Date()) };
-  }
-}
-
-function writeCalendarDayTotals(state: CalendarDayTotalsState) {
-  try {
-    const dayKeys = Object.keys(state.days).sort((a, b) => a.localeCompare(b));
-    const keep = new Set(dayKeys.slice(-7));
-    const nextDays: Record<string, number> = {};
-    for (const dayKey of dayKeys) {
-      if (!keep.has(dayKey)) continue;
-      nextDays[dayKey] = state.days[dayKey];
-    }
-    window.localStorage.setItem(
-      resolveCalendarDayTotalsKey(),
-      JSON.stringify({
-        days: nextDays,
-        lastTotal: state.lastTotal,
-        lastDayKey: state.lastDayKey,
-      })
-    );
-  } catch {
-    // Ignore localStorage failures.
-  }
+function lessonKeyFromPayload(payloadJson: unknown) {
+  if (!payloadJson || typeof payloadJson !== 'object' || Array.isArray(payloadJson)) return null;
+  const payload = payloadJson as Record<string, unknown>;
+  const bandId = typeof payload.bandId === 'string' ? payload.bandId.trim() : '';
+  const unitId = typeof payload.unitId === 'string' ? payload.unitId.trim() : '';
+  const lessonIndex =
+    typeof payload.lessonIndex === 'number' && Number.isInteger(payload.lessonIndex)
+      ? payload.lessonIndex
+      : null;
+  if (!bandId || !unitId || lessonIndex === null || lessonIndex < 0) return null;
+  return `${bandId}:${unitId}:${lessonIndex}`;
 }
 
 export default function ProfileProgressScreen({ onGoHome, onGoProfile }: ProfileProgressScreenProps) {
@@ -182,14 +136,18 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       };
       setProgress(json.progress);
       const recentEvents = Array.isArray(json.recentEvents) ? json.recentEvents : [];
-      const fallbackLessonCompletionsByDay = new Map<string, number>();
+      const fallbackLessonCompletionsByDay = new Map<string, Set<string>>();
       for (const event of recentEvents) {
         if (event?.eventType !== 'lesson_completed') continue;
         if (!event.createdAt) continue;
+        const lessonKey = lessonKeyFromPayload(event.payloadJson);
+        if (!lessonKey) continue;
         const parsed = new Date(event.createdAt);
         if (Number.isNaN(parsed.getTime())) continue;
         const dayKey = localDayKeyFromDate(parsed);
-        fallbackLessonCompletionsByDay.set(dayKey, (fallbackLessonCompletionsByDay.get(dayKey) ?? 0) + 1);
+        const existing = fallbackLessonCompletionsByDay.get(dayKey) ?? new Set<string>();
+        existing.add(lessonKey);
+        fallbackLessonCompletionsByDay.set(dayKey, existing);
       }
       const normalizedActivity = (json.sevenDayActivity || []).map((day) => ({
         ...day,
@@ -211,7 +169,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
           getLessonCompletionCountForDay(day.dayKey),
           typeof day.lessonsCompleted === 'number' ? day.lessonsCompleted : 0,
           serverCompletionMap.get(day.dayKey) ?? 0,
-          fallbackLessonCompletionsByDay.get(day.dayKey) ?? 0
+          fallbackLessonCompletionsByDay.get(day.dayKey)?.size ?? 0
         );
         return {
           ...day,
@@ -328,52 +286,6 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   })();
 
   const lessonsCompletedDisplay = completedLessons;
-  const todayDayKey = localDayKeyFromDate(new Date());
-
-  useEffect(() => {
-    const stored = readCalendarDayTotals();
-    const currentDayCount = stored.days[todayDayKey] ?? 0;
-
-    if (!stored.lastDayKey || stored.lastDayKey !== todayDayKey) {
-      // New day: rotate cursor, keep today's value if already present.
-      const delta = Math.max(0, lessonsCompletedDisplay - stored.lastTotal);
-      const next: CalendarDayTotalsState = {
-        ...stored,
-        days: {
-          ...stored.days,
-          [todayDayKey]: Math.max(currentDayCount, 0) + delta,
-        },
-        lastTotal: lessonsCompletedDisplay,
-        lastDayKey: todayDayKey,
-      };
-      writeCalendarDayTotals(next);
-      return;
-    }
-
-    if (lessonsCompletedDisplay > stored.lastTotal) {
-      const delta = lessonsCompletedDisplay - stored.lastTotal;
-      const next: CalendarDayTotalsState = {
-        ...stored,
-        days: {
-          ...stored.days,
-          [todayDayKey]: currentDayCount + delta,
-        },
-        lastTotal: lessonsCompletedDisplay,
-        lastDayKey: todayDayKey,
-      };
-      writeCalendarDayTotals(next);
-      return;
-    }
-
-    // Keep pointer in sync even if totals reset/decrease after account/data changes.
-    if (stored.lastTotal !== lessonsCompletedDisplay) {
-      writeCalendarDayTotals({
-        ...stored,
-        lastTotal: lessonsCompletedDisplay,
-        lastDayKey: todayDayKey,
-      });
-    }
-  }, [lessonsCompletedDisplay, todayDayKey]);
   const currentUnitMeta =
     effectiveBandId && currentPath.unitId
       ? getUnitMetadata(effectiveBandId, currentPath.unitId)
@@ -393,22 +305,11 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       const ledgerCount = getLessonCompletionCountForDay(dayKey);
       return { dayKey, active: ledgerCount > 0, lessonsCompleted: ledgerCount };
     });
-  const localDayTotals = readCalendarDayTotals().days;
-  const mergedCalendarDays = calendarDays.map((day) => {
-    const localCount = localDayTotals[day.dayKey] ?? 0;
-    const maxReasonableDailyCount = Math.max(0, lessonsCompletedDisplay);
-    const mergedCount = backendOffline
-      ? Math.min(
-        Math.max(localCount, day.lessonsCompleted ?? 0),
-        maxReasonableDailyCount
-      )
-      : Math.max(0, day.lessonsCompleted ?? 0);
-    return {
-      ...day,
-      lessonsCompleted: mergedCount,
-      active: day.active || mergedCount > 0,
-    };
-  });
+  const mergedCalendarDays = calendarDays.map((day) => ({
+    ...day,
+    lessonsCompleted: Math.max(0, day.lessonsCompleted ?? 0),
+    active: day.active || (day.lessonsCompleted ?? 0) > 0,
+  }));
   const todayActivity = mergedCalendarDays[mergedCalendarDays.length - 1];
   const streakDisplay = Math.max(progress?.streak ?? 0, (todayActivity?.lessonsCompleted ?? 0) > 0 ? 1 : 0, 1);
 
