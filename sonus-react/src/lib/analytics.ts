@@ -5,6 +5,9 @@ export type AnalyticsEventName =
   | 'lesson_completed'
   | 'quiz_answered'
   | 'speak_retry'
+  | 'speak_stt_unavailable'
+  | 'speak_stt_error'
+  | 'speak_lookup_ready'
   | 'weak_word_resolved'
   | 'daily_set_started';
 

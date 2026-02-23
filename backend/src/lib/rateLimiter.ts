@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 type RateLimitResult = {
   allowed: boolean;
   count: number;
@@ -172,6 +174,17 @@ function readHeader(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
+function extractBearerToken(authorizationHeader: string | null) {
+  if (!authorizationHeader) return null;
+  const [scheme, token] = authorizationHeader.split(' ');
+  if (scheme?.toLowerCase() !== 'bearer' || !token) return null;
+  return token;
+}
+
+function tokenFingerprint(token: string) {
+  return createHash('sha256').update(token).digest('hex').slice(0, 24);
+}
+
 export function resolveRateLimitIdentity(
   headers: Record<string, string | string[] | undefined>,
   ip: string,
@@ -182,5 +195,14 @@ export function resolveRateLimitIdentity(
     const devUserId = readHeader(headers['x-dev-user-id']);
     if (devUserId) return `user:${devUserId}`;
   }
+
+  // For real auth modes, use a stable auth-token bucket when available.
+  // This avoids NAT collisions between many users sharing one IP.
+  const authorization = readHeader(headers.authorization);
+  const bearerToken = extractBearerToken(authorization);
+  if (bearerToken && authMode !== 'mock') {
+    return `auth:${tokenFingerprint(bearerToken)}`;
+  }
+
   return `ip:${ip || 'unknown'}`;
 }

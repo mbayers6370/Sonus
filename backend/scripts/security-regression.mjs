@@ -32,8 +32,9 @@ async function run() {
 
   const supabaseA = resolveRateLimitIdentity({ authorization: `Bearer ${fakeJwtA}` }, ip, 'supabase');
   const supabaseB = resolveRateLimitIdentity({ authorization: `Bearer ${fakeJwtB}` }, ip, 'supabase');
-  assert.equal(supabaseA, `ip:${ip}`);
-  assert.equal(supabaseB, `ip:${ip}`);
+  assert.match(supabaseA, /^auth:[a-f0-9]+$/);
+  assert.match(supabaseB, /^auth:[a-f0-9]+$/);
+  assert.notEqual(supabaseA, supabaseB);
 
   const mockUser = resolveRateLimitIdentity({ 'x-dev-user-id': '1111' }, ip, 'mock');
   assert.equal(mockUser, 'user:1111');

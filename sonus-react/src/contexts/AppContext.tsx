@@ -24,6 +24,28 @@ import { trackEvent } from '../lib/analytics';
 import { getLessonRanges, sliceWordsForLesson } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
+import {
+  resolveBandDataId,
+  resolveUnitIdForBand,
+  isMandarinBandId,
+  isMandarinBandLocked,
+  nextBandId,
+} from '../lib/bandIds';
+import {
+  todayKey,
+  isDue,
+  plusDays,
+  scheduleDaysForCorrectStreak,
+  applyConfidenceAdjustment,
+  pickQuizPromptType,
+  getCoreWordStats,
+} from '../lib/reviewScheduler';
+import {
+  normalizeLessonProgressKeys,
+  mergeLessonProgress,
+  buildLessonProgressFromRecentEvents,
+} from '../lib/lessonProgressState';
+import type { ProgressEventEnvelope } from '../lib/lessonProgressState';
 import { apiFetch } from '../lib/apiClient';
 import { getMockIdentity } from '../lib/authSession';
 import { recordLessonCompletionToLedger } from '../lib/activityLedger';
@@ -100,41 +122,9 @@ function resolveStateStorageKey() {
   return `${STORAGE_KEY_PREFIX}:${scope}`;
 }
 
-function resolveBandDataId(bandId: string) {
-  // Bands 7-9 share a merged payload on disk.
-  if (bandId === 'band7' || bandId === 'band8' || bandId === 'band9' || bandId === 'advanced') {
-    return 'band7-9';
-  }
-  return bandId;
-}
-
-function resolveUnitIdForBand(bandId: string, unitId: string) {
-  if (bandId === 'band2' && unitId === 'b2-directions') {
-    return 'b2-places';
-  }
-  return unitId;
-}
-
 function defaultUnlockedLevelIds() {
   const base = ALL_LEVEL_IDS.filter((id) => !/^band\d+$/i.test(id) && id !== 'advanced');
   return Array.from(new Set([...base, 'band1']));
-}
-
-function isMandarinBandId(levelId: string) {
-  return /^band\d+$/i.test(levelId) || levelId === 'advanced';
-}
-
-function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
-  if (!isMandarinBandId(bandId)) return false;
-  return !unlockedLevels.includes(bandId);
-}
-
-function nextBandId(bandId: string) {
-  const match = /^band(\d+)$/i.exec(bandId);
-  if (!match) return null;
-  const current = Number(match[1]);
-  if (!Number.isFinite(current) || current < 1 || current >= 9) return null;
-  return `band${current + 1}`;
 }
 
 function formatUnitLabel(unitId: string) {
@@ -213,160 +203,6 @@ function getBandWordMap(bandData: BandData) {
   return { map, sourceUnitByWordId };
 }
 
-function todayKey(date = new Date()) {
-  return date.toISOString().slice(0, 10);
-}
-
-function isDue(nextReviewAt: string | undefined, nowMs: number) {
-  if (!nextReviewAt) return true;
-  const ts = Date.parse(nextReviewAt);
-  if (Number.isNaN(ts)) return true;
-  return ts <= nowMs;
-}
-
-function plusDays(days: number) {
-  return new Date(Date.now() + days * 86400000).toISOString();
-}
-
-function scheduleDaysForCorrectStreak(streak: number) {
-  if (streak >= 3) return 14;
-  if (streak >= 2) return 7;
-  return 3;
-}
-
-function applyConfidenceAdjustment(days: number, streak: number, confidence: ConfidenceLevel) {
-  if (confidence === 'sure') return days;
-  if (streak >= 3) return 7;
-  if (streak >= 2) return 3;
-  return 2;
-}
-
-function pickQuizPromptType(cursor: number, mode: 'quiz' | 'speak'): QuizPromptType {
-  if (mode === 'speak') return 'speak_from_en';
-  const sequence: QuizPromptType[] = ['hanzi_to_en', 'en_to_hanzi', 'audio_to_meaning', 'cloze'];
-  return sequence[cursor % sequence.length];
-}
-
-function getCoreWordStats(words: Word[], resultsByIndex: Record<number, boolean>) {
-  const coreIndexes = words
-    .map((word, index) => ({ word, index }))
-    .filter(({ word }) => !word.isReview)
-    .map(({ index }) => index);
-  const total = coreIndexes.length;
-  const correct = coreIndexes.filter((index) => Boolean(resultsByIndex[index])).length;
-  return { total, correct };
-}
-
-function normalizeLessonProgressKeys(progress: AppState['lessonProgress']) {
-  const next: AppState['lessonProgress'] = {};
-  for (const [key, value] of Object.entries(progress || {})) {
-    const parts = key.split(':');
-    if (parts.length !== 3) {
-      next[key] = value;
-      continue;
-    }
-    const [bandId, rawUnitId, lessonIndex] = parts;
-    const unitId = resolveUnitIdForBand(bandId, rawUnitId);
-    if (bandId !== 'unknown-band') {
-      next[`${bandId}:${unitId}:${lessonIndex}`] = value;
-      continue;
-    }
-
-    const match = unitId.match(/^b(\d+)-/i);
-    if (match) {
-      const inferredBandId = `band${match[1]}`;
-      next[`${inferredBandId}:${unitId}:${lessonIndex}`] = value;
-      continue;
-    }
-
-    next[key] = value;
-  }
-  return next;
-}
-
-function mergeLessonProgress(
-  existingProgress: AppState['lessonProgress'],
-  incomingProgress: AppState['lessonProgress']
-) {
-  const isCompletedByScores = (quizScore: number | null, speakScore: number | null) =>
-    (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
-  const merged: AppState['lessonProgress'] = { ...existingProgress };
-  for (const [key, incoming] of Object.entries(incomingProgress || {})) {
-    const existing = merged[key];
-    if (!existing) {
-      const completed = incoming.completed || isCompletedByScores(incoming.quizScore, incoming.speakScore);
-      merged[key] = {
-        ...incoming,
-        completed,
-        mastered: incoming.mastered,
-      };
-      continue;
-    }
-    const introViewed = existing.introViewed || incoming.introViewed;
-    const quizScore =
-      existing.quizScore === null
-        ? incoming.quizScore
-        : incoming.quizScore === null
-          ? existing.quizScore
-          : Math.max(existing.quizScore, incoming.quizScore);
-    const speakScore =
-      existing.speakScore === null
-        ? incoming.speakScore
-        : incoming.speakScore === null
-          ? existing.speakScore
-          : Math.max(existing.speakScore, incoming.speakScore);
-    const completed =
-      existing.completed ||
-      incoming.completed ||
-      isCompletedByScores(quizScore, speakScore);
-    merged[key] = {
-      introViewed,
-      quizScore,
-      speakScore,
-      speakAllCorrect: existing.speakAllCorrect || incoming.speakAllCorrect,
-      completed,
-      mastered: existing.mastered || incoming.mastered,
-    };
-  }
-  return merged;
-}
-
-type ProgressEventEnvelope = {
-  eventType?: string;
-  payloadJson?: unknown;
-};
-
-function buildLessonProgressFromRecentEvents(events: ProgressEventEnvelope[] | undefined) {
-  const isCompletedByScores = (quizScore: number | null, speakScore: number | null) =>
-    (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
-  const next: AppState['lessonProgress'] = {};
-  for (const event of events || []) {
-    if (event?.eventType !== 'lesson_completed') continue;
-    if (!event.payloadJson || typeof event.payloadJson !== 'object' || Array.isArray(event.payloadJson)) continue;
-    const payload = event.payloadJson as Record<string, unknown>;
-    const bandId = typeof payload.bandId === 'string' ? payload.bandId.trim() : '';
-    const unitId = typeof payload.unitId === 'string' ? payload.unitId.trim() : '';
-    const lessonIndex =
-      typeof payload.lessonIndex === 'number' && Number.isInteger(payload.lessonIndex)
-        ? payload.lessonIndex
-        : null;
-    if (!bandId || !unitId || lessonIndex === null || lessonIndex < 0) continue;
-
-    const key = makeLessonKey(bandId, unitId, lessonIndex);
-    const quizScore = typeof payload.quizScore === 'number' ? payload.quizScore : null;
-    const speakScore = typeof payload.speakScore === 'number' ? payload.speakScore : null;
-    const completed = Boolean(payload.completed) || isCompletedByScores(quizScore, speakScore);
-    next[key] = {
-      introViewed: Boolean(payload.introViewed),
-      quizScore,
-      speakScore,
-      speakAllCorrect: Boolean(payload.speakAllCorrect),
-      completed,
-      mastered: Boolean(payload.mastered),
-    };
-  }
-  return next;
-}
 
 function getPracticeModeFromUnit(unitId: string): LessonMode | null {
   if (/listening$/i.test(unitId)) return 'quiz';
@@ -527,9 +363,52 @@ type LessonCompletionSnapshot = {
   mastered: boolean;
 };
 
+const LESSON_SNAPSHOT_OUTBOX_KEY = 'sonus.lesson_snapshot_outbox';
+
+type QueuedLessonCompletionSnapshot = LessonCompletionSnapshot & {
+  queuedAt: string;
+};
+
+function readQueuedLessonSnapshots() {
+  try {
+    const raw = window.localStorage.getItem(LESSON_SNAPSHOT_OUTBOX_KEY);
+    if (!raw) return [] as QueuedLessonCompletionSnapshot[];
+    const parsed = JSON.parse(raw) as QueuedLessonCompletionSnapshot[];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [] as QueuedLessonCompletionSnapshot[];
+  }
+}
+
+function writeQueuedLessonSnapshots(items: QueuedLessonCompletionSnapshot[]) {
+  try {
+    if (!items.length) {
+      window.localStorage.removeItem(LESSON_SNAPSHOT_OUTBOX_KEY);
+      return;
+    }
+    // Keep only newest 200 snapshots to avoid unbounded localStorage growth.
+    window.localStorage.setItem(LESSON_SNAPSHOT_OUTBOX_KEY, JSON.stringify(items.slice(-200)));
+  } catch {
+    // Ignore localStorage failures.
+  }
+}
+
+function queueLessonSnapshot(snapshot: LessonCompletionSnapshot) {
+  const existing = readQueuedLessonSnapshots();
+  const key = makeLessonKey(snapshot.bandId, snapshot.unitId, snapshot.lessonIndex);
+  const filtered = existing.filter(
+    (item) => makeLessonKey(item.bandId, item.unitId, item.lessonIndex) !== key
+  );
+  filtered.push({
+    ...snapshot,
+    queuedAt: new Date().toISOString(),
+  });
+  writeQueuedLessonSnapshots(filtered);
+}
+
 async function saveLessonCompletionSnapshot(snapshot: LessonCompletionSnapshot) {
   try {
-    await apiFetch('/v1/me/progress/events', {
+    const response = await apiFetch('/v1/me/progress/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -538,9 +417,50 @@ async function saveLessonCompletionSnapshot(snapshot: LessonCompletionSnapshot) 
         payloadJson: snapshot,
       }),
     });
+    if (!response.ok) {
+      queueLessonSnapshot(snapshot);
+    }
   } catch {
     // Offline mode should not block lesson flow.
+    queueLessonSnapshot(snapshot);
   }
+}
+
+async function flushQueuedLessonSnapshots() {
+  const queued = readQueuedLessonSnapshots();
+  if (!queued.length) return;
+
+  const remaining: QueuedLessonCompletionSnapshot[] = [];
+  for (const snapshot of queued) {
+    try {
+      const response = await apiFetch('/v1/me/progress/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventType: 'lesson_completed',
+          streakDelta: 0,
+          payloadJson: {
+            bandId: snapshot.bandId,
+            unitId: snapshot.unitId,
+            lessonIndex: snapshot.lessonIndex,
+            introViewed: snapshot.introViewed,
+            quizScore: snapshot.quizScore,
+            speakScore: snapshot.speakScore,
+            speakAllCorrect: snapshot.speakAllCorrect,
+            completed: snapshot.completed,
+            mastered: snapshot.mastered,
+          },
+        }),
+      });
+      if (!response.ok) {
+        remaining.push(snapshot);
+      }
+    } catch {
+      remaining.push(snapshot);
+    }
+  }
+
+  writeQueuedLessonSnapshots(remaining);
 }
 
 const initialState: AppState = {
@@ -652,6 +572,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
 
     void (async () => {
+      await flushQueuedLessonSnapshots();
       try {
         const response = await apiFetch('/v1/me/progress');
         if (!response.ok) return;
@@ -1663,7 +1584,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         nextCurrentPathRef.current.lessonIdx
       );
     }
-    if (completionSnapshotRef.current?.completed) {
+    if (completionSnapshotRef.current) {
       void saveLessonCompletionSnapshot(completionSnapshotRef.current);
     }
   };

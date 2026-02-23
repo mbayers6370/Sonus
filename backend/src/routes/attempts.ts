@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { prisma } from '../lib/prisma.js';
 import { requireAuth } from '../lib/auth.js';
 import { touchUserActivity } from '../services/progressService.js';
+import { computeQuizMemoryUpdate, computeSpeakMemoryUpdate } from '../lib/learningPolicy.js';
 
 const quizAttemptSchema = z.object({
   wordId: z.string().trim().min(1).max(80),
@@ -27,10 +28,6 @@ function nextDueDate(days: number) {
   const due = new Date();
   due.setDate(due.getDate() + days);
   return due;
-}
-
-function clampMin(value: number, min: number) {
-  return Math.max(min, value);
 }
 
 export async function attemptRoutes(app: FastifyInstance) {
@@ -66,22 +63,8 @@ export async function attemptRoutes(app: FastifyInstance) {
         },
       });
 
-      const nextMissedQuizCount = isMiss ? (existing?.missedQuizCount ?? 0) + 1 : 0;
-      const nextMispronounceCount = isMiss ? existing?.mispronounceCount ?? 0 : 0;
-      const nextQuizEase = clampMin(
-        (existing?.quizEase ?? 2.5) + (isMiss ? -0.2 : isReview ? 0.12 : 0.06),
-        1.3
-      );
-      const nextPronunciationRisk = isMiss
-        ? clampMin((existing?.pronunciationRisk ?? 0) + (isReview ? 0.22 : 0.1), 0)
-        : 0;
-
-      const baseInterval = existing?.quizIntervalDays ?? 1;
-      const nextQuizIntervalDays = isMiss
-        ? 1
-        : clampMin(baseInterval + (isReview ? 2 : 1), 1);
-      const dueDays = isMiss ? (isReview ? 0 : 1) : isReview ? 4 : 2;
-      const nextQuizDueAt = nextDueDate(dueDays);
+      const update = computeQuizMemoryUpdate(existing, isMiss, isReview);
+      const nextQuizDueAt = nextDueDate(update.dueDays);
 
       const memory = await tx.wordMemoryState.upsert({
         where: {
@@ -91,11 +74,11 @@ export async function attemptRoutes(app: FastifyInstance) {
           },
         },
         update: {
-          missedQuizCount: nextMissedQuizCount,
-          mispronounceCount: nextMispronounceCount,
-          quizEase: nextQuizEase,
-          pronunciationRisk: nextPronunciationRisk,
-          quizIntervalDays: nextQuizIntervalDays,
+          missedQuizCount: update.missedQuizCount,
+          mispronounceCount: update.mispronounceCount,
+          quizEase: update.quizEase,
+          pronunciationRisk: update.pronunciationRisk,
+          quizIntervalDays: update.quizIntervalDays,
           quizDueAt: nextQuizDueAt,
           lastSeenAt: new Date(),
           lastCorrectAt: isMiss ? existing?.lastCorrectAt ?? null : new Date(),
@@ -103,11 +86,11 @@ export async function attemptRoutes(app: FastifyInstance) {
         create: {
           userId,
           wordId: data.wordId,
-          missedQuizCount: nextMissedQuizCount,
-          mispronounceCount: nextMispronounceCount,
-          quizEase: nextQuizEase,
-          pronunciationRisk: nextPronunciationRisk,
-          quizIntervalDays: nextQuizIntervalDays,
+          missedQuizCount: update.missedQuizCount,
+          mispronounceCount: update.mispronounceCount,
+          quizEase: update.quizEase,
+          pronunciationRisk: update.pronunciationRisk,
+          quizIntervalDays: update.quizIntervalDays,
           quizDueAt: nextQuizDueAt,
           lastSeenAt: new Date(),
           lastCorrectAt: isMiss ? null : new Date(),
@@ -156,21 +139,8 @@ export async function attemptRoutes(app: FastifyInstance) {
         },
       });
 
-      const nextMispronounceCount = mispronounced ? (existing?.mispronounceCount ?? 0) + 1 : 0;
-      const nextMissedQuizCount = mispronounced ? existing?.missedQuizCount ?? 0 : 0;
-      const nextPronunciationRisk = mispronounced
-        ? clampMin((existing?.pronunciationRisk ?? 0) + (isReview ? 0.35 : 0.2), 0)
-        : 0;
-      const nextQuizIntervalDays = mispronounced
-        ? 1
-        : clampMin((existing?.quizIntervalDays ?? 1) + (isReview ? 1 : 0), 1);
-      const nextQuizDueAt = mispronounced
-        ? nextDueDate(isReview ? 0 : 1)
-        : nextDueDate(isReview ? 3 : 2);
-      const nextQuizEase = clampMin(
-        (existing?.quizEase ?? 2.5) + (mispronounced ? -0.08 : 0.05),
-        1.3
-      );
+      const update = computeSpeakMemoryUpdate(existing, mispronounced, isReview);
+      const nextQuizDueAt = nextDueDate(update.dueDays);
 
       const memory = await tx.wordMemoryState.upsert({
         where: {
@@ -180,24 +150,24 @@ export async function attemptRoutes(app: FastifyInstance) {
           },
         },
         update: {
-          mispronounceCount: nextMispronounceCount,
-          missedQuizCount: nextMissedQuizCount,
-          pronunciationRisk: nextPronunciationRisk,
-          quizIntervalDays: nextQuizIntervalDays,
+          mispronounceCount: update.mispronounceCount,
+          missedQuizCount: update.missedQuizCount,
+          pronunciationRisk: update.pronunciationRisk,
+          quizIntervalDays: update.quizIntervalDays,
           quizDueAt: nextQuizDueAt,
-          quizEase: nextQuizEase,
+          quizEase: update.quizEase,
           lastSeenAt: new Date(),
           lastCorrectAt: mispronounced ? existing?.lastCorrectAt ?? null : new Date(),
         },
         create: {
           userId,
           wordId: data.wordId,
-          mispronounceCount: nextMispronounceCount,
-          missedQuizCount: nextMissedQuizCount,
-          pronunciationRisk: nextPronunciationRisk,
-          quizIntervalDays: nextQuizIntervalDays,
+          mispronounceCount: update.mispronounceCount,
+          missedQuizCount: update.missedQuizCount,
+          pronunciationRisk: update.pronunciationRisk,
+          quizIntervalDays: update.quizIntervalDays,
           quizDueAt: nextQuizDueAt,
-          quizEase: nextQuizEase,
+          quizEase: update.quizEase,
           lastSeenAt: new Date(),
           lastCorrectAt: mispronounced ? null : new Date(),
         },

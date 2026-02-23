@@ -97,6 +97,19 @@ type SpeechRecognitionWindow = Window & {
   webkitSpeechRecognition?: SpeechRecognitionCtor;
 };
 
+type SttCapability = {
+  supported: boolean;
+  engine: 'standard' | 'webkit' | 'none';
+};
+
+function getSttCapability(): SttCapability {
+  if (typeof window === 'undefined') return { supported: false, engine: 'none' };
+  const recognitionWindow = window as SpeechRecognitionWindow;
+  if (recognitionWindow.SpeechRecognition) return { supported: true, engine: 'standard' };
+  if (recognitionWindow.webkitSpeechRecognition) return { supported: true, engine: 'webkit' };
+  return { supported: false, engine: 'none' };
+}
+
 const INITIALS = [
   'zh',
   'ch',
@@ -150,20 +163,8 @@ const TONE_CHAR_MAP: Record<string, { base: string; tone: number }> = {
   'ǜ': { base: 'ü', tone: 4 },
 };
 
-const HANZI_BAND_IDS = [
-  'band1',
-  'band2',
-  'band3',
-  'band4',
-  'band5',
-  'band6',
-  'band7',
-  'band8',
-  'band9',
-] as const;
-
-let hanziLookupLoaded = false;
-let hanziLookupPromise: Promise<void> | null = null;
+const hanziLookupLoadedBands = new Set<string>();
+const hanziLookupPromises = new Map<string, Promise<void>>();
 const hanziToPinyinWord = new Map<string, string>();
 const hanziToPinyinChar = new Map<string, string>();
 
@@ -186,38 +187,49 @@ function addHanziMapping(hanziRaw: string, pinyinRaw: string) {
   }
 }
 
-async function ensureHanziLookupLoaded() {
-  if (hanziLookupLoaded) return;
-  if (hanziLookupPromise) return hanziLookupPromise;
+function hydrateLookupFromWords(words: Word[]) {
+  for (const lessonWord of words || []) {
+    addHanziMapping(lessonWord.simp, lessonWord.pinyin || '');
+    addHanziMapping(lessonWord.trad || '', lessonWord.pinyin || '');
+  }
+}
 
-  hanziLookupPromise = (async () => {
-    const responses = await Promise.allSettled(
-      HANZI_BAND_IDS.map(async (bandId) => {
-        const response = await fetch(`/data/zh/${bandId}.json`, { cache: 'no-store' });
-        if (!response.ok) return null;
-        return (await response.json()) as BandData;
-      })
-    );
-
-    for (const result of responses) {
-      if (result.status !== 'fulfilled') continue;
-      const bandData = result.value;
-      if (!bandData) continue;
-      const units = Array.isArray(bandData.units)
-        ? bandData.units
-        : Object.values(bandData.units || {});
-      for (const unit of units) {
-        for (const word of unit.words || []) {
-          addHanziMapping(word.simp, word.pinyin);
-          addHanziMapping(word.trad, word.pinyin);
-        }
-      }
+function hydrateLookupFromBandData(bandData: BandData | null | undefined) {
+  if (!bandData) return;
+  const units = Array.isArray(bandData.units)
+    ? bandData.units
+    : Object.values(bandData.units || {});
+  for (const unit of units) {
+    for (const unitWord of unit.words || []) {
+      addHanziMapping(unitWord.simp, unitWord.pinyin || '');
+      addHanziMapping(unitWord.trad || '', unitWord.pinyin || '');
     }
+  }
+}
 
-    hanziLookupLoaded = true;
-  })();
+async function ensureHanziLookupLoaded(
+  bandId: string | null | undefined,
+  bandData: BandData | null | undefined,
+  lessonWords: Word[]
+) {
+  hydrateLookupFromWords(lessonWords);
+  if (!bandId || !bandData) {
+    return;
+  }
+  if (hanziLookupLoadedBands.has(bandId)) {
+    return;
+  }
+  if (hanziLookupPromises.has(bandId)) {
+    return hanziLookupPromises.get(bandId);
+  }
 
-  return hanziLookupPromise;
+  const loadPromise = Promise.resolve().then(() => {
+    hydrateLookupFromBandData(bandData);
+    hanziLookupLoadedBands.add(bandId);
+  });
+  hanziLookupPromises.set(bandId, loadPromise);
+  await loadPromise;
+  hanziLookupPromises.delete(bandId);
 }
 
 function mapHanziToPinyin(hanziRaw: string): string {
@@ -547,6 +559,8 @@ export default function SpeakMode({
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const finalizeTimerRef = useRef<number | null>(null);
   const recognitionStopTimerRef = useRef<number | null>(null);
+  const sttUnavailableTrackedRef = useRef(false);
+  const lookupTelemetryKeysRef = useRef<Set<string>>(new Set());
   const recordingSessionRef = useRef(0);
   const isRecordingRef = useRef(false);
   const recognitionStateRef = useRef<'idle' | 'recording' | 'finalizing'>('idle');
@@ -556,6 +570,8 @@ export default function SpeakMode({
 
   const { speak } = useAudio();
   const { state, recordSpeakResult, recordWordOutcome } = useApp();
+  const sttCapability = useMemo(() => getSttCapability(), []);
+  const sttSupported = sttCapability.supported;
 
   const targetHanzi = normalizeHanzi(word.simp);
   const targetSyllableCount = Math.max(
@@ -565,14 +581,34 @@ export default function SpeakMode({
 
   useEffect(() => {
     let cancelled = false;
-    void ensureHanziLookupLoaded().finally(() => {
+    void ensureHanziLookupLoaded(state.activeBandId, state.activeBandData, allWords).finally(() => {
       if (cancelled) return;
+      const lookupKey = `${state.activeBandId || 'none'}:${allWords.length}`;
+      if (!lookupTelemetryKeysRef.current.has(lookupKey)) {
+        lookupTelemetryKeysRef.current.add(lookupKey);
+        trackEvent('speak_lookup_ready', {
+          bandId: state.activeBandId || null,
+          lessonWordCount: allWords.length,
+          lookupWords: hanziToPinyinWord.size,
+          lookupChars: hanziToPinyinChar.size,
+        });
+      }
       setLookupVersion((prev) => prev + 1);
     });
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [allWords, state.activeBandData, state.activeBandId]);
+
+  useEffect(() => {
+    if (sttSupported || sttUnavailableTrackedRef.current) return;
+    sttUnavailableTrackedRef.current = true;
+    trackEvent('speak_stt_unavailable', {
+      wordId: word.id,
+      isReview: Boolean(word.isReview),
+      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+    });
+  }, [sttSupported, word.id, word.isReview]);
 
   const resolveDetectedPinyin = (recognized: string): { pinyin: string; source: PronunciationAnalysis['source'] } => {
     const heardHanzi = normalizeHanzi(recognized);
@@ -805,7 +841,17 @@ export default function SpeakMode({
     const recognitionWindow = window as SpeechRecognitionWindow;
     const SpeechRecognitionCtor =
       recognitionWindow.SpeechRecognition || recognitionWindow.webkitSpeechRecognition;
-    if (!SpeechRecognitionCtor) return;
+    if (!SpeechRecognitionCtor) {
+      if (!sttUnavailableTrackedRef.current) {
+        sttUnavailableTrackedRef.current = true;
+        trackEvent('speak_stt_unavailable', {
+          wordId: word.id,
+          isReview: Boolean(word.isReview),
+          userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+        });
+      }
+      return;
+    }
 
     try {
       const sessionId = recordingSessionRef.current;
@@ -873,6 +919,11 @@ export default function SpeakMode({
 
       recognition.onerror = () => {
         // Speech recognition errors do not invalidate the active media stream.
+        trackEvent('speak_stt_error', {
+          phase: 'runtime',
+          wordId: word.id,
+          isReview: Boolean(word.isReview),
+        });
       };
 
       recognition.onend = () => {
@@ -896,6 +947,11 @@ export default function SpeakMode({
       recognitionRef.current = recognition;
     } catch {
       // Recognition startup failures do not block media recording.
+      trackEvent('speak_stt_error', {
+        phase: 'startup',
+        wordId: word.id,
+        isReview: Boolean(word.isReview),
+      });
     }
   };
 
@@ -925,6 +981,16 @@ export default function SpeakMode({
 
     if (isRecording) {
       stopMediaRecorder();
+      return;
+    }
+
+    if (!sttSupported) {
+      setAudioError('Speech recognition is unavailable on this browser. Please use Safari or Chrome.');
+      trackEvent('speak_stt_unavailable', {
+        wordId: word.id,
+        isReview: Boolean(word.isReview),
+        engine: sttCapability.engine,
+      });
       return;
     }
 
@@ -966,6 +1032,11 @@ export default function SpeakMode({
     } catch {
       isRecordingRef.current = false;
       setAudioError('Microphone access was blocked. Please allow mic access and try again.');
+      trackEvent('speak_retry', {
+        wordId: word.id,
+        isReview: Boolean(word.isReview),
+        source: 'mic-blocked',
+      });
       setIsRecording(false);
     }
   };
@@ -1266,9 +1337,11 @@ export default function SpeakMode({
           <button
             type="button"
             onClick={handleRecord}
-            disabled={isFinalizing}
+            disabled={isFinalizing || !sttSupported}
             className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] transition-colors ${
-              isPerfectListening
+              !sttSupported
+                ? 'border-[#D1D5DB] bg-[#F3F4F6] opacity-75 cursor-not-allowed'
+                : isPerfectListening
                 ? 'border-[#AEBFB5] bg-[#E8F0EB]'
                 : 'border-[#E5B8A5] bg-[#F8EEE9] active:bg-[#F3E4DC]'
             }`}
@@ -1284,7 +1357,13 @@ export default function SpeakMode({
                 {transcript || '...'}
               </div>
               <div className="text-xs text-text-med mt-1">
-                {isFinalizing ? 'Finalizing...' : isRecording ? 'Recording...' : 'Results appear below'}
+                {!sttSupported
+                  ? 'Speech recognition unavailable'
+                  : isFinalizing
+                    ? 'Finalizing...'
+                    : isRecording
+                      ? 'Recording...'
+                      : 'Results appear below'}
               </div>
             </div>
           </button>
