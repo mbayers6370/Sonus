@@ -6,6 +6,16 @@ function readHeader(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
+function originFromReferer(referer: string | null) {
+  if (!referer) return null;
+  try {
+    const parsed = new URL(referer);
+    return parsed.origin;
+  } catch {
+    return null;
+  }
+}
+
 export function readAllowedOrigins() {
   return new Set(
     env.CORS_ORIGINS.split(',')
@@ -27,12 +37,12 @@ export function requireTrustedOrigin(
   if (env.AUTH_MODE === 'mock') return true;
 
   const origin = readHeader(request.headers.origin);
-  if (!origin) {
-    reply.code(403).send({ error: 'Missing Origin header' });
-    return false;
-  }
-  if (!isAllowedOrigin(origin, allowedOrigins)) {
-    reply.code(403).send({ error: 'Untrusted request origin' });
+  const referer = readHeader(request.headers.referer);
+  const refererOrigin = originFromReferer(referer);
+  const trusted = isAllowedOrigin(origin, allowedOrigins) || isAllowedOrigin(refererOrigin, allowedOrigins);
+
+  if (!trusted) {
+    reply.code(403).send({ error: 'Untrusted request origin/referrer' });
     return false;
   }
   return true;
