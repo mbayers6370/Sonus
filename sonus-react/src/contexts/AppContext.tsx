@@ -113,6 +113,14 @@ const LESSON_UNLOCK_PASS_PERCENT = 85;
 const BAND_UNLOCK_PASS_PERCENT = 90;
 const APPLY_PROMPT_COUNT = 12;
 const DAILY_REVIEW_WORD_COUNT = 5;
+const hasLessonUnlockCredit = (
+  status: { completed?: boolean; quizScore?: number | null; speakScore?: number | null } | undefined
+) =>
+  Boolean(
+    status?.completed ||
+    ((status?.quizScore ?? 0) >= QUIZ_PASS_PERCENT && (status?.speakScore ?? 0) >= SPEAK_PASS_PERCENT) ||
+    (status?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT
+  );
 
 function resolveStateStorageKey() {
   const { userId, email } = getMockIdentity();
@@ -743,7 +751,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       // without requiring completed flags from older session states.
       const hasLessonPassedThreshold = (targetUnitId: string, targetLessonIndex: number) => {
         const key = makeLessonKey(bandId, targetUnitId, targetLessonIndex);
-        return (state.lessonProgress[key]?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT;
+        return hasLessonUnlockCredit(state.lessonProgress[key]);
       };
       const coreUnitIds = getUnitsForBand(bandId)
         .filter((meta) => !isPracticeUnitId(meta.id) && !isCheckpointUnitId(meta.id))
@@ -1333,7 +1341,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (unitLessonCount === 0) return false;
       const hasLessonPassedThreshold = (targetLessonIndex: number) => {
         const key = makeLessonKey(targetBandId, candidateUnitId, targetLessonIndex);
-        return (state.lessonProgress[key]?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT;
+        return hasLessonUnlockCredit(state.lessonProgress[key]);
       };
       const unlockedLessonIndexes: number[] = [];
       for (let lessonIdx = 0; lessonIdx < unitLessonCount; lessonIdx += 1) {
@@ -1588,7 +1596,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           let latestUnlockedLessonIndex = 0;
           for (let lessonIdx = 1; lessonIdx < lessonRanges.length; lessonIdx += 1) {
             const priorKey = makeLessonKey(bandId, resolvedUnitId, lessonIdx - 1);
-            const priorPassed = (nextLessonProgress[priorKey]?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT;
+            const priorPassed = hasLessonUnlockCredit(nextLessonProgress[priorKey]);
             if (!priorPassed) break;
             latestUnlockedLessonIndex = lessonIdx;
           }

@@ -13,6 +13,8 @@ import type { LessonMode } from '../types/lesson.types';
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
   (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
+const hasLessonUnlockCredit = (status: { completed?: boolean; quizScore?: number | null; speakScore?: number | null } | undefined) =>
+  Boolean(status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore) || (status?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT);
 
 const CARD_ACCENTS = [
   {
@@ -223,7 +225,7 @@ export default function UnitSelect({
   const unitMetricById = new Map(unitMetrics.map((metric) => [metric.unitId, metric]));
   const hasLessonPassedThreshold = (unitId: string, lessonIndex: number) => {
     const key = makeLessonKey(currentLevel.id, unitId, lessonIndex);
-    return (lessonProgress[key]?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT;
+    return hasLessonUnlockCredit(lessonProgress[key]);
   };
   const hasUnitPassedThreshold = (unitId: string) => {
     const metric = unitMetricById.get(unitId);

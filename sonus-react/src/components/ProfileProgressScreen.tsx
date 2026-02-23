@@ -84,6 +84,8 @@ const ROWS_PER_PAGE = 2;
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
   (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
+const hasLessonUnlockCredit = (status: { completed?: boolean; quizScore?: number | null; speakScore?: number | null } | undefined) =>
+  Boolean(status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore) || (status?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT);
 
 function getNeedsWorkColumns(width: number) {
   if (width >= 1024) return 4;
@@ -312,8 +314,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       if (total <= 0) continue;
       for (let lessonIdx = 0; lessonIdx < total; lessonIdx += 1) {
         const key = `${effectiveBandId}:${unit.id}:${lessonIdx}`;
-        const score = state.lessonProgress[key]?.quizScore ?? 0;
-        if (score < LESSON_UNLOCK_PASS_PERCENT) {
+        if (!hasLessonUnlockCredit(state.lessonProgress[key])) {
           return { unitId: unit.id, lessonIdx };
         }
       }
