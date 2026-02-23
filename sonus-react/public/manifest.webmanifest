@@ -12,18 +12,6 @@
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
-    },
-    {
-      "src": "/branding/app-touch-icon-1.png",
-      "sizes": "1000x1000",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/apple-touch-icon-1.png",
-      "sizes": "1000x1000",
-      "type": "image/png",
-      "purpose": "any"
     }
   ]
 }

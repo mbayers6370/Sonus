@@ -617,12 +617,6 @@ export default function UnitSelect({
                       Apply
                     </span>
                   </div>
-                  <div className={`mt-4 text-sm font-mono uppercase tracking-wider ${isApplyCompleted ? 'text-white/90' : !isApplyUnlocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
-                    Sentence Context
-                  </div>
-                  <div className={`mt-1 text-xs font-mono uppercase tracking-wider ${isApplyCompleted ? 'text-white/85' : !isApplyUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
-                    {Math.min(12, applySentenceCount)} prompts
-                  </div>
                 </button>
               );
             })()}
