@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
-import { BookOpen, LockKeyhole } from 'lucide-react';
+import { BookOpen, Check, LockKeyhole, MessageSquare } from 'lucide-react';
 import { getUnitsForBand, isCheckpointUnitId, isPracticeUnitId, parseCheckpointIndex } from '../data/unitMetadata';
 import BottomNav from './BottomNav';
 import { getLessonRanges } from '../lib/lessonChunks';
@@ -288,6 +288,12 @@ export default function UnitSelect({
       ? unitMetrics.find((u) => u.unitId === activeUnitId) ?? null
       : null
     : null;
+  const featuredPracticeUnits = unitMetrics.filter(
+    (metric) => metric.practiceType === 'listening' || metric.practiceType === 'speaking'
+  );
+  const standardUnitMetrics = unitMetrics.filter(
+    (metric) => metric.practiceType !== 'listening' && metric.practiceType !== 'speaking'
+  );
   const headerTitle = activeUnit ? `Unit ${activeUnit.metadata.order}` : currentLevel.name;
   const isMandarinBandLocked =
     state.selectedLanguage === 'zh' &&
@@ -316,40 +322,86 @@ export default function UnitSelect({
 
       {/* Units Grid */}
       {!activeUnit && !isMandarinBandLocked && (
-      <div className="pt-2">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-          {unitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, masteredLessons, completionPercent, practiceType, isBlueprint }, index) => {
-            const row = Math.floor(index / columns);
-            const col = index % columns;
-            const accent = CARD_ACCENTS[(col + row) % CARD_ACCENTS.length];
-            const Icon = metadata.icon;
-            const isUnitUnlocked = Boolean(unlockedByUnitId.get(unitId));
-            if (practiceType) {
-              const practiceAccent =
-                practiceType === 'listening'
-                  ? {
-                      solidBg: 'bg-[#186E95]',
-                      borderColor: 'border-[#186E95]',
-                    }
-                  : practiceType === 'speaking'
-                  ? {
-                      solidBg: 'bg-[#C2410C]',
-                      borderColor: 'border-[#C2410C]',
-                    }
-                  : {
-                      solidBg: 'bg-[#374151]',
-                      borderColor: 'border-[#374151]',
-                    };
+      <div className="pt-2 space-y-4">
+        {featuredPracticeUnits.length > 0 && (
+          <div className="grid grid-cols-2 gap-4">
+            {featuredPracticeUnits.map(({ unitId, metadata, practiceType }) => {
+              const isUnitUnlocked = Boolean(unlockedByUnitId.get(unitId));
+              const isListening = practiceType === 'listening';
+              const tone = isListening
+                ? {
+                    bg: 'bg-[#186E95]',
+                    border: 'border-[#186E95]',
+                    text: 'text-[#186E95]',
+                    pillBg: 'bg-[rgba(24,110,149,0.12)]',
+                  }
+                : {
+                    bg: 'bg-[#C2410C]',
+                    border: 'border-[#C2410C]',
+                    text: 'text-[#C2410C]',
+                    pillBg: 'bg-[rgba(194,65,12,0.12)]',
+                  };
+              const Icon = metadata.icon;
               return (
                 <button
                   key={unitId}
                   onClick={() => {
                     if (!isUnitUnlocked) return;
-                    if (practiceType === 'checkpoint') {
-                      onSelectLesson(unitId, 0, 'quiz');
-                      return;
-                    }
                     onOpenPractice(unitId);
+                  }}
+                  disabled={!isUnitUnlocked}
+                  className={`${isUnitUnlocked ? `${tone.bg} text-white border ${tone.border}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl min-h-[128px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.3)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                >
+                  <div className="space-y-1.5">
+                    <div className={`text-xs font-mono tracking-wide ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
+                      {isListening ? 'Listening Practice' : 'Speaking Practice'}
+                    </div>
+                    <div className={`main-font text-[1.6rem] leading-none ${isUnitUnlocked ? 'text-white' : 'text-[#4B5563]'}`}>
+                      {isListening ? '听力练习' : '口语练习'}
+                    </div>
+                  </div>
+
+                  <div className="mt-auto pt-3">
+                    <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitUnlocked ? 'bg-white/20 text-white' : 'bg-white text-[#6B7280] border border-[#D1D5DB]'}`}>
+                      <Icon className={`w-3.5 h-3.5 ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`} />
+                      <span className={`text-[10px] font-semibold uppercase tracking-wider font-mono ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
+                        {isListening ? 'Listening' : 'Speaking'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {!isUnitUnlocked && (
+                    <div className="absolute inset-0 z-20 rounded-3xl bg-white/45 backdrop-blur-[2px] border border-white/50 flex items-center justify-center pointer-events-none">
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/80 border border-[#D1D5DB] text-[#6B7280]">
+                        <LockKeyhole className="w-3.5 h-3.5" />
+                        <span className="text-xs font-semibold uppercase tracking-wider font-mono">Locked</span>
+                      </div>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+          {standardUnitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, masteredLessons, completionPercent, practiceType, isBlueprint }, index) => {
+            const row = Math.floor(index / columns);
+            const col = index % columns;
+            const accent = CARD_ACCENTS[(col + row) % CARD_ACCENTS.length];
+            const Icon = metadata.icon;
+            const isUnitUnlocked = Boolean(unlockedByUnitId.get(unitId));
+            if (practiceType === 'checkpoint') {
+              const practiceAccent = {
+                solidBg: 'bg-[#374151]',
+                borderColor: 'border-[#374151]',
+              };
+              return (
+                <button
+                  key={unitId}
+                  onClick={() => {
+                    if (!isUnitUnlocked) return;
+                    onSelectLesson(unitId, 0, 'quiz');
                   }}
                   disabled={!isUnitUnlocked}
                   className={`${isUnitUnlocked ? `${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
@@ -358,11 +410,7 @@ export default function UnitSelect({
                     <div className={`inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitUnlocked ? 'bg-white/20 text-white' : 'bg-white text-[#6B7280] border border-[#D1D5DB]'}`}>
                       <Icon className={`w-3.5 h-3.5 ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`} />
                       <span className={`text-[10px] font-semibold uppercase tracking-wider font-mono whitespace-nowrap overflow-hidden text-ellipsis ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
-                        {practiceType === 'listening'
-                          ? 'Listening'
-                          : practiceType === 'speaking'
-                          ? 'Speaking'
-                          : 'Checkpoint'}
+                        Checkpoint
                       </span>
                     </div>
                     <span className={`text-[10px] font-mono ${isUnitUnlocked ? 'text-white' : 'text-[#9CA3AF]'}`}>Practice</span>
@@ -392,12 +440,10 @@ export default function UnitSelect({
                           {`${LESSON_UNLOCK_PASS_PERCENT}% to unlock`}
                         </span>
                       )
-                      : practiceType === 'checkpoint'
-                      ? 'Begin →'
-                      : 'Start practice →'}
+                      : 'Begin →'}
                   </div>
                   {!isUnitUnlocked && (
-                    <div className="absolute inset-0 z-20 rounded-3xl bg-white/45 backdrop-blur-[2px] border border-white/50 flex items-center justify-center pointer-events-none">
+                    <div className="absolute inset-0 z-20 rounded-3xl bg-white/45 backdrop-blur-[4px] border border-white/50 flex items-center justify-center pointer-events-none">
                       <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/80 border border-[#D1D5DB] text-[#6B7280]">
                         <LockKeyhole className="w-3.5 h-3.5" />
                         <span className="text-xs font-semibold uppercase tracking-wider font-mono">Locked</span>
@@ -409,7 +455,8 @@ export default function UnitSelect({
             }
             const isUnitCompleted = lessonsCount > 0 && completedLessons === lessonsCount;
             const isUnitMastered = lessonsCount > 0 && masteredLessons === lessonsCount && isUnitCompleted;
-            const depth = isBlueprint ? 0 : isUnitMastered ? 100 : Math.max(4, completionPercent);
+            const safeCompletionPercent = completionPercent ?? 0;
+            const depth = isBlueprint ? 0 : isUnitMastered ? 100 : Math.max(4, safeCompletionPercent);
             const currentLessonInUnit = (() => {
               if (lessonsCount <= 0) return null;
               for (let lessonIdx = 0; lessonIdx < lessonsCount; lessonIdx += 1) {
@@ -476,7 +523,7 @@ export default function UnitSelect({
                     />
                   </div>
                   <div className={`mt-1 text-[10px] font-mono tracking-wide ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
-                    {completionPercent}% complete
+                    {safeCompletionPercent}% complete
                   </div>
                 </div>
 
@@ -596,26 +643,40 @@ export default function UnitSelect({
               const applyLessonIndex = activeUnit.lessonsCount;
               const applyKey = makeLessonKey(currentLevel.id, activeUnit.unitId, applyLessonIndex);
               const isApplyCompleted = Boolean(lessonProgress[applyKey]?.completed);
-              const applySentenceCount = activeUnit.applySentenceCount;
-              const isApplyUnlocked =
-                Boolean(unlockedByUnitId.get(activeUnit.unitId)) &&
-                applySentenceCount > 0;
               const accent = CARD_ACCENTS[(activeUnit.lessonsCount + columns) % CARD_ACCENTS.length];
               return (
                 <button
                   key={`${activeUnit.unitId}-apply`}
                   onClick={() => {
-                    if (!isApplyUnlocked) return;
                     onSelectLesson(activeUnit.unitId, applyLessonIndex, 'apply');
                   }}
-                  disabled={!isApplyUnlocked}
-                  className={`${isApplyCompleted ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#374151]' ? 'bg-[#374151]' : 'bg-[#C2410C]'} text-white` : !isApplyUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : 'bg-white text-text-dark'} border-2 ${isApplyUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isApplyCompleted ? 'bg-[linear-gradient(145deg,rgba(24,110,149,0.78)_0%,rgba(33,112,146,0.74)_44%,rgba(62,86,72,0.76)_100%)] text-white border-white/40' : 'bg-[rgba(243,244,246,0.62)] text-text-dark border-[#D1D5DB]/90'} border-[2.5px] backdrop-blur-[8px] rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 relative overflow-hidden`}
                 >
-                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isApplyCompleted ? 'bg-white/20 text-white' : !isApplyUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
-                    <BookOpen className={`w-3.5 h-3.5 ${isApplyCompleted ? 'text-white' : !isApplyUnlocked ? 'text-[#6B7280]' : accent.badgeText}`} />
-                    <span className={`text-xs font-semibold uppercase tracking-wider font-mono ${isApplyCompleted ? 'text-white' : !isApplyUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
-                      Apply
-                    </span>
+                  <div
+                    className={`absolute -top-10 -left-10 h-32 w-32 rounded-full blur-2xl pointer-events-none ${
+                      isApplyCompleted ? 'bg-[#C2410C]/18' : 'bg-[#C2410C]/30'
+                    }`}
+                  />
+                  <div
+                    className={`absolute -bottom-10 -right-10 h-32 w-32 rounded-full blur-2xl pointer-events-none ${
+                      isApplyCompleted ? 'bg-[#C2410C]/18' : 'bg-[#C2410C]/30'
+                    }`}
+                  />
+                  <div className={`absolute inset-[6px] rounded-[0.8rem] border ${isApplyCompleted ? 'border-white/25' : 'border-white/70'} pointer-events-none`} />
+
+                  <div className="h-full flex flex-col items-center justify-center text-center gap-2 relative z-10">
+                    <div className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg ${isApplyCompleted ? 'bg-white/20 text-white' : 'bg-[rgba(194,65,12,0.12)] text-[#C2410C]'}`}>
+                      <span className="relative inline-flex items-center justify-center w-4 h-4">
+                        <MessageSquare className={`w-4 h-4 ${isApplyCompleted ? 'text-white' : 'text-[#C2410C]'}`} />
+                        <Check className={`absolute -right-1 -bottom-1 w-2.5 h-2.5 ${isApplyCompleted ? 'text-white' : 'text-[#C2410C]'}`} />
+                      </span>
+                      <span className={`text-[11px] font-semibold uppercase tracking-wider font-mono ${isApplyCompleted ? 'text-white' : 'text-[#C2410C]'}`}>
+                        Apply
+                      </span>
+                    </div>
+                    <div className={`text-[11px] uppercase tracking-[0.16em] font-mono ${isApplyCompleted ? 'text-white/85' : 'text-text-light'}`}>
+                      Context Practice
+                    </div>
                   </div>
                 </button>
               );
