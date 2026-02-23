@@ -572,6 +572,7 @@ export default function SpeakMode({
   const { state, recordSpeakResult, recordWordOutcome } = useApp();
   const sttCapability = useMemo(() => getSttCapability(), []);
   const sttSupported = sttCapability.supported;
+  const isMandarinLesson = state.selectedLanguage === 'zh' || Boolean(word.pinyin?.trim());
 
   const targetHanzi = normalizeHanzi(word.simp);
   const targetSyllableCount = Math.max(
@@ -675,6 +676,11 @@ export default function SpeakMode({
       return { pinyin: '', source: 'unresolved' };
     }
 
+    // Mandarin lessons should not score raw English/latin fallback text (e.g. "Siri").
+    if (isMandarinLesson) {
+      return { pinyin: '', source: 'unresolved' };
+    }
+
     return { pinyin: recognized, source: 'latin' };
   };
 
@@ -686,6 +692,17 @@ export default function SpeakMode({
     if (!target.length) return null;
 
     const detected = resolveDetectedPinyin(recognized);
+    const recognizedHanzi = normalizeHanzi(recognized);
+    if (recognizedHanzi && recognizedHanzi === targetHanzi) {
+      return {
+        targetPinyin,
+        detectedPinyin: targetPinyin,
+        source: 'hanzi-map',
+        initial: buildScore(target.length, target.length),
+        final: buildScore(target.length, target.length),
+        tone: buildScore(target.length, target.length),
+      };
+    }
     if (!detected.pinyin.trim()) {
       return {
         targetPinyin,
@@ -742,6 +759,10 @@ export default function SpeakMode({
 
     if (recognizedHanzi) {
       return targetHanzi.length > 0 && recognizedHanzi === targetHanzi;
+    }
+
+    if (isMandarinLesson) {
+      return false;
     }
 
     if (!targetPinyin) return false;

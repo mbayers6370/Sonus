@@ -369,6 +369,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     const payload = await readAuthResponse(response);
     if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error(`Auth endpoint not found at ${API_BASE_URL}/v1/auth/forgot-password. Deploy latest backend.`);
+      }
       throw new Error(payload.error || payload.message || 'Unable to send reset email');
     }
   }, []);
@@ -383,6 +386,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     const payload = await readAuthResponse(response);
     if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error(`Auth endpoint not found at ${API_BASE_URL}/v1/auth/reset-password. Deploy latest backend.`);
+      }
       throw new Error(payload.error || payload.message || 'Unable to reset password');
     }
     clearToSignedOut();
