@@ -430,19 +430,43 @@ export async function authRoutes(app: FastifyInstance) {
     }
 
     if (env.AUTH_MODE === 'mock') {
+      const email = normalizeEmail(parsed.data.email);
       const existing = await prisma.profile.findFirst({
-        where: { email: parsed.data.email },
+        where: { email },
         orderBy: { createdAt: 'asc' },
       });
-      if (!existing) {
+      if (existing) {
+        const profile = await getOrCreateProfile(existing.userId, email);
+        loginThrottle.registerSuccess(identity);
+        reply.send({
+          user: { id: existing.userId, email },
+          profile,
+          accessToken: null,
+        });
+        return;
+      }
+
+      // Allow seeded local-auth QA/admin accounts to sign in while running in
+      // mock mode (useful for local dev parity and preview environments).
+      const account = await prisma.localAuthCredential.findUnique({
+        where: { email },
+      });
+      if (!account) {
         loginThrottle.registerFailure(identity);
         reply.code(401).send({ error: 'No account found for this email. Sign up first.' });
         return;
       }
-      const profile = await getOrCreateProfile(existing.userId, parsed.data.email);
+
+      const passwordValid = await verifyPassword(parsed.data.password, account.passwordHash);
+      if (!passwordValid) {
+        rejectInvalidCredentials();
+        return;
+      }
+
+      const profile = await getOrCreateProfile(account.userId, email);
       loginThrottle.registerSuccess(identity);
       reply.send({
-        user: { id: existing.userId, email: parsed.data.email },
+        user: { id: account.userId, email },
         profile,
         accessToken: null,
       });

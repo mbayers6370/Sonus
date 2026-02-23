@@ -6,40 +6,189 @@
   "wordCount": 0,
   "availableWords": 0,
   "unallocatedWords": 0,
-  "units": {
-    "b79-m1-cause-effect": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m1-comparison-evaluation": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m1-hypothesis-speculation": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-
-    "b79-m2-agreement-concession": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m2-emphasis-reinforcement": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m2-counterargument": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-
-    "b79-m3-politics-policy": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m3-economy-finance": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m3-tech-innovation": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-
-    "b79-m4-meetings-discussion": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m4-negotiation": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m4-formal-writing": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-
-    "b79-m5-idiomatic-social": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m5-register-shift": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m5-emotional-subtlety": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-
-    "b79-m6-chengyu": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m6-literary-connectors": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m6-cultural-references": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-
-    "b79-m7-nominalization": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m7-passive-causative": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m7-discourse-chaining": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-
-    "b79-m8-legal": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m8-medical": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-m8-business-analytics": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-
-    "b79-listening": { "targetWords": 0, "allocatedWords": 0, "words": [] },
-    "b79-speaking": { "targetWords": 0, "allocatedWords": 0, "words": [] }
-  }
+  "units": [
+    {
+      "id": "b79-m1-cause-effect",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m1-comparison-evaluation",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m1-hypothesis-speculation",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m2-agreement-concession",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m2-emphasis-reinforcement",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m2-counterargument",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m3-politics-policy",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m3-economy-finance",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m3-tech-innovation",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m4-meetings-discussion",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m4-negotiation",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m4-formal-writing",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m5-idiomatic-social",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m5-register-shift",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m5-emotional-subtlety",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m6-chengyu",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m6-literary-connectors",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m6-cultural-references",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m7-nominalization",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m7-passive-causative",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m7-discourse-chaining",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m8-legal",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m8-medical",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-m8-business-analytics",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-listening",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    },
+    {
+      "id": "b79-speaking",
+      "band": 7,
+      "targetWords": 0,
+      "allocatedWords": 0,
+      "words": []
+    }
+  ],
+  "curriculum": []
 }

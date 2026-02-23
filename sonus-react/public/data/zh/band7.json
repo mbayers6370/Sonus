@@ -6,11 +6,14 @@
   "wordCount": 0,
   "availableWords": 0,
   "unallocatedWords": 0,
-  "units": {
-    "b7-academic": {
+  "units": [
+    {
+      "id": "b7-academic",
+      "band": 7,
       "targetWords": 170,
       "allocatedWords": 0,
       "words": []
     }
-  }
+  ],
+  "curriculum": []
 }

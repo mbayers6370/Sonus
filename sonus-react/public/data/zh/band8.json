@@ -6,11 +6,14 @@
   "wordCount": 0,
   "availableWords": 0,
   "unallocatedWords": 0,
-  "units": {
-    "b8-writing": {
+  "units": [
+    {
+      "id": "b8-writing",
+      "band": 8,
       "targetWords": 180,
       "allocatedWords": 0,
       "words": []
     }
-  }
+  ],
+  "curriculum": []
 }

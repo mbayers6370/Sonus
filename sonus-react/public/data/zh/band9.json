@@ -6,11 +6,14 @@
   "wordCount": 0,
   "availableWords": 0,
   "unallocatedWords": 0,
-  "units": {
-    "b9-nuance": {
+  "units": [
+    {
+      "id": "b9-nuance",
+      "band": 9,
       "targetWords": 180,
       "allocatedWords": 0,
       "words": []
     }
-  }
+  ],
+  "curriculum": []
 }
