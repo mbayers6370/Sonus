@@ -338,8 +338,17 @@ export async function getProgressSnapshot(userId: string) {
     });
   const sevenDayActivity = buildSevenDayActivity(activeDayKeys, lessonCompletionsByDay, timezone);
   const lessonProgress = buildLessonProgressFromEvents(lessonCompletionEvents);
+  const lessonCompletionsByDayList = Array.from(lessonCompletionsByDay.entries())
+    .map(([dayKey, lessonsCompleted]) => ({ dayKey, lessonsCompleted }))
+    .sort((a, b) => a.dayKey.localeCompare(b.dayKey));
 
-  return { progress: normalizedProgress, recentEvents, sevenDayActivity, lessonProgress };
+  return {
+    progress: normalizedProgress,
+    recentEvents,
+    sevenDayActivity,
+    lessonProgress,
+    lessonCompletionsByDay: lessonCompletionsByDayList,
+  };
 }
 
 export async function updateProgressCurrent(userId: string, input: UpdateProgressCurrentInput) {

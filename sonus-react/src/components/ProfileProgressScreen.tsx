@@ -115,6 +115,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       const json = (await progressResponse.json()) as {
         progress: Progress;
         sevenDayActivity?: Array<{ dayKey: string; active: boolean; lessonsCompleted?: number }>;
+        lessonCompletionsByDay?: Array<{ dayKey: string; lessonsCompleted: number }>;
         recentEvents?: ProgressEvent[];
       };
       setProgress(json.progress);
@@ -131,13 +132,32 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       const normalizedActivity = (json.sevenDayActivity || []).map((day) => ({
         ...day,
         lessonsCompleted: Math.max(
-          getLessonCompletionCountForDay(day.dayKey),
-          typeof day.lessonsCompleted === 'number'
-            ? day.lessonsCompleted
-            : (fallbackLessonCompletionsByDay.get(day.dayKey) ?? 0)
+          0,
+          typeof day.lessonsCompleted === 'number' ? day.lessonsCompleted : 0
         ),
       }));
-      setSevenDayActivity(normalizedActivity);
+      const serverCompletionMap = new Map<string, number>();
+      for (const row of json.lessonCompletionsByDay || []) {
+        if (!row?.dayKey) continue;
+        serverCompletionMap.set(
+          row.dayKey,
+          Math.max(0, typeof row.lessonsCompleted === 'number' ? row.lessonsCompleted : 0)
+        );
+      }
+      const mergedActivity = normalizedActivity.map((day) => {
+        const lessonsCompleted = Math.max(
+          getLessonCompletionCountForDay(day.dayKey),
+          typeof day.lessonsCompleted === 'number' ? day.lessonsCompleted : 0,
+          serverCompletionMap.get(day.dayKey) ?? 0,
+          fallbackLessonCompletionsByDay.get(day.dayKey) ?? 0
+        );
+        return {
+          ...day,
+          lessonsCompleted,
+          active: lessonsCompleted > 0 || day.active,
+        };
+      });
+      setSevenDayActivity(mergedActivity);
 
       if (needsWorkResponse.ok) {
         const weakJson = (await needsWorkResponse.json()) as { needsWork: NeedsWorkItem[] };
@@ -358,8 +378,8 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
               const dayNumber = labelDate.toLocaleDateString(undefined, { day: 'numeric' });
               const completedLessons = Math.max(0, day.lessonsCompleted ?? 0);
               const hasCompletedLessons = completedLessons > 0;
-              const visibleDots = Math.min(completedLessons, 10);
-              const overflowDots = Math.max(0, completedLessons - visibleDots);
+              const visibleNotches = Math.min(completedLessons, 8);
+              const overflowNotches = Math.max(0, completedLessons - visibleNotches);
               return (
                 <div
                   key={day.dayKey}
@@ -369,18 +389,20 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                       : 'border-white/20 bg-white/10'
                   }`}
                 >
-                  <div className="h-9 sm:h-10 mb-0.5 sm:mb-1 flex items-center justify-center gap-1">
-                    <div className="flex max-w-[56px] flex-wrap items-center justify-center gap-1">
-                      {Array.from({ length: visibleDots }).map((_, idx) => (
+                  <div className="h-10 sm:h-12 mb-0.5 sm:mb-1 flex items-end justify-center gap-1">
+                    <div className="flex min-h-[26px] max-h-[40px] flex-col-reverse items-center justify-end gap-1">
+                      {Array.from({ length: visibleNotches }).map((_, idx) => (
                         <span
-                          key={`${day.dayKey}-dot-${idx}`}
-                          className={`h-1.5 w-1.5 rounded-full ${hasCompletedLessons ? 'bg-white' : 'bg-white/55'}`}
+                          key={`${day.dayKey}-notch-${idx}`}
+                          className={`h-1.5 w-5 rounded-full ${
+                            hasCompletedLessons ? 'bg-white' : 'bg-white/55'
+                          }`}
                         />
                       ))}
                     </div>
-                    {overflowDots > 0 && (
+                    {overflowNotches > 0 && (
                       <span className={`text-[9px] font-mono ${hasCompletedLessons ? 'text-white/90' : 'text-white/75'}`}>
-                        +{overflowDots}
+                        +{overflowNotches}
                       </span>
                     )}
                   </div>

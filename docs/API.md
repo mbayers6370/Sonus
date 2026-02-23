@@ -84,6 +84,9 @@ Patch body example:
 ### Progress
 - `GET /v1/me/progress`
 - `PATCH /v1/me/progress/current`
+- `GET /v1/me/progress` includes:
+  - `sevenDayActivity` (last 7 day buckets)
+  - `lessonCompletionsByDay` (explicit completed-lesson counts by day key)
 
 Patch body example:
 ```json
