@@ -9,6 +9,7 @@ import { useApp } from '../contexts/AppContext';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { getLessonCompletionCountForDay } from '../lib/activityLedger';
+import { getMockIdentity } from '../lib/authSession';
 
 type Progress = {
   streak: number;
@@ -88,6 +89,65 @@ function getNeedsWorkColumns(width: number) {
   if (width >= 1024) return 4;
   if (width >= 640) return 3;
   return 2;
+}
+
+const CALENDAR_DAY_TOTALS_PREFIX = 'sonus.profile.calendar_day_totals';
+
+type CalendarDayTotalsState = {
+  days: Record<string, number>;
+  lastTotal: number;
+  lastDayKey: string;
+};
+
+function resolveCalendarDayTotalsKey() {
+  const { userId, email } = getMockIdentity();
+  const scope = (userId || email || 'anon').toLowerCase().replace(/[^a-z0-9._-]/g, '_');
+  return `${CALENDAR_DAY_TOTALS_PREFIX}:${scope}`;
+}
+
+function readCalendarDayTotals(): CalendarDayTotalsState {
+  try {
+    const raw = window.localStorage.getItem(resolveCalendarDayTotalsKey());
+    if (!raw) {
+      return { days: {}, lastTotal: 0, lastDayKey: localDayKeyFromDate(new Date()) };
+    }
+    const parsed = JSON.parse(raw) as Partial<CalendarDayTotalsState>;
+    const days = (parsed.days && typeof parsed.days === 'object') ? parsed.days : {};
+    const normalizedDays: Record<string, number> = {};
+    for (const [dayKey, value] of Object.entries(days)) {
+      const count = typeof value === 'number' && Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
+      normalizedDays[dayKey] = count;
+    }
+    return {
+      days: normalizedDays,
+      lastTotal: typeof parsed.lastTotal === 'number' && Number.isFinite(parsed.lastTotal) ? Math.max(0, Math.floor(parsed.lastTotal)) : 0,
+      lastDayKey: typeof parsed.lastDayKey === 'string' && parsed.lastDayKey ? parsed.lastDayKey : localDayKeyFromDate(new Date()),
+    };
+  } catch {
+    return { days: {}, lastTotal: 0, lastDayKey: localDayKeyFromDate(new Date()) };
+  }
+}
+
+function writeCalendarDayTotals(state: CalendarDayTotalsState) {
+  try {
+    const dayKeys = Object.keys(state.days).sort((a, b) => a.localeCompare(b));
+    const keep = new Set(dayKeys.slice(-7));
+    const nextDays: Record<string, number> = {};
+    for (const dayKey of dayKeys) {
+      if (!keep.has(dayKey)) continue;
+      nextDays[dayKey] = state.days[dayKey];
+    }
+    window.localStorage.setItem(
+      resolveCalendarDayTotalsKey(),
+      JSON.stringify({
+        days: nextDays,
+        lastTotal: state.lastTotal,
+        lastDayKey: state.lastDayKey,
+      })
+    );
+  } catch {
+    // Ignore localStorage failures.
+  }
 }
 
 export default function ProfileProgressScreen({ onGoHome, onGoProfile }: ProfileProgressScreenProps) {
@@ -267,6 +327,56 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   })();
 
   const lessonsCompletedDisplay = completedLessons;
+  const todayDayKey = localDayKeyFromDate(new Date());
+
+  useEffect(() => {
+    const stored = readCalendarDayTotals();
+    const currentDayCount = stored.days[todayDayKey] ?? 0;
+
+    if (!stored.lastDayKey || stored.lastDayKey !== todayDayKey) {
+      // New day: rotate cursor, keep today's value if already present.
+      const next: CalendarDayTotalsState = {
+        ...stored,
+        days: {
+          ...stored.days,
+          [todayDayKey]: Math.max(currentDayCount, 0),
+        },
+        lastTotal: lessonsCompletedDisplay,
+        lastDayKey: todayDayKey,
+      };
+      writeCalendarDayTotals(next);
+      return;
+    }
+
+    if (lessonsCompletedDisplay > stored.lastTotal) {
+      const delta = lessonsCompletedDisplay - stored.lastTotal;
+      const next: CalendarDayTotalsState = {
+        ...stored,
+        days: {
+          ...stored.days,
+          [todayDayKey]: currentDayCount + delta,
+        },
+        lastTotal: lessonsCompletedDisplay,
+        lastDayKey: todayDayKey,
+      };
+      writeCalendarDayTotals(next);
+      return;
+    }
+
+    // Keep day count at least in sync with the visible completed-lessons total.
+    const syncedTodayCount = Math.max(currentDayCount, lessonsCompletedDisplay);
+    if (syncedTodayCount !== currentDayCount || stored.lastTotal !== lessonsCompletedDisplay) {
+      writeCalendarDayTotals({
+        ...stored,
+        days: {
+          ...stored.days,
+          [todayDayKey]: syncedTodayCount,
+        },
+        lastTotal: lessonsCompletedDisplay,
+        lastDayKey: todayDayKey,
+      });
+    }
+  }, [lessonsCompletedDisplay, todayDayKey]);
   const currentUnitMeta =
     effectiveBandId && currentPath.unitId
       ? getUnitMetadata(effectiveBandId, currentPath.unitId)
@@ -286,7 +396,17 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       const ledgerCount = getLessonCompletionCountForDay(dayKey);
       return { dayKey, active: ledgerCount > 0, lessonsCompleted: ledgerCount };
     });
-  const todayActivity = calendarDays[calendarDays.length - 1];
+  const localDayTotals = readCalendarDayTotals().days;
+  const mergedCalendarDays = calendarDays.map((day) => {
+    const localCount = localDayTotals[day.dayKey] ?? 0;
+    const mergedCount = Math.max(localCount, day.lessonsCompleted ?? 0);
+    return {
+      ...day,
+      lessonsCompleted: mergedCount,
+      active: day.active || mergedCount > 0,
+    };
+  });
+  const todayActivity = mergedCalendarDays[mergedCalendarDays.length - 1];
   const streakDisplay = Math.max(progress?.streak ?? 0, (todayActivity?.lessonsCompleted ?? 0) > 0 ? 1 : 0, 1);
 
   return (
@@ -361,7 +481,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
         <div className="bg-[#3E5648] text-white border border-[#3E5648]/90 rounded-3xl p-5 shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)]">
           <h3 className="font-semibold text-white mb-2">Activity (Last 7 Days)</h3>
           <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
-            {calendarDays.map((day) => {
+            {mergedCalendarDays.map((day) => {
               const labelDate = new Date(`${day.dayKey}T12:00:00`);
               const weekday = labelDate.toLocaleDateString(undefined, { weekday: 'short' });
               const dayNumber = labelDate.toLocaleDateString(undefined, { day: 'numeric' });
@@ -383,7 +503,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                       {Array.from({ length: visibleNotches }).map((_, idx) => (
                         <span
                           key={`${day.dayKey}-notch-${idx}`}
-                          className={`h-1.5 w-5 rounded-full ${
+                          className={`h-2 w-2 rounded-full ${
                             hasCompletedLessons ? 'bg-white' : 'bg-white/55'
                           }`}
                         />
