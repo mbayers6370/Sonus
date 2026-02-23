@@ -7,8 +7,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 const LESSON_WORD_CHUNK = 10;
 
-const TEST_ADMIN_EMAIL =
-  (process.env.TEST_ADMIN_EMAIL || 'qa-admin-f8n2x7r1@sonus.test').trim().toLowerCase();
+const TEST_ADMIN_EMAIL = (process.env.TEST_ADMIN_EMAIL || 'qa-admin-f8n2x7r1@sonus.test')
+  .trim()
+  .toLowerCase();
 const TEST_ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD || 'password1';
 const TEST_ADMIN_FIRST_NAME = process.env.TEST_ADMIN_FIRST_NAME || 'QA';
 const TEST_ADMIN_LAST_NAME = process.env.TEST_ADMIN_LAST_NAME || 'Admin';
