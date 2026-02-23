@@ -336,11 +336,12 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
 
     if (!stored.lastDayKey || stored.lastDayKey !== todayDayKey) {
       // New day: rotate cursor, keep today's value if already present.
+      const delta = Math.max(0, lessonsCompletedDisplay - stored.lastTotal);
       const next: CalendarDayTotalsState = {
         ...stored,
         days: {
           ...stored.days,
-          [todayDayKey]: Math.max(currentDayCount, 0),
+          [todayDayKey]: Math.max(currentDayCount, 0) + delta,
         },
         lastTotal: lessonsCompletedDisplay,
         lastDayKey: todayDayKey,
@@ -364,15 +365,10 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       return;
     }
 
-    // Keep day count at least in sync with the visible completed-lessons total.
-    const syncedTodayCount = Math.max(currentDayCount, lessonsCompletedDisplay);
-    if (syncedTodayCount !== currentDayCount || stored.lastTotal !== lessonsCompletedDisplay) {
+    // Keep pointer in sync even if totals reset/decrease after account/data changes.
+    if (stored.lastTotal !== lessonsCompletedDisplay) {
       writeCalendarDayTotals({
         ...stored,
-        days: {
-          ...stored.days,
-          [todayDayKey]: syncedTodayCount,
-        },
         lastTotal: lessonsCompletedDisplay,
         lastDayKey: todayDayKey,
       });
@@ -400,7 +396,9 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   const localDayTotals = readCalendarDayTotals().days;
   const mergedCalendarDays = calendarDays.map((day) => {
     const localCount = localDayTotals[day.dayKey] ?? 0;
-    const mergedCount = Math.max(localCount, day.lessonsCompleted ?? 0);
+    const mergedCount = backendOffline
+      ? Math.max(localCount, day.lessonsCompleted ?? 0)
+      : Math.max(0, day.lessonsCompleted ?? 0);
     return {
       ...day,
       lessonsCompleted: mergedCount,
