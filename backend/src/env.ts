@@ -62,6 +62,7 @@ const envSchema = z
     LOGIN_THROTTLE_BASE_MS: z.coerce.number().int().positive().max(5 * 60 * 1000).default(2000),
     LOGIN_THROTTLE_MAX_MS: z.coerce.number().int().positive().max(30 * 60 * 1000).default(300000),
     LOGIN_THROTTLE_RESET_MS: z.coerce.number().int().positive().max(24 * 60 * 60 * 1000).default(900000),
+    METRICS_READ_TOKEN: z.string().trim().min(16).optional(),
   })
   .superRefine((value, ctx) => {
     const isProduction = value.NODE_ENV === 'production';

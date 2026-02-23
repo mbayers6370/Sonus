@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { BandData, Word, SpeakBreakdown } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, Mic, ChevronRight } from 'lucide-react';
-import { sendSpeakAttemptSafe } from '../lib/backendApi';
+import { sendClientTelemetrySafe, sendSpeakAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
 import WordProgressRail from './WordProgressRail';
@@ -592,6 +592,15 @@ export default function SpeakMode({
           lookupWords: hanziToPinyinWord.size,
           lookupChars: hanziToPinyinChar.size,
         });
+        sendClientTelemetrySafe({
+          name: 'speak_lookup_ready',
+          payload: {
+            bandId: state.activeBandId || null,
+            lessonWordCount: allWords.length,
+            lookupWords: hanziToPinyinWord.size,
+            lookupChars: hanziToPinyinChar.size,
+          },
+        });
       }
       setLookupVersion((prev) => prev + 1);
     });
@@ -607,6 +616,13 @@ export default function SpeakMode({
       wordId: word.id,
       isReview: Boolean(word.isReview),
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+    });
+    sendClientTelemetrySafe({
+      name: 'speak_stt_unavailable',
+      payload: {
+        wordId: word.id,
+        isReview: Boolean(word.isReview),
+      },
     });
   }, [sttSupported, word.id, word.isReview]);
 
@@ -849,6 +865,13 @@ export default function SpeakMode({
           isReview: Boolean(word.isReview),
           userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
         });
+        sendClientTelemetrySafe({
+          name: 'speak_stt_unavailable',
+          payload: {
+            wordId: word.id,
+            isReview: Boolean(word.isReview),
+          },
+        });
       }
       return;
     }
@@ -924,6 +947,14 @@ export default function SpeakMode({
           wordId: word.id,
           isReview: Boolean(word.isReview),
         });
+        sendClientTelemetrySafe({
+          name: 'speak_stt_error',
+          payload: {
+            phase: 'runtime',
+            wordId: word.id,
+            isReview: Boolean(word.isReview),
+          },
+        });
       };
 
       recognition.onend = () => {
@@ -951,6 +982,14 @@ export default function SpeakMode({
         phase: 'startup',
         wordId: word.id,
         isReview: Boolean(word.isReview),
+      });
+      sendClientTelemetrySafe({
+        name: 'speak_stt_error',
+        payload: {
+          phase: 'startup',
+          wordId: word.id,
+          isReview: Boolean(word.isReview),
+        },
       });
     }
   };
@@ -990,6 +1029,14 @@ export default function SpeakMode({
         wordId: word.id,
         isReview: Boolean(word.isReview),
         engine: sttCapability.engine,
+      });
+      sendClientTelemetrySafe({
+        name: 'speak_stt_unavailable',
+        payload: {
+          wordId: word.id,
+          isReview: Boolean(word.isReview),
+          engine: sttCapability.engine,
+        },
       });
       return;
     }

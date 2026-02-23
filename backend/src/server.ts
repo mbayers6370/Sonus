@@ -8,6 +8,7 @@ import { readAllowedOrigins } from './lib/originPolicy.js';
 import { authRoutes } from './routes/auth.js';
 import { meRoutes } from './routes/me.js';
 import { attemptRoutes } from './routes/attempts.js';
+import { telemetryRoutes } from './routes/telemetry.js';
 
 function buildCspHeader(allowedOrigins: Set<string>) {
   const connectSrc = ["'self'", ...Array.from(allowedOrigins)];
@@ -126,6 +127,7 @@ export async function buildServer() {
   await authRoutes(app);
   await meRoutes(app);
   await attemptRoutes(app);
+  await telemetryRoutes(app);
 
   app.setErrorHandler((error, _request, reply) => {
     app.log.error(error);

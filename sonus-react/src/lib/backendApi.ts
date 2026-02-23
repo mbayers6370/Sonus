@@ -19,6 +19,11 @@ type SpeakAttemptPayload = {
   score?: number;
 };
 
+type ClientTelemetryPayload = {
+  name: 'speak_stt_unavailable' | 'speak_stt_error' | 'speak_lookup_ready';
+  payload?: Record<string, unknown>;
+};
+
 async function postJson(path: string, payload: unknown) {
   // Centralized JSON POST helper to keep request/response handling consistent.
   const response = await apiFetch(path, {
@@ -42,6 +47,10 @@ export async function sendSpeakAttempt(payload: SpeakAttemptPayload) {
   await postJson('/v1/attempts/speak', payload);
 }
 
+export async function sendClientTelemetry(payload: ClientTelemetryPayload) {
+  await postJson('/v1/telemetry/client', payload);
+}
+
 export function sendQuizAttemptSafe(payload: QuizAttemptPayload) {
   // Fire-and-forget transport for analytics-like attempt logging.
   void sendQuizAttempt(payload).catch((error) => {
@@ -53,6 +62,13 @@ export function sendSpeakAttemptSafe(payload: SpeakAttemptPayload) {
   // Fire-and-forget transport for analytics-like attempt logging.
   void sendSpeakAttempt(payload).catch((error) => {
     console.warn('[API] Failed to send speak attempt', error);
+  });
+}
+
+export function sendClientTelemetrySafe(payload: ClientTelemetryPayload) {
+  // Fire-and-forget transport for client telemetry signals.
+  void sendClientTelemetry(payload).catch((error) => {
+    console.warn('[API] Failed to send client telemetry', error);
   });
 }
 

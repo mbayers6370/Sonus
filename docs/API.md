@@ -54,6 +54,7 @@ Subsequent authenticated requests should include:
 - Slow request warnings are emitted when response time exceeds `SLOW_REQUEST_MS`.
 - API request audit logs can be enabled/disabled with `AUDIT_LOG_ENABLED`.
 - Login endpoint has a dedicated progressive backoff throttle (separate from general API rate limits).
+- Learning metrics export can be enabled with `METRICS_READ_TOKEN`.
 - Cookie-auth CSRF protection: `Origin` is enforced for:
   - `POST /v1/auth/signup`
   - `POST /v1/auth/login`
@@ -107,6 +108,32 @@ Common query parameters include `limit`.
 ### Attempts
 - `POST /v1/attempts/quiz`
 - `POST /v1/attempts/speak`
+
+### Client Telemetry
+- `POST /v1/telemetry/client`
+- Auth required (`Authorization: Bearer <accessToken>`).
+- Allowed event names:
+  - `speak_stt_unavailable`
+  - `speak_stt_error`
+  - `speak_lookup_ready`
+
+Client telemetry body:
+```json
+{
+  "name": "speak_stt_error",
+  "payload": {
+    "phase": "runtime",
+    "wordId": "L1-0001"
+  }
+}
+```
+
+### Learning Metrics Export
+- `GET /v1/metrics/learning`
+- Requires header: `x-metrics-token: <METRICS_READ_TOKEN>`
+- If `METRICS_READ_TOKEN` is not configured, endpoint returns `404`.
+- Supports JSON (default) and Prometheus text:
+  - `GET /v1/metrics/learning?format=prometheus`
 
 Quiz attempt body:
 ```json

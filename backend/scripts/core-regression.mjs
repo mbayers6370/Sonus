@@ -57,6 +57,111 @@ async function main() {
   assert(progressRes?.progress?.currentLessonIdx === 2, 'currentLessonIdx did not persist');
   console.log('PASS progress path persistence');
 
+  const lessonKey = 'band1:b1-numbers:0';
+  const assertLessonState = async (message, check) => {
+    const snapshot = await requestJson('/v1/me/progress');
+    const lesson = snapshot?.lessonProgress?.[lessonKey];
+    assert(Boolean(lesson), `${message}: lesson snapshot missing`);
+    check(lesson);
+    console.log(`PASS ${message}`);
+  };
+
+  await requestJson('/v1/me/progress/events', {
+    method: 'POST',
+    body: {
+      eventType: 'lesson_completed',
+      streakDelta: 0,
+      payloadJson: {
+        bandId: 'band1',
+        unitId: 'b1-numbers',
+        lessonIndex: 0,
+        introViewed: true,
+        quizScore: 60,
+        speakScore: 40,
+        speakAllCorrect: false,
+        completed: false,
+        mastered: false,
+      },
+    },
+  });
+  await assertLessonState('lesson snapshot stored', (lesson) => {
+    assert(lesson.introViewed === true, 'introViewed should persist');
+    assert(lesson.completed === false, 'completed should remain false for low scores');
+    assert(lesson.mastered === false, 'mastered should remain false initially');
+  });
+
+  await requestJson('/v1/me/progress/events', {
+    method: 'POST',
+    body: {
+      eventType: 'lesson_completed',
+      streakDelta: 0,
+      payloadJson: {
+        bandId: 'band1',
+        unitId: 'b1-numbers',
+        lessonIndex: 0,
+        introViewed: true,
+        quizScore: 91,
+        speakScore: 93,
+        speakAllCorrect: true,
+        completed: true,
+        mastered: false,
+      },
+    },
+  });
+  await assertLessonState('lesson completion persists', (lesson) => {
+    assert(lesson.completed === true, 'completed should persist once passed');
+    assert((lesson.quizScore ?? 0) >= 91, 'quiz score should keep highest value');
+    assert((lesson.speakScore ?? 0) >= 93, 'speak score should keep highest value');
+  });
+
+  await requestJson('/v1/me/progress/events', {
+    method: 'POST',
+    body: {
+      eventType: 'lesson_completed',
+      streakDelta: 0,
+      payloadJson: {
+        bandId: 'band1',
+        unitId: 'b1-numbers',
+        lessonIndex: 0,
+        introViewed: true,
+        quizScore: 95,
+        speakScore: 96,
+        speakAllCorrect: true,
+        completed: true,
+        mastered: true,
+      },
+    },
+  });
+  await assertLessonState('lesson mastery persists', (lesson) => {
+    assert(lesson.completed === true, 'completed should stay true');
+    assert(lesson.mastered === true, 'mastered should persist once true');
+  });
+
+  await requestJson('/v1/me/progress/events', {
+    method: 'POST',
+    body: {
+      eventType: 'lesson_completed',
+      streakDelta: 0,
+      payloadJson: {
+        bandId: 'band1',
+        unitId: 'b1-numbers',
+        lessonIndex: 0,
+        introViewed: false,
+        quizScore: 10,
+        speakScore: 15,
+        speakAllCorrect: false,
+        completed: false,
+        mastered: false,
+      },
+    },
+  });
+  await assertLessonState('lesson state is monotonic', (lesson) => {
+    assert(lesson.completed === true, 'completed must not downgrade');
+    assert(lesson.mastered === true, 'mastered must not downgrade');
+    assert((lesson.quizScore ?? 0) >= 91, 'quiz score should not downgrade');
+    assert((lesson.speakScore ?? 0) >= 93, 'speak score should not downgrade');
+  });
+
   await requestJson('/v1/attempts/quiz', {
     method: 'POST',
     body: {

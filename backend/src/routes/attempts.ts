@@ -4,6 +4,7 @@ import { prisma } from '../lib/prisma.js';
 import { requireAuth } from '../lib/auth.js';
 import { touchUserActivity } from '../services/progressService.js';
 import { computeQuizMemoryUpdate, computeSpeakMemoryUpdate } from '../lib/learningPolicy.js';
+import { recordAttemptTelemetry } from '../services/learningMetricsService.js';
 
 const quizAttemptSchema = z.object({
   wordId: z.string().trim().min(1).max(80),
@@ -32,8 +33,15 @@ function nextDueDate(days: number) {
 
 export async function attemptRoutes(app: FastifyInstance) {
   app.post('/v1/attempts/quiz', { preHandler: [requireAuth] }, async (request, reply) => {
+    const startedAt = Date.now();
     const parsed = quizAttemptSchema.safeParse(request.body);
     if (!parsed.success) {
+      recordAttemptTelemetry({
+        kind: 'quiz',
+        durationMs: Date.now() - startedAt,
+        ok: false,
+        isReview: false,
+      });
       reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
       return;
     }
@@ -101,12 +109,25 @@ export async function attemptRoutes(app: FastifyInstance) {
     });
 
     await touchUserActivity(userId);
+    recordAttemptTelemetry({
+      kind: 'quiz',
+      durationMs: Date.now() - startedAt,
+      ok: true,
+      isReview,
+    });
     return result;
   });
 
   app.post('/v1/attempts/speak', { preHandler: [requireAuth] }, async (request, reply) => {
+    const startedAt = Date.now();
     const parsed = speakAttemptSchema.safeParse(request.body);
     if (!parsed.success) {
+      recordAttemptTelemetry({
+        kind: 'speak',
+        durationMs: Date.now() - startedAt,
+        ok: false,
+        isReview: false,
+      });
       reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
       return;
     }
@@ -177,6 +198,12 @@ export async function attemptRoutes(app: FastifyInstance) {
     });
 
     await touchUserActivity(userId);
+    recordAttemptTelemetry({
+      kind: 'speak',
+      durationMs: Date.now() - startedAt,
+      ok: true,
+      isReview,
+    });
     return result;
   });
 }
