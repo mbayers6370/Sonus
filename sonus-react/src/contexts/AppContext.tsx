@@ -1745,8 +1745,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       );
     }
     if (completionSnapshotRef.current) {
-      // Keep Apply persistence on the same durable event path as regular lessons.
-      void saveLessonCompletionSnapshot(completionSnapshotRef.current, 'lesson_completed');
+      const completionEventType: ProgressCompletionEventType =
+        lessonMode === 'apply' ? 'apply_completed' : 'lesson_completed';
+      void saveLessonCompletionSnapshot(completionSnapshotRef.current, completionEventType);
     }
   };
 
