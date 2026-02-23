@@ -1,17 +1,93 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, Snail, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import WordProgressRail from './WordProgressRail';
-import { getPrimaryMeaning, tokenizeMeaningCandidates } from '../lib/wordMeaning';
+import { tokenizeMeaningCandidates } from '../lib/wordMeaning';
+import { resolveBandDataId } from '../lib/bandIds';
+import { apiFetch } from '../lib/apiClient';
 
 interface ApplyModeProps {
   word: Word;
   allWords: Word[];
   currentIndex: number;
   totalWords: number;
+  bandId?: string | null;
   onPrev: () => void;
   onNext: () => void;
+  onCompleteApply?: () => void;
+}
+
+type ApplyTab = 'context' | 'characters';
+
+interface CharacterInsight {
+  pinyin?: string[];
+  glosses?: string[];
+  decomposition?: string | null;
+  notes?: string[];
+}
+
+interface CharacterInsightsPayload {
+  characters?: Record<string, CharacterInsight>;
+}
+
+interface LiveCharacterLookupPayload {
+  characters?: Record<string, { pinyin?: string[]; glosses?: string[] }>;
+}
+interface SentencePinyinPayload {
+  pinyin?: string;
+}
+
+interface CharacterRow {
+  char: string;
+  examples: Word[];
+  insight: CharacterInsight | null;
+}
+
+const characterInsightsCache = new Map<string, Record<string, CharacterInsight>>();
+
+function containsHanCharacter(value: string) {
+  return /[\u3400-\u9FFF]/.test(value);
+}
+
+async function fetchCharacterInsightsMap(bandId: string): Promise<Record<string, CharacterInsight>> {
+  const resolved = resolveBandDataId(bandId);
+  if (characterInsightsCache.has(resolved)) {
+    return characterInsightsCache.get(resolved) || {};
+  }
+
+  try {
+    const response = await fetch(`/data/zh/character-insights/${resolved}.json`, { cache: 'no-store' });
+    if (!response.ok) {
+      characterInsightsCache.set(resolved, {});
+      return {};
+    }
+    const payload = (await response.json()) as CharacterInsightsPayload;
+    const map = payload.characters || {};
+    characterInsightsCache.set(resolved, map);
+    return map;
+  } catch {
+    characterInsightsCache.set(resolved, {});
+    return {};
+  }
+}
+
+function buildCharacterRows(allWords: Word[], insightsMap: Record<string, CharacterInsight>) {
+  const wordsWithHanzi = allWords.filter((candidate) => containsHanCharacter(candidate.simp || ''));
+  const uniqueChars = Array.from(
+    new Set(
+      wordsWithHanzi
+        .flatMap((candidate) => Array.from(candidate.simp || ''))
+        .filter((char) => /[\u3400-\u9FFF]/.test(char))
+    )
+  );
+
+  return uniqueChars.map((char): CharacterRow => ({
+    char,
+    examples: wordsWithHanzi.filter((candidate) => (candidate.simp || '').includes(char)).slice(0, 3),
+    insight: insightsMap[char] || null,
+  }));
 }
 
 function highlightLessonTerms(text: string, focusWord: string, allWords: Word[]) {
@@ -43,7 +119,7 @@ function highlightLessonTerms(text: string, focusWord: string, allWords: Word[])
 
     const lessonMatch = otherTerms.find((candidate) => source.startsWith(candidate, index));
     if (lessonMatch) {
-      chunks.push({ text: lessonMatch, className: 'font-semibold text-[#3E5648]' });
+      chunks.push({ text: lessonMatch, className: 'font-semibold text-[rgba(62,86,72,0.76)]' });
       index += lessonMatch.length;
       continue;
     }
@@ -106,20 +182,247 @@ function highlightEnglishFocus(text: string, word: Word) {
   };
 }
 
+function splitCompactPinyin(value: string) {
+  const normalized = (value || '').trim().toLowerCase();
+  if (!normalized) return [] as string[];
+  const chunks = normalized.match(/[a-züv:]+[1-5]/gi);
+  if (!chunks || chunks.length === 0) return [normalized];
+  return chunks.map((chunk) => chunk.toLowerCase());
+}
+
+function deriveSentencePinyinLocal(
+  sentence: string,
+  allWords: Word[],
+  liveCharacterMap: Record<string, { pinyin?: string[]; glosses?: string[] }>,
+  insightsMap: Record<string, CharacterInsight>
+) {
+  const source = (sentence || '').trim();
+  if (!source) return '';
+
+  const wordToPinyin: Record<string, string> = {};
+  allWords.forEach((candidate) => {
+    const simp = candidate.simp?.trim() || '';
+    const trad = candidate.trad?.trim() || '';
+    const pinyin = candidate.pinyin?.trim() || '';
+    if (!pinyin) return;
+    if (simp && !wordToPinyin[simp]) wordToPinyin[simp] = pinyin;
+    if (trad && !wordToPinyin[trad]) wordToPinyin[trad] = pinyin;
+  });
+
+  const wordEntries = Object.entries(wordToPinyin)
+    .map(([token, pinyin]) => ({ token, pinyin }))
+    .sort((a, b) => b.token.length - a.token.length);
+
+  const tokens: string[] = [];
+  let index = 0;
+  while (index < source.length) {
+    const matchedWord = wordEntries.find((entry) => source.startsWith(entry.token, index));
+    if (matchedWord) {
+      tokens.push(...splitCompactPinyin(matchedWord.pinyin));
+      index += matchedWord.token.length;
+      continue;
+    }
+
+    const char = source[index];
+    if (/[\u3400-\u9FFF]/.test(char)) {
+      const pinyin =
+        insightsMap[char]?.pinyin?.[0] ||
+        liveCharacterMap[char]?.pinyin?.[0] ||
+        '';
+      if (pinyin) {
+        tokens.push(...splitCompactPinyin(pinyin));
+      }
+      index += 1;
+      continue;
+    }
+
+    if (!/\s/.test(char)) {
+      tokens.push(char);
+    }
+    index += 1;
+  }
+
+  return tokens
+    .join(' ')
+    .replace(/\s+([，。！？；：,.!?;:])/g, '$1')
+    .replace(/([（(])\s+/g, '$1')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function renderPinyinWithToneNumber(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  const chunks = trimmed.split(/\s+/);
+  return chunks.map((chunk, idx) => {
+    const match = chunk.match(/^([A-Za-züÜvV:]+)([1-5])$/);
+    if (!match) {
+      return (
+        <span key={`${chunk}-${idx}`}>
+          {idx > 0 ? ' ' : ''}
+          {chunk}
+        </span>
+      );
+    }
+    return (
+      <span key={`${chunk}-${idx}`}>
+        {idx > 0 ? ' ' : ''}
+        {match[1]}
+        <span className="font-bold text-[#3E5648]">{match[2]}</span>
+      </span>
+    );
+  });
+}
+
+function sentenceCasePinyin(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return '';
+  return trimmed.replace(/^([a-zA-Z\u00C0-\u024F])/u, (match) => match.toUpperCase());
+}
+
 export default function ApplyMode({
   word,
   allWords,
   currentIndex,
   totalWords,
+  bandId,
   onPrev,
   onNext,
+  onCompleteApply,
 }: ApplyModeProps) {
   const { speak } = useAudio();
-  const [showWhy, setShowWhy] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const applyPath = useMemo(
+    () => location.pathname.replace(/\/(intro|quiz|speak|apply|review|complete)$/, '/apply'),
+    [location.pathname]
+  );
+  const applyTabStorageKey = useMemo(() => `sonus.apply.tab:${applyPath}`, [applyPath]);
+  const applyCompletionVariantKey = useMemo(() => `sonus.apply.complete:${applyPath}`, [applyPath]);
+  const [activeTab, setActiveTab] = useState<ApplyTab>(() => {
+    try {
+      const stored = window.sessionStorage.getItem(`sonus.apply.tab:${window.location.pathname.replace(/\/(intro|quiz|speak|apply|review|complete)$/, '/apply')}`);
+      return stored === 'characters' ? 'characters' : 'context';
+    } catch {
+      return 'context';
+    }
+  });
+  const [characterIndex, setCharacterIndex] = useState(0);
+  const [characterInsightsMap, setCharacterInsightsMap] = useState<Record<string, CharacterInsight>>({});
+  const [liveCharacterMap, setLiveCharacterMap] = useState<Record<string, { pinyin?: string[]; glosses?: string[] }>>({});
+  const [resolvedSentencePinyin, setResolvedSentencePinyin] = useState('');
 
   const zh = word.example?.zh?.trim() || word.simp;
   const en = word.example?.en?.trim() || 'Translation unavailable for this prompt.';
-  const sentencePinyin = word.example?.pinyin?.trim() || '';
+  const rawSentencePinyin = word.example?.pinyin?.trim() || '';
+
+  useEffect(() => {
+    try {
+      window.sessionStorage.setItem(applyTabStorageKey, activeTab);
+    } catch {
+      // Ignore storage failures.
+    }
+  }, [activeTab, applyTabStorageKey]);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!bandId) {
+      setCharacterInsightsMap({});
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    fetchCharacterInsightsMap(bandId).then((map) => {
+      if (cancelled) return;
+      setCharacterInsightsMap(map);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [bandId]);
+
+  const characterRows = useMemo(
+    () => buildCharacterRows(allWords, characterInsightsMap),
+    [allWords, characterInsightsMap]
+  );
+
+  useEffect(() => {
+    if (characterRows.length === 0) {
+      setCharacterIndex(0);
+      return;
+    }
+    if (characterIndex > characterRows.length - 1) {
+      setCharacterIndex(characterRows.length - 1);
+    }
+  }, [characterRows, characterIndex]);
+
+  useEffect(() => {
+    const sentenceChars = Array.from((zh || '')).filter((value) => /[\u3400-\u9FFF]/.test(value));
+    const chars = Array.from(new Set([...characterRows.map((row) => row.char), ...sentenceChars])).filter((value) =>
+      /[\u3400-\u9FFF]/.test(value)
+    );
+    if (chars.length === 0) {
+      setLiveCharacterMap({});
+      return;
+    }
+
+    let cancelled = false;
+    void apiFetch(`/v1/zh/characters/lookup?chars=${encodeURIComponent(chars.join(','))}`)
+      .then(async (response) => {
+        if (!response.ok) return;
+        const payload = (await response.json()) as LiveCharacterLookupPayload;
+        if (cancelled) return;
+        setLiveCharacterMap(payload.characters || {});
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setLiveCharacterMap({});
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [characterRows, zh]);
+
+  useEffect(() => {
+    if (!zh || !containsHanCharacter(zh)) {
+      setResolvedSentencePinyin(rawSentencePinyin || '');
+      return;
+    }
+
+    let cancelled = false;
+    void apiFetch(`/v1/zh/pinyin/sentence?text=${encodeURIComponent(zh)}`)
+      .then(async (response) => {
+        if (!response.ok) {
+          if (!cancelled) {
+            const fallback = deriveSentencePinyinLocal(zh, allWords, liveCharacterMap, characterInsightsMap);
+            setResolvedSentencePinyin(fallback || rawSentencePinyin || '');
+          }
+          return;
+        }
+        const payload = (await response.json()) as SentencePinyinPayload;
+        if (cancelled) return;
+        const resolved = payload.pinyin?.trim() || '';
+        if (resolved) {
+          setResolvedSentencePinyin(resolved);
+          return;
+        }
+        const fallback = deriveSentencePinyinLocal(zh, allWords, liveCharacterMap, characterInsightsMap);
+        setResolvedSentencePinyin(fallback || rawSentencePinyin || '');
+      })
+      .catch(() => {
+        if (cancelled) return;
+        const fallback = deriveSentencePinyinLocal(zh, allWords, liveCharacterMap, characterInsightsMap);
+        setResolvedSentencePinyin(fallback || rawSentencePinyin || '');
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [rawSentencePinyin, zh, allWords, liveCharacterMap, characterInsightsMap]);
+
   const highlighted = useMemo(
     () => highlightLessonTerms(zh, word.simp, allWords),
     [zh, word.simp, allWords]
@@ -128,62 +431,154 @@ export default function ApplyMode({
     () => highlightEnglishFocus(en, word),
     [en, word]
   );
+  const sentencePinyin = resolvedSentencePinyin;
 
-  const handleNext = () => {
+  const isCharactersTab = activeTab === 'characters';
+  const railTotal = isCharactersTab ? Math.max(1, characterRows.length) : totalWords;
+  const railIndex = isCharactersTab ? characterIndex : currentIndex;
+  const activeCharacterRow = characterRows[characterIndex] || null;
+  const activeCharacterLive = activeCharacterRow ? liveCharacterMap[activeCharacterRow.char] : null;
+  const activeCharacterPinyin = activeCharacterRow
+    ? (activeCharacterRow.insight?.pinyin?.[0] || activeCharacterLive?.pinyin?.[0] || '')
+    : '';
+  const activeCharacterGloss = activeCharacterRow
+    ? (activeCharacterRow.insight?.glosses?.[0] || activeCharacterLive?.glosses?.[0] || '')
+    : '';
+
+  const prevDisabled = isCharactersTab ? characterIndex === 0 : currentIndex === 0;
+  const isLastCharacter = characterRows.length > 0 && characterIndex >= characterRows.length - 1;
+  const nextLabel = 'Next';
+
+  const speakText = isCharactersTab && activeCharacterRow ? activeCharacterRow.char : zh;
+  const speakPinyin = isCharactersTab && activeCharacterPinyin ? activeCharacterPinyin : word.pinyin;
+
+  const handlePrev = () => {
+    if (isCharactersTab) {
+      setCharacterIndex((prev) => Math.max(0, prev - 1));
+      return;
+    }
+    onPrev();
+  };
+
+  const handleNextAction = () => {
+    if (isCharactersTab) {
+      if (isLastCharacter) {
+        try {
+          window.sessionStorage.setItem(applyCompletionVariantKey, 'characters');
+        } catch {
+          // Ignore storage failures.
+        }
+        onCompleteApply?.();
+        navigate(location.pathname.replace(/\/(intro|quiz|speak|apply|review|complete)$/, '/complete'));
+        return;
+      }
+      setCharacterIndex((prev) => Math.min(characterRows.length - 1, prev + 1));
+      return;
+    }
+    if (currentIndex >= totalWords - 1) {
+      try {
+        window.sessionStorage.setItem(applyCompletionVariantKey, 'context');
+      } catch {
+        // Ignore storage failures.
+      }
+    }
     onNext();
   };
 
   return (
     <div className="flex flex-col min-h-full">
-      <WordProgressRail total={totalWords} currentIndex={currentIndex} />
+      <WordProgressRail total={railTotal} currentIndex={railIndex} />
 
-      <div className="flex-1 flex items-center justify-center px-5 py-2">
-        <div className="w-full max-w-2xl bg-white rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-5 text-center">
-          <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.14)] text-[#186E95]">
-            Apply In Context
-          </div>
-          <div className="secondary-font text-[2rem] text-text-dark leading-tight">
-            {highlighted}
-          </div>
-          {sentencePinyin ? <div className="mt-2 text-sm text-text-med">{sentencePinyin}</div> : null}
-          <div className="mt-2 inline-flex items-center rounded-full border border-border bg-[rgba(55,65,81,0.05)] px-3 py-1 text-xs text-text-med">
-            Focus word: <span className="ml-1 font-semibold text-text-dark">{word.simp}</span> ({word.pinyin})
-          </div>
-          <div className="mt-3 rounded-xl border border-border bg-[rgba(55,65,81,0.06)] px-4 py-3 text-text-dark text-center">
-            {englishFocus.node}
-          </div>
+      <div className="px-5 pt-2">
+        <div className="mx-auto w-full max-w-3xl mb-3 grid grid-cols-2 gap-2 rounded-2xl bg-[rgba(55,65,81,0.06)] p-1">
           <button
             type="button"
-            onClick={() => setShowWhy((prev) => !prev)}
-            className="mt-2 text-xs text-[#186E95] hover:text-[#145C7C] transition-colors"
+            onClick={() => setActiveTab('context')}
+            className={`rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider font-mono transition-all ${
+              activeTab === 'context' ? 'bg-[#186E95] text-white' : 'text-[#374151] hover:bg-white'
+            }`}
           >
-            {showWhy ? 'Hide explanation' : 'Why this translation?'}
+            Sentence Context
           </button>
-          {showWhy ? (
-            <div className="mt-1.5 mx-auto w-full max-w-[24rem] text-center">
-              <div className="text-[10px] text-text-light leading-relaxed">
-                <span className="font-semibold text-text-dark">{word.simp}</span> ({word.pinyin}) means "{getPrimaryMeaning(word)}."
-              </div>
-              <div className="mt-0.5 text-[10px] text-text-light leading-relaxed">
-                {englishFocus.matched && englishFocus.matchedText
-                  ? `In this sentence, it maps to “${englishFocus.matchedText}” in English.`
-                  : 'Here, it helps complete the sentence meaning.'}
-              </div>
-            </div>
-          ) : null}
+          <button
+            type="button"
+            onClick={() => setActiveTab('characters')}
+            className={`rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider font-mono transition-all ${
+              activeTab === 'characters' ? 'bg-[#3E5648] text-white' : 'text-[#374151] hover:bg-white'
+            }`}
+          >
+            Characters
+          </button>
         </div>
+      </div>
+
+      <div className="flex-1 px-5 py-2 flex items-center justify-center">
+        {activeTab === 'context' ? (
+          <div className="w-full max-w-2xl bg-white rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-5 text-center">
+            <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.14)] text-[#186E95]">
+              Apply In Context
+            </div>
+            <div className="secondary-font text-[2rem] text-text-dark leading-tight">{highlighted}</div>
+            {sentencePinyin ? (
+              <div className="mt-2 text-sm text-text-med">{renderPinyinWithToneNumber(sentenceCasePinyin(sentencePinyin))}</div>
+            ) : null}
+            <div className="mt-2 inline-flex items-center rounded-full border border-border bg-[rgba(55,65,81,0.05)] px-3 py-1 text-xs text-text-med">
+              Focus word: <span className="ml-1 font-semibold text-text-dark">{word.simp}</span>{' '}
+              <span className="font-mono">{renderPinyinWithToneNumber(word.pinyin)}</span>
+            </div>
+            <div className="mt-3 rounded-xl border border-border bg-[rgba(55,65,81,0.06)] px-4 py-3 text-text-dark text-center">
+              {englishFocus.node}
+            </div>
+          </div>
+        ) : (
+          <div className="w-full max-w-2xl bg-white rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-5 text-center">
+            {activeCharacterRow ? (
+              <>
+                <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(62,86,72,0.14)] text-[#3E5648]">
+                  Character Focus
+                </div>
+                <div className="main-font text-[3.2rem] leading-none text-text-dark">{activeCharacterRow.char}</div>
+                {activeCharacterPinyin ? (
+                  <div className="mt-2 text-sm font-mono text-[#374151]">{renderPinyinWithToneNumber(activeCharacterPinyin)}</div>
+                ) : null}
+                {activeCharacterGloss ? <div className="mt-1.5 text-sm text-text-med">{activeCharacterGloss}</div> : null}
+
+                <div className="mt-4 rounded-xl border border-border bg-[rgba(55,65,81,0.05)] p-3">
+                  <div className="text-[11px] font-semibold uppercase tracking-wider font-mono text-[#374151]">
+                    Words From This Lesson
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1.5 justify-center">
+                    {activeCharacterRow.examples.map((example) => (
+                      <div
+                        key={`${activeCharacterRow.char}-${example.id}`}
+                        className="inline-flex items-center gap-1 rounded-md border border-border bg-white px-2 py-1"
+                      >
+                        <span className="text-xs font-semibold text-[#186E95]">{example.simp}</span>
+                        <span className="text-[10px] text-text-light font-mono">
+                          {renderPinyinWithToneNumber(example.pinyin)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <p className="text-sm text-text-med">No characters available for this lesson.</p>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="flex gap-3 justify-center px-5 pb-4">
         <button
-          onClick={() => speak(zh, word.pinyin, false)}
-          className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#145C7C] hover:-translate-y-0.5 hover:shadow-lg"
+          onClick={() => speak(speakText, speakPinyin, false)}
+          className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#186E95] hover:-translate-y-0.5 hover:shadow-lg"
         >
           <Volume2 className="w-5 h-5" />
           Listen
         </button>
         <button
-          onClick={() => speak(zh, word.pinyin, true)}
+          onClick={() => speak(speakText, speakPinyin, true)}
           className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(55,65,81,0.40)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)]"
         >
           <Snail className="w-5 h-5" />
@@ -191,26 +586,21 @@ export default function ApplyMode({
         </button>
       </div>
 
-      <div
-        className="fixed left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm"
-        style={{
-          bottom: 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 0.5rem)',
-        }}
-      >
+      <div className="fixed left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-2 bg-bg-warm/95 backdrop-blur-sm bottom-[calc(var(--sonus-bottom-nav-height,5rem)+env(safe-area-inset-bottom,0px))]">
         <div className="grid grid-cols-2 gap-2">
           <button
-            onClick={onPrev}
-            disabled={currentIndex === 0}
+            onClick={handlePrev}
+            disabled={prevDisabled}
             className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(55,65,81,0.35)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)] disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-5 h-5" />
             Previous
           </button>
           <button
-            onClick={handleNext}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
+            onClick={handleNextAction}
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#374151] hover:-translate-y-0.5 hover:shadow-lg"
           >
-            {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
+            {nextLabel}
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>

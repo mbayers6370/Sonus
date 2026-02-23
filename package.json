@@ -7,7 +7,11 @@
     "dev:all": "bash -lc 'trap \"kill 0\" EXIT; npm --prefix backend run dev & npm --prefix sonus-react run dev & wait'",
     "checklist": "node scripts/regression-checklist.mjs",
     "test:core": "npm --prefix backend run test:core",
+    "characters:generate": "node scripts/generate-character-insights.mjs",
     "band1:normalize": "node scripts/band1-normalize-validate.mjs --fix",
     "band1:validate": "node scripts/band1-normalize-validate.mjs"
+  },
+  "devDependencies": {
+    "hanzi": "^2.1.5"
   }
 }

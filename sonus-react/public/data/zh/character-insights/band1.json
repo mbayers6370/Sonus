@@ -1,0 +1,4719 @@
+{
+  "bandId": "band1",
+  "generatedAt": "2026-02-23T21:39:45.709Z",
+  "sources": {
+    "bandFile": "band1.json",
+    "cedict": "sonus-react/public/data/cedict_ts.u8",
+    "makemeahanzi": null
+  },
+  "units": {
+    "_unallocated": [
+      "来",
+      "里",
+      "哪",
+      "那",
+      "起",
+      "桌",
+      "子"
+    ],
+    "b1-pronouns": [
+      "爸",
+      "边",
+      "别",
+      "的",
+      "儿",
+      "里",
+      "们",
+      "哪",
+      "那",
+      "你",
+      "您",
+      "人",
+      "他",
+      "她",
+      "我",
+      "些",
+      "一",
+      "有",
+      "这"
+    ],
+    "b1-politeness": [
+      "不",
+      "对",
+      "儿",
+      "关",
+      "见",
+      "进",
+      "客",
+      "来",
+      "么",
+      "没",
+      "起",
+      "气",
+      "请",
+      "什",
+      "事",
+      "问",
+      "系",
+      "谢",
+      "再",
+      "坐"
+    ],
+    "b1-numbers": [
+      "八",
+      "百",
+      "半",
+      "第",
+      "二",
+      "九",
+      "两",
+      "零",
+      "六",
+      "七",
+      "三",
+      "十",
+      "四",
+      "五",
+      "一"
+    ],
+    "b1-time": [
+      "白",
+      "半",
+      "常",
+      "次",
+      "点",
+      "儿",
+      "放",
+      "分",
+      "哥",
+      "过",
+      "后",
+      "候",
+      "会",
+      "间",
+      "今",
+      "马",
+      "明",
+      "年",
+      "期",
+      "前",
+      "去",
+      "日",
+      "上",
+      "时",
+      "天",
+      "晚",
+      "午",
+      "下",
+      "现",
+      "小",
+      "新",
+      "星",
+      "学",
+      "一",
+      "有",
+      "月",
+      "在",
+      "早",
+      "正",
+      "中",
+      "最",
+      "昨"
+    ],
+    "b1-verbs-1": [
+      "帮",
+      "差",
+      "穿",
+      "打",
+      "到",
+      "道",
+      "得",
+      "等",
+      "动",
+      "放",
+      "干",
+      "告",
+      "给",
+      "关",
+      "假",
+      "开",
+      "忙",
+      "上",
+      "诉",
+      "用",
+      "有",
+      "在",
+      "站",
+      "找",
+      "知",
+      "住",
+      "走",
+      "坐"
+    ],
+    "b1-family": [
+      "爸",
+      "大",
+      "弟",
+      "儿",
+      "哥",
+      "孩",
+      "家",
+      "姐",
+      "老",
+      "妈",
+      "妹",
+      "们",
+      "名",
+      "奶",
+      "男",
+      "女",
+      "朋",
+      "人",
+      "日",
+      "生",
+      "网",
+      "先",
+      "小",
+      "爷",
+      "医",
+      "友",
+      "在",
+      "子",
+      "字"
+    ],
+    "b1-routine": [
+      "班",
+      "病",
+      "唱",
+      "吃",
+      "床",
+      "打",
+      "电",
+      "动",
+      "儿",
+      "饭",
+      "风",
+      "干",
+      "歌",
+      "工",
+      "喝",
+      "话",
+      "回",
+      "家",
+      "觉",
+      "看",
+      "课",
+      "块",
+      "起",
+      "气",
+      "球",
+      "上",
+      "身",
+      "生",
+      "事",
+      "手",
+      "睡",
+      "体",
+      "天",
+      "息",
+      "洗",
+      "下",
+      "休",
+      "一",
+      "雨",
+      "再",
+      "作"
+    ],
+    "b1-food": [
+      "包",
+      "杯",
+      "菜",
+      "茶",
+      "吃",
+      "蛋",
+      "饿",
+      "儿",
+      "饭",
+      "果",
+      "好",
+      "鸡",
+      "姐",
+      "渴",
+      "米",
+      "面",
+      "奶",
+      "牛",
+      "肉",
+      "水",
+      "条",
+      "晚",
+      "午",
+      "早",
+      "子"
+    ],
+    "b1-shopping": [
+      "包",
+      "场",
+      "店",
+      "东",
+      "多",
+      "服",
+      "贵",
+      "块",
+      "买",
+      "毛",
+      "期",
+      "钱",
+      "日",
+      "商",
+      "西",
+      "星",
+      "衣",
+      "元"
+    ],
+    "b1-locations": [
+      "北",
+      "边",
+      "病",
+      "地",
+      "点",
+      "电",
+      "店",
+      "儿",
+      "饭",
+      "方",
+      "房",
+      "馆",
+      "国",
+      "家",
+      "间",
+      "教",
+      "京",
+      "口",
+      "里",
+      "楼",
+      "路",
+      "马",
+      "妹",
+      "门",
+      "们",
+      "那",
+      "票",
+      "人",
+      "山",
+      "上",
+      "身",
+      "手",
+      "书",
+      "图",
+      "外",
+      "洗",
+      "小",
+      "校",
+      "学",
+      "医",
+      "影",
+      "院",
+      "中",
+      "桌",
+      "子"
+    ],
+    "b1-directions": [
+      "北",
+      "边",
+      "床",
+      "从",
+      "东",
+      "跟",
+      "后",
+      "回",
+      "间",
+      "来",
+      "里",
+      "楼",
+      "南",
+      "旁",
+      "前",
+      "去",
+      "上",
+      "树",
+      "外",
+      "西",
+      "下",
+      "一",
+      "右",
+      "远",
+      "中",
+      "左"
+    ],
+    "b1-transport": [
+      "场",
+      "车",
+      "出",
+      "打",
+      "到",
+      "飞",
+      "火",
+      "机",
+      "假",
+      "进",
+      "开",
+      "来",
+      "跑",
+      "票",
+      "汽",
+      "请",
+      "去",
+      "上",
+      "送",
+      "网",
+      "下",
+      "行",
+      "站"
+    ],
+    "b1-school": [
+      "包",
+      "本",
+      "大",
+      "地",
+      "电",
+      "店",
+      "读",
+      "工",
+      "国",
+      "汉",
+      "话",
+      "会",
+      "机",
+      "记",
+      "教",
+      "开",
+      "考",
+      "课",
+      "老",
+      "妈",
+      "脑",
+      "人",
+      "上",
+      "生",
+      "师",
+      "识",
+      "视",
+      "试",
+      "手",
+      "书",
+      "听",
+      "同",
+      "图",
+      "外",
+      "网",
+      "文",
+      "习",
+      "小",
+      "写",
+      "学",
+      "影",
+      "语",
+      "院",
+      "知",
+      "中",
+      "住",
+      "子",
+      "字"
+    ],
+    "b1-questions": [
+      "不",
+      "弟",
+      "第",
+      "多",
+      "儿",
+      "二",
+      "干",
+      "还",
+      "几",
+      "里",
+      "吗",
+      "么",
+      "哪",
+      "呢",
+      "少",
+      "谁",
+      "什",
+      "是",
+      "怎",
+      "着"
+    ],
+    "b1-verbs-2": [
+      "答",
+      "到",
+      "得",
+      "还",
+      "好",
+      "和",
+      "花",
+      "坏",
+      "回",
+      "记",
+      "见",
+      "叫",
+      "介",
+      "进",
+      "就",
+      "开",
+      "看",
+      "快",
+      "来",
+      "老",
+      "累",
+      "忙",
+      "面",
+      "绍",
+      "是",
+      "听",
+      "玩",
+      "下",
+      "笑",
+      "坐"
+    ],
+    "b1-measure": [
+      "班",
+      "包",
+      "杯",
+      "本",
+      "次",
+      "点",
+      "儿",
+      "个",
+      "号",
+      "记",
+      "间",
+      "口",
+      "门",
+      "岁",
+      "页",
+      "一",
+      "子"
+    ],
+    "b1-opinions": [
+      "爱",
+      "白",
+      "不",
+      "常",
+      "错",
+      "得",
+      "的",
+      "都",
+      "对",
+      "儿",
+      "非",
+      "干",
+      "高",
+      "歌",
+      "还",
+      "好",
+      "很",
+      "话",
+      "欢",
+      "见",
+      "净",
+      "觉",
+      "看",
+      "冷",
+      "名",
+      "气",
+      "生",
+      "玩",
+      "喜",
+      "想",
+      "兴",
+      "要",
+      "用",
+      "有",
+      "真",
+      "重"
+    ],
+    "b1-ability": [
+      "吧",
+      "别",
+      "不",
+      "地",
+      "的",
+      "会",
+      "了",
+      "没",
+      "能",
+      "用"
+    ],
+    "b1-verbs-3": [
+      "白",
+      "备",
+      "到",
+      "儿",
+      "话",
+      "记",
+      "见",
+      "来",
+      "路",
+      "没",
+      "明",
+      "拿",
+      "难",
+      "起",
+      "去",
+      "热",
+      "认",
+      "少",
+      "识",
+      "说",
+      "听",
+      "玩",
+      "忘",
+      "问",
+      "先",
+      "笑",
+      "也",
+      "有",
+      "真",
+      "准",
+      "走",
+      "做"
+    ],
+    "b1-comparison": [
+      "比",
+      "不",
+      "大",
+      "高",
+      "好",
+      "慢",
+      "太",
+      "小",
+      "新",
+      "样",
+      "一",
+      "最"
+    ],
+    "b1-listening": [],
+    "b1-speaking": []
+  },
+  "characters": {
+    "爱": {
+      "pinyin": [
+        "ai4"
+      ],
+      "glosses": [
+        "to love",
+        "affection",
+        "hobby"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "八": {
+      "pinyin": [
+        "ba1"
+      ],
+      "glosses": [
+        "eight",
+        "8"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "爸": {
+      "pinyin": [
+        "ba4"
+      ],
+      "glosses": [
+        "dad",
+        "pa"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "吧": {
+      "pinyin": [
+        "ba1",
+        "ba5",
+        "bia1"
+      ],
+      "glosses": [
+        "particle suggesting suggestion",
+        "bar",
+        "...OK?",
+        "smack!"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "白": {
+      "pinyin": [
+        "bai2"
+      ],
+      "glosses": [
+        "white",
+        "pure",
+        "daytime",
+        "to understand"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "百": {
+      "pinyin": [
+        "bai3"
+      ],
+      "glosses": [
+        "hundred"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "班": {
+      "pinyin": [
+        "ban1"
+      ],
+      "glosses": [
+        "team",
+        "to start work",
+        "to finish work"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "半": {
+      "pinyin": [
+        "ban4"
+      ],
+      "glosses": [
+        "half",
+        "half a year",
+        "half a day"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "帮": {
+      "pinyin": [
+        "bang1"
+      ],
+      "glosses": [
+        "to help",
+        "side"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "包": {
+      "pinyin": [
+        "bao1"
+      ],
+      "glosses": [
+        "bag",
+        "steamed bun",
+        "bread",
+        "purse",
+        "backpack"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "杯": {
+      "pinyin": [
+        "bei1"
+      ],
+      "glosses": [
+        "cup"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "北": {
+      "pinyin": [
+        "bei3"
+      ],
+      "glosses": [
+        "north",
+        "Beijing",
+        "north side"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "备": {
+      "pinyin": [
+        "bei4"
+      ],
+      "glosses": [
+        "fully",
+        "get ready",
+        "to prepare"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "本": {
+      "pinyin": [
+        "ben3"
+      ],
+      "glosses": [
+        "for books",
+        "root",
+        "this",
+        "notebook",
+        "textbook"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "比": {
+      "pinyin": [
+        "bi3",
+        "bi1",
+        "bi4"
+      ],
+      "glosses": [
+        "than",
+        "Belgium",
+        "ratio",
+        "to be near"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "边": {
+      "pinyin": [
+        "bian1",
+        "bian5"
+      ],
+      "glosses": [
+        "side",
+        "suffix of a noun of locality",
+        "this side",
+        "there",
+        "outside",
+        "north side"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "别": {
+      "pinyin": [
+        "bie2",
+        "bie4"
+      ],
+      "glosses": [
+        "don't",
+        "other",
+        "opinions etc",
+        "else",
+        "others"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "病": {
+      "pinyin": [
+        "bing4"
+      ],
+      "glosses": [
+        "illness",
+        "defect",
+        "to see a doctor",
+        "to get sick",
+        "patient"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "不": {
+      "pinyin": [
+        "bu4"
+      ],
+      "glosses": [
+        "no",
+        "you're welcome",
+        "sorry",
+        "is or isn't",
+        "wrong",
+        "need not"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "菜": {
+      "pinyin": [
+        "cai4"
+      ],
+      "glosses": [
+        "dish",
+        "weak"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "茶": {
+      "pinyin": [
+        "cha2"
+      ],
+      "glosses": [
+        "tea"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "差": {
+      "pinyin": [
+        "ci1",
+        "cha1",
+        "cha4",
+        "chai1"
+      ],
+      "glosses": [
+        "to lack",
+        "somewhat",
+        "wrong",
+        "job",
+        "used in 參差|参差[cen1 ci1]",
+        "error"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "常": {
+      "pinyin": [
+        "chang2"
+      ],
+      "glosses": [
+        "often",
+        "ever",
+        "very"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "场": {
+      "pinyin": [
+        "chang2",
+        "chang3"
+      ],
+      "glosses": [
+        "bout",
+        "stage",
+        "mall",
+        "airport"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "唱": {
+      "pinyin": [
+        "chang4"
+      ],
+      "glosses": [
+        "to sing"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "车": {
+      "pinyin": [
+        "ju1",
+        "che1"
+      ],
+      "glosses": [
+        "car",
+        "rook",
+        "bus",
+        "in",
+        "station",
+        "to take a taxi"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "吃": {
+      "pinyin": [
+        "ji2",
+        "chi1"
+      ],
+      "glosses": [
+        "to eat",
+        "stammer",
+        "to eat a meal",
+        "tasty"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "出": {
+      "pinyin": [
+        "chu1"
+      ],
+      "glosses": [
+        "to go out",
+        "plays",
+        "to come out"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "穿": {
+      "pinyin": [
+        "chuan1"
+      ],
+      "glosses": [
+        "to wear"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "床": {
+      "pinyin": [
+        "chuang2"
+      ],
+      "glosses": [
+        "bed",
+        "to get up"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "次": {
+      "pinyin": [
+        "ci4"
+      ],
+      "glosses": [
+        "time",
+        "sub-",
+        "last time",
+        "next time"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "从": {
+      "pinyin": [
+        "cong2",
+        "cong1",
+        "zong4"
+      ],
+      "glosses": [
+        "from",
+        "via",
+        "lax",
+        "second cousin"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "错": {
+      "pinyin": [
+        "cuo4"
+      ],
+      "glosses": [
+        "wrong",
+        "bad"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "答": {
+      "pinyin": [
+        "da1",
+        "da2"
+      ],
+      "glosses": [
+        "答理[da1 li5] etc",
+        "to reply",
+        "to agree",
+        "echo"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "打": {
+      "pinyin": [
+        "da2",
+        "da3"
+      ],
+      "glosses": [
+        "to do",
+        "dozen",
+        "from",
+        "to open",
+        "to make a phone call",
+        "to play ball"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "大": {
+      "pinyin": [
+        "da4",
+        "dai4"
+      ],
+      "glosses": [
+        "big",
+        "see 大夫[dai4 fu5]",
+        "college",
+        "college student",
+        "not too"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "蛋": {
+      "pinyin": [
+        "dan4"
+      ],
+      "glosses": [
+        "egg"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "到": {
+      "pinyin": [
+        "dao4"
+      ],
+      "glosses": [
+        "to reach",
+        "to",
+        "to get",
+        "to find",
+        "to arrive",
+        "to return to"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "道": {
+      "pinyin": [
+        "dao4"
+      ],
+      "glosses": [
+        "way",
+        "to know"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "得": {
+      "pinyin": [
+        "de2",
+        "de4",
+        "de5",
+        "dei3"
+      ],
+      "glosses": [
+        "proud",
+        "used in 得瑟[de4 se5]",
+        "degree",
+        "must",
+        "to get",
+        "to remember"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "地": {
+      "pinyin": [
+        "de5",
+        "di4"
+      ],
+      "glosses": [
+        "earth",
+        "-ly",
+        "land",
+        "site",
+        "area",
+        "ground"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "的": {
+      "pinyin": [
+        "de5",
+        "di1",
+        "di2",
+        "di4"
+      ],
+      "glosses": [
+        "'s",
+        "of",
+        "a cab",
+        "really and truly",
+        "target",
+        "aim"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "等": {
+      "pinyin": [
+        "deng3"
+      ],
+      "glosses": [
+        "to wait",
+        "when",
+        "rank"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "弟": {
+      "pinyin": [
+        "di4",
+        "ti4"
+      ],
+      "glosses": [
+        "younger brother",
+        "I"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "第": {
+      "pinyin": [
+        "di4"
+      ],
+      "glosses": [
+        "-th",
+        "but",
+        "second"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "点": {
+      "pinyin": [
+        "dian3"
+      ],
+      "glosses": [
+        "o'clock",
+        "dot",
+        "site",
+        "a bit"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "电": {
+      "pinyin": [
+        "dian4"
+      ],
+      "glosses": [
+        "electricity",
+        "electric",
+        "to make a phone call",
+        "cinema",
+        "phone",
+        "computer"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "店": {
+      "pinyin": [
+        "dian4"
+      ],
+      "glosses": [
+        "inn",
+        "shop",
+        "hotel",
+        "bookshop"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "东": {
+      "pinyin": [
+        "dong1"
+      ],
+      "glosses": [
+        "east",
+        "thing",
+        "east side"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "动": {
+      "pinyin": [
+        "dong4"
+      ],
+      "glosses": [
+        "to move",
+        "verb",
+        "to use",
+        "action"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "都": {
+      "pinyin": [
+        "du1",
+        "dou1"
+      ],
+      "glosses": [
+        "all",
+        "metropolis"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "读": {
+      "pinyin": [
+        "du2",
+        "dou4"
+      ],
+      "glosses": [
+        "to read",
+        "comma"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "对": {
+      "pinyin": [
+        "dui4"
+      ],
+      "glosses": [
+        "toward",
+        "at",
+        "to",
+        "sorry",
+        "wrong"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "多": {
+      "pinyin": [
+        "duo1"
+      ],
+      "glosses": [
+        "many",
+        "how",
+        "how many"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "饿": {
+      "pinyin": [
+        "e4"
+      ],
+      "glosses": [
+        "hungry"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "儿": {
+      "pinyin": [
+        "r5",
+        "er2"
+      ],
+      "glosses": [
+        "son",
+        "retroflex final",
+        "here",
+        "it's fine",
+        "a moment",
+        "a bit"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "二": {
+      "pinyin": [
+        "er4"
+      ],
+      "glosses": [
+        "two",
+        "2",
+        "second"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "饭": {
+      "pinyin": [
+        "fan4"
+      ],
+      "glosses": [
+        "meal",
+        "fan",
+        "food",
+        "to eat a meal",
+        "rice",
+        "dinner"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "方": {
+      "pinyin": [
+        "fang1"
+      ],
+      "glosses": [
+        "side",
+        "area"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "房": {
+      "pinyin": [
+        "fang2"
+      ],
+      "glosses": [
+        "room",
+        "house"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "放": {
+      "pinyin": [
+        "fang4"
+      ],
+      "glosses": [
+        "to put",
+        "school ends",
+        "to have time off"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "飞": {
+      "pinyin": [
+        "fei1"
+      ],
+      "glosses": [
+        "to fly",
+        "airplane"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "非": {
+      "pinyin": [
+        "fei1"
+      ],
+      "glosses": [
+        "Africa",
+        "not",
+        "very"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "分": {
+      "pinyin": [
+        "fen1",
+        "fen4"
+      ],
+      "glosses": [
+        "minute",
+        "sub-",
+        "part"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "风": {
+      "pinyin": [
+        "feng1"
+      ],
+      "glosses": [
+        "wind"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "服": {
+      "pinyin": [
+        "fu2",
+        "fu4"
+      ],
+      "glosses": [
+        "dress",
+        "dose",
+        "clothes"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "干": {
+      "pinyin": [
+        "gan1",
+        "gan4"
+      ],
+      "glosses": [
+        "dry",
+        "to do",
+        "shield",
+        "cadre",
+        "stem",
+        "what doing"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "高": {
+      "pinyin": [
+        "gao1"
+      ],
+      "glosses": [
+        "tall",
+        "high",
+        "glad"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "告": {
+      "pinyin": [
+        "gao4"
+      ],
+      "glosses": [
+        "to say",
+        "to tell"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "哥": {
+      "pinyin": [
+        "ge1"
+      ],
+      "glosses": [
+        "older brother",
+        "elder brother"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "歌": {
+      "pinyin": [
+        "ge1"
+      ],
+      "glosses": [
+        "song",
+        "song (",
+        "to sing"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "个": {
+      "pinyin": [
+        "ge3",
+        "ge4"
+      ],
+      "glosses": [
+        "general measure word",
+        "used in 自個兒|自个儿[zi4 ge3 r5]",
+        "individual",
+        "this"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "给": {
+      "pinyin": [
+        "ji3",
+        "gei3"
+      ],
+      "glosses": [
+        "for",
+        "to",
+        "to supply"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "跟": {
+      "pinyin": [
+        "gen1"
+      ],
+      "glosses": [
+        "and",
+        "to",
+        "as"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "工": {
+      "pinyin": [
+        "gong1"
+      ],
+      "glosses": [
+        "work",
+        "job",
+        "worker"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "关": {
+      "pinyin": [
+        "guan1"
+      ],
+      "glosses": [
+        "to close",
+        "to shut",
+        "it's okay"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "馆": {
+      "pinyin": [
+        "guan3"
+      ],
+      "glosses": [
+        "shop",
+        "library"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "贵": {
+      "pinyin": [
+        "gui4"
+      ],
+      "glosses": [
+        "costly",
+        "your"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "国": {
+      "pinyin": [
+        "guo2"
+      ],
+      "glosses": [
+        "nation",
+        "state",
+        "foreign nation",
+        "China",
+        "abroad"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "果": {
+      "pinyin": [
+        "guo3"
+      ],
+      "glosses": [
+        "fruit"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "过": {
+      "pinyin": [
+        "guo1",
+        "guo4",
+        "guo5"
+      ],
+      "glosses": [
+        "-ever",
+        "too-"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "还": {
+      "pinyin": [
+        "hai2",
+        "huan2"
+      ],
+      "glosses": [
+        "yet",
+        "to return",
+        "or",
+        "also have"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "孩": {
+      "pinyin": [
+        "hai2"
+      ],
+      "glosses": [
+        "child",
+        "boy",
+        "girl",
+        "kid"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "汉": {
+      "pinyin": [
+        "han4"
+      ],
+      "glosses": [
+        "Chinese",
+        "man",
+        "Chinese character"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "好": {
+      "pinyin": [
+        "hao3",
+        "hao4"
+      ],
+      "glosses": [
+        "good",
+        "so",
+        "to be fond of",
+        "tasty",
+        "nice-sounding",
+        "hobby"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "号": {
+      "pinyin": [
+        "hao2",
+        "hao4"
+      ],
+      "glosses": [
+        "date",
+        "cry",
+        "mark"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "喝": {
+      "pinyin": [
+        "he1",
+        "he4"
+      ],
+      "glosses": [
+        "to drink",
+        "to shout",
+        "to shout loudly"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "和": {
+      "pinyin": [
+        "he2",
+        "he4",
+        "hu2",
+        "huo2",
+        "huo4"
+      ],
+      "glosses": [
+        "and",
+        "to join in the singing",
+        "to complete a set in mahjong or playing cards",
+        "Taiwan pr. [huo4]",
+        "to blend",
+        "harmonious"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "很": {
+      "pinyin": [
+        "hen3"
+      ],
+      "glosses": [
+        "very"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "后": {
+      "pinyin": [
+        "hou4"
+      ],
+      "glosses": [
+        "back",
+        "queen",
+        "day after tomorrow",
+        "last",
+        "behind"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "候": {
+      "pinyin": [
+        "hou4"
+      ],
+      "glosses": [
+        "season",
+        "time",
+        "sometimes"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "花": {
+      "pinyin": [
+        "hua1"
+      ],
+      "glosses": [
+        "flower"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "话": {
+      "pinyin": [
+        "hua4"
+      ],
+      "glosses": [
+        "talk",
+        "to make a phone call",
+        "phone",
+        "to talk"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "坏": {
+      "pinyin": [
+        "huai4"
+      ],
+      "glosses": [
+        "bad"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "欢": {
+      "pinyin": [
+        "huan1"
+      ],
+      "glosses": [
+        "happy",
+        "hubbub",
+        "a breed of horse",
+        "to like"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "回": {
+      "pinyin": [
+        "hui2"
+      ],
+      "glosses": [
+        "to return",
+        "time",
+        "to curve",
+        "to go home",
+        "to go back",
+        "to reply"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "会": {
+      "pinyin": [
+        "hui4",
+        "kuai4"
+      ],
+      "glosses": [
+        "can",
+        "to reckon accounts",
+        "accounting",
+        "a moment",
+        "to have a meeting"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "火": {
+      "pinyin": [
+        "huo3"
+      ],
+      "glosses": [
+        "hot",
+        "train"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "机": {
+      "pinyin": [
+        "ji1"
+      ],
+      "glosses": [
+        "pivot",
+        "airplane",
+        "airport",
+        "plane ticket",
+        "TV set",
+        "cell phone"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "鸡": {
+      "pinyin": [
+        "ji1"
+      ],
+      "glosses": [
+        "fowl",
+        "egg"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "几": {
+      "pinyin": [
+        "ji1",
+        "ji3"
+      ],
+      "glosses": [
+        "several",
+        "small table",
+        "almost"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "记": {
+      "pinyin": [
+        "ji4"
+      ],
+      "glosses": [
+        "to remember",
+        "mark",
+        "to forget"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "家": {
+      "pinyin": [
+        "jia1"
+      ],
+      "glosses": [
+        "home",
+        "used in 傢伙|家伙[jia1 huo5] and 傢俱|家俱[jia1 ju4]",
+        "my",
+        "-er",
+        "family",
+        "to be home"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "假": {
+      "pinyin": [
+        "gei1",
+        "jia3",
+        "jia4"
+      ],
+      "glosses": [
+        "used in 假掰[gei1 bai1]",
+        "if",
+        "vacation",
+        "to borrow",
+        "to have time off",
+        "to ask for leave"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "间": {
+      "pinyin": [
+        "jian1",
+        "jian4"
+      ],
+      "glosses": [
+        "for rooms",
+        "room",
+        "gap",
+        "time",
+        "toilet",
+        "middle"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "见": {
+      "pinyin": [
+        "jian4",
+        "xian4"
+      ],
+      "glosses": [
+        "to see",
+        "view",
+        "to appear",
+        "goodbye",
+        "to meet",
+        "to hear"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "叫": {
+      "pinyin": [
+        "jiao4"
+      ],
+      "glosses": [
+        "named",
+        "by"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "教": {
+      "pinyin": [
+        "jiao4",
+        "jiao1"
+      ],
+      "glosses": [
+        "to teach",
+        "to tell",
+        "religion",
+        "teaching building"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "姐": {
+      "pinyin": [
+        "jie3"
+      ],
+      "glosses": [
+        "older sister",
+        "miss"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "介": {
+      "pinyin": [
+        "jie4"
+      ],
+      "glosses": [
+        "shell",
+        "between",
+        "to introduce"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "今": {
+      "pinyin": [
+        "jin1"
+      ],
+      "glosses": [
+        "now",
+        "this year",
+        "today"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "进": {
+      "pinyin": [
+        "jin4"
+      ],
+      "glosses": [
+        "to enter",
+        "to come in",
+        "please come in",
+        "to go in"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "京": {
+      "pinyin": [
+        "jing1"
+      ],
+      "glosses": [
+        "Jing ethnic minority",
+        "big",
+        "abbr. for Beijing",
+        "Beijing"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "净": {
+      "pinyin": [
+        "jing4"
+      ],
+      "glosses": [
+        "net",
+        "only",
+        "clean"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "九": {
+      "pinyin": [
+        "jiu3"
+      ],
+      "glosses": [
+        "nine",
+        "9"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "就": {
+      "pinyin": [
+        "jiu4"
+      ],
+      "glosses": [
+        "just",
+        "then",
+        "only"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "觉": {
+      "pinyin": [
+        "jue2",
+        "jiao4"
+      ],
+      "glosses": [
+        "a nap",
+        "awake",
+        "to sleep",
+        "to feel"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "开": {
+      "pinyin": [
+        "kai1"
+      ],
+      "glosses": [
+        "to open",
+        "off",
+        "to drive",
+        "to have a meeting",
+        "to joke"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "看": {
+      "pinyin": [
+        "kan1",
+        "kan4"
+      ],
+      "glosses": [
+        "to see",
+        "to watch",
+        "to see a doctor",
+        "pretty"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "考": {
+      "pinyin": [
+        "kao3"
+      ],
+      "glosses": [
+        "to test",
+        "to hit",
+        "exam"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "渴": {
+      "pinyin": [
+        "ke3"
+      ],
+      "glosses": [
+        "thirsty"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "客": {
+      "pinyin": [
+        "ke4"
+      ],
+      "glosses": [
+        "guest",
+        "you're welcome"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "课": {
+      "pinyin": [
+        "ke4"
+      ],
+      "glosses": [
+        "class",
+        "tax",
+        "course",
+        "class ends",
+        "textbook",
+        "text"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "口": {
+      "pinyin": [
+        "kou3"
+      ],
+      "glosses": [
+        "mouth",
+        "crossing",
+        "doorway"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "块": {
+      "pinyin": [
+        "kuai4"
+      ],
+      "glosses": [
+        "yuan",
+        "lump",
+        "cake",
+        "together"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "快": {
+      "pinyin": [
+        "kuai4"
+      ],
+      "glosses": [
+        "fast",
+        "rate"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "来": {
+      "pinyin": [
+        "lai2"
+      ],
+      "glosses": [
+        "to come",
+        "hither",
+        "next",
+        "to get up",
+        "to come in",
+        "to return"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "老": {
+      "pinyin": [
+        "lao3"
+      ],
+      "glosses": [
+        "old",
+        "old person",
+        "teacher"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "了": {
+      "pinyin": [
+        "le5",
+        "liao3",
+        "liao4"
+      ],
+      "glosses": [
+        "completion",
+        "entirely",
+        "bright",
+        "/",
+        "to finish"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "累": {
+      "pinyin": [
+        "lei3",
+        "lei4",
+        "lei2"
+      ],
+      "glosses": [
+        "tired",
+        "repeated",
+        "rope"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "冷": {
+      "pinyin": [
+        "leng3"
+      ],
+      "glosses": [
+        "cold"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "里": {
+      "pinyin": [
+        "li3"
+      ],
+      "glosses": [
+        "inside",
+        "lining",
+        "Li",
+        "li",
+        "where",
+        "there"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "两": {
+      "pinyin": [
+        "liang3"
+      ],
+      "glosses": [
+        "two"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "零": {
+      "pinyin": [
+        "ling2"
+      ],
+      "glosses": [
+        "zero",
+        "odd"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "六": {
+      "pinyin": [
+        "lu4",
+        "liu4"
+      ],
+      "glosses": [
+        "six",
+        "6",
+        "used in place names"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "楼": {
+      "pinyin": [
+        "lou2"
+      ],
+      "glosses": [
+        "floor",
+        "teaching building",
+        "upstairs",
+        "downstairs"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "路": {
+      "pinyin": [
+        "lu4"
+      ],
+      "glosses": [
+        "road",
+        "line",
+        "crossing",
+        "on the way",
+        "to walk"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "妈": {
+      "pinyin": [
+        "ma1"
+      ],
+      "glosses": [
+        "mom",
+        "ma"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "马": {
+      "pinyin": [
+        "ma3"
+      ],
+      "glosses": [
+        "abbr. for Malaysia 馬來西亞|马来西亚[Ma3 lai2 xi1 ya4]",
+        "horse",
+        "immediately",
+        "road"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "吗": {
+      "pinyin": [
+        "ma2",
+        "ma3",
+        "ma5"
+      ],
+      "glosses": [
+        "question particle",
+        "what?",
+        "used in 嗎啡|吗啡[ma3 fei1]",
+        "morphine"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "买": {
+      "pinyin": [
+        "mai3"
+      ],
+      "glosses": [
+        "to buy"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "慢": {
+      "pinyin": [
+        "man4"
+      ],
+      "glosses": [
+        "slow"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "忙": {
+      "pinyin": [
+        "mang2"
+      ],
+      "glosses": [
+        "busy",
+        "to help"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "毛": {
+      "pinyin": [
+        "mao2"
+      ],
+      "glosses": [
+        "mao",
+        "raw"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "么": {
+      "pinyin": [
+        "ma2",
+        "ma5",
+        "me5",
+        "mo2"
+      ],
+      "glosses": [
+        "exclamatory final particle",
+        "interrogative final particle",
+        "etc",
+        "what?",
+        "tiny",
+        "never mind"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "没": {
+      "pinyin": [
+        "mo4",
+        "mei2"
+      ],
+      "glosses": [
+        "not",
+        "drowned",
+        "it's okay",
+        "never mind",
+        "it's fine",
+        "don't have"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "妹": {
+      "pinyin": [
+        "mei4"
+      ],
+      "glosses": [
+        "younger sister"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "门": {
+      "pinyin": [
+        "men2"
+      ],
+      "glosses": [
+        "door",
+        "gate",
+        "doorway",
+        "entrance ticket"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "们": {
+      "pinyin": [
+        "men5"
+      ],
+      "glosses": [
+        "plural marker",
+        "plural marker for pronouns",
+        "you",
+        "they",
+        "we",
+        "friends"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "米": {
+      "pinyin": [
+        "mi3"
+      ],
+      "glosses": [
+        "meter",
+        "rice"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "面": {
+      "pinyin": [
+        "mian4"
+      ],
+      "glosses": [
+        "top",
+        "soft",
+        "flour",
+        "bread",
+        "noodles",
+        "to meet"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "名": {
+      "pinyin": [
+        "ming2"
+      ],
+      "glosses": [
+        "name",
+        "famous"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "明": {
+      "pinyin": [
+        "ming2"
+      ],
+      "glosses": [
+        "Ming",
+        "next",
+        "Ming Dynasty",
+        "next year",
+        "tomorrow",
+        "to understand"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "拿": {
+      "pinyin": [
+        "na2"
+      ],
+      "glosses": [
+        "to take",
+        "to hold"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "哪": {
+      "pinyin": [
+        "na3",
+        "na5",
+        "ne2",
+        "nei3"
+      ],
+      "glosses": [
+        "which",
+        "how",
+        "Taiwan pr. [nuo2]",
+        "which?",
+        "where"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "那": {
+      "pinyin": [
+        "na1",
+        "na3",
+        "na4",
+        "nuo2"
+      ],
+      "glosses": [
+        "that",
+        "the",
+        "how",
+        "there",
+        "those"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "奶": {
+      "pinyin": [
+        "nai3"
+      ],
+      "glosses": [
+        "milk",
+        "mother",
+        "lady",
+        "grandmother"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "男": {
+      "pinyin": [
+        "nan2"
+      ],
+      "glosses": [
+        "man",
+        "male",
+        "boy",
+        "boyfriend"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "南": {
+      "pinyin": [
+        "na1",
+        "nan2"
+      ],
+      "glosses": [
+        "south",
+        "Taiwan pr. [na2]",
+        "south side"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "难": {
+      "pinyin": [
+        "nan2",
+        "nan4"
+      ],
+      "glosses": [
+        "hard",
+        "problem",
+        "disaster"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "脑": {
+      "pinyin": [
+        "nao3"
+      ],
+      "glosses": [
+        "mind",
+        "computer"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "呢": {
+      "pinyin": [
+        "ne5",
+        "ni2",
+        "ni1"
+      ],
+      "glosses": [
+        "question particle",
+        "particle signaling a pause",
+        "dense wool fabric",
+        "particle for inquiring about location",
+        "this",
+        "woolen material"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "能": {
+      "pinyin": [
+        "neng2"
+      ],
+      "glosses": [
+        "can",
+        "able"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "你": {
+      "pinyin": [
+        "ni3"
+      ],
+      "glosses": [
+        "you"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "年": {
+      "pinyin": [
+        "nian2"
+      ],
+      "glosses": [
+        "year",
+        "grain",
+        "half a year",
+        "this year",
+        "next year",
+        "last year"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "您": {
+      "pinyin": [
+        "nin2"
+      ],
+      "glosses": [
+        "you"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "牛": {
+      "pinyin": [
+        "niu2"
+      ],
+      "glosses": [
+        "ox",
+        "milk"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "女": {
+      "pinyin": [
+        "ru3",
+        "nu:3"
+      ],
+      "glosses": [
+        "woman",
+        "daughter",
+        "girl",
+        "girlfriend"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "旁": {
+      "pinyin": [
+        "pang2"
+      ],
+      "glosses": [
+        "other",
+        "side"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "跑": {
+      "pinyin": [
+        "pao2",
+        "pao3"
+      ],
+      "glosses": [
+        "to run",
+        "to paw",
+        "off"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "朋": {
+      "pinyin": [
+        "peng2"
+      ],
+      "glosses": [
+        "friend",
+        "friends",
+        "boyfriend",
+        "girlfriend",
+        "child"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "票": {
+      "pinyin": [
+        "piao4"
+      ],
+      "glosses": [
+        "ticket",
+        "entrance ticket",
+        "bus",
+        "plane ticket"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "七": {
+      "pinyin": [
+        "qi1"
+      ],
+      "glosses": [
+        "seven",
+        "7"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "期": {
+      "pinyin": [
+        "qi1"
+      ],
+      "glosses": [
+        "cycle",
+        "time",
+        "date",
+        "week",
+        "Sunday"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "起": {
+      "pinyin": [
+        "qi3"
+      ],
+      "glosses": [
+        "to rise",
+        "case",
+        "to get up",
+        "sorry",
+        "together"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "气": {
+      "pinyin": [
+        "qi4"
+      ],
+      "glosses": [
+        "qi",
+        "you're welcome",
+        "weather",
+        "to get angry"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "汽": {
+      "pinyin": [
+        "qi4"
+      ],
+      "glosses": [
+        "steam",
+        "car"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "前": {
+      "pinyin": [
+        "qian2"
+      ],
+      "glosses": [
+        "ago",
+        "BC",
+        "two days ago",
+        "in front"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "钱": {
+      "pinyin": [
+        "qian2"
+      ],
+      "glosses": [
+        "money",
+        "coin",
+        "purse"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "请": {
+      "pinyin": [
+        "qing3"
+      ],
+      "glosses": [
+        "please",
+        "please come in",
+        "excuse me",
+        "please sit",
+        "to ask for leave"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "球": {
+      "pinyin": [
+        "qiu2"
+      ],
+      "glosses": [
+        "ball",
+        "ball used for playing games",
+        "to play ball"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "去": {
+      "pinyin": [
+        "qu4"
+      ],
+      "glosses": [
+        "to go",
+        "last",
+        "last year",
+        "to go back",
+        "to go out",
+        "to go in"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "热": {
+      "pinyin": [
+        "re4"
+      ],
+      "glosses": [
+        "hot"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "人": {
+      "pinyin": [
+        "ren2"
+      ],
+      "glosses": [
+        "person",
+        "man",
+        "others",
+        "family",
+        "old person",
+        "woman"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "认": {
+      "pinyin": [
+        "ren4"
+      ],
+      "glosses": [
+        "to know",
+        "serious"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "日": {
+      "pinyin": [
+        "ri4"
+      ],
+      "glosses": [
+        "day",
+        "Japan",
+        "sun",
+        "date",
+        "birthday",
+        "Sunday"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "肉": {
+      "pinyin": [
+        "rou4"
+      ],
+      "glosses": [
+        "meat"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "三": {
+      "pinyin": [
+        "san1"
+      ],
+      "glosses": [
+        "three",
+        "3"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "山": {
+      "pinyin": [
+        "shan1"
+      ],
+      "glosses": [
+        "hill",
+        "mountain"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "商": {
+      "pinyin": [
+        "shang1"
+      ],
+      "glosses": [
+        "Shang Dynasty",
+        "dealer",
+        "the Shang dynasty",
+        "commerce",
+        "mall",
+        "shop"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "上": {
+      "pinyin": [
+        "shang3",
+        "shang4"
+      ],
+      "glosses": [
+        "up",
+        "used in 上聲|上声[shang3 sheng1]",
+        "see 上聲|上声[shang3 sheng1]",
+        "upon",
+        "immediately",
+        "last time"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "少": {
+      "pinyin": [
+        "shao3",
+        "shao4"
+      ],
+      "glosses": [
+        "few",
+        "young",
+        "how many"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "绍": {
+      "pinyin": [
+        "shao4"
+      ],
+      "glosses": [
+        "to continue",
+        "to introduce"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "谁": {
+      "pinyin": [
+        "shei2"
+      ],
+      "glosses": [
+        "who"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "身": {
+      "pinyin": [
+        "shen1"
+      ],
+      "glosses": [
+        "body",
+        "with one"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "什": {
+      "pinyin": [
+        "shi2",
+        "shen2"
+      ],
+      "glosses": [
+        "what",
+        "ten",
+        "never mind",
+        "what doing"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "生": {
+      "pinyin": [
+        "sheng1"
+      ],
+      "glosses": [
+        "raw",
+        "life",
+        "boy",
+        "girl",
+        "birthday",
+        "Mr."
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "师": {
+      "pinyin": [
+        "shi1"
+      ],
+      "glosses": [
+        "model",
+        "teacher"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "十": {
+      "pinyin": [
+        "shi2"
+      ],
+      "glosses": [
+        "ten",
+        "10"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "时": {
+      "pinyin": [
+        "shi2"
+      ],
+      "glosses": [
+        "time",
+        "hour",
+        "sometimes"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "识": {
+      "pinyin": [
+        "shi2",
+        "zhi4"
+      ],
+      "glosses": [
+        "knowledge",
+        "to record",
+        "to know"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "事": {
+      "pinyin": [
+        "shi4"
+      ],
+      "glosses": [
+        "thing",
+        "item",
+        "it's fine"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "视": {
+      "pinyin": [
+        "shi4"
+      ],
+      "glosses": [
+        "to look at",
+        "to regard",
+        "TV",
+        "TV set"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "试": {
+      "pinyin": [
+        "shi4"
+      ],
+      "glosses": [
+        "to try",
+        "test",
+        "exam"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "是": {
+      "pinyin": [
+        "shi4"
+      ],
+      "glosses": [
+        "is",
+        "true",
+        "or",
+        "is or isn't"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "手": {
+      "pinyin": [
+        "shou3"
+      ],
+      "glosses": [
+        "hand",
+        "toilet",
+        "cell phone"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "书": {
+      "pinyin": [
+        "shu1"
+      ],
+      "glosses": [
+        "book",
+        "abbr. for 書經|书经[Shu1 jing1]",
+        "abbr. for 書經|书经[shu1 jing1]",
+        "library",
+        "to read",
+        "backpack"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "树": {
+      "pinyin": [
+        "shu4"
+      ],
+      "glosses": [
+        "tree"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "水": {
+      "pinyin": [
+        "shui3"
+      ],
+      "glosses": [
+        "water",
+        "fruit"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "睡": {
+      "pinyin": [
+        "shui4"
+      ],
+      "glosses": [
+        "to sleep"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "说": {
+      "pinyin": [
+        "shui4",
+        "shuo1"
+      ],
+      "glosses": [
+        "to say",
+        "to persuade",
+        "theory",
+        "to canvass",
+        "to talk"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "四": {
+      "pinyin": [
+        "si4"
+      ],
+      "glosses": [
+        "four",
+        "4"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "送": {
+      "pinyin": [
+        "song4"
+      ],
+      "glosses": [
+        "to give",
+        "to send"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "诉": {
+      "pinyin": [
+        "su4"
+      ],
+      "glosses": [
+        "to sue",
+        "to tell"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "岁": {
+      "pinyin": [
+        "sui4"
+      ],
+      "glosses": [
+        "year"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "他": {
+      "pinyin": [
+        "ta1"
+      ],
+      "glosses": [
+        "he",
+        "other",
+        "they"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "她": {
+      "pinyin": [
+        "ta1"
+      ],
+      "glosses": [
+        "she",
+        "they"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "太": {
+      "pinyin": [
+        "tai4"
+      ],
+      "glosses": [
+        "too"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "体": {
+      "pinyin": [
+        "ti1",
+        "ti3"
+      ],
+      "glosses": [
+        "Taiwan pr. [ti3]",
+        "body"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "天": {
+      "pinyin": [
+        "tian1"
+      ],
+      "glosses": [
+        "day",
+        "daytime",
+        "half a day",
+        "day after tomorrow",
+        "today",
+        "tomorrow"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "条": {
+      "pinyin": [
+        "tiao2"
+      ],
+      "glosses": [
+        "item",
+        "noodles"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "听": {
+      "pinyin": [
+        "yin3",
+        "ting1",
+        "ting4"
+      ],
+      "glosses": [
+        "to hear",
+        "smile",
+        "a can",
+        "to let",
+        "dictation",
+        "nice-sounding"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "同": {
+      "pinyin": [
+        "tong2",
+        "tong4"
+      ],
+      "glosses": [
+        "like",
+        "used in 胡同[hu2 tong4]",
+        "used in 衚衕|胡同[hu2 tong4]",
+        "see 衚衕|胡同[hu2 tong4]",
+        "classmate"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "图": {
+      "pinyin": [
+        "tu2"
+      ],
+      "glosses": [
+        "map",
+        "library"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "外": {
+      "pinyin": [
+        "wai4"
+      ],
+      "glosses": [
+        "outer",
+        "outside",
+        "foreign nation",
+        "abroad",
+        "foreign language"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "玩": {
+      "pinyin": [
+        "wan2"
+      ],
+      "glosses": [
+        "toy",
+        "Taiwan pr. [wan4]",
+        "to joke",
+        "fun",
+        "to play"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "晚": {
+      "pinyin": [
+        "wan3"
+      ],
+      "glosses": [
+        "late",
+        "night",
+        "dinner"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "网": {
+      "pinyin": [
+        "wang3"
+      ],
+      "glosses": [
+        "net",
+        "online friend",
+        "to go online",
+        "online"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "忘": {
+      "pinyin": [
+        "wang4"
+      ],
+      "glosses": [
+        "to forget"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "文": {
+      "pinyin": [
+        "wen2"
+      ],
+      "glosses": [
+        "formal",
+        "text",
+        "Chinese"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "问": {
+      "pinyin": [
+        "wen4"
+      ],
+      "glosses": [
+        "to ask",
+        "excuse me"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "我": {
+      "pinyin": [
+        "wo3"
+      ],
+      "glosses": [
+        "I",
+        "we"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "五": {
+      "pinyin": [
+        "wu3"
+      ],
+      "glosses": [
+        "five",
+        "5"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "午": {
+      "pinyin": [
+        "wu3"
+      ],
+      "glosses": [
+        "noon",
+        "morning",
+        "afternoon",
+        "lunch"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "西": {
+      "pinyin": [
+        "xi1"
+      ],
+      "glosses": [
+        "west",
+        "Spanish",
+        "thing",
+        "west side"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "息": {
+      "pinyin": [
+        "xi1"
+      ],
+      "glosses": [
+        "news",
+        "to rest"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "习": {
+      "pinyin": [
+        "xi2"
+      ],
+      "glosses": [
+        "habit",
+        "to study"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "洗": {
+      "pinyin": [
+        "xi3",
+        "xian3"
+      ],
+      "glosses": [
+        "to wash",
+        "used in 洗馬|洗马[xian3 ma3]",
+        "toilet"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "喜": {
+      "pinyin": [
+        "xi3"
+      ],
+      "glosses": [
+        "glad",
+        "to like"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "系": {
+      "pinyin": [
+        "xi4",
+        "ji4"
+      ],
+      "glosses": [
+        "to be",
+        "system",
+        "to tie",
+        "to worry",
+        "it's okay"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "下": {
+      "pinyin": [
+        "xia4"
+      ],
+      "glosses": [
+        "down",
+        "next time",
+        "afternoon",
+        "a bit",
+        "to finish work",
+        "class ends"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "先": {
+      "pinyin": [
+        "xian1"
+      ],
+      "glosses": [
+        "first",
+        "early",
+        "Mr."
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "现": {
+      "pinyin": [
+        "xian4"
+      ],
+      "glosses": [
+        "now"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "想": {
+      "pinyin": [
+        "xiang3"
+      ],
+      "glosses": [
+        "to want",
+        "to wish"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "小": {
+      "pinyin": [
+        "xiao3"
+      ],
+      "glosses": [
+        "small",
+        "few",
+        "hour",
+        "kid",
+        "miss",
+        "child"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "校": {
+      "pinyin": [
+        "jiao4",
+        "xiao4"
+      ],
+      "glosses": [
+        "to check",
+        "school"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "笑": {
+      "pinyin": [
+        "xiao4"
+      ],
+      "glosses": [
+        "to laugh",
+        "laugh",
+        "to joke"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "些": {
+      "pinyin": [
+        "xie1"
+      ],
+      "glosses": [
+        "some",
+        "few",
+        "which",
+        "those",
+        "somewhat",
+        "these"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "写": {
+      "pinyin": [
+        "xie3",
+        "xie4"
+      ],
+      "glosses": [
+        "to write",
+        "used in 寫意|写意[xie4 yi4]",
+        "dictation"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "谢": {
+      "pinyin": [
+        "xie4"
+      ],
+      "glosses": [
+        "to thank",
+        "thanks"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "新": {
+      "pinyin": [
+        "xin1"
+      ],
+      "glosses": [
+        "new",
+        "abbr. for Xinjiang 新疆[Xin1 jiang1]",
+        "abbr. for Xinjiang 新疆[Xin1 jiang1] or Singapore 新加坡[Xin1 jia1 po1]",
+        "New Year"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "星": {
+      "pinyin": [
+        "xing1"
+      ],
+      "glosses": [
+        "star",
+        "week",
+        "Sunday"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "行": {
+      "pinyin": [
+        "hang2",
+        "heng2",
+        "xing2",
+        "xing4"
+      ],
+      "glosses": [
+        "can",
+        "row",
+        "used in 道行[dao4 heng2]",
+        "OK!",
+        "series",
+        "conduct"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "兴": {
+      "pinyin": [
+        "xing1",
+        "xing4"
+      ],
+      "glosses": [
+        "maybe",
+        "excitement",
+        "glad"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "休": {
+      "pinyin": [
+        "xiu1"
+      ],
+      "glosses": [
+        "don't",
+        "to rest"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "学": {
+      "pinyin": [
+        "xue2"
+      ],
+      "glosses": [
+        "to learn",
+        "-ology",
+        "school ends",
+        "teaching building",
+        "primary school",
+        "school"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "样": {
+      "pinyin": [
+        "yang4"
+      ],
+      "glosses": [
+        "way",
+        "same"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "要": {
+      "pinyin": [
+        "yao1",
+        "yao4"
+      ],
+      "glosses": [
+        "will",
+        "to demand",
+        "if",
+        "may",
+        "important"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "爷": {
+      "pinyin": [
+        "ye2"
+      ],
+      "glosses": [
+        "grandpa",
+        "grandfather"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "也": {
+      "pinyin": [
+        "ye3"
+      ],
+      "glosses": [
+        "too"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "页": {
+      "pinyin": [
+        "ye4",
+        "xie2"
+      ],
+      "glosses": [
+        "page",
+        "head"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "一": {
+      "pinyin": [
+        "yi1"
+      ],
+      "glosses": [
+        "one",
+        "a",
+        "1",
+        "somewhat",
+        "some",
+        "half"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "衣": {
+      "pinyin": [
+        "yi1",
+        "yi4"
+      ],
+      "glosses": [
+        "clothes",
+        "to wear"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "医": {
+      "pinyin": [
+        "yi1"
+      ],
+      "glosses": [
+        "doctor",
+        "hospital"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "影": {
+      "pinyin": [
+        "ying3"
+      ],
+      "glosses": [
+        "film",
+        "cinema"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "用": {
+      "pinyin": [
+        "yong4"
+      ],
+      "glosses": [
+        "to use",
+        "with",
+        "hence",
+        "useful",
+        "need not"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "友": {
+      "pinyin": [
+        "you3"
+      ],
+      "glosses": [
+        "friend",
+        "friends",
+        "boyfriend",
+        "girlfriend",
+        "online friend",
+        "child"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "有": {
+      "pinyin": [
+        "you3"
+      ],
+      "glosses": [
+        "to have",
+        "-ed",
+        "to be",
+        "some",
+        "somewhat",
+        "sometimes"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "右": {
+      "pinyin": [
+        "you4"
+      ],
+      "glosses": [
+        "right",
+        "west",
+        "right side"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "雨": {
+      "pinyin": [
+        "yu3",
+        "yu4"
+      ],
+      "glosses": [
+        "rain",
+        "to wet",
+        "to rain"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "语": {
+      "pinyin": [
+        "yu3",
+        "yu4"
+      ],
+      "glosses": [
+        "speech",
+        "to tell",
+        "to tell to",
+        "Chinese",
+        "foreign language"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "元": {
+      "pinyin": [
+        "yuan2"
+      ],
+      "glosses": [
+        "yuan",
+        "Yuan dynasty",
+        "era",
+        "the Yuan or Mongol dynasty",
+        "first"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "远": {
+      "pinyin": [
+        "yuan3",
+        "yuan4"
+      ],
+      "glosses": [
+        "far",
+        "to distance oneself from"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "院": {
+      "pinyin": [
+        "yuan4"
+      ],
+      "glosses": [
+        "courtyard",
+        "cinema",
+        "hospital",
+        "college"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "月": {
+      "pinyin": [
+        "yue4"
+      ],
+      "glosses": [
+        "moon"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "再": {
+      "pinyin": [
+        "zai4"
+      ],
+      "glosses": [
+        "more",
+        "re-",
+        "goodbye"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "在": {
+      "pinyin": [
+        "zai4"
+      ],
+      "glosses": [
+        "at",
+        "to exist",
+        "now",
+        "currently",
+        "to be home"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "早": {
+      "pinyin": [
+        "zao3"
+      ],
+      "glosses": [
+        "early",
+        "morning",
+        "breakfast"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "怎": {
+      "pinyin": [
+        "zen3"
+      ],
+      "glosses": [
+        "how"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "站": {
+      "pinyin": [
+        "zhan4"
+      ],
+      "glosses": [
+        "station"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "找": {
+      "pinyin": [
+        "zhao3"
+      ],
+      "glosses": [
+        "to look for",
+        "to find"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "这": {
+      "pinyin": [
+        "zhe4",
+        "zhei4"
+      ],
+      "glosses": [
+        "this",
+        "the",
+        "this side",
+        "here",
+        "these"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "着": {
+      "pinyin": [
+        "zhe5",
+        "zhu4",
+        "zhao1",
+        "zhao2",
+        "zhuo2"
+      ],
+      "glosses": [
+        "indicating ongoing action",
+        "okay",
+        "to feel",
+        "aspect particle indicating action in progress or ongoing state",
+        "to use",
+        "move"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "真": {
+      "pinyin": [
+        "zhen1"
+      ],
+      "glosses": [
+        "real",
+        "truly",
+        "serious"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "正": {
+      "pinyin": [
+        "zheng1",
+        "zheng4"
+      ],
+      "glosses": [
+        "just",
+        "first month of the lunar year",
+        "main",
+        "currently"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "知": {
+      "pinyin": [
+        "zhi1"
+      ],
+      "glosses": [
+        "to know",
+        "knowledge"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "中": {
+      "pinyin": [
+        "zhong1",
+        "zhong4"
+      ],
+      "glosses": [
+        "among",
+        "China",
+        "in",
+        "to hit",
+        "noon",
+        "middle"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "重": {
+      "pinyin": [
+        "chong2",
+        "zhong4"
+      ],
+      "glosses": [
+        "heavy",
+        "re-",
+        "important"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "住": {
+      "pinyin": [
+        "zhu4"
+      ],
+      "glosses": [
+        "to live",
+        "to remember"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "准": {
+      "pinyin": [
+        "zhun3"
+      ],
+      "glosses": [
+        "to allow",
+        "para-",
+        "to prepare"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "桌": {
+      "pinyin": [
+        "zhuo1"
+      ],
+      "glosses": [
+        "desk",
+        "table"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "子": {
+      "pinyin": [
+        "zi3",
+        "zi5"
+      ],
+      "glosses": [
+        "noun suffix",
+        "0°",
+        "son",
+        "table",
+        "child",
+        "steamed bun"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "字": {
+      "pinyin": [
+        "zi4"
+      ],
+      "glosses": [
+        "character",
+        "word",
+        "name",
+        "Chinese character"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "走": {
+      "pinyin": [
+        "zou3"
+      ],
+      "glosses": [
+        "to go",
+        "from",
+        "to walk"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "最": {
+      "pinyin": [
+        "zui4"
+      ],
+      "glosses": [
+        "most",
+        "-est",
+        "last",
+        "best"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "昨": {
+      "pinyin": [
+        "zuo2"
+      ],
+      "glosses": [
+        "yesterday"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "左": {
+      "pinyin": [
+        "zuo3"
+      ],
+      "glosses": [
+        "left",
+        "left side"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "作": {
+      "pinyin": [
+        "zuo1",
+        "zuo4"
+      ],
+      "glosses": [
+        "worker",
+        "works",
+        "to do",
+        "action",
+        "job"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "坐": {
+      "pinyin": [
+        "zuo4"
+      ],
+      "glosses": [
+        "to sit",
+        "please sit",
+        "to sit down"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    },
+    "做": {
+      "pinyin": [
+        "zuo4"
+      ],
+      "glosses": [
+        "to do"
+      ],
+      "decomposition": null,
+      "components": [],
+      "notes": []
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { BandData, Word, SpeakBreakdown } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
-import { Volume2, Mic, ChevronRight } from 'lucide-react';
+import { Volume2, Mic, ChevronLeft, ChevronRight } from 'lucide-react';
 import { sendClientTelemetrySafe, sendSpeakAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
@@ -14,6 +14,7 @@ interface SpeakModeProps {
   currentIndex: number;
   totalWords: number;
   practiceMode?: boolean;
+  onPrev: () => void;
   onNext: () => void;
 }
 
@@ -542,6 +543,7 @@ export default function SpeakMode({
   currentIndex,
   totalWords,
   practiceMode = false,
+  onPrev,
   onNext,
 }: SpeakModeProps) {
   const [isRecording, setIsRecording] = useState(false);
@@ -1445,22 +1447,27 @@ export default function SpeakMode({
 
       {/* Navigation Buttons */}
       <div
-        className={`fixed left-0 right-0 z-40 px-5 pb-2 border-t pt-3 backdrop-blur-sm ${
-          practiceMode
-            ? 'bg-white border-white/30'
-            : 'bg-bg-warm/95 border-border'
+        className={`fixed left-0 right-0 z-40 px-5 pb-2 border-t pt-2 backdrop-blur-sm bottom-[calc(var(--sonus-bottom-nav-height,5rem)+env(safe-area-inset-bottom,0px))] ${
+          practiceMode ? 'bg-white border-white/30' : 'bg-bg-warm/95 border-border'
         }`}
-        style={{
-          bottom: 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 0.5rem)',
-        }}
       >
-        <button
-          onClick={onNext}
-          className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
-        >
-          {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
-          <ChevronRight className="w-5 h-5" />
-        </button>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={onPrev}
+            disabled={currentIndex === 0}
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(55,65,81,0.35)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)] disabled:cursor-not-allowed"
+          >
+            <ChevronLeft className="w-5 h-5" />
+            Previous
+          </button>
+          <button
+            onClick={onNext}
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#374151] hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Next
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </div>
   );

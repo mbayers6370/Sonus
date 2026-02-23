@@ -82,7 +82,7 @@ export default function Flashcard({
       <div className="flex gap-3 justify-center px-5 pb-4">
         <button
           onClick={() => speak(word.simp, word.pinyin, false)}
-          className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#145C7C] hover:-translate-y-0.5 hover:shadow-lg"
+          className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#186E95] hover:-translate-y-0.5 hover:shadow-lg"
         >
           <Volume2 className="w-5 h-5" />
           Listen
@@ -97,12 +97,7 @@ export default function Flashcard({
       </div>
 
       {/* Navigation Buttons */}
-      <div
-        className="fixed left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm"
-        style={{
-          bottom: 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 0.5rem)',
-        }}
-      >
+      <div className="fixed left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-2 bg-bg-warm/95 backdrop-blur-sm bottom-[calc(var(--sonus-bottom-nav-height,5rem)+env(safe-area-inset-bottom,0px))]">
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={onPrev}
@@ -114,9 +109,9 @@ export default function Flashcard({
           </button>
           <button
             onClick={handleNext}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#374151] hover:-translate-y-0.5 hover:shadow-lg"
           >
-            {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
+            Next
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>

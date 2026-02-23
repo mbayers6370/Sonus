@@ -3,6 +3,7 @@ import { BookOpen } from 'lucide-react';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
 import { SPEAK_PASS_PERCENT } from '../lib/passCriteria';
+import { useLocation } from 'react-router-dom';
 
 interface LessonCompleteProps {
   onStartQuiz: () => void;
@@ -23,6 +24,7 @@ export default function LessonComplete({
   onGoHome,
   onOpenProfile,
 }: LessonCompleteProps) {
+  const location = useLocation();
   const { state } = useApp();
   const { activeLesson, lessonMode, quizResultsByIndex, speakResultsByIndex, speakBreakdownByIndex } = state;
 
@@ -30,6 +32,17 @@ export default function LessonComplete({
 
   const isQuizCompletion = lessonMode === 'quiz';
   const isApplyCompletion = lessonMode === 'apply';
+  const applyVariantKey = location.pathname.replace(/\/(intro|quiz|speak|apply|review|complete)$/, '/apply');
+  const applyCompletionVariant = (() => {
+    if (!isApplyCompletion) return 'context';
+    try {
+      return window.sessionStorage.getItem(`sonus.apply.complete:${applyVariantKey}`) === 'characters'
+        ? 'characters'
+        : 'context';
+    } catch {
+      return 'context';
+    }
+  })();
   const coreIndexes = activeLesson.words
     .map((word, index) => ({ word, index }))
     .filter(({ word }) => !word.isReview)
@@ -52,6 +65,11 @@ export default function LessonComplete({
     totalCoreItems > 0 ? Math.round((speakCorrectCoreCount / totalCoreItems) * 100) : 0;
   const speakScorePercent = totalQuizItems > 0 ? Math.round((speakCorrectCount / totalQuizItems) * 100) : 0;
   const speakPassed = speakScorePercentCore >= SPEAK_PASS_PERCENT;
+  const characterCount = Array.from(
+    new Set(
+      activeLesson.words.flatMap((word) => Array.from(word.simp || '')).filter((char) => /[\u3400-\u9FFF]/.test(char))
+    )
+  ).length;
 
   const getSpeakSuggestions = (index: number) => {
     const breakdown = speakBreakdownByIndex[index];
@@ -107,7 +125,9 @@ export default function LessonComplete({
               : isQuizCompletion
                 ? `Quiz score: ${quizScorePercent}% (${quizCorrectCount}/${totalQuizItems}) · Core: ${quizScorePercentCore}%`
                 : isApplyCompletion
-                  ? `${totalCoreItems} sentence prompts completed.`
+                  ? applyCompletionVariant === 'characters'
+                    ? `${characterCount} character cards completed.`
+                    : `${totalCoreItems} sentence prompts completed.`
                 : `${totalCoreItems} words introduced.`}
           </p>
         )}
@@ -175,8 +195,12 @@ export default function LessonComplete({
                 <BookOpen className="w-6 h-6 text-[#3E5648]" />
               </div>
               <div>
-                <p className="text-sm text-text-med">Words Practiced</p>
-                <p className="text-2xl font-bold text-text-dark">{activeLesson.words.length}</p>
+                <p className="text-sm text-text-med">
+                  {isApplyCompletion && applyCompletionVariant === 'characters' ? 'Characters Practiced' : 'Words Practiced'}
+                </p>
+                <p className="text-2xl font-bold text-text-dark">
+                  {isApplyCompletion && applyCompletionVariant === 'characters' ? characterCount : activeLesson.words.length}
+                </p>
               </div>
             </div>
           </div>
@@ -260,7 +284,7 @@ export default function LessonComplete({
                 onClick={onRestart}
                 className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
               >
-                Review Sentences Again
+                {applyCompletionVariant === 'characters' ? 'Review Characters Again' : 'Review Sentences Again'}
               </button>
             </>
           )}

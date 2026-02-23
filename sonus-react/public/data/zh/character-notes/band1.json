@@ -1,0 +1,1258 @@
+{
+  "bandId": "band1",
+  "generatedFrom": "public/data/zh/band1.json",
+  "characters": {
+    "爱": {
+      "notes": [],
+      "components": []
+    },
+    "八": {
+      "notes": [],
+      "components": []
+    },
+    "爸": {
+      "notes": [],
+      "components": []
+    },
+    "吧": {
+      "notes": [],
+      "components": []
+    },
+    "白": {
+      "notes": [],
+      "components": []
+    },
+    "百": {
+      "notes": [],
+      "components": []
+    },
+    "班": {
+      "notes": [],
+      "components": []
+    },
+    "半": {
+      "notes": [],
+      "components": []
+    },
+    "帮": {
+      "notes": [],
+      "components": []
+    },
+    "包": {
+      "notes": [],
+      "components": []
+    },
+    "杯": {
+      "notes": [],
+      "components": []
+    },
+    "北": {
+      "notes": [],
+      "components": []
+    },
+    "备": {
+      "notes": [],
+      "components": []
+    },
+    "本": {
+      "notes": [],
+      "components": []
+    },
+    "比": {
+      "notes": [],
+      "components": []
+    },
+    "边": {
+      "notes": [],
+      "components": []
+    },
+    "别": {
+      "notes": [],
+      "components": []
+    },
+    "病": {
+      "notes": [],
+      "components": []
+    },
+    "不": {
+      "notes": [],
+      "components": []
+    },
+    "菜": {
+      "notes": [],
+      "components": []
+    },
+    "茶": {
+      "notes": [],
+      "components": []
+    },
+    "差": {
+      "notes": [],
+      "components": []
+    },
+    "常": {
+      "notes": [],
+      "components": []
+    },
+    "场": {
+      "notes": [],
+      "components": []
+    },
+    "唱": {
+      "notes": [],
+      "components": []
+    },
+    "车": {
+      "notes": [],
+      "components": []
+    },
+    "吃": {
+      "notes": [],
+      "components": []
+    },
+    "出": {
+      "notes": [],
+      "components": []
+    },
+    "穿": {
+      "notes": [],
+      "components": []
+    },
+    "床": {
+      "notes": [],
+      "components": []
+    },
+    "次": {
+      "notes": [],
+      "components": []
+    },
+    "从": {
+      "notes": [],
+      "components": []
+    },
+    "错": {
+      "notes": [],
+      "components": []
+    },
+    "答": {
+      "notes": [],
+      "components": []
+    },
+    "打": {
+      "notes": [],
+      "components": []
+    },
+    "大": {
+      "notes": [],
+      "components": []
+    },
+    "蛋": {
+      "notes": [],
+      "components": []
+    },
+    "到": {
+      "notes": [],
+      "components": []
+    },
+    "道": {
+      "notes": [],
+      "components": []
+    },
+    "得": {
+      "notes": [],
+      "components": []
+    },
+    "地": {
+      "notes": [],
+      "components": []
+    },
+    "的": {
+      "notes": [],
+      "components": []
+    },
+    "等": {
+      "notes": [],
+      "components": []
+    },
+    "弟": {
+      "notes": [],
+      "components": []
+    },
+    "第": {
+      "notes": [],
+      "components": []
+    },
+    "点": {
+      "notes": [],
+      "components": []
+    },
+    "电": {
+      "notes": [],
+      "components": []
+    },
+    "店": {
+      "notes": [],
+      "components": []
+    },
+    "东": {
+      "notes": [],
+      "components": []
+    },
+    "动": {
+      "notes": [],
+      "components": []
+    },
+    "都": {
+      "notes": [],
+      "components": []
+    },
+    "读": {
+      "notes": [],
+      "components": []
+    },
+    "对": {
+      "notes": [],
+      "components": []
+    },
+    "多": {
+      "notes": [],
+      "components": []
+    },
+    "饿": {
+      "notes": [],
+      "components": []
+    },
+    "儿": {
+      "notes": [],
+      "components": []
+    },
+    "二": {
+      "notes": [],
+      "components": []
+    },
+    "饭": {
+      "notes": [],
+      "components": []
+    },
+    "方": {
+      "notes": [],
+      "components": []
+    },
+    "房": {
+      "notes": [],
+      "components": []
+    },
+    "放": {
+      "notes": [],
+      "components": []
+    },
+    "飞": {
+      "notes": [],
+      "components": []
+    },
+    "非": {
+      "notes": [],
+      "components": []
+    },
+    "分": {
+      "notes": [],
+      "components": []
+    },
+    "风": {
+      "notes": [],
+      "components": []
+    },
+    "服": {
+      "notes": [],
+      "components": []
+    },
+    "干": {
+      "notes": [],
+      "components": []
+    },
+    "高": {
+      "notes": [],
+      "components": []
+    },
+    "告": {
+      "notes": [],
+      "components": []
+    },
+    "哥": {
+      "notes": [],
+      "components": []
+    },
+    "歌": {
+      "notes": [],
+      "components": []
+    },
+    "个": {
+      "notes": [],
+      "components": []
+    },
+    "给": {
+      "notes": [],
+      "components": []
+    },
+    "跟": {
+      "notes": [],
+      "components": []
+    },
+    "工": {
+      "notes": [],
+      "components": []
+    },
+    "关": {
+      "notes": [],
+      "components": []
+    },
+    "馆": {
+      "notes": [],
+      "components": []
+    },
+    "贵": {
+      "notes": [],
+      "components": []
+    },
+    "国": {
+      "notes": [],
+      "components": []
+    },
+    "果": {
+      "notes": [],
+      "components": []
+    },
+    "过": {
+      "notes": [],
+      "components": []
+    },
+    "还": {
+      "notes": [],
+      "components": []
+    },
+    "孩": {
+      "notes": [],
+      "components": []
+    },
+    "汉": {
+      "notes": [],
+      "components": []
+    },
+    "好": {
+      "notes": [],
+      "components": []
+    },
+    "号": {
+      "notes": [],
+      "components": []
+    },
+    "喝": {
+      "notes": [],
+      "components": []
+    },
+    "和": {
+      "notes": [],
+      "components": []
+    },
+    "很": {
+      "notes": [],
+      "components": []
+    },
+    "后": {
+      "notes": [],
+      "components": []
+    },
+    "候": {
+      "notes": [],
+      "components": []
+    },
+    "花": {
+      "notes": [],
+      "components": []
+    },
+    "话": {
+      "notes": [],
+      "components": []
+    },
+    "坏": {
+      "notes": [],
+      "components": []
+    },
+    "欢": {
+      "notes": [],
+      "components": []
+    },
+    "回": {
+      "notes": [],
+      "components": []
+    },
+    "会": {
+      "notes": [],
+      "components": []
+    },
+    "火": {
+      "notes": [],
+      "components": []
+    },
+    "机": {
+      "notes": [],
+      "components": []
+    },
+    "鸡": {
+      "notes": [],
+      "components": []
+    },
+    "几": {
+      "notes": [],
+      "components": []
+    },
+    "记": {
+      "notes": [],
+      "components": []
+    },
+    "家": {
+      "notes": [],
+      "components": []
+    },
+    "假": {
+      "notes": [],
+      "components": []
+    },
+    "间": {
+      "notes": [],
+      "components": []
+    },
+    "见": {
+      "notes": [],
+      "components": []
+    },
+    "叫": {
+      "notes": [],
+      "components": []
+    },
+    "教": {
+      "notes": [],
+      "components": []
+    },
+    "姐": {
+      "notes": [],
+      "components": []
+    },
+    "介": {
+      "notes": [],
+      "components": []
+    },
+    "今": {
+      "notes": [],
+      "components": []
+    },
+    "进": {
+      "notes": [],
+      "components": []
+    },
+    "京": {
+      "notes": [],
+      "components": []
+    },
+    "净": {
+      "notes": [],
+      "components": []
+    },
+    "九": {
+      "notes": [],
+      "components": []
+    },
+    "就": {
+      "notes": [],
+      "components": []
+    },
+    "觉": {
+      "notes": [],
+      "components": []
+    },
+    "开": {
+      "notes": [],
+      "components": []
+    },
+    "看": {
+      "notes": [],
+      "components": []
+    },
+    "考": {
+      "notes": [],
+      "components": []
+    },
+    "渴": {
+      "notes": [],
+      "components": []
+    },
+    "客": {
+      "notes": [],
+      "components": []
+    },
+    "课": {
+      "notes": [],
+      "components": []
+    },
+    "口": {
+      "notes": [],
+      "components": []
+    },
+    "块": {
+      "notes": [],
+      "components": []
+    },
+    "快": {
+      "notes": [],
+      "components": []
+    },
+    "来": {
+      "notes": [],
+      "components": []
+    },
+    "老": {
+      "notes": [],
+      "components": []
+    },
+    "了": {
+      "notes": [],
+      "components": []
+    },
+    "累": {
+      "notes": [],
+      "components": []
+    },
+    "冷": {
+      "notes": [],
+      "components": []
+    },
+    "里": {
+      "notes": [],
+      "components": []
+    },
+    "两": {
+      "notes": [],
+      "components": []
+    },
+    "零": {
+      "notes": [],
+      "components": []
+    },
+    "六": {
+      "notes": [],
+      "components": []
+    },
+    "楼": {
+      "notes": [],
+      "components": []
+    },
+    "路": {
+      "notes": [],
+      "components": []
+    },
+    "妈": {
+      "notes": [],
+      "components": []
+    },
+    "马": {
+      "notes": [],
+      "components": []
+    },
+    "吗": {
+      "notes": [],
+      "components": []
+    },
+    "买": {
+      "notes": [],
+      "components": []
+    },
+    "慢": {
+      "notes": [],
+      "components": []
+    },
+    "忙": {
+      "notes": [],
+      "components": []
+    },
+    "毛": {
+      "notes": [],
+      "components": []
+    },
+    "么": {
+      "notes": [],
+      "components": []
+    },
+    "没": {
+      "notes": [],
+      "components": []
+    },
+    "妹": {
+      "notes": [],
+      "components": []
+    },
+    "门": {
+      "notes": [],
+      "components": []
+    },
+    "们": {
+      "notes": [],
+      "components": []
+    },
+    "米": {
+      "notes": [],
+      "components": []
+    },
+    "面": {
+      "notes": [],
+      "components": []
+    },
+    "名": {
+      "notes": [],
+      "components": []
+    },
+    "明": {
+      "notes": [],
+      "components": []
+    },
+    "拿": {
+      "notes": [],
+      "components": []
+    },
+    "哪": {
+      "notes": [],
+      "components": []
+    },
+    "那": {
+      "notes": [],
+      "components": []
+    },
+    "奶": {
+      "notes": [],
+      "components": []
+    },
+    "男": {
+      "notes": [],
+      "components": []
+    },
+    "南": {
+      "notes": [],
+      "components": []
+    },
+    "难": {
+      "notes": [],
+      "components": []
+    },
+    "脑": {
+      "notes": [],
+      "components": []
+    },
+    "呢": {
+      "notes": [],
+      "components": []
+    },
+    "能": {
+      "notes": [],
+      "components": []
+    },
+    "你": {
+      "notes": [],
+      "components": []
+    },
+    "年": {
+      "notes": [],
+      "components": []
+    },
+    "您": {
+      "notes": [],
+      "components": []
+    },
+    "牛": {
+      "notes": [],
+      "components": []
+    },
+    "女": {
+      "notes": [],
+      "components": []
+    },
+    "旁": {
+      "notes": [],
+      "components": []
+    },
+    "跑": {
+      "notes": [],
+      "components": []
+    },
+    "朋": {
+      "notes": [],
+      "components": []
+    },
+    "票": {
+      "notes": [],
+      "components": []
+    },
+    "七": {
+      "notes": [],
+      "components": []
+    },
+    "期": {
+      "notes": [],
+      "components": []
+    },
+    "起": {
+      "notes": [],
+      "components": []
+    },
+    "气": {
+      "notes": [],
+      "components": []
+    },
+    "汽": {
+      "notes": [],
+      "components": []
+    },
+    "前": {
+      "notes": [],
+      "components": []
+    },
+    "钱": {
+      "notes": [],
+      "components": []
+    },
+    "请": {
+      "notes": [],
+      "components": []
+    },
+    "球": {
+      "notes": [],
+      "components": []
+    },
+    "去": {
+      "notes": [],
+      "components": []
+    },
+    "热": {
+      "notes": [],
+      "components": []
+    },
+    "人": {
+      "notes": [],
+      "components": []
+    },
+    "认": {
+      "notes": [],
+      "components": []
+    },
+    "日": {
+      "notes": [],
+      "components": []
+    },
+    "肉": {
+      "notes": [],
+      "components": []
+    },
+    "三": {
+      "notes": [],
+      "components": []
+    },
+    "山": {
+      "notes": [],
+      "components": []
+    },
+    "商": {
+      "notes": [],
+      "components": []
+    },
+    "上": {
+      "notes": [],
+      "components": []
+    },
+    "少": {
+      "notes": [],
+      "components": []
+    },
+    "绍": {
+      "notes": [],
+      "components": []
+    },
+    "谁": {
+      "notes": [],
+      "components": []
+    },
+    "身": {
+      "notes": [],
+      "components": []
+    },
+    "什": {
+      "notes": [],
+      "components": []
+    },
+    "生": {
+      "notes": [],
+      "components": []
+    },
+    "师": {
+      "notes": [],
+      "components": []
+    },
+    "十": {
+      "notes": [],
+      "components": []
+    },
+    "时": {
+      "notes": [],
+      "components": []
+    },
+    "识": {
+      "notes": [],
+      "components": []
+    },
+    "事": {
+      "notes": [],
+      "components": []
+    },
+    "视": {
+      "notes": [],
+      "components": []
+    },
+    "试": {
+      "notes": [],
+      "components": []
+    },
+    "是": {
+      "notes": [],
+      "components": []
+    },
+    "手": {
+      "notes": [],
+      "components": []
+    },
+    "书": {
+      "notes": [],
+      "components": []
+    },
+    "树": {
+      "notes": [],
+      "components": []
+    },
+    "水": {
+      "notes": [],
+      "components": []
+    },
+    "睡": {
+      "notes": [],
+      "components": []
+    },
+    "说": {
+      "notes": [],
+      "components": []
+    },
+    "四": {
+      "notes": [],
+      "components": []
+    },
+    "送": {
+      "notes": [],
+      "components": []
+    },
+    "诉": {
+      "notes": [],
+      "components": []
+    },
+    "岁": {
+      "notes": [],
+      "components": []
+    },
+    "他": {
+      "notes": [
+        "Pronoun for “he / him” in modern written Chinese.",
+        "The 亻 component signals a person/human reference."
+      ],
+      "components": [
+        {
+          "glyph": "亻",
+          "role": "semantic",
+          "label": "person",
+          "description": "semantic hint for human reference"
+        },
+        {
+          "glyph": "也",
+          "role": "phonetic",
+          "label": "yě",
+          "description": "phonetic base that contributes sound"
+        }
+      ]
+    },
+    "她": {
+      "notes": [
+        "Pronoun for “she / her” in modern written Chinese.",
+        "The 女 component marks feminine reference."
+      ],
+      "components": [
+        {
+          "glyph": "女",
+          "role": "semantic",
+          "label": "female",
+          "description": "semantic hint for feminine reference"
+        },
+        {
+          "glyph": "也",
+          "role": "phonetic",
+          "label": "yě",
+          "description": "phonetic base that contributes sound"
+        }
+      ]
+    },
+    "太": {
+      "notes": [],
+      "components": []
+    },
+    "体": {
+      "notes": [],
+      "components": []
+    },
+    "天": {
+      "notes": [],
+      "components": []
+    },
+    "条": {
+      "notes": [],
+      "components": []
+    },
+    "听": {
+      "notes": [],
+      "components": []
+    },
+    "同": {
+      "notes": [],
+      "components": []
+    },
+    "图": {
+      "notes": [],
+      "components": []
+    },
+    "外": {
+      "notes": [],
+      "components": []
+    },
+    "玩": {
+      "notes": [],
+      "components": []
+    },
+    "晚": {
+      "notes": [],
+      "components": []
+    },
+    "网": {
+      "notes": [],
+      "components": []
+    },
+    "忘": {
+      "notes": [],
+      "components": []
+    },
+    "文": {
+      "notes": [],
+      "components": []
+    },
+    "问": {
+      "notes": [],
+      "components": []
+    },
+    "我": {
+      "notes": [],
+      "components": []
+    },
+    "五": {
+      "notes": [],
+      "components": []
+    },
+    "午": {
+      "notes": [],
+      "components": []
+    },
+    "西": {
+      "notes": [],
+      "components": []
+    },
+    "息": {
+      "notes": [],
+      "components": []
+    },
+    "习": {
+      "notes": [],
+      "components": []
+    },
+    "洗": {
+      "notes": [],
+      "components": []
+    },
+    "喜": {
+      "notes": [],
+      "components": []
+    },
+    "系": {
+      "notes": [],
+      "components": []
+    },
+    "下": {
+      "notes": [],
+      "components": []
+    },
+    "先": {
+      "notes": [],
+      "components": []
+    },
+    "现": {
+      "notes": [],
+      "components": []
+    },
+    "想": {
+      "notes": [],
+      "components": []
+    },
+    "小": {
+      "notes": [],
+      "components": []
+    },
+    "校": {
+      "notes": [],
+      "components": []
+    },
+    "笑": {
+      "notes": [],
+      "components": []
+    },
+    "些": {
+      "notes": [],
+      "components": []
+    },
+    "写": {
+      "notes": [],
+      "components": []
+    },
+    "谢": {
+      "notes": [],
+      "components": []
+    },
+    "新": {
+      "notes": [],
+      "components": []
+    },
+    "星": {
+      "notes": [],
+      "components": []
+    },
+    "行": {
+      "notes": [],
+      "components": []
+    },
+    "兴": {
+      "notes": [],
+      "components": []
+    },
+    "休": {
+      "notes": [],
+      "components": []
+    },
+    "学": {
+      "notes": [],
+      "components": []
+    },
+    "样": {
+      "notes": [],
+      "components": []
+    },
+    "要": {
+      "notes": [],
+      "components": []
+    },
+    "爷": {
+      "notes": [],
+      "components": []
+    },
+    "也": {
+      "notes": [],
+      "components": []
+    },
+    "页": {
+      "notes": [],
+      "components": []
+    },
+    "一": {
+      "notes": [],
+      "components": []
+    },
+    "衣": {
+      "notes": [],
+      "components": []
+    },
+    "医": {
+      "notes": [],
+      "components": []
+    },
+    "影": {
+      "notes": [],
+      "components": []
+    },
+    "用": {
+      "notes": [],
+      "components": []
+    },
+    "友": {
+      "notes": [],
+      "components": []
+    },
+    "有": {
+      "notes": [],
+      "components": []
+    },
+    "右": {
+      "notes": [],
+      "components": []
+    },
+    "雨": {
+      "notes": [],
+      "components": []
+    },
+    "语": {
+      "notes": [],
+      "components": []
+    },
+    "元": {
+      "notes": [],
+      "components": []
+    },
+    "远": {
+      "notes": [],
+      "components": []
+    },
+    "院": {
+      "notes": [],
+      "components": []
+    },
+    "月": {
+      "notes": [],
+      "components": []
+    },
+    "再": {
+      "notes": [],
+      "components": []
+    },
+    "在": {
+      "notes": [],
+      "components": []
+    },
+    "早": {
+      "notes": [],
+      "components": []
+    },
+    "怎": {
+      "notes": [],
+      "components": []
+    },
+    "站": {
+      "notes": [],
+      "components": []
+    },
+    "找": {
+      "notes": [],
+      "components": []
+    },
+    "这": {
+      "notes": [],
+      "components": []
+    },
+    "着": {
+      "notes": [],
+      "components": []
+    },
+    "真": {
+      "notes": [],
+      "components": []
+    },
+    "正": {
+      "notes": [],
+      "components": []
+    },
+    "知": {
+      "notes": [],
+      "components": []
+    },
+    "中": {
+      "notes": [],
+      "components": []
+    },
+    "重": {
+      "notes": [],
+      "components": []
+    },
+    "住": {
+      "notes": [],
+      "components": []
+    },
+    "准": {
+      "notes": [],
+      "components": []
+    },
+    "桌": {
+      "notes": [],
+      "components": []
+    },
+    "子": {
+      "notes": [],
+      "components": []
+    },
+    "字": {
+      "notes": [],
+      "components": []
+    },
+    "走": {
+      "notes": [],
+      "components": []
+    },
+    "最": {
+      "notes": [],
+      "components": []
+    },
+    "昨": {
+      "notes": [],
+      "components": []
+    },
+    "左": {
+      "notes": [],
+      "components": []
+    },
+    "作": {
+      "notes": [],
+      "components": []
+    },
+    "坐": {
+      "notes": [],
+      "components": []
+    },
+    "做": {
+      "notes": [],
+      "components": []
+    },
+    "它": {
+      "notes": [
+        "Pronoun for “it” (usually non-human things/animals).",
+        "Often contrasted with 他/她 in beginner lessons."
+      ],
+      "components": [
+        {
+          "glyph": "宀",
+          "role": "semantic",
+          "label": "roof",
+          "description": "historical form component"
+        },
+        {
+          "glyph": "匕",
+          "role": "other",
+          "label": "shape",
+          "description": "graphic component in the modern form"
+        }
+      ]
+    }
+  }
+}

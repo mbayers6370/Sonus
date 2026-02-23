@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
-import { Volume2, ChevronRight } from 'lucide-react';
+import { Volume2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { sendQuizAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
@@ -14,6 +14,7 @@ interface QuizProps {
   currentIndex: number;
   totalWords: number;
   listeningMode?: boolean;
+  onPrev: () => void;
   onNext: () => void;
 }
 
@@ -115,6 +116,7 @@ export default function Quiz({
   currentIndex,
   totalWords,
   listeningMode = false,
+  onPrev,
   onNext,
 }: QuizProps) {
   const { state, recordQuizResult, recordWordOutcome } = useApp();
@@ -298,19 +300,24 @@ export default function Quiz({
       </div>
 
       {/* Navigation Buttons */}
-      <div
-        className="fixed left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-3 bg-bg-warm/95 backdrop-blur-sm"
-        style={{
-          bottom: 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 0.5rem)',
-        }}
-      >
-        <button
-          onClick={handleNext}
-          className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2937] hover:-translate-y-0.5 hover:shadow-lg"
-        >
-          {currentIndex < totalWords - 1 ? 'Next' : 'Finish'}
-          <ChevronRight className="w-5 h-5" />
-        </button>
+      <div className="fixed left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-2 bg-bg-warm/95 backdrop-blur-sm bottom-[calc(var(--sonus-bottom-nav-height,5rem)+env(safe-area-inset-bottom,0px))]">
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={onPrev}
+            disabled={currentIndex === 0}
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(55,65,81,0.35)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)] disabled:cursor-not-allowed"
+          >
+            <ChevronLeft className="w-5 h-5" />
+            Previous
+          </button>
+          <button
+            onClick={handleNext}
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#374151] hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Next
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </div>
   );
