@@ -15,6 +15,7 @@
     "test:core": "node scripts/core-regression.mjs",
     "test:security": "node scripts/security-regression.mjs",
     "test:auth-modes": "node scripts/auth-mode-boundary.mjs",
+    "seed:test-admin": "node scripts/seed-test-admin.mjs",
     "perf:smoke": "node scripts/perf-smoke.mjs",
     "perf:load": "node scripts/load-check.mjs",
     "start": "node dist/server.js",

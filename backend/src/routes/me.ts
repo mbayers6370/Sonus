@@ -48,6 +48,7 @@ const progressEventSchema = z.object({
   eventType: z.enum([
     'lesson_started',
     'lesson_completed',
+    'apply_completed',
     'quiz_answered',
     'speak_scored',
     'manual_adjustment',

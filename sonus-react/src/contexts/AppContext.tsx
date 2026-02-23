@@ -112,6 +112,7 @@ const LESSON_UNLOCK_PASS_PERCENT = 85;
 const BAND_UNLOCK_PASS_PERCENT = 90;
 const APPLY_PROMPT_COUNT = 12;
 const DAILY_REVIEW_WORD_COUNT = 5;
+const QA_UNLOCK_ALL_EMAILS = new Set(['qa-admin-f8n2x7r1@sonus.test']);
 const hasLessonUnlockCredit = (
   status: { completed?: boolean; quizScore?: number | null; speakScore?: number | null } | undefined
 ) =>
@@ -370,9 +371,12 @@ type LessonCompletionSnapshot = {
   mastered: boolean;
 };
 
+type ProgressCompletionEventType = 'lesson_completed' | 'apply_completed';
+
 const LESSON_SNAPSHOT_OUTBOX_KEY_PREFIX = 'sonus.lesson_snapshot_outbox';
 
 type QueuedLessonCompletionSnapshot = LessonCompletionSnapshot & {
+  eventType: ProgressCompletionEventType;
   queuedAt: string;
 };
 
@@ -406,7 +410,10 @@ function writeQueuedLessonSnapshots(items: QueuedLessonCompletionSnapshot[]) {
   }
 }
 
-function queueLessonSnapshot(snapshot: LessonCompletionSnapshot) {
+function queueLessonSnapshot(
+  snapshot: LessonCompletionSnapshot,
+  eventType: ProgressCompletionEventType = 'lesson_completed'
+) {
   const existing = readQueuedLessonSnapshots();
   const key = makeLessonKey(snapshot.bandId, snapshot.unitId, snapshot.lessonIndex);
   const filtered = existing.filter(
@@ -414,28 +421,32 @@ function queueLessonSnapshot(snapshot: LessonCompletionSnapshot) {
   );
   filtered.push({
     ...snapshot,
+    eventType,
     queuedAt: new Date().toISOString(),
   });
   writeQueuedLessonSnapshots(filtered);
 }
 
-async function saveLessonCompletionSnapshot(snapshot: LessonCompletionSnapshot) {
+async function saveLessonCompletionSnapshot(
+  snapshot: LessonCompletionSnapshot,
+  eventType: ProgressCompletionEventType = 'lesson_completed'
+) {
   try {
     const response = await apiFetch('/v1/me/progress/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        eventType: 'lesson_completed',
+        eventType,
         streakDelta: 0,
         payloadJson: snapshot,
       }),
     });
     if (!response.ok) {
-      queueLessonSnapshot(snapshot);
+      queueLessonSnapshot(snapshot, eventType);
     }
   } catch {
     // Offline mode should not block lesson flow.
-    queueLessonSnapshot(snapshot);
+    queueLessonSnapshot(snapshot, eventType);
   }
 }
 
@@ -450,7 +461,7 @@ async function flushQueuedLessonSnapshots() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          eventType: 'lesson_completed',
+          eventType: snapshot.eventType || 'lesson_completed',
           streakDelta: 0,
           payloadJson: {
             bandId: snapshot.bandId,
@@ -528,7 +539,7 @@ function loadPersistedState(storageKey = resolveStateStorageKey()): AppState {
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const { status: authStatus } = useAuth();
+  const { status: authStatus, email: authEmail } = useAuth();
   const [storageKey, setStorageKey] = useState<string>(() => resolveStateStorageKey());
   const [state, setState] = useState<AppState>(() => loadPersistedState(resolveStateStorageKey()));
 
@@ -673,6 +684,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
       cancelled = true;
     };
   }, [authStatus, storageKey]);
+
+  useEffect(() => {
+    if (authStatus !== 'signed_in') return;
+    const email = (authEmail || '').trim().toLowerCase();
+    if (!QA_UNLOCK_ALL_EMAILS.has(email)) return;
+
+    setState((prev) => ({
+      ...prev,
+      unlockedLevels: Array.from(new Set([...prev.unlockedLevels, ...ALL_LEVEL_IDS])),
+    }));
+  }, [authStatus, authEmail]);
 
   const selectLanguage = (langId: string | null) => {
     setState((prev) => ({
@@ -1105,7 +1127,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         speakResultsByIndex: mode === 'speak' ? {} : prev.speakResultsByIndex,
         speakBreakdownByIndex: mode === 'speak' ? {} : prev.speakBreakdownByIndex,
       };
-      if (mode !== 'intro') {
+      if (mode !== 'intro' && mode !== 'apply') {
         snapshot = buildSnapshotForActiveLesson(next, next.quizResultsByIndex, next.speakResultsByIndex, true);
       }
       return next;
@@ -1677,7 +1699,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       );
     }
     if (completionSnapshotRef.current) {
-      void saveLessonCompletionSnapshot(completionSnapshotRef.current);
+      const eventType: ProgressCompletionEventType =
+        lessonMode === 'apply' ? 'apply_completed' : 'lesson_completed';
+      void saveLessonCompletionSnapshot(completionSnapshotRef.current, eventType);
     }
   };
 

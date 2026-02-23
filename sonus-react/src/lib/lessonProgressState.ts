@@ -87,7 +87,7 @@ export function mergeLessonProgress(
 export function buildLessonProgressFromRecentEvents(events: ProgressEventEnvelope[] | undefined) {
   const next: AppState['lessonProgress'] = {};
   for (const event of events || []) {
-    if (event?.eventType !== 'lesson_completed') continue;
+    if (event?.eventType !== 'lesson_completed' && event?.eventType !== 'apply_completed') continue;
     if (!event.payloadJson || typeof event.payloadJson !== 'object' || Array.isArray(event.payloadJson)) continue;
     const payload = event.payloadJson as Record<string, unknown>;
     const bandId = typeof payload.bandId === 'string' ? payload.bandId.trim() : '';

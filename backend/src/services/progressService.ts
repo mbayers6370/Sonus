@@ -11,6 +11,7 @@ interface ProgressEventInput {
   eventType:
     | 'lesson_started'
     | 'lesson_completed'
+    | 'apply_completed'
     | 'quiz_answered'
     | 'speak_scored'
     | 'manual_adjustment';
@@ -277,14 +278,14 @@ export async function getProgressSnapshot(userId: string) {
         take: 20,
       }),
       prisma.progressEvent.findMany({
-        where: { userId, eventType: 'lesson_completed' },
+        where: { userId, eventType: { in: ['lesson_completed', 'apply_completed'] } },
         select: { payloadJson: true },
         orderBy: { createdAt: 'asc' },
       }),
       prisma.progressEvent.findMany({
         where: {
           userId,
-          eventType: 'lesson_completed',
+          eventType: { in: ['lesson_completed', 'apply_completed'] },
           createdAt: { gte: new Date(Date.now() - 35 * 86_400_000) },
         },
         select: { createdAt: true, payloadJson: true },
@@ -395,7 +396,8 @@ export async function recordProgressEvent(userId: string, event: ProgressEventIn
     const lastKey = existing?.lastActiveDate ? dayKeyAt(existing.lastActiveDate, timezone) : null;
 
     const countsAsCompletedLesson =
-      event.eventType === 'lesson_completed' && isCompletedLessonPayload(event.payloadJson);
+      (event.eventType === 'lesson_completed' || event.eventType === 'apply_completed') &&
+      isCompletedLessonPayload(event.payloadJson);
 
     const nextStreak = (() => {
       if (!countsAsCompletedLesson) {
