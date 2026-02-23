@@ -54,6 +54,11 @@ const envSchema = z
     ACCESS_TOKEN_SECRET: z.string().min(32).optional(),
     ACCESS_TOKEN_TTL_SECONDS: z.coerce.number().int().positive().max(60 * 60).default(900),
     REFRESH_SESSION_TTL_DAYS: z.coerce.number().int().positive().max(365).default(30),
+    RESET_TOKEN_TTL_MINUTES: z.coerce.number().int().positive().max(24 * 60).default(60),
+    RESET_URL_BASE: z.string().url().optional(),
+    RESET_EMAIL_FROM: z.string().trim().min(3).max(255).default('Sonus Team <no-reply@sonus.app>'),
+    RESET_EMAIL_LOGO_URL: z.string().url().optional(),
+    RESEND_API_KEY: z.string().min(1).optional(),
     LOGIN_THROTTLE_ENABLED: z
       .string()
       .optional()
@@ -164,6 +169,14 @@ const envSchema = z
         code: z.ZodIssueCode.custom,
         path: ['ACCESS_TOKEN_SECRET'],
         message: 'required when AUTH_MODE=local',
+      });
+    }
+
+    if (isProduction && value.AUTH_MODE === 'local' && !value.RESET_URL_BASE) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['RESET_URL_BASE'],
+        message: 'required when AUTH_MODE=local and NODE_ENV=production',
       });
     }
   });

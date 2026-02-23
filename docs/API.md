@@ -17,6 +17,8 @@ In mock mode, requests can include:
 - `POST /v1/auth/login`
 - `POST /v1/auth/refresh` (supabase/local mode)
 - `POST /v1/auth/logout`
+- `POST /v1/auth/forgot-password`
+- `POST /v1/auth/reset-password` (local mode)
 
 Signup payload example:
 ```json
@@ -60,6 +62,8 @@ Subsequent authenticated requests should include:
   - `POST /v1/auth/login`
   - `POST /v1/auth/refresh`
   - `POST /v1/auth/logout`
+  - `POST /v1/auth/forgot-password`
+  - `POST /v1/auth/reset-password`
   - `DELETE /v1/me/account`
 
 ## Endpoints

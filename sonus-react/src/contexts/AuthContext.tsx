@@ -36,6 +36,8 @@ type AuthContextValue = {
     targetLanguage?: string;
     timezone?: string;
   }) => Promise<{ requiresEmailVerification: boolean }>;
+  requestPasswordReset: (email: string) => Promise<void>;
+  resetPassword: (token: string, password: string) => Promise<void>;
   continueAsDemo: () => void;
   signOut: () => void;
 };
@@ -357,6 +359,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setStatus('signed_in');
   }, []);
 
+  const requestPasswordReset = useCallback(async (emailInput: string) => {
+    setError(null);
+    const response = await fetch(`${API_BASE_URL}/v1/auth/forgot-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email: emailInput.trim() }),
+    });
+    const payload = await readAuthResponse(response);
+    if (!response.ok) {
+      throw new Error(payload.error || payload.message || 'Unable to send reset email');
+    }
+  }, []);
+
+  const resetPassword = useCallback(async (token: string, password: string) => {
+    setError(null);
+    const response = await fetch(`${API_BASE_URL}/v1/auth/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ token, password }),
+    });
+    const payload = await readAuthResponse(response);
+    if (!response.ok) {
+      throw new Error(payload.error || payload.message || 'Unable to reset password');
+    }
+    clearToSignedOut();
+  }, [clearToSignedOut]);
+
   const signOut = useCallback(() => {
     void fetch(`${API_BASE_URL}/v1/auth/logout`, {
       method: 'POST',
@@ -421,6 +452,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     error,
     signIn,
     signUp,
+    requestPasswordReset,
+    resetPassword,
     continueAsDemo,
     signOut,
   };

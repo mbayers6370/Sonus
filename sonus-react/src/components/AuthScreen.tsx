@@ -2,16 +2,57 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
-type Mode = 'signin' | 'signup';
+type Mode = 'signin' | 'signup' | 'forgot' | 'reset';
+
+function readResetTokenFromUrl() {
+  if (typeof window === 'undefined') return null;
+  const fromSearch = new URLSearchParams(window.location.search).get('reset_token');
+  if (fromSearch) return fromSearch;
+
+  const hash = window.location.hash || '';
+  const queryIdx = hash.indexOf('?');
+  if (queryIdx < 0) return null;
+  const hashQuery = hash.slice(queryIdx + 1);
+  return new URLSearchParams(hashQuery).get('reset_token');
+}
+
+function removeResetTokenFromUrl() {
+  if (typeof window === 'undefined') return;
+  const url = new URL(window.location.href);
+  let changed = false;
+
+  if (url.searchParams.has('reset_token')) {
+    url.searchParams.delete('reset_token');
+    changed = true;
+  }
+
+  const hash = url.hash || '';
+  const queryIdx = hash.indexOf('?');
+  if (queryIdx >= 0) {
+    const hashPath = hash.slice(0, queryIdx);
+    const params = new URLSearchParams(hash.slice(queryIdx + 1));
+    if (params.has('reset_token')) {
+      params.delete('reset_token');
+      url.hash = params.toString() ? `${hashPath}?${params.toString()}` : hashPath;
+      changed = true;
+    }
+  }
+
+  if (changed) {
+    window.history.replaceState({}, document.title, url.toString());
+  }
+}
 
 export default function AuthScreen() {
   const navigate = useNavigate();
-  const { signIn, signUp, continueAsDemo } = useAuth();
+  const { signIn, signUp, continueAsDemo, requestPasswordReset, resetPassword } = useAuth();
   const [mode, setMode] = useState<Mode>('signin');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [resetToken, setResetToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -26,7 +67,7 @@ export default function AuthScreen() {
     active?.blur?.();
   };
 
-  const handleSubmit = async (emailOverride?: string, passwordOverride?: string) => {
+  const handleAuthSubmit = async (emailOverride?: string, passwordOverride?: string) => {
     if (loading) return;
     releaseFormFocus();
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
@@ -38,7 +79,7 @@ export default function AuthScreen() {
       const resolvedPassword = passwordOverride ?? password;
       if (mode === 'signin') {
         await signIn(resolvedEmail, resolvedPassword);
-      } else {
+      } else if (mode === 'signup') {
         const { requiresEmailVerification } = await signUp({
           firstName: firstName.trim(),
           lastName: lastName.trim(),
@@ -55,6 +96,52 @@ export default function AuthScreen() {
       }
     } catch (err) {
       setError((err as Error).message || 'Authentication failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgotSubmit = async () => {
+    if (loading) return;
+    releaseFormFocus();
+    setError(null);
+    setMessage(null);
+    setLoading(true);
+    try {
+      await requestPasswordReset(email.trim());
+      setMessage('If an account exists, a reset link has been sent to that email.');
+    } catch (err) {
+      setError((err as Error).message || 'Unable to send reset link');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetSubmit = async () => {
+    if (loading) return;
+    if (!resetToken) {
+      setError('Reset link is missing or invalid.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    releaseFormFocus();
+    setError(null);
+    setMessage(null);
+    setLoading(true);
+    try {
+      await resetPassword(resetToken, password);
+      removeResetTokenFromUrl();
+      setResetToken(null);
+      setPassword('');
+      setConfirmPassword('');
+      setMode('signin');
+      setMessage('Password updated. Sign in with your new password.');
+    } catch (err) {
+      setError((err as Error).message || 'Unable to reset password');
     } finally {
       setLoading(false);
     }
@@ -93,7 +180,7 @@ export default function AuthScreen() {
 
       if (!autoSubmittedRef.current && isAutoFilled && nextEmail && nextPassword) {
         autoSubmittedRef.current = true;
-        void handleSubmit(nextEmail, nextPassword);
+        void handleAuthSubmit(nextEmail, nextPassword);
       }
 
       checks += 1;
@@ -104,6 +191,15 @@ export default function AuthScreen() {
       window.clearInterval(timer);
     };
   }, [mode, loading, email, password]);
+
+  useEffect(() => {
+    const token = readResetTokenFromUrl();
+    if (!token) return;
+    setResetToken(token);
+    setMode('reset');
+    setError(null);
+    setMessage(null);
+  }, []);
 
   useEffect(() => {
     document.body.classList.add('auth-screen-open');
@@ -127,43 +223,59 @@ export default function AuthScreen() {
           alt="Sonus"
           className="h-7 mx-auto mb-5 opacity-90"
         />
-        <div className="inline-flex items-center gap-5 mb-5 border-b border-border/80 pb-1">
-          <button
-            type="button"
-            onClick={() => setMode('signin')}
-            className={`pb-1 text-[11px] font-semibold uppercase tracking-wider font-mono transition-colors border-b-2 ${
-              mode === 'signin'
-                ? 'text-[#1F2A37] border-[#1F2A37]'
-                : 'text-text-med border-transparent hover:text-text-dark'
-            }`}
-          >
-            Sign In
-          </button>
-          <button
-            type="button"
-            onClick={() => setMode('signup')}
-            className={`pb-1 text-[11px] font-semibold uppercase tracking-wider font-mono transition-colors border-b-2 ${
-              mode === 'signup'
-                ? 'text-[#1F2A37] border-[#1F2A37]'
-                : 'text-text-med border-transparent hover:text-text-dark'
-            }`}
-          >
-            Sign Up
-          </button>
-        </div>
+
+        {(mode === 'signin' || mode === 'signup') && (
+          <div className="inline-flex items-center gap-5 mb-5 border-b border-border/80 pb-1">
+            <button
+              type="button"
+              onClick={() => setMode('signin')}
+              className={`pb-1 text-[11px] font-semibold uppercase tracking-wider font-mono transition-colors border-b-2 ${
+                mode === 'signin'
+                  ? 'text-[#1F2A37] border-[#1F2A37]'
+                  : 'text-text-med border-transparent hover:text-text-dark'
+              }`}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode('signup')}
+              className={`pb-1 text-[11px] font-semibold uppercase tracking-wider font-mono transition-colors border-b-2 ${
+                mode === 'signup'
+                  ? 'text-[#1F2A37] border-[#1F2A37]'
+                  : 'text-text-med border-transparent hover:text-text-dark'
+              }`}
+            >
+              Sign Up
+            </button>
+          </div>
+        )}
 
         <h1 className="main-font text-[2rem] leading-tight text-[#1F2A37]">
-          {mode === 'signin' ? 'Welcome Back' : 'Create Account'}
+          {mode === 'signin' && 'Welcome Back'}
+          {mode === 'signup' && 'Create Account'}
+          {mode === 'forgot' && 'Reset Password'}
+          {mode === 'reset' && 'Set New Password'}
         </h1>
         <p className="text-sm text-text-med mt-1 mb-4">
-          {mode === 'signin'
-            ? 'Sign in with your email and password.'
-            : 'Use your name, email, and password to create your profile.'}
+          {mode === 'signin' && 'Sign in with your email and password.'}
+          {mode === 'signup' && 'Use your name, email, and password to create your profile.'}
+          {mode === 'forgot' && 'Enter your email and we will send a secure reset link.'}
+          {mode === 'reset' && 'Choose a new password for your account.'}
         </p>
+
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            void handleSubmit();
+            if (mode === 'signin' || mode === 'signup') {
+              void handleAuthSubmit();
+              return;
+            }
+            if (mode === 'forgot') {
+              void handleForgotSubmit();
+              return;
+            }
+            void handleResetSubmit();
           }}
         >
           {mode === 'signup' && (
@@ -185,7 +297,7 @@ export default function AuthScreen() {
             </div>
           )}
 
-          <div className="space-y-2">
+          {(mode === 'signin' || mode === 'signup' || mode === 'forgot') && (
             <input
               ref={emailInputRef}
               type="email"
@@ -195,16 +307,57 @@ export default function AuthScreen() {
               autoComplete="username webauthn"
               className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
             />
-            <input
-              ref={passwordInputRef}
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
-              className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
-            />
-          </div>
+          )}
+
+          {(mode === 'signin' || mode === 'signup') && (
+            <div className="mt-2 space-y-2">
+              <input
+                ref={passwordInputRef}
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
+              />
+              {mode === 'signin' && (
+                <div className="text-right">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMode('forgot');
+                      setError(null);
+                      setMessage(null);
+                    }}
+                    className="text-xs text-text-med underline underline-offset-2 hover:text-text-dark"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {mode === 'reset' && (
+            <div className="space-y-2">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="New password"
+                autoComplete="new-password"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
+              />
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm new password"
+                autoComplete="new-password"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
+              />
+            </div>
+          )}
 
           {error && <p className="text-sm text-[#C2410C] mt-3">{error}</p>}
           {message && <p className="text-sm text-[#3E5648] mt-3">{message}</p>}
@@ -214,9 +367,14 @@ export default function AuthScreen() {
             disabled={loading}
             className="w-full mt-4 inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-[#1F2A37] text-white font-semibold hover:bg-[#111827] transition-colors disabled:opacity-60"
           >
-            {loading ? 'Working…' : mode === 'signin' ? 'Sign In' : 'Create Account'}
+            {loading && 'Working…'}
+            {!loading && mode === 'signin' && 'Sign In'}
+            {!loading && mode === 'signup' && 'Create Account'}
+            {!loading && mode === 'forgot' && 'Send Reset Link'}
+            {!loading && mode === 'reset' && 'Update Password'}
           </button>
         </form>
+
         {mode === 'signin' && (
           <button
             type="button"
@@ -231,6 +389,24 @@ export default function AuthScreen() {
           <p className="mt-2 text-[11px] text-text-light">
             Demo sessions end when you close this window or after 1 hour idle.
           </p>
+        )}
+
+        {(mode === 'forgot' || mode === 'reset') && (
+          <button
+            type="button"
+            onClick={() => {
+              if (mode === 'reset') {
+                removeResetTokenFromUrl();
+                setResetToken(null);
+              }
+              setMode('signin');
+              setError(null);
+            }}
+            disabled={loading}
+            className="mt-3 text-sm text-text-med underline underline-offset-2 hover:text-text-dark transition-colors disabled:opacity-60"
+          >
+            Back to Sign In
+          </button>
         )}
       </div>
     </div>

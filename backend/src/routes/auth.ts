@@ -4,15 +4,18 @@ import { z } from 'zod';
 import { env } from '../env.js';
 import { prisma } from '../lib/prisma.js';
 import { getOrCreateProfile, upsertProfile } from '../services/profileService.js';
+import { sendPasswordResetEmail } from '../services/passwordResetEmailService.js';
 import { getSupabaseAuthClient } from '../lib/supabase.js';
 import { parseCookies, serializeCookie } from '../lib/cookies.js';
 import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js';
 import { createLoginThrottle } from '../lib/loginThrottle.js';
 import {
+  createPasswordResetToken,
   createAccessToken,
   createRefreshFamilyId,
   createRefreshToken,
   evaluateRefreshRotationState,
+  hashPasswordResetToken,
   hashPassword,
   hashRefreshToken,
   normalizeEmail,
@@ -35,6 +38,13 @@ const loginSchema = z.object({
 });
 
 const refreshSchema = z.object({});
+const forgotPasswordSchema = z.object({
+  email: z.string().email(),
+});
+const resetPasswordSchema = z.object({
+  token: z.string().min(20).max(512),
+  password: z.string().min(8).max(128),
+});
 
 const REFRESH_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
 const allowedOrigins = readAllowedOrigins();
@@ -86,7 +96,122 @@ function clearRefreshCookie(reply: { header: (name: string, value: string) => un
   );
 }
 
+function resolveResetUrlBase(request: { headers: Record<string, string | string[] | undefined> }) {
+  const configured = env.RESET_URL_BASE?.trim();
+  if (configured) return configured.replace(/\/$/, '');
+  const fromOrigin = readHeader(request.headers.origin)?.trim();
+  if (fromOrigin) return fromOrigin.replace(/\/$/, '');
+  const fromAllowlist = Array.from(allowedOrigins)[0]?.trim();
+  if (fromAllowlist) return fromAllowlist.replace(/\/$/, '');
+  return null;
+}
+
 export async function authRoutes(app: FastifyInstance) {
+  app.post('/v1/auth/forgot-password', async (request, reply) => {
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+
+    const parsed = forgotPasswordSchema.safeParse(request.body);
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+
+    const genericResponse = {
+      ok: true,
+      message: 'If an account exists for that email, a reset link has been sent.',
+    };
+
+    if (env.AUTH_MODE === 'local') {
+      const email = normalizeEmail(parsed.data.email);
+      const account = await prisma.localAuthCredential.findUnique({
+        where: { email },
+      });
+      if (!account) {
+        reply.send(genericResponse);
+        return;
+      }
+
+      const resetBase = resolveResetUrlBase(request);
+      if (!resetBase) {
+        console.error('[auth] RESET_URL_BASE is not configured; cannot send password reset email.');
+        reply.send(genericResponse);
+        return;
+      }
+
+      const rawToken = createPasswordResetToken();
+      const tokenHash = hashPasswordResetToken(rawToken);
+      const expiresAt = new Date(Date.now() + env.RESET_TOKEN_TTL_MINUTES * 60_000);
+      const client = requestClientInfo(request);
+      await prisma.$transaction(async (tx) => {
+        await tx.$executeRaw`DELETE FROM password_reset_tokens WHERE user_id = ${account.userId}::uuid AND used_at IS NULL`;
+        await tx.$executeRaw`
+          INSERT INTO password_reset_tokens (id, user_id, token_hash, expires_at, created_ip, user_agent, created_at)
+          VALUES (gen_random_uuid(), ${account.userId}::uuid, ${tokenHash}, ${expiresAt}, ${client.ip}, ${client.userAgent}, now())
+        `;
+      });
+
+      const resetUrl = `${resetBase}/?reset_token=${encodeURIComponent(rawToken)}`;
+      await sendPasswordResetEmail({
+        to: email,
+        resetUrl,
+      });
+      reply.send(genericResponse);
+      return;
+    }
+
+    if (env.AUTH_MODE === 'supabase') {
+      const supabase = getSupabaseAuthClient();
+      await supabase.auth.resetPasswordForEmail(parsed.data.email, {
+        redirectTo: resolveResetUrlBase(request) || undefined,
+      });
+    }
+
+    reply.send(genericResponse);
+  });
+
+  app.post('/v1/auth/reset-password', async (request, reply) => {
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+
+    const parsed = resetPasswordSchema.safeParse(request.body);
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+
+    if (env.AUTH_MODE !== 'local') {
+      reply.code(400).send({ error: 'Password reset is only available in local auth mode.' });
+      return;
+    }
+
+    const tokenHash = hashPasswordResetToken(parsed.data.token);
+    const tokenRows = await prisma.$queryRaw<
+      Array<{ id: string; user_id: string; expires_at: Date; used_at: Date | null }>
+    >`SELECT id, user_id, expires_at, used_at FROM password_reset_tokens WHERE token_hash = ${tokenHash} LIMIT 1`;
+    const tokenRow = tokenRows[0] ?? null;
+    const now = new Date();
+    if (!tokenRow || tokenRow.used_at || tokenRow.expires_at <= now) {
+      reply.code(400).send({ error: 'Reset link is invalid or expired.' });
+      return;
+    }
+
+    const newPasswordHash = await hashPassword(parsed.data.password);
+    await prisma.$transaction(async (tx) => {
+      await tx.localAuthCredential.update({
+        where: { userId: tokenRow.user_id },
+        data: { passwordHash: newPasswordHash },
+      });
+      await tx.$executeRaw`UPDATE password_reset_tokens SET used_at = ${now} WHERE id = ${tokenRow.id}::uuid`;
+      await tx.$executeRaw`UPDATE password_reset_tokens SET used_at = ${now} WHERE user_id = ${tokenRow.user_id}::uuid AND used_at IS NULL`;
+      await tx.refreshSession.updateMany({
+        where: { userId: tokenRow.user_id, revokedAt: null },
+        data: { revokedAt: now, revokedReason: 'password_reset' },
+      });
+    });
+
+    clearRefreshCookie(reply);
+    reply.send({ ok: true });
+  });
+
   app.post('/v1/auth/signup', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 

@@ -150,6 +150,14 @@ export function hashRefreshToken(token: string) {
   return createHmac('sha256', signingSecret()).update(token).digest('hex');
 }
 
+export function createPasswordResetToken() {
+  return b64url(randomBytes(32));
+}
+
+export function hashPasswordResetToken(token: string) {
+  return createHmac('sha256', signingSecret()).update(`pw-reset:${token}`).digest('hex');
+}
+
 export function refreshExpiryDate() {
   return new Date(Date.now() + env.REFRESH_SESSION_TTL_DAYS * 24 * 60 * 60 * 1000);
 }
