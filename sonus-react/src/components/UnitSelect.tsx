@@ -190,17 +190,11 @@ export default function UnitSelect({
         const status = lessonProgress[key];
         return Boolean(status?.mastered);
       }).length;
-      const applyLessonIndex = lessonsCount;
-      const applyKey = makeLessonKey(currentLevel.id, metadata.id, applyLessonIndex);
-      const hasApplyStage = applySentenceCount > 0;
-      const isApplyCompleted = hasApplyStage && Boolean(lessonProgress[applyKey]?.completed);
       // Unit completion model:
       // - core completion track: one point per regular lesson completed
-      // - apply track: one point when apply lesson is completed (if unit has apply data)
       // - mastery track: one point per regular lesson mastered
-      const totalTrackSteps = lessonsCount * 2 + (hasApplyStage ? 1 : 0);
-      const completedTrackSteps =
-        completedLessons + masteredLessons + (isApplyCompleted ? 1 : 0);
+      const totalTrackSteps = lessonsCount * 2;
+      const completedTrackSteps = completedLessons + masteredLessons;
       const completionPercent =
         totalTrackSteps > 0
           ? Math.round((completedTrackSteps / totalTrackSteps) * 100)
@@ -214,8 +208,6 @@ export default function UnitSelect({
         completedLessons,
         masteredLessons,
         completionPercent,
-        isApplyCompleted,
-        hasApplyStage,
         applySentenceCount,
         practiceType: null as null,
         isBlueprint: isMacroBlueprint,
@@ -326,7 +318,7 @@ export default function UnitSelect({
       {!activeUnit && !isMandarinBandLocked && (
       <div className="pt-2">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-          {unitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, masteredLessons, completionPercent, practiceType, isBlueprint, isApplyCompleted, hasApplyStage }, index) => {
+          {unitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, masteredLessons, completionPercent, practiceType, isBlueprint }, index) => {
             const row = Math.floor(index / columns);
             const col = index % columns;
             const accent = CARD_ACCENTS[(col + row) % CARD_ACCENTS.length];
@@ -415,10 +407,7 @@ export default function UnitSelect({
                 </button>
               );
             }
-            const isUnitCompleted =
-              lessonsCount > 0 &&
-              completedLessons === lessonsCount &&
-              (!hasApplyStage || isApplyCompleted);
+            const isUnitCompleted = lessonsCount > 0 && completedLessons === lessonsCount;
             const isUnitMastered = lessonsCount > 0 && masteredLessons === lessonsCount && isUnitCompleted;
             const depth = isBlueprint ? 0 : isUnitMastered ? 100 : Math.max(4, completionPercent);
             const currentLessonInUnit = (() => {
@@ -633,20 +622,6 @@ export default function UnitSelect({
                   </div>
                   <div className={`mt-1 text-xs font-mono uppercase tracking-wider ${isApplyCompleted ? 'text-white/85' : !isApplyUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
                     {Math.min(12, applySentenceCount)} prompts
-                  </div>
-                  <div className={`mt-4 text-[11px] font-semibold uppercase tracking-wider font-mono ${isApplyCompleted ? 'text-white' : !isApplyUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
-                    {applySentenceCount === 0
-                      ? 'No sentence data'
-                      : !isApplyUnlocked
-                        ? (
-                          <span className="inline-flex items-center gap-1">
-                            <LockKeyhole className="w-3 h-3" />
-                            Finish all lessons first
-                          </span>
-                        )
-                      : isApplyCompleted
-                        ? 'Completed'
-                        : 'Start →'}
                   </div>
                 </button>
               );
