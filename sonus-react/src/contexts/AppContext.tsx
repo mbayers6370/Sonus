@@ -363,15 +363,18 @@ type LessonCompletionSnapshot = {
   mastered: boolean;
 };
 
-const LESSON_SNAPSHOT_OUTBOX_KEY = 'sonus.lesson_snapshot_outbox';
+const LESSON_SNAPSHOT_OUTBOX_KEY_PREFIX = 'sonus.lesson_snapshot_outbox';
 
 type QueuedLessonCompletionSnapshot = LessonCompletionSnapshot & {
   queuedAt: string;
 };
 
 function readQueuedLessonSnapshots() {
+  const { userId, email } = getMockIdentity();
+  const scope = (userId || email || 'anon').toLowerCase().replace(/[^a-z0-9._-]/g, '_');
+  const storageKey = `${LESSON_SNAPSHOT_OUTBOX_KEY_PREFIX}:${scope}`;
   try {
-    const raw = window.localStorage.getItem(LESSON_SNAPSHOT_OUTBOX_KEY);
+    const raw = window.localStorage.getItem(storageKey);
     if (!raw) return [] as QueuedLessonCompletionSnapshot[];
     const parsed = JSON.parse(raw) as QueuedLessonCompletionSnapshot[];
     return Array.isArray(parsed) ? parsed : [];
@@ -381,13 +384,16 @@ function readQueuedLessonSnapshots() {
 }
 
 function writeQueuedLessonSnapshots(items: QueuedLessonCompletionSnapshot[]) {
+  const { userId, email } = getMockIdentity();
+  const scope = (userId || email || 'anon').toLowerCase().replace(/[^a-z0-9._-]/g, '_');
+  const storageKey = `${LESSON_SNAPSHOT_OUTBOX_KEY_PREFIX}:${scope}`;
   try {
     if (!items.length) {
-      window.localStorage.removeItem(LESSON_SNAPSHOT_OUTBOX_KEY);
+      window.localStorage.removeItem(storageKey);
       return;
     }
     // Keep only newest 200 snapshots to avoid unbounded localStorage growth.
-    window.localStorage.setItem(LESSON_SNAPSHOT_OUTBOX_KEY, JSON.stringify(items.slice(-200)));
+    window.localStorage.setItem(storageKey, JSON.stringify(items.slice(-200)));
   } catch {
     // Ignore localStorage failures.
   }
@@ -518,6 +524,53 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const { status: authStatus } = useAuth();
   const [storageKey, setStorageKey] = useState<string>(() => resolveStateStorageKey());
   const [state, setState] = useState<AppState>(() => loadPersistedState(resolveStateStorageKey()));
+
+  const buildSnapshotForActiveLesson = (
+    lessonState: AppState,
+    nextQuizResultsByIndex: Record<number, boolean>,
+    nextSpeakResultsByIndex: Record<number, boolean>,
+    forceIntroViewed = false
+  ): LessonCompletionSnapshot | null => {
+    const activeLesson = lessonState.activeLesson;
+    const bandId = lessonState.activeBandId;
+    if (!activeLesson || !bandId) return null;
+
+    const lessonKey = makeLessonKey(bandId, activeLesson.unitId, activeLesson.lessonIndex);
+    const existing = lessonState.lessonProgress[lessonKey] || {
+      introViewed: false,
+      quizScore: null as number | null,
+      speakScore: null as number | null,
+      speakAllCorrect: false,
+      completed: false,
+      mastered: false,
+    };
+
+    const quizStats = getCoreWordStats(activeLesson.words, nextQuizResultsByIndex);
+    const speakStats = getCoreWordStats(activeLesson.words, nextSpeakResultsByIndex);
+    const nextQuizScore = quizStats.total > 0 ? Math.round((quizStats.correct / quizStats.total) * 100) : existing.quizScore;
+    const nextSpeakScore = speakStats.total > 0 ? Math.round((speakStats.correct / speakStats.total) * 100) : existing.speakScore;
+    const nextSpeakAllCorrect = speakStats.total > 0 ? speakStats.correct === speakStats.total : existing.speakAllCorrect;
+    const isCheckpoint = isCheckpointUnitId(activeLesson.unitId);
+    const completedByScores = isCheckpoint
+      ? (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT
+      : (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT && (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT;
+
+    return {
+      bandId,
+      unitId: activeLesson.unitId,
+      lessonIndex: activeLesson.lessonIndex,
+      introViewed:
+        forceIntroViewed ||
+        existing.introViewed ||
+        Object.keys(nextQuizResultsByIndex).length > 0 ||
+        Object.keys(nextSpeakResultsByIndex).length > 0,
+      quizScore: nextQuizScore,
+      speakScore: nextSpeakScore,
+      speakAllCorrect: nextSpeakAllCorrect,
+      completed: existing.completed || completedByScores,
+      mastered: existing.mastered,
+    };
+  };
 
   useEffect(() => {
     try {
@@ -1034,15 +1087,25 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const setLessonMode = (mode: LessonMode) => {
-    setState((prev) => ({
-      ...prev,
-      lessonMode: mode,
-      activeLesson: prev.activeLesson,
-      lessonWordIndex: 0,
-      quizResultsByIndex: mode === 'quiz' ? {} : prev.quizResultsByIndex,
-      speakResultsByIndex: mode === 'speak' ? {} : prev.speakResultsByIndex,
-      speakBreakdownByIndex: mode === 'speak' ? {} : prev.speakBreakdownByIndex,
-    }));
+    let snapshot: LessonCompletionSnapshot | null = null;
+    setState((prev) => {
+      const next = {
+        ...prev,
+        lessonMode: mode,
+        activeLesson: prev.activeLesson,
+        lessonWordIndex: 0,
+        quizResultsByIndex: mode === 'quiz' ? {} : prev.quizResultsByIndex,
+        speakResultsByIndex: mode === 'speak' ? {} : prev.speakResultsByIndex,
+        speakBreakdownByIndex: mode === 'speak' ? {} : prev.speakBreakdownByIndex,
+      };
+      if (mode !== 'intro') {
+        snapshot = buildSnapshotForActiveLesson(next, next.quizResultsByIndex, next.speakResultsByIndex, true);
+      }
+      return next;
+    });
+    if (snapshot) {
+      void saveLessonCompletionSnapshot(snapshot);
+    }
   };
 
   const nextWord = () => {
@@ -1073,16 +1136,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const recordQuizResult = (lessonIndex: number, isCorrect: boolean) => {
-    setState((prev) => ({
-      ...prev,
-      quizResultsByIndex: {
+    let snapshot: LessonCompletionSnapshot | null = null;
+    setState((prev) => {
+      const nextQuizResultsByIndex = {
         ...prev.quizResultsByIndex,
         [lessonIndex]: isCorrect,
-      },
-    }));
+      };
+      const next = {
+        ...prev,
+        quizResultsByIndex: nextQuizResultsByIndex,
+      };
+      snapshot = buildSnapshotForActiveLesson(
+        next,
+        nextQuizResultsByIndex,
+        prev.speakResultsByIndex
+      );
+      return next;
+    });
+    if (snapshot) {
+      void saveLessonCompletionSnapshot(snapshot);
+    }
   };
 
   const recordSpeakResult = (lessonIndex: number, isCorrect: boolean, breakdown?: SpeakBreakdown) => {
+    let snapshot: LessonCompletionSnapshot | null = null;
     setState((prev) => {
       const nextBreakdownByIndex = breakdown
         ? {
@@ -1090,16 +1167,26 @@ export function AppProvider({ children }: { children: ReactNode }) {
             [lessonIndex]: breakdown,
           }
         : prev.speakBreakdownByIndex;
-
-      return {
+      const nextSpeakResultsByIndex = {
+        ...prev.speakResultsByIndex,
+        [lessonIndex]: isCorrect,
+      };
+      const next = {
         ...prev,
-        speakResultsByIndex: {
-          ...prev.speakResultsByIndex,
-          [lessonIndex]: isCorrect,
-        },
+        speakResultsByIndex: nextSpeakResultsByIndex,
         speakBreakdownByIndex: nextBreakdownByIndex,
       };
+      snapshot = buildSnapshotForActiveLesson(
+        next,
+        prev.quizResultsByIndex,
+        nextSpeakResultsByIndex
+      );
+
+      return next;
     });
+    if (snapshot) {
+      void saveLessonCompletionSnapshot(snapshot);
+    }
   };
 
   const queueLessonReattempt = (lessonIndex: number, word: Word) => {
