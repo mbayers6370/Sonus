@@ -8,6 +8,12 @@
   "theme_color": "#F6F2EB",
   "icons": [
     {
+      "src": "/branding/Logo_App_Icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
       "src": "/branding/app-touch-icon-1.png",
       "sizes": "1000x1000",
       "type": "image/png",
