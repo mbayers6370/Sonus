@@ -28,16 +28,23 @@ body {
 body {
   font-family: var(--font-secondary);
   background-color: #FBFBF9;
-  background-image: url('/branding/Background.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   color: #1F2A37;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scrollbar-width: thin;
   scrollbar-color: rgba(148, 163, 184, 0.62) rgba(255, 255, 255, 0.42);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/branding/Background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: -1;
 }
 
 body.auth-screen-open {
