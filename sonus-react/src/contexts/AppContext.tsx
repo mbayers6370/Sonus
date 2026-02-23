@@ -27,6 +27,7 @@ import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { apiFetch } from '../lib/apiClient';
 import { getMockIdentity } from '../lib/authSession';
 import { recordLessonCompletionToLedger } from '../lib/activityLedger';
+import { useAuth } from './AuthContext';
 
 interface AppContextType {
   state: AppState;
@@ -568,9 +569,9 @@ const initialState: AppState = {
   dailySetWordIds: [],
 };
 
-function loadPersistedState(): AppState {
+function loadPersistedState(storageKey = resolveStateStorageKey()): AppState {
   try {
-    const saved = window.localStorage.getItem(resolveStateStorageKey());
+    const saved = window.localStorage.getItem(storageKey);
     if (!saved) return initialState;
     const parsed = JSON.parse(saved) as Partial<AppState>;
     const parsedUnlocked = Array.isArray(parsed.unlockedLevels)
@@ -594,15 +595,24 @@ function loadPersistedState(): AppState {
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<AppState>(() => loadPersistedState());
+  const { status: authStatus } = useAuth();
+  const [storageKey, setStorageKey] = useState<string>(() => resolveStateStorageKey());
+  const [state, setState] = useState<AppState>(() => loadPersistedState(resolveStateStorageKey()));
 
   useEffect(() => {
     try {
-      window.localStorage.setItem(resolveStateStorageKey(), JSON.stringify(state));
+      window.localStorage.setItem(storageKey, JSON.stringify(state));
     } catch {
       // Ignore storage failures (private mode/quota) to avoid startup crashes.
     }
-  }, [state]);
+  }, [state, storageKey]);
+
+  useEffect(() => {
+    const nextStorageKey = resolveStateStorageKey();
+    if (nextStorageKey === storageKey) return;
+    setStorageKey(nextStorageKey);
+    setState(loadPersistedState(nextStorageKey));
+  }, [authStatus, storageKey]);
 
   // Refresh active band payload after localStorage hydration so unit/data edits
   // are reflected without requiring a manual level re-select.
@@ -638,6 +648,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [state.activeBandId]);
 
   useEffect(() => {
+    if (authStatus !== 'signed_in') return;
     let cancelled = false;
 
     void (async () => {
@@ -680,7 +691,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [authStatus, storageKey]);
 
   const selectLanguage = (langId: string | null) => {
     setState((prev) => ({
