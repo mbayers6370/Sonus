@@ -396,8 +396,12 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   const localDayTotals = readCalendarDayTotals().days;
   const mergedCalendarDays = calendarDays.map((day) => {
     const localCount = localDayTotals[day.dayKey] ?? 0;
+    const maxReasonableDailyCount = Math.max(0, lessonsCompletedDisplay);
     const mergedCount = backendOffline
-      ? Math.max(localCount, day.lessonsCompleted ?? 0)
+      ? Math.min(
+        Math.max(localCount, day.lessonsCompleted ?? 0),
+        maxReasonableDailyCount
+      )
       : Math.max(0, day.lessonsCompleted ?? 0);
     return {
       ...day,
