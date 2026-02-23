@@ -108,9 +108,40 @@ export function createLoginThrottle(config: LoginThrottleConfig) {
     clearKey(identityKeys.combo);
   }
 
+  function reset(identity?: { email?: string | null; ip?: string | null }) {
+    if (!identity?.email && !identity?.ip) {
+      buckets.clear();
+      return;
+    }
+
+    const email = identity.email?.trim().toLowerCase() || null;
+    const ip = identity.ip?.trim() || null;
+
+    if (email) {
+      clearKey(`email:${email}`);
+    }
+    if (ip) {
+      clearKey(`ip:${ip}`);
+    }
+
+    for (const key of buckets.keys()) {
+      if (!key.startsWith('combo:')) continue;
+      const combo = key.slice('combo:'.length);
+      const [comboEmail, comboIp] = combo.split('|');
+      if (email && comboEmail === email) {
+        clearKey(key);
+        continue;
+      }
+      if (ip && comboIp === ip) {
+        clearKey(key);
+      }
+    }
+  }
+
   return {
     check,
     registerFailure,
     registerSuccess,
+    reset,
   };
 }

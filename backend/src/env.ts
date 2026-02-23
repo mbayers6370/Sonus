@@ -102,6 +102,7 @@ const envSchema = z
       .positive()
       .max(24 * 60 * 60 * 1000)
       .default(900000),
+    LOGIN_THROTTLE_ADMIN_TOKEN: z.string().trim().min(16).optional(),
     METRICS_READ_TOKEN: z.string().trim().min(16).optional(),
   })
   .superRefine((value, ctx) => {

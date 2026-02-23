@@ -45,6 +45,11 @@ const resetPasswordSchema = z.object({
   token: z.string().min(20).max(512),
   password: z.string().min(8).max(128),
 });
+const throttleResetSchema = z.object({
+  email: z.string().email().optional(),
+  ip: z.string().trim().min(1).max(128).optional(),
+  all: z.boolean().optional(),
+});
 
 const REFRESH_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
 const allowedOrigins = readAllowedOrigins();
@@ -465,6 +470,46 @@ export async function authRoutes(app: FastifyInstance) {
     });
     loginThrottle.registerSuccess(identity);
     setRefreshCookie(reply, data.session.refresh_token);
+  });
+
+  app.post('/v1/auth/debug/reset-login-throttle', async (request, reply) => {
+    if (!env.LOGIN_THROTTLE_ADMIN_TOKEN) {
+      reply.code(404).send({ error: 'Not found' });
+      return;
+    }
+
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+
+    const adminToken = readHeader(request.headers['x-admin-token']);
+    if (!adminToken || adminToken !== env.LOGIN_THROTTLE_ADMIN_TOKEN) {
+      reply.code(403).send({ error: 'Forbidden' });
+      return;
+    }
+
+    const parsed = throttleResetSchema.safeParse(request.body ?? {});
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+
+    if (parsed.data.all) {
+      loginThrottle.reset();
+      reply.send({ ok: true, scope: 'all' });
+      return;
+    }
+
+    loginThrottle.reset({
+      email: parsed.data.email,
+      ip: parsed.data.ip,
+    });
+    reply.send({
+      ok: true,
+      scope: 'targeted',
+      cleared: {
+        email: parsed.data.email ?? null,
+        ip: parsed.data.ip ?? null,
+      },
+    });
   });
 
   app.post('/v1/auth/refresh', async (request, reply) => {
