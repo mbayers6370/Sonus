@@ -373,19 +373,18 @@ type LessonCompletionSnapshot = {
 
 type ProgressCompletionEventType = 'lesson_completed' | 'apply_completed';
 
-const LESSON_SNAPSHOT_OUTBOX_KEY_PREFIX = 'sonus.lesson_snapshot_outbox';
+const LESSON_SNAPSHOT_OUTBOX_STORAGE_KEY = 'sonus.lesson_snapshot_outbox';
 
 type QueuedLessonCompletionSnapshot = LessonCompletionSnapshot & {
+  ownerUserId?: string | null;
+  ownerEmail?: string | null;
   eventType: ProgressCompletionEventType;
   queuedAt: string;
 };
 
 function readQueuedLessonSnapshots() {
-  const { userId, email } = getMockIdentity();
-  const scope = (userId || email || 'anon').toLowerCase().replace(/[^a-z0-9._-]/g, '_');
-  const storageKey = `${LESSON_SNAPSHOT_OUTBOX_KEY_PREFIX}:${scope}`;
   try {
-    const raw = window.localStorage.getItem(storageKey);
+    const raw = window.localStorage.getItem(LESSON_SNAPSHOT_OUTBOX_STORAGE_KEY);
     if (!raw) return [] as QueuedLessonCompletionSnapshot[];
     const parsed = JSON.parse(raw) as QueuedLessonCompletionSnapshot[];
     return Array.isArray(parsed) ? parsed : [];
@@ -395,16 +394,13 @@ function readQueuedLessonSnapshots() {
 }
 
 function writeQueuedLessonSnapshots(items: QueuedLessonCompletionSnapshot[]) {
-  const { userId, email } = getMockIdentity();
-  const scope = (userId || email || 'anon').toLowerCase().replace(/[^a-z0-9._-]/g, '_');
-  const storageKey = `${LESSON_SNAPSHOT_OUTBOX_KEY_PREFIX}:${scope}`;
   try {
     if (!items.length) {
-      window.localStorage.removeItem(storageKey);
+      window.localStorage.removeItem(LESSON_SNAPSHOT_OUTBOX_STORAGE_KEY);
       return;
     }
     // Keep only newest 200 snapshots to avoid unbounded localStorage growth.
-    window.localStorage.setItem(storageKey, JSON.stringify(items.slice(-200)));
+    window.localStorage.setItem(LESSON_SNAPSHOT_OUTBOX_STORAGE_KEY, JSON.stringify(items.slice(-200)));
   } catch {
     // Ignore localStorage failures.
   }
@@ -415,12 +411,22 @@ function queueLessonSnapshot(
   eventType: ProgressCompletionEventType = 'lesson_completed'
 ) {
   const existing = readQueuedLessonSnapshots();
+  const identity = getMockIdentity();
   const key = makeLessonKey(snapshot.bandId, snapshot.unitId, snapshot.lessonIndex);
+  const ownerUserId = identity.userId || null;
+  const ownerEmail = identity.email?.trim().toLowerCase() || null;
   const filtered = existing.filter(
-    (item) => makeLessonKey(item.bandId, item.unitId, item.lessonIndex) !== key
+    (item) =>
+      !(
+        makeLessonKey(item.bandId, item.unitId, item.lessonIndex) === key &&
+        (item.ownerUserId || null) === ownerUserId &&
+        (item.ownerEmail?.trim().toLowerCase() || null) === ownerEmail
+      )
   );
   filtered.push({
     ...snapshot,
+    ownerUserId,
+    ownerEmail,
     eventType,
     queuedAt: new Date().toISOString(),
   });
@@ -468,9 +474,25 @@ async function saveLessonCompletionSnapshot(
 async function flushQueuedLessonSnapshots() {
   const queued = readQueuedLessonSnapshots();
   if (!queued.length) return;
+  const identity = getMockIdentity();
+  const currentUserId = identity.userId || null;
+  const currentEmail = identity.email?.trim().toLowerCase() || null;
 
   const remaining: QueuedLessonCompletionSnapshot[] = [];
   for (const snapshot of queued) {
+    const snapshotOwnerUserId = snapshot.ownerUserId || null;
+    const snapshotOwnerEmail = snapshot.ownerEmail?.trim().toLowerCase() || null;
+    const hasOwner = Boolean(snapshotOwnerUserId || snapshotOwnerEmail);
+    const matchesCurrentIdentity =
+      (!hasOwner && Boolean(currentUserId || currentEmail)) ||
+      (snapshotOwnerUserId && currentUserId && snapshotOwnerUserId === currentUserId) ||
+      (snapshotOwnerEmail && currentEmail && snapshotOwnerEmail === currentEmail);
+
+    if (!matchesCurrentIdentity) {
+      remaining.push(snapshot);
+      continue;
+    }
+
     const buildEventBody = (type: ProgressCompletionEventType) =>
       JSON.stringify({
         eventType: type,
@@ -1723,9 +1745,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       );
     }
     if (completionSnapshotRef.current) {
-      const eventType: ProgressCompletionEventType =
-        lessonMode === 'apply' ? 'apply_completed' : 'lesson_completed';
-      void saveLessonCompletionSnapshot(completionSnapshotRef.current, eventType);
+      // Keep Apply persistence on the same durable event path as regular lessons.
+      void saveLessonCompletionSnapshot(completionSnapshotRef.current, 'lesson_completed');
     }
   };
 
