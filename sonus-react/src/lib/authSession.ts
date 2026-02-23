@@ -8,6 +8,8 @@ const MOCK_IDLE_TTL_MS = 60 * 60 * 1000;
 const LEGACY_ACCESS_TOKEN_KEY = 'sonus.auth.access_token';
 const LEGACY_REFRESH_TOKEN_KEY = 'sonus.auth.refresh_token';
 const LEGACY_SESSION_EXPIRES_AT_KEY = 'sonus.auth.expires_at';
+const SESSION_ACCESS_TOKEN_KEY = 'sonus.auth.session_access_token';
+const SESSION_ACCESS_TOKEN_EXPIRES_AT_KEY = 'sonus.auth.session_access_token_expires_at';
 
 let accessTokenMemory: string | null = null;
 let accessTokenExpiresAt = 0;
@@ -36,8 +38,32 @@ function clearSessionExpiry() {
   accessTokenExpiresAt = 0;
 }
 
+function hydrateAccessTokenFromSessionStorage() {
+  if (accessTokenMemory) return;
+  try {
+    const token = window.sessionStorage.getItem(SESSION_ACCESS_TOKEN_KEY);
+    const expiresAtRaw = window.sessionStorage.getItem(SESSION_ACCESS_TOKEN_EXPIRES_AT_KEY);
+    const expiresAt = Number(expiresAtRaw || '0');
+    if (!token || !Number.isFinite(expiresAt) || expiresAt <= 0) {
+      window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_KEY);
+      window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_EXPIRES_AT_KEY);
+      return;
+    }
+    if (Date.now() >= expiresAt) {
+      window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_KEY);
+      window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_EXPIRES_AT_KEY);
+      return;
+    }
+    accessTokenMemory = token;
+    accessTokenExpiresAt = expiresAt;
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
 export function isAuthSessionExpired() {
   try {
+    hydrateAccessTokenFromSessionStorage();
     if (!accessTokenMemory) return false;
     if (!Number.isFinite(accessTokenExpiresAt) || accessTokenExpiresAt <= 0) return false;
     return Date.now() >= accessTokenExpiresAt;
@@ -47,6 +73,7 @@ export function isAuthSessionExpired() {
 }
 
 export function getAccessToken() {
+  hydrateAccessTokenFromSessionStorage();
   return accessTokenMemory;
 }
 
@@ -60,9 +87,13 @@ export function setAuthSession(accessToken: string | null, refreshToken?: string
     if (accessToken) {
       accessTokenMemory = accessToken;
       setSessionExpiry();
+      window.sessionStorage.setItem(SESSION_ACCESS_TOKEN_KEY, accessTokenMemory);
+      window.sessionStorage.setItem(SESSION_ACCESS_TOKEN_EXPIRES_AT_KEY, String(accessTokenExpiresAt));
     } else {
       accessTokenMemory = null;
       clearSessionExpiry();
+      window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_KEY);
+      window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_EXPIRES_AT_KEY);
     }
     // Clear legacy storage keys from previous implementations.
     window.localStorage.removeItem(LEGACY_ACCESS_TOKEN_KEY);
