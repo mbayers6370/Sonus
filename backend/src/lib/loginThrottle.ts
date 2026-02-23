@@ -69,7 +69,9 @@ export function createLoginThrottle(config: LoginThrottleConfig) {
 
     const now = Date.now();
     const identityKeys = keys(identity);
-    const states = [identityKeys.email, identityKeys.ip, identityKeys.combo].map((key) => readState(key, now));
+    const states = [identityKeys.email, identityKeys.ip, identityKeys.combo].map((key) =>
+      readState(key, now)
+    );
     const blockedUntil = Math.max(...states.map((state) => state.blockedUntil));
     if (blockedUntil > now) {
       return {

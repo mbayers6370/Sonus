@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 
 async function run() {
   process.env.NODE_ENV = 'test';
-  process.env.DATABASE_URL = process.env.DATABASE_URL || 'postgresql://sonus:sonus_dev_password@localhost:5432/sonus';
+  process.env.DATABASE_URL =
+    process.env.DATABASE_URL || 'postgresql://sonus:sonus_dev_password@localhost:5432/sonus';
   process.env.AUTH_MODE = 'local';
   process.env.SUPABASE_URL = 'https://example.supabase.co';
   process.env.SUPABASE_ANON_KEY = 'anon-test-key';
@@ -21,7 +22,8 @@ async function run() {
   const { resolveRateLimitIdentity } = await import('../dist/lib/rateLimiter.js');
   const { parseCookies, serializeCookie } = await import('../dist/lib/cookies.js');
   const { readAllowedOrigins } = await import('../dist/lib/originPolicy.js');
-  const { createAccessToken, verifyAccessToken, evaluateRefreshRotationState } = await import('../dist/lib/localAuth.js');
+  const { createAccessToken, verifyAccessToken, evaluateRefreshRotationState } =
+    await import('../dist/lib/localAuth.js');
   const { createLoginThrottle } = await import('../dist/lib/loginThrottle.js');
 
   const app = await buildServer();
@@ -30,8 +32,16 @@ async function run() {
   const fakeJwtA = 'eyJhbGciOiJub25lIn0.eyJzdWIiOiJhIn0.';
   const fakeJwtB = 'eyJhbGciOiJub25lIn0.eyJzdWIiOiJiIn0.';
 
-  const supabaseA = resolveRateLimitIdentity({ authorization: `Bearer ${fakeJwtA}` }, ip, 'supabase');
-  const supabaseB = resolveRateLimitIdentity({ authorization: `Bearer ${fakeJwtB}` }, ip, 'supabase');
+  const supabaseA = resolveRateLimitIdentity(
+    { authorization: `Bearer ${fakeJwtA}` },
+    ip,
+    'supabase'
+  );
+  const supabaseB = resolveRateLimitIdentity(
+    { authorization: `Bearer ${fakeJwtB}` },
+    ip,
+    'supabase'
+  );
   assert.match(supabaseA, /^auth:[a-f0-9]+$/);
   assert.match(supabaseB, /^auth:[a-f0-9]+$/);
   assert.notEqual(supabaseA, supabaseB);

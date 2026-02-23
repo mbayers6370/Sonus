@@ -36,9 +36,10 @@ export async function telemetryRoutes(app: FastifyInstance) {
       return;
     }
 
-    const format = typeof request.query === 'object' && request.query && 'format' in request.query
-      ? String((request.query as Record<string, unknown>).format || '')
-      : '';
+    const format =
+      typeof request.query === 'object' && request.query && 'format' in request.query
+        ? String((request.query as Record<string, unknown>).format || '')
+        : '';
 
     if (format.toLowerCase() === 'prometheus') {
       reply.type('text/plain; version=0.0.4');

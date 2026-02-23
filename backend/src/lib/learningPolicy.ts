@@ -62,7 +62,7 @@ export function computeQuizMemoryUpdate(
   isReview: boolean
 ): QuizMemoryUpdate {
   const nextMissedQuizCount = isMiss ? (existing?.missedQuizCount ?? 0) + 1 : 0;
-  const nextMispronounceCount = isMiss ? existing?.mispronounceCount ?? 0 : 0;
+  const nextMispronounceCount = isMiss ? (existing?.mispronounceCount ?? 0) : 0;
   const nextQuizEase = clampMin(
     (existing?.quizEase ?? 2.5) +
       (isMiss
@@ -83,9 +83,14 @@ export function computeQuizMemoryUpdate(
   const baseInterval = existing?.quizIntervalDays ?? 1;
   const nextQuizIntervalDays = isMiss
     ? 1
-    : clampMin(baseInterval + (isReview ? POLICY.quiz.reviewIntervalGain : POLICY.quiz.lessonIntervalGain), 1);
+    : clampMin(
+        baseInterval + (isReview ? POLICY.quiz.reviewIntervalGain : POLICY.quiz.lessonIntervalGain),
+        1
+      );
   const dueDays = isMiss
-    ? (isReview ? POLICY.quiz.missDueDaysReview : POLICY.quiz.missDueDaysLesson)
+    ? isReview
+      ? POLICY.quiz.missDueDaysReview
+      : POLICY.quiz.missDueDaysLesson
     : isReview
       ? POLICY.quiz.correctDueDaysReview
       : POLICY.quiz.correctDueDaysLesson;
@@ -106,7 +111,7 @@ export function computeSpeakMemoryUpdate(
   isReview: boolean
 ): SpeakMemoryUpdate {
   const nextMispronounceCount = mispronounced ? (existing?.mispronounceCount ?? 0) + 1 : 0;
-  const nextMissedQuizCount = mispronounced ? existing?.missedQuizCount ?? 0 : 0;
+  const nextMissedQuizCount = mispronounced ? (existing?.missedQuizCount ?? 0) : 0;
   const nextPronunciationRisk = mispronounced
     ? clampMin(
         (existing?.pronunciationRisk ?? 0) +
@@ -116,14 +121,20 @@ export function computeSpeakMemoryUpdate(
     : 0;
   const nextQuizIntervalDays = mispronounced
     ? 1
-    : clampMin((existing?.quizIntervalDays ?? 1) + (isReview ? POLICY.speak.reviewIntervalGain : 0), 1);
+    : clampMin(
+        (existing?.quizIntervalDays ?? 1) + (isReview ? POLICY.speak.reviewIntervalGain : 0),
+        1
+      );
   const dueDays = mispronounced
-    ? (isReview ? POLICY.speak.missDueDaysReview : POLICY.speak.missDueDaysLesson)
+    ? isReview
+      ? POLICY.speak.missDueDaysReview
+      : POLICY.speak.missDueDaysLesson
     : isReview
       ? POLICY.speak.correctDueDaysReview
       : POLICY.speak.correctDueDaysLesson;
   const nextQuizEase = clampMin(
-    (existing?.quizEase ?? 2.5) + (mispronounced ? POLICY.speak.missEaseDelta : POLICY.speak.correctEaseDelta),
+    (existing?.quizEase ?? 2.5) +
+      (mispronounced ? POLICY.speak.missEaseDelta : POLICY.speak.correctEaseDelta),
     POLICY.minEase
   );
 

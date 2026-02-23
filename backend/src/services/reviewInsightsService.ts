@@ -18,7 +18,8 @@ function buildReviewPriority(input: {
   const reasons: string[] = [];
   if (overdueDays >= 1) reasons.push('quiz_overdue');
   if (input.missedQuizCount > 0) reasons.push('missed_quiz');
-  if (input.pronunciationRisk >= 0.5 || input.mispronounceCount > 0) reasons.push('pronunciation_risk');
+  if (input.pronunciationRisk >= 0.5 || input.mispronounceCount > 0)
+    reasons.push('pronunciation_risk');
 
   return {
     score: Number(score.toFixed(3)),
@@ -225,7 +226,7 @@ export async function fetchWrongWords(userId: string, limit: number, minTotalMis
         ? current.lastWrongAt > row._max.createdAt
           ? current.lastWrongAt
           : row._max.createdAt
-        : current?.lastWrongAt ?? row._max.createdAt ?? null;
+        : (current?.lastWrongAt ?? row._max.createdAt ?? null);
 
     combined.set(row.wordId, {
       wordId: row.wordId,

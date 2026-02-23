@@ -6,9 +6,18 @@ import { prisma } from '../lib/prisma.js';
 import { getSupabaseAdmin } from '../lib/supabase.js';
 import { serializeCookie } from '../lib/cookies.js';
 import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js';
-import { fetchNeedsWork, fetchReviewQueue, fetchWeakLogs, fetchWrongWords } from '../services/reviewInsightsService.js';
+import {
+  fetchNeedsWork,
+  fetchReviewQueue,
+  fetchWeakLogs,
+  fetchWrongWords,
+} from '../services/reviewInsightsService.js';
 import { getOrCreateProfile, upsertProfile } from '../services/profileService.js';
-import { getProgressSnapshot, recordProgressEvent, updateProgressCurrent } from '../services/progressService.js';
+import {
+  getProgressSnapshot,
+  recordProgressEvent,
+  updateProgressCurrent,
+} from '../services/progressService.js';
 
 const reviewQueueQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(20),

@@ -89,7 +89,7 @@ export async function attemptRoutes(app: FastifyInstance) {
           quizIntervalDays: update.quizIntervalDays,
           quizDueAt: nextQuizDueAt,
           lastSeenAt: new Date(),
-          lastCorrectAt: isMiss ? existing?.lastCorrectAt ?? null : new Date(),
+          lastCorrectAt: isMiss ? (existing?.lastCorrectAt ?? null) : new Date(),
         },
         create: {
           userId,
@@ -178,7 +178,7 @@ export async function attemptRoutes(app: FastifyInstance) {
           quizDueAt: nextQuizDueAt,
           quizEase: update.quizEase,
           lastSeenAt: new Date(),
-          lastCorrectAt: mispronounced ? existing?.lastCorrectAt ?? null : new Date(),
+          lastCorrectAt: mispronounced ? (existing?.lastCorrectAt ?? null) : new Date(),
         },
         create: {
           userId,

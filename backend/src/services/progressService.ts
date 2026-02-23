@@ -8,7 +8,12 @@ interface UpdateProgressCurrentInput {
 }
 
 interface ProgressEventInput {
-  eventType: 'lesson_started' | 'lesson_completed' | 'quiz_answered' | 'speak_scored' | 'manual_adjustment';
+  eventType:
+    | 'lesson_started'
+    | 'lesson_completed'
+    | 'quiz_answered'
+    | 'speak_scored'
+    | 'manual_adjustment';
   streakDelta: number;
   payloadJson?: Prisma.JsonObject;
 }
@@ -26,16 +31,20 @@ function isCompletedByScores(quizScore: number | null, speakScore: number | null
   return (quizScore ?? 0) >= 85 && (speakScore ?? 0) >= 85;
 }
 
-function isCompletedLessonPayload(payloadJson: Prisma.JsonValue | Prisma.JsonObject | undefined | null) {
+function isCompletedLessonPayload(
+  payloadJson: Prisma.JsonValue | Prisma.JsonObject | undefined | null
+) {
   if (!payloadJson || typeof payloadJson !== 'object' || Array.isArray(payloadJson)) return false;
   const payload = payloadJson as Record<string, unknown>;
-  if (Boolean(payload.completed)) return true;
+  if (payload.completed) return true;
   const quizScore = toOptionalScore(payload.quizScore);
   const speakScore = toOptionalScore(payload.speakScore);
   return isCompletedByScores(quizScore, speakScore);
 }
 
-function lessonKeyFromPayload(payloadJson: Prisma.JsonValue | Prisma.JsonObject | undefined | null) {
+function lessonKeyFromPayload(
+  payloadJson: Prisma.JsonValue | Prisma.JsonObject | undefined | null
+) {
   if (!payloadJson || typeof payloadJson !== 'object' || Array.isArray(payloadJson)) return null;
   const payload = payloadJson as Record<string, unknown>;
   const bandId = typeof payload.bandId === 'string' ? payload.bandId.trim() : '';
@@ -56,7 +65,10 @@ function toOptionalScore(value: unknown) {
   return rounded;
 }
 
-function mergeLessonState(existing: LessonProgressState | undefined, incoming: LessonProgressState) {
+function mergeLessonState(
+  existing: LessonProgressState | undefined,
+  incoming: LessonProgressState
+) {
   if (!existing) return incoming;
   const mergedQuiz =
     existing.quizScore === null
@@ -175,15 +187,12 @@ function resolveCompletionStreak(
 ) {
   const today = dayKeyAt(now, timezone);
   const yesterday = dayKeyAt(new Date(now.getTime() - 86_400_000), timezone);
-  let anchor: Date | null = null;
-
-  if (completionDayKeys.has(today)) {
-    anchor = now;
-  } else if (completionDayKeys.has(yesterday)) {
-    anchor = new Date(now.getTime() - 86_400_000);
-  } else {
-    return 0;
-  }
+  const anchor = completionDayKeys.has(today)
+    ? now
+    : completionDayKeys.has(yesterday)
+      ? new Date(now.getTime() - 86_400_000)
+      : null;
+  if (!anchor) return 0;
 
   let streak = 0;
   let cursor = anchor;
@@ -217,18 +226,20 @@ export async function touchUserActivity(userId: string) {
       select: { streak: true, lastActiveDate: true },
     });
 
-    const previousStreak = resolveStreakForToday(existing?.streak ?? 0, existing?.lastActiveDate ?? null, timezone);
+    const previousStreak = resolveStreakForToday(
+      existing?.streak ?? 0,
+      existing?.lastActiveDate ?? null,
+      timezone
+    );
     const lastKey = existing?.lastActiveDate ? dayKeyAt(existing.lastActiveDate, timezone) : null;
 
-    let nextStreak = previousStreak;
-    if (!lastKey) {
-      nextStreak = 1;
-    } else if (lastKey === todayKey) {
-      nextStreak = previousStreak;
-    } else {
-      const gap = dayDiff(lastKey, todayKey);
-      nextStreak = gap === 1 ? previousStreak + 1 : 1;
-    }
+    const nextStreak = !lastKey
+      ? 1
+      : lastKey === todayKey
+        ? previousStreak
+        : dayDiff(lastKey, todayKey) === 1
+          ? previousStreak + 1
+          : 1;
 
     return tx.userProgress.upsert({
       where: { userId },
@@ -252,40 +263,42 @@ export async function getProgressSnapshot(userId: string) {
     create: { userId },
   });
 
-  const [timezone, progressSeed, recentEvents, lessonCompletionEvents, recentLessonCompletions] = await Promise.all([
-    readUserTimezone(userId),
-    prisma.userProgress.upsert({
-      where: { userId },
-      update: {},
-      create: { userId },
-    }),
-    prisma.progressEvent.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
-      take: 20,
-    }),
-    prisma.progressEvent.findMany({
-      where: { userId, eventType: 'lesson_completed' },
-      select: { payloadJson: true },
-      orderBy: { createdAt: 'asc' },
-    }),
-    prisma.progressEvent.findMany({
-      where: {
-        userId,
-        eventType: 'lesson_completed',
-        createdAt: { gte: new Date(Date.now() - 35 * 86_400_000) },
-      },
-      select: { createdAt: true, payloadJson: true },
-    }),
-  ]);
+  const [timezone, progressSeed, recentEvents, lessonCompletionEvents, recentLessonCompletions] =
+    await Promise.all([
+      readUserTimezone(userId),
+      prisma.userProgress.upsert({
+        where: { userId },
+        update: {},
+        create: { userId },
+      }),
+      prisma.progressEvent.findMany({
+        where: { userId },
+        orderBy: { createdAt: 'desc' },
+        take: 20,
+      }),
+      prisma.progressEvent.findMany({
+        where: { userId, eventType: 'lesson_completed' },
+        select: { payloadJson: true },
+        orderBy: { createdAt: 'asc' },
+      }),
+      prisma.progressEvent.findMany({
+        where: {
+          userId,
+          eventType: 'lesson_completed',
+          createdAt: { gte: new Date(Date.now() - 35 * 86_400_000) },
+        },
+        select: { createdAt: true, payloadJson: true },
+      }),
+    ]);
 
   const streak = resolveStreakForToday(progressSeed.streak, progressSeed.lastActiveDate, timezone);
-  const progress = streak === progressSeed.streak
-    ? progressSeed
-    : await prisma.userProgress.update({
-      where: { userId },
-      data: { streak: 0 },
-    });
+  const progress =
+    streak === progressSeed.streak
+      ? progressSeed
+      : await prisma.userProgress.update({
+          where: { userId },
+          data: { streak: 0 },
+        });
   const lessonCompletionSetsByDay = new Map<string, Set<string>>();
   for (const row of recentLessonCompletions) {
     if (!isCompletedLessonPayload(row.payloadJson)) continue;
@@ -300,14 +313,18 @@ export async function getProgressSnapshot(userId: string) {
   for (const [dayKey, lessonKeys] of lessonCompletionSetsByDay.entries()) {
     lessonCompletionsByDay.set(dayKey, lessonKeys.size);
   }
-  const completionStreak = resolveCompletionStreak(new Set(lessonCompletionsByDay.keys()), timezone);
+  const completionStreak = resolveCompletionStreak(
+    new Set(lessonCompletionsByDay.keys()),
+    timezone
+  );
   const streakWithCompletions = Math.max(progress.streak, completionStreak);
-  const normalizedProgress = streakWithCompletions === progress.streak
-    ? progress
-    : await prisma.userProgress.update({
-      where: { userId },
-      data: { streak: streakWithCompletions },
-    });
+  const normalizedProgress =
+    streakWithCompletions === progress.streak
+      ? progress
+      : await prisma.userProgress.update({
+          where: { userId },
+          data: { streak: streakWithCompletions },
+        });
   const lessonProgress = buildLessonProgressFromEvents(lessonCompletionEvents);
 
   return {
@@ -368,7 +385,11 @@ export async function recordProgressEvent(userId: string, event: ProgressEventIn
       select: { streak: true, lastActiveDate: true },
     });
 
-    const baseStreak = resolveStreakForToday(existing?.streak ?? 0, existing?.lastActiveDate ?? null, timezone);
+    const baseStreak = resolveStreakForToday(
+      existing?.streak ?? 0,
+      existing?.lastActiveDate ?? null,
+      timezone
+    );
     const now = new Date();
     const todayKey = dayKeyAt(now, timezone);
     const lastKey = existing?.lastActiveDate ? dayKeyAt(existing.lastActiveDate, timezone) : null;

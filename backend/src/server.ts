@@ -1,10 +1,12 @@
 import Fastify from 'fastify';
 import { fileURLToPath } from 'node:url';
 import cors from '@fastify/cors';
+import { ZodError } from 'zod';
 import { env } from './env.js';
 import { prisma } from './lib/prisma.js';
 import { createRateLimiter, resolveRateLimitIdentity } from './lib/rateLimiter.js';
 import { readAllowedOrigins } from './lib/originPolicy.js';
+import { isAppError } from './lib/errors.js';
 import { authRoutes } from './routes/auth.js';
 import { meRoutes } from './routes/me.js';
 import { attemptRoutes } from './routes/attempts.js';
@@ -130,9 +132,66 @@ export async function buildServer() {
   await telemetryRoutes(app);
 
   app.setErrorHandler((error, _request, reply) => {
+    if (isAppError(error)) {
+      reply.code(error.statusCode).send({
+        error: error.message,
+        code: error.code,
+        details: error.details,
+      });
+      return;
+    }
+
+    if (error instanceof ZodError) {
+      reply.code(400).send({
+        error: 'Invalid payload',
+        code: 'validation_error',
+        issues: error.issues,
+      });
+      return;
+    }
+
+    const candidate = error as {
+      code?: string;
+      message?: string;
+      statusCode?: number;
+      validation?: unknown;
+      validationContext?: unknown;
+    };
+
+    if (candidate.validation) {
+      reply.code(400).send({
+        error: 'Invalid request',
+        code: 'validation_error',
+        issues: candidate.validation,
+        context: candidate.validationContext,
+      });
+      return;
+    }
+
+    if (candidate.code === 'P2002') {
+      reply.code(409).send({
+        error: 'Resource already exists',
+        code: 'conflict',
+      });
+      return;
+    }
+
+    if (
+      typeof candidate.statusCode === 'number' &&
+      candidate.statusCode >= 400 &&
+      candidate.statusCode < 500
+    ) {
+      reply.code(candidate.statusCode).send({
+        error: candidate.message || 'Request failed',
+        code: 'request_error',
+      });
+      return;
+    }
+
     app.log.error(error);
     reply.code(500).send({
       error: 'Internal server error',
+      code: 'internal_error',
     });
   });
 
@@ -161,7 +220,6 @@ const isDirectExecution = process.argv[1] && fileURLToPath(import.meta.url) === 
 
 if (isDirectExecution) {
   start().catch(async (error) => {
-    // eslint-disable-next-line no-console
     console.error(error);
     await prisma.$disconnect();
     process.exit(1);

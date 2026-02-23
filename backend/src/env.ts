@@ -30,8 +30,18 @@ const envSchema = z
       }),
     RATE_LIMIT_MODE: z.enum(['memory', 'redis', 'edge']).default('memory'),
     CORS_ORIGINS: z.string().default(''),
-    BODY_LIMIT_BYTES: z.coerce.number().int().positive().max(10 * 1024 * 1024).default(1_048_576),
-    RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().max(10 * 60 * 1000).default(60_000),
+    BODY_LIMIT_BYTES: z.coerce
+      .number()
+      .int()
+      .positive()
+      .max(10 * 1024 * 1024)
+      .default(1_048_576),
+    RATE_LIMIT_WINDOW_MS: z.coerce
+      .number()
+      .int()
+      .positive()
+      .max(10 * 60 * 1000)
+      .default(60_000),
     RATE_LIMIT_MAX: z.coerce.number().int().positive().max(5_000).default(180),
     RATE_LIMIT_FAIL_OPEN: z
       .string()
@@ -52,9 +62,19 @@ const envSchema = z
       .optional()
       .transform((value) => (value == null ? null : value === 'true')),
     ACCESS_TOKEN_SECRET: z.string().min(32).optional(),
-    ACCESS_TOKEN_TTL_SECONDS: z.coerce.number().int().positive().max(60 * 60).default(900),
+    ACCESS_TOKEN_TTL_SECONDS: z.coerce
+      .number()
+      .int()
+      .positive()
+      .max(60 * 60)
+      .default(900),
     REFRESH_SESSION_TTL_DAYS: z.coerce.number().int().positive().max(365).default(30),
-    RESET_TOKEN_TTL_MINUTES: z.coerce.number().int().positive().max(24 * 60).default(60),
+    RESET_TOKEN_TTL_MINUTES: z.coerce
+      .number()
+      .int()
+      .positive()
+      .max(24 * 60)
+      .default(60),
     RESET_URL_BASE: z.string().url().optional(),
     RESET_EMAIL_FROM: z.string().trim().min(3).max(255).default('Sonus Team <no-reply@sonus.app>'),
     RESET_EMAIL_LOGO_URL: z.string().url().optional(),
@@ -64,9 +84,24 @@ const envSchema = z
       .optional()
       .transform((value) => value !== 'false'),
     LOGIN_THROTTLE_THRESHOLD: z.coerce.number().int().positive().max(20).default(4),
-    LOGIN_THROTTLE_BASE_MS: z.coerce.number().int().positive().max(5 * 60 * 1000).default(2000),
-    LOGIN_THROTTLE_MAX_MS: z.coerce.number().int().positive().max(30 * 60 * 1000).default(300000),
-    LOGIN_THROTTLE_RESET_MS: z.coerce.number().int().positive().max(24 * 60 * 60 * 1000).default(900000),
+    LOGIN_THROTTLE_BASE_MS: z.coerce
+      .number()
+      .int()
+      .positive()
+      .max(5 * 60 * 1000)
+      .default(2000),
+    LOGIN_THROTTLE_MAX_MS: z.coerce
+      .number()
+      .int()
+      .positive()
+      .max(30 * 60 * 1000)
+      .default(300000),
+    LOGIN_THROTTLE_RESET_MS: z.coerce
+      .number()
+      .int()
+      .positive()
+      .max(24 * 60 * 60 * 1000)
+      .default(900000),
     METRICS_READ_TOKEN: z.string().trim().min(16).optional(),
   })
   .superRefine((value, ctx) => {

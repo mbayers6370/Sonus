@@ -24,7 +24,10 @@ export function readAllowedOrigins() {
   );
 }
 
-export function isAllowedOrigin(origin: string | null | undefined, allowedOrigins = readAllowedOrigins()) {
+export function isAllowedOrigin(
+  origin: string | null | undefined,
+  allowedOrigins = readAllowedOrigins()
+) {
   if (!origin) return false;
   return allowedOrigins.has(origin);
 }
@@ -39,7 +42,8 @@ export function requireTrustedOrigin(
   const origin = readHeader(request.headers.origin);
   const referer = readHeader(request.headers.referer);
   const refererOrigin = originFromReferer(referer);
-  const trusted = isAllowedOrigin(origin, allowedOrigins) || isAllowedOrigin(refererOrigin, allowedOrigins);
+  const trusted =
+    isAllowedOrigin(origin, allowedOrigins) || isAllowedOrigin(refererOrigin, allowedOrigins);
 
   if (!trusted) {
     reply.code(403).send({ error: 'Untrusted request origin/referrer' });

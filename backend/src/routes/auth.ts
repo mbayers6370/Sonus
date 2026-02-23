@@ -61,14 +61,20 @@ function readHeader(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
-function requestClientInfo(request: { ip: string; headers: Record<string, string | string[] | undefined> }) {
+function requestClientInfo(request: {
+  ip: string;
+  headers: Record<string, string | string[] | undefined>;
+}) {
   return {
     ip: request.ip || null,
     userAgent: readHeader(request.headers['user-agent']),
   };
 }
 
-function setRefreshCookie(reply: { header: (name: string, value: string) => unknown }, refreshToken: string) {
+function setRefreshCookie(
+  reply: { header: (name: string, value: string) => unknown },
+  refreshToken: string
+) {
   reply.header(
     'Set-Cookie',
     serializeCookie(env.AUTH_COOKIE_NAME, refreshToken, {
@@ -564,7 +570,9 @@ export async function authRoutes(app: FastifyInstance) {
     }
 
     if (env.AUTH_MODE !== 'supabase') {
-      reply.code(400).send({ error: 'Refresh endpoint is only available in supabase/local auth mode.' });
+      reply
+        .code(400)
+        .send({ error: 'Refresh endpoint is only available in supabase/local auth mode.' });
       return;
     }
 

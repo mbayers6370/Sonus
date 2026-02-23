@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 const API_BASE = process.env.CORE_TEST_API_BASE_URL || 'http://127.0.0.1:4000';
-const DEV_USER_ID =
-  process.env.CORE_TEST_DEV_USER_ID || crypto.randomUUID();
+const DEV_USER_ID = process.env.CORE_TEST_DEV_USER_ID || crypto.randomUUID();
 const DEV_USER_EMAIL = process.env.CORE_TEST_DEV_USER_EMAIL || `core-test-${Date.now()}@local.test`;
 const TEST_WORD_ID = process.env.CORE_TEST_WORD_ID || 'L1-0001';
 

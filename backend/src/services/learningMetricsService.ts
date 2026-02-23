@@ -115,7 +115,10 @@ export function getLearningMetricsSnapshot() {
     rates: {
       quizErrorPct: rate(state.counters.quizError, state.counters.quizTotal),
       speakErrorPct: rate(state.counters.speakError, state.counters.speakTotal),
-      sttUnavailablePerSpeakAttemptPct: rate(state.counters.speakSttUnavailable, state.counters.speakTotal),
+      sttUnavailablePerSpeakAttemptPct: rate(
+        state.counters.speakSttUnavailable,
+        state.counters.speakTotal
+      ),
       sttErrorPerSpeakAttemptPct: rate(state.counters.speakSttError, state.counters.speakTotal),
     },
     latencyMs: {

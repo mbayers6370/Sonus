@@ -7,7 +7,12 @@ const SCRYPT_P = 1;
 const SCRYPT_KEYLEN = 32;
 const ACCESS_TOKEN_HEADER = { alg: 'HS256', typ: 'JWT' };
 
-function scryptAsync(password: string, salt: Buffer, keyLen: number, opts: { N: number; r: number; p: number }) {
+function scryptAsync(
+  password: string,
+  salt: Buffer,
+  keyLen: number,
+  opts: { N: number; r: number; p: number }
+) {
   return new Promise<Buffer>((resolve, reject) => {
     scrypt(
       password,

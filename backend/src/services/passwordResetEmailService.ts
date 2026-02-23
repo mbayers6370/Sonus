@@ -11,7 +11,10 @@ function escapeHtml(input: string) {
 
 function buildResetEmailHtml(resetUrl: string) {
   const logoUrl =
-    env.RESET_EMAIL_LOGO_URL || (env.RESET_URL_BASE ? `${env.RESET_URL_BASE.replace(/\/$/, '')}/branding/logo_name_solo.png` : null);
+    env.RESET_EMAIL_LOGO_URL ||
+    (env.RESET_URL_BASE
+      ? `${env.RESET_URL_BASE.replace(/\/$/, '')}/branding/logo_name_solo.png`
+      : null);
   const safeUrl = escapeHtml(resetUrl);
   const logoHtml = logoUrl
     ? `<div style="text-align:center;margin:0 0 20px;">
@@ -58,7 +61,10 @@ export async function sendPasswordResetEmail(input: ResetEmailInput) {
   const html = buildResetEmailHtml(input.resetUrl);
 
   if (!env.RESEND_API_KEY) {
-    console.info('[auth] Password reset link (email disabled):', { to: input.to, resetUrl: input.resetUrl });
+    console.info('[auth] Password reset link (email disabled):', {
+      to: input.to,
+      resetUrl: input.resetUrl,
+    });
     return true;
   }
 

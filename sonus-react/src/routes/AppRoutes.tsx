@@ -2,25 +2,16 @@ import { useCallback, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import type { LessonBand, LessonMode } from '../types/lesson.types';
-import LanguageSelect from '../components/LanguageSelect';
 import LevelSelect from '../components/LevelSelect';
 import UnitSelect from '../components/UnitSelect';
-import FoundationsHub from '../components/foundations/FoundationsHub';
-import MandarinTones from '../components/foundations/MandarinTones';
-import PinyinFoundations from '../components/foundations/PinyinFoundations';
-import CharacterFoundations from '../components/foundations/CharacterFoundations';
-import HomeDashboard from '../components/HomeDashboard';
-import TravelModePage from '../components/TravelModePage';
-import TravelSectionPage from '../components/TravelSectionPage';
 import AboutSonusScreen from '../components/AboutSonusScreen';
-import ProfileScreen from '../components/ProfileScreen';
 import ProfileProgressScreen from '../components/ProfileProgressScreen';
 import LessonRouteController from './LessonRouteController';
 import { CHINESE_LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
-import { saveOnboardingSelectionSafe } from '../lib/backendApi';
-import { trackEvent } from '../lib/analytics';
-import { getTravelSectionById } from '../data/travelModeData';
 import { apiFetch } from '../lib/apiClient';
+import { LanguageRoute, HomeRoute } from './homeRoutes';
+import { CharactersRoute, FoundationsRoute, PinyinRoute, TonesRoute } from './foundationRoutes';
+import { ProfileRoute, TravelRoute, TravelSectionRoute } from './profileTravelRoutes';
 
 type ProgressPayload = {
   progress?: {
@@ -178,50 +169,6 @@ export default function AppRoutes() {
     };
   }, [goLearn]);
 
-  function LanguageRoute() {
-    if (!selectedLanguage && !languageResolved) {
-      return (
-        <div className="min-h-screen page-shell flex items-center justify-center text-text-med">
-          Loading language…
-        </div>
-      );
-    }
-    if (selectedLanguage) return <Navigate to="/home" replace />;
-    return (
-      <LanguageSelect
-        onGoHome={goHome}
-        onOpenProfile={goProfile}
-        onSelectLanguage={(langId: string) => {
-          const isFirstSelection = !selectedLanguage;
-          writeLastLanguage(langId);
-          selectLanguage(langId);
-          if (isFirstSelection) {
-            trackEvent('onboarding_language_selected', { languageId: langId });
-            saveOnboardingSelectionSafe(langId);
-          }
-          navigate('/home');
-        }}
-      />
-    );
-  }
-
-  function HomeRoute() {
-    if (!selectedLanguage) return <Navigate to="/" replace />;
-    return (
-      <HomeDashboard
-        selectedLanguage={selectedLanguage}
-        onOpenLevels={() => navigate('/learn')}
-        onOpenPractice={(kind, bandId) => openPracticeFromHome(kind, bandId)}
-        onOpenWeakWords={() => navigate('/profile/progress')}
-        onOpenProfile={() => navigate('/profile')}
-        onOpenTravelMode={(sectionId) =>
-          navigate(sectionId ? `/travel/${sectionId}` : '/travel')
-        }
-        onOpenDailyPractice={(bandId) => openDailyFromHome(bandId)}
-      />
-    );
-  }
-
   function LearnRoute() {
     return (
       <LevelSelect
@@ -237,34 +184,6 @@ export default function AppRoutes() {
         }}
       />
     );
-  }
-
-  function TonesRoute() {
-    if (selectedLanguage !== 'zh') return <Navigate to="/learn" replace />;
-    return <MandarinTones onHome={goHome} onOpenProfile={goProfile} />;
-  }
-
-  function FoundationsRoute() {
-    if (selectedLanguage !== 'zh') return <Navigate to="/learn" replace />;
-    return (
-      <FoundationsHub
-        onGoHome={goHome}
-        onOpenProfile={goProfile}
-        onOpenTones={() => navigate('/learn/foundations/tones')}
-        onOpenPinyin={() => navigate('/learn/foundations/pinyin')}
-        onOpenCharacters={() => navigate('/learn/foundations/characters')}
-      />
-    );
-  }
-
-  function PinyinRoute() {
-    if (selectedLanguage !== 'zh') return <Navigate to="/learn" replace />;
-    return <PinyinFoundations onGoHome={goHome} onOpenProfile={goProfile} />;
-  }
-
-  function CharactersRoute() {
-    if (selectedLanguage !== 'zh') return <Navigate to="/learn" replace />;
-    return <CharacterFoundations onGoHome={goHome} onOpenProfile={goProfile} />;
   }
 
   function UnitsRoute() {
@@ -360,55 +279,95 @@ export default function AppRoutes() {
     return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Building daily set…</div>;
   }
 
-  function ProfileRoute() {
-    if (!selectedLanguage) {
-      if (!languageResolved) {
-        return (
-          <div className="min-h-screen page-shell flex items-center justify-center text-text-med">
-            Loading language…
-          </div>
-        );
-      }
-      return <Navigate to="/" replace />;
-    }
-    return (
-      <ProfileScreen
-        onGoHome={goHome}
-        currentLearningLanguage={selectedLanguage}
-        onRequestLearningLanguageChange={async (languageId) => {
-          await selectLevel(null);
-          writeLastLanguage(languageId);
-          selectLanguage(languageId);
-          navigate('/profile');
-        }}
-        onOpenProgress={() => navigate('/profile/progress')}
-        onOpenAbout={() => navigate('/about')}
-      />
-    );
-  }
-
   return (
     <Routes>
-      <Route path="/" element={<LanguageRoute />} />
-      <Route path="/language" element={<LanguageRoute />} />
-      <Route path="/home" element={<HomeRoute />} />
+      <Route
+        path="/"
+        element={
+          <LanguageRoute
+            selectedLanguage={selectedLanguage}
+            languageResolved={languageResolved}
+            onGoHome={goHome}
+            onOpenProfile={goProfile}
+            onSelectLanguage={(langId) => {
+              writeLastLanguage(langId);
+              selectLanguage(langId);
+              navigate('/home');
+            }}
+          />
+        }
+      />
+      <Route
+        path="/language"
+        element={
+          <LanguageRoute
+            selectedLanguage={selectedLanguage}
+            languageResolved={languageResolved}
+            onGoHome={goHome}
+            onOpenProfile={goProfile}
+            onSelectLanguage={(langId) => {
+              writeLastLanguage(langId);
+              selectLanguage(langId);
+              navigate('/home');
+            }}
+          />
+        }
+      />
+      <Route
+        path="/home"
+        element={
+          <HomeRoute
+            selectedLanguage={selectedLanguage}
+            onOpenLevels={() => navigate('/learn')}
+            onOpenPractice={(kind, bandId) => openPracticeFromHome(kind, bandId)}
+            onOpenWeakWords={() => navigate('/profile/progress')}
+            onOpenProfile={() => navigate('/profile')}
+            onOpenTravelMode={(sectionId) => navigate(sectionId ? `/travel/${sectionId}` : '/travel')}
+            onOpenDailyPractice={(bandId) => openDailyFromHome(bandId)}
+          />
+        }
+      />
       <Route
         path="/travel"
         element={
-          <TravelModePage
+          <TravelRoute
             onGoHome={goHome}
             onOpenProfile={goProfile}
             onOpenSection={(sectionId) => navigate(`/travel/${sectionId}`)}
           />
         }
       />
-      <Route path="/travel/:sectionId" element={<TravelSectionRoute onGoHome={goHome} onOpenProfile={goProfile} />} />
+      <Route
+        path="/travel/:sectionId"
+        element={<TravelSectionRouteWithParams onGoHome={goHome} onOpenProfile={goProfile} />}
+      />
       <Route path="/learn" element={<LearnRoute />} />
       <Route path="/learn/tones" element={<Navigate to="/learn/foundations/tones" replace />} />
-      <Route path="/learn/foundations" element={<FoundationsRoute />} />
-      <Route path="/learn/foundations/tones" element={<TonesRoute />} />
-      <Route path="/learn/foundations/pinyin" element={<PinyinRoute />} />
-      <Route path="/learn/foundations/characters" element={<CharactersRoute />} />
+      <Route
+        path="/learn/foundations"
+        element={
+          <FoundationsRoute
+            selectedLanguage={selectedLanguage}
+            onGoHome={goHome}
+            onOpenProfile={goProfile}
+            onOpenTones={() => navigate('/learn/foundations/tones')}
+            onOpenPinyin={() => navigate('/learn/foundations/pinyin')}
+            onOpenCharacters={() => navigate('/learn/foundations/characters')}
+          />
+        }
+      />
+      <Route
+        path="/learn/foundations/tones"
+        element={<TonesRoute selectedLanguage={selectedLanguage} onGoHome={goHome} onOpenProfile={goProfile} />}
+      />
+      <Route
+        path="/learn/foundations/pinyin"
+        element={<PinyinRoute selectedLanguage={selectedLanguage} onGoHome={goHome} onOpenProfile={goProfile} />}
+      />
+      <Route
+        path="/learn/foundations/characters"
+        element={<CharactersRoute selectedLanguage={selectedLanguage} onGoHome={goHome} onOpenProfile={goProfile} />}
+      />
       <Route path="/learn/:tier/:band" element={<UnitsRoute />} />
       <Route
         path="/learn/:tier/:band/unit/:unitId/lesson/:lessonIndex/:mode"
@@ -416,7 +375,24 @@ export default function AppRoutes() {
       />
       <Route path="/practice/daily/:band" element={<DailyPracticeRoute />} />
       <Route path="/practice/:kind/:band" element={<PracticeRedirectRoute />} />
-      <Route path="/profile" element={<ProfileRoute />} />
+      <Route
+        path="/profile"
+        element={
+          <ProfileRoute
+            selectedLanguage={selectedLanguage}
+            languageResolved={languageResolved}
+            onGoHome={goHome}
+            onOpenProgress={() => navigate('/profile/progress')}
+            onOpenAbout={() => navigate('/about')}
+            onChangeLearningLanguage={async (languageId) => {
+              await selectLevel(null);
+              writeLastLanguage(languageId);
+              selectLanguage(languageId);
+              navigate('/profile');
+            }}
+          />
+        }
+      />
       <Route
         path="/profile/progress"
         element={<ProfileProgressScreen onGoHome={goHome} onGoProfile={() => navigate('/profile')} />}
@@ -430,18 +406,13 @@ export default function AppRoutes() {
   );
 }
 
-function TravelSectionRoute({ onGoHome, onOpenProfile }: { onGoHome: () => void; onOpenProfile: () => void }) {
+function TravelSectionRouteWithParams({
+  onGoHome,
+  onOpenProfile,
+}: {
+  onGoHome: () => void;
+  onOpenProfile: () => void;
+}) {
   const { sectionId } = useParams<{ sectionId: string }>();
-  const section = sectionId ? getTravelSectionById(sectionId) : undefined;
-
-  if (!section) return <Navigate to="/travel" replace />;
-
-  return (
-    <TravelSectionPage
-      key={section.id}
-      section={section}
-      onGoHome={onGoHome}
-      onOpenProfile={onOpenProfile}
-    />
-  );
+  return <TravelSectionRoute sectionId={sectionId} onGoHome={onGoHome} onOpenProfile={onOpenProfile} />;
 }
