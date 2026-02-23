@@ -107,8 +107,15 @@ function countApplySentenceWords(words) {
 async function loadBandJson(fileName) {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   const filePath = path.resolve(__dirname, '../../sonus-react/public/data/zh', fileName);
-  const raw = await readFile(filePath, 'utf8');
-  return JSON.parse(raw);
+  try {
+    const raw = await readFile(filePath, 'utf8');
+    return JSON.parse(raw);
+  } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+      return null;
+    }
+    throw error;
+  }
 }
 
 async function buildCompletionEvents() {
@@ -119,6 +126,7 @@ async function buildCompletionEvents() {
   for (const bandId of Object.keys(BAND_DATA_FILE)) {
     const fileName = BAND_DATA_FILE[bandId];
     const bandJson = await loadBandJson(fileName);
+    if (!bandJson) continue;
     const units = normalizeUnits(bandJson?.units);
 
     for (const unit of units) {
