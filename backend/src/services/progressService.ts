@@ -13,12 +13,6 @@ interface ProgressEventInput {
   payloadJson?: Prisma.JsonObject;
 }
 
-type SevenDayActivity = {
-  dayKey: string;
-  active: boolean;
-  lessonsCompleted: number;
-};
-
 type LessonProgressState = {
   introViewed: boolean;
   quizScore: number | null;
@@ -174,48 +168,6 @@ async function readUserTimezone(userId: string) {
   return resolveTimezone(profile?.timezone);
 }
 
-async function collectActivityDayKeys(userId: string, timezone: string) {
-  const since = new Date(Date.now() - 10 * 86_400_000);
-  const [quizAttempts, speakAttempts, progressEvents] = await Promise.all([
-    prisma.quizAttempt.findMany({
-      where: { userId, createdAt: { gte: since } },
-      select: { createdAt: true },
-    }),
-    prisma.speakAttempt.findMany({
-      where: { userId, createdAt: { gte: since } },
-      select: { createdAt: true },
-    }),
-    prisma.progressEvent.findMany({
-      where: { userId, createdAt: { gte: since } },
-      select: { createdAt: true },
-    }),
-  ]);
-
-  const keys = new Set<string>();
-  for (const row of quizAttempts) keys.add(dayKeyAt(row.createdAt, timezone));
-  for (const row of speakAttempts) keys.add(dayKeyAt(row.createdAt, timezone));
-  for (const row of progressEvents) keys.add(dayKeyAt(row.createdAt, timezone));
-  return keys;
-}
-
-function buildSevenDayActivity(
-  activeDayKeys: Set<string>,
-  lessonCompletionsByDay: Map<string, number>,
-  timezone: string
-): SevenDayActivity[] {
-  const days: SevenDayActivity[] = [];
-  for (let i = 6; i >= 0; i -= 1) {
-    const date = new Date(Date.now() - i * 86_400_000);
-    const dayKey = dayKeyAt(date, timezone);
-    days.push({
-      dayKey,
-      active: activeDayKeys.has(dayKey),
-      lessonsCompleted: lessonCompletionsByDay.get(dayKey) ?? 0,
-    });
-  }
-  return days;
-}
-
 function resolveCompletionStreak(
   completionDayKeys: Set<string>,
   timezone: string,
@@ -334,7 +286,6 @@ export async function getProgressSnapshot(userId: string) {
       where: { userId },
       data: { streak: 0 },
     });
-  const activeDayKeys = await collectActivityDayKeys(userId, timezone);
   const lessonCompletionSetsByDay = new Map<string, Set<string>>();
   for (const row of recentLessonCompletions) {
     if (!isCompletedLessonPayload(row.payloadJson)) continue;
@@ -357,18 +308,12 @@ export async function getProgressSnapshot(userId: string) {
       where: { userId },
       data: { streak: streakWithCompletions },
     });
-  const sevenDayActivity = buildSevenDayActivity(activeDayKeys, lessonCompletionsByDay, timezone);
   const lessonProgress = buildLessonProgressFromEvents(lessonCompletionEvents);
-  const lessonCompletionsByDayList = Array.from(lessonCompletionsByDay.entries())
-    .map(([dayKey, lessonsCompleted]) => ({ dayKey, lessonsCompleted }))
-    .sort((a, b) => a.dayKey.localeCompare(b.dayKey));
 
   return {
     progress: normalizedProgress,
     recentEvents,
-    sevenDayActivity,
     lessonProgress,
-    lessonCompletionsByDay: lessonCompletionsByDayList,
   };
 }
 

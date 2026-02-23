@@ -133,8 +133,8 @@ export async function meRoutes(app: FastifyInstance) {
 
   app.get('/v1/me/progress', { preHandler: [requireAuth] }, async (request) => {
     const { id } = request.user;
-    const { progress, recentEvents, sevenDayActivity, lessonProgress, lessonCompletionsByDay } = await getProgressSnapshot(id);
-    return { progress, recentEvents, sevenDayActivity, lessonProgress, lessonCompletionsByDay };
+    const { progress, recentEvents, lessonProgress } = await getProgressSnapshot(id);
+    return { progress, recentEvents, lessonProgress };
   });
 
   app.patch('/v1/me/progress/current', { preHandler: [requireAuth] }, async (request, reply) => {
