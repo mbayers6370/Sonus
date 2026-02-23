@@ -233,6 +233,12 @@ function resolveCompletionStreak(
 
 export async function touchUserActivity(userId: string) {
   return prisma.$transaction(async (tx) => {
+    await tx.profile.upsert({
+      where: { userId },
+      update: {},
+      create: { userId },
+    });
+
     const profile = await tx.profile.findUnique({
       where: { userId },
       select: { timezone: true },
@@ -275,6 +281,12 @@ export async function touchUserActivity(userId: string) {
 }
 
 export async function getProgressSnapshot(userId: string) {
+  await prisma.profile.upsert({
+    where: { userId },
+    update: {},
+    create: { userId },
+  });
+
   const [timezone, progressSeed, recentEvents, lessonCompletionEvents, recentLessonCompletions] = await Promise.all([
     readUserTimezone(userId),
     prisma.userProgress.upsert({
@@ -331,6 +343,12 @@ export async function getProgressSnapshot(userId: string) {
 }
 
 export async function updateProgressCurrent(userId: string, input: UpdateProgressCurrentInput) {
+  await prisma.profile.upsert({
+    where: { userId },
+    update: {},
+    create: { userId },
+  });
+
   return prisma.userProgress.upsert({
     where: { userId },
     update: {
@@ -349,6 +367,12 @@ export async function updateProgressCurrent(userId: string, input: UpdateProgres
 
 export async function recordProgressEvent(userId: string, event: ProgressEventInput) {
   return prisma.$transaction(async (tx) => {
+    await tx.profile.upsert({
+      where: { userId },
+      update: {},
+      create: { userId },
+    });
+
     const profile = await tx.profile.findUnique({
       where: { userId },
       select: { timezone: true },

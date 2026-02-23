@@ -39,6 +39,9 @@ async function main() {
   assert(health?.ok === true, 'health check failed');
   console.log('PASS health');
 
+  await requestJson('/v1/me/profile');
+  console.log('PASS profile bootstrap');
+
   await requestJson('/v1/me/progress/current', {
     method: 'PATCH',
     body: {

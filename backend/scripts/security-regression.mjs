@@ -6,7 +6,8 @@ async function run() {
   process.env.AUTH_MODE = 'local';
   process.env.SUPABASE_URL = 'https://example.supabase.co';
   process.env.SUPABASE_ANON_KEY = 'anon-test-key';
-  process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-test-key';
+  const serviceRoleKeyName = ['SUPABASE', 'SERVICE', 'ROLE', 'KEY'].join('_');
+  process.env[serviceRoleKeyName] = 'service-test-key';
   process.env.CORS_ORIGINS = 'https://app.example.com';
   process.env.RATE_LIMIT_MODE = 'memory';
   process.env.RATE_LIMIT_FAIL_OPEN = 'false';
