@@ -8,7 +8,6 @@ import { getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId 
 import { useApp } from '../contexts/AppContext';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
-import { getLessonCompletionCountForDay } from '../lib/activityLedger';
 
 type Progress = {
   streak: number;
@@ -27,22 +26,9 @@ type NeedsWorkItem = {
   mispronounceCount: number;
 };
 
-type ProgressEvent = {
-  eventType?: string;
-  createdAt?: string;
-  payloadJson?: unknown;
-};
-
 interface ProfileProgressScreenProps {
   onGoHome: () => void;
   onGoProfile: () => void;
-}
-
-function localDayKeyFromDate(date: Date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
 }
 
 function inferUnitFromLessonProgress(
@@ -93,25 +79,11 @@ function getNeedsWorkColumns(width: number) {
   return 2;
 }
 
-function lessonKeyFromPayload(payloadJson: unknown) {
-  if (!payloadJson || typeof payloadJson !== 'object' || Array.isArray(payloadJson)) return null;
-  const payload = payloadJson as Record<string, unknown>;
-  const bandId = typeof payload.bandId === 'string' ? payload.bandId.trim() : '';
-  const unitId = typeof payload.unitId === 'string' ? payload.unitId.trim() : '';
-  const lessonIndex =
-    typeof payload.lessonIndex === 'number' && Number.isInteger(payload.lessonIndex)
-      ? payload.lessonIndex
-      : null;
-  if (!bandId || !unitId || lessonIndex === null || lessonIndex < 0) return null;
-  return `${bandId}:${unitId}:${lessonIndex}`;
-}
-
 export default function ProfileProgressScreen({ onGoHome, onGoProfile }: ProfileProgressScreenProps) {
   const { state } = useApp();
   const [error, setError] = useState<string | null>(null);
   const [backendOffline, setBackendOffline] = useState(false);
   const [progress, setProgress] = useState<Progress | null>(null);
-  const [sevenDayActivity, setSevenDayActivity] = useState<Array<{ dayKey: string; active: boolean; lessonsCompleted?: number }>>([]);
   const [needsWork, setNeedsWork] = useState<NeedsWorkItem[]>([]);
   const [wordLookup, setWordLookup] = useState<WordLookup>({});
   const [visibleRows, setVisibleRows] = useState(ROWS_PER_PAGE);
@@ -130,54 +102,8 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       if (!progressResponse.ok) throw new Error('Failed to load progress');
       const json = (await progressResponse.json()) as {
         progress: Progress;
-        sevenDayActivity?: Array<{ dayKey: string; active: boolean; lessonsCompleted?: number }>;
-        lessonCompletionsByDay?: Array<{ dayKey: string; lessonsCompleted: number }>;
-        recentEvents?: ProgressEvent[];
       };
       setProgress(json.progress);
-      const recentEvents = Array.isArray(json.recentEvents) ? json.recentEvents : [];
-      const fallbackLessonCompletionsByDay = new Map<string, Set<string>>();
-      for (const event of recentEvents) {
-        if (event?.eventType !== 'lesson_completed') continue;
-        if (!event.createdAt) continue;
-        const lessonKey = lessonKeyFromPayload(event.payloadJson);
-        if (!lessonKey) continue;
-        const parsed = new Date(event.createdAt);
-        if (Number.isNaN(parsed.getTime())) continue;
-        const dayKey = localDayKeyFromDate(parsed);
-        const existing = fallbackLessonCompletionsByDay.get(dayKey) ?? new Set<string>();
-        existing.add(lessonKey);
-        fallbackLessonCompletionsByDay.set(dayKey, existing);
-      }
-      const normalizedActivity = (json.sevenDayActivity || []).map((day) => ({
-        ...day,
-        lessonsCompleted: Math.max(
-          0,
-          typeof day.lessonsCompleted === 'number' ? day.lessonsCompleted : 0
-        ),
-      }));
-      const serverCompletionMap = new Map<string, number>();
-      for (const row of json.lessonCompletionsByDay || []) {
-        if (!row?.dayKey) continue;
-        serverCompletionMap.set(
-          row.dayKey,
-          Math.max(0, typeof row.lessonsCompleted === 'number' ? row.lessonsCompleted : 0)
-        );
-      }
-      const mergedActivity = normalizedActivity.map((day) => {
-        const lessonsCompleted = Math.max(
-          getLessonCompletionCountForDay(day.dayKey),
-          typeof day.lessonsCompleted === 'number' ? day.lessonsCompleted : 0,
-          serverCompletionMap.get(day.dayKey) ?? 0,
-          fallbackLessonCompletionsByDay.get(day.dayKey)?.size ?? 0
-        );
-        return {
-          ...day,
-          lessonsCompleted,
-          active: lessonsCompleted > 0 || day.active,
-        };
-      });
-      setSevenDayActivity(mergedActivity);
 
       if (needsWorkResponse.ok) {
         const weakJson = (await needsWorkResponse.json()) as { needsWork: NeedsWorkItem[] };
@@ -195,7 +121,6 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
         currentUnitId: null,
         currentLessonIdx: null,
       });
-      setSevenDayActivity([]);
       setNeedsWork([]);
     }
   };
@@ -297,21 +222,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   const currentUnitAndLesson = currentPath.unitId
     ? `${currentUnitMeta?.name ?? 'Current Unit'}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
     : 'Not started';
-  const calendarDays = sevenDayActivity.length
-    ? sevenDayActivity
-    : Array.from({ length: 7 }, (_, idx) => {
-      const date = new Date(Date.now() - (6 - idx) * 86_400_000);
-      const dayKey = localDayKeyFromDate(date);
-      const ledgerCount = getLessonCompletionCountForDay(dayKey);
-      return { dayKey, active: ledgerCount > 0, lessonsCompleted: ledgerCount };
-    });
-  const mergedCalendarDays = calendarDays.map((day) => ({
-    ...day,
-    lessonsCompleted: Math.max(0, day.lessonsCompleted ?? 0),
-    active: day.active || (day.lessonsCompleted ?? 0) > 0,
-  }));
-  const todayActivity = mergedCalendarDays[mergedCalendarDays.length - 1];
-  const streakDisplay = Math.max(progress?.streak ?? 0, (todayActivity?.lessonsCompleted ?? 0) > 0 ? 1 : 0, 1);
+  const streakDisplay = Math.max(progress?.streak ?? 0, 1);
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
@@ -379,60 +290,6 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                 )}
               </>
             )}
-          </div>
-        </div>
-
-        <div className="bg-[#3E5648] text-white border border-[#3E5648]/90 rounded-3xl p-5 shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)]">
-          <h3 className="font-semibold text-white mb-2">Activity (Last 7 Days)</h3>
-          <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
-            {mergedCalendarDays.map((day) => {
-              const labelDate = new Date(`${day.dayKey}T12:00:00`);
-              const weekday = labelDate.toLocaleDateString(undefined, { weekday: 'short' });
-              const dayNumber = labelDate.toLocaleDateString(undefined, { day: 'numeric' });
-              const completedLessons = Math.max(0, day.lessonsCompleted ?? 0);
-              const hasCompletedLessons = completedLessons > 0;
-              const visibleNotches = Math.min(completedLessons, 8);
-              const overflowNotches = Math.max(0, completedLessons - visibleNotches);
-              return (
-                <div
-                  key={day.dayKey}
-                  className={`rounded-lg sm:rounded-xl border px-1.5 py-1.5 sm:p-2 text-center backdrop-blur-sm transition-colors ${
-                    hasCompletedLessons
-                      ? 'border-white/35 bg-white/20'
-                      : 'border-white/20 bg-white/10'
-                  }`}
-                >
-                  <div className="h-10 sm:h-12 mb-0.5 sm:mb-1 flex items-end justify-center gap-1">
-                    <div className="flex min-h-[26px] max-h-[40px] flex-col-reverse items-center justify-end gap-1">
-                      {Array.from({ length: visibleNotches }).map((_, idx) => (
-                        <span
-                          key={`${day.dayKey}-notch-${idx}`}
-                          className={`h-2 w-2 rounded-full ${
-                            hasCompletedLessons ? 'bg-white' : 'bg-white/55'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    {overflowNotches > 0 && (
-                      <span className={`text-[9px] font-mono ${hasCompletedLessons ? 'text-white/90' : 'text-white/75'}`}>
-                        +{overflowNotches}
-                      </span>
-                    )}
-                  </div>
-                  <div className={`text-[9px] sm:text-[10px] font-mono uppercase tracking-wider ${hasCompletedLessons ? 'text-white' : 'text-white/80'}`}>
-                    {weekday}
-                  </div>
-                  <div className={`text-xs sm:text-sm font-semibold mt-0.5 ${hasCompletedLessons ? 'text-white' : 'text-white/85'}`}>
-                    {dayNumber}
-                  </div>
-                  {completedLessons > 0 && (
-                    <div className="mt-0.5 sm:mt-1 text-[9px] sm:text-[10px] font-mono uppercase tracking-wide text-white/80">
-                      {`${completedLessons} lesson${completedLessons === 1 ? '' : 's'}`}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
           </div>
         </div>
 

@@ -48,7 +48,6 @@ import {
 import type { ProgressEventEnvelope } from '../lib/lessonProgressState';
 import { apiFetch } from '../lib/apiClient';
 import { getMockIdentity } from '../lib/authSession';
-import { recordLessonCompletionToLedger } from '../lib/activityLedger';
 import { useAuth } from './AuthContext';
 
 interface AppContextType {
@@ -1664,8 +1663,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       };
     });
     if (completionSnapshotRef.current?.completed) {
-      const snapshot = completionSnapshotRef.current;
-      recordLessonCompletionToLedger(makeLessonKey(snapshot.bandId, snapshot.unitId, snapshot.lessonIndex));
       trackEvent('lesson_completed', {
         unitId: activeLesson.unitId,
         lessonIndex: activeLesson.lessonIndex,
