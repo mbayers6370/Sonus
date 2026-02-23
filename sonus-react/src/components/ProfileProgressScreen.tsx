@@ -266,18 +266,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     };
   })();
 
-  const lessonsBeforeCurrent = coreUnits
-    .slice(0, Math.max(0, coreUnits.findIndex((unit) => unit.id === currentPath.unitId)))
-    .reduce((sum, unit) => {
-      if (activeBandDataForMetrics) {
-        const words = Array.isArray(activeBandDataForMetrics.units)
-          ? (activeBandDataForMetrics.units.find((entry) => entry?.id === unit.id)?.words || [])
-          : (activeBandDataForMetrics.units?.[unit.id]?.words || []);
-        return sum + getLessonRanges(words.length, 10).length;
-      }
-      return sum + inferLessonCountFromProgress(effectiveBandId, unit.id, state.lessonProgress || {});
-    }, 0);
-  const lessonsCompletedDisplay = Math.max(completedLessons, lessonsBeforeCurrent + Math.max(currentPath.lessonIdx ?? 0, 0));
+  const lessonsCompletedDisplay = completedLessons;
   const currentUnitMeta =
     effectiveBandId && currentPath.unitId
       ? getUnitMetadata(effectiveBandId, currentPath.unitId)
