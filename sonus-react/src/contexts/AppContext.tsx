@@ -431,16 +431,31 @@ async function saveLessonCompletionSnapshot(
   snapshot: LessonCompletionSnapshot,
   eventType: ProgressCompletionEventType = 'lesson_completed'
 ) {
+  const buildEventBody = (type: ProgressCompletionEventType) =>
+    JSON.stringify({
+      eventType: type,
+      streakDelta: 0,
+      payloadJson: snapshot,
+    });
+
   try {
-    const response = await apiFetch('/v1/me/progress/events', {
+    let response = await apiFetch('/v1/me/progress/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        eventType,
-        streakDelta: 0,
-        payloadJson: snapshot,
-      }),
+      body: buildEventBody(eventType),
     });
+
+    // Backward compatibility: if backend hasn't deployed apply_completed yet,
+    // retry as lesson_completed so Apply progress still persists.
+    if (!response.ok && response.status === 400 && eventType === 'apply_completed') {
+      response = await apiFetch('/v1/me/progress/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: buildEventBody('lesson_completed'),
+      });
+      if (response.ok) return;
+    }
+
     if (!response.ok) {
       queueLessonSnapshot(snapshot, eventType);
     }
@@ -456,26 +471,35 @@ async function flushQueuedLessonSnapshots() {
 
   const remaining: QueuedLessonCompletionSnapshot[] = [];
   for (const snapshot of queued) {
+    const buildEventBody = (type: ProgressCompletionEventType) =>
+      JSON.stringify({
+        eventType: type,
+        streakDelta: 0,
+        payloadJson: {
+          bandId: snapshot.bandId,
+          unitId: snapshot.unitId,
+          lessonIndex: snapshot.lessonIndex,
+          introViewed: snapshot.introViewed,
+          quizScore: snapshot.quizScore,
+          speakScore: snapshot.speakScore,
+          speakAllCorrect: snapshot.speakAllCorrect,
+          completed: snapshot.completed,
+          mastered: snapshot.mastered,
+        },
+      });
     try {
-      const response = await apiFetch('/v1/me/progress/events', {
+      let response = await apiFetch('/v1/me/progress/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          eventType: snapshot.eventType || 'lesson_completed',
-          streakDelta: 0,
-          payloadJson: {
-            bandId: snapshot.bandId,
-            unitId: snapshot.unitId,
-            lessonIndex: snapshot.lessonIndex,
-            introViewed: snapshot.introViewed,
-            quizScore: snapshot.quizScore,
-            speakScore: snapshot.speakScore,
-            speakAllCorrect: snapshot.speakAllCorrect,
-            completed: snapshot.completed,
-            mastered: snapshot.mastered,
-          },
-        }),
+        body: buildEventBody(snapshot.eventType || 'lesson_completed'),
       });
+      if (!response.ok && response.status === 400 && snapshot.eventType === 'apply_completed') {
+        response = await apiFetch('/v1/me/progress/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: buildEventBody('lesson_completed'),
+        });
+      }
       if (!response.ok) {
         remaining.push(snapshot);
       }

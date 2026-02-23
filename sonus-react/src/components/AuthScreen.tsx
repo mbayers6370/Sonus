@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -62,12 +62,12 @@ export default function AuthScreen() {
 
   const timezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone || undefined, []);
 
-  const releaseFormFocus = () => {
+  const releaseFormFocus = useCallback(() => {
     const active = document.activeElement as HTMLElement | null;
     active?.blur?.();
-  };
+  }, []);
 
-  const handleAuthSubmit = async (emailOverride?: string, passwordOverride?: string) => {
+  const handleAuthSubmit = useCallback(async (emailOverride?: string, passwordOverride?: string) => {
     if (loading) return;
     releaseFormFocus();
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
@@ -99,7 +99,7 @@ export default function AuthScreen() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [email, firstName, lastName, loading, mode, navigate, password, releaseFormFocus, signIn, signUp, timezone]);
 
   const handleForgotSubmit = async () => {
     if (loading) return;
@@ -190,7 +190,7 @@ export default function AuthScreen() {
     return () => {
       window.clearInterval(timer);
     };
-  }, [mode, loading, email, password]);
+  }, [mode, loading, email, password, handleAuthSubmit]);
 
   useEffect(() => {
     const token = readResetTokenFromUrl();
@@ -207,7 +207,7 @@ export default function AuthScreen() {
       releaseFormFocus();
       document.body.classList.remove('auth-screen-open');
     };
-  }, []);
+  }, [releaseFormFocus]);
 
   return (
     <div

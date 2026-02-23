@@ -96,7 +96,7 @@ export default function AppRoutes() {
     return () => {
       cancelled = true;
     };
-  }, [selectedLanguage]);
+  }, [selectedLanguage, navigate, selectLanguage]);
 
   const goHome = useCallback(() => {
     exitLesson();
