@@ -643,38 +643,37 @@ export default function UnitSelect({
               const applyLessonIndex = activeUnit.lessonsCount;
               const applyKey = makeLessonKey(currentLevel.id, activeUnit.unitId, applyLessonIndex);
               const isApplyCompleted = Boolean(lessonProgress[applyKey]?.completed);
-              const accent = CARD_ACCENTS[(activeUnit.lessonsCount + columns) % CARD_ACCENTS.length];
               return (
                 <button
                   key={`${activeUnit.unitId}-apply`}
                   onClick={() => {
                     onSelectLesson(activeUnit.unitId, applyLessonIndex, 'apply');
                   }}
-                  className={`${isApplyCompleted ? 'bg-[linear-gradient(145deg,rgba(24,110,149,0.78)_0%,rgba(33,112,146,0.74)_44%,rgba(62,86,72,0.76)_100%)] text-white border-white/40' : 'bg-[rgba(243,244,246,0.62)] text-text-dark border-[#D1D5DB]/90'} border-[2.5px] backdrop-blur-[8px] rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 relative overflow-hidden`}
+                  className={`${isApplyCompleted ? 'bg-[#C2410C] text-white border-[#C2410C]/90' : 'bg-[#C2410C]/92 text-white border-[#C2410C]/80'} border-[2.5px] backdrop-blur-[8px] rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-[0_18px_34px_-22px_rgba(194,65,12,0.55)] active:translate-y-0 relative overflow-hidden`}
                 >
                   <div
                     className={`absolute -top-10 -left-10 h-32 w-32 rounded-full blur-2xl pointer-events-none ${
-                      isApplyCompleted ? 'bg-[#C2410C]/18' : 'bg-[#C2410C]/30'
+                      isApplyCompleted ? 'bg-[#C2410C]/35' : 'bg-[#C2410C]/40'
                     }`}
                   />
                   <div
                     className={`absolute -bottom-10 -right-10 h-32 w-32 rounded-full blur-2xl pointer-events-none ${
-                      isApplyCompleted ? 'bg-[#C2410C]/18' : 'bg-[#C2410C]/30'
+                      isApplyCompleted ? 'bg-[#C2410C]/30' : 'bg-[#C2410C]/35'
                     }`}
                   />
-                  <div className={`absolute inset-[6px] rounded-[0.8rem] border ${isApplyCompleted ? 'border-white/25' : 'border-white/70'} pointer-events-none`} />
+                  <div className={`absolute inset-[6px] rounded-[0.8rem] border ${isApplyCompleted ? 'border-white/28' : 'border-white/22'} pointer-events-none`} />
 
                   <div className="h-full flex flex-col items-center justify-center text-center gap-2 relative z-10">
-                    <div className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg ${isApplyCompleted ? 'bg-white/20 text-white' : 'bg-[rgba(194,65,12,0.12)] text-[#C2410C]'}`}>
+                    <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white/18 text-white border border-white/18">
                       <span className="relative inline-flex items-center justify-center w-4 h-4">
-                        <MessageSquare className={`w-4 h-4 ${isApplyCompleted ? 'text-white' : 'text-[#C2410C]'}`} />
-                        <Check className={`absolute -right-1 -bottom-1 w-2.5 h-2.5 ${isApplyCompleted ? 'text-white' : 'text-[#C2410C]'}`} />
+                        <MessageSquare className="w-4 h-4 text-white" />
+                        <Check className="absolute -right-1 -bottom-1 w-2.5 h-2.5 text-white" />
                       </span>
-                      <span className={`text-[11px] font-semibold uppercase tracking-wider font-mono ${isApplyCompleted ? 'text-white' : 'text-[#C2410C]'}`}>
+                      <span className="text-[11px] font-semibold uppercase tracking-wider font-mono text-white">
                         Apply
                       </span>
                     </div>
-                    <div className={`text-[11px] uppercase tracking-[0.16em] font-mono ${isApplyCompleted ? 'text-white/85' : 'text-text-light'}`}>
+                    <div className="text-[11px] uppercase tracking-[0.16em] font-mono text-white/85">
                       Context Practice
                     </div>
                   </div>

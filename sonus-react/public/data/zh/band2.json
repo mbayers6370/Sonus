@@ -1182,7 +1182,7 @@
           }
         },
         {
-          "id": "L2-0686-2",
+          "id": "L2-0686b",
           "simp": "有一点儿",
           "trad": "有一點兒",
           "pinyin": "yǒu yī diǎnr",
@@ -1309,7 +1309,7 @@
       "id": "b2-u02-verbs-1",
       "band": 2,
       "targetWords": 60,
-      "allocatedWords": 60,
+      "allocatedWords": 56,
       "words": [
         {
           "id": "L2-0008",
@@ -2204,7 +2204,7 @@
       "id": "b2-u03-verbs-2",
       "band": 2,
       "targetWords": 65,
-      "allocatedWords": 65,
+      "allocatedWords": 69,
       "words": [
         {
           "id": "L2-0234",
@@ -8362,7 +8362,7 @@
           }
         },
         {
-          "id": "L2-0602-2",
+          "id": "L2-0602b",
           "simp": "小王",
           "trad": "小王",
           "pinyin": "xiǎo wáng",
@@ -9762,15 +9762,7 @@
             "zh": "他穿着球鞋跑步。",
             "en": "He runs in sneakers."
           }
-        }
-      ]
-    },
-    {
-      "id": "b2-u15-objects-tech",
-      "band": 2,
-      "targetWords": 65,
-      "allocatedWords": 65,
-      "words": [
+        },
         {
           "id": "L2-0552",
           "simp": "图片",
@@ -10249,7 +10241,7 @@
       "id": "b2-u16-adjectives-feelings",
       "band": 2,
       "targetWords": 99,
-      "allocatedWords": 99,
+      "allocatedWords": 98,
       "words": [
         {
           "id": "L2-0004",
@@ -10993,15 +10985,7 @@
             "zh": "我们很熟。",
             "en": "We know each other well."
           }
-        }
-      ]
-    },
-    {
-      "id": "b2-u16-adjectives-feelings",
-      "band": 2,
-      "targetWords": 99,
-      "allocatedWords": 99,
-      "words": [
+        },
         {
           "id": "L2-0504",
           "simp": "顺利",

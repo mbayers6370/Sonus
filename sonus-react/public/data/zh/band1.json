@@ -231,21 +231,6 @@
           }
         },
         {
-          "id": "L1-0004a",
-          "simp": "爸爸",
-          "trad": "爸爸",
-          "pinyin": "bàba",
-          "pos": "N",
-          "en": "father",
-          "defs": [
-            "father; dad"
-          ],
-          "example": {
-            "zh": "我爸爸是老师。",
-            "en": "My father is a teacher."
-          }
-        },
-        {
           "id": "L1-0442",
           "simp": "有的",
           "trad": "有的",
@@ -277,13 +262,13 @@
         },
         {
           "id": "L1-0445b",
-          "simp": "有一些",
-          "trad": "有一些",
-          "pinyin": "yǒuyīxiē",
+          "simp": "有一点儿",
+          "trad": "有一點兒",
+          "pinyin": "yǒu yīdiǎnr",
           "pos": "Pron",
-          "en": "somewhat",
+          "en": "a little",
           "defs": [
-            "a little"
+            "a little bit"
           ],
           "example": {
             "zh": "我有一点儿累。",
@@ -423,6 +408,21 @@
           "example": {
             "zh": "我在那里等你。",
             "en": "I'll wait for you there."
+          }
+        },
+        {
+          "id": "L1-0241a",
+          "simp": "们",
+          "trad": "們",
+          "pinyin": "men",
+          "pos": "Suffix",
+          "en": "plural marker",
+          "defs": [
+            "(plural suffix)"
+          ],
+          "example": {
+            "zh": "我们一起去。",
+            "en": "Let's go together."
           }
         }
       ]
@@ -621,7 +621,7 @@
       "id": "b1-numbers",
       "band": 1,
       "targetWords": 16,
-      "allocatedWords": 16,
+      "allocatedWords": 18,
       "words": [
         {
           "id": "L1-0003",
@@ -862,6 +862,36 @@
             "zh": "吃了一半。",
             "en": "Ate half of it."
           }
+        },
+        {
+          "id": "L1-0216b",
+          "simp": "〇",
+          "trad": "〇",
+          "pinyin": "líng",
+          "pos": "Num",
+          "en": "zero",
+          "defs": [
+            "zero"
+          ],
+          "example": {
+            "zh": "今年是二〇二三年。",
+            "en": "This year is 2023."
+          }
+        },
+        {
+          "id": "L1-0075b",
+          "simp": "第二",
+          "trad": "第二",
+          "pinyin": "dì-èr",
+          "pos": "Num",
+          "en": "second",
+          "defs": [
+            "second; number two"
+          ],
+          "example": {
+            "zh": "我在二楼第二房间。",
+            "en": "I'm in the second room on the second floor."
+          }
         }
       ]
     },
@@ -869,7 +899,7 @@
       "id": "b1-time",
       "band": 1,
       "targetWords": 47,
-      "allocatedWords": 47,
+      "allocatedWords": 46,
       "words": [
         {
           "id": "L1-0007",
@@ -1410,21 +1440,6 @@
           "example": {
             "zh": "等一下儿。",
             "en": "Wait a moment."
-          }
-        },
-        {
-          "id": "L1-0118a",
-          "simp": "哥哥",
-          "trad": "哥哥",
-          "pinyin": "gēge",
-          "pos": "N",
-          "en": "older brother",
-          "defs": [
-            "older brother"
-          ],
-          "example": {
-            "zh": "我哥哥是医生。",
-            "en": "My older brother is a doctor."
           }
         },
         {
@@ -1983,7 +1998,7 @@
       "id": "b1-family",
       "band": 1,
       "targetWords": 37,
-      "allocatedWords": 37,
+      "allocatedWords": 43,
       "words": [
         {
           "id": "L1-0004b",
@@ -2540,6 +2555,96 @@
             "zh": "今天我在家。",
             "en": "I'm at home today."
           }
+        },
+        {
+          "id": "L1-0004a",
+          "simp": "爸爸",
+          "trad": "爸爸",
+          "pinyin": "bàba",
+          "pos": "N",
+          "en": "father",
+          "defs": [
+            "father; dad"
+          ],
+          "example": {
+            "zh": "我爸爸是老师。",
+            "en": "My father is a teacher."
+          }
+        },
+        {
+          "id": "L1-0178a",
+          "simp": "姐姐",
+          "trad": "姐姐",
+          "pinyin": "jiějie",
+          "pos": "N",
+          "en": "older sister",
+          "defs": [
+            "older sister"
+          ],
+          "example": {
+            "zh": "我姐姐是老师。",
+            "en": "My older sister is a teacher."
+          }
+        },
+        {
+          "id": "L1-0118a",
+          "simp": "哥哥",
+          "trad": "哥哥",
+          "pinyin": "gēge",
+          "pos": "N",
+          "en": "older brother",
+          "defs": [
+            "older brother"
+          ],
+          "example": {
+            "zh": "我哥哥是医生。",
+            "en": "My older brother is a doctor."
+          }
+        },
+        {
+          "id": "L1-0237a",
+          "simp": "妹妹",
+          "trad": "妹妹",
+          "pinyin": "mèimei",
+          "pos": "N",
+          "en": "younger sister",
+          "defs": [
+            "younger sister"
+          ],
+          "example": {
+            "zh": "我妹妹很可爱。",
+            "en": "My younger sister is very cute."
+          }
+        },
+        {
+          "id": "L1-0224a",
+          "simp": "妈妈",
+          "trad": "媽媽",
+          "pinyin": "māma",
+          "pos": "N",
+          "en": "mother",
+          "defs": [
+            "mom; mother"
+          ],
+          "example": {
+            "zh": "妈妈做的饭很好吃。",
+            "en": "Mom's cooking is delicious."
+          }
+        },
+        {
+          "id": "L1-0074a",
+          "simp": "弟弟",
+          "trad": "弟弟",
+          "pinyin": "dìdi",
+          "pos": "N",
+          "en": "younger brother",
+          "defs": [
+            "younger brother"
+          ],
+          "example": {
+            "zh": "我弟弟十岁。",
+            "en": "My younger brother is ten years old."
+          }
         }
       ]
     },
@@ -2547,7 +2652,7 @@
       "id": "b1-routine",
       "band": 1,
       "targetWords": 34,
-      "allocatedWords": 35,
+      "allocatedWords": 34,
       "words": [
         {
           "id": "L1-0028",
@@ -3058,21 +3163,6 @@
             "zh": "请再说一遍。",
             "en": "Please say it again."
           }
-        },
-        {
-          "id": "L1-0289b",
-          "simp": "起来",
-          "trad": "起來",
-          "pinyin": "qǐlái",
-          "pos": "V",
-          "en": "to get up",
-          "defs": [
-            "to get up"
-          ],
-          "example": {
-            "zh": "快起来，要迟到了。",
-            "en": "Get up quickly, we'll be late."
-          }
         }
       ]
     },
@@ -3080,7 +3170,7 @@
       "id": "b1-food",
       "band": 1,
       "targetWords": 21,
-      "allocatedWords": 21,
+      "allocatedWords": 20,
       "words": [
         {
           "id": "L1-0016",
@@ -3368,21 +3458,6 @@
           }
         },
         {
-          "id": "L1-0178a",
-          "simp": "姐姐",
-          "trad": "姐姐",
-          "pinyin": "jiějie",
-          "pos": "N",
-          "en": "older sister",
-          "defs": [
-            "older sister"
-          ],
-          "example": {
-            "zh": "我姐姐是老师。",
-            "en": "My older sister is a teacher."
-          }
-        },
-        {
           "id": "L1-0458",
           "simp": "早饭",
           "trad": "早飯",
@@ -3621,7 +3696,7 @@
       "id": "b1-locations",
       "band": 1,
       "targetWords": 37,
-      "allocatedWords": 37,
+      "allocatedWords": 35,
       "words": [
         {
           "id": "L1-0021",
@@ -4116,36 +4191,6 @@
           "example": {
             "zh": "他在医院工作。",
             "en": "He works at the hospital."
-          }
-        },
-        {
-          "id": "L1-0237a",
-          "simp": "妹妹",
-          "trad": "妹妹",
-          "pinyin": "mèimei",
-          "pos": "N",
-          "en": "younger sister",
-          "defs": [
-            "younger sister"
-          ],
-          "example": {
-            "zh": "我妹妹很可爱。",
-            "en": "My younger sister is very cute."
-          }
-        },
-        {
-          "id": "L1-0241a",
-          "simp": "们",
-          "trad": "們",
-          "pinyin": "men",
-          "pos": "Suffix",
-          "en": "plural marker",
-          "defs": [
-            "(plural suffix)"
-          ],
-          "example": {
-            "zh": "我们一起去。",
-            "en": "Let's go together."
           }
         },
         {
@@ -5160,7 +5205,7 @@
       "id": "b1-school",
       "band": 1,
       "targetWords": 49,
-      "allocatedWords": 49,
+      "allocatedWords": 47,
       "words": [
         {
           "id": "L1-0023",
@@ -5793,36 +5838,6 @@
           }
         },
         {
-          "id": "L1-0216b",
-          "simp": "〇",
-          "trad": "〇",
-          "pinyin": "líng",
-          "pos": "Num",
-          "en": "zero",
-          "defs": [
-            "zero"
-          ],
-          "example": {
-            "zh": "今年是二〇二三年。",
-            "en": "This year is 2023."
-          }
-        },
-        {
-          "id": "L1-0224a",
-          "simp": "妈妈",
-          "trad": "媽媽",
-          "pinyin": "māma",
-          "pos": "N",
-          "en": "mother",
-          "defs": [
-            "mom; mother"
-          ],
-          "example": {
-            "zh": "妈妈做的饭很好吃。",
-            "en": "Mom's cooking is delicious."
-          }
-        },
-        {
           "id": "L1-0475",
           "simp": "知识",
           "trad": "知識",
@@ -5903,7 +5918,7 @@
       "id": "b1-questions",
       "band": 1,
       "targetWords": 17,
-      "allocatedWords": 17,
+      "allocatedWords": 15,
       "words": [
         {
           "id": "L1-0095",
@@ -6083,36 +6098,6 @@
           "example": {
             "zh": "你是不是中国人？",
             "en": "Are you Chinese or not?"
-          }
-        },
-        {
-          "id": "L1-0074a",
-          "simp": "弟弟",
-          "trad": "弟弟",
-          "pinyin": "dìdi",
-          "pos": "N",
-          "en": "younger brother",
-          "defs": [
-            "younger brother"
-          ],
-          "example": {
-            "zh": "我弟弟十岁。",
-            "en": "My younger brother is ten years old."
-          }
-        },
-        {
-          "id": "L1-0075b",
-          "simp": "第二",
-          "trad": "第二",
-          "pinyin": "dì-èr",
-          "pos": "Num",
-          "en": "second",
-          "defs": [
-            "second; number two"
-          ],
-          "example": {
-            "zh": "我在二楼第二房间。",
-            "en": "I'm in the second room on the second floor."
           }
         },
         {
