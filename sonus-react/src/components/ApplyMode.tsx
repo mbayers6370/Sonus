@@ -11,6 +11,7 @@ import { apiFetch } from '../lib/apiClient';
 interface ApplyModeProps {
   word: Word;
   allWords: Word[];
+  previousWords?: Word[];
   currentIndex: number;
   totalWords: number;
   bandId?: string | null;
@@ -147,39 +148,123 @@ function escapeRegex(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function highlightEnglishFocus(text: string, word: Word) {
+function isEnglishBoundaryChar(value: string | undefined) {
+  if (!value) return true;
+  return !/[A-Za-z0-9]/.test(value);
+}
+
+function hasEnglishWordBoundary(source: string, start: number, end: number) {
+  const before = source[start - 1];
+  const after = source[end];
+  return isEnglishBoundaryChar(before) && isEnglishBoundaryChar(after);
+}
+
+type TextMatch = {
+  start: number;
+  end: number;
+  className: string;
+  priority: number;
+};
+
+function collectMeaningMatches(
+  source: string,
+  candidates: string[],
+  className: string,
+  priority: number,
+  existing: TextMatch[]
+) {
+  const uniqueCandidates = Array.from(
+    new Set(
+      candidates
+        .map((candidate) => candidate.trim().toLowerCase())
+        .filter((candidate) => candidate.length >= 2)
+    )
+  ).sort((a, b) => b.length - a.length);
+
+  const matches: TextMatch[] = [];
+  for (const candidate of uniqueCandidates) {
+    const pattern = new RegExp(escapeRegex(candidate).replace(/\s+/g, '\\s+'), 'gi');
+    let matched: RegExpExecArray | null = pattern.exec(source);
+    while (matched) {
+      const matchedText = matched[0];
+      const start = matched.index;
+      const end = start + matchedText.length;
+      const hasBoundary = hasEnglishWordBoundary(source, start, end);
+      const overlapsExisting = [...existing, ...matches].some(
+        (slot) => start < slot.end && end > slot.start
+      );
+      if (hasBoundary && !overlapsExisting) {
+        matches.push({ start, end, className, priority });
+      }
+      matched = pattern.exec(source);
+    }
+  }
+  return matches;
+}
+
+function highlightEnglishFocus(text: string, word: Word, priorWords: Word[]) {
   const source = text.trim();
   if (!source) {
-    return { node: source, matched: false, matchedText: '' };
+    return source;
   }
 
-  const candidates = tokenizeMeaningCandidates(word);
-  for (const candidate of candidates) {
-    if (!candidate) continue;
-    const pattern = new RegExp(`\\b${escapeRegex(candidate)}\\b`, 'i');
-    const match = source.match(pattern);
-    if (!match || typeof match.index !== 'number') continue;
+  const focusCandidates = tokenizeMeaningCandidates(word);
+  const priorCandidates = Array.from(
+    new Set(
+      priorWords
+        .flatMap((candidate) => tokenizeMeaningCandidates(candidate))
+        .filter(Boolean)
+    )
+  );
 
-    const start = match.index;
-    const end = start + match[0].length;
-    return {
-      node: (
-        <>
-          {source.slice(0, start)}
-          <span className="font-semibold text-[#186E95]">{source.slice(start, end)}</span>
-          {source.slice(end)}
-        </>
-      ),
-      matched: true,
-      matchedText: source.slice(start, end),
-    };
+  const focusMatches = collectMeaningMatches(
+    source,
+    focusCandidates,
+    'font-semibold text-[#186E95]',
+    2,
+    []
+  );
+  const priorMatches = collectMeaningMatches(
+    source,
+    priorCandidates,
+    'font-semibold text-[rgba(62,86,72,0.76)]',
+    1,
+    focusMatches
+  );
+  const matches = [...focusMatches, ...priorMatches].sort((a, b) =>
+    a.start === b.start ? b.priority - a.priority : a.start - b.start
+  );
+  if (matches.length === 0) return source;
+
+  const chunks: Array<{ text: string; className?: string }> = [];
+  let cursor = 0;
+  matches.forEach((match) => {
+    if (match.start > cursor) {
+      chunks.push({ text: source.slice(cursor, match.start) });
+    }
+    chunks.push({
+      text: source.slice(match.start, match.end),
+      className: match.className,
+    });
+    cursor = match.end;
+  });
+  if (cursor < source.length) {
+    chunks.push({ text: source.slice(cursor) });
   }
 
-  return {
-    node: source,
-    matched: false,
-    matchedText: '',
-  };
+  return (
+    <>
+      {chunks.map((chunk, chunkIndex) =>
+        chunk.className ? (
+          <span key={`${chunkIndex}-${chunk.text}`} className={chunk.className}>
+            {chunk.text}
+          </span>
+        ) : (
+          <span key={`${chunkIndex}-${chunk.text}`}>{chunk.text}</span>
+        )
+      )}
+    </>
+  );
 }
 
 function splitCompactPinyin(value: string) {
@@ -283,6 +368,7 @@ function sentenceCasePinyin(value: string) {
 export default function ApplyMode({
   word,
   allWords,
+  previousWords = [],
   currentIndex,
   totalWords,
   bandId,
@@ -427,9 +513,18 @@ export default function ApplyMode({
     () => highlightLessonTerms(zh, word.simp, allWords),
     [zh, word.simp, allWords]
   );
+  const priorWordsForEnglish = useMemo(() => {
+    const combined = [...allWords, ...previousWords];
+    const seenIds = new Set<string>();
+    return combined.filter((candidate) => {
+      if (!candidate?.id || candidate.id === word.id || seenIds.has(candidate.id)) return false;
+      seenIds.add(candidate.id);
+      return true;
+    });
+  }, [allWords, previousWords, word.id]);
   const englishFocus = useMemo(
-    () => highlightEnglishFocus(en, word),
-    [en, word]
+    () => highlightEnglishFocus(en, word, priorWordsForEnglish),
+    [en, word, priorWordsForEnglish]
   );
   const sentencePinyin = resolvedSentencePinyin;
 
@@ -527,7 +622,7 @@ export default function ApplyMode({
               <span className="font-mono">{renderPinyinWithToneNumber(word.pinyin)}</span>
             </div>
             <div className="mt-3 rounded-xl border border-border bg-[rgba(55,65,81,0.06)] px-4 py-3 text-text-dark text-center">
-              {englishFocus.node}
+              {englishFocus}
             </div>
           </div>
         ) : (

@@ -66,26 +66,26 @@
       {
         "id": "b1-pronouns-apply-001",
         "wordId": "L1-0026",
-        "zh": "别的在这里。",
-        "en": "There are other things here.",
-        "fromOriginalExample": false,
-        "pinyin": "biéde zài zhèlǐ。"
+        "zh": "你还要别的吗？",
+        "en": "Do you want anything else?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 huan2 yao1 bie2 de5 ma2？"
       },
       {
         "id": "b1-pronouns-apply-002",
         "wordId": "L1-0027",
-        "zh": "别人在这里。",
-        "en": "There are other people here.",
-        "fromOriginalExample": false,
-        "pinyin": "biérén zài zhèlǐ。"
+        "zh": "问问别人吧。",
+        "en": "Ask someone else.",
+        "fromOriginalExample": true,
+        "pinyin": "wen4 wen4 bie2 ren5 ba1。"
       },
       {
         "id": "b1-pronouns-apply-003",
         "wordId": "L1-0253",
-        "zh": "哪些在这里？",
-        "en": "Which ones are here?",
-        "fromOriginalExample": false,
-        "pinyin": "nǎxiē zài zhèlǐ？"
+        "zh": "哪些书是你的？",
+        "en": "Which books are yours?",
+        "fromOriginalExample": true,
+        "pinyin": "na3 xie1 shu1 shi4 ni3 de5？"
       },
       {
         "id": "b1-pronouns-apply-004",
@@ -93,71 +93,167 @@
         "zh": "那个人是谁？",
         "en": "Who is that person?",
         "fromOriginalExample": true,
-        "pinyin": "nà gè rén shì shéi？"
+        "pinyin": "na4 ge4 ren2 shi4 shei2？"
       },
       {
         "id": "b1-pronouns-apply-005",
         "wordId": "L1-0258",
-        "zh": "那些在这里。",
-        "en": "Those are here.",
-        "fromOriginalExample": false,
-        "pinyin": "nàxiē zài zhèlǐ。"
+        "zh": "那些是我的朋友。",
+        "en": "Those are my friends.",
+        "fromOriginalExample": true,
+        "pinyin": "na4 xie1 shi4 wo3 de5 peng2 you5。"
       },
       {
         "id": "b1-pronouns-apply-006",
         "wordId": "L1-0271",
-        "zh": "你在这里。",
-        "en": "You are here.",
-        "fromOriginalExample": false,
-        "pinyin": "nǐ zài zhèlǐ。"
+        "zh": "你叫什么？",
+        "en": "What's your name?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 jiao4 shen2 me5？"
       },
       {
         "id": "b1-pronouns-apply-007",
         "wordId": "L1-0272",
-        "zh": "你们在这里。",
-        "en": "You all are here.",
-        "fromOriginalExample": false,
-        "pinyin": "nǐmen zài zhèlǐ。"
+        "zh": "你们好！",
+        "en": "Hello everyone!",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 men5 hao3！"
       },
       {
         "id": "b1-pronouns-apply-008",
         "wordId": "L1-0274",
-        "zh": "您在这里。",
-        "en": "You are here.",
-        "fromOriginalExample": false,
-        "pinyin": "nín zài zhèlǐ。"
+        "zh": "您好，老师！",
+        "en": "Hello, teacher!",
+        "fromOriginalExample": true,
+        "pinyin": "nin2 hao3， lao3 shi1！"
       },
       {
         "id": "b1-pronouns-apply-009",
         "wordId": "L1-0354",
-        "zh": "他在这里。",
-        "en": "He is here.",
-        "fromOriginalExample": false,
-        "pinyin": "tā zài zhèlǐ。"
+        "zh": "他是老师。",
+        "en": "He is a teacher.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 shi4 lao3 shi1。"
       },
       {
         "id": "b1-pronouns-apply-010",
         "wordId": "L1-0355",
-        "zh": "他们在这里。",
-        "en": "They are here.",
-        "fromOriginalExample": false,
-        "pinyin": "tāmen zài zhèlǐ。"
+        "zh": "他们是我的朋友。",
+        "en": "They are my friends.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 men5 shi4 wo3 de5 peng2 you5。"
       },
       {
         "id": "b1-pronouns-apply-011",
         "wordId": "L1-0356",
-        "zh": "她在这里。",
-        "en": "She is here.",
-        "fromOriginalExample": false,
-        "pinyin": "tā zài zhèlǐ。"
+        "zh": "她很漂亮。",
+        "en": "She is beautiful.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 hen3 piao4 liang5。"
       },
       {
         "id": "b1-pronouns-apply-012",
         "wordId": "L1-0357",
-        "zh": "她们在这里。",
-        "en": "They (women) are here.",
-        "fromOriginalExample": false,
-        "pinyin": "tāmen zài zhèlǐ。"
+        "zh": "她们都是医生。",
+        "en": "They are all doctors.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 men5 du1 shi4 yi1 sheng1。"
+      },
+      {
+        "id": "b1-pronouns-apply-013",
+        "wordId": "L1-0380",
+        "zh": "我是学生。",
+        "en": "I am a student.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 shi4 xue2 sheng5。"
+      },
+      {
+        "id": "b1-pronouns-apply-014",
+        "wordId": "L1-0381",
+        "zh": "我们是朋友。",
+        "en": "We are friends.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 shi4 peng2 you5。"
+      },
+      {
+        "id": "b1-pronouns-apply-015",
+        "wordId": "L1-0004a",
+        "zh": "我爸爸是老师。",
+        "en": "My father is a teacher.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ba4 ba5 shi4 lao3 shi1。"
+      },
+      {
+        "id": "b1-pronouns-apply-016",
+        "wordId": "L1-0442",
+        "zh": "有的人喜欢咖啡。",
+        "en": "Some people like coffee.",
+        "fromOriginalExample": true,
+        "pinyin": "you3 de5 ren2 xi3 huan5 ka1 fei1。"
+      },
+      {
+        "id": "b1-pronouns-apply-017",
+        "wordId": "L1-0445a",
+        "zh": "有些人来了。",
+        "en": "Some people came.",
+        "fromOriginalExample": true,
+        "pinyin": "you3 xie1 ren2 lai2 le5。"
+      },
+      {
+        "id": "b1-pronouns-apply-018",
+        "wordId": "L1-0445b",
+        "zh": "我有一点儿累。",
+        "en": "I'm a little tired.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 you3 yi1 dian3 r5 lei3。"
+      },
+      {
+        "id": "b1-pronouns-apply-019",
+        "wordId": "L1-0464",
+        "zh": "这是什么？",
+        "en": "What is this?",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 shi4 shen2 me5？"
+      },
+      {
+        "id": "b1-pronouns-apply-020",
+        "wordId": "L1-0465",
+        "zh": "请这边走。",
+        "en": "Please come this way.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 zhe4 bian1 zou3。"
+      },
+      {
+        "id": "b1-pronouns-apply-021",
+        "wordId": "L1-0466",
+        "zh": "我在这里。",
+        "en": "I'm here.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 zhe4 li3。"
+      },
+      {
+        "id": "b1-pronouns-apply-022",
+        "wordId": "L1-0467",
+        "zh": "到这儿来。",
+        "en": "Come here.",
+        "fromOriginalExample": true,
+        "pinyin": "dao4 zhe4 r5 lai2。"
+      },
+      {
+        "id": "b1-pronouns-apply-023",
+        "wordId": "L1-0468",
+        "zh": "这些书是我的。",
+        "en": "These books are mine.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 xie1 shu1 shi4 wo3 de5。"
+      },
+      {
+        "id": "b1-pronouns-apply-024",
+        "wordId": "L1-0439",
+        "zh": "我有一些问题。",
+        "en": "I have some questions.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 you3 yi1 xie1 wen4 ti2。"
       }
     ],
     "b1-politeness": [
@@ -165,49 +261,49 @@
         "id": "b1-politeness-apply-001",
         "wordId": "L1-0032",
         "zh": "谢谢！- 不客气。",
-        "en": "Thank you. You are welcome.",
+        "en": "Thank you! - You're welcome.",
         "fromOriginalExample": true,
-        "pinyin": "xièxie！- bù kèqì。"
+        "pinyin": "xie4 xie5！ - bu4 ke4 qi5。"
       },
       {
         "id": "b1-politeness-apply-002",
         "wordId": "L1-0093",
-        "zh": "对不起。",
-        "en": "Sorry.",
-        "fromOriginalExample": false,
-        "pinyin": "duìbuqǐ。"
+        "zh": "对不起，我迟到了。",
+        "en": "Sorry, I'm late.",
+        "fromOriginalExample": true,
+        "pinyin": "dui4 bu5 qi3， wo3 chi2 dao4 le5。"
       },
       {
         "id": "b1-politeness-apply-003",
         "wordId": "L1-0183",
-        "zh": "我进来。",
-        "en": "I am coming in.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ jìnlái。"
+        "zh": "快进来。",
+        "en": "Come in quickly.",
+        "fromOriginalExample": true,
+        "pinyin": "kuai4 jin4 lai2。"
       },
       {
         "id": "b1-politeness-apply-004",
         "wordId": "L1-0233",
-        "zh": "没关系。",
-        "en": "It is okay.",
-        "fromOriginalExample": false,
-        "pinyin": "méi guānxi。"
+        "zh": "没关系，慢慢来。",
+        "en": "It's okay, take your time.",
+        "fromOriginalExample": true,
+        "pinyin": "mei2 guan1 xi5， man4 man4 lai2。"
       },
       {
         "id": "b1-politeness-apply-005",
         "wordId": "L1-0234",
-        "zh": "没什么。",
-        "en": "It is nothing.",
-        "fromOriginalExample": false,
-        "pinyin": "méi shénme。"
+        "zh": "没什么大不了的。",
+        "en": "It's no big deal.",
+        "fromOriginalExample": true,
+        "pinyin": "mei2 shen2 me5 da4 bu5 liao3 de5。"
       },
       {
         "id": "b1-politeness-apply-006",
         "wordId": "L1-0235",
-        "zh": "没事儿。",
-        "en": "No problem.",
-        "fromOriginalExample": false,
-        "pinyin": "méishìr。"
+        "zh": "没事儿，别担心。",
+        "en": "It's fine, don't worry.",
+        "fromOriginalExample": true,
+        "pinyin": "mei2 shi4 r5， bie2 dan1 xin1。"
       },
       {
         "id": "b1-politeness-apply-007",
@@ -215,145 +311,177 @@
         "zh": "请进。",
         "en": "Please come in.",
         "fromOriginalExample": true,
-        "pinyin": "qǐng jìn。"
+        "pinyin": "qing3 jin4。"
       },
       {
         "id": "b1-politeness-apply-008",
         "wordId": "L1-0298",
-        "zh": "请进来。",
-        "en": "Please come in.",
-        "fromOriginalExample": false,
-        "pinyin": "qǐng jìnlái。"
+        "zh": "请进，别客气。",
+        "en": "Please come in, don't be shy.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 jin4， bie2 ke4 qi5。"
       },
       {
         "id": "b1-politeness-apply-009",
         "wordId": "L1-0299",
-        "zh": "请问，您是？",
-        "en": "Excuse me, who are you?",
-        "fromOriginalExample": false,
-        "pinyin": "qǐngwèn， nín shì？"
+        "zh": "请问，车站怎么走？",
+        "en": "Excuse me, how do I get to the station?",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 wen4， che1 zhan4 zen3 me5 zou3？"
       },
       {
         "id": "b1-politeness-apply-010",
         "wordId": "L1-0300",
-        "zh": "请坐下。",
-        "en": "Please sit down.",
-        "fromOriginalExample": false,
-        "pinyin": "qǐng zuòxià。"
+        "zh": "请坐，喝杯茶。",
+        "en": "Please sit down and have some tea.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 zuo4， he1 bei1 cha2。"
       },
       {
         "id": "b1-politeness-apply-011",
         "wordId": "L1-0410",
-        "zh": "我想谢谢你。",
-        "en": "I want to thank you.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ xiǎng xièxie nǐ。"
+        "zh": "谢谢你的帮助。",
+        "en": "Thanks for your help.",
+        "fromOriginalExample": true,
+        "pinyin": "xie4 xie5 ni3 de5 bang1 zhu4。"
       },
       {
         "id": "b1-politeness-apply-012",
         "wordId": "L1-0454",
-        "zh": "再见！",
-        "en": "Goodbye!",
-        "fromOriginalExample": false,
-        "pinyin": "zàijiàn！"
+        "zh": "明天见。",
+        "en": "See you tomorrow.",
+        "fromOriginalExample": true,
+        "pinyin": "ming2 tian1 jian4。"
       }
     ],
     "b1-numbers": [
       {
         "id": "b1-numbers-apply-001",
         "wordId": "L1-0003",
-        "zh": "八个人。",
-        "en": "Eight people.",
-        "fromOriginalExample": false,
-        "pinyin": "bā gè rén。"
+        "zh": "我有八个苹果。",
+        "en": "I have eight apples.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 you3 ba1 ge3 ping2 guo3。"
       },
       {
         "id": "b1-numbers-apply-002",
         "wordId": "L1-0008",
-        "zh": "一百个人。",
-        "en": "One hundred people.",
-        "fromOriginalExample": false,
-        "pinyin": "yī bǎi gè rén。"
+        "zh": "这本书一百块。",
+        "en": "This book is one hundred yuan.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ben3 shu1 yi1 bai3 kuai4。"
       },
       {
         "id": "b1-numbers-apply-003",
         "wordId": "L1-0010",
-        "zh": "一半的人来了。",
-        "en": "Half the people came.",
-        "fromOriginalExample": false,
-        "pinyin": "yībàn de rén lái le。"
+        "zh": "我买了一半。",
+        "en": "I bought half of it.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mai3 le5 yi1 ban4。"
       },
       {
         "id": "b1-numbers-apply-004",
         "wordId": "L1-0075a",
-        "zh": "第一课很简单。",
-        "en": "Lesson one is very simple.",
-        "fromOriginalExample": false,
-        "pinyin": "dì yī kè hěn jiǎndān。"
+        "zh": "这是我第一次来。",
+        "en": "This is my first time here.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 shi4 wo3 di4 yi1 ci4 lai2。"
       },
       {
         "id": "b1-numbers-apply-005",
         "wordId": "L1-0098",
-        "zh": "我有二十块钱。",
-        "en": "I have twenty yuan.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ yǒu èrshí kuài qián。"
+        "zh": "我有两个哥哥。",
+        "en": "I have two older brothers.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 you3 liang3 ge3 ge1 ge5。"
       },
       {
         "id": "b1-numbers-apply-006",
         "wordId": "L1-0185",
-        "zh": "九个人。",
-        "en": "Nine people.",
+        "zh": "九个人",
+        "en": "nine people",
         "fromOriginalExample": true,
-        "pinyin": "jiǔ gè rén。"
+        "pinyin": "jiu3 ge4 ren2"
       },
       {
         "id": "b1-numbers-apply-007",
         "wordId": "L1-0215",
-        "zh": "两个人。",
-        "en": "Two people.",
+        "zh": "两个人",
+        "en": "two people",
         "fromOriginalExample": true,
-        "pinyin": "liǎng gè rén。"
+        "pinyin": "liang3 ge4 ren2"
       },
       {
         "id": "b1-numbers-apply-008",
         "wordId": "L1-0216a",
-        "zh": "一百零一。",
-        "en": "One hundred and one.",
+        "zh": "一百零一",
+        "en": "one hundred one",
         "fromOriginalExample": true,
-        "pinyin": "yī bǎi líng yī。"
+        "pinyin": "yi1 bai3 ling2 yi1"
       },
       {
         "id": "b1-numbers-apply-009",
         "wordId": "L1-0217",
-        "zh": "六个人。",
-        "en": "Six people.",
-        "fromOriginalExample": false,
-        "pinyin": "liù gè rén。"
+        "zh": "六本书",
+        "en": "six books",
+        "fromOriginalExample": true,
+        "pinyin": "liu4 ben3 shu1"
       },
       {
         "id": "b1-numbers-apply-010",
         "wordId": "L1-0286",
-        "zh": "七个人。",
-        "en": "Seven people.",
-        "fromOriginalExample": false,
-        "pinyin": "qī gè rén。"
+        "zh": "七天",
+        "en": "seven days",
+        "fromOriginalExample": true,
+        "pinyin": "qi1 tian1"
       },
       {
         "id": "b1-numbers-apply-011",
         "wordId": "L1-0311",
-        "zh": "三个人。",
-        "en": "Three people.",
-        "fromOriginalExample": false,
-        "pinyin": "sān gè rén。"
+        "zh": "三个苹果",
+        "en": "three apples",
+        "fromOriginalExample": true,
+        "pinyin": "san1 ge3 ping2 guo3"
       },
       {
         "id": "b1-numbers-apply-012",
         "wordId": "L1-0332",
-        "zh": "十个人。",
-        "en": "Ten people.",
-        "fromOriginalExample": false,
-        "pinyin": "shí gè rén。"
+        "zh": "十块钱",
+        "en": "ten yuan",
+        "fromOriginalExample": true,
+        "pinyin": "shi2 kuai4 qian2"
+      },
+      {
+        "id": "b1-numbers-apply-013",
+        "wordId": "L1-0351",
+        "zh": "四个",
+        "en": "four (of them)",
+        "fromOriginalExample": true,
+        "pinyin": "si4 ge3"
+      },
+      {
+        "id": "b1-numbers-apply-014",
+        "wordId": "L1-0382",
+        "zh": "五本书",
+        "en": "five books",
+        "fromOriginalExample": true,
+        "pinyin": "wu3 ben3 shu1"
+      },
+      {
+        "id": "b1-numbers-apply-015",
+        "wordId": "L1-0427",
+        "zh": "一个人",
+        "en": "one person",
+        "fromOriginalExample": true,
+        "pinyin": "yi1 ge4 ren2"
+      },
+      {
+        "id": "b1-numbers-apply-016",
+        "wordId": "L1-0431",
+        "zh": "吃了一半。",
+        "en": "Ate half of it.",
+        "fromOriginalExample": true,
+        "pinyin": "chi1 le5 yi1 ban4。"
       }
     ],
     "b1-time": [
@@ -363,105 +491,385 @@
         "zh": "我白天工作。",
         "en": "I work during the daytime.",
         "fromOriginalExample": true,
-        "pinyin": "wǒ báitiān gōngzuò。"
+        "pinyin": "wo3 bai2 tian1 gong1 zuo4。"
       },
       {
         "id": "b1-time-apply-002",
         "wordId": "L1-0011",
-        "zh": "半年后见。",
-        "en": "See you in half a year.",
-        "fromOriginalExample": false,
-        "pinyin": "bànnián hòu jiàn。"
+        "zh": "我来这里半年了。",
+        "en": "I've been here for half a year.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 lai2 zhe4 li3 ban4 nian2 le5。"
       },
       {
         "id": "b1-time-apply-003",
         "wordId": "L1-0012",
         "zh": "我等了半天。",
-        "en": "I waited for half a day.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ děng le bàntiān。"
+        "en": "I waited for a long time.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 deng3 le5 ban4 tian1。"
       },
       {
         "id": "b1-time-apply-004",
         "wordId": "L1-0038",
-        "zh": "我常去那家店。",
-        "en": "I often go to that shop.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ cháng qù nà jiā diàn。"
+        "zh": "我常去图书馆。",
+        "en": "I often go to the library.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 chang2 qu4 tu2 shu1 guan3。"
       },
       {
         "id": "b1-time-apply-005",
         "wordId": "L1-0039",
-        "zh": "我常常在这里学习。",
-        "en": "I often study here.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ chángcháng zài zhèlǐ xuéxí。"
+        "zh": "他常常迟到。",
+        "en": "He is often late.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 chang2 chang2 chi2 dao4。"
       },
       {
         "id": "b1-time-apply-006",
         "wordId": "L1-0076",
-        "zh": "现在九点。",
-        "en": "It is nine o'clock now.",
-        "fromOriginalExample": false,
-        "pinyin": "xiànzài jiǔ diǎn。"
+        "zh": "现在三点。",
+        "en": "It's three o'clock now.",
+        "fromOriginalExample": true,
+        "pinyin": "xian4 zai4 san1 dian3。"
       },
       {
         "id": "b1-time-apply-007",
         "wordId": "L1-0105",
-        "zh": "现在放学了。",
-        "en": "School is over now.",
-        "fromOriginalExample": false,
-        "pinyin": "xiànzài fàngxué le。"
+        "zh": "我们三点放学。",
+        "en": "We finish school at 3 o'clock.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 san1 dian3 fang4 xue2。"
       },
       {
         "id": "b1-time-apply-008",
         "wordId": "L1-0109",
-        "zh": "现在三点零三分。",
-        "en": "It is 3:03 now.",
-        "fromOriginalExample": false,
-        "pinyin": "xiànzài sān diǎn líng sān fēn。"
+        "zh": "现在三点十分。",
+        "en": "It's 3:10 now.",
+        "fromOriginalExample": true,
+        "pinyin": "xian4 zai4 san1 dian3 shi2 fen1。"
       },
       {
         "id": "b1-time-apply-009",
         "wordId": "L1-0131",
-        "zh": "时间过得很快。",
-        "en": "Time passes quickly.",
-        "fromOriginalExample": false,
-        "pinyin": "shíjiān guò de hěn kuài。"
+        "zh": "我去过北京。",
+        "en": "I've been to Beijing before.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 qu4 guo1 bei3 jing1。"
       },
       {
         "id": "b1-time-apply-010",
         "wordId": "L1-0149",
-        "zh": "后天我来。",
-        "en": "I will come the day after tomorrow.",
-        "fromOriginalExample": false,
-        "pinyin": "hòutiān wǒ lái。"
+        "zh": "后天是我生日。",
+        "en": "The day after tomorrow is my birthday.",
+        "fromOriginalExample": true,
+        "pinyin": "hou4 tian1 shi4 wo3 sheng1 ri4。"
       },
       {
         "id": "b1-time-apply-011",
         "wordId": "L1-0180",
-        "zh": "今年我在这里。",
-        "en": "I am here this year.",
-        "fromOriginalExample": false,
-        "pinyin": "jīnnián wǒ zài zhèlǐ。"
+        "zh": "今年我二十岁。",
+        "en": "I'm twenty years old this year.",
+        "fromOriginalExample": true,
+        "pinyin": "jin1 nian2 wo3 er4 shi2 sui4。"
       },
       {
         "id": "b1-time-apply-012",
         "wordId": "L1-0181",
-        "zh": "今天我在这里。",
-        "en": "I am here today.",
+        "zh": "今天天气很好。",
+        "en": "The weather is nice today.",
+        "fromOriginalExample": true,
+        "pinyin": "jin1 tian1 tian1 qi4 hen3 hao3。"
+      },
+      {
+        "id": "b1-time-apply-013",
+        "wordId": "L1-0226",
+        "zh": "我马上到。",
+        "en": "I'll be there right away.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ma3 shang4 dao4。"
+      },
+      {
+        "id": "b1-time-apply-014",
+        "wordId": "L1-0247",
+        "zh": "明年我毕业。",
+        "en": "I graduate next year.",
+        "fromOriginalExample": true,
+        "pinyin": "ming2 nian2 wo3 bi4 ye4。"
+      },
+      {
+        "id": "b1-time-apply-015",
+        "wordId": "L1-0248",
+        "zh": "明天我想去学校。",
+        "en": "Tomorrow I want to go to school.",
         "fromOriginalExample": false,
-        "pinyin": "jīntiān wǒ zài zhèlǐ。"
+        "pinyin": "ming2 tian1 wo3 xiang3 qu4 xue2 xiao4。"
+      },
+      {
+        "id": "b1-time-apply-016",
+        "wordId": "L1-0273",
+        "zh": "我今年十八岁。",
+        "en": "I'm 18 years old this year.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 jin1 nian2 shi2 ba1 sui4。"
+      },
+      {
+        "id": "b1-time-apply-017",
+        "wordId": "L1-0293",
+        "zh": "前天我见到了他。",
+        "en": "I saw him the day before yesterday.",
+        "fromOriginalExample": true,
+        "pinyin": "qian2 tian1 wo3 jian4 dao4 le5 ta1。"
+      },
+      {
+        "id": "b1-time-apply-018",
+        "wordId": "L1-0303",
+        "zh": "去年我去了北京。",
+        "en": "I went to Beijing last year.",
+        "fromOriginalExample": true,
+        "pinyin": "qu4 nian2 wo3 qu4 le5 bei3 jing1。"
+      },
+      {
+        "id": "b1-time-apply-019",
+        "wordId": "L1-0308",
+        "zh": "十月一日",
+        "en": "October 1st",
+        "fromOriginalExample": true,
+        "pinyin": "shi2 yue4 yi1 ri4"
+      },
+      {
+        "id": "b1-time-apply-020",
+        "wordId": "L1-0309",
+        "zh": "今天的日期是几号？",
+        "en": "What's today's date?",
+        "fromOriginalExample": true,
+        "pinyin": "jin1 tian1 de5 ri4 qi1 shi4 ji3 hao4？"
+      },
+      {
+        "id": "b1-time-apply-021",
+        "wordId": "L1-0319",
+        "zh": "上次我们见过面。",
+        "en": "We met last time.",
+        "fromOriginalExample": true,
+        "pinyin": "shang4 ci4 wo3 men5 jian4 guo1 mian4。"
+      },
+      {
+        "id": "b1-time-apply-022",
+        "wordId": "L1-0322",
+        "zh": "上午九点。",
+        "en": "9 AM.",
+        "fromOriginalExample": true,
+        "pinyin": "shang4 wu3 jiu3 dian3。"
+      },
+      {
+        "id": "b1-time-apply-023",
+        "wordId": "L1-0333",
+        "zh": "什么时候？",
+        "en": "What time?",
+        "fromOriginalExample": true,
+        "pinyin": "shen2 me5 shi2 hou5？"
+      },
+      {
+        "id": "b1-time-apply-024",
+        "wordId": "L1-0334",
+        "zh": "我没有时间。",
+        "en": "I don't have time.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mei2 you3 shi2 jian1。"
+      },
+      {
+        "id": "b1-time-apply-025",
+        "wordId": "L1-0359",
+        "zh": "今天天气好。",
+        "en": "The weather is good today.",
+        "fromOriginalExample": true,
+        "pinyin": "jin1 tian1 tian1 qi4 hao3。"
+      },
+      {
+        "id": "b1-time-apply-026",
+        "wordId": "L1-0372",
+        "zh": "对不起，我来晚了。",
+        "en": "Sorry, I'm late.",
+        "fromOriginalExample": true,
+        "pinyin": "dui4 bu5 qi3， wo3 lai2 wan3 le5。"
+      },
+      {
+        "id": "b1-time-apply-027",
+        "wordId": "L1-0374",
+        "zh": "晚上见。",
+        "en": "See you tonight.",
+        "fromOriginalExample": true,
+        "pinyin": "wan3 shang5 jian4。"
+      },
+      {
+        "id": "b1-time-apply-028",
+        "wordId": "L1-0393",
+        "zh": "下次再见。",
+        "en": "See you next time.",
+        "fromOriginalExample": true,
+        "pinyin": "xia4 ci4 zai4 jian4。"
+      },
+      {
+        "id": "b1-time-apply-029",
+        "wordId": "L1-0395",
+        "zh": "下午见。",
+        "en": "See you in the afternoon.",
+        "fromOriginalExample": true,
+        "pinyin": "xia4 wu3 jian4。"
+      },
+      {
+        "id": "b1-time-apply-030",
+        "wordId": "L1-0399",
+        "zh": "现在几点？",
+        "en": "What time is it now?",
+        "fromOriginalExample": true,
+        "pinyin": "xian4 zai4 ji3 dian3？"
+      },
+      {
+        "id": "b1-time-apply-031",
+        "wordId": "L1-0405",
+        "zh": "我等了两个小时。",
+        "en": "I waited for two hours.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 deng3 le5 liang3 ge3 xiao3 shi2。"
+      },
+      {
+        "id": "b1-time-apply-032",
+        "wordId": "L1-0412",
+        "zh": "新年快乐！",
+        "en": "Happy New Year!",
+        "fromOriginalExample": true,
+        "pinyin": "xin1 nian2 kuai4 le4！"
+      },
+      {
+        "id": "b1-time-apply-033",
+        "wordId": "L1-0413",
+        "zh": "一个星期有七天。",
+        "en": "A week has seven days.",
+        "fromOriginalExample": true,
+        "pinyin": "yi1 ge5 xing1 qi1 you3 qi1 tian1。"
+      },
+      {
+        "id": "b1-time-apply-034",
+        "wordId": "L1-0415",
+        "zh": "星期天去公园。",
+        "en": "Go to the park on Sunday.",
+        "fromOriginalExample": true,
+        "pinyin": "xing1 qi1 tian1 qu4 gong1 yuan2。"
+      },
+      {
+        "id": "b1-time-apply-035",
+        "wordId": "L1-0432",
+        "zh": "等我一会儿。",
+        "en": "Wait for me a moment.",
+        "fromOriginalExample": true,
+        "pinyin": "deng3 wo3 yi1 hui4 r5。"
+      },
+      {
+        "id": "b1-time-apply-036",
+        "wordId": "L1-0434",
+        "zh": "等一下儿。",
+        "en": "Wait a moment.",
+        "fromOriginalExample": true,
+        "pinyin": "deng3 yi1 xia4 r5。"
+      },
+      {
+        "id": "b1-time-apply-037",
+        "wordId": "L1-0118a",
+        "zh": "我哥哥是医生。",
+        "en": "My older brother is a doctor.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ge1 ge5 shi4 yi1 sheng1。"
+      },
+      {
+        "id": "b1-time-apply-038",
+        "wordId": "L1-0444a",
+        "zh": "有时候我吃米饭。",
+        "en": "Sometimes I eat rice.",
+        "fromOriginalExample": true,
+        "pinyin": "you3 shi2 hou5 wo3 chi1 mi3 fan4。"
+      },
+      {
+        "id": "b1-time-apply-039",
+        "wordId": "L1-0444b",
+        "zh": "有时很忙。",
+        "en": "Sometimes very busy.",
+        "fromOriginalExample": true,
+        "pinyin": "you3 shi2 hen3 mang2。"
+      },
+      {
+        "id": "b1-time-apply-040",
+        "wordId": "L1-0452",
+        "zh": "一个月有三十天。",
+        "en": "A month has 30 days.",
+        "fromOriginalExample": true,
+        "pinyin": "yi1 ge5 yue4 you3 san1 shi2 tian1。"
+      },
+      {
+        "id": "b1-time-apply-041",
+        "wordId": "L1-0457",
+        "zh": "早上好。",
+        "en": "Good morning.",
+        "fromOriginalExample": true,
+        "pinyin": "zao3 shang5 hao3。"
+      },
+      {
+        "id": "b1-time-apply-042",
+        "wordId": "L1-0459",
+        "zh": "早上六点起床。",
+        "en": "Get up at 6 in the morning.",
+        "fromOriginalExample": true,
+        "pinyin": "zao3 shang5 liu4 dian3 qi3 chuang2。"
+      },
+      {
+        "id": "b1-time-apply-043",
+        "wordId": "L1-0472",
+        "zh": "我正在吃饭。",
+        "en": "I'm just eating.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zheng4 zai4 chi1 fan4。"
+      },
+      {
+        "id": "b1-time-apply-044",
+        "wordId": "L1-0473",
+        "zh": "我正在学习。",
+        "en": "I'm studying right now.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zheng4 zai4 xue2 xi2。"
+      },
+      {
+        "id": "b1-time-apply-045",
+        "wordId": "L1-0480",
+        "zh": "中午吃午饭。",
+        "en": "Eat lunch at noon.",
+        "fromOriginalExample": true,
+        "pinyin": "zhong1 wu3 chi1 wu3 fan4。"
+      },
+      {
+        "id": "b1-time-apply-046",
+        "wordId": "L1-0494",
+        "zh": "最后一个人。",
+        "en": "The last person.",
+        "fromOriginalExample": true,
+        "pinyin": "zui4 hou4 yi1 ge4 ren2。"
+      },
+      {
+        "id": "b1-time-apply-047",
+        "wordId": "L1-0495",
+        "zh": "昨天我去了公园。",
+        "en": "I went to the park yesterday.",
+        "fromOriginalExample": true,
+        "pinyin": "zuo2 tian1 wo3 qu4 le5 gong1 yuan2。"
       }
     ],
     "b1-verbs-1": [
       {
         "id": "b1-verbs-1-apply-001",
         "wordId": "L1-0013",
-        "zh": "我来帮你。",
-        "en": "I will help you.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ lái bāng nǐ。"
+        "zh": "请帮我一下。",
+        "en": "Please help me.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 bang1 wo3 yi1 xia4。"
       },
       {
         "id": "b1-verbs-1-apply-002",
@@ -469,105 +877,217 @@
         "zh": "你能帮忙吗？",
         "en": "Can you help?",
         "fromOriginalExample": true,
-        "pinyin": "nǐ néng bāngmáng ma？"
+        "pinyin": "ni3 neng2 bang1 mang2 ma2？"
       },
       {
         "id": "b1-verbs-1-apply-003",
         "wordId": "L1-0037",
-        "zh": "还差一点。",
-        "en": "It is still a little short.",
-        "fromOriginalExample": false,
-        "pinyin": "hái chà yìdiǎn。"
+        "zh": "差五分钟八点。",
+        "en": "Five minutes to eight.",
+        "fromOriginalExample": true,
+        "pinyin": "cha1 wu3 fen1 zhong1 ba1 dian3。"
       },
       {
         "id": "b1-verbs-1-apply-004",
         "wordId": "L1-0051",
-        "zh": "我今天穿蓝色衣服。",
-        "en": "I am wearing blue today.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ jīntiān chuān lánsè yīfu。"
+        "zh": "她穿红色裙子。",
+        "en": "She wears a red dress.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 chuan1 hong2 se4 qun2 zi5。"
       },
       {
         "id": "b1-verbs-1-apply-005",
         "wordId": "L1-0056",
-        "zh": "我给你打电话。",
-        "en": "I am calling you.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ gěi nǐ dǎ diànhuà。"
+        "zh": "我打电话给你。",
+        "en": "I'll call you.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 da3 dian4 hua4 gei3 ni3。"
       },
       {
         "id": "b1-verbs-1-apply-006",
         "wordId": "L1-0059",
-        "zh": "请打开门。",
-        "en": "Please open the door.",
-        "fromOriginalExample": false,
-        "pinyin": "qǐng dǎkāi mén。"
+        "zh": "请打开窗户。",
+        "en": "Please open the window.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 da3 kai1 chuang1 hu5。"
       },
       {
         "id": "b1-verbs-1-apply-007",
         "wordId": "L1-0065",
-        "zh": "我得到了这个机会。",
-        "en": "I got this opportunity.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ dédào le zhège jīhuì。"
+        "zh": "我得到了礼物。",
+        "en": "I received a gift.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de2 dao4 le5 li3 wu4。"
       },
       {
         "id": "b1-verbs-1-apply-008",
         "wordId": "L1-0068",
         "zh": "请等一下。",
         "en": "Please wait a moment.",
-        "fromOriginalExample": false,
-        "pinyin": "qǐng děng yíxià。"
+        "fromOriginalExample": true,
+        "pinyin": "qing3 deng3 yi1 xia4。"
       },
       {
         "id": "b1-verbs-1-apply-009",
         "wordId": "L1-0087",
-        "zh": "别动。",
-        "en": "Do not move.",
-        "fromOriginalExample": false,
-        "pinyin": "bié dòng。"
+        "zh": "别动！",
+        "en": "Don't move!",
+        "fromOriginalExample": true,
+        "pinyin": "bie2 dong4！"
       },
       {
         "id": "b1-verbs-1-apply-010",
         "wordId": "L1-0103",
-        "zh": "我把书放在桌子上。",
-        "en": "I put the book on the table.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ bǎ shū fàng zài zhuōzi shang。"
+        "zh": "把书放在桌子上。",
+        "en": "Put the book on the table.",
+        "fromOriginalExample": true,
+        "pinyin": "ba3 shu1 fang4 zai4 zhuo1 zi5 shang3。"
       },
       {
         "id": "b1-verbs-1-apply-011",
         "wordId": "L1-0104",
-        "zh": "我下周放假。",
-        "en": "I am on vacation next week.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ xià zhōu fàngjià。"
+        "zh": "明天放假。",
+        "en": "Tomorrow is a holiday.",
+        "fromOriginalExample": true,
+        "pinyin": "ming2 tian1 fang4 jia4。"
       },
       {
         "id": "b1-verbs-1-apply-012",
         "wordId": "L1-0111",
         "zh": "衣服干了。",
         "en": "The clothes are dry.",
-        "fromOriginalExample": false,
-        "pinyin": "yīfu gān le。"
+        "fromOriginalExample": true,
+        "pinyin": "yi1 fu5 gan1 le5。"
+      },
+      {
+        "id": "b1-verbs-1-apply-013",
+        "wordId": "L1-0117",
+        "zh": "请告诉我你的名字。",
+        "en": "Please tell me your name.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 gao4 su4 wo3 ni3 de5 ming2 zi5。"
+      },
+      {
+        "id": "b1-verbs-1-apply-014",
+        "wordId": "L1-0121",
+        "zh": "给我一杯水。",
+        "en": "Give me a glass of water.",
+        "fromOriginalExample": true,
+        "pinyin": "gei3 wo3 yi1 bei1 shui3。"
+      },
+      {
+        "id": "b1-verbs-1-apply-015",
+        "wordId": "L1-0125",
+        "zh": "请关门。",
+        "en": "Please close the door.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 guan1 men2。"
+      },
+      {
+        "id": "b1-verbs-1-apply-016",
+        "wordId": "L1-0126",
+        "zh": "把窗户关上。",
+        "en": "Close the window.",
+        "fromOriginalExample": true,
+        "pinyin": "ba3 chuang1 hu5 guan1 shang4。"
+      },
+      {
+        "id": "b1-verbs-1-apply-017",
+        "wordId": "L1-0440",
+        "zh": "我用筷子吃饭。",
+        "en": "I use chopsticks to eat.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 yong4 kuai4 zi5 chi1 fan4。"
+      },
+      {
+        "id": "b1-verbs-1-apply-018",
+        "wordId": "L1-0441",
+        "zh": "我有一个哥哥。",
+        "en": "I have an older brother.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 you3 yi1 ge5 ge1 ge5。"
+      },
+      {
+        "id": "b1-verbs-1-apply-019",
+        "wordId": "L1-0455",
+        "zh": "我在家。",
+        "en": "I'm at home.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 jia1。"
+      },
+      {
+        "id": "b1-verbs-1-apply-020",
+        "wordId": "L1-0461",
+        "zh": "请站起来。",
+        "en": "Please stand up.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 zhan4 qi3 lai5。"
+      },
+      {
+        "id": "b1-verbs-1-apply-021",
+        "wordId": "L1-0462",
+        "zh": "你在找什么？",
+        "en": "What are you looking for?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 zai4 zhao3 shen2 me5？"
+      },
+      {
+        "id": "b1-verbs-1-apply-022",
+        "wordId": "L1-0463",
+        "zh": "我找到了。",
+        "en": "I found it.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zhao3 dao4 le5。"
+      },
+      {
+        "id": "b1-verbs-1-apply-023",
+        "wordId": "L1-0474",
+        "zh": "我知道。",
+        "en": "I know.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zhi1 dao4。"
+      },
+      {
+        "id": "b1-verbs-1-apply-024",
+        "wordId": "L1-0485",
+        "zh": "我住在中国。",
+        "en": "I live in China.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zhu4 zai4 zhong1 guo2。"
+      },
+      {
+        "id": "b1-verbs-1-apply-025",
+        "wordId": "L1-0490",
+        "zh": "我走了。",
+        "en": "I'm leaving.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zou3 le5。"
+      },
+      {
+        "id": "b1-verbs-1-apply-026",
+        "wordId": "L1-0498",
+        "zh": "请坐。",
+        "en": "Please sit.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 zuo4。"
       }
     ],
     "b1-family": [
       {
         "id": "b1-family-apply-001",
         "wordId": "L1-0004b",
-        "zh": "这是我爸。",
-        "en": "This is my dad.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì wǒ bà。"
+        "zh": "爸，我们回家吧。",
+        "en": "Dad, let's go home.",
+        "fromOriginalExample": true,
+        "pinyin": "ba4， wo3 men5 hui2 jia1 ba1。"
       },
       {
         "id": "b1-family-apply-002",
         "wordId": "L1-0061",
-        "zh": "我比弟弟大。",
-        "en": "I am older than my younger brother.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ bǐ dìdi dà。"
+        "zh": "北京很大。",
+        "en": "Beijing is very big.",
+        "fromOriginalExample": true,
+        "pinyin": "bei3 jing1 hen3 da4。"
       },
       {
         "id": "b1-family-apply-003",
@@ -575,15 +1095,15 @@
         "zh": "他是我弟。",
         "en": "He is my younger brother.",
         "fromOriginalExample": true,
-        "pinyin": "tā shì wǒ dì。"
+        "pinyin": "ta1 shi4 wo3 di4。"
       },
       {
         "id": "b1-family-apply-004",
         "wordId": "L1-0097",
         "zh": "他有一个儿子。",
         "en": "He has a son.",
-        "fromOriginalExample": false,
-        "pinyin": "tā yǒu yí gè érzi。"
+        "fromOriginalExample": true,
+        "pinyin": "ta1 you3 yi1 ge5 er2 zi5。"
       },
       {
         "id": "b1-family-apply-005",
@@ -591,97 +1111,297 @@
         "zh": "哥，我们去哪儿？",
         "en": "Brother, where are we going?",
         "fromOriginalExample": true,
-        "pinyin": "gē， wǒmen qù nǎr？"
+        "pinyin": "ge1， wo3 men5 qu4 na3 r5？"
       },
       {
         "id": "b1-family-apply-006",
         "wordId": "L1-0135",
-        "zh": "这是我的孩子。",
-        "en": "This is my child.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì wǒ de háizi。"
+        "zh": "孩子们在玩。",
+        "en": "The children are playing.",
+        "fromOriginalExample": true,
+        "pinyin": "hai2 zi5 men5 zai4 wan2。"
       },
       {
         "id": "b1-family-apply-007",
         "wordId": "L1-0169",
-        "zh": "我们回家吧。",
-        "en": "Let us go home.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒmen huí jiā ba。"
+        "zh": "我家在北京。",
+        "en": "My home is in Beijing.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 jia1 zai4 bei3 jing1。"
       },
       {
         "id": "b1-family-apply-008",
         "wordId": "L1-0171",
-        "zh": "他们是我的家人。",
-        "en": "They are my family.",
-        "fromOriginalExample": false,
-        "pinyin": "tāmen shì wǒ de jiārén。"
+        "zh": "我的家人都很好。",
+        "en": "My family are all well.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 jia1 ren2 du1 hen3 hao3。"
       },
       {
         "id": "b1-family-apply-009",
         "wordId": "L1-0178b",
-        "zh": "这是我姐。",
-        "en": "This is my older sister.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì wǒ jiě。"
+        "zh": "姐，我们走吧。",
+        "en": "Sister, let's go.",
+        "fromOriginalExample": true,
+        "pinyin": "jie3， wo3 men5 zou3 ba1。"
       },
       {
         "id": "b1-family-apply-010",
         "wordId": "L1-0208",
-        "zh": "那位老人是老师。",
-        "en": "That elderly person is a teacher.",
-        "fromOriginalExample": false,
-        "pinyin": "nà wèi lǎorén shì lǎoshī。"
+        "zh": "老人需要帮助。",
+        "en": "Elderly people need help.",
+        "fromOriginalExample": true,
+        "pinyin": "lao3 ren2 xu1 yao4 bang1 zhu4。"
       },
       {
         "id": "b1-family-apply-011",
         "wordId": "L1-0224b",
-        "zh": "这是我妈。",
-        "en": "This is my mom.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì wǒ mā。"
+        "zh": "妈，我回来了。",
+        "en": "Mom, I'm home.",
+        "fromOriginalExample": true,
+        "pinyin": "ma1， wo3 hui2 lai5 le5。"
       },
       {
         "id": "b1-family-apply-012",
         "wordId": "L1-0237b",
-        "zh": "她是我妹。",
+        "zh": "他是我妹。",
         "en": "She is my younger sister.",
         "fromOriginalExample": true,
-        "pinyin": "tā shì wǒ mèi。"
+        "pinyin": "ta1 shi4 wo3 mei4。"
+      },
+      {
+        "id": "b1-family-apply-013",
+        "wordId": "L1-0241b",
+        "zh": "我的朋友们都来了。",
+        "en": "All my friends are here.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 peng2 you5 men5 du1 lai2 le5。"
+      },
+      {
+        "id": "b1-family-apply-014",
+        "wordId": "L1-0245",
+        "zh": "你叫什么名字？",
+        "en": "What's your name?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 jiao4 shen2 me5 ming2 zi5？"
+      },
+      {
+        "id": "b1-family-apply-015",
+        "wordId": "L1-0260",
+        "zh": "我奶奶做的饭很好吃。",
+        "en": "My grandmother's cooking is delicious.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 nai3 nai5 zuo4 de5 fan4 hen3 hao3 chi1。"
+      },
+      {
+        "id": "b1-family-apply-016",
+        "wordId": "L1-0261",
+        "zh": "他是我男朋友。",
+        "en": "He is my boyfriend.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 shi4 wo3 nan2 peng2 you5。"
+      },
+      {
+        "id": "b1-family-apply-017",
+        "wordId": "L1-0262",
+        "zh": "那个男孩儿是我弟弟。",
+        "en": "That boy is my younger brother.",
+        "fromOriginalExample": true,
+        "pinyin": "na4 ge5 nan2 hai2 r5 shi4 wo3 di4 di5。"
+      },
+      {
+        "id": "b1-family-apply-018",
+        "wordId": "L1-0263",
+        "zh": "她有男朋友了。",
+        "en": "She has a boyfriend now.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 you3 nan2 peng2 you5 le5。"
+      },
+      {
+        "id": "b1-family-apply-019",
+        "wordId": "L1-0264",
+        "zh": "那个男人是谁？",
+        "en": "Who is that man?",
+        "fromOriginalExample": true,
+        "pinyin": "na4 ge5 nan2 ren2 shi4 shei2？"
+      },
+      {
+        "id": "b1-family-apply-020",
+        "wordId": "L1-0265",
+        "zh": "他是我们班的男生。",
+        "en": "He's a boy in our class.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 shi4 wo3 men5 ban1 de5 nan2 sheng1。"
+      },
+      {
+        "id": "b1-family-apply-021",
+        "wordId": "L1-0276",
+        "zh": "她是我女朋友。",
+        "en": "She is my girlfriend.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 shi4 wo3 nu:3 peng2 you5。"
+      },
+      {
+        "id": "b1-family-apply-022",
+        "wordId": "L1-0277",
+        "zh": "他有一个女儿。",
+        "en": "He has a daughter.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 you3 yi1 ge5 nu:3 er2。"
+      },
+      {
+        "id": "b1-family-apply-023",
+        "wordId": "L1-0278",
+        "zh": "那个女孩儿很漂亮。",
+        "en": "That girl is very pretty.",
+        "fromOriginalExample": true,
+        "pinyin": "na4 ge5 nu:3 hai2 r5 hen3 piao4 liang5。"
+      },
+      {
+        "id": "b1-family-apply-024",
+        "wordId": "L1-0279",
+        "zh": "他的女朋友很漂亮。",
+        "en": "His girlfriend is very pretty.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 de5 nu:3 peng2 you5 hen3 piao4 liang5。"
+      },
+      {
+        "id": "b1-family-apply-025",
+        "wordId": "L1-0280",
+        "zh": "那个女人是我妈妈。",
+        "en": "That woman is my mother.",
+        "fromOriginalExample": true,
+        "pinyin": "na4 ge5 nu:3 ren2 shi4 wo3 ma1 ma5。"
+      },
+      {
+        "id": "b1-family-apply-026",
+        "wordId": "L1-0281",
+        "zh": "她是新来的女生。",
+        "en": "She's a new girl student.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 shi4 xin1 lai2 de5 nu:3 sheng1。"
+      },
+      {
+        "id": "b1-family-apply-027",
+        "wordId": "L1-0284",
+        "zh": "我们是好朋友。",
+        "en": "We are good friends.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 shi4 hao3 peng2 you5。"
+      },
+      {
+        "id": "b1-family-apply-028",
+        "wordId": "L1-0305",
+        "zh": "很多人。",
+        "en": "Many people.",
+        "fromOriginalExample": true,
+        "pinyin": "hen3 duo1 ren2。"
+      },
+      {
+        "id": "b1-family-apply-029",
+        "wordId": "L1-0331",
+        "zh": "生日快乐！",
+        "en": "Happy birthday!",
+        "fromOriginalExample": true,
+        "pinyin": "sheng1 ri4 kuai4 le4！"
+      },
+      {
+        "id": "b1-family-apply-030",
+        "wordId": "L1-0376",
+        "zh": "我的网友在中国。",
+        "en": "My online friend is in China.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 wang3 you3 zai4 zhong1 guo2。"
+      },
+      {
+        "id": "b1-family-apply-031",
+        "wordId": "L1-0398",
+        "zh": "王先生。",
+        "en": "Mr. Wang.",
+        "fromOriginalExample": true,
+        "pinyin": "wang2 xian1 sheng5。"
+      },
+      {
+        "id": "b1-family-apply-032",
+        "wordId": "L1-0402",
+        "zh": "小孩儿在玩儿。",
+        "en": "The child is playing.",
+        "fromOriginalExample": true,
+        "pinyin": "xiao3 hai2 r5 zai4 wan2 r5。"
+      },
+      {
+        "id": "b1-family-apply-033",
+        "wordId": "L1-0403",
+        "zh": "小姐，请问几点了？",
+        "en": "Miss, what time is it?",
+        "fromOriginalExample": true,
+        "pinyin": "xiao3 jie5， qing3 wen4 ji3 dian3 le5？"
+      },
+      {
+        "id": "b1-family-apply-034",
+        "wordId": "L1-0404",
+        "zh": "小朋友们好。",
+        "en": "Hello children.",
+        "fromOriginalExample": true,
+        "pinyin": "xiao3 peng2 you3 men5 hao3。"
+      },
+      {
+        "id": "b1-family-apply-035",
+        "wordId": "L1-0424",
+        "zh": "我爷爷七十五岁。",
+        "en": "My grandpa is 75 years old.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ye2 ye5 qi1 shi2 wu3 sui4。"
+      },
+      {
+        "id": "b1-family-apply-036",
+        "wordId": "L1-0429",
+        "zh": "我想当医生。",
+        "en": "I want to be a doctor.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xiang3 dang1 yi1 sheng1。"
+      },
+      {
+        "id": "b1-family-apply-037",
+        "wordId": "L1-0456",
+        "zh": "今天我在家。",
+        "en": "I'm at home today.",
+        "fromOriginalExample": true,
+        "pinyin": "jin1 tian1 wo3 zai4 jia1。"
       }
     ],
     "b1-routine": [
       {
         "id": "b1-routine-apply-001",
         "wordId": "L1-0028",
-        "zh": "我今天生病了。",
-        "en": "I am sick today.",
+        "zh": "他病了，所以没来。",
+        "en": "He is sick, so he didn’t come.",
         "fromOriginalExample": false,
-        "pinyin": "wǒ jīntiān shēngbìng le。"
+        "pinyin": "ta1 bing4 le5， suo3 yi3 mei2 lai2。"
       },
       {
         "id": "b1-routine-apply-002",
         "wordId": "L1-0040",
-        "zh": "我喜欢唱。",
-        "en": "I like to sing.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ xǐhuan chàng。"
+        "zh": "她会唱中文歌。",
+        "en": "She can sing Chinese songs.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 hui4 chang4 zhong1 wen2 ge1。"
       },
       {
         "id": "b1-routine-apply-003",
         "wordId": "L1-0041",
-        "zh": "我唱歌。",
-        "en": "I sing a song.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ chànggē。"
+        "zh": "我们一起唱歌吧。",
+        "en": "Let's sing together.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 yi1 qi3 chang4 ge1 ba1。"
       },
       {
         "id": "b1-routine-apply-004",
         "wordId": "L1-0046",
-        "zh": "我吃。",
-        "en": "I eat.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ chī。"
+        "zh": "你吃饭了吗？",
+        "en": "Have you eaten?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 chi1 fan4 le5 ma2？"
       },
       {
         "id": "b1-routine-apply-005",
@@ -689,15 +1409,15 @@
         "zh": "我们一起去吃饭。",
         "en": "Let's go eat together.",
         "fromOriginalExample": true,
-        "pinyin": "wǒmen yīqǐ qù chīfàn。"
+        "pinyin": "wo3 men5 yi1 qi3 qu4 chi1 fan4。"
       },
       {
         "id": "b1-routine-apply-006",
         "wordId": "L1-0058",
-        "zh": "我打电话。",
-        "en": "I make a phone call.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ dǎ diànhuà。"
+        "zh": "请给我打电话。",
+        "en": "Please call me.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 gei3 wo3 da3 dian4 hua4。"
       },
       {
         "id": "b1-routine-apply-007",
@@ -705,39 +1425,39 @@
         "zh": "他喜欢打球。",
         "en": "He likes playing ball.",
         "fromOriginalExample": true,
-        "pinyin": "tā xǐhuan dǎ qiú。"
+        "pinyin": "ta1 xi3 huan5 da3 qiu2。"
       },
       {
         "id": "b1-routine-apply-008",
         "wordId": "L1-0088",
-        "zh": "这是一个动作。",
-        "en": "This is a movement.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì yí gè dòngzuò。"
+        "zh": "这个动作很难。",
+        "en": "This movement is very difficult.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ge5 dong4 zuo4 hen3 nan2。"
       },
       {
         "id": "b1-routine-apply-009",
         "wordId": "L1-0110",
         "zh": "今天风很大。",
-        "en": "It is very windy today.",
-        "fromOriginalExample": false,
-        "pinyin": "jīntiān fēng hěn dà。"
+        "en": "It's very windy today.",
+        "fromOriginalExample": true,
+        "pinyin": "jin1 tian1 feng1 hen3 da4。"
       },
       {
         "id": "b1-routine-apply-010",
         "wordId": "L1-0113",
-        "zh": "你在干什么？",
-        "en": "What are you doing?",
+        "zh": "衣服已经干了。",
+        "en": "The clothes are already dry.",
         "fromOriginalExample": true,
-        "pinyin": "nǐ zài gàn shénme？"
+        "pinyin": "yi1 fu5 yi3 jing1 gan1 le5。"
       },
       {
         "id": "b1-routine-apply-011",
         "wordId": "L1-0124",
         "zh": "我在工作。",
-        "en": "I am working.",
+        "en": "I'm working.",
         "fromOriginalExample": true,
-        "pinyin": "wǒ zài gōngzuò。"
+        "pinyin": "wo3 zai4 gong1 zuo4。"
       },
       {
         "id": "b1-routine-apply-012",
@@ -745,7 +1465,183 @@
         "zh": "你想喝什么？",
         "en": "What do you want to drink?",
         "fromOriginalExample": true,
-        "pinyin": "nǐ xiǎng hē shénme？"
+        "pinyin": "ni3 xiang3 he1 shen2 me5？"
+      },
+      {
+        "id": "b1-routine-apply-013",
+        "wordId": "L1-0157",
+        "zh": "我五点回家。",
+        "en": "I go home at 5 o'clock.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 wu3 dian3 hui2 jia1。"
+      },
+      {
+        "id": "b1-routine-apply-014",
+        "wordId": "L1-0193",
+        "zh": "我去医院看病。",
+        "en": "I'm going to the hospital to see a doctor.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 qu4 yi1 yuan4 kan4 bing4。"
+      },
+      {
+        "id": "b1-routine-apply-015",
+        "wordId": "L1-0287",
+        "zh": "我每天六点起床。",
+        "en": "I get up at six every day.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mei3 tian1 liu4 dian3 qi3 chuang2。"
+      },
+      {
+        "id": "b1-routine-apply-016",
+        "wordId": "L1-0288",
+        "zh": "你几点起床？",
+        "en": "What time do you get up?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 ji3 dian3 qi3 chuang2？"
+      },
+      {
+        "id": "b1-routine-apply-017",
+        "wordId": "L1-0301",
+        "zh": "我喜欢打球。",
+        "en": "I like playing ball.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xi3 huan5 da3 qiu2。"
+      },
+      {
+        "id": "b1-routine-apply-018",
+        "wordId": "L1-0316",
+        "zh": "我八点上班。",
+        "en": "I start work at 8.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ba1 dian3 shang4 ban1。"
+      },
+      {
+        "id": "b1-routine-apply-019",
+        "wordId": "L1-0327",
+        "zh": "注意身体。",
+        "en": "Take care of your health.",
+        "fromOriginalExample": true,
+        "pinyin": "zhu4 yi4 shen1 ti3。"
+      },
+      {
+        "id": "b1-routine-apply-020",
+        "wordId": "L1-0329",
+        "zh": "他生病了。",
+        "en": "He got sick.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 sheng1 bing4 le5。"
+      },
+      {
+        "id": "b1-routine-apply-021",
+        "wordId": "L1-0335",
+        "zh": "我有事。",
+        "en": "I have something to do.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 you3 shi4。"
+      },
+      {
+        "id": "b1-routine-apply-022",
+        "wordId": "L1-0339",
+        "zh": "洗手。",
+        "en": "Wash hands.",
+        "fromOriginalExample": true,
+        "pinyin": "xi3 shou3。"
+      },
+      {
+        "id": "b1-routine-apply-023",
+        "wordId": "L1-0347",
+        "zh": "我十点睡觉。",
+        "en": "I go to sleep at 10.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 shi2 dian3 shui4 jiao4。"
+      },
+      {
+        "id": "b1-routine-apply-024",
+        "wordId": "L1-0348",
+        "zh": "该睡觉了。",
+        "en": "Time to sleep.",
+        "fromOriginalExample": true,
+        "pinyin": "gai1 shui4 jiao4 le5。"
+      },
+      {
+        "id": "b1-routine-apply-025",
+        "wordId": "L1-0360",
+        "zh": "天气怎么样？",
+        "en": "How's the weather?",
+        "fromOriginalExample": true,
+        "pinyin": "tian1 qi4 zen3 me5 yang4？"
+      },
+      {
+        "id": "b1-routine-apply-026",
+        "wordId": "L1-0386",
+        "zh": "我去洗手。",
+        "en": "I'm going to wash my hands.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 qu4 xi3 shou3。"
+      },
+      {
+        "id": "b1-routine-apply-027",
+        "wordId": "L1-0390",
+        "zh": "我五点下班。",
+        "en": "I finish work at 5.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 wu3 dian3 xia4 ban1。"
+      },
+      {
+        "id": "b1-routine-apply-028",
+        "wordId": "L1-0394",
+        "zh": "我们十点下课。",
+        "en": "We finish class at 10.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 shi2 dian3 xia4 ke4。"
+      },
+      {
+        "id": "b1-routine-apply-029",
+        "wordId": "L1-0396",
+        "zh": "今天下雨。",
+        "en": "It's raining today.",
+        "fromOriginalExample": true,
+        "pinyin": "jin1 tian1 xia4 yu3。"
+      },
+      {
+        "id": "b1-routine-apply-030",
+        "wordId": "L1-0417",
+        "zh": "我们休息一下。",
+        "en": "Let's rest a bit.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 xiu1 xi5 yi1 xia4。"
+      },
+      {
+        "id": "b1-routine-apply-031",
+        "wordId": "L1-0433",
+        "zh": "我们一块儿去。",
+        "en": "Let's go together.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 yi1 kuai4 r5 qu4。"
+      },
+      {
+        "id": "b1-routine-apply-032",
+        "wordId": "L1-0438",
+        "zh": "我们一起学习。",
+        "en": "We study together.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 yi1 qi3 xue2 xi2。"
+      },
+      {
+        "id": "b1-routine-apply-033",
+        "wordId": "L1-0449",
+        "zh": "下雨了。",
+        "en": "It's raining.",
+        "fromOriginalExample": true,
+        "pinyin": "xia4 yu3 le5。"
+      },
+      {
+        "id": "b1-routine-apply-034",
+        "wordId": "L1-0453",
+        "zh": "请再说一遍。",
+        "en": "Please say it again.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 zai4 shuo1 yi1 bian4。"
       }
     ],
     "b1-food": [
@@ -753,17 +1649,17 @@
         "id": "b1-food-apply-001",
         "wordId": "L1-0016",
         "zh": "我喜欢吃肉包子。",
-        "en": "I like to eat meat buns.",
+        "en": "I like eating meat buns.",
         "fromOriginalExample": true,
-        "pinyin": "wǒ xǐhuan chī ròu bāozi。"
+        "pinyin": "wo3 xi3 huan5 chi1 rou4 bao1 zi5。"
       },
       {
         "id": "b1-food-apply-002",
         "wordId": "L1-0018",
-        "zh": "给我一个杯子。",
-        "en": "Give me a cup, please.",
-        "fromOriginalExample": false,
-        "pinyin": "gěi wǒ yí gè bēizi。"
+        "zh": "这个杯子很漂亮。",
+        "en": "This cup is very pretty.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ge5 bei1 zi5 hen3 piao4 liang5。"
       },
       {
         "id": "b1-food-apply-003",
@@ -771,71 +1667,71 @@
         "zh": "这个菜很好吃。",
         "en": "This dish is delicious.",
         "fromOriginalExample": true,
-        "pinyin": "zhè gè cài hěn hǎochī。"
+        "pinyin": "zhe4 ge5 cai4 hen3 hao3 chi1。"
       },
       {
         "id": "b1-food-apply-004",
         "wordId": "L1-0036",
-        "zh": "我想喝茶。",
-        "en": "I want to drink tea.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ xiǎng hē chá。"
+        "zh": "我喜欢喝绿茶。",
+        "en": "I like drinking green tea.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xi3 huan5 he1 lu:4 cha2。"
       },
       {
         "id": "b1-food-apply-005",
         "wordId": "L1-0096",
-        "zh": "我很饿。",
-        "en": "I am hungry.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ hěn è。"
+        "zh": "我饿了。",
+        "en": "I'm hungry.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 e4 le5。"
       },
       {
         "id": "b1-food-apply-006",
         "wordId": "L1-0099",
-        "zh": "我们去吃饭吧。",
-        "en": "Let us go eat.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒmen qù chīfàn ba。"
+        "zh": "吃饭了。",
+        "en": "Time to eat.",
+        "fromOriginalExample": true,
+        "pinyin": "chi1 fan4 le5。"
       },
       {
         "id": "b1-food-apply-007",
         "wordId": "L1-0139",
-        "zh": "我想点这个菜。",
-        "en": "I want to order this dish.",
-        "fromOriginalExample": true,
-        "pinyin": "wǒ xiǎng diǎn zhège cài。"
+        "zh": "妈妈做的饭很好吃。",
+        "en": "Mom's cooking is delicious.",
+        "fromOriginalExample": false,
+        "pinyin": "ma1 ma5 zuo4 de5 fan4 hen3 hao3 chi1。"
       },
       {
         "id": "b1-food-apply-008",
         "wordId": "L1-0164",
-        "zh": "我吃了一个鸡蛋。",
-        "en": "I ate an egg.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ chī le yí gè jīdàn。"
+        "zh": "我每天早上吃鸡蛋。",
+        "en": "I eat eggs every morning.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mei3 tian1 zao3 shang5 chi1 ji1 dan4。"
       },
       {
         "id": "b1-food-apply-009",
         "wordId": "L1-0198",
-        "zh": "我很渴。",
-        "en": "I am thirsty.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ hěn kě。"
+        "zh": "我渴了。",
+        "en": "I'm thirsty.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ke3 le5。"
       },
       {
         "id": "b1-food-apply-010",
         "wordId": "L1-0242",
-        "zh": "我想吃米饭。",
-        "en": "I want to eat rice.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ xiǎng chī mǐfàn。"
+        "zh": "我爱吃米饭。",
+        "en": "I like eating rice.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ai4 chi1 mi3 fan4。"
       },
       {
         "id": "b1-food-apply-011",
         "wordId": "L1-0243",
-        "zh": "早上我吃面包。",
+        "zh": "我早上吃面包。",
         "en": "I eat bread in the morning.",
-        "fromOriginalExample": false,
-        "pinyin": "zǎoshang wǒ chī miànbāo。"
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zao3 shang5 chi1 mian4 bao1。"
       },
       {
         "id": "b1-food-apply-012",
@@ -843,7 +1739,79 @@
         "zh": "我喜欢吃面条儿。",
         "en": "I like eating noodles.",
         "fromOriginalExample": true,
-        "pinyin": "wǒ xǐhuan chī miàntiáor。"
+        "pinyin": "wo3 xi3 huan5 chi1 mian4 tiao2 r5。"
+      },
+      {
+        "id": "b1-food-apply-013",
+        "wordId": "L1-0259",
+        "zh": "喝牛奶对身体好。",
+        "en": "Drinking milk is good for you.",
+        "fromOriginalExample": true,
+        "pinyin": "he1 niu2 nai3 dui4 shen1 ti3 hao3。"
+      },
+      {
+        "id": "b1-food-apply-014",
+        "wordId": "L1-0275",
+        "zh": "我每天早上喝牛奶。",
+        "en": "I drink milk every morning.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mei3 tian1 zao3 shang5 he1 niu2 nai3。"
+      },
+      {
+        "id": "b1-food-apply-015",
+        "wordId": "L1-0310",
+        "zh": "我不吃猪肉。",
+        "en": "I don't eat pork.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 bu4 chi1 zhu1 rou4。"
+      },
+      {
+        "id": "b1-food-apply-016",
+        "wordId": "L1-0345",
+        "zh": "我想喝水。",
+        "en": "I want to drink water.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xiang3 he1 shui3。"
+      },
+      {
+        "id": "b1-food-apply-017",
+        "wordId": "L1-0346",
+        "zh": "我喜欢吃水果。",
+        "en": "I like eating fruit.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xi3 huan5 chi1 shui3 guo3。"
+      },
+      {
+        "id": "b1-food-apply-018",
+        "wordId": "L1-0373",
+        "zh": "吃晚饭了吗？",
+        "en": "Have you had dinner?",
+        "fromOriginalExample": true,
+        "pinyin": "chi1 wan3 fan4 le5 ma2？"
+      },
+      {
+        "id": "b1-food-apply-019",
+        "wordId": "L1-0383",
+        "zh": "我们一起吃午饭吧。",
+        "en": "Let's have lunch together.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 yi1 qi3 chi1 wu3 fan4 ba1。"
+      },
+      {
+        "id": "b1-food-apply-020",
+        "wordId": "L1-0178a",
+        "zh": "我姐姐是老师。",
+        "en": "My older sister is a teacher.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 jie3 jie5 shi4 lao3 shi1。"
+      },
+      {
+        "id": "b1-food-apply-021",
+        "wordId": "L1-0458",
+        "zh": "我吃早饭。",
+        "en": "I eat breakfast.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 chi1 zao3 fan4。"
       }
     ],
     "b1-shopping": [
@@ -853,63 +1821,63 @@
         "zh": "这是什么东西？",
         "en": "What is this thing?",
         "fromOriginalExample": true,
-        "pinyin": "zhè shì shénme dōngxi？"
+        "pinyin": "zhe4 shi4 shen2 me5 dong1 xi1？"
       },
       {
         "id": "b1-shopping-apply-002",
         "wordId": "L1-0094",
-        "zh": "这里东西很多。",
-        "en": "There are many things here.",
-        "fromOriginalExample": false,
-        "pinyin": "zhèlǐ dōngxi hěn duō。"
+        "zh": "我有很多朋友。",
+        "en": "I have many friends.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 you3 hen3 duo1 peng2 you5。"
       },
       {
         "id": "b1-shopping-apply-003",
         "wordId": "L1-0127",
-        "zh": "是不是？",
-        "en": "Is it or not?",
-        "fromOriginalExample": false,
-        "pinyin": "shì bu shì？"
+        "zh": "这个太贵了。",
+        "en": "This is too expensive.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ge5 tai4 gui4 le5。"
       },
       {
         "id": "b1-shopping-apply-004",
         "wordId": "L1-0203",
-        "zh": "这个蛋糕要两块。",
-        "en": "This cake is two yuan.",
-        "fromOriginalExample": false,
-        "pinyin": "zhège dàngāo yào liǎng kuài。"
+        "zh": "一块钱",
+        "en": "one yuan",
+        "fromOriginalExample": true,
+        "pinyin": "yi1 kuai4 qian2"
       },
       {
         "id": "b1-shopping-apply-005",
         "wordId": "L1-0228",
-        "zh": "我想买这个。",
-        "en": "I want to buy this one.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ xiǎng mǎi zhège。"
+        "zh": "我想买这本书。",
+        "en": "I want to buy this book.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xiang3 mai3 zhe4 ben3 shu1。"
       },
       {
         "id": "b1-shopping-apply-006",
         "wordId": "L1-0231",
-        "zh": "一块五毛。",
-        "en": "One yuan and five mao.",
-        "fromOriginalExample": false,
-        "pinyin": "yí kuài wǔ máo。"
+        "zh": "五毛钱",
+        "en": "five mao (50 cents)",
+        "fromOriginalExample": true,
+        "pinyin": "wu3 mao2 qian2"
       },
       {
         "id": "b1-shopping-apply-007",
         "wordId": "L1-0294",
-        "zh": "我没有钱。",
-        "en": "I do not have money.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ méiyǒu qián。"
+        "zh": "我没带钱。",
+        "en": "I didn't bring money.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mei2 dai4 qian2。"
       },
       {
         "id": "b1-shopping-apply-008",
         "wordId": "L1-0295",
-        "zh": "这是我的钱包。",
-        "en": "This is my wallet.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì wǒ de qiánbāo。"
+        "zh": "我的钱包丢了。",
+        "en": "I lost my wallet.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 qian2 bao1 diu1 le5。"
       },
       {
         "id": "b1-shopping-apply-009",
@@ -917,31 +1885,39 @@
         "zh": "我们去商场买东西。",
         "en": "Let's go to the mall to shop.",
         "fromOriginalExample": true,
-        "pinyin": "wǒmen qù shāngchǎng mǎi dōngxi。"
+        "pinyin": "wo3 men5 qu4 shang1 chang3 mai3 dong1 xi5。"
       },
       {
         "id": "b1-shopping-apply-010",
         "wordId": "L1-0314",
-        "zh": "那是一家商店。",
-        "en": "That is a shop.",
-        "fromOriginalExample": false,
-        "pinyin": "nà shì yì jiā shāngdiàn。"
+        "zh": "商店几点开门？",
+        "en": "What time does the store open?",
+        "fromOriginalExample": true,
+        "pinyin": "shang1 dian4 ji3 dian3 kai1 men2？"
       },
       {
         "id": "b1-shopping-apply-011",
         "wordId": "L1-0428",
-        "zh": "我想买衣服。",
-        "en": "I want to buy clothes.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ xiǎng mǎi yīfu。"
+        "zh": "这件衣服很漂亮。",
+        "en": "This piece of clothing is pretty.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 jian4 yi1 fu5 hen3 piao4 liang5。"
       },
       {
         "id": "b1-shopping-apply-012",
         "wordId": "L1-0414",
-        "zh": "今天是星期日。",
-        "en": "Today is Sunday.",
-        "fromOriginalExample": false,
-        "pinyin": "jīntiān shì xīngqīrì。"
+        "zh": "星期日我休息。",
+        "en": "I rest on Sunday.",
+        "fromOriginalExample": true,
+        "pinyin": "xing1 qi1 ri4 wo3 xiu1 xi5。"
+      },
+      {
+        "id": "b1-shopping-apply-013",
+        "wordId": "L1-0450",
+        "zh": "十元钱。",
+        "en": "Ten yuan.",
+        "fromOriginalExample": true,
+        "pinyin": "shi2 yuan2 qian2。"
       }
     ],
     "b1-locations": [
@@ -951,47 +1927,47 @@
         "zh": "我想去北京。",
         "en": "I want to go to Beijing.",
         "fromOriginalExample": true,
-        "pinyin": "wǒ xiǎng qù Běijīng。"
+        "pinyin": "wo3 xiang3 qu4 bei3 jing1。"
       },
       {
         "id": "b1-locations-apply-002",
         "wordId": "L1-0029",
-        "zh": "他是病人。",
-        "en": "He is a patient.",
-        "fromOriginalExample": false,
-        "pinyin": "tā shì bìngrén。"
+        "zh": "医院里有很多病人。",
+        "en": "There are many patients in the hospital.",
+        "fromOriginalExample": true,
+        "pinyin": "yi1 yuan4 li3 you3 hen3 duo1 bing4 ren2。"
       },
       {
         "id": "b1-locations-apply-003",
         "wordId": "L1-0069",
-        "zh": "我们坐在地上。",
-        "en": "We are sitting on the ground.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒmen zuò zài dìshang。"
+        "zh": "书掉在地上了。",
+        "en": "The book fell on the ground.",
+        "fromOriginalExample": true,
+        "pinyin": "shu1 diao4 zai4 di4 shang3 le5。"
       },
       {
         "id": "b1-locations-apply-004",
         "wordId": "L1-0070",
-        "zh": "这是个好地点。",
-        "en": "This is a good location.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì gè hǎo dìdiǎn。"
+        "zh": "见面地点在哪儿？",
+        "en": "Where is the meeting place?",
+        "fromOriginalExample": true,
+        "pinyin": "jian4 mian4 di4 dian3 zai4 na3 r5？"
       },
       {
         "id": "b1-locations-apply-005",
         "wordId": "L1-0071",
-        "zh": "这是个好地方。",
-        "en": "This is a good place.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì gè hǎo dìfang。"
+        "zh": "这个地方很美。",
+        "en": "This place is beautiful.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ge5 di4 fang1 hen3 mei3。"
       },
       {
         "id": "b1-locations-apply-006",
         "wordId": "L1-0072",
-        "zh": "书在地上。",
-        "en": "The book is on the ground.",
-        "fromOriginalExample": false,
-        "pinyin": "shū zài dìshang。"
+        "zh": "笔在地上。",
+        "en": "The pen is on the ground.",
+        "fromOriginalExample": true,
+        "pinyin": "bi3 zai4 di4 shang3。"
       },
       {
         "id": "b1-locations-apply-007",
@@ -999,137 +1975,337 @@
         "zh": "电影院在哪儿？",
         "en": "Where is the cinema?",
         "fromOriginalExample": true,
-        "pinyin": "diànyǐngyuàn zài nǎr？"
+        "pinyin": "dian4 ying3 yuan4 zai4 na3 r5？"
       },
       {
         "id": "b1-locations-apply-008",
         "wordId": "L1-0100",
-        "zh": "那家饭店很好吃。",
-        "en": "That restaurant is very good.",
-        "fromOriginalExample": false,
-        "pinyin": "nà jiā fàndiàn hěn hǎochī。"
+        "zh": "我们去饭店吃饭。",
+        "en": "Let's eat at a restaurant.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 qu4 fan4 dian4 chi1 fan4。"
       },
       {
         "id": "b1-locations-apply-009",
         "wordId": "L1-0101",
-        "zh": "这是我的房间。",
-        "en": "This is my room.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì wǒ de fángjiān。"
+        "zh": "我的房间很小。",
+        "en": "My room is very small.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 fang2 jian1 hen3 xiao3。"
       },
       {
         "id": "b1-locations-apply-010",
         "wordId": "L1-0102",
-        "zh": "那是我的房子。",
-        "en": "That is my house.",
-        "fromOriginalExample": false,
-        "pinyin": "nà shì wǒ de fángzi。"
+        "zh": "他买了新房子。",
+        "en": "He bought a new house.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 mai3 le5 xin1 fang2 zi3。"
       },
       {
         "id": "b1-locations-apply-011",
         "wordId": "L1-0128",
-        "zh": "中国是一个大国。",
-        "en": "China is a big country.",
+        "zh": "这个国家很大。",
+        "en": "This country is very big.",
         "fromOriginalExample": false,
-        "pinyin": "Zhōngguó shì yí gè dàguó。"
+        "pinyin": "zhe4 ge4 guo2 jia1 hen3 da4。"
       },
       {
         "id": "b1-locations-apply-012",
         "wordId": "L1-0129",
-        "zh": "中国是一个国家。",
-        "en": "China is a country.",
-        "fromOriginalExample": false,
-        "pinyin": "Zhōngguó shì yí gè guójiā。"
+        "zh": "每个国家都不同。",
+        "en": "Every country is different.",
+        "fromOriginalExample": true,
+        "pinyin": "mei3 ge4 guo2 jia1 du1 bu4 tong2。"
+      },
+      {
+        "id": "b1-locations-apply-013",
+        "wordId": "L1-0170",
+        "zh": "我家里有三口人。",
+        "en": "There are three people in my family.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 jia1 li3 you3 san1 kou3 ren2。"
+      },
+      {
+        "id": "b1-locations-apply-014",
+        "wordId": "L1-0177",
+        "zh": "教学楼在图书馆旁边。",
+        "en": "The teaching building is next to the library.",
+        "fromOriginalExample": true,
+        "pinyin": "jiao4 xue2 lou2 zai4 tu2 shu1 guan3 pang2 bian1。"
+      },
+      {
+        "id": "b1-locations-apply-015",
+        "wordId": "L1-0218",
+        "zh": "我在三楼。",
+        "en": "I'm on the third floor.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 san1 lou2。"
+      },
+      {
+        "id": "b1-locations-apply-016",
+        "wordId": "L1-0221",
+        "zh": "这条路很长。",
+        "en": "This road is very long.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 tiao2 lu4 hen3 chang2。"
+      },
+      {
+        "id": "b1-locations-apply-017",
+        "wordId": "L1-0222",
+        "zh": "在前面的路口左转。",
+        "en": "Turn left at the intersection ahead.",
+        "fromOriginalExample": true,
+        "pinyin": "zai4 qian2 mian4 di1 lu4 kou3 zuo3 zhuan3。"
+      },
+      {
+        "id": "b1-locations-apply-018",
+        "wordId": "L1-0223",
+        "zh": "路上小心。",
+        "en": "Be careful on the road.",
+        "fromOriginalExample": true,
+        "pinyin": "lu4 shang5 xiao3 xin1。"
+      },
+      {
+        "id": "b1-locations-apply-019",
+        "wordId": "L1-0225",
+        "zh": "过马路要小心。",
+        "en": "Be careful crossing the street.",
+        "fromOriginalExample": true,
+        "pinyin": "guo4 ma3 lu4 yao1 xiao3 xin1。"
+      },
+      {
+        "id": "b1-locations-apply-020",
+        "wordId": "L1-0239",
+        "zh": "我在门口等你。",
+        "en": "I'll wait for you at the door.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 men2 kou3 deng3 ni3。"
+      },
+      {
+        "id": "b1-locations-apply-021",
+        "wordId": "L1-0240",
+        "zh": "门票多少钱？",
+        "en": "How much is the entrance ticket?",
+        "fromOriginalExample": true,
+        "pinyin": "men2 piao4 duo1 shao3 qian2？"
+      },
+      {
+        "id": "b1-locations-apply-022",
+        "wordId": "L1-0255",
+        "zh": "他在那边。",
+        "en": "He's over there.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 zai4 na4 bian5。"
+      },
+      {
+        "id": "b1-locations-apply-023",
+        "wordId": "L1-0256a",
+        "zh": "那里很美。",
+        "en": "That place is beautiful.",
+        "fromOriginalExample": true,
+        "pinyin": "na4 li5 hen3 mei3。"
+      },
+      {
+        "id": "b1-locations-apply-024",
+        "wordId": "L1-0257",
+        "zh": "那儿有一个商店。",
+        "en": "There's a store over there.",
+        "fromOriginalExample": true,
+        "pinyin": "na4 r5 you3 yi1 ge5 shang1 dian4。"
+      },
+      {
+        "id": "b1-locations-apply-025",
+        "wordId": "L1-0312",
+        "zh": "我喜欢爬山。",
+        "en": "I like mountain climbing.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xi3 huan5 pa2 shan1。"
+      },
+      {
+        "id": "b1-locations-apply-026",
+        "wordId": "L1-0326",
+        "zh": "他身上没钱。",
+        "en": "He has no money on him.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 shen1 shang5 mei2 qian2。"
+      },
+      {
+        "id": "b1-locations-apply-027",
+        "wordId": "L1-0366",
+        "zh": "我去图书馆看书。",
+        "en": "I go to the library to read.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 qu4 tu2 shu1 guan3 kan4 shu1。"
+      },
+      {
+        "id": "b1-locations-apply-028",
+        "wordId": "L1-0368",
+        "zh": "外边冷。",
+        "en": "It's cold outside.",
+        "fromOriginalExample": true,
+        "pinyin": "wai4 bian5 leng3。"
+      },
+      {
+        "id": "b1-locations-apply-029",
+        "wordId": "L1-0369",
+        "zh": "我想去外国旅游。",
+        "en": "I want to travel abroad.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xiang3 qu4 wai4 guo2 lu:3 you2。"
+      },
+      {
+        "id": "b1-locations-apply-030",
+        "wordId": "L1-0387",
+        "zh": "洗手间在哪儿？",
+        "en": "Where is the bathroom?",
+        "fromOriginalExample": true,
+        "pinyin": "xi3 shou3 jian1 zai4 na3 r5？"
+      },
+      {
+        "id": "b1-locations-apply-031",
+        "wordId": "L1-0406",
+        "zh": "我上小学。",
+        "en": "I go to elementary school.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 shang3 xiao3 xue2。"
+      },
+      {
+        "id": "b1-locations-apply-032",
+        "wordId": "L1-0421",
+        "zh": "学校很大。",
+        "en": "The school is big.",
+        "fromOriginalExample": true,
+        "pinyin": "xue2 xiao4 hen3 da4。"
+      },
+      {
+        "id": "b1-locations-apply-033",
+        "wordId": "L1-0430",
+        "zh": "他在医院工作。",
+        "en": "He works at the hospital.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 zai4 yi1 yuan4 gong1 zuo4。"
+      },
+      {
+        "id": "b1-locations-apply-034",
+        "wordId": "L1-0237a",
+        "zh": "我妹妹很可爱。",
+        "en": "My younger sister is very cute.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mei4 mei5 hen3 ke3 ai4。"
+      },
+      {
+        "id": "b1-locations-apply-035",
+        "wordId": "L1-0241a",
+        "zh": "我们",
+        "en": "we",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5"
+      },
+      {
+        "id": "b1-locations-apply-036",
+        "wordId": "L1-0477",
+        "zh": "我在中国学习中文。",
+        "en": "I study Chinese in China.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 zhong1 guo2 xue2 xi2 zhong1 wen2。"
+      },
+      {
+        "id": "b1-locations-apply-037",
+        "wordId": "L1-0487",
+        "zh": "桌子上有书。",
+        "en": "There are books on the table.",
+        "fromOriginalExample": true,
+        "pinyin": "zhuo1 zi5 shang3 you3 shu1。"
       }
     ],
     "b1-directions": [
       {
         "id": "b1-directions-apply-001",
         "wordId": "L1-0019",
-        "zh": "北边更冷。",
-        "en": "The north side is colder.",
-        "fromOriginalExample": false,
-        "pinyin": "běibian gèng lěng。"
+        "zh": "火车往北开。",
+        "en": "The train goes north.",
+        "fromOriginalExample": true,
+        "pinyin": "huo3 che1 wang3 bei3 kai1。"
       },
       {
         "id": "b1-directions-apply-002",
         "wordId": "L1-0020",
-        "zh": "学校在北边。",
-        "en": "The school is on the north side.",
-        "fromOriginalExample": false,
-        "pinyin": "xuéxiào zài běibian。"
+        "zh": "图书馆在北边。",
+        "en": "The library is on the north side.",
+        "fromOriginalExample": true,
+        "pinyin": "tu2 shu1 guan3 zai4 bei3 bian1。"
       },
       {
         "id": "b1-directions-apply-003",
         "wordId": "L1-0052",
-        "zh": "房间里有一张床。",
-        "en": "There is a bed in the room.",
-        "fromOriginalExample": false,
-        "pinyin": "fángjiān lǐ yǒu yì zhāng chuáng。"
+        "zh": "我的床很舒服。",
+        "en": "My bed is very comfortable.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 chuang2 hen3 shu1 fu5。"
       },
       {
         "id": "b1-directions-apply-004",
         "wordId": "L1-0054",
-        "zh": "我从家里来。",
-        "en": "I am coming from home.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ cóng jiālǐ lái。"
+        "zh": "我从美国来。",
+        "en": "I come from America.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 cong2 mei3 guo2 lai2。"
       },
       {
         "id": "b1-directions-apply-005",
         "wordId": "L1-0084",
-        "zh": "东边有一家商店。",
-        "en": "There is a shop on the east side.",
-        "fromOriginalExample": false,
-        "pinyin": "dōngbian yǒu yì jiā shāngdiàn。"
+        "zh": "太阳从东边升起。",
+        "en": "The sun rises in the east.",
+        "fromOriginalExample": true,
+        "pinyin": "tai4 yang5 cong2 dong1 bian5 sheng1 qi3。"
       },
       {
         "id": "b1-directions-apply-006",
         "wordId": "L1-0085",
-        "zh": "我家在东边。",
-        "en": "My home is on the east side.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ jiā zài dōngbian。"
+        "zh": "车站在东边。",
+        "en": "The station is on the east side.",
+        "fromOriginalExample": true,
+        "pinyin": "che1 zhan4 zai4 dong1 bian5。"
       },
       {
         "id": "b1-directions-apply-007",
         "wordId": "L1-0122",
         "zh": "我跟你一起去。",
-        "en": "I will go with you.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ gēn nǐ yìqǐ qù。"
+        "en": "I'll go with you.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 gen1 ni3 yi1 qi3 qu4。"
       },
       {
         "id": "b1-directions-apply-008",
         "wordId": "L1-0147",
-        "zh": "请看后面。",
-        "en": "Please look at the back.",
-        "fromOriginalExample": false,
-        "pinyin": "qǐng kàn hòumiàn。"
+        "zh": "我在后面等你。",
+        "en": "I'll wait for you in the back.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 hou4 mian4 deng3 ni3。"
       },
       {
         "id": "b1-directions-apply-009",
         "wordId": "L1-0148",
-        "zh": "学校在我们后边。",
-        "en": "The school is behind us.",
-        "fromOriginalExample": false,
-        "pinyin": "xuéxiào zài wǒmen hòubian。"
+        "zh": "房子后边有花园。",
+        "en": "There's a garden behind the house.",
+        "fromOriginalExample": true,
+        "pinyin": "fang2 zi5 hou4 bian5 you3 hua1 yuan2。"
       },
       {
         "id": "b1-directions-apply-010",
         "wordId": "L1-0154",
-        "zh": "我回家。",
-        "en": "I am going home.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ huí jiā。"
+        "zh": "我回家了。",
+        "en": "I went home.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 hui2 jia1 le5。"
       },
       {
         "id": "b1-directions-apply-011",
         "wordId": "L1-0158",
-        "zh": "我回来了。",
-        "en": "I came back.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ huílái le。"
+        "zh": "他回来了。",
+        "en": "He came back.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 hui2 lai5 le5。"
       },
       {
         "id": "b1-directions-apply-012",
@@ -1137,123 +2313,443 @@
         "zh": "我想回去。",
         "en": "I want to go back.",
         "fromOriginalExample": true,
-        "pinyin": "wǒ xiǎng huíqù。"
+        "pinyin": "wo3 xiang3 hui2 qu5。"
+      },
+      {
+        "id": "b1-directions-apply-013",
+        "wordId": "L1-0213a",
+        "zh": "我在车里。",
+        "en": "I'm inside the car.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 che1 li3。"
+      },
+      {
+        "id": "b1-directions-apply-014",
+        "wordId": "L1-0214",
+        "zh": "书包里边有什么？",
+        "en": "What's inside the bag?",
+        "fromOriginalExample": true,
+        "pinyin": "shu1 bao1 li3 bian5 you3 shen2 me5？"
+      },
+      {
+        "id": "b1-directions-apply-015",
+        "wordId": "L1-0219",
+        "zh": "他在楼上。",
+        "en": "He's upstairs.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 zai4 lou2 shang4。"
+      },
+      {
+        "id": "b1-directions-apply-016",
+        "wordId": "L1-0220",
+        "zh": "我在楼下等你。",
+        "en": "I'll wait for you downstairs.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 lou2 xia4 deng3 ni3。"
+      },
+      {
+        "id": "b1-directions-apply-017",
+        "wordId": "L1-0266",
+        "zh": "南方比北方热。",
+        "en": "The south is hotter than the north.",
+        "fromOriginalExample": true,
+        "pinyin": "nan2 fang1 bi3 bei3 fang1 re4。"
+      },
+      {
+        "id": "b1-directions-apply-018",
+        "wordId": "L1-0267",
+        "zh": "车站在南边。",
+        "en": "The station is on the south side.",
+        "fromOriginalExample": true,
+        "pinyin": "che1 zhan4 zai4 nan2 bian5。"
+      },
+      {
+        "id": "b1-directions-apply-019",
+        "wordId": "L1-0282",
+        "zh": "坐在我旁边。",
+        "en": "Sit next to me.",
+        "fromOriginalExample": true,
+        "pinyin": "zuo4 zai4 wo3 pang2 bian1。"
+      },
+      {
+        "id": "b1-directions-apply-020",
+        "wordId": "L1-0291",
+        "zh": "我在前面等你。",
+        "en": "I'll wait for you up front.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 qian2 mian4 deng3 ni3。"
+      },
+      {
+        "id": "b1-directions-apply-021",
+        "wordId": "L1-0292",
+        "zh": "前边有个商店。",
+        "en": "There's a store up ahead.",
+        "fromOriginalExample": true,
+        "pinyin": "qian2 bian5 you3 ge3 shang1 dian4。"
+      },
+      {
+        "id": "b1-directions-apply-022",
+        "wordId": "L1-0315",
+        "zh": "书上。",
+        "en": "On the book.",
+        "fromOriginalExample": true,
+        "pinyin": "shu1 shang3。"
+      },
+      {
+        "id": "b1-directions-apply-023",
+        "wordId": "L1-0317",
+        "zh": "上边有字。",
+        "en": "There are words on top.",
+        "fromOriginalExample": true,
+        "pinyin": "shang4 bian5 you3 zi4。"
+      },
+      {
+        "id": "b1-directions-apply-024",
+        "wordId": "L1-0344",
+        "zh": "这棵树很高。",
+        "en": "This tree is very tall.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ke1 shu4 hen3 gao1。"
+      },
+      {
+        "id": "b1-directions-apply-025",
+        "wordId": "L1-0367",
+        "zh": "他在门外。",
+        "en": "He's outside the door.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 zai4 men2 wai4。"
+      },
+      {
+        "id": "b1-directions-apply-026",
+        "wordId": "L1-0384",
+        "zh": "太阳从西边落下。",
+        "en": "The sun sets in the west.",
+        "fromOriginalExample": true,
+        "pinyin": "tai4 yang5 cong2 xi1 bian1 luo4 xia4。"
+      },
+      {
+        "id": "b1-directions-apply-027",
+        "wordId": "L1-0385",
+        "zh": "车站在西边。",
+        "en": "The station is on the west side.",
+        "fromOriginalExample": true,
+        "pinyin": "che1 zhan4 zai4 xi1 bian1。"
+      },
+      {
+        "id": "b1-directions-apply-028",
+        "wordId": "L1-0389",
+        "zh": "下车。",
+        "en": "Get off the car.",
+        "fromOriginalExample": true,
+        "pinyin": "xia4 che1。"
+      },
+      {
+        "id": "b1-directions-apply-029",
+        "wordId": "L1-0391",
+        "zh": "桌子下边有猫。",
+        "en": "There's a cat under the table.",
+        "fromOriginalExample": true,
+        "pinyin": "zhuo1 zi5 xia4 bian5 you3 mao1。"
+      },
+      {
+        "id": "b1-directions-apply-030",
+        "wordId": "L1-0436",
+        "zh": "一边吃饭一边看电视。",
+        "en": "Eat while watching TV.",
+        "fromOriginalExample": true,
+        "pinyin": "yi1 bian1 chi1 fan4 yi1 bian1 kan1 dian4 shi4。"
+      },
+      {
+        "id": "b1-directions-apply-031",
+        "wordId": "L1-0447",
+        "zh": "向右转。",
+        "en": "Turn right.",
+        "fromOriginalExample": true,
+        "pinyin": "xiang4 you4 zhuan3。"
+      },
+      {
+        "id": "b1-directions-apply-032",
+        "wordId": "L1-0448",
+        "zh": "商店在右边。",
+        "en": "The store is on the right.",
+        "fromOriginalExample": true,
+        "pinyin": "shang1 dian4 zai4 you4 bian5。"
+      },
+      {
+        "id": "b1-directions-apply-033",
+        "wordId": "L1-0451",
+        "zh": "学校很远。",
+        "en": "The school is far away.",
+        "fromOriginalExample": true,
+        "pinyin": "xue2 xiao4 hen3 yuan3。"
+      },
+      {
+        "id": "b1-directions-apply-034",
+        "wordId": "L1-0476",
+        "zh": "在朋友中。",
+        "en": "Among friends.",
+        "fromOriginalExample": true,
+        "pinyin": "zai4 peng2 you5 zhong1。"
+      },
+      {
+        "id": "b1-directions-apply-035",
+        "wordId": "L1-0478",
+        "zh": "坐在中间。",
+        "en": "Sit in the middle.",
+        "fromOriginalExample": true,
+        "pinyin": "zuo4 zai4 zhong1 jian1。"
+      },
+      {
+        "id": "b1-directions-apply-036",
+        "wordId": "L1-0496",
+        "zh": "向左转。",
+        "en": "Turn left.",
+        "fromOriginalExample": true,
+        "pinyin": "xiang4 zuo3 zhuan3。"
+      },
+      {
+        "id": "b1-directions-apply-037",
+        "wordId": "L1-0497",
+        "zh": "书店在左边。",
+        "en": "The bookstore is on the left.",
+        "fromOriginalExample": true,
+        "pinyin": "shu1 dian4 zai4 zuo3 bian5。"
       }
     ],
     "b1-transport": [
       {
         "id": "b1-transport-apply-001",
         "wordId": "L1-0042",
-        "zh": "我的车在外面。",
-        "en": "My car is outside.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ de chē zài wàimiàn。"
+        "zh": "他的车是红色的。",
+        "en": "His car is red.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 de5 che1 shi4 hong2 se4 de5。"
       },
       {
         "id": "b1-transport-apply-002",
         "wordId": "L1-0043",
         "zh": "我买了车票。",
         "en": "I bought a ticket.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ mǎi le chēpiào。"
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mai3 le5 che1 piao4。"
       },
       {
         "id": "b1-transport-apply-003",
         "wordId": "L1-0044",
-        "zh": "我在车上。",
-        "en": "I am in the car.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ zài chē shang。"
+        "zh": "我在车上等你。",
+        "en": "I'll wait for you in the car.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 che1 shang4 deng3 ni3。"
       },
       {
         "id": "b1-transport-apply-004",
         "wordId": "L1-0045",
-        "zh": "我在车站等你。",
-        "en": "I am waiting for you at the station.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ zài chēzhàn děng nǐ。"
+        "zh": "车站在前面。",
+        "en": "The station is up ahead.",
+        "fromOriginalExample": true,
+        "pinyin": "che1 zhan4 zai4 qian2 mian4。"
       },
       {
         "id": "b1-transport-apply-005",
         "wordId": "L1-0048",
-        "zh": "我现在出去。",
-        "en": "I am going out now.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ xiànzài chūqù。"
+        "zh": "请出来一下。",
+        "en": "Please come out for a moment.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 chu1 lai2 yi1 xia4。"
       },
       {
         "id": "b1-transport-apply-006",
         "wordId": "L1-0049",
-        "zh": "他从教室出来。",
-        "en": "He comes out of the classroom.",
-        "fromOriginalExample": false,
-        "pinyin": "tā cóng jiàoshì chūlái。"
+        "zh": "他从房间里出来。",
+        "en": "He came out of the room.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 cong2 fang2 jian1 li3 chu1 lai2。"
       },
       {
         "id": "b1-transport-apply-007",
         "wordId": "L1-0050",
-        "zh": "我出去买饭。",
-        "en": "I am going out to buy food.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ chūqù mǎi fàn。"
+        "zh": "我想出去走走。",
+        "en": "I want to go out for a walk.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xiang3 chu1 qu4 zou3 zou3。"
       },
       {
         "id": "b1-transport-apply-008",
         "wordId": "L1-0057",
-        "zh": "我打车去学校。",
-        "en": "I take a taxi to school.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ dǎchē qù xuéxiào。"
+        "zh": "我们打车去吧。",
+        "en": "Let's take a taxi.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 da3 che1 qu4 ba1。"
       },
       {
         "id": "b1-transport-apply-009",
         "wordId": "L1-0064",
-        "zh": "我到了。",
-        "en": "I arrived.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ dào le。"
+        "zh": "我们到学校了。",
+        "en": "We've arrived at school.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 dao4 xue2 xiao4 le5。"
       },
       {
         "id": "b1-transport-apply-010",
         "wordId": "L1-0106",
-        "zh": "鸟会飞。",
-        "en": "Birds can fly.",
-        "fromOriginalExample": false,
-        "pinyin": "niǎo huì fēi。"
+        "zh": "鸟在飞。",
+        "en": "The bird is flying.",
+        "fromOriginalExample": true,
+        "pinyin": "diao3 zai4 fei1。"
       },
       {
         "id": "b1-transport-apply-011",
         "wordId": "L1-0107",
         "zh": "我坐飞机去北京。",
-        "en": "I am flying to Beijing.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ zuò fēijī qù Běijīng。"
+        "en": "I'm taking a plane to Beijing.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zuo4 fei1 ji1 qu4 bei3 jing1。"
       },
       {
         "id": "b1-transport-apply-012",
         "wordId": "L1-0161",
-        "zh": "我坐火车回家。",
-        "en": "I take the train home.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ zuò huǒchē huí jiā。"
+        "zh": "我坐火车去。",
+        "en": "I'm going by train.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zuo4 huo3 che1 qu4。"
+      },
+      {
+        "id": "b1-transport-apply-013",
+        "wordId": "L1-0162",
+        "zh": "我去机场接朋友。",
+        "en": "I'm going to the airport to pick up a friend.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 qu4 ji1 chang3 jie1 peng2 you5。"
+      },
+      {
+        "id": "b1-transport-apply-014",
+        "wordId": "L1-0163",
+        "zh": "我买了机票。",
+        "en": "I bought a plane ticket.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mai3 le5 ji1 piao4。"
+      },
+      {
+        "id": "b1-transport-apply-015",
+        "wordId": "L1-0184",
+        "zh": "我们进去吧。",
+        "en": "Let's go inside.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 jin4 qu4 ba1。"
+      },
+      {
+        "id": "b1-transport-apply-016",
+        "wordId": "L1-0188",
+        "zh": "请开门。",
+        "en": "Please open the door.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 kai1 men2。"
+      },
+      {
+        "id": "b1-transport-apply-017",
+        "wordId": "L1-0189",
+        "zh": "他会开车。",
+        "en": "He can drive.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 hui4 kai1 che1。"
+      },
+      {
+        "id": "b1-transport-apply-018",
+        "wordId": "L1-0206",
+        "zh": "我来到中国。",
+        "en": "I came to China.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 lai2 dao4 zhong1 guo2。"
+      },
+      {
+        "id": "b1-transport-apply-019",
+        "wordId": "L1-0283",
+        "zh": "他每天跑步。",
+        "en": "He runs every day.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 mei3 tian1 pao3 bu4。"
+      },
+      {
+        "id": "b1-transport-apply-020",
+        "wordId": "L1-0285",
+        "zh": "我买了电影票。",
+        "en": "I bought movie tickets.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mai3 le5 dian4 ying3 piao4。"
+      },
+      {
+        "id": "b1-transport-apply-021",
+        "wordId": "L1-0290",
+        "zh": "我开汽车去上班。",
+        "en": "I drive a car to work.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 kai1 qi4 che1 qu4 shang4 ban1。"
+      },
+      {
+        "id": "b1-transport-apply-022",
+        "wordId": "L1-0297",
+        "zh": "我今天请假。",
+        "en": "I'm taking the day off today.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 jin1 tian1 qing3 jia4。"
+      },
+      {
+        "id": "b1-transport-apply-023",
+        "wordId": "L1-0318",
+        "zh": "请上车。",
+        "en": "Please get in the car.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 shang4 che1。"
+      },
+      {
+        "id": "b1-transport-apply-024",
+        "wordId": "L1-0321",
+        "zh": "我每天上网。",
+        "en": "I go online every day.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mei3 tian1 shang4 wang3。"
+      },
+      {
+        "id": "b1-transport-apply-025",
+        "wordId": "L1-0352",
+        "zh": "我送你回家。",
+        "en": "I'll take you home.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 song4 ni3 hui2 jia1。"
+      },
+      {
+        "id": "b1-transport-apply-026",
+        "wordId": "L1-0392",
+        "zh": "我在这里下车。",
+        "en": "I get off here.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 zhe4 li3 xia4 che1。"
+      },
+      {
+        "id": "b1-transport-apply-027",
+        "wordId": "L1-0416",
+        "zh": "行，没问题。",
+        "en": "OK, no problem.",
+        "fromOriginalExample": true,
+        "pinyin": "hang2， mei2 wen4 ti2。"
       }
     ],
     "b1-school": [
       {
         "id": "b1-school-apply-001",
         "wordId": "L1-0023",
-        "zh": "这是本子。",
-        "en": "This is a notebook.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì běnzi。"
+        "zh": "我的本子丢了。",
+        "en": "I lost my notebook.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 ben3 zi5 diu1 le5。"
       },
       {
         "id": "b1-school-apply-002",
         "wordId": "L1-0062",
-        "zh": "我在大学学习。",
-        "en": "I study at a university.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ zài dàxué xuéxí。"
+        "zh": "我上大学了。",
+        "en": "I'm in university now.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 shang3 da4 xue2 le5。"
       },
       {
         "id": "b1-school-apply-003",
@@ -1261,23 +2757,23 @@
         "zh": "他是大学生。",
         "en": "He is a university student.",
         "fromOriginalExample": true,
-        "pinyin": "tā shì dàxuéshēng。"
+        "pinyin": "ta1 shi4 da4 xue2 sheng1。"
       },
       {
         "id": "b1-school-apply-004",
         "wordId": "L1-0073",
-        "zh": "我在看地图。",
-        "en": "I am looking at a map.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ zài kàn dìtú。"
+        "zh": "我看地图找路。",
+        "en": "I look at the map to find the way.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 kan1 di4 tu2 zhao3 lu4。"
       },
       {
         "id": "b1-school-apply-005",
         "wordId": "L1-0077",
-        "zh": "这里没有电。",
-        "en": "There is no electricity here.",
-        "fromOriginalExample": false,
-        "pinyin": "zhèlǐ méiyǒu diàn。"
+        "zh": "没电了。",
+        "en": "The power is out.",
+        "fromOriginalExample": true,
+        "pinyin": "mei2 dian4 le5。"
       },
       {
         "id": "b1-school-apply-006",
@@ -1285,47 +2781,47 @@
         "zh": "你的电话是多少？",
         "en": "What's your phone number?",
         "fromOriginalExample": true,
-        "pinyin": "nǐ de diànhuà shì duōshao？"
+        "pinyin": "ni3 de5 dian4 hua4 shi4 duo1 shao3？"
       },
       {
         "id": "b1-school-apply-007",
         "wordId": "L1-0079",
-        "zh": "这是电脑。",
-        "en": "This is a computer.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì diànnǎo。"
+        "zh": "我用电脑学习。",
+        "en": "I use the computer to study.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 yong4 dian4 nao3 xue2 xi2。"
       },
       {
         "id": "b1-school-apply-008",
         "wordId": "L1-0080",
-        "zh": "我们晚上看电视。",
-        "en": "We watch TV at night.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒmen wǎnshang kàn diànshì。"
+        "zh": "晚上我看电视。",
+        "en": "I watch TV in the evening.",
+        "fromOriginalExample": true,
+        "pinyin": "wan3 shang5 wo3 kan1 dian4 shi4。"
       },
       {
         "id": "b1-school-apply-009",
         "wordId": "L1-0081",
-        "zh": "这是新的电视机。",
-        "en": "This is a new television.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì xīn de diànshìjī。"
+        "zh": "电视机坏了。",
+        "en": "The TV is broken.",
+        "fromOriginalExample": true,
+        "pinyin": "dian4 shi4 ji1 huai4 le5。"
       },
       {
         "id": "b1-school-apply-010",
         "wordId": "L1-0082",
-        "zh": "我们周末看电影。",
-        "en": "We watch movies on weekends.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒmen zhōumò kàn diànyǐng。"
+        "zh": "我们去看电影吧。",
+        "en": "Let's go see a movie.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 qu4 kan1 dian4 ying3 ba1。"
       },
       {
         "id": "b1-school-apply-011",
         "wordId": "L1-0090",
-        "zh": "我每天读中文。",
-        "en": "I read Chinese every day.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ měitiān dú Zhōngwén。"
+        "zh": "我每天读书。",
+        "en": "I read every day.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mei3 tian1 du2 shu1。"
       },
       {
         "id": "b1-school-apply-012",
@@ -1333,17 +2829,313 @@
         "zh": "他在读书。",
         "en": "He is reading.",
         "fromOriginalExample": true,
-        "pinyin": "tā zài dúshū。"
+        "pinyin": "ta1 zai4 du2 shu1。"
+      },
+      {
+        "id": "b1-school-apply-013",
+        "wordId": "L1-0123",
+        "zh": "他是工人。",
+        "en": "He is a worker.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 shi4 gong1 ren2。"
+      },
+      {
+        "id": "b1-school-apply-014",
+        "wordId": "L1-0130",
+        "zh": "他想去国外学习。",
+        "en": "He wants to study abroad.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 xiang3 qu4 guo2 wai4 xue2 xi2。"
+      },
+      {
+        "id": "b1-school-apply-015",
+        "wordId": "L1-0136",
+        "zh": "我在学汉语。",
+        "en": "I'm learning Chinese.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 xue2 han4 yu3。"
+      },
+      {
+        "id": "b1-school-apply-016",
+        "wordId": "L1-0137",
+        "zh": "这个汉字怎么写？",
+        "en": "How do you write this character?",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ge5 han4 zi4 zen3 me5 xie3？"
+      },
+      {
+        "id": "b1-school-apply-017",
+        "wordId": "L1-0168",
+        "zh": "请记住这个词。",
+        "en": "Please remember this word.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 ji4 zhu5 zhe4 ge5 ci2。"
+      },
+      {
+        "id": "b1-school-apply-018",
+        "wordId": "L1-0175",
+        "zh": "他教汉语。",
+        "en": "He teaches Chinese.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 jiao4 han4 yu3。"
+      },
+      {
+        "id": "b1-school-apply-019",
+        "wordId": "L1-0190",
+        "zh": "我在开会。",
+        "en": "I'm in a meeting.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 kai1 hui4。"
+      },
+      {
+        "id": "b1-school-apply-020",
+        "wordId": "L1-0196",
+        "zh": "明天考试。",
+        "en": "Tomorrow is the exam.",
+        "fromOriginalExample": true,
+        "pinyin": "ming2 tian1 kao3 shi4。"
+      },
+      {
+        "id": "b1-school-apply-021",
+        "wordId": "L1-0197",
+        "zh": "我考试考得很好。",
+        "en": "I did well on the exam.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 kao3 shi4 kao3 de5 hen3 hao3。"
+      },
+      {
+        "id": "b1-school-apply-022",
+        "wordId": "L1-0199",
+        "zh": "第一节是汉语课。",
+        "en": "First period is Chinese class.",
+        "fromOriginalExample": true,
+        "pinyin": "di4 yi1 jie1 shi4 han4 yu3 ke4。"
+      },
+      {
+        "id": "b1-school-apply-023",
+        "wordId": "L1-0200",
+        "zh": "我的课本在哪儿？",
+        "en": "Where is my textbook?",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 ke4 ben3 zai4 na3 r5？"
+      },
+      {
+        "id": "b1-school-apply-024",
+        "wordId": "L1-0201",
+        "zh": "我们今天学第三课课文。",
+        "en": "Today we're studying Lesson 3 text.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 jin1 tian1 xue2 di4 san1 ke4 ke4 wen2。"
+      },
+      {
+        "id": "b1-school-apply-025",
+        "wordId": "L1-0209",
+        "zh": "王老师很好。",
+        "en": "Teacher Wang is very nice.",
+        "fromOriginalExample": true,
+        "pinyin": "wang2 lao3 shi1 hen3 hao3。"
+      },
+      {
+        "id": "b1-school-apply-026",
+        "wordId": "L1-0320",
+        "zh": "我们八点上课。",
+        "en": "We start class at 8.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 ba1 dian3 shang4 ke4。"
+      },
+      {
+        "id": "b1-school-apply-027",
+        "wordId": "L1-0323",
+        "zh": "孩子们上学了。",
+        "en": "The children went to school.",
+        "fromOriginalExample": true,
+        "pinyin": "hai2 zi5 men5 shang4 xue2 le5。"
+      },
+      {
+        "id": "b1-school-apply-028",
+        "wordId": "L1-0336",
+        "zh": "试试看。",
+        "en": "Give it a try.",
+        "fromOriginalExample": true,
+        "pinyin": "shi4 shi4 kan4。"
+      },
+      {
+        "id": "b1-school-apply-029",
+        "wordId": "L1-0340",
+        "zh": "我的手机没电了。",
+        "en": "My phone is dead.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 shou3 ji1 mei2 dian4 le5。"
+      },
+      {
+        "id": "b1-school-apply-030",
+        "wordId": "L1-0341",
+        "zh": "我爱看书。",
+        "en": "I love reading books.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ai4 kan4 shu1。"
+      },
+      {
+        "id": "b1-school-apply-031",
+        "wordId": "L1-0342",
+        "zh": "我的书包很重。",
+        "en": "My schoolbag is very heavy.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 shu1 bao1 hen3 chong2。"
+      },
+      {
+        "id": "b1-school-apply-032",
+        "wordId": "L1-0343",
+        "zh": "书店在哪儿？",
+        "en": "Where is the bookstore?",
+        "fromOriginalExample": true,
+        "pinyin": "shu1 dian4 zai4 na3 r5？"
+      },
+      {
+        "id": "b1-school-apply-033",
+        "wordId": "L1-0364",
+        "zh": "明天有听写。",
+        "en": "We have dictation tomorrow.",
+        "fromOriginalExample": true,
+        "pinyin": "ming2 tian1 you3 ting1 xie3。"
+      },
+      {
+        "id": "b1-school-apply-034",
+        "wordId": "L1-0365",
+        "zh": "他是我的同学。",
+        "en": "He's my classmate.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 shi4 wo3 de5 tong2 xue2。"
+      },
+      {
+        "id": "b1-school-apply-035",
+        "wordId": "L1-0370",
+        "zh": "他在学外语。",
+        "en": "He's learning a foreign language.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 zai4 xue2 wai4 yu3。"
+      },
+      {
+        "id": "b1-school-apply-036",
+        "wordId": "L1-0375",
+        "zh": "我在网上买东西。",
+        "en": "I shop online.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 wang3 shang4 mai3 dong1 xi5。"
+      },
+      {
+        "id": "b1-school-apply-037",
+        "wordId": "L1-0407",
+        "zh": "他是小学生。",
+        "en": "He's an elementary student.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 shi4 xiao3 xue2 sheng1。"
+      },
+      {
+        "id": "b1-school-apply-038",
+        "wordId": "L1-0409",
+        "zh": "请写你的名字。",
+        "en": "Please write your name.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 xie3 ni3 de5 ming2 zi5。"
+      },
+      {
+        "id": "b1-school-apply-039",
+        "wordId": "L1-0418",
+        "zh": "学汉语。",
+        "en": "Learn Chinese.",
+        "fromOriginalExample": true,
+        "pinyin": "xue2 han4 yu3。"
+      },
+      {
+        "id": "b1-school-apply-040",
+        "wordId": "L1-0419",
+        "zh": "这个学生很用功。",
+        "en": "This student is very diligent.",
+        "fromOriginalExample": false,
+        "pinyin": "zhe4 ge4 xue2 sheng1 hen3 yong4 gong1。"
+      },
+      {
+        "id": "b1-school-apply-041",
+        "wordId": "L1-0420",
+        "zh": "我学习汉语。",
+        "en": "I study Chinese.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xue2 xi2 han4 yu3。"
+      },
+      {
+        "id": "b1-school-apply-042",
+        "wordId": "L1-0422",
+        "zh": "他在艺术学院学习。",
+        "en": "He studies at the art college.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 zai4 yi4 shu4 xue2 yuan4 xue2 xi2。"
+      },
+      {
+        "id": "b1-school-apply-043",
+        "wordId": "L1-0216b",
+        "zh": "二〇二三年",
+        "en": "year 2023",
+        "fromOriginalExample": true,
+        "pinyin": "er4 〇 er4 san1 nian2"
+      },
+      {
+        "id": "b1-school-apply-044",
+        "wordId": "L1-0224a",
+        "zh": "我妈妈在家做饭。",
+        "en": "My mother cooks at home.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ma1 ma5 zai4 jia1 zuo4 fan4。"
+      },
+      {
+        "id": "b1-school-apply-045",
+        "wordId": "L1-0475",
+        "zh": "学习新知识。",
+        "en": "Learn new knowledge.",
+        "fromOriginalExample": true,
+        "pinyin": "xue2 xi2 xin1 zhi1 shi2。"
+      },
+      {
+        "id": "b1-school-apply-046",
+        "wordId": "L1-0479",
+        "zh": "我会说中文。",
+        "en": "I can speak Chinese.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 hui4 shuo1 zhong4 wen2。"
+      },
+      {
+        "id": "b1-school-apply-047",
+        "wordId": "L1-0481",
+        "zh": "他在中学学习。",
+        "en": "He studies at middle school.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 zai4 zhong1 xue2 xue2 xi2。"
+      },
+      {
+        "id": "b1-school-apply-048",
+        "wordId": "L1-0482",
+        "zh": "我是中学生。",
+        "en": "I'm a middle school student.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 shi4 zhong1 xue2 sheng1。"
+      },
+      {
+        "id": "b1-school-apply-049",
+        "wordId": "L1-0488",
+        "zh": "这个字怎么写？",
+        "en": "How do you write this character?",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ge5 zi4 zen3 me5 xie3？"
       }
     ],
     "b1-questions": [
       {
         "id": "b1-questions-apply-001",
         "wordId": "L1-0095",
-        "zh": "你们有多少个人？",
-        "en": "How many people are in your group?",
-        "fromOriginalExample": false,
-        "pinyin": "nǐmen yǒu duōshao gè rén？"
+        "zh": "多少钱？",
+        "en": "How much is it?",
+        "fromOriginalExample": true,
+        "pinyin": "duo1 shao3 qian2？"
       },
       {
         "id": "b1-questions-apply-002",
@@ -1351,23 +3143,23 @@
         "zh": "你在干什么？",
         "en": "What are you doing?",
         "fromOriginalExample": true,
-        "pinyin": "nǐ zài gàn shénme？"
+        "pinyin": "ni3 zai4 gan4 shen2 me5？"
       },
       {
         "id": "b1-questions-apply-003",
         "wordId": "L1-0133",
         "zh": "你去还是我去？",
-        "en": "Are you going, or am I going?",
+        "en": "Are you going or am I going?",
         "fromOriginalExample": true,
-        "pinyin": "nǐ qù háishi wǒ qù？"
+        "pinyin": "ni3 qu4 hai2 shi5 wo3 qu4？"
       },
       {
         "id": "b1-questions-apply-004",
         "wordId": "L1-0165",
-        "zh": "你家有几个人？",
-        "en": "How many people are in your family?",
-        "fromOriginalExample": false,
-        "pinyin": "nǐ jiā yǒu jǐ gè rén？"
+        "zh": "你有几个孩子？",
+        "en": "How many children do you have?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 you3 ji3 ge5 hai2 zi5？"
       },
       {
         "id": "b1-questions-apply-005",
@@ -1375,7 +3167,7 @@
         "zh": "你好吗？",
         "en": "How are you?",
         "fromOriginalExample": true,
-        "pinyin": "nǐ hǎo ma？"
+        "pinyin": "ni3 hao3 ma2？"
       },
       {
         "id": "b1-questions-apply-006",
@@ -1383,7 +3175,7 @@
         "zh": "哪个是你的？",
         "en": "Which one is yours?",
         "fromOriginalExample": true,
-        "pinyin": "nǎ gè shì nǐ de？"
+        "pinyin": "na3 ge5 shi4 ni3 de5？"
       },
       {
         "id": "b1-questions-apply-007",
@@ -1391,7 +3183,7 @@
         "zh": "你去哪里？",
         "en": "Where are you going?",
         "fromOriginalExample": true,
-        "pinyin": "nǐ qù nǎlǐ？"
+        "pinyin": "ni3 qu4 na3 li3？"
       },
       {
         "id": "b1-questions-apply-008",
@@ -1399,15 +3191,15 @@
         "zh": "你去哪儿？",
         "en": "Where are you going?",
         "fromOriginalExample": true,
-        "pinyin": "nǐ qù nǎr？"
+        "pinyin": "ni3 qu4 na3 r5？"
       },
       {
         "id": "b1-questions-apply-009",
         "wordId": "L1-0269",
-        "zh": "你呢？",
-        "en": "How about you?",
-        "fromOriginalExample": false,
-        "pinyin": "nǐ ne？"
+        "zh": "我是学生，你呢？",
+        "en": "I'm a student, and you?",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 shi4 xue2 sheng5， ni3 ne5？"
       },
       {
         "id": "b1-questions-apply-010",
@@ -1415,97 +3207,137 @@
         "zh": "他是谁？",
         "en": "Who is he?",
         "fromOriginalExample": true,
-        "pinyin": "tā shì shéi？"
+        "pinyin": "ta1 shi4 shei2？"
       },
       {
         "id": "b1-questions-apply-011",
         "wordId": "L1-0328",
-        "zh": "这是什么？",
-        "en": "What is this?",
-        "fromOriginalExample": true,
-        "pinyin": "zhè shì shénme？"
+        "zh": "你今天想吃什么？",
+        "en": "What do you want to eat today?",
+        "fromOriginalExample": false,
+        "pinyin": "ni3 jin1 tian1 xiang3 chi1 shen2 me5？"
       },
       {
         "id": "b1-questions-apply-012",
         "wordId": "L1-0338",
-        "zh": "这是“是不是”的用法。",
-        "en": "This shows how to use “is it or not?”.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì “shì bu shì” de yòngfǎ。"
+        "zh": "你是不是中国人？",
+        "en": "Are you Chinese or not?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 shi4 bu4 shi4 zhong1 guo2 ren2？"
+      },
+      {
+        "id": "b1-questions-apply-013",
+        "wordId": "L1-0074a",
+        "zh": "我弟弟十岁。",
+        "en": "My younger brother is ten years old.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 di4 di5 shi2 sui4。"
+      },
+      {
+        "id": "b1-questions-apply-014",
+        "wordId": "L1-0075b",
+        "zh": "我在二楼第二房间。",
+        "en": "I'm in the second room on the second floor.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 er4 lou2 di4 er4 fang2 jian1。"
+      },
+      {
+        "id": "b1-questions-apply-015",
+        "wordId": "L1-0325b",
+        "zh": "谁来了？",
+        "en": "Who came?",
+        "fromOriginalExample": true,
+        "pinyin": "shei2 lai2 le5？"
+      },
+      {
+        "id": "b1-questions-apply-016",
+        "wordId": "L1-0460",
+        "zh": "你怎么了？",
+        "en": "What's wrong with you?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 zen3 me5 le5？"
+      },
+      {
+        "id": "b1-questions-apply-017",
+        "wordId": "L1-0469",
+        "zh": "门开着。",
+        "en": "The door is open.",
+        "fromOriginalExample": true,
+        "pinyin": "men2 kai1 zhao1。"
       }
     ],
     "b1-verbs-2": [
       {
         "id": "b1-verbs-2-apply-001",
         "wordId": "L1-0132",
-        "zh": "我还学习。",
-        "en": "I am still studying.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ hái xuéxí。"
+        "zh": "我还没吃饭。",
+        "en": "I haven't eaten yet.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 huan2 mei2 chi1 fan4。"
       },
       {
         "id": "b1-verbs-2-apply-002",
         "wordId": "L1-0138",
-        "zh": "我很好。",
-        "en": "I am doing well.",
+        "zh": "这本书很好。",
+        "en": "This book is very good.",
         "fromOriginalExample": false,
-        "pinyin": "wǒ hěn hǎo。"
+        "pinyin": "zhe4 ben3 shu1 hen3 hao3。"
       },
       {
         "id": "b1-verbs-2-apply-003",
         "wordId": "L1-0141",
         "zh": "这首歌很好听。",
         "en": "This song sounds nice.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shǒu gē hěn hǎotīng。"
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 shou3 ge1 hen3 hao3 ting1。"
       },
       {
         "id": "b1-verbs-2-apply-004",
         "wordId": "L1-0145",
-        "zh": "你和我在这里。",
-        "en": "You and I are here.",
-        "fromOriginalExample": false,
-        "pinyin": "nǐ hé wǒ zài zhèlǐ。"
+        "zh": "我和你一起去。",
+        "en": "I'll go with you.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 he2 ni3 yi1 qi3 qu4。"
       },
       {
         "id": "b1-verbs-2-apply-005",
         "wordId": "L1-0150",
-        "zh": "桌子上有花。",
-        "en": "There are flowers on the table.",
-        "fromOriginalExample": false,
-        "pinyin": "zhuōzi shang yǒu huā。"
+        "zh": "这花真漂亮。",
+        "en": "This flower is really pretty.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 hua1 zhen1 piao4 liang5。"
       },
       {
         "id": "b1-verbs-2-apply-006",
         "wordId": "L1-0152",
-        "zh": "这个孩子有点坏。",
-        "en": "This child is a little naughty.",
-        "fromOriginalExample": false,
-        "pinyin": "zhège háizi yǒudiǎn huài。"
+        "zh": "我的手机坏了。",
+        "en": "My phone is broken.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 shou3 ji1 huai4 le5。"
       },
       {
         "id": "b1-verbs-2-apply-007",
         "wordId": "L1-0153",
-        "zh": "我还要一个。",
-        "en": "I also want one more.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ hái yào yí gè。"
+        "zh": "我把书还给他了。",
+        "en": "I returned the book to him.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ba3 shu1 huan2 gei3 ta1 le5。"
       },
       {
         "id": "b1-verbs-2-apply-008",
         "wordId": "L1-0155",
-        "zh": "我来回答。",
-        "en": "I will answer.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ lái huídá。"
+        "zh": "请回答我的问题。",
+        "en": "Please answer my question.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 hui2 da2 wo3 de5 wen4 ti2。"
       },
       {
         "id": "b1-verbs-2-apply-009",
         "wordId": "L1-0156",
-        "zh": "我回到家了。",
-        "en": "I returned home.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ huídào jiā le。"
+        "zh": "我回到学校了。",
+        "en": "I'm back at school.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 hui2 dao4 xue2 xiao4 le5。"
       },
       {
         "id": "b1-verbs-2-apply-010",
@@ -1513,73 +3345,185 @@
         "zh": "你还记得我吗？",
         "en": "Do you still remember me?",
         "fromOriginalExample": true,
-        "pinyin": "nǐ hái jìde wǒ ma？"
+        "pinyin": "ni3 huan2 ji4 de5 wo3 ma2？"
       },
       {
         "id": "b1-verbs-2-apply-011",
         "wordId": "L1-0174",
-        "zh": "我们明天见面。",
-        "en": "We will meet tomorrow.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒmen míngtiān jiànmiàn。"
+        "zh": "我们什么时候见面？",
+        "en": "When will we meet?",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 shen2 me5 shi2 hou5 jian4 mian4？"
       },
       {
         "id": "b1-verbs-2-apply-012",
         "wordId": "L1-0176",
-        "zh": "我叫李明。",
-        "en": "My name is Li Ming.",
+        "zh": "大家都叫他小王。",
+        "en": "Everyone calls him Xiao Wang.",
+        "fromOriginalExample": true,
+        "pinyin": "da4 jia1 dou1 jiao4 ta1 xiao3 wang2。"
+      },
+      {
+        "id": "b1-verbs-2-apply-013",
+        "wordId": "L1-0179",
+        "zh": "我介绍一下我的朋友。",
+        "en": "Let me introduce my friend.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 jie4 shao4 yi1 xia4 wo3 de5 peng2 you5。"
+      },
+      {
+        "id": "b1-verbs-2-apply-014",
+        "wordId": "L1-0182",
+        "zh": "我们现在进教室。",
+        "en": "We are entering the classroom now.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 xian4 zai4 jin4 jiao4 shi4。"
+      },
+      {
+        "id": "b1-verbs-2-apply-015",
+        "wordId": "L1-0186",
+        "zh": "我就来。",
+        "en": "I'm coming right away.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 jiu4 lai2。"
+      },
+      {
+        "id": "b1-verbs-2-apply-016",
+        "wordId": "L1-0191",
+        "zh": "我只是开玩笑。",
+        "en": "I'm just joking.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zhi3 shi4 kai1 wan2 xiao4。"
+      },
+      {
+        "id": "b1-verbs-2-apply-017",
+        "wordId": "L1-0192",
+        "zh": "看电视。",
+        "en": "Watch TV.",
+        "fromOriginalExample": true,
+        "pinyin": "kan1 dian4 shi4。"
+      },
+      {
+        "id": "b1-verbs-2-apply-018",
+        "wordId": "L1-0194",
+        "zh": "我看到他了。",
+        "en": "I saw him.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 kan4 dao4 ta1 le5。"
+      },
+      {
+        "id": "b1-verbs-2-apply-019",
+        "wordId": "L1-0195",
+        "zh": "你看见我的书了吗？",
+        "en": "Did you see my book?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 kan4 jian4 wo3 de5 shu1 le5 ma2？"
+      },
+      {
+        "id": "b1-verbs-2-apply-020",
+        "wordId": "L1-0204",
+        "zh": "快来吧！",
+        "en": "Come quickly!",
+        "fromOriginalExample": true,
+        "pinyin": "kuai4 lai2 ba1！"
+      },
+      {
+        "id": "b1-verbs-2-apply-021",
+        "wordId": "L1-0205",
+        "zh": "他来了。",
+        "en": "He's coming.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 lai2 le5。"
+      },
+      {
+        "id": "b1-verbs-2-apply-022",
+        "wordId": "L1-0207",
+        "zh": "他是我老同学。",
+        "en": "He is my old classmate.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 shi4 wo3 lao3 tong2 xue2。"
+      },
+      {
+        "id": "b1-verbs-2-apply-023",
+        "wordId": "L1-0211",
+        "zh": "我很累。",
+        "en": "I'm very tired.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 hen3 lei3。"
+      },
+      {
+        "id": "b1-verbs-2-apply-024",
+        "wordId": "L1-0230",
+        "zh": "我很忙。",
+        "en": "I'm very busy.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 hen3 mang2。"
+      },
+      {
+        "id": "b1-verbs-2-apply-025",
+        "wordId": "L1-0337",
+        "zh": "今天是星期三。",
+        "en": "Today is Wednesday.",
         "fromOriginalExample": false,
-        "pinyin": "wǒ jiào Lǐ Míng。"
+        "pinyin": "jin1 tian1 shi4 xing1 qi1 san1。"
+      },
+      {
+        "id": "b1-verbs-2-apply-026",
+        "wordId": "L1-0499",
+        "zh": "请坐下。",
+        "en": "Please sit down.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 zuo4 xia4。"
       }
     ],
     "b1-measure": [
       {
         "id": "b1-measure-apply-001",
         "wordId": "L1-0009",
-        "zh": "我们下午有一班课。",
-        "en": "We have one class this afternoon.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒmen xiàwǔ yǒu yì bān kè。"
+        "zh": "我在三班。",
+        "en": "I'm in class three.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zai4 san1 ban1。"
       },
       {
         "id": "b1-measure-apply-002",
         "wordId": "L1-0015",
-        "zh": "我买了一个包。",
-        "en": "I bought a bag.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ mǎi le yí gè bāo。"
+        "zh": "我有一个大包。",
+        "en": "I have a big bag.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 you3 yi1 ge5 da4 bao1。"
       },
       {
         "id": "b1-measure-apply-003",
         "wordId": "L1-0017",
-        "zh": "我喝一杯茶。",
-        "en": "I drink a cup of tea.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ hē yì bēi chá。"
+        "zh": "我要一杯茶。",
+        "en": "I'd like a cup of tea.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 yao1 yi1 bei1 cha2。"
       },
       {
         "id": "b1-measure-apply-004",
         "wordId": "L1-0022",
         "zh": "我有一本书。",
-        "en": "I have a book.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ yǒu yì běn shū。"
+        "en": "I have one book.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 you3 yi1 ben3 shu1。"
       },
       {
         "id": "b1-measure-apply-005",
         "wordId": "L1-0053",
-        "zh": "这是我第一次来。",
-        "en": "This is my first time here.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì wǒ dì yī cì lái。"
+        "zh": "我去过一次北京。",
+        "en": "I've been to Beijing once.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 qu4 guo1 yi1 ci4 bei3 jing1。"
       },
       {
         "id": "b1-measure-apply-006",
         "wordId": "L1-0120",
-        "zh": "我有一个问题。",
-        "en": "I have a question.",
+        "zh": "我有两个问题。",
+        "en": "I have two questions.",
         "fromOriginalExample": false,
-        "pinyin": "wǒ yǒu yí gè wèntí。"
+        "pinyin": "wo3 you3 liang3 ge4 wen4 ti2。"
       },
       {
         "id": "b1-measure-apply-007",
@@ -1587,47 +3531,71 @@
         "zh": "今天几号？",
         "en": "What's the date today?",
         "fromOriginalExample": true,
-        "pinyin": "jīntiān jǐ hào？"
+        "pinyin": "jin1 tian1 ji3 hao4？"
       },
       {
         "id": "b1-measure-apply-008",
         "wordId": "L1-0166",
-        "zh": "我记得。",
-        "en": "I remember.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ jìde。"
+        "zh": "这个字不容易记。",
+        "en": "This character is not easy to remember.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ge4 zi4 bu4 rong2 yi4 ji4。"
       },
       {
         "id": "b1-measure-apply-009",
         "wordId": "L1-0172",
-        "zh": "这间房很大。",
-        "en": "This room is big.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè jiān fáng hěn dà。"
+        "zh": "一间房子",
+        "en": "one room",
+        "fromOriginalExample": true,
+        "pinyin": "yi1 jian1 fang2 zi5"
       },
       {
         "id": "b1-measure-apply-010",
         "wordId": "L1-0202",
-        "zh": "我们家有三口人。",
-        "en": "There are three people in my family.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒmen jiā yǒu sān kǒu rén。"
+        "zh": "我家有三口人。",
+        "en": "My family has three people.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 jia1 you3 san1 kou3 ren2。"
       },
       {
         "id": "b1-measure-apply-011",
         "wordId": "L1-0238",
-        "zh": "我今天有两门课。",
-        "en": "I have two classes today.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ jīntiān yǒu liǎng mén kè。"
+        "zh": "门开着，你进来吧。",
+        "en": "The door is open, come in.",
+        "fromOriginalExample": true,
+        "pinyin": "men2 kai1 zhe5， ni3 jin4 lai2 ba1。"
       },
       {
         "id": "b1-measure-apply-012",
         "wordId": "L1-0353",
         "zh": "我二十岁。",
-        "en": "I am twenty years old.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ èrshí suì。"
+        "en": "I'm 20 years old.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 er4 shi2 sui4。"
+      },
+      {
+        "id": "b1-measure-apply-013",
+        "wordId": "L1-0426",
+        "zh": "打开书第三页。",
+        "en": "Open the book to page 3.",
+        "fromOriginalExample": true,
+        "pinyin": "da3 kai1 shu1 di4 san1 xie2。"
+      },
+      {
+        "id": "b1-measure-apply-014",
+        "wordId": "L1-0437",
+        "zh": "我懂一点儿汉语。",
+        "en": "I know a little Chinese.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 dong3 yi1 dian3 r5 han4 yu3。"
+      },
+      {
+        "id": "b1-measure-apply-015",
+        "wordId": "L1-0489a",
+        "zh": "孩子",
+        "en": "child",
+        "fromOriginalExample": true,
+        "pinyin": "hai2 zi5"
       }
     ],
     "b1-opinions": [
@@ -1637,47 +3605,47 @@
         "zh": "我爱我的家人。",
         "en": "I love my family.",
         "fromOriginalExample": true,
-        "pinyin": "wǒ ài wǒ de jiārén。"
+        "pinyin": "wo3 ai4 wo3 de5 jia1 ren2。"
       },
       {
         "id": "b1-opinions-apply-002",
         "wordId": "L1-0002",
-        "zh": "我的爱好是看电影。",
-        "en": "My hobby is watching movies.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ de àihào shì kàn diànyǐng。"
+        "zh": "我的爱好是听音乐。",
+        "en": "My hobby is listening to music.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 ai4 hao4 shi4 yin3 yin1 yue4。"
       },
       {
         "id": "b1-opinions-apply-003",
         "wordId": "L1-0006",
-        "zh": "这张纸很白。",
-        "en": "This paper is very white.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè zhāng zhǐ hěn bái。"
+        "zh": "她穿白色衣服。",
+        "en": "She wears white clothes.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 chuan1 bai2 se4 yi1 fu5。"
       },
       {
         "id": "b1-opinions-apply-004",
         "wordId": "L1-0031",
-        "zh": "这样做不对。",
-        "en": "Doing it this way is not right.",
-        "fromOriginalExample": false,
-        "pinyin": "zhèyàng zuò bùduì。"
+        "zh": "这个答案不对。",
+        "en": "This answer is wrong.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ge5 da2 an4 bu4 dui4。"
       },
       {
         "id": "b1-opinions-apply-005",
         "wordId": "L1-0034",
         "zh": "我不去。",
-        "en": "I am not going.",
+        "en": "I'm not going.",
         "fromOriginalExample": true,
-        "pinyin": "wǒ bù qù。"
+        "pinyin": "wo3 bu4 qu4。"
       },
       {
         "id": "b1-opinions-apply-006",
         "wordId": "L1-0055",
-        "zh": "你说得对，我说错了。",
-        "en": "You are right; I was wrong.",
-        "fromOriginalExample": false,
-        "pinyin": "nǐ shuō de duì， wǒ shuō cuò le。"
+        "zh": "对不起，我错了。",
+        "en": "Sorry, I was wrong.",
+        "fromOriginalExample": true,
+        "pinyin": "dui4 bu5 qi3， wo3 cuo4 le5。"
       },
       {
         "id": "b1-opinions-apply-007",
@@ -1685,171 +3653,315 @@
         "zh": "我们都喜欢他。",
         "en": "We all like him.",
         "fromOriginalExample": true,
-        "pinyin": "wǒmen dōu xǐhuan tā。"
+        "pinyin": "wo3 men5 du1 xi3 huan5 ta1。"
       },
       {
         "id": "b1-opinions-apply-008",
         "wordId": "L1-0092",
-        "zh": "你做得对。",
-        "en": "You did it right.",
-        "fromOriginalExample": false,
-        "pinyin": "nǐ zuò de duì。"
+        "zh": "你说得对。",
+        "en": "You're right.",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 shui4 de2 dui4。"
       },
       {
         "id": "b1-opinions-apply-009",
         "wordId": "L1-0108",
-        "zh": "我非常喜欢学习中文。",
-        "en": "I really like studying Chinese.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ fēicháng xǐhuan xuéxí Zhōngwén。"
+        "zh": "非常感谢。",
+        "en": "Thank you very much.",
+        "fromOriginalExample": true,
+        "pinyin": "fei1 chang2 gan3 xie4。"
       },
       {
         "id": "b1-opinions-apply-010",
         "wordId": "L1-0112",
-        "zh": "这个房间很干净。",
-        "en": "This room is clean.",
-        "fromOriginalExample": false,
-        "pinyin": "zhège fángjiān hěn gānjìng。"
+        "zh": "房间很干净。",
+        "en": "The room is very clean.",
+        "fromOriginalExample": true,
+        "pinyin": "fang2 jian1 hen3 gan1 jing4。"
       },
       {
         "id": "b1-opinions-apply-011",
         "wordId": "L1-0116",
-        "zh": "我很高兴。",
-        "en": "I am happy.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ hěn gāoxìng。"
+        "zh": "我很高兴认识你。",
+        "en": "I'm happy to meet you.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 hen3 gao1 xing4 ren4 shi5 ni3。"
       },
       {
         "id": "b1-opinions-apply-012",
         "wordId": "L1-0119",
         "zh": "我喜欢这首歌。",
         "en": "I like this song.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xi3 huan5 zhe4 shou3 ge1。"
+      },
+      {
+        "id": "b1-opinions-apply-013",
+        "wordId": "L1-0134",
+        "zh": "我还有问题。",
+        "en": "I have another question.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 hai2 you3 wen4 ti2。"
+      },
+      {
+        "id": "b1-opinions-apply-014",
+        "wordId": "L1-0140",
+        "zh": "这件衣服很好看。",
+        "en": "This piece of clothing is pretty.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 jian4 yi1 fu5 hen3 hao3 kan4。"
+      },
+      {
+        "id": "b1-opinions-apply-015",
+        "wordId": "L1-0142",
+        "zh": "这个地方很好玩儿。",
+        "en": "This place is fun.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ge5 di4 fang1 hen3 hao3 wan2 r5。"
+      },
+      {
+        "id": "b1-opinions-apply-016",
+        "wordId": "L1-0146",
+        "zh": "很好。",
+        "en": "Very good.",
+        "fromOriginalExample": true,
+        "pinyin": "hen3 hao3。"
+      },
+      {
+        "id": "b1-opinions-apply-017",
+        "wordId": "L1-0151",
+        "zh": "你说的话对。",
+        "en": "What you said is correct.",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 shui4 de5 hua4 dui4。"
+      },
+      {
+        "id": "b1-opinions-apply-018",
+        "wordId": "L1-0173",
+        "zh": "晚上我们见面吧。",
+        "en": "Let’s meet this evening.",
         "fromOriginalExample": false,
-        "pinyin": "wǒ xǐhuan zhè shǒu gē。"
+        "pinyin": "wan3 shang4 wo3 men5 jian4 mian4 ba1。"
+      },
+      {
+        "id": "b1-opinions-apply-019",
+        "wordId": "L1-0187",
+        "zh": "我觉得很好。",
+        "en": "I think it's good.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 jue2 de5 hen3 hao3。"
+      },
+      {
+        "id": "b1-opinions-apply-020",
+        "wordId": "L1-0212",
+        "zh": "今天很冷。",
+        "en": "It's cold today.",
+        "fromOriginalExample": true,
+        "pinyin": "jin1 tian1 hen3 leng3。"
+      },
+      {
+        "id": "b1-opinions-apply-021",
+        "wordId": "L1-0330",
+        "zh": "别生气。",
+        "en": "Don't be angry.",
+        "fromOriginalExample": true,
+        "pinyin": "bie2 sheng1 qi4。"
+      },
+      {
+        "id": "b1-opinions-apply-022",
+        "wordId": "L1-0388",
+        "zh": "我喜欢你。",
+        "en": "I like you.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xi3 huan5 ni3。"
+      },
+      {
+        "id": "b1-opinions-apply-023",
+        "wordId": "L1-0400",
+        "zh": "我想去中国。",
+        "en": "I want to go to China.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 xiang3 qu4 zhong1 guo2。"
+      },
+      {
+        "id": "b1-opinions-apply-024",
+        "wordId": "L1-0423",
+        "zh": "我要喝水。",
+        "en": "I want to drink water.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 yao1 he1 shui3。"
+      },
+      {
+        "id": "b1-opinions-apply-025",
+        "wordId": "L1-0443",
+        "zh": "北京很有名。",
+        "en": "Beijing is very famous.",
+        "fromOriginalExample": true,
+        "pinyin": "bei3 jing1 hen3 you3 ming2。"
+      },
+      {
+        "id": "b1-opinions-apply-026",
+        "wordId": "L1-0446",
+        "zh": "这本书很有用。",
+        "en": "This book is very useful.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ben3 shu1 hen3 you3 yong4。"
+      },
+      {
+        "id": "b1-opinions-apply-027",
+        "wordId": "L1-0470",
+        "zh": "真好吃。",
+        "en": "Really delicious.",
+        "fromOriginalExample": true,
+        "pinyin": "zhen1 hao3 chi1。"
+      },
+      {
+        "id": "b1-opinions-apply-028",
+        "wordId": "L1-0471",
+        "zh": "真的吗？",
+        "en": "Really?",
+        "fromOriginalExample": true,
+        "pinyin": "zhen1 de5 ma2？"
+      },
+      {
+        "id": "b1-opinions-apply-029",
+        "wordId": "L1-0483",
+        "zh": "这个箱子很重。",
+        "en": "This box is very heavy.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 ge5 xiang1 zi5 hen3 chong2。"
+      },
+      {
+        "id": "b1-opinions-apply-030",
+        "wordId": "L1-0484",
+        "zh": "这件事很重要。",
+        "en": "This matter is important.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 jian4 shi4 hen3 zhong4 yao4。"
       }
     ],
     "b1-ability": [
       {
         "id": "b1-ability-apply-001",
         "wordId": "L1-0005",
-        "zh": "我们学习吧。",
-        "en": "Let us study.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒmen xuéxí ba。"
+        "zh": "我们走吧。",
+        "en": "Let's go.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 zou3 ba1。"
       },
       {
         "id": "b1-ability-apply-002",
         "wordId": "L1-0025",
-        "zh": "别学习了，休息一下。",
-        "en": "Stop studying and take a break.",
-        "fromOriginalExample": false,
-        "pinyin": "bié xuéxí le， xiūxi yíxià。"
+        "zh": "别着急，我们慢慢说。",
+        "en": "Don’t worry, we can speak slowly.",
+        "fromOriginalExample": true,
+        "pinyin": "bie2 zhao2 ji2， wo3 men5 man4 man4 shuo1。"
       },
       {
         "id": "b1-ability-apply-003",
         "wordId": "L1-0033",
-        "zh": "我不用学习。",
-        "en": "I do not need to study.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ bùyòng xuéxí。"
+        "zh": "不用谢。",
+        "en": "No need to thank me.",
+        "fromOriginalExample": true,
+        "pinyin": "bu4 yong4 xie4。"
       },
       {
         "id": "b1-ability-apply-004",
         "wordId": "L1-0066",
-        "zh": "我慢慢地学习。",
-        "en": "I study slowly and carefully.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ mànmàn de xuéxí。"
+        "zh": "他高兴地笑了。",
+        "en": "He smiled happily.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 gao1 xing4 de5 xiao4 le5。"
       },
       {
         "id": "b1-ability-apply-005",
         "wordId": "L1-0067",
-        "zh": "这是我的。",
-        "en": "This is mine.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì wǒ de。"
+        "zh": "这是我的书。",
+        "en": "This is my book.",
+        "fromOriginalExample": true,
+        "pinyin": "zhe4 shi4 wo3 de5 shu1。"
       },
       {
         "id": "b1-ability-apply-006",
         "wordId": "L1-0160",
-        "zh": "我会说一点中文。",
-        "en": "I can speak a little Chinese.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ huì shuō yìdiǎn Zhōngwén。"
+        "zh": "我会说汉语。",
+        "en": "I can speak Chinese.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 hui4 shui4 han4 yu3。"
       },
       {
         "id": "b1-ability-apply-007",
         "wordId": "L1-0210",
-        "zh": "我吃完了。",
-        "en": "I finished eating.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ chīwán le。"
+        "zh": "我吃了饭。",
+        "en": "I ate.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 chi1 le5 fan4。"
       },
       {
         "id": "b1-ability-apply-008",
         "wordId": "L1-0232",
-        "zh": "我没学习，因为太忙了。",
-        "en": "I did not study because I was too busy.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ méi xuéxí， yīnwèi tài máng le。"
+        "zh": "我没钱。",
+        "en": "I have no money.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mei2 qian2。"
       },
       {
         "id": "b1-ability-apply-009",
         "wordId": "L1-0270",
-        "zh": "我能来。",
-        "en": "I can come.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ néng lái。"
+        "zh": "你能帮我吗？",
+        "en": "Can you help me?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 neng2 bang1 wo3 ma2？"
       }
     ],
     "b1-verbs-3": [
       {
         "id": "b1-verbs-3-apply-001",
         "wordId": "L1-0236",
-        "zh": "我没有。",
-        "en": "I do not have it.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ méiyǒu。"
+        "zh": "我没有问题。",
+        "en": "I don't have any questions.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 mei2 you3 wen4 ti2。"
       },
       {
         "id": "b1-verbs-3-apply-002",
         "wordId": "L1-0246",
-        "zh": "我明白。",
+        "zh": "我明白了。",
         "en": "I understand.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ míngbai。"
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ming2 bai5 le5。"
       },
       {
         "id": "b1-verbs-3-apply-003",
         "wordId": "L1-0249",
-        "zh": "我拿这个。",
-        "en": "I will take this one.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ ná zhège。"
+        "zh": "请拿好。",
+        "en": "Please take it.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 na2 hao3。"
       },
       {
         "id": "b1-verbs-3-apply-004",
         "wordId": "L1-0268",
-        "zh": "这个问题很难。",
-        "en": "This question is difficult.",
-        "fromOriginalExample": false,
-        "pinyin": "zhège wèntí hěn nán。"
+        "zh": "汉语很难吗？",
+        "en": "Is Chinese difficult?",
+        "fromOriginalExample": true,
+        "pinyin": "han4 yu3 hen3 nan2 ma2？"
       },
       {
         "id": "b1-verbs-3-apply-005",
         "wordId": "L1-0289a",
-        "zh": "我起来。",
-        "en": "I get up.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ qǐlái。"
+        "zh": "请起来。",
+        "en": "Please stand up.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 qi3 lai5。"
       },
       {
         "id": "b1-verbs-3-apply-006",
         "wordId": "L1-0302",
         "zh": "我去学校。",
-        "en": "I am going to school.",
+        "en": "I'm going to school.",
         "fromOriginalExample": true,
-        "pinyin": "wǒ qù xuéxiào。"
+        "pinyin": "wo3 qu4 xue2 xiao4。"
       },
       {
         "id": "b1-verbs-3-apply-007",
@@ -1857,15 +3969,15 @@
         "zh": "今天很热。",
         "en": "It's hot today.",
         "fromOriginalExample": true,
-        "pinyin": "jīntiān hěn rè。"
+        "pinyin": "jin1 tian1 hen3 re4。"
       },
       {
         "id": "b1-verbs-3-apply-008",
         "wordId": "L1-0306",
-        "zh": "我认识他。",
-        "en": "I know him.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ rènshi tā。"
+        "zh": "很高兴认识你。",
+        "en": "Nice to meet you.",
+        "fromOriginalExample": true,
+        "pinyin": "hen3 gao1 xing4 ren4 shi5 ni3。"
       },
       {
         "id": "b1-verbs-3-apply-009",
@@ -1873,15 +3985,15 @@
         "zh": "他学习很认真。",
         "en": "He studies very seriously.",
         "fromOriginalExample": true,
-        "pinyin": "tā xuéxí hěn rènzhēn。"
+        "pinyin": "ta1 xue2 xi2 hen3 ren4 zhen1。"
       },
       {
         "id": "b1-verbs-3-apply-010",
         "wordId": "L1-0324",
-        "zh": "我很少喝咖啡。",
-        "en": "I rarely drink coffee.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ hěn shǎo hē kāfēi。"
+        "zh": "少说废话。",
+        "en": "Talk less nonsense.",
+        "fromOriginalExample": true,
+        "pinyin": "shao3 shuo1 fei4 hua4。"
       },
       {
         "id": "b1-verbs-3-apply-011",
@@ -1889,15 +4001,119 @@
         "zh": "你说什么？",
         "en": "What did you say?",
         "fromOriginalExample": true,
-        "pinyin": "nǐ shuō shénme？"
+        "pinyin": "ni3 shui4 shen2 me5？"
       },
       {
         "id": "b1-verbs-3-apply-012",
         "wordId": "L1-0350",
-        "zh": "我们说话吧。",
-        "en": "Let us talk.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒmen shuōhuà ba。"
+        "zh": "别说话。",
+        "en": "Don't talk.",
+        "fromOriginalExample": true,
+        "pinyin": "bie2 shuo1 hua4。"
+      },
+      {
+        "id": "b1-verbs-3-apply-013",
+        "wordId": "L1-0361",
+        "zh": "听音乐。",
+        "en": "Listen to music.",
+        "fromOriginalExample": true,
+        "pinyin": "yin3 yin1 yue4。"
+      },
+      {
+        "id": "b1-verbs-3-apply-014",
+        "wordId": "L1-0362",
+        "zh": "我听到了。",
+        "en": "I heard it.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ting1 dao4 le5。"
+      },
+      {
+        "id": "b1-verbs-3-apply-015",
+        "wordId": "L1-0363",
+        "zh": "你能听见我吗？",
+        "en": "Can you hear me?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 neng2 ting1 jian4 wo3 ma2？"
+      },
+      {
+        "id": "b1-verbs-3-apply-016",
+        "wordId": "L1-0371",
+        "zh": "我们一起玩儿吧。",
+        "en": "Let's play together.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 yi1 qi3 wan2 r5 ba1。"
+      },
+      {
+        "id": "b1-verbs-3-apply-017",
+        "wordId": "L1-0377",
+        "zh": "我忘了带钥匙。",
+        "en": "I forgot to bring my keys.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 wang4 le5 dai4 yao4 shi5。"
+      },
+      {
+        "id": "b1-verbs-3-apply-018",
+        "wordId": "L1-0378",
+        "zh": "不要忘记我。",
+        "en": "Don't forget me.",
+        "fromOriginalExample": true,
+        "pinyin": "bu4 yao4 wang4 ji4 wo3。"
+      },
+      {
+        "id": "b1-verbs-3-apply-019",
+        "wordId": "L1-0379",
+        "zh": "请问一个问题。",
+        "en": "May I ask a question?",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 wen4 yi1 ge5 wen4 ti2。"
+      },
+      {
+        "id": "b1-verbs-3-apply-020",
+        "wordId": "L1-0397",
+        "zh": "你先走。",
+        "en": "You go first.",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 xian1 zou3。"
+      },
+      {
+        "id": "b1-verbs-3-apply-021",
+        "wordId": "L1-0408",
+        "zh": "她笑了。",
+        "en": "She smiled.",
+        "fromOriginalExample": true,
+        "pinyin": "ta1 xiao4 le5。"
+      },
+      {
+        "id": "b1-verbs-3-apply-022",
+        "wordId": "L1-0425",
+        "zh": "我也去。",
+        "en": "I'm going too.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 ye3 qu4。"
+      },
+      {
+        "id": "b1-verbs-3-apply-023",
+        "wordId": "L1-0486",
+        "zh": "准备考试。",
+        "en": "Prepare for the exam.",
+        "fromOriginalExample": true,
+        "pinyin": "zhun3 bei4 kao3 shi4。"
+      },
+      {
+        "id": "b1-verbs-3-apply-024",
+        "wordId": "L1-0491",
+        "zh": "我走路去学校。",
+        "en": "I walk to school.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 zou3 lu4 qu4 xue2 xiao4。"
+      },
+      {
+        "id": "b1-verbs-3-apply-025",
+        "wordId": "L1-0500",
+        "zh": "你在做什么？",
+        "en": "What are you doing?",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 zai4 zuo4 shen2 me5？"
       }
     ],
     "b1-comparison": [
@@ -1907,15 +4123,15 @@
         "zh": "你比我高。",
         "en": "You are taller than me.",
         "fromOriginalExample": true,
-        "pinyin": "nǐ bǐ wǒ gāo。"
+        "pinyin": "ni3 bi3 wo3 gao1。"
       },
       {
         "id": "b1-comparison-apply-002",
         "wordId": "L1-0030",
-        "zh": "这件衣服不大。",
-        "en": "This piece of clothing is not big.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè jiàn yīfu bù dà。"
+        "zh": "我不大清楚。",
+        "en": "I'm not too clear about it.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 bu4 da4 qing1 chu5。"
       },
       {
         "id": "b1-comparison-apply-003",
@@ -1923,64 +4139,66 @@
         "zh": "他很高。",
         "en": "He is very tall.",
         "fromOriginalExample": true,
-        "pinyin": "tā hěn gāo。"
+        "pinyin": "ta1 hen3 gao1。"
       },
       {
         "id": "b1-comparison-apply-004",
         "wordId": "L1-0229",
-        "zh": "他说得很慢。",
-        "en": "He speaks slowly.",
-        "fromOriginalExample": false,
-        "pinyin": "tā shuō de hěn màn。"
+        "zh": "请说慢一点。",
+        "en": "Please speak more slowly.",
+        "fromOriginalExample": true,
+        "pinyin": "qing3 shui4 man4 yi1 dian3。"
       },
       {
         "id": "b1-comparison-apply-005",
         "wordId": "L1-0358",
-        "zh": "太晚了。",
-        "en": "It is too late.",
-        "fromOriginalExample": false,
-        "pinyin": "tài wǎn le。"
+        "zh": "太好了！",
+        "en": "Great!",
+        "fromOriginalExample": true,
+        "pinyin": "tai4 hao3 le5！"
       },
       {
         "id": "b1-comparison-apply-006",
         "wordId": "L1-0401",
-        "zh": "这个包很小。",
-        "en": "This bag is small.",
-        "fromOriginalExample": false,
-        "pinyin": "zhège bāo hěn xiǎo。"
+        "zh": "小狗。",
+        "en": "Small dog.",
+        "fromOriginalExample": true,
+        "pinyin": "xiao3 gou3。"
       },
       {
         "id": "b1-comparison-apply-007",
         "wordId": "L1-0411",
-        "zh": "这是一本新书。",
-        "en": "This is a new book.",
-        "fromOriginalExample": false,
-        "pinyin": "zhè shì yì běn xīn shū。"
+        "zh": "我的新手机。",
+        "en": "My new phone.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 de5 xin1 shou3 ji1。"
       },
       {
         "id": "b1-comparison-apply-008",
         "wordId": "L1-0435",
-        "zh": "我们穿一样的衣服。",
-        "en": "We wear the same clothes.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒmen chuān yíyàng de yīfu。"
+        "zh": "我们一样大。",
+        "en": "We're the same age.",
+        "fromOriginalExample": true,
+        "pinyin": "wo3 men5 yi1 yang4 da4。"
       },
       {
         "id": "b1-comparison-apply-009",
         "wordId": "L1-0492",
-        "zh": "这个最好。",
-        "en": "This one is the best.",
+        "zh": "最好",
+        "en": "best",
         "fromOriginalExample": true,
-        "pinyin": "zhège zuìhǎo。"
+        "pinyin": "zui4 hao3"
       },
       {
         "id": "b1-comparison-apply-010",
         "wordId": "L1-0493",
-        "zh": "我学得最好。",
-        "en": "I study the best.",
-        "fromOriginalExample": false,
-        "pinyin": "wǒ xué de zuìhǎo。"
+        "zh": "你最好休息一下。",
+        "en": "You'd better rest a while.",
+        "fromOriginalExample": true,
+        "pinyin": "ni3 zui4 hao3 xiu1 xi5 yi1 xia4。"
       }
-    ]
+    ],
+    "b1-listening": [],
+    "b1-speaking": []
   }
 }

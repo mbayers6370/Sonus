@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import type { LessonMode } from '../types/lesson.types';
 import { useApp } from '../contexts/AppContext';
 import Flashcard from './Flashcard';
@@ -11,6 +11,7 @@ import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { Check } from 'lucide-react';
 import { isCheckpointUnitId } from '../data/unitMetadata';
+import type { BandData, Word } from '../types/lesson.types';
 
 interface LessonScreenProps {
   onGoHome: () => void;
@@ -20,6 +21,24 @@ interface LessonScreenProps {
 
 const LESSON_RELOAD_GUARD_KEY = 'sonus.lesson.reload_guard';
 const LESSON_RELOAD_GUARD_TTL_MS = 2 * 60 * 1000;
+
+type BandUnitRecord = { id: string; words: Word[] };
+
+function getBandUnitsOrdered(bandData: BandData): BandUnitRecord[] {
+  if (Array.isArray(bandData.units)) {
+    return bandData.units
+      .map((unit) => ({
+        id: typeof unit?.id === 'string' ? unit.id : '',
+        words: unit?.words || [],
+      }))
+      .filter((unit) => Boolean(unit.id));
+  }
+
+  return Object.entries(bandData.units || {}).map(([id, unit]) => ({
+    id,
+    words: unit?.words || [],
+  }));
+}
 
 function isBrowserReloadNavigation() {
   try {
@@ -146,6 +165,21 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const isDailyReview = activeLesson.unitId === 'daily-review';
   const isPracticeUnit = isListeningPractice || isSpeakingPractice;
   const isApplyMode = lessonMode === 'apply';
+  const previousWords = useMemo(() => {
+    if (!state.activeBandData) return [] as Word[];
+    const units = getBandUnitsOrdered(state.activeBandData);
+    const activeUnitIdx = units.findIndex((unit) => unit.id === activeLesson.unitId);
+    if (activeUnitIdx <= 0) return [] as Word[];
+    const deduped = new Map<string, Word>();
+    units
+      .slice(0, activeUnitIdx)
+      .flatMap((unit) => unit.words || [])
+      .forEach((candidate) => {
+        if (!candidate?.id || deduped.has(candidate.id)) return;
+        deduped.set(candidate.id, candidate);
+      });
+    return Array.from(deduped.values());
+  }, [state.activeBandData, activeLesson.unitId]);
   const titleText = isCheckpointQuiz
     ? (activeLesson.unitName || 'Checkpoint Quiz')
     : isPracticeUnit
@@ -304,6 +338,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             currentIndex={lessonWordIndex}
             totalWords={totalWords}
             bandId={activeBandId}
+            previousWords={previousWords}
             onPrev={prevWord}
             onNext={nextWord}
             onCompleteApply={completeLessonProgress}

@@ -269,6 +269,21 @@ type ApplyBandPayload = {
 
 const applySentenceCache = new Map<string, Record<string, ApplySentence[]>>();
 
+function normalizeHanzi(value: string | undefined) {
+  return (value || '').trim();
+}
+
+function sentenceUsesFocusWord(sentenceZh: string | undefined, word: Word) {
+  const sentence = normalizeHanzi(sentenceZh);
+  if (!sentence) return false;
+
+  const simp = normalizeHanzi(word.simp);
+  const trad = normalizeHanzi(word.trad);
+  if (simp && sentence.includes(simp)) return true;
+  if (trad && sentence.includes(trad)) return true;
+  return false;
+}
+
 function isApplySentence(value: unknown): value is ApplySentence {
   if (!value || typeof value !== 'object') return false;
   const candidate = value as Record<string, unknown>;
@@ -915,6 +930,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         for (const word of words) {
           const applySentence = applyByWordId.get(word.id);
           if (!applySentence) continue;
+          if (!sentenceUsesFocusWord(applySentence.zh, word)) continue;
           applyWordsFromMap.push({
             ...word,
             example: {
@@ -924,6 +940,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
             },
           });
         }
+        const applyWordsById = new Map<string, Word>();
+        applyWordsFromMap.forEach((candidate) => applyWordsById.set(candidate.id, candidate));
+        applyFallbackByWord.forEach((candidate) => {
+          if (applyWordsById.has(candidate.id)) return;
+          applyWordsById.set(candidate.id, candidate);
+        });
+        const applyWordsResolved = Array.from(applyWordsById.values());
         const buildPracticePoolFromCurrentUnit = () => {
           const resumeUnitId =
             state.resumeCheckpoint?.bandId === bandId && state.resumeCheckpoint?.unitId
@@ -967,7 +990,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
             ? shuffleWords(
                 // Prefer curated apply JSON prompts; fall back to embedded examples
                 // when a unit has no mapped apply entries.
-                applyWordsFromMap.length > 0 ? applyWordsFromMap : applyFallbackByWord
+                applyWordsResolved.length > 0 ? applyWordsResolved : applyFallbackByWord
               ).slice(0, APPLY_PROMPT_COUNT)
           : practiceMode
             ? buildPracticePoolFromCurrentUnit()
