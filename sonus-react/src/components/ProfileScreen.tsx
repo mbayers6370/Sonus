@@ -173,6 +173,11 @@ export default function ProfileScreen({
         apiFetch('/v1/me/progress'),
       ]);
 
+      if (profileRes.status === 401 || profileRes.status === 403 || progressRes.status === 401 || progressRes.status === 403) {
+        signOut();
+        return;
+      }
+
       if (!profileRes.ok || !progressRes.ok) {
         throw new Error('Failed to load profile');
       }
@@ -190,14 +195,15 @@ export default function ProfileScreen({
     } catch {
       setBackendOffline(true);
       setError(null);
-      setProfile({
+      // Preserve existing user identity/progress on transient backend failures.
+      setProfile((prev) => prev ?? {
         displayName: null,
         targetLanguage: currentLearningLanguage || null,
         timezone: timezone || null,
         onboardingComplete: false,
-        email: 'dev@local.test',
+        email: null,
       });
-      setProgress({
+      setProgress((prev) => prev ?? {
         streak: 0,
         lastActiveDate: null,
         currentBandId: null,
@@ -211,7 +217,7 @@ export default function ProfileScreen({
         }
       }
     }
-  }, [currentLearningLanguage, timezone]);
+  }, [currentLearningLanguage, signOut, timezone]);
 
   useEffect(() => {
     void loadProfile();

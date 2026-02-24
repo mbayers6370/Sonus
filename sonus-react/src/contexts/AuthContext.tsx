@@ -415,6 +415,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [clearToSignedOut, status]);
 
   useEffect(() => {
+    const onAuthExpired = () => {
+      clearToSignedOut();
+    };
+    window.addEventListener('sonus:auth-expired', onAuthExpired);
+    return () => {
+      window.removeEventListener('sonus:auth-expired', onAuthExpired);
+    };
+  }, [clearToSignedOut]);
+
+  useEffect(() => {
     if (status !== 'signed_in' || !isDemo) return;
 
     const bump = () => touchMockActivity();
