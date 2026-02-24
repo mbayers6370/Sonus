@@ -42,68 +42,97 @@ function renderTileTitle(title: string) {
   const restText = rest.join(' ');
 
   return (
-    <h3 className="text-center leading-tight flex flex-col items-center gap-1.5 text-white">
-      <span className="secondary-font font-semibold text-[1.6rem] tracking-tight">{first}</span>
-      {restText ? <span className="main-font text-[1.65rem]">{restText}</span> : null}
+    <h3 className="text-center leading-[1.12] flex flex-col items-center gap-0.5 text-white px-1 max-w-full break-words">
+      <span className="secondary-font font-semibold text-[0.92rem] sm:text-[0.98rem] tracking-tight break-words">{first}</span>
+      {restText ? <span className="main-font text-[0.96rem] sm:text-[1.02rem] break-words">{restText}</span> : null}
     </h3>
   );
 }
 
 export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection }: TravelModePageProps) {
   return (
-    <div className="min-h-screen page-shell px-6 with-bottom-nav">
+    <div className="relative min-h-screen page-shell px-6 with-bottom-nav overflow-hidden">
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundColor: '#186E95',
+          backgroundImage: 'linear-gradient(145deg, #186E95 0%, #1b6f96 42%, #205f83 100%)',
+        }}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-[#186E95]/72" />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          opacity: 0.2,
+          backgroundImage: "url('/branding/Transparent_Background.png')",
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+        }}
+      />
+      <div className="pointer-events-none absolute -top-28 -left-16 h-72 w-72 rounded-full bg-white/10 blur-3xl animate-pulse" />
+      <div
+        className="pointer-events-none absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-[#3E5648]/20 blur-3xl animate-pulse"
+        style={{ animationDelay: '1200ms' }}
+      />
       <GlassHeader
-        title="Travel Mode"
-        className="bg-white/18 border-white/30"
-        scrolledClassName="bg-white/76 border-white/55"
-        titleClassName="text-[#374151]"
-        scrolledTitleClassName="text-[#374151]"
+        title="Travel Sprint"
+        className="bg-white/12 border-white/25"
+        scrolledClassName="bg-[#186E95]/88 border-white/35"
+        titleClassName="text-white"
+        scrolledTitleClassName="text-white"
       />
 
-      <div>
-        <section className="rounded-3xl border border-[#3E5648]/45 bg-[#3E5648] text-white px-6 py-6 mb-5 shadow-[0_24px_44px_-30px_rgba(62,86,72,0.45)]">
-          <div className="inline-flex items-center gap-2 text-[11px] tracking-wide font-mono text-white/85 mb-3">
-            <Plane className="w-4 h-4" />
-            Travel Sprint
+      <div className="relative z-10 min-h-[calc(100vh-10.75rem)] flex items-center">
+        <section className="w-full rounded-3xl text-white px-3 py-4 sm:px-4 sm:py-5 mb-3 lg:mb-0">
+          <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr] lg:gap-4 items-center">
+            <div className="text-center flex flex-col items-center justify-center min-h-[210px]">
+            <div className="inline-flex items-center gap-2 text-[11px] tracking-wide font-mono text-white/85 mb-2">
+              <Plane className="w-4 h-4" />
+              Travel Sprint
+            </div>
+            <h2 className="main-font text-[1.8rem] sm:text-[2rem] leading-tight mb-2">Leaving Soon?</h2>
+            <p className="text-[14px] leading-relaxed text-white/90 max-w-2xl mx-auto">
+              Travel Sprint is built for real-world Mandarin right before your trip. Instead of giant word lists,
+              you train high-utility phrases for airports, transport, hotels, food, payments, and emergencies.
+            </p>
+            <p className="text-[14px] leading-relaxed text-white mt-2 font-semibold max-w-2xl mx-auto">
+              Pick a situation, practice the lines, and get day-one confidence fast.
+            </p>
+            <div className="mt-2.5 flex flex-wrap gap-1.5 justify-center">
+              <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">8 scenarios</span>
+              <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">Audio + speak drills</span>
+              <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">Emergency-ready phrases</span>
+            </div>
           </div>
-          <h2 className="main-font text-[2.2rem] leading-tight mb-3">Leaving Soon?</h2>
-          <p className="text-[15px] leading-relaxed text-white/90 max-w-4xl">
-            Travel Mode is built for real-world Mandarin right before your trip. Instead of giant word lists,
-            you train high-utility phrases for airports, transport, hotels, food, payments, and emergencies.
-          </p>
-          <p className="text-[15px] leading-relaxed text-white mt-3 font-semibold max-w-4xl">
-            Pick a situation, practice the lines, and get day-one confidence fast.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">8 scenarios</span>
-            <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">Audio + speak drills</span>
-            <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">Emergency-ready phrases</span>
-          </div>
-        </section>
 
-        <section className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
-          {travelPageSections.map((section, index) => {
-            const SectionIcon = section.icon;
-            return (
-              <button
-                key={section.id}
-                type="button"
-                onClick={() => onOpenSection(section.id)}
-                className="dashboard-card-enter relative w-full text-left rounded-3xl border border-[#3E5648]/90 p-4 transition-all duration-200 bg-[#3E5648] min-h-[208px] flex flex-col hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(62,86,72,0.36)] shadow-[0_18px_36px_-28px_rgba(62,86,72,0.42)]"
-                aria-label={section.title}
-                style={{
-                  animationDelay: `${index * 40 + 30}ms`,
-                }}
-              >
-                <div className="h-full flex flex-col items-center justify-center gap-3">
-                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-white/28 bg-white/12 text-white backdrop-blur-sm">
-                    <SectionIcon className="w-5 h-5 text-white" />
-                  </div>
-                  {renderTileTitle(section.title)}
-                </div>
-              </button>
-            );
-          })}
+            <div className="bg-white/8 backdrop-blur-sm p-2.5 rounded-2xl flex items-center">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 w-full">
+              {travelPageSections.map((section, index) => {
+                const SectionIcon = section.icon;
+                return (
+                  <button
+                    key={section.id}
+                    type="button"
+                    onClick={() => onOpenSection(section.id)}
+                    className="dashboard-card-enter relative w-full min-w-0 text-left rounded-2xl border-2 border-white/65 p-2.5 sm:p-3 transition-all duration-200 h-[158px] sm:h-[166px] lg:h-[172px] flex flex-col hover:-translate-y-1 active:translate-y-0 bg-white/[0.06] shadow-[0_14px_30px_-24px_rgba(255,255,255,0.28)] hover:shadow-[0_20px_34px_-20px_rgba(255,255,255,0.45)] overflow-hidden"
+                    aria-label={section.title}
+                    style={{
+                      animationDelay: `${index * 40 + 30}ms`,
+                    }}
+                  >
+                    <div className="h-full flex flex-col items-center justify-center gap-1.5">
+                      <div className="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-white/45 bg-white/12 backdrop-blur-sm">
+                        <SectionIcon className="w-4 h-4 text-white" />
+                      </div>
+                      {renderTileTitle(section.title)}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          </div>
         </section>
       </div>
 

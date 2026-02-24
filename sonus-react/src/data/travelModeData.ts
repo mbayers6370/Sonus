@@ -40,12 +40,12 @@ export const TRAVEL_MODE_SECTIONS: TravelSectionData[] = [
     'You just landed in Beijing. You are tired and immigration is moving fast.',
     ['Immigration', 'Baggage', 'Customs', 'Asking for help'],
     [
-      "Customs and immigration officers may sound direct. That's normal.",
-      'Keep your passport and arrival details open before you reach the desk.',
-      'Answer in short, clear lines; long explanations can slow processing.',
-      'Most airports use dedicated QR signs for transport and payment.',
-      'If you are unsure, show your destination in Chinese on your phone.',
-      'Take one minute to screenshot your hotel address before exiting arrivals.',
+      "Immigration officers can sound direct. That's normal.",
+      'Keep your passport and arrival details ready before the desk.',
+      'Use short, clear answers.',
+      'Follow airport QR signs for transport and payment.',
+      'If needed, show your destination in Chinese on your phone.',
+      'Screenshot your hotel address before leaving arrivals.',
     ],
     [
       { id: 'aa-1', hanzi: '我来旅游。', pinyin: 'wǒ lái lǚyóu', literal: 'I come travel', english: "I'm here for tourism." },

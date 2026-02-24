@@ -24,8 +24,8 @@
             "compassion"
           ],
           "example": {
-            "zh": "我被她对别人的爱心所感动。",
-            "en": "I was moved by her love for other people."
+            "zh": "她很有爱心，经常帮助别人。",
+            "en": "She is very compassionate and often helps others."
           }
         },
         {
@@ -72,8 +72,8 @@
             "to push"
           ],
           "example": {
-            "zh": "我们按例处罚了他。",
-            "en": "We punished him according to the rules."
+            "zh": "请按一下按钮。",
+            "en": "Please press the button."
           }
         },
         {
@@ -97,14 +97,13 @@
           "trad": "把",
           "pinyin": "bǎ",
           "pos": "Prep",
-          "en": "to hold; to grasp",
+          "en": "ba (disposal marker)",
           "defs": [
-            "to hold",
-            "to grasp"
+            "preposition used to form the ba construction"
           ],
           "example": {
-            "zh": "不要再把我当成“正常” 人!",
-            "en": "Stop seeing me as a \"normal\" person!"
+            "zh": "请把门打开。",
+            "en": "Please open the door."
           }
         },
         {
@@ -113,9 +112,10 @@
           "trad": "把握",
           "pinyin": "bǎwò",
           "pos": "V/N",
-          "en": "sure",
+          "en": "to grasp; to be sure",
           "defs": [
-            "sure"
+            "to grasp (an opportunity)",
+            "to be sure of; to be certain of"
           ],
           "example": {
             "zh": "我很後悔當時沒有把握機會認識她。",
@@ -128,13 +128,14 @@
           "trad": "白",
           "pinyin": "bái",
           "pos": "Adv",
-          "en": "pure",
+          "en": "in vain",
           "defs": [
-            "pure"
+            "in vain",
+            "for nothing"
           ],
           "example": {
-            "zh": "感到惊讶、感到惊奇就是明白的开始。",
-            "en": "To be surprised, to wonder, is to begin to understand."
+            "zh": "他白跑了一趟。",
+            "en": "He made a trip for nothing."
           }
         },
         {
@@ -189,7 +190,7 @@
           "simp": "搬家",
           "trad": "搬家",
           "pinyin": "bānjiā",
-          "pos": "",
+          "pos": "V",
           "en": "to move house; to relocate",
           "defs": [
             "to move house",
@@ -364,10 +365,9 @@
           "trad": "報",
           "pinyin": "bào",
           "pos": "N",
-          "en": "to report; to inform; to announce",
+          "en": "newspaper",
           "defs": [
-            "to report",
-            "to reply"
+            "newspaper"
           ],
           "example": {
             "zh": "我在报纸上看到了它。",
@@ -434,8 +434,8 @@
             "to learn by heart"
           ],
           "example": {
-            "zh": "要解开谋杀背后潜藏之谜！",
-            "en": "Solve the mystery lurking behind the murder!"
+            "zh": "他背着一个大书包。",
+            "en": "He is carrying a big schoolbag on his back."
           }
         },
         {
@@ -475,13 +475,13 @@
           "trad": "被",
           "pinyin": "bèi",
           "pos": "Prep",
-          "en": "quilt",
+          "en": "passive marker",
           "defs": [
-            "quilt"
+            "by (indicates passive voice)"
           ],
           "example": {
-            "zh": "所有被发明的都是真的。",
-            "en": "All that which is invented, is true."
+            "zh": "我的书被他拿走了。",
+            "en": "My book was taken away by him."
           }
         },
         {
@@ -628,7 +628,8 @@
           "pos": "V/N",
           "en": "variation (",
           "defs": [
-            "variation ("
+            "change",
+            "variation"
           ],
           "example": {
             "zh": "据说山上的天气变化很快。",
@@ -640,7 +641,7 @@
           "simp": "变为",
           "trad": "變為",
           "pinyin": "biànwéi",
-          "pos": "",
+          "pos": "V",
           "en": "to change into",
           "defs": [
             "to change into"
@@ -809,7 +810,7 @@
           "simp": "播出",
           "trad": "播出",
           "pinyin": "bōchū",
-          "pos": "",
+          "pos": "V",
           "en": "to broadcast",
           "defs": [
             "to broadcast",
@@ -1262,8 +1263,8 @@
             "facing"
           ],
           "example": {
-            "zh": "这间房间朝向很好。",
-            "en": "This room's orientation is great."
+            "zh": "窗户朝南开。",
+            "en": "The window faces south."
           }
         },
         {
@@ -1287,7 +1288,7 @@
           "simp": "吵架",
           "trad": "吵架",
           "pinyin": "chǎojià",
-          "pos": "",
+          "pos": "V",
           "en": "to quarrel",
           "defs": [
             "to quarrel",
@@ -1333,7 +1334,7 @@
           "simp": "称为",
           "trad": "稱為",
           "pinyin": "chēngwéi",
-          "pos": "",
+          "pos": "V",
           "en": "to be called; to be known as; to call it \"...\"",
           "defs": [
             "to be called",
@@ -1698,7 +1699,7 @@
           "simp": "传来",
           "trad": "傳來",
           "pinyin": "chuánlái",
-          "pos": "",
+          "pos": "V",
           "en": "to arrive",
           "defs": [
             "to arrive",
@@ -1901,7 +1902,7 @@
           "simp": "达到",
           "trad": "達到",
           "pinyin": "dádào",
-          "pos": "",
+          "pos": "V",
           "en": "to reach; to achieve; to attain",
           "defs": [
             "to reach",
@@ -1917,7 +1918,7 @@
           "simp": "打破",
           "trad": "打破",
           "pinyin": "dǎpò",
-          "pos": "",
+          "pos": "V",
           "en": "to break; to smash",
           "defs": [
             "to break",
@@ -2087,9 +2088,9 @@
           "trad": "單元",
           "pinyin": "dānyuán",
           "pos": "N",
-          "en": "element",
+          "en": "unit",
           "defs": [
-            "element"
+            "unit (of a textbook, etc.)"
           ],
           "example": {
             "zh": "",
@@ -2229,8 +2230,8 @@
             "grade"
           ],
           "example": {
-            "zh": "嬰兒不懂得分是非黑白。",
-            "en": "A baby has no knowledge of good and evil."
+            "zh": "他在这场比赛中得了很多分。",
+            "en": "He scored many points in this match."
           }
         },
         {
@@ -2330,7 +2331,7 @@
           "simp": "电子邮件",
           "trad": "電子郵件",
           "pinyin": "diànzǐ yóujiàn",
-          "pos": "",
+          "pos": "N",
           "en": "email",
           "defs": [
             "email"
@@ -2955,14 +2956,14 @@
           "simp": "放到",
           "trad": "放到",
           "pinyin": "fàngdào",
-          "pos": "",
-          "en": "general term",
+          "pos": "V",
+          "en": "to put something somewhere",
           "defs": [
-            "general term"
+            "to put something somewhere"
           ],
           "example": {
-            "zh": "他把全部精力放到实验中了。",
-            "en": "All his energies were devoted to the experiment."
+            "zh": "请把书放到桌子上。",
+            "en": "Please put the book on the table."
           }
         },
         {
@@ -3462,7 +3463,7 @@
           "simp": "高速公路",
           "trad": "高速公路",
           "pinyin": "gāosù gōnglù",
-          "pos": "",
+          "pos": "N",
           "en": "expressway; highway; freeway",
           "defs": [
             "expressway"
@@ -3477,7 +3478,7 @@
           "simp": "告别",
           "trad": "告別",
           "pinyin": "gàobié",
-          "pos": "",
+          "pos": "V",
           "en": "to leave; to part from",
           "defs": [
             "to leave",
@@ -4095,14 +4096,14 @@
           "trad": "管",
           "pinyin": "guǎn",
           "pos": "V",
-          "en": "to",
+          "en": "to manage",
           "defs": [
-            "to",
+            "to manage",
             "to run"
           ],
           "example": {
-            "zh": "不管我跟她说了多少次，她还是继续犯同样的错误。",
-            "en": "No matter how often I tell her, she keeps making the same mistake."
+            "zh": "他管这个部门。",
+            "en": "He manages this department."
           }
         },
         {
@@ -4217,7 +4218,7 @@
           "simp": "国内",
           "trad": "國內",
           "pinyin": "guó nèi",
-          "pos": "",
+          "pos": "Adj",
           "en": "domestic",
           "defs": [
             "domestic"
@@ -4337,7 +4338,7 @@
           "simp": "害怕",
           "trad": "害怕",
           "pinyin": "hàipà",
-          "pos": "",
+          "pos": "V",
           "en": "to be afraid; to be scared",
           "defs": [
             "to be afraid",
@@ -4399,9 +4400,10 @@
           "trad": "合",
           "pinyin": "hé",
           "pos": "V",
-          "en": "100 ml",
+          "en": "to suit; to fit",
           "defs": [
-            "100 ml"
+            "to suit",
+            "to fit"
           ],
           "example": {
             "zh": "如果他年轻一点，他将很适合这个职位。",
@@ -4626,14 +4628,14 @@
           "simp": "现代化",
           "trad": "現代化",
           "pinyin": "xiàndàihuà",
-          "pos": "Suffix",
+          "pos": "N",
           "en": "modernization",
           "defs": [
             "modernization"
           ],
           "example": {
-            "zh": "如果人們使用這些現代化的機器, 那將節省很多人力。",
-            "en": "If you use this modern equipment, it will save a lot of manpower."
+            "zh": "实现现代化。",
+            "en": "Achieve modernization."
           }
         },
         {
@@ -4776,14 +4778,14 @@
           "simp": "火",
           "trad": "火",
           "pinyin": "huǒ",
-          "pos": "N",
-          "en": "hot",
+          "pos": "Adj",
+          "en": "popular",
           "defs": [
-            "hot"
+            "popular; trendy"
           ],
           "example": {
-            "zh": "火车站离这里不远。",
-            "en": "The station is not far from here."
+            "zh": "这首歌很火。",
+            "en": "This song is very popular."
           }
         },
         {
@@ -5037,14 +5039,14 @@
           "simp": "加工",
           "trad": "加工",
           "pinyin": "jiāgōng",
-          "pos": "",
+          "pos": "V",
           "en": "to process",
           "defs": [
             "to process"
           ],
           "example": {
-            "zh": "我无法相信他有种向老板要求加工资。",
-            "en": "I can't believe he had the balls to ask the boss for a raise."
+            "zh": "这个工厂加工农产品。",
+            "en": "This factory processes agricultural products."
           }
         },
         {
@@ -5603,7 +5605,7 @@
           "simp": "结婚",
           "trad": "結婚",
           "pinyin": "jiéhūn",
-          "pos": "",
+          "pos": "V",
           "en": "to marry",
           "defs": [
             "to marry",
@@ -5650,7 +5652,7 @@
           "simp": "解开",
           "trad": "解開",
           "pinyin": "jiěkāi",
-          "pos": "",
+          "pos": "V",
           "en": "to untie",
           "defs": [
             "to untie",
@@ -6280,7 +6282,7 @@
           "simp": "开业",
           "trad": "開業",
           "pinyin": "kāiyè",
-          "pos": "",
+          "pos": "V",
           "en": "to open a business",
           "defs": [
             "to open a business",
@@ -6312,7 +6314,7 @@
           "simp": "看起来",
           "trad": "看起來",
           "pinyin": "kàn qǐlái",
-          "pos": "",
+          "pos": "Phrase",
           "en": "apparently",
           "defs": [
             "apparently"
@@ -6327,7 +6329,7 @@
           "simp": "看上去",
           "trad": "看上去",
           "pinyin": "kàn shàngqù",
-          "pos": "",
+          "pos": "Phrase",
           "en": "it would appear",
           "defs": [
             "it would appear",
@@ -6720,7 +6722,7 @@
           "simp": "离婚",
           "trad": "離婚",
           "pinyin": "líhūn",
-          "pos": "",
+          "pos": "V",
           "en": "to divorce",
           "defs": [
             "to divorce"
@@ -6750,7 +6752,7 @@
           "simp": "理发",
           "trad": "理髮",
           "pinyin": "lǐfà",
-          "pos": "",
+          "pos": "V",
           "en": "to get a haircut; to have one's hair done",
           "defs": [
             "to get a haircut",
@@ -6996,13 +6998,14 @@
           "trad": "了",
           "pinyin": "liǎo",
           "pos": "V",
-          "en": "bright",
+          "en": "to finish; to be able to",
           "defs": [
-            "bright"
+            "to finish",
+            "to be able to"
           ],
           "example": {
-            "zh": "我该去睡觉了。",
-            "en": "I have to go to sleep."
+            "zh": "这件事我办不了。",
+            "en": "I cannot handle this matter."
           }
         },
         {
@@ -7041,7 +7044,7 @@
           "simp": "领先",
           "trad": "領先",
           "pinyin": "lǐngxiān",
-          "pos": "",
+          "pos": "V",
           "en": "to lead",
           "defs": [
             "to lead",
@@ -7072,7 +7075,7 @@
           "simp": "另一方面",
           "trad": "另一方面",
           "pinyin": "lìng yīfāngmiàn",
-          "pos": "",
+          "pos": "Phrase",
           "en": "on the other hand",
           "defs": [
             "on the other hand"
@@ -7087,7 +7090,7 @@
           "simp": "留学",
           "trad": "留學",
           "pinyin": "liúxué",
-          "pos": "",
+          "pos": "V",
           "en": "to study abroad",
           "defs": [
             "to study abroad"
@@ -7118,13 +7121,13 @@
           "trad": "錄",
           "pinyin": "lù",
           "pos": "V",
-          "en": "diary",
+          "en": "to record",
           "defs": [
-            "diary"
+            "to record"
           ],
           "example": {
-            "zh": "六个人投了这份工作，但他们中没有一个被录用。",
-            "en": "Six people applied for the job, but none of them were employed."
+            "zh": "请录下这段音乐。",
+            "en": "Please record this piece of music."
           }
         },
         {
@@ -7223,7 +7226,7 @@
           "simp": "落后",
           "trad": "落後",
           "pinyin": "luòhòu",
-          "pos": "",
+          "pos": "V",
           "en": "to fall behind",
           "defs": [
             "to fall behind",
@@ -7287,7 +7290,7 @@
           "simp": "慢慢",
           "trad": "慢慢",
           "pinyin": "mànmàn",
-          "pos": "",
+          "pos": "Adv",
           "en": "slowly; gradually",
           "defs": [
             "slowly"
@@ -7470,13 +7473,13 @@
           "trad": "迷",
           "pinyin": "mí",
           "pos": "V",
-          "en": "to bewilder",
+          "en": "to be obsessed with",
           "defs": [
-            "to bewilder"
+            "to be obsessed with"
           ],
           "example": {
-            "zh": "他在森林中迷了路。",
-            "en": "He lost his way in the woods."
+            "zh": "他迷上了电脑游戏。",
+            "en": "He is obsessed with computer games."
           }
         },
         {
@@ -7810,10 +7813,11 @@
           "simp": "能不能",
           "trad": "能不能",
           "pinyin": "néng bu néng",
-          "pos": "",
-          "en": "general term",
+          "pos": "Phrase",
+          "en": "can or cannot; can you...?",
           "defs": [
-            "general term"
+            "can or cannot",
+            "can you...?"
           ],
           "example": {
             "zh": "能不能麻烦你告诉我去邻村怎么走？",
@@ -8054,7 +8058,7 @@
           "simp": "排名",
           "trad": "排名",
           "pinyin": "páimíng",
-          "pos": "",
+          "pos": "N",
           "en": "ranking",
           "defs": [
             "ranking"
@@ -8131,7 +8135,7 @@
           "simp": "跑步",
           "trad": "跑步",
           "pinyin": "pǎobù",
-          "pos": "",
+          "pos": "V",
           "en": "to run",
           "defs": [
             "to run",
@@ -9146,7 +9150,7 @@
           "simp": "认出",
           "trad": "認出",
           "pinyin": "rènchū",
-          "pos": "",
+          "pos": "V",
           "en": "recognition",
           "defs": [
             "recognition"
@@ -9313,7 +9317,7 @@
           "simp": "散步",
           "trad": "散步",
           "pinyin": "sànbù",
-          "pos": "",
+          "pos": "V",
           "en": "to take a walk; to go for a walk",
           "defs": [
             "to take a walk",
@@ -9374,11 +9378,11 @@
           "simp": "伤心",
           "trad": "傷心",
           "pinyin": "shāngxīn",
-          "pos": "",
-          "en": "to grieve",
+          "pos": "Adj",
+          "en": "sad; heartbroken",
           "defs": [
-            "to grieve",
-            "to be broken-hearted"
+            "sad",
+            "heartbroken"
           ],
           "example": {
             "zh": "这个消息让她很伤心。",
@@ -9420,15 +9424,15 @@
           "simp": "上来",
           "trad": "上來",
           "pinyin": "shànglái",
-          "pos": "",
+          "pos": "V",
           "en": "to come up",
           "defs": [
             "to come up",
             "to approach"
           ],
           "example": {
-            "zh": "我想您马上来。",
-            "en": "I want you to come at once."
+            "zh": "他跑上楼来了。",
+            "en": "He ran upstairs."
           }
         },
         {
@@ -9451,14 +9455,14 @@
           "simp": "上去",
           "trad": "上去",
           "pinyin": "shàngqù",
-          "pos": "",
+          "pos": "V",
           "en": "to go up",
           "defs": [
             "to go up"
           ],
           "example": {
-            "zh": "他看上去是一个十足的绅士。",
-            "en": "He looks every inch a gentleman."
+            "zh": "他走上去了。",
+            "en": "He walked up."
           }
         },
         {
@@ -10118,7 +10122,7 @@
           "simp": "事实上",
           "trad": "事實上",
           "pinyin": "shìshíshang",
-          "pos": "",
+          "pos": "Adv",
           "en": "in fact",
           "defs": [
             "in fact",
@@ -10379,7 +10383,7 @@
           "simp": "受伤",
           "trad": "受傷",
           "pinyin": "shòushāng",
-          "pos": "",
+          "pos": "V",
           "en": "to sustain injuries",
           "defs": [
             "to sustain injuries"
@@ -10668,11 +10672,11 @@
           "simp": "谈话",
           "trad": "談話",
           "pinyin": "tánhuà",
-          "pos": "",
+          "pos": "N",
           "en": "conversation",
           "defs": [
             "conversation",
-            "to have a conversation"
+            "to talk"
           ],
           "example": {
             "zh": "跟一个只说“是”和“不是”的人很难继续谈话。",
@@ -10914,7 +10918,7 @@
           "simp": "跳舞",
           "trad": "跳舞",
           "pinyin": "tiàowǔ",
-          "pos": "",
+          "pos": "V",
           "en": "to dance",
           "defs": [
             "to dance"
@@ -11035,10 +11039,11 @@
           "simp": "通信",
           "trad": "通信",
           "pinyin": "tōngxìn",
-          "pos": "",
+          "pos": "V",
           "en": "to correspond",
           "defs": [
-            "to correspond"
+            "to correspond",
+            "communication"
           ],
           "example": {
             "zh": "尽管距离很远，我们还是保持着通信联系。",
@@ -11246,7 +11251,7 @@
           "simp": "推动",
           "trad": "推動",
           "pinyin": "tuīdòng",
-          "pos": "",
+          "pos": "V",
           "en": "to promote",
           "defs": [
             "to promote",
@@ -11295,10 +11300,9 @@
           "trad": "推開",
           "pinyin": "tuīkāi",
           "pos": "",
-          "en": "to reject",
+          "en": "to push open",
           "defs": [
-            "to reject",
-            "to decline"
+            "to push open"
           ],
           "example": {
             "zh": "汤姆试着把门推开。",
@@ -11350,7 +11354,7 @@
           "simp": "退休",
           "trad": "退休",
           "pinyin": "tuìxiū",
-          "pos": "",
+          "pos": "V",
           "en": "to retire",
           "defs": [
             "to retire",
@@ -11714,7 +11718,7 @@
           "simp": "握手",
           "trad": "握手",
           "pinyin": "wòshǒu",
-          "pos": "",
+          "pos": "V",
           "en": "to shake hands",
           "defs": [
             "to shake hands"
@@ -11760,9 +11764,9 @@
           "trad": "武術",
           "pinyin": "wǔshù",
           "pos": "N",
-          "en": "self-defense",
+          "en": "martial arts",
           "defs": [
-            "self-defense"
+            "martial arts"
           ],
           "example": {
             "zh": "",
@@ -11835,15 +11839,15 @@
           "simp": "下来",
           "trad": "下來",
           "pinyin": "xiàlái",
-          "pos": "",
+          "pos": "V",
           "en": "to come down",
           "defs": [
             "to come down",
             "to be over"
           ],
           "example": {
-            "zh": "接下来该采取什么行动就交给你了。",
-            "en": "I leave it in your hands what course of action to take."
+            "zh": "他从楼上下来了。",
+            "en": "He came down from upstairs."
           }
         },
         {
@@ -11866,15 +11870,15 @@
           "simp": "下去",
           "trad": "下去",
           "pinyin": "xiàqù",
-          "pos": "",
+          "pos": "V",
           "en": "to go down",
           "defs": [
             "to go down",
             "to descend"
           ],
           "example": {
-            "zh": "耐心地坚持下去，这些事急不来。",
-            "en": "Be patient and persistent. These things take time."
+            "zh": "他下楼去了。",
+            "en": "He went downstairs."
           }
         },
         {
@@ -12657,8 +12661,8 @@
             "to perform"
           ],
           "example": {
-            "zh": "昨天是Alice去了演唱会。",
-            "en": "It was Alice who went to the concert yesterday."
+            "zh": "她演得很好。",
+            "en": "She acted very well."
           }
         }
       ]
@@ -12680,8 +12684,8 @@
             "vocal performance"
           ],
           "example": {
-            "zh": "昨天是Alice去了演唱会。",
-            "en": "It was Alice who went to the concert yesterday."
+            "zh": "她演唱了一首中文歌。",
+            "en": "She sang a Chinese song."
           }
         },
         {
@@ -13207,15 +13211,15 @@
           "simp": "有的是",
           "trad": "有的是",
           "pinyin": "yǒudeshì",
-          "pos": "",
+          "pos": "Phrase",
           "en": "have plenty of",
           "defs": [
             "have plenty of",
             "there's no lack of"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "这件事有的是时间。",
+            "en": "There is plenty of time for this."
           }
         },
         {
@@ -13517,7 +13521,7 @@
           "simp": "展开",
           "trad": "展開",
           "pinyin": "zhǎnkāi",
-          "pos": "",
+          "pos": "V",
           "en": "to unfold; to spread out; to open up",
           "defs": [
             "to unfold",
@@ -13910,9 +13914,9 @@
           "trad": "直播",
           "pinyin": "zhíbō",
           "pos": "V",
-          "en": "direct seeding",
+          "en": "live broadcast",
           "defs": [
-            "direct seeding"
+            "live broadcast"
           ],
           "example": {
             "zh": "",
@@ -13954,10 +13958,9 @@
           "simp": "值得",
           "trad": "值得",
           "pinyin": "zhídé",
-          "pos": "",
-          "en": "worth the money",
+          "pos": "Adj",
+          "en": "to be worth",
           "defs": [
-            "worth the money",
             "to be worth"
           ],
           "example": {
@@ -14062,7 +14065,7 @@
           "simp": "指出",
           "trad": "指出",
           "pinyin": "zhǐchū",
-          "pos": "",
+          "pos": "V",
           "en": "to indicate",
           "defs": [
             "to indicate",
@@ -14417,7 +14420,7 @@
           "simp": "注意",
           "trad": "注意",
           "pinyin": "zhùyì",
-          "pos": "",
+          "pos": "V",
           "en": "to take note of; to pay attention to",
           "defs": [
             "to take note of",
@@ -14465,7 +14468,7 @@
           "simp": "抓住",
           "trad": "抓住",
           "pinyin": "zhuāzhù",
-          "pos": "",
+          "pos": "V",
           "en": "to grab hold of; to capture",
           "defs": [
             "to grab hold of",
@@ -14512,9 +14515,9 @@
           "trad": "專題",
           "pinyin": "zhuāntí",
           "pos": "N",
-          "en": "article",
+          "en": "special topic",
           "defs": [
-            "article"
+            "special topic"
           ],
           "example": {
             "zh": "",
@@ -14909,7 +14912,7 @@
           "simp": "做客",
           "trad": "做客",
           "pinyin": "zuòkè",
-          "pos": "",
+          "pos": "V",
           "en": "to be a guest or visitor",
           "defs": [
             "to be a guest or visitor"

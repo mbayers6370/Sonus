@@ -13,12 +13,19 @@ import GlassHeader from './GlassHeader';
 import { useApp } from '../contexts/AppContext';
 import { apiFetch } from '../lib/apiClient';
 import { getLessonRanges } from '../lib/lessonChunks';
+import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
+import { makeLessonKey } from '../lib/lessonProgress';
 
 type Progress = {
   streak: number;
   currentBandId: string | null;
   currentUnitId: string | null;
   currentLessonIdx: number | null;
+};
+
+type Profile = {
+  displayName?: string | null;
+  email?: string | null;
 };
 
 type NeedsWorkResponse = {
@@ -68,6 +75,9 @@ function resolveBandDataId(bandId: string) {
   return bandId;
 }
 
+const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
+  (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
+
 export default function HomeDashboard({
   selectedLanguage,
   onOpenLevels,
@@ -89,6 +99,8 @@ export default function HomeDashboard({
   const [needsWorkCount, setNeedsWorkCount] = useState(0);
   const [hasOpenedLessons, setHasOpenedLessons] = useState(false);
   const [progressPathIsApply, setProgressPathIsApply] = useState(false);
+  const [profileName, setProfileName] = useState<string | null>(null);
+  const [unitCompletionPercent, setUnitCompletionPercent] = useState<number | null>(null);
 
   const languageLabel = LANGUAGE_LABELS[selectedLanguage] || 'Language';
   const resumeFromCheckpoint =
@@ -153,10 +165,23 @@ export default function HomeDashboard({
     void (async () => {
       setLoading(true);
       try {
-        const [progressRes, weakRes] = await Promise.all([
+        const [profileRes, progressRes, weakRes] = await Promise.all([
+          apiFetch('/v1/me/profile'),
           apiFetch('/v1/me/progress'),
           apiFetch('/v1/me/needs-work?limit=30&minTotalMisses=3'),
         ]);
+
+        if (mounted && profileRes.ok) {
+          const profileJson = (await profileRes.json()) as { profile?: Profile };
+          const displayName = profileJson.profile?.displayName?.trim();
+          if (displayName) {
+            setProfileName(displayName);
+          } else {
+            const email = profileJson.profile?.email || '';
+            const emailLocalPart = email.includes('@') ? email.split('@')[0] : '';
+            setProfileName(emailLocalPart || null);
+          }
+        }
 
         if (mounted && progressRes.ok) {
           const json = (await progressRes.json()) as { progress?: Progress };
@@ -180,23 +205,43 @@ export default function HomeDashboard({
                   const bandData = (await bandRes.json()) as {
                     units?: Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }>;
                   };
-                  let wordsLength = 0;
+                  let words: Array<{
+                    id?: string;
+                    example?: { zh?: string; en?: string };
+                  }> = [];
                   const units = bandData.units;
                   if (Array.isArray(units)) {
-                    wordsLength = (units.find((unit) => unit?.id === unitId)?.words || []).length;
+                    words = (units.find((unit) => unit?.id === unitId)?.words || []) as typeof words;
                   } else if (units && typeof units === 'object') {
-                    wordsLength = (units[unitId]?.words || []).length;
+                    words = (units[unitId]?.words || []) as typeof words;
                   }
+                  const wordsLength = words.length;
                   const coreLessonCount = getLessonRanges(wordsLength, 10).length;
                   if (mounted) setProgressPathIsApply(coreLessonCount > 0 && lessonIdx === coreLessonCount);
+
+                  if (mounted && coreLessonCount > 0) {
+                    const completedLessons = Array.from({ length: coreLessonCount }).reduce((count, _, idx) => {
+                      const lessonKey = makeLessonKey(bandId, unitId, idx);
+                      const status = state.lessonProgress[lessonKey];
+                      return count + Number(Boolean(status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore)));
+                    }, 0);
+                    setUnitCompletionPercent(Math.round((completedLessons / coreLessonCount) * 100));
+                  } else if (mounted) {
+                    setUnitCompletionPercent(null);
+                  }
                 } else if (mounted) {
                   setProgressPathIsApply(false);
+                  setUnitCompletionPercent(null);
                 }
               } catch {
-                if (mounted) setProgressPathIsApply(false);
+                if (mounted) {
+                  setProgressPathIsApply(false);
+                  setUnitCompletionPercent(null);
+                }
               }
             } else if (mounted) {
               setProgressPathIsApply(false);
+              setUnitCompletionPercent(null);
             }
           }
         }
@@ -213,7 +258,7 @@ export default function HomeDashboard({
     return () => {
       mounted = false;
     };
-  }, [selectedLanguage]);
+  }, [selectedLanguage, state.lessonProgress]);
 
   const openResumeCard = () => {
     if (!hasOpenedLessons) {
@@ -245,22 +290,31 @@ export default function HomeDashboard({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
         <section
-          className={`${cardShell} md:order-1 bg-white text-text-dark border-[#186E95]/35 min-h-[210px] text-center flex flex-col justify-center`}
+          className={`${cardShell} md:order-1 bg-[#374151] text-white border-[#374151]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(55,65,81,0.42)]`}
           style={{ animationDelay: '35ms' }}
         >
-          <div className="main-font text-2xl leading-none mb-3 text-[#186E95]">Resume</div>
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white/10 to-transparent rounded-t-3xl" />
+          <div className="pointer-events-none absolute inset-[8px] rounded-[1.2rem] border border-white/18" />
+          <div className="text-[11px] tracking-wide font-mono uppercase text-white/70 mb-1">
+            Welcome{profileName ? `, ${profileName}` : ''}
+          </div>
+          <div className="main-font text-2xl leading-none mb-3 text-white">Resume</div>
           {hasSavedLessonPath ? (
             <>
-              <div className="text-[11px] tracking-wide font-mono text-text-light mb-2">Lesson path</div>
-              <div className="text-sm text-text-dark font-medium mb-1">{formatBandLabel(resumeTarget?.bandId || null)}</div>
-              <div className="text-sm text-text-med mb-4">
+              <div className="text-sm text-white font-medium mb-1">{formatBandLabel(resumeTarget?.bandId || null)}</div>
+              <div className="text-sm text-white/85 mb-3">
                 {isCheckpointUnitId(resumeTarget?.unitId || '')
                   ? `${formatUnitLabel(resumeTarget?.unitId || null)} · Unit review quiz`
                   : `${formatUnitLabel(resumeTarget?.unitId || null)} · Lesson ${lessonNumber}`}
               </div>
+              {!isCheckpointUnitId(resumeTarget?.unitId || '') && unitCompletionPercent !== null && (
+                <div className="inline-flex items-center rounded-full px-3 py-1 border border-white/25 bg-white/10 text-[11px] font-mono uppercase tracking-wider text-white/90 mb-4 mx-auto">
+                  Unit {unitCompletionPercent}% complete
+                </div>
+              )}
             </>
           ) : (
-            <div className="text-sm text-text-med mb-4">
+            <div className="text-sm text-white/85 mb-4">
               {!hasOpenedLessons
                 ? 'Start lessons once to set your learning path. After that, this card becomes your resume shortcut.'
                 : 'No saved lesson path yet. Start your first lesson and Sonus will remember exactly where to continue.'}
@@ -269,7 +323,7 @@ export default function HomeDashboard({
           <div className="max-w-md mx-auto">
             <button
               onClick={openResumeCard}
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#186E95] text-white hover:bg-[#145C7C] transition-colors"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#374151] text-white border border-white/75 hover:bg-[#2D3748] transition-colors font-semibold"
             >
               {!hasOpenedLessons
                 ? 'Start lessons'
@@ -285,9 +339,9 @@ export default function HomeDashboard({
           className={`${cardShell} md:order-3 md:col-span-2 bg-[#3E5648] text-white border-[#3E5648]/90 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)] text-center flex flex-col justify-center`}
           style={{ animationDelay: '135ms' }}
         >
-          <div className="main-font text-2xl leading-none mb-2 text-white">Travel Mode</div>
+          <div className="main-font text-2xl leading-none mb-2 text-white">Travel Sprint</div>
           <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
-            Leaving soon? Prioritize high-utility {languageLabel} for airports, hotels, transport, food, and emergencies so you can handle real situations with confidence.
+            Short on time? Focus on essential travel phrases before you go.
           </p>
           <div className="grid grid-cols-3 gap-2 mb-4 max-w-md mx-auto">
             <button onClick={() => onOpenTravelMode('airport-arrival')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
@@ -310,59 +364,66 @@ export default function HomeDashboard({
               <ArrowRight className="w-4 h-4 text-white/85" />
             </button>
           </div>
+          <p className="text-[11px] leading-relaxed text-white/68 mt-4 max-w-md mx-auto">
+            Travel Mode is separate from your structured lesson path.
+          </p>
         </section>
 
         <section
-          className={`${cardShell} md:order-2 bg-[#186E95] text-white border-[#186E95]/90 min-h-[210px] shadow-[0_20px_40px_-28px_rgba(24,110,149,0.36)] text-center flex flex-col justify-center`}
+          className={`${cardShell} md:order-2 bg-white text-text-dark border-[#186E95]/35 min-h-[210px] text-center flex flex-col justify-center`}
           style={{ animationDelay: '85ms' }}
         >
-          <div className="main-font text-2xl leading-none mb-2 text-white">Practice Focus</div>
+          <div className="main-font text-2xl leading-none mb-2 text-[#186E95]">Practice Focus</div>
           <div className="w-full max-w-sm mx-auto mb-3">
-            <div className="inline-flex items-center rounded-full px-3 py-1 bg-white/14 border border-white/28 text-[10px] uppercase tracking-[0.22em] font-mono text-white/90">
+            <div className="inline-flex items-center rounded-full px-3 py-1 bg-[rgba(24,110,149,0.08)] border border-[#186E95]/25 text-[10px] uppercase tracking-[0.22em] font-mono text-[#186E95] animate-[pulse_3.6s_ease-in-out_infinite]">
               Adaptive Mix
             </div>
+            <div className="mt-2 h-2 w-full rounded-full overflow-hidden border border-[#186E95]/18 bg-[rgba(24,110,149,0.08)] flex">
+              <div className="h-full w-[70%] bg-[#186E95]" />
+              <div className="h-full w-[30%] bg-[rgba(62,86,72,0.7)]" />
+            </div>
             <div className="mt-2 grid grid-cols-2 gap-2">
-              <div className="rounded-xl border border-white/28 bg-white/10 px-2.5 py-2 text-left">
-                <div className="text-sm font-semibold leading-none text-white">70%</div>
-                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-white/85">Weak Words</div>
+              <div className="rounded-xl border border-[#186E95]/20 bg-[rgba(24,110,149,0.06)] px-2.5 py-2 text-left">
+                <div className="text-sm font-semibold leading-none text-[#186E95]">70%</div>
+                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-text-med">Weak Words</div>
               </div>
-              <div className="rounded-xl border border-white/28 bg-white/10 px-2.5 py-2 text-left">
-                <div className="text-sm font-semibold leading-none text-white">30%</div>
-                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-white/85">Reinforce</div>
+              <div className="rounded-xl border border-[#186E95]/20 bg-[rgba(24,110,149,0.06)] px-2.5 py-2 text-left">
+                <div className="text-sm font-semibold leading-none text-[#3E5648]">30%</div>
+                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-[#3E5648]">Reinforce</div>
               </div>
             </div>
           </div>
-          <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
+          <p className="text-sm leading-relaxed text-text-med mb-4 max-w-md mx-auto">
             {selectedLanguage === 'zh'
               ? needsWorkCount > 0
                 ? `${needsWorkCount} words are in your practice queue. Let's work on those first, then reinforce with current-band reps!`
-                : 'No active weak-word queue right now. Run focused reps to keep performance sharp and prevent backslide.'
+                : 'Use this as a helper while you learn. Come back anytime for focused reps to keep your skills sharp.'
               : `Practice labs are currently available for ${languageLabel}.`}
           </p>
           {selectedLanguage === 'zh' ? (
             <div className="flex items-center justify-center gap-3 max-w-md mx-auto">
               <button
                 onClick={() => onOpenPractice('listening', progress.currentBandId)}
-                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/14 border border-white/25 hover:bg-white/20 transition-colors"
+                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[rgba(24,110,149,0.10)] border border-[#186E95]/28 hover:bg-[rgba(24,110,149,0.16)] transition-colors"
                 aria-label="Listening practice"
                 title="Listening practice"
               >
-                <Headphones className="w-5 h-5 text-white" />
+                <Headphones className="w-5 h-5 text-[#186E95]" />
               </button>
               <button
                 onClick={() => onOpenPractice('speaking', progress.currentBandId)}
-                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/14 border border-white/25 hover:bg-white/20 transition-colors"
+                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[rgba(24,110,149,0.10)] border border-[#186E95]/28 hover:bg-[rgba(24,110,149,0.16)] transition-colors"
                 aria-label="Speaking practice"
                 title="Speaking practice"
               >
-                <Mic className="w-5 h-5 text-white" />
+                <Mic className="w-5 h-5 text-[#186E95]" />
               </button>
             </div>
           ) : (
             <div className="max-w-md mx-auto">
               <button
                 onClick={onOpenLevels}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white text-[#186E95] hover:bg-[#F3F4F6] transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#186E95] text-white hover:bg-[#145C7C] transition-colors"
               >
                 Continue learning
                 <ArrowRight className="w-4 h-4" />

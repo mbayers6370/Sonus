@@ -131,6 +131,17 @@ body.auth-screen-open {
   padding-bottom: calc(var(--sonus-bottom-nav-height) + env(safe-area-inset-bottom, 0px) + 1rem) !important;
 }
 
+.travel-scroll-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.travel-scroll-hidden::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 @media (max-width: 640px) {
   .page-shell {
     padding-left: 16px !important;
