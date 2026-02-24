@@ -2,6 +2,10 @@
 .DS_Store
 **/.DS_Store
 
+# Local editor / assistant config
+.vscode/
+.claude/
+
 # Dependencies
 node_modules/
 **/node_modules/
