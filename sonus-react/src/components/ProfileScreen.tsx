@@ -403,31 +403,49 @@ export default function ProfileScreen({
             </div>
           </SurfaceButtonCard>
 
-          <SurfaceCard className="h-full min-h-[150px] p-4 flex flex-col justify-between lg:col-span-1">
-            <div>
-              <h3 className="font-semibold text-text-dark mb-1.5">Change Language</h3>
-              <div className="inline-flex items-center rounded-full border border-[#186E95]/25 bg-[rgba(24,110,149,0.08)] px-3 py-1 text-xs font-medium text-[#186E95]">
-                Current: {learningLanguageName}
+          <SurfaceCard className="relative h-full min-h-[150px] overflow-hidden p-4 sm:p-5 lg:col-span-1">
+            <div className="pointer-events-none absolute -right-14 -top-14 h-32 w-32 rounded-full bg-[rgba(24,110,149,0.13)] blur-2xl" />
+            <div className="pointer-events-none absolute -left-10 -bottom-14 h-28 w-28 rounded-full bg-[rgba(62,86,72,0.12)] blur-2xl" />
+
+            <div className="relative flex h-full flex-col justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(24,110,149,0.28)] bg-[rgba(24,110,149,0.10)] px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.16em] text-[#186E95]">
+                  <Languages className="h-3.5 w-3.5" />
+                  Language
+                </div>
+                <h3 className="mt-2 text-[1.15rem] font-semibold leading-tight text-text-dark">Change Learning Language</h3>
+                <p className="mt-1 text-xs leading-relaxed text-text-med">
+                  Switch your active dashboard language. Progress remains saved.
+                </p>
               </div>
-            </div>
-            <div className="mt-3 space-y-2">
-              <select
-                value={learningLanguageSelection}
-                onChange={(e) => setLearningLanguageSelection(e.target.value)}
-                className="w-full border border-border rounded-xl px-3 py-2 text-sm bg-white"
-              >
-                <option value="zh">Mandarin</option>
-              </select>
-              <button
-                onClick={requestLanguageSwitch}
-                disabled={!learningLanguageSelection || learningLanguageSelection === currentLearningLanguage}
-                className="inline-flex w-full items-center justify-center gap-2 px-3 py-2 rounded-xl bg-[#186E95] text-white text-sm font-semibold disabled:opacity-60"
-              >
-                Switch Language
-              </button>
-            </div>
-            <div className="mt-3 text-[11px] leading-tight text-text-light">
-              Roadmap: Japanese, Korean, and French curriculum are coming soon.
+
+              <div className="mt-4 rounded-2xl border border-[rgba(24,110,149,0.18)] bg-white/85 p-3">
+                <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-text-light">Current</div>
+                <div className="mt-1.5 inline-flex items-center rounded-full border border-[#186E95]/25 bg-[rgba(24,110,149,0.08)] px-3 py-1 text-xs font-semibold text-[#186E95]">
+                  {learningLanguageName}
+                </div>
+
+                <div className="mt-3 space-y-2.5">
+                  <select
+                    value={learningLanguageSelection}
+                    onChange={(e) => setLearningLanguageSelection(e.target.value)}
+                    className="w-full rounded-xl border border-border bg-white px-3 py-2.5 text-sm text-text-dark"
+                  >
+                    <option value="zh">Mandarin</option>
+                  </select>
+                  <button
+                    onClick={requestLanguageSwitch}
+                    disabled={!learningLanguageSelection || learningLanguageSelection === currentLearningLanguage}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#186E95] px-3 py-2.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-18px_rgba(24,110,149,0.55)] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+                  >
+                    Switch Language
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-3 text-[11px] leading-tight text-text-light">
+                Roadmap: Japanese, Korean, and French curriculum are coming soon.
+              </div>
             </div>
           </SurfaceCard>
 
