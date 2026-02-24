@@ -165,6 +165,8 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const isDailyReview = activeLesson.unitId === 'daily-review';
   const isPracticeUnit = isListeningPractice || isSpeakingPractice;
   const isApplyMode = lessonMode === 'apply';
+  const hideLogoOnMobile =
+    isPracticeUnit || isApplyMode || /^band\d+$/i.test(activeBandId || '') || activeBandId === 'advanced';
   const previousWords = useMemo(() => {
     if (!state.activeBandData) return [] as Word[];
     const units = getBandUnitsOrdered(state.activeBandData);
@@ -246,6 +248,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
           subtitle={subtitleText ? (
             <span className={`text-sm text-text-med ${isApplyMode ? 'italic' : ''}`}>{subtitleText}</span>
           ) : undefined}
+          hideLogoOnMobile={hideLogoOnMobile}
           className={isSpeakingPractice ? 'bg-white/75 border-[#C2410C]/25' : ''}
           titleClassName={speakingPageTheme.title}
           subtitleClassName="text-text-med"

@@ -19,7 +19,8 @@ export default function LessonReview({
   onBackToResults,
 }: LessonReviewProps) {
   const { state } = useApp();
-  const { activeLesson, quizResultsByIndex } = state;
+  const { activeLesson, quizResultsByIndex, activeBandId } = state;
+  const hideLogoOnMobile = /^band\d+$/i.test(activeBandId || '') || activeBandId === 'advanced';
 
   const missedWords = useMemo(() => {
     if (!activeLesson) return [];
@@ -46,7 +47,7 @@ export default function LessonReview({
   return (
     <div className="flex flex-col h-[100dvh] page-shell">
       <div className="px-6">
-        <GlassHeader title="Lesson Review" />
+        <GlassHeader title="Lesson Review" hideLogoOnMobile={hideLogoOnMobile} />
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-start px-6 pt-2 pb-28 sm:pb-10 overflow-y-auto">

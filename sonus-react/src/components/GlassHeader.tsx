@@ -14,6 +14,7 @@ interface GlassHeaderProps {
   scrolledTitleClassName?: string;
   scrollThreshold?: number;
   showLogo?: boolean;
+  hideLogoOnMobile?: boolean;
 }
 
 export default function GlassHeader({
@@ -27,6 +28,7 @@ export default function GlassHeader({
   scrolledTitleClassName = '',
   scrollThreshold = 8,
   showLogo = true,
+  hideLogoOnMobile = false,
 }: GlassHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
@@ -65,8 +67,9 @@ export default function GlassHeader({
   }, []);
 
   const showBackButton = isStandalone && location.pathname !== '/home';
-  const showInlineLogo = showLogo && !isStandalone;
-  const showStandaloneLogo = showLogo && isStandalone;
+  const showMobileLogo = showLogo && !isStandalone && !hideLogoOnMobile;
+  const showDesktopLogo = showLogo && !isStandalone;
+  const showStandaloneLogo = showLogo && isStandalone && !hideLogoOnMobile;
   const headerHeightClass = showStandaloneLogo ? 'h-28 md:h-24' : 'h-24 md:h-20';
   const standaloneTitleWords = title.trim().split(/\s+/);
   const standaloneFirstWord = standaloneTitleWords[0] ?? title;
@@ -144,7 +147,7 @@ export default function GlassHeader({
                 <ChevronLeft className="w-5 h-5" />
               </button>
             ) : null}
-            {showInlineLogo ? (
+            {showMobileLogo ? (
               <button
                 type="button"
                 onClick={() => navigate('/home')}
@@ -161,7 +164,7 @@ export default function GlassHeader({
                 />
               </button>
             ) : null}
-            {showInlineLogo ? (
+            {showDesktopLogo ? (
               <button
                 type="button"
                 onClick={() => navigate('/home')}

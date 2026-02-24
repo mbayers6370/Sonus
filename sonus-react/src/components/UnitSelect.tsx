@@ -295,6 +295,10 @@ export default function UnitSelect({
     (metric) => metric.practiceType !== 'listening' && metric.practiceType !== 'speaking'
   );
   const headerTitle = activeUnit ? `Unit ${activeUnit.metadata.order}` : currentLevel.name;
+  const hideLogoOnMobile =
+    /^band\d+$/i.test(currentLevel.id) ||
+    currentLevel.id === 'advanced' ||
+    Boolean(activeUnit);
   const isMandarinBandLocked =
     state.selectedLanguage === 'zh' &&
     (/^band\d+$/i.test(currentLevel.id) || currentLevel.id === 'advanced') &&
@@ -302,7 +306,7 @@ export default function UnitSelect({
 
   return (
     <div className="min-h-screen page-shell with-bottom-nav px-6">
-      <GlassHeader title={headerTitle} />
+      <GlassHeader title={headerTitle} hideLogoOnMobile={hideLogoOnMobile} />
 
       {isMandarinBandLocked && (
         <div className="pt-2">

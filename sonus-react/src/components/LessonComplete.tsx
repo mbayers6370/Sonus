@@ -26,12 +26,13 @@ export default function LessonComplete({
 }: LessonCompleteProps) {
   const location = useLocation();
   const { state } = useApp();
-  const { activeLesson, lessonMode, quizResultsByIndex, speakResultsByIndex, speakBreakdownByIndex } = state;
+  const { activeLesson, lessonMode, quizResultsByIndex, speakResultsByIndex, speakBreakdownByIndex, activeBandId } = state;
 
   if (!activeLesson) return null;
 
   const isQuizCompletion = lessonMode === 'quiz';
   const isApplyCompletion = lessonMode === 'apply';
+  const hideLogoOnMobile = /^band\d+$/i.test(activeBandId || '') || activeBandId === 'advanced' || isApplyCompletion;
   const applyVariantKey = location.pathname.replace(/\/(intro|quiz|speak|apply|review|complete)$/, '/apply');
   const applyCompletionVariant = (() => {
     if (!isApplyCompletion) return 'context';
@@ -103,6 +104,7 @@ export default function LessonComplete({
                   ? (speakPassed ? 'Lesson Complete' : 'Speaking Review')
                   : 'Lesson Complete'
           }
+          hideLogoOnMobile={hideLogoOnMobile}
         />
       </div>
 
