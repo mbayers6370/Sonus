@@ -33,13 +33,11 @@ try {
 }
 
 let cedictSingleCharMapPromise: Promise<Map<string, CedictRow[]>> | null = null;
-let cedictWordPinyinMapPromise: Promise<{ map: Map<string, string[]>; maxLen: number }> | null = null;
+let cedictWordPinyinMapPromise: Promise<{ map: Map<string, string[]>; maxLen: number }> | null =
+  null;
 
 function normalizePinyin(value: string) {
-  return (value || '')
-    .replace(/\[|\]/g, '')
-    .trim()
-    .toLowerCase();
+  return (value || '').replace(/\[|\]/g, '').trim().toLowerCase();
 }
 
 function parseCedictLine(line: string): CedictRow | null {
@@ -52,7 +50,10 @@ function parseCedictLine(line: string): CedictRow | null {
     trad,
     simp,
     pinyin: normalizePinyin(match[3]),
-    defs: match[4].split('/').map((value) => value.trim()).filter(Boolean),
+    defs: match[4]
+      .split('/')
+      .map((value) => value.trim())
+      .filter(Boolean),
   };
 }
 
@@ -70,10 +71,26 @@ function splitGlossCandidates(value: string) {
 
   const values = new Set([normalized]);
   for (const piece of Array.from(values)) {
-    for (const colonPart of piece.split(':').map((part) => part.trim()).filter(Boolean)) values.add(colonPart);
-    for (const commaPart of piece.split(',').map((part) => part.trim()).filter(Boolean)) values.add(commaPart);
-    for (const semicolonPart of piece.split(';').map((part) => part.trim()).filter(Boolean)) values.add(semicolonPart);
-    for (const slashPart of piece.split('/').map((part) => part.trim()).filter(Boolean)) values.add(slashPart);
+    for (const colonPart of piece
+      .split(':')
+      .map((part) => part.trim())
+      .filter(Boolean))
+      values.add(colonPart);
+    for (const commaPart of piece
+      .split(',')
+      .map((part) => part.trim())
+      .filter(Boolean))
+      values.add(commaPart);
+    for (const semicolonPart of piece
+      .split(';')
+      .map((part) => part.trim())
+      .filter(Boolean))
+      values.add(semicolonPart);
+    for (const slashPart of piece
+      .split('/')
+      .map((part) => part.trim())
+      .filter(Boolean))
+      values.add(slashPart);
   }
   return Array.from(values);
 }
