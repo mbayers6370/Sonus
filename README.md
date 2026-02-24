@@ -101,20 +101,20 @@ Proper attribution is given in accordance with the respective licenses of these 
 ### Home
 ![Sonus Home](sonus-react/public/Demo/demo-01-home.png)
 
-### Learn
+### Unit Screen
 ![Sonus Learn](sonus-react/public/Demo/demo-02-learn.png)
 
-### Flashcards
+### Travel Mode
 ![Sonus Flashcards](sonus-react/public/Demo/demo-03-flashcards.png)
 
-### Quiz
+### Bands
 ![Sonus Quiz](sonus-react/public/Demo/demo-04-quiz.png)
 
-### Speak
+### Beginner Bands
 ![Sonus Speak](sonus-react/public/Demo/demo-05-speak.png)
 
-### Progress
+### Units Layout
 ![Sonus Progress](sonus-react/public/Demo/demo-06-progress.png)
 
-### Review
+### Speak Mode
 ![Sonus Review](sonus-react/public/Demo/demo-07-review.png)
