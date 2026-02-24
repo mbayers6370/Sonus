@@ -37,7 +37,7 @@ let cedictWordPinyinMapPromise: Promise<{ map: Map<string, string[]>; maxLen: nu
 
 function normalizePinyin(value: string) {
   return (value || '')
-    .replace(/[\[\]]/g, '')
+    .replace(/\[|\]/g, '')
     .trim()
     .toLowerCase();
 }

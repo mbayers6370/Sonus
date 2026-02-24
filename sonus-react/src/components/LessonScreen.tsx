@@ -135,6 +135,22 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
   }, [activeLesson, hasActiveAttempt, lessonMode]);
 
+  const previousWords = useMemo(() => {
+    if (!state.activeBandData || !activeLesson) return [] as Word[];
+    const units = getBandUnitsOrdered(state.activeBandData);
+    const activeUnitIdx = units.findIndex((unit) => unit.id === activeLesson.unitId);
+    if (activeUnitIdx <= 0) return [] as Word[];
+    const deduped = new Map<string, Word>();
+    units
+      .slice(0, activeUnitIdx)
+      .flatMap((unit) => unit.words || [])
+      .forEach((candidate) => {
+        if (!candidate?.id || deduped.has(candidate.id)) return;
+        deduped.set(candidate.id, candidate);
+      });
+    return Array.from(deduped.values());
+  }, [state.activeBandData, activeLesson]);
+
   if (!activeLesson) {
     return (
       <div className="flex items-center justify-center h-screen page-shell">
@@ -167,21 +183,6 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const isApplyMode = lessonMode === 'apply';
   const hideLogoOnMobile =
     isPracticeUnit || isApplyMode || /^band\d+$/i.test(activeBandId || '') || activeBandId === 'advanced';
-  const previousWords = useMemo(() => {
-    if (!state.activeBandData) return [] as Word[];
-    const units = getBandUnitsOrdered(state.activeBandData);
-    const activeUnitIdx = units.findIndex((unit) => unit.id === activeLesson.unitId);
-    if (activeUnitIdx <= 0) return [] as Word[];
-    const deduped = new Map<string, Word>();
-    units
-      .slice(0, activeUnitIdx)
-      .flatMap((unit) => unit.words || [])
-      .forEach((candidate) => {
-        if (!candidate?.id || deduped.has(candidate.id)) return;
-        deduped.set(candidate.id, candidate);
-      });
-    return Array.from(deduped.values());
-  }, [state.activeBandData, activeLesson.unitId]);
   const titleText = isCheckpointQuiz
     ? (activeLesson.unitName || 'Checkpoint Quiz')
     : isPracticeUnit

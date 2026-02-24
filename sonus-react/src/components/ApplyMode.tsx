@@ -412,12 +412,7 @@ export default function ApplyMode({
 
   useEffect(() => {
     let cancelled = false;
-    if (!bandId) {
-      setCharacterInsightsMap({});
-      return () => {
-        cancelled = true;
-      };
-    }
+    if (!bandId) return () => { cancelled = true; };
 
     fetchCharacterInsightsMap(bandId).then((map) => {
       if (cancelled) return;
@@ -430,29 +425,17 @@ export default function ApplyMode({
   }, [bandId]);
 
   const characterRows = useMemo(
-    () => buildCharacterRows(allWords, characterInsightsMap),
-    [allWords, characterInsightsMap]
+    () => buildCharacterRows(allWords, bandId ? characterInsightsMap : {}),
+    [allWords, bandId, characterInsightsMap]
   );
-
-  useEffect(() => {
-    if (characterRows.length === 0) {
-      setCharacterIndex(0);
-      return;
-    }
-    if (characterIndex > characterRows.length - 1) {
-      setCharacterIndex(characterRows.length - 1);
-    }
-  }, [characterRows, characterIndex]);
+  const clampedCharacterIndex = Math.min(characterIndex, Math.max(0, characterRows.length - 1));
 
   useEffect(() => {
     const sentenceChars = Array.from((zh || '')).filter((value) => /[\u3400-\u9FFF]/.test(value));
     const chars = Array.from(new Set([...characterRows.map((row) => row.char), ...sentenceChars])).filter((value) =>
       /[\u3400-\u9FFF]/.test(value)
     );
-    if (chars.length === 0) {
-      setLiveCharacterMap({});
-      return;
-    }
+    if (chars.length === 0) return;
 
     let cancelled = false;
     void apiFetch(`/v1/zh/characters/lookup?chars=${encodeURIComponent(chars.join(','))}`)
@@ -473,10 +456,7 @@ export default function ApplyMode({
   }, [characterRows, zh]);
 
   useEffect(() => {
-    if (!zh || !containsHanCharacter(zh)) {
-      setResolvedSentencePinyin(rawSentencePinyin || '');
-      return;
-    }
+    if (!zh || !containsHanCharacter(zh)) return;
 
     let cancelled = false;
     void apiFetch(`/v1/zh/pinyin/sentence?text=${encodeURIComponent(zh)}`)
@@ -509,29 +489,21 @@ export default function ApplyMode({
     };
   }, [rawSentencePinyin, zh, allWords, liveCharacterMap, characterInsightsMap]);
 
-  const highlighted = useMemo(
-    () => highlightLessonTerms(zh, word.simp, allWords),
-    [zh, word.simp, allWords]
-  );
-  const priorWordsForEnglish = useMemo(() => {
-    const combined = [...allWords, ...previousWords];
-    const seenIds = new Set<string>();
-    return combined.filter((candidate) => {
-      if (!candidate?.id || candidate.id === word.id || seenIds.has(candidate.id)) return false;
-      seenIds.add(candidate.id);
-      return true;
-    });
-  }, [allWords, previousWords, word.id]);
-  const englishFocus = useMemo(
-    () => highlightEnglishFocus(en, word, priorWordsForEnglish),
-    [en, word, priorWordsForEnglish]
-  );
-  const sentencePinyin = resolvedSentencePinyin;
+  const highlighted = highlightLessonTerms(zh, word.simp, allWords);
+  const combined = [...allWords, ...previousWords];
+  const seenIds = new Set<string>();
+  const priorWordsForEnglish = combined.filter((candidate) => {
+    if (!candidate?.id || candidate.id === word.id || seenIds.has(candidate.id)) return false;
+    seenIds.add(candidate.id);
+    return true;
+  });
+  const englishFocus = highlightEnglishFocus(en, word, priorWordsForEnglish);
+  const sentencePinyin = containsHanCharacter(zh) ? resolvedSentencePinyin : (rawSentencePinyin || '');
 
   const isCharactersTab = activeTab === 'characters';
   const railTotal = isCharactersTab ? Math.max(1, characterRows.length) : totalWords;
-  const railIndex = isCharactersTab ? characterIndex : currentIndex;
-  const activeCharacterRow = characterRows[characterIndex] || null;
+  const railIndex = isCharactersTab ? clampedCharacterIndex : currentIndex;
+  const activeCharacterRow = characterRows[clampedCharacterIndex] || null;
   const activeCharacterLive = activeCharacterRow ? liveCharacterMap[activeCharacterRow.char] : null;
   const activeCharacterPinyin = activeCharacterRow
     ? (activeCharacterRow.insight?.pinyin?.[0] || activeCharacterLive?.pinyin?.[0] || '')
@@ -540,8 +512,8 @@ export default function ApplyMode({
     ? (activeCharacterRow.insight?.glosses?.[0] || activeCharacterLive?.glosses?.[0] || '')
     : '';
 
-  const prevDisabled = isCharactersTab ? characterIndex === 0 : currentIndex === 0;
-  const isLastCharacter = characterRows.length > 0 && characterIndex >= characterRows.length - 1;
+  const prevDisabled = isCharactersTab ? clampedCharacterIndex === 0 : currentIndex === 0;
+  const isLastCharacter = characterRows.length > 0 && clampedCharacterIndex >= characterRows.length - 1;
   const nextLabel = 'Next';
 
   const speakText = isCharactersTab && activeCharacterRow ? activeCharacterRow.char : zh;
@@ -549,7 +521,7 @@ export default function ApplyMode({
 
   const handlePrev = () => {
     if (isCharactersTab) {
-      setCharacterIndex((prev) => Math.max(0, prev - 1));
+      setCharacterIndex((prev) => Math.max(0, Math.min(prev, Math.max(0, characterRows.length - 1)) - 1));
       return;
     }
     onPrev();
@@ -567,7 +539,7 @@ export default function ApplyMode({
         navigate(location.pathname.replace(/\/(intro|quiz|speak|apply|review|complete)$/, '/complete'));
         return;
       }
-      setCharacterIndex((prev) => Math.min(characterRows.length - 1, prev + 1));
+      setCharacterIndex((prev) => Math.min(Math.max(0, characterRows.length - 1), Math.min(prev, Math.max(0, characterRows.length - 1)) + 1));
       return;
     }
     if (currentIndex >= totalWords - 1) {
