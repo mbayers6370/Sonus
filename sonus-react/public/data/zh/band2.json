@@ -33,7 +33,7 @@
           "id": "L2-0018",
           "simp": "比如",
           "trad": "比如",
-          "pinyin": "bǐ rú",
+          "pinyin": "bǐrú",
           "pos": "Conj",
           "en": "for example",
           "defs": [
@@ -49,7 +49,7 @@
           "id": "L2-0019",
           "simp": "比如说",
           "trad": "比如說",
-          "pinyin": "bǐ rú shuō",
+          "pinyin": "bǐrú shuō",
           "pos": "Conj",
           "en": "for example",
           "defs": [
@@ -156,7 +156,7 @@
           "id": "L2-0039",
           "simp": "不如",
           "trad": "不如",
-          "pinyin": "bù rú",
+          "pinyin": "bùrú",
           "pos": "Conj",
           "en": "not as good as",
           "defs": [
@@ -165,7 +165,7 @@
           ],
           "example": {
             "zh": "走路不如坐车快。",
-            "en": "Walking isn't as fast as taking the bus."
+            "en": "Walking isn't as fast as driving."
           }
         },
         {
@@ -180,14 +180,14 @@
           ],
           "example": {
             "zh": "他不一定来。",
-            "en": "He might not come."
+            "en": "He may not come."
           }
         },
         {
           "id": "L2-0044",
           "simp": "不一会儿",
           "trad": "不一會兒",
-          "pinyin": "bù yī huì r",
+          "pinyin": "bù yī huìr",
           "pos": "Adv",
           "en": "soon after",
           "defs": [
@@ -478,7 +478,7 @@
           "id": "L2-0510",
           "simp": "虽然",
           "trad": "雖然",
-          "pinyin": "suī rán",
+          "pinyin": "suīrán",
           "pos": "Conj",
           "en": "although",
           "defs": [
@@ -486,7 +486,7 @@
           ],
           "example": {
             "zh": "虽然很累，但我很开心。",
-            "en": "Although tired, I'm happy."
+            "en": "Although I'm tired, I'm happy."
           }
         },
         {
@@ -509,10 +509,11 @@
           "simp": "同时",
           "trad": "同時",
           "pinyin": "tóng shí",
-          "pos": "Conj",
+          "pos": "Adv",
           "en": "at the same time",
           "defs": [
-            "at the same time"
+            "at the same time",
+            "simultaneously"
           ],
           "example": {
             "zh": "他同时做两件事。",
@@ -607,8 +608,8 @@
             "only"
           ],
           "example": {
-            "zh": "我只有一块钱。",
-            "en": "I only have one yuan."
+            "zh": "我只带了一块钱。",
+            "en": "I only brought one yuan."
           }
         },
         {
@@ -691,7 +692,7 @@
           "id": "L2-0349",
           "simp": "例如",
           "trad": "例如",
-          "pinyin": "lì rú",
+          "pinyin": "lìrú",
           "pos": "Conj",
           "en": "for example",
           "defs": [
@@ -770,15 +771,14 @@
           "simp": "其中",
           "trad": "其中",
           "pinyin": "qí zhōng",
-          "pos": "N",
+          "pos": "Pron",
           "en": "among them",
           "defs": [
-            "among them",
-            "among"
+            "among them"
           ],
           "example": {
             "zh": "我有三个苹果，其中一个坏了。",
-            "en": "I have three apples, one of them is bad."
+            "en": "I have three apples, and one of them is bad."
           }
         },
         {
@@ -923,15 +923,15 @@
           "simp": "以上",
           "trad": "以上",
           "pinyin": "yǐ shàng",
-          "pos": "N",
-          "en": "above",
+          "pos": "Pron",
+          "en": "above; over",
           "defs": [
             "above",
-            "the above-mentioned"
+            "over"
           ],
           "example": {
             "zh": "十八岁以上可以开车。",
-            "en": "Over 18 can drive."
+            "en": "People over 18 can drive."
           }
         },
         {
@@ -939,11 +939,11 @@
           "simp": "以外",
           "trad": "以外",
           "pinyin": "yǐ wài",
-          "pos": "N",
-          "en": "outside of",
+          "pos": "Pron",
+          "en": "except; besides",
           "defs": [
-            "outside of",
-            "on the other side of"
+            "except",
+            "besides"
           ],
           "example": {
             "zh": "除了他以外，别人都来了。",
@@ -955,14 +955,15 @@
           "simp": "以下",
           "trad": "以下",
           "pinyin": "yǐ xià",
-          "pos": "N",
-          "en": "below",
+          "pos": "Pron",
+          "en": "below; under",
           "defs": [
-            "below"
+            "below",
+            "under"
           ],
           "example": {
             "zh": "十八岁以下不能喝酒。",
-            "en": "Under 18 can't drink."
+            "en": "People under 18 can't drink alcohol."
           }
         },
         {
@@ -977,7 +978,7 @@
           ],
           "example": {
             "zh": "我一直等你。",
-            "en": "I've been waiting for you all along."
+            "en": "I've been waiting for you the whole time."
           }
         },
         {
@@ -1069,8 +1070,8 @@
             "so much"
           ],
           "example": {
-            "zh": "你这么忙啊？",
-            "en": "You're so busy?"
+            "zh": "你这么忙吗？",
+            "en": "Are you this busy?"
           }
         },
         {
@@ -1169,7 +1170,7 @@
           "id": "L2-0686",
           "simp": "有点儿",
           "trad": "有點兒",
-          "pinyin": "yǒu diǎn r",
+          "pinyin": "yǒu diǎnr",
           "pos": "Adv",
           "en": "a little",
           "defs": [
@@ -1184,7 +1185,7 @@
           "id": "L2-0686-2",
           "simp": "有一点儿",
           "trad": "有一點兒",
-          "pinyin": "yǒu yī diǎn r",
+          "pinyin": "yǒu yī diǎnr",
           "pos": "Adv",
           "en": "a little",
           "defs": [
@@ -1247,13 +1248,13 @@
           "trad": "遍",
           "pinyin": "biàn",
           "pos": "Adv",
-          "en": "all over",
+          "en": "once (through)",
           "defs": [
             "all over"
           ],
           "example": {
             "zh": "我找了一遍。",
-            "en": "I looked everywhere once."
+            "en": "I looked for it once."
           }
         },
         {
@@ -1282,8 +1283,8 @@
             "greatly"
           ],
           "example": {
-            "zh": "变化大大。",
-            "en": "Great changes."
+            "zh": "他的成绩大大提高了。",
+            "en": "His grades improved greatly."
           }
         },
         {
@@ -1508,10 +1509,10 @@
           "trad": "稱",
           "pinyin": "chēng",
           "pos": "V",
-          "en": "to call",
+          "en": "to call; to refer to",
           "defs": [
             "to call",
-            "to fit"
+            "to refer to"
           ],
           "example": {
             "zh": "大家都称他老李。",
@@ -1685,8 +1686,7 @@
           "pos": "V",
           "en": "to bring",
           "defs": [
-            "to bring",
-            "to wear"
+            "to bring"
           ],
           "example": {
             "zh": "别忘了带钥匙。",
@@ -2107,7 +2107,7 @@
           "id": "L2-0180",
           "simp": "干活儿",
           "trad": "幹活兒",
-          "pinyin": "gàn huó r",
+          "pinyin": "gàn huór",
           "pos": "V",
           "en": "to work",
           "defs": [
@@ -2419,8 +2419,7 @@
           "pos": "V",
           "en": "to receive",
           "defs": [
-            "to receive",
-            "to join"
+            "to receive"
           ],
           "example": {
             "zh": "我去机场接朋友。",
@@ -2464,7 +2463,7 @@
           "trad": "借",
           "pinyin": "jiè",
           "pos": "V",
-          "en": "to borrow/lend",
+          "en": "to borrow; lend",
           "defs": [
             "to borrow",
             "to lend"
@@ -2478,12 +2477,11 @@
           "id": "L2-0295",
           "simp": "进入",
           "trad": "進入",
-          "pinyin": "jìn rù",
+          "pinyin": "jìnrù",
           "pos": "V",
           "en": "to enter",
           "defs": [
-            "to enter",
-            "to join"
+            "to enter"
           ],
           "example": {
             "zh": "请勿进入。",
@@ -2530,8 +2528,7 @@
           "pos": "V",
           "en": "to lift",
           "defs": [
-            "to lift",
-            "to act"
+            "to lift"
           ],
           "example": {
             "zh": "请举手。",
@@ -2575,10 +2572,10 @@
           "trad": "卡",
           "pinyin": "kǎ",
           "pos": "V",
-          "en": "to get stuck",
+          "en": "to get stuck; to jam",
           "defs": [
             "to get stuck",
-            "to stop"
+            "to jam"
           ],
           "example": {
             "zh": "钥匙卡在锁里了。",
@@ -2593,8 +2590,7 @@
           "pos": "V",
           "en": "to start up",
           "defs": [
-            "to start up",
-            "to press Ctrl-Alt-Delete"
+            "to start up"
           ],
           "example": {
             "zh": "电脑开机很慢。",
@@ -2606,11 +2602,11 @@
           "simp": "开心",
           "trad": "開心",
           "pinyin": "kāi xīn",
-          "pos": "V",
-          "en": "to be happy",
+          "pos": "Adj",
+          "en": "happy",
           "defs": [
-            "to be happy",
-            "to rejoice"
+            "happy",
+            "glad"
           ],
           "example": {
             "zh": "他很开心。",
@@ -2641,8 +2637,7 @@
           "pos": "V",
           "en": "to lean on",
           "defs": [
-            "to lean on",
-            "to fuck"
+            "to lean on"
           ],
           "example": {
             "zh": "请靠右站。",
@@ -2689,8 +2684,7 @@
           "pos": "V",
           "en": "to come from",
           "defs": [
-            "to come from",
-            "From:"
+            "to come from"
           ],
           "example": {
             "zh": "我来自中国。",
@@ -2830,11 +2824,10 @@
           "simp": "满",
           "trad": "滿",
           "pinyin": "mǎn",
-          "pos": "V",
-          "en": "to fill",
+          "pos": "Adj",
+          "en": "full",
           "defs": [
-            "to fill",
-            "to satisfy"
+            "full"
           ],
           "example": {
             "zh": "杯子满了。",
@@ -3196,10 +3189,11 @@
           "simp": "生活",
           "trad": "生活",
           "pinyin": "shēng huó",
-          "pos": "V",
-          "en": "to live",
+          "pos": "V/N",
+          "en": "to live; life",
           "defs": [
-            "to live"
+            "to live",
+            "life"
           ],
           "example": {
             "zh": "我生活在北京。",
@@ -3214,8 +3208,7 @@
           "pos": "V",
           "en": "to save",
           "defs": [
-            "to save",
-            "to omit"
+            "to save"
           ],
           "example": {
             "zh": "省钱很重要。",
@@ -3250,8 +3243,8 @@
             "fall"
           ],
           "example": {
-            "zh": "钱包掉了。",
-            "en": "The wallet dropped."
+            "zh": "我的钱包掉了。",
+            "en": "My wallet fell."
           }
         },
         {
@@ -3338,8 +3331,8 @@
             "to realize"
           ],
           "example": {
-            "zh": "实现了梦想。",
-            "en": "Achieved the dream."
+            "zh": "她实现了自己的梦想。",
+            "en": "She achieved her dream."
           }
         },
         {
@@ -3354,8 +3347,8 @@
             "to apply"
           ],
           "example": {
-            "zh": "请小心使用。",
-            "en": "Please use carefully."
+            "zh": "请小心使用这个。",
+            "en": "Please use this carefully."
           }
         },
         {
@@ -3366,12 +3359,11 @@
           "pos": "V",
           "en": "to receive",
           "defs": [
-            "to receive",
-            "to stop"
+            "to receive"
           ],
           "example": {
-            "zh": "收到礼物。",
-            "en": "Received a gift."
+            "zh": "我收下了这份礼物。",
+            "en": "I accepted this gift."
           }
         },
         {
@@ -3385,8 +3377,8 @@
             "to receive"
           ],
           "example": {
-            "zh": "收到你的信。",
-            "en": "Received your letter."
+            "zh": "昨天我收到了你的邮件。",
+            "en": "I received your email yesterday."
           }
         },
         {
@@ -3395,14 +3387,14 @@
           "trad": "受到",
           "pinyin": "shòu dào",
           "pos": "V",
-          "en": "to receive",
+          "en": "to receive; to be subject to",
           "defs": [
             "to receive",
-            "to be ...ed"
+            "to be subject to"
           ],
           "example": {
-            "zh": "受到欢迎。",
-            "en": "Was welcomed."
+            "zh": "她受到了大家的欢迎。",
+            "en": "She received a warm welcome from everyone."
           }
         },
         {
@@ -3417,8 +3409,8 @@
             "to list"
           ],
           "example": {
-            "zh": "数一下有多少人。",
-            "en": "Count how many people."
+            "zh": "请数一下有多少人。",
+            "en": "Please count how many people there are."
           }
         },
         {
@@ -3464,8 +3456,8 @@
             "to send"
           ],
           "example": {
-            "zh": "送给你一份礼物。",
-            "en": "Giving you a gift."
+            "zh": "他把花送给了妈妈。",
+            "en": "He gave the flowers to his mom."
           }
         },
         {
@@ -3480,8 +3472,8 @@
             "to figure"
           ],
           "example": {
-            "zh": "算一下多少钱。",
-            "en": "Calculate how much."
+            "zh": "你帮我算一下总共多少钱？",
+            "en": "Can you help me calculate the total?"
           }
         },
         {
@@ -3528,8 +3520,8 @@
             "to love dearly"
           ],
           "example": {
-            "zh": "头疼。",
-            "en": "Head hurts."
+            "zh": "我头疼。",
+            "en": "My head hurts."
           }
         },
         {
@@ -3687,8 +3679,8 @@
             "to adopt"
           ],
           "example": {
-            "zh": "通过了考试。",
-            "en": "Passed the exam."
+            "zh": "我通过了考试。",
+            "en": "I passed the exam."
           }
         },
         {
@@ -3735,8 +3727,8 @@
             "to be over"
           ],
           "example": {
-            "zh": "作业做完了。",
-            "en": "Finished homework."
+            "zh": "我做完作业了。",
+            "en": "I finished my homework."
           }
         },
         {
@@ -3911,8 +3903,8 @@
             "to keep"
           ],
           "example": {
-            "zh": "养了一只狗。",
-            "en": "Raised a dog."
+            "zh": "我养了一只狗。",
+            "en": "I keep a dog."
           }
         },
         {
@@ -3991,8 +3983,8 @@
             "influence"
           ],
           "example": {
-            "zh": "影响学习。",
-            "en": "Affects studying."
+            "zh": "这会影响学习。",
+            "en": "This affects studying."
           }
         },
         {
@@ -4464,7 +4456,7 @@
           "id": "L2-0229",
           "simp": "忽然",
           "trad": "忽然",
-          "pinyin": "hū rán",
+          "pinyin": "hūrán",
           "pos": "Adv",
           "en": "suddenly",
           "defs": [
@@ -4479,7 +4471,7 @@
           "id": "L2-0290",
           "simp": "节日",
           "trad": "節日",
-          "pinyin": "jié rì",
+          "pinyin": "jiérì",
           "pos": "N",
           "en": "holiday",
           "defs": [
@@ -4564,8 +4556,8 @@
             "day"
           ],
           "example": {
-            "zh": "好日子。",
-            "en": "Good day."
+            "zh": "今天是个好日子。",
+            "en": "Today is a good day."
           }
         },
         {
@@ -4618,7 +4610,7 @@
           "id": "L2-0649",
           "simp": "一会儿",
           "trad": "一會兒",
-          "pinyin": "yī huì r",
+          "pinyin": "yī huìr",
           "pos": "N",
           "en": "a moment",
           "defs": [
@@ -4770,7 +4762,7 @@
           "id": "L2-0388",
           "simp": "那会儿",
           "trad": "那會兒",
-          "pinyin": "nà huì r",
+          "pinyin": "nà huìr",
           "pos": "N",
           "en": "at that time",
           "defs": [
@@ -4869,8 +4861,8 @@
             "in one's childhood"
           ],
           "example": {
-            "zh": "小时候的照片。",
-            "en": "Childhood photos."
+            "zh": "这是我小时候的照片。",
+            "en": "These are photos from my childhood."
           }
         },
         {
@@ -4884,8 +4876,8 @@
             "night"
           ],
           "example": {
-            "zh": "深夜。",
-            "en": "Late night."
+            "zh": "现在已经深夜了。",
+            "en": "It is already late at night."
           }
         },
         {
@@ -5182,8 +5174,8 @@
             "parent or guardian of a child"
           ],
           "example": {
-            "zh": "家长会。",
-            "en": "Parent meeting."
+            "zh": "今天有家长会。",
+            "en": "There is a parent meeting today."
           }
         },
         {
@@ -5213,8 +5205,8 @@
             "classroom ("
           ],
           "example": {
-            "zh": "课堂上安静。",
-            "en": "Quiet in class."
+            "zh": "课堂上要安静。",
+            "en": "You should be quiet in class."
           }
         },
         {
@@ -5335,8 +5327,8 @@
             "housing"
           ],
           "example": {
-            "zh": "住房问题。",
-            "en": "Housing problem."
+            "zh": "住房是一个大问题。",
+            "en": "Housing is a major issue."
           }
         }
       ]
@@ -5451,8 +5443,8 @@
             "food"
           ],
           "example": {
-            "zh": "健康食物。",
-            "en": "Healthy food."
+            "zh": "这是健康的食物。",
+            "en": "This is healthy food."
           }
         },
         {
@@ -5887,8 +5879,8 @@
             "gram"
           ],
           "example": {
-            "zh": "五百克。",
-            "en": "500 grams."
+            "zh": "这个重五百克。",
+            "en": "This weighs 500 grams."
           }
         },
         {
@@ -6055,8 +6047,8 @@
             "100 million"
           ],
           "example": {
-            "zh": "一亿人口。",
-            "en": "100 million people."
+            "zh": "这个城市有一亿人口。",
+            "en": "This city has 100 million people."
           }
         }
       ]
@@ -6223,7 +6215,7 @@
           "id": "L2-0624",
           "simp": "行人",
           "trad": "行人",
-          "pinyin": "xíng rén",
+          "pinyin": "xíngrén",
           "pos": "N",
           "en": "pedestrian",
           "defs": [
@@ -6260,8 +6252,8 @@
             "station"
           ],
           "example": {
-            "zh": "火车站。",
-            "en": "Train station."
+            "zh": "这是火车站。",
+            "en": "This is the train station."
           }
         },
         {
@@ -7036,7 +7028,7 @@
           "id": "L2-0100",
           "simp": "大自然",
           "trad": "大自然",
-          "pinyin": "dà zì rán",
+          "pinyin": "dà zìrán",
           "pos": "N",
           "en": "nature",
           "defs": [
@@ -7265,8 +7257,8 @@
             "youth"
           ],
           "example": {
-            "zh": "青年人。",
-            "en": "Young people."
+            "zh": "他是一个青年。",
+            "en": "He is a young person."
           }
         },
         {
@@ -7348,7 +7340,7 @@
           "id": "L2-0684",
           "simp": "有空儿",
           "trad": "有空兒",
-          "pinyin": "yǒu kòng r",
+          "pinyin": "yǒu kòngr",
           "pos": "V",
           "en": "to have free time",
           "defs": [
@@ -7790,7 +7782,7 @@
           "id": "L2-0611",
           "simp": "笑话儿",
           "trad": "笑話兒",
-          "pinyin": "xiào hua r",
+          "pinyin": "xiào huar",
           "pos": "N",
           "en": "joke",
           "defs": [
@@ -7934,8 +7926,8 @@
             "at one's side"
           ],
           "example": {
-            "zh": "身边的朋友。",
-            "en": "Friends nearby."
+            "zh": "这些是我身边的朋友。",
+            "en": "These are my friends nearby."
           }
         },
         {
@@ -7949,8 +7941,8 @@
             "reality"
           ],
           "example": {
-            "zh": "实际情况。",
-            "en": "Actual situation."
+            "zh": "这才是实际情况。",
+            "en": "This is the actual situation."
           }
         },
         {
@@ -7987,15 +7979,15 @@
           "id": "L2-0496",
           "simp": "收入",
           "trad": "收入",
-          "pinyin": "shōu rù",
+          "pinyin": "shōurù",
           "pos": "N",
           "en": "income",
           "defs": [
             "income"
           ],
           "example": {
-            "zh": "收入很高。",
-            "en": "High income."
+            "zh": "他的收入很高。",
+            "en": "His income is high."
           }
         },
         {
@@ -8009,8 +8001,8 @@
             "sound"
           ],
           "example": {
-            "zh": "声音很大。",
-            "en": "Loud sound."
+            "zh": "这个声音很大。",
+            "en": "This sound is loud."
           }
         }
       ]
@@ -8055,7 +8047,7 @@
           "id": "L2-0218",
           "simp": "好人",
           "trad": "好人",
-          "pinyin": "hǎo rén",
+          "pinyin": "hǎorén",
           "pos": "N",
           "en": "good person",
           "defs": [
@@ -8071,7 +8063,7 @@
           "id": "L2-0238",
           "simp": "坏人",
           "trad": "壞人",
-          "pinyin": "huài rén",
+          "pinyin": "huàirén",
           "pos": "N",
           "en": "bad person",
           "defs": [
@@ -8116,7 +8108,7 @@
           "id": "L2-0325",
           "simp": "客人",
           "trad": "客人",
-          "pinyin": "kè rén",
+          "pinyin": "kèrén",
           "pos": "N",
           "en": "guest",
           "defs": [
@@ -8183,15 +8175,15 @@
             "number of people"
           ],
           "example": {
-            "zh": "人数不多。",
-            "en": "Not many people."
+            "zh": "来的人数不多。",
+            "en": "Not many people came."
           }
         },
         {
           "id": "L2-0471",
           "simp": "商人",
           "trad": "商人",
-          "pinyin": "shāng rén",
+          "pinyin": "shāngrén",
           "pos": "N",
           "en": "businessperson",
           "defs": [
@@ -8206,7 +8198,7 @@
           "id": "L2-0685",
           "simp": "有人",
           "trad": "有人",
-          "pinyin": "yǒu rén",
+          "pinyin": "yǒurén",
           "pos": "N",
           "en": "someone",
           "defs": [
@@ -8222,7 +8214,7 @@
           "id": "L2-0745",
           "simp": "主人",
           "trad": "主人",
-          "pinyin": "zhǔ rén",
+          "pinyin": "zhǔrén",
           "pos": "N",
           "en": "host",
           "defs": [
@@ -8259,8 +8251,8 @@
             "manager"
           ],
           "example": {
-            "zh": "公司经理。",
-            "en": "Company manager."
+            "zh": "他是公司经理。",
+            "en": "He is the company manager."
           }
         },
         {
@@ -8274,8 +8266,8 @@
             "old age"
           ],
           "example": {
-            "zh": "老年人。",
-            "en": "Elderly people."
+            "zh": "他已经老年了。",
+            "en": "He is already elderly."
           }
         },
         {
@@ -8289,8 +8281,8 @@
             "celebrity"
           ],
           "example": {
-            "zh": "电影明星。",
-            "en": "Movie star."
+            "zh": "她是一位电影明星。",
+            "en": "She is a movie star."
           }
         },
         {
@@ -8304,8 +8296,8 @@
             "teenager"
           ],
           "example": {
-            "zh": "青少年问题。",
-            "en": "Teenager issues."
+            "zh": "这是青少年问题。",
+            "en": "This is a teenage issue."
           }
         },
         {
@@ -8320,8 +8312,8 @@
             "early youth"
           ],
           "example": {
-            "zh": "少年时代。",
-            "en": "Youth era."
+            "zh": "那是他的少年时代。",
+            "en": "That was his youth."
           }
         },
         {
@@ -8335,8 +8327,8 @@
             "mayor"
           ],
           "example": {
-            "zh": "市长讲话。",
-            "en": "The mayor speaks."
+            "zh": "市长正在讲话。",
+            "en": "The mayor is speaking."
           }
         },
         {
@@ -8365,8 +8357,8 @@
             "colleague"
           ],
           "example": {
-            "zh": "我的同事。",
-            "en": "My colleague."
+            "zh": "这是我的同事。",
+            "en": "This is my colleague."
           }
         },
         {
@@ -8395,8 +8387,8 @@
             "principal"
           ],
           "example": {
-            "zh": "学校校长。",
-            "en": "School principal."
+            "zh": "他是学校校长。",
+            "en": "He is the school principal."
           }
         },
         {
@@ -8410,8 +8402,8 @@
             "middle age"
           ],
           "example": {
-            "zh": "中年人。",
-            "en": "Middle-aged people."
+            "zh": "他是中年人。",
+            "en": "He is middle-aged."
           }
         },
         {
@@ -8440,8 +8432,8 @@
             "writer"
           ],
           "example": {
-            "zh": "著名作家。",
-            "en": "Famous writer."
+            "zh": "他是一位著名作家。",
+            "en": "He is a famous writer."
           }
         },
         {
@@ -9591,7 +9583,7 @@
           "id": "L2-0236",
           "simp": "画儿",
           "trad": "畫兒",
-          "pinyin": "huà r",
+          "pinyin": "huàr",
           "pos": "N",
           "en": "picture",
           "defs": [
@@ -11377,7 +11369,7 @@
           "id": "L2-0330",
           "simp": "快点儿",
           "trad": "快點兒",
-          "pinyin": "kuài diǎn r",
+          "pinyin": "kuài diǎnr",
           "pos": "Adv",
           "en": "hurry up",
           "defs": [
@@ -11491,8 +11483,8 @@
             "a level"
           ],
           "example": {
-            "zh": "汉语水平。",
-            "en": "Chinese level."
+            "zh": "我的汉语水平提高了。",
+            "en": "My Chinese level has improved."
           }
         },
         {
@@ -11567,8 +11559,8 @@
             "free"
           ],
           "example": {
-            "zh": "自由的生活。",
-            "en": "Free life."
+            "zh": "他想过自由的生活。",
+            "en": "He wants a free life."
           }
         },
         {
@@ -11688,8 +11680,8 @@
             "size"
           ],
           "example": {
-            "zh": "大小合适。",
-            "en": "Right size."
+            "zh": "这个大小很合适。",
+            "en": "This size is just right."
           }
         },
         {
@@ -11817,8 +11809,8 @@
             "all"
           ],
           "example": {
-            "zh": "全班同学。",
-            "en": "The whole class."
+            "zh": "全班同学都到了。",
+            "en": "The whole class has arrived."
           }
         },
         {
@@ -11939,8 +11931,8 @@
             "many"
           ],
           "example": {
-            "zh": "好多人。",
-            "en": "Lots of people."
+            "zh": "这里有好多人。",
+            "en": "There are lots of people here."
           }
         },
         {
@@ -11973,14 +11965,14 @@
           "trad": "節",
           "pinyin": "jié",
           "pos": "M",
-          "en": "class for classes/sections",
+          "en": "class for classes; sections",
           "defs": [
             "class for classes",
             "classifier for segments: lessons"
           ],
           "example": {
-            "zh": "一节课。",
-            "en": "One class period."
+            "zh": "我今天有一节课。",
+            "en": "I have one class today."
           }
         },
         {
@@ -12010,8 +12002,8 @@
             "classifier for vehicles"
           ],
           "example": {
-            "zh": "一辆车。",
-            "en": "One car."
+            "zh": "他有一辆车。",
+            "en": "He has a car."
           }
         },
         {
@@ -12026,8 +12018,8 @@
             "classifier for people"
           ],
           "example": {
-            "zh": "一名老师。",
-            "en": "One teacher."
+            "zh": "他是一名老师。",
+            "en": "He is a teacher."
           }
         },
         {
@@ -12042,8 +12034,8 @@
             "classifier for written items: chapter"
           ],
           "example": {
-            "zh": "一篇作文。",
-            "en": "One essay."
+            "zh": "我写了一篇作文。",
+            "en": "I wrote an essay."
           }
         },
         {
@@ -12089,8 +12081,8 @@
             "classifier for gifts"
           ],
           "example": {
-            "zh": "一份礼物。",
-            "en": "A gift."
+            "zh": "我收到了一份礼物。",
+            "en": "I received a gift."
           }
         },
         {
@@ -12105,8 +12097,8 @@
             "esp. letters"
           ],
           "example": {
-            "zh": "一封信。",
-            "en": "A letter."
+            "zh": "我写了一封信。",
+            "en": "I wrote a letter."
           }
         },
         {
@@ -12121,8 +12113,8 @@
             "classifier for binary bits"
           ],
           "example": {
-            "zh": "一位客人。",
-            "en": "A guest (respectful)."
+            "zh": "来了一位客人。",
+            "en": "A guest arrived."
           }
         }
       ]

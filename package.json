@@ -9,7 +9,15 @@
     "test:core": "npm --prefix backend run test:core",
     "characters:generate": "node scripts/generate-character-insights.mjs",
     "band1:normalize": "node scripts/band1-normalize-validate.mjs --fix",
-    "band1:validate": "node scripts/band1-normalize-validate.mjs"
+    "band1:validate": "node scripts/band1-normalize-validate.mjs",
+    "data:zh:lint": "node scripts/zh-data-pipeline.mjs",
+    "data:zh:lint:strict": "node scripts/zh-data-pipeline.mjs --fail-on-warn",
+    "data:zh:fix": "node scripts/zh-data-pipeline.mjs --fix --write-review-queue",
+    "data:zh:queue": "node scripts/zh-data-pipeline.mjs --write-review-queue",
+    "data:zh:refresh-defs": "node scripts/refresh-zh-defs.mjs",
+    "tatoeba:fetch": "node scripts/tatoeba-fetch.mjs",
+    "tatoeba:candidates": "node scripts/tatoeba-generate-candidates.mjs",
+    "tatoeba:apply": "node scripts/tatoeba-apply-candidates.mjs"
   },
   "devDependencies": {
     "hanzi": "^2.1.5"

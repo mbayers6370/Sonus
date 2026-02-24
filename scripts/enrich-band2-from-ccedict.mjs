@@ -3,7 +3,13 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const projectRoot = process.cwd();
-const bandPath = path.join(projectRoot, 'sonus-react/public/data/zh/band2.json');
+const bandArgIdx = process.argv.findIndex((arg) => arg === '--band');
+const bandId = bandArgIdx >= 0 ? process.argv[bandArgIdx + 1] : 'band2';
+if (!bandId || !/^band\d+$/i.test(bandId)) {
+  console.error('Usage: node scripts/enrich-band2-from-ccedict.mjs --band band2');
+  process.exit(1);
+}
+const bandPath = path.join(projectRoot, `sonus-react/public/data/zh/${bandId}.json`);
 const cedictPath = path.join(projectRoot, 'sonus-react/public/data/cedict_ts.u8');
 
 const TONE_CHAR_MAP = {
@@ -75,11 +81,15 @@ function isRejectedDef(value) {
   if (/^surname\b/i.test(value)) return true;
   if (/\bvariant of\b/i.test(value)) return true;
   if (/\bold variant\b/i.test(value)) return true;
+  if (/\babbr\./i.test(value)) return true;
   if (/\barchaic\b/i.test(value)) return true;
   if (/\bliterary\b/i.test(value)) return true;
   if (/\bused in\b/i.test(value)) return true;
   if (/\balso written\b/i.test(value)) return true;
   if (/\b(place name|county|city|province)\b/i.test(value)) return true;
+  if (/\b(reactionary|anti-communist|funeral|vernacular|spoken lines in opera)\b/i.test(value)) return true;
+  if (/\bsource material\b/i.test(value)) return true;
+  if (/\boriginal story\b/i.test(value)) return true;
   if (/[A-Z][a-z]+ \([0-9]{3,4}-/.test(value)) return true;
   if (/^\w+\s+(district|county|prefecture)\b/i.test(value)) return true;
   if (/^[\u4e00-\u9fff]+$/.test(value)) return true;
@@ -95,6 +105,54 @@ function splitCandidates(value) {
     out.add(chunk);
   }
   return Array.from(out);
+}
+
+function parseLinkedRef(value) {
+  const text = String(value || '');
+  const withBoth = text.match(/(?:variant of|see)\s+([^\s|[\]]+)\|([^\s[\]]+)\[([^\]]+)\]/i);
+  if (withBoth) {
+    return {
+      trad: withBoth[1],
+      simp: withBoth[2],
+      pinyin: normalizeCedictPinyin(withBoth[3]),
+    };
+  }
+  const single = text.match(/(?:variant of|see)\s+([^\s[\]]+)\[([^\]]+)\]/i);
+  if (single) {
+    return {
+      trad: single[1],
+      simp: single[1],
+      pinyin: normalizeCedictPinyin(single[2]),
+    };
+  }
+  return null;
+}
+
+function collectResolvedDefsFromVariant(rawDef, bySimp, byTrad, seen = new Set(), depth = 0) {
+  if (depth > 2) return [];
+  const ref = parseLinkedRef(rawDef);
+  if (!ref) return [];
+  const key = `${ref.trad}|${ref.simp}|${ref.pinyin}`;
+  if (seen.has(key)) return [];
+  seen.add(key);
+
+  const rows = [
+    ...(bySimp.get(ref.simp) || []),
+    ...(byTrad.get(ref.trad) || []),
+  ];
+  const resolved = [];
+  for (const row of rows) {
+    if (ref.pinyin && row.pinyin !== ref.pinyin) continue;
+    for (const nextDef of row.defs || []) {
+      if (/^surname\b/i.test(String(nextDef || ''))) continue;
+      if (/\bvariant of\b/i.test(String(nextDef || ''))) {
+        resolved.push(...collectResolvedDefsFromVariant(nextDef, bySimp, byTrad, seen, depth + 1));
+        continue;
+      }
+      resolved.push(nextDef);
+    }
+  }
+  return resolved;
 }
 
 function scoreDef(value) {
@@ -132,22 +190,30 @@ function overlapScore(a, b) {
   return score;
 }
 
-function pickBestDefs(rows, fallbackEn) {
+function pickBestDefs(rows, fallbackEn, bySimp, byTrad) {
   const primaryParts = splitCandidates(fallbackEn).filter((v) => !isRejectedDef(v));
   const primary = primaryParts[0] || cleanDefText(fallbackEn);
+  const fallbackWeak = isWeakPrimaryEn(fallbackEn);
+  const primaryWeak = fallbackWeak || isWeakPrimaryEn(primary);
   const defs = [];
-  if (primary && !isRejectedDef(primary)) defs.push(primary);
+  if (!fallbackWeak && primary && !isRejectedDef(primary)) defs.push(primary);
 
   const pool = [];
   for (const row of rows) {
     for (const raw of row.defs || []) {
-      for (const candidate of splitCandidates(raw)) {
-        if (!candidate) continue;
-        if (isRejectedDef(candidate)) continue;
-        if (/[\u4e00-\u9fff]/.test(candidate)) continue;
-        const wordCount = candidate.split(/\s+/).filter(Boolean).length;
-        if (candidate.length > 44 || wordCount > 8) continue;
-        pool.push(candidate);
+      if (/^surname\b/i.test(String(raw || ''))) continue;
+      const rawCandidates = /\b(?:variant of|see)\b/i.test(String(raw || ''))
+        ? collectResolvedDefsFromVariant(raw, bySimp, byTrad)
+        : [raw];
+      for (const sourceDef of rawCandidates) {
+        for (const candidate of splitCandidates(sourceDef)) {
+          if (!candidate) continue;
+          if (isRejectedDef(candidate)) continue;
+          if (/[\u4e00-\u9fff]/.test(candidate)) continue;
+          const wordCount = candidate.split(/\s+/).filter(Boolean).length;
+          if (candidate.length > 44 || wordCount > 8) continue;
+          pool.push(candidate);
+        }
       }
     }
   }
@@ -165,7 +231,7 @@ function pickBestDefs(rows, fallbackEn) {
 
   for (const candidate of unique) {
     if (defs.includes(candidate)) continue;
-    if (primary && overlapScore(candidate, primary) === 0) continue;
+    if (!primaryWeak && primary && overlapScore(candidate, primary) === 0) continue;
     defs.push(candidate);
     if (defs.length >= 2) break;
   }
@@ -177,6 +243,20 @@ function containsHeadword(word, sentenceZh) {
   const zh = String(sentenceZh || '').trim();
   if (!zh) return false;
   return zh.includes(String(word.simp || '').trim()) || zh.includes(String(word.trad || '').trim());
+}
+
+function isWeakPrimaryEn(value) {
+  const en = String(value || '').trim();
+  if (!en) return true;
+  if (/^general term$/i.test(en)) return true;
+  if (/^surname\b/i.test(en)) return true;
+  if (/\bvariant of\b/i.test(en)) return true;
+  if (/\babbr\./i.test(en)) return true;
+  if (/\bsource material\b/i.test(en)) return true;
+  if (/\boriginal story\b/i.test(en)) return true;
+  if (/\(.*\)/.test(en)) return true;
+  if (en.length > 52) return true;
+  return false;
 }
 
 function normalizeUnits(units) {
@@ -244,10 +324,10 @@ async function main() {
         return 0;
       });
 
-      const chosenDefs = pickBestDefs(dedupRows.slice(0, 10), word.en);
+      const chosenDefs = pickBestDefs(dedupRows.slice(0, 10), word.en, bySimp, byTrad);
       if (chosenDefs.length > 0) {
         word.defs = chosenDefs;
-        if (!String(word.en || '').trim() || /^surname\b/i.test(String(word.en || '').trim())) {
+        if (isWeakPrimaryEn(word.en)) {
           word.en = chosenDefs[0];
         }
       } else {
@@ -260,7 +340,8 @@ async function main() {
       if (JSON.stringify(word.defs || []) !== beforeDefs || String(word.en || '') !== beforeEn) defsChanged += 1;
       if (/surname/i.test(beforeEn) || /surname/i.test(beforeDefs)) surnameRemoved += 1;
 
-      if (!containsHeadword(word, word?.example?.zh || '')) {
+      const exampleZh = String(word?.example?.zh || '').trim();
+      if (exampleZh && !containsHeadword(word, exampleZh)) {
         exampleMissingHeadword += 1;
       }
     }

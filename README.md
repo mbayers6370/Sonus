@@ -1,60 +1,48 @@
-# Sonus Monorepo
+# Sonus
 
-Sonus is a Mandarin-first language learning platform focused on structured practice loops:
+Sonus is a language learning app built around a practical study loop:
 - `Learn` for vocabulary intake
-- `Quiz` for recognition/comprehension
-- `Speak` for pronunciation scoring (initial/final/tone)
+- `Quiz` for recognition and comprehension
+- `Speak` for pronunciation practice
+- `Apply` for sentence and character context
 
-This repository contains both the frontend application and backend API.
+This repository is a monorepo with the frontend app and backend API.
 
-## Live Demo
-- App: https://sonus-1.onrender.com
+## Live App
+- https://sonus-1.onrender.com
 
-## Current Scope
-- Multi-band lesson flow with unit/lesson structure
-- Progress persistence and resume checkpoints
-- Quiz and speaking attempt tracking
-- Weak-word and spaced-review workflows
-- Daily review set generation
-- Listening and speaking practice tracks
+## Tech Stack
+- Frontend: React, Vite, TypeScript
+- Backend: Fastify, Prisma, TypeScript
+- Database: PostgreSQL
 
-## Repository Layout
-- `sonus-react/` - React + Vite + TypeScript frontend
-- `backend/` - Fastify + Prisma + TypeScript API
-- `docs/` - product and engineering notes
-- `scripts/` - project utilities and validation scripts
-- `files/` - archived/source data assets
-
-## Core Documentation
-- `docs/ARCHITECTURE.md` - system boundaries and runtime flow
-- `docs/API.md` - backend endpoint contract
-- `docs/ENV.md` - environment variable reference
-- `docs/PERFORMANCE.md` - baseline targets and measurement workflow
-- `docs/PRODUCT_SETTINGS.md` - product-level defaults and settings
+## Repository Structure
+- `sonus-react/` frontend app
+- `backend/` API and data services
+- `docs/` architecture and product notes
+- `scripts/` maintenance and data tooling
+- `files/` source/archive assets
 
 ## Prerequisites
 - Node.js 20+
 - npm 10+
-- PostgreSQL (local install or Docker)
+- PostgreSQL (local or Docker)
 
-## Local Setup
+## Quick Start
 1. Install dependencies:
 ```bash
 npm --prefix backend install
 npm --prefix sonus-react install
 ```
-
-2. Configure backend environment:
+2. Create backend environment file:
 ```bash
 cp backend/.env.example backend/.env
 ```
-
-3. Start PostgreSQL and sync schema:
+3. Start PostgreSQL, then sync Prisma schema:
 ```bash
 npm --prefix backend run prisma:push
 ```
-
-4. Run frontend and backend:
+4. Run frontend + backend:
 ```bash
 npm run dev:all
 ```
@@ -63,14 +51,14 @@ Local endpoints:
 - Frontend: `http://127.0.0.1:5173`
 - Backend: `http://127.0.0.1:4000`
 
-## Root Scripts
-- `npm run dev:frontend` - run frontend only
-- `npm run dev:backend` - run backend only
-- `npm run dev:all` - run frontend and backend together
-- `npm run checklist` - run regression checklist helper
-- `npm run test:core` - run backend core regression test
+## Common Commands
+- `npm run dev:frontend`
+- `npm run dev:backend`
+- `npm run dev:all`
+- `npm run checklist`
+- `npm run test:core`
 
-## Quality Gates
+## Quality Checks
 ```bash
 npm --prefix sonus-react run lint
 npm --prefix sonus-react run build
@@ -78,11 +66,38 @@ npm --prefix backend run lint
 npm --prefix backend run build
 ```
 
-## Deployment Notes
-- Frontend production builds use hash routing to avoid deep-link refresh failures on static hosts.
-- If browser-history routing is reintroduced, host rewrites must direct unknown routes to `index.html`.
 
-## Demo Assets
+## Additional Docs
+- `docs/ARCHITECTURE.md`
+- `docs/API.md`
+- `docs/ENV.md`
+- `docs/PERFORMANCE.md`
+- `docs/PRODUCT_SETTINGS.md`
+
+## Data Sources & Attribution
+
+### HSK 3.0 Vocabulary
+
+The Mandarin vocabulary data used in this project is based on the official HSK 3.0 wordlist published by the Ministry of Education of the People’s Republic of China.
+
+This dataset was adapted and expanded from the GitHub repository:
+
+- https://github.com/ivankra/hsk30
+
+The `hsk30-expanded.csv` file was used as a structural foundation for building the internal band system. That repository provides a cleaned and enriched version of the HSK 3.0 vocabulary list, including pinyin, part-of-speech tags, and traditional character mappings.
+
+### CC-CEDICT
+
+Supplementary lexical data is derived from CC-CEDICT, an open Chinese–English dictionary project.
+
+- https://www.mdbg.net/chinese/dictionary?page=cedict
+- https://github.com/cc-cedict/cc-cedict
+
+CC-CEDICT data is used for dictionary alignment and lexical enrichment where applicable.
+
+Proper attribution is given in accordance with the respective licenses of these projects.
+
+## Demo Screens
 ### Home
 ![Sonus Home](sonus-react/public/Demo/demo-01-home.png)
 

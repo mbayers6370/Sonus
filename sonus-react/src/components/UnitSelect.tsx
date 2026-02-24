@@ -295,10 +295,6 @@ export default function UnitSelect({
     (metric) => metric.practiceType !== 'listening' && metric.practiceType !== 'speaking'
   );
   const headerTitle = activeUnit ? `Unit ${activeUnit.metadata.order}` : currentLevel.name;
-  const hideLogoOnMobile =
-    /^band\d+$/i.test(currentLevel.id) ||
-    currentLevel.id === 'advanced' ||
-    Boolean(activeUnit);
   const isMandarinBandLocked =
     state.selectedLanguage === 'zh' &&
     (/^band\d+$/i.test(currentLevel.id) || currentLevel.id === 'advanced') &&
@@ -306,7 +302,7 @@ export default function UnitSelect({
 
   return (
     <div className="min-h-screen page-shell with-bottom-nav px-6">
-      <GlassHeader title={headerTitle} hideLogoOnMobile={hideLogoOnMobile} />
+      <GlassHeader title={headerTitle} />
 
       {isMandarinBandLocked && (
         <div className="pt-2">
@@ -654,36 +650,32 @@ export default function UnitSelect({
                   onClick={() => {
                     onSelectLesson(activeUnit.unitId, applyLessonIndex, 'apply');
                   }}
-                  className={`${isApplyCompleted ? 'bg-white text-text-dark border-[#3E5648]/55 ring-1 ring-[#3E5648]/20' : 'bg-white text-text-dark border-[#186E95]/45'} border-2 rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 relative overflow-hidden`}
+                  className={`${isApplyCompleted ? 'bg-[linear-gradient(145deg,rgba(24,110,149,0.78)_0%,rgba(33,112,146,0.74)_44%,rgba(62,86,72,0.76)_100%)] text-white border-white/40' : 'bg-[rgba(243,244,246,0.62)] text-text-dark border-[#D1D5DB]/90'} border-[2.5px] backdrop-blur-[8px] rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 relative overflow-hidden`}
                 >
                   <div
-                    className={`absolute -top-12 -right-10 h-36 w-36 rounded-full blur-2xl pointer-events-none ${
-                      isApplyCompleted ? 'bg-[#3E5648]/18' : 'bg-[#186E95]/16'
+                    className={`absolute -top-10 -left-10 h-32 w-32 rounded-full blur-2xl pointer-events-none ${
+                      isApplyCompleted ? 'bg-[#C2410C]/18' : 'bg-[#C2410C]/30'
                     }`}
                   />
                   <div
-                    className={`absolute -bottom-12 -left-10 h-36 w-36 rounded-full blur-2xl pointer-events-none ${
-                      isApplyCompleted ? 'bg-[#186E95]/14' : 'bg-[#3E5648]/14'
+                    className={`absolute -bottom-10 -right-10 h-32 w-32 rounded-full blur-2xl pointer-events-none ${
+                      isApplyCompleted ? 'bg-[#C2410C]/18' : 'bg-[#C2410C]/30'
                     }`}
                   />
-                  <div className={`absolute inset-[6px] rounded-[0.8rem] border ${isApplyCompleted ? 'border-[#3E5648]/25' : 'border-[#186E95]/20'} pointer-events-none`} />
+                  <div className={`absolute inset-[6px] rounded-[0.8rem] border ${isApplyCompleted ? 'border-white/25' : 'border-white/70'} pointer-events-none`} />
 
-                  <div className="h-full flex flex-col items-center justify-center text-center relative z-10">
-                    <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isApplyCompleted ? 'bg-[rgba(62,86,72,0.12)] text-[#3E5648]' : 'bg-[rgba(24,110,149,0.12)] text-[#186E95]'}`}>
+                  <div className="h-full flex flex-col items-center justify-center text-center gap-2 relative z-10">
+                    <div className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg ${isApplyCompleted ? 'bg-white/20 text-white' : 'bg-[rgba(194,65,12,0.12)] text-[#C2410C]'}`}>
                       <span className="relative inline-flex items-center justify-center w-4 h-4">
-                        <MessageSquare className={`w-4 h-4 ${isApplyCompleted ? 'text-[#3E5648]' : 'text-[#186E95]'}`} />
-                        <Check className={`absolute -right-1 -bottom-1 w-2.5 h-2.5 ${isApplyCompleted ? 'text-[#3E5648]' : 'text-[#186E95]'}`} />
+                        <MessageSquare className={`w-4 h-4 ${isApplyCompleted ? 'text-white' : 'text-[#C2410C]'}`} />
+                        <Check className={`absolute -right-1 -bottom-1 w-2.5 h-2.5 ${isApplyCompleted ? 'text-white' : 'text-[#C2410C]'}`} />
                       </span>
-                      <span className={`text-[11px] font-semibold uppercase tracking-wider font-mono ${isApplyCompleted ? 'text-[#3E5648]' : 'text-[#186E95]'}`}>
+                      <span className={`text-[11px] font-semibold uppercase tracking-wider font-mono ${isApplyCompleted ? 'text-white' : 'text-[#C2410C]'}`}>
                         Apply
                       </span>
                     </div>
-
-                    <div className="mt-3 text-sm font-mono uppercase tracking-wider text-text-med">
+                    <div className={`text-[11px] uppercase tracking-[0.16em] font-mono ${isApplyCompleted ? 'text-white/85' : 'text-text-light'}`}>
                       Context Practice
-                    </div>
-                    <div className="mt-1 text-xs font-mono uppercase tracking-wider text-text-light">
-                      Start →
                     </div>
                   </div>
                 </button>
