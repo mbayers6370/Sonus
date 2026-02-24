@@ -1158,7 +1158,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
           resumeCheckpoint: null,
         };
       });
-      void saveCurrentLessonPath(bandId, resolvedUnitId, lessonIndex);
+      const shouldPersistCurrentPath =
+        !practiceMode &&
+        !isApplyLesson &&
+        resolvedUnitId !== 'daily-review';
+      if (shouldPersistCurrentPath) {
+        void saveCurrentLessonPath(bandId, resolvedUnitId, lessonIndex);
+      }
       trackEvent('lesson_started', {
         bandId,
         unitId: resolvedUnitId,
@@ -1792,6 +1798,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       resumeCheckpoint:
         prev.activeLesson &&
         prev.activeBandId &&
+        !isPracticeUnitId(prev.activeLesson.unitId) &&
+        prev.activeLesson.unitId !== 'daily-review' &&
+        prev.lessonMode !== 'apply' &&
         (prev.lessonWordIndex > 0 ||
           Object.keys(prev.quizResultsByIndex).length > 0 ||
           Object.keys(prev.speakResultsByIndex).length > 0)

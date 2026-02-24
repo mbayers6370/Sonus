@@ -159,6 +159,27 @@ export default function AppRoutes() {
     [navigate]
   );
 
+  const openResumeFromHome = useCallback(
+    async (target: { bandId: string; unitId: string; lessonIndex: number; isCheckpoint: boolean }) => {
+      void target.lessonIndex;
+      exitLesson();
+      const level = CHINESE_LEVEL_BY_ID[target.bandId];
+      if (!level || isMandarinBandLocked(level.id, state.unlockedLevels)) {
+        navigate('/learn');
+        return;
+      }
+      if (selectedLanguage !== 'zh') selectLanguage('zh');
+      await selectLevel(level);
+      const basePath = `/learn/${tierForBand(level.id)}/${level.id}`;
+      if (target.isCheckpoint) {
+        navigate(basePath);
+        return;
+      }
+      navigate(`${basePath}?unit=${encodeURIComponent(target.unitId)}`);
+    },
+    [exitLesson, navigate, selectLanguage, selectLevel, selectedLanguage, state.unlockedLevels]
+  );
+
   useEffect(() => {
     const handler = () => {
       void goLearn();
@@ -319,6 +340,7 @@ export default function AppRoutes() {
           <HomeRoute
             selectedLanguage={selectedLanguage}
             onOpenLevels={() => navigate('/learn')}
+            onResumeToUnit={openResumeFromHome}
             onOpenPractice={(kind, bandId) => openPracticeFromHome(kind, bandId)}
             onOpenWeakWords={() => navigate('/profile/progress')}
             onOpenProfile={() => navigate('/profile')}

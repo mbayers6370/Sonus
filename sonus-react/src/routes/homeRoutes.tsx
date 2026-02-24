@@ -43,6 +43,7 @@ export function LanguageRoute(props: LanguageRouteProps) {
 type HomeRouteProps = {
   selectedLanguage: string | null;
   onOpenLevels: () => void;
+  onResumeToUnit: (target: { bandId: string; unitId: string; lessonIndex: number; isCheckpoint: boolean }) => void;
   onOpenPractice: (kind: 'listening' | 'speaking', bandId?: string | null) => void;
   onOpenWeakWords: () => void;
   onOpenProfile: () => void;
@@ -54,6 +55,7 @@ export function HomeRoute(props: HomeRouteProps) {
   const {
     selectedLanguage,
     onOpenLevels,
+    onResumeToUnit,
     onOpenPractice,
     onOpenWeakWords,
     onOpenProfile,
@@ -66,6 +68,7 @@ export function HomeRoute(props: HomeRouteProps) {
     <HomeDashboard
       selectedLanguage={selectedLanguage}
       onOpenLevels={onOpenLevels}
+      onResumeToUnit={onResumeToUnit}
       onOpenPractice={onOpenPractice}
       onOpenWeakWords={onOpenWeakWords}
       onOpenProfile={onOpenProfile}

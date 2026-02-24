@@ -8,10 +8,11 @@ import {
   Mic,
 } from 'lucide-react';
 import BottomNav from './BottomNav';
-import { getUnitMetadata } from '../data/unitMetadata';
+import { getUnitMetadata, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import GlassHeader from './GlassHeader';
 import { useApp } from '../contexts/AppContext';
 import { apiFetch } from '../lib/apiClient';
+import { getLessonRanges } from '../lib/lessonChunks';
 
 type Progress = {
   streak: number;
@@ -27,6 +28,7 @@ type NeedsWorkResponse = {
 interface HomeDashboardProps {
   selectedLanguage: string;
   onOpenLevels: () => void;
+  onResumeToUnit: (target: { bandId: string; unitId: string; lessonIndex: number; isCheckpoint: boolean }) => void;
   onOpenPractice: (kind: 'listening' | 'speaking', bandId?: string | null) => void;
   onOpenWeakWords: () => void;
   onOpenProfile: () => void;
@@ -41,9 +43,35 @@ const LANGUAGE_LABELS: Record<string, string> = {
   fr: 'French',
 };
 
+function lessonsOpenedStorageKey(languageId: string) {
+  return `sonus.home.lessons_opened:${languageId}`;
+}
+
+function readLessonsOpened(languageId: string) {
+  try {
+    return window.localStorage.getItem(lessonsOpenedStorageKey(languageId)) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function writeLessonsOpened(languageId: string) {
+  try {
+    window.localStorage.setItem(lessonsOpenedStorageKey(languageId), '1');
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
+function resolveBandDataId(bandId: string) {
+  if (/^band[7-9]$/i.test(bandId) || bandId === 'advanced') return 'band7-9';
+  return bandId;
+}
+
 export default function HomeDashboard({
   selectedLanguage,
   onOpenLevels,
+  onResumeToUnit,
   onOpenPractice,
   onOpenWeakWords,
   onOpenProfile,
@@ -59,13 +87,37 @@ export default function HomeDashboard({
     currentLessonIdx: null,
   });
   const [needsWorkCount, setNeedsWorkCount] = useState(0);
+  const [hasOpenedLessons, setHasOpenedLessons] = useState(false);
+  const [progressPathIsApply, setProgressPathIsApply] = useState(false);
 
   const languageLabel = LANGUAGE_LABELS[selectedLanguage] || 'Language';
-  const hasSavedLessonPath =
-    Boolean(progress.currentBandId) &&
-    Boolean(progress.currentUnitId) &&
-    progress.currentLessonIdx !== null;
-  const lessonNumber = progress.currentLessonIdx !== null ? progress.currentLessonIdx + 1 : null;
+  const resumeFromCheckpoint =
+    state.resumeCheckpoint &&
+    !isPracticeUnitId(state.resumeCheckpoint.unitId) &&
+    state.resumeCheckpoint.unitId !== 'daily-review' &&
+    state.resumeCheckpoint.lessonMode !== 'apply'
+      ? {
+          bandId: state.resumeCheckpoint.bandId,
+          unitId: state.resumeCheckpoint.unitId,
+          lessonIndex: state.resumeCheckpoint.lessonIndex,
+        }
+      : null;
+  const resumeFromProgress =
+    progress.currentBandId &&
+    progress.currentUnitId &&
+    progress.currentLessonIdx !== null &&
+    !isPracticeUnitId(progress.currentUnitId) &&
+    progress.currentUnitId !== 'daily-review' &&
+    !progressPathIsApply
+      ? {
+          bandId: progress.currentBandId,
+          unitId: progress.currentUnitId,
+          lessonIndex: progress.currentLessonIdx,
+        }
+      : null;
+  const resumeTarget = resumeFromCheckpoint || resumeFromProgress;
+  const hasSavedLessonPath = Boolean(resumeTarget);
+  const lessonNumber = resumeTarget ? resumeTarget.lessonIndex + 1 : null;
   const cardShell =
     'dashboard-card-enter rounded-3xl border p-5 sm:p-6 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
   const nowMs = Date.now();
@@ -93,6 +145,10 @@ export default function HomeDashboard({
   };
 
   useEffect(() => {
+    setHasOpenedLessons(readLessonsOpened(selectedLanguage));
+  }, [selectedLanguage]);
+
+  useEffect(() => {
     let mounted = true;
     void (async () => {
       setLoading(true);
@@ -104,7 +160,45 @@ export default function HomeDashboard({
 
         if (mounted && progressRes.ok) {
           const json = (await progressRes.json()) as { progress?: Progress };
-          if (json.progress) setProgress(json.progress);
+          if (json.progress) {
+            setProgress(json.progress);
+            const bandId = json.progress.currentBandId;
+            const unitId = json.progress.currentUnitId;
+            const lessonIdx = json.progress.currentLessonIdx;
+            if (
+              bandId &&
+              unitId &&
+              lessonIdx !== null &&
+              !isPracticeUnitId(unitId) &&
+              !isCheckpointUnitId(unitId) &&
+              unitId !== 'daily-review'
+            ) {
+              try {
+                const dataBandId = resolveBandDataId(bandId);
+                const bandRes = await fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' });
+                if (bandRes.ok) {
+                  const bandData = (await bandRes.json()) as {
+                    units?: Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }>;
+                  };
+                  let wordsLength = 0;
+                  const units = bandData.units;
+                  if (Array.isArray(units)) {
+                    wordsLength = (units.find((unit) => unit?.id === unitId)?.words || []).length;
+                  } else if (units && typeof units === 'object') {
+                    wordsLength = (units[unitId]?.words || []).length;
+                  }
+                  const coreLessonCount = getLessonRanges(wordsLength, 10).length;
+                  if (mounted) setProgressPathIsApply(coreLessonCount > 0 && lessonIdx === coreLessonCount);
+                } else if (mounted) {
+                  setProgressPathIsApply(false);
+                }
+              } catch {
+                if (mounted) setProgressPathIsApply(false);
+              }
+            } else if (mounted) {
+              setProgressPathIsApply(false);
+            }
+          }
         }
 
         if (mounted && weakRes.ok) {
@@ -120,6 +214,27 @@ export default function HomeDashboard({
       mounted = false;
     };
   }, [selectedLanguage]);
+
+  const openResumeCard = () => {
+    if (!hasOpenedLessons) {
+      writeLessonsOpened(selectedLanguage);
+      setHasOpenedLessons(true);
+      onOpenLevels();
+      return;
+    }
+
+    if (!resumeTarget) {
+      onOpenLevels();
+      return;
+    }
+
+    onResumeToUnit({
+      bandId: resumeTarget.bandId,
+      unitId: resumeTarget.unitId,
+      lessonIndex: resumeTarget.lessonIndex,
+      isCheckpoint: isCheckpointUnitId(resumeTarget.unitId),
+    });
+  };
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav relative overflow-hidden">
@@ -137,22 +252,30 @@ export default function HomeDashboard({
           {hasSavedLessonPath ? (
             <>
               <div className="text-[11px] tracking-wide font-mono text-text-light mb-2">Lesson path</div>
-              <div className="text-sm text-text-dark font-medium mb-1">{formatBandLabel(progress.currentBandId)}</div>
+              <div className="text-sm text-text-dark font-medium mb-1">{formatBandLabel(resumeTarget?.bandId || null)}</div>
               <div className="text-sm text-text-med mb-4">
-                {formatUnitLabel(progress.currentUnitId)} · Lesson {lessonNumber}
+                {isCheckpointUnitId(resumeTarget?.unitId || '')
+                  ? `${formatUnitLabel(resumeTarget?.unitId || null)} · Unit review quiz`
+                  : `${formatUnitLabel(resumeTarget?.unitId || null)} · Lesson ${lessonNumber}`}
               </div>
             </>
           ) : (
             <div className="text-sm text-text-med mb-4">
-              No saved lesson path yet. Start your first lesson and Sonus will remember exactly where to continue.
+              {!hasOpenedLessons
+                ? 'Start lessons once to set your learning path. After that, this card becomes your resume shortcut.'
+                : 'No saved lesson path yet. Start your first lesson and Sonus will remember exactly where to continue.'}
             </div>
           )}
           <div className="max-w-md mx-auto">
             <button
-              onClick={onOpenLevels}
+              onClick={openResumeCard}
               className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#186E95] text-white hover:bg-[#145C7C] transition-colors"
             >
-              {hasSavedLessonPath ? 'Continue learning' : 'Start learning'}
+              {!hasOpenedLessons
+                ? 'Start lessons'
+                : hasSavedLessonPath
+                  ? 'Continue learning'
+                  : 'Browse lessons'}
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
