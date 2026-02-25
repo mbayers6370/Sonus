@@ -50,6 +50,40 @@ const LANGUAGE_LABELS: Record<string, string> = {
   fr: 'French',
 };
 
+function normalizeLanguageId(value: string | null | undefined) {
+  if (!value) return null;
+  const lower = value.toLowerCase();
+  return lower === 'jp' ? 'ja' : lower;
+}
+
+function isJapaneseBandId(value: string | null | undefined) {
+  return Boolean(value && /^n[1-5]$/i.test(value));
+}
+
+function resolveHomeLanguageId(input: {
+  selectedLanguage: string;
+  stateSelectedLanguage: string | null;
+  currentLevelId: string | null | undefined;
+  activeBandId: string | null | undefined;
+  resumeBandId: string | null | undefined;
+  progressBandId: string | null | undefined;
+}) {
+  const explicit =
+    normalizeLanguageId(input.stateSelectedLanguage) ||
+    normalizeLanguageId(input.selectedLanguage);
+  if (explicit) return explicit;
+
+  if (
+    isJapaneseBandId(input.currentLevelId) ||
+    isJapaneseBandId(input.activeBandId) ||
+    isJapaneseBandId(input.resumeBandId) ||
+    isJapaneseBandId(input.progressBandId)
+  ) {
+    return 'ja';
+  }
+  return 'zh';
+}
+
 function lessonsOpenedStorageKey(languageId: string) {
   return `sonus.home.lessons_opened:${languageId}`;
 }
@@ -101,8 +135,16 @@ export default function HomeDashboard({
   const [profileName, setProfileName] = useState<string | null>(null);
   const [unitCompletionPercent, setUnitCompletionPercent] = useState<number | null>(null);
 
-  const languageLabel = LANGUAGE_LABELS[selectedLanguage] || 'Language';
-  const isJapaneseLanguage = selectedLanguage === 'ja' || selectedLanguage === 'jp';
+  const languageId = resolveHomeLanguageId({
+    selectedLanguage,
+    stateSelectedLanguage: state.selectedLanguage,
+    currentLevelId: state.currentLevel?.id || null,
+    activeBandId: state.activeBandId || null,
+    resumeBandId: state.resumeCheckpoint?.bandId || null,
+    progressBandId: progress.currentBandId,
+  });
+  const languageLabel = LANGUAGE_LABELS[languageId] || 'Language';
+  const isJapaneseLanguage = languageId === 'ja';
   const resumeFromCheckpoint =
     state.resumeCheckpoint &&
     !isPracticeUnitId(state.resumeCheckpoint.unitId) &&
@@ -155,12 +197,11 @@ export default function HomeDashboard({
   };
 
   useEffect(() => {
-    setHasOpenedLessons(readLessonsOpened(selectedLanguage));
-  }, [selectedLanguage]);
+    setHasOpenedLessons(readLessonsOpened(languageId));
+  }, [languageId]);
 
   useEffect(() => {
     let mounted = true;
-    const languageId = selectedLanguage === 'jp' ? 'ja' : selectedLanguage;
     void (async () => {
       setLoading(true);
       try {
@@ -257,11 +298,11 @@ export default function HomeDashboard({
     return () => {
       mounted = false;
     };
-  }, [selectedLanguage, state.lessonProgress]);
+  }, [languageId, state.lessonProgress]);
 
   const openResumeCard = () => {
     if (!hasOpenedLessons) {
-      writeLessonsOpened(selectedLanguage);
+      writeLessonsOpened(languageId);
       setHasOpenedLessons(true);
       onOpenLevels();
       return;
