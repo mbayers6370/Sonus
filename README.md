@@ -105,16 +105,16 @@ Proper attribution is given in accordance with the respective licenses of these 
 ![Sonus Learn](sonus-react/public/Demo/demo-02-learn.png)
 
 ### Travel Mode
-![Sonus Flashcards](sonus-react/public/Demo/demo-03-flashcards.png)
+![Sonus Flashcards](sonus-react/public/Demo/demo-03-travel.png)
 
 ### Bands
-![Sonus Quiz](sonus-react/public/Demo/demo-04-quiz.png)
+![Sonus Quiz](sonus-react/public/Demo/demo-04-bands.png)
 
-### Beginner Bands
-![Sonus Speak](sonus-react/public/Demo/demo-05-speak.png)
+### Beginner Band
+![Sonus Speak](sonus-react/public/Demo/demo-05-beginnerband.png)
 
 ### Units Layout
-![Sonus Progress](sonus-react/public/Demo/demo-06-progress.png)
+![Sonus Progress](sonus-react/public/Demo/demo-06-units.png)
 
 ### Speak Mode
-![Sonus Review](sonus-react/public/Demo/demo-07-review.png)
+![Sonus Review](sonus-react/public/Demo/demo-07-speak.png)
