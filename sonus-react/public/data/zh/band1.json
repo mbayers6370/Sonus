@@ -864,21 +864,6 @@
           }
         },
         {
-          "id": "L1-0216b",
-          "simp": "〇",
-          "trad": "〇",
-          "pinyin": "líng",
-          "pos": "Num",
-          "en": "zero",
-          "defs": [
-            "zero"
-          ],
-          "example": {
-            "zh": "今年是二〇二三年。",
-            "en": "This year is 2023."
-          }
-        },
-        {
           "id": "L1-0075b",
           "simp": "第二",
           "trad": "第二",
