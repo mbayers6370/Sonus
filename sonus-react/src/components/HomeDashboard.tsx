@@ -220,7 +220,7 @@ export default function HomeDashboard({
                   if (mounted) setProgressPathIsApply(coreLessonCount > 0 && lessonIdx === coreLessonCount);
 
                   if (mounted && coreLessonCount > 0) {
-                    const completedLessons = Array.from({ length: coreLessonCount }).reduce((count, _, idx) => {
+                    const completedLessons = Array.from({ length: coreLessonCount }).reduce<number>((count, _, idx) => {
                       const lessonKey = makeLessonKey(bandId, unitId, idx);
                       const status = state.lessonProgress[lessonKey];
                       return count + Number(Boolean(status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore)));

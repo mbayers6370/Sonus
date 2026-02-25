@@ -122,8 +122,8 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
       />
 
       <div className="min-h-[calc(100vh-10.75rem)]">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-4 lg:gap-5">
-          <div className="space-y-4">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-4 lg:gap-5 lg:items-stretch">
+          <div className="space-y-4 lg:space-y-0 lg:gap-4 lg:flex lg:flex-col lg:h-full">
             <section
               className="rounded-3xl border-2 bg-white/95 p-4 sm:p-5 md:p-6 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
               style={{ borderColor: theme }}
@@ -165,14 +165,15 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
               className="rounded-3xl border p-4 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
               style={{ borderColor: theme, backgroundColor: theme }}
             >
+              <div className="h-full flex flex-col">
               <div className="text-[11px] tracking-wide font-mono text-center mb-2 text-white/85">Rapid recall mode</div>
-              <div className="rounded-2xl border p-3.5 bg-white/12 backdrop-blur-sm" style={{ borderColor: 'rgba(255,255,255,0.24)' }}>
+              <div className="rounded-2xl border p-3.5 bg-white/12 backdrop-blur-sm flex-1" style={{ borderColor: 'rgba(255,255,255,0.24)' }}>
                 {!recallDone && recallPhrase ? (
-                  <div className="text-center">
+                  <div className="text-center h-full flex flex-col justify-center">
                 <div className="text-xs tracking-wide font-mono text-white/75 mb-2">
                   Prompt {Math.min(recallStep + 1, recallQueue.length)} / {Math.max(1, recallQueue.length)}
                 </div>
-                <div className="mb-2 min-h-[140px] flex items-center justify-center">
+                <div className="mb-2 min-h-[104px] flex flex-col items-center justify-center text-center">
                   {revealRecall ? (
                     <div className="text-center">
                       <div className="text-xs uppercase tracking-wider font-mono text-white/75">Revealed answer</div>
@@ -225,11 +226,12 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
                   </div>
                 )}
               </div>
+              </div>
             </section>
           </div>
 
           <section
-            className="travel-scroll-hidden rounded-3xl border p-4 md:p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.34)] lg:max-h-[calc(100vh-13rem)] lg:overflow-y-auto lg:pb-3 lg:pr-1"
+            className="travel-scroll-hidden rounded-3xl border p-4 sm:p-5 md:p-6 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.34)] lg:max-h-[calc(100vh-13rem)] lg:overflow-y-auto lg:h-full"
             style={{ borderColor: theme, backgroundColor: theme }}
           >
             <div className="mb-4 text-center">
@@ -244,7 +246,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
                 return (
                   <div
                     key={phrase.id}
-                    className={`relative rounded-2xl border p-4 text-center md:min-h-[188px] flex flex-col justify-center ${
+                    className={`relative rounded-2xl border p-4 text-center md:min-h-[196px] flex flex-col justify-center ${
                       isLearned ? 'bg-white/10' : 'bg-white/14'
                     }`}
                     style={{ borderColor: 'rgba(255,255,255,0.24)' }}
@@ -264,9 +266,15 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
                     </button>
 
                     <div className={isLearned ? 'opacity-55' : ''}>
-                      <div className="text-2xl secondary-font text-white">{phrase.hanzi}</div>
-                      <div className="text-sm text-white/80">{phrase.pinyin}</div>
-                      <div className="text-sm text-white mt-1">{phrase.english}</div>
+                      <div className="secondary-font text-white leading-tight text-[0.9rem] lg:text-[1.0rem] xl:text-2xl">
+                        {phrase.hanzi}
+                      </div>
+                      <div className="text-white/80 leading-snug text-[0.7rem] lg:text-[0.6rem] xl:text-sm">
+                        {phrase.pinyin}
+                      </div>
+                      <div className="text-white mt-1 leading-snug text-[0.7rem] lg:text-[0.8rem] xl:text-sm">
+                        {phrase.english}
+                      </div>
                     </div>
 
                     <div className="flex flex-wrap items-center justify-center gap-2 mt-3">
