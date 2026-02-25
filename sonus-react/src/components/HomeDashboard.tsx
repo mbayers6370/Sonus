@@ -326,10 +326,10 @@ export default function HomeDashboard({
               className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#374151] text-white border border-white/75 hover:bg-[#2D3748] transition-colors font-semibold"
             >
               {!hasOpenedLessons
-                ? 'Start lessons'
+                ? 'Start Lessons'
                 : hasSavedLessonPath
-                  ? 'Continue learning'
-                  : 'Browse lessons'}
+                  ? 'Continue Learning'
+                  : 'Browse Lessons'}
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -360,12 +360,12 @@ export default function HomeDashboard({
               className="w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-2xl bg-white/12 border border-white/30 hover:bg-white/18 transition-colors"
             >
               <BriefcaseConveyorBelt className="w-4 h-4" />
-              Explore travel content
+              Explore Travel Content
               <ArrowRight className="w-4 h-4 text-white/85" />
             </button>
           </div>
           <p className="text-[11px] leading-relaxed text-white/68 mt-4 max-w-md mx-auto">
-            Travel Mode is separate from your structured lesson path.
+            Travel Sprint is separate from your structured lesson path.
           </p>
         </section>
 

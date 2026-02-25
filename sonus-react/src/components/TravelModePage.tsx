@@ -94,15 +94,15 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection 
             </div>
             <h2 className="main-font text-[1.8rem] sm:text-[2rem] leading-tight mb-2">Leaving Soon?</h2>
             <p className="text-[14px] leading-relaxed text-white/90 max-w-2xl mx-auto">
-              Travel Sprint is built for real-world Mandarin right before your trip. Instead of giant word lists,
-              you train high-utility phrases for airports, transport, hotels, food, payments, and emergencies.
+              Travel Sprint prepares you for real-world Mandarin with essential phrases for airports, 
+              transport, hotels, food, payments, and emergencies, giving you exactly what you need before your trip.
             </p>
             <p className="text-[14px] leading-relaxed text-white mt-2 font-semibold max-w-2xl mx-auto">
               Pick a situation, practice the lines, and get day-one confidence fast.
             </p>
             <div className="mt-2.5 flex flex-wrap gap-1.5 justify-center">
               <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">8 scenarios</span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">Audio + speak drills</span>
+              <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">Audio + Rapid Recall</span>
               <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">Emergency-ready phrases</span>
             </div>
           </div>

@@ -36,7 +36,7 @@ export const TRAVEL_MODE_SECTIONS: TravelSectionData[] = [
     'Airport & Arrival',
     '#186E95',
     'Alert, formal',
-    'Documents, directions, understanding instructions',
+    'Documents, Directions, & Understanding Instructions',
     'You just landed in Beijing. You are tired and immigration is moving fast.',
     ['Immigration', 'Baggage', 'Customs', 'Asking for help'],
     [
@@ -65,7 +65,7 @@ export const TRAVEL_MODE_SECTIONS: TravelSectionData[] = [
     'Transport & Getting Around',
     '#3E5648',
     'Functional',
-    'Locations, prices, confirmations',
+    'Locations, Prices, & Confirmations',
     'You leave the airport and need to move quickly through a city you do not know.',
     ['Taxi', 'Metro', 'Ride apps', 'Address clarification'],
     [
@@ -91,7 +91,7 @@ export const TRAVEL_MODE_SECTIONS: TravelSectionData[] = [
     'Hotel & Accommodation',
     '#C2410C',
     'Polite, calm',
-    'Check-in and problem handling',
+    'Check-In & Problem Handling',
     'You are at reception and need to check in quickly with clear details.',
     ['Check-in', 'Room issues', 'Extensions', 'Wi-Fi'],
     [
@@ -117,7 +117,7 @@ export const TRAVEL_MODE_SECTIONS: TravelSectionData[] = [
     'Restaurants & Ordering Food',
     '#374151',
     'Social + practical',
-    'Ordering, dietary needs, payment flow',
+    'Ordering, Dietary Needs, & Payment Flow',
     'You sit down at a busy restaurant and need to order quickly and clearly.',
     ['Ordering', 'Recommendations', 'Allergies', 'Splitting bill'],
     [
@@ -143,7 +143,7 @@ export const TRAVEL_MODE_SECTIONS: TravelSectionData[] = [
     'Shopping & Payments',
     '#3E5648',
     'Transactional',
-    'Price checks, payment methods, returns',
+    'Price Checks, Payment Methods, & Returns',
     'You are shopping and need to negotiate, pay, and confirm return options quickly.',
     ['WeChat Pay', 'Alipay', 'Discounts', 'Returns'],
     [
@@ -169,7 +169,7 @@ export const TRAVEL_MODE_SECTIONS: TravelSectionData[] = [
     'Emergencies & Health',
     '#186E95',
     'Clear, slow',
-    'Medical and safety-critical requests',
+    'Medical & Safety-Critical Requests',
     'Something went wrong and you need clear help right now.',
     ['Medical', 'Police', 'Lost passport', 'Directions'],
     [
@@ -195,7 +195,7 @@ export const TRAVEL_MODE_SECTIONS: TravelSectionData[] = [
     'Everyday Small Talk',
     '#374151',
     'Warm',
-    'Friendly social connection',
+    'Friendly Social Connection',
     'You are meeting locals and want to be friendly without sounding textbook.',
     ['Where from?', 'First time?', 'Compliments', 'Exiting politely'],
     [
@@ -221,7 +221,7 @@ export const TRAVEL_MODE_SECTIONS: TravelSectionData[] = [
     'Tech & Digital China',
     '#C2410C',
     'Modern',
-    'QR ecosystem survival',
+    'QR Ecosystem Survival',
     'You need your phone to work for payment, transport, and check-ins.',
     ['Wi-Fi', 'QR scan', 'VPN issues', 'Phone dead'],
     [

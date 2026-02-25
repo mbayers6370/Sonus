@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Square, SquareCheckBig, Volume2 } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { useAudio } from '../hooks/useAudio';
@@ -44,11 +44,23 @@ function getRecallMode(index: number): RecallMode {
 
 export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: TravelSectionPageProps) {
   const { speak } = useAudio();
-  const [learned, setLearned] = useState<Record<string, boolean>>({});
+  const [learnedBySection, setLearnedBySection] = useState<Record<string, Record<string, boolean>>>(() => {
+    try {
+      const raw = window.localStorage.getItem('sonus.travel.learned');
+      if (!raw) return {};
+      const parsed = JSON.parse(raw) as Record<string, Record<string, boolean>>;
+      return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch {
+      return {};
+    }
+  });
   const initialRecallSize = Math.min(10, section.phrases.length);
   const [recallQueue, setRecallQueue] = useState<number[]>(() => buildRecallQueue(section.phrases.length, initialRecallSize));
   const [recallStep, setRecallStep] = useState(0);
   const [revealRecall, setRevealRecall] = useState(false);
+  const leftColumnRef = useRef<HTMLDivElement | null>(null);
+  const rapidRecallRef = useRef<HTMLElement | null>(null);
+  const rightPanelRef = useRef<HTMLElement | null>(null);
 
   const recallPhraseIndex = recallQueue[recallStep];
   const recallPhrase = typeof recallPhraseIndex === 'number' ? section.phrases[recallPhraseIndex] : undefined;
@@ -105,6 +117,48 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
   };
 
   const theme = section.themeColor;
+  const learned = learnedBySection[section.id] || {};
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('sonus.travel.learned', JSON.stringify(learnedBySection));
+    } catch {
+      // Ignore storage write errors.
+    }
+  }, [learnedBySection]);
+
+  useEffect(() => {
+    const leftCol = leftColumnRef.current;
+    const rapidRecall = rapidRecallRef.current;
+    const rightPanel = rightPanelRef.current;
+    if (!leftCol || !rapidRecall || !rightPanel) return;
+
+    const syncRightPanelHeight = () => {
+      if (window.innerWidth < 1024) {
+        rightPanel.style.removeProperty('height');
+        rightPanel.style.removeProperty('max-height');
+        return;
+      }
+
+      const panelTop = rightPanel.getBoundingClientRect().top;
+      const targetBottom = rapidRecall.getBoundingClientRect().bottom;
+      const nextHeight = Math.max(320, Math.round(targetBottom - panelTop));
+      rightPanel.style.height = `${nextHeight}px`;
+      rightPanel.style.maxHeight = `${nextHeight}px`;
+    };
+
+    syncRightPanelHeight();
+
+    const observer = new ResizeObserver(syncRightPanelHeight);
+    observer.observe(leftCol);
+    observer.observe(rapidRecall);
+    window.addEventListener('resize', syncRightPanelHeight, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', syncRightPanelHeight);
+    };
+  }, [section.id, recallStep, revealRecall, recallDone]);
 
   return (
     <div
@@ -121,35 +175,37 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
         scrolledTitleClassName="text-white"
       />
 
-      <div className="min-h-[calc(100vh-10.75rem)]">
+      <div className="min-h-[calc(100vh-10.75rem)] lg:min-h-0">
         <div className="w-full grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-4 lg:gap-5 lg:items-stretch">
-          <div className="space-y-4 lg:space-y-0 lg:gap-4 lg:flex lg:flex-col lg:h-full">
+          <div ref={leftColumnRef} className="space-y-4 lg:space-y-0 lg:gap-4 lg:flex lg:flex-col lg:h-full">
             <section
               className="rounded-3xl border-2 bg-white/95 p-4 sm:p-5 md:p-6 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
               style={{ borderColor: theme }}
             >
               <div className="mx-auto max-w-4xl text-center">
-                <div className="main-font text-[1.05rem] sm:text-[1.1rem] tracking-wide mb-2" style={{ color: theme }}>
-                  Local Guide
-                </div>
-                <h2 className="text-[1.28rem] sm:text-[1.4rem] font-semibold text-[#1F2A37] leading-snug text-pretty">
-                  {section.focus}
-                </h2>
-                <p className="text-[0.7rem] text-[#374151] mt-2 mb-3.5 leading-relaxed text-pretty">{section.scene}</p>
+                <div
+                  className="rounded-2xl px-4 py-4 sm:px-5 sm:py-5 mb-3.5"
+                  style={{ backgroundColor: theme }}
+                >
+                  <div className="main-font text-[1.05rem] sm:text-[1.1rem] tracking-wide mb-2 text-white">
+                    Local Guide
+                  </div>
+                  <h2 className="text-[1.28rem] sm:text-[1.4rem] secondary-font text-white leading-snug text-pretty">
+                    {section.focus}
+                  </h2>
+                  <p className="text-[0.74rem] text-white/90 mt-2 mb-3.5 leading-relaxed text-pretty">{section.scene}</p>
 
-                <div className="flex flex-wrap gap-1.5 justify-center mb-3">
-                  {section.subclusters.map((item) => (
-                    <span
-                      key={`${section.id}-cluster-${item}`}
-                      className="px-2.5 py-1 rounded-lg text-[10px] font-mono uppercase tracking-wider border"
-                      style={{ borderColor: hexToRgba(theme, 0.28), color: theme, backgroundColor: hexToRgba(theme, 0.08) }}
-                    >
-                      {item}
-                    </span>
-                  ))}
+                  <div className="flex flex-wrap gap-1.5 justify-center">
+                    {section.subclusters.map((item) => (
+                      <span
+                        key={`${section.id}-cluster-${item}`}
+                        className="px-2.5 py-1 rounded-lg text-[10px] font-mono uppercase tracking-wider border border-white/40 text-white bg-white/12"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-
-                <div className="mx-auto h-px w-full max-w-2xl bg-[#E5E7EB] mb-3.5" />
 
                 <div className="space-y-2 text-[0.8rem] leading-relaxed text-[#374151] text-pretty">
                   {section.culturalNotes.map((note, idx) => (
@@ -162,11 +218,12 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
             </section>
 
             <section
+              ref={rapidRecallRef}
               className="rounded-3xl border p-4 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
               style={{ borderColor: theme, backgroundColor: theme }}
             >
               <div className="h-full flex flex-col">
-              <div className="text-[11px] tracking-wide font-mono text-center mb-2 text-white/85">Rapid Recall Mode</div>
+              <div className="text-1.0em tracking-wide main-font text-center mb-2 text-white/85">Rapid Recall Mode</div>
               <div className="rounded-2xl border p-3.5 bg-white/12 backdrop-blur-sm flex-1" style={{ borderColor: 'rgba(255,255,255,0.24)' }}>
                 {!recallDone && recallPhrase ? (
                   <div className="text-center h-full flex flex-col justify-center">
@@ -231,12 +288,13 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
           </div>
 
           <section
-            className="travel-scroll-hidden rounded-3xl border p-4 sm:p-5 md:p-6 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.34)] lg:max-h-[calc(100vh-13rem)] lg:overflow-y-auto lg:h-full"
+            ref={rightPanelRef}
+            className="travel-scroll-hidden rounded-3xl border p-4 sm:p-5 md:p-6 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.34)] lg:overflow-y-auto"
             style={{ borderColor: theme, backgroundColor: theme }}
           >
             <div className="mb-4 text-center">
-              <div className="text-[11px] tracking-wide font-mono text-white/75">Essential Phrases ({section.phrases.length})</div>
-              <div className="text-sm text-white/85 mt-1">
+              <div className="text-1.0em tracking-wide main-font text-white/75">Essential Phrases ({section.phrases.length})</div>
+              <div className="text-xs font-mono text-white/85 mt-1">
                 Checked cards are dimmed and locked until unchecked.
               </div>
             </div>
@@ -253,7 +311,13 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
                   >
                     <button
                       type="button"
-                      onClick={() => setLearned((prev) => ({ ...prev, [phrase.id]: !prev[phrase.id] }))}
+                      onClick={() =>
+                        setLearnedBySection((prev) => {
+                          const current = prev[section.id] || {};
+                          const next = { ...current, [phrase.id]: !current[phrase.id] };
+                          return { ...prev, [section.id]: next };
+                        })
+                      }
                       className={`absolute top-3 right-3 inline-flex items-center justify-center w-7 h-7 rounded-lg border transition-colors ${
                         isLearned
                           ? 'border-white/35 bg-white/20 text-white'
