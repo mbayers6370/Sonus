@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import { toTitleCase } from '../lib/textCase';
 
 interface GlassHeaderProps {
   title: string;
@@ -71,8 +72,9 @@ export default function GlassHeader({
   const showDesktopLogo = showLogo && !isStandalone;
   const showStandaloneLogo = showLogo && isStandalone && !hideLogoOnMobile;
   const headerHeightClass = showStandaloneLogo ? 'h-28 md:h-24' : 'h-24 md:h-20';
-  const standaloneTitleWords = title.trim().split(/\s+/);
-  const standaloneFirstWord = standaloneTitleWords[0] ?? title;
+  const displayTitle = toTitleCase(title);
+  const standaloneTitleWords = displayTitle.trim().split(/\s+/);
+  const standaloneFirstWord = standaloneTitleWords[0] ?? displayTitle;
   const standaloneRemainingWords = standaloneTitleWords.slice(1).join(' ');
 
   return (
@@ -121,7 +123,7 @@ export default function GlassHeader({
                       <span className="block md:inline md:ml-2">{standaloneRemainingWords}</span>
                     </>
                   ) : (
-                    title
+                    displayTitle
                   )}
                 </h1>
                 {subtitle ? (
@@ -185,7 +187,7 @@ export default function GlassHeader({
               <h1
                 className={`main-font text-3xl md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
               >
-                {title}
+                {displayTitle}
               </h1>
               {subtitle ? (
                 <div className={`mt-1 ${subtitleClassName}`}>

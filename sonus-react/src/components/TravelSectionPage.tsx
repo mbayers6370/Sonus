@@ -166,7 +166,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
               style={{ borderColor: theme, backgroundColor: theme }}
             >
               <div className="h-full flex flex-col">
-              <div className="text-[11px] tracking-wide font-mono text-center mb-2 text-white/85">Rapid recall mode</div>
+              <div className="text-[11px] tracking-wide font-mono text-center mb-2 text-white/85">Rapid Recall Mode</div>
               <div className="rounded-2xl border p-3.5 bg-white/12 backdrop-blur-sm flex-1" style={{ borderColor: 'rgba(255,255,255,0.24)' }}>
                 {!recallDone && recallPhrase ? (
                   <div className="text-center h-full flex flex-col justify-center">
@@ -235,9 +235,9 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
             style={{ borderColor: theme, backgroundColor: theme }}
           >
             <div className="mb-4 text-center">
-              <div className="text-[11px] tracking-wide font-mono text-white/75">Essential phrases ({section.phrases.length})</div>
+              <div className="text-[11px] tracking-wide font-mono text-white/75">Essential Phrases ({section.phrases.length})</div>
               <div className="text-sm text-white/85 mt-1">
-                Use the top-right checkbox when you have it down. Checked cards are dimmed and locked until unchecked.
+                Checked cards are dimmed and locked until unchecked.
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -246,7 +246,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
                 return (
                   <div
                     key={phrase.id}
-                    className={`relative rounded-2xl border p-4 text-center md:min-h-[196px] flex flex-col justify-center ${
+                    className={`relative rounded-2xl border p-4 sm:p-5 text-center min-h-[188px] md:min-h-[220px] md:aspect-square flex flex-col ${
                       isLearned ? 'bg-white/10' : 'bg-white/14'
                     }`}
                     style={{ borderColor: 'rgba(255,255,255,0.24)' }}
@@ -265,27 +265,29 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
                       {isLearned ? <SquareCheckBig className="w-4 h-4" /> : <Square className="w-4 h-4" />}
                     </button>
 
-                    <div className={isLearned ? 'opacity-55' : ''}>
-                      <div className="secondary-font text-white leading-tight text-[0.9rem] lg:text-[1.0rem] xl:text-2xl">
-                        {phrase.hanzi}
+                    <div className={`h-full flex flex-col ${isLearned ? 'opacity-55' : ''}`}>
+                      <div className="flex-1 flex flex-col items-center justify-center gap-1.5 pt-5">
+                        <div className="secondary-font text-white leading-tight text-[1.8rem] lg:text-[1.65rem] xl:text-2xl">
+                          {phrase.hanzi}
+                        </div>
+                        <div className="max-w-[90%] text-white/80 leading-snug text-[0.95rem] lg:text-[0.9rem] xl:text-sm">
+                          {phrase.pinyin}
+                        </div>
+                        <div className="max-w-[90%] text-white leading-snug text-[1rem] lg:text-[0.94rem] xl:text-sm">
+                          {phrase.english}
+                        </div>
                       </div>
-                      <div className="text-white/80 leading-snug text-[0.7rem] lg:text-[0.6rem] xl:text-sm">
-                        {phrase.pinyin}
-                      </div>
-                      <div className="text-white mt-1 leading-snug text-[0.7rem] lg:text-[0.8rem] xl:text-sm">
-                        {phrase.english}
-                      </div>
-                    </div>
 
-                    <div className="flex flex-wrap items-center justify-center gap-2 mt-3">
-                      <button
-                        onClick={() => speak(phrase.hanzi, phrase.pinyin)}
-                        disabled={isLearned}
-                        className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-white/28 bg-white/16 text-white disabled:opacity-40 disabled:cursor-not-allowed"
-                        aria-label={`Play ${phrase.english}`}
-                      >
-                        <Volume2 className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center justify-center pt-3">
+                        <button
+                          onClick={() => speak(phrase.hanzi, phrase.pinyin)}
+                          disabled={isLearned}
+                          className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-white/28 bg-white/16 text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                          aria-label={`Play ${phrase.english}`}
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );

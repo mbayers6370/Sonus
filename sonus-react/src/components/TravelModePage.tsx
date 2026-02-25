@@ -11,6 +11,7 @@ import {
 import BottomNav from './BottomNav';
 import type { LucideIcon } from 'lucide-react';
 import GlassHeader from './GlassHeader';
+import { toTitleCase } from '../lib/textCase';
 
 type TravelSection = {
   id: string;
@@ -37,7 +38,7 @@ interface TravelModePageProps {
 }
 
 function renderTileTitle(title: string) {
-  const parts = title.trim().split(/\s+/);
+  const parts = toTitleCase(title).trim().split(/\s+/);
   const [first, ...rest] = parts;
   const restText = rest.join(' ');
 
