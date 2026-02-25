@@ -320,18 +320,37 @@ export default function HomeDashboard({
                 : 'No saved lesson path yet. Start your first lesson and Sonus will remember exactly where to continue.'}
             </div>
           )}
-          <div className="max-w-md mx-auto">
-            <button
-              onClick={openResumeCard}
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#374151] text-white border border-white/75 hover:bg-[#2D3748] transition-colors font-semibold"
-            >
-              {!hasOpenedLessons
-                ? 'Start Lessons'
-                : hasSavedLessonPath
-                  ? 'Continue Learning'
-                  : 'Browse Lessons'}
-              <ArrowRight className="w-4 h-4" />
-            </button>
+          <div className="max-w-md mx-auto w-full">
+            {hasSavedLessonPath ? (
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={onOpenLevels}
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#374151] border transition-colors font-semibold"
+                  style={{
+                    borderColor: 'rgba(255,255,255,0.6)',
+                    color: 'rgba(255,255,255,0.6)',
+                  }}
+                >
+                  Bands
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={openResumeCard}
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#374151] text-white border border-white/75 hover:bg-[#2D3748] transition-colors font-semibold"
+                >
+                  Continue Learning
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={openResumeCard}
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#374151] text-white border border-white/75 hover:bg-[#2D3748] transition-colors font-semibold"
+              >
+                {!hasOpenedLessons ? 'Start Lessons' : 'Browse Lessons'}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </section>
 
