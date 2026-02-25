@@ -1,11 +1,24 @@
 import { useCallback } from 'react';
 
 export function useAudio() {
-  const speak = useCallback((hanzi: string, pinyin: string, slow = false) => {
+  const speak = useCallback((text: string, reading: string, slow = false, languageHint?: string | null) => {
     if (!('speechSynthesis' in window)) {
       alert('Text-to-speech not supported in this browser');
       return;
     }
+
+    const normalizedHint = (languageHint || '').toLowerCase() === 'jp'
+      ? 'ja'
+      : (languageHint || '').toLowerCase();
+    const hasKana = /[\u3040-\u30ff]/.test(text || '');
+    const hasToneMarks = /[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/i.test(reading || '');
+    const hasToneNumbers = /(?:^|\s)[a-züv:]+[1-5](?=\s|$)/i.test(reading || '');
+    const isCjk = /[\u3400-\u9fff]/.test(text || '');
+    const isLikelyJapanese =
+      normalizedHint === 'ja' ||
+      hasKana ||
+      (isCjk && Boolean(reading?.trim()) && !hasToneMarks && !hasToneNumbers);
+    const targetLanguage = isLikelyJapanese ? 'ja' : 'zh';
 
     const synth = window.speechSynthesis;
     synth.cancel();
@@ -19,41 +32,55 @@ export function useAudio() {
         v.name.includes('Sin-Ji') ||
         v.name.includes('Meijia'))
     );
+    const preferredJapaneseVoice = voices.find((v) =>
+      v.lang.toLowerCase().includes('ja') &&
+      (v.name.includes('Kyoko') ||
+        v.name.includes('Otoya') ||
+        v.name.includes('Haruka') ||
+        v.name.includes('Ichiro'))
+    );
 
     const anyChineseVoice = voices.find((v) => v.lang.includes('zh'));
+    const anyJapaneseVoice = voices.find((v) => v.lang.toLowerCase().includes('ja'));
 
     const chineseVoice: SpeechSynthesisVoice | undefined =
       preferredChineseVoice ??
       (anyChineseVoice && !anyChineseVoice.name.includes('Eddy')
         ? anyChineseVoice
         : undefined);
+    const japaneseVoice: SpeechSynthesisVoice | undefined = preferredJapaneseVoice ?? anyJapaneseVoice;
 
     let textToSpeak: string;
     let lang: string;
     let voice: SpeechSynthesisVoice | undefined;
 
-    if (chineseVoice) {
-      textToSpeak = hanzi;
+    if (targetLanguage === 'ja') {
+      textToSpeak = text || reading;
+      lang = 'ja-JP';
+      voice = japaneseVoice;
+      if (!textToSpeak) {
+        textToSpeak = reading || text;
+        lang = 'en-US';
+        voice = voices.find((v) => v.lang.includes('en'));
+      }
+    } else if (chineseVoice) {
+      textToSpeak = text;
       lang = 'zh-CN';
       voice = chineseVoice;
     } else {
-      // Fallback to pinyin when a Chinese voice is unavailable.
-      textToSpeak = pinyin || hanzi;
+      // Fallback to pinyin/romaji when a matching voice is unavailable.
+      textToSpeak = reading || text;
       lang = 'en-US';
       voice = voices.find((v) => v.lang.includes('en'));
     }
 
-    const textForPlayback = slow
-      // Add spacing for syllable-level pacing in slow mode.
-      ? textToSpeak
-          .split('')
-          .join('   ')
-          .replace(/\s{3,}/g, '   ')
+    const isCjkText = /[\u3040-\u30ff\u3400-\u9fff]/.test(textToSpeak);
+    const playbackText = slow && isCjkText
+      ? Array.from(textToSpeak).join(' ')
       : textToSpeak;
-
-    const utterance = new SpeechSynthesisUtterance(textForPlayback);
+    const utterance = new SpeechSynthesisUtterance(playbackText);
     utterance.lang = lang;
-    utterance.rate = slow ? 0.05 : 0.9;
+    utterance.rate = slow ? 0.35 : 0.9;
     utterance.pitch = 1.0;
     utterance.volume = 1.0;
     if (voice) utterance.voice = voice;

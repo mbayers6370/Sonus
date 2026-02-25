@@ -2190,8 +2190,8 @@
         "variety, kind"
       ],
       "example": {
-        "ja": "ニワトリの赤く立派なトサカは性別や種類を見分けるときに役立っていると考えられている。",
-        "en": "The cockerel's splendid red cockscomb is thought to play a part in determining gender and breed."
+        "ja": "この種類の花が好きです。",
+        "en": "I like this kind of flower."
       },
       "type": "word",
       "pos_detail": "n"
@@ -8139,8 +8139,8 @@
         "to complain, to appeal, to sue (a person)"
       ],
       "example": {
-        "ja": "同性をセクハラで訴えることできないのかしら。",
-        "en": "I wonder if you can sue someone of the same sex for sexual harassment?"
+        "ja": "彼は頭痛を訴えた。",
+        "en": "He complained of a headache."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -18064,8 +18064,8 @@
         "discrimination, differentiation"
       ],
       "example": {
-        "ja": "そうじゃない。性差別やら女性蔑視やら、そういうものとは関係なく、男と女は違うんだ。",
-        "en": "That's not what I meant. I'm not being sexist. Men and women are just different."
+        "ja": "人を差別してはいけません。",
+        "en": "You must not discriminate against people."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -32493,8 +32493,8 @@
         "abdomen, belly, stomach"
       ],
       "example": {
-        "ja": "同性をセクハラで訴えることできないのかしら。",
-        "en": "I wonder if you can sue someone of the same sex for sexual harassment?"
+        "ja": "お腹が痛いです。",
+        "en": "My stomach hurts."
       },
       "type": "word",
       "pos_detail": "n"
@@ -32511,8 +32511,8 @@
         "field, plain"
       ],
       "example": {
-        "ja": "同性をセクハラで訴えることできないのかしら。",
-        "en": "I wonder if you can sue someone of the same sex for sexual harassment?"
+        "ja": "広い原が続いている。",
+        "en": "A wide plain stretches out."
       },
       "type": "word",
       "pos_detail": "n"

@@ -12,29 +12,24 @@ import BottomNav from './BottomNav';
 import type { LucideIcon } from 'lucide-react';
 import GlassHeader from './GlassHeader';
 import { toTitleCase } from '../lib/textCase';
+import { getTravelModeSections } from '../data/travelModeData';
 
-type TravelSection = {
-  id: string;
-  title: string;
-  subtitle?: string;
-  icon: LucideIcon;
+const travelSectionIcons: Record<string, LucideIcon> = {
+  'airport-arrival': Plane,
+  transport: CarTaxiFront,
+  hotel: BedDouble,
+  restaurants: Utensils,
+  shopping: ShoppingBag,
+  emergency: Stethoscope,
+  'small-talk': MessageCircle,
+  digital: Smartphone,
 };
-
-const travelPageSections: TravelSection[] = [
-  { id: 'airport-arrival', title: 'Airport & Arrival', icon: Plane },
-  { id: 'transport', title: 'Transport & Getting Around', icon: CarTaxiFront },
-  { id: 'hotel', title: 'Hotel & Accommodation', icon: BedDouble },
-  { id: 'restaurants', title: 'Restaurants & Ordering Food', icon: Utensils },
-  { id: 'shopping', title: 'Shopping & Payments', icon: ShoppingBag },
-  { id: 'emergency', title: 'Emergencies & Health', icon: Stethoscope },
-  { id: 'small-talk', title: 'Everyday Small Talk', icon: MessageCircle },
-  { id: 'digital', title: 'Tech & Digital China', icon: Smartphone },
-];
 
 interface TravelModePageProps {
   onGoHome: () => void;
   onOpenProfile: () => void;
   onOpenSection: (sectionId: string) => void;
+  selectedLanguage?: string | null;
 }
 
 function renderTileTitle(title: string) {
@@ -50,7 +45,10 @@ function renderTileTitle(title: string) {
   );
 }
 
-export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection }: TravelModePageProps) {
+export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection, selectedLanguage }: TravelModePageProps) {
+  const sections = getTravelModeSections(selectedLanguage || 'zh');
+  const isJapanese = selectedLanguage === 'ja' || selectedLanguage === 'jp';
+  const targetLabel = isJapanese ? 'Japanese' : 'Mandarin';
   return (
     <div className="relative min-h-screen page-shell px-6 with-bottom-nav overflow-hidden">
       <div
@@ -94,7 +92,7 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection 
             </div>
             <h2 className="main-font text-[1.8rem] sm:text-[2rem] leading-tight mb-2">Leaving Soon?</h2>
             <p className="text-[14px] leading-relaxed text-white/90 max-w-2xl mx-auto">
-              Travel Sprint prepares you for real-world Mandarin with essential phrases for airports, 
+              Travel Sprint prepares you for real-world {targetLabel} with essential phrases for airports,
               transport, hotels, food, payments, and emergencies, giving you exactly what you need before your trip.
             </p>
             <p className="text-[14px] leading-relaxed text-white mt-2 font-semibold max-w-2xl mx-auto">
@@ -109,8 +107,8 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection 
 
             <div className="bg-white/8 backdrop-blur-sm p-2.5 rounded-2xl flex items-center">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 w-full">
-              {travelPageSections.map((section, index) => {
-                const SectionIcon = section.icon;
+              {sections.map((section, index) => {
+                const SectionIcon = travelSectionIcons[section.id] || Plane;
                 return (
                   <button
                     key={section.id}

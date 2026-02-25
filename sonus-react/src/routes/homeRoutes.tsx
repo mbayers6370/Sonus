@@ -48,7 +48,6 @@ type HomeRouteProps = {
   onOpenWeakWords: () => void;
   onOpenProfile: () => void;
   onOpenTravelMode: (sectionId?: string) => void;
-  onOpenDailyPractice: (bandId?: string | null) => void;
 };
 
 export function HomeRoute(props: HomeRouteProps) {
@@ -60,7 +59,6 @@ export function HomeRoute(props: HomeRouteProps) {
     onOpenWeakWords,
     onOpenProfile,
     onOpenTravelMode,
-    onOpenDailyPractice,
   } = props;
 
   if (!selectedLanguage) return <Navigate to="/" replace />;
@@ -73,7 +71,6 @@ export function HomeRoute(props: HomeRouteProps) {
       onOpenWeakWords={onOpenWeakWords}
       onOpenProfile={onOpenProfile}
       onOpenTravelMode={onOpenTravelMode}
-      onOpenDailyPractice={onOpenDailyPractice}
     />
   );
 }

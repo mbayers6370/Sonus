@@ -229,7 +229,7 @@ export default function Quiz({
                   {!selectedAnswer ? (
                     <div className="mt-2">
                       <button
-                        onClick={() => speak(word.simp, word.pinyin)}
+                        onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
                         className="mx-auto w-12 h-12 rounded-full border border-[#374151]/35 bg-transparent text-[#374151] flex items-center justify-center hover:bg-[rgba(55,65,81,0.08)] transition-all"
                         aria-label="Play audio"
                       >
@@ -241,7 +241,7 @@ export default function Quiz({
               ) : (
                 <div className="mt-1">
                   <button
-                    onClick={() => speak(word.simp, word.pinyin)}
+                    onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
                     className="mx-auto w-12 h-12 rounded-full bg-[#374151] text-white flex items-center justify-center hover:bg-[#1F2937] transition-all"
                     aria-label="Play audio"
                   >

@@ -3,6 +3,7 @@ import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, Snail, ChevronLeft, ChevronRight } from 'lucide-react';
 import WordProgressRail from './WordProgressRail';
+import { useApp } from '../contexts/AppContext';
 
 interface FlashcardProps {
   word: Word;
@@ -20,6 +21,7 @@ export default function Flashcard({
   onNext,
 }: FlashcardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const { state } = useApp();
   const { speak } = useAudio();
   const meaningList = (word.defs && word.defs.length > 0 ? word.defs : [word.en]).slice(0, 3);
 
@@ -81,14 +83,14 @@ export default function Flashcard({
       {/* Audio Controls */}
       <div className="flex gap-3 justify-center px-5 pb-4">
         <button
-          onClick={() => speak(word.simp, word.pinyin, false)}
+          onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
           className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#186E95] hover:-translate-y-0.5 hover:shadow-lg"
         >
           <Volume2 className="w-5 h-5" />
           Listen
         </button>
         <button
-          onClick={() => speak(word.simp, word.pinyin, true)}
+          onClick={() => speak(word.simp, word.pinyin, true, state.selectedLanguage)}
           className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(55,65,81,0.40)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)]"
         >
           <Snail className="w-5 h-5" />

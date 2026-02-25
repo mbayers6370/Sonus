@@ -323,6 +323,25 @@ function normalize(value: string) {
     .replace(/[^\p{L}\p{N}]/gu, '');
 }
 
+function normalizeJapaneseForCompare(value: string) {
+  const katakanaToHiragana = (text: string) =>
+    Array.from(text)
+      .map((char) => {
+        const code = char.charCodeAt(0);
+        if (code >= 0x30A1 && code <= 0x30F6) return String.fromCharCode(code - 0x60);
+        return char;
+      })
+      .join('');
+
+  return katakanaToHiragana((value || '').toLowerCase())
+    .replace(/[^\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/gu, '')
+    .trim();
+}
+
+function hasJapaneseScript(value: string) {
+  return /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(value);
+}
+
 function normalizeHanzi(value: string) {
   return value.replace(/[^\p{Script=Han}]/gu, '');
 }
@@ -574,7 +593,8 @@ export default function SpeakMode({
   const { state, recordSpeakResult, recordWordOutcome } = useApp();
   const sttCapability = useMemo(() => getSttCapability(), []);
   const sttSupported = sttCapability.supported;
-  const isMandarinLesson = state.selectedLanguage === 'zh' || Boolean(word.pinyin?.trim());
+  const isJapaneseLesson = state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp';
+  const isMandarinLesson = state.selectedLanguage === 'zh';
 
   const targetHanzi = normalizeHanzi(word.simp);
   const targetSyllableCount = Math.max(
@@ -687,6 +707,7 @@ export default function SpeakMode({
   };
 
   const analyzePronunciation = (recognized: string): PronunciationAnalysis | null => {
+    if (isJapaneseLesson) return null;
     const targetPinyin = word.pinyin || '';
     if (!targetPinyin.trim()) return null;
 
@@ -755,6 +776,14 @@ export default function SpeakMode({
 
     const cleanedRecognized = normalize(recognized);
     if (!cleanedRecognized) return false;
+
+    if (isJapaneseLesson) {
+      if (!hasJapaneseScript(recognized)) return false;
+      const heard = normalizeJapaneseForCompare(recognized);
+      const targetWord = normalizeJapaneseForCompare(word.simp || '');
+      if (!heard || !targetWord) return false;
+      return heard === targetWord;
+    }
 
     const recognizedHanzi = normalizeHanzi(recognized);
     const targetPinyin = normalize(word.pinyin || '');
@@ -902,7 +931,10 @@ export default function SpeakMode({
     try {
       const sessionId = recordingSessionRef.current;
       const recognition = new SpeechRecognitionCtor();
-      recognition.lang = word.pinyin ? 'zh-CN' : 'en-US';
+      recognition.lang =
+        state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp'
+          ? 'ja-JP'
+          : (word.pinyin ? 'zh-CN' : 'en-US');
       // Single-utterance mode improves responsiveness for short words.
       recognition.continuous = false;
       recognition.interimResults = true;
@@ -1154,7 +1186,9 @@ export default function SpeakMode({
   const heardHanzi = normalizeHanzi(transcript);
   const isNoSpeech = transcript.toLowerCase() === 'no speech detected';
   const isPerfectListening = Boolean(
-    analysis && analysis.initial.pass && analysis.final.pass && analysis.tone.pass
+    isJapaneseLesson
+      ? matchResult === 'match'
+      : (analysis && analysis.initial.pass && analysis.final.pass && analysis.tone.pass)
   );
   const noSpeechMobileClass = isNoSpeech ? 'text-[0.95rem] font-medium' : 'text-[1.5rem]';
   const noSpeechResultClass = isNoSpeech ? 'text-base' : 'text-lg';
@@ -1179,10 +1213,13 @@ export default function SpeakMode({
   const detectedPinyinLabel = firstUsableDetected || '';
   const shouldShowTargetPinyin = !detectedPinyinLabel && (!heardHanzi || isNoSpeech);
   const resultPinyinLabel = detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : '');
-  const resultPinyinTag = detectedPinyinLabel ? 'Detected' : 'Target';
+  const resultPinyinTag = isJapaneseLesson
+    ? (detectedPinyinLabel ? 'Heard' : 'Target')
+    : (detectedPinyinLabel ? 'Detected' : 'Target');
   const displayMeaning = useMemo(() => getPrimaryMeaning(word), [word]);
 
   const renderScoreChips = (compact: boolean) => {
+    if (isJapaneseLesson) return null;
     if (!analysis) return null;
     const chipBase = compact
       ? 'px-2 py-1 rounded-lg text-[10px] font-mono uppercase tracking-wider'
@@ -1205,6 +1242,34 @@ export default function SpeakMode({
     const coaching: string[] = [];
     const nextGoalDefault = 'Next try goal: lock one component first, then add the rest.';
     const targetHint = word.pinyin || word.simp;
+
+    if (isJapaneseLesson) {
+      if (isNoSpeech) {
+        return {
+          label: 'Try Again!',
+          toneClass: 'text-[#C2410C]',
+          summary: '',
+          coaching,
+          nextGoal: 'Next try goal: speak clearly and a bit slower near the mic.',
+        };
+      }
+      if (matchResult === 'match') {
+        return {
+          label: 'Excellent',
+          toneClass: 'text-[#3E5648]',
+          summary: 'Great match on the target Japanese word.',
+          coaching,
+          nextGoal: 'Next try goal: keep this clarity on the next word.',
+        };
+      }
+      return {
+        label: 'Almost there',
+        toneClass: 'text-[#186E95]',
+        summary: 'You are close. Focus on matching the target word shape.',
+        coaching,
+        nextGoal: `Next try goal: repeat "${targetHint}" more clearly and steadily.`,
+      };
+    }
 
     if (isNoSpeech) {
       return {
@@ -1379,7 +1444,7 @@ export default function SpeakMode({
         <div className="grid grid-cols-2 gap-2 mb-2 items-stretch">
           <button
             type="button"
-            onClick={() => speak(word.simp, word.pinyin)}
+            onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
             className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] flex flex-col items-center justify-center text-center transition-colors ${
               practiceMode
                 ? 'border-[#E5B8A5] bg-[#F8EEE9] active:bg-[#F3E4DC]'

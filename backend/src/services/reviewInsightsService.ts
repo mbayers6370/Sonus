@@ -1,5 +1,21 @@
 import { prisma } from '../lib/prisma.js';
 
+type SupportedLanguage = 'zh' | 'ja';
+
+function normalizeLanguage(language: string | null | undefined): SupportedLanguage | null {
+  const value = (language || '').trim().toLowerCase();
+  if (value === 'ja' || value === 'jp') return 'ja';
+  if (value === 'zh') return 'zh';
+  return null;
+}
+
+function languageWordFilter(language: string | null | undefined) {
+  const normalized = normalizeLanguage(language);
+  if (normalized === 'ja') return { startsWith: 'N' };
+  if (normalized === 'zh') return { startsWith: 'L' };
+  return undefined;
+}
+
 function buildReviewPriority(input: {
   quizDueAt: Date;
   pronunciationRisk: number;
@@ -28,11 +44,13 @@ function buildReviewPriority(input: {
   };
 }
 
-export async function fetchReviewQueue(userId: string, limit: number) {
+export async function fetchReviewQueue(userId: string, limit: number, language?: string | null) {
   const now = new Date();
+  const wordFilter = languageWordFilter(language);
   const rows = await prisma.wordMemoryState.findMany({
     where: {
       userId,
+      ...(wordFilter ? { wordId: wordFilter } : {}),
       OR: [
         { quizDueAt: { lte: now } },
         { missedQuizCount: { gt: 0 } },
@@ -79,10 +97,17 @@ export async function fetchReviewQueue(userId: string, limit: number) {
   return { count: queue.length, limit, queue };
 }
 
-export async function fetchNeedsWork(userId: string, limit: number, minTotalMisses: number) {
+export async function fetchNeedsWork(
+  userId: string,
+  limit: number,
+  minTotalMisses: number,
+  language?: string | null
+) {
+  const wordFilter = languageWordFilter(language);
   const rows = await prisma.wordMemoryState.findMany({
     where: {
       userId,
+      ...(wordFilter ? { wordId: wordFilter } : {}),
       OR: [{ missedQuizCount: { gt: 0 } }, { mispronounceCount: { gt: 0 } }],
     },
     take: Math.max(limit * 3, 80),
@@ -128,12 +153,14 @@ export async function fetchNeedsWork(userId: string, limit: number, minTotalMiss
   return { count: needsWork.length, limit, needsWork };
 }
 
-export async function fetchWeakLogs(userId: string, limit: number) {
+export async function fetchWeakLogs(userId: string, limit: number, language?: string | null) {
+  const wordFilter = languageWordFilter(language);
   const [quizMisses, speakMisses] = await Promise.all([
     prisma.quizAttempt.findMany({
       where: {
         userId,
         isCorrect: false,
+        ...(wordFilter ? { wordId: wordFilter } : {}),
       },
       orderBy: { createdAt: 'desc' },
       take: limit,
@@ -141,6 +168,7 @@ export async function fetchWeakLogs(userId: string, limit: number) {
     prisma.speakAttempt.findMany({
       where: {
         userId,
+        ...(wordFilter ? { wordId: wordFilter } : {}),
         OR: [{ initialOk: false }, { finalOk: false }, { toneOk: false }],
       },
       orderBy: { createdAt: 'desc' },
@@ -178,13 +206,20 @@ export async function fetchWeakLogs(userId: string, limit: number) {
   return { count: logs.length, limit, logs };
 }
 
-export async function fetchWrongWords(userId: string, limit: number, minTotalMisses: number) {
+export async function fetchWrongWords(
+  userId: string,
+  limit: number,
+  minTotalMisses: number,
+  language?: string | null
+) {
+  const wordFilter = languageWordFilter(language);
   const [quizMissGroups, speakMissGroups] = await Promise.all([
     prisma.quizAttempt.groupBy({
       by: ['wordId'],
       where: {
         userId,
         isCorrect: false,
+        ...(wordFilter ? { wordId: wordFilter } : {}),
       },
       _count: { _all: true },
       _max: { createdAt: true },
@@ -193,6 +228,7 @@ export async function fetchWrongWords(userId: string, limit: number, minTotalMis
       by: ['wordId'],
       where: {
         userId,
+        ...(wordFilter ? { wordId: wordFilter } : {}),
         OR: [{ initialOk: false }, { finalOk: false }, { toneOk: false }],
       },
       _count: { _all: true },

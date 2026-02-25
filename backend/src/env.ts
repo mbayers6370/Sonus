@@ -104,6 +104,8 @@ const envSchema = z
       .default(900000),
     LOGIN_THROTTLE_ADMIN_TOKEN: z.string().trim().min(16).optional(),
     METRICS_READ_TOKEN: z.string().trim().min(16).optional(),
+    JA_ROMAJI_MODE: z.enum(['auto', 'provider', 'kuromoji', 'local']).default('auto'),
+    JA_ROMAJI_API_URL: z.string().trim().url().optional(),
   })
   .superRefine((value, ctx) => {
     const isProduction = value.NODE_ENV === 'production';
@@ -213,6 +215,14 @@ const envSchema = z
         code: z.ZodIssueCode.custom,
         path: ['RESET_URL_BASE'],
         message: 'required when AUTH_MODE=local and NODE_ENV=production',
+      });
+    }
+
+    if (value.JA_ROMAJI_MODE === 'provider' && !value.JA_ROMAJI_API_URL) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['JA_ROMAJI_API_URL'],
+        message: 'required when JA_ROMAJI_MODE=provider',
       });
     }
   });

@@ -3,6 +3,7 @@ import TravelModePage from '../components/TravelModePage';
 import TravelSectionPage from '../components/TravelSectionPage';
 import ProfileScreen from '../components/ProfileScreen';
 import { getTravelSectionById } from '../data/travelModeData';
+import { useApp } from '../contexts/AppContext';
 
 type TravelRouteProps = {
   onGoHome: () => void;
@@ -11,11 +12,13 @@ type TravelRouteProps = {
 };
 
 export function TravelRoute({ onGoHome, onOpenProfile, onOpenSection }: TravelRouteProps) {
+  const { state } = useApp();
   return (
     <TravelModePage
       onGoHome={onGoHome}
       onOpenProfile={onOpenProfile}
       onOpenSection={onOpenSection}
+      selectedLanguage={state.selectedLanguage}
     />
   );
 }
@@ -27,7 +30,8 @@ type TravelSectionRouteProps = {
 };
 
 export function TravelSectionRoute({ sectionId, onGoHome, onOpenProfile }: TravelSectionRouteProps) {
-  const section = sectionId ? getTravelSectionById(sectionId) : undefined;
+  const { state } = useApp();
+  const section = sectionId ? getTravelSectionById(sectionId, state.selectedLanguage) : undefined;
   if (!section) return <Navigate to="/travel" replace />;
 
   return (
@@ -36,6 +40,7 @@ export function TravelSectionRoute({ sectionId, onGoHome, onOpenProfile }: Trave
       section={section}
       onGoHome={onGoHome}
       onOpenProfile={onOpenProfile}
+      selectedLanguage={state.selectedLanguage}
     />
   );
 }

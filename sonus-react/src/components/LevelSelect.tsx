@@ -537,6 +537,7 @@ export default function LevelSelect({
     switch (state.selectedLanguage) {
       case 'zh':
         return chineseLevels;
+      case 'ja':
       case 'jp':
         return japaneseLevels;
       case 'kr':
@@ -552,6 +553,7 @@ export default function LevelSelect({
     switch (state.selectedLanguage) {
       case 'zh':
         return 'Mandarin';
+      case 'ja':
       case 'jp':
         return 'Japanese';
       case 'kr':
@@ -841,7 +843,8 @@ export default function LevelSelect({
 
         {state.selectedLanguage !== 'zh' &&
           levels.map((level, index) => {
-            const isUnlocked = false;
+            const isJapanese = state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp';
+            const isUnlocked = isJapanese ? level.id === 'n5' : false;
             const isCompleted = state.completedLevels.includes(level.id);
             return (
               <LevelCard
@@ -853,9 +856,13 @@ export default function LevelSelect({
                 badgeLabel={level.id === 'intro' ? 'Intro' : 'Level'}
                 showChevronWhenUnlocked={true}
                 bodyText={
-                  'Curriculum is in production for this language. Mandarin is currently available.'
+                  isJapanese
+                    ? (level.id === 'n5'
+                      ? 'JLPT N5 is available now.'
+                      : 'This JLPT level is not unlocked yet.')
+                    : 'Curriculum is in production for this language. Mandarin is currently available.'
                 }
-                topRightLabel="Coming Soon"
+                topRightLabel={isUnlocked ? undefined : 'Coming Soon'}
                 accentOverride={CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]}
               />
             );

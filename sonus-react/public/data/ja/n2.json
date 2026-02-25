@@ -3002,18 +3002,17 @@
       "hiragana": "せいべつ",
       "katakana": "セイベツ",
       "romaji": "seibetsu",
-      "pos": "V",
-      "en": "sex; gender",
+      "pos": "N",
+      "en": "gender",
       "defs": [
-        "sex",
         "gender"
       ],
       "example": {
-        "ja": "ニワトリの赤く立派なトサカは性別や種類を見分けるときに役立っていると考えられている。",
-        "en": "The cockerel's splendid red cockscomb is thought to play a part in determining gender and breed."
+        "ja": "性別を教えてください。",
+        "en": "Please tell me your gender."
       },
       "type": "word",
-      "pos_detail": "v5"
+      "pos_detail": "n"
     },
     {
       "id": "N2-0168",
@@ -3367,9 +3366,9 @@
       "katakana": "セン",
       "romaji": "sen",
       "pos": "N",
-      "en": "stopper, cork, stopcock",
+      "en": "stopper, cork",
       "defs": [
-        "stopper, cork, stopcock"
+        "stopper, cork"
       ],
       "example": {
         "ja": "瓶の栓をしっかり閉めてください。",
@@ -12331,8 +12330,7 @@
       "pos": "V",
       "en": "cook",
       "defs": [
-        "cook",
-        "tap, cock"
+        "cook"
       ],
       "example": {
         "ja": "彼は将来コックになろうとしている。",
@@ -19060,8 +19058,8 @@
         "the same rank, equality, apposition"
       ],
       "example": {
-        "ja": "当時の女性は 経済的にも、社会的にも、性的にも 男性と同格とみなされていました",
-        "en": "And women were regarded as just as economically, socially and sexually powerful as men."
+        "ja": "彼は私と同格の立場にある。",
+        "en": "He is in a position equal to mine."
       },
       "type": "word",
       "pos_detail": "v5"

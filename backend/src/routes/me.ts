@@ -21,20 +21,24 @@ import {
 
 const reviewQueueQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(20),
+  language: z.string().trim().min(2).max(12).optional(),
 });
 
 const needsWorkQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(200).default(30),
   minTotalMisses: z.coerce.number().int().min(1).max(100).default(3),
+  language: z.string().trim().min(2).max(12).optional(),
 });
 
 const weakLogsQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(200).default(50),
+  language: z.string().trim().min(2).max(12).optional(),
 });
 
 const wrongWordsQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(200).default(30),
   minTotalMisses: z.coerce.number().int().min(1).max(100).default(3),
+  language: z.string().trim().min(2).max(12).optional(),
 });
 
 const profilePatchSchema = z.object({
@@ -167,7 +171,7 @@ export async function meRoutes(app: FastifyInstance) {
     }
 
     const { id } = request.user;
-    return fetchReviewQueue(id, parsed.data.limit);
+    return fetchReviewQueue(id, parsed.data.limit, parsed.data.language);
   });
 
   app.get('/v1/me/needs-work', { preHandler: [requireAuth] }, async (request, reply) => {
@@ -178,7 +182,7 @@ export async function meRoutes(app: FastifyInstance) {
     }
 
     const { id } = request.user;
-    return fetchNeedsWork(id, parsed.data.limit, parsed.data.minTotalMisses);
+    return fetchNeedsWork(id, parsed.data.limit, parsed.data.minTotalMisses, parsed.data.language);
   });
 
   app.get('/v1/me/logs/weak', { preHandler: [requireAuth] }, async (request, reply) => {
@@ -189,7 +193,7 @@ export async function meRoutes(app: FastifyInstance) {
     }
 
     const { id } = request.user;
-    return fetchWeakLogs(id, parsed.data.limit);
+    return fetchWeakLogs(id, parsed.data.limit, parsed.data.language);
   });
 
   app.get('/v1/me/wrong-words', { preHandler: [requireAuth] }, async (request, reply) => {
@@ -200,7 +204,7 @@ export async function meRoutes(app: FastifyInstance) {
     }
 
     const { id } = request.user;
-    return fetchWrongWords(id, parsed.data.limit, parsed.data.minTotalMisses);
+    return fetchWrongWords(id, parsed.data.limit, parsed.data.minTotalMisses, parsed.data.language);
   });
 
   app.post('/v1/me/progress/events', { preHandler: [requireAuth] }, async (request, reply) => {

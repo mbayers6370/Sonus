@@ -32,6 +32,13 @@ DATABASE_URL=postgresql://sonus:sonus_dev_password@localhost:5432/sonus
 ```env
 CORS_ORIGINS=https://app.example.com,https://staging.example.com
 ```
+5. Configure Japanese romaji mode for `GET /v1/ja/romaji/sentence`:
+```env
+# auto | provider | kuromoji | local
+JA_ROMAJI_MODE=auto
+# Required only when JA_ROMAJI_MODE=provider
+# JA_ROMAJI_API_URL=https://api.example.com/romaji?text={text}
+```
 
 ## Install
 ```bash
@@ -106,6 +113,7 @@ Optional env controls:
 
 ## API Endpoints
 - `GET /health`
+- `GET /v1/ja/romaji/sentence?text=...`
 - `GET /v1/me/profile`
 - `PATCH /v1/me/profile`
 - `GET /v1/me/progress`
@@ -117,6 +125,16 @@ Optional env controls:
 - `POST /v1/me/progress/events`
 - `POST /v1/attempts/quiz`
 - `POST /v1/attempts/speak`
+
+## Japanese Romaji Endpoint
+- Route: `GET /v1/ja/romaji/sentence?text=...`
+- Response: `{ "romaji": "...", "source": "provider|kuromoji|local_fallback" }`
+- Mode behavior:
+  - `JA_ROMAJI_MODE=auto`: provider -> kuromoji -> local fallback.
+  - `JA_ROMAJI_MODE=provider`: only provider; returns `503` if unavailable.
+  - `JA_ROMAJI_MODE=kuromoji`: only kuromoji; returns `503` if unavailable.
+  - `JA_ROMAJI_MODE=local`: always local fallback.
+- `kuromoji` dictionary path is loaded from `backend/node_modules/kuromoji/dict`.
 
 ## Mock Auth Headers (optional)
 ```http

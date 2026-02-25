@@ -54,6 +54,12 @@ export function parseCheckpointIndex(unitId: string): number | null {
   return Number.isFinite(idx) && idx > 0 ? idx : null;
 }
 
+export function formatUnitNameForDisplay(name: string | null | undefined) {
+  const source = (name || '').trim();
+  if (!source) return '';
+  return source.replace(/^\s*U\d{1,2}\s+/i, '').trim();
+}
+
 function withCheckpointQuizzes(units: UnitMetadata[]): UnitMetadata[] {
   const sorted = [...units].sort((a, b) => a.order - b.order);
   const coreUnits = sorted.filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id));

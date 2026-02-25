@@ -4,6 +4,7 @@ import BottomNav from './BottomNav';
 import { loadWordLookup, type WordLookup } from '../lib/wordLookup';
 import GlassHeader from './GlassHeader';
 import { apiFetch } from '../lib/apiClient';
+import { useApp } from '../contexts/AppContext';
 
 type NeedsWorkItem = {
   wordId: string;
@@ -34,6 +35,8 @@ function reasonLabel(reason: string) {
 }
 
 export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScreenProps) {
+  const { state } = useApp();
+  const languageId = state.selectedLanguage === 'jp' ? 'ja' : (state.selectedLanguage || 'zh');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [backendOffline, setBackendOffline] = useState(false);
@@ -45,7 +48,7 @@ export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScre
     setError(null);
     setBackendOffline(false);
     try {
-      const response = await apiFetch('/v1/me/needs-work?limit=30&minTotalMisses=3');
+      const response = await apiFetch(`/v1/me/needs-work?limit=30&minTotalMisses=1&language=${encodeURIComponent(languageId)}`);
       if (!response.ok) throw new Error('Failed to load words to work on');
       const json = (await response.json()) as { needsWork: NeedsWorkItem[] };
       const normalized = (json.needsWork || [])
@@ -53,7 +56,7 @@ export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScre
           ...item,
           totalMisses: item.totalMisses ?? item.missedQuizCount + item.mispronounceCount,
         }))
-        .filter((item) => item.totalMisses >= 3);
+        .filter((item) => item.totalMisses >= 1);
       setNeedsWork(normalized);
     } catch {
       setBackendOffline(true);
@@ -67,10 +70,10 @@ export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScre
   useEffect(() => {
     void load();
     void (async () => {
-      const lookup = await loadWordLookup();
+      const lookup = await loadWordLookup(languageId);
       setWordLookup(lookup);
     })();
-  }, []);
+  }, [languageId]);
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
@@ -102,7 +105,7 @@ export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScre
       <div className="bg-white border border-border rounded-2xl p-5 mb-4">
         {needsWork.length === 0 ? (
           <div className="text-sm text-text-med">
-            No words to work on right now. When a word is missed 3+ times it appears here.
+            No words to work on right now. Missed words appear here after the first miss.
           </div>
         ) : (
           <div className="space-y-2">

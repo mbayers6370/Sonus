@@ -85,6 +85,18 @@ function getUnitDataById(
   };
 }
 
+function getDataUnits(
+  units: Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }> | undefined
+) {
+  if (!units) return [] as Array<{ id: string; words: unknown[] }>;
+  if (Array.isArray(units)) {
+    return units
+      .filter((unit): unit is { id: string; words?: unknown[] } => Boolean(unit?.id))
+      .map((unit) => ({ id: unit.id, words: unit.words || [] }));
+  }
+  return Object.entries(units).map(([id, unit]) => ({ id, words: unit?.words || [] }));
+}
+
 function getGridColumns(width: number) {
   if (width >= 1536) return 6; // 2xl
   if (width >= 1280) return 5; // xl
@@ -139,7 +151,26 @@ export default function UnitSelect({
   }
 
   // Get unit metadata for proper ordering and display
-  const orderedUnits = getUnitsForBand(currentLevel.id);
+  const configuredUnits = getUnitsForBand(currentLevel.id);
+  const orderedUnits = configuredUnits.length > 0
+    ? configuredUnits
+    : getDataUnits(
+      activeBandData.units as Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }>
+    )
+      .filter((unit) => unit.id !== '_unallocated')
+      .map((unit, index) => ({
+        id: unit.id,
+        name: unit.id
+          .replace(/^[a-z]\d+-/i, '')
+          .replace(/^u\d+-/i, '')
+          .replace(/[-_]+/g, ' ')
+          .replace(/\b\w/g, (char) => char.toUpperCase()),
+        hanzi: '',
+        description: 'Core vocabulary.',
+        microUnits: undefined,
+        order: index + 1,
+        icon: BookOpen,
+      }));
 
   // Map units with their data and metrics
   const unitMetrics = orderedUnits

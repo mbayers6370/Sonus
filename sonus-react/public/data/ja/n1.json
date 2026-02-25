@@ -16325,8 +16325,8 @@
         "infection, contagion"
       ],
       "example": {
-        "ja": "梅毒は性行為を通じて感染する病気です。",
-        "en": "Syphilis is an infection that can be transmitted through sexual intercourse."
+        "ja": "風邪はウイルスに感染して起こります。",
+        "en": "A cold occurs when you are infected by a virus."
       },
       "type": "word",
       "pos_detail": "n"
@@ -26851,8 +26851,8 @@
         "sex"
       ],
       "example": {
-        "ja": "彼はあなたにあなたのセックスライフを語って欲しくないんだよ。",
-        "en": "He doesn't want you to tell him about your sex life."
+        "ja": "その本はセックスについての研究を扱っている。",
+        "en": "That book deals with research on sex."
       },
       "type": "word",
       "pos_detail": "v5"

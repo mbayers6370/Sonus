@@ -14,7 +14,21 @@ export const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
   advanced: { id: 'advanced', band: 7, name: 'Advanced', title: 'Advanced', subtitle: 'Bands 7–9 · Mastery', wordCount: 0, wordRange: 'Band 7–9', color: 'bg-red-500', description: 'Macro-unit track for Bands 7-9', units: [] },
 };
 
+export const JAPANESE_LEVEL_BY_ID: Record<string, LessonBand> = {
+  n5: { id: 'n5', band: 0, name: 'JLPT N5', title: 'JLPT N5', subtitle: 'Basic', wordCount: 0, wordRange: '', color: 'bg-[#3E5648]', description: 'Basic', units: [] },
+  n4: { id: 'n4', band: 0, name: 'JLPT N4', title: 'JLPT N4', subtitle: 'Elementary', wordCount: 0, wordRange: '', color: 'bg-[#186E95]', description: 'Elementary', units: [] },
+  n3: { id: 'n3', band: 0, name: 'JLPT N3', title: 'JLPT N3', subtitle: 'Intermediate', wordCount: 0, wordRange: '', color: 'bg-yellow-500', description: 'Intermediate', units: [] },
+  n2: { id: 'n2', band: 0, name: 'JLPT N2', title: 'JLPT N2', subtitle: 'Upper Intermediate', wordCount: 0, wordRange: '', color: 'bg-orange-500', description: 'Upper Intermediate', units: [] },
+  n1: { id: 'n1', band: 0, name: 'JLPT N1', title: 'JLPT N1', subtitle: 'Advanced', wordCount: 0, wordRange: '', color: 'bg-red-500', description: 'Advanced', units: [] },
+};
+
+export const LEVEL_BY_ID: Record<string, LessonBand> = {
+  ...CHINESE_LEVEL_BY_ID,
+  ...JAPANESE_LEVEL_BY_ID,
+};
+
 export function tierForBand(bandId: string) {
+  if (/^n[1-5]$/i.test(bandId)) return 'jlpt';
   if (bandId === 'advanced' || /^band[7-9]$/i.test(bandId)) return 'advanced';
   if (/^band[4-6]$/i.test(bandId)) return 'intermediate';
   return 'beginner';

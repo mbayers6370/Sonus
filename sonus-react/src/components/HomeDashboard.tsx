@@ -8,7 +8,7 @@ import {
   Mic,
 } from 'lucide-react';
 import BottomNav from './BottomNav';
-import { getUnitMetadata, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
+import { formatUnitNameForDisplay, getUnitMetadata, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import GlassHeader from './GlassHeader';
 import { useApp } from '../contexts/AppContext';
 import { apiFetch } from '../lib/apiClient';
@@ -40,11 +40,11 @@ interface HomeDashboardProps {
   onOpenWeakWords: () => void;
   onOpenProfile: () => void;
   onOpenTravelMode: (sectionId?: string) => void;
-  onOpenDailyPractice: (bandId?: string | null) => void;
 }
 
 const LANGUAGE_LABELS: Record<string, string> = {
   zh: 'Mandarin',
+  ja: 'Japanese',
   jp: 'Japanese',
   kr: 'Korean',
   fr: 'French',
@@ -86,7 +86,6 @@ export default function HomeDashboard({
   onOpenWeakWords,
   onOpenProfile,
   onOpenTravelMode,
-  onOpenDailyPractice,
 }: HomeDashboardProps) {
   const { state } = useApp();
   const [loading, setLoading] = useState(true);
@@ -103,6 +102,7 @@ export default function HomeDashboard({
   const [unitCompletionPercent, setUnitCompletionPercent] = useState<number | null>(null);
 
   const languageLabel = LANGUAGE_LABELS[selectedLanguage] || 'Language';
+  const isJapaneseLanguage = selectedLanguage === 'ja' || selectedLanguage === 'jp';
   const resumeFromCheckpoint =
     state.resumeCheckpoint &&
     !isPracticeUnitId(state.resumeCheckpoint.unitId) &&
@@ -132,10 +132,6 @@ export default function HomeDashboard({
   const lessonNumber = resumeTarget ? resumeTarget.lessonIndex + 1 : null;
   const cardShell =
     'dashboard-card-enter rounded-3xl border p-5 sm:p-6 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
-  const nowMs = Date.now();
-  const dueCount = Object.values(state.wordReview).filter((review) => Date.parse(review.nextReviewAt) <= nowMs).length;
-  const recentMissCount = state.recentMisses.length;
-
   const formatBandLabel = (bandId: string | null) => {
     if (!bandId) return 'Band';
     const matched = /^band(\d+)$/i.exec(bandId);
@@ -143,16 +139,18 @@ export default function HomeDashboard({
     return bandId.toUpperCase();
   };
 
-  const formatUnitLabel = (unitId: string | null) => {
+  const formatUnitLabel = (unitId: string | null, bandId: string | null) => {
     if (!unitId) return 'Unit';
     const fromMetadata =
-      progress.currentBandId && progress.currentUnitId
-        ? getUnitMetadata(progress.currentBandId, progress.currentUnitId)?.name
+      bandId && unitId
+        ? getUnitMetadata(bandId, unitId)?.name
         : undefined;
-    if (fromMetadata) return fromMetadata;
-    return unitId
-      .replace(/^[a-z]\d+-/i, '')
-      .replace(/[-_]+/g, ' ')
+    if (fromMetadata) return formatUnitNameForDisplay(fromMetadata);
+    return formatUnitNameForDisplay(
+      unitId
+        .replace(/^[a-z]\d+-/i, '')
+        .replace(/[-_]+/g, ' ')
+    )
       .replace(/\b\w/g, (c) => c.toUpperCase());
   };
 
@@ -162,13 +160,14 @@ export default function HomeDashboard({
 
   useEffect(() => {
     let mounted = true;
+    const languageId = selectedLanguage === 'jp' ? 'ja' : selectedLanguage;
     void (async () => {
       setLoading(true);
       try {
         const [profileRes, progressRes, weakRes] = await Promise.all([
           apiFetch('/v1/me/profile'),
           apiFetch('/v1/me/progress'),
-          apiFetch('/v1/me/needs-work?limit=30&minTotalMisses=3'),
+          apiFetch(`/v1/me/needs-work?limit=30&minTotalMisses=1&language=${encodeURIComponent(languageId)}`),
         ]);
 
         if (mounted && profileRes.ok) {
@@ -304,8 +303,8 @@ export default function HomeDashboard({
               <div className="text-sm text-white font-medium mb-1">{formatBandLabel(resumeTarget?.bandId || null)}</div>
               <div className="text-sm text-white/85 mb-3">
                 {isCheckpointUnitId(resumeTarget?.unitId || '')
-                  ? `${formatUnitLabel(resumeTarget?.unitId || null)} · Unit review quiz`
-                  : `${formatUnitLabel(resumeTarget?.unitId || null)} · Lesson ${lessonNumber}`}
+                  ? `${formatUnitLabel(resumeTarget?.unitId || null, resumeTarget?.bandId || null)} · Unit review quiz`
+                  : `${formatUnitLabel(resumeTarget?.unitId || null, resumeTarget?.bandId || null)} · Lesson ${lessonNumber}`}
               </div>
               {!isCheckpointUnitId(resumeTarget?.unitId || '') && unitCompletionPercent !== null && (
                 <div className="inline-flex items-center rounded-full px-3 py-1 border border-white/25 bg-white/10 text-[11px] font-mono uppercase tracking-wider text-white/90 mb-4 mx-auto">
@@ -331,7 +330,7 @@ export default function HomeDashboard({
                     color: 'rgba(255,255,255,0.6)',
                   }}
                 >
-                  Bands
+                  {isJapaneseLanguage ? 'Levels' : 'Bands'}
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <button
@@ -425,13 +424,13 @@ export default function HomeDashboard({
             </div>
           </div>
           <p className="text-sm leading-relaxed text-text-med mb-4 max-w-md mx-auto">
-            {selectedLanguage === 'zh'
+            {selectedLanguage === 'zh' || isJapaneseLanguage
               ? needsWorkCount > 0
                 ? `${needsWorkCount} word(s) are in your practice queue. Let's work on those first, then reinforce with current-band reps!`
                 : 'Use this as a helper while you learn. Come back anytime for focused reps to keep your skills sharp.'
               : `Practice labs are currently available for ${languageLabel}.`}
           </p>
-          {selectedLanguage === 'zh' ? (
+          {selectedLanguage === 'zh' || isJapaneseLanguage ? (
             <div className="flex items-center justify-center gap-3 max-w-md mx-auto">
               <button
                 onClick={() => onOpenPractice('listening', progress.currentBandId)}
@@ -469,16 +468,6 @@ export default function HomeDashboard({
         >
           <div className="main-font text-2xl leading-none mb-3 text-[#374151]">Shortcuts</div>
           <div className="grid grid-cols-1 gap-2">
-            <button
-              onClick={() => onOpenDailyPractice(progress.currentBandId)}
-              className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(55,65,81,0.06)] transition-colors"
-            >
-              <span className="inline-flex items-center gap-2 text-sm text-text-dark">
-                <ListChecks className="w-4 h-4 text-[#186E95]" />
-                Daily Review Set
-              </span>
-              <span className="text-xs text-text-light">{Math.min(5, dueCount + recentMissCount)} queued</span>
-            </button>
             <button
               onClick={onOpenWeakWords}
               className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(55,65,81,0.06)] transition-colors"

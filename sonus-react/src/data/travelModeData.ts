@@ -30,7 +30,7 @@ const s = (
   phrases: TravelPhrase[]
 ): TravelSectionData => ({ id, title, themeColor, tone, focus, scene, subclusters, culturalNotes, phrases });
 
-export const TRAVEL_MODE_SECTIONS: TravelSectionData[] = [
+export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
   s(
     'airport-arrival',
     'Airport & Arrival',
@@ -244,6 +244,199 @@ export const TRAVEL_MODE_SECTIONS: TravelSectionData[] = [
   ),
 ];
 
-export function getTravelSectionById(sectionId: string) {
-  return TRAVEL_MODE_SECTIONS.find((section) => section.id === sectionId);
+export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
+  s(
+    'airport-arrival',
+    'Airport & Arrival',
+    '#186E95',
+    'Alert, formal',
+    'Immigration, Arrival Rail, & First Directions',
+    'You just landed in Tokyo and need fast, clear phrases for immigration, baggage, and train access.',
+    ['Immigration', 'Baggage', 'Customs', 'Asking for help'],
+    [
+      'Keep answers short and direct at immigration counters.',
+      'Save your hotel name and address in Japanese on your phone.',
+      'Ask staff to repeat slowly before moving to the next step.',
+      'After arrival, follow rail signs before taxi lines if you want the fastest city transfer.',
+    ],
+    [
+      { id: 'aa-ja-1', hanzi: '観光で来ました。', pinyin: 'kankou de kimashita', english: "I'm here for tourism." },
+      { id: 'aa-ja-2', hanzi: '出張で来ました。', pinyin: 'shucchou de kimashita', english: "I'm here for business." },
+      { id: 'aa-ja-3', hanzi: 'これは私のパスポートです。', pinyin: 'kore wa watashi no pasupooto desu', english: 'This is my passport.' },
+      { id: 'aa-ja-4', hanzi: '手荷物受取所はどこですか？', pinyin: 'tenimotsu uketorijo wa doko desu ka', english: 'Where is baggage claim?' },
+      { id: 'aa-ja-5', hanzi: 'もう一度ゆっくりお願いします。', pinyin: 'mou ichido yukkuri onegaishimasu', english: 'Please say that again slowly.' },
+      { id: 'aa-ja-6', hanzi: '駅はどこですか？', pinyin: 'eki wa doko desu ka', english: 'Where is the station?' },
+    ]
+  ),
+  s(
+    'transport',
+    'Transport & Getting Around',
+    '#3E5648',
+    'Functional',
+    'Stations, Transfers, & Fare Confirmation',
+    'You are moving through busy stations and need clear route and transfer language.',
+    ['Taxi', 'Train', 'Transfers', 'Address confirmation'],
+    [
+      'Show destinations in Japanese to reduce routing mistakes.',
+      'Ask transfer questions before entering the gate.',
+      'Confirm fare estimates early for taxi rides.',
+      'If trains are delayed, station staff can usually point you to the fastest alternate line.',
+    ],
+    [
+      { id: 'tr-ja-1', hanzi: 'この住所までお願いします。', pinyin: 'kono juusho made onegaishimasu', english: 'Please take me to this address.' },
+      { id: 'tr-ja-2', hanzi: 'だいたいいくらですか？', pinyin: 'daitai ikura desu ka', english: 'About how much is it?' },
+      { id: 'tr-ja-3', hanzi: 'ここで降ります。', pinyin: 'koko de orimasu', english: 'I will get off here.' },
+      { id: 'tr-ja-4', hanzi: '一番近い駅はどこですか？', pinyin: 'ichiban chikai eki wa doko desu ka', english: 'Where is the nearest station?' },
+      { id: 'tr-ja-5', hanzi: '乗り換えは必要ですか？', pinyin: 'norikae wa hitsuyou desu ka', english: 'Do I need to transfer?' },
+      { id: 'tr-ja-6', hanzi: 'この方向で合っていますか？', pinyin: 'kono houkou de atteimasu ka', english: 'Is this the correct direction?' },
+    ]
+  ),
+  s(
+    'hotel',
+    'Hotel & Accommodation',
+    '#C2410C',
+    'Polite, calm',
+    'Check-In, Room Issues, & Front Desk Requests',
+    'You are at reception and need efficient language for check-in and room support.',
+    ['Check-in', 'Room issues', 'Wi-Fi', 'Checkout'],
+    [
+      'Have your reservation name and booking number ready.',
+      'Describe room issues with short, specific phrases.',
+      'Request a room change politely when needed.',
+      'Many front desks can store luggage before check-in or after check-out if you ask.',
+    ],
+    [
+      { id: 'ho-ja-1', hanzi: '予約があります。', pinyin: 'yoyaku ga arimasu', english: 'I have a reservation.' },
+      { id: 'ho-ja-2', hanzi: 'チェックインをお願いします。', pinyin: 'chekkuin o onegaishimasu', english: "I'd like to check in." },
+      { id: 'ho-ja-3', hanzi: '朝食は何時からですか？', pinyin: 'choushoku wa nanji kara desu ka', english: 'What time does breakfast start?' },
+      { id: 'ho-ja-4', hanzi: 'お湯が出ません。', pinyin: 'oyu ga demasen', english: "There is no hot water." },
+      { id: 'ho-ja-5', hanzi: 'Wi-Fiのパスワードを教えてください。', pinyin: 'waifai no pasuwaado o oshiete kudasai', english: 'Please tell me the Wi-Fi password.' },
+      { id: 'ho-ja-6', hanzi: 'チェックアウトをお願いします。', pinyin: 'chekkuauto o onegaishimasu', english: "I'd like to check out." },
+    ]
+  ),
+  s(
+    'restaurants',
+    'Restaurants & Ordering Food',
+    '#374151',
+    'Social + practical',
+    'Ordering, Restrictions, & Bill Language',
+    'You are ordering in a busy restaurant and need clear food and payment phrases.',
+    ['Ordering', 'Allergies', 'Recommendations', 'Bill'],
+    [
+      'Ask for recommendations when the menu is unclear.',
+      'State allergies and restrictions before placing the order.',
+      'Keep orders short and confirm quantities clearly.',
+      'Some shops use ticket machines first, then hand the ticket to staff at the counter.',
+    ],
+    [
+      { id: 're-ja-1', hanzi: 'メニューをお願いします。', pinyin: 'menyuu o onegaishimasu', english: 'Menu, please.' },
+      { id: 're-ja-2', hanzi: 'これは辛いですか？', pinyin: 'kore wa karai desu ka', english: 'Is this spicy?' },
+      { id: 're-ja-3', hanzi: '豚肉は食べられません。', pinyin: 'butaniku wa taberaremasen', english: "I can't eat pork." },
+      { id: 're-ja-4', hanzi: 'おすすめは何ですか？', pinyin: 'osusume wa nan desu ka', english: 'What do you recommend?' },
+      { id: 're-ja-5', hanzi: 'これを二つください。', pinyin: 'kore o futatsu kudasai', english: 'Two of these, please.' },
+      { id: 're-ja-6', hanzi: 'お会計をお願いします。', pinyin: 'okaikei o onegaishimasu', english: 'Check, please.' },
+    ]
+  ),
+  s(
+    'shopping',
+    'Shopping & Payments',
+    '#3E5648',
+    'Transactional',
+    'Price Checks, Tax-Free, & Returns',
+    'You are shopping and need practical phrases for payment, discounts, and returns.',
+    ['Price', 'Discounts', 'Cashless payment', 'Returns'],
+    [
+      'Ask about tax-free service before paying when eligible.',
+      'Confirm payment method at the register first.',
+      'Check return policy before opening sealed items.',
+      'Keep receipts organized if you plan to claim tax-free processing at larger stores.',
+    ],
+    [
+      { id: 'sh-ja-1', hanzi: 'これはいくらですか？', pinyin: 'kore wa ikura desu ka', english: 'How much is this?' },
+      { id: 'sh-ja-2', hanzi: 'もう少し安くなりますか？', pinyin: 'mou sukoshi yasuku narimasu ka', english: 'Can it be a little cheaper?' },
+      { id: 'sh-ja-3', hanzi: 'カードは使えますか？', pinyin: 'kaado wa tsukaemasu ka', english: 'Can I use a card?' },
+      { id: 'sh-ja-4', hanzi: '現金がありません。', pinyin: 'genkin ga arimasen', english: "I don't have cash." },
+      { id: 'sh-ja-5', hanzi: '返品できますか？', pinyin: 'henpin dekimasu ka', english: 'Can I return this?' },
+      { id: 'sh-ja-6', hanzi: 'レシートをください。', pinyin: 'reshiito o kudasai', english: 'Please give me a receipt.' },
+    ]
+  ),
+  s(
+    'emergency',
+    'Emergencies & Health',
+    '#186E95',
+    'Clear, slow',
+    'Medical, Police, & Urgent Assistance',
+    'You need immediate help and must communicate your core need quickly.',
+    ['Medical', 'Police', 'Lost passport', 'Interpreter'],
+    [
+      'Lead with your key need in the first sentence.',
+      'Repeat slowly and show identification details on your phone.',
+      'Use short, concrete statements under stress.',
+      'If you are in transit areas, station staff can often connect you to emergency services quickly.',
+    ],
+    [
+      { id: 'em-ja-1', hanzi: '医者が必要です。', pinyin: 'isha ga hitsuyou desu', english: 'I need a doctor.' },
+      { id: 'em-ja-2', hanzi: '救急車を呼んでください。', pinyin: 'kyuukyuusha o yonde kudasai', english: 'Please call an ambulance.' },
+      { id: 'em-ja-3', hanzi: '気分が悪いです。', pinyin: 'kibun ga warui desu', english: "I feel unwell." },
+      { id: 'em-ja-4', hanzi: 'パスポートをなくしました。', pinyin: 'pasupooto o nakushimashita', english: 'I lost my passport.' },
+      { id: 'em-ja-5', hanzi: '警察を呼んでください。', pinyin: 'keisatsu o yonde kudasai', english: 'Please call the police.' },
+      { id: 'em-ja-6', hanzi: '通訳が必要です。', pinyin: 'tsuuyaku ga hitsuyou desu', english: 'I need an interpreter.' },
+    ]
+  ),
+  s(
+    'small-talk',
+    'Everyday Small Talk',
+    '#374151',
+    'Warm',
+    'Polite Conversation with New People',
+    'You are meeting locals and want friendly but natural conversation.',
+    ['Introductions', 'First time?', 'Recommendations', 'Polite exits'],
+    [
+      'Start with polite forms and mirror the other person’s tone.',
+      'Use short follow-up questions to keep flow natural.',
+      'Use a soft exit phrase to end conversations smoothly.',
+      'A brief thank-you and slight nod goes a long way in everyday interactions.',
+    ],
+    [
+      { id: 'st-ja-1', hanzi: 'どちらから来ましたか？', pinyin: 'dochira kara kimashita ka', english: 'Where are you from?' },
+      { id: 'st-ja-2', hanzi: '日本は初めてです。', pinyin: 'nihon wa hajimete desu', english: 'It is my first time in Japan.' },
+      { id: 'st-ja-3', hanzi: 'おすすめの場所はありますか？', pinyin: 'osusume no basho wa arimasu ka', english: 'Do you have a place you recommend?' },
+      { id: 'st-ja-4', hanzi: 'とても楽しいです。', pinyin: 'totemo tanoshii desu', english: 'I am having a great time.' },
+      { id: 'st-ja-5', hanzi: 'お会いできてうれしいです。', pinyin: 'oai dekite ureshii desu', english: 'Nice to meet you.' },
+      { id: 'st-ja-6', hanzi: 'では、また。', pinyin: 'dewa, mata', english: 'See you later.' },
+    ]
+  ),
+  s(
+    'digital',
+    'Tech & Digital Japan',
+    '#C2410C',
+    'Modern',
+    'Phone Battery, QR, & App Access',
+    'Your phone is central for transit, payments, and reservations across Japan.',
+    ['Wi-Fi', 'QR scan', 'Battery', 'Apps'],
+    [
+      'Carry a power bank for long navigation and ticket days.',
+      'Ask for manual entry when scans fail at kiosks.',
+      'Save maps and reservation details offline before transit.',
+      'Set up payment and transit apps before travel to avoid account delays on arrival day.',
+    ],
+    [
+      { id: 'di-ja-1', hanzi: 'Wi-Fiはありますか？', pinyin: 'waifai wa arimasu ka', english: 'Do you have Wi-Fi?' },
+      { id: 'di-ja-2', hanzi: 'パスワードは何ですか？', pinyin: 'pasuwaado wa nan desu ka', english: 'What is the password?' },
+      { id: 'di-ja-3', hanzi: 'このQRコードを読み取ってください。', pinyin: 'kono kyuuaaru koodo o yomitotte kudasai', english: 'Please scan this QR code.' },
+      { id: 'di-ja-4', hanzi: '携帯の充電がありません。', pinyin: 'keitai no juuden ga arimasen', english: 'My phone battery is dead.' },
+      { id: 'di-ja-5', hanzi: '充電器を借りられますか？', pinyin: 'juudenki o kariraremasu ka', english: 'Can I borrow a charger?' },
+      { id: 'di-ja-6', hanzi: 'このアプリの使い方を教えてください。', pinyin: 'kono apuri no tsukaikata o oshiete kudasai', english: 'Please show me how to use this app.' },
+    ]
+  ),
+];
+
+export function getTravelModeSections(languageId: string | null | undefined) {
+  const normalized = (languageId || '').toLowerCase();
+  if (normalized === 'ja' || normalized === 'jp') return TRAVEL_MODE_SECTIONS_JA;
+  return TRAVEL_MODE_SECTIONS_ZH;
+}
+
+export function getTravelSectionById(sectionId: string, languageId: string | null | undefined = 'zh') {
+  return getTravelModeSections(languageId).find((section) => section.id === sectionId);
 }

@@ -9,6 +9,7 @@ interface TravelSectionPageProps {
   section: TravelSectionData;
   onGoHome: () => void;
   onOpenProfile: () => void;
+  selectedLanguage?: string | null;
 }
 
 type RecallMode = 'en_to_zh' | 'zh_to_speak' | 'audio_only';
@@ -42,8 +43,10 @@ function getRecallMode(index: number): RecallMode {
   return 'audio_only';
 }
 
-export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: TravelSectionPageProps) {
+export default function TravelSectionPage({ section, onGoHome, onOpenProfile, selectedLanguage }: TravelSectionPageProps) {
   const { speak } = useAudio();
+  const isJapanese = selectedLanguage === 'ja' || selectedLanguage === 'jp';
+  const targetLabel = isJapanese ? 'Japanese' : 'Chinese';
   const [learnedBySection, setLearnedBySection] = useState<Record<string, Record<string, boolean>>>(() => {
     try {
       const raw = window.localStorage.getItem('sonus.travel.learned');
@@ -89,7 +92,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
     if (recallMode === 'en_to_zh') {
       return (
         <>
-          <div className="text-xs uppercase tracking-wider font-mono text-white/75">English → Speak Chinese</div>
+          <div className="text-xs uppercase tracking-wider font-mono text-white/75">{`English → Speak ${targetLabel}`}</div>
           <div className="text-lg text-white mt-1">{recallPhrase.english}</div>
         </>
       );
@@ -97,7 +100,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile }: 
     if (recallMode === 'zh_to_speak') {
       return (
         <>
-          <div className="text-xs uppercase tracking-wider font-mono text-white/75">Chinese → Speak</div>
+          <div className="text-xs uppercase tracking-wider font-mono text-white/75">{`${targetLabel} → Speak`}</div>
           <div className="text-3xl secondary-font text-white mt-2">{recallPhrase.hanzi}</div>
         </>
       );

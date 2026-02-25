@@ -7,6 +7,7 @@ import WordProgressRail from './WordProgressRail';
 import { tokenizeMeaningCandidates } from '../lib/wordMeaning';
 import { resolveBandDataId } from '../lib/bandIds';
 import { apiFetch } from '../lib/apiClient';
+import { useApp } from '../contexts/AppContext';
 
 interface ApplyModeProps {
   word: Word;
@@ -38,6 +39,10 @@ interface LiveCharacterLookupPayload {
 }
 interface SentencePinyinPayload {
   pinyin?: string;
+}
+interface SentenceRomajiPayload {
+  romaji?: string;
+  reading?: string;
 }
 
 interface CharacterRow {
@@ -365,6 +370,150 @@ function sentenceCasePinyin(value: string) {
   return trimmed.replace(/^([a-zA-Z\u00C0-\u024F])/u, (match) => match.toUpperCase());
 }
 
+const JP_DIGRAPH_ROMAJI: Record<string, string> = {
+  きゃ: 'kya', きゅ: 'kyu', きょ: 'kyo', ぎゃ: 'gya', ぎゅ: 'gyu', ぎょ: 'gyo',
+  しゃ: 'sha', しゅ: 'shu', しょ: 'sho', じゃ: 'ja', じゅ: 'ju', じょ: 'jo',
+  ちゃ: 'cha', ちゅ: 'chu', ちょ: 'cho',
+  にゃ: 'nya', にゅ: 'nyu', にょ: 'nyo',
+  ひゃ: 'hya', ひゅ: 'hyu', ひょ: 'hyo',
+  びゃ: 'bya', びゅ: 'byu', びょ: 'byo', ぴゃ: 'pya', ぴゅ: 'pyu', ぴょ: 'pyo',
+  みゃ: 'mya', みゅ: 'myu', みょ: 'myo', りゃ: 'rya', りゅ: 'ryu', りょ: 'ryo',
+  シェ: 'she', チェ: 'che', ジェ: 'je', ティ: 'ti', ディ: 'di',
+  ファ: 'fa', フィ: 'fi', フェ: 'fe', フォ: 'fo',
+  ウィ: 'wi', ウェ: 'we', ウォ: 'wo',
+  ヴァ: 'va', ヴィ: 'vi', ヴェ: 've', ヴォ: 'vo', ヴュ: 'vyu',
+};
+
+const JP_KANA_ROMAJI: Record<string, string> = {
+  あ: 'a', い: 'i', う: 'u', え: 'e', お: 'o', か: 'ka', き: 'ki', く: 'ku', け: 'ke', こ: 'ko',
+  さ: 'sa', し: 'shi', す: 'su', せ: 'se', そ: 'so', た: 'ta', ち: 'chi', つ: 'tsu', て: 'te', と: 'to',
+  な: 'na', に: 'ni', ぬ: 'nu', ね: 'ne', の: 'no', は: 'ha', ひ: 'hi', ふ: 'fu', へ: 'he', ほ: 'ho',
+  ま: 'ma', み: 'mi', む: 'mu', め: 'me', も: 'mo', や: 'ya', ゆ: 'yu', よ: 'yo',
+  ら: 'ra', り: 'ri', る: 'ru', れ: 're', ろ: 'ro', わ: 'wa', を: 'o', ん: 'n',
+  が: 'ga', ぎ: 'gi', ぐ: 'gu', げ: 'ge', ご: 'go', ざ: 'za', じ: 'ji', ず: 'zu', ぜ: 'ze', ぞ: 'zo',
+  だ: 'da', ぢ: 'ji', づ: 'zu', で: 'de', ど: 'do', ば: 'ba', び: 'bi', ぶ: 'bu', べ: 'be', ぼ: 'bo',
+  ぱ: 'pa', ぴ: 'pi', ぷ: 'pu', ぺ: 'pe', ぽ: 'po',
+  ぁ: 'a', ぃ: 'i', ぅ: 'u', ぇ: 'e', ぉ: 'o', ゃ: 'ya', ゅ: 'yu', ょ: 'yo',
+  ア: 'a', イ: 'i', ウ: 'u', エ: 'e', オ: 'o', カ: 'ka', キ: 'ki', ク: 'ku', ケ: 'ke', コ: 'ko',
+  サ: 'sa', シ: 'shi', ス: 'su', セ: 'se', ソ: 'so', タ: 'ta', チ: 'chi', ツ: 'tsu', テ: 'te', ト: 'to',
+  ナ: 'na', ニ: 'ni', ヌ: 'nu', ネ: 'ne', ノ: 'no', ハ: 'ha', ヒ: 'hi', フ: 'fu', ヘ: 'he', ホ: 'ho',
+  マ: 'ma', ミ: 'mi', ム: 'mu', メ: 'me', モ: 'mo', ヤ: 'ya', ユ: 'yu', ヨ: 'yo',
+  ラ: 'ra', リ: 'ri', ル: 'ru', レ: 're', ロ: 'ro', ワ: 'wa', ヲ: 'o', ン: 'n',
+  ガ: 'ga', ギ: 'gi', グ: 'gu', ゲ: 'ge', ゴ: 'go', ザ: 'za', ジ: 'ji', ズ: 'zu', ゼ: 'ze', ゾ: 'zo',
+  ダ: 'da', ヂ: 'ji', ヅ: 'zu', デ: 'de', ド: 'do', バ: 'ba', ビ: 'bi', ブ: 'bu', ベ: 'be', ボ: 'bo',
+  パ: 'pa', ピ: 'pi', プ: 'pu', ペ: 'pe', ポ: 'po',
+  ァ: 'a', ィ: 'i', ゥ: 'u', ェ: 'e', ォ: 'o', ャ: 'ya', ュ: 'yu', ョ: 'yo', ヴ: 'vu',
+};
+
+function isKana(value: string) {
+  return /[\u3040-\u30FF]/.test(value);
+}
+
+function katakanaToHiragana(text: string) {
+  return Array.from(text)
+    .map((char) => {
+      const code = char.charCodeAt(0);
+      if (code >= 0x30A1 && code <= 0x30F6) {
+        return String.fromCharCode(code - 0x60);
+      }
+      return char;
+    })
+    .join('');
+}
+
+function toKanaRomaji(text: string) {
+  const chars = Array.from(text);
+  let out = '';
+  let geminate = false;
+  const initial = (reading: string) => {
+    if (!reading) return '';
+    if (reading.startsWith('ch')) return 'c';
+    if (reading.startsWith('sh')) return 's';
+    if (reading.startsWith('ts')) return 't';
+    return /^[bcdfghjklmnpqrstvwxyz]/i.test(reading[0]) ? reading[0] : '';
+  };
+  for (let i = 0; i < chars.length; i += 1) {
+    const current = chars[i];
+    if (current === 'っ' || current === 'ッ') {
+      geminate = true;
+      continue;
+    }
+    if (current === 'ー') {
+      const last = out[out.length - 1];
+      if (last && /[aeiou]/.test(last)) out += last;
+      continue;
+    }
+    const digraph = `${current}${chars[i + 1] || ''}`;
+    let reading = JP_DIGRAPH_ROMAJI[digraph];
+    if (!reading) {
+      const hiraDigraph = katakanaToHiragana(digraph);
+      reading = JP_DIGRAPH_ROMAJI[hiraDigraph];
+    }
+    if (reading) {
+      i += 1;
+    } else {
+      reading = JP_KANA_ROMAJI[current] || current;
+    }
+    if (geminate) {
+      const head = initial(reading);
+      if (head) out += head;
+      geminate = false;
+    }
+    out += reading;
+  }
+  return out;
+}
+
+function deriveSentenceRomajiLocal(sentence: string, sourceWords: Word[]) {
+  const source = (sentence || '').trim();
+  if (!source) return '';
+  const wordMap = new Map<string, string>();
+  const charMap = new Map<string, string>();
+  for (const word of sourceWords) {
+    const reading = (word.pinyin || '').trim();
+    if (!reading) continue;
+    const simp = (word.simp || '').trim();
+    const trad = (word.trad || '').trim();
+    if (simp) wordMap.set(simp, reading);
+    if (trad) wordMap.set(trad, reading);
+    if (simp.length === 1 && !charMap.has(simp)) charMap.set(simp, reading);
+    if (trad.length === 1 && !charMap.has(trad)) charMap.set(trad, reading);
+  }
+  const tokens = Array.from(wordMap.entries()).sort((a, b) => b[0].length - a[0].length);
+  const out: string[] = [];
+  let i = 0;
+  while (i < source.length) {
+    const rest = source.slice(i);
+    const match = tokens.find(([token]) => rest.startsWith(token));
+    if (match) {
+      out.push(match[1]);
+      i += match[0].length;
+      continue;
+    }
+    const ch = source[i];
+    if (isKana(ch)) {
+      let j = i + 1;
+      while (j < source.length && isKana(source[j])) j += 1;
+      out.push(toKanaRomaji(source.slice(i, j)));
+      i = j;
+      continue;
+    }
+    if (/[\u3400-\u9FFF]/.test(ch)) {
+      out.push(charMap.get(ch) || ch);
+      i += 1;
+      continue;
+    }
+    out.push(ch);
+    i += 1;
+  }
+  return out
+    .join(' ')
+    .replace(/\s+([、。！？；：,.!?;:])/g, '$1')
+    .replace(/([（(])\s+/g, '$1')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 export default function ApplyMode({
   word,
   allWords,
@@ -376,7 +525,11 @@ export default function ApplyMode({
   onNext,
   onCompleteApply,
 }: ApplyModeProps) {
+  const { state } = useApp();
   const { speak } = useAudio();
+  const isJapanese = state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp';
+  const supportsCharacterTab = state.selectedLanguage === 'zh' || isJapanese;
+  const useZhCharacterServices = state.selectedLanguage === 'zh';
   const location = useLocation();
   const navigate = useNavigate();
   const applyPath = useMemo(
@@ -397,6 +550,7 @@ export default function ApplyMode({
   const [characterInsightsMap, setCharacterInsightsMap] = useState<Record<string, CharacterInsight>>({});
   const [liveCharacterMap, setLiveCharacterMap] = useState<Record<string, { pinyin?: string[]; glosses?: string[] }>>({});
   const [resolvedSentencePinyin, setResolvedSentencePinyin] = useState('');
+  const [resolvedSentenceRomaji, setResolvedSentenceRomaji] = useState('');
 
   const zh = word.example?.zh?.trim() || word.simp;
   const en = word.example?.en?.trim() || 'Translation unavailable for this prompt.';
@@ -411,8 +565,14 @@ export default function ApplyMode({
   }, [activeTab, applyTabStorageKey]);
 
   useEffect(() => {
+    if (!supportsCharacterTab && activeTab !== 'context') {
+      setActiveTab('context');
+    }
+  }, [activeTab, supportsCharacterTab]);
+
+  useEffect(() => {
     let cancelled = false;
-    if (!bandId) return () => { cancelled = true; };
+    if (!bandId || !useZhCharacterServices) return () => { cancelled = true; };
 
     fetchCharacterInsightsMap(bandId).then((map) => {
       if (cancelled) return;
@@ -422,7 +582,7 @@ export default function ApplyMode({
     return () => {
       cancelled = true;
     };
-  }, [bandId]);
+  }, [bandId, useZhCharacterServices]);
 
   const characterRows = useMemo(
     () => buildCharacterRows(allWords, bandId ? characterInsightsMap : {}),
@@ -431,6 +591,7 @@ export default function ApplyMode({
   const clampedCharacterIndex = Math.min(characterIndex, Math.max(0, characterRows.length - 1));
 
   useEffect(() => {
+    if (!useZhCharacterServices) return;
     const sentenceChars = Array.from((zh || '')).filter((value) => /[\u3400-\u9FFF]/.test(value));
     const chars = Array.from(new Set([...characterRows.map((row) => row.char), ...sentenceChars])).filter((value) =>
       /[\u3400-\u9FFF]/.test(value)
@@ -453,10 +614,10 @@ export default function ApplyMode({
     return () => {
       cancelled = true;
     };
-  }, [characterRows, zh]);
+  }, [characterRows, useZhCharacterServices, zh]);
 
   useEffect(() => {
-    if (!zh || !containsHanCharacter(zh)) return;
+    if (!useZhCharacterServices || !zh || !containsHanCharacter(zh)) return;
 
     let cancelled = false;
     void apiFetch(`/v1/zh/pinyin/sentence?text=${encodeURIComponent(zh)}`)
@@ -487,7 +648,32 @@ export default function ApplyMode({
     return () => {
       cancelled = true;
     };
-  }, [rawSentencePinyin, zh, allWords, liveCharacterMap, characterInsightsMap]);
+  }, [rawSentencePinyin, zh, allWords, liveCharacterMap, characterInsightsMap, useZhCharacterServices]);
+
+  useEffect(() => {
+    if (!isJapanese || !zh) return;
+    let cancelled = false;
+
+    void apiFetch(`/v1/ja/romaji/sentence?text=${encodeURIComponent(zh)}`)
+      .then(async (response) => {
+        if (!response.ok) {
+          if (!cancelled) setResolvedSentenceRomaji('');
+          return;
+        }
+        const payload = (await response.json()) as SentenceRomajiPayload;
+        if (cancelled) return;
+        const resolved = (payload.romaji || payload.reading || '').trim();
+        setResolvedSentenceRomaji(resolved);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setResolvedSentenceRomaji('');
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isJapanese, zh]);
 
   const highlighted = highlightLessonTerms(zh, word.simp, allWords);
   const combined = [...allWords, ...previousWords];
@@ -499,28 +685,79 @@ export default function ApplyMode({
   });
   const englishFocus = highlightEnglishFocus(en, word, priorWordsForEnglish);
   const sentencePinyin = containsHanCharacter(zh) ? resolvedSentencePinyin : (rawSentencePinyin || '');
+  const romajiSourceWords = useMemo(() => {
+    const byId = new Map<string, Word>();
+    const push = (candidate: Word | null | undefined) => {
+      if (!candidate?.id) return;
+      if (!byId.has(candidate.id)) byId.set(candidate.id, candidate);
+    };
+
+    allWords.forEach(push);
+    previousWords.forEach(push);
+
+    const activeBandUnits = state.activeBandData?.units;
+    if (Array.isArray(activeBandUnits)) {
+      for (const unit of activeBandUnits) {
+        for (const candidate of unit.words || []) {
+          push(candidate as Word);
+        }
+      }
+    } else if (activeBandUnits && typeof activeBandUnits === 'object') {
+      for (const unit of Object.values(activeBandUnits)) {
+        for (const candidate of unit.words || []) {
+          push(candidate as Word);
+        }
+      }
+    }
+
+    return Array.from(byId.values());
+  }, [allWords, previousWords, state.activeBandData]);
+  const sentenceReading = isJapanese
+    ? (
+        (rawSentencePinyin || '').trim() ||
+        resolvedSentenceRomaji ||
+        deriveSentenceRomajiLocal(zh, romajiSourceWords)
+      )
+    : sentencePinyin;
 
   const isCharactersTab = activeTab === 'characters';
-  const railTotal = isCharactersTab ? Math.max(1, characterRows.length) : totalWords;
-  const railIndex = isCharactersTab ? clampedCharacterIndex : currentIndex;
+  const railTotal = supportsCharacterTab && isCharactersTab ? Math.max(1, characterRows.length) : totalWords;
+  const railIndex = supportsCharacterTab && isCharactersTab ? clampedCharacterIndex : currentIndex;
   const activeCharacterRow = characterRows[clampedCharacterIndex] || null;
   const activeCharacterLive = activeCharacterRow ? liveCharacterMap[activeCharacterRow.char] : null;
   const activeCharacterPinyin = activeCharacterRow
-    ? (activeCharacterRow.insight?.pinyin?.[0] || activeCharacterLive?.pinyin?.[0] || '')
+    ? (
+        activeCharacterRow.insight?.pinyin?.[0] ||
+        activeCharacterLive?.pinyin?.[0] ||
+        activeCharacterRow.examples.find((example) => (example.simp || '').includes(activeCharacterRow.char))?.pinyin ||
+        ''
+      )
     : '';
   const activeCharacterGloss = activeCharacterRow
-    ? (activeCharacterRow.insight?.glosses?.[0] || activeCharacterLive?.glosses?.[0] || '')
+    ? (
+        activeCharacterRow.insight?.glosses?.[0] ||
+        activeCharacterLive?.glosses?.[0] ||
+        activeCharacterRow.examples.find((example) => (example.simp || '').includes(activeCharacterRow.char))?.en ||
+        ''
+      )
     : '';
 
-  const prevDisabled = isCharactersTab ? clampedCharacterIndex === 0 : currentIndex === 0;
+  const prevDisabled = supportsCharacterTab && isCharactersTab ? clampedCharacterIndex === 0 : currentIndex === 0;
   const isLastCharacter = characterRows.length > 0 && clampedCharacterIndex >= characterRows.length - 1;
   const nextLabel = 'Next';
 
-  const speakText = isCharactersTab && activeCharacterRow ? activeCharacterRow.char : zh;
-  const speakPinyin = isCharactersTab && activeCharacterPinyin ? activeCharacterPinyin : word.pinyin;
+  const speakText = supportsCharacterTab && isCharactersTab && activeCharacterRow ? activeCharacterRow.char : zh;
+  const speakPinyin =
+    supportsCharacterTab && isCharactersTab && activeCharacterPinyin
+      ? activeCharacterPinyin
+      : (
+          word.pinyin ||
+          rawSentencePinyin ||
+          (isJapanese ? (resolvedSentenceRomaji || deriveSentenceRomajiLocal(zh, romajiSourceWords)) : '')
+        );
 
   const handlePrev = () => {
-    if (isCharactersTab) {
+    if (supportsCharacterTab && isCharactersTab) {
       setCharacterIndex((prev) => Math.max(0, Math.min(prev, Math.max(0, characterRows.length - 1)) - 1));
       return;
     }
@@ -528,7 +765,7 @@ export default function ApplyMode({
   };
 
   const handleNextAction = () => {
-    if (isCharactersTab) {
+    if (supportsCharacterTab && isCharactersTab) {
       if (isLastCharacter) {
         try {
           window.sessionStorage.setItem(applyCompletionVariantKey, 'characters');
@@ -557,7 +794,7 @@ export default function ApplyMode({
       <WordProgressRail total={railTotal} currentIndex={railIndex} />
 
       <div className="px-5 pt-2">
-        <div className="mx-auto w-full max-w-3xl mb-3 grid grid-cols-2 gap-2 rounded-2xl bg-[rgba(55,65,81,0.06)] p-1">
+        <div className={`mx-auto w-full max-w-3xl mb-3 grid ${supportsCharacterTab ? 'grid-cols-2' : 'grid-cols-1'} gap-2 rounded-2xl bg-[rgba(55,65,81,0.06)] p-1`}>
           <button
             type="button"
             onClick={() => setActiveTab('context')}
@@ -567,15 +804,17 @@ export default function ApplyMode({
           >
             Sentence Context
           </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('characters')}
-            className={`rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider font-mono transition-all ${
-              activeTab === 'characters' ? 'bg-[#3E5648] text-white' : 'text-[#374151] hover:bg-white'
-            }`}
-          >
-            Characters
-          </button>
+          {supportsCharacterTab && (
+            <button
+              type="button"
+              onClick={() => setActiveTab('characters')}
+              className={`rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider font-mono transition-all ${
+                activeTab === 'characters' ? 'bg-[#3E5648] text-white' : 'text-[#374151] hover:bg-white'
+              }`}
+            >
+              Characters
+            </button>
+          )}
         </div>
       </div>
 
@@ -586,12 +825,18 @@ export default function ApplyMode({
               Apply In Context
             </div>
             <div className="secondary-font text-[2rem] text-text-dark leading-tight">{highlighted}</div>
-            {sentencePinyin ? (
-              <div className="mt-2 text-sm text-text-med">{renderPinyinWithToneNumber(sentenceCasePinyin(sentencePinyin))}</div>
+            {sentenceReading ? (
+              <div className="mt-2 text-sm text-text-med">
+                {isJapanese ? sentenceCasePinyin(sentenceReading) : renderPinyinWithToneNumber(sentenceCasePinyin(sentenceReading))}
+              </div>
             ) : null}
             <div className="mt-2 inline-flex items-center rounded-full border border-border bg-[rgba(55,65,81,0.05)] px-3 py-1 text-xs text-text-med">
               Focus word: <span className="ml-1 font-semibold text-text-dark">{word.simp}</span>{' '}
-              <span className="font-mono">{renderPinyinWithToneNumber(word.pinyin)}</span>
+              <span className="font-mono">
+                {isJapanese
+                  ? (word.pinyin || deriveSentenceRomajiLocal(word.simp || '', romajiSourceWords))
+                  : renderPinyinWithToneNumber(word.pinyin)}
+              </span>
             </div>
             <div className="mt-3 rounded-xl border border-border bg-[rgba(55,65,81,0.06)] px-4 py-3 text-text-dark text-center">
               {englishFocus}
@@ -606,7 +851,9 @@ export default function ApplyMode({
                 </div>
                 <div className="main-font text-[3.2rem] leading-none text-text-dark">{activeCharacterRow.char}</div>
                 {activeCharacterPinyin ? (
-                  <div className="mt-2 text-sm font-mono text-[#374151]">{renderPinyinWithToneNumber(activeCharacterPinyin)}</div>
+                  <div className="mt-2 text-sm font-mono text-[#374151]">
+                    {isJapanese ? activeCharacterPinyin : renderPinyinWithToneNumber(activeCharacterPinyin)}
+                  </div>
                 ) : null}
                 {activeCharacterGloss ? <div className="mt-1.5 text-sm text-text-med">{activeCharacterGloss}</div> : null}
 
@@ -622,7 +869,7 @@ export default function ApplyMode({
                       >
                         <span className="text-xs font-semibold text-[#186E95]">{example.simp}</span>
                         <span className="text-[10px] text-text-light font-mono">
-                          {renderPinyinWithToneNumber(example.pinyin)}
+                          {isJapanese ? (example.pinyin || '') : renderPinyinWithToneNumber(example.pinyin)}
                         </span>
                       </div>
                     ))}
@@ -638,14 +885,14 @@ export default function ApplyMode({
 
       <div className="flex gap-3 justify-center px-5 pb-4">
         <button
-          onClick={() => speak(speakText, speakPinyin, false)}
+          onClick={() => speak(speakText, speakPinyin, false, state.selectedLanguage)}
           className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#186E95] hover:-translate-y-0.5 hover:shadow-lg"
         >
           <Volume2 className="w-5 h-5" />
           Listen
         </button>
         <button
-          onClick={() => speak(speakText, speakPinyin, true)}
+          onClick={() => speak(speakText, speakPinyin, true, state.selectedLanguage)}
           className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(55,65,81,0.40)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)]"
         >
           <Snail className="w-5 h-5" />

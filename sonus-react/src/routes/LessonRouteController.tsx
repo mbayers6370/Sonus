@@ -5,7 +5,7 @@ import LessonComplete from '../components/LessonComplete';
 import LessonReview from '../components/LessonReview';
 import LessonScreen from '../components/LessonScreen';
 import type { LessonMode } from '../types/lesson.types';
-import { CHINESE_LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
+import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
 
 interface LessonRouteControllerProps {
   onGoHome: () => void;
@@ -31,12 +31,13 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
     routeMode === 'quiz' || routeMode === 'speak' || routeMode === 'intro' || routeMode === 'apply'
       ? routeMode
       : 'intro';
-  const level = band ? CHINESE_LEVEL_BY_ID[band] : undefined;
+  const level = band ? LEVEL_BY_ID[band] : undefined;
   const pendingLoadKeyRef = useRef<string>('');
 
   useEffect(() => {
     if (!band || !unitId || !Number.isFinite(parsedLessonIndex)) return;
-    if (isMandarinBandLocked(band, state.unlockedLevels)) {
+    const isMandarinLevel = /^band\d+$/i.test(band) || band === 'advanced';
+    if (isMandarinLevel && isMandarinBandLocked(band, state.unlockedLevels)) {
       navigate('/learn', { replace: true });
       return;
     }
@@ -83,9 +84,8 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
     if (pendingLoadKeyRef.current === loadKey) return;
     pendingLoadKeyRef.current = loadKey;
 
-    if (state.selectedLanguage !== 'zh') {
-      selectLanguage('zh');
-    }
+    if (isMandarinLevel && state.selectedLanguage !== 'zh') selectLanguage('zh');
+    if (/^n[1-5]$/i.test(band) && state.selectedLanguage !== 'ja' && state.selectedLanguage !== 'jp') selectLanguage('ja');
 
     void openLessonPath(band, unitId, parsedLessonIndex)
       .then((opened) => {

@@ -4,7 +4,7 @@ import BottomNav from './BottomNav';
 import { loadWordLookup, type WordLookup } from '../lib/wordLookup';
 import GlassHeader from './GlassHeader';
 import { apiFetch } from '../lib/apiClient';
-import { getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
+import { formatUnitNameForDisplay, getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import { useApp } from '../contexts/AppContext';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
@@ -81,6 +81,7 @@ function getNeedsWorkColumns(width: number) {
 
 export default function ProfileProgressScreen({ onGoHome, onGoProfile }: ProfileProgressScreenProps) {
   const { state } = useApp();
+  const languageId = state.selectedLanguage === 'jp' ? 'ja' : (state.selectedLanguage || 'zh');
   const [error, setError] = useState<string | null>(null);
   const [backendOffline, setBackendOffline] = useState(false);
   const [progress, setProgress] = useState<Progress | null>(null);
@@ -97,7 +98,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     try {
       const [progressResponse, needsWorkResponse] = await Promise.all([
         apiFetch('/v1/me/progress'),
-        apiFetch('/v1/me/needs-work?limit=40&minTotalMisses=3'),
+        apiFetch(`/v1/me/needs-work?limit=40&minTotalMisses=1&language=${encodeURIComponent(languageId)}`),
       ]);
       if (!progressResponse.ok) throw new Error('Failed to load progress');
       const json = (await progressResponse.json()) as {
@@ -128,10 +129,10 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   useEffect(() => {
     void load();
     void (async () => {
-      const lookup = await loadWordLookup();
+      const lookup = await loadWordLookup(languageId);
       setWordLookup(lookup);
     })();
-  }, []);
+  }, [languageId]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -220,7 +221,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       ? currentPath.lessonIdx + 1
       : null;
   const currentUnitAndLesson = currentPath.unitId
-    ? `${currentUnitMeta?.name ?? 'Current Unit'}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
+    ? `${formatUnitNameForDisplay(currentUnitMeta?.name) || 'Current Unit'}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
     : 'Not started';
   const streakDisplay = Math.max(progress?.streak ?? 0, 1);
 

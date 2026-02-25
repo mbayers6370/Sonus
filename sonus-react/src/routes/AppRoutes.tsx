@@ -7,7 +7,7 @@ import UnitSelect from '../components/UnitSelect';
 import AboutSonusScreen from '../components/AboutSonusScreen';
 import ProfileProgressScreen from '../components/ProfileProgressScreen';
 import LessonRouteController from './LessonRouteController';
-import { CHINESE_LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
+import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
 import { apiFetch } from '../lib/apiClient';
 import { LanguageRoute, HomeRoute } from './homeRoutes';
 import { CharactersRoute, FoundationsRoute, PinyinRoute, TonesRoute } from './foundationRoutes';
@@ -50,6 +50,8 @@ export default function AppRoutes() {
     generateDailyReviewSet,
   } = useApp();
   const { selectedLanguage, currentLevel } = state;
+  const isMandarinLevel = (levelId: string) => /^band\d+$/i.test(levelId) || levelId === 'advanced';
+  const isJapaneseLevel = (levelId: string) => /^n[1-5]$/i.test(levelId);
 
   useEffect(() => {
     let cancelled = false;
@@ -121,13 +123,14 @@ export default function AppRoutes() {
       if (response.ok) {
         const payload = (await response.json()) as ProgressPayload;
         const currentBandId = payload.progress?.currentBandId;
-        const level = typeof currentBandId === 'string' ? CHINESE_LEVEL_BY_ID[currentBandId] : undefined;
+        const level = typeof currentBandId === 'string' ? LEVEL_BY_ID[currentBandId] : undefined;
         if (level) {
-          if (isMandarinBandLocked(level.id, state.unlockedLevels)) {
+          if (isMandarinLevel(level.id) && isMandarinBandLocked(level.id, state.unlockedLevels)) {
             navigate('/learn');
             return;
           }
-          if (selectedLanguage !== 'zh') selectLanguage('zh');
+          if (isMandarinLevel(level.id) && selectedLanguage !== 'zh') selectLanguage('zh');
+          if (isJapaneseLevel(level.id) && selectedLanguage !== 'ja' && selectedLanguage !== 'jp') selectLanguage('ja');
           await selectLevel(level);
           navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
           return;
@@ -143,32 +146,32 @@ export default function AppRoutes() {
 
   const openPracticeFromHome = useCallback(
     (kind: 'listening' | 'speaking', bandId?: string | null) => {
-      const requestedBandId =
-        bandId && (/^band\d+$/i.test(bandId) || bandId === 'advanced') ? bandId : 'band1';
+      const isJapanese = selectedLanguage === 'ja' || selectedLanguage === 'jp';
+      const requestedBandId = isJapanese
+        ? (
+            bandId && /^n[1-5]$/i.test(bandId)
+              ? bandId
+              : (/^n[1-5]$/i.test(currentLevel?.id || '') ? currentLevel!.id : 'n5')
+          )
+        : (
+            bandId && (/^band\d+$/i.test(bandId) || bandId === 'advanced') ? bandId : 'band1'
+          );
       navigate(`/practice/${kind}/${requestedBandId}`);
     },
-    [navigate]
-  );
-
-  const openDailyFromHome = useCallback(
-    (bandId?: string | null) => {
-      const requestedBandId =
-        bandId && (/^band\d+$/i.test(bandId) || bandId === 'advanced') ? bandId : 'band1';
-      navigate(`/practice/daily/${requestedBandId}`);
-    },
-    [navigate]
+    [currentLevel, navigate, selectedLanguage]
   );
 
   const openResumeFromHome = useCallback(
     async (target: { bandId: string; unitId: string; lessonIndex: number; isCheckpoint: boolean }) => {
       void target.lessonIndex;
       exitLesson();
-      const level = CHINESE_LEVEL_BY_ID[target.bandId];
-      if (!level || isMandarinBandLocked(level.id, state.unlockedLevels)) {
+      const level = LEVEL_BY_ID[target.bandId];
+      if (!level || (isMandarinLevel(level.id) && isMandarinBandLocked(level.id, state.unlockedLevels))) {
         navigate('/learn');
         return;
       }
-      if (selectedLanguage !== 'zh') selectLanguage('zh');
+      if (isMandarinLevel(level.id) && selectedLanguage !== 'zh') selectLanguage('zh');
+      if (isJapaneseLevel(level.id) && selectedLanguage !== 'ja' && selectedLanguage !== 'jp') selectLanguage('ja');
       await selectLevel(level);
       const basePath = `/learn/${tierForBand(level.id)}/${level.id}`;
       if (target.isCheckpoint) {
@@ -209,19 +212,20 @@ export default function AppRoutes() {
 
   function UnitsRoute() {
     const { band } = useParams<{ tier: string; band: string }>();
-    const level = band ? CHINESE_LEVEL_BY_ID[band] : undefined;
+    const level = band ? LEVEL_BY_ID[band] : undefined;
 
     useEffect(() => {
       if (!level) return;
-      if (selectedLanguage !== 'zh') selectLanguage('zh');
+      if (isMandarinLevel(level.id) && selectedLanguage !== 'zh') selectLanguage('zh');
+      if (isJapaneseLevel(level.id) && selectedLanguage !== 'ja' && selectedLanguage !== 'jp') selectLanguage('ja');
       // Ensure band payload is loaded when route band changes.
       if (currentLevel?.id !== level.id) {
         void selectLevel(level);
       }
-    }, [level]);
+    }, [currentLevel?.id, level, selectLanguage, selectLevel, selectedLanguage]);
 
     if (!level) return <Navigate to="/learn" replace />;
-    if (isMandarinBandLocked(level.id, state.unlockedLevels)) return <Navigate to="/learn" replace />;
+    if (isMandarinLevel(level.id) && isMandarinBandLocked(level.id, state.unlockedLevels)) return <Navigate to="/learn" replace />;
     if (!currentLevel || currentLevel.id !== level.id || !state.activeBandData) {
       return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading units…</div>;
     }
@@ -244,13 +248,21 @@ export default function AppRoutes() {
 
   function PracticeRedirectRoute() {
     const { kind, band } = useParams<{ kind: string; band: string }>();
-    const targetBand = band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : 'band1';
-    const resolvedBand = isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'band1' : targetBand;
+    const isJapaneseBand = Boolean(band && /^n[1-5]$/i.test(band));
+    const targetBand = isJapaneseBand
+      ? (band as string)
+      : (band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : 'band1');
+    const resolvedBand = isJapaneseBand
+      ? targetBand
+      : (isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'band1' : targetBand);
     const targetKind = kind === 'speaking' ? 'speaking' : 'listening';
-    const targetUnitId =
-      resolvedBand === 'advanced'
-        ? `b79-${targetKind}`
-        : `b${resolvedBand.match(/^band(\d+)$/i)?.[1] ?? '1'}-${targetKind}`;
+    const targetUnitId = isJapaneseBand
+      ? `${resolvedBand}-${targetKind}`
+      : (
+          resolvedBand === 'advanced'
+            ? `b79-${targetKind}`
+            : `b${resolvedBand.match(/^band(\d+)$/i)?.[1] ?? '1'}-${targetKind}`
+        );
     const targetMode: LessonMode = targetKind === 'listening' ? 'quiz' : 'speak';
 
     useEffect(() => {
@@ -263,6 +275,18 @@ export default function AppRoutes() {
           );
           return;
         }
+        if (isJapaneseBand) {
+          void openLessonPath('n5', `n5-${targetKind}`, 0).then((fallbackOpened) => {
+            if (fallbackOpened) {
+              navigate(`/learn/jlpt/n5/unit/n5-${targetKind}/lesson/0/${targetMode}`, {
+                replace: true,
+              });
+              return;
+            }
+            navigate('/learn', { replace: true });
+          });
+          return;
+        }
         void openLessonPath('band1', `b1-${targetKind}`, 0).then((fallbackOpened) => {
           if (fallbackOpened) {
             navigate(`/learn/beginner/band1/unit/b1-${targetKind}/lesson/0/${targetMode}`, {
@@ -273,7 +297,7 @@ export default function AppRoutes() {
           navigate('/learn', { replace: true });
         });
       });
-    }, [resolvedBand, targetKind, targetMode, targetUnitId]);
+    }, [isJapaneseBand, resolvedBand, targetKind, targetMode, targetUnitId]);
 
     return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading practice…</div>;
   }
@@ -345,7 +369,6 @@ export default function AppRoutes() {
             onOpenWeakWords={() => navigate('/profile/progress')}
             onOpenProfile={() => navigate('/profile')}
             onOpenTravelMode={(sectionId) => navigate(sectionId ? `/travel/${sectionId}` : '/travel')}
-            onOpenDailyPractice={(bandId) => openDailyFromHome(bandId)}
           />
         }
       />

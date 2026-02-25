@@ -135,9 +135,144 @@ function defaultUnlockedLevelIds() {
   return Array.from(new Set([...base, 'band1']));
 }
 
+function resolveLanguageId(languageId: string | null | undefined) {
+  if (languageId === 'jp') return 'ja';
+  return languageId || 'zh';
+}
+
+function inferLanguageForBand(bandId: string, selectedLanguage: string | null) {
+  if (/^n[1-5]$/i.test(bandId)) return 'ja';
+  return resolveLanguageId(selectedLanguage);
+}
+
+function resolveBandDataPath(languageId: string, bandId: string) {
+  if (languageId === 'zh') {
+    return `/data/zh/${resolveBandDataId(bandId)}.json`;
+  }
+  return `/data/${languageId}/${bandId}.json`;
+}
+
+function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null {
+  if (typeof rawWord.id !== 'string') return null;
+  if (typeof rawWord.simp === 'string' && typeof rawWord.trad === 'string') {
+    return rawWord as unknown as Word;
+  }
+
+  const exampleRaw = (rawWord.example || {}) as Record<string, unknown>;
+  const kanji = typeof rawWord.kanji === 'string' ? rawWord.kanji.trim() : '';
+  const hiragana = typeof rawWord.hiragana === 'string' ? rawWord.hiragana.trim() : '';
+  const romaji = typeof rawWord.romaji === 'string' ? rawWord.romaji.trim() : '';
+  return {
+    id: rawWord.id,
+    simp: kanji || hiragana,
+    trad: kanji || hiragana,
+    pinyin: romaji,
+    pos: typeof rawWord.pos === 'string' ? rawWord.pos : '',
+    en: typeof rawWord.en === 'string' ? rawWord.en : '',
+    defs: Array.isArray(rawWord.defs)
+      ? rawWord.defs.filter((value): value is string => typeof value === 'string')
+      : [],
+    isReview: typeof rawWord.isReview === 'boolean' ? rawWord.isReview : false,
+    example: {
+      zh: typeof exampleRaw.zh === 'string' ? exampleRaw.zh : (typeof exampleRaw.ja === 'string' ? exampleRaw.ja : undefined),
+      en: typeof exampleRaw.en === 'string' ? exampleRaw.en : undefined,
+      pinyin: typeof exampleRaw.pinyin === 'string'
+        ? exampleRaw.pinyin
+        : (typeof exampleRaw.romaji === 'string' ? exampleRaw.romaji : undefined),
+    },
+  };
+}
+
+function normalizeBandDataPayload(rawPayload: unknown, bandId: string, languageId: string): BandData | null {
+  if (!rawPayload || typeof rawPayload !== 'object') return null;
+  const raw = rawPayload as Record<string, unknown>;
+
+  if (raw.units) {
+    const unitsRaw = raw.units;
+    if (Array.isArray(unitsRaw)) {
+      const units = unitsRaw
+        .map((unit) => {
+          const record = (unit || {}) as Record<string, unknown>;
+          const id = typeof record.id === 'string' ? record.id : null;
+          if (!id) return null;
+          const words = Array.isArray(record.words)
+            ? record.words
+                .map((word) => normalizeWordForRuntime((word || {}) as Record<string, unknown>))
+                .filter((word): word is Word => Boolean(word))
+            : [];
+          return {
+            ...(record as Record<string, unknown>),
+            id,
+            words,
+          };
+        })
+        .filter(Boolean);
+      return {
+        language: (typeof raw.language === 'string' && raw.language) || languageId,
+        source: typeof raw.source === 'string' ? raw.source : '',
+        bandId: typeof raw.bandId === 'string' ? raw.bandId : bandId,
+        band: typeof raw.band === 'number' ? raw.band : 0,
+        wordCount: typeof raw.wordCount === 'number' ? raw.wordCount : units.reduce((n, unit) => n + ((unit as { words?: Word[] }).words?.length || 0), 0),
+        availableWords: typeof raw.availableWords === 'number' ? raw.availableWords : units.reduce((n, unit) => n + ((unit as { words?: Word[] }).words?.length || 0), 0),
+        unallocatedWords: typeof raw.unallocatedWords === 'number' ? raw.unallocatedWords : 0,
+        units: units as BandData['units'],
+      };
+    }
+    if (unitsRaw && typeof unitsRaw === 'object') {
+      const normalizedUnits: Record<string, { words?: Word[] }> = {};
+      for (const [unitId, unitValue] of Object.entries(unitsRaw as Record<string, unknown>)) {
+        const record = (unitValue || {}) as Record<string, unknown>;
+        const words = Array.isArray(record.words)
+          ? record.words
+              .map((word) => normalizeWordForRuntime((word || {}) as Record<string, unknown>))
+              .filter((word): word is Word => Boolean(word))
+          : [];
+        normalizedUnits[unitId] = { ...record, words } as { words?: Word[] };
+      }
+      const count = Object.values(normalizedUnits).reduce((n, unit) => n + (unit.words?.length || 0), 0);
+      return {
+        language: (typeof raw.language === 'string' && raw.language) || languageId,
+        source: typeof raw.source === 'string' ? raw.source : '',
+        bandId: typeof raw.bandId === 'string' ? raw.bandId : bandId,
+        band: typeof raw.band === 'number' ? raw.band : 0,
+        wordCount: typeof raw.wordCount === 'number' ? raw.wordCount : count,
+        availableWords: typeof raw.availableWords === 'number' ? raw.availableWords : count,
+        unallocatedWords: typeof raw.unallocatedWords === 'number' ? raw.unallocatedWords : 0,
+        units: normalizedUnits as BandData['units'],
+      };
+    }
+  }
+
+  const rawWords = Array.isArray(raw.words) ? raw.words : [];
+  const words = rawWords
+    .map((word) => normalizeWordForRuntime((word || {}) as Record<string, unknown>))
+    .filter((word): word is Word => Boolean(word));
+  if (!words.length) return null;
+  const coreUnitId = `${bandId}-core`;
+  return {
+    language: (typeof raw.language === 'string' && raw.language) || languageId,
+    source: typeof raw.source === 'string' ? raw.source : '',
+    bandId: typeof raw.bandId === 'string' ? raw.bandId : bandId,
+    band: typeof raw.band === 'number' ? raw.band : 0,
+    wordCount: typeof raw.wordCount === 'number' ? raw.wordCount : words.length,
+    availableWords: words.length,
+    unallocatedWords: 0,
+    units: [
+      {
+        id: coreUnitId,
+        band: 0,
+        targetWords: words.length,
+        allocatedWords: words.length,
+        words,
+      },
+    ],
+  };
+}
+
 function formatUnitLabel(unitId: string) {
   return unitId
     .replace(/^[a-z]\d+-/i, '')
+    .replace(/^\s*U\d{1,2}\s+/i, '')
     .replace(/[-_]+/g, ' ')
     .replace(/\b\w/g, (c) => c.toUpperCase());
 }
@@ -673,12 +808,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
     let cancelled = false;
     const activeBandId = state.activeBandId;
-    const dataBandId = resolveBandDataId(activeBandId);
+    const languageId = inferLanguageForBand(activeBandId, state.selectedLanguage);
 
-    void fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' })
+    void fetch(resolveBandDataPath(languageId, activeBandId), { cache: 'no-store' })
       .then(async (response) => {
         if (!response.ok) return null;
-        return (await response.json()) as BandData;
+        const raw = await response.json();
+        return normalizeBandDataPayload(raw, activeBandId, languageId);
       })
       .then((bandData) => {
         if (!bandData || cancelled) return;
@@ -697,7 +833,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [state.activeBandId]);
+  }, [state.activeBandId, state.selectedLanguage]);
 
   useEffect(() => {
     if (authStatus !== 'signed_in') return;
@@ -790,10 +926,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const dataBandId = resolveBandDataId(level.id);
-      const response = await fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' });
+      const languageId = inferLanguageForBand(level.id, state.selectedLanguage);
+      const response = await fetch(resolveBandDataPath(languageId, level.id), { cache: 'no-store' });
       if (!response.ok) throw new Error(`Failed to load ${level.id}`);
-      const bandData: BandData = await response.json();
+      const raw = await response.json();
+      const bandData = normalizeBandDataPayload(raw, level.id, languageId);
+      if (!bandData) throw new Error(`Invalid band data: ${level.id}`);
 
       setState((prev) => ({
         ...prev,
@@ -813,10 +951,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         return false;
       }
       const resolvedUnitId = resolveUnitIdForBand(bandId, unitId);
-      const dataBandId = resolveBandDataId(bandId);
-      const response = await fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' });
+      const languageId = inferLanguageForBand(bandId, state.selectedLanguage);
+      const response = await fetch(resolveBandDataPath(languageId, bandId), { cache: 'no-store' });
       if (!response.ok) return false;
-      const bandData: BandData = await response.json();
+      const raw = await response.json();
+      const bandData = normalizeBandDataPayload(raw, bandId, languageId);
+      if (!bandData) return false;
       const checkpointIndex = parseCheckpointIndex(resolvedUnitId);
       const isCheckpointQuiz = checkpointIndex !== null;
       const practiceMode = getPracticeModeFromUnit(resolvedUnitId);
@@ -835,11 +975,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const key = makeLessonKey(bandId, targetUnitId, targetLessonIndex);
         return hasLessonUnlockCredit(state.lessonProgress[key]);
       };
-      const coreUnitIds = getUnitsForBand(bandId)
+      const configuredUnits = getUnitsForBand(bandId);
+      const metadataCoreUnitIds = configuredUnits
         .filter((meta) => !isPracticeUnitId(meta.id) && !isCheckpointUnitId(meta.id))
         .map((meta) => resolveUnitIdForBand(bandId, meta.id))
         .filter((unitIdValue, idx, arr) => arr.indexOf(unitIdValue) === idx)
         .filter((unitIdValue) => Boolean(getBandUnitById(bandData, unitIdValue)?.words?.length));
+      const dataCoreUnitIds = getBandUnits(bandData)
+        .map((unit) => unit.id)
+        .filter((unitIdValue) => unitIdValue !== '_unallocated')
+        .filter((unitIdValue) => !isPracticeUnitId(unitIdValue) && !isCheckpointUnitId(unitIdValue))
+        .filter((unitIdValue, idx, arr) => arr.indexOf(unitIdValue) === idx)
+        .filter((unitIdValue) => Boolean(getBandUnitById(bandData, unitIdValue)?.words?.length));
+      const coreUnitIds = metadataCoreUnitIds.length > 0 ? metadataCoreUnitIds : dataCoreUnitIds;
       const unitLessonCount = (targetUnitId: string) => {
         const targetUnit = getBandUnitById(bandData, targetUnitId);
         return getLessonRanges((targetUnit?.words || []).length, 10).length;
@@ -864,7 +1012,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         }
         unlockedByUnitId.set(coreUnitIds[coreIdx], unlocked);
       }
-      for (const checkpointMeta of getUnitsForBand(bandId).filter((meta) => isCheckpointUnitId(meta.id))) {
+      for (const checkpointMeta of configuredUnits.filter((meta) => isCheckpointUnitId(meta.id))) {
         const idx = parseCheckpointIndex(checkpointMeta.id);
         if (!idx) {
           unlockedByUnitId.set(checkpointMeta.id, false);
@@ -875,8 +1023,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const covered = coreUnitIds.slice(start, end);
         unlockedByUnitId.set(checkpointMeta.id, covered.length > 0 && covered.every((unitIdValue) => hasUnitPassedThreshold(unitIdValue)));
       }
-      for (const practiceMeta of getUnitsForBand(bandId).filter((meta) => isPracticeUnitId(meta.id))) {
+      for (const practiceMeta of configuredUnits.filter((meta) => isPracticeUnitId(meta.id))) {
         unlockedByUnitId.set(practiceMeta.id, coreUnitIds.length > 0);
+      }
+      if (configuredUnits.length === 0 && practiceMode) {
+        unlockedByUnitId.set(resolvedUnitId, coreUnitIds.length > 0);
       }
       if (!(unlockedByUnitId.get(resolvedUnitId) ?? false)) {
         return false;
@@ -890,7 +1041,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
 
       if (isCheckpointQuiz && checkpointIndex) {
-        const baseUnits = getUnitsForBand(bandId)
+        const baseUnits = configuredUnits
           .filter((meta) => !isPracticeUnitId(meta.id) && !isCheckpointUnitId(meta.id))
           .sort((a, b) => a.order - b.order);
         const coveredUnits = baseUnits.slice(0, checkpointIndex * 4).map((meta) => meta.id);
@@ -907,7 +1058,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         );
         lessonChunk = shuffleWords(uniquePool).slice(0, Math.min(uniquePool.length, checkpointBaseSize));
       } else {
-        if (!unit) return false;
+        if (!unit && !practiceMode) return false;
         // Apply lessons override examples with curated sentence prompts.
         const applySentenceByUnit = isApplyLesson ? await fetchApplySentenceMap(bandId, true) : {};
         const applySentences = applySentenceByUnit[resolvedUnitId] || [];
@@ -1063,7 +1214,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const checkpointCoveredUnitIds =
           isCheckpointQuiz && checkpointIndex
             ? new Set(
-                getUnitsForBand(bandId)
+                configuredUnits
                   .filter((meta) => !isPracticeUnitId(meta.id) && !isCheckpointUnitId(meta.id))
                   .sort((a, b) => a.order - b.order)
                   .slice(0, checkpointIndex * 4)
@@ -1398,20 +1549,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const generateDailyReviewSet = async (bandId?: string): Promise<boolean> => {
     const targetBandId = bandId || state.activeBandId || state.currentLevel?.id || 'band1';
-    const dataBandId = resolveBandDataId(targetBandId);
+    const languageId = inferLanguageForBand(targetBandId, state.selectedLanguage);
 
     try {
-      const response = await fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' });
+      const response = await fetch(resolveBandDataPath(languageId, targetBandId), { cache: 'no-store' });
       if (!response.ok) return false;
-      const bandData: BandData = await response.json();
+      const raw = await response.json();
+      const bandData = normalizeBandDataPayload(raw, targetBandId, languageId);
+      if (!bandData) return false;
       const { map: wordById, sourceUnitByWordId } = getBandWordMap(bandData);
       const nowMs = Date.now();
       const today = todayKey();
-      const coreUnitIds = getUnitsForBand(targetBandId)
+      const configuredUnits = getUnitsForBand(targetBandId);
+      const metadataCoreUnitIds = configuredUnits
         .filter((meta) => !isPracticeUnitId(meta.id) && !isCheckpointUnitId(meta.id))
         .map((meta) => resolveUnitIdForBand(targetBandId, meta.id))
         .filter((unitIdValue, idx, arr) => arr.indexOf(unitIdValue) === idx)
         .filter((unitIdValue) => Boolean(getBandUnitById(bandData, unitIdValue)?.words?.length));
+      const dataCoreUnitIds = getBandUnits(bandData)
+        .map((unit) => unit.id)
+        .filter((unitIdValue) => unitIdValue !== '_unallocated')
+        .filter((unitIdValue) => !isPracticeUnitId(unitIdValue) && !isCheckpointUnitId(unitIdValue))
+        .filter((unitIdValue, idx, arr) => arr.indexOf(unitIdValue) === idx)
+        .filter((unitIdValue) => Boolean(getBandUnitById(bandData, unitIdValue)?.words?.length));
+      const coreUnitIds = metadataCoreUnitIds.length > 0 ? metadataCoreUnitIds : dataCoreUnitIds;
       const fallbackUnitId = coreUnitIds[0];
 
       const resumeUnitId =

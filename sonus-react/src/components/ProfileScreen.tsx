@@ -16,7 +16,7 @@ import { apiFetch } from '../lib/apiClient';
 import { useAuth } from '../contexts/AuthContext';
 import { useApp } from '../contexts/AppContext';
 import { SurfaceButtonCard, SurfaceCard } from './ui/SurfaceCard';
-import { getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
+import { formatUnitNameForDisplay, getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 
 type Profile = {
@@ -75,6 +75,7 @@ export default function ProfileScreen({
 }: ProfileScreenProps) {
   const { state } = useApp();
   const { isDemo, signOut } = useAuth();
+  const resolvedCurrentLearningLanguage = currentLearningLanguage === 'jp' ? 'ja' : currentLearningLanguage;
   const [saving, setSaving] = useState(false);
   const [profileEditorOpen, setProfileEditorOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -85,13 +86,16 @@ export default function ProfileScreen({
   const [displayName, setDisplayName] = useState('');
   const [targetLanguage, setTargetLanguage] = useState('');
   const [timezone, setTimezone] = useState('');
-  const [learningLanguageSelection, setLearningLanguageSelection] = useState('zh');
+  const [learningLanguageSelection, setLearningLanguageSelection] = useState(
+    resolvedCurrentLearningLanguage || 'zh'
+  );
   const [pendingLearningLanguage, setPendingLearningLanguage] = useState<string | null>(null);
   const [switchingLanguage, setSwitchingLanguage] = useState(false);
   const [deletingAccount, setDeletingAccount] = useState(false);
 
   const learningLanguageName =
     (currentLearningLanguage === 'zh' && 'Mandarin') ||
+    (currentLearningLanguage === 'ja' && 'Japanese') ||
     (currentLearningLanguage === 'jp' && 'Japanese') ||
     (currentLearningLanguage === 'kr' && 'Korean') ||
     (currentLearningLanguage === 'fr' && 'French') ||
@@ -149,7 +153,7 @@ export default function ProfileScreen({
       ? effectiveLessonIdx + 1
       : null;
   const currentUnitAndLesson = effectiveUnitId
-    ? `${currentUnitMeta?.name ?? 'Current Unit'}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
+    ? `${formatUnitNameForDisplay(currentUnitMeta?.name) || 'Current Unit'}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
     : 'Not started';
   const isLastActiveToday = (() => {
     if (!progress?.lastActiveDate) return false;
@@ -191,7 +195,7 @@ export default function ProfileScreen({
       setDisplayName(profileJson.profile.displayName || '');
       setTargetLanguage(profileJson.profile.targetLanguage || '');
       setTimezone(resolvedTimezone);
-      setLearningLanguageSelection('zh');
+      setLearningLanguageSelection(resolvedCurrentLearningLanguage || 'zh');
     } catch {
       setBackendOffline(true);
       setError(null);
@@ -217,15 +221,15 @@ export default function ProfileScreen({
         }
       }
     }
-  }, [currentLearningLanguage, signOut, timezone]);
+  }, [resolvedCurrentLearningLanguage, signOut, timezone]);
 
   useEffect(() => {
     void loadProfile();
   }, [loadProfile]);
 
   useEffect(() => {
-    setLearningLanguageSelection('zh');
-  }, [currentLearningLanguage]);
+    setLearningLanguageSelection(resolvedCurrentLearningLanguage || 'zh');
+  }, [resolvedCurrentLearningLanguage]);
 
   useEffect(() => {
     const onFocus = () => {
@@ -438,6 +442,7 @@ export default function ProfileScreen({
                     className="w-full rounded-xl border border-border bg-white px-3 py-2.5 text-sm text-text-dark"
                   >
                     <option value="zh">Mandarin</option>
+                    <option value="ja">Japanese</option>
                   </select>
                   <button
                     onClick={requestLanguageSwitch}
@@ -450,7 +455,7 @@ export default function ProfileScreen({
               </div>
 
               <div className="mt-3 text-[11px] leading-tight text-text-light">
-                Roadmap: Japanese, Korean, and French curriculum are coming soon.
+                Roadmap: Korean and French curriculum are coming soon.
               </div>
             </div>
           </SurfaceCard>

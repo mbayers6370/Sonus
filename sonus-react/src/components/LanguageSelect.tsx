@@ -39,7 +39,7 @@ const languages = [
     framework: 'HSK 3.0 · Bands 1 - 9',
   },
   {
-    id: 'jp',
+    id: 'ja',
     name: 'Japanese',
     nativeName: '日本語',
     nativeClassName: 'font-secondary',
@@ -81,7 +81,7 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
         {languages.map((lang, index) => {
           const Icon = lang.icon;
           const accent = CARD_ACCENTS[index % CARD_ACCENTS.length];
-          const isAvailable = lang.id === 'zh';
+          const isAvailable = lang.id === 'zh' || lang.id === 'ja';
           return (
             <button
               key={lang.id}
@@ -134,7 +134,7 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
 
       {/* Footer */}
       <div className="text-center mt-12 text-sm text-text-light">
-        <i>Mandarin is live now. More languages are on the way.</i>
+        <i>Mandarin and Japanese are live now. More languages are on the way.</i>
       </div>
 
       <BottomNav
