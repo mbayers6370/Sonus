@@ -253,7 +253,31 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
             <div className="text-sm text-white/85 mt-1">day streak</div>
           </div>
 
-          <div className="bg-white border border-border rounded-3xl p-5">
+        <div className="bg-[#186E95] text-white border border-[#186E95]/90 rounded-3xl p-5 shadow-[0_20px_40px_-28px_rgba(24,110,149,0.38)]">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <div className="inline-flex items-center rounded-full px-3 py-1 bg-white/14 border border-white/28 text-[10px] uppercase tracking-[0.2em] font-mono text-white/90">
+              Progress Metrics
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="rounded-xl border border-white/28 bg-white/10 p-3 sm:col-span-2">
+              <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
+                <BookOpen className="w-3.5 h-3.5" />
+                Lessons Completed
+              </div>
+              <div className="text-2xl font-semibold text-white mt-2 leading-none">{lessonsCompletedDisplay}</div>
+            </div>
+            <div className="rounded-xl border border-white/28 bg-white/12 p-3 sm:col-span-2">
+              <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
+                <Flag className="w-3.5 h-3.5" />
+                Current Unit + Lesson
+              </div>
+              <div className="text-sm font-semibold text-white mt-2 leading-tight">{currentUnitAndLesson}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white border border-border rounded-3xl p-5 md:col-span-2">
             <h3 className="font-semibold text-text-dark mb-3">Words To Work On</h3>
             {needsWork.length === 0 ? (
               <div className="text-sm text-text-med">No words currently in your needs-work list.</div>
@@ -290,30 +314,6 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                 )}
               </>
             )}
-          </div>
-        </div>
-
-        <div className="bg-[#186E95] text-white border border-[#186E95]/90 rounded-3xl p-5 shadow-[0_20px_40px_-28px_rgba(24,110,149,0.38)]">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <div className="inline-flex items-center rounded-full px-3 py-1 bg-white/14 border border-white/28 text-[10px] uppercase tracking-[0.2em] font-mono text-white/90">
-              Progress Metrics
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div className="rounded-xl border border-white/28 bg-white/10 p-3 sm:col-span-2">
-              <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
-                <BookOpen className="w-3.5 h-3.5" />
-                Lessons Completed
-              </div>
-              <div className="text-2xl font-semibold text-white mt-2 leading-none">{lessonsCompletedDisplay}</div>
-            </div>
-            <div className="rounded-xl border border-white/28 bg-white/12 p-3 sm:col-span-2">
-              <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
-                <Flag className="w-3.5 h-3.5" />
-                Current Unit + Lesson
-              </div>
-              <div className="text-sm font-semibold text-white mt-2 leading-tight">{currentUnitAndLesson}</div>
-            </div>
           </div>
         </div>
 

@@ -427,7 +427,7 @@ export default function HomeDashboard({
           <p className="text-sm leading-relaxed text-text-med mb-4 max-w-md mx-auto">
             {selectedLanguage === 'zh'
               ? needsWorkCount > 0
-                ? `${needsWorkCount} words are in your practice queue. Let's work on those first, then reinforce with current-band reps!`
+                ? `${needsWorkCount} word(s) are in your practice queue. Let's work on those first, then reinforce with current-band reps!`
                 : 'Use this as a helper while you learn. Come back anytime for focused reps to keep your skills sharp.'
               : `Practice labs are currently available for ${languageLabel}.`}
           </p>
