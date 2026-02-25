@@ -29,3 +29,11 @@ pnpm-debug.log*
 backend/.env
 sonus-react/.env
 sonus-react/.env.local
+
+# Generated corpus/cache artifacts for sentence mining
+scripts/jmdict-data/
+scripts/tanaka-data/
+scripts/ted-data/
+scripts/wit3-data/
+scripts/tatoeba-api-cache.json
+scripts/tatoeba-api-cache-diverse.json
