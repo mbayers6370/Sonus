@@ -324,7 +324,7 @@ export default function UnitSelect({
       {!activeUnit && !isMandarinBandLocked && (
       <div className="pt-2 space-y-4">
         {featuredPracticeUnits.length > 0 && (
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-0 max-w-[23em] mx-auto">
             {featuredPracticeUnits.map(({ unitId, metadata, practiceType }) => {
               const isUnitUnlocked = Boolean(unlockedByUnitId.get(unitId));
               const isListening = practiceType === 'listening';
@@ -350,23 +350,46 @@ export default function UnitSelect({
                     onOpenPractice(unitId);
                   }}
                   disabled={!isUnitUnlocked}
-                  className={`${isUnitUnlocked ? `${tone.bg} text-white border ${tone.border}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl min-h-[128px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.3)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isUnitUnlocked ? `${tone.bg} text-white border ${tone.border}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl w-full max-w-[10em] mx-auto aspect-square p-4 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.3)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
-                  <div className="space-y-1.5">
+                  {isUnitUnlocked && (
+                    <div
+                      className="pointer-events-none absolute inset-0"
+                      style={
+                        isListening
+                          ? {
+                              backgroundImage:
+                                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Cpath d='M0 20 Q10 8 20 20 T40 20 T60 20 T80 20' stroke='rgba(255,255,255,0.16)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E\")",
+                              backgroundRepeat: 'repeat',
+                              backgroundSize: '80px 40px',
+                            }
+                          : {
+                              backgroundImage:
+                                'repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.06) 1px, transparent 1px, transparent 14px)',
+                            }
+                      }
+                    />
+                  )}
+
+                  <div className="relative z-10 space-y-1.5 flex flex-col items-center text-center">
                     <div className={`text-xs font-mono tracking-wide ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
-                      {isListening ? 'Listening Practice' : 'Speaking Practice'}
+                      {isListening ? 'Practice' : 'Practice'}
                     </div>
                     <div className={`main-font text-[1.6rem] leading-none ${isUnitUnlocked ? 'text-white' : 'text-[#4B5563]'}`}>
                       {isListening ? '听力练习' : '口语练习'}
                     </div>
                   </div>
 
-                  <div className="mt-auto pt-3">
-                    <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitUnlocked ? 'bg-white/20 text-white' : 'bg-white text-[#6B7280] border border-[#D1D5DB]'}`}>
+                  <div className="mt-auto pt-3 relative z-10 flex flex-col items-center text-center">
+                    <div
+                      className={`inline-flex items-center justify-center w-9 h-9 rounded-full ${
+                        isUnitUnlocked ? 'bg-white/20 text-white' : 'bg-white text-[#6B7280] border border-[#D1D5DB]'
+                      }`}
+                    >
                       <Icon className={`w-3.5 h-3.5 ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`} />
-                      <span className={`text-[10px] font-semibold uppercase tracking-wider font-mono ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
-                        {isListening ? 'Listening' : 'Speaking'}
-                      </span>
+                    </div>
+                    <div className={`mt-2 text-[11px] font-semibold tracking-wide font-mono ${isUnitUnlocked ? 'text-white/92' : 'text-[#6B7280]'}`}>
+                      {isListening ? 'Start Listening →' : 'Start Speaking →'}
                     </div>
                   </div>
 
