@@ -52,7 +52,7 @@ export default function FoundationsHub({
       <GlassHeader title="Foundations" />
 
       <div className="space-y-4">
-        <div className="rounded-3xl border border-[#186E95] bg-[#186E95] p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)]">
+        <div className="rounded-3xl border text-center border-[#186E95] bg-[#186E95] p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)]">
           <div className="text-xs uppercase tracking-wider font-mono text-white/80">Mandarin Core Tools</div>
           <h2 className="main-font text-[2rem] leading-tight text-white mt-2">Build Sound + Script Confidence</h2>
           <p className="text-sm text-white/90 mt-2">
