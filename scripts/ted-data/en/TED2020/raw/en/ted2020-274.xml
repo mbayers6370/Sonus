@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <p id="p1">
+  <s id="1.1">How do groups get anything done?</s>
+  <s id="1.2">Right?</s>
+ </p>
+ <s id="2">How do you organize a group of individuals so that the output of the group is something coherent and of lasting value, instead of just being chaos?</s>
+ <s id="3">And the economic framing of that problem is called coordination costs.</s>
+ <s id="4">And a coordination cost is essentially all of the financial or institutional difficulties in arranging group output.</s>
+ <p id="p5">
+  <s id="5.1">And we've had a classic answer for coordination costs, which is, if you want to coordinate the work of a group of people, you start an institution, right?</s>
+  <s id="5.2">You raise some resources.</s>
+ </p>
+ <p id="p6">
+  <s id="6.1">You found something.</s>
+  <s id="6.2">It can be private or public.</s>
+ </p>
+ <p id="p7">
+  <s id="7.1">It can be for profit or not profit.</s>
+  <s id="7.2">It can be large or small.</s>
+ </p>
+ <s id="8">But you get these resources together.</s>
+ <s id="9">You found an institution, and you use the institution to coordinate the activities of the group.</s>
+ <s id="10">More recently, because the cost of letting groups communicate with each other has fallen through the floor -- and communication costs are one of the big inputs to coordination -- there has been a second answer, which is to put the cooperation into the infrastructure, to design systems that coordinate the output of the group as a by-product of the operating of the system, without regard to institutional models.</s>
+ <s id="11">So, that's what I want to talk about today.</s>
+ <s id="12">I'm going to illustrate it with some fairly concrete examples, but always pointing to the broader themes.</s>
+ <s id="13">So, I'm going to start by trying to answer a question that I know each of you will have asked yourself at some point or other, and which the Internet is purpose-built to answer, which is, where can I get a picture of a roller-skating mermaid?</s>
+ <p id="p14">
+  <s id="14.1">So, in New York City, on the first Saturday of every summer, Coney Island, our local, charmingly run-down amusement park, hosts the Mermaid Parade.</s>
+  <s id="14.2">It's an amateur parade; people come from all over the city; people get all dressed up.</s>
+ </p>
+ <s id="15">Some people get less dressed up.</s>
+ <s id="16">Young and old, dancing in the streets.</s>
+ <s id="17">Colorful characters, and a good time is had by all.</s>
+ <s id="18">And what I want to call your attention to is not the Mermaid Parade itself, charming though it is, but rather to these photos.</s>
+ <p id="p19">
+  <s id="19.1">I didn't take them.</s>
+  <s id="19.2">How did I get them?</s>
+ </p>
+ <s id="20">And the answer is: I got them from Flickr.</s>
+ <s id="21">Flickr is a photo-sharing service that allows people to take photos, upload them, share them over the Web and so forth.</s>
+ <s id="22">Recently, Flickr has added an additional function called tagging.</s>
+ <s id="23">Tagging was pioneered by Delicious and Joshua Schachter.</s>
+ <s id="24">Delicious is a social bookmarking service.</s>
+ <s id="25">Tagging is a cooperative infrastructure answer to classification.</s>
+ <p id="p26">
+  <s id="26.1">Right?</s>
+  <s id="26.2">If I had given this talk last year, I couldn't do what I just did, because I couldn't have found those photos.</s>
+ </p>
+ <s id="27">But instead of saying, we need to hire a professional class of librarians to organize these photos once they're uploaded, Flickr simply turned over to the users the ability to characterize the photos.</s>
+ <p id="p28">
+  <s id="28.1">So, I was able to go in and draw down photos that had been tagged "Mermaid Parade."</s>
+  <s id="28.2">There were 3,100 photos taken by 118 photographers, all aggregated and then put under this nice, neat name, shown in reverse chronological order.</s>
+ </p>
+ <s id="29">And I was then able to go and retrieve them to give you that little slideshow.</s>
+ <s id="30">Now, what hard problem is being solved here?</s>
+ <s id="31">And it's -- in the most schematic possible view, it's a coordination problem, right?</s>
+ <s id="32">There are a large number of people on the Internet, a very small fraction of them have photos of the Mermaid Parade.</s>
+ <s id="33">How do we get those people together to contribute that work?</s>
+ <s id="34">The classic answer is to form an institution, right?</s>
+ <s id="35">To draw those people into some prearranged structure that has explicit goals.</s>
+ <s id="36">And I want to call your attention to some of the side effects of going the institutional route.</s>
+ <s id="37">First of all, when you form an institution, you take on a management problem, right?</s>
+ <s id="38">No good just hiring employees, you also have to hire other employees to manage those employees and to enforce the goals of the institution and so forth.</s>
+ <s id="39">Secondly, you have to bring structure into place.</s>
+ <p id="p40">
+  <s id="40.1">Right?</s>
+  <s id="40.2">You have to have economic structure.</s>
+ </p>
+ <s id="41">You have to have legal structure.</s>
+ <s id="42">You have to have physical structure.</s>
+ <s id="43">And that creates additional costs.</s>
+ <s id="44">Third, forming an institution is inherently exclusionary.</s>
+ <s id="45">You notice we haven't got everybody who has a photo.</s>
+ <s id="46">You can't hire everyone in a company, right?</s>
+ <s id="47">You can't recruit everyone into a governmental organization.</s>
+ <s id="48">You have to exclude some people.</s>
+ <p id="p49">
+  <s id="49.1">And fourth, as a result of that exclusion, you end up with a professional class.</s>
+  <s id="49.2">Look at the change here.</s>
+ </p>
+ <s id="50">We've gone from people with photos to photographers.</s>
+ <p id="p51">
+  <s id="51.1">Right?</s>
+  <s id="51.2">We've created a professional class of photographers whose goal is to go out and photograph the Mermaid Parade, or whatever else they're sent out to photograph.</s>
+ </p>
+ <s id="52">When you build cooperation into the infrastructure, which is the Flickr answer, you can leave the people where they are and you take the problem to the individuals, rather than moving the individuals to the problem.</s>
+ <s id="53">You arrange the coordination in the group, and by doing that you get the same outcome, without the institutional difficulties.</s>
+ <s id="54">You lose the institutional imperative.</s>
+ <s id="55">You lose the right to shape people's work when it's volunteer effort, but you also shed the institutional cost, which gives you greater flexibility.</s>
+ <s id="56">What Flickr does is it replaces planning with coordination.</s>
+ <s id="57">And this is a general aspect of these cooperative systems.</s>
+ <p id="p58">
+  <s id="58.1">Right.</s>
+  <s id="58.2">You'll have experienced this in your life whenever you bought your first mobile phone, and you stopped making plans.</s>
+ </p>
+ <s id="59">You just said, "I'll call you when I get there."</s>
+ <p id="p60">
+  <s id="60.1">"Call me when you get off work."</s>
+  <s id="60.2">Right?</s>
+ </p>
+ <s id="61">That is a point-to-point replacement of coordination with planning.</s>
+ <p id="p62">
+  <s id="62.1">Right.</s>
+  <s id="62.2">We're now able to do that kind of thing with groups.</s>
+ </p>
+ <s id="63">To say instead of, we must make an advance plan, we must have a five-year projection of where the Wikipedia is going to be, or whatever, you can just say, let's coordinate the group effort, and let's deal with it as we go, because we're now well-enough coordinated that we don't have to take on the problems of deciding in advance what to do.</s>
+ <p id="p64">
+  <s id="64.1">So here's another example.</s>
+  <s id="64.2">This one's somewhat more somber.</s>
+ </p>
+ <s id="65">These are photos on Flickr tagged "Iraq."</s>
+ <s id="66">And everything that was hard about the coordination cost with the Mermaid Parade is even harder here.</s>
+ <p id="p67">
+  <s id="67.1">There are more pictures.</s>
+  <s id="67.2">There are more photographers.</s>
+ </p>
+ <s id="68">It's taken over a wider geographic area.</s>
+ <s id="69">The photos are spread out over a longer period of time.</s>
+ <s id="70">And worst of all, that figure at the bottom, approximately ten photos per photographer, is a lie.</s>
+ <s id="71">It's mathematically true, but it doesn't really talk about anything important -- because in these systems, the average isn't really what matters.</s>
+ <s id="72">What matters is this.</s>
+ <s id="73">This is a graph of photographs tagged Iraq as taken by the 529 photographers who contributed the 5,445 photos.</s>
+ <s id="74">And it's ranked in order of number of photos taken per photographer.</s>
+ <s id="75">You can see here, over at the end, our most prolific photographer has taken around 350 photos, and you can see there's a few people who have taken hundreds of photos.</s>
+ <s id="76">Then there's dozens of people who've taken dozens of photos.</s>
+ <s id="77">And by the time we get around here, we get ten or fewer photos, and then there's this long, flat tail.</s>
+ <s id="78">And by the time you get to the middle, you've got hundreds of people who have contributed only one photo each.</s>
+ <s id="79">This is called a power-law distribution.</s>
+ <p id="p80">
+  <s id="80.1">It appears often in unconstrained social systems where people are allowed to contribute as much or as little as they like -- this is often what you get.</s>
+  <s id="80.2">Right?</s>
+ </p>
+ <s id="81">The math behind the power-law distribution is that whatever's in the nth position is doing about one-nth of whatever's being measured, relative to the person in the first position.</s>
+ <s id="82">So, we'd expect the tenth most prolific photographer to have contributed about a tenth of the photos, and the hundredth most prolific photographer to have contributed only about a hundred as many photos as the most prolific photographer did.</s>
+ <s id="83">So, the head of the curve can be sharper or flatter.</s>
+ <s id="84">But that basic math accounts both for the steep slope and for the long, flat tail.</s>
+ <s id="85">And curiously, in these systems, as they grow larger, the systems don't converge; they diverge more.</s>
+ <s id="86">In bigger systems, the head gets bigger and the tail gets longer, so the imbalance increases.</s>
+ <p id="p87">
+  <s id="87.1">You can see the curve is obviously heavily left-weighted.</s>
+  <s id="87.2">Here's how heavily: if you take the top 10 percent of photographers contributing to this system, they account for three quarters of the photos taken -- just the top 10 percent most prolific photographers.</s>
+ </p>
+ <s id="88">If you go down to five percent, you're still accounting for 60 percent of the photos.</s>
+ <s id="89">If you go down to one percent, exclude 99 percent of the group effort, you're still accounting for almost a quarter of the photos.</s>
+ <s id="90">And because of this left weighting, the average is actually here, way to the left.</s>
+ <s id="91">And that sounds strange to our ears, but what ends up happening is that 80 percent of the contributors have contributed a below-average amount.</s>
+ <s id="92">That sounds strange because we expect average and middle to be about the same, but they're not at all.</s>
+ <p id="p93">
+  <s id="93.1">This is the math underlying the 80/20 rule.</s>
+  <s id="93.2">Right?</s>
+ </p>
+ <p id="p94">
+  <s id="94.1">Whenever you hear anybody talking about the 80/20 rule, this is what's going on.</s>
+  <s id="94.2">Right?</s>
+ </p>
+ <s id="95">20 percent of the merchandise accounts for 80 percent of the revenue, 20 percent of the users use 80 percent of the resources -- this is the shape people are talking about when that happens.</s>
+ <s id="96">Institutions only have two tools: carrots and sticks.</s>
+ <s id="97">And the 80 percent zone is a no-carrot and no-stick zone.</s>
+ <s id="98">The costs of running the institution mean that you cannot take on the work of those people easily in an institutional frame.</s>
+ <s id="99">The institutional model always pushes leftwards, treating these people as employees.</s>
+ <s id="100">The institutional response is, I can get 75 percent of the value for 10 percent of the hires -- great, that's what I'll do.</s>
+ <s id="101">The cooperative infrastructure model says, why do you want to give up a quarter of the value?</s>
+ <s id="102">If your system is designed so that you have to give up a quarter of the value, re-engineer the system.</s>
+ <s id="103">Don't take on the cost that prevents you from getting to the contributions of these people.</s>
+ <s id="104">Build the system so that anybody can contribute at any amount.</s>
+ <p id="p105">
+  <s id="105.1">So the coordination response asks not, how are these people as employees, but rather, what is their contribution like?</s>
+  <s id="105.2">Right?</s>
+ </p>
+ <s id="106">We have over here Psycho Milt, a Flickr user, who has contributed one, and only one, photo titled "Iraq."</s>
+ <p id="p107">
+  <s id="107.1">And here's the photo.</s>
+  <s id="107.2">Right.</s>
+  <s id="107.3">Labeled, "Bad Day at Work."</s>
+ </p>
+ <p id="p108">
+  <s id="108.1">Right?</s>
+  <s id="108.2">So the question is, do you want that photo?</s>
+  <s id="108.3">Yes or no.</s>
+ </p>
+ <s id="109">The question is not, is Psycho Milt a good employee?</s>
+ <s id="110">And the tension here is between institution as enabler and institution as obstacle.</s>
+ <s id="111">When you're dealing with the left-hand edge of one of these distributions, when you're dealing with the people who spend a lot of time producing a lot of the material you want, that's an institution-as-enabler world.</s>
+ <s id="112">You can hire those people as employees, you can coordinate their work and you can get some output.</s>
+ <s id="113">But when you're down here, where the Psycho Milts of the world are adding one photo at a time, that's institution as obstacle.</s>
+ <s id="114">Institutions hate being told they're obstacles.</s>
+ <s id="115">One of the first things that happens when you institutionalize a problem is that the first goal of the institution immediately shifts from whatever the nominal goal was to self-preservation.</s>
+ <s id="116">And the actual goal of the institution goes to two through n.</s>
+ <p id="p117">
+  <s id="117.1">Right?</s>
+  <s id="117.2">So, when institutions are told they are obstacles, and that there are other ways of coordinating the value, they go through something a little bit like the Kubler-Ross stages -- (Laughter) -- of reaction, being told you have a fatal illness: denial, anger, bargaining, acceptance.</s>
+ </p>
+ <s id="118">Most of the cooperative systems we've seen haven't been around long enough to have gotten to the acceptance phase.</s>
+ <s id="119">Many, many institutions are still in denial, but we're seeing recently a lot of both anger and bargaining.</s>
+ <s id="120">There's a wonderful, small example going on right now.</s>
+ <s id="121">In France, a bus company is suing people for forming a carpool, right, because the fact that they have coordinated themselves to create cooperative value is depriving them of revenue.</s>
+ <s id="122">You can follow this in the Guardian.</s>
+ <s id="123">It's actually quite entertaining.</s>
+ <s id="124">The bigger question is, what do you do about the value down here?</s>
+ <p id="p125">
+  <s id="125.1">Right?</s>
+  <s id="125.2">How do you capture that?</s>
+ </p>
+ <s id="126">And institutions, as I've said, are prevented from capturing that.</s>
+ <s id="127">Steve Ballmer, now CEO of Microsoft, was criticizing Linux a couple of years ago, and he said, "Oh, this business of thousands of programmers contributing to Linux, this is a myth.</s>
+ <p id="p128">
+  <s id="128.1">We've looked at who's contributed to Linux, and most of the patches have been produced by programmers who've only done one thing."</s>
+  <s id="128.2">Right?</s>
+ </p>
+ <s id="129">You can hear this distribution under that complaint.</s>
+ <s id="130">And you can see why, from Ballmer's point of view, that's a bad idea, right?</s>
+ <s id="131">We hired this programmer, he came in, he drank our Cokes and played Foosball for three years and he had one idea.</s>
+ <p id="p132">
+  <s id="132.1">(Laughter) Right?</s>
+  <s id="132.2">Bad hire.</s>
+  <s id="132.3">Right?</s>
+ </p>
+ <s id="133">(Laughter) The Psycho Milt question is, was it a good idea?</s>
+ <s id="134">What if it was a security patch?</s>
+ <s id="135">What if it was a security patch for a buffer overflow exploit, of which Windows has not some, [but] several?</s>
+ <s id="136">Do you want that patch, right?</s>
+ <s id="137">The fact that a single programmer can, without having to move into a professional relation to an institution, improve Linux once and never be seen from again, should terrify Ballmer.</s>
+ <p id="p138">
+  <s id="138.1">Because this kind of value is unreachable in classic institutional frameworks, but is part of cooperative systems of open-source software, of file sharing, of the Wikipedia.</s>
+  <s id="138.2">I've used a lot of examples from Flickr, but there are actually stories about this from all over.</s>
+ </p>
+ <s id="139">Meetup, a service founded so that users could find people in their local area who share their interests and affinities and actually have a real-world meeting offline in a cafe or a pub or what have you.</s>
+ <s id="140">When Scott Heiferman founded Meetup, he thought it would be used for, you know, train spotters and cat fanciers -- classic affinity groups.</s>
+ <s id="141">The inventors don't know what the invention is.</s>
+ <s id="142">Number one group on Meetup right now, most chapters in most cities with most members, most active?</s>
+ <p id="p143">
+  <s id="143.1">Stay-at-home moms.</s>
+  <s id="143.2">Right?</s>
+ </p>
+ <s id="144">In the suburbanized, dual-income United States, stay-at-home moms are actually missing the social infrastructure that comes from extended family and local, small-scale neighborhoods.</s>
+ <s id="145">So they're reinventing it, using these tools.</s>
+ <s id="146">Meetup is the platform, but the value here is in social infrastructure.</s>
+ <s id="147">If you want to know what technology is going to change the world, don't pay attention to 13-year-old boys -- pay attention to young mothers, because they have got not an ounce of support for technology that doesn't materially make their lives better.</s>
+ <s id="148">This is so much more important than Xbox, but it's a lot less glitzy.</s>
+ <s id="149">I think this is a revolution.</s>
+ <s id="150">I think that this is a really profound change in the way human affairs are arranged.</s>
+ <s id="151">And I use that word advisedly.</s>
+ <s id="152">It's a revolution in that it's a change in equilibrium.</s>
+ <s id="153">It's a whole new way of doing things, which includes new downsides.</s>
+ <s id="154">In the United States right now, a woman named Judith Miller is in jail for not having given to a Federal Grand Jury her sources -- she's a reporter for the New York Times -- her sources, in a very abstract and hard-to-follow case.</s>
+ <s id="155">And journalists are in the street rallying to improve the shield laws.</s>
+ <s id="156">The shield laws are our laws -- pretty much a patchwork of state laws -- that prevent a journalist from having to betray a source.</s>
+ <s id="157">This is happening, however, against the background of the rise of Web logging.</s>
+ <s id="158">Web logging is a classic example of mass amateurization.</s>
+ <s id="159">It has de-professionalized publishing.</s>
+ <s id="160">Want to publish globally anything you think today?</s>
+ <s id="161">It is a one-button operation that you can do for free.</s>
+ <s id="162">That has sent the professional class of publishing down into the ranks of mass amateurization.</s>
+ <s id="163">And so the shield law, as much as we want it -- we want a professional class of truth-tellers -- it is becoming increasingly incoherent, because the institution is becoming incoherent.</s>
+ <s id="164">There are people in the States right now tying themselves into knots, trying to figure out whether or not bloggers are journalists.</s>
+ <s id="165">And the answer to that question is, it doesn't matter, because that's not the right question.</s>
+ <s id="166">Journalism was an answer to an even more important question, which is, how will society be informed?</s>
+ <s id="167">How will they share ideas and opinions?</s>
+ <s id="168">And if there is an answer to that that happens outside the professional framework of journalism, it makes no sense to take a professional metaphor and apply it to this distributed class.</s>
+ <s id="169">So as much as we want the shield laws, the background -- the institution to which they were attached -- is becoming incoherent.</s>
+ <s id="170">Here's another example.</s>
+ <s id="171">Pro-ana, the pro-ana groups.</s>
+ <s id="172">These are groups of teenage girls who have taken on Web logs, bulletin boards, other kinds of cooperative infrastructure, and have used it to set up support groups for remaining anorexic by choice.</s>
+ <s id="173">They post pictures of thin models, which they call "thinspiration."</s>
+ <s id="174">They have little slogans, like "Salvation through Starvation."</s>
+ <s id="175">They even have Lance Armstrong-style bracelets, these red bracelets, which signify, in the small group, I am trying to maintain my eating disorder.</s>
+ <p id="p176">
+  <s id="176.1">They trade tips, like, if you feel like eating something, clean a toilet or the litter box.</s>
+  <s id="176.2">The feeling will pass.</s>
+ </p>
+ <s id="177">We're used to support groups being beneficial.</s>
+ <s id="178">We have an attitude that support groups are inherently beneficial.</s>
+ <s id="179">But it turns out that the logic of the support group is value neutral.</s>
+ <s id="180">A support group is simply a small group that wants to maintain a way of living in the context of a larger group.</s>
+ <s id="181">Now, when the larger group is a bunch of drunks, and the small group wants to stay sober, then we think, that's a great support group.</s>
+ <s id="182">But when the small group is teenage girls who want to stay anorexic by choice, then we're horrified.</s>
+ <s id="183">What's happened is that the normative goals of the support groups that we're used to, came from the institutions that were framing them, and not from the infrastructure.</s>
+ <s id="184">Once the infrastructure becomes generically available, the logic of the support group has been revealed to be accessible to anyone, including people pursuing these kinds of goals.</s>
+ <p id="p185">
+  <s id="185.1">So, there are significant downsides to these changes as well as upsides.</s>
+  <s id="185.2">And of course, in the current environment, one need allude only lightly to the work of non-state actors trying to influence global affairs, and taking advantage of these.</s>
+ </p>
+ <s id="186">This is a social map of the hijackers and their associates who perpetrated the 9/11 attack.</s>
+ <p id="p187">
+  <s id="187.1">It was produced by analyzing their communications patterns using a lot of these tools.</s>
+  <s id="187.2">And doubtless the intelligence communities of the world are doing the same work today for the attacks of last week.</s>
+ </p>
+ <s id="188">Now, this is the part of the talk where I tell you what's going to come as a result of all of this, but I'm running out of time, which is good, because I don't know.</s>
+ <p id="p189">
+  <s id="189.1">(Laughter) Right.</s>
+  <s id="189.2">As with the printing press, if it's really a revolution, it doesn't take us from Point A to Point B.</s>
+ </p>
+ <s id="190">It takes us from Point A to chaos.</s>
+ <s id="191">The printing press precipitated 200 years of chaos, moving from a world where the Catholic Church was the sort of organizing political force to the Treaty of Westphalia, when we finally knew what the new unit was: the nation state.</s>
+ <p id="p192">
+  <s id="192.1">Now, I'm not predicting 200 years of chaos as a result of this.</s>
+  <s id="192.2">50.</s>
+ </p>
+ <s id="193">50 years in which loosely coordinated groups are going to be given increasingly high leverage, and the more those groups forego traditional institutional imperatives -- like deciding in advance what's going to happen, or the profit motive -- the more leverage they'll get.</s>
+ <s id="194">And institutions are going to come under an increasing degree of pressure, and the more rigidly managed, and the more they rely on information monopolies, the greater the pressure is going to be.</s>
+ <p id="p195">
+  <s id="195.1">And that's going to happen one arena at a time, one institution at a time.</s>
+  <s id="195.2">The forces are general, but the results are going to be specific.</s>
+ </p>
+ <s id="196">And so the point here is not, "This is wonderful," or "We're going to see a transition from only institutions to only cooperative framework."</s>
+ <s id="197">It's going to be much more complicated than that.</s>
+ <s id="198">But the point is that it's going to be a massive readjustment.</s>
+ <s id="199">And since we can see it in advance and know it's coming, my argument is essentially: we might as well get good at it.</s>
+ <s id="200">Thank you very much.</s>
+ <s id="201">(Applause)</s>
+</text>

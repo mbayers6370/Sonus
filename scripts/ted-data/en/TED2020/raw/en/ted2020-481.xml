@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">I've been intrigued by this question of whether we could evolve or develop a sixth sense -- a sense that would give us seamless access and easy access to meta-information or information that may exist somewhere that may be relevant to help us make the right decision about whatever it is that we're coming across.</s>
+ <s id="2">And some of you may argue, "Well, don't today's cell phones do that already?"</s>
+ <s id="3">But I would say no.</s>
+ <s id="4">When you meet someone here at TED -- and this is the top networking place, of course, of the year -- you don't shake somebody's hand and then say, "Can you hold on for a moment while I take out my phone and Google you?"</s>
+ <s id="5">Or when you go to the supermarket and you're standing there in that huge aisle of different types of toilet papers, you don't take out your cell phone, and open a browser, and go to a website to try to decide which of these different toilet papers is the most ecologically responsible purchase to make.</s>
+ <s id="6">So we don't really have easy access to all this relevant information that can just help us make optimal decisions about what to do next and what actions to take.</s>
+ <s id="7">And so my research group at the Media Lab has been developing a series of inventions to give us access to this information in a sort of easy way, without requiring that the user changes any of their behavior.</s>
+ <s id="8">And I'm here to unveil our latest effort, and most successful effort so far, which is still very much a work in process.</s>
+ <s id="9">I'm actually wearing the device right now and we've sort of cobbled it together with components that are off the shelf -- and that, by the way, only cost 350 dollars at this point in time.</s>
+ <s id="10">I'm wearing a camera, just a simple web cam, a portable, battery-powered projection system with a little mirror.</s>
+ <s id="11">These components communicate to my cell phone in my pocket which acts as the communication and computation device.</s>
+ <s id="12">And in the video here we see my student Pranav Mistry, who's really the genius who's been implementing and designing this whole system.</s>
+ <s id="13">And we see how this system lets him walk up to any surface and start using his hands to interact with the information that is projected in front of him.</s>
+ <s id="14">The system tracks the four significant fingers.</s>
+ <s id="15">In this case, he's wearing simple marker caps that you may recognize.</s>
+ <s id="16">But if you want a more stylish version, you could also paint your nails in different colors.</s>
+ <s id="17">And the camera basically tracks these four fingers and recognizes any gestures that he's making so he can just go to, for example, a map of Long Beach, zoom in and out, etc.</s>
+ <s id="18">The system also recognizes iconic gestures such as the "take a picture" gesture, and then takes a picture of whatever is in front of you.</s>
+ <s id="19">And when he then walks back to the Media Lab, he can just go up to any wall and project all the pictures that he's taken, sort through them and organize them, and re-size them, etc., again using all natural gestures.</s>
+ <s id="20">So, some of you most likely were here two years ago and saw the demo by Jeff Han, or some of you may think, "Well, doesn't this look like the Microsoft Surface Table?"</s>
+ <s id="21">And yes, you also interact using natural gestures, both hands, etc.</s>
+ <s id="22">But the difference here is that you can use any surface, you can walk up to any surface, including your hand, if nothing else is available, and interact with this projected data.</s>
+ <s id="23">The device is completely portable, and can be -- (Applause) (Applause ends) So, one important difference is that it's totally mobile.</s>
+ <s id="24">Another even more important difference is that in mass production, this would not cost more tomorrow than today's cell phones and would actually not sort of be a bigger packaging -- could look a lot more stylish than this version that I'm wearing around my neck.</s>
+ <s id="25">But other than letting some of you live out your fantasy of looking as cool as Tom Cruise in "Minority Report," the reason why we're really excited about this device is that it really can act as one of these sixth-sense devices that gives you relevant information about whatever is in front of you.</s>
+ <s id="26">So we see Pranav here going into the supermarket and he's shopping for some paper towels.</s>
+ <s id="27">And, as he picks up a product, the system can recognize the product that he's picking up, using either image recognition or marker technology, and give him the green light or an orange light.</s>
+ <s id="28">He can ask for additional information.</s>
+ <s id="29">So this particular choice here is a particularly good choice, given his personal criteria.</s>
+ <s id="30">Some of you may want the toilet paper with the most bleach in it rather than the most ecologically responsible choice.</s>
+ <s id="31">(Laughter) If he picks up a book in the bookstore, he can get an Amazon rating -- it gets projected right on the cover of the book.</s>
+ <s id="32">This is Juan's book, our previous speaker, which gets a great rating, by the way, at Amazon.</s>
+ <s id="33">And so, Pranav turns the page of the book and can then see additional information about the book -- reader comments, maybe sort of information by his favorite critic, etc.</s>
+ <s id="34">If he turns to a particular page, he finds an annotation by maybe an expert or a friend of ours that gives him a little bit of additional information about whatever is on that particular page.</s>
+ <s id="35">Reading the newspaper -- it never has to be outdated.</s>
+ <s id="36">(Laughter) You can get video annotations of the events that you're reading about.</s>
+ <s id="37">You can get the latest sports scores, etc.</s>
+ <s id="38">This is a more controversial one.</s>
+ <s id="39">(Laughter) As you interact with someone at TED, maybe you can see a word cloud of the tags, the words that are associated with that person in their blog and personal web pages.</s>
+ <s id="40">In this case, the student is interested in cameras, etc.</s>
+ <s id="41">On your way to the airport, if you pick up your boarding pass, it can tell you that your flight is delayed, that the gate has changed, etc.</s>
+ <s id="42">And, if you need to know what the current time is, it's as simple as drawing a watch -- (Laughter) (Applause) on your arm.</s>
+ <s id="43">So that's where we're at so far in developing this sixth sense that would give us seamless access to all this relevant information about the things that we may come across.</s>
+ <s id="44">My student Pranav, who's really, like I said, the genius behind this.</s>
+ <s id="45">(Applause and cheering) (Applause ends) He does deserve a lot of applause, because I don't think he's slept much in the last three months, actually.</s>
+ <s id="46">And his girlfriend is probably not very happy about him either.</s>
+ <s id="47">But it's not perfect yet, it's very much a work in progress.</s>
+ <s id="48">And who knows, maybe in another 10 years we'll be here with the ultimate sixth sense brain implant.</s>
+ <s id="49">Thank you.</s>
+ <s id="50">(Applause)</s>
+</text>

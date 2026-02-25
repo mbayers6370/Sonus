@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Do you ever feel completely overwhelmed when you're faced with a complex problem?</s>
+ <s id="2">Well, I hope to change that in less than three minutes.</s>
+ <s id="3">So, I hope to convince you that complex doesn't always equal complicated.</s>
+ <s id="4">So for me, a well-crafted baguette, fresh out of the oven, is complex, but a curry onion green olive poppy cheese bread is complicated.</s>
+ <p id="p5">
+  <s id="5.1">I'm an ecologist, and I study complexity.</s>
+  <s id="5.2">I love complexity.</s>
+ </p>
+ <s id="6">And I study that in the natural world, the interconnectedness of species.</s>
+ <s id="7">So here's a food web, or a map of feeding links between species that live in Alpine Lakes in the mountains of California.</s>
+ <s id="8">And this is what happens to that food web when it's stocked with non-native fish that never lived there before.</s>
+ <s id="9">All the grayed-out species disappear.</s>
+ <s id="10">Some are actually on the brink of extinction.</s>
+ <s id="11">And lakes with fish have more mosquitos, even though they eat them.</s>
+ <s id="12">These effects were all unanticipated, and yet we're discovering they're predictable.</s>
+ <s id="13">So I want to share with you a couple key insights about complexity we're learning from studying nature that maybe are applicable to other problems.</s>
+ <s id="14">First is the simple power of good visualization tools to help untangle complexity and just encourage you to ask questions you didn't think of before.</s>
+ <s id="15">For example, you could plot the flow of carbon through corporate supply chains in a corporate ecosystem, or the interconnections of habitat patches for endangered species in Yosemite National Park.</s>
+ <s id="16">The next thing is that if you want to predict the effect of one species on another, if you focus only on that link, and then you black box the rest, it's actually less predictable than if you step back, consider the entire system -- all the species, all the links -- and from that place, hone in on the sphere of influence that matters most.</s>
+ <s id="17">And we're discovering, with our research, that's often very local to the node you care about within one or two degrees.</s>
+ <s id="18">So the more you step back, embrace complexity, the better chance you have of finding simple answers, and it's often different than the simple answer that you started with.</s>
+ <s id="19">So let's switch gears and look at a really complex problem courtesy of the U.S. government.</s>
+ <s id="20">This is a diagram of the U.S. counterinsurgency strategy in Afghanistan.</s>
+ <s id="21">It was front page of the New York Times a couple months ago.</s>
+ <s id="22">Instantly ridiculed by the media for being so crazy complicated.</s>
+ <s id="23">And the stated goal was to increase popular support for the Afghan government.</s>
+ <s id="24">Clearly a complex problem, but is it complicated?</s>
+ <p id="p25">
+  <s id="25.1">Well, when I saw this in the front page of the Times, I thought, "Great.</s>
+  <s id="25.2">Finally something I can relate to.</s>
+ </p>
+ <s id="26">I can sink my teeth into this."</s>
+ <p id="p27">
+  <s id="27.1">So let's do it.</s>
+  <s id="27.2">So here we go for the first time ever, a world premiere view of this spaghetti diagram as an ordered network.</s>
+ </p>
+ <s id="28">The circled node is the one we're trying to influence -- popular support for the government.</s>
+ <s id="29">And so now we can look one degrees, two degrees, three degrees away from that node and eliminate three-quarters of the diagram outside that sphere of influence.</s>
+ <s id="30">Within that sphere, most of those nodes are not actionable, like the harshness of the terrain, and a very small minority are actual military actions.</s>
+ <s id="31">Most are non-violent and they fall into two broad categories: active engagement with ethnic rivalries and religious beliefs and fair, transparent economic development and provisioning of services.</s>
+ <s id="32">I don't know about this, but this is what I can decipher from this diagram in 24 seconds.</s>
+ <s id="33">When you see a diagram like this, I don't want you to be afraid.</s>
+ <p id="p34">
+  <s id="34.1">I want you to be excited.</s>
+  <s id="34.2">I want you to be relieved.</s>
+ </p>
+ <s id="35">Because simple answers may emerge.</s>
+ <s id="36">We're discovering in nature that simplicity often lies on the other side of complexity.</s>
+ <s id="37">So for any problem, the more you can zoom out and embrace complexity, the better chance you have of zooming in on the simple details that matter most.</s>
+ <s id="38">Thank you.</s>
+ <s id="39">(Applause)</s>
+</text>

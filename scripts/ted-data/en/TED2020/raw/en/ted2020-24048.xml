@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Pick a card, any card.</s>
+ <s id="2">Actually, just pick up all of them and take a look.</s>
+ <s id="3">This standard 52-card deck has been used for centuries.</s>
+ <s id="4">Everyday, thousands just like it are shuffled in casinos all over the world, the order rearranged each time.</s>
+ <s id="5">And yet, every time you pick up a well-shuffled deck like this one, you are almost certainly holding an arrangement of cards that has never before existed in all of history.</s>
+ <s id="6">How can this be?</s>
+ <s id="7">The answer lies in how many different arrangements of 52 cards, or any objects, are possible.</s>
+ <s id="8">Now, 52 may not seem like such a high number, but let's start with an even smaller one.</s>
+ <s id="9">Say we have four people trying to sit in four numbered chairs.</s>
+ <s id="10">How many ways can they be seated?</s>
+ <s id="11">To start off, any of the four people can sit in the first chair.</s>
+ <s id="12">One this choice is made, only three people remain standing.</s>
+ <s id="13">After the second person sits down, only two people are left as candidates for the third chair.</s>
+ <s id="14">And after the third person has sat down, the last person standing has no choice but to sit in the fourth chair.</s>
+ <s id="15">If we manually write out all the possible arrangements, or permutations, it turns out that there are 24 ways that four people can be seated into four chairs, but when dealing with larger numbers, this can take quite a while.</s>
+ <s id="16">So let's see if there's a quicker way.</s>
+ <s id="17">Going from the beginning again, you can see that each of the four initial choices for the first chair leads to three more possible choices for the second chair, and each of those choices leads to two more for the third chair.</s>
+ <s id="18">So instead of counting each final scenario individually, we can multiply the number of choices for each chair: four times three times two times one to achieve the same result of 24.</s>
+ <s id="19">An interesting pattern emerges.</s>
+ <s id="20">We start with the number of objects we're arranging, four in this case, and multiply it by consecutively smaller integers until we reach one.</s>
+ <s id="21">This is an exciting discovery.</s>
+ <s id="22">So exciting that mathematicians have chosen to symbolize this kind of calculation, known as a factorial, with an exclamation mark.</s>
+ <s id="23">As a general rule, the factorial of any positive integer is calculated as the product of that same integer and all smaller integers down to one.</s>
+ <s id="24">In our simple example, the number of ways four people can be arranged into chairs is written as four factorial, which equals 24.</s>
+ <s id="25">So let's go back to our deck.</s>
+ <s id="26">Just as there were four factorial ways of arranging four people, there are 52 factorial ways of arranging 52 cards.</s>
+ <s id="27">Fortunately, we don't have to calculate this by hand.</s>
+ <s id="28">Just enter the function into a calculator, and it will show you that the number of possible arrangements is 8.07 x 10^67, or roughly eight followed by 67 zeros.</s>
+ <s id="29">Just how big is this number?</s>
+ <s id="30">Well, if a new permutation of 52 cards were written out every second starting 13.8 billion years ago, when the Big Bang is thought to have occurred, the writing would still be continuing today and for millions of years to come.</s>
+ <s id="31">In fact, there are more possible ways to arrange this simple deck of cards than there are atoms on Earth.</s>
+ <s id="32">So the next time it's your turn to shuffle, take a moment to remember that you're holding something that may have never before existed and may never exist again.</s>
+</text>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">So I'm here to tell you a story of success from Africa.</s>
+ <s id="2">A year and a half ago, four of the five people who are full time members at Ushahidi, which means "testimony" in Swahili, were TED Fellows.</s>
+ <s id="3">A year ago in Kenya we had post-election violence.</s>
+ <s id="4">And in that time we prototyped and built, in about three days, a system that would allow anybody with a mobile phone to send in information and reports on what was happening around them.</s>
+ <s id="5">We took what we knew about Africa, the default device, the mobile phone, as our common denominator, and went from there.</s>
+ <s id="6">We got reports like this.</s>
+ <s id="7">This is just a couple of them from January 17th, last year.</s>
+ <p id="p8">
+  <s id="8.1">And our system was rudimentary.</s>
+  <s id="8.2">It was very basic.</s>
+ </p>
+ <s id="9">It was a mash-up that used data that we collected from people, and we put it on our map.</s>
+ <s id="10">But then we decided we needed to do something more.</s>
+ <s id="11">We needed to take what we had built and create a platform out of it so that it could be used elsewhere in the world.</s>
+ <s id="12">And so there is a team of developers from all over Africa, who are part of this team now -- from Ghana, from Malawi, from Kenya.</s>
+ <s id="13">There is even some from the U.S.</s>
+ <s id="14">We're building for smartphones, so that it can be used in the developed world, as well as the developing world.</s>
+ <s id="15">We are realizing that this is true.</s>
+ <s id="16">If it works in Africa then it will work anywhere.</s>
+ <s id="17">And so we build for it in Africa first and then we move to the edges.</s>
+ <s id="18">It's now been deployed in the Democratic Republic of the Congo.</s>
+ <s id="19">It's being used by NGOs all over East Africa, small NGOs doing their own little projects.</s>
+ <s id="20">Just this last month it was deployed by Al Jazeera in Gaza.</s>
+ <s id="21">But that's actually not what I'm here to talk about.</s>
+ <s id="22">I'm here to talk about the next big thing, because what we're finding out is that we have this capacity to report eyewitness accounts of what's going on in real time.</s>
+ <s id="23">We're seeing this in events like Mumbai recently, where it's so much easier to report now than it is to consume it.</s>
+ <s id="24">There is so much information; what do you do?</s>
+ <s id="25">This is the Twitter reports for over three days just covering Mumbai.</s>
+ <s id="26">How do you decide what is important?</s>
+ <s id="27">What is the veracity level of what you're looking at?</s>
+ <s id="28">So what we find is that there is this great deal of wasted crisis information because there is just too much information for us to actually do anything with right now.</s>
+ <s id="29">And what we're actually really concerned with is this first three hours.</s>
+ <s id="30">What we are looking at is the first three hours.</s>
+ <s id="31">How do we deal with that information that is coming in?</s>
+ <s id="32">You can't understand what is actually happening.</s>
+ <p id="p33">
+  <s id="33.1">On the ground and around the world people are still curious, and trying to figure out what is going on.</s>
+  <s id="33.2">But they don't know.</s>
+ </p>
+ <s id="34">So what we built of course, Ushahidi, is crowdsourcing this information.</s>
+ <p id="p35">
+  <s id="35.1">You see this with Twitter, too.</s>
+  <s id="35.2">You get this information overload.</s>
+ </p>
+ <p id="p36">
+  <s id="36.1">So you've got a lot of information.</s>
+  <s id="36.2">That's great.</s>
+ </p>
+ <s id="37">But now what?</s>
+ <s id="38">So we think that there is something interesting we can do here.</s>
+ <s id="39">And we have a small team who is working on this.</s>
+ <s id="40">We think that we can actually create a crowdsourced filter.</s>
+ <s id="41">Take the crowd and apply them to the information.</s>
+ <s id="42">And by rating it and by rating the different people who submit information, we can get refined results and weighted results.</s>
+ <s id="43">So that we have a better understanding of the probability of something being true or not.</s>
+ <s id="44">This is the kind of innovation that is, quite frankly -- it's interesting that it's coming from Africa.</s>
+ <s id="45">It's coming from places that you wouldn't expect.</s>
+ <s id="46">From young, smart developers.</s>
+ <s id="47">And it's a community around it that has decided to build this.</s>
+ <s id="48">So, thank you very much.</s>
+ <s id="49">And we are very happy to be part of the TED family.</s>
+ <s id="50">(Applause)</s>
+</text>

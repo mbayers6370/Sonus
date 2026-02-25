@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">You look down and see a yellow pencil lying on your desk.</s>
+ <s id="2">Your eyes, and then your brain, are collecting all sorts of information about the pencil: its size, color, shape, distance, and more.</s>
+ <s id="3">But, how exactly does this happen?</s>
+ <s id="4">The ancient Greeks were the first to think more or less scientifically about what light is and how vision works.</s>
+ <s id="5">Some Greek philosophers, including Plato and Pythagoras, thought that light originated in our eyes and that vision happened when little, invisible probes were sent to gather information about far-away objects.</s>
+ <s id="6">It took over a thousand years before the Arab scientist, Alhazen, figured out that the old, Greek theory of light couldn't be right.</s>
+ <s id="7">In Alhazen's picture, your eyes don't send out invisible, intelligence-gathering probes, they simply collect the light that falls into them.</s>
+ <s id="8">Alhazen's theory accounts for a fact that the Greek's couldn't easily explain: why it gets dark sometimes.</s>
+ <s id="9">The idea is that very few objects actually emit their own light.</s>
+ <s id="10">The special, light-emitting objects, like the sun or a lightbulb, are known as sources of light.</s>
+ <s id="11">Most of the things we see, like that pencil on your desk, are simply reflecting light from a source rather than producing their own.</s>
+ <s id="12">So, when you look at your pencil, the light that hits your eye actually originated at the sun and has traveled millions of miles across empty space before bouncing off the pencil and into your eye, which is pretty cool when you think about it.</s>
+ <s id="13">But, what exactly is the stuff that is emitted from the sun and how do we see it?</s>
+ <s id="14">Is it a particle, like atoms, or is it a wave, like ripples on the surface of a pond?</s>
+ <s id="15">Scientists in the modern era would spend a couple of hundred years figuring out the answer to this question.</s>
+ <s id="16">Isaac Newton was one of the earliest.</s>
+ <s id="17">Newton believed that light is made up of tiny, atom-like particles, which he called corpuscles.</s>
+ <s id="18">Using this assumption, he was able to explain some properties of light.</s>
+ <s id="19">For example, refraction, which is how a beam of light appears to bend as it passes from air into water.</s>
+ <s id="20">But, in science, even geniuses sometimes get things wrong.</s>
+ <s id="21">In the 19th century, long after Newton died, scientists did a series of experiments that clearly showed that light can't be made up of tiny, atom-like particles.</s>
+ <s id="22">For one thing, two beams of light that cross paths don't interact with each other at all.</s>
+ <s id="23">If light were made of tiny, solid balls, then you would expect that some of the particles from Beam A would crash into some of the particles from Beam B.</s>
+ <s id="24">If that happened, the two particles involved in the collision would bounce off in random directions.</s>
+ <s id="25">But, that doesn't happen.</s>
+ <s id="26">The beams of light pass right through each other as you can check for yourself with two laser pointers and some chalk dust.</s>
+ <s id="27">For another thing, light makes interference patterns.</s>
+ <s id="28">Interference patterns are the complicated undulations that happen when two wave patterns occupy the same space.</s>
+ <s id="29">They can be seen when two objects disturb the surface of a still pond, and also when two point-like sources of light are placed near each other.</s>
+ <s id="30">Only waves make interference patterns, particles don't.</s>
+ <s id="31">And, as a bonus, understanding that light acts like a wave leads naturally to an explanation of what color is and why that pencil looks yellow.</s>
+ <s id="32">So, it's settled then, light is a wave, right?</s>
+ <s id="33">Not so fast!</s>
+ <s id="34">In the 20th century, scientists did experiments that appear to show light acting like a particle.</s>
+ <s id="35">For instance, when you shine light on a metal, the light transfers its energy to the atoms in the metal in discrete packets called quanta.</s>
+ <s id="36">But, we can't just forget about properties like interference, either.</s>
+ <s id="37">So these quanta of light aren't at all like the tiny, hard spheres Newton imagined.</s>
+ <s id="38">This result, that light sometimes behaves like a particle and sometimes behaves like a wave, led to a revolutionary new physics theory called quantum mechanics.</s>
+ <s id="39">So, after all that, let's go back to the question, "What is light?"</s>
+ <s id="40">Well, light isn't really like anything we're used to dealing with in our everyday lives.</s>
+ <s id="41">Sometimes it behaves like a particle and other times it behaves like a wave, but it isn't exactly like either.</s>
+</text>

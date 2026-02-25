@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Sarge Salman: All the way from Los Altos Hills, California, Mr. Henry Evans.</s>
+ <s id="2">(Applause) Henry Evans: Hello.</s>
+ <s id="3">My name is Henry Evans, and until August 29, 2002, I was living my version of the American dream.</s>
+ <s id="4">I grew up in a typical American town near St. Louis.</s>
+ <s id="5">My dad was a lawyer.</s>
+ <s id="6">My mom was a homemaker.</s>
+ <s id="7">My six siblings and I were good kids, but caused our fair share of trouble.</s>
+ <s id="8">After high school, I left home to study and learn more about the world.</s>
+ <s id="9">I went to Notre Dame University and graduated with degrees in accounting and German, including spending a year of study in Austria.</s>
+ <s id="10">Later on, I earned an MBA at Stanford.</s>
+ <s id="11">I married my high school sweetheart, Jane.</s>
+ <s id="12">I am lucky to have her.</s>
+ <s id="13">Together, we raised four wonderful children.</s>
+ <s id="14">I worked and studied hard to move up the career ladder, eventually becoming a chief financial officer in Silicon Valley, a job I really enjoyed.</s>
+ <s id="15">My family and I bought our first and only home on December 13, 2001, a fixer-upper in a beautiful spot of Los Altos Hills, California, from where I am speaking to you now.</s>
+ <s id="16">We were looking forward to rebuilding it, but eight months after we moved in, I suffered a stroke-like attack caused by a birth defect.</s>
+ <s id="17">Overnight, I became a mute quadriplegic at the ripe old age of 40.</s>
+ <s id="18">It took me several years, but with the help of an incredibly supportive family, I finally decided life was still worth living.</s>
+ <s id="19">I became fascinated with using technology to help the severely disabled.</s>
+ <s id="20">Head tracking devices sold commercially by the company Madentec convert my tiny head movements into cursor movements, and enable my use of a regular computer.</s>
+ <s id="21">I can surf the web, exchange email with people, and routinely destroy my friend Steve Cousins in online word games.</s>
+ <s id="22">This technology allows me to remain engaged, mentally active, and feel like I am a part of the world.</s>
+ <s id="23">One day, I was lying in bed watching CNN, when I was amazed by Professor Charlie Kemp of the Healthcare Robotics Lab at Georgia Tech demonstrating a PR2 robot.</s>
+ <s id="24">I emailed Charlie and Steve Cousins of Willow Garage, and we formed the Robots for Humanity project.</s>
+ <s id="25">For about two years, Robots for Humanity developed ways for me to use the PR2 as my body surrogate.</s>
+ <s id="26">I shaved myself for the first time in 10 years.</s>
+ <p id="p27">
+  <s id="27.1">From my home in California, I shaved Charlie in Atlanta.</s>
+  <s id="27.2">(Laughter) I handed out Halloween candy.</s>
+ </p>
+ <s id="28">I opened my refrigerator on my own.</s>
+ <s id="29">I began doing tasks around the house.</s>
+ <s id="30">I saw new and previously unthinkable possibilities to live and contribute, both for myself and others in my circumstance.</s>
+ <s id="31">All of us have disabilities in one form or another.</s>
+ <s id="32">For example, if either of us wants to go 60 miles an hour, both of us will need an assistive device called a car.</s>
+ <s id="33">Your disability doesn't make you any less of a person, and neither does mine.</s>
+ <p id="p34">
+  <s id="34.1">By the way, check out my sweet ride.</s>
+  <s id="34.2">(Laughter) Since birth, we have both suffered from the inability to fly on our own.</s>
+ </p>
+ <s id="35">Last year, Kaijen Hsiao of Willow Garage connected with me Chad Jenkins.</s>
+ <s id="36">Chad showed me how easy it is to purchase and fly aerial drones.</s>
+ <s id="37">It was then I realized that I could also use an aerial drone to expand the worlds of bedridden people through flight, giving a sense of movement and control that is incredible.</s>
+ <s id="38">Using a mouse cursor I control with my head, these web interfaces allow me to see video from the robot and send control commands by pressing buttons in a web browser.</s>
+ <s id="39">With a little practice, I became good enough with this interface to drive around my home on my own.</s>
+ <s id="40">I could look around our garden and see the grapes we are growing.</s>
+ <p id="p41">
+  <s id="41.1">I inspected the solar panels on our roof.</s>
+  <s id="41.2">(Laughter) One of my challenges as a pilot is to land the drone on our basketball hoop.</s>
+ </p>
+ <s id="42">I went even further by seeing if I could use a head-mounted display, the Oculus Rift, as modified by Fighting Walrus, to have an immersive experience controlling the drone.</s>
+ <s id="43">With Chad's group at Brown, I regularly fly drones around his lab several times a week, from my home 3,000 miles away.</s>
+ <p id="p44">
+  <s id="44.1">All work and no fun makes for a dull quadriplegic, so we also find time to play friendly games of robot soccer.</s>
+  <s id="44.2">(Laughter) I never thought I would be able to casually move around a campus like Brown on my own.</s>
+ </p>
+ <p id="p45">
+  <s id="45.1">I just wish I could afford the tuition.</s>
+  <s id="45.2">(Laughter) Chad Jenkins: Henry, all joking aside, I bet all of these people here would love to see you fly this drone from your bed in California 3,000 miles away.</s>
+ </p>
+ <s id="46">(Applause) Okay, Henry, have you been to D.C. lately?</s>
+ <s id="47">(Laughter) Are you excited to be at TEDxMidAtlantic?</s>
+ <s id="48">(Laughter) (Applause) Can you show us how excited you are?</s>
+ <s id="49">(Laughter) All right, big finish.</s>
+ <s id="50">Can you show us how good of a pilot you are?</s>
+ <s id="51">(Applause) All right, we still have a little ways to go with that, but I think it shows the promise.</s>
+ <s id="52">What makes Henry's story amazing is it's about understanding Henry's needs, understanding what people in Henry's situation need from technology, and then also understanding what advanced technology can provide, and then bringing those two things together for use in a wise and responsible way.</s>
+ <s id="53">What we're trying to do is democratize robotics, so that anybody can be a part of this.</s>
+ <s id="54">We're providing affordable, off-the-shelf robot platforms such as the A.R. drone, 300 dollars, the Suitable Technologies beam, only 17,000 dollars, along with open-source robotics software so that you can be a part of what we're trying to do.</s>
+ <s id="55">And our hope is that, by providing these tools, that you'll be able to think of better ways to provide movement for the disabled, to provide care for our aging population, to help better educate our children, to think about what the new types of middle class jobs could be for the future, to both monitor and protect our environment, and to explore the universe.</s>
+ <s id="56">Back to you, Henry.</s>
+ <s id="57">HE: Thank you, Chad.</s>
+ <s id="58">With this drone setup, we show the potential for bedridden people to once again be able to explore the outside world, and robotics will eventually provide a level playing field where one is only limited by their mental acuity and imagination, where the disabled are able to perform the same activities as everyone else, and perhaps better, and technology will even allow us to provide an outlet for many people who are presently considered vegetables.</s>
+ <s id="59">One hundred years ago, I would have been treated like a vegetable.</s>
+ <s id="60">Actually, that's not true.</s>
+ <s id="61">I would have died.</s>
+ <s id="62">It is up to us, all of us, to decide how robotics will be used, for good or for evil, for simply replacing people or for making people better, for allowing us to do and enjoy more.</s>
+ <s id="63">Our goal for robotics is to unlock everyone's mental power by making the world more physically accessible to people such as myself and others like me around the globe.</s>
+ <s id="64">With the help of people like you, we can make this dream a reality.</s>
+ <s id="65">Thank you.</s>
+ <s id="66">(Applause)</s>
+</text>

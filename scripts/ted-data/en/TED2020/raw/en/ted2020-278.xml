@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Last year, I told you the story, in seven minutes, of Project Orion, which was this very implausible technology that technically could have worked, but it had this one-year political window where it could have happened.</s>
+ <p id="p2">
+  <s id="2.1">So it didn't happen.</s>
+  <s id="2.2">It was a dream that did not happen.</s>
+ </p>
+ <s id="3">This year I'm going to tell you the story of the birth of digital computing.</s>
+ <s id="4">This was a perfect introduction.</s>
+ <p id="p5">
+  <s id="5.1">And it's a story that did work.</s>
+  <s id="5.2">It did happen, and the machines are all around us.</s>
+ </p>
+ <s id="6">And it was a technology that was inevitable.</s>
+ <s id="7">If the people I'm going to tell you the story about, if they hadn't done it, somebody else would have.</s>
+ <s id="8">So, it was sort of the right idea at the right time.</s>
+ <p id="p9">
+  <s id="9.1">This is Barricelli's universe.</s>
+  <s id="9.2">This is the universe we live in now.</s>
+ </p>
+ <s id="10">It's the universe in which these machines are now doing all these things, including changing biology.</s>
+ <p id="p11">
+  <s id="11.1">I'm starting the story with the first atomic bomb at Trinity, which was the Manhattan Project.</s>
+  <s id="11.2">It was a little bit like TED: it brought a whole lot of very smart people together.</s>
+ </p>
+ <s id="12">And three of the smartest people were Stan Ulam, Richard Feynman and John von Neumann.</s>
+ <s id="13">And it was Von Neumann who said, after the bomb, he was working on something much more important than bombs: he's thinking about computers.</s>
+ <p id="p14">
+  <s id="14.1">So, he wasn't only thinking about them; he built one.</s>
+  <s id="14.2">This is the machine he built.</s>
+ </p>
+ <p id="p15">
+  <s id="15.1">(Laughter) He built this machine, and we had a beautiful demonstration of how this thing really works, with these little bits.</s>
+  <s id="15.2">And it's an idea that goes way back.</s>
+ </p>
+ <s id="16">The first person to really explain that was Thomas Hobbes, who, in 1651, explained how arithmetic and logic are the same thing, and if you want to do artificial thinking and artificial logic, you can do it all with arithmetic.</s>
+ <s id="17">He said you needed addition and subtraction.</s>
+ <s id="18">Leibniz, who came a little bit later -- this is 1679 -- showed that you didn't even need subtraction.</s>
+ <s id="19">You could do the whole thing with addition.</s>
+ <s id="20">Here, we have all the binary arithmetic and logic that drove the computer revolution.</s>
+ <s id="21">And Leibniz was the first person to really talk about building such a machine.</s>
+ <s id="22">He talked about doing it with marbles, having gates and what we now call shift registers, where you shift the gates, drop the marbles down the tracks.</s>
+ <s id="23">And that's what all these machines are doing, except, instead of doing it with marbles, they're doing it with electrons.</s>
+ <s id="24">And then we jump to Von Neumann, 1945, when he sort of reinvents the whole same thing.</s>
+ <s id="25">And 1945, after the war, the electronics existed to actually try and build such a machine.</s>
+ <s id="26">So June 1945 -- actually, the bomb hasn't even been dropped yet -- and Von Neumann is putting together all the theory to actually build this thing, which also goes back to Turing, who, before that, gave the idea that you could do all this with a very brainless, little, finite state machine, just reading a tape in and reading a tape out.</s>
+ <s id="27">The other sort of genesis of what Von Neumann did was the difficulty of how you would predict the weather.</s>
+ <s id="28">Lewis Richardson saw how you could do this with a cellular array of people, giving them each a little chunk, and putting it together.</s>
+ <s id="29">Here, we have an electrical model illustrating a mind having a will, but capable of only two ideas.</s>
+ <s id="30">(Laughter) And that's really the simplest computer.</s>
+ <s id="31">It's basically why you need the qubit, because it only has two ideas.</s>
+ <s id="32">And you put lots of those together, you get the essentials of the modern computer: the arithmetic unit, the central control, the memory, the recording medium, the input and the output.</s>
+ <p id="p33">
+  <s id="33.1">But, there's one catch.</s>
+  <s id="33.2">This is the fatal -- you know, we saw it in starting these programs up.</s>
+ </p>
+ <s id="34">The instructions which govern this operation must be given in absolutely exhaustive detail.</s>
+ <s id="35">So, the programming has to be perfect, or it won't work.</s>
+ <s id="36">If you look at the origins of this, the classic history sort of takes it all back to the ENIAC here.</s>
+ <p id="p37">
+  <s id="37.1">But actually, the machine I'm going to tell you about, the Institute for Advanced Study machine, which is way up there, really should be down there.</s>
+  <s id="37.2">So, I'm trying to revise history, and give some of these guys more credit than they've had.</s>
+ </p>
+ <s id="38">Such a computer would open up universes, which are, at the present, outside the range of any instruments.</s>
+ <s id="39">So it opens up a whole new world, and these people saw it.</s>
+ <s id="40">The guy who was supposed to build this machine was the guy in the middle, Vladimir Zworykin, from RCA.</s>
+ <s id="41">RCA, in probably one of the lousiest business decisions of all time, decided not to go into computers.</s>
+ <s id="42">But the first meetings, November 1945, were at RCA's offices.</s>
+ <s id="43">RCA started this whole thing off, and said, you know, televisions are the future, not computers.</s>
+ <s id="44">The essentials were all there -- all the things that make these machines run.</s>
+ <p id="p45">
+  <s id="45.1">Von Neumann, and a logician, and a mathematician from the army put this together.</s>
+  <s id="45.2">Then, they needed a place to build it.</s>
+ </p>
+ <s id="46">When RCA said no, that's when they decided to build it in Princeton, where Freeman works at the Institute.</s>
+ <s id="47">That's where I grew up as a kid.</s>
+ <s id="48">That's me, that's my sister Esther, who's talked to you before, so we both go back to the birth of this thing.</s>
+ <s id="49">That's Freeman, a long time ago, and that was me.</s>
+ <s id="50">And this is Von Neumann and Morgenstern, who wrote the "Theory of Games."</s>
+ <s id="51">All these forces came together there, in Princeton.</s>
+ <s id="52">Oppenheimer, who had built the bomb.</s>
+ <s id="53">The machine was actually used mainly for doing bomb calculations.</s>
+ <p id="p54">
+  <s id="54.1">And Julian Bigelow, who took Zworkykin's place as the engineer, to actually figure out, using electronics, how you would build this thing.</s>
+  <s id="54.2">The whole gang of people who came to work on this, and women in front, who actually did most of the coding, were the first programmers.</s>
+ </p>
+ <s id="55">These were the prototype geeks, the nerds.</s>
+ <s id="56">They didn't fit in at the Institute.</s>
+ <s id="57">This is a letter from the director, concerned about -- "especially unfair on the matter of sugar."</s>
+ <s id="58">(Laughter) You can read the text.</s>
+ <s id="59">(Laughter) This is hackers getting in trouble for the first time.</s>
+ <s id="60">(Laughter).</s>
+ <s id="61">These were not theoretical physicists.</s>
+ <s id="62">They were real soldering-gun type guys, and they actually built this thing.</s>
+ <s id="63">And we take it for granted now, that each of these machines has billions of transistors, doing billions of cycles per second without failing.</s>
+ <s id="64">They were using vacuum tubes, very narrow, sloppy techniques to get actually binary behavior out of these radio vacuum tubes.</s>
+ <s id="65">They actually used 6J6, the common radio tube, because they found they were more reliable than the more expensive tubes.</s>
+ <s id="66">And what they did at the Institute was publish every step of the way.</s>
+ <s id="67">Reports were issued, so that this machine was cloned at 15 other places around the world.</s>
+ <p id="p68">
+  <s id="68.1">And it really was.</s>
+  <s id="68.2">It was the original microprocessor.</s>
+ </p>
+ <s id="69">All the computers now are copies of that machine.</s>
+ <s id="70">The memory was in cathode ray tubes -- a whole bunch of spots on the face of the tube -- very, very sensitive to electromagnetic disturbances.</s>
+ <s id="71">So, there's 40 of these tubes, like a V-40 engine running the memory.</s>
+ <s id="72">(Laughter) The input and the output was by teletype tape at first.</s>
+ <s id="73">This is a wire drive, using bicycle wheels.</s>
+ <s id="74">This is the archetype of the hard disk that's in your machine now.</s>
+ <s id="75">Then they switched to a magnetic drum.</s>
+ <s id="76">This is modifying IBM equipment, which is the origins of the whole data-processing industry, later at IBM.</s>
+ <s id="77">And this is the beginning of computer graphics.</s>
+ <p id="p78">
+  <s id="78.1">The "Graph'g-Beam Turn On."</s>
+  <s id="78.2">This next slide, that's the -- as far as I know -- the first digital bitmap display, 1954.</s>
+ </p>
+ <s id="79">So, Von Neumann was already off in a theoretical cloud, doing abstract sorts of studies of how you could build reliable machines out of unreliable components.</s>
+ <s id="80">Those guys drinking all the tea with sugar in it were writing in their logbooks, trying to get this thing to work, with all these 2,600 vacuum tubes that failed half the time.</s>
+ <s id="81">And that's what I've been doing, this last six months, is going through the logs.</s>
+ <p id="p82">
+  <s id="82.1">"Running time: two minutes.</s>
+  <s id="82.2">Input, output: 90 minutes."</s>
+ </p>
+ <s id="83">This includes a large amount of human error.</s>
+ <p id="p84">
+  <s id="84.1">So they are always trying to figure out, what's machine error?</s>
+  <s id="84.2">What's human error?</s>
+ </p>
+ <s id="85">What's code, what's hardware?</s>
+ <s id="86">That's an engineer gazing at tube number 36, trying to figure out why the memory's not in focus.</s>
+ <s id="87">He had to focus the memory -- seems OK.</s>
+ <s id="88">So, he had to focus each tube just to get the memory up and running, let alone having, you know, software problems.</s>
+ <p id="p89">
+  <s id="89.1">"No use, went home."</s>
+  <s id="89.2">(Laughter) "Impossible to follow the damn thing, where's a directory?"</s>
+ </p>
+ <p id="p90">
+  <s id="90.1">So, already, they're complaining about the manuals: "before closing down in disgust ... "</s>
+  <s id="90.2">"The General Arithmetic: Operating Logs."</s>
+ </p>
+ <s id="91">Burning lots of midnight oil.</s>
+ <s id="92">"MANIAC," which became the acronym for the machine, Mathematical and Numerical Integrator and Calculator, "lost its memory."</s>
+ <p id="p93">
+  <s id="93.1">"MANIAC regained its memory, when the power went off."</s>
+  <s id="93.2">"Machine or human?"</s>
+ </p>
+ <p id="p94">
+  <s id="94.1">"Aha!"</s>
+  <s id="94.2">So, they figured out it's a code problem.</s>
+ </p>
+ <s id="95">"Found trouble in code, I hope."</s>
+ <s id="96">"Code error, machine not guilty."</s>
+ <s id="97">"Damn it, I can be just as stubborn as this thing."</s>
+ <p id="p98">
+  <s id="98.1">(Laughter) "And the dawn came."</s>
+  <s id="98.2">So they ran all night.</s>
+ </p>
+ <s id="99">Twenty-four hours a day, this thing was running, mainly running bomb calculations.</s>
+ <p id="p100">
+  <s id="100.1">"Everything up to this point is wasted time."</s>
+  <s id="100.2">"What's the use?</s>
+  <s id="100.3">Good night."</s>
+ </p>
+ <p id="p101">
+  <s id="101.1">"Master control off.</s>
+  <s id="101.2">The hell with it.</s>
+  <s id="101.3">Way off."</s>
+  <s id="101.4">(Laughter) "Something's wrong with the air conditioner -- smell of burning V-belts in the air."</s>
+ </p>
+ <s id="102">"A short -- do not turn the machine on."</s>
+ <p id="p103">
+  <s id="103.1">"IBM machine putting a tar-like substance on the cards.</s>
+  <s id="103.2">The tar is from the roof."</s>
+ </p>
+ <s id="104">So they really were working under tough conditions.</s>
+ <p id="p105">
+  <s id="105.1">(Laughter) Here, "A mouse has climbed into the blower behind the regulator rack, set blower to vibrating.</s>
+  <s id="105.2">Result: no more mouse."</s>
+ </p>
+ <p id="p106">
+  <s id="106.1">(Laughter) "Here lies mouse.</s>
+  <s id="106.2">Born: ?.</s>
+  <s id="106.3">Died: 4:50 a.m., May 1953."</s>
+ </p>
+ <s id="107">(Laughter) There's an inside joke someone has penciled in: "Here lies Marston Mouse."</s>
+ <s id="108">If you're a mathematician, you get that, because Marston was a mathematician who objected to the computer being there.</s>
+ <p id="p109">
+  <s id="109.1">"Picked a lightning bug off the drum."</s>
+  <s id="109.2">"Running at two kilocycles."</s>
+ </p>
+ <s id="110">That's two thousand cycles per second -- "yes, I'm chicken" -- so two kilocycles was slow speed.</s>
+ <s id="111">The high speed was 16 kilocycles.</s>
+ <s id="112">I don't know if you remember a Mac that was 16 Megahertz, that's slow speed.</s>
+ <s id="113">"I have now duplicated both results.</s>
+ <s id="114">How will I know which is right, assuming one result is correct?</s>
+ <s id="115">This now is the third different output.</s>
+ <s id="116">I know when I'm licked."</s>
+ <s id="117">(Laughter) "We've duplicated errors before."</s>
+ <p id="p118">
+  <s id="118.1">"Machine run, fine.</s>
+  <s id="118.2">Code isn't."</s>
+ </p>
+ <s id="119">"Only happens when the machine is running."</s>
+ <s id="120">And sometimes things are okay.</s>
+ <p id="p121">
+  <s id="121.1">"Machine a thing of beauty, and a joy forever."</s>
+  <s id="121.2">"Perfect running."</s>
+ </p>
+ <s id="122">"Parting thought: when there's bigger and better errors, we'll have them."</s>
+ <s id="123">So, nobody was supposed to know they were actually designing bombs.</s>
+ <p id="p124">
+  <s id="124.1">They're designing hydrogen bombs.</s>
+  <s id="124.2">But someone in the logbook, late one night, finally drew a bomb.</s>
+ </p>
+ <p id="p125">
+  <s id="125.1">So, that was the result.</s>
+  <s id="125.2">It was Mike, the first thermonuclear bomb, in 1952.</s>
+ </p>
+ <s id="126">That was designed on that machine, in the woods behind the Institute.</s>
+ <s id="127">So Von Neumann invited a whole gang of weirdos from all over the world to work on all these problems.</s>
+ <s id="128">Barricelli, he came to do what we now call, really, artificial life, trying to see if, in this artificial universe -- he was a viral-geneticist, way, way, way ahead of his time.</s>
+ <s id="129">He's still ahead of some of the stuff that's being done now.</s>
+ <s id="130">Trying to start an artificial genetic system running in the computer.</s>
+ <s id="131">Began -- his universe started March 3, '53.</s>
+ <s id="132">So it's almost exactly -- it's 50 years ago next Tuesday, I guess.</s>
+ <s id="133">And he saw everything in terms of -- he could read the binary code straight off the machine.</s>
+ <s id="134">He had a wonderful rapport.</s>
+ <p id="p135">
+  <s id="135.1">Other people couldn't get the machine running.</s>
+  <s id="135.2">It always worked for him.</s>
+ </p>
+ <s id="136">Even errors were duplicated.</s>
+ <s id="137">(Laughter) "Dr. Barricelli claims machine is wrong, code is right."</s>
+ <s id="138">So he designed this universe, and ran it.</s>
+ <s id="139">When the bomb people went home, he was allowed in there.</s>
+ <s id="140">He would run that thing all night long, running these things, if anybody remembers Stephen Wolfram, who reinvented this stuff.</s>
+ <p id="p141">
+  <s id="141.1">And he published it.</s>
+  <s id="141.2">It wasn't locked up and disappeared.</s>
+ </p>
+ <s id="142">It was published in the literature.</s>
+ <s id="143">"If it's that easy to create living organisms, why not create a few yourself?"</s>
+ <s id="144">So, he decided to give it a try, to start this artificial biology going in the machines.</s>
+ <s id="145">And he found all these, sort of -- it was like a naturalist coming in and looking at this tiny, 5,000-byte universe, and seeing all these things happening that we see in the outside world, in biology.</s>
+ <s id="146">This is some of the generations of his universe.</s>
+ <s id="147">But they're just going to stay numbers; they're not going to become organisms.</s>
+ <s id="148">They have to have something.</s>
+ <s id="149">You have a genotype and you have to have a phenotype.</s>
+ <p id="p150">
+  <s id="150.1">They have to go out and do something.</s>
+  <s id="150.2">And he started doing that, started giving these little numerical organisms things they could play with -- playing chess with other machines and so on.</s>
+ </p>
+ <s id="151">And they did start to evolve.</s>
+ <s id="152">And he went around the country after that.</s>
+ <s id="153">Every time there was a new, fast machine, he started using it, and saw exactly what's happening now.</s>
+ <s id="154">That the programs, instead of being turned off -- when you quit the program, you'd keep running and, basically, all the sorts of things like Windows is doing, running as a multi-cellular organism on many machines, he envisioned all that happening.</s>
+ <s id="155">And he saw that evolution itself was an intelligent process.</s>
+ <s id="156">It wasn't any sort of creator intelligence, but the thing itself was a giant parallel computation that would have some intelligence.</s>
+ <s id="157">And he went out of his way to say that he was not saying this was lifelike, or a new kind of life.</s>
+ <s id="158">It just was another version of the same thing happening.</s>
+ <s id="159">And there's really no difference between what he was doing in the computer and what nature did billions of years ago.</s>
+ <s id="160">And could you do it again now?</s>
+ <s id="161">So, when I went into these archives looking at this stuff, lo and behold, the archivist came up one day, saying, "I think we found another box that had been thrown out."</s>
+ <s id="162">And it was his universe on punch cards.</s>
+ <s id="163">So there it is, 50 years later, sitting there -- sort of suspended animation.</s>
+ <s id="164">That's the instructions for running -- this is actually the source code for one of those universes, with a note from the engineers saying they're having some problems.</s>
+ <s id="165">"There must be something about this code that you haven't explained yet."</s>
+ <p id="p166">
+  <s id="166.1">And I think that's really the truth.</s>
+  <s id="166.2">We still don't understand how these very simple instructions can lead to increasing complexity.</s>
+ </p>
+ <s id="167">What's the dividing line between when that is lifelike and when it really is alive?</s>
+ <s id="168">These cards, now, thanks to me showing up, are being saved.</s>
+ <s id="169">And the question is, should we run them or not?</s>
+ <s id="170">You know, could we get them running?</s>
+ <s id="171">Do you want to let it loose on the Internet?</s>
+ <s id="172">These machines would think they -- these organisms, if they came back to life now -- whether they've died and gone to heaven, there's a universe.</s>
+ <s id="173">My laptop is 10 thousand million times the size of the universe that they lived in when Barricelli quit the project.</s>
+ <s id="174">He was thinking far ahead, to how this would really grow into a new kind of life.</s>
+ <s id="175">And that's what's happening!</s>
+ <s id="176">When Juan Enriquez told us about these 12 trillion bits being transferred back and forth, of all this genomics data going to the proteomics lab, that's what Barricelli imagined: that this digital code in these machines is actually starting to code -- it already is coding from nucleic acids.</s>
+ <s id="177">We've been doing that since, you know, since we started PCR and synthesizing small strings of DNA.</s>
+ <s id="178">And real soon, we're actually going to be synthesizing the proteins, and, like Steve showed us, that just opens an entirely new world.</s>
+ <s id="179">It's a world that Von Neumann himself envisioned.</s>
+ <s id="180">This was published after he died: his sort of unfinished notes on self-reproducing machines, what it takes to get the machines sort of jump-started to where they begin to reproduce.</s>
+ <s id="181">It took really three people: Barricelli had the concept of the code as a living thing; Von Neumann saw how you could build the machines -- that now, last count, four million of these Von Neumann machines is built every 24 hours; and Julian Bigelow, who died 10 days ago -- this is John Markoff's obituary for him -- he was the important missing link, the engineer who came in and knew how to put those vacuum tubes together and make it work.</s>
+ <s id="182">And all our computers have, inside them, the copies of the architecture that he had to just design one day, sort of on pencil and paper.</s>
+ <s id="183">And we owe a tremendous credit to that.</s>
+ <s id="184">And he explained, in a very generous way, the spirit that brought all these different people to the Institute for Advanced Study in the '40s to do this project, and make it freely available with no patents, no restrictions, no intellectual property disputes to the rest of the world.</s>
+ <s id="185">That's the last entry in the logbook when the machine was shut down, July 1958.</s>
+ <s id="186">And it's Julian Bigelow who was running it until midnight when the machine was officially turned off.</s>
+ <s id="187">And that's the end.</s>
+ <s id="188">Thank you very much.</s>
+ <s id="189">(Applause)</s>
+</text>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Imagine a future where nobody dies— instead, our minds are uploaded to a digital world.</s>
+ <s id="2">They might live on in a realistic, simulated environment with avatar bodies, and could still call in and contribute to the biological world.</s>
+ <s id="3">Mind uploading has powerful appeal— but what would it actually take to scan a person’s brain and upload their mind?</s>
+ <s id="4">The main challenges are scanning a brain in enough detail to capture the mind and perfectly recreating that detail artificially.</s>
+ <s id="5">But first, we have to know what to scan.</s>
+ <s id="6">The human brain contains about 86 billion neurons, connected by at least a hundred trillion synapses.</s>
+ <s id="7">The pattern of connectivity among the brain’s neurons, that is, all of the neurons and all their connections to each other, is called the connectome.</s>
+ <s id="8">We haven’t yet mapped the connectome, and there’s also a lot more to neural signaling.</s>
+ <s id="9">There are hundreds, possibly thousands of different kinds of connections, or synapses.</s>
+ <s id="10">Each functions in a slightly different way.</s>
+ <s id="11">Some work faster, some slower.</s>
+ <s id="12">Some grow or shrink rapidly in the process of learning; some are more stable over time.</s>
+ <s id="13">And beyond the trillions of precise, 1-to-1 connections between neurons, some neurons also spray out neurotransmitters that affect many other neurons at once.</s>
+ <s id="14">All of these different kinds of interactions would need to be mapped in order to copy a person’s mind.</s>
+ <s id="15">There are also a lot of influences on neural signaling that are poorly understood or undiscovered.</s>
+ <s id="16">To name just one example, patterns of activity between neurons are likely influenced by a type of cell called glia.</s>
+ <s id="17">Glia surround neurons and, according to some scientists, may even outnumber them by as many as ten to one.</s>
+ <s id="18">Glia were once thought to be purely for structural support, and their functions are still poorly understood, but at least some of them can generate their own signals that influence information processing.</s>
+ <s id="19">Our understanding of the brain isn’t good enough to determine what we’d need to scan in order to replicate the mind, but assuming our knowledge does advance to that point, how would we scan it?</s>
+ <s id="20">Currently, we can accurately scan a living human brain with resolutions of about half a millimeter using our best non-invasive scanning method, MRI.</s>
+ <s id="21">To detect a synapse, we’ll need to scan at a resolution of about a micron— a thousandth of a millimeter.</s>
+ <s id="22">To distinguish the kind of synapse and precisely how strong each synapse is, we’ll need even better resolution.</s>
+ <s id="23">MRI depends on powerful magnetic fields.</s>
+ <s id="24">Scanning at the resolution required to determine the details of individual synapses would requires a field strength high enough to cook a person’s tissues.</s>
+ <s id="25">So this kind of leap in resolution would require fundamentally new scanning technology.</s>
+ <s id="26">It would be more feasible to scan a dead brain using an electron microscope, but even that technology is nowhere near good enough– and requires killing the subject first.</s>
+ <s id="27">Assuming we eventually understand the brain well enough to know what to scan and develop the technology to safely scan at that resolution, the next challenge would be to recreate that information digitally.</s>
+ <s id="28">The main obstacles to doing so are computing power and storage space, both of which are improving every year.</s>
+ <s id="29">We’re actually much closer to attaining this technological capacity than we are to understanding or scanning our own minds.</s>
+ <s id="30">Artificial neural networks already run our internet search engines, digital assistants, self-driving cars, Wall Street trading algorithms, and smart phones.</s>
+ <s id="31">Nobody has yet built an artificial network with 86 billion neurons, but as computing technology improves, it may be possible to keep track of such massive data sets.</s>
+ <s id="32">At every step in the scanning and uploading process, we’d have to be certain we were capturing all the necessary information accurately— or there’s no telling what ruined version of a mind might emerge.</s>
+ <s id="33">While mind uploading is theoretically possible, we’re likely hundreds of years away from the technology and scientific understanding that would make it a reality.</s>
+ <s id="34">And that reality would come with ethical and philosophical considerations: who would have access to mind uploading?</s>
+ <s id="35">What rights would be accorded to uploaded minds?</s>
+ <s id="36">How could this technology be abused?</s>
+ <s id="37">Even if we can eventually upload our minds, whether we should remains an open question.</s>
+</text>

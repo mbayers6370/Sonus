@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Zach Kaplan: Keith and I lead a research team.</s>
+ <p id="p2">
+  <s id="2.1">We investigate materials and technologies that have unexpected properties.</s>
+  <s id="2.2">Over the last three years, we found over 200 of these things, and so we looked back into our library and selected six we thought would be most surprising for TED.</s>
+ </p>
+ <s id="3">Of these six, the first one that we're going to talk about is in the black envelope you're holding.</s>
+ <p id="p4">
+  <s id="4.1">It comes from a company in Japan called GelTech.</s>
+  <s id="4.2">Now go ahead and open it up.</s>
+ </p>
+ <s id="5">Keith Schacht: Now be sure and take the two pieces apart.</s>
+ <s id="6">What's unexpected about this is that it's soft, but it's also a strong magnet.</s>
+ <s id="7">Zach and I have always been fascinated observing unexpected things like this.</s>
+ <s id="8">We spent a long time thinking about why this is, and it's just recently that we realized: it's when we see something unexpected, it changes our understanding of the way things work.</s>
+ <s id="9">As you're seeing this gel magnet for the first time, if you assume that all magnets had to be hard, then seeing this surprised you and it changed your understanding of the way magnets could work.</s>
+ <s id="10">ZK: Now, it's important to understand what the unexpected properties are.</s>
+ <s id="11">But to really think about the implications of what this makes possible, we found that it helps to think about how it could be applied in the world.</s>
+ <s id="12">So, a first idea is to use it on cabinet doors.</s>
+ <s id="13">If you line the sides of the cabinets using the gel material -- if a cabinet slams shut it wouldn't make a loud noise, and in addition the magnets would draw the cabinets closed.</s>
+ <s id="14">Imagine taking the same material, but putting it on the bottom of a sneaker.</s>
+ <s id="15">You know, this way you could go to the container store and buy one of those metal sheets that they hang on the back of your door, in your closet, and you could literally stick your shoes up instead of using a shelf.</s>
+ <s id="16">For me, I really love this idea.</s>
+ <s id="17">(Laughter) If you come to my apartment and see my closet, I'm sure you'd figure out why: it's a mess.</s>
+ <s id="18">KS: Seeing the unexpected properties and then seeing a couple of applications -- it helps you see why this is significant, what the potential is.</s>
+ <s id="19">But we've found that the way we present our ideas it makes a big difference.</s>
+ <s id="20">ZK: It was like six months ago that Keith and I were out in L.A., and we were at Starbucks having coffee with Roman Coppola.</s>
+ <s id="21">He works on mostly music videos and commercials with his company, The Directors Bureau.</s>
+ <s id="22">As we were talking, Roman told us that he's kind of an inventor on the side.</s>
+ <p id="p23">
+  <s id="23.1">And we were showing him the same gel magnet that you're holding in your hand -- and you know, we shared the same ideas.</s>
+  <s id="23.2">And you could see it in his face: Roman starts to get really excited and he whips out this manila folder; he opens it up and Keith and I look in, and he starts showing us concepts that he's been working on.</s>
+ </p>
+ <p id="p24">
+  <s id="24.1">These things just get him really excited.</s>
+  <s id="24.2">And so we're looking at these concepts, and we were just like, whoa, this guy's good.</s>
+ </p>
+ <p id="p25">
+  <s id="25.1">Because the way that he presented the concept -- his approach was totally different than ours.</s>
+  <s id="25.2">He sold it to you as if it was for sale right now.</s>
+ </p>
+ <s id="26">When we were going in the car back to the airport, we were thinking: why was this so powerful?</s>
+ <p id="p27">
+  <s id="27.1">And as we thought about it more, we realized that it let you fill in all the details about the experience, just as if you saw it on TV.</s>
+  <s id="27.2">So, for TED we decided to take our favorite idea for the gel magnet and work with Roman and his team at the Directors Bureau to create a commercial for a product from the future.</s>
+ </p>
+ <s id="28">Narrator: Do you have a need for speed?</s>
+ <s id="29">Inventables Water Adventures dares you to launch yourself on a magnetically-levitating board down a waterslide so fast, so tall, that when you hit the bottom, it uses brakes to stop.</s>
+ <s id="30">Aqua Rocket: coming this summer.</s>
+ <s id="31">KS: Now, we showed the concept to a few people before this, and they asked us, when's it coming out?</s>
+ <s id="32">So I just wanted to let you know, it's not actually coming out, just the concept is.</s>
+ <s id="33">ZK: So now, when we dream up these concepts, it's important for us to make sure that they work from a technical standpoint.</s>
+ <s id="34">So I just want to quickly explain how this would work.</s>
+ <s id="35">This is the magnetically-levitating board that they mentioned in the commercial.</s>
+ <s id="36">The gel that you're holding would be lining the bottom of the board.</s>
+ <s id="37">Now this is important for two reasons.</s>
+ <s id="38">One: the soft properties of the magnet that make it so that, if it were to hit the rider in the head, it wouldn't injure him.</s>
+ <s id="39">In addition, you can see from the diagram on the right, the underpart of the slide would be an electromagnet.</s>
+ <s id="40">So this would actually repel the rider a little bit as you're going down.</s>
+ <s id="41">The force of the water rushing down, in addition to that repulsion force, would make this slide go faster than any slide on the market.</s>
+ <s id="42">It's because of this that you need the magnetic braking system.</s>
+ <s id="43">When you get to the very bottom of the slide -- (Laughter) -- the rider passes through an aluminum tube.</s>
+ <s id="44">And I'm going to kick it to Keith to explain why that's important from a technical standpoint.</s>
+ <p id="p45">
+  <s id="45.1">KS: So I'm sure all you engineers know that even though aluminum is a metal, it's not a magnetic material.</s>
+  <s id="45.2">But something unexpected happens when you drop a magnet down an aluminum tube.</s>
+ </p>
+ <s id="46">So we set up a quick experiment here to show that to you.</s>
+ <s id="47">(Laughter) Now, you see the magnet fell really slowly.</s>
+ <s id="48">Now, I'm not going to get into the physics of it, but all you need to know is that the faster the magnet's falling, the greater the stopping force.</s>
+ <s id="49">ZK: Now, our next technology is actually a 10-foot pole, and I have it right here in my pocket.</s>
+ <s id="50">(Laughter) There're a few different versions of it.</s>
+ <s id="51">(Laughter) KS: Some of them automatically unroll like this one.</s>
+ <s id="52">They can be made to automatically roll up, or they can be made stable, like Zach's, to hold any position in between.</s>
+ <s id="53">ZK: As we were talking to the vendor -- to try to learn about how you could apply these, or how they're being applied currently -- he was telling us that, in the military they use this one so soldiers can keep it on their chests -- very concealed -- and then, when they're out on the field, erect it as an antenna to clearly send signals back to the base.</s>
+ <s id="54">In our brainstorms, we came up with the idea you could use it for a soccer goal: so at the end of the game, you just roll up the goal and put it in your gym bag.</s>
+ <s id="55">(Laughter) KS: Now, the interesting thing about this is, you don't have to be an engineer to appreciate why a 10-foot pole that can fit in your pocket is so interesting.</s>
+ <s id="56">(Laughter) So we decided to go out onto the streets of Chicago and ask a few people on the streets what they thought you could do with this.</s>
+ <s id="57">Man: I clean my ceiling fans with that and I get the spider webs off my house -- I do it that way.</s>
+ <s id="58">Woman: I'd make my very own walking stick.</s>
+ <s id="59">Woman: I would create a ladder to use to get up on top of the tree.</s>
+ <s id="60">Woman: An olive server.</s>
+ <s id="61">Man: Some type of extension pole -- like what the painters use.</s>
+ <p id="p62">
+  <s id="62.1">Woman: I would make a spear that, when you went deep sea diving, you could catch the fish really fast, and then roll it back up, and you could swim easier ...</s>
+  <s id="62.2">Yeah.</s>
+ </p>
+ <s id="63">(Laughter) ZK: Now, for our next technology we're going to do a little demonstration, and so we need a volunteer from the audience.</s>
+ <s id="64">You sir, come on up.</s>
+ <p id="p65">
+  <s id="65.1">(Laughter) Come on up.</s>
+  <s id="65.2">Tell everybody your name.</s>
+ </p>
+ <s id="66">Steve Jurvetson: Steve.</s>
+ <p id="p67">
+  <s id="67.1">ZK: It's Steve.</s>
+  <s id="67.2">All right Steve, now, follow me.</s>
+ </p>
+ <s id="68">We need you to stand right in front of the TED sign.</s>
+ <p id="p69">
+  <s id="69.1">Right there.</s>
+  <s id="69.2">That's great.</s>
+ </p>
+ <p id="p70">
+  <s id="70.1">And hold onto this.</s>
+  <s id="70.2">Good luck to you.</s>
+ </p>
+ <s id="71">(Laughter) KS: No, not yet.</s>
+ <s id="72">(Laughter) ZK: I'd just like to let you all know that this presentation has been brought to you by Target.</s>
+ <s id="73">KS: Little bit -- that's perfect, just perfect.</s>
+ <s id="74">Now, Zach, we're going to demonstrate a water gun fight from the future.</s>
+ <p id="p75">
+  <s id="75.1">(Laughter) So here, come on up to the front.</s>
+  <s id="75.2">All right, so now if you'll see here -- no, no, it's OK.</s>
+ </p>
+ <p id="p76">
+  <s id="76.1">So, describe to the audience the temperature of your shirt.</s>
+  <s id="76.2">Go ahead.</s>
+ </p>
+ <s id="77">SJ: It's cold.</s>
+ <s id="78">KS: Now the reason it's cold is that's it's not actually water loaded into these squirt guns -- it's a dry liquid developed by 3M.</s>
+ <s id="79">It's perfectly clear, it's odorless, it's colorless.</s>
+ <s id="80">It's so safe you could drink this stuff.</s>
+ <s id="81">(Laughter) And the reason it feels cold is because it evaporates 25 times faster than water.</s>
+ <s id="82">(Laughter) All right, well thanks for coming up.</s>
+ <s id="83">(Laughter) ZK: Wait, wait, Steven -- before you go we filled this with the dry liquid so during the break you can shoot your friends.</s>
+ <s id="84">SJ: Excellent, thank you.</s>
+ <p id="p85">
+  <s id="85.1">KS: Thanks for coming up.</s>
+  <s id="85.2">Let's give him a big round of applause.</s>
+ </p>
+ <s id="86">(Applause) So what's the significance of this dry liquid?</s>
+ <s id="87">Early versions of the fluid were actually used on a Cray Supercomputer.</s>
+ <p id="p88">
+  <s id="88.1">Now, the unexpected thing about this is that Zach could stand up on stage and drench a perfectly innocent member of the audience without any concern that we'd damage the electronics, that we'd get him wet, that we'd hurt the books or the computers.</s>
+  <s id="88.2">It works because it's non-conductive.</s>
+ </p>
+ <s id="89">So you can see here, you can immerse a whole circuit board in this and it wouldn't cause any damage.</s>
+ <s id="90">You can circulate it to draw the heat away.</s>
+ <s id="91">But today it's most widely used in office buildings -- in the sprinkler system -- as a fire-suppression fluid.</s>
+ <p id="p92">
+  <s id="92.1">Again, it's perfectly safe for people.</s>
+  <s id="92.2">It puts out the fires, doesn't hurt anything.</s>
+ </p>
+ <p id="p93">
+  <s id="93.1">But our favorite idea for this was using it in a basketball game.</s>
+  <s id="93.2">So during halftime, it could rain down on the players, cool everyone down, and in a matter of minutes it would dry.</s>
+  <s id="93.3">Wouldn't hurt the court.</s>
+ </p>
+ <p id="p94">
+  <s id="94.1">ZK: Our next technology comes to us from a company in Japan called Sekisui Chemical.</s>
+  <s id="94.2">One of their R&amp;amp;D engineers was working on a way to make plastic stiffer.</s>
+ </p>
+ <s id="95">While he was doing this, he noticed an unexpected thing.</s>
+ <s id="96">We have a video to show you.</s>
+ <p id="p97">
+  <s id="97.1">KS: So you see there, it didn't bounce back.</s>
+  <s id="97.2">Now, this was an unintended side effect of some experiments they were doing.</s>
+ </p>
+ <s id="98">It's technically called, "shape-retaining property."</s>
+ <s id="99">Now, think about your interactions with aluminum foil.</s>
+ <p id="p100">
+  <s id="100.1">Shape-retaining is common in metal: you bend a piece of aluminum foil, and it holds its place.</s>
+  <s id="100.2">Contrast that with a plastic garbage can -- and you can push in the sides and it always bounces back.</s>
+ </p>
+ <s id="101">ZK: For example, you could make a watch that wraps around your wrist, but doesn't use a buckle.</s>
+ <s id="102">Taking it a little further, if you wove those strips together -- kind of like a little basket -- you could make a shape-retaining sheet, and then you could embed it in a cloth: so you could make a picnic sheet that wraps around the table, so that way on a windy day it wouldn't blow away.</s>
+ <s id="103">For our next technology, it's hard to observe the unexpected property by itself, because it's an ink.</s>
+ <s id="104">So, we've prepared a video to show it applied to paper.</s>
+ <s id="105">KS: As this paper is bending, the resistance of the ink changes.</s>
+ <s id="106">So with simple electronics, you can detect how much the page is being bent.</s>
+ <p id="p107">
+  <s id="107.1">Now, to think about the potential for this, think of all the places ink is supplied: on business cards, on the back of cereal boxes, board games.</s>
+  <s id="107.2">Any place you use ink, you could change the way you interact with it.</s>
+ </p>
+ <s id="108">ZK: So my favorite idea for this is to apply the ink to a book.</s>
+ <s id="109">This could totally change the way that you interface with paper.</s>
+ <p id="p110">
+  <s id="110.1">You see the dark line on the side and the top.</s>
+  <s id="110.2">As you turn the pages of the book, the book can actually detect what page you're on, based on the curvature of the pages.</s>
+ </p>
+ <s id="111">In addition, if you were to fold in one of the corners, then you could program the book to actually email you the text on the page for your notes.</s>
+ <s id="112">KS: For our last technology, we worked again with Roman and his team at the Directors Bureau to develop a commercial from the future to explain how it works.</s>
+ <s id="113">Old Milk Carton: Oh yeah, it smells good.</s>
+ <s id="114">Who are you?</s>
+ <s id="115">New Milk Carton: I'm New Milk.</s>
+ <s id="116">OMC: I used to smell like you.</s>
+ <s id="117">Narrator: Fresh Watch, from Inventables Dairy Farms.</s>
+ <s id="118">Packaging that changes color when your milk's gone off.</s>
+ <s id="119">Don't let milk spoil your morning.</s>
+ <s id="120">ZK: Now, this technology was developed by these two guys: Professor Ken Suslick and Neil Rakow, of the University of Illinois.</s>
+ <s id="121">KS: Now the way it works: there's a matrix of color dyes.</s>
+ <s id="122">And these dyes change color in response to odors.</s>
+ <p id="p123">
+  <s id="123.1">So the smell of vanilla, that might change the four on the left to brown and the one on the right to yellow.</s>
+  <s id="123.2">This matrix can produce thousands of different color combinations to represent thousands of different smells.</s>
+ </p>
+ <s id="124">But like in the milk commercial, if you know what odor you want to detect, then they can formulate a specific dye to detect just that odor.</s>
+ <p id="p125">
+  <s id="125.1">ZK: Right.</s>
+  <s id="125.2">It was that that started a conversation with Professor Suslick and myself, and he was explaining to me the things that this is making possible, beyond just detecting spoiled food.</s>
+  <s id="125.3">It's really where the significance of it lies.</s>
+ </p>
+ <s id="126">His company actually did a survey of firemen all across the country to try to learn, how are they currently testing the air when they respond to an emergency scene?</s>
+ <s id="127">And he kind of comically explained that time after time, what the firemen would say is: they would rush to the scene of the crime; they would look around; if there were no dead policemen, it was OK to go.</s>
+ <p id="p128">
+  <s id="128.1">(Laughter) I mean, this is a true story.</s>
+  <s id="128.2">They're using policemen as canaries.</s>
+ </p>
+ <s id="129">(Laughter) But more seriously, they determined that you could develop a device that can smell better than the humans, and say if it's safe for the firemen.</s>
+ <s id="130">In addition, he's spun off a company from the University called ChemSensing, where they're working on medical equipment.</s>
+ <s id="131">So, a patient can come in and actually blow into their device.</s>
+ <s id="132">By detecting the odor of particular bacteria, or viruses, or even lung cancer, the dots will change and they can use software to analyze the results.</s>
+ <s id="133">This can radically improve the way that doctors diagnose patients.</s>
+ <s id="134">Currently, they're using a method of trial and error, but this could tell you precisely what disease you have.</s>
+ <s id="135">KS: So that was the six we had for you today, but I hope you're starting to see why we find these things so fascinating.</s>
+ <p id="p136">
+  <s id="136.1">Because every one of these six changed our understanding of what was possible in the world.</s>
+  <s id="136.2">Prior to seeing this, we would have assumed: a 10-foot pole couldn't fit in your pocket; something as inexpensive as ink couldn't sense the way paper is being bent; every one of these things -- and we're constantly trying to find more.</s>
+ </p>
+ <s id="137">ZK: This is something that Keith and I really enjoy doing.</s>
+ <p id="p138">
+  <s id="138.1">I'm sure it's obvious to you now, but it was actually yesterday that I was reminded of why.</s>
+  <s id="138.2">I was having a conversation with Steve Jurvetson, over downstairs by the escalators, and he was telling me that when Chris sent out that little box, one of the items in it was the hydrophobic sand -- the sand that doesn't get wet.</s>
+  <s id="138.3">He said that he was playing with it with his son.</s>
+ </p>
+ <p id="p139">
+  <s id="139.1">And you know, his son was mesmerized, because he would dunk it in the water, he would take it out and it was bone dry.</s>
+  <s id="139.2">A few weeks later, he said that his son was playing with a lock of his mother's hair, and he noticed that there were some drops of water on the hair.</s>
+ </p>
+ <s id="140">And he took the thing and he looked up to Steve and he said, "Look, hydrophobic string."</s>
+ <s id="141">(Laughter) I mean, after hearing that story -- that really summed it up for me.</s>
+ <s id="142">Thank you very much.</s>
+ <s id="143">KS: Thank you.</s>
+ <s id="144">(Applause)</s>
+</text>

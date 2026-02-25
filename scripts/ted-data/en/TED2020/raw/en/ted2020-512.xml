@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">So how would you run a whole country without oil?</s>
+ <s id="2">That's the question that sort of hit me in the middle of a Davos afternoon about four years ago.</s>
+ <s id="3">It never left my brain.</s>
+ <s id="4">And I started playing with it more like a puzzle.</s>
+ <s id="5">The original thought I had: this must be ethanol.</s>
+ <s id="6">So I went out and researched ethanol, and found out you need the Amazon in your backyard in every country.</s>
+ <s id="7">About six months later I figured out it must be hydrogen, until some scientist told me the unfortunate truth, which is, you actually use more clean electrons than the ones you get inside a car, if you use hydrogen.</s>
+ <s id="8">So that is not going to be the path to go.</s>
+ <s id="9">And then sort of through a process of wandering around, I got to the thought that actually if you could convert an entire country to electric cars, in a way that is convenient and affordable, you could get to a solution.</s>
+ <s id="10">Now I started this from a point of view that it has to be something that scales en masse.</s>
+ <s id="11">Not how do you build one car, but how do you scale this so that it can become something that is used by 99 percent of the population?</s>
+ <s id="12">The thought that came to mind is that it needs to be as good as any car that you would have today.</s>
+ <s id="13">So one, it has to be more convenient than a car.</s>
+ <s id="14">And two, it has be more affordable than today's cars.</s>
+ <s id="15">Affordable is not a 40,000 dollar sedan, right?</s>
+ <p id="p16">
+  <s id="16.1">Alright?</s>
+  <s id="16.2">That's not something that we can finance or buy today.</s>
+ </p>
+ <s id="17">And convenient is not something that you drive for an hour and charge for eight.</s>
+ <s id="18">So we're bound with the laws of physics and the laws of economics.</s>
+ <s id="19">And so the thought that I started with was how do you do this, still within the boundary of the science we know today -- no time for science fair, no time for playing around with things or waiting for the magic battery to show up.</s>
+ <s id="20">How do you do it within the economics that we have today?</s>
+ <s id="21">How do you do it from the power of the consumer up?</s>
+ <s id="22">And not from the power of an edict down.</s>
+ <s id="23">On a random visit to Tesla on some afternoon, I actually found out that the answer comes from separating between the car ownership and the battery ownership.</s>
+ <s id="24">In a sense if you want to think about it this is the classic "batteries not included."</s>
+ <s id="25">Now if you separate between the two, you could actually answer the need for a convenient car by creating a network, by creating a network before the cars show up.</s>
+ <s id="26">The network has two components in them.</s>
+ <s id="27">First component is you charge the car whenever you stop -- ends up that cars are these strange beasts that drive for about two hours and park for about 22 hours.</s>
+ <s id="28">If you drive a car in the morning and drive it back in the afternoon the ratio of charge to drive is about a minute for a minute.</s>
+ <s id="29">And so the first thought that came to mind is, everywhere we park we have electric power.</s>
+ <p id="p30">
+  <s id="30.1">Now it sounds crazy.</s>
+  <s id="30.2">But in some places around the world, like Scandinavia, you already have that.</s>
+ </p>
+ <p id="p31">
+  <s id="31.1">If you park your car and didn't plug in the heater, when you come back you don't have a car.</s>
+  <s id="31.2">It just doesn't work.</s>
+ </p>
+ <s id="32">Now that last mile, last foot, in a sense, is the first step of the infrastructure.</s>
+ <s id="33">The second step of the infrastructure needs to take care of the range extension.</s>
+ <s id="34">See we're bound by today's technology on batteries, which is about 120 miles if you want to stay within reasonable space and weight limitations.</s>
+ <s id="35">120 miles is a good enough range for a lot of people.</s>
+ <s id="36">But you never want to get stuck.</s>
+ <s id="37">So what we added is a second element to our network, which is a battery swap system.</s>
+ <p id="p38">
+  <s id="38.1">You drive.</s>
+  <s id="38.2">You take your depleted battery out.</s>
+ </p>
+ <p id="p39">
+  <s id="39.1">A full battery comes on.</s>
+  <s id="39.2">And you drive on.</s>
+ </p>
+ <p id="p40">
+  <s id="40.1">You don't do it as a human being.</s>
+  <s id="40.2">You do it as a machine.</s>
+ </p>
+ <p id="p41">
+  <s id="41.1">It looks like a car wash.</s>
+  <s id="41.2">You come into your car wash.</s>
+ </p>
+ <s id="42">And a plate comes up, holds your battery, takes it out, puts it back in, and within two minutes you're back on the road and you can go again.</s>
+ <p id="p43">
+  <s id="43.1">If you had charge spots everywhere, and you had battery swap stations everywhere, how often would you do it?</s>
+  <s id="43.2">And it ends up that you'd do swapping less times than you stop at a gas station.</s>
+ </p>
+ <s id="44">As a matter of fact, we added to the contract.</s>
+ <s id="45">We said that if you stop to swap your battery more than 50 times a year we start paying you money because it's an inconvenience.</s>
+ <s id="46">Then we looked at the question of the affordability.</s>
+ <s id="47">We looked at the question, what happens when the battery is disconnected from the car.</s>
+ <s id="48">What is the cost of that battery?</s>
+ <s id="49">Everybody tells us batteries are so expensive.</s>
+ <s id="50">What we found out, when you move from molecules to electrons, something interesting happens.</s>
+ <s id="51">We can go back to the original economics of the car and look at it again.</s>
+ <s id="52">The battery is not the gas tank, in a sense.</s>
+ <s id="53">Remember in your car you have a gas tank.</s>
+ <s id="54">You have the crude oil.</s>
+ <s id="55">And you have refining and delivery of that crude oil as what we call petrol or gasoline.</s>
+ <s id="56">The battery in this sense, is the crude oil.</s>
+ <p id="p57">
+  <s id="57.1">We have a battery bay.</s>
+  <s id="57.2">It costs the same hundred dollars as the gas tank.</s>
+ </p>
+ <s id="58">But the crude oil is replaced with a battery.</s>
+ <p id="p59">
+  <s id="59.1">Just it doesn't burn.</s>
+  <s id="59.2">It consumes itself step after step after step.</s>
+ </p>
+ <s id="60">It has 2,000 life cycles these days.</s>
+ <s id="61">And so it's sort of a mini well.</s>
+ <s id="62">We were asked in the past when we bought an electric car to pay for the entire well, for the life of the car.</s>
+ <s id="63">Nobody wants to buy a mini well when they buy a car.</s>
+ <s id="64">In a sense what we've done is we've created a new consumable.</s>
+ <s id="65">You, today, buy gasoline miles.</s>
+ <s id="66">And we created electric miles.</s>
+ <s id="67">And the price of electric miles ends up being a very interesting number.</s>
+ <s id="68">Today 2010, in volume, when we come to market, it is eight cents a mile.</s>
+ <s id="69">Those of you who have a hard time calculating what that means -- in the average consumer environment we're in in the U.S.</s>
+ <s id="70">20 miles per gallon that's a buck 50, a buck 60 a gallon.</s>
+ <s id="71">That's cheaper than today's gasoline, even in the U.S.</s>
+ <s id="72">In Europe where taxes are in place, that's the equivalent to a minus 60 dollar barrel.</s>
+ <s id="73">But e-miles follow Moore's Law.</s>
+ <s id="74">They go from eight cents a mile in 2010, to four cents a mile in 2015, to two cents a mile by 2020.</s>
+ <p id="p75">
+  <s id="75.1">Why?</s>
+  <s id="75.2">Because batteries life cycle improve -- a bit of improvement on energy density, which reduces the price.</s>
+ </p>
+ <s id="76">And these prices are actually with clean electrons.</s>
+ <s id="77">We do not use any electrons that come from coal.</s>
+ <s id="78">So in a sense this is an absolute zero-carbon, zero-fossil fuel electric mile at two cents a mile by 2020.</s>
+ <s id="79">Now even if we get to 40 miles per gallon by 2020, which is our desire.</s>
+ <s id="80">Imagine only 40 miles per gallon cars would be on the road.</s>
+ <s id="81">That is an 80 cent gallon.</s>
+ <s id="82">An 80 cent gallon means, if the entire Pacific would convert to crude oil, and we'd let any oil company bring it out and refine it, they still can't compete with two cents a mile.</s>
+ <s id="83">That's a new economic factor, which is fascinating to most people.</s>
+ <s id="84">Now this would have been a wonderful paper.</s>
+ <p id="p85">
+  <s id="85.1">That's how I solved it in my head.</s>
+  <s id="85.2">It was a white paper I handed out to governments.</s>
+ </p>
+ <s id="86">And some governments told me that it's fascinating that the younger generation actually thinks about these things.</s>
+ <s id="87">(Laughter) Until I got to the true young global leader, Shimon Peres, President of Israel, and he ran a beautiful manipulation on me.</s>
+ <s id="88">First he let me go to the prime minister of the country, who told me, if you can find the money you need for this network, 200 million dollars, and if you can find a car company that will build that car in mass volume, in two million cars -- that's what we needed in Israel -- I'll give you country to invest the 200 million into.</s>
+ <s id="89">Peres thought that was a great idea.</s>
+ <s id="90">So we went out, and we looked at all the car companies.</s>
+ <s id="91">We sent letters to all the car companies.</s>
+ <p id="p92">
+  <s id="92.1">Three of them never showed up.</s>
+  <s id="92.2">One of them asked us if we would stay with hybrids and they would give us a discount.</s>
+ </p>
+ <s id="93">But one of them Carlos Ghosn, CEO of Renault and Nissan, when asked about hybrids said something very fascinating.</s>
+ <s id="94">He said hybrids are like mermaids.</s>
+ <s id="95">When you want a fish you get a woman and when you need a woman you get a fish.</s>
+ <s id="96">(Laughter) And Ghosn came up and said, "I have the car, Mr. Peres; I will build you the cars."</s>
+ <s id="97">And actually true to form, Renault has put a billion and a half dollars in building nine different types of cars that fit this kind of model that will come into the market in mass volume -- mass volume being the first year, 100 thousand cars.</s>
+ <s id="98">It's the first mass-volume electric car, zero-emission electric car in the market.</s>
+ <s id="99">I was running, as Chris said, to be the CEO of a large software company called SAP And then Peres said, "Well won't you run this project?"</s>
+ <p id="p100">
+  <s id="100.1">And I said, "I'm ready for CEO" And he said, "Oh no no no no no.</s>
+  <s id="100.2">You've got to explain to me, what is more important than saving your country and saving the world, that you would go and do?"</s>
+ </p>
+ <s id="101">And I had to quit and come and do this thing called A Better Place.</s>
+ <s id="102">We then decided to scale it up.</s>
+ <p id="p103">
+  <s id="103.1">We went to other countries.</s>
+  <s id="103.2">As I said we went to Denmark.</s>
+ </p>
+ <s id="104">And Denmark set this beautiful policy; it's called the IQ test.</s>
+ <s id="105">It's inversely proportional to taxes.</s>
+ <s id="106">They put 180 percent tax on gasoline cars and zero tax on zero-emission cars.</s>
+ <s id="107">So if you want to buy a gasoline car in Denmark, it costs you about 60,000 Euros.</s>
+ <s id="108">If you buy our car it's about 20,000 Euros.</s>
+ <s id="109">If you fail the IQ test they ask you to leave the country.</s>
+ <s id="110">(Laughter) We then were sort of coined as the guys who run only in small islands.</s>
+ <s id="111">I know most people don't think of Israel as a small island, but Israel is an island -- it's a transportation island.</s>
+ <s id="112">If your car is driving outside Israel it's been stolen.</s>
+ <p id="p113">
+  <s id="113.1">(Laughter) If you're thinking about it in terms of islands, we decided to go to the biggest island that we could find, and that was Australia.</s>
+  <s id="113.2">The third country we announced was Australia.</s>
+ </p>
+ <s id="114">It's got three centers -- in Brisbane, in Melbourne, in Sydney -- and one freeway, one electric freeway that connects them.</s>
+ <s id="115">The next island was not too hard to find, and that was Hawaii.</s>
+ <s id="116">We decided to come into the U.S.</s>
+ <s id="117">and pick the two best places -- the one where you didn't need any range extension.</s>
+ <s id="118">Hawaii you can drive around the island on one battery.</s>
+ <s id="119">And if you really have a long day you can switch, and keep on driving around the island.</s>
+ <s id="120">The second one was the San Francisco Bay Area where Gavin Newsom created a beautiful policy across all the mayors.</s>
+ <s id="121">He decided that he's going to take over the state, unofficially, and then officially, and then created this beautiful Region One policy.</s>
+ <s id="122">In the San Francisco Bay Area not only do you have the highest concentration of Priuses, but you also have the perfect range extender.</s>
+ <s id="123">It's called the other car.</s>
+ <s id="124">As we stared scaling it up we looked at what is the problem to come up to the U.S.?</s>
+ <s id="125">Why is this a big issue?</s>
+ <s id="126">And the most fascinating thing we've learned is that, when you have small problems on the individual level, like the price of gasoline to drive every morning.</s>
+ <p id="p127">
+  <s id="127.1">You don't notice it, but when the aggregate comes up you're dead.</s>
+  <s id="127.2">Alright?</s>
+ </p>
+ <s id="128">So the price of oil, much like lots of other curves that we've seen, goes along a depletion curve.</s>
+ <s id="129">The foundation of this curve is that we keep losing the wells that are close to the ground.</s>
+ <s id="130">And we keep getting wells that are farther away from the ground.</s>
+ <s id="131">It becomes more and more and more expensive to dig them out.</s>
+ <s id="132">You think, well it's been up, it's been down, its been up, it's going to keep on going up and down.</s>
+ <s id="133">Here is the problem: at 147 dollars a barrel, which we were in six months ago, the U.S. spent a ton of money to get oil.</s>
+ <s id="134">Then we lost our economy and we went back down to 47 -- sometimes it's 40, sometimes it's 50.</s>
+ <s id="135">Now we're running a stimulus package.</s>
+ <s id="136">It's called the trillion-dollar stimulus package.</s>
+ <p id="p137">
+  <s id="137.1">We're going to revive the economy.</s>
+  <s id="137.2">Hopefully it happens between now and 2015, somewhere in that space.</s>
+ </p>
+ <s id="138">What happens when the economy recovers?</s>
+ <s id="139">By 2015 we would have had at least 250 million new cars even at the pace we're going at right now.</s>
+ <s id="140">That's another 30 percent demand on oil.</s>
+ <s id="141">That is another 25 million barrels a day.</s>
+ <s id="142">That's all the U.S. usage today.</s>
+ <s id="143">In other words at some point when we've recovered we go up to the peak.</s>
+ <s id="144">And then we do the OPEC stimulus package also known as 200 dollars a barrel.</s>
+ <s id="145">We take our money and we give it away.</s>
+ <s id="146">You know what happens at that point?</s>
+ <p id="p147">
+  <s id="147.1">We go back down.</s>
+  <s id="147.2">It's going to go up and down.</s>
+ </p>
+ <s id="148">And the downs are going to be much longer and the ups are going to be much shorter.</s>
+ <s id="149">And that's the difference between problems that are additive, like CO2, which we go slowly up and then we tip, and problems that are depletive, in which we lose what we have, which oscillate, and they oscillate until we lose everything we've got.</s>
+ <s id="150">Now we actually looked at what the answer would be.</s>
+ <p id="p151">
+  <s id="151.1">Right?</s>
+  <s id="151.2">Remember in the campaign: one million hybrid cars by 2015.</s>
+ </p>
+ <s id="152">That is 0.5 percent of the U.S. oil consumption.</s>
+ <s id="153">That is oh point oh well percent of the rest of the world.</s>
+ <s id="154">That won't do much difference.</s>
+ <s id="155">We looked at an MIT study: ten million electric cars on the global roads.</s>
+ <s id="156">Ten million out of 500 million we will add between now and then.</s>
+ <s id="157">That is the most pessimistic number you can have.</s>
+ <s id="158">It's also the most optimistic number because it means we will scale this industry from 100 thousand cars is 2011, to 10 million cars by 2016 -- 100 x growth in less than five years.</s>
+ <s id="159">You have to remember that the world today is bringing in so many cars.</s>
+ <s id="160">We have 10 million cars by region.</s>
+ <s id="161">That's an enormous amount of cars.</s>
+ <s id="162">China is adding those cars -- India, Russia, Brazil.</s>
+ <s id="163">We have all these regions.</s>
+ <p id="p164">
+  <s id="164.1">Europe has solved it.</s>
+  <s id="164.2">They just put a tax on gasoline.</s>
+ </p>
+ <s id="165">They'll be the first in line to get off because their prices are high.</s>
+ <p id="p166">
+  <s id="166.1">China solves it by an edict.</s>
+  <s id="166.2">At some point they'll just declare that no gasoline car will come into a city, and that will be it.</s>
+ </p>
+ <s id="167">The Indians don't even understand why we think of it as a problem because most people in India fill two or three gallons every time.</s>
+ <s id="168">For them to get a battery that goes 120 miles is an extension on range, not a reduction in range.</s>
+ <s id="169">We're the only ones who don't have the price set right.</s>
+ <s id="170">We don't have the industry set right.</s>
+ <s id="171">We don't have any incentive to go and resolve it across the U.S.</s>
+ <s id="172">Now where is the car industry on that?</s>
+ <p id="p173">
+  <s id="173.1">Very interesting.</s>
+  <s id="173.2">The car industry has been focused just on themselves.</s>
+ </p>
+ <s id="174">They basically looked at it and said, "Car 1.0 we'll solve everything within the car itself."</s>
+ <s id="175">No infrastructure, no problem.</s>
+ <s id="176">We forgot about the entire chain around us.</s>
+ <s id="177">All this stuff that happens around.</s>
+ <s id="178">We are looking at the emergence of a car 2.0 -- a whole new market, a whole new business model.</s>
+ <p id="p179">
+  <s id="179.1">The business model in which the money that is actually coming in, to drive the car -- the minutes, the miles if you want, that you are all familiar with -- subsidize the price of the car, just like cellphones.</s>
+  <s id="179.2">You'll pay for the miles.</s>
+ </p>
+ <s id="180">And some of it will go back to the car maker.</s>
+ <s id="181">Some of it will go back to your own pocket.</s>
+ <s id="182">But our cars are actually going to be cheaper than gasoline cars.</s>
+ <s id="183">You're looking at a world where cars are matched with windmills.</s>
+ <s id="184">In Denmark, we will drive all the cars in Denmark from windmills, not from oil.</s>
+ <s id="185">In Israel, we've asked to put a solar farm in the south of Israel.</s>
+ <s id="186">And people said, "Oh that's a very very large space that you're asking for."</s>
+ <s id="187">And we said, "What if we had proven that in the same space we found oil for the country for the next hundred years?"</s>
+ <p id="p188">
+  <s id="188.1">And they said, "We tried.</s>
+  <s id="188.2">There isn't any."</s>
+ </p>
+ <s id="189">We said, "No no, but what if we prove it?"</s>
+ <p id="p190">
+  <s id="190.1">And they said, "Well you can dig."</s>
+  <s id="190.2">And we decided to dig up, instead of digging down.</s>
+ </p>
+ <s id="191">These are perfect matches to one another.</s>
+ <s id="192">Now all you need is about 10 percent of the electricity generated.</s>
+ <s id="193">Think of it as a project that spans over about 10 years.</s>
+ <s id="194">That's one percent a year.</s>
+ <s id="195">Now when we're looking at solving big problems, we need to start thinking in two numbers.</s>
+ <s id="196">And those are not 20 percent by 2020.</s>
+ <s id="197">The two numbers are zero -- as in zero footprint or zero oil -- and scale it infinity.</s>
+ <s id="198">And when we go to COP15 at the end of this year we can't stop thinking of padding CO2.</s>
+ <s id="199">We have to start thinking about giving kickers to countries that are willing to go to this kind of scale.</s>
+ <s id="200">One car emits four tons.</s>
+ <s id="201">And actually 700 and change million cars today emit 2.8 billion tons of CO2.</s>
+ <s id="202">That's, in the additive, about 25 percent of our problem.</s>
+ <s id="203">Cars and trucks add up to about 25 percent of the world's CO2 emissions.</s>
+ <s id="204">We have to come and attack this problem with a focus, with an effort that actually says, we're going to go to zero before the world ends.</s>
+ <s id="205">I actually shared that with some legislators here in the U.S.</s>
+ <s id="206">I shared it with a gentleman called Bobby Kennedy Jr., who is one of my idols.</s>
+ <s id="207">I told him one of the reasons that his uncle was remembered is because he said we're going to send a man to the moon, and we'll do it by the end of the decade.</s>
+ <s id="208">We didn't say we're going to send a man 20 percent to the moon.</s>
+ <s id="209">And there will be about a 20 percent chance we'll recover him.</s>
+ <s id="210">(Laughter) He actually shared with me another story, which is from about 200 years ago.</s>
+ <s id="211">200 years ago, in Parliament, in Great Britain, there was a long argument over economy versus morality.</s>
+ <s id="212">25 percent -- just like 25 percent emissions today comes from cars -- 25 percent of their energy for the entire industrial world in the U.K.</s>
+ <s id="213">came from a source of energy that was immoral: human slaves.</s>
+ <p id="p214">
+  <s id="214.1">And there was an argument.</s>
+  <s id="214.2">Should we stop using slaves?</s>
+ </p>
+ <s id="215">And what would it do to our economy?</s>
+ <s id="216">And people said, "Well we need to take time to do it.</s>
+ <p id="p217">
+  <s id="217.1">Let's not do it immediately.</s>
+  <s id="217.2">Maybe we free the kids and keep the slaves.</s>
+ </p>
+ <s id="218">And after a month of arguments they decided to stop slavery, and the industrial revolution started within less than one year.</s>
+ <s id="219">And the U.K. had 100 years of economic growth.</s>
+ <s id="220">We have to make the right moral decision.</s>
+ <s id="221">We have to make it immediately.</s>
+ <s id="222">We need to have presidential leadership just like we had in Israel that said we will end oil.</s>
+ <s id="223">And we need to do it not within 20 years or 50 years, but within this presidential term because if we don't, we will lose our economy, right after we'd lost our morality.</s>
+ <s id="224">Thank you all very much.</s>
+ <s id="225">(Applause)</s>
+</text>

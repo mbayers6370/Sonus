@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">With every year, machines surpass humans in more and more activities we once thought only we were capable of.</s>
+ <s id="2">Today's computers can beat us in complex board games, transcribe speech in dozens of languages, and instantly identify almost any object.</s>
+ <s id="3">But the robots of tomorrow may go futher by learning to figure out what we're feeling.</s>
+ <s id="4">And why does that matter?</s>
+ <s id="5">Because if machines and the people who run them can accurately read our emotional states, they may be able to assist us or manipulate us at unprecedented scales.</s>
+ <s id="6">But before we get there, how can something so complex as emotion be converted into mere numbers, the only language machines understand?</s>
+ <s id="7">Essentially the same way our own brains interpret emotions, by learning how to spot them.</s>
+ <s id="8">American psychologist Paul Ekman identified certain universal emotions whose visual cues are understood the same way across cultures.</s>
+ <s id="9">For example, an image of a smile signals joy to modern urban dwellers and aboriginal tribesmen alike.</s>
+ <s id="10">And according to Ekman, anger, disgust, fear, joy, sadness, and surprise are equally recognizable.</s>
+ <s id="11">As it turns out, computers are rapidly getting better at image recognition thanks to machine learning algorithms, such as neural networks.</s>
+ <s id="12">These consist of artificial nodes that mimic our biological neurons by forming connections and exchanging information.</s>
+ <s id="13">To train the network, sample inputs pre-classified into different categories, such as photos marked happy or sad, are fed into the system.</s>
+ <s id="14">The network then learns to classify those samples by adjusting the relative weights assigned to particular features.</s>
+ <s id="15">The more training data it's given, the better the algorithm becomes at correctly identifying new images.</s>
+ <s id="16">This is similar to our own brains, which learn from previous experiences to shape how new stimuli are processed.</s>
+ <s id="17">Recognition algorithms aren't just limited to facial expressions.</s>
+ <s id="18">Our emotions manifest in many ways.</s>
+ <s id="19">There's body language and vocal tone, changes in heart rate, complexion, and skin temperature, or even word frequency and sentence structure in our writing.</s>
+ <s id="20">You might think that training neural networks to recognize these would be a long and complicated task until you realize just how much data is out there, and how quickly modern computers can process it.</s>
+ <s id="21">From social media posts, uploaded photos and videos, and phone recordings, to heat-sensitive security cameras and wearables that monitor physiological signs, the big question is not how to collect enough data, but what we're going to do with it.</s>
+ <s id="22">There are plenty of beneficial uses for computerized emotion recognition.</s>
+ <s id="23">Robots using algorithms to identify facial expressions can help children learn or provide lonely people with a sense of companionship.</s>
+ <s id="24">Social media companies are considering using algorithms to help prevent suicides by flagging posts that contain specific words or phrases.</s>
+ <s id="25">And emotion recognition software can help treat mental disorders or even provide people with low-cost automated psychotherapy.</s>
+ <s id="26">Despite the potential benefits, the prospect of a massive network automatically scanning our photos, communications, and physiological signs is also quite disturbing.</s>
+ <s id="27">What are the implications for our privacy when such impersonal systems are used by corporations to exploit our emotions through advertising?</s>
+ <s id="28">And what becomes of our rights if authorities think they can identify the people likely to commit crimes before they even make a conscious decision to act?</s>
+ <s id="29">Robots currently have a long way to go in distinguishing emotional nuances, like irony, and scales of emotions, just how happy or sad someone is.</s>
+ <s id="30">Nonetheless, they may eventually be able to accurately read our emotions and respond to them.</s>
+ <s id="31">Whether they can empathize with our fear of unwanted intrusion, however, that's another story.</s>
+</text>

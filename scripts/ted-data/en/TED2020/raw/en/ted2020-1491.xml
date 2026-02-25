@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">So a few weeks ago, a friend of mine gave this toy car to his 8-year-old son.</s>
+ <s id="2">But instead of going into a store and buying one, like we do normally, he went to this website and he downloaded a file, and then he printed it on this printer.</s>
+ <s id="3">So this idea that you can manufacture objects digitally using these machines is something that The Economist magazine defined as the Third Industrial Revolution.</s>
+ <s id="4">Actually, I argue that there is another revolution going on, and it's the one that has to do with open-source hardware and the maker's movement, because the printer that my friend used to print the toy is actually open-source.</s>
+ <s id="5">So you go to the same website, you can download all the files that you need in order to make that printer: the construction files, the hardware, the software, all the instruction is there.</s>
+ <s id="6">And also this is part of a large community where there are thousands of people around the world that are actually making these kinds of printers, and there's a lot of innovation happening because it's all open-source.</s>
+ <s id="7">You don't need anybody's permission to create something great.</s>
+ <s id="8">And that space is like the personal computer in 1976, like the Apples with the other companies are fighting, and we will see in a few years, there will be the Apple of this kind of market come out.</s>
+ <s id="9">Well, there's also another interesting thing.</s>
+ <s id="10">I said the electronics are open-source, because at the heart of this printer there is something I'm really attached to: these Arduino boards, the motherboard that sort of powers this printer, is a project I've been working on for the past seven years.</s>
+ <s id="11">It's an open-source project.</s>
+ <s id="12">I worked with these friends of mine that I have here.</s>
+ <p id="p13">
+  <s id="13.1">So the five of us, two Americans, two Italians and a Spaniard, we — (Laughter) You know, it's a worldwide project.</s>
+  <s id="13.2">(Laughter) So we came together in this design institute called the Interaction Design Institute Ivrea, which was teaching interaction design, this idea that you can take design from the simple shape of an object and you can move it forward to design the way you interact with things.</s>
+ </p>
+ <s id="14">Well, when you design an object that's supposed to interact with a human being, if you make a foam model of a mobile phone, it doesn't make any sense.</s>
+ <s id="15">You have to have something that actually interacts with people.</s>
+ <p id="p16">
+  <s id="16.1">So, we worked on Arduino and a lot of other projects there to create platforms that would be simple for our students to use, so that our students could just build things that worked, but they don't have five years to become an electronics engineer.</s>
+  <s id="16.2">We have one month.</s>
+ </p>
+ <s id="17">So how do I make something that even a kid can use?</s>
+ <s id="18">And actually, with Arduino, we have kids like Sylvia that you see here, that actually make projects with Arduino.</s>
+ <s id="19">I have 11-year-old kids stop me and show me stuff they built for Arduino that's really scary to see the capabilities that kids have when you give them the tools.</s>
+ <s id="20">So let's look at what happens when you make a tool that anybody can just pick up and build something quickly, so one of the examples that I like to sort of kick off this discussion is this example of this cat feeder.</s>
+ <s id="21">The gentleman who made this project had two cats.</s>
+ <s id="22">One was sick and the other one was healthy, so he had to make sure they ate the proper food.</s>
+ <s id="23">So he made this thing that recognizes the cat from a chip mounted inside on the collar of the cat, and opens the door and the cat can eat the food.</s>
+ <p id="p24">
+  <s id="24.1">This is made by recycling an old CD player that you can get from an old computer, some cardboard, tape, couple of sensors, a few blinking LEDs, and then suddenly you have a tool.</s>
+  <s id="24.2">You build something that you cannot find on the market.</s>
+ </p>
+ <s id="25">And I like this phrase: "Scratch your own itch."</s>
+ <s id="26">If you have an idea, you just go and you make it.</s>
+ <s id="27">This is the equivalent of sketching on paper done with electronics.</s>
+ <s id="28">So one of the features that I think is important about our work is that our hardware, on top of being made with love in Italy — as you can see from the back of the circuit — (Laughter) is that it's open, so we publish all the design files for the circuit online, so you can download it and you can actually use it to make something, or to modify, to learn.</s>
+ <s id="29">You know, when I was learning about programming, I learned by looking at other people's code, or looking at other people's circuits in magazines.</s>
+ <s id="30">And this is a good way to learn, by looking at other people's work.</s>
+ <s id="31">So the different elements of the project are all open, so the hardware is released with a Creative Commons license.</s>
+ <s id="32">So, you know, I like this idea that hardware becomes like a piece of culture that you share and you build upon, like it was a song or a poem with Creative Commons.</s>
+ <s id="33">Or, the software is GPL, so it's open-source as well.</s>
+ <s id="34">The documentation and the hands-on teaching methodology is also open-source and released as the Creative Commons.</s>
+ <s id="35">Just the name is protected so that we can make sure that we can tell people what is Arduino and what isn't.</s>
+ <s id="36">Now, Arduino itself is made of a lot of different open-source components that maybe individually are hard to use for a 12-year-old kid, so Arduino wraps everything together into a mashup of open-source technologies where we try to give them the best user experience to get something done quickly.</s>
+ <p id="p37">
+  <s id="37.1">So you have situations like this, where some people in Chile decided to make their own boards instead of buying them, to organize a workshop and to save money.</s>
+  <s id="37.2">Or there are companies that make their own variations of Arduino that fit in a certain market, and there's probably, maybe like a 150 of them or something at the moment.</s>
+ </p>
+ <s id="38">This one is made by a company called Adafruit, which is run by this woman called Limor Fried, also known as Ladyada, who is one of the heroes of the open-source hardware movement and the maker movement.</s>
+ <s id="39">So, this idea that you have a new, sort of turbo-charged DIY community that believes in open-source, in collaboration, collaborates online, collaborates in different spaces.</s>
+ <s id="40">There is this magazine called Make that sort of gathered all these people and sort of put them together as a community, and you see a very technical project explained in a very simple language, beautifully typeset.</s>
+ <s id="41">Or you have websites, like this one, like Instructables, where people actually teach each other about anything.</s>
+ <s id="42">So this one is about Arduino projects, the page you see on the screen, but effectively here you can learn how to make a cake and everything else.</s>
+ <s id="43">So let's look at some projects.</s>
+ <s id="44">So this one is a quadcopter.</s>
+ <s id="45">It's a small model helicopter.</s>
+ <s id="46">In a way, it's a toy, no?</s>
+ <s id="47">And so this one was military technology a few years ago, and now it's open-source, easy to use, you can buy it online.</s>
+ <s id="48">DIY Drones is the community; they do this thing called ArduCopter.</s>
+ <s id="49">But then somebody actually launched this start-up called Matternet, where they figured out that you could use this to actually transport things from one village to another in Africa, and the fact that this was easy to find, open-source, easy to hack, enabled them to prototype their company really quickly.</s>
+ <p id="p50">
+  <s id="50.1">Or, other projects.</s>
+  <s id="50.2">Matt Richardson: I'm getting a little sick of hearing about the same people on TV over and over and over again, so I decided to do something about it.</s>
+ </p>
+ <p id="p51">
+  <s id="51.1">This Arduino project, which I call the Enough Already, will mute the TV anytime any of these over-exposed personalities is mentioned.</s>
+  <s id="51.2">(Laughter) I'll show you how I made it.</s>
+  <s id="51.3">(Applause) MB: Check this out.</s>
+ </p>
+ <p id="p52">
+  <s id="52.1">MR: Our producers caught up with Kim Kardashian earlier today to find out what she was planning on wearing to her — MB: Eh?</s>
+  <s id="52.2">(Laughter) MR: It should do a pretty good job of protecting our ears from having to hear about the details of Kim Kardashian's wedding.</s>
+ </p>
+ <p id="p53">
+  <s id="53.1">MB: Okay.</s>
+  <s id="53.2">So, you know, again, what is interesting here is that Matt found this module that lets Arduino process TV signals, he found some code written by somebody else that generates infrared signals for the TV, put it together and then created this great project.</s>
+ </p>
+ <s id="54">It's also used, Arduino's used, in serious places like, you know, the Large Hadron Collider.</s>
+ <s id="55">There's some Arduino balls collecting data and sort of measuring some parameters.</s>
+ <p id="p56">
+  <s id="56.1">Or it's used for — (Music) So this is a musical interface built by a student from Italy, and he's now turning this into a product.</s>
+  <s id="56.2">Because it was a student project becoming a product.</s>
+ </p>
+ <s id="57">Or it can be used to make an assistive device.</s>
+ <s id="58">This is a glove that understands the sign language and transforms the gestures you make into sounds and writes the words that you're signing on a display And again, this is made of all different parts you can find on all the websites that sell Arduino-compatible parts, and you assemble it into a project.</s>
+ <s id="59">Or this is a project from the ITP part of NYU, where they met with this boy who has a severe disability, cannot play with the PS3, so they built this device that allows the kid to play baseball although he has limited movement capability.</s>
+ <s id="60">Or you can find it in arts projects.</s>
+ <s id="61">So this is the txtBomber.</s>
+ <s id="62">So you put a message into this device and then you roll it on the wall, and it basically has all these solenoids pressing the buttons on spray cans, so you just pull it over a wall and it just writes on the wall all the political messages.</s>
+ <p id="p63">
+  <s id="63.1">So, yeah.</s>
+  <s id="63.2">(Applause) Then we have this plant here.</s>
+ </p>
+ <p id="p64">
+  <s id="64.1">This is called Botanicalls, because there's an Arduino ball with a Wi-Fi module in the plant, and it's measuring the well-being of the plant, and it's creating a Twitter account where you can actually interact with the plant.</s>
+  <s id="64.2">(Laughter) So, you know, this plant will start to say, "This is really hot," or there's a lot of, you know, "I need water right now."</s>
+  <s id="64.3">(Laughter) So it just gives a personality to your plant.</s>
+ </p>
+ <p id="p65">
+  <s id="65.1">Or this is something that twitters when the baby inside the belly of a pregnant woman kicks.</s>
+  <s id="65.2">(Laughter) Or this is a 14-year-old kid in Chile who made a system that detects earthquakes and publishes on Twitter.</s>
+ </p>
+ <s id="66">He has 280,000 followers.</s>
+ <p id="p67">
+  <s id="67.1">He's 14 and he anticipated a governmental project by one year.</s>
+  <s id="67.2">(Applause) Or again, another project where, by analyzing the Twitter feed of a family, you can basically point where they are, like in the "Harry Potter" movie.</s>
+ </p>
+ <s id="68">So you can find out everything about this project on the website.</s>
+ <p id="p69">
+  <s id="69.1">Or somebody made a chair that twitters when somebody farts.</s>
+  <s id="69.2">(Laughter) It's interesting how, in 2009, Gizmodo basically defined, said that this project actually gives a meaning to Twitter, so it was — a lot changed in between.</s>
+  <s id="69.3">(Laughter) So very serious project.</s>
+ </p>
+ <p id="p70">
+  <s id="70.1">When the Fukushima disaster happened, a bunch of people in Japan, they realized that the information that the government was giving wasn't really open and really reliable, so they built this Geiger counter, plus Arduino, plus network interface.</s>
+  <s id="70.2">They made 100 of them and gave them to people around Japan, and essentially the data that they gathered gets published on this website called Cosm, another website they built, so you can actually get reliable real-time information from the field, and you can get unbiased information.</s>
+ </p>
+ <s id="71">Or this machine here, it's from the DIY bio movement, and it's one of the steps that you need in order to process DNA, and again, it's completely open-source from the ground up.</s>
+ <s id="72">Or you have students in developing countries making replicas of scientific instruments that cost a lot of money to make.</s>
+ <s id="73">Actually they just build them themselves for a lot less using Arduino and a few parts.</s>
+ <s id="74">This is a pH probe.</s>
+ <s id="75">Or you get kids, like these kids, they're from Spain.</s>
+ <p id="p76">
+  <s id="76.1">They learned how to program and to make robots when they were probably, like, 11, and then they started to use Arduino to make these robots that play football.</s>
+  <s id="76.2">They became world champions by making an Arduino-based robot.</s>
+ </p>
+ <s id="77">And so when we had to make our own educational robot, we just went to them and said, you know, "You design it, because you know exactly what is needed to make a great robot that excites kids."</s>
+ <p id="p78">
+  <s id="78.1">Not me.</s>
+  <s id="78.2">I'm an old guy.</s>
+ </p>
+ <p id="p79">
+  <s id="79.1">What am I supposed to excite, huh?</s>
+  <s id="79.2">(Laughter) But as I — in terms of educational assets.</s>
+  <s id="79.3">(Laughter) There's also companies like Google that are using the technology to create interfaces between mobile phones, tablets and the real world.</s>
+ </p>
+ <p id="p80">
+  <s id="80.1">So the Accessory Development Kit from Google is open-source and based on Arduino, as opposed to the one from Apple which is closed-source, NDA, sign your life to Apple.</s>
+  <s id="80.2">Here you are.</s>
+ </p>
+ <s id="81">There's a giant maze, and Joey's sitting there, and the maze is moving when you tilt the tablet.</s>
+ <s id="82">Also, I come from Italy, and the design is important in Italy, and yet very conservative.</s>
+ <s id="83">So we worked with a design studio called Habits, in Milan, to make this mirror, which is completely open-source.</s>
+ <s id="84">This doubles also as an iPod speaker.</s>
+ <s id="85">So the idea is that the hardware, the software, the design of the object, the fabrication, everything about this project is open-source and you can make it yourself.</s>
+ <s id="86">So we want other designers to pick this up and learn how to make great devices, to learn how to make interactive products by starting from something real.</s>
+ <s id="87">But when you have this idea, you know, what happens to all these ideas?</s>
+ <s id="88">There's, like, thousands of ideas that I — You know, it would take seven hours for me to do all the presentations.</s>
+ <p id="p89">
+  <s id="89.1">I will not take all the seven hours.</s>
+  <s id="89.2">Thank you.</s>
+ </p>
+ <p id="p90">
+  <s id="90.1">But let's start from this example: So, the group of people that started this company called Pebble, they prototyped a watch that communicates via Bluetooth with your phone, and you can display information on it.</s>
+  <s id="90.2">And they prototyped with an old LCD screen from a Nokia mobile phone and an Arduino.</s>
+ </p>
+ <s id="91">And then, when they had a final project, they actually went to Kickstarter and they were asking for 100,000 dollars to make a few of them to sell.</s>
+ <s id="92">They got 10 million dollars.</s>
+ <s id="93">They got a completely fully funded start-up, and they don't have to, you know, get VCs involved or anything, just excite the people with their great project.</s>
+ <p id="p94">
+  <s id="94.1">The last project I want to show you is this: It's called ArduSat.</s>
+  <s id="94.2">It's currently on Kickstarter, so if you want to contribute, please do it.</s>
+ </p>
+ <p id="p95">
+  <s id="95.1">It's a satellite that goes into space, which is probably the least open-source thing you can imagine, and it contains an Arduino connected to a bunch of sensors.</s>
+  <s id="95.2">So if you know how to use Arduino, you can actually upload your experiments into this satellite and run them.</s>
+ </p>
+ <s id="96">So imagine, if you as a high school can have the satellite for a week and do satellite space experiments like that.</s>
+ <p id="p97">
+  <s id="97.1">So, as I said, there's lots of examples, and I'm going to stop here.</s>
+  <s id="97.2">And I just want to thank the Arduino community for being the best, and just every day making lots of projects.</s>
+ </p>
+ <p id="p98">
+  <s id="98.1">Thank you.</s>
+  <s id="98.2">(Applause) (Applause) And thanks to the community.</s>
+ </p>
+ <s id="99">Chris Anderson: Massimo, you told me earlier today that you had no idea, of course, that it would take off like this.</s>
+ <s id="100">MB: No.</s>
+ <s id="101">CA: I mean, how must you feel when you read this stuff and you see what you've unlocked?</s>
+ <s id="102">MB: Well, it's the work of a lot of people, so we as a community are enabling people to make great stuff, and I just feel overwhelmed.</s>
+ <s id="103">It's just, it's difficult to describe this.</s>
+ <p id="p104">
+  <s id="104.1">Every morning, I wake up and I look at all the stuff that Google Alerts sends me, and it's just amazing.</s>
+  <s id="104.2">It's just going into every field that you can imagine.</s>
+ </p>
+ <p id="p105">
+  <s id="105.1">CA: Thank you so much.</s>
+  <s id="105.2">(Applause) (Applause)</s>
+ </p>
+</text>

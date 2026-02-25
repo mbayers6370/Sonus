@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">So historically there has been a huge divide between what people consider to be non-living systems on one side, and living systems on the other side.</s>
+ <s id="2">So we go from, say, this beautiful and complex crystal as non-life, and this rather beautiful and complex cat on the other side.</s>
+ <s id="3">Over the last hundred and fifty years or so, science has kind of blurred this distinction between non-living and living systems, and now we consider that there may be a kind of continuum that exists between the two.</s>
+ <s id="4">We'll just take one example here: a virus is a natural system, right?</s>
+ <p id="p5">
+  <s id="5.1">But it's very simple.</s>
+  <s id="5.2">It's very simplistic.</s>
+ </p>
+ <s id="6">It doesn't really satisfy all the requirements, it doesn't have all the characteristics of living systems and is in fact a parasite on other living systems in order to, say, reproduce and evolve.</s>
+ <s id="7">But what we're going to be talking about here tonight are experiments done on this sort of non-living end of this spectrum -- so actually doing chemical experiments in the laboratory, mixing together nonliving ingredients to make new structures, and that these new structures might have some of the characteristics of living systems.</s>
+ <s id="8">Really what I'm talking about here is trying to create a kind of artificial life.</s>
+ <p id="p9">
+  <s id="9.1">So what are these characteristics that I'm talking about?</s>
+  <s id="9.2">These are them.</s>
+ </p>
+ <s id="10">We consider first that life has a body.</s>
+ <s id="11">Now this is necessary to distinguish the self from the environment.</s>
+ <p id="p12">
+  <s id="12.1">Life also has a metabolism.</s>
+  <s id="12.2">Now this is a process by which life can convert resources from the environment into building blocks so it can maintain and build itself.</s>
+ </p>
+ <s id="13">Life also has a kind of inheritable information.</s>
+ <s id="14">Now we, as humans, we store our information as DNA in our genomes and we pass this information on to our offspring.</s>
+ <s id="15">If we couple the first two -- the body and the metabolism -- we can come up with a system that could perhaps move and replicate, and if we coupled these now to inheritable information, we can come up with a system that would be more lifelike, and would perhaps evolve.</s>
+ <s id="16">And so these are the things we will try to do in the lab, make some experiments that have one or more of these characteristics of life.</s>
+ <p id="p17">
+  <s id="17.1">So how do we do this?</s>
+  <s id="17.2">Well, we use a model system that we term a protocell.</s>
+ </p>
+ <p id="p18">
+  <s id="18.1">You might think of this as kind of like a primitive cell.</s>
+  <s id="18.2">It is a simple chemical model of a living cell, and if you consider for example a cell in your body may have on the order of millions of different types of molecules that need to come together, play together in a complex network to produce something that we call alive.</s>
+ </p>
+ <s id="19">In the laboratory what we want to do is much the same, but with on the order of tens of different types of molecules -- so a drastic reduction in complexity, but still trying to produce something that looks lifelike.</s>
+ <s id="20">And so what we do is, we start simple and we work our way up to living systems.</s>
+ <s id="21">Consider for a moment this quote by Leduc, a hundred years ago, considering a kind of synthetic biology: "The synthesis of life, should it ever occur, will not be the sensational discovery which we usually associate with the idea."</s>
+ <p id="p22">
+  <s id="22.1">That's his first statement.</s>
+  <s id="22.2">So if we actually create life in the laboratories, it's probably not going to impact our lives at all.</s>
+ </p>
+ <s id="23">"If we accept the theory of evolution, then the first dawn of synthesis of life must consist in the production of forms intermediate between the inorganic and the organic world, or between the non-living and living world, forms which possess only some of the rudimentary attributes of life" -- so, the ones I just discussed -- "to which other attributes will be slowly added in the course of development by the evolutionary actions of the environment."</s>
+ <s id="24">So we start simple, we make some structures that may have some of these characteristics of life, and then we try to develop that to become more lifelike.</s>
+ <s id="25">This is how we can start to make a protocell.</s>
+ <s id="26">We use this idea called self-assembly.</s>
+ <s id="27">What that means is, I can mix some chemicals together in a test tube in my lab, and these chemicals will start to self-associate to form larger and larger structures.</s>
+ <s id="28">So say on the order of tens of thousands, hundreds of thousands of molecules will come together to form a large structure that didn't exist before.</s>
+ <s id="29">And in this particular example, what I took is some membrane molecules, mixed those together in the right environment, and within seconds it forms these rather complex and beautiful structures here.</s>
+ <s id="30">These membranes are also quite similar, morphologically and functionally, to the membranes in your body, and we can use these, as they say, to form the body of our protocell.</s>
+ <s id="31">Likewise, we can work with oil and water systems.</s>
+ <s id="32">As you know, when you put oil and water together, they don't mix, but through self-assembly we can get a nice oil droplet to form, and we can actually use this as a body for our artificial organism or for our protocell, as you will see later.</s>
+ <s id="33">So that's just forming some body stuff, right?</s>
+ <s id="34">Some architectures.</s>
+ <s id="35">What about the other aspects of living systems?</s>
+ <s id="36">So we came up with this protocell model here that I'm showing.</s>
+ <s id="37">We started with a natural occurring clay called montmorillonite.</s>
+ <s id="38">This is natural from the environment, this clay.</s>
+ <s id="39">It forms a surface that is, say, chemically active.</s>
+ <s id="40">It could run a metabolism on it.</s>
+ <p id="p41">
+  <s id="41.1">Certain kind of molecules like to associate with the clay.</s>
+  <s id="41.2">For example, in this case, RNA, shown in red -- this is a relative of DNA, it's an informational molecule -- it can come along and it starts to associate with the surface of this clay.</s>
+ </p>
+ <s id="42">This structure, then, can organize the formation of a membrane boundary around itself, so it can make a body of liquid molecules around itself, and that's shown in green here on this micrograph.</s>
+ <s id="43">So just through self-assembly, mixing things together in the lab, we can come up with, say, a metabolic surface with some informational molecules attached inside of this membrane body, right?</s>
+ <s id="44">So we're on a road towards living systems.</s>
+ <s id="45">But if you saw this protocell, you would not confuse this with something that was actually alive.</s>
+ <p id="p46">
+  <s id="46.1">It's actually quite lifeless.</s>
+  <s id="46.2">Once it forms, it doesn't really do anything.</s>
+ </p>
+ <s id="47">So, something is missing.</s>
+ <s id="48">Some things are missing.</s>
+ <s id="49">So some things that are missing is, for example, if you had a flow of energy through a system, what we'd want is a protocell that can harvest some of that energy in order to maintain itself, much like living systems do.</s>
+ <s id="50">So we came up with a different protocell model, and this is actually simpler than the previous one.</s>
+ <s id="51">In this protocell model, it's just an oil droplet, but a chemical metabolism inside that allows this protocell to use energy to do something, to actually become dynamic, as we'll see here.</s>
+ <s id="52">You add the droplet to the system.</s>
+ <s id="53">It's a pool of water, and the protocell starts moving itself around in the system.</s>
+ <p id="p54">
+  <s id="54.1">Okay?</s>
+  <s id="54.2">Oil droplet forms through self-assembly, has a chemical metabolism inside so it can use energy, and it uses that energy to move itself around in its environment.</s>
+ </p>
+ <s id="55">As we heard earlier, movement is very important in these kinds of living systems.</s>
+ <s id="56">It is moving around, exploring its environment, and remodeling its environment, as you see, by these chemical waves that are forming by the protocell.</s>
+ <s id="57">So it's acting, in a sense, like a living system trying to preserve itself.</s>
+ <p id="p58">
+  <s id="58.1">We take this same moving protocell here, and we put it in another experiment, get it moving.</s>
+  <s id="58.2">Then I'm going to add some food to the system, and you'll see that in blue here, right?</s>
+ </p>
+ <s id="59">So I add some food source to the system.</s>
+ <p id="p60">
+  <s id="60.1">The protocell moves.</s>
+  <s id="60.2">It encounters the food.</s>
+ </p>
+ <s id="61">It reconfigures itself and actually then is able to climb to the highest concentration of food in that system and stop there.</s>
+ <p id="p62">
+  <s id="62.1">Alright?</s>
+  <s id="62.2">So not only do we have this system that has a body, it has a metabolism, it can use energy, it moves around.</s>
+ </p>
+ <s id="63">It can sense its local environment and actually find resources in the environment to sustain itself.</s>
+ <p id="p64">
+  <s id="64.1">Now, this doesn't have a brain, it doesn't have a neural system.</s>
+  <s id="64.2">This is just a sack of chemicals that is able to have this interesting and complex lifelike behavior.</s>
+ </p>
+ <s id="65">If we count the number of chemicals in that system, actually, including the water that's in the dish, we have five chemicals that can do this.</s>
+ <s id="66">So then we put these protocells together in a single experiment to see what they would do, and depending on the conditions, we have some protocells on the left that are moving around and it likes to touch the other structures in its environment.</s>
+ <s id="67">On the other hand we have two moving protocells that like to circle each other, and they form a kind of a dance, a complex dance with each other.</s>
+ <p id="p68">
+  <s id="68.1">Right?</s>
+  <s id="68.2">So not only do individual protocells have behavior, what we've interpreted as behavior in this system, but we also have basically population-level behavior similar to what organisms have.</s>
+ </p>
+ <s id="69">So now that you're all experts on protocells, we're going to play a game with these protocells.</s>
+ <s id="70">We're going to make two different kinds.</s>
+ <s id="71">Protocell A has a certain kind of chemistry inside that, when activated, the protocell starts to vibrate around, just dancing.</s>
+ <p id="p72">
+  <s id="72.1">So remember, these are primitive things, so dancing protocells, that's very interesting to us.</s>
+  <s id="72.2">(Laughter) The second protocell has a different chemistry inside, and when activated, the protocells all come together and they fuse into one big one.</s>
+  <s id="72.3">Right?</s>
+ </p>
+ <s id="73">And we just put these two together in the same system.</s>
+ <p id="p74">
+  <s id="74.1">So there's population A, there's population B, and then we activate the system, and protocell Bs, they're the blue ones, they all come together.</s>
+  <s id="74.2">They fuse together to form one big blob, and the other protocell just dances around.</s>
+  <s id="74.3">And this just happens until all of the energy in the system is basically used up, and then, game over.</s>
+ </p>
+ <s id="75">So then I repeated this experiment a bunch of times, and one time something very interesting happened.</s>
+ <s id="76">So, I added these protocells together to the system, and protocell A and protocell B fused together to form a hybrid protocell AB.</s>
+ <p id="p77">
+  <s id="77.1">That didn't happen before.</s>
+  <s id="77.2">There it goes.</s>
+ </p>
+ <s id="78">There's a protocell AB now in this system.</s>
+ <s id="79">Protocell AB likes to dance around for a bit, while protocell B does the fusing, okay?</s>
+ <s id="80">But then something even more interesting happens.</s>
+ <s id="81">Watch when these two large protocells, the hybrid ones, fuse together.</s>
+ <p id="p82">
+  <s id="82.1">Now we have a dancing protocell and a self-replication event.</s>
+  <s id="82.2">Right.</s>
+  <s id="82.3">(Laughter) Just with blobs of chemicals, again.</s>
+ </p>
+ <p id="p83">
+  <s id="83.1">So the way this works is, you have a simple system of five chemicals here, a simple system here.</s>
+  <s id="83.2">When they hybridize, you then form something that's different than before, it's more complex than before, and you get the emergence of another kind of lifelike behavior which in this case is replication.</s>
+ </p>
+ <p id="p84">
+  <s id="84.1">So since we can make some interesting protocells that we like, interesting colors and interesting behaviors, and they're very easy to make, and they have interesting lifelike properties, perhaps these protocells have something to tell us about the origin of life on the Earth.</s>
+  <s id="84.2">Perhaps these represent an easily accessible step, one of the first steps by which life got started on the early Earth.</s>
+ </p>
+ <s id="85">Certainly, there were molecules present on the early Earth, but they wouldn't have been these pure compounds that we worked with in the lab and I showed in these experiments.</s>
+ <s id="86">Rather, they'd be a real complex mixture of all kinds of stuff, because uncontrolled chemical reactions produce a diverse mixture of organic compounds.</s>
+ <s id="87">Think of it like a primordial ooze, okay?</s>
+ <p id="p88">
+  <s id="88.1">And it's a pool that's too difficult to fully characterize, even by modern methods, and the product looks brown, like this tar here on the left.</s>
+  <s id="88.2">A pure compound is shown on the right, for contrast.</s>
+ </p>
+ <s id="89">So this is similar to what happens when you take pure sugar crystals in your kitchen, you put them in a pan, and you apply energy.</s>
+ <s id="90">You turn up the heat, you start making or breaking chemical bonds in the sugar, forming a brownish caramel, right?</s>
+ <p id="p91">
+  <s id="91.1">If you let that go unregulated, you'll continue to make and break chemical bonds, forming an even more diverse mixture of molecules that then forms this kind of black tarry stuff in your pan, right, that's difficult to wash out.</s>
+  <s id="91.2">So that's what the origin of life would have looked like.</s>
+ </p>
+ <s id="92">You needed to get life out of this junk that is present on the early Earth, four, 4.5 billion years ago.</s>
+ <s id="93">So the challenge then is, throw away all your pure chemicals in the lab, and try to make some protocells with lifelike properties from this kind of primordial ooze.</s>
+ <s id="94">So we're able to then see the self-assembly of these oil droplet bodies again that we've seen previously, and the black spots inside of there represent this kind of black tar -- this diverse, very complex, organic black tar.</s>
+ <s id="95">And we put them into one of these experiments, as you've seen earlier, and then we watch lively movement that comes out.</s>
+ <s id="96">They look really good, very nice movement, and also they appear to have some kind of behavior where they kind of circle around each other and follow each other, similar to what we've seen before -- but again, working with just primordial conditions, no pure chemicals.</s>
+ <s id="97">These are also, these tar-fueled protocells, are also able to locate resources in their environment.</s>
+ <s id="98">I'm going to add some resource from the left, here, that defuses into the system, and you can see, they really like that.</s>
+ <s id="99">They become very energetic, and able to find the resource in the environment, similar to what we saw before.</s>
+ <s id="100">But again, these are done in these primordial conditions, really messy conditions, not sort of sterile laboratory conditions.</s>
+ <p id="p101">
+  <s id="101.1">These are very dirty little protocells, as a matter of fact.</s>
+  <s id="101.2">(Laughter) But they have lifelike properties, is the point.</s>
+ </p>
+ <s id="102">So, doing these artificial life experiments helps us define a potential path between non-living and living systems.</s>
+ <s id="103">And not only that, but it helps us broaden our view of what life is and what possible life there could be out there -- life that could be very different from life that we find here on Earth.</s>
+ <s id="104">And that leads me to the next term, which is "weird life."</s>
+ <s id="105">This is a term by Steve Benner.</s>
+ <p id="p106">
+  <s id="106.1">This is used in reference to a report in 2007 by the National Research Council in the United States, wherein they tried to understand how we can look for life elsewhere in the universe, okay, especially if that life is very different from life on Earth.</s>
+  <s id="106.2">If we went to another planet and we thought there might be life there, how could we even recognize it as life?</s>
+ </p>
+ <p id="p107">
+  <s id="107.1">Well, they came up with three very general criteria.</s>
+  <s id="107.2">First is -- and they're listed here.</s>
+ </p>
+ <p id="p108">
+  <s id="108.1">The first is, the system has to be in non-equilibrium.</s>
+  <s id="108.2">That means the system cannot be dead, in a matter of fact.</s>
+ </p>
+ <s id="109">Basically what that means is, you have an input of energy into the system that life can use and exploit to maintain itself.</s>
+ <s id="110">This is similar to having the Sun shining on the Earth, driving photosynthesis, driving the ecosystem.</s>
+ <s id="111">Without the Sun, there's likely to be no life on this planet.</s>
+ <s id="112">Secondly, life needs to be in liquid form, so that means even if we had some interesting structures, interesting molecules together but they were frozen solid, then this is not a good place for life.</s>
+ <p id="p113">
+  <s id="113.1">And thirdly, we need to be able to make and break chemical bonds.</s>
+  <s id="113.2">And again this is important because life transforms resources from the environment into building blocks so it can maintain itself.</s>
+ </p>
+ <s id="114">Now today, I told you about very strange and weird protocells -- some that contain clay, some that have primordial ooze in them, some that have basically oil instead of water inside of them.</s>
+ <s id="115">Most of these don't contain DNA, but yet they have lifelike properties.</s>
+ <s id="116">But these protocells satisfy these general requirements of living systems.</s>
+ <p id="p117">
+  <s id="117.1">So by making these chemical, artificial life experiments, we hope not only to understand something fundamental about the origin of life and the existence of life on this planet, but also what possible life there could be out there in the universe.</s>
+  <s id="117.2">Thank you.</s>
+ </p>
+ <s id="118">(Applause)</s>
+</text>

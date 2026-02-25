@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Even nature's most disgusting creatures have important secrets, but who would want a swarm of cockroaches coming towards them?</s>
+ <s id="2">Yet one of the greatest differences between natural and human technologies relates to robustness.</s>
+ <s id="3">Robust systems are stable in complex and new environments.</s>
+ <s id="4">Remarkably, cockroaches can self-stabilize running over rough terrain.</s>
+ <s id="5">When we put a jet pack on them, or give them a perturbation like an earthquake, we discovered that their wonderfully tuned legs allow them to self-stabilize without using any of their brainpower.</s>
+ <s id="6">They can go over complex terrain like grass, no problem, and not get destabilized.</s>
+ <s id="7">We discovered a new behavior where, because of their shape, they actually roll automatically to their side to go through this artificial test bit of grass.</s>
+ <s id="8">Robust systems can perform multiple tasks with the same structure.</s>
+ <s id="9">Here's a new behavior we've discovered.</s>
+ <s id="10">The animals rapidly invert and disappear in less than 150 milliseconds — you never see them — using the same structures that they use to run, their legs.</s>
+ <s id="11">They can run upside down very rapidly on rods, branches and wires, and if you perturb one of those branches, they can do this.</s>
+ <s id="12">They can perform gymnastic maneuvers like no robot we have yet.</s>
+ <s id="13">And they have nearly unlimited maneuverability with that same structure and unprecedented access to a variety of different areas.</s>
+ <s id="14">They have wings for flying when they get warm, but they use those same wings to flip over if they get destabilized.</s>
+ <s id="15">Very effective.</s>
+ <s id="16">Robust systems are also fault tolerant and fail-safe.</s>
+ <s id="17">This is the foot of a cockroach.</s>
+ <p id="p18">
+  <s id="18.1">It has spines, gluey pads and claws, but if you take off those feet, they can still go over rough terrain, like the bottom video that you see, without hardly slowing down.</s>
+  <s id="18.2">Extraordinary.</s>
+ </p>
+ <s id="19">They can run up mesh without their feet.</s>
+ <s id="20">Here's an animal using a normal, alternating tripod: three legs, three legs, three legs, but in nature, the insects often have lost their legs.</s>
+ <s id="21">Here's one moving with two middle legs gone.</s>
+ <s id="22">It can even lose three legs, in a tripod, and adopt a new gait, a hopping gait.</s>
+ <s id="23">And I point out that all of these videos are slowed down 20 times, so they're actually really fast, when you see this.</s>
+ <s id="24">Robust systems are also damage resistant.</s>
+ <s id="25">Here's an animal climbing up a wall.</s>
+ <s id="26">It looks like a rapid, smooth, vertical climb, but when you slow it down, you see something very different.</s>
+ <s id="27">Here's what they do.</s>
+ <s id="28">They intentionally have a head-on collision with the wall so they don't slow down and can transition up it in 75 milliseconds.</s>
+ <s id="29">And they can do this in part because they have extraordinary exoskeletons.</s>
+ <s id="30">And they're really just made up of compliant joints that are tubes and plates connected to one another.</s>
+ <s id="31">Here's a dissection of an abdomen of a cockroach.</s>
+ <s id="32">You see these plates, and you see the compliant membrane.</s>
+ <s id="33">My engineering colleague at Berkeley designed with his students a novel manufacturing technique where you essentially origami the exoskeleton, you laser cut it, laminate it, and you fold it up into a robot.</s>
+ <s id="34">And you can do that now in less than 15 minutes.</s>
+ <s id="35">These robots, called DASH, for Dynamic Autonomous Sprawled Hexapod, are highly compliant robots, and they're remarkably robust as a result of these features.</s>
+ <s id="36">They're certainly incredibly damage resistant.</s>
+ <s id="37">(Laughter) They even have some of the behaviors of the cockroaches.</s>
+ <s id="38">So they can use their smart, compliant body to transition up a wall in a very simple way.</s>
+ <s id="39">They even have some of the beginnings of the rapid inversion behavior where they disappear.</s>
+ <s id="40">Now we want to know why they can go anywhere.</s>
+ <s id="41">We discovered that they can go through three-millimeter gaps, the height of two pennies, two stacked pennies, and when they do this, they can actually run through those confined spaces at high speeds, although you never see it.</s>
+ <s id="42">To understand it better, we did a CT scan of the exoskeleton and showed that they can compress their body by over 40 percent.</s>
+ <s id="43">We put them in a materials testing machine to look at the stress strain analysis and showed that they can withstand forces 800 times their body weight, and after this they can fly and run absolutely normally.</s>
+ <s id="44">So you never know where curiosity-based research will lead, and someday you may want a swarm of cockroach-inspired robots to come at you.</s>
+ <s id="45">(Laughter) Thank you.</s>
+ <s id="46">(Applause)</s>
+</text>

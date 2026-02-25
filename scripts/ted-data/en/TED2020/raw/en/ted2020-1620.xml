@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <p id="p1">
+  <s id="1.1">Hi.</s>
+  <s id="1.2">I'm here to talk about congestion, namely road congestion.</s>
+ </p>
+ <s id="2">Road congestion is a pervasive phenomenon.</s>
+ <s id="3">It exists in basically all of the cities all around the world, which is a little bit surprising when you think about it.</s>
+ <s id="4">I mean, think about how different cities are, actually.</s>
+ <s id="5">I mean, you have the typical European cities, with a dense urban core, good public transportation mostly, not a lot of road capacity.</s>
+ <s id="6">But then, on the other hand, you have the American cities.</s>
+ <s id="7">It's moving by itself, okay.</s>
+ <s id="8">Anyway, the American cities: lots of roads dispersed over large areas, almost no public transportation.</s>
+ <s id="9">And then you have the emerging world cities, with a mixed variety of vehicles, mixed land-use patterns, also rather dispersed but often with a very dense urban core.</s>
+ <s id="10">And traffic planners all around the world have tried lots of different measures: dense cities or dispersed cities, lots of roads or lots of public transport or lots of bike lanes or more information, or lots of different things, but nothing seems to work.</s>
+ <s id="11">But all of these attempts have one thing in common.</s>
+ <s id="12">They're basically attempts at figuring out what people should do instead of rush hour car driving.</s>
+ <s id="13">They're essentially, to a point, attempts at planning what other people should do, planning their life for them.</s>
+ <s id="14">Now, planning a complex social system is a very hard thing to do, and let me tell you a story.</s>
+ <p id="p15">
+  <s id="15.1">Back in 1989, when the Berlin Wall fell, an urban planner in London got a phone call from a colleague in Moscow saying, basically, "Hi, this is Vladimir.</s>
+  <s id="15.2">I'd like to know, who's in charge of London's bread supply?"</s>
+ </p>
+ <s id="16">And the urban planner in London goes, "What do you mean, who's in charge of London's — I mean, no one is in charge."</s>
+ <s id="17">"Oh, but surely someone must be in charge.</s>
+ <p id="p18">
+  <s id="18.1">I mean, it's a very complicated system.</s>
+  <s id="18.2">Someone must control all of this."</s>
+ </p>
+ <p id="p19">
+  <s id="19.1">"No.</s>
+  <s id="19.2">No.</s>
+  <s id="19.3">No one is in charge.</s>
+ </p>
+ <s id="20">I mean, it basically -- I haven't really thought of it.</s>
+ <s id="21">It basically organizes itself."</s>
+ <s id="22">It organizes itself.</s>
+ <s id="23">That's an example of a complex social system which has the ability of self-organizing, and this is a very deep insight.</s>
+ <s id="24">When you try to solve really complex social problems, the right thing to do is most of the time to create the incentives.</s>
+ <s id="25">You don't plan the details, and people will figure out what to do, how to adapt to this new framework.</s>
+ <s id="26">And let's now look at how we can use this insight to combat road congestion.</s>
+ <s id="27">This is a map of Stockholm, my hometown.</s>
+ <s id="28">Now, Stockholm is a medium-sized city, roughly two million people, but Stockholm also has lots of water and lots of water means lots of bridges -- narrow bridges, old bridges -- which means lots of road congestion.</s>
+ <s id="29">And these red dots show the most congested parts, which are the bridges that lead into the inner city.</s>
+ <s id="30">And then someone came up with the idea that, apart from good public transport, apart from spending money on roads, let's try to charge drivers one or two euros at these bottlenecks.</s>
+ <s id="31">Now, one or two euros, that isn't really a lot of money, I mean compared to parking charges and running costs, etc., so you would probably expect that car drivers wouldn't really react to this fairly small charge.</s>
+ <s id="32">You would be wrong.</s>
+ <s id="33">One or two euros was enough to make 20 percent of cars disappear from rush hours.</s>
+ <s id="34">Now, 20 percent, well, that's a fairly huge figure, you might think, but you've still got 80 percent left of the problem, right?</s>
+ <s id="35">Because you still have 80 percent of the traffic.</s>
+ <s id="36">Now, that's also wrong, because traffic happens to be a nonlinear phenomenon, meaning that once you reach above a certain capacity threshold then congestion starts to increase really, really rapidly.</s>
+ <s id="37">But fortunately, it also works the other way around.</s>
+ <s id="38">If you can reduce traffic even somewhat, then congestion will go down much faster than you might think.</s>
+ <s id="39">Now, congestion charges were introduced in Stockholm on January 3, 2006, and the first picture here is a picture of Stockholm, one of the typical streets, January 2.</s>
+ <s id="40">The first day with the congestion charges looked like this.</s>
+ <s id="41">This is what happens when you take away 20 percent of the cars from the streets.</s>
+ <s id="42">You really reduce congestion quite substantially.</s>
+ <s id="43">But, well, as I said, I mean, car drivers adapt, right?</s>
+ <s id="44">So after a while they would all come back because they have sort of gotten used to charges.</s>
+ <p id="p45">
+  <s id="45.1">Wrong again.</s>
+  <s id="45.2">It's now six and a half years ago since the congestion charges were introduced in Stockholm, and we basically have the same low traffic levels still.</s>
+ </p>
+ <s id="46">But you see, there's an interesting gap here in the time series in 2007.</s>
+ <s id="47">Well, the thing is that, the congestion charges, they were introduced first as a trial, so they were introduced in January and then abolished again at the end of July, followed by a referendum, and then they were reintroduced again in 2007, which of course was a wonderful scientific opportunity.</s>
+ <s id="48">I mean, this was a really fun experiment to start with, and we actually got to do it twice.</s>
+ <s id="49">And personally, I would like to do this every once a year or so, but they won't let me do that.</s>
+ <s id="50">But it was fun anyway.</s>
+ <p id="p51">
+  <s id="51.1">So, we followed up.</s>
+  <s id="51.2">What happened?</s>
+ </p>
+ <s id="52">This is the last day with the congestion charges, July 31, and you see the same street but now it's summer, and summer in Stockholm is a very nice and light time of the year, and the first day without the congestion charges looked like this.</s>
+ <p id="p53">
+  <s id="53.1">All the cars were back again, and you even have to admire the car drivers.</s>
+  <s id="53.2">They adapt so extremely quickly.</s>
+ </p>
+ <s id="54">The first day they all came back.</s>
+ <p id="p55">
+  <s id="55.1">And this effect hanged on.</s>
+  <s id="55.2">So 2007 figures looked like this.</s>
+ </p>
+ <p id="p56">
+  <s id="56.1">Now these traffic figures are really exciting and a little bit surprising and very useful to know, but I would say that the most surprising slide here I'm going to show you today is not this one.</s>
+  <s id="56.2">It's this one.</s>
+ </p>
+ <s id="57">This shows public support for congestion pricing of Stockholm, and you see that when congestion pricing were introduced in the beginning of Spring 2006, people were fiercely against it.</s>
+ <s id="58">Seventy percent of the population didn't want this.</s>
+ <s id="59">But what happened when the congestion charges were there is not what you would expect, that people hated it more and more.</s>
+ <s id="60">No, on the contrary, they changed, up to a point where we now have 70 percent support for keeping the charges, meaning that -- I mean, let me repeat that: 70 percent of the population in Stockholm want to keep a price for something that used to be free.</s>
+ <p id="p61">
+  <s id="61.1">Okay.</s>
+  <s id="61.2">So why can that be?</s>
+  <s id="61.3">Why is that?</s>
+ </p>
+ <p id="p62">
+  <s id="62.1">Well, think about it this way.</s>
+  <s id="62.2">Who changed?</s>
+ </p>
+ <s id="63">I mean, the 20 percent of the car drivers that disappeared, surely they must be discontent in a way.</s>
+ <p id="p64">
+  <s id="64.1">And where did they go?</s>
+  <s id="64.2">If we can understand this, then maybe we can figure out how people can be so happy with this.</s>
+ </p>
+ <s id="65">Well, so we did this huge interview survey with lots of travel services, and tried to figure out who changed, and where did they go?</s>
+ <p id="p66">
+  <s id="66.1">And it turned out that they don't know themselves.</s>
+  <s id="66.2">(Laughter) For some reason, the car drivers are -- they are confident they actually drive the same way that they used to do.</s>
+ </p>
+ <p id="p67">
+  <s id="67.1">And why is that?</s>
+  <s id="67.2">It's because that travel patterns are much less stable than you might think.</s>
+ </p>
+ <s id="68">Each day, people make new decisions, and people change and the world changes around them, and each day all of these decisions are sort of nudged ever so slightly away from rush hour car driving in a way that people don't even notice.</s>
+ <s id="69">They're not even aware of this themselves.</s>
+ <s id="70">And the other question, who changed their mind?</s>
+ <s id="71">Who changed their opinion, and why?</s>
+ <s id="72">So we did another interview survey, tried to figure out why people changed their mind, and what type of group changed their minds?</s>
+ <s id="73">And after analyzing the answers, it turned out that more than half of them believe that they haven't changed their minds.</s>
+ <s id="74">They're actually confident that they have liked congestion pricing all along.</s>
+ <s id="75">Which means that we are now in a position where we have reduced traffic across this toll cordon with 20 percent, and reduced congestion by enormous numbers, and people aren't even aware that they have changed, and they honestly believe that they have liked this all along.</s>
+ <s id="76">This is the power of nudges when trying to solve complex social problems, and when you do that, you shouldn't try to tell people how to adapt.</s>
+ <s id="77">You should just nudge them in the right direction.</s>
+ <s id="78">And if you do it right, people will actually embrace the change, and if you do it right, people will actually even like it.</s>
+ <p id="p79">
+  <s id="79.1">Thank you.</s>
+  <s id="79.2">(Applause)</s>
+ </p>
+</text>

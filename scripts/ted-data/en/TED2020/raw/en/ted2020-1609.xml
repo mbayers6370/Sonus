@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Today, I'm going to talk to you about sketching electronics.</s>
+ <s id="2">I'm, among several other things, an electrical engineer, and that means that I spend a good amount of time designing and building new pieces of technology, and more specifically designing and building electronics.</s>
+ <s id="3">And what I've found is that the process of designing and building electronics is problematic in all sorts of ways.</s>
+ <s id="4">So it's a really slow process, it's really expensive, and the outcome of that process, namely electronic circuit boards, are limited in all sorts of kind of interesting ways.</s>
+ <s id="5">So they're really small, generally, they're square and flat and hard, and frankly, most of them just aren't very attractive, and so my team and I have been thinking of ways to really change and mix up the process and the outcome of designing electronics.</s>
+ <p id="p6">
+  <s id="6.1">And so what if you could design and build electronics like this?</s>
+  <s id="6.2">So what if you could do it extremely quickly, extremely inexpensively, and maybe more interestingly, really fluidly and expressively and even improvisationally?</s>
+ </p>
+ <s id="7">Wouldn't that be so cool, and that wouldn't that open up all sorts of new possibilities?</s>
+ <s id="8">I'm going to share with you two projects that are investigations along these lines, and we'll start with this one.</s>
+ <s id="9">(Video) Magnetic electronic pieces and ferrous paper.</s>
+ <s id="10">A conductive pen from the Lewis lab at UIUC.</s>
+ <s id="11">Sticker templates.</s>
+ <s id="12">Speed x 4.</s>
+ <s id="13">Making a switch.</s>
+ <s id="14">Music: DJ Shadow.</s>
+ <s id="15">Adding some intelligence with a microcontroller.</s>
+ <s id="16">Sketching an interface.</s>
+ <p id="p17">
+  <s id="17.1">(Music) (Laughter) (Applause) Pretty cool, huh?</s>
+  <s id="17.2">We think so.</s>
+ </p>
+ <s id="18">So now that we developed these tools and found these materials that let us do these things, we started to realize that, essentially, anything that we can do with paper, anything that we can do with a piece of paper and a pen we can now do with electronics.</s>
+ <s id="19">So the next project that I want to show you is kind of a deeper exploration of that possibility.</s>
+ <s id="20">And I'll kind of let it speak for itself.</s>
+ <s id="21">(Music) (Applause) So the next step for us in this process is now to find a way to let all of you build things like this, and so the way that we're approaching that is by teaching workshops to people where we explain how they can use these kinds of tools, and then also working to get the tools and the materials and techniques out into the real world in a variety of ways.</s>
+ <s id="22">And so sometime soon, you'll be able to play and build and sketch with electronics in this fundamentally new way.</s>
+ <p id="p23">
+  <s id="23.1">So thank you very much.</s>
+  <s id="23.2">(Applause)</s>
+ </p>
+</text>

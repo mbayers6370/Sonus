@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">This is a work in process, based on some comments that were made at TED two years ago about the need for the storage of vaccine.</s>
+ <s id="2">(Video): [On this planet 1.6 billion people don't have access to electricity refrigeration or stored fuels this is a problem it impacts: the spread of disease the storage of food and medicine and the quality of life.</s>
+ <s id="3">So here's the plan ... inexpensive refrigeration that doesn't use electricity, propane, gas, kerosene or consumables time for some thermodynamics And the story of the Intermittent Absorption Refrigerator] Adam Grosser: So 29 years ago, I had this thermo teacher who talked about absorption and refrigeration, one of those things that stuck in my head, a lot like the Stirling engine: it was cool, but you didn't know what to do with it.</s>
+ <s id="4">It was invented in 1858, by this guy Ferdinand Carré, but he couldn't actually build anything with it because of the tools at the time.</s>
+ <s id="5">This crazy Canadian named Powel Crosley commercialized this thing called the IcyBall, in 1928.</s>
+ <s id="6">It was a really neat idea, and I'll get to why it didn't work, but here's how it works.</s>
+ <s id="7">There's two spheres and they're separated in distance.</s>
+ <s id="8">One has a working fluid, water and ammonia, and the other is a condenser.</s>
+ <s id="9">You heat up one side, the hot side.</s>
+ <s id="10">The ammonia evaporates and it recondenses in the other side.</s>
+ <s id="11">You let it cool to room temperature, and then, as the ammonia reevaporates and combines with the water back on the erstwhile hot side, it creates a powerful cooling effect.</s>
+ <s id="12">So it was a great idea that didn't work at all.</s>
+ <s id="13">They blew up.</s>
+ <s id="14">(Laughter) Because you're using ammonia, you get hugely high pressures if you heated them wrong; it topped 400 psi.</s>
+ <s id="15">The ammonia was toxic, it sprayed everywhere.</s>
+ <s id="16">But it was kind of an interesting thought.</s>
+ <s id="17">So the great thing about 2006, there's a lot of really great computational work you can do.</s>
+ <s id="18">So we got the whole thermodynamics department at Stanford involved -- a lot of computational fluid dynamics.</s>
+ <s id="19">We proved that most of the ammonia refrigeration tables are wrong.</s>
+ <s id="20">We found some nontoxic refrigerants that worked at very low vapor pressures.</s>
+ <s id="21">We brought in a team from the UK -- a lot of great refrigeration people, it turns out, in the UK -- and built a test rig, and proved that, in fact, we could make a low-pressure, nontoxic refrigerator.</s>
+ <s id="22">So this is the way it works.</s>
+ <s id="23">You put it on a cooking fire.</s>
+ <s id="24">Most people have cooking fires in the world, whether it's camel dung or wood.</s>
+ <s id="25">It heats up for about 30 minutes, cools for an hour.</s>
+ <s id="26">You put it into a container and it will refrigerate for 24 hours.</s>
+ <s id="27">It looks like this.</s>
+ <s id="28">This is the fifth prototype, it's not quite done.</s>
+ <s id="29">It weighs about eight pounds, and this is the way it works.</s>
+ <s id="30">You put it into a 15-liter vessel, about three gallons, and it'll cool it down to just above freezing -- three degrees above freezing -- for 24 hours in a 30 degree C environment.</s>
+ <s id="31">It's really cheap.</s>
+ <s id="32">We think we can build these in high volumes for about 25 dollars, in low volumes for about 40 dollars.</s>
+ <s id="33">And we think we can make refrigeration something that everybody can have.</s>
+ <s id="34">Thank you.</s>
+ <s id="35">(Applause)</s>
+</text>

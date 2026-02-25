@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">The coldest materials in the world aren’t in Antarctica.</s>
+ <s id="2">They’re not at the top of Mount Everest or buried in a glacier.</s>
+ <s id="3">They’re in physics labs: clouds of gases held just fractions of a degree above absolute zero.</s>
+ <s id="4">That’s 395 million times colder than your refrigerator, 100 million times colder than liquid nitrogen, and 4 million times colder than outer space.</s>
+ <s id="5">Temperatures this low give scientists a window into the inner workings of matter, and allow engineers to build incredibly sensitive instruments that tell us more about everything from our exact position on the planet to what’s happening in the farthest reaches of the universe.</s>
+ <s id="6">How do we create such extreme temperatures?</s>
+ <s id="7">In short, by slowing down moving particles.</s>
+ <s id="8">When we’re talking about temperature, what we’re really talking about is motion.</s>
+ <s id="9">The atoms that make up solids, liquids, and gases are moving all the time.</s>
+ <s id="10">When atoms are moving more rapidly, we perceive that matter as hot.</s>
+ <s id="11">When they’re moving more slowly, we perceive it as cold.</s>
+ <s id="12">To make a hot object or gas cold in everyday life, we place it in a colder environment, like a refrigerator.</s>
+ <s id="13">Some of the atomic motion in the hot object is transferred to the surroundings, and it cools down.</s>
+ <s id="14">But there’s a limit to this: even outer space is too warm to create ultra-low temperatures.</s>
+ <s id="15">So instead, scientists figured out a way to slow the atoms down directly – with a laser beam.</s>
+ <s id="16">Under most circumstances, the energy in a laser beam heats things up.</s>
+ <s id="17">But used in a very precise way, the beam’s momentum can stall moving atoms, cooling them down.</s>
+ <s id="18">That’s what happens in a device called a magneto-optical trap.</s>
+ <s id="19">Atoms are injected into a vacuum chamber, and a magnetic field draws them towards the center.</s>
+ <s id="20">A laser beam aimed at the middle of the chamber is tuned to just the right frequency that an atom moving towards it will absorb a photon of the laser beam and slow down.</s>
+ <s id="21">The slow down effect comes from the transfer of momentum between the atom and the photon.</s>
+ <s id="22">A total of six beams, in a perpendicular arrangement, ensure that atoms traveling in all directions will be intercepted.</s>
+ <p id="p23">
+  <s id="23.1">At the center, where the beams intersect, the atoms move sluggishly, as if trapped in a thick liquid — an effect the researchers who invented it described as “optical molasses.”</s>
+  <s id="23.2">A magneto-optical trap like this can cool atoms down to just a few microkelvins — about -273 degrees Celsius.</s>
+ </p>
+ <s id="24">This technique was developed in the 1980s, and the scientists who'd contributed to it won the Nobel Prize in Physics in 1997 for the discovery.</s>
+ <s id="25">Since then, laser cooling has been improved to reach even lower temperatures.</s>
+ <s id="26">But why would you want to cool atoms down that much?</s>
+ <s id="27">First of all, cold atoms can make very good detectors.</s>
+ <s id="28">With so little energy, they’re incredibly sensitive to fluctuations in the environment.</s>
+ <s id="29">So they’re used in devices that find underground oil and mineral deposits, and they also make highly accurate atomic clocks, like the ones used in global positioning satellites.</s>
+ <s id="30">Secondly, cold atoms hold enormous potential for probing the frontiers of physics.</s>
+ <s id="31">Their extreme sensitivity makes them candidates to be used to detect gravitational waves in future space-based detectors.</s>
+ <s id="32">They’re also useful for the study of atomic and subatomic phenomena, which requires measuring incredibly tiny fluctuations in the energy of atoms.</s>
+ <s id="33">Those are drowned out at normal temperatures, when atoms speed around at hundreds of meters per second.</s>
+ <s id="34">Laser cooling can slow atoms to just a few centimeters per second— enough for the motion caused by atomic quantum effects to become obvious.</s>
+ <s id="35">Ultracold atoms have already allowed scientists to study phenomena like Bose-Einstein condensation, in which atoms are cooled almost to absolute zero and become a rare new state of matter.</s>
+ <s id="36">So as researchers continue in their quest to understand the laws of physics and unravel the mysteries of the universe, they’ll do so with the help of the very coldest atoms in it.</s>
+</text>

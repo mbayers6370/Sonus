@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Today, I'm going to talk about AI and us.</s>
+ <s id="2">AI researchers have always said that we humans do not need to worry, because only menial jobs will be taken over by machines.</s>
+ <s id="3">Is that really true?</s>
+ <s id="4">They have also said that AI will create new jobs, so those who lose their jobs will find a new one.</s>
+ <s id="5">Of course.</s>
+ <s id="6">But the real question is: How many of those who may lose their jobs to AI will be able to land a new one, especially when AI is smart enough to learn better than most of us?</s>
+ <s id="7">Let me ask you a question: How many of you think that AI will pass the entrance examination of a top university by 2020?</s>
+ <p id="p8">
+  <s id="8.1">Oh, so many.</s>
+  <s id="8.2">OK.</s>
+ </p>
+ <s id="9">So some of you may say, "Of course, yes!"</s>
+ <s id="10">Now singularity is the issue.</s>
+ <s id="11">And some others may say, "Maybe, because AI already won against a top Go player."</s>
+ <p id="p12">
+  <s id="12.1">And others may say, "No, never.</s>
+  <s id="12.2">Uh-uh."</s>
+ </p>
+ <s id="13">That means we do not know the answer yet, right?</s>
+ <s id="14">So that was the reason why I started Todai Robot Project, making an AI which passes the entrance examination of the University of Tokyo, the top university in Japan.</s>
+ <s id="15">This is our Todai Robot.</s>
+ <s id="16">And, of course, the brain of the robot is working in the remote server.</s>
+ <s id="17">It is now writing a 600-word essay on maritime trade in the 17th century.</s>
+ <s id="18">How does that sound?</s>
+ <s id="19">Why did I take the entrance exam as its benchmark?</s>
+ <s id="20">Because I thought we had to study the performance of AI in comparison to humans, especially on the skills and expertise which are believed to be acquired only by humans and only through education.</s>
+ <s id="21">To enter Todai, the University of Tokyo, you have to pass two different types of exams.</s>
+ <s id="22">The first one is a national standardized test in multiple-choice style.</s>
+ <s id="23">You have to take seven subjects and achieve a high score -- I would say like an 85 percent or more accuracy rate -- to be allowed to take the second stage written test prepared by Todai.</s>
+ <s id="24">So let me first explain how modern AI works, taking the "Jeopardy!" challenge as an example.</s>
+ <s id="25">Here is a typical "Jeopardy!" question: "Mozart's last symphony shares its name with this planet."</s>
+ <s id="26">Interestingly, a "Jeopardy!" question always asks, always ends with "this" something: "this" planet, "this" country, "this" rock musician, and so on.</s>
+ <s id="27">In other words, "Jeopardy!" doesn't ask many different types of questions, but a single type, which we call "factoid questions."</s>
+ <s id="28">By the way, do you know the answer?</s>
+ <s id="29">If you do not know the answer and if you want to know the answer, what would you do?</s>
+ <p id="p30">
+  <s id="30.1">You Google, right?</s>
+  <s id="30.2">Of course.</s>
+ </p>
+ <s id="31">Why not?</s>
+ <s id="32">But you have to pick appropriate keywords like "Mozart," "last" and "symphony" to search.</s>
+ <s id="33">The machine basically does the same.</s>
+ <s id="34">Then this Wikipedia page will be ranked top.</s>
+ <s id="35">Then the machine reads the page.</s>
+ <s id="36">No, uh-uh.</s>
+ <s id="37">Unfortunately, none of the modern AIs, including Watson, Siri and Todai Robot, is able to read.</s>
+ <s id="38">But they are very good at searching and optimizing.</s>
+ <s id="39">It will recognize that the keywords "Mozart," "last" and "symphony" are appearing heavily around here.</s>
+ <s id="40">So if it can find a word which is a planet and which is co-occurring with these keywords, that must be the answer.</s>
+ <s id="41">This is how Watson finds the answer "Jupiter," in this case.</s>
+ <p id="p42">
+  <s id="42.1">Our Todai Robot works similarly, but a bit smarter in answering history yes-no questions, like, "'Charlemagne repelled the Magyars.'</s>
+  <s id="42.2">Is this sentence true or false?"</s>
+ </p>
+ <s id="43">Our robot starts producing a factoid question, like: "Charlemagne repelled [this person type]" by itself.</s>
+ <s id="44">Then, "Avars" but not "Magyars" is ranked top.</s>
+ <s id="45">This sentence is likely to be false.</s>
+ <s id="46">Our robot does not read, does not understand, but it is statistically correct in many cases.</s>
+ <s id="47">For the second stage written test, it is required to write a 600-word essay like this one: [Discuss the rise and fall of the maritime trade in East and Southeast Asia in the 17th century ...] and as I have shown earlier, our robot took the sentences from the textbooks and Wikipedia, combined them together, and optimized it to produce an essay without understanding a thing.</s>
+ <s id="48">(Laughter) But surprisingly, it wrote a better essay than most of the students.</s>
+ <s id="49">(Laughter) How about mathematics?</s>
+ <s id="50">A fully automatic math-solving machine has been a dream since the birth of the word "artificial intelligence," but it has stayed at the level of arithmetic for a long, long time.</s>
+ <s id="51">Last year, we finally succeeded in developing a system which solved pre-university-level problems from end to end, like this one.</s>
+ <s id="52">This is the original problem written in Japanese, and we had to teach it 2,000 mathematical axioms and 8,000 Japanese words to make it accept the problems written in natural language.</s>
+ <s id="53">And it is now translating the original problems into machine-readable formulas.</s>
+ <s id="54">Weird, but it is now ready to solve it, I think.</s>
+ <s id="55">Go and solve it.</s>
+ <p id="p56">
+  <s id="56.1">Yes!</s>
+  <s id="56.2">It is now executing symbolic computation.</s>
+ </p>
+ <s id="57">Even more weird, but probably this is the most fun part for the machine.</s>
+ <s id="58">(Laughter) Now it outputs a perfect answer, though its proof is impossible to read, even for mathematicians.</s>
+ <s id="59">Anyway, last year our robot was among the top one percent in the second stage written exam in mathematics.</s>
+ <s id="60">(Applause) Thank you.</s>
+ <s id="61">So, did it enter Todai?</s>
+ <s id="62">No, not as I expected.</s>
+ <s id="63">Why?</s>
+ <s id="64">Because it doesn't understand any meaning.</s>
+ <s id="65">Let me show you a typical error it made in the English test.</s>
+ <p id="p66">
+  <s id="66.1">[Nate: We're almost at the bookstore.</s>
+  <s id="66.2">Just a few more minutes.</s>
+ </p>
+ <p id="p67">
+  <s id="67.1">Sunil: Wait. ______ .</s>
+  <s id="67.2">Nate: Thank you!</s>
+  <s id="67.3">That always happens ...]</s>
+  <s id="67.4">Two people are talking.</s>
+ </p>
+ <p id="p68">
+  <s id="68.1">For us, who can understand the situation -- [1.</s>
+  <s id="68.2">"We walked for a long time." 2.</s>
+  <s id="68.3">"We're almost there."</s>
+ </p>
+ <p id="p69">
+  <s id="69.1">3.</s>
+  <s id="69.2">"Your shoes look expensive." 4.</s>
+  <s id="69.3">"Your shoelace is untied."] it is obvious number four is the correct answer, right?</s>
+ </p>
+ <s id="70">But Todai Robot chose number two, even after learning 15 billion English sentences using deep learning technologies.</s>
+ <s id="71">OK, so now you might understand what I said: modern AIs do not read, do not understand.</s>
+ <s id="72">They only disguise as if they do.</s>
+ <s id="73">This is the distribution graph of half a million students who took the same exam as Todai Robot.</s>
+ <s id="74">Now our Todai Robot is among the top 20 percent, and it was capable to pass more than 60 percent of the universities in Japan -- but not Todai.</s>
+ <s id="75">But see how it is beyond the volume zone of to-be white-collar workers.</s>
+ <s id="76">You might think I was delighted.</s>
+ <s id="77">After all, my robot was surpassing students everywhere.</s>
+ <s id="78">Instead, I was alarmed.</s>
+ <s id="79">How on earth could this unintelligent machine outperform students -- our children?</s>
+ <s id="80">Right?</s>
+ <s id="81">I decided to investigate what was going on in the human world.</s>
+ <s id="82">I took hundreds of sentences from high school textbooks and made easy multiple-choice quizzes, and asked thousands of high school students to answer.</s>
+ <p id="p83">
+  <s id="83.1">Here is an example: [Buddhism spread to ... , Christianity to ... and Oceania, and Islam to ...]</s>
+  <s id="83.2">Of course, the original problems are written in Japanese, their mother tongue.</s>
+ </p>
+ <s id="84">[ ______ has spread to Oceania.</s>
+ <p id="p85">
+  <s id="85.1">1.</s>
+  <s id="85.2">Hinduism 2.</s>
+  <s id="85.3">Christianity 3.</s>
+  <s id="85.4">Islam 4.</s>
+  <s id="85.5">Buddhism ] Obviously, Christianity is the answer, isn't it?</s>
+ </p>
+ <s id="86">It's written!</s>
+ <s id="87">And Todai Robot chose the correct answer, too.</s>
+ <s id="88">But one-third of junior high school students failed to answer this question.</s>
+ <s id="89">Do you think it is only the case in Japan?</s>
+ <s id="90">I do not think so, because Japan is always ranked among the top in OECD PISA tests, measuring 15-year-old students' performance in mathematics, science and reading every three years.</s>
+ <s id="91">We have been believing that everybody can learn and learn well, as long as we provide good learning materials free on the web so that they can access through the internet.</s>
+ <s id="92">But such wonderful materials may benefit only those who can read well, and the percentage of those who can read well may be much less than we expected.</s>
+ <s id="93">How we humans will coexist with AI is something we have to think about carefully, based on solid evidence.</s>
+ <s id="94">At the same time, we have to think in a hurry because time is running out.</s>
+ <s id="95">Thank you.</s>
+ <s id="96">(Applause) Chris Anderson: Noriko, thank you.</s>
+ <s id="97">Noriko Arai: Thank you.</s>
+ <s id="98">CA: In your talk, you so beautifully give us a sense of how AIs think, what they can do amazingly and what they can't do.</s>
+ <s id="99">But -- do I read you right, that you think we really need quite an urgent revolution in education to help kids do the things that humans can do better than AIs?</s>
+ <s id="100">NA: Yes, yes, yes.</s>
+ <s id="101">Because we humans can understand the meaning.</s>
+ <s id="102">That is something which is very, very lacking in AI.</s>
+ <s id="103">But most of the students just pack the knowledge without understanding the meaning of the knowledge, so that is not knowledge, that is just memorizing, and AI can do the same thing.</s>
+ <s id="104">So we have to think about a new type of education.</s>
+ <s id="105">CA: A shift from knowledge, rote knowledge, to meaning.</s>
+ <s id="106">NA: Mm-hmm.</s>
+ <p id="p107">
+  <s id="107.1">CA: Well, there's a challenge for the educators.</s>
+  <s id="107.2">Thank you so much.</s>
+ </p>
+ <p id="p108">
+  <s id="108.1">NA: Thank you very much.</s>
+  <s id="108.2">Thank you.</s>
+ </p>
+ <s id="109">(Applause)</s>
+</text>

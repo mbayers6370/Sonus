@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">A hostile artificial intelligence called NIM has taken over the world’s computers.</s>
+ <s id="2">You’re the only person skilled enough to shut it down, and you’ll only have one chance.</s>
+ <s id="3">You’ve broken into NIM’s secret lab, and now you’re floating in a raft on top of 25 stories of electrified water.</s>
+ <s id="4">You’ve rigged up a remote that can lower the water level by ejecting it from grates in the sides of the room.</s>
+ <s id="5">If you can lower the water level to 0, you can hit the manual override, shut NIM off, and save the day.</s>
+ <s id="6">However, the AI knows that you’re here, and it can lower the water level, too, by sucking it through a trapdoor at the bottom of the lab.</s>
+ <s id="7">If NIM is the one to lower the water level to 0, you’ll be sucked out of the lab, resulting in a failed mission.</s>
+ <s id="8">Control over water drainage alternates between you and NIM, and neither can skip a turn.</s>
+ <s id="9">Each of you can lower the water level by exactly 1, 3, or 4 stories at a time.</s>
+ <s id="10">Whoever gets the level exactly to 0 on their turn will win this deadly duel.</s>
+ <s id="11">Note that neither of you can lower the water below 0; if the water level is at 2, then the only move is to lower the water level 1 story.</s>
+ <s id="12">You know that NIM has already computed all possible outcomes of the contest, and will play in a way that maximizes its chance of success.</s>
+ <s id="13">You go first.</s>
+ <s id="14">How can you survive and shut off the artificial intelligence?</s>
+ <s id="15">Pause here if you want to figure it out for yourself.</s>
+ <s id="16">Answer in: 3 Answer in: 2 Answer in: 1 You can’t leave anything up to chance - NIM will take any advantage it can get.</s>
+ <s id="17">And you’ll need to have a response to any possible move it makes.</s>
+ <s id="18">The trick here is to start from where you want to end and work backwards.</s>
+ <s id="19">You want to be the one to lower the water level to 0, which means you need the water level to be at 1, 3, or 4 when control switches to you.</s>
+ <s id="20">If the water level were at 2, your only option would be to lower it 1 story, which would lead to NIM making the winning move.</s>
+ <s id="21">If we color code the water levels, we can see a simple principle at play: there are “losing” levels like 2, where no matter what whoever starts their turn there does, they’ll lose.</s>
+ <s id="22">And there are winning levels, where whoever starts their turn there can either win or leave their opponent with a losing level.</s>
+ <s id="23">So not only are 1, 3, and 4 winning levels, but so are 5 and 6, since you can send your opponent to 2 from there.</s>
+ <s id="24">What about 7?</s>
+ <s id="25">From 7, all possible moves would send your opponent to a winning level, making this another losing level.</s>
+ <s id="26">And we can continue up the lab in this way.</s>
+ <s id="27">If you start your turn 1, 3, or 4 levels above a losing level, then you’re at a winning level.</s>
+ <s id="28">Otherwise, you’re destined to lose.</s>
+ <s id="29">You could continue like this all the way to level 25.</s>
+ <s id="30">But as a shortcut, you might notice that levels 8 through 11 are colored identically to 1 through 4.</s>
+ <s id="31">Since a level’s color is determined by the levels 1, 3, and 4 stories below it, this means that level 12 will be the same color as level 5, 13 will match 6, 14 will match 7, and so on, In particular, the losing levels will always be multiple of 7, and two greater than multiples of 7.</s>
+ <s id="32">Now, from your original starting level of 25, you have to make sure your opponent starts on a losing level every single turn— if NIM starts on a winning level even once, it’s game over for you.</s>
+ <s id="33">So your only choice on turn 1 is to lower the water level by 4 stories.</s>
+ <s id="34">No matter what the AI does, you can continue giving it losing levels until you reach 0 and trigger the manual override.</s>
+ <s id="35">And with that, the crisis is averted.</s>
+ <s id="36">Now, back to a less stressful kind of surfing.</s>
+</text>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <p id="p1">
+  <s id="1.1">Ragnarok.</s>
+  <s id="1.2">The fabled end of the world, when giants, monsters, and Norse gods battle for the future.</s>
+ </p>
+ <s id="2">The gods were winning handily until the great serpent Jörmungandr emerged.</s>
+ <s id="3">It swallowed Valhalla, contorted itself across the land, and then merged into one continuous body with no head and no tail.</s>
+ <s id="4">As it begins to digest Valhalla, an exhausted Odin explains that he has just enough power to strike the creature with one final bolt of lightning.</s>
+ <s id="5">If you magnify his blast with your fabled hammer, Mjölnir, it should pierce the massive serpent.</s>
+ <s id="6">You’ll run with super-speed along the serpent’s body.</s>
+ <s id="7">When you hold your hammer high, Odin will strike it with lightning and split Jörmungandr open at that point.</s>
+ <s id="8">Then, you’ll need to continue running along its body until every part of it is destroyed.</s>
+ <s id="9">You can’t run over the same section twice or you’ll fall into the already blasted part of the snake.</s>
+ <s id="10">But you can make multiple passes through points where the creature intersects its own body.</s>
+ <s id="11">If you leave any portion un-zapped, Jörmungandr will magically regenerate, Odin’s last power will be spent, and Valhalla will fall forever.</s>
+ <s id="12">What path can you take to destroy the serpent?</s>
+ <s id="13">Pause now to figure it out yourself!</s>
+ <s id="14">Answer in 3 2 1 One powerful way to solve problems is to simplify.</s>
+ <s id="15">And in this case, we can focus our attention on the two things that are important for our path: intersections and the stretches of snake between them.</s>
+ <s id="16">Or, as they’re referred to in graph theory, nodes and edges.</s>
+ <s id="17">The edges are important because they’re what we need to travel.</s>
+ <s id="18">And the nodes matter because they connect the edges, and are where we may need to make choices as we run from edge to edge.</s>
+ <s id="19">This simplification into nodes and edges leaves us with a ubiquitous and important mathematical object known as a graph, or network.</s>
+ <s id="20">We just need to figure out how to travel what mathematicians call an Eulerian path, which traces every edge exactly once.</s>
+ <s id="21">Instead of looking at the path as a whole, let’s zoom in on a single node.</s>
+ <s id="22">During some moment in your run, you’ll enter that node, and then exit it.</s>
+ <s id="23">That takes care of two edges.</s>
+ <s id="24">If you enter again, you’ll need to exit again too, which requires another pair of edges.</s>
+ <s id="25">So every point along your path will have edges that come in pairs.</s>
+ <s id="26">One edge in each pair will function as entrance; the other as exit.</s>
+ <s id="27">And that means that the number of edges coming out of every node must be even.</s>
+ <s id="28">There are just two exceptions: the start and end points, where you can exit without entering, or vice versa.</s>
+ <s id="29">If we look at the network formed by the serpent again, and number how many edges emerge from each node, a pattern jumps out that fits what we just saw.</s>
+ <s id="30">Every node has an even number of edges emerging from it, except two.</s>
+ <s id="31">So one of these must be the start of your route, and the other the end.</s>
+ <s id="32">Interestingly enough, any connected network that has exactly 2 nodes with an odd number of edges will also contain an Eulerian path.</s>
+ <s id="33">The same is true if there are no nodes with an odd number of edges— in that case the path starts and ends in the same spot.</s>
+ <s id="34">So knowing that, let’s return to our full graph.</s>
+ <s id="35">We can begin by taking care of this edge here.</s>
+ <s id="36">Now we can zig-zag back and forth across the whole snake until we reach the end.</s>
+ <s id="37">And that's just one solution— it helps to be systematic, but you’re likely to happen upon many others once you know where to begin and end your run.</s>
+ <s id="38">You hold your hammer high at the opportune moment, and Odin sends the world-saving surge of lightning at you.</s>
+ <s id="39">Then you run like you’ve never run before.</s>
+ <s id="40">If you can pull this off, surely nothing could stop the might of the Norse Gods.</s>
+ <s id="41">And if something like that were out there, slouching its way towards you… well, that would be a story for another day.</s>
+</text>

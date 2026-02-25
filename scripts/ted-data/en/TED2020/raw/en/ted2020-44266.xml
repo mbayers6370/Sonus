@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">I am an astrodynamicist -- you know, like that guy Rich Purnell in the movie "The Martian."</s>
+ <s id="2">And it's my job to study and predict motion of objects in space.</s>
+ <s id="3">Currently we track about one percent of hazardous objects on orbit -- hazardous to services like location, agriculture, banking, television and communications, and soon -- very soon -- even the internet itself.</s>
+ <s id="4">Now these services are not protected from, roughly, half a million objects the size of a speck of paint all the way to a school bus in size.</s>
+ <s id="5">A speck of paint, traveling at the right speed, impacting one of these objects, could render it absolutely useless.</s>
+ <s id="6">But we can't track things as small as a speck of paint.</s>
+ <s id="7">We can only track things as small as say, a smartphone.</s>
+ <s id="8">So of this half million objects that we should be concerned about, we can only track about 26,000 of these objects.</s>
+ <s id="9">And of these 26,000, only 2,000 actually work.</s>
+ <s id="10">Everything else is garbage.</s>
+ <s id="11">That's a lot of garbage.</s>
+ <s id="12">To make things a little bit worse, most of what we launch into orbit never comes back.</s>
+ <s id="13">We send the satellite in orbit, it stops working, it runs out of fuel, and we send something else up ...</s>
+ <s id="14">and then we send up something else ...</s>
+ <s id="15">and then something else.</s>
+ <s id="16">And every once in a while, two of these things will collide with each other or one of these things will explode, or even worse, somebody might just happen to destroy one of their satellites on orbit, and this generates many, many more pieces, most of which also never come back.</s>
+ <s id="17">Now these things are not just randomly scattered in orbit.</s>
+ <s id="18">It turns out that given the curvature of space-time, there are ideal locations where we put some of these satellites -- think of these as space highways.</s>
+ <s id="19">Very much like highways on earth, these space highways can only take up a maximum capacity of traffic to sustain space-safe operations.</s>
+ <s id="20">Unlike highways on earth, there are actually no space traffic rules.</s>
+ <s id="21">None whatsoever, OK?</s>
+ <s id="22">Wow.</s>
+ <s id="23">What could possibly go wrong with that?</s>
+ <s id="24">(Laughter) Now, what would be really nice is if we had something like a space traffic map, like a Waze for space that I could look up and see what the current traffic conditions are in space, maybe even predict these.</s>
+ <s id="25">The problem with that, however, is that ask five different people, "What's going on in orbit?</s>
+ <s id="26">Where are things going?"</s>
+ <s id="27">and you're probably going to get 10 different answers.</s>
+ <s id="28">Why is that?</s>
+ <s id="29">It's because information about things on orbit is not commonly shared either.</s>
+ <s id="30">So what if we had a globally accessible, open and transparent space traffic information system that can inform the public of where everything is located to try to keep space safe and sustainable?</s>
+ <s id="31">And what if the system could be used to form evidence-based norms of behavior -- these space traffic rules?</s>
+ <s id="32">So I developed ASTRIAGraph, the world's first crowdsourced, space traffic monitoring system at the University of Texas at Austin.</s>
+ <s id="33">ASTRIAGraph combines multiple sources of information from around the globe -- government, industry and academia -- and represents this in a common framework that anybody can access today.</s>
+ <s id="34">Here, you can see 26,000 objects orbiting the earth, multiple opinions, and it gets updated in near real time.</s>
+ <s id="35">But back to my problem of space traffic map: What if you only had information from the US government?</s>
+ <s id="36">Well, in that case, that's what your space traffic map would look like.</s>
+ <s id="37">But what do the Russians think?</s>
+ <s id="38">That looks significantly different.</s>
+ <p id="p39">
+  <s id="39.1">Who's right?</s>
+  <s id="39.2">Who's wrong?</s>
+ </p>
+ <s id="40">What should I believe?</s>
+ <s id="41">What could I trust?</s>
+ <s id="42">This is part of the issue.</s>
+ <s id="43">In the absence of this framework to monitor space-actor behavior, to monitor activity in space -- where these objects are located -- to reconcile these inconsistencies and make this knowledge commonplace, we actually risk losing the ability to use space for humanity's benefit.</s>
+ <s id="44">Thank you very much.</s>
+ <s id="45">(Applause and cheers)</s>
+</text>

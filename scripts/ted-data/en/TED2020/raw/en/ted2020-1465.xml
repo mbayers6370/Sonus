@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Is E.T. out there?</s>
+ <s id="2">Well, I work at the SETI Institute.</s>
+ <p id="p3">
+  <s id="3.1">That's almost my name.</s>
+  <s id="3.2">SETI: Search for Extraterrestrial Intelligence.</s>
+ </p>
+ <s id="4">In other words, I look for aliens, and when I tell people that at a cocktail party, they usually look at me with a mildly incredulous look on their face.</s>
+ <s id="5">I try to keep my own face somewhat dispassionate.</s>
+ <s id="6">Now, a lot of people think that this is kind of idealistic, ridiculous, maybe even hopeless, but I just want to talk to you a little bit about why I think that the job I have is actually a privilege, okay, and give you a little bit of the motivation for my getting into this line of work, if that's what you call it.</s>
+ <s id="7">This thing — whoops, can we go back?</s>
+ <s id="8">Hello, come in, Earth.</s>
+ <p id="p9">
+  <s id="9.1">There we go.</s>
+  <s id="9.2">All right.</s>
+ </p>
+ <s id="10">This is the Owens Valley Radio Observatory behind the Sierra Nevadas, and in 1968, I was working there collecting data for my thesis.</s>
+ <s id="11">Now, it's kinda lonely, it's kinda tedious, just collecting data, so I would amuse myself by taking photos at night of the telescopes or even of myself, because, you know, at night, I would be the only hominid within about 30 miles.</s>
+ <s id="12">So here are pictures of myself.</s>
+ <s id="13">The observatory had just acquired a new book, written by a Russian cosmologist by the name of Joseph Shklovsky, and then expanded and translated and edited by a little-known Cornell astronomer by the name of Carl Sagan.</s>
+ <s id="14">And I remember reading that book, and at 3 in the morning I was reading this book and it was explaining how the antennas I was using to measure the spins of galaxies could also be used to communicate, to send bits of information from one star system to another.</s>
+ <p id="p15">
+  <s id="15.1">Now, at 3 o'clock in the morning when you're all alone, haven't had much sleep, that was a very romantic idea, but it was that idea -- the fact that you could in fact prove that there's somebody out there just using this same technology -- that appealed to me so much that 20 years later I took a job at the SETI Institute.</s>
+  <s id="15.2">Now, I have to say that my memory is notoriously porous, and I've often wondered whether there was any truth in this story, or I was just, you know, misremembering something, but I recently just blew up this old negative of mine, and sure enough, there you can see the Shklovsky and Sagan book underneath that analog calculating device.</s>
+ </p>
+ <s id="16">So it was true.</s>
+ <p id="p17">
+  <s id="17.1">All right.</s>
+  <s id="17.2">Now, the idea for doing this, it wasn't very old at the time that I made that photo.</s>
+ </p>
+ <s id="18">The idea dates from 1960, when a young astronomer by the name of Frank Drake used this antenna in West Virginia, pointed it at a couple of nearby stars in the hopes of eavesdropping on E.T.</s>
+ <s id="19">Now, Frank didn't hear anything.</s>
+ <s id="20">Actually he did, but it turned out to be the U.S. Air Force, which doesn't count as extraterrestrial intelligence.</s>
+ <s id="21">But Drake's idea here became very popular because it was very appealing — and I'll get back to that — and on the basis of this experiment, which didn't succeed, we have been doing SETI ever since, not continuously, but ever since.</s>
+ <s id="22">We still haven't heard anything.</s>
+ <s id="23">We still haven't heard anything.</s>
+ <s id="24">In fact, we don't know about any life beyond Earth, but I'm going to suggest to you that that's going to change rather soon, and part of the reason, in fact, the majority of the reason why I think that's going to change is that the equipment's getting better.</s>
+ <s id="25">This is the Allen Telescope Array, about 350 miles from whatever seat you're in right now.</s>
+ <s id="26">This is something that we're using today to search for E.T., and the electronics have gotten very much better too.</s>
+ <s id="27">This is Frank Drake's electronics in 1960.</s>
+ <s id="28">This is the Allen Telescope Array electronics today.</s>
+ <s id="29">Some pundit with too much time on his hands has reckoned that the new experiments are approximately 100 trillion times better than they were in 1960, 100 trillion times better.</s>
+ <s id="30">That's a degree of an improvement that would look good on your report card, okay?</s>
+ <s id="31">But something that's not appreciated by the public is, in fact, that the experiment continues to get better, and, consequently, tends to get faster.</s>
+ <s id="32">This is a little plot, and every time you show a plot, you lose 10 percent of the audience.</s>
+ <p id="p33">
+  <s id="33.1">I have 12 of these.</s>
+  <s id="33.2">(Laughter) But what I plotted here is just some metric that shows how fast we're searching.</s>
+ </p>
+ <s id="34">In other words, we're looking for a needle in a haystack.</s>
+ <p id="p35">
+  <s id="35.1">We know how big the haystack is.</s>
+  <s id="35.2">It's the galaxy.</s>
+ </p>
+ <s id="36">But we're going through the haystack no longer with a teaspoon but with a skip loader, because of this increase in speed.</s>
+ <s id="37">In fact, those of you who are still conscious and mathematically competent, will note that this is a semi-log plot.</s>
+ <s id="38">In other words, the rate of increase is exponential.</s>
+ <p id="p39">
+  <s id="39.1">It's exponentially improving.</s>
+  <s id="39.2">Now, exponential is an overworked word.</s>
+  <s id="39.3">You hear it on the media all the time.</s>
+ </p>
+ <s id="40">They don't really know what exponential means, but this is exponential.</s>
+ <s id="41">In fact, it's doubling every 18 months, and, of course, every card-carrying member of the digerati knows that that's Moore's Law.</s>
+ <s id="42">So this means that over the course of the next two dozen years, we'll be able to look at a million star systems, a million star systems, looking for signals that would prove somebody's out there.</s>
+ <s id="43">Well, a million star systems, is that interesting?</s>
+ <s id="44">I mean, how many of those star systems have planets?</s>
+ <s id="45">And the facts are, we didn't know the answer to that even as recently as 15 years ago, and in fact, we really didn't know it even as recently as six months ago.</s>
+ <p id="p46">
+  <s id="46.1">But now we do.</s>
+  <s id="46.2">Recent results suggest that virtually every star has planets, and more than one.</s>
+ </p>
+ <p id="p47">
+  <s id="47.1">They're like, you know, kittens.</s>
+  <s id="47.2">You get a litter.</s>
+ </p>
+ <p id="p48">
+  <s id="48.1">You don't get one kitten.</s>
+  <s id="48.2">You get a bunch.</s>
+ </p>
+ <s id="49">So in fact, this is a pretty accurate estimate of the number of planets in our galaxy, just in our galaxy, by the way, and I remind the non-astronomy majors among you that our galaxy is only one of 100 billion that we can see with our telescopes.</s>
+ <s id="50">That's a lot of real estate, but of course, most of these planets are going to be kind of worthless, like, you know, Mercury, or Neptune.</s>
+ <s id="51">Neptune's probably not very big in your life.</s>
+ <s id="52">So the question is, what fraction of these planets are actually suitable for life?</s>
+ <s id="53">We don't know the answer to that either, but we will learn that answer this year, thanks to NASA's Kepler Space Telescope, and in fact, the smart money, which is to say the people who work on this project, the smart money is suggesting that the fraction of planets that might be suitable for life is maybe one in a thousand, one in a hundred, something like that.</s>
+ <s id="54">Well, even taking the pessimistic estimate, that it's one in a thousand, that means that there are at least a billion cousins of the Earth just in our own galaxy.</s>
+ <p id="p55">
+  <s id="55.1">Okay, now I've given you a lot of numbers here, but they're mostly big numbers, okay, so, you know, keep that in mind.</s>
+  <s id="55.2">There's plenty of real estate, plenty of real estate in the universe, and if we're the only bit of real estate in which there's some interesting occupants, that makes you a miracle, and I know you like to think you're a miracle, but if you do science, you learn rather quickly that every time you think you're a miracle, you're wrong, so probably not the case.</s>
+ </p>
+ <s id="56">All right, so the bottom line is this: Because of the increase in speed, and because of the vast amount of habitable real estate in the cosmos, I figure we're going to pick up a signal within two dozen years.</s>
+ <s id="57">And I feel strongly enough about that to make a bet with you: Either we're going to find E.T. in the next two dozen years, or I'll buy you a cup of coffee.</s>
+ <p id="p58">
+  <s id="58.1">So that's not so bad.</s>
+  <s id="58.2">I mean, even with two dozen years, you open up your browser and there's news of a signal, or you get a cup of coffee.</s>
+ </p>
+ <p id="p59">
+  <s id="59.1">Now, let me tell you about some aspect of this that people don't think about, and that is, what happens?</s>
+  <s id="59.2">Suppose that what I say is true.</s>
+ </p>
+ <s id="60">I mean, who knows, but suppose it happens.</s>
+ <s id="61">Suppose some time in the next two dozen years we pick up a faint line that tells us we have some cosmic company.</s>
+ <p id="p62">
+  <s id="62.1">What is the effect?</s>
+  <s id="62.2">What's the consequence?</s>
+ </p>
+ <s id="63">Now, I might be at ground zero for this.</s>
+ <p id="p64">
+  <s id="64.1">I happen to know what the consequence for me would be, because we've had false alarms.</s>
+  <s id="64.2">This is 1997, and this is a photo I made at about 3 o'clock in the morning in Mountain View here, when we were watching the computer monitors because we had picked up a signal that we thought, "This is the real deal."</s>
+  <s id="64.3">All right?</s>
+ </p>
+ <p id="p65">
+  <s id="65.1">And I kept waiting for the Men in Black to show up.</s>
+  <s id="65.2">Right?</s>
+ </p>
+ <p id="p66">
+  <s id="66.1">I kept waiting for -- I kept waiting for my mom to call, somebody to call, the government to call.</s>
+  <s id="66.2">Nobody called.</s>
+ </p>
+ <p id="p67">
+  <s id="67.1">Nobody called.</s>
+  <s id="67.2">I was so nervous that I couldn't sit down.</s>
+  <s id="67.3">I just wandered around taking photos like this one, just for something to do.</s>
+ </p>
+ <s id="68">Well, at 9:30 in the morning, with my head down on my desk because I obviously hadn't slept all night, the phone rings and it's The New York Times.</s>
+ <p id="p69">
+  <s id="69.1">And I think there's a lesson in that, and that lesson is that if we pick up a signal, the media, the media will be on it faster than a weasel on ball bearings.</s>
+  <s id="69.2">It's going to be fast.</s>
+ </p>
+ <p id="p70">
+  <s id="70.1">You can be sure of that.</s>
+  <s id="70.2">No secrecy.</s>
+ </p>
+ <p id="p71">
+  <s id="71.1">That's what happens to me.</s>
+  <s id="71.2">It kind of ruins my whole week, because whatever I've got planned that week is kind of out the window.</s>
+ </p>
+ <p id="p72">
+  <s id="72.1">But what about you?</s>
+  <s id="72.2">What's it going to do to you?</s>
+ </p>
+ <s id="73">And the answer is that we don't know the answer.</s>
+ <s id="74">We don't know what that's going to do to you, not in the long term, and not even very much in the short term.</s>
+ <s id="75">I mean, that would be a bit like asking Chris Columbus in 1491, "Hey Chris, you know, what happens if it turns out that there's a continent between here and Japan, where you're sailing to, what will be the consequences for humanity if that turns out to be the case?"</s>
+ <s id="76">And I think Chris would probably offer you some answer that you might not have understood, but it probably wouldn't have been right, and I think that to predict what finding E.T.'s going to mean, we can't predict that either.</s>
+ <s id="77">But here are a couple things I can say.</s>
+ <s id="78">To begin with, it's going to be a society that's way in advance of our own.</s>
+ <s id="79">You're not going to hear from alien Neanderthals.</s>
+ <s id="80">They're not building transmitters.</s>
+ <s id="81">They're going to be ahead of us, maybe by a few thousand years, maybe by a few millions years, but substantially ahead of us, and that means, if you can understand anything that they're going to say, then you might be able to short-circuit history by getting information from a society that's way beyond our own.</s>
+ <s id="82">Now, you might find that a bit hyperbolic, and maybe it is, but nonetheless, it's conceivable that this will happen, and, you know, you could consider this like, I don't know, giving Julius Caesar English lessons and the key to the library of Congress.</s>
+ <s id="83">It would change his day, all right?</s>
+ <p id="p84">
+  <s id="84.1">That's one thing.</s>
+  <s id="84.2">Another thing that's for sure going to happen is that it will calibrate us.</s>
+ </p>
+ <s id="85">We will know that we're not that miracle, right, that we're just another duck in a row, we're not the only kids on the block, and I think that that's philosophically a very profound thing to learn.</s>
+ <s id="86">We're not a miracle, okay?</s>
+ <s id="87">The third thing that it might tell you is somewhat vague, but I think interesting and important, and that is, if you find a signal coming from a more advanced society, because they will be, that will tell you something about our own possibilities, that we're not inevitably doomed to self-destruction.</s>
+ <s id="88">Because they survived their technology, we could do it too.</s>
+ <p id="p89">
+  <s id="89.1">Normally when you look out into the universe, you're looking back in time.</s>
+  <s id="89.2">All right?</s>
+ </p>
+ <s id="90">That's interesting to cosmologists.</s>
+ <s id="91">But in this sense, you actually can look into the future, hazily, but you can look into the future.</s>
+ <s id="92">So those are all the sorts of things that would come from a detection.</s>
+ <s id="93">Now, let me talk a little bit about something that happens even in the meantime, and that is, SETI, I think, is important, because it's exploration, and it's not only exploration, it's comprehensible exploration.</s>
+ <p id="p94">
+  <s id="94.1">Now, I gotta tell you, I'm always reading books about explorers.</s>
+  <s id="94.2">I find exploration very interesting, Arctic exploration, you know, people like Magellan, Amundsen, Shackleton, you see Franklin down there, Scott, all these guys.</s>
+  <s id="94.3">It's really nifty, exploration.</s>
+ </p>
+ <p id="p95">
+  <s id="95.1">And they're just doing it because they want to explore, and you might say, "Oh, that's kind of a frivolous opportunity," but that's not frivolous.</s>
+  <s id="95.2">That's not a frivolous activity, because, I mean, think of ants.</s>
+ </p>
+ <s id="96">You know, most ants are programmed to follow one another along in a long line, but there are a couple of ants, maybe one percent of those ants, that are what they call pioneer ants, and they're the ones that wander off.</s>
+ <s id="97">They're the ones you find on the kitchen countertop.</s>
+ <s id="98">You gotta get them with your thumb before they find the sugar or something.</s>
+ <p id="p99">
+  <s id="99.1">But those ants, even though most of them get wiped out, those ants are the ones that are essential to the survival of the hive.</s>
+  <s id="99.2">So exploration is important.</s>
+ </p>
+ <s id="100">I also think that exploration is important in terms of being able to address what I think is a critical lack in our society, and that is the lack of science literacy, the lack of the ability to even understand science.</s>
+ <s id="101">Now, look, a lot has been written about the deplorable state of science literacy in this country.</s>
+ <s id="102">You've heard about it.</s>
+ <s id="103">Well, here's one example, in fact.</s>
+ <s id="104">Polls taken, this poll was taken 10 years ago.</s>
+ <s id="105">It shows like roughly one third of the public thinks that aliens are not only out there, we're looking for them out there, but they're here, right?</s>
+ <s id="106">Sailing the skies in their saucers and occasionally abducting people for experiments their parents wouldn't approve of.</s>
+ <p id="p107">
+  <s id="107.1">Well, that would be interesting if it was true, and job security for me, but I don't think the evidence is very good.</s>
+  <s id="107.2">That's more, you know, sad than significant.</s>
+ </p>
+ <s id="108">But there are other things that people believe that are significant, like the efficacy of homeopathy, or that evolution is just, you know, sort of a crazy idea by scientists without any legs, or, you know, evolution, all that sort of thing, or global warming.</s>
+ <s id="109">These sorts of ideas don't really have any validity, that you can't trust the scientists.</s>
+ <s id="110">Now, we've got to solve that problem, because that's a critically important problem, and you might say, "Well, okay, how are we gonna solve that problem with SETI?"</s>
+ <s id="111">Well, let me suggest to you that SETI obviously can't solve the problem, but it can address the problem.</s>
+ <p id="p112">
+  <s id="112.1">It can address the problem by getting young people interested in science.</s>
+  <s id="112.2">Look, science is hard, it has a reputation of being hard, and the facts are, it is hard, and that's the result of 400 years of science, right?</s>
+ </p>
+ <s id="113">I mean, in the 18th century, in the 18th century you could become an expert on any field of science in an afternoon by going to a library, if you could find the library, right?</s>
+ <p id="p114">
+  <s id="114.1">In the 19th century, if you had a basement lab, you could make major scientific discoveries in your own home.</s>
+  <s id="114.2">Right?</s>
+  <s id="114.3">Because there was all this science just lying around waiting for somebody to pick it up.</s>
+ </p>
+ <s id="115">Now, that's not true anymore.</s>
+ <s id="116">Today, you've got to spend years in grad school and post-doc positions just to figure out what the important questions are.</s>
+ <p id="p117">
+  <s id="117.1">It's hard.</s>
+  <s id="117.2">There's no doubt about it.</s>
+ </p>
+ <s id="118">And in fact, here's an example: the Higgs boson, finding the Higgs boson.</s>
+ <s id="119">Ask the next 10 people you see on the streets, "Hey, do you think it's worthwhile to spend billions of Swiss francs looking for the Higgs boson?"</s>
+ <s id="120">And I bet the answer you're going to get, is, "Well, I don't know what the Higgs boson is, and I don't know if it's important."</s>
+ <s id="121">And probably most of the people wouldn't even know the value of a Swiss franc, okay?</s>
+ <s id="122">And yet we're spending billions of Swiss francs on this problem.</s>
+ <p id="p123">
+  <s id="123.1">Okay?</s>
+  <s id="123.2">So that doesn't get people interested in science because they can't comprehend what it's about.</s>
+ </p>
+ <s id="124">SETI, on the other hand, is really simple.</s>
+ <p id="p125">
+  <s id="125.1">We're going to use these big antennas and we're going to try to eavesdrop on signals.</s>
+  <s id="125.2">Everybody can understand that.</s>
+ </p>
+ <s id="126">Yes, technologically, it's very sophisticated, but everybody gets the idea.</s>
+ <p id="p127">
+  <s id="127.1">So that's one thing.</s>
+  <s id="127.2">The other thing is, it's exciting science.</s>
+ </p>
+ <s id="128">It's exciting because we're naturally interested in other intelligent beings, and I think that's part of our hardwiring.</s>
+ <p id="p129">
+  <s id="129.1">I mean, we're hardwired to be interested in beings that might be, if you will, competitors, or if you're the romantic sort, possibly even mates.</s>
+  <s id="129.2">Okay?</s>
+ </p>
+ <p id="p130">
+  <s id="130.1">I mean, this is analogous to our interest in things that have big teeth.</s>
+  <s id="130.2">Right?</s>
+ </p>
+ <s id="131">We're interested in things that have big teeth, and you can see the evolutionary value of that, and you can also see the practical consequences by watching Animal Planet.</s>
+ <s id="132">You notice they make very few programs about gerbils.</s>
+ <s id="133">It's mostly about things that have big teeth.</s>
+ <s id="134">Okay, so we're interested in these sorts of things.</s>
+ <p id="p135">
+  <s id="135.1">And not just us.</s>
+  <s id="135.2">It's also kids.</s>
+ </p>
+ <s id="136">This allows you to pay it forward by using this subject as a hook to science, because SETI involves all kinds of science, obviously biology, obviously astronomy, but also geology, also chemistry, various scientific disciplines all can be presented in the guise of, "We're looking for E.T."</s>
+ <s id="137">So to me this is interesting and important, and in fact, it's my policy, even though I give a lot of talks to adults, you give talks to adults, and two days later they're back where they were.</s>
+ <s id="138">But if you give talks to kids, you know, one in 50 of them, some light bulb goes off, and they think, "Gee, I'd never thought of that," and then they go, you know, read a book or a magazine or whatever.</s>
+ <s id="139">They get interested in something.</s>
+ <p id="p140">
+  <s id="140.1">Now it's my theory, supported only by anecdotal, personal anecdotal evidence, but nonetheless, that kids get interested in something between the ages of eight and 11.</s>
+  <s id="140.2">You've got to get them there.</s>
+ </p>
+ <s id="141">So, all right, I give talks to adults, that's fine, but I try and make 10 percent of the talks that I give, I try and make those for kids.</s>
+ <p id="p142">
+  <s id="142.1">I remember when a guy came to our high school, actually, it was actually my junior high school.</s>
+  <s id="142.2">I was in sixth grade.</s>
+ </p>
+ <p id="p143">
+  <s id="143.1">And he gave some talk.</s>
+  <s id="143.2">All I remember from it was one word: electronics.</s>
+ </p>
+ <s id="144">It was like Dustin Hoffman in "The Graduate," right, when he said "plastics," whatever that means, plastics.</s>
+ <p id="p145">
+  <s id="145.1">All right, so the guy said electronics.</s>
+  <s id="145.2">I don't remember anything else.</s>
+  <s id="145.3">In fact, I don't remember anything that my sixth grade teacher said all year, but I remember electronics.</s>
+ </p>
+ <p id="p146">
+  <s id="146.1">And so I got interested in electronics, and you know, I studied to get my ham license.</s>
+  <s id="146.2">I was wiring up stuff.</s>
+ </p>
+ <s id="147">Here I am at about 15 or something, doing that sort of stuff.</s>
+ <p id="p148">
+  <s id="148.1">Okay?</s>
+  <s id="148.2">That had a big effect on me.</s>
+ </p>
+ <s id="149">So that's my point, that you can have a big effect on these kids.</s>
+ <s id="150">In fact, this reminds me, I don't know, a couple years ago I gave a talk at a school in Palo Alto where there were about a dozen 11-year-olds that had come to this talk.</s>
+ <s id="151">I had been brought in to talk to these kids for an hour.</s>
+ <s id="152">Eleven-year-olds, they're all sitting in a little semi-circle looking up at me with big eyes, and I started, there was a white board behind me, and I started off by writing a one with 22 zeroes after it, and I said, "All right, now look, this is the number of stars in the visible universe, and this number is so big there's not even a name for it."</s>
+ <s id="153">And one of these kids shot up his hand, and he said, "Well, actually there is a name for it.</s>
+ <p id="p154">
+  <s id="154.1">It's a sextra-quadra-hexa-something or other."</s>
+  <s id="154.2">Right?</s>
+ </p>
+ <s id="155">Now, that kid was wrong by four orders of magnitude, but there was no doubt about it, these kids were smart.</s>
+ <p id="p156">
+  <s id="156.1">Okay?</s>
+  <s id="156.2">So I stopped giving the lecture.</s>
+ </p>
+ <s id="157">All they wanted to do was ask questions.</s>
+ <p id="p158">
+  <s id="158.1">In fact, my last comments to these kids, at the end I said, "You know, you kids are smarter than the people I work with."</s>
+  <s id="158.2">Now — (Laughter) They didn't even care about that.</s>
+ </p>
+ <p id="p159">
+  <s id="159.1">What they wanted was my email address so they could ask me more questions.</s>
+  <s id="159.2">(Laughter) Let me just say, look, my job is a privilege because we're in a special time.</s>
+ </p>
+ <s id="160">Previous generations couldn't do this experiment at all.</s>
+ <s id="161">In another generation down the line, I think we will have succeeded.</s>
+ <s id="162">So to me, it is a privilege, and when I look in the mirror, the facts are that I really don't see myself.</s>
+ <s id="163">What I see is the generation behind me.</s>
+ <s id="164">These are some kids from the Huff School, fourth graders.</s>
+ <s id="165">I talked there, what, two weeks ago, something like that.</s>
+ <p id="p166">
+  <s id="166.1">I think that if you can instill some interest in science and how it works, well, that's a payoff beyond easy measure.</s>
+  <s id="166.2">Thank you very much.</s>
+ </p>
+ <s id="167">(Applause)</s>
+</text>

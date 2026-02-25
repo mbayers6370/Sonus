@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">As the story goes, the legendary marksman William Tell was forced into a cruel challenge by a corrupt lord.</s>
+ <s id="2">William's son was to be executed unless William could shoot an apple off his head.</s>
+ <s id="3">William succeeded, but let's imagine two variations on the tale.</s>
+ <s id="4">In the first variation, the lord hires a bandit to steal William's trusty crossbow, so he is forced to borrow an inferior one from a peasant.</s>
+ <s id="5">However, the borrowed crossbow isn't adjusted perfectly, and William finds that his practice shots cluster in a tight spread beneath the bullseye.</s>
+ <s id="6">Fortunately, he has time to correct for it before it's too late.</s>
+ <s id="7">Variation two: William begins to doubt his skills in the long hours before the challenge and his hand develops a tremor.</s>
+ <s id="8">His practice shots still cluster around the apple but in a random pattern.</s>
+ <s id="9">Occasionally, he hits the apple, but with the wobble, there is no guarantee of a bullseye.</s>
+ <s id="10">He must settle his nervous hand and restore the certainty in his aim to save his son.</s>
+ <s id="11">At the heart of these variations are two terms often used interchangeably: accuracy and precision.</s>
+ <s id="12">The distinction between the two is actually critical for many scientific endeavours.</s>
+ <s id="13">Accuracy involves how close you come to the correct result.</s>
+ <s id="14">Your accuracy improves with tools that are calibrated correctly and that you're well-trained on.</s>
+ <s id="15">Precision, on the other hand, is how consistently you can get that result using the same method.</s>
+ <s id="16">Your precision improves with more finely incremented tools that require less estimation.</s>
+ <s id="17">The story of the stolen crossbow was one of precision without accuracy.</s>
+ <s id="18">William got the same wrong result each time he fired.</s>
+ <s id="19">The variation with the shaky hand was one of accuracy without precision.</s>
+ <s id="20">William's bolts clustered around the correct result, but without certainty of a bullseye for any given shot.</s>
+ <s id="21">You can probably get away with low accuracy or low precision in everyday tasks.</s>
+ <s id="22">But engineers and researchers often require accuracy on microscopic levels with a high certainty of being right every time.</s>
+ <s id="23">Factories and labs increase precision through better equipment and more detailed procedures.</s>
+ <s id="24">These improvements can be expensive, so managers must decide what the acceptable uncertainty for each project is.</s>
+ <s id="25">However, investments in precision can take us beyond what was previously possible, even as far as Mars.</s>
+ <s id="26">It may surprise you that NASA does not know exactly where their probes are going to touch down on another planet.</s>
+ <s id="27">Predicting where they will land requires extensive calculations fed by measurements that don't always have a precise answer.</s>
+ <s id="28">How does the Martian atmosphere's density change at different elevations?</s>
+ <s id="29">What angle will the probe hit the atmosphere at?</s>
+ <s id="30">What will be the speed of the probe upon entry?</s>
+ <s id="31">Computer simulators run thousands of different landing scenarios, mixing and matching values for all of the variables.</s>
+ <s id="32">Weighing all the possibilities, the computer spits out the potential area of impact in the form of a landing ellipse.</s>
+ <s id="33">In 1976, the landing ellipse for the Mars Viking Lander was 62 x 174 miles, nearly the area of New Jersey.</s>
+ <s id="34">With such a limitation, NASA had to ignore many interesting but risky landing areas.</s>
+ <s id="35">Since then, new information about the Martian atmosphere, improved spacecraft technology, and more powerful computer simulations have drastically reduced uncertainty.</s>
+ <s id="36">In 2012, the landing ellipse for the Curiosity Lander was only 4 miles wide by 12 miles long, an area more than 200 times smaller than Viking's.</s>
+ <s id="37">This allowed NASA to target a specific spot in Gale Crater, a previously un-landable area of high scientific interest.</s>
+ <s id="38">While we ultimately strive for accuracy, precision reflects our certainty of reliably achieving it.</s>
+ <s id="39">With these two principles in mind, we can shoot for the stars and be confident of hitting them every time.</s>
+</text>

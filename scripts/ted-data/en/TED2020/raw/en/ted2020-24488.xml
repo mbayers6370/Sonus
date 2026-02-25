@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Around 1159 A.D., a mathematician called Bhaskara the Learned sketched a design for a wheel containing curved reservoirs of mercury.</s>
+ <s id="2">He reasoned that as the wheels spun, the mercury would flow to the bottom of each reservoir, leaving one side of the wheel perpetually heavier than the other.</s>
+ <s id="3">The imbalance would keep the wheel turning forever.</s>
+ <s id="4">Bhaskara's drawing was one of the earliest designs for a perpetual motion machine, a device that can do work indefinitely without any external energy source.</s>
+ <s id="5">Imagine a windmill that produced the breeze it needed to keep rotating.</s>
+ <s id="6">Or a lightbulb whose glow provided its own electricity.</s>
+ <s id="7">These devices have captured many inventors' imaginations because they could transform our relationship with energy.</s>
+ <s id="8">For example, if you could build a perpetual motion machine that included humans as part of its perfectly efficient system, it could sustain life indefinitely.</s>
+ <s id="9">There's just one problem.</s>
+ <s id="10">They don't work.</s>
+ <s id="11">Ideas for perpetual motion machines all violate one or more fundamental laws of thermodynamics, the branch of physics that describes the relationship between different forms of energy.</s>
+ <s id="12">The first law of thermodynamics says that energy can't be created or destroyed.</s>
+ <s id="13">You can't get out more energy than you put in.</s>
+ <s id="14">That rules out a useful perpetual motion machine right away because a machine could only ever produce as much energy as it consumed.</s>
+ <s id="15">There wouldn't be any left over to power a car or charge a phone.</s>
+ <s id="16">But what if you just wanted the machine to keep itself moving?</s>
+ <s id="17">Inventors have proposed plenty of ideas.</s>
+ <s id="18">Several of these have been variations on Bhaskara's over-balanced wheel with rolling balls or weights on swinging arms.</s>
+ <s id="19">None of them work.</s>
+ <s id="20">The moving parts that make one side of the wheel heavier also shift its center of mass downward below the axle.</s>
+ <s id="21">With a low center of mass, the wheel just swings back and forth like a pendulum, then stops.</s>
+ <s id="22">What about a different approach?</s>
+ <s id="23">In the 17th century, Robert Boyle came up with an idea for a self-watering pot.</s>
+ <s id="24">He theorized that capillary action, the attraction between liquids and surfaces that pulls water through thin tubes, might keep the water cycling around the bowl.</s>
+ <s id="25">But if the capillary action is strong enough to overcome gravity and draw the water up, it would also prevent it from falling back into the bowl.</s>
+ <s id="26">Then there are versions with magnets, like this set of ramps.</s>
+ <s id="27">The ball is supposed to be pulled upwards by the magnet at the top, fall back down through the hole, and repeat the cycle.</s>
+ <s id="28">This one fails because like the self-watering pot, the magnet would simply hold the ball at the top.</s>
+ <s id="29">Even if it somehow did keep moving, the magnet's strength would degrade over time and eventually stop working.</s>
+ <s id="30">For each of these machines to keep moving, they'd have to create some extra energy to nudge the system past its stopping point, breaking the first law of thermodynamics.</s>
+ <s id="31">There are ones that seem to keep going, but in reality, they invariably turn out to be drawing energy from some external source.</s>
+ <s id="32">Even if engineers could somehow design a machine that didn't violate the first law of thermodynamics, it still wouldn't work in the real world because of the second law.</s>
+ <s id="33">The second law of thermodynamics tells us that energy tends to spread out through processes like friction.</s>
+ <s id="34">Any real machine would have moving parts or interactions with air or liquid molecules that would generate tiny amounts of friction and heat, even in a vacuum.</s>
+ <s id="35">That heat is energy escaping, and it would keep leeching out, reducing the energy available to move the system itself until the machine inevitably stopped.</s>
+ <s id="36">So far, these two laws of thermodynamics have stymied every idea for perpetual motion and the dreams of perfectly efficient energy generation they imply.</s>
+ <s id="37">Yet it's hard to conclusively say we'll never discover a perpetual motion machine because there's still so much we don't understand about the universe.</s>
+ <s id="38">Perhaps we'll find new exotic forms of matter that'll force us to revisit the laws of thermodynamics.</s>
+ <s id="39">Or maybe there's perpetual motion on tiny quantum scales.</s>
+ <s id="40">What we can be reasonably sure about is that we'll never stop looking.</s>
+ <s id="41">For now, the one thing that seems truly perpetual is our search.</s>
+</text>

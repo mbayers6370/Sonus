@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">So the machine I'm going to talk you about is what I call the greatest machine that never was.</s>
+ <s id="2">It was a machine that was never built, and yet, it will be built.</s>
+ <s id="3">It was a machine that was designed long before anyone thought about computers.</s>
+ <s id="4">If you know anything about the history of computers, you will know that in the '30s and the '40s, simple computers were created that started the computer revolution we have today, and you would be correct, except for you'd have the wrong century.</s>
+ <s id="5">The first computer was really designed in the 1830s and 1840s, not the 1930s and 1940s.</s>
+ <s id="6">It was designed, and parts of it were prototyped, and the bits of it that were built are here in South Kensington.</s>
+ <s id="7">That machine was built by this guy, Charles Babbage.</s>
+ <p id="p8">
+  <s id="8.1">Now, I have a great affinity for Charles Babbage because his hair is always completely unkempt like this in every single picture.</s>
+  <s id="8.2">(Laughter) He was a very wealthy man, and a sort of, part of the aristocracy of Britain, and on a Saturday night in Marylebone, were you part of the intelligentsia of that period, you would have been invited round to his house for a soiree — and he invited everybody: kings, the Duke of Wellington, many, many famous people — and he would have shown you one of his mechanical machines.</s>
+ </p>
+ <p id="p9">
+  <s id="9.1">I really miss that era, you know, where you could go around for a soiree and see a mechanical computer get demonstrated to you.</s>
+  <s id="9.2">(Laughter) But Babbage, Babbage himself was born at the end of the 18th century, and was a fairly famous mathematician.</s>
+ </p>
+ <s id="10">He held the post that Newton held at Cambridge, and that was recently held by Stephen Hawking.</s>
+ <s id="11">He's less well known than either of them because he got this idea to make mechanical computing devices and never made any of them.</s>
+ <s id="12">The reason he never made any of them, he's a classic nerd.</s>
+ <s id="13">Every time he had a good idea, he'd think, "That's brilliant, I'm going to start building that one.</s>
+ <p id="p14">
+  <s id="14.1">I'll spend a fortune on it.</s>
+  <s id="14.2">I've got a better idea.</s>
+ </p>
+ <p id="p15">
+  <s id="15.1">I'm going to work on this one.</s>
+  <s id="15.2">(Laughter) And I'm going to do this one."</s>
+ </p>
+ <p id="p16">
+  <s id="16.1">He did this until Sir Robert Peel, then Prime Minister, basically kicked him out of Number 10 Downing Street, and kicking him out, in those days, that meant saying, "I bid you good day, sir."</s>
+  <s id="16.2">(Laughter) The thing he designed was this monstrosity here, the analytical engine.</s>
+  <s id="16.3">Now, just to give you an idea of this, this is a view from above.</s>
+ </p>
+ <s id="17">Every one of these circles is a cog, a stack of cogs, and this thing is as big as a steam locomotive.</s>
+ <p id="p18">
+  <s id="18.1">So as I go through this talk, I want you to imagine this gigantic machine.</s>
+  <s id="18.2">We heard those wonderful sounds of what this thing would have sounded like.</s>
+ </p>
+ <s id="19">And I'm going to take you through the architecture of the machine — that's why it's computer architecture — and tell you about this machine, which is a computer.</s>
+ <p id="p20">
+  <s id="20.1">So let's talk about the memory.</s>
+  <s id="20.2">The memory is very like the memory of a computer today, except it was all made out of metal, stacks and stacks of cogs, 30 cogs high.</s>
+ </p>
+ <s id="21">Imagine a thing this high of cogs, hundreds and hundreds of them, and they've got numbers on them.</s>
+ <p id="p22">
+  <s id="22.1">It's a decimal machine.</s>
+  <s id="22.2">Everything's done in decimal.</s>
+ </p>
+ <p id="p23">
+  <s id="23.1">And he thought about using binary.</s>
+  <s id="23.2">The problem with using binary is that the machine would have been so tall, it would have been ridiculous.</s>
+  <s id="23.3">As it is, it's enormous.</s>
+ </p>
+ <s id="24">So he's got memory.</s>
+ <s id="25">The memory is this bit over here.</s>
+ <s id="26">You see it all like this.</s>
+ <s id="27">This monstrosity over here is the CPU, the chip, if you like.</s>
+ <s id="28">Of course, it's this big.</s>
+ <p id="p29">
+  <s id="29.1">Completely mechanical.</s>
+  <s id="29.2">This whole machine is mechanical.</s>
+ </p>
+ <s id="30">This is a picture of a prototype for part of the CPU which is in the Science Museum.</s>
+ <s id="31">The CPU could do the four fundamental functions of arithmetic -- so addition, multiplication, subtraction, division -- which already is a bit of a feat in metal, but it could also do something that a computer does and a calculator doesn't: this machine could look at its own internal memory and make a decision.</s>
+ <s id="32">It could do the "if then" for basic programmers, and that fundamentally made it into a computer.</s>
+ <p id="p33">
+  <s id="33.1">It could compute.</s>
+  <s id="33.2">It couldn't just calculate.</s>
+  <s id="33.3">It could do more.</s>
+ </p>
+ <p id="p34">
+  <s id="34.1">Now, if we look at this, and we stop for a minute, and we think about chips today, we can't look inside a silicon chip.</s>
+  <s id="34.2">It's just so tiny.</s>
+ </p>
+ <s id="35">Yet if you did, you would see something very, very similar to this.</s>
+ <s id="36">There's this incredible complexity in the CPU, and this incredible regularity in the memory.</s>
+ <p id="p37">
+  <s id="37.1">If you've ever seen an electron microscope picture, you'll see this.</s>
+  <s id="37.2">This all looks the same, then there's this bit over here which is incredibly complicated.</s>
+ </p>
+ <p id="p38">
+  <s id="38.1">All this cog wheel mechanism here is doing is what a computer does, but of course you need to program this thing, and of course, Babbage used the technology of the day and the technology that would reappear in the '50s, '60s and '70s, which is punch cards.</s>
+  <s id="38.2">This thing over here is one of three punch card readers in here, and this is a program in the Science Museum, just not far from here, created by Charles Babbage, that is sitting there — you can go see it — waiting for the machine to be built.</s>
+ </p>
+ <s id="39">And there's not just one of these, there's many of them.</s>
+ <s id="40">He prepared programs anticipating this would happen.</s>
+ <p id="p41">
+  <s id="41.1">Now, the reason they used punch cards was that Jacquard, in France, had created the Jacquard loom, which was weaving these incredible patterns controlled by punch cards, so he was just repurposing the technology of the day, and like everything else he did, he's using the technology of his era, so 1830s, 1840s, 1850s, cogs, steam, mechanical devices.</s>
+  <s id="41.2">Ironically, born the same year as Charles Babbage was Michael Faraday, who would completely revolutionize everything with the dynamo, transformers, all these sorts of things.</s>
+ </p>
+ <s id="42">Babbage, of course, wanted to use proven technology, so steam and things.</s>
+ <s id="43">Now, he needed accessories.</s>
+ <s id="44">Obviously, you've got a computer now.</s>
+ <s id="45">You've got punch cards, a CPU and memory.</s>
+ <s id="46">You need accessories you're going to come with.</s>
+ <p id="p47">
+  <s id="47.1">You're not just going to have that, So, first of all, you had sound.</s>
+  <s id="47.2">You had a bell, so if anything went wrong — (Laughter) — or the machine needed the attendant to come to it, there was a bell it could ring.</s>
+  <s id="47.3">(Laughter) And there's actually an instruction on the punch card which says "Ring the bell."</s>
+  <s id="47.4">So you can imagine this "Ting!"</s>
+ </p>
+ <p id="p48">
+  <s id="48.1">You know, just stop for a moment, imagine all those noises, this thing, "Click, clack click click click," steam engine, "Ding," right?</s>
+  <s id="48.2">(Laughter) You also need a printer, obviously, and everyone needs a printer.</s>
+ </p>
+ <s id="49">This is actually a picture of the printing mechanism for another machine of his, called the Difference Engine No. 2, which he never built, but which the Science Museum did build in the '80s and '90s.</s>
+ <s id="50">It's completely mechanical, again, a printer.</s>
+ <s id="51">It prints just numbers, because he was obsessed with numbers, but it does print onto paper, and it even does word wrapping, so if you get to the end of the line, it goes around like that.</s>
+ <s id="52">You also need graphics, right?</s>
+ <p id="p53">
+  <s id="53.1">I mean, if you're going to do anything with graphics, so he said, "Well, I need a plotter.</s>
+  <s id="53.2">I've got a big piece of paper and an ink pen and I'll make it plot."</s>
+ </p>
+ <s id="54">So he designed a plotter as well, and, you know, at that point, I think he got pretty much a pretty good machine.</s>
+ <s id="55">Along comes this woman, Ada Lovelace.</s>
+ <s id="56">Now, imagine these soirees, all these great and good comes along.</s>
+ <s id="57">This lady is the daughter of the mad, bad and dangerous-to-know Lord Byron, and her mother, being a bit worried that she might have inherited some of Lord Byron's madness and badness, thought, "I know the solution: Mathematics is the solution.</s>
+ <p id="p58">
+  <s id="58.1">We'll teach her mathematics.</s>
+  <s id="58.2">That'll calm her down."</s>
+ </p>
+ <p id="p59">
+  <s id="59.1">(Laughter) Because of course, there's never been a mathematician that's gone crazy, so, you know, that'll be fine.</s>
+  <s id="59.2">(Laughter) Everything'll be fine.</s>
+  <s id="59.3">So she's got this mathematical training, and she goes to one of these soirees with her mother, and Charles Babbage, you know, gets out his machine.</s>
+ </p>
+ <p id="p60">
+  <s id="60.1">The Duke of Wellington is there, you know, get out the machine, obviously demonstrates it, and she gets it.</s>
+  <s id="60.2">She's the only person in his lifetime, really, who said, "I understand what this does, and I understand the future of this machine."</s>
+ </p>
+ <s id="61">And we owe to her an enormous amount because we know a lot about the machine that Babbage was intending to build because of her.</s>
+ <s id="62">Now, some people call her the first programmer.</s>
+ <s id="63">This is actually from one of -- the paper that she translated.</s>
+ <s id="64">This is a program written in a particular style.</s>
+ <s id="65">It's not, historically, totally accurate that she's the first programmer, and actually, she did something more amazing.</s>
+ <s id="66">Rather than just being a programmer, she saw something that Babbage didn't.</s>
+ <s id="67">Babbage was totally obsessed with mathematics.</s>
+ <p id="p68">
+  <s id="68.1">He was building a machine to do mathematics, and Lovelace said, "You could do more than mathematics on this machine."</s>
+  <s id="68.2">And just as you do, everyone in this room already's got a computer on them right now, because they've got a phone.</s>
+ </p>
+ <p id="p69">
+  <s id="69.1">If you go into that phone, every single thing in that phone or computer or any other computing device is mathematics.</s>
+  <s id="69.2">It's all numbers at the bottom.</s>
+ </p>
+ <s id="70">Whether it's video or text or music or voice, it's all numbers, it's all, underlying it, mathematical functions happening, and Lovelace said, "Just because you're doing mathematical functions and symbols doesn't mean these things can't represent other things in the real world, such as music."</s>
+ <s id="71">This was a huge leap, because Babbage is there saying, "We could compute these amazing functions and print out tables of numbers and draw graphs," — (Laughter) — and Lovelace is there and she says, "Look, this thing could even compose music if you told it a representation of music numerically."</s>
+ <s id="72">So this is what I call Lovelace's Leap.</s>
+ <s id="73">When you say she's a programmer, she did do some, but the real thing is to have said the future is going to be much, much more than this.</s>
+ <s id="74">Now, a hundred years later, this guy comes along, Alan Turing, and in 1936, and invents the computer all over again.</s>
+ <s id="75">Now, of course, Babbage's machine was entirely mechanical.</s>
+ <s id="76">Turing's machine was entirely theoretical.</s>
+ <s id="77">Both of these guys were coming from a mathematical perspective, but Turing told us something very important.</s>
+ <s id="78">He laid down the mathematical foundations for computer science, and said, "It doesn't matter how you make a computer."</s>
+ <s id="79">It doesn't matter if your computer's mechanical, like Babbage's was, or electronic, like computers are today, or perhaps in the future, cells, or, again, mechanical again, once we get into nanotechnology.</s>
+ <p id="p80">
+  <s id="80.1">We could go back to Babbage's machine and just make it tiny.</s>
+  <s id="80.2">All those things are computers.</s>
+ </p>
+ <s id="81">There is in a sense a computing essence.</s>
+ <s id="82">This is called the Church–Turing thesis.</s>
+ <s id="83">And so suddenly, you get this link where you say this thing Babbage had built really was a computer.</s>
+ <p id="p84">
+  <s id="84.1">In fact, it was capable of doing everything we do today with computers, only really slowly.</s>
+  <s id="84.2">(Laughter) To give you an idea of how slowly, it had about 1k of memory.</s>
+ </p>
+ <s id="85">It used punch cards, which were being fed in, and it ran about 10,000 times slower the first ZX81.</s>
+ <s id="86">It did have a RAM pack.</s>
+ <s id="87">You could add on a lot of extra memory if you wanted to.</s>
+ <s id="88">(Laughter) So, where does that bring us today?</s>
+ <s id="89">So there are plans.</s>
+ <s id="90">Over in Swindon, the Science Museum archives, there are hundreds of plans and thousands of pages of notes written by Charles Babbage about this analytical engine.</s>
+ <s id="91">One of those is a set of plans that we call Plan 28, and that is also the name of a charity that I started with Doron Swade, who was the curator of computing at the Science Museum, and also the person who drove the project to build a difference engine, and our plan is to build it.</s>
+ <s id="92">Here in South Kensington, we will build the analytical engine.</s>
+ <s id="93">The project has a number of parts to it.</s>
+ <s id="94">One was the scanning of Babbage's archive.</s>
+ <p id="p95">
+  <s id="95.1">That's been done.</s>
+  <s id="95.2">The second is now the study of all of those plans to determine what to build.</s>
+ </p>
+ <s id="96">The third part is a computer simulation of that machine, and the last part is to physically build it at the Science Museum.</s>
+ <p id="p97">
+  <s id="97.1">When it's built, you'll finally be able to understand how a computer works, because rather than having a tiny chip in front of you, you've got to look at this humongous thing and say, "Ah, I see the memory operating, I see the CPU operating, I hear it operating.</s>
+  <s id="97.2">I probably smell it operating."</s>
+  <s id="97.3">(Laughter) But in between that we're going to do a simulation.</s>
+ </p>
+ <s id="98">Babbage himself wrote, he said, as soon as the analytical engine exists, it will surely guide the future course of science.</s>
+ <s id="99">Of course, he never built it, because he was always fiddling with new plans, but when it did get built, of course, in the 1940s, everything changed.</s>
+ <s id="100">Now, I'll just give you a little taste of what it looks like in motion with a video which shows just one part of the CPU mechanism working.</s>
+ <p id="p101">
+  <s id="101.1">So this is just three sets of cogs, and it's going to add.</s>
+  <s id="101.2">This is the adding mechanism in action, so you imagine this gigantic machine.</s>
+ </p>
+ <s id="102">So, give me five years.</s>
+ <s id="103">Before the 2030s happen, we'll have it.</s>
+ <p id="p104">
+  <s id="104.1">Thank you very much.</s>
+  <s id="104.2">(Applause)</s>
+ </p>
+</text>

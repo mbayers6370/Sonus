@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Let me introduce to you Rezero.</s>
+ <s id="2">This little fellow was developed by a group of 10 undergraduate students at the Autonomous Systems Laboratory at ETH-Zurich.</s>
+ <s id="3">Our robot belongs to a family of robots called Ballbots.</s>
+ <s id="4">Instead of wheels, a Ballbot is balancing and moving on one single ball.</s>
+ <s id="5">The main characteristics of such a system is that there's one sole contact point to the ground.</s>
+ <s id="6">This means that the robot is inherently unstable.</s>
+ <s id="7">It's like when I am trying to stand on one foot.</s>
+ <s id="8">You might ask yourself, what's the usefulness of a robot that's unstable?</s>
+ <s id="9">Now we'll explain that in a second.</s>
+ <s id="10">Let me first explain how Rezero actually keeps his balance.</s>
+ <s id="11">Rezero keeps his balance by constantly measuring his pitch angle with a sensor.</s>
+ <s id="12">He then counteracts and avoids toppling over by turning the motors appropriately.</s>
+ <s id="13">This happens 160 times per second, and if anything fails in this process, Rezero would immediately fall to the ground.</s>
+ <s id="14">Now to move and to balance, Rezero needs to turn the ball.</s>
+ <s id="15">The ball is driven by three special wheels that allow Rezero to move into any direction and also move around his own axis at the same time.</s>
+ <p id="p16">
+  <s id="16.1">Due to his instability, Rezero is always in motion.</s>
+  <s id="16.2">Now here's the trick.</s>
+ </p>
+ <s id="17">It's indeed exactly this instability that allows a robot to move very [dynamically].</s>
+ <s id="18">Let's play a little.</s>
+ <s id="19">You may have wondered what happens if I give the robot a little push.</s>
+ <s id="20">In this mode, he's trying to maintain his position.</s>
+ <s id="21">For the next demo, I'd like you to introduce to my colleagues Michael, on the computer, and Thomas who's helping me onstage.</s>
+ <s id="22">In the next mode, Rezero is passive, and we can move him around.</s>
+ <s id="23">With almost no force I can control his position and his velocity.</s>
+ <s id="24">I can also make him spin.</s>
+ <s id="25">In the next mode, we can get Rezero to follow a person.</s>
+ <s id="26">He's now keeping a constant distance to Thomas.</s>
+ <s id="27">This works with a laser sensor that's mounted on top of Rezero.</s>
+ <s id="28">With the same method, we can also get him to circle a person.</s>
+ <s id="29">We call this the orbiting mode.</s>
+ <s id="30">All right, thank you, Thomas.</s>
+ <s id="31">(Applause) Now, what's the use of this technology?</s>
+ <s id="32">For now, it's an experiment, but let me show you some possible future applications.</s>
+ <s id="33">Rezero could be used in exhibitions or parks.</s>
+ <s id="34">With a screen it could inform people or show them around in a fun and entertaining way.</s>
+ <s id="35">In a hospital, this device could be used to carry around medical equipment.</s>
+ <s id="36">Due to the Ballbot system, it has a very small footprint and it's also easy to move around.</s>
+ <s id="37">And of course, who wouldn't like to take a ride on one of these.</s>
+ <s id="38">And these are more practical applications.</s>
+ <s id="39">But there's also a certain beauty within this technology.</s>
+ <s id="40">(Music) (Applause) Thank you.</s>
+ <s id="41">(Applause) Thank you.</s>
+</text>

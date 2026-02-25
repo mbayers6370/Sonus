@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">About a year and a half ago, Stephen Lawler, who also gave a talk here at TED in 2007 on Virtual Earth, brought me over to become the architect of Bing Maps, which is Microsoft's online-mapping effort.</s>
+ <s id="2">In the past two and a half, we've been very hard at work on redefining the way maps work online.</s>
+ <s id="3">And we really are seeing this in very different terms from the kind of mapping and direction site that one is used to.</s>
+ <s id="4">So, the first thing that you might notice about the mapping site is just the fluidity of the zooming and the panning, which, if you're familiar at all with Seadragon, that's where it comes from.</s>
+ <s id="5">Mapping is, of course, not just about cartography, it's also about imagery.</s>
+ <s id="6">So, as we zoom-in beyond a certain level this resolves into a kind of Sim City-like virtual view at 45 degrees.</s>
+ <s id="7">This can be viewed from any of the cardinal directions to show you the 3D structure of the city, all the facades.</s>
+ <s id="8">Now, we see this space, this three-dimensional environment, as being a canvas on which all sorts of applications can play out, and map's directions are really just one of them.</s>
+ <s id="9">If you click on this, you'll see some of the ones that we've put out, just in the past couple of months since we've launched.</s>
+ <s id="10">So, for example, a couple of days after the disaster in Haiti, we had an earthquake map that showed before and after pictures from the sky.</s>
+ <s id="11">This wonderful one which I don't have time to show you is taking hyper-local blogs in real time and mapping those stories, those entries to the places that are referred to on the blogs.</s>
+ <s id="12">It's wonderful.</s>
+ <s id="13">But I'm going to show you some more candy sort of stuff.</s>
+ <s id="14">So, we see the imagery, of course, not stopping at the sky.</s>
+ <s id="15">These little green bubbles represent photosynths that users have made.</s>
+ <s id="16">I'm not going to dive into them either, but photosynths are integrated into the map.</s>
+ <s id="17">Everything that's cased in blue is an area where we've taken imagery on the ground as well.</s>
+ <p id="p18">
+  <s id="18.1">And so, when you fly down -- (Applause) Thank you.</s>
+  <s id="18.2">When you fly down to the ground, and you see this kind of panoramic imagery, the first thing that you might notice is that it's not just a picture, there's just as much three-dimensional understanding of this environment as there is of the three-dimensional city from above, so if I click on something to get a closer view of it, then, the fact that that transition looks as it does, is a function of all of that geometry, all of that 3D understanding behind this model.</s>
+ </p>
+ <s id="19">Now, I'll show you a fun app that -- we've been working on a collaboration with our friends at Flickr.</s>
+ <s id="20">This takes Flickr, georegistered imagery and uses photosynth-like processes to connect that imagery to our imagery, so -- I'm not sure if that's the one I actually meant to pull up, but -- (Laughter) But notice -- this is, of course, a popular tourist site, and there are lots of photos around here, and these photos are all taken at different times.</s>
+ <s id="21">So this one was taken around five.</s>
+ <s id="22">So that's the Flickr photo, that's our imagery.</s>
+ <s id="23">So you really see how this kind of crowd-sourced imagery is integrating, in a very deep way, into the map itself.</s>
+ <s id="24">(Applause) Thank you.</s>
+ <s id="25">(Applause) There are several reasons why this is interesting and one of them, of course, is time travel.</s>
+ <s id="26">And I'm not going to show you some of the wonderful historic imagery in here, but there are some with horses and carriages and so on as well.</s>
+ <s id="27">But what's cool about this is that, not only is it augmenting this visual representation of the world with things that are coming in from users, but it also is the foundation for augmented reality, and that's something that I'll be showing you more of in just a moment.</s>
+ <p id="p28">
+  <s id="28.1">Now I just made a transition indoors.</s>
+  <s id="28.2">That's also interesting.</s>
+ </p>
+ <s id="29">OK, notice there's now a roof above us.</s>
+ <s id="30">We're inside the Pike Place Market.</s>
+ <s id="31">And this is something that we're able to do with a backpack camera, so, we're now not only imaging in the street with this camera on tops of cars, but we're also imaging inside.</s>
+ <s id="32">And from here, we're able to do the same sorts of registration, not only of still images, but also of video.</s>
+ <s id="33">So this is something that we're now going to try for the first time, live, and this is really, truly, very frightening.</s>
+ <s id="34">(Laughter) OK.</s>
+ <s id="35">(Ringing) All right, guys, are you there?</s>
+ <p id="p36">
+  <s id="36.1">(Noise) All right.</s>
+  <s id="36.2">I'm hitting it.</s>
+  <s id="36.3">I'm punching play.</s>
+ </p>
+ <p id="p37">
+  <s id="37.1">I'm live.</s>
+  <s id="37.2">All right.</s>
+  <s id="37.3">There we go.</s>
+ </p>
+ <s id="38">So, these are our friends in Pike Place Market, the lab.</s>
+ <s id="39">(Applause) So they're broadcasting this live.</s>
+ <s id="40">OK, George, can you pan back over to the corner market?</s>
+ <s id="41">Because I want to show points of interest.</s>
+ <p id="p42">
+  <s id="42.1">No, no.</s>
+  <s id="42.2">The other way.</s>
+ </p>
+ <s id="43">Yeah, yeah, back to the corner, back to the corner.</s>
+ <s id="44">I don't want to see you guys yet.</s>
+ <s id="45">OK, OK, back to the corner, back to the corner, back to the corner.</s>
+ <s id="46">OK, never mind.</s>
+ <s id="47">What I wanted to show you was these points of interest over here on top of the image because what that gives you a sense of is the way, if you're actually on the spot, you can think about this -- this is taking a step in addition to augmented reality.</s>
+ <s id="48">What the hell are you guys -- oh, sorry.</s>
+ <s id="49">(Laughter) We're doing two different -- OK, I'm hanging up now.</s>
+ <s id="50">We're doing two different things here.</s>
+ <s id="51">One of them is to take that real ...</s>
+ <s id="52">(Laughter) All right, let me just take a moment and thank the team.</s>
+ <s id="53">They've done a fantastic job of pulling this together.</s>
+ <s id="54">(Applause) I'm going to abandon them now and walk back outside.</s>
+ <s id="55">And while I walk outside, I'll just mention that here we're using this for telepresence, but you can equally well use this on the spot, for augmented reality.</s>
+ <s id="56">When you use it on the spot, it means that you're able to bring all of that metadata and information about the world to you.</s>
+ <s id="57">So here, we're taking the extra step of also broadcasting it.</s>
+ <s id="58">That was being broadcast, by the way, on a 4G network from the market.</s>
+ <s id="59">All right, and now there's one last TED talk that Microsoft has given in the past several years.</s>
+ <s id="60">And that's Curtis Wong, WorldWide Telescope.</s>
+ <s id="61">So, we're going to head over to the dumpsters, where it's traditional, after a long day at the market, to go out for a break, but also stare up at the sky.</s>
+ <s id="62">This is the integration of WorldWide Telescope into our maps.</s>
+ <p id="p63">
+  <s id="63.1">(Applause) This is the current -- thank you -- this is the current time.</s>
+  <s id="63.2">If we scrub the time, then we can see how the sky will look at different times, and we can get all of this very detailed information about different times, different dates: Let's move the moon a little higher in the sky, maybe change the date.</s>
+ </p>
+ <s id="64">I would like to kind of zoom in on the moon.</s>
+ <s id="65">So, this is an astronomically complete representation of the sky integrated right into the Earth.</s>
+ <s id="66">All right now, I've overrun my time, so I've got to stop.</s>
+ <s id="67">Thank you all very much.</s>
+ <s id="68">(Applause)</s>
+</text>

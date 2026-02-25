@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Do you remember when you first realized that your computer was more than just a monitor and keyboard?</s>
+ <s id="2">That between the mouse click and the video playing, there was something that captured your intention, understood it, and made it real?</s>
+ <s id="3">What is that something?</s>
+ <s id="4">Is it gremlins?</s>
+ <s id="5">Let's imagine that we can shrink down to the size of an electron and inject ourselves into a click of a mouse.</s>
+ <s id="6">If you took your mouse apart, you'd see that it's really a very simple machine.</s>
+ <s id="7">It has a couple buttons and a system for detecting motion and distance.</s>
+ <s id="8">You might have an optical mouse that makes these measurements with lights and sensors, but older ones did this with a hard rubber ball and some plastic wheels.</s>
+ <s id="9">Same concept.</s>
+ <s id="10">When you click the button on your mouse, it sends a message to the computer with information about its position.</s>
+ <s id="11">When your mouse click is received, it's handled by the basic input/output subsystem.</s>
+ <s id="12">This subsystem acts like the eyes and ears and mouth and hands of the computer.</s>
+ <s id="13">Basically, it provides a way for the computer to interact with its environment.</s>
+ <s id="14">But it also acts like a buffer to keep the CPU from being overwhelmed by distractions.</s>
+ <s id="15">In this case, the I/O subsystem decides that your mouse click is pretty important so it generates an interrupt to the CPU.</s>
+ <p id="p16">
+  <s id="16.1">"Hey, CPU!</s>
+  <s id="16.2">Got a click here."</s>
+ </p>
+ <s id="17">The CPU, or central processing unit, is the brains of the whole computer.</s>
+ <s id="18">Just like your brain doesn't take up your whole body, the CPU doesn't take up the whole computer, but it runs the show all the same.</s>
+ <s id="19">And the CPU's job, its whole job, is fetching instructions from memory and executing them.</s>
+ <s id="20">So, while you're typing, typing, typing, maybe really fast, like 60 words a minute, the CPU is fetching and executing billions of instructions a second.</s>
+ <s id="21">Yes, billions every second: instructions to move your mouse around on the screen, to run that clock widget on your desktop, play your internet radio, manage the files you're editing on the hard drive, and much, much more.</s>
+ <s id="22">Your computer's CPU is one heck of a multitasker!</s>
+ <s id="23">"But oh my gosh there's a very important mouse click coming through now!</s>
+ <s id="24">Let's drop everything now and deal with that!"</s>
+ <s id="25">There are programs for everything that the CPU does.</s>
+ <s id="26">A special program for the mouse, for the clock widget, for the internet radio, and for dealing with letters sent by the keyboard.</s>
+ <s id="27">Each program was initially written by a human in a human-readable programming language, like Java, C++, or Python.</s>
+ <s id="28">But human programs take up a lot of space and contain a lot of unnecessary information to a computer, so they are compiled and made smaller and stored in bits of ones and zeros in memory.</s>
+ <s id="29">The CPU realizes that it needs instructions for how to deal with this mouse click, so it looks up the address for the mouse program and sends a request to the memory subsystem for instructions stored there.</s>
+ <s id="30">Each instruction in the mouse device driver is duly fetched and executed.</s>
+ <s id="31">And that's not nearly the end of the story!</s>
+ <s id="32">Because the CPU learns that the mouse was clicked when the cursor was over a picture of a button on the monitor screen, and so, the CPU asks memory for the monitor program to find out what that button is.</s>
+ <s id="33">And then the CPU has to ask memory for the program for the button, which means that the CPU needs the monitor program again to show the video associated with the button, and so it goes.</s>
+ <s id="34">And let's just say there are a lot of programs involved before you even see the button on the screen light up when you clicked it.</s>
+ <s id="35">So, just the simple task of clicking your mouse means visiting all of the critical components of your computer's architecture: peripherals, the basic input-output system, the CPU, programs, and memory, and not one gremlin.</s>
+</text>

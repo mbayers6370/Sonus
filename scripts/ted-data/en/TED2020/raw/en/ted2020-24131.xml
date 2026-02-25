@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Austrian physicist Erwin Schrödinger is one of the founders of quantum mechanics, but he's most famous for something he never actually did: a thought experiment involving a cat.</s>
+ <s id="2">He imagined taking a cat and placing it in a sealed box with a device that had a 50% chance of killing the cat in the next hour.</s>
+ <s id="3">At the end of that hour, he asked, "What is the state of the cat?"</s>
+ <s id="4">Common sense suggests that the cat is either alive or dead, but Schrödinger pointed out that according to quantum physics, at the instant before the box is opened, the cat is equal parts alive and dead, at the same time.</s>
+ <s id="5">It's only when the box is opened that we see a single definite state.</s>
+ <s id="6">Until then, the cat is a blur of probability, half one thing and half the other.</s>
+ <s id="7">This seems absurd, which was Schrödinger's point.</s>
+ <s id="8">He found quantum physics so philosophically disturbing, that he abandoned the theory he had helped make and turned to writing about biology.</s>
+ <s id="9">As absurd as it may seem, though, Schrödinger's cat is very real.</s>
+ <s id="10">In fact, it's essential.</s>
+ <s id="11">If it weren't possible for quantum objects to be in two states at once, the computer you're using to watch this couldn't exist.</s>
+ <s id="12">The quantum phenomenon of superposition is a consequence of the dual particle and wave nature of everything.</s>
+ <s id="13">In order for an object to have a wavelength, it must extend over some region of space, which means it occupies many positions at the same time.</s>
+ <s id="14">The wavelength of an object limited to a small region of space can't be perfectly defined, though.</s>
+ <s id="15">So it exists in many different wavelengths at the same time.</s>
+ <s id="16">We don't see these wave properties for everyday objects because the wavelength decreases as the momentum increases.</s>
+ <s id="17">And a cat is relatively big and heavy.</s>
+ <s id="18">If we took a single atom and blew it up to the size of the Solar System, the wavelength of a cat running from a physicist would be as small as an atom within that Solar System.</s>
+ <s id="19">That's far too small to detect, so we'll never see wave behavior from a cat.</s>
+ <s id="20">A tiny particle, like an electron, though, can show dramatic evidence of its dual nature.</s>
+ <s id="21">If we shoot electrons one at a time at a set of two narrow slits cut in a barrier, each electron on the far side is detected at a single place at a specific instant, like a particle.</s>
+ <s id="22">But if you repeat this experiment many times, keeping track of all the individual detections, you'll see them trace out a pattern that's characteristic of wave behavior: a set of stripes - regions with many electrons separated by regions where there are none at all.</s>
+ <s id="23">Block one of the slits and the stripes go away.</s>
+ <s id="24">This shows that the pattern is a result of each electron going through both slits at the same time.</s>
+ <s id="25">A single electron isn't choosing to go left or right but left and right simultaneously.</s>
+ <s id="26">This superposition of states also leads to modern technology.</s>
+ <s id="27">An electron near the nucleus of an atom exists in a spread out, wave-like orbit.</s>
+ <s id="28">Bring two atoms close together, and the electrons don't need to choose just one atom but are shared between them.</s>
+ <s id="29">This is how some chemical bonds form.</s>
+ <s id="30">An electron in a molecule isn't on just atom A or atom B, but A+ B.</s>
+ <s id="31">As you add more atoms, the electrons spread out more, shared between vast numbers of atoms at the same time.</s>
+ <s id="32">The electrons in a solid aren't bound to a particular atom but shared among all of them, extending over a large range of space.</s>
+ <s id="33">This gigantic superposition of states determines the ways electrons move through the material, whether it's a conductor or an insulator or a semiconductor.</s>
+ <s id="34">Understanding how electrons are shared among atoms allows us to precisely control the properties of semiconductor materials, like silicon.</s>
+ <s id="35">Combining different semiconductors in the right way allows us to make transistors on a tiny scale, millions on a single computer chip.</s>
+ <s id="36">Those chips and their spread out electrons power the computer you're using to watch this video.</s>
+ <s id="37">An old joke says that the Internet exists to allow the sharing of cat videos.</s>
+ <s id="38">At a very deep level, though, the Internet owes its existance to an Austrian physicist and his imaginary cat.</s>
+</text>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">This is Zeno of Elea, an ancient Greek philosopher famous for inventing a number of paradoxes, arguments that seem logical, but whose conclusion is absurd or contradictory.</s>
+ <s id="2">For more than 2,000 years, Zeno's mind-bending riddles have inspired mathematicians and philosophers to better understand the nature of infinity.</s>
+ <s id="3">One of the best known of Zeno's problems is called the dichotomy paradox, which means, "the paradox of cutting in two" in ancient Greek.</s>
+ <s id="4">It goes something like this: After a long day of sitting around, thinking, Zeno decides to walk from his house to the park.</s>
+ <s id="5">The fresh air clears his mind and help him think better.</s>
+ <s id="6">In order to get to the park, he first has to get half way to the park.</s>
+ <s id="7">This portion of his journey takes some finite amount of time.</s>
+ <s id="8">Once he gets to the halfway point, he needs to walk half the remaining distance.</s>
+ <s id="9">Again, this takes a finite amount of time.</s>
+ <s id="10">Once he gets there, he still needs to walk half the distance that's left, which takes another finite amount of time.</s>
+ <s id="11">This happens again and again and again.</s>
+ <s id="12">You can see that we can keep going like this forever, dividing whatever distance is left into smaller and smaller pieces, each of which takes some finite time to traverse.</s>
+ <s id="13">So, how long does it take Zeno to get to the park?</s>
+ <s id="14">Well, to find out, you need to add the times of each of the pieces of the journey.</s>
+ <s id="15">The problem is, there are infinitely many of these finite-sized pieces.</s>
+ <s id="16">So, shouldn't the total time be infinity?</s>
+ <s id="17">This argument, by the way, is completely general.</s>
+ <s id="18">It says that traveling from any location to any other location should take an infinite amount of time.</s>
+ <s id="19">In other words, it says that all motion is impossible.</s>
+ <s id="20">This conclusion is clearly absurd, but where is the flaw in the logic?</s>
+ <s id="21">To resolve the paradox, it helps to turn the story into a math problem.</s>
+ <s id="22">Let's supposed that Zeno's house is one mile from the park and that Zeno walks at one mile per hour.</s>
+ <s id="23">Common sense tells us that the time for the journey should be one hour.</s>
+ <s id="24">But, let's look at things from Zeno's point of view and divide up the journey into pieces.</s>
+ <s id="25">The first half of the journey takes half an hour, the next part takes quarter of an hour, the third part takes an eighth of an hour, and so on.</s>
+ <s id="26">Summing up all these times, we get a series that looks like this.</s>
+ <s id="27">"Now", Zeno might say, "since there are infinitely many of terms on the right side of the equation, and each individual term is finite, the sum should equal infinity, right?"</s>
+ <s id="28">This is the problem with Zeno's argument.</s>
+ <s id="29">As mathematicians have since realized, it is possible to add up infinitely many finite-sized terms and still get a finite answer.</s>
+ <s id="30">"How?" you ask.</s>
+ <s id="31">Well, let's think of it this way.</s>
+ <s id="32">Let's start with a square that has area of one meter.</s>
+ <s id="33">Now let's chop the square in half, and then chop the remaining half in half, and so on.</s>
+ <s id="34">While we're doing this, let's keep track of the areas of the pieces.</s>
+ <s id="35">The first slice makes two parts, each with an area of one-half The next slice divides one of those halves in half, and so on.</s>
+ <s id="36">But, no matter how many times we slice up the boxes, the total area is still the sum of the areas of all the pieces.</s>
+ <s id="37">Now you can see why we choose this particular way of cutting up the square.</s>
+ <s id="38">We've obtained the same infinite series as we had for the time of Zeno's journey.</s>
+ <s id="39">As we construct more and more blue pieces, to use the math jargon, as we take the limit as n tends to infinity, the entire square becomes covered with blue.</s>
+ <s id="40">But the area of the square is just one unit, and so the infinite sum must equal one.</s>
+ <s id="41">Going back to Zeno's journey, we can now see how how the paradox is resolved.</s>
+ <s id="42">Not only does the infinite series sum to a finite answer, but that finite answer is the same one that common sense tells us is true.</s>
+ <s id="43">Zeno's journey takes one hour.</s>
+</text>

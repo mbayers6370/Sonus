@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">You know, we're going to do things a little differently.</s>
+ <p id="p2">
+  <s id="2.1">I'm not going to show you a presentation.</s>
+  <s id="2.2">I'm going to talk to you.</s>
+ </p>
+ <p id="p3">
+  <s id="3.1">And at the same time, we're going to look at just images from a photo stream that is pretty close to live of things that -- snapshots from Second Life.</s>
+  <s id="3.2">So hopefully this will be fascinating.</s>
+ </p>
+ <s id="4">You can -- I can compete for your attention with the strange pictures that you see on screen that come from there.</s>
+ <s id="5">I thought I'd talk a little bit about some just big ideas about this, and then get John back out here so we can talk interactively a little bit more and think and ask questions.</s>
+ <s id="6">You know, I guess the first question is, why build a virtual world at all?</s>
+ <s id="7">And I think the answer to that is always going to be at least driven to a certain extent by the people initially crazy enough to start the project, you know.</s>
+ <s id="8">So I can give you a little bit of first background just on me and what moved me as a -- really going back as far as a teenager and then an adult, to actually try and build this kind of thing.</s>
+ <s id="9">I was a very creative kid who read a lot, and got into electronics first, and then later, programming computers, when I was really young.</s>
+ <s id="10">I was just always trying to make things.</s>
+ <s id="11">I was just obsessed with taking things apart and building things, and just anything I could do with my hands or with wood or electronics or metal or anything else.</s>
+ <s id="12">And so, for example -- and it's a great Second Life thing -- I had a bedroom.</s>
+ <s id="13">And every kid, you know, as a teenager, has got his bedroom he retreats to -- but I wanted my door, I thought it would be cool if my door went up rather than opened, like on Star Trek.</s>
+ <p id="p14">
+  <s id="14.1">I thought it would be neat to do that.</s>
+  <s id="14.2">And so I got up in the ceiling and I cut through the ceiling joists, much to my parents' delight, and put the door, you know, being pulled up through the ceiling.</s>
+ </p>
+ <s id="15">I built -- I put a garage-door opener up in the attic that would pull this door up.</s>
+ <s id="16">You can imagine the amount of time that it took me to do this to the house and the displeasure of my parents.</s>
+ <s id="17">The thing that was always striking to me was that we as people could have so many really amazing ideas about things we'd like to do, but are so often unable, in the real world, to actually do those things -- to actually cobble together the materials and go through the actual execution phase of building something that you imagine from a design perspective.</s>
+ <s id="18">And so for me, I know that when the Internet came around and I was doing computer programming and just, you know, just generally trying to run my own little company and figure out what to do with the Internet and with computers, I was just immediately struck by how the ultimate thing that you would really want to do with the Internet and with computers would be to use the Internet and connected computers to simulate a world to sort of recreate the laws of physics and the rules of how things went together -- the sort of -- the idea of atoms and how to make things, and do that inside a computer so that we could all get in there and make stuff.</s>
+ <s id="19">And so for me that was the thing that was so enticing.</s>
+ <s id="20">I just wanted this place where you could build things.</s>
+ <s id="21">And so I think you see that in the genesis of what has happened with Second Life, and I think it's important.</s>
+ <s id="22">I also think that more generally, the use of the Internet and technology as a kind of a space between us for creativity and design is a general trend.</s>
+ <s id="23">It is a -- sort of a great human progress.</s>
+ <s id="24">Technology is just generally being used to allow us to create in as shared and social a way as possible.</s>
+ <s id="25">And I think that Second Life and virtual worlds more generally represent the best we can do to achieve that right now.</s>
+ <s id="26">You know, another way to look at that, and related to the content and, you know, thinking about space, is to connect sort of virtual worlds to space.</s>
+ <s id="27">I thought that might be a fun thing to talk about for a second.</s>
+ <s id="28">If you think about going into space, it's a fascinating thing.</s>
+ <p id="p29">
+  <s id="29.1">So many movies, so many kids, we all sort of dream about exploring space.</s>
+  <s id="29.2">Now, why is that?</s>
+ </p>
+ <s id="30">Stop for a moment and ask, why that conceit?</s>
+ <s id="31">Why do we as people want to do that?</s>
+ <p id="p32">
+  <s id="32.1">I think there's a couple of things.</s>
+  <s id="32.2">It's what we see in the movies -- you know, it's this dream that we all share.</s>
+ </p>
+ <s id="33">One is that if you went into space you'd be able to begin again.</s>
+ <s id="34">In some sense, you would become someone else in that journey, because there wouldn't be -- you'd leave society and life as you know it, behind.</s>
+ <s id="35">And so inevitably, you would transform yourself -- irreversibly, in all likelihood -- as you began this exploration.</s>
+ <s id="36">And then the second thing is that there's this tangible sense that if you travel far enough, you can find out there -- oh, yeah -- you have no idea what you're going to find once you get there, into space.</s>
+ <s id="37">It's going to be different than here.</s>
+ <s id="38">And in fact, it's going to be so different than what we see here on earth that anything is going to be possible.</s>
+ <s id="39">So that's kind of the idea -- we as humans crave the idea of creating a new identity and going into a place where anything is possible.</s>
+ <s id="40">And I think that if you really sit and think about it, virtual worlds, and where we're going with more and more computing technology, represent essentially the likely, really tactically possible version of space exploration.</s>
+ <s id="41">We are moved by the idea of virtual worlds because, like space, they allow us to reinvent ourselves and they contain anything and everything, and probably anything could happen there.</s>
+ <s id="42">You know, to give you a size idea about scale, you know, comparing space to Second Life, most people don't realize, kind of -- and then this is just like the Internet in the early '90s.</s>
+ <s id="43">In fact, Second Life virtual worlds are a lot like the Internet in the early '90s today: everybody's very excited, there's a lot of hype and excitement about one idea or the next from moment to moment, and then there's despair and everybody thinks the whole thing's not going to work.</s>
+ <s id="44">Everything that's happening with Second Life and more broadly with virtual worlds, all happened in the early '90s.</s>
+ <s id="45">We always play a game at the office where you can take any article and find the same article where you just replace the words "Second Life" with "Web," and "virtual reality" with "Internet."</s>
+ <s id="46">You can find exactly the same articles written about everything that people are observing.</s>
+ <s id="47">To give you an idea of scale, Second Life is about 20,000 CPUs at this point.</s>
+ <p id="p48">
+  <s id="48.1">It's about 20,000 computers connected together in three facilities in the United States right now, that are simulating this virtual space.</s>
+  <s id="48.2">And the virtual space itself -- there's about 250,000 people a day that are wandering around in there, so the kind of, active population is something like a smallish city.</s>
+ </p>
+ <s id="49">The space itself is about 10 times the size of San Francisco, and it's about as densely built out.</s>
+ <p id="p50">
+  <s id="50.1">So it gives you an idea of scale.</s>
+  <s id="50.2">Now, it's expanding very rapidly -- about five percent a month or so right now, in terms of new servers being added.</s>
+ </p>
+ <s id="51">And so of course, radically unlike the real world, and like the Internet, the whole thing is expanding very, very quickly, and historically exponentially.</s>
+ <s id="52">So that sort of space exploration thing is matched up here by the amount of content that's in there, and I think that amount is critical.</s>
+ <s id="53">It was critical with the virtual world that it be this space of truly infinite possibility.</s>
+ <s id="54">We're very sensitive to that as humans.</s>
+ <p id="p55">
+  <s id="55.1">You know, you know when you see it.</s>
+  <s id="55.2">You know when you can do anything in a space and you know when you can't.</s>
+ </p>
+ <s id="56">Second Life today is this 20,000 machines, and it's about 100 million or so user-created objects where, you know, an object would be something like this, possibly interactive.</s>
+ <s id="57">Tens of millions of them are thinking all the time; they have code attached to them.</s>
+ <s id="58">So it's a really large world already, in terms of the amount of stuff that's there and that's very important.</s>
+ <s id="59">If anybody plays, like, World of Warcraft, World of Warcraft comes on, like, four DVDs.</s>
+ <s id="60">Second Life, by comparison, has about 100 terabytes of user-created data, making it about 25,000 times larger.</s>
+ <s id="61">So again, like the Internet compared to AOL, and the sort of chat rooms and content on AOL at the time, what's happening here is something very different, because the sheer scale of what people can do when they're enabled to do anything they want is pretty amazing.</s>
+ <s id="62">The last big thought is that it is almost certainly true that whatever this is going to evolve into is going to be bigger in total usage than the Web itself.</s>
+ <s id="63">And let me justify that with two statements.</s>
+ <s id="64">Generically, what we use the Web for is to organize, exchange, create and consume information.</s>
+ <s id="65">It's kind of like Irene talking about Google being data-driven.</s>
+ <s id="66">I'd say I kind of think about the world as being information.</s>
+ <s id="67">Everything that we interact with, all the experiences that we have, is kind of us flowing through a sea of information and interacting with it in different ways.</s>
+ <s id="68">The Web puts information in the form of text and images.</s>
+ <s id="69">The topology, the geography of the Web is text-to-text links for the most part.</s>
+ <s id="70">That's one way of organizing information, but there are two things about the way you access information in a virtual world that I think are the important ways that they're very different and much better than what we've been able to do to date with the Web.</s>
+ <s id="71">The first is that, as I said, the -- well, the first difference for virtual worlds is that information is presented to you in the virtual world using the most powerful iconic symbols that you can possibly use with human beings.</s>
+ <s id="72">So for example, C-H-A-I-R is the English word for that, but a picture of this is a universal symbol.</s>
+ <p id="p73">
+  <s id="73.1">Everybody knows what it means.</s>
+  <s id="73.2">There's no need to translate it.</s>
+ </p>
+ <s id="74">It's also more memorable if I show you that picture, and I show you C-H-A-I-R on a piece of paper.</s>
+ <s id="75">You can do tests that show that you'll remember that I was talking about a chair a couple of days later a lot better.</s>
+ <s id="76">So when you organize information using the symbols of our memory, using the most common symbols that we've been immersed in all our lives, you maximally both excite, stimulate, are able to remember, transfer and manipulate data.</s>
+ <s id="77">And so virtual worlds are the best way for us to essentially organize and experience information.</s>
+ <s id="78">And I think that's something that people have talked about for 20 years -- you know, that 3D, that lifelike environments are really important in some magical way to us.</s>
+ <s id="79">But the second thing -- and I think this one is less obvious -- is that the experience of creating, consuming, exploring that information is in the virtual world implicitly and inherently social.</s>
+ <s id="80">You are always there with other people.</s>
+ <s id="81">And we as humans are social creatures and must, or are aided by, or enjoy more, the consumption of information in the presence of others.</s>
+ <p id="p82">
+  <s id="82.1">It's essential to us.</s>
+  <s id="82.2">You can't escape it.</s>
+ </p>
+ <s id="83">When you're on Amazon.com and you're looking for digital cameras or whatever, you're on there right now, when you're on the site, with like 5,000 other people, but you can't talk to them.</s>
+ <p id="p84">
+  <s id="84.1">You can't just turn to the people that are browsing digital cameras on the same page as you, and ask them, "Hey, have you seen one of these before?</s>
+  <s id="84.2">Because I'm thinking about buying it."</s>
+ </p>
+ <s id="85">That experience of like, shopping together, just as a simple example, is an example of how as social creatures we want to experience information in that way.</s>
+ <s id="86">So that second point, that we inherently experience information together or want to experience it together, is critical to essentially, kind of, this trend of where we're going to use technology to connect us.</s>
+ <s id="87">And so I think, again, that it's likely that in the next decade or so these virtual worlds are going to be the most common way as human beings that we kind of use the electronics of the Internet, if you will, to be together, to consume information.</s>
+ <s id="88">You know, mapping in India -- that's such a great example.</s>
+ <s id="89">Maybe the solution there involves talking to other people in real time.</s>
+ <s id="90">Asking for advice, rather than any possible way that you could just statically organize a map.</s>
+ <s id="91">So I think that's another big point.</s>
+ <s id="92">I think that wherever this is all going, whether it's Second Life or its descendants, or something broader that happens all around the world at a lot of different points -- this is what we're going to see the Internet used for, and total traffic and total unique users is going to invert, so that the Web and its bibliographic set of text and graphical information is going to become a tool or a part of that consumption pattern, but the pattern itself is going to happen mostly in this type of an environment.</s>
+ <s id="93">Big idea, but I think highly defensible.</s>
+ <s id="94">So let me stop there and bring John back, and maybe we can just have a longer conversation.</s>
+ <p id="p95">
+  <s id="95.1">Thank you.</s>
+  <s id="95.2">John.</s>
+  <s id="95.3">That's great.</s>
+ </p>
+ <s id="96">(Applause) John Hockenberry: Why is the creation, the impulse to create Second Life, not a utopian impulse?</s>
+ <s id="97">Like for example, in the 19th century, any number of works of literature that imagined alternative worlds were explicitly utopian.</s>
+ <p id="p98">
+  <s id="98.1">Philip Rosedale: I think that's great.</s>
+  <s id="98.2">That's such a deep question.</s>
+  <s id="98.3">Yeah.</s>
+ </p>
+ <s id="99">Is a virtual world likely to be a utopia, would be one way I'd say it.</s>
+ <s id="100">The answer is no, and I think the reason why is because the Web itself as a good example is profoundly bottoms-up.</s>
+ <s id="101">That idea of infinite possibility, that magic of anything can happen, only happens in an environment where you really know that there's a fundamental freedom at the level of the individual actor, at the level of the Lego blocks, if you will, that make up the virtual world.</s>
+ <s id="102">You have to have that level of freedom, and so I'm often asked that, you know, is there a, kind of, utopian or, is there a utopian tendency to Second Life and things like it, that you would create a world that has a grand scheme to it?</s>
+ <s id="103">Those top-down schemes are alienating to just about everybody, even if you mean well when you build them.</s>
+ <s id="104">And what's more, human society, when it's controlled, when you set out a grand scheme of rules, a new way of people interacting, or a new way of laying out a city, or whatever, that stuff historically has never scaled much beyond, you know -- I always laughingly say -- the Mall of America, you know, which is like, the largest piece of centrally designed architecture that, you know, has been built.</s>
+ <s id="105">JH: The Kremlin was pretty big.</s>
+ <p id="p106">
+  <s id="106.1">PR: The Kremlin, yeah.</s>
+  <s id="106.2">That's true.</s>
+  <s id="106.3">The whole complex.</s>
+ </p>
+ <s id="107">JH: Give me a story of a tool you created at the beginning in Second Life that you were pretty sure people would want to use in the creation of their avatars or in communicating that people actually in practice said, no, I'm not interested in that at all, and name something that you didn't come up with that almost immediately people began to demand.</s>
+ <s id="108">PR: I'm sure I can think of multiple examples of both of those.</s>
+ <p id="p109">
+  <s id="109.1">One of my favorites.</s>
+  <s id="109.2">I had this feature that I built into Second Life -- I was really passionate about it.</s>
+ </p>
+ <s id="110">It was an ability to kind of walk up close to somebody and have a more private conversation, but it wasn't instant messaging because you had to sort of befriend somebody.</s>
+ <s id="111">It was just this idea that you could kind of have a private chat.</s>
+ <s id="112">I just remember it was one of those examples of data-driven design.</s>
+ <s id="113">I thought it was such a good idea from my perspective, and it was just absolutely never used, and we ultimately -- I think we've now turned it off, if I remember.</s>
+ <s id="114">We finally gave up, took it out of the code.</s>
+ <s id="115">But more generally, you know, one other example I think about this, which is great relative to the utopian idea.</s>
+ <p id="p116">
+  <s id="116.1">Second Life originally had 16 simulators.</s>
+  <s id="116.2">It now has 20,000.</s>
+ </p>
+ <s id="117">So when it only had 16, it was only about as big as this college campus.</s>
+ <s id="118">And we had -- we zoned it, you know: we put a nightclub, we put a disco where you could dance, and then we had a place where you could fight with guns if you wanted to, and we had another place that was like a boardwalk, kind of a Coney Island.</s>
+ <s id="119">And we laid out the zoning, but of course, people could build all around it however they wanted to.</s>
+ <p id="p120">
+  <s id="120.1">And what was so amazing right from the start was that the idea that we had put out in the zoning concept, basically, was instantly and thoroughly ignored, and like, two months into the whole thing, -- which is really a small amount of time, even in Second Life time -- I remember the users, the people who were then using Second Life, the residents came to me and said, we want to buy the disco -- because I had built it -- we want to buy that land and raze it and put houses on it.</s>
+  <s id="120.2">And I sold it to them -- I mean, we transferred ownership and they had a big party and blew up the entire building.</s>
+ </p>
+ <s id="121">And I remember that that was just so telling, you know, that you didn't know exactly what was going to happen.</s>
+ <p id="p122">
+  <s id="122.1">When you think about stuff that people have built that's popular -- JH: CBGB's has to close eventually, you know.</s>
+  <s id="122.2">That's the rule.</s>
+ </p>
+ <p id="p123">
+  <s id="123.1">PR: Exactly.</s>
+  <s id="123.2">And it -- but it closed on day one, basically, in Internet time.</s>
+ </p>
+ <s id="124">You know, an example of something -- pregnancy.</s>
+ <s id="125">You can have a baby in Second Life.</s>
+ <s id="126">This is done entirely using, kind of, the tools that are built into Second Life, so the innate concept of becoming pregnant and having a baby, of course -- Second Life is, at the platform level, at the level of the company -- at Linden Lab -- Second Life has no game properties to it whatsoever.</s>
+ <s id="127">There is no attempt to structure the experience, to make it utopian in that sense that we put into it.</s>
+ <s id="128">So of course, we never would have put a mechanism for having babies or, you know, taking two avatars and merging them, or something.</s>
+ <s id="129">But people built the ability to have babies and care for babies as a purchasable experience that you can have in Second Life and so -- I mean, that's a pretty fascinating example of, you know, what goes on in the overall economy.</s>
+ <s id="130">And of course, the existence of an economy is another idea.</s>
+ <s id="131">I didn't talk about it, but it's a critical feature.</s>
+ <s id="132">When people are given the opportunity to create in the world, there's really two things they want.</s>
+ <s id="133">One is fair ownership of the things they create.</s>
+ <s id="134">And then the second one is -- if they feel like it, and they're not going to do it in every case, but in many they are -- they want to actually be able to sell that creation as a way of providing for their own livelihood.</s>
+ <s id="135">True on the Web -- also true in Second Life.</s>
+ <s id="136">And so the existence of an economy is critical.</s>
+ <p id="p137">
+  <s id="137.1">JH: Questions for Philip Rosedale?</s>
+  <s id="137.2">Right here.</s>
+ </p>
+ <p id="p138">
+  <s id="138.1">(Audience: Well, first an observation, which is that you look like a character.)</s>
+  <s id="138.2">JH: The observation is, Philip has been accused of looking like a character, an avatar, in Second Life.</s>
+ </p>
+ <s id="139">Respond, and then we'll get the rest of your question.</s>
+ <s id="140">PR: But I don't look like my avatar.</s>
+ <s id="141">(Laughter) How many people here know what my avatar looks like?</s>
+ <s id="142">That's probably not very many.</s>
+ <p id="p143">
+  <s id="143.1">JH: Are you ripping off somebody else's avatar with that, sort of -- PR: No, no.</s>
+  <s id="143.2">I didn't.</s>
+  <s id="143.3">One of the other guys at work had a fantastic avatar -- a female avatar -- that I used to be once in a while.</s>
+ </p>
+ <s id="144">But my avatar is a guy wearing chaps.</s>
+ <p id="p145">
+  <s id="145.1">Spiky hair -- spikier than this.</s>
+  <s id="145.2">Kind of orange hair.</s>
+ </p>
+ <p id="p146">
+  <s id="146.1">Handlebar mustache.</s>
+  <s id="146.2">Kind of a Village People sort of a character.</s>
+ </p>
+ <s id="147">So, very cool.</s>
+ <s id="148">JH: And your question?</s>
+ <p id="p149">
+  <s id="149.1">(Audience: [Unclear].)</s>
+  <s id="149.2">JH: The question is, there appears to be a lack of cultural fine-tuning in Second Life.</s>
+ </p>
+ <s id="150">It doesn't seem to have its own culture, and the sort of differences that exist in the real world aren't translated into the Second Life map.</s>
+ <s id="151">PR: Well, first of all, we're very early, so this has only been going on for a few years.</s>
+ <s id="152">And so part of what we see is the same evolution of human behavior that you see in emerging societies.</s>
+ <s id="153">So a fair criticism -- is what it is -- of Second Life today is that it's more like the Wild West than it is like Rome, from a cultural standpoint.</s>
+ <s id="154">That said, the evolution of, and the nuanced interaction that creates culture, is happening at 10 times the speed of the real world, and in an environment where, if you walk into a bar in Second Life, 65 percent of the people there are not in the United States, and in fact are speaking their, you know, various and different languages.</s>
+ <s id="155">In fact, one of the ways to make money in Second Life is to make really cool translators that you drag onto your body and they basically, kind of, pop up on your screen and allow you to use Google or Babel Fish or one of the other online text translators to on-the-fly translate spoken -- I'm sorry -- typed text between individuals.</s>
+ <s id="156">And so, the multicultural nature and the sort of cultural melting pot that's happening inside Second Life is quite -- I think, quite remarkable relative to what in real human terms in the real world we've ever been able to achieve.</s>
+ <s id="157">So, I think that culture will fine-tune, it will emerge, but we still have some years to wait while that happens, as you would naturally expect.</s>
+ <p id="p158">
+  <s id="158.1">JH: Other questions?</s>
+  <s id="158.2">Right here.</s>
+ </p>
+ <p id="p159">
+  <s id="159.1">(Audience: What's your demographic?)</s>
+  <s id="159.2">JH: What's your demographic?</s>
+ </p>
+ <s id="160">PR: So, the question is, what's the demographic.</s>
+ <p id="p161">
+  <s id="161.1">So, the average age of a person in Second Life is 32, however, the use of Second Life increases dramatically as your physical age increases.</s>
+  <s id="161.2">So as you go from age 30 to age 60 -- and there are many people in their sixties using Second Life -- this is also not a sharp curve -- it's very, very distributed -- usage goes up in terms of, like, hours per week by 40 percent as you go from age 30 to age 60 in real life, so there's not -- many people make the mistake of believing that Second Life is some kind of an online game.</s>
+  <s id="161.3">Actually it's generally unappealing -- I'm just speaking broadly and critically -- it's not very appealing to people that play online video games, because the graphics are not yet equivalent to -- I mean, these are very nice pictures, but in general the graphics are not quite equivalent to the fine-tuned graphics that you see in a Grand Theft Auto 4.</s>
+ </p>
+ <p id="p162">
+  <s id="162.1">So average age: 32.</s>
+  <s id="162.2">I mentioned 65 percent of the users are not in the United States.</s>
+ </p>
+ <s id="163">The distribution amongst countries is extremely broad.</s>
+ <s id="164">There's users from, you know, virtually every country in the world now in Second Life.</s>
+ <s id="165">The dominant ones are -- if you take the UK and Europe, together they make up about 55 percent of the usage base in Second Life.</s>
+ <s id="166">In terms of psychographic -- oh, men and women: men and women are almost equally matched in Second Life, so about 45 percent of the people online right now on Second Life are women.</s>
+ <s id="167">Women use Second Life, though, about 30 to 40 percent more, on an hours basis, than men do, meaning that more men sign up than women, and more women stay and use it than men.</s>
+ <s id="168">So that's another demographic fact.</s>
+ <s id="169">In terms of psychographic, you know, the people in Second Life are remarkably dissimilar relative to what you might think, when you go in and talk to them and meet them, and I would, you know, challenge you to just do this and find out.</s>
+ <s id="170">But it's not a bunch of programmers.</s>
+ <s id="171">It's not easy to describe as a demographic.</s>
+ <s id="172">If I had to just sort of paint a broad picture, I'd say, remember the people who were really getting into eBay in the first few years of eBay?</s>
+ <s id="173">Maybe a little bit like that: in other words, people who are early adopters.</s>
+ <p id="p174">
+  <s id="174.1">They tend to be creative.</s>
+  <s id="174.2">They tend to be entrepreneurial.</s>
+ </p>
+ <p id="p175">
+  <s id="175.1">A lot of them -- about 55,000 people so far -- are cash-flow positive: they're making money from what -- I mean, real-world money -- from what they're doing in Second Life, so it's a very build -- still a creative, building things, build-your-own-business type of an orientation.</s>
+  <s id="175.2">So, that's it.</s>
+ </p>
+ <s id="176">JH: You describe yourself, Philip, as someone who was really creative when you were young and, you know, liked to make things.</s>
+ <s id="177">I mean, it's not often that you hear somebody describe themselves as really creative.</s>
+ <p id="p178">
+  <s id="178.1">I suspect that's possibly a euphemism for C student who spent a lot of time in his room?</s>
+  <s id="178.2">Is it possible?</s>
+ </p>
+ <p id="p179">
+  <s id="179.1">(Laughter) PR: I was a -- there were times I was a C student.</s>
+  <s id="179.2">You know, it's funny.</s>
+ </p>
+ <p id="p180">
+  <s id="180.1">When I got to college -- I studied physics in college -- and I got really -- it was funny, because I was definitely a more antisocial kid.</s>
+  <s id="180.2">I read all the time.</s>
+ </p>
+ <p id="p181">
+  <s id="181.1">I was shy.</s>
+  <s id="181.2">I don't seem like it now, but I was very shy.</s>
+ </p>
+ <s id="182">Moved around a bunch -- had that experience too.</s>
+ <s id="183">So I did, kind of, I think, live in my own world, and obviously that helps, you know, engage your real interest in something.</s>
+ <s id="184">JH: So you're on your fifth life at this point?</s>
+ <p id="p185">
+  <s id="185.1">PR: If you count, yeah, cities.</s>
+  <s id="185.2">So -- but I did -- and I didn't do -- I think I didn't do as well in school as I could have.</s>
+  <s id="185.3">I think you're right.</s>
+ </p>
+ <s id="186">I wasn't, like, an obsessed -- you know, get A's kind of guy.</s>
+ <p id="p187">
+  <s id="187.1">I was going to say, I had a great social experience when I went to college that I hadn't had before, a more fraternal experience, where I met six or seven other guys who I studied physics with, and I was very competitive with them, so then I started to get A's.</s>
+  <s id="187.2">But you're right: I wasn't an A student.</s>
+ </p>
+ <p id="p188">
+  <s id="188.1">JH: Last question.</s>
+  <s id="188.2">Right here.</s>
+ </p>
+ <s id="189">(Audience: In the pamphlet, there's a statement -- ) JH: You want to paraphrase that?</s>
+ <s id="190">PR: Yeah, so let me restate that.</s>
+ <s id="191">So, you're saying that in the pamphlet there's a statement that we may come to prefer our digital selves to our real ones -- our more malleable or manageable digital identities to our real identities -- and that in fact, much of human life and human experience may move into the digital realm.</s>
+ <s id="192">And then that's kind of a horrifying thought, of course.</s>
+ <s id="193">That's a frightening change, frightening disruption.</s>
+ <p id="p194">
+  <s id="194.1">I guess, and you're asking, what do I think about that?</s>
+  <s id="194.2">How do I -- JH: What's your response to the people who would say, that's horrifying?</s>
+ </p>
+ <p id="p195">
+  <s id="195.1">(Audience: If someone would say to you, I find that disturbing, what would be your response?)</s>
+  <s id="195.2">PR: Well, I'd say a couple of things.</s>
+ </p>
+ <s id="196">One is, it's disturbing like the Internet or electricity was.</s>
+ <s id="197">That is to say, it's a big change, but it isn't avoidable.</s>
+ <s id="198">So, no amount of backpedaling or intentional behavior or political behavior is going to keep these technology changes from connecting us together, because the basic motive that people have -- to be creative and entrepreneurial -- is going to drive energy into these virtual worlds in the same way that it has with the Web.</s>
+ <s id="199">So this change, I believe, is a huge disruptive change.</s>
+ <s id="200">Obviously, I'm the optimist and a big believer in what's going on here, but I think that as -- even a sober, you know, the most sober, disconnected thinker about this, looking at it from the side, has to conclude, based on the data, that with those kinds of economic forces at play, there is definitely going to be a sea change, and that change is going to be intensely disruptive relative to our concept of our very lives and being, and our identities, as well.</s>
+ <s id="201">I don't think we can get away from those changes.</s>
+ <s id="202">I think generally, we were talking about this -- I think that generally being present in a virtual world and being challenged by it, being -- surviving there, having a good life there, so to speak, is a challenge because of the multiculturality of it, because of the languages, because of the entrepreneurial richness of it, the sort of flea market nature, if you will, of the virtual world today.</s>
+ <p id="p203">
+  <s id="203.1">It puts challenges on us to rise to.</s>
+  <s id="203.2">We must be better than ourselves, in many ways.</s>
+ </p>
+ <s id="204">We must learn things and, you know, be more tolerant, and be smarter and learn faster and be more creative, perhaps, than we are typically in our real lives.</s>
+ <s id="205">And I think that if that is true of virtual worlds, then these changes, though scary -- and, I say, inevitable -- are ultimately for the better, and therefore something that we should ride out.</s>
+ <p id="p206">
+  <s id="206.1">But I would say that -- and many other authors and speakers about this, other than me, have said, you know, fasten your seat belts because the change is coming.</s>
+  <s id="206.2">There are going to be big changes.</s>
+ </p>
+ <s id="207">JH: Philip Rosedale, thank you very much.</s>
+ <s id="208">(Applause)</s>
+</text>

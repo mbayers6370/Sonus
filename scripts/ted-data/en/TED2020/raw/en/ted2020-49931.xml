@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">There are currently hundreds of thousands of people on transplant lists, waiting for critical organs like kidneys, hearts, and livers that could save their lives.</s>
+ <s id="2">Unfortunately, there aren’t nearly enough donor organs available to fill that demand.</s>
+ <s id="3">What if instead of waiting, we could create brand-new, customized organs from scratch?</s>
+ <s id="4">That’s the idea behind bioprinting, a branch of regenerative medicine currently under development.</s>
+ <s id="5">We’re not able to print complex organs just yet, but simpler tissues including blood vessels and tubes responsible for nutrient and waste exchange are already in our grasp.</s>
+ <s id="6">Bioprinting is a biological cousin of 3-D printing, a technique that deposits layers of material on top of each other to construct a three-dimensional object one slice at a time.</s>
+ <s id="7">Instead of starting with metal, plastic, or ceramic, a 3-D printer for organs and tissues uses bioink: a printable material that contains living cells.</s>
+ <s id="8">The bulk of many bioinks are water-rich molecules called hydrogels.</s>
+ <s id="9">Mixed into those are millions of living cells as well as various chemicals that encourage cells to communicate and grow.</s>
+ <s id="10">Some bioinks include a single type of cell, while others combine several different kinds to produce more complex structures.</s>
+ <s id="11">Let’s say you want to print a meniscus, which is a piece of cartilage in the knee that keeps the shinbone and thighbone from grinding against each other.</s>
+ <s id="12">It’s made up of cells called chondrocytes, and you’ll need a healthy supply of them for your bioink.</s>
+ <s id="13">These cells can come from donors whose cell lines are replicated in a lab.</s>
+ <s id="14">Or they might originate from a patient’s own tissue to create a personalized meniscus less likely to be rejected by their body.</s>
+ <s id="15">There are several printing techniques, and the most popular is extrusion-based bioprinting.</s>
+ <s id="16">In this, bioink gets loaded into a printing chamber and pushed through a round nozzle attached to a printhead.</s>
+ <s id="17">It emerges from a nozzle that’s rarely wider than 400 microns in diameter, and can produce a continuous filament roughly the thickness of a human fingernail.</s>
+ <s id="18">A computerized image or file guides the placement of the strands, either onto a flat surface or into a liquid bath that’ll help hold the structure in place until it stabilizes.</s>
+ <s id="19">These printers are fast, producing the meniscus in about half an hour, one thin strand at a time.</s>
+ <s id="20">After printing, some bioinks will stiffen immediately; others need UV light or an additional chemical or physical process to stabilize the structure.</s>
+ <s id="21">If the printing process is successful, the cells in the synthetic tissue will begin to behave the same way cells do in real tissue: signaling to each other, exchanging nutrients, and multiplying.</s>
+ <s id="22">We can already print relatively simple structures like this meniscus.</s>
+ <s id="23">Bioprinted bladders have also been successfully implanted, and printed tissue has promoted facial nerve regeneration in rats.</s>
+ <s id="24">Researchers have created lung tissue, skin, and cartilage, as well as miniature, semi-functional versions of kidneys, livers, and hearts.</s>
+ <s id="25">However, replicating the complex biochemical environment of a major organ is a steep challenge.</s>
+ <s id="26">Extrusion-based bioprinting may destroy a significant percentage of cells in the ink if the nozzle is too small, or if the printing pressure is too high.</s>
+ <s id="27">One of the most formidable challenges is how to supply oxygen and nutrients to all the cells in a full-size organ.</s>
+ <s id="28">That’s why the greatest successes so far have been with structures that are flat or hollow— and why researchers are busy developing ways to incorporate blood vessels into bioprinted tissue.</s>
+ <s id="29">There’s tremendous potential to use bioprinting to save lives and advance our understanding of how our organs function in the first place.</s>
+ <s id="30">And the technology opens up a dizzying array of possibilities, such as printing tissues with embedded electronics.</s>
+ <s id="31">Could we one day engineer organs that exceed current human capability, or give ourselves features like unburnable skin?</s>
+ <s id="32">How long might we extend human life by printing and replacing our organs?</s>
+ <s id="33">And exactly who—and what— will have access to this technology and its incredible output?</s>
+</text>

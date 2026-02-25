@@ -33,7 +33,7 @@
           "simp": "安排",
           "trad": "安排",
           "pinyin": "ānpái",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to arrange",
           "defs": [
             "to arrange",
@@ -65,7 +65,7 @@
           "simp": "按",
           "trad": "按",
           "pinyin": "àn",
-          "pos": "V/Prep",
+          "pos": "V",
           "en": "to press",
           "defs": [
             "to press",
@@ -111,7 +111,7 @@
           "simp": "把握",
           "trad": "把握",
           "pinyin": "bǎwò",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to grasp; to be sure",
           "defs": [
             "to grasp (an opportunity)",
@@ -333,7 +333,7 @@
           "simp": "保险",
           "trad": "保險",
           "pinyin": "bǎoxiǎn",
-          "pos": "Adj/N",
+          "pos": "N",
           "en": "insurance",
           "defs": [
             "insurance"
@@ -348,7 +348,7 @@
           "simp": "保证",
           "trad": "保證",
           "pinyin": "bǎozhèng",
-          "pos": "V/N",
+          "pos": "V",
           "en": "guarantee",
           "defs": [
             "guarantee",
@@ -379,15 +379,15 @@
           "simp": "报到",
           "trad": "報到",
           "pinyin": "bàodào",
-          "pos": "",
+          "pos": "V",
           "en": "to report for duty",
           "defs": [
             "to report for duty",
             "to register"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "新生今天上午八点到学校报到。",
+            "en": "New students report to school at 8 a.m. today."
           }
         },
         {
@@ -395,7 +395,7 @@
           "simp": "报道",
           "trad": "報道",
           "pinyin": "bàodào",
-          "pos": "V/N",
+          "pos": "V",
           "en": "report",
           "defs": [
             "report",
@@ -411,7 +411,7 @@
           "simp": "报告",
           "trad": "報告",
           "pinyin": "bàogào",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to inform",
           "defs": [
             "to inform",
@@ -465,8 +465,8 @@
             "behind sb's back"
           ],
           "example": {
-            "zh": "要解开谋杀背后潜藏之谜！",
-            "en": "Solve the mystery lurking behind the murder!"
+            "zh": "成功的背后是长期的练习。",
+            "en": "Behind success is long-term practice."
           }
         },
         {
@@ -504,10 +504,12 @@
           "simp": "本来",
           "trad": "本來",
           "pinyin": "běnlái",
-          "pos": "Adj/Adv",
-          "en": "original",
+          "pos": "Adv",
+          "en": "originally",
           "defs": [
-            "original"
+            "originally",
+            "originally intended",
+            "in fact"
           ],
           "example": {
             "zh": "我本来很想走走，但是天太热了。",
@@ -525,8 +527,8 @@
             "skill"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "她很有本领，能独立完成这个项目。",
+            "en": "She is very capable and can complete this project on her own."
           }
         },
         {
@@ -540,8 +542,8 @@
             "skill"
           ],
           "example": {
-            "zh": "我們胡鬧太久了, 現在該是我們考慮基本事實的時候了。",
-            "en": "We've been horsing around too much; it's high time we got down to brass tacks."
+            "zh": "他很有本事，什么事都会做。",
+            "en": "He is very capable; he can do anything."
           }
         },
         {
@@ -549,11 +551,11 @@
           "simp": "比较",
           "trad": "比較",
           "pinyin": "bǐjiào",
-          "pos": "Adv/V",
-          "en": "to compare",
+          "pos": "Adv",
+          "en": "comparatively",
           "defs": [
-            "to compare",
-            "to contrast"
+            "comparatively",
+            "relatively"
           ],
           "example": {
             "zh": "我今晚10点见你比较方便。",
@@ -571,8 +573,8 @@
             "proportion"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "这个班男女比例大约是一比一。",
+            "en": "The male-to-female ratio in this class is about one to one."
           }
         },
         {
@@ -580,7 +582,7 @@
           "simp": "比赛",
           "trad": "比賽",
           "pinyin": "bǐsài",
-          "pos": "V/N",
+          "pos": "N",
           "en": "match",
           "defs": [
             "match"
@@ -598,7 +600,8 @@
           "pos": "Adj",
           "en": "inevitable",
           "defs": [
-            "inevitable"
+            "inevitable",
+            "certain"
           ],
           "example": {
             "zh": "他們的相遇是必然的。",
@@ -610,7 +613,7 @@
           "simp": "必要",
           "trad": "必要",
           "pinyin": "bìyào",
-          "pos": "Adj/N",
+          "pos": "Adj",
           "en": "necessary",
           "defs": [
             "necessary"
@@ -625,11 +628,12 @@
           "simp": "变化",
           "trad": "變化",
           "pinyin": "biànhuà",
-          "pos": "V/N",
-          "en": "variation (",
+          "pos": "V",
+          "en": "to change",
           "defs": [
-            "change",
-            "variation"
+            "to change",
+            "to alter",
+            "to vary"
           ],
           "example": {
             "zh": "据说山上的天气变化很快。",
@@ -671,11 +675,10 @@
           "simp": "标准",
           "trad": "標準",
           "pinyin": "biāozhǔn",
-          "pos": "N/Adj",
-          "en": "standard; norm; criterion",
+          "pos": "N",
+          "en": "standard",
           "defs": [
-            "standard",
-            "conforming to a standard"
+            "standard"
           ],
           "example": {
             "zh": "现在中国公认的标准旗袍的现代版本是首先在上海发展起来的。",
@@ -749,11 +752,11 @@
           "simp": "表现",
           "trad": "表現",
           "pinyin": "biǎoxiàn",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to show",
           "defs": [
             "to show",
-            "show"
+            "to display"
           ],
           "example": {
             "zh": "他试图表现得很愉快，但我们都知道他有多悲伤。",
@@ -765,10 +768,10 @@
           "simp": "表演",
           "trad": "表演",
           "pinyin": "biǎoyǎn",
-          "pos": "V/N",
-          "en": "play",
+          "pos": "V",
+          "en": "to perform",
           "defs": [
-            "play"
+            "to perform"
           ],
           "example": {
             "zh": "我们为表演者鼓掌。",
@@ -780,7 +783,7 @@
           "simp": "并",
           "trad": "並",
           "pinyin": "bìng",
-          "pos": "Adv/Conj",
+          "pos": "Conj",
           "en": "and",
           "defs": [
             "and"
@@ -817,8 +820,8 @@
             "to air"
           ],
           "example": {
-            "zh": "他去世的消息在世界各地播出。",
-            "en": "His death was broadcast all over the world."
+            "zh": "这档节目每周六晚上播出。",
+            "en": "This program is broadcast every Saturday evening."
           }
         },
         {
@@ -858,10 +861,11 @@
           "simp": "不断",
           "trad": "不斷",
           "pinyin": "bùduàn",
-          "pos": "V/Adv",
-          "en": "unceasing",
+          "pos": "Adv",
+          "en": "continuously",
           "defs": [
-            "unceasing"
+            "continuously",
+            "constantly"
           ],
           "example": {
             "zh": "最近，来自亚洲各国的进口额不断扩大。",
@@ -895,8 +899,8 @@
             "to mend"
           ],
           "example": {
-            "zh": "亡羊补牢。",
-            "en": "Better late than never."
+            "zh": "你的衣服破了，我给你补一补。",
+            "en": "Your clothes are torn; let me mend them for you."
           }
         },
         {
@@ -904,7 +908,7 @@
           "simp": "补充",
           "trad": "補充",
           "pinyin": "bǔchōng",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to replenish",
           "defs": [
             "to replenish",
@@ -921,13 +925,15 @@
           "trad": "不安",
           "pinyin": "bù'ān",
           "pos": "Adj",
-          "en": "unpeaceful",
+          "en": "uneasy",
           "defs": [
-            "unpeaceful"
+            "uneasy",
+            "anxious",
+            "disturbed"
           ],
           "example": {
-            "zh": "狗不安地看着他的主人。",
-            "en": "The dog nervously looks at the master."
+            "zh": "狗不安地看着它的主人。",
+            "en": "The dog looked nervously at its owner."
           }
         },
         {
@@ -935,7 +941,7 @@
           "simp": "不得不",
           "trad": "不得不",
           "pinyin": "bùdébù",
-          "pos": "",
+          "pos": "Adv",
           "en": "have no choice or option but to",
           "defs": [
             "have no choice or option but to",
@@ -951,15 +957,14 @@
           "simp": "不光",
           "trad": "不光",
           "pinyin": "bùguāng",
-          "pos": "Adv/Conj",
-          "en": "not the only one",
+          "pos": "Conj",
+          "en": "not only",
           "defs": [
-            "not the only one",
             "not only"
           ],
           "example": {
             "zh": "不光是你，我也有错。",
-            "en": "We are both to blame."
+            "en": "It is not only your fault; I was wrong too."
           }
         },
         {
@@ -986,11 +991,12 @@
           "pos": "N",
           "en": "cloth",
           "defs": [
-            "cloth"
+            "cloth",
+            "fabric"
           ],
           "example": {
-            "zh": "老师给我们布置了家庭作业。",
-            "en": "The teacher gave us homework."
+            "zh": "这块布很柔软。",
+            "en": "This piece of cloth is very soft."
           }
         },
         {
@@ -998,7 +1004,7 @@
           "simp": "步",
           "trad": "步",
           "pinyin": "bù",
-          "pos": "N/M",
+          "pos": "N",
           "en": "walk",
           "defs": [
             "walk"
@@ -1013,14 +1019,15 @@
           "simp": "部",
           "trad": "部",
           "pinyin": "bù",
-          "pos": "N/M",
+          "pos": "N",
           "en": "ministry",
           "defs": [
-            "ministry"
+            "ministry",
+            "part; section"
           ],
           "example": {
-            "zh": "大部份的人覺得我瘋了。",
-            "en": "Most people think I'm crazy."
+            "zh": "他在教育部工作。",
+            "en": "He works at the Ministry of Education."
           }
         },
         {
@@ -1105,10 +1112,11 @@
           "simp": "彩色",
           "trad": "彩色",
           "pinyin": "cǎisè",
-          "pos": "N",
-          "en": "color",
+          "pos": "Adj",
+          "en": "colored",
           "defs": [
-            "color"
+            "colored",
+            "in color"
           ],
           "example": {
             "zh": "請給我一卷彩色膠片。",
@@ -1213,13 +1221,15 @@
           "trad": "場合",
           "pinyin": "chǎnghé",
           "pos": "N",
-          "en": "situation",
+          "en": "occasion",
           "defs": [
-            "situation"
+            "occasion",
+            "situation",
+            "context"
           ],
           "example": {
-            "zh": "不会看场合。",
-            "en": "Unable to sense the situation."
+            "zh": "他说话不看场合。",
+            "en": "He does not pay attention to the occasion when he speaks."
           }
         },
         {
@@ -1243,9 +1253,10 @@
           "trad": "超級",
           "pinyin": "chāojí",
           "pos": "Adj",
-          "en": "super-",
+          "en": "super",
           "defs": [
-            "super-"
+            "super",
+            "extremely"
           ],
           "example": {
             "zh": "连超级英雄们也该偶尔休息一下。",
@@ -1257,7 +1268,7 @@
           "simp": "朝",
           "trad": "朝",
           "pinyin": "cháo",
-          "pos": "Prep/V",
+          "pos": "Prep",
           "en": "facing",
           "defs": [
             "facing"
@@ -1272,7 +1283,7 @@
           "simp": "吵",
           "trad": "吵",
           "pinyin": "chǎo",
-          "pos": "Adj/V",
+          "pos": "V",
           "en": "to quarrel",
           "defs": [
             "to quarrel",
@@ -1350,10 +1361,10 @@
           "simp": "成功",
           "trad": "成功",
           "pinyin": "chénggōng",
-          "pos": "V/Adj",
-          "en": "success",
+          "pos": "V",
+          "en": "to succeed",
           "defs": [
-            "success"
+            "to succeed"
           ],
           "example": {
             "zh": "听到她成功的消息，他很高兴。",
@@ -1388,7 +1399,7 @@
           "simp": "成就",
           "trad": "成就",
           "pinyin": "chéngjiù",
-          "pos": "N/V",
+          "pos": "N",
           "en": "accomplishment",
           "defs": [
             "accomplishment"
@@ -1467,13 +1478,15 @@
           "trad": "城",
           "pinyin": "chéng",
           "pos": "N",
-          "en": "city walls",
+          "en": "city",
           "defs": [
-            "general term"
+            "city",
+            "town",
+            "city wall (historical)"
           ],
           "example": {
-            "zh": "十年后，我们的城市将改变许多。",
-            "en": "In ten years our town will change a lot."
+            "zh": "这座城有两千年的历史。",
+            "en": "This city has a history of two thousand years."
           }
         },
         {
@@ -1528,10 +1541,10 @@
           "trad": "充滿",
           "pinyin": "chōngmǎn",
           "pos": "V",
-          "en": "full of",
+          "en": "to be full of",
           "defs": [
-            "full of",
-            "very full"
+            "to be full of",
+            "to fill with"
           ],
           "example": {
             "zh": "他充满活力。",
@@ -1544,14 +1557,14 @@
           "trad": "重",
           "pinyin": "chóng",
           "pos": "Adv",
-          "en": "to repeat",
+          "en": "again",
           "defs": [
-            "to repeat",
-            "to attach importance to"
+            "again",
+            "once more"
           ],
           "example": {
-            "zh": "這個不重要。",
-            "en": "This is not important."
+            "zh": "请你重说一遍。",
+            "en": "Please say it again."
           }
         },
         {
@@ -1563,7 +1576,7 @@
           "en": "at first",
           "defs": [
             "at first",
-            "first"
+            "initially"
           ],
           "example": {
             "zh": "初次穿着前要先清洗。",
@@ -1582,8 +1595,8 @@
             "New Year's Day"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "初一我们要去爷爷家拜年。",
+            "en": "On the first day of the Lunar New Year, we will visit Grandpa to pay New Year greetings."
           }
         },
         {
@@ -1597,8 +1610,8 @@
             "initial"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "我们已经有了初步计划。",
+            "en": "We already have an initial plan."
           }
         },
         {
@@ -1612,8 +1625,8 @@
             "junior"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "这本教材适合初级学习者。",
+            "en": "This textbook is suitable for beginner learners."
           }
         },
         {
@@ -1651,7 +1664,7 @@
           "simp": "处理",
           "trad": "處理",
           "pinyin": "chǔlǐ",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to handle; to deal with",
           "defs": [
             "to handle",
@@ -1715,7 +1728,7 @@
           "simp": "传说",
           "trad": "傳說",
           "pinyin": "chuánshuō",
-          "pos": "V/N",
+          "pos": "N",
           "en": "legend; folk tale",
           "defs": [
             "legend"
@@ -1730,7 +1743,7 @@
           "simp": "创新",
           "trad": "創新",
           "pinyin": "chuàngxīn",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to bring forth new ideas; to blaze new trails",
           "defs": [
             "to bring forth new ideas",
@@ -1753,8 +1766,8 @@
             "to start an enterprise"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "他毕业后决定创业。",
+            "en": "After graduation, he decided to start a business."
           }
         },
         {
@@ -1762,7 +1775,7 @@
           "simp": "创造",
           "trad": "創造",
           "pinyin": "chuàngzào",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to create",
           "defs": [
             "to create",
@@ -1778,7 +1791,7 @@
           "simp": "创作",
           "trad": "創作",
           "pinyin": "chuàngzuò",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to create; to produce; to write",
           "defs": [
             "to create",
@@ -1809,7 +1822,7 @@
           "simp": "从前",
           "trad": "從前",
           "pinyin": "cóngqián",
-          "pos": "N",
+          "pos": "Adv",
           "en": "previously",
           "defs": [
             "previously"
@@ -1825,14 +1838,14 @@
           "trad": "從事",
           "pinyin": "cóngshì",
           "pos": "V",
-          "en": "to go for",
+          "en": "to engage in",
           "defs": [
-            "to go for",
-            "to do"
+            "to engage in",
+            "to be engaged in"
           ],
           "example": {
             "zh": "我的姐姐从事英语教学工作。",
-            "en": "My sister's work is teaching English."
+            "en": "My older sister is engaged in English teaching."
           }
         },
         {
@@ -1887,10 +1900,11 @@
           "simp": "错误",
           "trad": "錯誤",
           "pinyin": "cuòwù",
-          "pos": "Adj/N",
-          "en": "mistaken; false; wrong",
+          "pos": "N",
+          "en": "mistake",
           "defs": [
-            "mistaken"
+            "mistake",
+            "error"
           ],
           "example": {
             "zh": "不管我跟她说了多少次，她还是继续犯同样的错误。",
@@ -1950,7 +1964,7 @@
           "simp": "大概",
           "trad": "大概",
           "pinyin": "dàgài",
-          "pos": "Adj/Adv",
+          "pos": "Adv",
           "en": "roughly",
           "defs": [
             "roughly"
@@ -2010,14 +2024,16 @@
           "simp": "代",
           "trad": "代",
           "pinyin": "dài",
-          "pos": "V/N",
-          "en": "age",
+          "pos": "N",
+          "en": "generation",
           "defs": [
-            "age"
+            "generation",
+            "era",
+            "classifier for generations"
           ],
           "example": {
-            "zh": "我无法取代她做英语老师。",
-            "en": "I can't take the place of her as an English teacher."
+            "zh": "我们是同一代人。",
+            "en": "We are from the same generation."
           }
         },
         {
@@ -2025,10 +2041,11 @@
           "simp": "代表",
           "trad": "代表",
           "pinyin": "dàibiǎo",
-          "pos": "N/V",
-          "en": "representative",
+          "pos": "V",
+          "en": "to represent",
           "defs": [
-            "representative"
+            "to represent",
+            "to stand for"
           ],
           "example": {
             "zh": "PTA代表什么意思？",
@@ -2062,8 +2079,8 @@
             "to drive"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "新政策带动了当地经济发展。",
+            "en": "The new policy has stimulated local economic development."
           }
         },
         {
@@ -2093,8 +2110,8 @@
             "unit (of a textbook, etc.)"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "我们今天学习第三单元。",
+            "en": "We are studying Unit Three today."
           }
         },
         {
@@ -2102,7 +2119,7 @@
           "simp": "当初",
           "trad": "當初",
           "pinyin": "dāngchū",
-          "pos": "N",
+          "pos": "Adv",
           "en": "at that time",
           "defs": [
             "at that time"
@@ -2117,7 +2134,7 @@
           "simp": "当地",
           "trad": "當地",
           "pinyin": "dāngdì",
-          "pos": "N",
+          "pos": "Adj",
           "en": "local",
           "defs": [
             "local"
@@ -2132,7 +2149,7 @@
           "simp": "当然",
           "trad": "當然",
           "pinyin": "dāngrán",
-          "pos": "Adj/Adv",
+          "pos": "Adv",
           "en": "only natural",
           "defs": [
             "only natural"
@@ -2147,7 +2164,7 @@
           "simp": "当中",
           "trad": "當中",
           "pinyin": "dāngzhōng",
-          "pos": "N",
+          "pos": "Prep",
           "en": "among",
           "defs": [
             "among"
@@ -2178,10 +2195,10 @@
           "simp": "导演",
           "trad": "導演",
           "pinyin": "dǎoyǎn",
-          "pos": "V/N",
-          "en": "to direct",
+          "pos": "N",
+          "en": "director",
           "defs": [
-            "to direct"
+            "director"
           ],
           "example": {
             "zh": "谁是您最喜欢的导演？",
@@ -2210,9 +2227,11 @@
           "trad": "到底",
           "pinyin": "dàodǐ",
           "pos": "Adv",
-          "en": "finally",
+          "en": "in the end",
           "defs": [
-            "finally"
+            "in the end",
+            "after all",
+            "on earth (in questions)"
           ],
           "example": {
             "zh": "自己生了孩子後才明白母愛到底是怎麼一回事。",
@@ -2224,10 +2243,10 @@
           "simp": "得分",
           "trad": "得分",
           "pinyin": "défēn",
-          "pos": "V/N",
-          "en": "grade",
+          "pos": "V",
+          "en": "to score",
           "defs": [
-            "grade"
+            "to score (points)"
           ],
           "example": {
             "zh": "他在这场比赛中得了很多分。",
@@ -2317,20 +2336,20 @@
           "trad": "電臺",
           "pinyin": "diàntái",
           "pos": "N",
-          "en": "transmitter-receiver",
+          "en": "radio station",
           "defs": [
-            "transmitter-receiver"
+            "radio station"
           ],
           "example": {
-            "zh": "他上电台了。",
-            "en": "He is on the radio."
+            "zh": "他在电台工作。",
+            "en": "He works at a radio station."
           }
         },
         {
           "id": "L3-0152",
           "simp": "电子邮件",
           "trad": "電子郵件",
-          "pinyin": "diànzǐ yóujiàn",
+          "pinyin": "diànzǐyóujiàn",
           "pos": "N",
           "en": "email",
           "defs": [
@@ -2347,10 +2366,10 @@
           "trad": "調",
           "pinyin": "diào",
           "pos": "V",
-          "en": "to transfer",
+          "en": "to adjust",
           "defs": [
-            "to transfer",
-            "to move"
+            "to adjust",
+            "to regulate"
           ],
           "example": {
             "zh": "请你把冷气调高点。",
@@ -2362,10 +2381,11 @@
           "simp": "调查",
           "trad": "調查",
           "pinyin": "diàochá",
-          "pos": "V/N",
-          "en": "investigation",
+          "pos": "V",
+          "en": "to investigate",
           "defs": [
-            "investigation"
+            "to investigate",
+            "to survey"
           ],
           "example": {
             "zh": "为了调查物价，成立了一个委员会。",
@@ -2393,11 +2413,11 @@
           "simp": "定期",
           "trad": "定期",
           "pinyin": "dìngqī",
-          "pos": "V/Adj",
-          "en": "at set dates",
+          "pos": "Adj",
+          "en": "regular",
           "defs": [
-            "at set dates",
-            "at regular intervals"
+            "regular",
+            "periodic"
           ],
           "example": {
             "zh": "活火山会定期爆发。",
@@ -2430,8 +2450,8 @@
             "motive power"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "家人的支持是我前进的动力。",
+            "en": "My family's support is my driving force."
           }
         },
         {
@@ -2490,8 +2510,8 @@
             "short pants"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "天气太热了，他穿了短裤。",
+            "en": "It is very hot, so he is wearing shorts."
           }
         },
         {
@@ -2522,8 +2542,8 @@
             "to snap"
           ],
           "example": {
-            "zh": "我做事该果断。",
-            "en": "I should stop procrastinating."
+            "zh": "绳子断了。",
+            "en": "The rope broke."
           }
         },
         {
@@ -2608,10 +2628,9 @@
           "trad": "頓",
           "pinyin": "dùn",
           "pos": "M",
-          "en": "to stop",
+          "en": "classifier for meals or occurrences",
           "defs": [
-            "to stop",
-            "to pause"
+            "classifier for meals or occurrences"
           ],
           "example": {
             "zh": "他狼吞虎咽地吃了一顿。",
@@ -2647,7 +2666,7 @@
           ],
           "example": {
             "zh": "我们昨天发出了邀请。",
-            "en": "We've sent the invitations yesterday."
+            "en": "We sent out the invitations yesterday."
           }
         },
         {
@@ -2686,14 +2705,14 @@
           "simp": "发明",
           "trad": "發明",
           "pinyin": "fāmíng",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to invent",
           "defs": [
             "to invent"
           ],
           "example": {
-            "zh": "所有被发明的都是真的。",
-            "en": "All that which is invented, is true."
+            "zh": "他发明了一种新机器。",
+            "en": "He invented a new machine."
           }
         },
         {
@@ -2733,7 +2752,7 @@
           "simp": "发言",
           "trad": "發言",
           "pinyin": "fāyán",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to make a speech",
           "defs": [
             "to make a speech"
@@ -2748,10 +2767,12 @@
           "simp": "发展",
           "trad": "發展",
           "pinyin": "fāzhǎn",
-          "pos": "V/N",
-          "en": "development",
+          "pos": "V",
+          "en": "to develop",
           "defs": [
-            "development"
+            "to develop",
+            "to grow",
+            "to progress"
           ],
           "example": {
             "zh": "我肯定事情会往好的方向发展。",
@@ -2787,7 +2808,7 @@
           "simp": "反复",
           "trad": "反覆",
           "pinyin": "fǎnfù",
-          "pos": "Adv/N",
+          "pos": "Adv",
           "en": "repeatedly",
           "defs": [
             "repeatedly"
@@ -2802,11 +2823,11 @@
           "simp": "反应",
           "trad": "反應",
           "pinyin": "fǎnyìng",
-          "pos": "V/N",
-          "en": "to react",
+          "pos": "N",
+          "en": "reaction",
           "defs": [
-            "to react",
-            "to respond"
+            "reaction",
+            "response"
           ],
           "example": {
             "zh": "我们的身体会对我们的感情做出反应。",
@@ -2972,9 +2993,9 @@
           "trad": "飛行",
           "pinyin": "fēixíng",
           "pos": "V",
-          "en": "flying",
+          "en": "to fly",
           "defs": [
-            "flying"
+            "to fly"
           ],
           "example": {
             "zh": "飞行愉快！",
@@ -2986,7 +3007,7 @@
           "simp": "费",
           "trad": "費",
           "pinyin": "fèi",
-          "pos": "V/N",
+          "pos": "N",
           "en": "fee",
           "defs": [
             "fee"
@@ -3016,15 +3037,15 @@
           "simp": "分别",
           "trad": "分別",
           "pinyin": "fēnbié",
-          "pos": "V/Adv",
-          "en": "to part; to leave each other",
+          "pos": "Adv",
+          "en": "separately",
           "defs": [
-            "to part",
-            "to distinguish"
+            "separately",
+            "respectively"
           ],
           "example": {
-            "zh": "Fred来不来聚会对我来说没分别。",
-            "en": "It makes no difference to me whether Fred came to the party or not."
+            "zh": "我们分别去了两家店。",
+            "en": "We went to two different stores separately."
           }
         },
         {
@@ -3047,15 +3068,15 @@
           "id": "L3-0198",
           "simp": "分组",
           "trad": "分組",
-          "pinyin": "fēn zǔ",
-          "pos": "",
+          "pinyin": "fēnzǔ",
+          "pos": "V",
           "en": "to divide into groups",
           "defs": [
             "to divide into groups"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "老师把全班同学分组讨论。",
+            "en": "The teacher divided the whole class into groups for discussion."
           }
         },
         {
@@ -3064,9 +3085,11 @@
           "trad": "豐富",
           "pinyin": "fēngfù",
           "pos": "Adj",
-          "en": "to enrich",
+          "en": "abundant",
           "defs": [
-            "to enrich"
+            "abundant",
+            "rich",
+            "plentiful"
           ],
           "example": {
             "zh": "美国的自然资源很丰富。",
@@ -3093,7 +3116,7 @@
           "simp": "否定",
           "trad": "否定",
           "pinyin": "fǒudìng",
-          "pos": "V/Adj",
+          "pos": "V",
           "en": "to negate",
           "defs": [
             "to negate",
@@ -3202,9 +3225,10 @@
           "trad": "負責",
           "pinyin": "fùzé",
           "pos": "V/Adj",
-          "en": "conscientious",
+          "en": "to be responsible for",
           "defs": [
-            "conscientious"
+            "to be responsible for",
+            "responsible"
           ],
           "example": {
             "zh": "一个人要为他的行为负责。",
@@ -3325,7 +3349,7 @@
           "simp": "赶到",
           "trad": "趕到",
           "pinyin": "gǎndào",
-          "pos": "",
+          "pos": "V",
           "en": "to hurry",
           "defs": [
             "to hurry"
@@ -3500,8 +3524,8 @@
             "fan of a singer"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "她是这位歌手的歌迷。",
+            "en": "She is a fan of this singer."
           }
         },
         {
@@ -3835,8 +3859,8 @@
             "public servant"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "他毕业后当了公务员。",
+            "en": "He became a civil servant after graduation."
           }
         },
         {
@@ -4209,8 +4233,8 @@
             "norm"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "实验时我们要按规范操作。",
+            "en": "We must follow standard procedures during the experiment."
           }
         },
         {
@@ -4679,8 +4703,8 @@
             "gaiety"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "节日里到处都是欢乐的笑声。",
+            "en": "During the holiday, joyful laughter can be heard everywhere."
           }
         },
         {
@@ -5221,8 +5245,8 @@
             "firm"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "她坚决反对这个计划。",
+            "en": "She firmly opposes this plan."
           }
         },
         {
@@ -5291,7 +5315,7 @@
           "simp": "建成",
           "trad": "建成",
           "pinyin": "jiànchéng",
-          "pos": "",
+          "pos": "V",
           "en": "to establish",
           "defs": [
             "to establish",
@@ -5392,8 +5416,8 @@
             "to pay a fee"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "请先交费，再办理手续。",
+            "en": "Please pay the fee first, and then complete the formalities."
           }
         },
         {
@@ -5659,8 +5683,8 @@
             "to undo"
           ],
           "example": {
-            "zh": "要解开谋杀背后潜藏之谜！",
-            "en": "Solve the mystery lurking behind the murder!"
+            "zh": "他终于解开了这道数学题。",
+            "en": "He finally solved this math problem."
           }
         },
         {
@@ -5858,8 +5882,8 @@
             "Beijing opera"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "我爷爷很喜欢看京剧。",
+            "en": "My grandfather really likes watching Beijing opera."
           }
         },
         {
@@ -6067,7 +6091,7 @@
           "simp": "就业",
           "trad": "就業",
           "pinyin": "jiùyè",
-          "pos": "",
+          "pos": "V",
           "en": "to get a job",
           "defs": [
             "to get a job"
@@ -6165,8 +6189,8 @@
             "decision"
           ],
           "example": {
-            "zh": "由医生来决定某人何时该死是对的吗？",
-            "en": "Is it right for a doctor to decide when someone should die?"
+            "zh": "我们决定周末去爬山。",
+            "en": "We decided to go hiking this weekend."
           }
         },
         {
@@ -6305,8 +6329,8 @@
             "to open"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "学校下周将开展安全教育活动。",
+            "en": "The school will launch a safety-education campaign next week."
           }
         },
         {
@@ -6653,8 +6677,8 @@
             "my old man"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "那个老头儿每天早上都在公园散步。",
+            "en": "That old man takes a walk in the park every morning."
           }
         },
         {
@@ -6896,8 +6920,8 @@
             "promptly"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "听到敲门声，他连忙去开门。",
+            "en": "Hearing a knock at the door, he hurried to open it."
           }
         },
         {
@@ -7014,13 +7038,15 @@
           "trad": "領",
           "pinyin": "lǐng",
           "pos": "V",
-          "en": "neck",
+          "en": "to lead",
           "defs": [
-            "neck"
+            "to lead",
+            "to guide",
+            "to receive"
           ],
           "example": {
-            "zh": "昨晚我领居家着火了。",
-            "en": "A fire broke out in my neighborhood last night."
+            "zh": "他领着我们去参观。",
+            "en": "He led us on a tour."
           }
         },
         {
@@ -7541,8 +7567,8 @@
             "involving people rather than governments"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "这个故事在民间流传很广。",
+            "en": "This story is widely circulated among the people."
           }
         },
         {
@@ -7616,8 +7642,8 @@
             "some"
           ],
           "example": {
-            "zh": "由医生来决定某人何时该死是对的吗？",
-            "en": "Is it right for a doctor to decide when someone should die?"
+            "zh": "某位老师明天会来讲课。",
+            "en": "A certain teacher will come to give a lecture tomorrow."
           }
         },
         {
@@ -7850,8 +7876,8 @@
             "beginning of the year"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "我们年初制定了年度目标。",
+            "en": "We set our annual goals at the beginning of the year."
           }
         },
         {
@@ -8173,8 +8199,8 @@
             "matching"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "请大家配合工作人员的安排。",
+            "en": "Please cooperate with the staff's arrangements."
           }
         },
         {
@@ -8457,14 +8483,14 @@
           "simp": "千万",
           "trad": "千萬",
           "pinyin": "qiānwàn",
-          "pos": "Adv",
+          "pos": "Num",
           "en": "ten million",
           "defs": [
             "ten million"
           ],
           "example": {
-            "zh": "如果你彩票中一千万美金的话，你会用那点钱干什么？",
-            "en": "If you won ten million dollars in a lottery, what would you do with that money?"
+            "zh": "如果你中了彩票，得到一千万美元，你会怎么花那笔钱？",
+            "en": "If you won ten million dollars in the lottery, how would you spend that money?"
           }
         },
         {
@@ -8815,8 +8841,8 @@
             "to die"
           ],
           "example": {
-            "zh": "据说他爸爸在外国去世了。",
-            "en": "It is said that his father died in a foreign country."
+            "zh": "“去世”是比“死”更委婉的说法。",
+            "en": "\"Qushi\" is a more polite way to say someone passed away than \"si.\""
           }
         },
         {
@@ -8830,8 +8856,8 @@
             "everyone present"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "他一进球，全场都欢呼起来。",
+            "en": "As soon as he scored, the whole crowd burst into cheers."
           }
         },
         {
@@ -9151,9 +9177,9 @@
           "trad": "認出",
           "pinyin": "rènchū",
           "pos": "V",
-          "en": "recognition",
+          "en": "to recognize",
           "defs": [
-            "recognition"
+            "to recognize"
           ],
           "example": {
             "zh": "因为曾遇见过那个女孩，我马上就认出来了。",
@@ -9539,8 +9565,8 @@
             "to establish"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "公司在上海设立了新办公室。",
+            "en": "The company set up a new office in Shanghai."
           }
         },
         {
@@ -9703,9 +9729,9 @@
           "trad": "生命",
           "pinyin": "shēngmìng",
           "pos": "N",
-          "en": "creature (",
+          "en": "life",
           "defs": [
-            "creature ("
+            "life"
           ],
           "example": {
             "zh": "睡眠是最大的小偷，它偷了我们一半的生命。",
@@ -10159,8 +10185,8 @@
             "exam question"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "这道试题比上一题难。",
+            "en": "This exam question is harder than the previous one."
           }
         },
         {
@@ -10267,8 +10293,8 @@
             "to watch"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "我每周都收看这个节目。",
+            "en": "I watch this program every week."
           }
         },
         {
@@ -10282,8 +10308,8 @@
             "to listen to"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "他每天早上收听新闻。",
+            "en": "He listens to the news every morning."
           }
         },
         {
@@ -10572,8 +10598,8 @@
             "to die"
           ],
           "example": {
-            "zh": "他儿子小时候就死于癌症了。",
-            "en": "His son died from cancer at a young age."
+            "zh": "电脑又死机了。",
+            "en": "The computer froze again."
           }
         },
         {
@@ -10612,13 +10638,14 @@
           "trad": "所",
           "pinyin": "suǒ",
           "pos": "N/M",
-          "en": "actually",
+          "en": "place",
           "defs": [
-            "actually"
+            "place",
+            "classifier for houses, schools, etc."
           ],
           "example": {
-            "zh": "所有被发明的都是真的。",
-            "en": "All that which is invented, is true."
+            "zh": "这所学校很有名。",
+            "en": "This school is very famous."
           }
         },
         {
@@ -10818,8 +10845,8 @@
             "to reflect"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "这幅画体现了作者的思想。",
+            "en": "This painting reflects the author's ideas."
           }
         },
         {
@@ -10909,8 +10936,8 @@
             "high jump"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "他每天训练跳高。",
+            "en": "He trains for the high jump every day."
           }
         },
         {
@@ -10939,8 +10966,8 @@
             "long jump"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "她在运动会上参加跳远。",
+            "en": "She took part in the long jump at the sports meet."
           }
         },
         {
@@ -11274,8 +11301,8 @@
             "to spread"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "这项技术正在全国推广。",
+            "en": "This technology is being promoted nationwide."
           }
         },
         {
@@ -11299,7 +11326,7 @@
           "simp": "推开",
           "trad": "推開",
           "pinyin": "tuīkāi",
-          "pos": "",
+          "pos": "V",
           "en": "to push open",
           "defs": [
             "to push open"
@@ -11769,8 +11796,8 @@
             "martial arts"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "他从小学习武术。",
+            "en": "He has studied martial arts since childhood."
           }
         },
         {
@@ -11799,8 +11826,8 @@
             "western part"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "中国西部风景很壮丽。",
+            "en": "The scenery in western China is magnificent."
           }
         },
         {
@@ -11808,7 +11835,7 @@
           "simp": "希望",
           "trad": "希望",
           "pinyin": "xīwàng",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to hope",
           "defs": [
             "to hope",
@@ -11886,7 +11913,7 @@
           "simp": "先进",
           "trad": "先進",
           "pinyin": "xiānjìn",
-          "pos": "Adj/N",
+          "pos": "Adj",
           "en": "advanced",
           "defs": [
             "advanced"
@@ -11917,7 +11944,7 @@
           "simp": "显然",
           "trad": "顯然",
           "pinyin": "xiǎnrán",
-          "pos": "Adj",
+          "pos": "Adv",
           "en": "clearly; evidently; obviously",
           "defs": [
             "clearly"
@@ -11964,10 +11991,11 @@
           "simp": "现代",
           "trad": "現代",
           "pinyin": "xiàndài",
-          "pos": "N",
-          "en": "Hyundai, South Korean company",
+          "pos": "Adj",
+          "en": "modern",
           "defs": [
-            "Hyundai"
+            "modern",
+            "contemporary"
           ],
           "example": {
             "zh": "现代交通使我们能在几天内环绕地球。",
@@ -12054,7 +12082,7 @@
           "simp": "相当",
           "trad": "相當",
           "pinyin": "xiāngdāng",
-          "pos": "Adv/V",
+          "pos": "Adv",
           "en": "equivalent to",
           "defs": [
             "equivalent to",
@@ -12070,7 +12098,7 @@
           "simp": "相关",
           "trad": "相關",
           "pinyin": "xiāngguān",
-          "pos": "V",
+          "pos": "Adj",
           "en": "related",
           "defs": [
             "related"
@@ -12229,8 +12257,8 @@
             "colloquial pr."
           ],
           "example": {
-            "zh": "听到这个让我感觉热血沸腾。",
-            "en": "It made my blood boil to hear that."
+            "zh": "体检报告显示他的血糖有点高。",
+            "en": "His health check report shows his blood sugar is a little high."
           }
         },
         {
@@ -12253,7 +12281,7 @@
           "simp": "信",
           "trad": "信",
           "pinyin": "xìn",
-          "pos": "V",
+          "pos": "N",
           "en": "letter",
           "defs": [
             "letter"
@@ -12345,7 +12373,7 @@
           "simp": "形象",
           "trad": "形象",
           "pinyin": "xíngxiàng",
-          "pos": "N/Adj",
+          "pos": "N",
           "en": "image",
           "defs": [
             "image"
@@ -12375,7 +12403,7 @@
           "simp": "幸福",
           "trad": "幸福",
           "pinyin": "xìngfú",
-          "pos": "Adj/N",
+          "pos": "Adj",
           "en": "happiness",
           "defs": [
             "happiness"
@@ -12497,7 +12525,7 @@
           "simp": "需要",
           "trad": "需要",
           "pinyin": "xūyào",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to need; to want; to demand; to require",
           "defs": [
             "to need",
@@ -12529,7 +12557,7 @@
           "simp": "宣传",
           "trad": "宣傳",
           "pinyin": "xuānchuán",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to disseminate",
           "defs": [
             "to disseminate",
@@ -12576,7 +12604,7 @@
           "simp": "训练",
           "trad": "訓練",
           "pinyin": "xùnliàn",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to train",
           "defs": [
             "to train",
@@ -12708,7 +12736,7 @@
           "simp": "演出",
           "trad": "演出",
           "pinyin": "yǎnchū",
-          "pos": "V/N",
+          "pos": "V",
           "en": "show",
           "defs": [
             "show"
@@ -12829,7 +12857,7 @@
           "simp": "以来",
           "trad": "以來",
           "pinyin": "yǐlái",
-          "pos": "N",
+          "pos": "Prep",
           "en": "since",
           "defs": [
             "since"
@@ -12844,7 +12872,7 @@
           "simp": "一方面",
           "trad": "一方面",
           "pinyin": "yīfāngmiàn",
-          "pos": "N",
+          "pos": "Adv",
           "en": "on the one hand",
           "defs": [
             "on the one hand"
@@ -12874,7 +12902,7 @@
           "simp": "意外",
           "trad": "意外",
           "pinyin": "yìwài",
-          "pos": "Adj/N",
+          "pos": "Adj",
           "en": "unexpected",
           "defs": [
             "unexpected"
@@ -12941,8 +12969,8 @@
             "silver medal"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "她在比赛中获得了银牌。",
+            "en": "She won a silver medal in the competition."
           }
         },
         {
@@ -12965,7 +12993,7 @@
           "simp": "应当",
           "trad": "應當",
           "pinyin": "yīngdāng",
-          "pos": "V",
+          "pos": "Adv",
           "en": "should; ought to",
           "defs": [
             "should"
@@ -13033,8 +13061,8 @@
             "movies and television"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "他在大学学习影视制作。",
+            "en": "He studies film and television production at university."
           }
         },
         {
@@ -13104,7 +13132,7 @@
           "simp": "由于",
           "trad": "由於",
           "pinyin": "yóuyú",
-          "pos": "Prep/Conj",
+          "pos": "Conj",
           "en": "due to",
           "defs": [
             "due to",
@@ -13196,7 +13224,7 @@
           "simp": "游泳",
           "trad": "游泳",
           "pinyin": "yóuyǒng",
-          "pos": "N/V",
+          "pos": "V",
           "en": "swimming",
           "defs": [
             "swimming"
@@ -13242,7 +13270,7 @@
           "simp": "有效",
           "trad": "有效",
           "pinyin": "yǒuxiào",
-          "pos": "V",
+          "pos": "Adj",
           "en": "effective",
           "defs": [
             "effective"
@@ -13257,7 +13285,7 @@
           "simp": "预报",
           "trad": "預報",
           "pinyin": "yùbào",
-          "pos": "V/N",
+          "pos": "N",
           "en": "forecast",
           "defs": [
             "forecast"
@@ -13310,8 +13338,8 @@
             "to prepare a lesson"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "上课前请先预习课文。",
+            "en": "Please preview the text before class."
           }
         },
         {
@@ -13364,15 +13392,15 @@
           "simp": "约",
           "trad": "約",
           "pinyin": "yuē",
-          "pos": "V",
-          "en": "to weigh in a balance or on a scale",
+          "pos": "Prep",
+          "en": "about",
           "defs": [
-            "to weigh in a balance or on a scale",
-            "to invite"
+            "about",
+            "approximately"
           ],
           "example": {
-            "zh": "纽约市的人口有多少？",
-            "en": "How large is the population of New York City?"
+            "zh": "纽约市约有八百万人口。",
+            "en": "New York City has about eight million people."
           }
         },
         {
@@ -13537,7 +13565,7 @@
           "simp": "张",
           "trad": "張",
           "pinyin": "zhāng",
-          "pos": "M/V",
+          "pos": "M",
           "en": "sheet",
           "defs": [
             "sheet",
@@ -13553,7 +13581,7 @@
           "simp": "照",
           "trad": "照",
           "pinyin": "zhào",
-          "pos": "V/Prep",
+          "pos": "Prep",
           "en": "according to",
           "defs": [
             "according to",
@@ -13631,7 +13659,7 @@
           "simp": "整",
           "trad": "整",
           "pinyin": "zhěng",
-          "pos": "Adj/V",
+          "pos": "Adj",
           "en": "tidy",
           "defs": [
             "tidy"
@@ -13708,7 +13736,7 @@
           "simp": "整天",
           "trad": "整天",
           "pinyin": "zhěngtiān",
-          "pos": "N",
+          "pos": "Adv",
           "en": "all day long",
           "defs": [
             "all day long",
@@ -13739,14 +13767,16 @@
           "simp": "正",
           "trad": "正",
           "pinyin": "zhèng",
-          "pos": "Adj",
-          "en": "first month of the lunar year",
+          "pos": "Adv",
+          "en": "just",
           "defs": [
-            "first month of the lunar year"
+            "just",
+            "exactly",
+            "precisely"
           ],
           "example": {
-            "zh": "不要再把我当成“正常” 人!",
-            "en": "Stop seeing me as a \"normal\" person!"
+            "zh": "我正要出门，你就来了。",
+            "en": "I was just about to go out when you arrived."
           }
         },
         {
@@ -13822,7 +13852,7 @@
           "simp": "证明",
           "trad": "證明",
           "pinyin": "zhèngmíng",
-          "pos": "V/N",
+          "pos": "V",
           "en": "proof",
           "defs": [
             "proof"
@@ -13883,7 +13913,7 @@
           "simp": "只",
           "trad": "隻",
           "pinyin": "zhī",
-          "pos": "M",
+          "pos": "Adv",
           "en": "only",
           "defs": [
             "only"
@@ -13898,7 +13928,7 @@
           "simp": "直",
           "trad": "直",
           "pinyin": "zhí",
-          "pos": "Adj/V/Adv",
+          "pos": "Adv",
           "en": "frank",
           "defs": [
             "frank"
@@ -13919,8 +13949,8 @@
             "live broadcast"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "我们今晚八点直播这场比赛。",
+            "en": "We will livestream this match at 8 p.m. tonight."
           }
         },
         {
@@ -13928,7 +13958,7 @@
           "simp": "直到",
           "trad": "直到",
           "pinyin": "zhídào",
-          "pos": "V",
+          "pos": "Conj",
           "en": "until",
           "defs": [
             "until"
@@ -13958,7 +13988,7 @@
           "simp": "值得",
           "trad": "值得",
           "pinyin": "zhídé",
-          "pos": "Adj",
+          "pos": "V",
           "en": "to be worth",
           "defs": [
             "to be worth"
@@ -14019,7 +14049,7 @@
           "simp": "只是",
           "trad": "只是",
           "pinyin": "zhǐshì",
-          "pos": "Adv/Conj",
+          "pos": "Adv",
           "en": "merely; only; just; nothing but",
           "defs": [
             "merely"
@@ -14212,8 +14242,8 @@
             "middle part"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "中国中部近年来发展很快。",
+            "en": "China's central region has developed rapidly in recent years."
           }
         },
         {
@@ -14221,15 +14251,15 @@
           "simp": "中华民族",
           "trad": "中華民族",
           "pinyin": "zhōnghuá mínzú",
-          "pos": "",
+          "pos": "N",
           "en": "the Chinese nation",
           "defs": [
             "the Chinese nation",
             "the Chinese people"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "中华民族有着悠久的历史和丰富的文化。",
+            "en": "The Chinese nation has a long history and rich culture."
           }
         },
         {
@@ -14253,13 +14283,14 @@
           "trad": "鐘",
           "pinyin": "zhōng",
           "pos": "N",
-          "en": "goblet",
+          "en": "clock",
           "defs": [
-            "goblet"
+            "clock",
+            "bell"
           ],
           "example": {
-            "zh": "几分钟后，电话响了。",
-            "en": "A few minutes later the telephone rang."
+            "zh": "墙上的钟不走了。",
+            "en": "The clock on the wall has stopped."
           }
         },
         {
@@ -14404,7 +14435,7 @@
           "simp": "主张",
           "trad": "主張",
           "pinyin": "zhǔzhāng",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to advocate",
           "defs": [
             "to advocate",
@@ -14520,8 +14551,8 @@
             "special topic"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "老师让我们做一个关于环保的专题报告。",
+            "en": "The teacher asked us to prepare a special-topic report on environmental protection."
           }
         },
         {
@@ -14545,10 +14576,11 @@
           "trad": "轉",
           "pinyin": "zhuǎn",
           "pos": "V",
-          "en": "rpm",
+          "en": "to turn",
           "defs": [
-            "rpm",
-            "to turn"
+            "to turn",
+            "to change direction",
+            "to transfer"
           ],
           "example": {
             "zh": "沿着这条路直走，到第三个红绿灯的地方右转。",
@@ -14607,10 +14639,10 @@
           "trad": "追",
           "pinyin": "zhuī",
           "pos": "V",
-          "en": "to sculpt",
+          "en": "to chase",
           "defs": [
-            "to sculpt",
-            "to chase"
+            "to chase",
+            "to pursue"
           ],
           "example": {
             "zh": "我看见一只猫追着一只狗跑。",
@@ -14622,7 +14654,7 @@
           "simp": "准",
           "trad": "準",
           "pinyin": "zhǔn",
-          "pos": "Adj/Adv",
+          "pos": "Adj",
           "en": "accurate",
           "defs": [
             "accurate"
@@ -14682,7 +14714,7 @@
           "simp": "自从",
           "trad": "自從",
           "pinyin": "zìcóng",
-          "pos": "Prep",
+          "pos": "Conj",
           "en": "since",
           "defs": [
             "since",
@@ -14698,7 +14730,7 @@
           "simp": "自动",
           "trad": "自動",
           "pinyin": "zìdòng",
-          "pos": "Adj/Adv",
+          "pos": "Adj",
           "en": "automatic",
           "defs": [
             "automatic"
@@ -14719,8 +14751,8 @@
             "responsible"
           ],
           "example": {
-            "zh": "",
-            "en": ""
+            "zh": "小王学习很自觉，不用老师提醒。",
+            "en": "Xiao Wang studies very responsibly and does not need reminders from the teacher."
           }
         },
         {
@@ -14728,7 +14760,7 @@
           "simp": "自然",
           "trad": "自然",
           "pinyin": "zìrán",
-          "pos": "N/Adj/Adv",
+          "pos": "Adj",
           "en": "nature",
           "defs": [
             "nature"
@@ -14758,7 +14790,7 @@
           "simp": "自主",
           "trad": "自主",
           "pinyin": "zìzhǔ",
-          "pos": "V",
+          "pos": "Adj",
           "en": "to be autonomous",
           "defs": [
             "to be autonomous",
@@ -14789,7 +14821,7 @@
           "simp": "总结",
           "trad": "總結",
           "pinyin": "zǒngjié",
-          "pos": "V/N",
+          "pos": "V",
           "en": "to sum up",
           "defs": [
             "to sum up",
@@ -14820,7 +14852,7 @@
           "simp": "足够",
           "trad": "足夠",
           "pinyin": "zúgòu",
-          "pos": "V",
+          "pos": "Adj",
           "en": "enough; sufficient",
           "defs": [
             "enough"
@@ -14867,7 +14899,7 @@
           "simp": "左右",
           "trad": "左右",
           "pinyin": "zuǒyòu",
-          "pos": "N/V",
+          "pos": "Adv",
           "en": "left and right",
           "defs": [
             "left and right"

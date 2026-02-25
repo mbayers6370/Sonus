@@ -11471,1164 +11471,6 @@
         }
       ]
     },
-    "b6-abstract": {
-      "targetWords": 90,
-      "allocatedWords": 90,
-      "words": [
-        {
-          "id": "L6-0875",
-          "simp": "细胞",
-          "trad": "細胞",
-          "pinyin": "xìbāo",
-          "pos": "N",
-          "en": "cell (biology)",
-          "defs": [
-            "cell (biology)"
-          ]
-        },
-        {
-          "id": "L6-0876",
-          "simp": "细菌",
-          "trad": "細菌",
-          "pinyin": "xìjūn",
-          "pos": "N",
-          "en": "bacterium",
-          "defs": [
-            "bacterium",
-            "germ"
-          ]
-        },
-        {
-          "id": "L6-0877",
-          "simp": "先锋",
-          "trad": "先鋒",
-          "pinyin": "xiānfēng",
-          "pos": "N",
-          "en": "vanguard; pioneer; avant-garde",
-          "defs": [
-            "vanguard; pioneer; avant-garde"
-          ]
-        },
-        {
-          "id": "L6-0878",
-          "simp": "嫌",
-          "trad": "嫌",
-          "pinyin": "xián",
-          "pos": "V",
-          "en": "to dislike",
-          "defs": [
-            "to dislike",
-            "suspicion",
-            "resentment",
-            "enmity",
-            "abbr. for 嫌犯[xian2 fan4], criminal suspect"
-          ]
-        },
-        {
-          "id": "L6-0879",
-          "simp": "显出",
-          "trad": "顯出",
-          "pinyin": "xiǎnchū",
-          "pos": "",
-          "en": "to express",
-          "defs": [
-            "to express",
-            "to exhibit"
-          ]
-        },
-        {
-          "id": "L6-0880",
-          "simp": "险",
-          "trad": "險",
-          "pinyin": "xiǎn",
-          "pos": "Adj",
-          "en": "danger",
-          "defs": [
-            "danger",
-            "dangerous",
-            "rugged"
-          ]
-        },
-        {
-          "id": "L6-0881",
-          "simp": "线路",
-          "trad": "線路",
-          "pinyin": "xiànlù",
-          "pos": "N",
-          "en": "(electricity) line; circuit; wire",
-          "defs": [
-            "(electricity) line; circuit; wire",
-            "(traffic) road; track; route"
-          ]
-        },
-        {
-          "id": "L6-0882",
-          "simp": "陷入",
-          "trad": "陷入",
-          "pinyin": "xiànrù",
-          "pos": "V",
-          "en": "to sink into",
-          "defs": [
-            "to sink into",
-            "to get caught up in",
-            "to land in (a predicament)"
-          ]
-        },
-        {
-          "id": "L6-0883",
-          "simp": "响声",
-          "trad": "響聲",
-          "pinyin": "xiǎngshēng",
-          "pos": "N",
-          "en": "noise",
-          "defs": [
-            "noise"
-          ]
-        },
-        {
-          "id": "L6-0884",
-          "simp": "想不到",
-          "trad": "想不到",
-          "pinyin": "xiǎngbudào",
-          "pos": "V",
-          "en": "unexpected",
-          "defs": [
-            "unexpected",
-            "hard to imagine",
-            "it had not occurred to me",
-            "who could have thought that"
-          ]
-        },
-        {
-          "id": "L6-0885",
-          "simp": "消耗",
-          "trad": "消耗",
-          "pinyin": "xiāohào",
-          "pos": "V/N",
-          "en": "to consume; to use up",
-          "defs": [
-            "to consume; to use up",
-            "to deplete; to expend",
-            "(old) news; mail; message"
-          ]
-        },
-        {
-          "id": "L6-0886",
-          "simp": "消灭",
-          "trad": "消滅",
-          "pinyin": "xiāomiè",
-          "pos": "V",
-          "en": "to put an end to",
-          "defs": [
-            "to put an end to",
-            "to annihilate",
-            "to cause to perish",
-            "to perish",
-            "annihilation (in quantum field theory)"
-          ]
-        },
-        {
-          "id": "L6-0887",
-          "simp": "小费",
-          "trad": "小費",
-          "pinyin": "xiǎofèi",
-          "pos": "N",
-          "en": "tip",
-          "defs": [
-            "tip",
-            "gratuity"
-          ]
-        },
-        {
-          "id": "L6-0888",
-          "simp": "小麦",
-          "trad": "小麥",
-          "pinyin": "xiǎomài",
-          "pos": "N",
-          "en": "wheat",
-          "defs": [
-            "wheat",
-            "CL:粒[li4]"
-          ]
-        },
-        {
-          "id": "L6-0889",
-          "simp": "小于",
-          "trad": "小於",
-          "pinyin": "xiǎoyú",
-          "pos": "V",
-          "en": "less than, <",
-          "defs": [
-            "less than, <"
-          ]
-        },
-        {
-          "id": "L6-0890",
-          "simp": "晓得",
-          "trad": "曉得",
-          "pinyin": "xiǎode",
-          "pos": "V",
-          "en": "to know",
-          "defs": [
-            "to know"
-          ]
-        },
-        {
-          "id": "L6-0891",
-          "simp": "笑脸",
-          "trad": "笑臉",
-          "pinyin": "xiàoliǎn",
-          "pos": "N",
-          "en": "smiling face",
-          "defs": [
-            "smiling face",
-            "smiley :) ☺",
-            "CL:副[fu4]"
-          ]
-        },
-        {
-          "id": "L6-0892",
-          "simp": "笑容",
-          "trad": "笑容",
-          "pinyin": "xiàoróng",
-          "pos": "N",
-          "en": "smile",
-          "defs": [
-            "smile",
-            "smiling expression",
-            "CL:副[fu4]"
-          ]
-        },
-        {
-          "id": "L6-0893",
-          "simp": "笑声",
-          "trad": "笑聲",
-          "pinyin": "xiàoshēng",
-          "pos": "N",
-          "en": "laughter",
-          "defs": [
-            "laughter"
-          ]
-        },
-        {
-          "id": "L6-0894",
-          "simp": "协会",
-          "trad": "協會",
-          "pinyin": "xiéhuì",
-          "pos": "N",
-          "en": "an association",
-          "defs": [
-            "an association",
-            "a society",
-            "CL:個|个[ge4],家[jia1]"
-          ]
-        },
-        {
-          "id": "L6-0895",
-          "simp": "协商",
-          "trad": "協商",
-          "pinyin": "xiéshāng",
-          "pos": "V",
-          "en": "to consult with",
-          "defs": [
-            "to consult with",
-            "to talk things over",
-            "agreement"
-          ]
-        },
-        {
-          "id": "L6-0896",
-          "simp": "协调",
-          "trad": "協調",
-          "pinyin": "xiétiáo",
-          "pos": "V/Adj",
-          "en": "to coordinate",
-          "defs": [
-            "to coordinate",
-            "to harmonize",
-            "to fit together",
-            "to match (colors etc)",
-            "harmonious",
-            "concerted"
-          ]
-        },
-        {
-          "id": "L6-0897",
-          "simp": "协助",
-          "trad": "協助",
-          "pinyin": "xiézhù",
-          "pos": "V",
-          "en": "to provide assistance; to aid",
-          "defs": [
-            "to provide assistance; to aid"
-          ]
-        },
-        {
-          "id": "L6-0898",
-          "simp": "写字楼",
-          "trad": "寫字樓",
-          "pinyin": "xiězìlóu",
-          "pos": "N",
-          "en": "office building",
-          "defs": [
-            "office building"
-          ]
-        },
-        {
-          "id": "L6-0899",
-          "simp": "写字台",
-          "trad": "寫字檯",
-          "pinyin": "xiězìtái",
-          "pos": "N",
-          "en": "writing desk",
-          "defs": [
-            "writing desk"
-          ]
-        },
-        {
-          "id": "L6-0900",
-          "simp": "心灵",
-          "trad": "心靈",
-          "pinyin": "xīnlíng",
-          "pos": "N",
-          "en": "bright",
-          "defs": [
-            "bright",
-            "smart",
-            "quick-witted",
-            "heart",
-            "thoughts",
-            "spirit"
-          ]
-        },
-        {
-          "id": "L6-0901",
-          "simp": "心愿",
-          "trad": "心願",
-          "pinyin": "xīnyuàn",
-          "pos": "N",
-          "en": "cherished desire",
-          "defs": [
-            "cherished desire",
-            "dream",
-            "craving",
-            "wish",
-            "aspiration"
-          ]
-        },
-        {
-          "id": "L6-0902",
-          "simp": "心脏",
-          "trad": "心臟",
-          "pinyin": "xīnzàng",
-          "pos": "N",
-          "en": "heart",
-          "defs": [
-            "heart",
-            "CL:顆|颗[ke1],個|个[ge4]"
-          ]
-        },
-        {
-          "id": "L6-0903",
-          "simp": "心脏病",
-          "trad": "心臟病",
-          "pinyin": "xīnzàngbìng",
-          "pos": "N",
-          "en": "heart disease",
-          "defs": [
-            "heart disease"
-          ]
-        },
-        {
-          "id": "L6-0904",
-          "simp": "新人",
-          "trad": "新人",
-          "pinyin": "xīnrén",
-          "pos": "N",
-          "en": "newcomer; new recruit; fresh talent",
-          "defs": [
-            "newcomer; new recruit; fresh talent",
-            "newlywed, esp. new bride",
-            "newlywed couple; bride and groom",
-            "(paleoanthropology) later-period Homo sapiens"
-          ]
-        },
-        {
-          "id": "L6-0905",
-          "simp": "新兴",
-          "trad": "新興",
-          "pinyin": "xīnxīng",
-          "pos": "Adj",
-          "en": "see 新興縣|新兴县[Xin1 xing1 Xian4]",
-          "defs": [
-            "see 新興縣|新兴县[Xin1 xing1 Xian4]",
-            "see 新興區|新兴区[Xin1 xing1 Qu1]",
-            "(of markets, industries, infectious diseases etc) rising",
-            "emerging",
-            "in the ascendant"
-          ]
-        },
-        {
-          "id": "L6-0906",
-          "simp": "薪水",
-          "trad": "薪水",
-          "pinyin": "xīnshui",
-          "pos": "N",
-          "en": "salary",
-          "defs": [
-            "salary",
-            "wage"
-          ]
-        },
-        {
-          "id": "L6-0907",
-          "simp": "信仰",
-          "trad": "信仰",
-          "pinyin": "xìnyǎng",
-          "pos": "V",
-          "en": "to believe in (a religion)",
-          "defs": [
-            "to believe in (a religion)",
-            "firm belief",
-            "conviction"
-          ]
-        },
-        {
-          "id": "L6-0908",
-          "simp": "信用",
-          "trad": "信用",
-          "pinyin": "xìnyòng",
-          "pos": "N",
-          "en": "trustworthiness",
-          "defs": [
-            "trustworthiness",
-            "(commerce) credit",
-            "(literary) to trust and appoint"
-          ]
-        },
-        {
-          "id": "L6-0909",
-          "simp": "兴旺",
-          "trad": "興旺",
-          "pinyin": "xīngwàng",
-          "pos": "Adj",
-          "en": "prosperous",
-          "defs": [
-            "prosperous",
-            "thriving",
-            "to prosper",
-            "to flourish"
-          ]
-        },
-        {
-          "id": "L6-0910",
-          "simp": "行程",
-          "trad": "行程",
-          "pinyin": "xíngchéng",
-          "pos": "N",
-          "en": "journey; travel route; itinerary",
-          "defs": [
-            "journey; travel route; itinerary",
-            "distance of travel",
-            "course (of history)",
-            "stroke (of a piston)",
-            "(Tw) (computing) process"
-          ]
-        },
-        {
-          "id": "L6-0911",
-          "simp": "形",
-          "trad": "形",
-          "pinyin": "xíng",
-          "pos": "N",
-          "en": "to appear",
-          "defs": [
-            "to appear",
-            "to look",
-            "form",
-            "shape"
-          ]
-        },
-        {
-          "id": "L6-0912",
-          "simp": "凶",
-          "trad": "凶",
-          "pinyin": "xiōng",
-          "pos": "Adj",
-          "en": "vicious",
-          "defs": [
-            "vicious",
-            "fierce",
-            "ominous",
-            "inauspicious",
-            "famine",
-            "variant of 兇|凶[xiong1]"
-          ]
-        },
-        {
-          "id": "L6-0912",
-          "simp": "凶",
-          "trad": "兇",
-          "pinyin": "xiōng",
-          "pos": "Adj",
-          "en": "terrible",
-          "defs": [
-            "terrible",
-            "fearful"
-          ]
-        },
-        {
-          "id": "L6-0913",
-          "simp": "凶手",
-          "trad": "兇手",
-          "pinyin": "xiōngshǒu",
-          "pos": "N",
-          "en": "murderer",
-          "defs": [
-            "murderer",
-            "assassin"
-          ]
-        },
-        {
-          "id": "L6-0914",
-          "simp": "修车",
-          "trad": "修車",
-          "pinyin": "xiū chē",
-          "pos": "",
-          "en": "to repair a bike (car etc)",
-          "defs": [
-            "to repair a bike (car etc)"
-          ]
-        },
-        {
-          "id": "L6-0915",
-          "simp": "袖珍",
-          "trad": "袖珍",
-          "pinyin": "xiùzhēn",
-          "pos": "Adj",
-          "en": "pocket-sized",
-          "defs": [
-            "pocket-sized",
-            "pocket (book etc)"
-          ]
-        },
-        {
-          "id": "L6-0916",
-          "simp": "悬",
-          "trad": "懸",
-          "pinyin": "xuán",
-          "pos": "V",
-          "en": "to hang or suspend",
-          "defs": [
-            "to hang or suspend",
-            "to worry",
-            "public announcement",
-            "unresolved",
-            "baseless",
-            "without foundation"
-          ]
-        },
-        {
-          "id": "L6-0917",
-          "simp": "旋转",
-          "trad": "旋轉",
-          "pinyin": "xuánzhuǎn",
-          "pos": "V",
-          "en": "to rotate",
-          "defs": [
-            "to rotate",
-            "to revolve",
-            "to spin",
-            "to whirl"
-          ]
-        },
-        {
-          "id": "L6-0918",
-          "simp": "选拔",
-          "trad": "選拔",
-          "pinyin": "xuǎnbá",
-          "pos": "V",
-          "en": "to select the best",
-          "defs": [
-            "to select the best"
-          ]
-        },
-        {
-          "id": "L6-0919",
-          "simp": "选举",
-          "trad": "選舉",
-          "pinyin": "xuǎnjǔ",
-          "pos": "V/N",
-          "en": "to elect",
-          "defs": [
-            "to elect",
-            "election",
-            "CL:次[ci4],個|个[ge4]"
-          ]
-        },
-        {
-          "id": "L6-0920",
-          "simp": "学会",
-          "trad": "學會",
-          "pinyin": "xuéhuì",
-          "pos": "N",
-          "en": "to learn; to master",
-          "defs": [
-            "to learn; to master",
-            "institute; learned society; (scholarly) association"
-          ]
-        },
-        {
-          "id": "L6-0921",
-          "simp": "学员",
-          "trad": "學員",
-          "pinyin": "xuéyuán",
-          "pos": "N",
-          "en": "student",
-          "defs": [
-            "student",
-            "member of an institution of learning",
-            "officer cadet"
-          ]
-        },
-        {
-          "id": "L6-0922",
-          "simp": "血管",
-          "trad": "血管",
-          "pinyin": "xuèguǎn",
-          "pos": "N",
-          "en": "vein",
-          "defs": [
-            "vein",
-            "artery",
-            "CL:根[gen1]"
-          ]
-        },
-        {
-          "id": "L6-0923",
-          "simp": "血液",
-          "trad": "血液",
-          "pinyin": "xuèyè",
-          "pos": "N",
-          "en": "blood",
-          "defs": [
-            "blood",
-            "(fig.) lifeblood"
-          ]
-        },
-        {
-          "id": "L6-0924",
-          "simp": "循环",
-          "trad": "循環",
-          "pinyin": "xúnhuán",
-          "pos": "V",
-          "en": "to cycle",
-          "defs": [
-            "to cycle",
-            "to circulate",
-            "circle",
-            "loop"
-          ]
-        },
-        {
-          "id": "L6-0925",
-          "simp": "压迫",
-          "trad": "壓迫",
-          "pinyin": "yāpò",
-          "pos": "V",
-          "en": "to oppress",
-          "defs": [
-            "to oppress",
-            "to repress",
-            "to constrict",
-            "oppression",
-            "stress (physics)"
-          ]
-        },
-        {
-          "id": "L6-0926",
-          "simp": "烟花",
-          "trad": "煙花",
-          "pinyin": "yānhuā",
-          "pos": "N",
-          "en": "fireworks",
-          "defs": [
-            "fireworks",
-            "prostitute (esp. in Yuan theater)"
-          ]
-        },
-        {
-          "id": "L6-0927",
-          "simp": "沿",
-          "trad": "沿",
-          "pinyin": "yán",
-          "pos": "Prep",
-          "en": "along",
-          "defs": [
-            "along",
-            "to follow (a line, tradition etc)",
-            "to carry on",
-            "to trim (a border with braid, tape etc)",
-            "border",
-            "edge"
-          ]
-        },
-        {
-          "id": "L6-0928",
-          "simp": "沿海",
-          "trad": "沿海",
-          "pinyin": "yánhǎi",
-          "pos": "N",
-          "en": "coastal",
-          "defs": [
-            "coastal"
-          ]
-        },
-        {
-          "id": "L6-0929",
-          "simp": "沿着",
-          "trad": "沿著",
-          "pinyin": "yánzhe",
-          "pos": "",
-          "en": "to go along",
-          "defs": [
-            "to go along",
-            "to follow"
-          ]
-        },
-        {
-          "id": "L6-0930",
-          "simp": "研发",
-          "trad": "研發",
-          "pinyin": "yánfā",
-          "pos": "V",
-          "en": "research and development",
-          "defs": [
-            "research and development",
-            "to develop"
-          ]
-        },
-        {
-          "id": "L6-0931",
-          "simp": "眼看",
-          "trad": "眼看",
-          "pinyin": "yǎnkàn",
-          "pos": "V/Adv",
-          "en": "soon",
-          "defs": [
-            "soon",
-            "in a moment",
-            "to look on as sth happens"
-          ]
-        },
-        {
-          "id": "L6-0932",
-          "simp": "演奏",
-          "trad": "演奏",
-          "pinyin": "yǎnzòu",
-          "pos": "V",
-          "en": "to perform on a musical instrument",
-          "defs": [
-            "to perform on a musical instrument"
-          ]
-        },
-        {
-          "id": "L6-0933",
-          "simp": "宴会",
-          "trad": "宴會",
-          "pinyin": "yànhuì",
-          "pos": "N",
-          "en": "banquet",
-          "defs": [
-            "banquet",
-            "feast",
-            "dinner party",
-            "CL:席[xi2],個|个[ge4]"
-          ]
-        },
-        {
-          "id": "L6-0934",
-          "simp": "洋",
-          "trad": "洋",
-          "pinyin": "yáng",
-          "pos": "Adj",
-          "en": "ocean",
-          "defs": [
-            "ocean",
-            "vast",
-            "foreign",
-            "silver dollar or coin"
-          ]
-        },
-        {
-          "id": "L6-0935",
-          "simp": "仰",
-          "trad": "仰",
-          "pinyin": "yǎng",
-          "pos": "V",
-          "en": "surname Yang",
-          "defs": [
-            "surname Yang",
-            "to face upward",
-            "to look up",
-            "to admire",
-            "to rely on"
-          ]
-        },
-        {
-          "id": "L6-0936",
-          "simp": "养老",
-          "trad": "養老",
-          "pinyin": "yǎnglǎo",
-          "pos": "",
-          "en": "to provide for the elderly (family members)",
-          "defs": [
-            "to provide for the elderly (family members)",
-            "to enjoy a life in retirement"
-          ]
-        },
-        {
-          "id": "L6-0937",
-          "simp": "氧气",
-          "trad": "氧氣",
-          "pinyin": "yǎngqì",
-          "pos": "N",
-          "en": "oxygen",
-          "defs": [
-            "oxygen"
-          ]
-        },
-        {
-          "id": "L6-0938",
-          "simp": "样",
-          "trad": "樣",
-          "pinyin": "yàng",
-          "pos": "N/M",
-          "en": "manner",
-          "defs": [
-            "manner",
-            "pattern",
-            "way",
-            "appearance",
-            "shape",
-            "classifier: kind, type"
-          ]
-        },
-        {
-          "id": "L6-0939",
-          "simp": "药品",
-          "trad": "藥品",
-          "pinyin": "yàopǐn",
-          "pos": "N",
-          "en": "medicaments",
-          "defs": [
-            "medicaments",
-            "medicine",
-            "drug"
-          ]
-        },
-        {
-          "id": "L6-0940",
-          "simp": "要不然",
-          "trad": "要不然",
-          "pinyin": "yàobùrán",
-          "pos": "Conj",
-          "en": "otherwise",
-          "defs": [
-            "otherwise",
-            "or else",
-            "or"
-          ]
-        },
-        {
-          "id": "L6-0941",
-          "simp": "要好",
-          "trad": "要好",
-          "pinyin": "yàohǎo",
-          "pos": "Adj",
-          "en": "to be on good terms",
-          "defs": [
-            "to be on good terms",
-            "to be close friends",
-            "striving for self-improvement"
-          ]
-        },
-        {
-          "id": "L6-0942",
-          "simp": "要么",
-          "trad": "要麼",
-          "pinyin": "yàome",
-          "pos": "Conj",
-          "en": "or",
-          "defs": [
-            "or",
-            "either one or the other"
-          ]
-        },
-        {
-          "id": "L6-0943",
-          "simp": "要素",
-          "trad": "要素",
-          "pinyin": "yàosù",
-          "pos": "N",
-          "en": "essential factor",
-          "defs": [
-            "essential factor",
-            "key constituent"
-          ]
-        },
-        {
-          "id": "L6-0944",
-          "simp": "野",
-          "trad": "野",
-          "pinyin": "yě",
-          "pos": "Adj",
-          "en": "field",
-          "defs": [
-            "field",
-            "plain",
-            "open space",
-            "limit",
-            "boundary",
-            "rude",
-            "feral"
-          ]
-        },
-        {
-          "id": "L6-0945",
-          "simp": "野生",
-          "trad": "野生",
-          "pinyin": "yěshēng",
-          "pos": "Adj",
-          "en": "wild",
-          "defs": [
-            "wild",
-            "undomesticated"
-          ]
-        },
-        {
-          "id": "L6-0946",
-          "simp": "医药",
-          "trad": "醫藥",
-          "pinyin": "yīyào",
-          "pos": "N",
-          "en": "medical care and medicines",
-          "defs": [
-            "medical care and medicines",
-            "medicine (drug)",
-            "medical",
-            "pharmaceutical"
-          ]
-        },
-        {
-          "id": "L6-0947",
-          "simp": "依次",
-          "trad": "依次",
-          "pinyin": "yīcì",
-          "pos": "Adv",
-          "en": "in order",
-          "defs": [
-            "in order",
-            "in succession"
-          ]
-        },
-        {
-          "id": "L6-0948",
-          "simp": "依赖",
-          "trad": "依賴",
-          "pinyin": "yīlài",
-          "pos": "V",
-          "en": "to depend on; to be dependent on",
-          "defs": [
-            "to depend on; to be dependent on"
-          ]
-        },
-        {
-          "id": "L6-0949",
-          "simp": "一次性",
-          "trad": "一次性",
-          "pinyin": "yīcìxìng",
-          "pos": "Adj",
-          "en": "one-off (offer)",
-          "defs": [
-            "one-off (offer)",
-            "one-time",
-            "single-use",
-            "disposable (goods)"
-          ]
-        },
-        {
-          "id": "L6-0950",
-          "simp": "一代",
-          "trad": "一代",
-          "pinyin": "yīdài",
-          "pos": "N",
-          "en": "generation",
-          "defs": [
-            "generation"
-          ]
-        },
-        {
-          "id": "L6-0951",
-          "simp": "一道",
-          "trad": "一道",
-          "pinyin": "yīdào",
-          "pos": "Adv",
-          "en": "together",
-          "defs": [
-            "together"
-          ]
-        },
-        {
-          "id": "L6-0952",
-          "simp": "一贯",
-          "trad": "一貫",
-          "pinyin": "yīguàn",
-          "pos": "Adj",
-          "en": "consistent",
-          "defs": [
-            "consistent",
-            "constant",
-            "from start to finish",
-            "all along",
-            "persistent"
-          ]
-        },
-        {
-          "id": "L6-0953",
-          "simp": "一路上",
-          "trad": "一路上",
-          "pinyin": "yīlù shang",
-          "pos": "",
-          "en": "along the way",
-          "defs": [
-            "along the way",
-            "the whole way",
-            "(fig.) the whole time"
-          ]
-        },
-        {
-          "id": "L6-0954",
-          "simp": "仪器",
-          "trad": "儀器",
-          "pinyin": "yíqì",
-          "pos": "N",
-          "en": "instrument; apparatus",
-          "defs": [
-            "instrument; apparatus",
-            "CL:臺|台[tai2]"
-          ]
-        },
-        {
-          "id": "L6-0955",
-          "simp": "仪式",
-          "trad": "儀式",
-          "pinyin": "yíshì",
-          "pos": "N",
-          "en": "ceremony",
-          "defs": [
-            "ceremony"
-          ]
-        },
-        {
-          "id": "L6-0956",
-          "simp": "遗憾",
-          "trad": "遺憾",
-          "pinyin": "yíhàn",
-          "pos": "Adj/N",
-          "en": "regret",
-          "defs": [
-            "regret",
-            "to regret",
-            "to be sorry that"
-          ]
-        },
-        {
-          "id": "L6-0957",
-          "simp": "一番",
-          "trad": "一番",
-          "pinyin": "yīfān",
-          "pos": "",
-          "en": "",
-          "defs": []
-        },
-        {
-          "id": "L6-0958",
-          "simp": "一模一样",
-          "trad": "一模一樣",
-          "pinyin": "yīmú-yīyàng",
-          "pos": "",
-          "en": "(idiom) exactly alike; identical",
-          "defs": [
-            "(idiom) exactly alike; identical",
-            "also pr. [yi1mo2-yi1yang4]"
-          ]
-        },
-        {
-          "id": "L6-0959",
-          "simp": "一齐",
-          "trad": "一齊",
-          "pinyin": "yīqí",
-          "pos": "Adv",
-          "en": "at the same time",
-          "defs": [
-            "at the same time",
-            "simultaneously"
-          ]
-        },
-        {
-          "id": "L6-0960",
-          "simp": "一时",
-          "trad": "一時",
-          "pinyin": "yīshí",
-          "pos": "N/Adv",
-          "en": "a period of time",
-          "defs": [
-            "a period of time",
-            "a while",
-            "for a short while",
-            "temporary",
-            "momentary",
-            "at the same time"
-          ]
-        },
-        {
-          "id": "L6-0961",
-          "simp": "一同",
-          "trad": "一同",
-          "pinyin": "yītóng",
-          "pos": "Adv",
-          "en": "together",
-          "defs": [
-            "together"
-          ]
-        },
-        {
-          "id": "L6-0962",
-          "simp": "一行",
-          "trad": "一行",
-          "pinyin": "yīxíng",
-          "pos": "N",
-          "en": "party",
-          "defs": [
-            "party",
-            "delegation"
-          ]
-        },
-        {
-          "id": "L6-0963",
-          "simp": "艺人",
-          "trad": "藝人",
-          "pinyin": "yìrén",
-          "pos": "N",
-          "en": "performing artist",
-          "defs": [
-            "performing artist",
-            "actor"
-          ]
-        }
-      ]
-    },
     "b6-idioms": {
       "targetWords": 90,
       "allocatedWords": 90,
@@ -15036,6 +13878,1164 @@
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
+    },
+    "b6-human-experience": {
+      "targetWords": 90,
+      "allocatedWords": 90,
+      "words": [
+        {
+          "id": "L6-0875",
+          "simp": "细胞",
+          "trad": "細胞",
+          "pinyin": "xìbāo",
+          "pos": "N",
+          "en": "cell (biology)",
+          "defs": [
+            "cell (biology)"
+          ]
+        },
+        {
+          "id": "L6-0876",
+          "simp": "细菌",
+          "trad": "細菌",
+          "pinyin": "xìjūn",
+          "pos": "N",
+          "en": "bacterium",
+          "defs": [
+            "bacterium",
+            "germ"
+          ]
+        },
+        {
+          "id": "L6-0877",
+          "simp": "先锋",
+          "trad": "先鋒",
+          "pinyin": "xiānfēng",
+          "pos": "N",
+          "en": "vanguard; pioneer; avant-garde",
+          "defs": [
+            "vanguard; pioneer; avant-garde"
+          ]
+        },
+        {
+          "id": "L6-0878",
+          "simp": "嫌",
+          "trad": "嫌",
+          "pinyin": "xián",
+          "pos": "V",
+          "en": "to dislike",
+          "defs": [
+            "to dislike",
+            "suspicion",
+            "resentment",
+            "enmity",
+            "abbr. for 嫌犯[xian2 fan4], criminal suspect"
+          ]
+        },
+        {
+          "id": "L6-0879",
+          "simp": "显出",
+          "trad": "顯出",
+          "pinyin": "xiǎnchū",
+          "pos": "",
+          "en": "to express",
+          "defs": [
+            "to express",
+            "to exhibit"
+          ]
+        },
+        {
+          "id": "L6-0880",
+          "simp": "险",
+          "trad": "險",
+          "pinyin": "xiǎn",
+          "pos": "Adj",
+          "en": "danger",
+          "defs": [
+            "danger",
+            "dangerous",
+            "rugged"
+          ]
+        },
+        {
+          "id": "L6-0881",
+          "simp": "线路",
+          "trad": "線路",
+          "pinyin": "xiànlù",
+          "pos": "N",
+          "en": "(electricity) line; circuit; wire",
+          "defs": [
+            "(electricity) line; circuit; wire",
+            "(traffic) road; track; route"
+          ]
+        },
+        {
+          "id": "L6-0882",
+          "simp": "陷入",
+          "trad": "陷入",
+          "pinyin": "xiànrù",
+          "pos": "V",
+          "en": "to sink into",
+          "defs": [
+            "to sink into",
+            "to get caught up in",
+            "to land in (a predicament)"
+          ]
+        },
+        {
+          "id": "L6-0883",
+          "simp": "响声",
+          "trad": "響聲",
+          "pinyin": "xiǎngshēng",
+          "pos": "N",
+          "en": "noise",
+          "defs": [
+            "noise"
+          ]
+        },
+        {
+          "id": "L6-0884",
+          "simp": "想不到",
+          "trad": "想不到",
+          "pinyin": "xiǎngbudào",
+          "pos": "V",
+          "en": "unexpected",
+          "defs": [
+            "unexpected",
+            "hard to imagine",
+            "it had not occurred to me",
+            "who could have thought that"
+          ]
+        },
+        {
+          "id": "L6-0885",
+          "simp": "消耗",
+          "trad": "消耗",
+          "pinyin": "xiāohào",
+          "pos": "V/N",
+          "en": "to consume; to use up",
+          "defs": [
+            "to consume; to use up",
+            "to deplete; to expend",
+            "(old) news; mail; message"
+          ]
+        },
+        {
+          "id": "L6-0886",
+          "simp": "消灭",
+          "trad": "消滅",
+          "pinyin": "xiāomiè",
+          "pos": "V",
+          "en": "to put an end to",
+          "defs": [
+            "to put an end to",
+            "to annihilate",
+            "to cause to perish",
+            "to perish",
+            "annihilation (in quantum field theory)"
+          ]
+        },
+        {
+          "id": "L6-0887",
+          "simp": "小费",
+          "trad": "小費",
+          "pinyin": "xiǎofèi",
+          "pos": "N",
+          "en": "tip",
+          "defs": [
+            "tip",
+            "gratuity"
+          ]
+        },
+        {
+          "id": "L6-0888",
+          "simp": "小麦",
+          "trad": "小麥",
+          "pinyin": "xiǎomài",
+          "pos": "N",
+          "en": "wheat",
+          "defs": [
+            "wheat",
+            "CL:粒[li4]"
+          ]
+        },
+        {
+          "id": "L6-0889",
+          "simp": "小于",
+          "trad": "小於",
+          "pinyin": "xiǎoyú",
+          "pos": "V",
+          "en": "less than, <",
+          "defs": [
+            "less than, <"
+          ]
+        },
+        {
+          "id": "L6-0890",
+          "simp": "晓得",
+          "trad": "曉得",
+          "pinyin": "xiǎode",
+          "pos": "V",
+          "en": "to know",
+          "defs": [
+            "to know"
+          ]
+        },
+        {
+          "id": "L6-0891",
+          "simp": "笑脸",
+          "trad": "笑臉",
+          "pinyin": "xiàoliǎn",
+          "pos": "N",
+          "en": "smiling face",
+          "defs": [
+            "smiling face",
+            "smiley :) ☺",
+            "CL:副[fu4]"
+          ]
+        },
+        {
+          "id": "L6-0892",
+          "simp": "笑容",
+          "trad": "笑容",
+          "pinyin": "xiàoróng",
+          "pos": "N",
+          "en": "smile",
+          "defs": [
+            "smile",
+            "smiling expression",
+            "CL:副[fu4]"
+          ]
+        },
+        {
+          "id": "L6-0893",
+          "simp": "笑声",
+          "trad": "笑聲",
+          "pinyin": "xiàoshēng",
+          "pos": "N",
+          "en": "laughter",
+          "defs": [
+            "laughter"
+          ]
+        },
+        {
+          "id": "L6-0894",
+          "simp": "协会",
+          "trad": "協會",
+          "pinyin": "xiéhuì",
+          "pos": "N",
+          "en": "an association",
+          "defs": [
+            "an association",
+            "a society",
+            "CL:個|个[ge4],家[jia1]"
+          ]
+        },
+        {
+          "id": "L6-0895",
+          "simp": "协商",
+          "trad": "協商",
+          "pinyin": "xiéshāng",
+          "pos": "V",
+          "en": "to consult with",
+          "defs": [
+            "to consult with",
+            "to talk things over",
+            "agreement"
+          ]
+        },
+        {
+          "id": "L6-0896",
+          "simp": "协调",
+          "trad": "協調",
+          "pinyin": "xiétiáo",
+          "pos": "V/Adj",
+          "en": "to coordinate",
+          "defs": [
+            "to coordinate",
+            "to harmonize",
+            "to fit together",
+            "to match (colors etc)",
+            "harmonious",
+            "concerted"
+          ]
+        },
+        {
+          "id": "L6-0897",
+          "simp": "协助",
+          "trad": "協助",
+          "pinyin": "xiézhù",
+          "pos": "V",
+          "en": "to provide assistance; to aid",
+          "defs": [
+            "to provide assistance; to aid"
+          ]
+        },
+        {
+          "id": "L6-0898",
+          "simp": "写字楼",
+          "trad": "寫字樓",
+          "pinyin": "xiězìlóu",
+          "pos": "N",
+          "en": "office building",
+          "defs": [
+            "office building"
+          ]
+        },
+        {
+          "id": "L6-0899",
+          "simp": "写字台",
+          "trad": "寫字檯",
+          "pinyin": "xiězìtái",
+          "pos": "N",
+          "en": "writing desk",
+          "defs": [
+            "writing desk"
+          ]
+        },
+        {
+          "id": "L6-0900",
+          "simp": "心灵",
+          "trad": "心靈",
+          "pinyin": "xīnlíng",
+          "pos": "N",
+          "en": "bright",
+          "defs": [
+            "bright",
+            "smart",
+            "quick-witted",
+            "heart",
+            "thoughts",
+            "spirit"
+          ]
+        },
+        {
+          "id": "L6-0901",
+          "simp": "心愿",
+          "trad": "心願",
+          "pinyin": "xīnyuàn",
+          "pos": "N",
+          "en": "cherished desire",
+          "defs": [
+            "cherished desire",
+            "dream",
+            "craving",
+            "wish",
+            "aspiration"
+          ]
+        },
+        {
+          "id": "L6-0902",
+          "simp": "心脏",
+          "trad": "心臟",
+          "pinyin": "xīnzàng",
+          "pos": "N",
+          "en": "heart",
+          "defs": [
+            "heart",
+            "CL:顆|颗[ke1],個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L6-0903",
+          "simp": "心脏病",
+          "trad": "心臟病",
+          "pinyin": "xīnzàngbìng",
+          "pos": "N",
+          "en": "heart disease",
+          "defs": [
+            "heart disease"
+          ]
+        },
+        {
+          "id": "L6-0904",
+          "simp": "新人",
+          "trad": "新人",
+          "pinyin": "xīnrén",
+          "pos": "N",
+          "en": "newcomer; new recruit; fresh talent",
+          "defs": [
+            "newcomer; new recruit; fresh talent",
+            "newlywed, esp. new bride",
+            "newlywed couple; bride and groom",
+            "(paleoanthropology) later-period Homo sapiens"
+          ]
+        },
+        {
+          "id": "L6-0905",
+          "simp": "新兴",
+          "trad": "新興",
+          "pinyin": "xīnxīng",
+          "pos": "Adj",
+          "en": "see 新興縣|新兴县[Xin1 xing1 Xian4]",
+          "defs": [
+            "see 新興縣|新兴县[Xin1 xing1 Xian4]",
+            "see 新興區|新兴区[Xin1 xing1 Qu1]",
+            "(of markets, industries, infectious diseases etc) rising",
+            "emerging",
+            "in the ascendant"
+          ]
+        },
+        {
+          "id": "L6-0906",
+          "simp": "薪水",
+          "trad": "薪水",
+          "pinyin": "xīnshui",
+          "pos": "N",
+          "en": "salary",
+          "defs": [
+            "salary",
+            "wage"
+          ]
+        },
+        {
+          "id": "L6-0907",
+          "simp": "信仰",
+          "trad": "信仰",
+          "pinyin": "xìnyǎng",
+          "pos": "V",
+          "en": "to believe in (a religion)",
+          "defs": [
+            "to believe in (a religion)",
+            "firm belief",
+            "conviction"
+          ]
+        },
+        {
+          "id": "L6-0908",
+          "simp": "信用",
+          "trad": "信用",
+          "pinyin": "xìnyòng",
+          "pos": "N",
+          "en": "trustworthiness",
+          "defs": [
+            "trustworthiness",
+            "(commerce) credit",
+            "(literary) to trust and appoint"
+          ]
+        },
+        {
+          "id": "L6-0909",
+          "simp": "兴旺",
+          "trad": "興旺",
+          "pinyin": "xīngwàng",
+          "pos": "Adj",
+          "en": "prosperous",
+          "defs": [
+            "prosperous",
+            "thriving",
+            "to prosper",
+            "to flourish"
+          ]
+        },
+        {
+          "id": "L6-0910",
+          "simp": "行程",
+          "trad": "行程",
+          "pinyin": "xíngchéng",
+          "pos": "N",
+          "en": "journey; travel route; itinerary",
+          "defs": [
+            "journey; travel route; itinerary",
+            "distance of travel",
+            "course (of history)",
+            "stroke (of a piston)",
+            "(Tw) (computing) process"
+          ]
+        },
+        {
+          "id": "L6-0911",
+          "simp": "形",
+          "trad": "形",
+          "pinyin": "xíng",
+          "pos": "N",
+          "en": "to appear",
+          "defs": [
+            "to appear",
+            "to look",
+            "form",
+            "shape"
+          ]
+        },
+        {
+          "id": "L6-0912",
+          "simp": "凶",
+          "trad": "凶",
+          "pinyin": "xiōng",
+          "pos": "Adj",
+          "en": "vicious",
+          "defs": [
+            "vicious",
+            "fierce",
+            "ominous",
+            "inauspicious",
+            "famine",
+            "variant of 兇|凶[xiong1]"
+          ]
+        },
+        {
+          "id": "L6-0912",
+          "simp": "凶",
+          "trad": "兇",
+          "pinyin": "xiōng",
+          "pos": "Adj",
+          "en": "terrible",
+          "defs": [
+            "terrible",
+            "fearful"
+          ]
+        },
+        {
+          "id": "L6-0913",
+          "simp": "凶手",
+          "trad": "兇手",
+          "pinyin": "xiōngshǒu",
+          "pos": "N",
+          "en": "murderer",
+          "defs": [
+            "murderer",
+            "assassin"
+          ]
+        },
+        {
+          "id": "L6-0914",
+          "simp": "修车",
+          "trad": "修車",
+          "pinyin": "xiū chē",
+          "pos": "",
+          "en": "to repair a bike (car etc)",
+          "defs": [
+            "to repair a bike (car etc)"
+          ]
+        },
+        {
+          "id": "L6-0915",
+          "simp": "袖珍",
+          "trad": "袖珍",
+          "pinyin": "xiùzhēn",
+          "pos": "Adj",
+          "en": "pocket-sized",
+          "defs": [
+            "pocket-sized",
+            "pocket (book etc)"
+          ]
+        },
+        {
+          "id": "L6-0916",
+          "simp": "悬",
+          "trad": "懸",
+          "pinyin": "xuán",
+          "pos": "V",
+          "en": "to hang or suspend",
+          "defs": [
+            "to hang or suspend",
+            "to worry",
+            "public announcement",
+            "unresolved",
+            "baseless",
+            "without foundation"
+          ]
+        },
+        {
+          "id": "L6-0917",
+          "simp": "旋转",
+          "trad": "旋轉",
+          "pinyin": "xuánzhuǎn",
+          "pos": "V",
+          "en": "to rotate",
+          "defs": [
+            "to rotate",
+            "to revolve",
+            "to spin",
+            "to whirl"
+          ]
+        },
+        {
+          "id": "L6-0918",
+          "simp": "选拔",
+          "trad": "選拔",
+          "pinyin": "xuǎnbá",
+          "pos": "V",
+          "en": "to select the best",
+          "defs": [
+            "to select the best"
+          ]
+        },
+        {
+          "id": "L6-0919",
+          "simp": "选举",
+          "trad": "選舉",
+          "pinyin": "xuǎnjǔ",
+          "pos": "V/N",
+          "en": "to elect",
+          "defs": [
+            "to elect",
+            "election",
+            "CL:次[ci4],個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L6-0920",
+          "simp": "学会",
+          "trad": "學會",
+          "pinyin": "xuéhuì",
+          "pos": "N",
+          "en": "to learn; to master",
+          "defs": [
+            "to learn; to master",
+            "institute; learned society; (scholarly) association"
+          ]
+        },
+        {
+          "id": "L6-0921",
+          "simp": "学员",
+          "trad": "學員",
+          "pinyin": "xuéyuán",
+          "pos": "N",
+          "en": "student",
+          "defs": [
+            "student",
+            "member of an institution of learning",
+            "officer cadet"
+          ]
+        },
+        {
+          "id": "L6-0922",
+          "simp": "血管",
+          "trad": "血管",
+          "pinyin": "xuèguǎn",
+          "pos": "N",
+          "en": "vein",
+          "defs": [
+            "vein",
+            "artery",
+            "CL:根[gen1]"
+          ]
+        },
+        {
+          "id": "L6-0923",
+          "simp": "血液",
+          "trad": "血液",
+          "pinyin": "xuèyè",
+          "pos": "N",
+          "en": "blood",
+          "defs": [
+            "blood",
+            "(fig.) lifeblood"
+          ]
+        },
+        {
+          "id": "L6-0924",
+          "simp": "循环",
+          "trad": "循環",
+          "pinyin": "xúnhuán",
+          "pos": "V",
+          "en": "to cycle",
+          "defs": [
+            "to cycle",
+            "to circulate",
+            "circle",
+            "loop"
+          ]
+        },
+        {
+          "id": "L6-0925",
+          "simp": "压迫",
+          "trad": "壓迫",
+          "pinyin": "yāpò",
+          "pos": "V",
+          "en": "to oppress",
+          "defs": [
+            "to oppress",
+            "to repress",
+            "to constrict",
+            "oppression",
+            "stress (physics)"
+          ]
+        },
+        {
+          "id": "L6-0926",
+          "simp": "烟花",
+          "trad": "煙花",
+          "pinyin": "yānhuā",
+          "pos": "N",
+          "en": "fireworks",
+          "defs": [
+            "fireworks",
+            "prostitute (esp. in Yuan theater)"
+          ]
+        },
+        {
+          "id": "L6-0927",
+          "simp": "沿",
+          "trad": "沿",
+          "pinyin": "yán",
+          "pos": "Prep",
+          "en": "along",
+          "defs": [
+            "along",
+            "to follow (a line, tradition etc)",
+            "to carry on",
+            "to trim (a border with braid, tape etc)",
+            "border",
+            "edge"
+          ]
+        },
+        {
+          "id": "L6-0928",
+          "simp": "沿海",
+          "trad": "沿海",
+          "pinyin": "yánhǎi",
+          "pos": "N",
+          "en": "coastal",
+          "defs": [
+            "coastal"
+          ]
+        },
+        {
+          "id": "L6-0929",
+          "simp": "沿着",
+          "trad": "沿著",
+          "pinyin": "yánzhe",
+          "pos": "",
+          "en": "to go along",
+          "defs": [
+            "to go along",
+            "to follow"
+          ]
+        },
+        {
+          "id": "L6-0930",
+          "simp": "研发",
+          "trad": "研發",
+          "pinyin": "yánfā",
+          "pos": "V",
+          "en": "research and development",
+          "defs": [
+            "research and development",
+            "to develop"
+          ]
+        },
+        {
+          "id": "L6-0931",
+          "simp": "眼看",
+          "trad": "眼看",
+          "pinyin": "yǎnkàn",
+          "pos": "V/Adv",
+          "en": "soon",
+          "defs": [
+            "soon",
+            "in a moment",
+            "to look on as sth happens"
+          ]
+        },
+        {
+          "id": "L6-0932",
+          "simp": "演奏",
+          "trad": "演奏",
+          "pinyin": "yǎnzòu",
+          "pos": "V",
+          "en": "to perform on a musical instrument",
+          "defs": [
+            "to perform on a musical instrument"
+          ]
+        },
+        {
+          "id": "L6-0933",
+          "simp": "宴会",
+          "trad": "宴會",
+          "pinyin": "yànhuì",
+          "pos": "N",
+          "en": "banquet",
+          "defs": [
+            "banquet",
+            "feast",
+            "dinner party",
+            "CL:席[xi2],個|个[ge4]"
+          ]
+        },
+        {
+          "id": "L6-0934",
+          "simp": "洋",
+          "trad": "洋",
+          "pinyin": "yáng",
+          "pos": "Adj",
+          "en": "ocean",
+          "defs": [
+            "ocean",
+            "vast",
+            "foreign",
+            "silver dollar or coin"
+          ]
+        },
+        {
+          "id": "L6-0935",
+          "simp": "仰",
+          "trad": "仰",
+          "pinyin": "yǎng",
+          "pos": "V",
+          "en": "surname Yang",
+          "defs": [
+            "surname Yang",
+            "to face upward",
+            "to look up",
+            "to admire",
+            "to rely on"
+          ]
+        },
+        {
+          "id": "L6-0936",
+          "simp": "养老",
+          "trad": "養老",
+          "pinyin": "yǎnglǎo",
+          "pos": "",
+          "en": "to provide for the elderly (family members)",
+          "defs": [
+            "to provide for the elderly (family members)",
+            "to enjoy a life in retirement"
+          ]
+        },
+        {
+          "id": "L6-0937",
+          "simp": "氧气",
+          "trad": "氧氣",
+          "pinyin": "yǎngqì",
+          "pos": "N",
+          "en": "oxygen",
+          "defs": [
+            "oxygen"
+          ]
+        },
+        {
+          "id": "L6-0938",
+          "simp": "样",
+          "trad": "樣",
+          "pinyin": "yàng",
+          "pos": "N/M",
+          "en": "manner",
+          "defs": [
+            "manner",
+            "pattern",
+            "way",
+            "appearance",
+            "shape",
+            "classifier: kind, type"
+          ]
+        },
+        {
+          "id": "L6-0939",
+          "simp": "药品",
+          "trad": "藥品",
+          "pinyin": "yàopǐn",
+          "pos": "N",
+          "en": "medicaments",
+          "defs": [
+            "medicaments",
+            "medicine",
+            "drug"
+          ]
+        },
+        {
+          "id": "L6-0940",
+          "simp": "要不然",
+          "trad": "要不然",
+          "pinyin": "yàobùrán",
+          "pos": "Conj",
+          "en": "otherwise",
+          "defs": [
+            "otherwise",
+            "or else",
+            "or"
+          ]
+        },
+        {
+          "id": "L6-0941",
+          "simp": "要好",
+          "trad": "要好",
+          "pinyin": "yàohǎo",
+          "pos": "Adj",
+          "en": "to be on good terms",
+          "defs": [
+            "to be on good terms",
+            "to be close friends",
+            "striving for self-improvement"
+          ]
+        },
+        {
+          "id": "L6-0942",
+          "simp": "要么",
+          "trad": "要麼",
+          "pinyin": "yàome",
+          "pos": "Conj",
+          "en": "or",
+          "defs": [
+            "or",
+            "either one or the other"
+          ]
+        },
+        {
+          "id": "L6-0943",
+          "simp": "要素",
+          "trad": "要素",
+          "pinyin": "yàosù",
+          "pos": "N",
+          "en": "essential factor",
+          "defs": [
+            "essential factor",
+            "key constituent"
+          ]
+        },
+        {
+          "id": "L6-0944",
+          "simp": "野",
+          "trad": "野",
+          "pinyin": "yě",
+          "pos": "Adj",
+          "en": "field",
+          "defs": [
+            "field",
+            "plain",
+            "open space",
+            "limit",
+            "boundary",
+            "rude",
+            "feral"
+          ]
+        },
+        {
+          "id": "L6-0945",
+          "simp": "野生",
+          "trad": "野生",
+          "pinyin": "yěshēng",
+          "pos": "Adj",
+          "en": "wild",
+          "defs": [
+            "wild",
+            "undomesticated"
+          ]
+        },
+        {
+          "id": "L6-0946",
+          "simp": "医药",
+          "trad": "醫藥",
+          "pinyin": "yīyào",
+          "pos": "N",
+          "en": "medical care and medicines",
+          "defs": [
+            "medical care and medicines",
+            "medicine (drug)",
+            "medical",
+            "pharmaceutical"
+          ]
+        },
+        {
+          "id": "L6-0947",
+          "simp": "依次",
+          "trad": "依次",
+          "pinyin": "yīcì",
+          "pos": "Adv",
+          "en": "in order",
+          "defs": [
+            "in order",
+            "in succession"
+          ]
+        },
+        {
+          "id": "L6-0948",
+          "simp": "依赖",
+          "trad": "依賴",
+          "pinyin": "yīlài",
+          "pos": "V",
+          "en": "to depend on; to be dependent on",
+          "defs": [
+            "to depend on; to be dependent on"
+          ]
+        },
+        {
+          "id": "L6-0949",
+          "simp": "一次性",
+          "trad": "一次性",
+          "pinyin": "yīcìxìng",
+          "pos": "Adj",
+          "en": "one-off (offer)",
+          "defs": [
+            "one-off (offer)",
+            "one-time",
+            "single-use",
+            "disposable (goods)"
+          ]
+        },
+        {
+          "id": "L6-0950",
+          "simp": "一代",
+          "trad": "一代",
+          "pinyin": "yīdài",
+          "pos": "N",
+          "en": "generation",
+          "defs": [
+            "generation"
+          ]
+        },
+        {
+          "id": "L6-0951",
+          "simp": "一道",
+          "trad": "一道",
+          "pinyin": "yīdào",
+          "pos": "Adv",
+          "en": "together",
+          "defs": [
+            "together"
+          ]
+        },
+        {
+          "id": "L6-0952",
+          "simp": "一贯",
+          "trad": "一貫",
+          "pinyin": "yīguàn",
+          "pos": "Adj",
+          "en": "consistent",
+          "defs": [
+            "consistent",
+            "constant",
+            "from start to finish",
+            "all along",
+            "persistent"
+          ]
+        },
+        {
+          "id": "L6-0953",
+          "simp": "一路上",
+          "trad": "一路上",
+          "pinyin": "yīlù shang",
+          "pos": "",
+          "en": "along the way",
+          "defs": [
+            "along the way",
+            "the whole way",
+            "(fig.) the whole time"
+          ]
+        },
+        {
+          "id": "L6-0954",
+          "simp": "仪器",
+          "trad": "儀器",
+          "pinyin": "yíqì",
+          "pos": "N",
+          "en": "instrument; apparatus",
+          "defs": [
+            "instrument; apparatus",
+            "CL:臺|台[tai2]"
+          ]
+        },
+        {
+          "id": "L6-0955",
+          "simp": "仪式",
+          "trad": "儀式",
+          "pinyin": "yíshì",
+          "pos": "N",
+          "en": "ceremony",
+          "defs": [
+            "ceremony"
+          ]
+        },
+        {
+          "id": "L6-0956",
+          "simp": "遗憾",
+          "trad": "遺憾",
+          "pinyin": "yíhàn",
+          "pos": "Adj/N",
+          "en": "regret",
+          "defs": [
+            "regret",
+            "to regret",
+            "to be sorry that"
+          ]
+        },
+        {
+          "id": "L6-0957",
+          "simp": "一番",
+          "trad": "一番",
+          "pinyin": "yīfān",
+          "pos": "",
+          "en": "",
+          "defs": []
+        },
+        {
+          "id": "L6-0958",
+          "simp": "一模一样",
+          "trad": "一模一樣",
+          "pinyin": "yīmú-yīyàng",
+          "pos": "",
+          "en": "(idiom) exactly alike; identical",
+          "defs": [
+            "(idiom) exactly alike; identical",
+            "also pr. [yi1mo2-yi1yang4]"
+          ]
+        },
+        {
+          "id": "L6-0959",
+          "simp": "一齐",
+          "trad": "一齊",
+          "pinyin": "yīqí",
+          "pos": "Adv",
+          "en": "at the same time",
+          "defs": [
+            "at the same time",
+            "simultaneously"
+          ]
+        },
+        {
+          "id": "L6-0960",
+          "simp": "一时",
+          "trad": "一時",
+          "pinyin": "yīshí",
+          "pos": "N/Adv",
+          "en": "a period of time",
+          "defs": [
+            "a period of time",
+            "a while",
+            "for a short while",
+            "temporary",
+            "momentary",
+            "at the same time"
+          ]
+        },
+        {
+          "id": "L6-0961",
+          "simp": "一同",
+          "trad": "一同",
+          "pinyin": "yītóng",
+          "pos": "Adv",
+          "en": "together",
+          "defs": [
+            "together"
+          ]
+        },
+        {
+          "id": "L6-0962",
+          "simp": "一行",
+          "trad": "一行",
+          "pinyin": "yīxíng",
+          "pos": "N",
+          "en": "party",
+          "defs": [
+            "party",
+            "delegation"
+          ]
+        },
+        {
+          "id": "L6-0963",
+          "simp": "艺人",
+          "trad": "藝人",
+          "pinyin": "yìrén",
+          "pos": "N",
+          "en": "performing artist",
+          "defs": [
+            "performing artist",
+            "actor"
+          ]
+        }
+      ]
     }
   }
 }

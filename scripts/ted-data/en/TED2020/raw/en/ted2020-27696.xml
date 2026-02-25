@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">The family of giants you work for is throwing a fancy dinner party, and they all want to look their best.</s>
+ <s id="2">But there’s a problem – the elder giant’s favorite shirt is wrinkled!</s>
+ <s id="3">To fix it, you’ll need to power up… the Giant Iron.</s>
+ <s id="4">The iron needs two giant batteries to work.</s>
+ <s id="5">You just had 4 working ones and 4 dead ones in separate piles, but it looks like the baby giant mixed them all up.</s>
+ <s id="6">You need to get the iron working and press the giant shirt, fast – or you’ll end up being the main course tonight!</s>
+ <s id="7">How can you test the batteries so that you’re guaranteed to get a working pair in 7 tries or less?</s>
+ <s id="8">Pause the video now if you want to figure it out for yourself Answer in 3 Answer in 2 Answer in 1 You could, of course, take all eight batteries and begin testing the 28 possible combinations.</s>
+ <s id="9">You might get lucky within the first few tries.</s>
+ <s id="10">But if you don’t, moving the giant batteries that many times will take way too long.</s>
+ <s id="11">You can’t rely on luck – you need to assume the worst possibility and plan accordingly.</s>
+ <s id="12">However, you don’t actually need to test every possible combination.</s>
+ <s id="13">Remember – there are four good batteries in total, meaning that any pile of six you choose will have at least two good batteries in it.</s>
+ <s id="14">That doesn’t help you right away, since testing all six batteries could still take as many as 15 tries.</s>
+ <s id="15">But it does give you a clue to the solution – dividing the batteries into smaller subsets narrows down the possible results.</s>
+ <s id="16">So instead of six batteries, let’s take any three.</s>
+ <s id="17">This group has a total of three possible combinations.</s>
+ <s id="18">Since both batteries have to be working for the iron to power up, a single failure can’t tell you whether both batteries are dead, or just one.</s>
+ <s id="19">But if all three combinations fail, then you’ll know this group has either one good battery, or none at all.</s>
+ <s id="20">Now you can set those three aside and repeat the process for another three batteries.</s>
+ <s id="21">You might get a match, but if every combination fails again, you’ll know this set can have no more than one good battery.</s>
+ <s id="22">That would leave only two batteries untried.</s>
+ <s id="23">Since there are four good batteries in total and you’ve only accounted for two so far, both of these remaining ones must be good.</s>
+ <s id="24">Dividing the batteries into sets of 3, 3, and 2 is guaranteed to get a working result in 7 tries or less, no matter what order you test the piles in.</s>
+ <s id="25">With no time to spare, the iron comes to life, and you manage to get the shirt flawlessly ironed.</s>
+ <s id="26">The pleased elder and his family show up to the party dressed to the nines … well, almost.</s>
+</text>

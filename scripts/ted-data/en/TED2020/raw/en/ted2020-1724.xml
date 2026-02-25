@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Let's face it: Driving is dangerous.</s>
+ <s id="2">It's one of the things that we don't like to think about, but the fact that religious icons and good luck charms show up on dashboards around the world betrays the fact that we know this to be true.</s>
+ <s id="3">Car accidents are the leading cause of death in people ages 16 to 19 in the United States -- leading cause of death -- and 75 percent of these accidents have nothing to do with drugs or alcohol.</s>
+ <s id="4">So what happens?</s>
+ <s id="5">No one can say for sure, but I remember my first accident.</s>
+ <s id="6">I was a young driver out on the highway, and the car in front of me, I saw the brake lights go on.</s>
+ <s id="7">I'm like, "Okay, all right, this guy is slowing down, I'll slow down too."</s>
+ <s id="8">I step on the brake.</s>
+ <s id="9">But no, this guy isn't slowing down.</s>
+ <s id="10">This guy is stopping, dead stop, dead stop on the highway.</s>
+ <s id="11">It was just going 65 -- to zero?</s>
+ <s id="12">I slammed on the brakes.</s>
+ <s id="13">I felt the ABS kick in, and the car is still going, and it's not going to stop, and I know it's not going to stop, and the air bag deploys, the car is totaled, and fortunately, no one was hurt.</s>
+ <s id="14">But I had no idea that car was stopping, and I think we can do a lot better than that.</s>
+ <s id="15">I think we can transform the driving experience by letting our cars talk to each other.</s>
+ <s id="16">I just want you to think a little bit about what the experience of driving is like now.</s>
+ <p id="p17">
+  <s id="17.1">Get into your car.</s>
+  <s id="17.2">Close the door.</s>
+  <s id="17.3">You're in a glass bubble.</s>
+ </p>
+ <s id="18">You can't really directly sense the world around you.</s>
+ <s id="19">You're in this extended body.</s>
+ <s id="20">You're tasked with navigating it down partially-seen roadways, in and amongst other metal giants, at super-human speeds.</s>
+ <p id="p21">
+  <s id="21.1">Okay?</s>
+  <s id="21.2">And all you have to guide you are your two eyes.</s>
+ </p>
+ <s id="22">Okay, so that's all you have, eyes that weren't really designed for this task, but then people ask you to do things like, you want to make a lane change, what's the first thing they ask you do?</s>
+ <p id="p23">
+  <s id="23.1">Take your eyes off the road.</s>
+  <s id="23.2">That's right.</s>
+ </p>
+ <s id="24">Stop looking where you're going, turn, check your blind spot, and drive down the road without looking where you're going.</s>
+ <p id="p25">
+  <s id="25.1">You and everyone else.</s>
+  <s id="25.2">This is the safe way to drive.</s>
+ </p>
+ <p id="p26">
+  <s id="26.1">Why do we do this?</s>
+  <s id="26.2">Because we have to, we have to make a choice, do I look here or do I look here?</s>
+ </p>
+ <s id="27">What's more important?</s>
+ <s id="28">And usually we do a fantastic job picking and choosing what we attend to on the road.</s>
+ <s id="29">But occasionally we miss something.</s>
+ <s id="30">Occasionally we sense something wrong or too late.</s>
+ <s id="31">In countless accidents, the driver says, "I didn't see it coming."</s>
+ <p id="p32">
+  <s id="32.1">And I believe that.</s>
+  <s id="32.2">I believe that.</s>
+ </p>
+ <s id="33">We can only watch so much.</s>
+ <s id="34">But the technology exists now that can help us improve that.</s>
+ <s id="35">In the future, with cars exchanging data with each other, we will be able to see not just three cars ahead and three cars behind, to the right and left, all at the same time, bird's eye view, we will actually be able to see into those cars.</s>
+ <s id="36">We will be able to see the velocity of the car in front of us, to see how fast that guy's going or stopping.</s>
+ <s id="37">If that guy's going down to zero, I'll know.</s>
+ <s id="38">And with computation and algorithms and predictive models, we will be able to see the future.</s>
+ <s id="39">You may think that's impossible.</s>
+ <p id="p40">
+  <s id="40.1">How can you predict the future?</s>
+  <s id="40.2">That's really hard.</s>
+ </p>
+ <p id="p41">
+  <s id="41.1">Actually, no.</s>
+  <s id="41.2">With cars, it's not impossible.</s>
+ </p>
+ <s id="42">Cars are three-dimensional objects that have a fixed position and velocity.</s>
+ <s id="43">They travel down roads.</s>
+ <s id="44">Often they travel on pre-published routes.</s>
+ <s id="45">It's really not that hard to make reasonable predictions about where a car's going to be in the near future.</s>
+ <s id="46">Even if, when you're in your car and some motorcyclist comes -- bshoom! -- 85 miles an hour down, lane-splitting -- I know you've had this experience -- that guy didn't "just come out of nowhere."</s>
+ <s id="47">That guy's been on the road probably for the last half hour.</s>
+ <p id="p48">
+  <s id="48.1">(Laughter) Right?</s>
+  <s id="48.2">I mean, somebody's seen him.</s>
+ </p>
+ <s id="49">Ten, 20, 30 miles back, someone's seen that guy, and as soon as one car sees that guy and puts him on the map, he's on the map -- position, velocity, good estimate he'll continue going 85 miles an hour.</s>
+ <s id="50">You'll know, because your car will know, because that other car will have whispered something in his ear, like, "By the way, five minutes, motorcyclist, watch out."</s>
+ <s id="51">You can make reasonable predictions about how cars behave.</s>
+ <s id="52">I mean, they're Newtonian objects.</s>
+ <s id="53">That's very nice about them.</s>
+ <s id="54">So how do we get there?</s>
+ <s id="55">We can start with something as simple as sharing our position data between cars, just sharing GPS.</s>
+ <s id="56">If I have a GPS and a camera in my car, I have a pretty precise idea of where I am and how fast I'm going.</s>
+ <s id="57">With computer vision, I can estimate where the cars around me are, sort of, and where they're going.</s>
+ <s id="58">And same with the other cars.</s>
+ <s id="59">They can have a precise idea of where they are, and sort of a vague idea of where the other cars are.</s>
+ <s id="60">What happens if two cars share that data, if they talk to each other?</s>
+ <s id="61">I can tell you exactly what happens.</s>
+ <s id="62">Both models improve.</s>
+ <s id="63">Everybody wins.</s>
+ <s id="64">Professor Bob Wang and his team have done computer simulations of what happens when fuzzy estimates combine, even in light traffic, when cars just share GPS data, and we've moved this research out of the computer simulation and into robot test beds that have the actual sensors that are in cars now on these robots: stereo cameras, GPS, and the two-dimensional laser range finders that are common in backup systems.</s>
+ <s id="65">We also attach a discrete short-range communication radio, and the robots talk to each other.</s>
+ <s id="66">When these robots come at each other, they track each other's position precisely, and they can avoid each other.</s>
+ <s id="67">We're now adding more and more robots into the mix, and we encountered some problems.</s>
+ <s id="68">One of the problems, when you get too much chatter, it's hard to process all the packets, so you have to prioritize, and that's where the predictive model helps you.</s>
+ <s id="69">If your robot cars are all tracking the predicted trajectories, you don't pay as much attention to those packets.</s>
+ <s id="70">You prioritize the one guy who seems to be going a little off course.</s>
+ <s id="71">That guy could be a problem.</s>
+ <s id="72">And you can predict the new trajectory.</s>
+ <s id="73">So you don't only know that he's going off course, you know how.</s>
+ <s id="74">And you know which drivers you need to alert to get out of the way.</s>
+ <s id="75">And we wanted to do -- how can we best alert everyone?</s>
+ <s id="76">How can these cars whisper, "You need to get out of the way?"</s>
+ <s id="77">Well, it depends on two things: one, the ability of the car, and second the ability of the driver.</s>
+ <s id="78">If one guy has a really great car, but they're on their phone or, you know, doing something, they're not probably in the best position to react in an emergency.</s>
+ <s id="79">So we started a separate line of research doing driver state modeling.</s>
+ <s id="80">And now, using a series of three cameras, we can detect if a driver is looking forward, looking away, looking down, on the phone, or having a cup of coffee.</s>
+ <s id="81">We can predict the accident and we can predict who, which cars, are in the best position to move out of the way to calculate the safest route for everyone.</s>
+ <s id="82">Fundamentally, these technologies exist today.</s>
+ <s id="83">I think the biggest problem that we face is our own willingness to share our data.</s>
+ <s id="84">I think it's a very disconcerting notion, this idea that our cars will be watching us, talking about us to other cars, that we'll be going down the road in a sea of gossip.</s>
+ <s id="85">But I believe it can be done in a way that protects our privacy, just like right now, when I look at your car from the outside, I don't really know about you.</s>
+ <s id="86">If I look at your license plate number, I don't really know who you are.</s>
+ <s id="87">I believe our cars can talk about us behind our backs.</s>
+ <s id="88">(Laughter) And I think it's going to be a great thing.</s>
+ <s id="89">I want you to consider for a moment if you really don't want the distracted teenager behind you to know that you're braking, that you're coming to a dead stop.</s>
+ <s id="90">By sharing our data willingly, we can do what's best for everyone.</s>
+ <s id="91">So let your car gossip about you.</s>
+ <s id="92">It's going to make the roads a lot safer.</s>
+ <s id="93">Thank you.</s>
+ <s id="94">(Applause)</s>
+</text>

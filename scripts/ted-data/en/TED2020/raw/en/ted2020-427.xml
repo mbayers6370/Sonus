@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">I'm kind of tired of talking about simplicity, actually, so I thought I'd make my life more complex, as a serious play.</s>
+ <s id="2">So, I'm going to, like, go through some slides from way back when, and walk through them to give you a sense of how I end up here.</s>
+ <s id="3">So, basically it all began with this whole idea of a computer.</s>
+ <p id="p4">
+  <s id="4.1">Who has a computer?</s>
+  <s id="4.2">Yeah.</s>
+ </p>
+ <s id="5">O.K., so, everyone has a computer.</s>
+ <s id="6">Even a mobile phone, it's a computer.</s>
+ <s id="7">And -- anyone remember this workbook, "Instant Activities for Your Apple" -- free poster in each book?</s>
+ <s id="8">This was how computing began.</s>
+ <s id="9">Don't forget: a computer came out; it had no software.</s>
+ <s id="10">You'd buy that thing, you'd bring it home, you'd plug it in, and it would do absolutely nothing at all.</s>
+ <s id="11">So, you had to program it, and there were great programming, like, tutorials, like this.</s>
+ <s id="12">I mean, this was great.</s>
+ <s id="13">It's, like, you know, Herbie the Apple II.</s>
+ <s id="14">It's such a great way to -- I mean, they should make Java books like this, and we've have no problem learning a program.</s>
+ <s id="15">But this was a great, grand time of the computer, when it was just a raw, raw, what is it? kind of an era.</s>
+ <s id="16">And, you see, this era coincided with my own childhood.</s>
+ <s id="17">I grew up in a tofu factory in Seattle.</s>
+ <p id="p18">
+  <s id="18.1">Who of you grew up in a family business, suffered the torture?</s>
+  <s id="18.2">Yes, yes.</s>
+ </p>
+ <p id="p19">
+  <s id="19.1">The torture was good.</s>
+  <s id="19.2">Wasn't it good torture?</s>
+ </p>
+ <p id="p20">
+  <s id="20.1">It was just life-changing, you know.</s>
+  <s id="20.2">And so, in my life, you know, I was in the tofu; it was a family business.</s>
+ </p>
+ <s id="21">And my mother was a kind of a designer, also.</s>
+ <s id="22">She'd make this kind of, like, wall of tofu cooking, and it would confuse the customers, because they all thought it was a restaurant.</s>
+ <s id="23">A bad sort of branding thing, or whatever.</s>
+ <p id="p24">
+  <s id="24.1">But, anyway, that's where I grew up, in this little tofu factory in Seattle, and it was kind of like this: a small room where I kind of grew up.</s>
+  <s id="24.2">I'm big there in that picture.</s>
+ </p>
+ <p id="p25">
+  <s id="25.1">That's my dad.</s>
+  <s id="25.2">My dad was kind of like MacGyver, really: he would invent, like, ways to make things heavy.</s>
+ </p>
+ <s id="26">Like back here, there's like, concrete block technology here, and he would need the concrete blocks to press the tofu, because tofu is actually kind of a liquidy type of thing, and so you have to have heavy stuff to push out the liquid and make it hard.</s>
+ <s id="27">Tofu comes out in these big batches, and my father would sort of cut them by hand.</s>
+ <s id="28">I can't tell you -- family business story: you'd understand this -- my father was the most sincere man possible.</s>
+ <s id="29">He walked into a Safeway once on a rainy day, slipped, broke his arm, rushed out: he didn't want to inconvenience Safeway.</s>
+ <s id="30">So, instead, you know, my father's, like, arm's broken for two weeks in the store, and that week -- now, those two weeks were when my older brother and I had to do everything.</s>
+ <s id="31">And that was torture, real torture.</s>
+ <p id="p32">
+  <s id="32.1">Because, you see, we'd seen my father taking the big block of tofu and cutting it, like, knife in, zap, zap, zap.</s>
+  <s id="32.2">We thought, wow.</s>
+ </p>
+ <p id="p33">
+  <s id="33.1">So, the first time I did that, I went, like, whoa!</s>
+  <s id="33.2">Like this.</s>
+ </p>
+ <p id="p34">
+  <s id="34.1">Bad blocks.</s>
+  <s id="34.2">But anyways, the tofu to me was kind of my origin, basically.</s>
+ </p>
+ <s id="35">And because working in a store was so hard, I liked going to school; it was like heaven.</s>
+ <s id="36">And I was really good at school.</s>
+ <s id="37">So, when I got to MIT, you know, as most of you who are creatives, your parents all told you not to be creative, right?</s>
+ <s id="38">So, same way, you know, I was good at art and good at math, and my father says, he's -- John's good at math.</s>
+ <s id="39">I went to MIT, did my math, but I had this wonderful opportunity, because computers had just become visual.</s>
+ <s id="40">The Apple -- Macintosh just came out; I had a Mac in hand when I went to MIT.</s>
+ <s id="41">And it was a time when a guy who, kind of, could cross the two sides -- it was a good time.</s>
+ <s id="42">And so, I remember that my first major piece of software was on a direct copy of then-Aldus PageMaker.</s>
+ <s id="43">I made a desktop publishing system way back when, and that was, kind of, my first step into figuring out how to -- oh, these two sides are kind of fun to mix.</s>
+ <s id="44">And the problem when you're younger -- for all you students out there -- is, your head gets kind of big really easy.</s>
+ <s id="45">And when I was making icons, I was, like, the icon master, and I was, like, yeah, I'm really good at this, you know.</s>
+ <s id="46">And then luckily, you know, I had the fortune of going to something called a library, and in the library I came upon this very book.</s>
+ <p id="p47">
+  <s id="47.1">I found this book.</s>
+  <s id="47.2">It's called, "Thoughts on Design," by a man named Paul Rand.</s>
+ </p>
+ <s id="48">It's a little slim volume; I'm not sure if you've seen this.</s>
+ <p id="p49">
+  <s id="49.1">It's a very nice little book.</s>
+  <s id="49.2">It's about this guy, Paul Rand, who was one of the greatest graphic designers, and also a great writer as well.</s>
+ </p>
+ <s id="50">And when I saw this man's work, I realized how bad I was at design, or whatever I called it back then, and I suddenly had a kind of career goal, kind of in hot pursuit.</s>
+ <p id="p51">
+  <s id="51.1">So I kind of switched.</s>
+  <s id="51.2">I went to MIT, finished.</s>
+ </p>
+ <s id="52">I got my masters, and then went to art school after that.</s>
+ <s id="53">And just began to design stuff, like chopstick wrappers, napkins, menus -- whatever I could get a handle on: sort of wheel-and-deal, move up in the design world, whatever.</s>
+ <s id="54">And isn't it that strange moment when you publish your design?</s>
+ <s id="55">Remember that moment -- publishing your designs?</s>
+ <p id="p56">
+  <s id="56.1">Remember that moment?</s>
+  <s id="56.2">It felt so good, didn't it?</s>
+ </p>
+ <s id="57">So, I was published, you know, so, wow, my design's in a book, you know?</s>
+ <s id="58">After that, things kind of got strange, and I got thinking about the computer, because the computer to me always, kind of, bothered me.</s>
+ <p id="p59">
+  <s id="59.1">I didn't quite get it.</s>
+  <s id="59.2">And Paul Rand was a kind of crusty designer, you know, a crusty designer, like a good -- kind of like a good French bread?</s>
+ </p>
+ <p id="p60">
+  <s id="60.1">You know, he wrote in one of his books: "A Yale student once said, 'I came here to learn how to design, not how to use a computer.'</s>
+  <s id="60.2">Design schools take heed."</s>
+ </p>
+ <s id="61">This is in the '80s, in the great clash of computer/non-computer people.</s>
+ <s id="62">A very difficult time, actually.</s>
+ <s id="63">And this to me was an important message from Rand.</s>
+ <s id="64">And so I began to sort of mess with the computer at the time.</s>
+ <s id="65">This is the first sort of play thing I did, my own serious play.</s>
+ <s id="66">I built a working version of an Adobe Illustrator-ish thing.</s>
+ <s id="67">It looks like Illustrator; it can, like, draw.</s>
+ <s id="68">It was very hard to make this, actually.</s>
+ <s id="69">It took a month to make this part.</s>
+ <p id="p70">
+  <s id="70.1">And then I thought, what if I added this feature, where I can say, this point, you can fly like a bird.</s>
+  <s id="70.2">You're free, kind of thing.</s>
+ </p>
+ <s id="71">So I could, sort of, change the kind of stability with a little control there on the dial, and I can sort of watch it flip around.</s>
+ <s id="72">And this is in 1993.</s>
+ <s id="73">And when my professors saw this, they were very upset at me.</s>
+ <s id="74">They were saying, Why's it moving?</s>
+ <s id="75">They were saying, Make it stop now.</s>
+ <s id="76">Now, I was saying, Well, that's the whole point: it's moving.</s>
+ <s id="77">And he says, Well, when's it going to stop?</s>
+ <s id="78">And I said, Never.</s>
+ <p id="p79">
+  <s id="79.1">And he said, Even worse.</s>
+  <s id="79.2">Stop it now.</s>
+ </p>
+ <p id="p80">
+  <s id="80.1">I started studying this whole idea, of like, what is this computer?</s>
+  <s id="80.2">It's a strange medium.</s>
+ </p>
+ <p id="p81">
+  <s id="81.1">It's not like print.</s>
+  <s id="81.2">It's not like video.</s>
+ </p>
+ <p id="p82">
+  <s id="82.1">It lasts forever.</s>
+  <s id="82.2">It's a very strange medium.</s>
+ </p>
+ <s id="83">So, I went off with this, and began to look for things even more.</s>
+ <s id="84">And so in Japan, I began to experiment with people.</s>
+ <s id="85">This is actually bad: human experiments.</s>
+ <s id="86">I would do these things where I'd have students become pens: there's blue pen, red pen, green pen, black pen.</s>
+ <s id="87">And someone sits down and draws a picture.</s>
+ <s id="88">They're laughing because he said, draw from the middle-right to the middle, and he kind of messed up.</s>
+ <s id="89">See, humans don't know how to take orders; the computer's so good at it.</s>
+ <s id="90">This guy figured out how to get the computer to draw with two pens at once: you know, you, pen, do this, and you, pen, do this.</s>
+ <s id="91">And so began to have multiple pens on the page -- again, hard to do with our hands.</s>
+ <s id="92">And then someone discovered this "a-ha moment" where you could use coordinate systems.</s>
+ <s id="93">We thought, ah, this is when it's going to happen.</s>
+ <p id="p94">
+  <s id="94.1">In the end, he drew a house.</s>
+  <s id="94.2">It was the most boring thing.</s>
+ </p>
+ <s id="95">It became computerish; we began to think computerish -- the X, Y system -- and so that was kind of a revelation.</s>
+ <s id="96">And after this I wanted to build a computer out of people, called a human-powered computer.</s>
+ <s id="97">So, this happened in 1993.</s>
+ <s id="98">Sound down, please.</s>
+ <s id="99">It's a computer where the people are the parts.</s>
+ <s id="100">I have behind this wall a disk drive, a CPU, a graphics card, a memory system.</s>
+ <s id="101">They're picking up a giant floppy disk made of cardboard.</s>
+ <s id="102">It's put inside the computer.</s>
+ <s id="103">And that little program's on that cardboard disk.</s>
+ <s id="104">So, she wears the disk, and reads the data off the sectors of the disk, and the computer starts up; it sort of boots up, really.</s>
+ <p id="p105">
+  <s id="105.1">And it's a sort of a working computer.</s>
+  <s id="105.2">And when I built this computer, I had a moment of -- what is it called? -- the epiphany where I realized that the computer's just so fast.</s>
+ </p>
+ <s id="106">This computer appears to be fast - she's working pretty hard, and people are running around, and we think, wow, this is happening at a fast rate.</s>
+ <s id="107">And this computer's programmed to do only one thing, which is, if you move your mouse, the mouse changes on the screen.</s>
+ <s id="108">On the computer, when you move your mouse, that arrow moves around.</s>
+ <s id="109">On this computer, if you move the mouse, it takes half an hour for the mouse cursor to change.</s>
+ <s id="110">To give you a sense of the speed, the scale: the computer is just so amazingly fast, O.K.?</s>
+ <s id="111">And so, after this I began to do experiments for different companies.</s>
+ <s id="112">This is something I did for Sony in 1996.</s>
+ <s id="113">It was three Sony "H" devices that responded to sound.</s>
+ <s id="114">So, if you talk into the mike, you'll hear some music in your headphones; if you talk in the phone, then video would happen.</s>
+ <s id="115">So, I began to experiment with industry in different ways with this kind of mixture of skills.</s>
+ <p id="p116">
+  <s id="116.1">I did this ad.</s>
+  <s id="116.2">I don't believe in this kind of alcohol, but I do drink sometimes.</s>
+ </p>
+ <p id="p117">
+  <s id="117.1">And Chanel.</s>
+  <s id="117.2">So, getting to do different projects.</s>
+ </p>
+ <s id="118">And also, one thing I realized is that I like to make things.</s>
+ <p id="p119">
+  <s id="119.1">We like to make things.</s>
+  <s id="119.2">It's fun to make things.</s>
+ </p>
+ <s id="120">And so I never developed the ability to have a staff.</s>
+ <s id="121">I have no staff; it's all kind of made by hand -- these sort of broken hands.</s>
+ <s id="122">And these hands were influenced by this man, Mr. Inami Naomi.</s>
+ <s id="123">This guy was my kind of like mentor.</s>
+ <s id="124">He was the first digital media producer in Tokyo.</s>
+ <s id="125">He's the guy that kind of discovered me, and kind of got me going in digital media.</s>
+ <s id="126">He was such an inspirational guy.</s>
+ <s id="127">I remember, like, we'd be in his studio, like, at 2 a.m., and then he'd show up from some client meeting.</s>
+ <s id="128">He'd come in and say, you know, If I am here, everything is okay.</s>
+ <s id="129">And you'd feel so much better, you know.</s>
+ <s id="130">And I'll never forget how, like, but -- I'll never forget how, like, he had a sudden situation with his -- he had an aneurysm.</s>
+ <s id="131">He went into a coma.</s>
+ <s id="132">And so, for three years he was out, and he could only blink, and so I realized at this moment, I thought, wow -- how fragile is this thing we're wearing, this body and mind we're wearing, and so I thought, How do you go for it more?</s>
+ <s id="133">How do you take that time you have left and go after it?</s>
+ <s id="134">So, Naomi was pivotal in that.</s>
+ <s id="135">And so, I began to think more carefully about the computer.</s>
+ <s id="136">This was a moment where I was thinking about, so, you have a computer program, it responds to motion -- X and Y -- and I realized that each computer program has all these images inside the program.</s>
+ <s id="137">So, if you can see here, you know, that program you're seeing in the corner, if you spread it out, it's all these things all at once.</s>
+ <p id="p138">
+  <s id="138.1">It's real simultaneity.</s>
+  <s id="138.2">It's nothing we're used to working with.</s>
+ </p>
+ <s id="139">We're so used to working in one vector.</s>
+ <s id="140">This is all at the same time.</s>
+ <s id="141">The computer lives in so many dimensions.</s>
+ <s id="142">And also, at the same time I was frustrated, because I would go to all these art and design schools everywhere, and there were these, like, "the computer lab," you know, and this is, like, in the late 1990s, and this is in Basel, a great graphic design school.</s>
+ <s id="143">And here's this, like, dirty, kind of, shoddy, kind of, dark computer room.</s>
+ <s id="144">And I began to wonder, Is this the goal?</s>
+ <s id="145">Is this what we want, you know?</s>
+ <s id="146">And also, I began to be fascinated by machines -- you know, like copy machines -- and so this is actually in Basel.</s>
+ <s id="147">I noticed how we spent so much time on making it interactive -- this is, like, a touch screen -- and I noticed how you can only touch five places, and so, "why are we wasting so much interactivity everywhere?"</s>
+ <p id="p148">
+  <s id="148.1">became a question.</s>
+  <s id="148.2">And also, the sound: I discovered I can make my ThinkPad pretend it's a telephone.</s>
+ </p>
+ <p id="p149">
+  <s id="149.1">You get it?</s>
+  <s id="149.2">No?</s>
+  <s id="149.3">O.K.</s>
+ </p>
+ <s id="150">And also, I discovered in Logan airport, this was, like, calling out to me.</s>
+ <p id="p151">
+  <s id="151.1">Do you hear that?</s>
+  <s id="151.2">It's like cows.</s>
+  <s id="151.3">This is at 4 a.m. at Logan.</s>
+ </p>
+ <s id="152">So, I was wondering, like, what is this thing in front of me, this computer thing?</s>
+ <s id="153">It didn't make any sense.</s>
+ <p id="p154">
+  <s id="154.1">So, I began to make things again.</s>
+  <s id="154.2">This is another series of objects made of old computers from my basement.</s>
+ </p>
+ <s id="155">I made -- I took my old Macintoshes and made different objects out of them from Tokyo.</s>
+ <s id="156">I began to be very disinterested in computers themselves, so I began to make paintings out of PalmPilots.</s>
+ <s id="157">I made this series of works.</s>
+ <p id="p158">
+  <s id="158.1">They're paintings I made and put a PalmPilot in the middle as a kind of display that's sort of thinking, I'm abstract art.</s>
+  <s id="158.2">What am I?</s>
+  <s id="158.3">I'm abstract.</s>
+ </p>
+ <s id="159">And so it keeps thinking out loud of its own abstraction.</s>
+ <s id="160">I began to be fascinated by plastic, so I spent four months making eight plastic blocks perfectly optically transparent, as a kind of release of stress.</s>
+ <s id="161">Because of that, I became interested in blue tape, so in San Francisco, at C.C., I had a whole exhibition on blue tape.</s>
+ <s id="162">I made a whole installation out of blue tape -- blue painters' tape.</s>
+ <s id="163">And at this point my wife kind of got worried about me, so I stopped doing blue tape and began to think, Well, what else is there in life?</s>
+ <s id="164">And so computers, as you know, these big computers, there are now tiny computers.</s>
+ <s id="165">They're littler computers, so the one-chip computers, I began to program one-chip computers and make objects out of P.C. boards, LEDs.</s>
+ <s id="166">I began to make LED sculptures that would live inside little boxes out of MDF.</s>
+ <s id="167">This is a series of light boxes I made for a show in Italy.</s>
+ <s id="168">Very simple boxes: you just press one button and some LED interaction occurs.</s>
+ <p id="p169">
+  <s id="169.1">This is a series of lamps I made.</s>
+  <s id="169.2">This is a Bento box lamp: it's sort of a plastic rice lamp; it's very friendly.</s>
+ </p>
+ <s id="170">I did a show in London last year made out of iPods -- I used iPods as a material.</s>
+ <s id="171">So I took 16 iPod Nanos and made a kind of a Nano fish, basically.</s>
+ <s id="172">Recently, this is for Reebok.</s>
+ <s id="173">I've done shoes for Reebok as well, as a kind of a hobby for apparel.</s>
+ <s id="174">So anyways, there are all these things you can do, but the thing I love the most is to experience, taste the world.</s>
+ <s id="175">The world is just so tasty.</s>
+ <s id="176">We think we'll go to a museum; that's where all the tastes are.</s>
+ <s id="177">No, they're all out there.</s>
+ <s id="178">So, this is, like, in front of the Eiffel Tower, really, actually, around the Louvre area.</s>
+ <s id="179">This I found, where nature had made a picture for me.</s>
+ <s id="180">This is a perfect 90-degree angle by nature.</s>
+ <s id="181">In this strange moment where, like, these things kind of appeared.</s>
+ <s id="182">We all are creative people.</s>
+ <s id="183">We have this gene defect in our mind.</s>
+ <p id="p184">
+  <s id="184.1">We can't help but stop, right?</s>
+  <s id="184.2">This feeling's a wonderful thing.</s>
+ </p>
+ <s id="185">It's the forever-always-on museum.</s>
+ <s id="186">This is from the Cape last year.</s>
+ <s id="187">I discovered that I had to find the equation of art and design, which we know as circle-triangle-square.</s>
+ <s id="188">It's everywhere on the beach, I discovered.</s>
+ <s id="189">I began to collect every instance of circle-triangle-square.</s>
+ <s id="190">I put these all back, by the way.</s>
+ <s id="191">And I also discovered how .</s>
+ <s id="192">some rocks are twins separated at birth.</s>
+ <s id="193">This is also out there, you know.</s>
+ <s id="194">I'm, like, how did this happen, kind of thing?</s>
+ <s id="195">I brought you guys together again.</s>
+ <s id="196">So, three years ago I discovered, the letters M-I-T occurring in simplicity and complexity.</s>
+ <p id="p197">
+  <s id="197.1">My alma mater, MIT, and I had this moment -- a kind of M. Night Shayamalan moment -- where I thought, Whoa!</s>
+  <s id="197.2">I have to do this.</s>
+ </p>
+ <s id="198">And I went after it with passion.</s>
+ <s id="199">However, recently this RISD opportunity kind of arose -- going to RISD -- and I couldn't reconcile this real easy, because the letters had told me, MIT forever.</s>
+ <s id="200">But I discovered in the French word raison d'être.</s>
+ <s id="201">I was, like, aha, wait a second.</s>
+ <s id="202">And there RISD appeared.</s>
+ <s id="203">And so I realized it was O.K. to go.</s>
+ <s id="204">So, I'm going to RISD, actually.</s>
+ <s id="205">Who's a RISD alum out there?</s>
+ <p id="p206">
+  <s id="206.1">RISD alums?</s>
+  <s id="206.2">Yeah, RISD.</s>
+  <s id="206.3">There we go, RISD.</s>
+  <s id="206.4">Woo, RISD.</s>
+ </p>
+ <s id="207">I'm sorry, I'm sorry, Art Center -- Art Center is good, too.</s>
+ <s id="208">RISD is kind of my new kind of passion, and I'll tell you a little bit about that.</s>
+ <s id="209">So, RISD is -- I was outside RISD, and some student wrote this on some block, and I thought, Wow, RISD wants to know what itself is.</s>
+ <s id="210">And I have no idea what RISD should be, actually, or what it wants to be, but one thing I have to tell you is that although I'm a technologist, I don't like technology very much.</s>
+ <s id="211">It's a, kind of, the qi thing, or whatever.</s>
+ <s id="212">People say, Are you going to bring RISD into the future?</s>
+ <s id="213">And I say, well, I'm going to bring the future back to RISD.</s>
+ <p id="p214">
+  <s id="214.1">There's my perspective.</s>
+  <s id="214.2">Because in reality, the problem isn't how to make the world more technological.</s>
+ </p>
+ <s id="215">It's about how to make it more humane again.</s>
+ <s id="216">And if anything, I think RISD has a strange DNA.</s>
+ <s id="217">It's a strange exuberance about materials, about the world: a fascination that I think the world needs quite very much right now.</s>
+ <s id="218">So, thank you everyone.</s>
+</text>

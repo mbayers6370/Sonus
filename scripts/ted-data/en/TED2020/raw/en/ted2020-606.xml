@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <p id="p1">
+  <s id="1.1">Hello!</s>
+  <s id="1.2">My name is Golan Levin.</s>
+ </p>
+ <s id="2">I'm an artist and an engineer, which is, increasingly, a more common kind of hybrid.</s>
+ <s id="3">But I still fall into this weird crack where people don't seem to understand me.</s>
+ <s id="4">And I was looking around and I found this wonderful picture.</s>
+ <p id="p5">
+  <s id="5.1">It's a letter from "Artforum" in 1967 saying "We can't imagine ever doing a special issue on electronics or computers in art."</s>
+  <s id="5.2">And they still haven't.</s>
+ </p>
+ <s id="6">And lest you think that you all, as the digerati, are more enlightened, I went to the Apple iPhone app store the other day.</s>
+ <p id="p7">
+  <s id="7.1">Where's art?</s>
+  <s id="7.2">I got productivity.</s>
+  <s id="7.3">I got sports.</s>
+ </p>
+ <s id="8">And somehow the idea that one would want to make art for the iPhone, which my friends and I are doing now, is still not reflected in our understanding of what computers are for.</s>
+ <s id="9">So, from both directions, there is kind of, I think, a lack of understanding about what it could mean to be an artist who uses the materials of his own day, or her own day, which I think artists are obliged to do, is to really explore the expressive potential of the new tools that we have.</s>
+ <s id="10">In my own case, I'm an artist, and I'm really interested in expanding the vocabulary of human action, and basically empowering people through interactivity.</s>
+ <s id="11">I want people to discover themselves as actors, as creative actors, by having interactive experiences.</s>
+ <s id="12">A lot of my work is about trying to get away from this.</s>
+ <s id="13">This a photograph of the desktop of a student of mine.</s>
+ <s id="14">And when I say desktop, I don't just mean the actual desk where his mouse has worn away the surface of the desk.</s>
+ <s id="15">If you look carefully, you can even see a hint of the Apple menu, up here in the upper left, where the virtual world has literally punched through to the physical.</s>
+ <s id="16">So this is, as Joy Mountford once said, "The mouse is probably the narrowest straw you could try to suck all of human expression through."</s>
+ <s id="17">(Laughter) And the thing I'm really trying to do is enabling people to have more rich kinds of interactive experiences.</s>
+ <s id="18">How can we get away from the mouse and use our full bodies as a way of exploring aesthetic experiences, not necessarily utilitarian ones.</s>
+ <p id="p19">
+  <s id="19.1">So I write software.</s>
+  <s id="19.2">And that's how I do it.</s>
+ </p>
+ <s id="20">And a lot of my experiences resemble mirrors in some way.</s>
+ <s id="21">Because this is, in some sense, the first way, that people discover their own potential as actors, and discover their own agency.</s>
+ <p id="p22">
+  <s id="22.1">By saying "Who is that person in the mirror?</s>
+  <s id="22.2">Oh it's actually me."</s>
+ </p>
+ <s id="23">And so, to give an example, this is a project from last year, which is called the Interstitial Fragment Processor.</s>
+ <s id="24">And it allows people to explore the negative shapes that they create when they're just going about their everyday business.</s>
+ <s id="25">So as people make shapes with their hands or their heads and so forth, or with each other, these shapes literally produce sounds and drop out of thin air -- basically taking what's often this, kind of, unseen space, or this undetected space, and making it something real, that people then can appreciate and become creative with.</s>
+ <s id="26">So again, people discover their creative agency in this way.</s>
+ <s id="27">And their own personalities come out in totally unique ways.</s>
+ <s id="28">So in addition to using full-body input, something that I've explored now, for a while, has been the use of the voice, which is an immensely expressive system for us, vocalizing.</s>
+ <s id="29">Song is one of our oldest ways of making ourselves heard and understood.</s>
+ <s id="30">And I came across this fantastic research by Wolfgang Köhler, the so-called father of gestalt psychology, from 1927, who submitted to an audience like yourselves the following two shapes.</s>
+ <s id="31">And he said one of them is called Maluma.</s>
+ <p id="p32">
+  <s id="32.1">And one of them is called Taketa.</s>
+  <s id="32.2">Which is which?</s>
+ </p>
+ <s id="33">Anyone want to hazard a guess?</s>
+ <p id="p34">
+  <s id="34.1">Maluma is on top.</s>
+  <s id="34.2">Yeah.</s>
+  <s id="34.3">So.</s>
+ </p>
+ <s id="35">As he says here, most people answer without any hesitation.</s>
+ <s id="36">So what we're really seeing here is a phenomenon called phonaesthesia, which is a kind of synesthesia that all of you have.</s>
+ <s id="37">And so, whereas Dr. Oliver Sacks has talked about how perhaps one person in a million actually has true synesthesia, where they hear colors or taste shapes, and things like this, phonaesthesia is something we can all experience to some extent.</s>
+ <s id="38">It's about mappings between different perceptual domains, like hardness, sharpness, brightness and darkness, and the phonemes that we're able to speak with.</s>
+ <s id="39">So 70 years on, there's been some research where cognitive psychologists have actually sussed out the extent to which, you know, L, M and B are more associated with shapes that look like this, and P, T and K are perhaps more associated with shapes like this.</s>
+ <s id="40">And here we suddenly begin to have a mapping between curvature that we can exploit numerically, a relative mapping between curvature and shape.</s>
+ <s id="41">So it occurred to me, what happens if we could run these backwards?</s>
+ <s id="42">And thus was born the project called Remark, which is a collaboration with Zachary Lieberman and the Ars Electronica Futurelab.</s>
+ <s id="43">And this is an interactive installation which presents the fiction that speech casts visible shadows.</s>
+ <s id="44">So the idea is you step into a kind of a magic light.</s>
+ <s id="45">And as you do, you see the shadows of your own speech.</s>
+ <s id="46">And they sort of fly away, out of your head.</s>
+ <s id="47">If a computer speech recognition system is able to recognize what you're saying, then it spells it out.</s>
+ <s id="48">And if it isn't then it produces a shape which is very phonaesthetically tightly coupled to the sounds you made.</s>
+ <s id="49">So let's bring up a video of that.</s>
+ <p id="p50">
+  <s id="50.1">(Applause) Thanks.</s>
+  <s id="50.2">So.</s>
+  <s id="50.3">And this project here, I was working with the great abstract vocalist, Jaap Blonk.</s>
+ </p>
+ <s id="51">And he is a world expert in performing "The Ursonate," which is a half-an-hour nonsense poem by Kurt Schwitters, written in the 1920s, which is half an hour of very highly patterned nonsense.</s>
+ <s id="52">And it's almost impossible to perform.</s>
+ <s id="53">But Jaap is one of the world experts in performing it.</s>
+ <s id="54">And in this project we've developed a form of intelligent real-time subtitles.</s>
+ <s id="55">So these are our live subtitles, that are being produced by a computer that knows the text of "The Ursonate" -- fortunately Jaap does too, very well -- and it is delivering that text at the same time as Jaap is.</s>
+ <s id="56">So all the text you're going to see is real-time generated by the computer, visualizing what he's doing with his voice.</s>
+ <s id="57">Here you can see the set-up where there is a screen with the subtitles behind him.</s>
+ <p id="p58">
+  <s id="58.1">Okay.</s>
+  <s id="58.2">So ...</s>
+ </p>
+ <s id="59">(Applause) The full videos are online if you are interested.</s>
+ <s id="60">I got a split reaction to that during the live performance, because there is some people who understand live subtitles are a kind of an oxymoron, because usually there is someone making them afterwards.</s>
+ <s id="61">And then a bunch of people who were like, "What's the big deal?</s>
+ <s id="62">I see subtitles all the time on television."</s>
+ <p id="p63">
+  <s id="63.1">You know?</s>
+  <s id="63.2">They don't imagine the person in the booth, typing it all.</s>
+ </p>
+ <s id="64">So in addition to the full body, and in addition to the voice, another thing that I've been really interested in, most recently, is the use of the eyes, or the gaze, in terms of how people relate to each other.</s>
+ <s id="65">It's a really profound amount of nonverbal information that's communicated with the eyes.</s>
+ <s id="66">And it's one of the most interesting technical challenges that's very currently active in the computer sciences: being able to have a camera that can understand, from a fairly big distance away, how these little tiny balls are actually pointing in one way or another to reveal what you're interested in, and where your attention is directed.</s>
+ <s id="67">So there is a lot of emotional communication that happens there.</s>
+ <s id="68">And so I've been beginning, with a variety of different projects, to understand how people can relate to machines with their eyes.</s>
+ <s id="69">And basically to ask the questions: What if art was aware that we were looking at it?</s>
+ <s id="70">How could it respond, in a way, to acknowledge or subvert the fact that we're looking at it?</s>
+ <s id="71">And what could it do if it could look back at us?</s>
+ <s id="72">And so those are the questions that are happening in the next projects.</s>
+ <s id="73">In the first one which I'm going to show you, called Eyecode, it's a piece of interactive software in which, if we read this little circle, "the trace left by the looking of the previous observer looks at the trace left by the looking of previous observer."</s>
+ <s id="74">The idea is that it's an image wholly constructed from its own history of being viewed by different people in an installation.</s>
+ <s id="75">So let me just switch over so we can do the live demo.</s>
+ <s id="76">So let's run this and see if it works.</s>
+ <p id="p77">
+  <s id="77.1">Okay.</s>
+  <s id="77.2">Ah, there is lots of nice bright video.</s>
+ </p>
+ <s id="78">There is just a little test screen that shows that it's working.</s>
+ <s id="79">And what I'm just going to do is -- I'm going to hide that.</s>
+ <s id="80">And you can see here that what it's doing is it's recording my eyes every time I blink.</s>
+ <p id="p81">
+  <s id="81.1">Hello?</s>
+  <s id="81.2">And I can ... hello ... okay.</s>
+ </p>
+ <s id="82">And no matter where I am, what's really going on here is that it's an eye-tracking system that tries to locate my eyes.</s>
+ <s id="83">And if I get really far away I'm blurry.</s>
+ <s id="84">You know, you're going to have these kind of blurry spots like this that maybe only resemble eyes in a very very abstract way.</s>
+ <s id="85">But if I come up really close and stare directly at the camera on this laptop then you'll see these nice crisp eyes.</s>
+ <s id="86">You can think of it as a way of, sort of, typing, with your eyes.</s>
+ <s id="87">And what you're typing are recordings of your eyes as you're looking at other peoples' eyes.</s>
+ <s id="88">So each person is looking at the looking of everyone else before them.</s>
+ <s id="89">And this exists in larger installations where there are thousands and thousands of eyes that people could be staring at, as you see who's looking at the people looking at the people looking before them.</s>
+ <p id="p90">
+  <s id="90.1">So I'll just add a couple more.</s>
+  <s id="90.2">Blink.</s>
+  <s id="90.3">Blink.</s>
+ </p>
+ <s id="91">And you can see, just once again, how it's sort of finding my eyes and doing its best to estimate when it's blinking.</s>
+ <p id="p92">
+  <s id="92.1">Alright.</s>
+  <s id="92.2">Let's leave that.</s>
+ </p>
+ <s id="93">So that's this kind of recursive observation system.</s>
+ <s id="94">(Applause) Thank you.</s>
+ <s id="95">The last couple pieces I'm going to show are basically in the new realm of robotics -- for me, new for me.</s>
+ <s id="96">It's called Opto-Isolator.</s>
+ <p id="p97">
+  <s id="97.1">And I'm going to show a video of the older version of it, which is just a minute long.</s>
+  <s id="97.2">Okay.</s>
+ </p>
+ <s id="98">In this case, the Opto-Isolator is blinking in response to one's own blinks.</s>
+ <s id="99">So it blinks one second after you do.</s>
+ <s id="100">This is a device which is intended to reduce the phenomenon of gaze down to the simplest possible materials.</s>
+ <s id="101">Just one eye, looking at you, and eliminating everything else about a face, but just to consider gaze in an isolated way as a kind of, as an element.</s>
+ <s id="102">And at the same time, it attempts to engage in what you might call familiar psycho-social gaze behaviors.</s>
+ <s id="103">Like looking away if you look at it too long because it gets shy, or things like that.</s>
+ <p id="p104">
+  <s id="104.1">Okay.</s>
+  <s id="104.2">So the last project I'm going to show is this new one called Snout.</s>
+ </p>
+ <s id="105">(Laughter) It's an eight-foot snout, with a googly eye.</s>
+ <s id="106">(Laughter) And inside it's got an 800-pound robot arm that I borrowed, (Laughter) from a friend.</s>
+ <s id="107">(Laughter) It helps to have good friends.</s>
+ <s id="108">I'm at Carnegie Mellon; we've got a great Robotics Institute there.</s>
+ <s id="109">I'd like to show you thing called Snout, which is -- The idea behind this project is to make a robot that appears as if it's continually surprised to see you.</s>
+ <p id="p110">
+  <s id="110.1">(Laughter) The idea is that basically -- if it's constantly like "Huh? ...</s>
+  <s id="110.2">Huh?"</s>
+ </p>
+ <s id="111">That's why its other name is Doubletaker, Taker of Doubles.</s>
+ <s id="112">It's always kind of doing a double take: "What?"</s>
+ <p id="p113">
+  <s id="113.1">And the idea is basically, can it look at you and make you feel as if like, "What?</s>
+  <s id="113.2">Is it my shoes?"</s>
+ </p>
+ <p id="p114">
+  <s id="114.1">"Got something on my hair?"</s>
+  <s id="114.2">Here we go.</s>
+  <s id="114.3">Alright.</s>
+ </p>
+ <s id="115">Checking him out ...</s>
+ <s id="116">For you nerds, here's a little behind-the-scenes.</s>
+ <s id="117">It's got a computer vision system, and it tries to look at the people who are moving around the most.</s>
+ <s id="118">Those are its targets.</s>
+ <s id="119">Up there is the skeleton, which is actually what it's trying to do.</s>
+ <s id="120">It's really about trying to create a novel body language for a new creature.</s>
+ <s id="121">Hollywood does this all the time, of course.</s>
+ <s id="122">But also have the body language communicate something to the person who is looking at it.</s>
+ <s id="123">This language is communicating that it is surprised to see you, and it's interested in looking at you.</s>
+ <p id="p124">
+  <s id="124.1">(Laughter) (Applause) Thank you very much.</s>
+  <s id="124.2">That's all I've got for today.</s>
+ </p>
+ <p id="p125">
+  <s id="125.1">And I'm really happy to be here.</s>
+  <s id="125.2">Thank you so much.</s>
+ </p>
+ <s id="126">(Applause)</s>
+</text>

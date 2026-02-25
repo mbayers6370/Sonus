@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Imagine you're watching a runaway trolley barreling down the tracks straight towards five workers who can't escape.</s>
+ <s id="2">You happen to be standing next to a switch that will divert the trolley onto a second track.</s>
+ <s id="3">Here's the problem.</s>
+ <s id="4">That track has a worker on it, too, but just one.</s>
+ <s id="5">What do you do?</s>
+ <s id="6">Do you sacrifice one person to save five?</s>
+ <s id="7">This is the trolley problem, a version of an ethical dilemma that philosopher Philippa Foot devised in 1967.</s>
+ <s id="8">It's popular because it forces us to think about how to choose when there are no good choices.</s>
+ <s id="9">Do we pick the action with the best outcome or stick to a moral code that prohibits causing someone's death?</s>
+ <s id="10">In one survey, about 90% of respondents said that it's okay to flip the switch, letting one worker die to save five, and other studies, including a virtual reality simulation of the dilemma, have found similar results.</s>
+ <s id="11">These judgments are consistent with the philosophical principle of utilitarianism which argues that the morally correct decision is the one that maximizes well-being for the greatest number of people.</s>
+ <s id="12">The five lives outweigh one, even if achieving that outcome requires condemning someone to death.</s>
+ <s id="13">But people don't always take the utilitarian view, which we can see by changing the trolley problem a bit.</s>
+ <s id="14">This time, you're standing on a bridge over the track as the runaway trolley approaches.</s>
+ <s id="15">Now there's no second track, but there is a very large man on the bridge next to you.</s>
+ <s id="16">If you push him over, his body will stop the trolley, saving the five workers, but he'll die.</s>
+ <s id="17">To utilitarians, the decision is exactly the same, lose one life to save five.</s>
+ <s id="18">But in this case, only about 10% of people say that it's OK to throw the man onto the tracks.</s>
+ <s id="19">Our instincts tell us that deliberately causing someone's death is different than allowing them to die as collateral damage.</s>
+ <s id="20">It just feels wrong for reasons that are hard to explain.</s>
+ <s id="21">This intersection between ethics and psychology is what's so interesting about the trolley problem.</s>
+ <s id="22">The dilemma in its many variations reveal that what we think is right or wrong depends on factors other than a logical weighing of the pros and cons.</s>
+ <s id="23">For example, men are more likely than women to say it's okay to push the man over the bridge.</s>
+ <s id="24">So are people who watch a comedy clip before doing the thought experiment.</s>
+ <s id="25">And in one virtual reality study, people were more willing to sacrifice men than women.</s>
+ <s id="26">Researchers have studied the brain activity of people thinking through the classic and bridge versions.</s>
+ <s id="27">Both scenarios activate areas of the brain involved in conscious decision-making and emotional responses.</s>
+ <s id="28">But in the bridge version, the emotional response is much stronger.</s>
+ <s id="29">So is activity in an area of the brain associated with processing internal conflict.</s>
+ <s id="30">Why the difference?</s>
+ <s id="31">One explanation is that pushing someone to their death feels more personal, activating an emotional aversion to killing another person, but we feel conflicted because we know it's still the logical choice.</s>
+ <s id="32">"Trolleyology" has been criticized by some philosophers and psychologists.</s>
+ <s id="33">They argue that it doesn't reveal anything because its premise is so unrealistic that study participants don't take it seriously.</s>
+ <s id="34">But new technology is making this kind of ethical analysis more important than ever.</s>
+ <s id="35">For example, driver-less cars may have to handle choices like causing a small accident to prevent a larger one.</s>
+ <s id="36">Meanwhile, governments are researching autonomous military drones that could wind up making decisions of whether they'll risk civilian casualties to attack a high-value target.</s>
+ <s id="37">If we want these actions to be ethical, we have to decide in advance how to value human life and judge the greater good.</s>
+ <s id="38">So researchers who study autonomous systems are collaborating with philosophers to address the complex problem of programming ethics into machines, which goes to show that even hypothetical dilemmas can wind up on a collision course with the real world.</s>
+</text>

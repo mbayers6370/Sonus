@@ -95,6 +95,10 @@ Supplementary lexical data is derived from CC-CEDICT, an open Chinese–English 
 
 CC-CEDICT data is used for dictionary alignment and lexical enrichment where applicable.
 
+### Tatoeba
+
+Example sentences from the Tatoeba Project (CC-BY).
+
 Proper attribution is given in accordance with the respective licenses of these projects.
 
 ## Demo Screens

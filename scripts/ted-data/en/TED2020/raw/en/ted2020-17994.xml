@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">You hear the gentle lap of waves, the distant cawing of a seagull.</s>
+ <s id="2">But then an annoying whine interrupts the peace, getting closer, and closer, and closer.</s>
+ <s id="3">Until...whack!</s>
+ <s id="4">You dispatch the offending mosquito, and calm is restored.</s>
+ <s id="5">How did you detect that noise from afar and target its maker with such precision?</s>
+ <s id="6">The ability to recognize sounds and identify their location is possible thanks to the auditory system.</s>
+ <s id="7">That’s comprised of two main parts: the ear and the brain.</s>
+ <s id="8">The ear’s task is to convert sound energy into neural signals; the brain’s is to receive and process the information those signals contain.</s>
+ <s id="9">To understand how that works, we can follow a sound on its journey into the ear.</s>
+ <s id="10">The source of a sound creates vibrations that travel as waves of pressure through particles in air, liquids, or solids.</s>
+ <s id="11">But our inner ear, called the cochlea, is actually filled with saltwater-like fluids.</s>
+ <s id="12">So, the first problem to solve is how to convert those sound waves, wherever they’re coming from, into waves in the fluid.</s>
+ <s id="13">The solution is the eardrum, or tympanic membrane, and the tiny bones of the middle ear.</s>
+ <s id="14">Those convert the large movements of the eardrum into pressure waves in the fluid of the cochlea.</s>
+ <s id="15">When sound enters the ear canal, it hits the eardrum and makes it vibrate like the head of a drum.</s>
+ <s id="16">The vibrating eardrum jerks a bone called the hammer, which hits the anvil and moves the third bone called the stapes.</s>
+ <s id="17">Its motion pushes the fluid within the long chambers of the cochlea.</s>
+ <s id="18">Once there, the sound vibrations have finally been converted into vibrations of a fluid, and they travel like a wave from one end of the cochlea to the other.</s>
+ <s id="19">A surface called the basilar membrane runs the length of the cochlea.</s>
+ <s id="20">It’s lined with hair cells that have specialized components called stereocilia, which move with the vibrations of the cochlear fluid and the basilar membrane.</s>
+ <s id="21">This movement triggers a signal that travels through the hair cell, into the auditory nerve, then onward to the brain, which interprets it as a specific sound.</s>
+ <s id="22">When a sound makes the basilar membrane vibrate, not every hair cell moves - only selected ones, depending on the frequency of the sound.</s>
+ <s id="23">This comes down to some fine engineering.</s>
+ <s id="24">At one end, the basilar membrane is stiff, vibrating only in response to short wavelength, high-frequency sounds.</s>
+ <s id="25">The other is more flexible, vibrating only in the presence of longer wavelength, low-frequency sounds.</s>
+ <s id="26">So, the noises made by the seagull and mosquito vibrate different locations on the basilar membrane, like playing different keys on a piano.</s>
+ <s id="27">But that’s not all that’s going on.</s>
+ <s id="28">The brain still has another important task to fulfill: identifying where a sound is coming from.</s>
+ <s id="29">For that, it compares the sounds coming into the two ears to locate the source in space.</s>
+ <s id="30">A sound from directly in front of you will reach both your ears at the same time.</s>
+ <s id="31">You’ll also hear it at the same intensity in each ear.</s>
+ <s id="32">However, a low-frequency sound coming from one side will reach the near ear microseconds before the far one.</s>
+ <s id="33">And high-frequency sounds will sound more intense to the near ear because they’re blocked from the far ear by your head.</s>
+ <s id="34">These strands of information reach special parts of the brainstem that analyze time and intensity differences between your ears.</s>
+ <s id="35">They send the results of their analysis up to the auditory cortex.</s>
+ <s id="36">Now, the brain has all the information it needs: the patterns of activity that tell us what the sound is, and information about where it is in space.</s>
+ <s id="37">Not everyone has normal hearing.</s>
+ <s id="38">Hearing loss is the third most common chronic disease in the world.</s>
+ <s id="39">Exposure to loud noises and some drugs can kill hair cells, preventing signals from traveling from the ear to the brain.</s>
+ <s id="40">Diseases like osteosclerosis freeze the tiny bones in the ear so they no longer vibrate.</s>
+ <s id="41">And with tinnitus, the brain does strange things to make us think there’s a sound when there isn’t one.</s>
+ <s id="42">But when it does work, our hearing is an incredible, elegant system.</s>
+ <s id="43">Our ears enclose a fine-tuned piece of biological machinery that converts the cacophony of vibrations in the air around us into precisely tuned electrical impulses that distinguish claps, taps, sighs, and flies.</s>
+</text>

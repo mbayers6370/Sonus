@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Two sisters take the same DNA test.</s>
+ <s id="2">The results show that one sister is 10% French, the other 0%.</s>
+ <s id="3">Both sisters share the same two parents, and therefore the same set of ancestors.</s>
+ <s id="4">So how can one be 10% more French than the other?</s>
+ <s id="5">Tests like these rely on our DNA to answer questions about our ancestry, but our DNA actually can’t tell us everything about who we are or where we’re from.</s>
+ <s id="6">DNA tests are great at answering some questions, like who your parents are, but can provide baffling results to others, like whether you have ancestors from a particular region.</s>
+ <s id="7">To understand why, it helps to know where our DNA comes from in the first place.</s>
+ <s id="8">Each person’s DNA consists of about 6 billion base pairs stored in 23 pairs of chromosomes— 46 total.</s>
+ <s id="9">That may seem like a dizzying amount of information, but 99% of our genome is shared among all humans.</s>
+ <s id="10">The remaining 1% contains everything distinct about an individual’s ancestry.</s>
+ <s id="11">Commercial DNA tests utilize less than 1% of that 1%.</s>
+ <s id="12">One chromosome in each pair comes from each parent.</s>
+ <s id="13">These halves join at conception: when a sperm and egg, each with only 23 chromosomes, combine.</s>
+ <s id="14">The story of our ancestry becomes muddled before conception.</s>
+ <s id="15">That’s because the 23 chromosomes in a sperm or egg aren’t identical to the chromosomes of every other cell in the body.</s>
+ <s id="16">As they go from a cell with 46 chromosomes to a sex cell with only 23, the chromosomes within each pair swap some sections.</s>
+ <s id="17">This process is called recombination, and it means that every sperm or egg contains single chromosomes that are a unique mash up of each pair.</s>
+ <s id="18">Recombination occurs uniquely in each sex cell— making two sisters’ chromosomes different not only from their parents’, but from each other’s.</s>
+ <s id="19">Recombination happens before conception, so you get exactly half of your DNA from each parent, but going further back things get more complicated.</s>
+ <s id="20">Without recombination, you would get 1/4 from each grandparent, 1/8 from each great-grandparent, and so on, but because recombination happens every generation, those numbers vary.</s>
+ <s id="21">The more generations removed an ancestor is, the more likely they won’t be represented in your DNA at all.</s>
+ <s id="22">For example, without recombination, just 1/64 of your DNA would come from each ancestor six generations back.</s>
+ <s id="23">Because of recombination, that number can be higher, though we don’t know for sure how high— or it can as low as 0.</s>
+ <s id="24">So one sister isn’t more French in the sense of having more ancestors from France.</s>
+ <s id="25">Instead, the French ancestors are simply more represented in her DNA.</s>
+ <s id="26">But the story doesn’t end there.</s>
+ <s id="27">Tests don’t trace the DNA of the sisters' actual French ancestors— we don’t have access to the genomes of deceased individuals from previous generations.</s>
+ <s id="28">Instead, these results are based on a comparison to the DNA of people living in France today.</s>
+ <s id="29">The tests look for genetic markers, or combinations of genetic markers.</s>
+ <s id="30">These markers are short sequences that appear in specific places.</s>
+ <s id="31">The sister deemed "more French" shares genetic markers with people currently living in France.</s>
+ <s id="32">The assumption is that these shared markers indicate ancestors from the same place: France.</s>
+ <s id="33">It’s important to note that results are based on people who’ve had their genomes sequenced— 80-90% of which are of European descent.</s>
+ <s id="34">Many indigenous peoples are barely represented, if at all.</s>
+ <s id="35">The test won’t reveal heritage from people not represented in the database, and shouldn’t be used to prove race or ethnicity.</s>
+ <s id="36">And as more people get sequenced, your results might change.</s>
+ <s id="37">Looking further back, you may get a result like 2% Neanderthal.</s>
+ <s id="38">Though Neanderthals were a separate species from humans, that 2% doesn’t come out of the 99% of our genome shared among all humans, but the 1% that varies.</s>
+ <s id="39">That’s because about 40,000 years ago, certain human populations interbred with Neanderthals, meaning some people alive today have Neanderthal ancestors.</s>
+ <s id="40">Many Neanderthal ancestors, in fact: there are so many generations in 40,000 years that a single Neanderthal’s genetic contribution would be untraceable.</s>
+ <s id="41">You can be both 100% French and 2% Neanderthal— though both come from the 1% of DNA that makes us different, they’re accounting for different things.</s>
+ <s id="42">Looking for traces of our ancestry in our DNA gets complicated very quickly.</s>
+ <s id="43">Both the way we inherit DNA and the information available for testing makes it difficult to say certain things with 100% certainty.</s>
+</text>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Imagine an island where 100 people, all perfect logicians, are imprisoned by a mad dictator.</s>
+ <s id="2">There's no escape, except for one strange rule.</s>
+ <s id="3">Any prisoner can approach the guards at night and ask to leave.</s>
+ <s id="4">If they have green eyes, they'll be released.</s>
+ <s id="5">If not, they'll be tossed into the volcano.</s>
+ <s id="6">As it happens, all 100 prisoners have green eyes, but they've lived there since birth, and the dictator has ensured they can't learn their own eye color.</s>
+ <s id="7">There are no reflective surfaces, all water is in opaque containers, and most importantly, they're not allowed to communicate among themselves.</s>
+ <s id="8">Though they do see each other during each morning's head count.</s>
+ <s id="9">Nevertheless, they all know no one would ever risk trying to leave without absolute certainty of success.</s>
+ <s id="10">After much pressure from human rights groups, the dictator reluctantly agrees to let you visit the island and speak to the prisoners under the following conditions: you may only make one statement, and you cannot tell them any new information.</s>
+ <s id="11">What can you say to help free the prisoners without incurring the dictator's wrath?</s>
+ <s id="12">After thinking long and hard, you tell the crowd, "At least one of you has green eyes."</s>
+ <s id="13">The dictator is suspicious but reassures himself that your statement couldn't have changed anything.</s>
+ <s id="14">You leave, and life on the island seems to go on as before.</s>
+ <s id="15">But on the hundredth morning after your visit, all the prisoners are gone, each having asked to leave the previous night.</s>
+ <s id="16">So how did you outsmart the dictator?</s>
+ <s id="17">It might help to realize that the amount of prisoners is arbitrary.</s>
+ <s id="18">Let's simplify things by imagining just two, Adria and Bill.</s>
+ <s id="19">Each sees one person with green eyes, and for all they know, that could be the only one.</s>
+ <s id="20">For the first night, each stays put.</s>
+ <s id="21">But when they see each other still there in the morning, they gain new information.</s>
+ <s id="22">Adria realizes that if Bill had seen a non-green-eyed person next to him, he would have left the first night after concluding the statement could only refer to himself.</s>
+ <s id="23">Bill simultaneously realizes the same thing about Adria.</s>
+ <s id="24">The fact that the other person waited tells each prisoner his or her own eyes must be green.</s>
+ <s id="25">And on the second morning, they're both gone.</s>
+ <s id="26">Now imagine a third prisoner.</s>
+ <s id="27">Adria, Bill and Carl each see two green-eyed people, but aren't sure if each of the others is also seeing two green-eyed people, or just one.</s>
+ <s id="28">They wait out the first night as before, but the next morning, they still can't be sure.</s>
+ <s id="29">Carl thinks, "If I have non-green eyes, Adria and Bill were just watching each other, and will now both leave on the second night."</s>
+ <s id="30">But when he sees both of them the third morning, he realizes they must have been watching him, too.</s>
+ <s id="31">Adria and Bill have each been going through the same process, and they all leave on the third night.</s>
+ <s id="32">Using this sort of inductive reasoning, we can see that the pattern will repeat no matter how many prisoners you add.</s>
+ <s id="33">The key is the concept of common knowledge, coined by philosopher David Lewis.</s>
+ <s id="34">The new information was not contained in your statement itself, but in telling it to everyone simultaneously.</s>
+ <s id="35">Now, besides knowing at least one of them has green eyes, each prisoner also knows that everyone else is keeping track of all the green-eyed people they can see, and that each of them also knows this, and so on.</s>
+ <s id="36">What any given prisoner doesn't know is whether they themselves are one of the green-eyed people the others are keeping track of until as many nights have passed as the number of prisoners on the island.</s>
+ <s id="37">Of course, you could have spared the prisoners 98 days on the island by telling them at least 99 of you have green eyes, but when mad dictators are involved, you're best off with a good headstart.</s>
+</text>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">What I'm going to show you first, as quickly as I can, is some foundational work, some new technology that we brought to Microsoft as part of an acquisition almost exactly a year ago.</s>
+ <s id="2">This is Seadragon, and it's an environment in which you can either locally or remotely interact with vast amounts of visual data.</s>
+ <s id="3">We're looking at many, many gigabytes of digital photos here and kind of seamlessly and continuously zooming in, panning through it, rearranging it in any way we want.</s>
+ <s id="4">And it doesn't matter how much information we're looking at, how big these collections are or how big the images are.</s>
+ <s id="5">Most of them are ordinary digital camera photos, but this one, for example, is a scan from the Library of Congress, and it's in the 300 megapixel range.</s>
+ <s id="6">It doesn't make any difference because the only thing that ought to limit the performance of a system like this one is the number of pixels on your screen at any given moment.</s>
+ <s id="7">It's also very flexible architecture.</s>
+ <s id="8">This is an entire book, so this is an example of non-image data.</s>
+ <s id="9">This is "Bleak House" by Dickens.</s>
+ <s id="10">Every column is a chapter.</s>
+ <s id="11">To prove to you that it's really text, and not an image, we can do something like so, to really show that this is a real representation of the text; it's not a picture.</s>
+ <s id="12">Maybe this is an artificial way to read an e-book.</s>
+ <s id="13">I wouldn't recommend it.</s>
+ <s id="14">This is a more realistic case, an issue of The Guardian.</s>
+ <s id="15">Every large image is the beginning of a section.</s>
+ <s id="16">And this really gives you the joy and the good experience of reading the real paper version of a magazine or a newspaper, which is an inherently multi-scale kind of medium.</s>
+ <s id="17">We've done something with the corner of this particular issue of The Guardian.</s>
+ <s id="18">We've made up a fake ad that's very high resolution -- much higher than in an ordinary ad -- and we've embedded extra content.</s>
+ <s id="19">If you want to see the features of this car, you can see it here.</s>
+ <s id="20">Or other models, or even technical specifications.</s>
+ <s id="21">And this really gets at some of these ideas about really doing away with those limits on screen real estate.</s>
+ <s id="22">We hope that this means no more pop-ups and other rubbish like that -- shouldn't be necessary.</s>
+ <s id="23">Of course, mapping is one of those obvious applications for a technology like this.</s>
+ <s id="24">And this one I really won't spend any time on, except to say that we have things to contribute to this field as well.</s>
+ <s id="25">But those are all the roads in the U.S.</s>
+ <s id="26">superimposed on top of a NASA geospatial image.</s>
+ <s id="27">So let's pull up, now, something else.</s>
+ <s id="28">This is actually live on the Web now; you can go check it out.</s>
+ <s id="29">This is a project called Photosynth, which marries two different technologies.</s>
+ <s id="30">One of them is Seadragon and the other is some very beautiful computer-vision research done by Noah Snavely, a graduate student at the University of Washington, co-advised by Steve Seitz at U.W.</s>
+ <s id="31">and Rick Szeliski at Microsoft Research.</s>
+ <s id="32">A very nice collaboration.</s>
+ <p id="p33">
+  <s id="33.1">And so this is live on the Web.</s>
+  <s id="33.2">It's powered by Seadragon.</s>
+ </p>
+ <s id="34">You can see that when we do these sorts of views, where we can dive through images and have this kind of multi-resolution experience.</s>
+ <s id="35">But the spatial arrangement of the images here is actually meaningful.</s>
+ <s id="36">The computer vision algorithms have registered these images together so that they correspond to the real space in which these shots -- all taken near Grassi Lakes in the Canadian Rockies -- all these shots were taken.</s>
+ <s id="37">So you see elements here of stabilized slide-show or panoramic imaging, and these things have all been related spatially.</s>
+ <s id="38">I'm not sure if I have time to show you any other environments.</s>
+ <s id="39">Some are much more spatial.</s>
+ <s id="40">I would like to jump straight to one of Noah's original data-sets -- this is from an early prototype that we first got working this summer -- to show you what I think is really the punch line behind the Photosynth technology, It's not necessarily so apparent from looking at the environments we've put up on the website.</s>
+ <s id="41">We had to worry about the lawyers and so on.</s>
+ <s id="42">This is a reconstruction of Notre Dame Cathedral that was done entirely computationally from images scraped from Flickr.</s>
+ <s id="43">You just type Notre Dame into Flickr, and you get some pictures of guys in T-shirts, and of the campus and so on.</s>
+ <s id="44">And each of these orange cones represents an image that was discovered to belong to this model.</s>
+ <s id="45">And so these are all Flickr images, and they've all been related spatially in this way.</s>
+ <s id="46">We can just navigate in this very simple way.</s>
+ <s id="47">(Applause) (Applause ends) You know, I never thought that I'd end up working at Microsoft.</s>
+ <s id="48">It's very gratifying to have this kind of reception here.</s>
+ <s id="49">(Laughter) I guess you can see this is lots of different types of cameras: it's everything from cell-phone cameras to professional SLRs, quite a large number of them, stitched together in this environment.</s>
+ <s id="50">If I can find some of the sort of weird ones -- So many of them are occluded by faces, and so on.</s>
+ <s id="51">Somewhere in here there is actually a series of photographs -- here we go.</s>
+ <s id="52">This is actually a poster of Notre Dame that registered correctly.</s>
+ <s id="53">We can dive in from the poster to a physical view of this environment.</s>
+ <s id="54">What the point here really is is that we can do things with the social environment.</s>
+ <s id="55">This is now taking data from everybody -- from the entire collective memory, visually, of what the Earth looks like -- and link all of that together.</s>
+ <s id="56">Those photos become linked, and they make something emergent that's greater than the sum of the parts.</s>
+ <s id="57">You have a model that emerges of the entire Earth.</s>
+ <s id="58">Think of this as the long tail to Stephen Lawler's Virtual Earth work.</s>
+ <s id="59">And this is something that grows in complexity as people use it, and whose benefits become greater to the users as they use it.</s>
+ <s id="60">Their own photos are getting tagged with meta-data that somebody else entered.</s>
+ <s id="61">If somebody bothered to tag all of these saints and say who they all are, then my photo of Notre Dame Cathedral suddenly gets enriched with all of that data, and I can use it as an entry point to dive into that space, into that meta-verse, using everybody else's photos, and do a kind of a cross-modal and cross-user social experience that way.</s>
+ <s id="62">And of course, a by-product of all of that is immensely rich virtual models of every interesting part of the Earth, collected not just from overhead flights and from satellite images and so on, but from the collective memory.</s>
+ <s id="63">Thank you so much.</s>
+ <s id="64">(Applause) (Applause ends) Chris Anderson: Do I understand this right?</s>
+ <s id="65">What your software is going to allow, is that at some point, really within the next few years, all the pictures that are shared by anyone across the world are going to link together?</s>
+ <p id="p66">
+  <s id="66.1">BAA: Yes.</s>
+  <s id="66.2">What this is really doing is discovering, creating hyperlinks, if you will, between images.</s>
+ </p>
+ <s id="67">It's doing that based on the content inside the images.</s>
+ <s id="68">And that gets really exciting when you think about the richness of the semantic information a lot of images have.</s>
+ <s id="69">Like when you do a web search for images, you type in phrases, and the text on the web page is carrying a lot of information about what that picture is of.</s>
+ <s id="70">What if that picture links to all of your pictures?</s>
+ <s id="71">The amount of semantic interconnection and richness that comes out of that is really huge.</s>
+ <s id="72">It's a classic network effect.</s>
+ <p id="p73">
+  <s id="73.1">CA: Truly incredible.</s>
+  <s id="73.2">Congratulations.</s>
+ </p>
+</text>

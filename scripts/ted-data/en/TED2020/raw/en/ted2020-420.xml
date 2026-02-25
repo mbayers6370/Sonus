@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">We all make decisions every day; we want to know what the right thing is to do -- in domains from the financial to the gastronomic to the professional to the romantic.</s>
+ <s id="2">And surely, if somebody could really tell us how to do exactly the right thing at all possible times, that would be a tremendous gift.</s>
+ <s id="3">It turns out that, in fact, the world was given this gift in 1738 by a Dutch polymath named Daniel Bernoulli.</s>
+ <s id="4">And what I want to talk to you about today is what that gift is, and I also want to explain to you why it is that it hasn't made a damn bit of difference.</s>
+ <p id="p5">
+  <s id="5.1">Now, this is Bernoulli's gift.</s>
+  <s id="5.2">This is a direct quote.</s>
+ </p>
+ <s id="6">And if it looks like Greek to you, it's because, well, it's Greek.</s>
+ <s id="7">But the simple English translation -- much less precise, but it captures the gist of what Bernoulli had to say -- was this: The expected value of any of our actions -- that is, the goodness that we can count on getting -- is the product of two simple things: the odds that this action will allow us to gain something, and the value of that gain to us.</s>
+ <s id="8">In a sense, what Bernoulli was saying is, if we can estimate and multiply these two things, we will always know precisely how we should behave.</s>
+ <s id="9">Now, this simple equation, even for those of you who don't like equations, is something that you're quite used to.</s>
+ <p id="p10">
+  <s id="10.1">Here's an example: if I were to tell you, let's play a little coin toss game, and I'm going to flip a coin, and if it comes up heads, I'm going to pay you 10 dollars, but you have to pay four dollars for the privilege of playing with me, most of you would say, sure, I'll take that bet.</s>
+  <s id="10.2">Because you know that the odds of you winning are one half, the gain if you do is 10 dollars, that multiplies to five, and that's more than I'm charging you to play.</s>
+  <s id="10.3">So, the answer is, yes.</s>
+ </p>
+ <s id="11">This is what statisticians technically call a damn fine bet.</s>
+ <s id="12">Now, the idea is simple when we're applying it to coin tosses, but in fact, it's not very simple in everyday life.</s>
+ <s id="13">People are horrible at estimating both of these things, and that's what I want to talk to you about today.</s>
+ <s id="14">There are two kinds of errors people make when trying to decide what the right thing is to do, and those are errors in estimating the odds that they're going to succeed, and errors in estimating the value of their own success.</s>
+ <s id="15">Now, let me talk about the first one first.</s>
+ <s id="16">Calculating odds would seem to be something rather easy: there are six sides to a die, two sides to a coin, 52 cards in a deck.</s>
+ <s id="17">You all know what the likelihood is of pulling the ace of spades or of flipping a heads.</s>
+ <p id="p18">
+  <s id="18.1">But as it turns out, this is not a very easy idea to apply in everyday life.</s>
+  <s id="18.2">That's why Americans spend more -- I should say, lose more -- gambling than on all other forms of entertainment combined.</s>
+ </p>
+ <s id="19">The reason is, this isn't how people do odds.</s>
+ <s id="20">The way people figure odds requires that we first talk a bit about pigs.</s>
+ <s id="21">Now, the question I'm going to put to you is whether you think there are more dogs or pigs on leashes observed in any particular day in Oxford.</s>
+ <s id="22">And of course, you all know that the answer is dogs.</s>
+ <s id="23">And the way that you know that the answer is dogs is you quickly reviewed in memory the times you've seen dogs and pigs on leashes.</s>
+ <p id="p24">
+  <s id="24.1">It was very easy to remember seeing dogs, not so easy to remember pigs.</s>
+  <s id="24.2">And each one of you assumed that if dogs on leashes came more quickly to your mind, then dogs on leashes are more probable.</s>
+ </p>
+ <s id="25">That's not a bad rule of thumb, except when it is.</s>
+ <s id="26">So, for example, here's a word puzzle.</s>
+ <s id="27">Are there more four-letter English words with R in the third place or R in the first place?</s>
+ <s id="28">Well, you check memory very briefly, make a quick scan, and it's awfully easy to say to yourself, Ring, Rang, Rung, and very hard to say to yourself, Pare, Park: they come more slowly.</s>
+ <s id="29">But in fact, there are many more words in the English language with R in the third than the first place.</s>
+ <s id="30">The reason words with R in the third place come slowly to your mind isn't because they're improbable, unlikely or infrequent.</s>
+ <s id="31">It's because the mind recalls words by their first letter.</s>
+ <s id="32">You kind of shout out the sound, S -- and the word comes.</s>
+ <s id="33">It's like the dictionary; it's hard to look things up by the third letter.</s>
+ <p id="p34">
+  <s id="34.1">So, this is an example of how this idea that the quickness with which things come to mind can give you a sense of their probability -- how this idea could lead you astray.</s>
+  <s id="34.2">It's not just puzzles, though.</s>
+ </p>
+ <s id="35">For example, when Americans are asked to estimate the odds that they will die in a variety of interesting ways -- these are estimates of number of deaths per year per 200 million U.S. citizens.</s>
+ <s id="36">And these are just ordinary people like yourselves who are asked to guess how many people die from tornado, fireworks, asthma, drowning, etc.</s>
+ <s id="37">Compare these to the actual numbers.</s>
+ <s id="38">Now, you see a very interesting pattern here, which is first of all, two things are vastly over-estimated, namely tornadoes and fireworks.</s>
+ <p id="p39">
+  <s id="39.1">Two things are vastly underestimated: dying by drowning and dying by asthma.</s>
+  <s id="39.2">Why?</s>
+ </p>
+ <s id="40">When was the last time that you picked up a newspaper and the headline was, "Boy dies of Asthma?"</s>
+ <s id="41">It's not interesting because it's so common.</s>
+ <s id="42">It's very easy for all of us to bring to mind instances of news stories or newsreels where we've seen tornadoes devastating cities, or some poor schmuck who's blown his hands off with a firework on the Fourth of July.</s>
+ <s id="43">Drownings and asthma deaths don't get much coverage.</s>
+ <s id="44">They don't come quickly to mind, and as a result, we vastly underestimate them.</s>
+ <p id="p45">
+  <s id="45.1">Indeed, this is kind of like the Sesame Street game of "Which thing doesn't belong?"</s>
+  <s id="45.2">And you're right to say it's the swimming pool that doesn't belong, because the swimming pool is the only thing on this slide that's actually very dangerous.</s>
+ </p>
+ <s id="46">The way that more of you are likely to die than the combination of all three of the others that you see on the slide.</s>
+ <s id="47">The lottery is an excellent example, of course -- an excellent test-case of people's ability to compute probabilities.</s>
+ <s id="48">And economists -- forgive me, for those of you who play the lottery -- but economists, at least among themselves, refer to the lottery as a stupidity tax, because the odds of getting any payoff by investing your money in a lottery ticket are approximately equivalent to flushing the money directly down the toilet -- which, by the way, doesn't require that you actually go to the store and buy anything.</s>
+ <s id="49">Why in the world would anybody ever play the lottery?</s>
+ <p id="p50">
+  <s id="50.1">Well, there are many answers, but one answer surely is, we see a lot of winners.</s>
+  <s id="50.2">Right?</s>
+  <s id="50.3">When this couple wins the lottery, or Ed McMahon shows up at your door with this giant check -- how the hell do you cash things that size, I don't know.</s>
+ </p>
+ <s id="51">We see this on TV; we read about it in the paper.</s>
+ <s id="52">When was the last time that you saw extensive interviews with everybody who lost?</s>
+ <p id="p53">
+  <s id="53.1">Indeed, if we required that television stations run a 30-second interview with each loser every time they interview a winner, the 100 million losers in the last lottery would require nine-and-a-half years of your undivided attention just to watch them say, "Me?</s>
+  <s id="53.2">I lost."</s>
+  <s id="53.3">"Me?</s>
+  <s id="53.4">I lost."</s>
+ </p>
+ <s id="54">Now, if you watch nine-and-a-half years of television -- no sleep, no potty breaks -- and you saw loss after loss after loss, and then at the end there's 30 seconds of, "and I won," the likelihood that you would play the lottery is very small.</s>
+ <s id="55">Look, I can prove this to you: here's a little lottery.</s>
+ <s id="56">There's 10 tickets in this lottery.</s>
+ <s id="57">Nine of them have been sold to these individuals.</s>
+ <p id="p58">
+  <s id="58.1">It costs you a dollar to buy the ticket and, if you win, you get 20 bucks.</s>
+  <s id="58.2">Is this a good bet?</s>
+ </p>
+ <s id="59">Well, Bernoulli tells us it is.</s>
+ <s id="60">The expected value of this lottery is two dollars; this is a lottery in which you should invest your money.</s>
+ <s id="61">And most people say, "OK, I'll play."</s>
+ <s id="62">Now, a slightly different version of this lottery: imagine that the nine tickets are all owned by one fat guy named Leroy.</s>
+ <s id="63">Leroy has nine tickets; there's one left.</s>
+ <p id="p64">
+  <s id="64.1">Do you want it?</s>
+  <s id="64.2">Most people won't play this lottery.</s>
+ </p>
+ <s id="65">Now, you can see the odds of winning haven't changed, but it's now fantastically easy to imagine who's going to win.</s>
+ <s id="66">It's easy to see Leroy getting the check, right?</s>
+ <s id="67">You can't say to yourself, "I'm as likely to win as anybody," because you're not as likely to win as Leroy.</s>
+ <s id="68">The fact that all those tickets are owned by one guy changes your decision to play, even though it does nothing whatsoever to the odds.</s>
+ <s id="69">Now, estimating odds, as difficult as it may seem, is a piece of cake compared to trying to estimate value: trying to say what something is worth, how much we'll enjoy it, how much pleasure it will give us.</s>
+ <s id="70">I want to talk now about errors in value.</s>
+ <p id="p71">
+  <s id="71.1">How much is this Big Mac worth?</s>
+  <s id="71.2">Is it worth 25 dollars?</s>
+ </p>
+ <s id="72">Most of you have the intuition that it's not -- you wouldn't pay that for it.</s>
+ <s id="73">But in fact, to decide whether a Big Mac is worth 25 dollars requires that you ask one, and only one question, which is: What else can I do with 25 dollars?</s>
+ <s id="74">If you've ever gotten on one of those long-haul flights to Australia and realized that they're not going to serve you any food, but somebody in the row in front of you has just opened the McDonald's bag, and the smell of golden arches is wafting over the seat, you think, I can't do anything else with this 25 dollars for 16 hours.</s>
+ <s id="75">I can't even set it on fire -- they took my cigarette lighter!</s>
+ <s id="76">Suddenly, 25 dollars for a Big Mac might be a good deal.</s>
+ <s id="77">On the other hand, if you're visiting an underdeveloped country, and 25 dollars buys you a gourmet meal, it's exorbitant for a Big Mac.</s>
+ <s id="78">Why were you all sure that the answer to the question was no, before I'd even told you anything about the context?</s>
+ <p id="p79">
+  <s id="79.1">Because most of you compared the price of this Big Mac to the price you're used to paying.</s>
+  <s id="79.2">Rather than asking, "What else can I do with my money," comparing this investment to other possible investments, you compared to the past.</s>
+ </p>
+ <s id="80">And this is a systematic error people make.</s>
+ <s id="81">What you knew is, you paid three dollars in the past; 25 is outrageous.</s>
+ <s id="82">This is an error, and I can prove it to you by showing the kinds of irrationalities to which it leads.</s>
+ <s id="83">For example, this is, of course, one of the most delicious tricks in marketing, is to say something used to be higher, and suddenly it seems like a very good deal.</s>
+ <p id="p84">
+  <s id="84.1">When people are asked about these two different jobs: a job where you make 60K, then 50K, then 40K, a job where you're getting a salary cut each year, and one in which you're getting a salary increase, people like the second job better than the first, despite the fact they're all told they make much less money.</s>
+  <s id="84.2">Why?</s>
+ </p>
+ <p id="p85">
+  <s id="85.1">Because they had the sense that declining wages are worse than rising wages, even when the total amount of wages is higher in the declining period.</s>
+  <s id="85.2">Here's another nice example.</s>
+ </p>
+ <s id="86">Here's a $2,000 Hawaiian vacation package; it's now on sale for 1,600.</s>
+ <s id="87">Assuming you wanted to go to Hawaii, would you buy this package?</s>
+ <p id="p88">
+  <s id="88.1">Most people say they would.</s>
+  <s id="88.2">Here's a slightly different story: $2,000 Hawaiian vacation package is now on sale for 700 dollars, so you decide to mull it over for a week.</s>
+ </p>
+ <p id="p89">
+  <s id="89.1">By the time you get to the ticket agency, the best fares are gone -- the package now costs 1,500.</s>
+  <s id="89.2">Would you buy it?</s>
+  <s id="89.3">Most people say, no.</s>
+ </p>
+ <p id="p90">
+  <s id="90.1">Why?</s>
+  <s id="90.2">Because it used to cost 700, and there's no way I'm paying 1,500 for something that was 700 last week.</s>
+ </p>
+ <p id="p91">
+  <s id="91.1">This tendency to compare to the past is causing people to pass up the better deal.</s>
+  <s id="91.2">In other words, a good deal that used to be a great deal is not nearly as good as an awful deal that was once a horrible deal.</s>
+ </p>
+ <s id="92">Here's another example of how comparing to the past can befuddle our decisions.</s>
+ <s id="93">Imagine that you're going to the theater.</s>
+ <s id="94">You're on your way to the theater.</s>
+ <s id="95">In your wallet you have a ticket, for which you paid 20 dollars.</s>
+ <s id="96">You also have a 20-dollar bill.</s>
+ <s id="97">When you arrive at the theater, you discover that somewhere along the way you've lost the ticket.</s>
+ <s id="98">Would you spend your remaining money on replacing it?</s>
+ <s id="99">Most people answer, no.</s>
+ <s id="100">Now, let's just change one thing in this scenario.</s>
+ <s id="101">You're on your way to the theater, and in your wallet you have two 20-dollar bills.</s>
+ <s id="102">When you arrive you discover you've lost one of them.</s>
+ <s id="103">Would you spend your remaining 20 dollars on a ticket?</s>
+ <s id="104">Well, of course, I went to the theater to see the play.</s>
+ <s id="105">What does the loss of 20 dollars along the way have to do?</s>
+ <s id="106">Now, just in case you're not getting it, here's a schematic of what happened, OK?</s>
+ <s id="107">(Laughter) Along the way, you lost something.</s>
+ <s id="108">In both cases, it was a piece of paper.</s>
+ <s id="109">In one case, it had a U.S. president on it; in the other case it didn't.</s>
+ <s id="110">What the hell difference should it make?</s>
+ <s id="111">The difference is that when you lost the ticket you say to yourself, I'm not paying twice for the same thing.</s>
+ <s id="112">You compare the cost of the play now -- 40 dollars -- to the cost that it used to have -- 20 dollars -- and you say it's a bad deal.</s>
+ <s id="113">Comparing with the past causes many of the problems that behavioral economists and psychologists identify in people's attempts to assign value.</s>
+ <s id="114">But even when we compare with the possible, instead of the past, we still make certain kinds of mistakes.</s>
+ <s id="115">And I'm going to show you one or two of them.</s>
+ <s id="116">One of the things we know about comparison: that when we compare one thing to the other, it changes its value.</s>
+ <s id="117">So in 1992, this fellow, George Bush, for those of us who were kind of on the liberal side of the political spectrum, didn't seem like such a great guy.</s>
+ <s id="118">Suddenly, we're almost longing for him to return.</s>
+ <s id="119">(Laughter) The comparison changes how we evaluate him.</s>
+ <s id="120">Now, retailers knew this long before anybody else did, of course, and they use this wisdom to help you -- spare you the undue burden of money.</s>
+ <s id="121">And so a retailer, if you were to go into a wine shop and you had to buy a bottle of wine, and you see them here for eight, 27 and 33 dollars, what would you do?</s>
+ <s id="122">Most people don't want the most expensive, they don't want the least expensive.</s>
+ <s id="123">So, they will opt for the item in the middle.</s>
+ <s id="124">If you're a smart retailer, then, you will put a very expensive item that nobody will ever buy on the shelf, because suddenly the $33 wine doesn't look as expensive in comparison.</s>
+ <s id="125">So I'm telling you something you already knew: namely, that comparison changes the value of things.</s>
+ <s id="126">Here's why that's a problem: the problem is that when you get that $33 bottle of wine home, it won't matter what it used to be sitting on the shelf next to.</s>
+ <s id="127">The comparisons we make when we are appraising value, where we're trying to estimate how much we'll like things, are not the same comparisons we'll be making when we consume them.</s>
+ <s id="128">This problem of shifting comparisons can bedevil our attempts to make rational decisions.</s>
+ <s id="129">Let me just give you an example.</s>
+ <s id="130">I have to show you something from my own lab, so let me sneak this in.</s>
+ <s id="131">These are subjects coming to an experiment to be asked the simplest of all questions: How much will you enjoy eating potato chips one minute from now?</s>
+ <s id="132">They're sitting in a room with potato chips in front of them.</s>
+ <s id="133">For some of the subjects, sitting in the far corner of a room is a box of Godiva chocolates, and for others is a can of Spam.</s>
+ <s id="134">In fact, these items that are sitting in the room change how much the subjects think they're going to enjoy the potato chips.</s>
+ <s id="135">Namely, those who are looking at Spam think potato chips are going to be quite tasty; those who are looking at Godiva chocolate think they won't be nearly so tasty.</s>
+ <s id="136">Of course, what happens when they eat the potato chips?</s>
+ <s id="137">Well, look, you didn't need a psychologist to tell you that when you have a mouthful of greasy, salty, crispy, delicious snacks, what's sitting in the corner of the room makes not a damn bit of difference to your gustatory experience.</s>
+ <s id="138">Nonetheless, their predictions are perverted by a comparison that then does not carry through and change their experience.</s>
+ <p id="p139">
+  <s id="139.1">You've all experienced this yourself, even if you've never come into our lab to eat potato chips.</s>
+  <s id="139.2">So here's a question: You want to buy a car stereo.</s>
+ </p>
+ <s id="140">The dealer near your house sells this particular stereo for 200 dollars, but if you drive across town, you can get it for 100 bucks.</s>
+ <s id="141">So would you drive to get 50 percent off, saving 100 dollars?</s>
+ <s id="142">Most people say they would.</s>
+ <s id="143">They can't imagine buying it for twice the price when, with one trip across town, they can get it for half off.</s>
+ <s id="144">Now, let's imagine instead you wanted to buy a car that had a stereo, and the dealer near your house had it for 31,000.</s>
+ <s id="145">But if you drove across town, you could get it for 30,900.</s>
+ <p id="p146">
+  <s id="146.1">Would you drive to get it?</s>
+  <s id="146.2">At this point, 0.003 savings -- the 100 dollars.</s>
+ </p>
+ <s id="147">Most people say, no, I'm going to schlep across town to save 100 bucks on the purchase of a car?</s>
+ <s id="148">This kind of thinking drives economists crazy, and it should.</s>
+ <s id="149">Because this 100 dollars that you save -- hello! -- doesn't know where it came from.</s>
+ <s id="150">It doesn't know what you saved it on.</s>
+ <p id="p151">
+  <s id="151.1">When you go to buy groceries with it, it doesn't go, I'm the money saved on the car stereo, or, I'm the dumb money saved on the car.</s>
+  <s id="151.2">It's money.</s>
+ </p>
+ <p id="p152">
+  <s id="152.1">And if a drive across town is worth 100 bucks, it's worth 100 bucks no matter what you're saving it on.</s>
+  <s id="152.2">People don't think that way.</s>
+ </p>
+ <s id="153">That's why they don't know whether their mutual fund manager is taking 0.1 percent or 0.15 percent of their investment, but they clip coupons to save one dollar off of toothpaste.</s>
+ <s id="154">Now, you can see, this is the problem of shifting comparisons, because what you're doing is, you're comparing the 100 bucks to the purchase that you're making, but when you go to spend that money you won't be making that comparison.</s>
+ <s id="155">You've all had this experience.</s>
+ <s id="156">If you're an American, for example, you've probably traveled in France.</s>
+ <p id="p157">
+  <s id="157.1">And at some point you may have met a couple from your own hometown, and you thought, "Oh, my God, these people are so warm.</s>
+  <s id="157.2">They're so nice to me.</s>
+ </p>
+ <p id="p158">
+  <s id="158.1">I mean, compared to all these people who hate me when I try to speak their language and hate me more when I don't, these people are just wonderful."</s>
+  <s id="158.2">And so you tour France with them, and then you get home and you invite them over for dinner, and what do you find?</s>
+ </p>
+ <p id="p159">
+  <s id="159.1">Compared to your regular friends, they are boring and dull, right?</s>
+  <s id="159.2">Because in this new context, the comparison is very, very different.</s>
+  <s id="159.3">In fact, you find yourself disliking them enough almost to qualify for French citizenship.</s>
+ </p>
+ <s id="160">Now, you have exactly the same problem when you shop for a stereo.</s>
+ <s id="161">You go to the stereo store, you see two sets of speakers -- these big, boxy, monoliths, and these little, sleek speakers, and you play them, and you go, you know, I do hear a difference: the big ones sound a little better.</s>
+ <s id="162">And so you buy them, and you bring them home, and you entirely violate the décor of your house.</s>
+ <s id="163">And the problem, of course, is that this comparison you made in the store is a comparison you'll never make again.</s>
+ <s id="164">What are the odds that years later you'll turn on the stereo and go, "Sounds so much better than those little ones," which you can't even remember hearing.</s>
+ <s id="165">The problem of shifting comparisons is even more difficult when these choices are arrayed over time.</s>
+ <s id="166">People have a lot of trouble making decisions about things that will happen at different points in time.</s>
+ <s id="167">And what psychologists and behavioral economists have discovered is that by and large people use two simple rules.</s>
+ <s id="168">So let me give you one very easy problem, a second very easy problem and then a third, hard, problem.</s>
+ <p id="p169">
+  <s id="169.1">Here's the first easy problem: You can have 60 dollars now or 50 dollars now.</s>
+  <s id="169.2">Which would you prefer?</s>
+ </p>
+ <s id="170">This is what we call a one-item IQ test, OK?</s>
+ <s id="171">All of us, I hope, prefer more money, and the reason is, we believe more is better than less.</s>
+ <p id="p172">
+  <s id="172.1">Here's the second problem: You can have 60 dollars today or 60 dollars in a month.</s>
+  <s id="172.2">Which would you prefer?</s>
+ </p>
+ <s id="173">Again, an easy decision, because we all know that now is better than later.</s>
+ <s id="174">What's hard in our decision-making is when these two rules conflict.</s>
+ <s id="175">For example, when you're offered 50 dollars now or 60 dollars in a month.</s>
+ <s id="176">This typifies a lot of situations in life in which you will gain by waiting, but you have to be patient.</s>
+ <p id="p177">
+  <s id="177.1">What do we know?</s>
+  <s id="177.2">What do people do in these kinds of situations?</s>
+ </p>
+ <s id="178">Well, by and large people are enormously impatient.</s>
+ <s id="179">That is, they require interest rates in the hundred or thousands of percents in order to delay gratification and wait until next month for the extra 10 dollars.</s>
+ <s id="180">Maybe that isn't so remarkable, but what is remarkable is how easy it is to make this impatience go away by simply changing when the delivery of these monetary units will happen.</s>
+ <s id="181">Imagine that you can have 50 dollars in a year -- that's 12 months -- or 60 dollars in 13 months.</s>
+ <s id="182">What do we find now?</s>
+ <s id="183">People are gladly willing to wait: as long as they're waiting 12, they might as well wait 13.</s>
+ <s id="184">What makes this dynamic inconsistency happen?</s>
+ <p id="p185">
+  <s id="185.1">Comparison.</s>
+  <s id="185.2">Troubling comparison.</s>
+  <s id="185.3">Let me show you.</s>
+ </p>
+ <s id="186">This is just a graph showing the results that I just suggested you would show if I gave you time to respond, which is, people find that the subjective value of 50 is higher than the subjective value of 60 when they'll be delivered in now or one month, respectively -- a 30-day delay -- but they show the reverse pattern when you push the entire decision off into the future a year.</s>
+ <s id="187">Now, why in the world do you get this pattern of results?</s>
+ <s id="188">These guys can tell us.</s>
+ <s id="189">What you see here are two lads, one of them larger than the other: the fireman and the fiddler.</s>
+ <s id="190">They are going to recede towards the vanishing point in the horizon, and I want you to notice two things.</s>
+ <p id="p191">
+  <s id="191.1">At no point will the fireman look taller than the fiddler.</s>
+  <s id="191.2">No point.</s>
+ </p>
+ <s id="192">However, the difference between them seems to be getting smaller.</s>
+ <s id="193">First it's an inch in your view, then it's a quarter-inch, then a half-inch, and then finally they go off the edge of the earth.</s>
+ <s id="194">Here are the results of what I just showed you.</s>
+ <s id="195">This is the subjective height -- the height you saw of these guys at various points.</s>
+ <s id="196">And I want you to see that two things are true.</s>
+ <s id="197">One, the farther away they are, the smaller they look; and two, the fireman is always bigger than the fiddler.</s>
+ <p id="p198">
+  <s id="198.1">But watch what happens when we make some of them disappear.</s>
+  <s id="198.2">Right.</s>
+ </p>
+ <s id="199">At a very close distance, the fiddler looks taller than the fireman, but at a far distance their normal, their true, relations are preserved.</s>
+ <s id="200">As Plato said, what space is to size, time is to value.</s>
+ <s id="201">These are the results of the hard problem I gave you: 60 now or 50 in a month?</s>
+ <s id="202">And these are subjective values, and what you can see is, our two rules are preserved.</s>
+ <s id="203">People always think more is better than less: 60 is always better than 50, and they always think now is better than later: the bars on this side are higher than the bars on this side.</s>
+ <s id="204">Watch what happens when we drop some out.</s>
+ <s id="205">Suddenly we have the dynamic inconsistency that puzzled us.</s>
+ <s id="206">We have the tendency for people to go for 50 dollars now over waiting a month, but not if that decision is far in the future.</s>
+ <s id="207">Notice something interesting that this implies -- namely, that when people get to the future, they will change their minds.</s>
+ <s id="208">That is, as that month 12 approaches, you will say, what was I thinking, waiting an extra month for 60 dollars?</s>
+ <s id="209">I'll take the 50 dollars now.</s>
+ <s id="210">Well, the question with which I'd like to end is this: If we're so damn stupid, how did we get to the moon?</s>
+ <s id="211">Because I could go on for about two hours with evidence of people's inability to estimate odds and inability to estimate value.</s>
+ <s id="212">The answer to this question, I think, is an answer you've already heard in some of the talks, and I dare say you will hear again: namely, that our brains were evolved for a very different world than the one in which we are living.</s>
+ <s id="213">They were evolved for a world in which people lived in very small groups, rarely met anybody who was terribly different from themselves, had rather short lives in which there were few choices and the highest priority was to eat and mate today.</s>
+ <s id="214">Bernoulli's gift, Bernoulli's little formula, allows us, it tells us how we should think in a world for which nature never designed us.</s>
+ <s id="215">That explains why we are so bad at using it, but it also explains why it is so terribly important that we become good, fast.</s>
+ <s id="216">We are the only species on this planet that has ever held its own fate in its hands.</s>
+ <s id="217">We have no significant predators, we're the masters of our physical environment; the things that normally cause species to become extinct are no longer any threat to us.</s>
+ <s id="218">The only thing -- the only thing -- that can destroy us and doom us are our own decisions.</s>
+ <s id="219">If we're not here in 10,000 years, it's going to be because we could not take advantage of the gift given to us by a young Dutch fellow in 1738, because we underestimated the odds of our future pains and overestimated the value of our present pleasures.</s>
+ <s id="220">Thank you.</s>
+ <s id="221">(Applause) Chris Anderson: That was remarkable.</s>
+ <p id="p222">
+  <s id="222.1">We have time for some questions for Dan Gilbert.</s>
+  <s id="222.2">One and two.</s>
+ </p>
+ <s id="223">Bill Lyell: Would you say that this mechanism is in part how terrorism actually works to frighten us, and is there some way that we could counteract that?</s>
+ <s id="224">Dan Gilbert: I actually was consulting recently with the Department of Homeland Security, which generally believes that American security dollars should go to making borders safer.</s>
+ <s id="225">I tried to point out to them that terrorism was a name based on people's psychological reaction to a set of events, and that if they were concerned about terrorism they might ask what causes terror and how can we stop people from being terrified, rather than -- not rather than, but in addition to stopping the atrocities that we're all concerned about.</s>
+ <s id="226">Surely the kinds of play that at least American media give to -- and forgive me, but in raw numbers these are very tiny accidents.</s>
+ <p id="p227">
+  <s id="227.1">We already know, for example, in the United States, more people have died as a result of not taking airplanes -- because they were scared -- and driving on highways, than were killed in 9/11.</s>
+  <s id="227.2">OK?</s>
+ </p>
+ <s id="228">If I told you that there was a plague that was going to kill 15,000 Americans next year, you might be alarmed if you didn't find out it was the flu.</s>
+ <s id="229">These are small-scale accidents, and we should be wondering whether they should get the kind of play, the kind of coverage, that they do.</s>
+ <s id="230">Surely that causes people to overestimate the likelihood that they'll be hurt in these various ways, and gives power to the very people who want to frighten us.</s>
+ <p id="p231">
+  <s id="231.1">CA: Dan, I'd like to hear more on this.</s>
+  <s id="231.2">So, you're saying that our response to terror is, I mean, it's a form of mental bug?</s>
+ </p>
+ <s id="232">Talk more about it.</s>
+ <p id="p233">
+  <s id="233.1">DG: It's out-sized.</s>
+  <s id="233.2">I mean, look.</s>
+ </p>
+ <s id="234">If Australia disappears tomorrow, terror is probably the right response.</s>
+ <p id="p235">
+  <s id="235.1">That's an awful large lot of very nice people.</s>
+  <s id="235.2">On the other hand, when a bus blows up and 30 people are killed, more people than that were killed by not using their seatbelts in the same country.</s>
+ </p>
+ <s id="236">Is terror the right response?</s>
+ <p id="p237">
+  <s id="237.1">CA: What causes the bug?</s>
+  <s id="237.2">Is it the drama of the event -- that it's so spectacular?</s>
+ </p>
+ <s id="238">Is it the fact that it's an intentional attack by, quote, outsiders?</s>
+ <s id="239">What is it?</s>
+ <p id="p240">
+  <s id="240.1">DG: Yes.</s>
+  <s id="240.2">It's a number of things, and you hit on several of them.</s>
+ </p>
+ <s id="241">First, it's a human agent trying to kill us -- it's not a tree falling on us by accident.</s>
+ <s id="242">Second, these are enemies who may want to strike and hurt us again.</s>
+ <s id="243">People are being killed for no reason instead of good reason -- as if there's good reason, but sometimes people think there are.</s>
+ <p id="p244">
+  <s id="244.1">So there are a number of things that together make this seem like a fantastic event, but let's not play down the fact that newspapers sell when people see something in it they want to read.</s>
+  <s id="244.2">So there's a large role here played by the media, who want these things to be as spectacular as they possibly can.</s>
+ </p>
+ <s id="245">CA: I mean, what would it take to persuade our culture to downplay it?</s>
+ <p id="p246">
+  <s id="246.1">DG: Well, go to Israel.</s>
+  <s id="246.2">You know, go to Israel.</s>
+  <s id="246.3">And a mall blows up, and then everybody's unhappy about it, and an hour-and-a-half later -- at least when I was there, and I was 150 feet from the mall when it blew up -- I went back to my hotel and the wedding that was planned was still going on.</s>
+ </p>
+ <s id="247">And as the Israeli mother said, she said, "We never let them win by stopping weddings."</s>
+ <s id="248">I mean, this is a society that has learned -- and there are others too -- that has learned to live with a certain amount of terrorism and not be quite as upset by it, shall I say, as those of us who have not had many terror attacks.</s>
+ <s id="249">CA: But is there a rational fear that actually, the reason we're frightened about this is because we think that the Big One is to come?</s>
+ <p id="p250">
+  <s id="250.1">DG: Yes, of course.</s>
+  <s id="250.2">So, if we knew that this was the worst attack there would ever be, there might be more and more buses of 30 people -- we would probably not be nearly so frightened.</s>
+ </p>
+ <s id="251">I don't want to say -- please, I'm going to get quoted somewhere as saying, "Terrorism is fine and we shouldn't be so distressed."</s>
+ <s id="252">That's not my point at all.</s>
+ <s id="253">What I'm saying is that, surely, rationally, our distress about things that happen, about threats, should be roughly proportional to the size of those threats and threats to come.</s>
+ <s id="254">I think in the case of terrorism, it isn't.</s>
+ <p id="p255">
+  <s id="255.1">And many of the things we've heard about from our speakers today -- how many people do you know got up and said, Poverty!</s>
+  <s id="255.2">I can't believe what poverty is doing to us.</s>
+ </p>
+ <s id="256">People get up in the morning; they don't care about poverty.</s>
+ <s id="257">It's not making headlines, it's not making news, it's not flashy.</s>
+ <s id="258">There are no guns going off.</s>
+ <p id="p259">
+  <s id="259.1">I mean, if you had to solve one of these problems, Chris, which would you solve?</s>
+  <s id="259.2">Terrorism or poverty?</s>
+ </p>
+ <s id="260">(Laughter) (Applause) That's a tough one.</s>
+ <s id="261">CA: There's no question.</s>
+ <s id="262">Poverty, by an order of magnitude, a huge order of magnitude, unless someone can show that there's, you know, terrorists with a nuke are really likely to come.</s>
+ <s id="263">The latest I've read, seen, thought is that it's incredibly hard for them to do that.</s>
+ <s id="264">If that turns out to be wrong, we all look silly, but with poverty it's a bit -- DG: Even if that were true, still more people die from poverty.</s>
+ <p id="p265">
+  <s id="265.1">CA: We've evolved to get all excited about these dramatic attacks.</s>
+  <s id="265.2">Is that because in the past, in the ancient past, we just didn't understand things like disease and systems that cause poverty and so forth, and so it made no sense for us as a species to put any energy into worrying about those things?</s>
+ </p>
+ <s id="266">People died; so be it.</s>
+ <s id="267">But if you got attacked, that was something you could do something about.</s>
+ <s id="268">And so we evolved these responses.</s>
+ <s id="269">Is that what happened?</s>
+ <s id="270">DG: Well, you know, the people who are most skeptical about leaping to evolutionary explanations for everything are the evolutionary psychologists themselves.</s>
+ <p id="p271">
+  <s id="271.1">My guess is that there's nothing quite that specific in our evolutionary past.</s>
+  <s id="271.2">But rather, if you're looking for an evolutionary explanation, you might say that most organisms are neo-phobic -- that is, they're a little scared of stuff that's new and different.</s>
+ </p>
+ <p id="p272">
+  <s id="272.1">And there's a good reason to be, because old stuff didn't eat you.</s>
+  <s id="272.2">Right?</s>
+ </p>
+ <s id="273">Any animal you see that you've seen before is less likely to be a predator than one that you've never seen before.</s>
+ <s id="274">So, you know, when a school bus is blown up and we've never seen this before, our general tendency is to orient towards that which is new and novel is activated.</s>
+ <s id="275">I don't think it's quite as specific a mechanism as the one you alluded to, but maybe a more fundamental one underlying it.</s>
+ <p id="p276">
+  <s id="276.1">Jay Walker: You know, economists love to talk about the stupidity of people who buy lottery tickets.</s>
+  <s id="276.2">But I suspect you're making the exact same error you're accusing those people of, which is the error of value.</s>
+ </p>
+ <s id="277">I know, because I've interviewed about 1,000 lottery buyers over the years.</s>
+ <s id="278">It turns out that the value of buying a lottery ticket is not winning.</s>
+ <p id="p279">
+  <s id="279.1">That's what you think it is.</s>
+  <s id="279.2">All right?</s>
+ </p>
+ <p id="p280">
+  <s id="280.1">The average lottery buyer buys about 150 tickets a year, so the buyer knows full well that he or she is going to lose, and yet she buys 150 tickets a year.</s>
+  <s id="280.2">Why is that?</s>
+ </p>
+ <s id="281">It's not because she is stupid or he is stupid.</s>
+ <s id="282">It's because the anticipation of possibly winning releases serotonin in the brain, and actually provides a good feeling until the drawing indicates you've lost.</s>
+ <s id="283">Or, to put it another way, for the dollar investment, you can have a much better feeling than flushing the money down the toilet, which you cannot have a good feeling from.</s>
+ <s id="284">Now, economists tend to -- (Applause) -- economists tend to view the world through their own lenses, which is: this is just a bunch of stupid people.</s>
+ <s id="285">And as a result, many people look at economists as stupid people.</s>
+ <p id="p286">
+  <s id="286.1">And so fundamentally, the reason we got to the moon is, we didn't listen to the economists.</s>
+  <s id="286.2">Thank you very much.</s>
+ </p>
+ <p id="p287">
+  <s id="287.1">(Applause) DG: Well, no, it's a great point.</s>
+  <s id="287.2">It remains to be seen whether the joy of anticipation is exactly equaled by the amount of disappointment after the lottery.</s>
+  <s id="287.3">Because remember, people who didn't buy tickets don't feel awful the next day either, even though they don't feel great during the drawing.</s>
+ </p>
+ <s id="288">I would disagree that people know they're not going to win.</s>
+ <s id="289">I think they think it's unlikely, but it could happen, which is why they prefer that to the flushing.</s>
+ <s id="290">But certainly I see your point: that there can be some utility to buying a lottery ticket other than winning.</s>
+ <s id="291">Now, I think there's many good reasons not to listen to economists.</s>
+ <s id="292">That isn't one of them, for me, but there's many others.</s>
+ <s id="293">CA: Last question.</s>
+ <s id="294">Aubrey de Grey: My name's Aubrey de Grey, from Cambridge.</s>
+ <s id="295">I work on the thing that kills more people than anything else kills -- I work on aging -- and I'm interested in doing something about it, as we'll all hear tomorrow.</s>
+ <p id="p296">
+  <s id="296.1">I very much resonate with what you're saying, because it seems to me that the problem with getting people interested in doing anything about aging is that by the time aging is about to kill you it looks like cancer or heart disease or whatever.</s>
+  <s id="296.2">Do you have any advice?</s>
+ </p>
+ <s id="297">(Laughter) DG: For you or for them?</s>
+ <s id="298">AdG: In persuading them.</s>
+ <s id="299">DG: Ah, for you in persuading them.</s>
+ <s id="300">Well, it's notoriously difficult to get people to be farsighted.</s>
+ <s id="301">But one thing that psychologists have tried that seems to work is to get people to imagine the future more vividly.</s>
+ <s id="302">One of the problems with making decisions about the far future and the near future is that we imagine the near future much more vividly than the far future.</s>
+ <s id="303">To the extent that you can equalize the amount of detail that people put into the mental representations of near and far future, people begin to make decisions about the two in the same way.</s>
+ <s id="304">So, would you like to have an extra 100,000 dollars when you're 65 is a question that's very different than, imagine who you'll be when you're 65: will you be living, what will you look like, how much hair will you have, who will you be living with.</s>
+ <s id="305">Once we have all the details of that imaginary scenario, suddenly we feel like it might be important to save so that that guy has a little retirement money.</s>
+ <s id="306">But these are tricks around the margins.</s>
+ <s id="307">I think in general you're battling a very fundamental human tendency, which is to say, "I'm here today, and so now is more important than later."</s>
+ <p id="p308">
+  <s id="308.1">CA: Dan, thank you.</s>
+  <s id="308.2">Members of the audience, that was a fantastic session.</s>
+  <s id="308.3">Thank you.</s>
+ </p>
+ <s id="309">(Applause)</s>
+</text>

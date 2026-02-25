@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">When I saw a piece of technology called Kinect -- it was called Natal -- I was inspired, and I thought for a moment, maybe it's possible to address that one problem of storytelling, to create a character which seemed alive, which noticed me, that could look me in the eyes and feel real, and sculpt a story about our relationship.</s>
+ <s id="2">And so a year ago, I showed this off at a computer show called E3.</s>
+ <s id="3">And this was a piece of technology with someone called Claire interacting with this boy.</s>
+ <s id="4">And there was a huge row online about, "Hey, this can't be real."</s>
+ <s id="5">And so I waited till now to have an actual demo of the real tech.</s>
+ <s id="6">Now, this tech incorporates three big elements.</s>
+ <s id="7">The first is a Kinect camera, which will be out in November, some incredible AI that was hidden in the dusty vaults, collecting dust in Microsoft, plus our quite crude attempts at AI at a company called Lionhead, mixing all those things together just to get to this one simple idea: to create a real, living being in a computer.</s>
+ <s id="8">Now, I'll be honest with you and say that most of it is just a trick, but it's a trick that actually works.</s>
+ <s id="9">So why don't we go over and have a look at the demo now.</s>
+ <s id="10">This is Dimitri.</s>
+ <s id="11">Dimitri, just waggle your arm around.</s>
+ <s id="12">Now, you notice he's sitting.</s>
+ <s id="13">There are no controllers, no keyboards, or mice, or joysticks, or joypads.</s>
+ <s id="14">He is just going to use his hand, his body and his voice, just like humans interact with their hands, body and voice.</s>
+ <s id="15">So let's move forward.</s>
+ <s id="16">You're going to meet Milo for the first time.</s>
+ <s id="17">We had to give him a problem because when we first created Milo, we realized that he came across as a little bit of a brat, to be honest with you.</s>
+ <s id="18">He was quite a know-it-all, and he wanted to kind of make you laugh.</s>
+ <s id="19">So the problem we introduced to him was this: he's just moved house.</s>
+ <s id="20">He's moved from London to New England, over in America.</s>
+ <s id="21">His parents are too busy to listen to his problems, and that's when he starts almost conjuring you up.</s>
+ <s id="22">So here he is walking through the grass.</s>
+ <s id="23">And you're able to interact with his world.</s>
+ <s id="24">The cool thing is, what we're doing is we're changing the mind of Milo constantly.</s>
+ <s id="25">That means no two people's Milos can be the same.</s>
+ <s id="26">You're actually sculpting a human being here.</s>
+ <s id="27">So, he's discovering the garden.</s>
+ <s id="28">You're helping him discover the garden by just pointing out these snails.</s>
+ <s id="29">Very simple at the start.</s>
+ <s id="30">By the way, if you are a boy, it's snails; if you're a girl, it's butterflies because what we found was that girls hate snails.</s>
+ <s id="31">(Laughter) So remember, this is the first time you've met him, and we really want to draw you in and make you more curious.</s>
+ <s id="32">His face, by the way, is fully AI-driven.</s>
+ <s id="33">We have complete control over his blush responses, the diameter of his nostrils to denote stress.</s>
+ <s id="34">We actually do something called body matching.</s>
+ <s id="35">If you're leaning forward, he will try and slightly change the neuro-linguistic nature of his face, because we went out with this strong idea: how can we make you believe that something's real?</s>
+ <s id="36">Now we've used the hand.</s>
+ <s id="37">The other thing to use is your body.</s>
+ <s id="38">Why not just, instead of pushing left and right with a mouse or with a joypad, why not use your body just to lean on the chair -- again, relaxed?</s>
+ <s id="39">You can lean back, but the camera will change its perspective depending on which way you're looking.</s>
+ <s id="40">So Dimitri's now going to use -- he's used his hand; he's used his body.</s>
+ <s id="41">He's now going to use the other thing which is essential, and that's his voice.</s>
+ <s id="42">Now, the thing about voice is, our experience with voice recognition is pretty awful, isn't it?</s>
+ <s id="43">It never works.</s>
+ <s id="44">You order an airline ticket; you end up in Timbuktu.</s>
+ <s id="45">So we've tackled that problem, and we've come up with a solution, which we'll see in a second.</s>
+ <s id="46">Milo: I could just squish it.</s>
+ <s id="47">Peter Molyneux: What are you going to do, Dimitri?</s>
+ <s id="48">Female Voice: Squashing a snail may not seem important, but remember, even this choice will affect how Milo develops.</s>
+ <s id="49">Do you want Milo to squash it?</s>
+ <p id="p50">
+  <s id="50.1">When you see the microphone, say ...</s>
+  <s id="50.2">(PM: Squash.) ... yes to decide.</s>
+ </p>
+ <p id="p51">
+  <s id="51.1">Dimitri: Go on, Milo.</s>
+  <s id="51.2">Squash it.</s>
+ </p>
+ <p id="p52">
+  <s id="52.1">PM: No.</s>
+  <s id="52.2">That's the wrong thing to do.</s>
+ </p>
+ <s id="53">Now look at his response.</s>
+ <p id="p54">
+  <s id="54.1">He said, "Go on, Milo.</s>
+  <s id="54.2">Squash it."</s>
+ </p>
+ <s id="55">What we're using there is, we're using something, a piece of technology called Tellme.</s>
+ <s id="56">It's a company that Microsoft acquired some years ago.</s>
+ <s id="57">We've got a database of words which we recognize.</s>
+ <s id="58">We pick those words out.</s>
+ <s id="59">We also reference that with the tonation database that we build up of Dimitri's voice, or the user's voice.</s>
+ <s id="60">Now we need to have a bit more engagement, and again, what we can do is we can look at the body.</s>
+ <s id="61">And we'll do that in a second.</s>
+ <s id="62">Milo: I wonder how deep it is.</s>
+ <s id="63">Deep.</s>
+ <p id="p64">
+  <s id="64.1">PM: Okay.</s>
+  <s id="64.2">So what we're going to do now is teach Milo to skim stones.</s>
+ </p>
+ <s id="65">We're actually teaching him.</s>
+ <s id="66">It's very, very interesting that men, more than women, tend to be more competitive here.</s>
+ <s id="67">They're fine with teaching Milo for the first few throws, but then they want to beat Milo, where women, they're more nurturing about this.</s>
+ <s id="68">Okay, this is skimming stones.</s>
+ <s id="69">How do you skim stones?</s>
+ <s id="70">You stand up, and you skim the stone.</s>
+ <s id="71">It's that simple.</s>
+ <s id="72">Just recognizing your body, recognizing the body's motions, the tech, understanding that you've gone from sitting down to standing up.</s>
+ <s id="73">Again, all of this is done in the way us humans do things, and that's crucially important if we want Milo to appear real.</s>
+ <s id="74">Female Voice: See if you can inspire him to do any better.</s>
+ <s id="75">Try hitting the boat.</s>
+ <p id="p76">
+  <s id="76.1">Milo: Ahhh.</s>
+  <s id="76.2">So close.</s>
+ </p>
+ <s id="77">PM: That's Dimitri at his most competitive.</s>
+ <p id="p78">
+  <s id="78.1">Now beaten an 11-year-old child.</s>
+  <s id="78.2">Well done.</s>
+ </p>
+ <s id="79">Milo: Okay.</s>
+ <s id="80">PM: So, Milo's being called back in by his parents, giving us time to be alone and to help him out.</s>
+ <s id="81">Basically -- the bit that we missed at the start -- his parents had asked him to clean up his room.</s>
+ <s id="82">And we're going to help him with this now.</s>
+ <s id="83">But this is going to be an introduction, and this is all about the deep psychology that we're trying to use.</s>
+ <s id="84">We're trying to introduce you to what I believe is the most wonderful part, you being able to talk in your natural voice to Milo.</s>
+ <s id="85">Now, to do that, we needed a set up, like a magician's trick.</s>
+ <s id="86">And what we did was, we needed to give Milo this big problem.</s>
+ <s id="87">So as Dimitri starts tidying up, you can overhear a conversation that Milo's having with his parents.</s>
+ <p id="p88">
+  <s id="88.1">Milo's Mom: Oh, you've got gravy all over the floor.</s>
+  <s id="88.2">(Milo: I didn't mean to!)</s>
+  <s id="88.3">Milo's Mom: That carpet is brand new.</s>
+ </p>
+ <s id="89">PM: So he's just spilled a plate of sausages on the floor, on the brand-new carpet.</s>
+ <s id="90">We've all done it as parents; we've all done it as children.</s>
+ <s id="91">Now's a chance for Dimitri to kind of reassure and calm Milo down.</s>
+ <s id="92">It's all been too much for him.</s>
+ <p id="p93">
+  <s id="93.1">He's just moved house.</s>
+  <s id="93.2">He's got no friends.</s>
+ </p>
+ <s id="94">Now is the time when we open that portal and allow you to talk to Milo.</s>
+ <s id="95">Female Voice: Why don't you try saying something encouraging to cheer Milo up.</s>
+ <p id="p96">
+  <s id="96.1">Dimitri: Come on, Milo.</s>
+  <s id="96.2">You know what parents are like.</s>
+ </p>
+ <s id="97">They're always getting stressed.</s>
+ <s id="98">Milo: What do they want to come here for anyway?</s>
+ <s id="99">We don't know anyone.</s>
+ <s id="100">Dimitri: Well, you've got a new school to go to.</s>
+ <s id="101">You're going to meet loads of cool, new friends.</s>
+ <s id="102">Milo: I just really miss my old house, that's all.</s>
+ <s id="103">Dimitri: Well, this is a pretty awesome house, Milo.</s>
+ <s id="104">You've got a cool garden to play in and a pond.</s>
+ <s id="105">Milo: It was good skimming stones.</s>
+ <s id="106">This looks nice.</s>
+ <s id="107">You cleaned up my room.</s>
+ <s id="108">Thanks.</s>
+ <s id="109">PM: So after three-quarters of an hour, he recognizes you.</s>
+ <s id="110">And I promise you, if you're sitting in front of this screen, that is a truly wonderful moment.</s>
+ <s id="111">And we're ready now to tell a story about his childhood and his life, and it goes on, and he has, you know, many adventures.</s>
+ <s id="112">Some of those adventures are a little bit dark or on the darker side.</s>
+ <s id="113">Some of those adventures are wonderfully encouraging -- he's got to go to school.</s>
+ <s id="114">The cool thing is that we're doing as well: as you interact with him, you're able to put things into his world; he recognizes objects.</s>
+ <s id="115">His mind is based in a cloud.</s>
+ <s id="116">That means Milo's mind, as millions of people use it, will get smarter and cleverer.</s>
+ <s id="117">He'll recognize more objects and thus understand more words.</s>
+ <s id="118">But for me, this is a wonderful opportunity where technology, at last, can be connected with, where I am no longer restrained by the finger I hold in my hand -- as far as a computer game's concerned -- or by the blandness of not being noticed if you're watching a film or a book.</s>
+ <s id="119">And I love those revolutions, and I love the future that Milo brings.</s>
+ <s id="120">Thank you very much indeed.</s>
+ <s id="121">(Applause)</s>
+</text>

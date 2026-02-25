@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Say you're at the beach, and you get sand in your eyes.</s>
+ <s id="2">How do you know the sand is there?</s>
+ <s id="3">You obviously can't see it, but if you are a normal, healthy human, you can feel it, that sensation of extreme discomfort, also known as pain.</s>
+ <s id="4">Now, pain makes you do something, in this case, rinse your eyes until the sand is gone.</s>
+ <s id="5">And how do you know the sand is gone?</s>
+ <p id="p6">
+  <s id="6.1">Exactly.</s>
+  <s id="6.2">Because there's no more pain.</s>
+ </p>
+ <s id="7">There are people who don't feel pain.</s>
+ <s id="8">Now, that might sound cool, but it's not.</s>
+ <s id="9">If you can't feel pain, you could get hurt, or even hurt yourself and never know it.</s>
+ <s id="10">Pain is your body's early warning system.</s>
+ <s id="11">It protects you from the world around you, and from yourself.</s>
+ <s id="12">As we grow, we install pain detectors in most areas of our body.</s>
+ <s id="13">These detectors are specialized nerve cells called nociceptors that stretch from your spinal cord to your skin, your muscles, your joints, your teeth and some of your internal organs.</s>
+ <s id="14">Just like all nerve cells, they conduct electrical signals, sending information from wherever they're located back to your brain.</s>
+ <s id="15">But, unlike other nerve cells, nociceptors only fire if something happens that could cause or is causing damage.</s>
+ <s id="16">So, gently touch the tip of a needle.</s>
+ <s id="17">You'll feel the metal, and those are your regular nerve cells.</s>
+ <s id="18">But you won't feel any pain.</s>
+ <s id="19">Now, the harder you push against the needle, the closer you get to the nociceptor threshold.</s>
+ <s id="20">Push hard enough, and you'll cross that threshold and the nociceptors fire, telling your body to stop doing whatever you're doing.</s>
+ <s id="21">But the pain threshold isn't set in stone.</s>
+ <s id="22">Certain chemicals can tune nociceptors, lowering their threshold for pain.</s>
+ <s id="23">When cells are damaged, they and other nearby cells start producing these tuning chemicals like crazy, lowering the nociceptors' threshold to the point where just touch can cause pain.</s>
+ <s id="24">And this is where over-the-counter painkillers come in.</s>
+ <s id="25">Aspirin and ibuprofen block production of one class of these tuning chemicals, called prostaglandins.</s>
+ <s id="26">Let's take a look at how they do that.</s>
+ <s id="27">When cells are damaged, they release a chemical called arachidonic acid.</s>
+ <s id="28">And two enzymes called COX-1 and COX-2 convert this arachidonic acid into prostaglandin H2, which is then converted into a bunch of other chemicals that do a bunch of things, including raise your body temperature, cause inflammation and lower the pain threshold.</s>
+ <s id="29">Now, all enzymes have an active site.</s>
+ <s id="30">That's the place in the enzyme where the reaction happens.</s>
+ <s id="31">The active sites of COX-1 and COX-2 fit arachidonic acid very cozily.</s>
+ <s id="32">As you can see, there is no room to spare.</s>
+ <s id="33">Now, it's in this active site that aspirin and ibuprofen do their work.</s>
+ <s id="34">So, they work differently.</s>
+ <s id="35">Aspirin acts like a spine from a porcupine.</s>
+ <s id="36">It enters the active site and then breaks off, leaving half of itself in there, totally blocking that channel and making it impossible for the arachidonic acid to fit.</s>
+ <s id="37">This permanently deactivates COX-1 and COX-2.</s>
+ <s id="38">Ibuprofen, on the other hand, enters the active site, but doesn't break apart or change the enzyme.</s>
+ <s id="39">COX-1 and COX-2 are free to spit it out again, but for the time that that ibuprofen is in there, the enzyme can't bind arachidonic acid, and can't do its normal chemistry.</s>
+ <s id="40">But how do aspirin and ibuprofen know where the pain is?</s>
+ <s id="41">Well, they don't.</s>
+ <s id="42">Once the drugs are in your bloodstream, they are carried throughout your body, and they go to painful areas just the same as normal ones.</s>
+ <s id="43">So that's how aspirin and ibuprofen work.</s>
+ <s id="44">But there are other dimensions to pain.</s>
+ <s id="45">Neuropathic pain, for example, is pain caused by damage to our nervous system itself; there doesn't need to be any sort of outside stimulus.</s>
+ <s id="46">And scientists are discovering that the brain controls how we respond to pain signals.</s>
+ <s id="47">For example, how much pain you feel can depend on whether you're paying attention to the pain, or even your mood.</s>
+ <s id="48">Pain is an area of active research.</s>
+ <s id="49">If we can understand it better, maybe we can help people manage it better.</s>
+</text>

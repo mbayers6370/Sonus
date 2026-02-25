@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Frugal Digital is essentially a small research group at C.I.D.</s>
+ <s id="2">where we are looking to find alternate visions of how to create a digitally inclusive society.</s>
+ <s id="3">That's what we're after.</s>
+ <s id="4">And we do this because we actually believe that silicon technology today is mostly about a culture of excess.</s>
+ <s id="5">It's about the fastest and the most efficient and the most dazzling gadget you can have, while about two-thirds of the world can hardly reach the most basic of this technology to even address fundamental needs in life, including health care, education and all these kinds of very fundamental issues.</s>
+ <s id="6">So before I start, I want to talk about a little anecdote, a little story about a man I met once in Mumbai.</s>
+ <s id="7">So this man, his name is Sathi Shri.</s>
+ <s id="8">He is an outstanding person, because he's a small entrepreneur.</s>
+ <s id="9">He runs a little shop in one of the back streets of Mumbai.</s>
+ <s id="10">He has this little 10-square-meter store, where so much is being done.</s>
+ <s id="11">It's incredible, because I couldn't believe my eyes when I once just happened to bump into him.</s>
+ <s id="12">Basically, what he does is, he has all these services for micro-payments and booking tickets and all kinds of basic things that you would go online for, but he does it for people offline and connects to the digital world.</s>
+ <s id="13">More importantly, he makes his money by selling these mobile recharge coupons, you know, for the prepaid subscriptions.</s>
+ <s id="14">But then, in the backside, he's got this little nook with a few of his employees where they can fix almost anything.</s>
+ <s id="15">Any cell phone, any gadget you can bring them, they can fix it.</s>
+ <s id="16">And it's pretty incredible because I took my iPhone there, and he was like, "Yeah, do you want an upgrade?"</s>
+ <p id="p17">
+  <s id="17.1">"Yes."</s>
+  <s id="17.2">(Laughter) I was a bit skeptical, but then, I decided to give him a Nokia instead.</s>
+  <s id="17.3">(Laughter) But what I was amazed about is this reverse engineering and know-how that's built into this little two meters of space.</s>
+ </p>
+ <s id="18">They have figured out everything that's required to dismantle, take things apart, rewrite the circuitry, re-flash the firmware, do whatever you want to with the phone, and they can fix anything so quickly.</s>
+ <s id="19">You can hand over a phone this morning and you can go pick it up after lunch, and it was quite incredible.</s>
+ <s id="20">But then we were wondering whether this is a local phenomenon, or is truly global?</s>
+ <s id="21">And, over time, we started understanding and systematically researching what this tinkering ecosystem is about, because that is something that's happening not just in one street corner in Mumbai.</s>
+ <s id="22">It's actually happening in all parts of the country.</s>
+ <s id="23">It's even happening in Africa, like, for example, in Cape Town we did extensive research on this.</s>
+ <p id="p24">
+  <s id="24.1">Even here in Doha I found this little nook where you can get alarm clocks and watches fixed, and it's a lot of tiny little parts.</s>
+  <s id="24.2">It's not easy.</s>
+ </p>
+ <s id="25">You've got to try it on your own to believe it.</s>
+ <s id="26">But what fuels this?</s>
+ <s id="27">It's this entire ecosystem of low-cost parts and supplies that are produced all over the world, literally, and then redistributed to basically service this industry, and you can even buy salvaged parts.</s>
+ <p id="p28">
+  <s id="28.1">Basically, you don't have to necessarily buy brand new things.</s>
+  <s id="28.2">You have condemned computers that are stripped apart, and you can buy salvaged components and things that you can reassemble in a new configuration.</s>
+ </p>
+ <s id="29">But what does this new, sort of, approach give us?</s>
+ <s id="30">That's the real question, because this is something that's been there, part of every society that's deprived of enough resources.</s>
+ <s id="31">But there's an interesting paradigm.</s>
+ <s id="32">There's the traditional crafts, and then there's the technology crafts.</s>
+ <s id="33">We call it the technology crafts because these are emerging.</s>
+ <s id="34">They're not something that's been established.</s>
+ <s id="35">It's not something that's institutionalized.</s>
+ <s id="36">It's not taught in universities.</s>
+ <s id="37">It's taught [by] word of mouth, and it's an informal education system around this.</s>
+ <s id="38">So we said, "What can we get out of this?</s>
+ <s id="39">You know, like, what are the key values that we can get out of this?"</s>
+ <s id="40">The main thing is a fix-it-locally culture, which is fantastic because it means that your product or your service doesn't have to go through a huge bureaucratic system to get it fixed.</s>
+ <s id="41">It also affords us cheap fabrication, which is fantastic, so it means that you can do a lot more with it.</s>
+ <s id="42">And then, the most important thing is, it gives us large math for low cost.</s>
+ <s id="43">So it means that you can actually embed pretty clever algorithms and lots of other kinds of extendable ideas into really simple devices.</s>
+ <s id="44">So, what we call this is a silicon cottage industry.</s>
+ <s id="45">It's basically what was the system or the paradigm before the industrial revolution is now re-happening in a whole new way in small digital shops across the planet in most developing countries.</s>
+ <s id="46">So, we kind of toyed around with this idea, and we said, "What can we do with this?</s>
+ <s id="47">Can we make a little product or a service out of it?"</s>
+ <p id="p48">
+  <s id="48.1">So one of the first things we did is this thing called a multimedia platform.</s>
+  <s id="48.2">We call it a lunch box.</s>
+ </p>
+ <s id="49">Basically one of the contexts that we studied was schools in very remote parts of India.</s>
+ <s id="50">So there is this amazing concept called the one-teacher school, which is basically a single teacher who is a multitasker who teaches this amazing little social setting.</s>
+ <s id="51">It's an informal school, but it's really about holistic education.</s>
+ <p id="p52">
+  <s id="52.1">The only thing that they don't have is access to resources.</s>
+  <s id="52.2">They don't even have a textbook sometimes, and they don't even have a proper curriculum.</s>
+ </p>
+ <p id="p53">
+  <s id="53.1">So we said, "What can we do to empower this teacher to do more?"</s>
+  <s id="53.2">How to access the digital world?</s>
+ </p>
+ <s id="54">Instead of being the sole guardian of information, be a facilitator to all this information.</s>
+ <s id="55">So we said, "What are the steps required to empower the teacher?"</s>
+ <s id="56">How do you make this teacher into a digital gateway, and how do you design an inexpensive multimedia platform that can be constructed locally and serviced locally?"</s>
+ <s id="57">So we walked around.</s>
+ <s id="58">We went and scavenged the nearby markets, and we tried to understand, "What can we pick up that will make this happen?"</s>
+ <s id="59">So the thing that we got was a little mobile phone with a little pico projector that comes for about 60 dollars.</s>
+ <s id="60">We went a bought a flashlight with a very big battery, and a bunch of small speakers.</s>
+ <s id="61">So essentially, the mobile phone gives us a connected multimedia platform.</s>
+ <s id="62">It allows us to get online and allows us to load up files of different formats and play them.</s>
+ <s id="63">The flashlight gives us this really intense, bright L.E.D., and six hours worth of rechargeable battery pack, and the lunch box is a nice little package in which you can put everything inside, and a bunch of mini speakers to sort of amplify the sound large enough.</s>
+ <s id="64">Believe me, those little classrooms are really noisy.</s>
+ <s id="65">They are kids who scream at the top of their voices, and you really have to get above that.</s>
+ <s id="66">And we took it back to this little tinkering setup of a mobile phone repair shop, and then the magic happens.</s>
+ <s id="67">We dismantle the whole thing, we reassemble it in a new configuration, and we do this hardware mashup, systematically training the guy how to do this.</s>
+ <s id="68">Out comes this, a little lunch box -- form factor.</s>
+ <s id="69">(Applause) And we systematically field tested, because in the field testing we learned some important lessons, and we went through many iterations.</s>
+ <s id="70">One of the key issues was battery consumption and charging.</s>
+ <s id="71">Luminosity was an issue, when you have too much bright sunlight outside.</s>
+ <s id="72">Often the roofs are broken, so you don't have enough darkness in the classroom to do these things.</s>
+ <p id="p73">
+  <s id="73.1">We extended this idea.</s>
+  <s id="73.2">We tested it many times over, and the next version we came up with was a box that kind of could trickle charge on solar energy, but most importantly connect to a car battery, because a car battery is a ubiquitous source of power in places where there's not enough electricity or erratic electricity.</s>
+ </p>
+ <s id="74">And the other key thing that we did was make this box run off a USB key, because we realized that even though there was GPRS and all that on paper, at least, in theory, it was much more efficient to send the data on a little USB key by surface mail.</s>
+ <s id="75">It might take a few days to get there, but at least it gets there in high definition and in a reliable quality.</s>
+ <s id="76">So we made this box, and we tested it again and again and again, and we're going through multiple iterations to do these things.</s>
+ <s id="77">But it's not limited to just education.</s>
+ <s id="78">This kind of a technique or metrology can actually be applied to other kinds of areas, and I'm going to tell you one more little story.</s>
+ <s id="79">It's about this little device called a medi-meter.</s>
+ <s id="80">It's basically a little health care screening tool that we developed.</s>
+ <s id="81">In India, there is a context of these amazing people, the health care workers called ASHA workers.</s>
+ <s id="82">They are essentially foot soldiers for the health care system who live in the local community and are trained with basic tools and basic concepts of health care, and the main purpose is basically to inform people to basically, how to lead a better life, but also to divert or sort of make recommendations of what kind of health care should they approach?</s>
+ <s id="83">They are basically referral services, essentially.</s>
+ <s id="84">But the problem with that is that we realized after a bunch of research that they are amazing at referring people to the nearest clinic or the public health care system, but what happens at the public health care system is this: these incredibly long lines and too many people who overload the system simply because there's not enough doctors and facilities for the population that's being referred.</s>
+ <s id="85">So everything from a common cold to a serious case of malaria gets almost the same level of attention, and there's no priorities.</s>
+ <s id="86">So we said, "Come on, there's got to be a better way of doing this for sure."</s>
+ <s id="87">So we said, "What can we do with the ASHA worker that'll allow this ASHA worker to become an interesting filter, but not just a filter, a really well thought through referral system that allows load balancing of the network, and directs patients to different sources of health care based on the severity or the criticalness of those situations?"</s>
+ <s id="88">So the real key question was, how do we empower this woman?</s>
+ <s id="89">How do we empower her with simple tools that's not diagnostic but more screening in nature so she at least knows how to advise the patients better?</s>
+ <s id="90">And that'll make such a huge difference on the system, because the amount of waiting time and the amount of distances that people need to travel, often sometimes seven to 15 kilometers, sometimes by foot, to get a simple health check done, is very, very detrimental in the sense that it really dissuades people from getting access to health care.</s>
+ <s id="91">So if there was something that she could do, that would be amazing.</s>
+ <s id="92">So what we did was that we converted this device into a medical device.</s>
+ <s id="93">I want to demo this actually, because it's a very simple process.</s>
+ <p id="p94">
+  <s id="94.1">Bruno, do you want to join us?</s>
+  <s id="94.2">(Cheers) Come along.</s>
+  <s id="94.3">(Applause) So, what we're going to do is that we're going to measure a few basic parameters on you, including your pulse rate and the amount of oxygen that's there in your blood.</s>
+ </p>
+ <s id="95">So you're going to put your thumb on top of this.</s>
+ <s id="96">Bruno Giussani: Like this, works?</s>
+ <p id="p97">
+  <s id="97.1">Vinay Venkatraman: Yeah.</s>
+  <s id="97.2">That's right.</s>
+  <s id="97.3">BG: Okay.</s>
+ </p>
+ <p id="p98">
+  <s id="98.1">VV: So I'm going to start it up.</s>
+  <s id="98.2">I hope it works.</s>
+ </p>
+ <s id="99">(Beeps) It even beeps, because it's an alarm clock, after all.</s>
+ <p id="p100">
+  <s id="100.1">So ...</s>
+  <s id="100.2">(Laughter) So I take it into the start position, and then I press the read button.</s>
+  <s id="100.3">(Beeps) So it's taking a little reading from you.</s>
+  <s id="100.4">(Beeps) And then the pointer goes and points to three different options.</s>
+ </p>
+ <s id="101">Let's see what happens here.</s>
+ <s id="102">(Beeps) Oh Bruno, you can go home, actually.</s>
+ <p id="p103">
+  <s id="103.1">BG: Great.</s>
+  <s id="103.2">Good news.</s>
+  <s id="103.3">(Applause) VV: So ...</s>
+  <s id="103.4">(Applause) So the thing about this is that if the pointer, unfortunately, had pointed to the red spot, we would have to rush you to a hospital.</s>
+ </p>
+ <p id="p104">
+  <s id="104.1">Luckily, not today.</s>
+  <s id="104.2">And if it had pointed to the orange or the amber, it basically meant you had to have, sort of, more continuous care from the health care worker.</s>
+ </p>
+ <s id="105">So that was a very simple three-step screening process that could basically change the equation of how public health care works in so many different ways.</s>
+ <p id="p106">
+  <s id="106.1">BG: Thank you for the good news.</s>
+  <s id="106.2">VV: Yeah.</s>
+ </p>
+ <s id="107">(Applause) So, very briefly, I'll just explain to you how this is done, because that's the more interesting part.</s>
+ <s id="108">So essentially, the three things that are required to make this conversion from this guy to this guy is a cheap remote control for a television that you can almost find in every home today, some parts from a computer mouse, basically, something that you can scavenge for very low cost, and a few parts that have to be pre-programmed.</s>
+ <s id="109">Basically this is a micro-controller with a few extra components that can be shipped for very little cost across the world, and that's what is all required with a little bit of local tinkering talent to convert the device into something else.</s>
+ <s id="110">So we are right now doing some systematic field tests to basically ascertain whether something like this actually makes sense to the ASHA worker.</s>
+ <p id="p111">
+  <s id="111.1">We are going through some reference tests to compare it against professional equipment to see if there's a degree of change in efficacy and if it actually makes an impact in people's lives.</s>
+  <s id="111.2">But most importantly, what we are trying to do right now is we are trying to scale this up, because there are over 250,000 ASHA workers on the ground who are these amazing foot soldiers, and if we can give at least a fraction of them the access to these things, it just changes the way the economics of public health care works, and it changes the way systems actually function, not just on a systematic planning level, but also in a very grassroots, bottom-up level.</s>
+ </p>
+ <s id="112">So that's it, and we hope to do this in a big way.</s>
+ <p id="p113">
+  <s id="113.1">Thank you.</s>
+  <s id="113.2">(Applause) (Applause)</s>
+ </p>
+</text>

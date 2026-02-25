@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">As any current or past geometry student knows, the father of geometry was Euclid, a Greek mathematician who lived in Alexandria, Egypt, around 300 B.C.E.</s>
+ <s id="2">Euclid is known as the author of a singularly influential work known as "Elements."</s>
+ <s id="3">You think your math book is long?</s>
+ <s id="4">Euclid's "Elements" is 13 volumes full of just geometry.</s>
+ <s id="5">In "Elements," Euclid structured and supplemented the work of many mathematicians that came before him, such as Pythagoras, Eudoxus, Hippocrates and others.</s>
+ <s id="6">Euclid laid it all out as a logical system of proof built up from a set of definitions, common notions, and his five famous postulates.</s>
+ <s id="7">Four of these postulates are very simple and straightforward, two points determine a line, for example.</s>
+ <s id="8">The fifth one, however, is the seed that grows our story.</s>
+ <s id="9">This fifth mysterious postulate is known simply as the parallel postulate.</s>
+ <s id="10">You see, unlike the first four, the fifth postulate is worded in a very convoluted way.</s>
+ <s id="11">Euclid's version states that, "If a line falls on two other lines so that the measure of the two interior angles on the same side of the transversal add up to less than two right angles, then the lines eventually intersect on that side, and therefore are not parallel."</s>
+ <s id="12">Wow, that is a mouthful!</s>
+ <s id="13">Here's the simpler, more familiar version: "In a plane, through any point not on a given line, only one new line can be drawn that's parallel to the original one."</s>
+ <s id="14">Many mathematicians over the centuries tried to prove the parallel postulate from the other four, but weren't able to do so.</s>
+ <s id="15">In the process, they began looking at what would happen logically if the fifth postulate were actually not true.</s>
+ <s id="16">Some of the greatest minds in the history of mathematics ask this question, people like Ibn al-Haytham, Omar Khayyam, Nasir al-Din al-Tusi, Giovanni Saccheri, János Bolyai, Carl Gauss, and Nikolai Lobachevsky.</s>
+ <s id="17">They all experimented with negating the parallel postulate, only to discover that this gave rise to entire alternative geometries.</s>
+ <s id="18">These geometries became collectively known as non-Euclidean geometries.</s>
+ <s id="19">We'll leave the details of these different geometries for another lesson.</s>
+ <s id="20">The main difference depends on the curvature of the surface upon which the lines are constructed.</s>
+ <s id="21">Turns out Euclid did not tell us the entire story in "Elements," and merely described one possible way to look at the universe.</s>
+ <s id="22">It all depends on the context of what you're looking at.</s>
+ <s id="23">Flat surfaces behave one way, while positively and negatively curved surfaces display very different characteristics.</s>
+ <s id="24">At first these alternative geometries seemed strange, but were soon found to be equally adept at describing the world around us.</s>
+ <s id="25">Navigating our planet requires elliptical geometry while the much of the art of M.C. Escher displays hyperbolic geometry.</s>
+ <s id="26">Albert Einstein used non-Euclidean geometry as well to describe how space-time becomes warped in the presence of matter, as part of his general theory of relativity.</s>
+ <s id="27">The big mystery is whether Euclid had any inkling of the existence of these different geometries when he wrote his postulate.</s>
+ <s id="28">We may never know, but it's hard to believe he had no idea whatsoever of their nature, being the great intellect that he was and understanding the field as thoroughly as he did.</s>
+ <s id="29">Maybe he did know and he wrote the postulate in such a way as to leave curious minds after him to flush out the details.</s>
+ <s id="30">If so, he's probably pleased.</s>
+ <s id="31">These discoveries could never have been made without gifted, progressive thinkers able to suspend their preconceived notions and think outside of what they've been taught.</s>
+ <s id="32">We, too, must be willing at times to put aside our preconceived notions and physical experiences and look at the larger picture, or we risk not seeing the rest of the story.</s>
+</text>

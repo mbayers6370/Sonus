@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">One winter morning, a couple of years ago, I was driving to work in Johannesburg, South Africa, and noticed a haze hanging over the city.</s>
+ <s id="2">I make that drive on most days, so it was unusual that I hadn't noticed this before.</s>
+ <s id="3">Johannesburg is known for its distinctive skyline, which I could barely see that morning.</s>
+ <s id="4">It didn't take long for me to realize that I was looking at an enormous cloud of air pollution.</s>
+ <s id="5">The contrast between the scenic environment I knew and this smog-covered skyline stirred up something within me.</s>
+ <s id="6">I was appalled by the possibility of this city of bright and vivid sunsets being overrun by a dull haze.</s>
+ <s id="7">At that moment, I felt an urge to do something about it, but I didn't know what.</s>
+ <s id="8">All I knew was I couldn't just stand idly by.</s>
+ <s id="9">The main challenge was, I didn't know much about environmental science air-quality management or atmospheric chemistry.</s>
+ <s id="10">I am a computer engineer, and I was pretty sure I couldn't code my way out of this air pollution problem.</s>
+ <s id="11">(Laughter) Who was I to do anything about this issue?</s>
+ <s id="12">I was but a citizen.</s>
+ <s id="13">In the following years, I learned a very important lesson, a lesson we all need to take to heart if we are to work towards a better future.</s>
+ <s id="14">Even if you're not an expert in a particular domain, your outside expertise may hold the key to solving big problems within that domain.</s>
+ <s id="15">Sometimes the unique perspective you have can result in unconventional thinking that can move the needle, but you need to be bold enough to try.</s>
+ <s id="16">That's the only way you'll ever know.</s>
+ <s id="17">What I knew back then was that if I was even going to try to make a difference, I had to get smart about air pollution first, and so I became a student again.</s>
+ <s id="18">I did a bit of basic research and soon learned that air pollution is the world's biggest environmental health risk.</s>
+ <s id="19">Data from the World Health Organization shows that almost 14 percent of all deaths worldwide in 2012 were attributable to household and ambient air pollution, with most occurring in low- and middle-income countries.</s>
+ <s id="20">Ambient air pollution alone causes more deaths each year than malaria and HIV/AIDS.</s>
+ <s id="21">In Africa, premature deaths from unsafe sanitation or childhood malnutrition pale in comparison to deaths due to air pollution, and it comes at a huge economic cost: over 400 billion US dollars as of 2013, according to a study by the Organisation for Economic Cooperation and Development.</s>
+ <s id="22">Now, in my work, I explore new frontiers for artificial intelligence, where the symbiotic relationship between man and machine can find a beneficial footing and help us to make better decisions.</s>
+ <s id="23">As I thought about the air pollution problem, it became clear that we needed to find a way to make better decisions about how we manage air pollution, and given the scale of the problem, it was necessary to do it in a collaborative way.</s>
+ <s id="24">So I decided I'd better get to know some people working within the field.</s>
+ <s id="25">I started to speak to officials from the City of Johannesburg and other surrounding cities, and I engaged the local scientific community, and I also made a few cold calls.</s>
+ <s id="26">The process of engagement I embarked upon helped me to develop a deeper understanding of the problem.</s>
+ <s id="27">It also helped me to avoid the trap people in my profession sometimes fall into when trying to innovate, where we are quick to apply a technology before we've firmly grasped the problem at hand.</s>
+ <s id="28">I began to develop an idea about what I could do to improve the situation.</s>
+ <s id="29">I started by simply asking myself how I could bring together in some meaningful way my skills in software engineering and artificial intelligence and the expertise of the people I'd reached out to.</s>
+ <s id="30">I wanted to create an online air-quality management platform that would uncover trends in pollution and project into the future to determine what outcomes can be expected.</s>
+ <s id="31">I was determined to see my idea translate into a practical solution, but I faced uncertainty and had no guarantee of success.</s>
+ <s id="32">What I had was a very particular set of engineering skills, skills I'd acquired over my career (Laughter) that were new to people who had been working on the air pollution problem for so many years.</s>
+ <s id="33">What I have come to realize is that sometimes just one fresh perspective, one new skill set, can make the conditions right for something remarkable to happen.</s>
+ <s id="34">Our willpower and imagination are a guiding light, enabling us to chart new paths and navigate through obstacles.</s>
+ <s id="35">Armed with a firmer understanding of the air pollution problem, and having managed to source over a decade's worth of data on air pollutant levels and the meteorological conditions for in and around Johannesburg, my colleagues from South Africa and China and myself created an air-quality decision support system that lives in the cloud.</s>
+ <s id="36">This software system analyzes historical and real-time data to uncover the spatial-temporal trends in pollution.</s>
+ <s id="37">We then used new machine learning technology to predict future levels of pollution for several different pollutants days in advance.</s>
+ <s id="38">This means that citizens can make better decisions about their daily movements and about where to settle their families.</s>
+ <s id="39">We can predict adverse pollution events ahead of time, identify heavy polluters, and they can be ordered by the relevant authorities to scale back their operations.</s>
+ <s id="40">Through assisted scenario planning, city planners can also make better decisions about how to extend infrastructure, such as human settlements or industrial zones.</s>
+ <s id="41">We completed a pilot of our technology that was run over a period of 120 days, covering all of South Africa.</s>
+ <s id="42">Our results were confirmed when we demonstrated a tight correlation between the forecasting data and the data we were getting on the ground.</s>
+ <p id="p43">
+  <s id="43.1">Through our leadership, we have brought cutting-edge, world-leading assets that can perform air-quality forecasting at an unprecedented resolution and accuracy, benefiting the city that I drove into one winter morning not very long ago, and thought to myself, "Something is wrong here.</s>
+  <s id="43.2">I wonder what can be done?"</s>
+ </p>
+ <s id="44">So here is the point: What if I'd not investigated the problem of air pollution further?</s>
+ <s id="45">What if I'd not shown some concern for the state of the environment and just hoped that someone, somewhere, was taking care of the matter?</s>
+ <s id="46">What I have learned is that, when embarking on a challenging endeavor that advances a cause that we firmly believe in, it is important to focus on the possibility of success and consider the consequence of not acting.</s>
+ <s id="47">We should not get distracted by resistance and opposition, but this should motivate us further.</s>
+ <s id="48">So wherever you are in the world, the next time you find that there's some natural curiosity you have that is being piqued, and it's about something you care about, and you have some crazy or bold ideas, and perhaps it's outside the realm of your expertise, ask yourself this: Why not?</s>
+ <s id="49">Why not just go ahead and tackle the problem as best as you can, in your own way?</s>
+ <s id="50">You may be pleasantly surprised.</s>
+ <s id="51">Thank you.</s>
+ <s id="52">(Applause)</s>
+</text>

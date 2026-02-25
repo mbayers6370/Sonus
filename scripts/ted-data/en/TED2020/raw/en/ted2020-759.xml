@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">When my brother called me in December of 1998, he said, "The news does not look good."</s>
+ <s id="2">This is him on the screen.</s>
+ <s id="3">He'd just been diagnosed with ALS, which is a disease that the average lifespan is three years.</s>
+ <p id="p4">
+  <s id="4.1">It paralyzes you.</s>
+  <s id="4.2">It starts by killing the motor neurons in your spinal cord.</s>
+ </p>
+ <s id="5">And you go from being a healthy, robust 29-year-old male to someone that cannot breathe, cannot move, cannot speak.</s>
+ <s id="6">This has actually been, to me, a gift, because we began a journey to learn a new way of thinking about life.</s>
+ <s id="7">And even though Steven passed away three years ago we had an amazing journey as a family.</s>
+ <s id="8">We did not even -- I think adversity is not even the right word.</s>
+ <s id="9">We looked at this and we said, "We're going to do something with this in an incredibly positive way."</s>
+ <s id="10">And I want to talk today about one of the things that we decided to do, which was to think about a new way of approaching healthcare.</s>
+ <s id="11">Because, as we all know here today, it doesn't work very well.</s>
+ <s id="12">I want to talk about it in the context of a story.</s>
+ <s id="13">This is the story of my brother.</s>
+ <p id="p14">
+  <s id="14.1">But it's just a story.</s>
+  <s id="14.2">And I want to go beyond the story, and go to something more.</s>
+ </p>
+ <s id="15">"Given my status, what is the best outcome I can hope to achieve, and how do I get there?"</s>
+ <s id="16">is what we are here to do in medicine, is what everyone should do.</s>
+ <s id="17">And those questions all have variables to them.</s>
+ <s id="18">All of our statuses are different.</s>
+ <s id="19">All of our hopes and dreams, what we want to accomplish, is different, and our paths will be different, they are all stories.</s>
+ <s id="20">But it's a story until we convert it to data and so what we do, this concept we had, was to take Steven's status, "What is my status?"</s>
+ <s id="21">and go from this concept of walking, breathing, and then his hands, speak, and ultimately happiness and function.</s>
+ <s id="22">So, the first set of pathologies, they end up in the stick man on his icon, but the rest of them are really what's important here.</s>
+ <p id="p23">
+  <s id="23.1">Because Steven, despite the fact that he was paralyzed, as he was in that pool, he could not walk, he could not use his arms -- that's why he had the little floaty things on them, did you see those? -- he was happy.</s>
+  <s id="23.2">We were at the beach, he was raising his son, and he was productive.</s>
+ </p>
+ <s id="24">And we took this, and we converted it into data.</s>
+ <s id="25">But it's not a data point at that one moment in time.</s>
+ <s id="26">It is a data point of Steven in a context.</s>
+ <p id="p27">
+  <s id="27.1">Here he is in the pool.</s>
+  <s id="27.2">But here he is healthy, as a builder: taller, stronger, got all the women, amazing guy.</s>
+ </p>
+ <s id="28">Here he is walking down the aisle, but he can barely walk now, so it's impaired.</s>
+ <s id="29">And he could still hold his wife's hand, but he couldn't do buttons on his clothes, can't feed himself.</s>
+ <s id="30">And here he is, paralyzed completely, unable to breathe and move, over this time journey.</s>
+ <s id="31">These stories of his life, converted to data.</s>
+ <s id="32">He renovated my carriage house when he was completely paralyzed, and unable to speak, and unable to breathe, and he won an award for a historic restoration.</s>
+ <s id="33">So, here's Steven alone, sharing this story in the world.</s>
+ <s id="34">And this is the insight, the thing that we are excited about, because we have gone away from the community that we are, the fact that we really do love each other and want to care for each other.</s>
+ <s id="35">We need to give to others to be successful.</s>
+ <s id="36">So, Steven is sharing this story, but he is not alone.</s>
+ <s id="37">There are so many other people sharing their stories.</s>
+ <s id="38">Not stories in words, but stories in data and words.</s>
+ <s id="39">And we convert that information into this structure, this understanding, this ability to convert those stories into something that is computable, to which we can begin to change the way medicine is done and delivered.</s>
+ <p id="p40">
+  <s id="40.1">We did this for ALS.</s>
+  <s id="40.2">We can do this for depression, Parkinson's disease, HIV.</s>
+ </p>
+ <s id="41">These are not simple, they are not internet scalable; they require thought and processes to find the meaningful information about the disease.</s>
+ <s id="42">So, this is what it looks like when you go to the website.</s>
+ <s id="43">And I'm going to show you what Patients Like Me, the company that myself, my youngest brother and a good friend from MIT started.</s>
+ <s id="44">Here are the actual patients, there are 45,000 of them now, sharing their stories as data.</s>
+ <s id="45">Here is an M.S. patient.</s>
+ <s id="46">His name is Mike, and he is uniformly impaired on cognition, vision, walking, sensation.</s>
+ <s id="47">Those are things that are different for each M.S. patient.</s>
+ <s id="48">Each of them can have a different characteristic.</s>
+ <s id="49">You can see fibromyalgia, HIV, ALS, depression.</s>
+ <s id="50">Look at this HIV patient down here, Zinny.</s>
+ <p id="p51">
+  <s id="51.1">It's two years of this disease.</s>
+  <s id="51.2">All of the symptoms are not there.</s>
+ </p>
+ <s id="52">But he is working to keep his CD4 count high and his viral level low so he can make his life better.</s>
+ <s id="53">But you can aggregate this and you can discover things about treatments.</s>
+ <s id="54">Look at this, 2,000 people almost, on Copaxone.</s>
+ <s id="55">These are patients currently on drugs, sharing data.</s>
+ <s id="56">I love some of these, physical exercise, prayer.</s>
+ <p id="p57">
+  <s id="57.1">Anyone want to run a comparative effectiveness study on prayer against something?</s>
+  <s id="57.2">Let's look at prayer.</s>
+ </p>
+ <s id="58">What I love about this, just sort of interesting design problems.</s>
+ <s id="59">These are why people pray.</s>
+ <s id="60">Here is the schedule of how frequently they -- it's a dose.</s>
+ <s id="61">So, anyone want to see the 32 patients that pray for 60 minutes a day, and see if they're doing better, they probably are.</s>
+ <p id="p62">
+  <s id="62.1">Here they are.</s>
+  <s id="62.2">It's an open network, everybody is sharing.</s>
+  <s id="62.3">We can see it all.</s>
+ </p>
+ <s id="63">Or, I want to look at anxiety, because people are praying for anxiety.</s>
+ <s id="64">And here is data on 15,000 people's current anxiety, right now.</s>
+ <s id="65">How they treat it, the drugs, the components of it, their side effects, all of it in a rich environment, and you can drill down and see the individuals.</s>
+ <p id="p66">
+  <s id="66.1">This amazing data allows us to drill down and see what this drug is for -- 1,500 people on this drug, I think.</s>
+  <s id="66.2">Yes.</s>
+ </p>
+ <s id="67">I want to talk to the 58 patients down here who are taking four milligrams a day.</s>
+ <s id="68">And I want to talk to the ones of those that have been doing it for more than two years.</s>
+ <s id="69">So, you can see the duration.</s>
+ <s id="70">All open, all available.</s>
+ <s id="71">I'm going to log in.</s>
+ <s id="72">And this is my brother's profile.</s>
+ <s id="73">And this is a new version of our platform we're launching right now.</s>
+ <p id="p74">
+  <s id="74.1">This is the second generation.</s>
+  <s id="74.2">It's going to be in Flash.</s>
+ </p>
+ <s id="75">And you can see here, as this animates over, Steven's actual data against the background of all other patients, against this information.</s>
+ <p id="p76">
+  <s id="76.1">The blue band is the 50th percentile.</s>
+  <s id="76.2">Steven is the 75th percentile, that he has non-genetic ALS.</s>
+ </p>
+ <s id="77">You scroll down in this profile and you can see all of his prescription drugs, but more than that, in the new version, I can look at this interactively.</s>
+ <s id="78">Wait, poor spinal capacity.</s>
+ <s id="79">Doesn't this remind you of a great stock program?</s>
+ <s id="80">Wouldn't it be great if the technology we used to take care of ourselves was as good as the technology we use to make money?</s>
+ <p id="p81">
+  <s id="81.1">Detrol.</s>
+  <s id="81.2">In the side effects for his drug, integrated into that, the stem cell transplant that he had, the first in the world, shared openly for anyone who wants to see it.</s>
+ </p>
+ <s id="82">I love here -- the cyberkinetics implant, which was, again, the only patient's data that was online and available.</s>
+ <p id="p83">
+  <s id="83.1">You can adjust the time scale.</s>
+  <s id="83.2">You can adjust the symptoms.</s>
+ </p>
+ <s id="84">You can look at the interaction between how I treat my ALS.</s>
+ <s id="85">So, you click down on the ALS tab there.</s>
+ <p id="p86">
+  <s id="86.1">I'm taking three drugs to manage it.</s>
+  <s id="86.2">Some of them are experimental.</s>
+ </p>
+ <s id="87">I can look at my constipation, how to manage it.</s>
+ <s id="88">I can see magnesium citrate, and the side effects from that drug all integrated in the time in which they're meaningful.</s>
+ <s id="89">But I want more.</s>
+ <s id="90">I don't want to just look at this cool device, I want to take this data and make something even better.</s>
+ <s id="91">I want my brother's center of the universe and his symptoms and his drugs, and all of the things that interact among those, the side effects, to be in this beautiful data galaxy that we can look at in any way we want to understand it, so that we can take this information and go beyond just this simple model of what a record is.</s>
+ <s id="92">I don't even know what a medical record is.</s>
+ <p id="p93">
+  <s id="93.1">I want to solve a problem.</s>
+  <s id="93.2">I want an application.</s>
+ </p>
+ <s id="94">So, can I take this data -- rearrange yourself, put the symptoms in the left, the drugs across the top, tell me everything we know about Steven and everyone else, and what interacts.</s>
+ <s id="95">Years after he's had these drugs, I learned that everything he did to manage his excess saliva, including some positive side effects that came from other drugs, were making his constipation worse.</s>
+ <s id="96">And if anyone's ever had severe constipation, and you don't understand how much of an impact that has on your life -- yes, that was a pun.</s>
+ <s id="97">You're trying to manage these, and this grid is available here, and we want to understand it.</s>
+ <s id="98">No one's ever had this kind of information.</s>
+ <p id="p99">
+  <s id="99.1">So, patients have this.</s>
+  <s id="99.2">We're for patients.</s>
+ </p>
+ <s id="100">This is all about patient health care, there was no doctors on our network.</s>
+ <s id="101">This is about the patients.</s>
+ <s id="102">So, how can we take this and bring them a tool that they can go back and they can engage the medical system?</s>
+ <s id="103">And we worked hard, and we thought about it and we said, "What's something we can use all the time, that we can use in the medical care system, that everyone will understand?"</s>
+ <s id="104">So, the patients print it out, because hospitals usually block us because they believe we are a social network.</s>
+ <s id="105">It's actually the most used feature on the website.</s>
+ <s id="106">Doctors actually love this sheet, and they're actually really engaged.</s>
+ <s id="107">So, we went from this story of Steven and his history to data, and then back to paper, where we went back and engaged the medical care system.</s>
+ <s id="108">And here's another paper.</s>
+ <s id="109">This is a journal, PNAS -- I think it's the Proceedings of the National Academy of Science of the United States of America.</s>
+ <s id="110">You've seen multiple of these today, when everyone's bragging about the amazing things they've done.</s>
+ <s id="111">This is a report about a drug called lithium.</s>
+ <s id="112">Lithium, that is a drug used to treat bipolar disorder, that a group in Italy found slowed ALS down in 16 patients, and published it.</s>
+ <s id="113">Now, we'll skip the critiques of the paper.</s>
+ <s id="114">But the short story is: If you're a patient, you want to be on the blue line.</s>
+ <s id="115">You don't want to be on the red line, you want to be on the blue line.</s>
+ <p id="p116">
+  <s id="116.1">Because the blue line is a better line.</s>
+  <s id="116.2">The red line is way downhill, the blue line is a good line.</s>
+ </p>
+ <s id="117">So, you know we said -- we looked at this, and what I love also is that people always accuse these Internet sites of promoting bad medicine and having people do things irresponsibly.</s>
+ <s id="118">So, this is what happened when PNAS published this.</s>
+ <s id="119">Ten percent of the people in our system took lithium.</s>
+ <s id="120">Ten percent of the patients started taking lithium based on 16 patients of data in a bad publication.</s>
+ <s id="121">And they call the Internet irresponsible.</s>
+ <s id="122">Here's the implication of what happens.</s>
+ <p id="p123">
+  <s id="123.1">There's this one guy, named Humberto, from Brazil, who unfortunately passed away nine months ago, who said, "Hey, listen.</s>
+  <s id="123.2">Can you help us answer this question?</s>
+ </p>
+ <s id="124">Because I don't want to wait for the next trial, it's going to be years.</s>
+ <p id="p125">
+  <s id="125.1">I want to know now.</s>
+  <s id="125.2">Can you help us?"</s>
+ </p>
+ <s id="126">So, we launched some tools, we let them track their blood levels.</s>
+ <s id="127">We let them share the data and exchange it.</s>
+ <s id="128">You know, a data network.</s>
+ <s id="129">And they said, you know, "Jamie, PLM, can you guys tell us whether this works or not?"</s>
+ <p id="p130">
+  <s id="130.1">And we went around and we talked to people, and they said, "You can't run a clinical trial like this.</s>
+  <s id="130.2">You know?</s>
+ </p>
+ <s id="131">You don't have the blinding, you don't have data, it doesn't follow the scientific method.</s>
+ <p id="p132">
+  <s id="132.1">It's never going to work.</s>
+  <s id="132.2">You can't do it."</s>
+ </p>
+ <p id="p133">
+  <s id="133.1">So, I said, "Okay well we can't do that.</s>
+  <s id="133.2">Then we can do something harder."</s>
+ </p>
+ <s id="134">(Laughter) I can't say whether lithium works in all ALS patients, but I can say whether it works in Humberto.</s>
+ <p id="p135">
+  <s id="135.1">I bought a Mac about two years ago, I converted over, and I was so excited about this new feature of the time machine that came in Leopard.</s>
+  <s id="135.2">And we said -- because it's really cool, you can go back and you can look at the entire history of your computer, and find everything you've lost, and I loved it.</s>
+ </p>
+ <s id="136">And I said, "What if we built a time machine for patients, except instead of going backwards, we go forwards.</s>
+ <s id="137">Can we find out what's going to happen to you, so that you can maybe change it?"</s>
+ <p id="p138">
+  <s id="138.1">So, we did.</s>
+  <s id="138.2">We took all the patients like Humberto, That's the Apple background, we stole that because we didn't have time to build our own.</s>
+  <s id="138.3">This is a real app by the way.</s>
+ </p>
+ <s id="139">This is not just graphics.</s>
+ <p id="p140">
+  <s id="140.1">And you take those data, and we find the patients like him, and we bring their data together.</s>
+  <s id="140.2">And we bring their histories into it.</s>
+ </p>
+ <s id="141">And then we say, "Well how do we line them all up?"</s>
+ <s id="142">So, we line them all up so they go together around the meaningful points, integrated across everything we know about the patient.</s>
+ <s id="143">Full information, the entire course of their disease.</s>
+ <s id="144">And that's what is going to happen to Humberto, unless he does something.</s>
+ <s id="145">And he took lithium, and he went down the line.</s>
+ <s id="146">And it works almost every time.</s>
+ <s id="147">Now, the ones that it doesn't work are interesting.</s>
+ <s id="148">But almost all the time it works.</s>
+ <p id="p149">
+  <s id="149.1">It's actually scary.</s>
+  <s id="149.2">It's beautiful.</s>
+ </p>
+ <s id="150">So, we couldn't run a clinical trial, we couldn't figure it out.</s>
+ <s id="151">But we could see whether it was going to work for Humberto.</s>
+ <p id="p152">
+  <s id="152.1">And yeah, all the clinicians in the audience will talk about power and all the standard deviation.</s>
+  <s id="152.2">We'll do that later.</s>
+ </p>
+ <s id="153">But here is the answer of the mean of the patients that actually decided to take lithium.</s>
+ <s id="154">These are all the patients that started lithium.</s>
+ <s id="155">It's the Intent to Treat Curve.</s>
+ <p id="p156">
+  <s id="156.1">You can see here, the blue dots on the top, the light ones, those are the people in the study in PNAS that you wanted to be on.</s>
+  <s id="156.2">And the red ones are the ones, the pink ones on the bottom are the ones you didn't want to be.</s>
+ </p>
+ <s id="157">And the ones in the middle are all of our patients from the start of lithium at time zero, going forward, and then going backward.</s>
+ <s id="158">So, you can see we matched them perfectly, perfectly.</s>
+ <s id="159">Terrifyingly accurate matching.</s>
+ <s id="160">And going forward, you actually don't want to be a lithium patient this time.</s>
+ <p id="p161">
+  <s id="161.1">You're actually doing slightly worse -- not significantly, but slightly worse.</s>
+  <s id="161.2">You don't want to be a lithium patient this time.</s>
+ </p>
+ <s id="162">But you know, a lot of people dropped out, the trial, there is too much drop out.</s>
+ <p id="p163">
+  <s id="163.1">Can we do the even harder thing?</s>
+  <s id="163.2">Can we go to the patients that actually decided to stay on lithium, because they were so convinced they were getting better?</s>
+ </p>
+ <s id="164">We asked our control algorithm, are those 69 patients -- by the way, you'll notice that's four times the number of patients in the clinical trial -- can we look at those patients and say, "Can we match them with our time machine to the other patients that are just like them, and what happens?"</s>
+ <p id="p165">
+  <s id="165.1">Even the ones that believed they were getting better matched the controls exactly.</s>
+  <s id="165.2">Exactly.</s>
+ </p>
+ <p id="p166">
+  <s id="166.1">Those little lines?</s>
+  <s id="166.2">That's the power.</s>
+ </p>
+ <p id="p167">
+  <s id="167.1">So, we -- I can't tell you lithium doesn't work.</s>
+  <s id="167.2">I can't tell you that if you did it at a higher dose or if you run the study proper -- I can tell you that for those 69 people that took lithium, they didn't do any better than the people that were just like them, just like me, and that we had the power to detect that at about a quarter of the strengths reported in the initial study.</s>
+ </p>
+ <s id="168">We did that one year ahead of the time when the first clinical trial funded by the NIH for millions of dollars failed for futility last week, and announced it.</s>
+ <s id="169">So, remember I told you about my brother's stem cell transplant.</s>
+ <s id="170">I never really knew whether it worked.</s>
+ <s id="171">And I put 100 million cells in his cisterna magna, in his lumbar cord, and filled out the IRBs and did all this work, and I never really knew.</s>
+ <s id="172">How did I not know?</s>
+ <s id="173">I mean, I didn't know what was going to happen to him.</s>
+ <p id="p174">
+  <s id="174.1">I actually asked Tim, who is the quant in our group -- we actually searched for about a year to find someone who could do the sort of math and statistics and modeling in healthcare, couldn't find anybody.</s>
+  <s id="174.2">So, we went to the finance industry.</s>
+ </p>
+ <s id="175">And there are these guys who used to model the future of interest rates, and all that kind of stuff.</s>
+ <p id="p176">
+  <s id="176.1">And some of them were available.</s>
+  <s id="176.2">So, we hired one.</s>
+ </p>
+ <s id="177">(Laughter) We hired them, set them up, assisting at lab.</s>
+ <p id="p178">
+  <s id="178.1">I I.M. him things.</s>
+  <s id="178.2">That's the way I communicate with him, is like a little guy in a box.</s>
+  <s id="178.3">I I.M.ed Tim.</s>
+  <s id="178.4">I said, "Tim can you tell me whether my brother's stem cell transplant worked or not?"</s>
+ </p>
+ <s id="179">And he sent me this two days ago.</s>
+ <p id="p180">
+  <s id="180.1">It was that little outliers there.</s>
+  <s id="180.2">You see that guy that lived a long time?</s>
+ </p>
+ <p id="p181">
+  <s id="181.1">We have to go talk to him.</s>
+  <s id="181.2">Because I'd like to know what happened.</s>
+ </p>
+ <s id="182">Because something went different.</s>
+ <p id="p183">
+  <s id="183.1">But my brother didn't.</s>
+  <s id="183.2">My brother went straight down the line.</s>
+ </p>
+ <s id="184">It only works about 12 months.</s>
+ <s id="185">It's the first version of the time machine.</s>
+ <p id="p186">
+  <s id="186.1">First time we ever tried it.</s>
+  <s id="186.2">We'll try to get it better later but 12 months so far.</s>
+ </p>
+ <s id="187">And, you know, I look at this, and I get really emotional.</s>
+ <s id="188">You look at the patients, you can drill in all the controls, you can look at them, you can ask them.</s>
+ <s id="189">And I found a woman that had -- we found her, she was odd because she had data after she died.</s>
+ <s id="190">And her husband had come in and entered her last functional scores, because he knew how much she cared.</s>
+ <s id="191">And I am thankful.</s>
+ <s id="192">I can't believe that these people, years after my brother had died, helped me answer the question about whether an operation I did, and spent millions of dollars on years ago, worked or not.</s>
+ <s id="193">I wished it had been there when I'd done it the first time, and I'm really excited that it's here now, because the lab that I founded has some data on a drug that might work, and I'd like to show it.</s>
+ <s id="194">I'd like to show it in real time, now, and I want to do that for all of the diseases that we can do that for.</s>
+ <s id="195">I've got to thank the 45,000 people that are doing this social experiment with us.</s>
+ <p id="p196">
+  <s id="196.1">There is an amazing journey we are going on to become human again, to be part of community again, to share of ourselves, to be vulnerable, and it's very exciting.</s>
+  <s id="196.2">So, thank you.</s>
+ </p>
+ <s id="197">(Applause)</s>
+</text>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Check this out: Here's a grid, nothing special, just a basic grid, very grid-y.</s>
+ <s id="2">But look closer, into this white spot at the center where the two central vertical and horizontal lines intersect.</s>
+ <p id="p3">
+  <s id="3.1">Look very closely.</s>
+  <s id="3.2">Notice anything funny about this spot?</s>
+ </p>
+ <s id="4">Yeah, nothing.</s>
+ <p id="p5">
+  <s id="5.1">But keep looking.</s>
+  <s id="5.2">Get weird and stare at it.</s>
+ </p>
+ <s id="6">Now, keeping your gaze fixed on this white spot, check what's happening in your peripheral vision.</s>
+ <p id="p7">
+  <s id="7.1">The other spots, are they still white?</s>
+  <s id="7.2">Or do they show weird flashes of grey?</s>
+ </p>
+ <s id="8">Now look at this pan for baking muffins.</s>
+ <p id="p9">
+  <s id="9.1">Oh, sorry, one of the cups is inverted.</s>
+  <s id="9.2">It pops up instead of dipping down.</s>
+ </p>
+ <p id="p10">
+  <s id="10.1">Wait, no spin the pan.</s>
+  <s id="10.2">The other five are domed now?</s>
+ </p>
+ <s id="11">Whichever it is, this pan's defective.</s>
+ <s id="12">Here's a photo of Abraham Lincoln, and here's one upside down.</s>
+ <s id="13">Nothing weird going on here.</s>
+ <p id="p14">
+  <s id="14.1">Wait, turn that upside down one right side up.</s>
+  <s id="14.2">What have they done to Abe?</s>
+ </p>
+ <s id="15">Those are just three optical illusions, images that seem to trick us.</s>
+ <s id="16">How do they work?</s>
+ <s id="17">Are magical things happening in the images themselves?</s>
+ <s id="18">While we could certainly be sneaking flashes of grey into the peripheral white spots of our animated grid, first off, we promise we aren't.</s>
+ <s id="19">You'll see the same effect with a grid printed on a plain old piece of paper.</s>
+ <p id="p20">
+  <s id="20.1">In reality, this grid really is just a grid.</s>
+  <s id="20.2">But not to your brain's visual system.</s>
+ </p>
+ <s id="21">Here's how it interprets the light information you call this grid.</s>
+ <s id="22">The white intersections are surrounded by relatively more white on all four sides than any white point along a line segment.</s>
+ <s id="23">Your retinal ganglion cells notice that there is more white around the intersections because they are organized to increase contrast with lateral inhibition.</s>
+ <s id="24">Better contrast means it's easier to see the edge of something.</s>
+ <s id="25">And things are what your eyes and brain have evolved to see.</s>
+ <s id="26">Your retinal ganglion cells don't respond as much at the crossings because there is more lateral inhibition for more white spots nearby compared to the lines, which are surrounded by black.</s>
+ <s id="27">This isn't just a defect in your eyes; if you can see, then optical illusions can trick you with your glasses on or with this paper or computer screen right up in your face.</s>
+ <s id="28">What optical illusions show us is the way your photo receptors and brain assemble visual information into the three-dimensional world you see around you, where edges should get extra attention because things with edges can help you or kill you.</s>
+ <p id="p29">
+  <s id="29.1">Look at that muffin pan again.</s>
+  <s id="29.2">You know what causes confusion here?</s>
+ </p>
+ <s id="30">Your brain's visual cortex operates on assumptions about the lighting of this image.</s>
+ <s id="31">It expects light to come from a single source, shining down from above.</s>
+ <s id="32">And so these shading patterns could only have been caused by light shining down on the sloping sides of a dome, or the bottom of a hole.</s>
+ <s id="33">If we carefully recreate these clues by drawing shading patterns, even on a flat piece of paper, our brain reflexively creates the 3D concave or convex shape.</s>
+ <s id="34">Now for that creepy Lincoln upside down face.</s>
+ <s id="35">Faces trigger activity in areas of the brain that have specifically evolved to help us recognize faces.</s>
+ <s id="36">Like the fusiform face area and others in the occipital and temporal lobes.</s>
+ <s id="37">It makes sense, too, we're very social animals with highly complex ways of interacting with each other.</s>
+ <s id="38">When we see faces, we have to recognize they are faces and figure out what they're expressing very quickly.</s>
+ <s id="39">And what we focus on most are the eyes and mouth.</s>
+ <s id="40">That's how we figure out if someone is mad at us or wants to be our friend.</s>
+ <s id="41">In the upside down Lincoln face, the eyes and mouth were actually right side up, so you didn't notice anything was off.</s>
+ <s id="42">But when we flipped the whole image over, the most important parts of the face, the eyes and mouth, were now upside down, and you realized something fishy was up.</s>
+ <s id="43">You realized your brain had taken a short cut and missed something.</s>
+ <s id="44">But your brain wasn't really being lazy, it's just very busy.</s>
+ <s id="45">So it spends cognitive energy as efficiently as possible, using assumptions about visual information to create a tailored, edited vision of the world.</s>
+ <s id="46">Imagine your brain calling out these edits on the fly: "Okay, those squares could be objects.</s>
+ <s id="47">Let's enhance that black-white contrast on the sides with lateral inhibition.</s>
+ <s id="48">Darken those corners!</s>
+ <s id="49">Dark grey fading into light grey?</s>
+ <p id="p50">
+  <s id="50.1">Assume overhead sunlight falling on a sloping curve.</s>
+  <s id="50.2">Next!</s>
+ </p>
+ <s id="51">Those eyes look like most eyes I've seen before, nothing weird going on here."</s>
+ <p id="p52">
+  <s id="52.1">See?</s>
+  <s id="52.2">Our visual tricks have revealed your brain's job as a busy director of 3D animation in a studio inside your skull, allocating cognitive energy and constructing a world on the fly with tried and mostly -- but not always -- true tricks of its own.</s>
+ </p>
+</text>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">My name is Jonathan Zittrain, and in my recent work I've been a bit of a pessimist.</s>
+ <s id="2">So I thought this morning I would try to be the optimist, and give reason to hope for the future of the Internet by drawing upon its present.</s>
+ <s id="3">Now, it may seem like there is less hope today than there was before.</s>
+ <p id="p4">
+  <s id="4.1">People are less kind.</s>
+  <s id="4.2">There is less trust around.</s>
+ </p>
+ <p id="p5">
+  <s id="5.1">I don't know.</s>
+  <s id="5.2">As a simple example, we could run a test here.</s>
+ </p>
+ <s id="6">How many people have ever hitchhiked?</s>
+ <p id="p7">
+  <s id="7.1">I know.</s>
+  <s id="7.2">How many people have hitchhiked within the past 10 years?</s>
+ </p>
+ <p id="p8">
+  <s id="8.1">Right.</s>
+  <s id="8.2">So what has changed?</s>
+ </p>
+ <s id="9">It's not better public transportation.</s>
+ <s id="10">So that's one reason to think that we might be declensionists, going in the wrong direction.</s>
+ <s id="11">But I want to give you three examples to try to say that the trend line is in fact in the other direction, and it's the Internet helping it along.</s>
+ <s id="12">So example number one: the Internet itself.</s>
+ <s id="13">These are three of the founders of the Internet.</s>
+ <s id="14">They were actually high school classmates together at the same high school in suburban Los Angles in the 1960s.</s>
+ <s id="15">You might have had a French club or a Debate club.</s>
+ <s id="16">They had a "Let's build a global network" club, and it worked out very well.</s>
+ <s id="17">They are pictured here for their 25th anniversary Newsweek retrospective on the Internet.</s>
+ <s id="18">And as you can tell, they are basically goof balls.</s>
+ <s id="19">They had one great limitation and one great freedom as they tried to conceive of a global network.</s>
+ <s id="20">The limitation was that they didn't have any money.</s>
+ <s id="21">No particular amount of capital to invest, of the sort that for a physical network you might need for trucks and people and a hub to move packages around overnight.</s>
+ <s id="22">They had none of that.</s>
+ <s id="23">But they had an amazing freedom, which was they didn't have to make any money from it.</s>
+ <s id="24">The Internet has no business plan, never did.</s>
+ <s id="25">No CEO, no firm responsible, singly, for building it.</s>
+ <s id="26">Instead, it's folks getting together to do something for fun, rather than because they were told to, or because they were expecting to make a mint off of it.</s>
+ <s id="27">That ethos led to a network architecture, a structure that was unlike other digital networks then or since.</s>
+ <s id="28">So unusual, in fact, that it was said that it's not clear the Internet could work.</s>
+ <s id="29">As late as 1992, IBM was known to say you couldn't possibly build a corporate network using Internet Protocol.</s>
+ <s id="30">And even some Internet engineers today say the whole thing is a pilot project and the jury is still out.</s>
+ <s id="31">(Laughter) That's why the mascot of Internet engineering, if it had one, is said to be the bumblebee.</s>
+ <s id="32">Because the fur-to-wingspan ratio of the bumblebee is far too large for it to be able to fly.</s>
+ <s id="33">And yet, mysteriously, somehow the bee flies.</s>
+ <s id="34">I'm pleased to say that, thanks to massive government funding, about three years ago we finally figured out how bees fly.</s>
+ <s id="35">(Laughter) It's very complicated, but it turns out they flap their wings very quickly.</s>
+ <s id="36">(Laughter) So what is this bizarre architecture configuration that makes the network sing and be so unusual?</s>
+ <s id="37">Well, to move data around from one place to another -- again, it's not like a package courier.</s>
+ <s id="38">It's more like a mosh pit.</s>
+ <s id="39">(Laughter) Imagine, you being part of a network where, you're maybe at a sporting event, and you're sitting in rows like this, and somebody asks for a beer, and it gets handed at the aisle.</s>
+ <s id="40">And your neighborly duty is to pass the beer along, at risk to your own trousers, to get it to the destination.</s>
+ <s id="41">No one pays you to do this.</s>
+ <s id="42">It's just part of your neighborly duty.</s>
+ <s id="43">And, in a way, that's exactly how packets move around the Internet, sometimes in as many as 25 or 30 hops, with the intervening entities that are passing the data around having no particular contractual or legal obligation to the original sender or to the receiver.</s>
+ <s id="44">Now, of course, in a mosh pit it's hard to specify a destination.</s>
+ <s id="45">You need a lot of trust, but it's not like, "I'm trying to get to Pensacola, please."</s>
+ <s id="46">So the Internet needs addressing and directions.</s>
+ <s id="47">It turns out there is no one overall map of the Internet.</s>
+ <s id="48">Instead, again, it is as if we are all sitting together in a theater, but we can only see amidst the fog the people immediately around us.</s>
+ <s id="49">So what do we do to figure out who is where?</s>
+ <s id="50">We turn to the person on the right, and we tell that person what we see on our left, and vice versa.</s>
+ <p id="p51">
+  <s id="51.1">And they can lather, rinse, repeat.</s>
+  <s id="51.2">And before you know it, you have a general sense of where everything is.</s>
+ </p>
+ <s id="52">This is how Internet addressing and routing actually work.</s>
+ <s id="53">This is a system that relies on kindness and trust, which also makes it very delicate and vulnerable.</s>
+ <s id="54">In rare but striking instances, a single lie told by just one entity in this honeycomb can lead to real trouble.</s>
+ <s id="55">So, for example, last year, the government of Pakistan asked its Internet service providers there to prevent citizens of Pakistan from seeing YouTube.</s>
+ <s id="56">There was a video there that the government did not like and they wanted to make sure it was blocked.</s>
+ <p id="p57">
+  <s id="57.1">This is a common occurrence.</s>
+  <s id="57.2">Governments everywhere are often trying to block and filter and censor content on the Internet.</s>
+ </p>
+ <s id="58">Well this one ISP in Pakistan chose to effectuate the block for its subscribers in a rather unusual way.</s>
+ <s id="59">It advertised -- the way that you might be asked, if you were part of the Internet, to declare what you see near you -- it advertised that near it, in fact, it had suddenly awakened to find that it was YouTube.</s>
+ <s id="60">"That's right," it said, "I am YouTube."</s>
+ <s id="61">Which meant that packets of data from subscribers going to YouTube stopped at the ISP, since they thought they were already there, and the ISP threw them away unopened because the point was to block it.</s>
+ <s id="62">But it didn't stop there.</s>
+ <s id="63">You see, that announcement went one click out, which got reverberated, one click out.</s>
+ <s id="64">And it turns out that as you look at the postmortem of this event, you have at one moment perfectly working YouTube.</s>
+ <s id="65">Then, at moment number two, you have the fake announcement go out.</s>
+ <s id="66">And within two minutes, it reverberates around and YouTube is blocked everywhere in the world.</s>
+ <s id="67">If you were sitting in Oxford, England, trying to get to YouTube, your packets were going to Pakistan and they weren't coming back.</s>
+ <s id="68">Now just think about that.</s>
+ <s id="69">One of the most popular websites in the world, run by the most powerful company in the world, and there was nothing that YouTube or Google were particularly privileged to do about it.</s>
+ <s id="70">And yet, somehow, within about two hours, the problem was fixed.</s>
+ <s id="71">How did this happen?</s>
+ <s id="72">Well, for a big clue, we turn to NANOG.</s>
+ <s id="73">The North American Network Operators Group, a group of people who, on a beautiful day outside, enter into a windowless room, at their terminals reading email and messages in fixed proportion font, like this, and they talk about networks.</s>
+ <s id="74">And some of them are mid-level employees at Internet service providers around the world.</s>
+ <p id="p75">
+  <s id="75.1">And here is the message where one of them says, "Looks like we've got a live one.</s>
+  <s id="75.2">We have a hijacking of YouTube!</s>
+ </p>
+ <p id="p76">
+  <s id="76.1">This is not a drill.</s>
+  <s id="76.2">It's not just the cluelessness of YouTube engineers.</s>
+  <s id="76.3">I promise.</s>
+ </p>
+ <s id="77">Something is up in Pakistan."</s>
+ <s id="78">And they came together to help find the problem and fix it.</s>
+ <s id="79">So it's kind of like if your house catches on fire.</s>
+ <s id="80">The bad news is there is no fire brigade.</s>
+ <s id="81">The good news is random people apparate from nowhere, put out the fire and leave without expecting payment or praise.</s>
+ <s id="82">(Applause) I was trying to think of the right model to describe this form of random acts of kindness by geeky strangers.</s>
+ <s id="83">(Laughter) You know, it's just like the hail goes out and people are ready to help.</s>
+ <s id="84">And it turns out this model is everywhere, once you start looking for it.</s>
+ <s id="85">Example number two: Wikipedia.</s>
+ <p id="p86">
+  <s id="86.1">If a man named Jimbo came up to you in 2001 and said, "I've got a great idea!</s>
+  <s id="86.2">We start with seven articles that anybody can edit anything, at any time, and we'll get a great encyclopedia!</s>
+  <s id="86.3">Eh?"</s>
+ </p>
+ <p id="p87">
+  <s id="87.1">Right.</s>
+  <s id="87.2">Dumbest idea ever.</s>
+ </p>
+ <s id="88">(Laughter) In fact, Wikipedia is an idea so profoundly stupid that even Jimbo never had it.</s>
+ <s id="89">Jimbo's idea was for Nupedia.</s>
+ <p id="p90">
+  <s id="90.1">It was going to be totally traditional.</s>
+  <s id="90.2">He would pay people money because he was feeling like a good guy, and the money would go to the people and they would write the articles.</s>
+ </p>
+ <s id="91">The wiki was introduced so others could make suggestions on edits -- as almost an afterthought, a back room.</s>
+ <s id="92">And then it turns out the back room grew to encompass the entire project.</s>
+ <s id="93">And today, Wikipedia is so ubiquitous that you can now find it on Chinese restaurant menus.</s>
+ <s id="94">(Laughter) I am not making this up.</s>
+ <s id="95">(Laughter) I have a theory I can explain later.</s>
+ <s id="96">Suffice it to say for now that I prefer my Wikipedia stir-fried with pimentos.</s>
+ <s id="97">(Laughter) But now, Wikipedia doesn't just spontaneously work.</s>
+ <p id="p98">
+  <s id="98.1">How does it really work?</s>
+  <s id="98.2">It turns out there is a back room that is kind of windowless, metaphorically speaking.</s>
+ </p>
+ <s id="99">And there are a bunch of people who, on a sunny day, would rather be inside and monitoring this, the administrator's notice board, itself a wiki page that anyone can edit.</s>
+ <s id="100">And you just bring your problems to the page.</s>
+ <s id="101">It's reminiscent of the description of history as "one damn thing after another," right?</s>
+ <s id="102">Number one: "Tendentious editing by user Andyvphil."</s>
+ <s id="103">Apologies, Andyvphil, if you're here today.</s>
+ <s id="104">I'm not taking sides.</s>
+ <s id="105">"Anon attacking me for reverting."</s>
+ <s id="106">Here is my favorite: "A long story."</s>
+ <s id="107">(Laughter) It turns out there are more people checking this page for problems and wanting to solve them than there are problems arising on the page.</s>
+ <s id="108">And that's what keeps Wikipedia afloat.</s>
+ <p id="p109">
+  <s id="109.1">At all times, Wikipedia is approximately 45 minutes away from utter destruction.</s>
+  <s id="109.2">Right?</s>
+ </p>
+ <s id="110">There are spambots crawling it, trying to turn every article into an ad for a Rolex watch.</s>
+ <s id="111">(Laughter) It's this thin geeky line that keeps it going.</s>
+ <s id="112">Not because it's a job, not because it's a career, but because it's a calling.</s>
+ <s id="113">It's something they feel impelled to do because they care about it.</s>
+ <s id="114">They even gather together in such groups as the Counter-Vandalism Unit -- "Civility, Maturity, Responsibility" -- to just clean up the pages.</s>
+ <s id="115">It does make you wonder if there were, for instance, a massive, extremely popular Star Trek convention one weekend, who would be minding the store?</s>
+ <s id="116">(Laughter) So what we see -- (Laughter) what we see in this phenomenon is something that the crazed, late traffic engineer Hans Monderman discovered in the Netherlands, and here in South Kensington, that sometimes if you remove some of the external rules and signs and everything else, you can actually end up with a safer environment in which people can function, and one in which they are more human with each other.</s>
+ <s id="117">They're realizing that they have to take responsibility for what they do.</s>
+ <s id="118">And Wikipedia has embraced this.</s>
+ <s id="119">Some of you may remember Star Wars Kid, the poor teenager who filmed himself with a golf ball retriever, acting as if it were a light saber.</s>
+ <s id="120">The film, without his permission or even knowledge at first, found its way onto the Internet.</s>
+ <p id="p121">
+  <s id="121.1">Hugely viral video.</s>
+  <s id="121.2">Extremely popular.</s>
+ </p>
+ <s id="122">Totally mortifying to him.</s>
+ <s id="123">Now, it being encyclopedic and all, Wikipedia had to do an article about Star Wars Kid.</s>
+ <s id="124">Every article on Wikipedia has a corresponding discussion page, and on the discussion page they had extensive argument among the Wikipedians as to whether to have his real name featured in the article.</s>
+ <s id="125">You could see arguments on both sides.</s>
+ <s id="126">Here is just a snapshot of some of them.</s>
+ <s id="127">They eventually decided -- not unanimously by any means -- not to include his real name, despite the fact that nearly all media reports did.</s>
+ <s id="128">They just didn't think it was the right thing to do.</s>
+ <s id="129">It was an act of kindness.</s>
+ <s id="130">And to this day, the page for Star Wars Kid has a warning right at the top that says you are not to put his real name on the page.</s>
+ <s id="131">If you do, it will be removed immediately, removed by people who may have disagreed with the original decision, but respect the outcome and work to make it stay because they believe in something bigger than their own opinion.</s>
+ <s id="132">As a lawyer, I've got to say these guys are inventing the law and stare decisis and stuff like that as they go along.</s>
+ <s id="133">Now, this isn't just limited to Wikipedia.</s>
+ <s id="134">We see it on blogs all over the place.</s>
+ <s id="135">I mean, this is a 2005 Business Week cover.</s>
+ <p id="p136">
+  <s id="136.1">Wow.</s>
+  <s id="136.2">Blogs are going to change your business.</s>
+ </p>
+ <p id="p137">
+  <s id="137.1">I know they look silly.</s>
+  <s id="137.2">And sure they look silly.</s>
+ </p>
+ <s id="138">They start off on all sorts of goofy projects.</s>
+ <s id="139">This is my favorite goofy blog: Catsthatlooklikehitler.com.</s>
+ <s id="140">(Laughter) You send in a picture of your cat if it looks like Hitler.</s>
+ <p id="p141">
+  <s id="141.1">(Laughter) Yeah, I know.</s>
+  <s id="141.2">Number four, it's like, can you imagine coming home to that cat everyday?</s>
+ </p>
+ <s id="142">(Laughter) But then, you can see the same kind of whimsy applied to people.</s>
+ <s id="143">So this is a blog devoted to unfortunate portraiture.</s>
+ <s id="144">This one says, "Bucolic meadow with split-rail fence.</s>
+ <s id="145">Is that an animal carcass behind her?"</s>
+ <p id="p146">
+  <s id="146.1">(Laughter) You're like, "You know?</s>
+  <s id="146.2">I think that's an animal carcass behind her."</s>
+ </p>
+ <s id="147">And it's one after the other.</s>
+ <p id="p148">
+  <s id="148.1">But then you hit this one.</s>
+  <s id="148.2">Image removed at request of owner.</s>
+ </p>
+ <p id="p149">
+  <s id="149.1">That's it.</s>
+  <s id="149.2">Image removed at request of owner.</s>
+ </p>
+ <s id="150">It turns out that somebody lampooned here wrote to the snarky guy that does the site, not with a legal threat, not with an offer of payment, but just said, "Hey, would you mind?"</s>
+ <s id="151">The person said, "No, that's fine."</s>
+ <s id="152">I believe we can build architectures online to make such human requests that much easier to do, to make it possible for all of us to see that the data we encounter online is just stuff on which to click and paste and copy and forward that actually represents human emotion and endeavor and impact, and to be able to have an ethical moment where we decide how we want to treat it.</s>
+ <s id="153">I even think it can go into the real world.</s>
+ <s id="154">We can end up, as we get in a world with more censors -- everywhere there is something filming you, maybe putting it online -- to be able to have a little clip you could wear that says, "You know, I'd rather not."</s>
+ <s id="155">And then have technology that the person taking the photo will know later, this person requested to be contacted before this goes anywhere big, if you don't mind.</s>
+ <s id="156">And that person taking the photo can make a decision about how and whether to respect it.</s>
+ <s id="157">In the real world, we see filtering of this sort taking place in Pakistan.</s>
+ <s id="158">And we now have means that we can build, like this system, so that people can report the filtering as they encounter it.</s>
+ <p id="p159">
+  <s id="159.1">And it's no longer just a "I don't know.</s>
+  <s id="159.2">I couldn't get there.</s>
+  <s id="159.3">I guess I'll move on," but suddenly a collective consciousness about what is blocked and censored where online.</s>
+ </p>
+ <s id="160">In fact, talk about technology imitating life imitating tech, or maybe it's the other way around.</s>
+ <s id="161">An NYU researcher here took little cardboard robots with smiley faces on them, and a motor that just drove them forward and a flag sticking out the back with a desired destination.</s>
+ <s id="162">It said, "Can you help me get there?"</s>
+ <s id="163">Released it on the streets of Manhattan.</s>
+ <s id="164">(Laughter) They'll fund anything these days.</s>
+ <s id="165">Here is the chart of over 43 people helping to steer the robot that could not steer and get it on its way, from one corner from one corner of Washington Square Park to another.</s>
+ <s id="166">That leads to example number three: hitchhiking.</s>
+ <s id="167">I'm not so sure hitchhiking is dead.</s>
+ <p id="p168">
+  <s id="168.1">Why?</s>
+  <s id="168.2">There is the Craigslist rideshare board.</s>
+ </p>
+ <s id="169">If it were called the Craigslist hitchhiking board, tumbleweeds would be blowing through it.</s>
+ <s id="170">But it's the rideshare board, and it's basically the same thing.</s>
+ <s id="171">Now why are people using it?</s>
+ <p id="p172">
+  <s id="172.1">I don't know.</s>
+  <s id="172.2">Maybe they think that, uh, killers don't plan ahead?</s>
+ </p>
+ <p id="p173">
+  <s id="173.1">(Laughter) No.</s>
+  <s id="173.2">I think the actual answer is that once you reframe it, once you get out of one set of stale expectations from a failed project that had its day, but now, for whatever reason, is tarnished, you can actually rekindle the kind of human kindness and sharing that something like this on Craigslist represents.</s>
+ </p>
+ <s id="174">And then you can highlight it into something like, yes, CouchSurfing.org.</s>
+ <s id="175">CouchSurfing: one guy's idea to, at last, put together people who are going somewhere far away and would like to sleep on a stranger's couch for free, with people who live far away, and would like someone they don't know to sleep on their couch for free.</s>
+ <s id="176">It's a brilliant idea.</s>
+ <s id="177">It's a bee that, yes, flies.</s>
+ <s id="178">Amazing how many successful couch surfings there have been.</s>
+ <s id="179">And if you're wondering, no, there have been no known fatalities associated with CouchSurfing.</s>
+ <s id="180">Although, to be sure, the reputation system, at the moment, works that you leave your report after the couch surfing experience, so there may be some selection bias there.</s>
+ <s id="181">(Laughter) So, my urging, my thought, is that the Internet isn't just a pile of information.</s>
+ <p id="p182">
+  <s id="182.1">It's not a noun.</s>
+  <s id="182.2">It's a verb.</s>
+ </p>
+ <s id="183">And when you go on it, if you listen and see carefully and closely enough, what you will discover is that that information is saying something to you.</s>
+ <s id="184">What it's saying to you is what we heard yesterday, Demosthenes was saying to us.</s>
+ <p id="p185">
+  <s id="185.1">It's saying, "Let's march."</s>
+  <s id="185.2">Thank you very much.</s>
+ </p>
+ <s id="186">(Applause)</s>
+</text>

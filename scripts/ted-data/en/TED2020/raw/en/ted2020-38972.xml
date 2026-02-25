@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">In 2012, a team of Japanese and Danish researchers set a world record, transmitting 1 petabit of data— that’s 10,000 hours of high-def video— over a fifty-kilometer cable, in a second.</s>
+ <s id="2">This wasn’t just any cable.</s>
+ <s id="3">It was a souped-up version of fiber optics— the hidden network that links our planet and makes the internet possible.</s>
+ <s id="4">For decades, long-distance communications between cities and countries were carried by electrical signals, in wires made of copper.</s>
+ <s id="5">This was slow and inefficient, with metal wires limiting data rates and power lost as wasted heat.</s>
+ <s id="6">But in the late 20th century, engineers mastered a far superior method of transmission.</s>
+ <s id="7">Instead of metal, glass can be carefully melted and drawn into flexible fiber strands, hundreds of kilometers long and no thicker than human hair.</s>
+ <s id="8">And instead of electricity, these strands carry pulses of light, representing digital data.</s>
+ <s id="9">But how does light travel within glass, rather than just pass through it?</s>
+ <s id="10">The trick lies in a phenomenon known as total internal reflection.</s>
+ <s id="11">Since Isaac Newton’s time, lensmakers and scientists have known that light bends when it passes between air and materials like water or glass.</s>
+ <s id="12">When a ray of light inside glass hits its surface at a steep angle, it refracts, or bends as it exits into air.</s>
+ <s id="13">But if the ray travels at a shallow angle, it’ll bend so far that it stays trapped, bouncing along inside the glass.</s>
+ <s id="14">Under the right condition, something normally transparent to light can instead hide it from the world.</s>
+ <s id="15">Compared to electricity or radio, fiber optic signals barely degrade over great distances— a little power does scatter away, and fibers can’t bend too sharply, otherwise the light leaks out.</s>
+ <s id="16">Today, a single optical fiber carries many wavelengths of light, each a different channel of data.</s>
+ <s id="17">And a fiber optic cable contains hundreds of these fiber strands.</s>
+ <s id="18">Over a million kilometers of cable crisscross our ocean floors to link the continents— that’s enough to wind around the Equator nearly thirty times.</s>
+ <s id="19">With fiber optics, distance hardly limits data, which has allowed the internet to evolve into a planetary computer.</s>
+ <s id="20">Increasingly, our mobile work and play rely on legions of overworked computer servers, warehoused in gigantic data centers flung across the world.</s>
+ <s id="21">This is called cloud computing, and it leads to two big problems: heat waste and bandwidth demand.</s>
+ <s id="22">The vast majority of internet traffic shuttles around inside data centers, where thousands of servers are connected by traditional electrical cables.</s>
+ <s id="23">Half of their running power is wasted as heat.</s>
+ <s id="24">Meanwhile, wireless bandwidth demand steadily marches on, and the gigahertz signals used in our mobile devices are reaching their data delivery limits.</s>
+ <s id="25">It seems fiber optics has been too good for its own good, fueling overly-ambitious cloud and mobile computing expectations.</s>
+ <s id="26">But a related technology, integrated photonics, has come to the rescue.</s>
+ <s id="27">Light can be guided not only in optical fibers, but also in ultrathin silicon wires.</s>
+ <s id="28">Silicon wires don’t guide light as well as fiber.</s>
+ <s id="29">But they do enable engineers to shrink all the devices in a hundred kilometer fiber optic network down to tiny photonic chips that plug into servers and convert their electrical signals to optical and back.</s>
+ <s id="30">These electricity-to-light chips allow for wasteful electrical cables in data centers to be swapped out for power-efficient fiber.</s>
+ <s id="31">Photonic chips can help break open wireless bandwidth limitations, too.</s>
+ <s id="32">Researchers are working to replace mobile gigahertz signals with terahertz frequencies, to carry data thousands of times faster.</s>
+ <s id="33">But these are short-range signals: they get absorbed by moisture in the air, or blocked by tall buildings.</s>
+ <s id="34">With tiny wireless-to-fiber photonic transmitter chips distributed throughout cities, terahertz signals can be relayed over long-range distances.</s>
+ <s id="35">They can do so via a stable middleman, optical fiber, and make hyperfast wireless connectivity a reality.</s>
+ <s id="36">For all of human history, light has gifted us with sight and heat, serving as a steady companion while we explored and settled the physical world.</s>
+ <s id="37">Now, we’ve saddled light with information and redirected it to run along a fiber optic superhighway— with many different integrated photonic exits— to build an even more expansive, virtual world.</s>
+</text>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">On their 20th birthday, identical twin astronauts volunteer for an experiment.</s>
+ <s id="2">Terra will remain on Earth, while Stella will board a spaceship.</s>
+ <s id="3">Stella’s ship will travel at 86.6% the speed of light to visit a star that is 10 light-years away, then return to Earth at the same speed.</s>
+ <s id="4">As they prepare to part ways, the twins wonder what will happen when they’re reunited.</s>
+ <s id="5">Since a light year is exactly the distance light can travel in a year, Stella’s journey should take 23 years.</s>
+ <s id="6">But from having studied special relativity, the twins know it’s not that simple.</s>
+ <s id="7">First of all, the faster an object moves through space, the slower it moves through time compared to an unmoving observer.</s>
+ <s id="8">This relationship can be quantified with something called the Lorentz factor, which is defined by this equation.</s>
+ <s id="9">And secondly, the length of a moving object as measured by an observer at rest will contract by the same factor.</s>
+ <s id="10">At 86.6% of the speed of light the Lorentz factor is 2, meaning time will pass twice as slowly aboard the spaceship.</s>
+ <s id="11">Of course, Stella won’t notice time slowing down.</s>
+ <s id="12">That’s because all time-based processes in the ship will slow down as well– clocks and electrical devices; Stella’s biological activities including her rate of aging and her perception of time itself.</s>
+ <s id="13">The only people who could notice time on the moving spaceship passing slower for Stella would be observers in an inertial, or non-accelerating, reference frame– like Terra back on Earth.</s>
+ <s id="14">Thus, Terra concludes that when they meet back on Earth, she’ll be older than Stella.</s>
+ <s id="15">But that’s just one way of looking at things.</s>
+ <s id="16">Because all movement is relative, Stella argues it would be just as valid to say her spaceship will stand still while the rest of the universe, including Terra, moves around her.</s>
+ <s id="17">And in that case, time will pass twice as slowly for Terra, making Stella the older twin in the end.</s>
+ <s id="18">They can’t each be older than the other, so which one of them is right?</s>
+ <p id="p19">
+  <s id="19.1">This apparent contradiction is known as the “Twin Paradox.”</s>
+  <s id="19.2">But it’s not really a paradox– just an example of how special relativity can be easily misunderstood.</s>
+ </p>
+ <s id="20">To test their theories in real-time, each of the twins agrees to send a burst of light to the other every time a year has passed for them.</s>
+ <s id="21">Unlike other objects, the speed of light is always constant regardless of an observer’s reference frame.</s>
+ <s id="22">A light burst sent from Earth will be measured at the same speed as a light burst sent from the spaceship, regardless of whether it’s on its outbound or return trip.</s>
+ <s id="23">So when one twin observes a burst of light, they’re measuring how long it took the other twin to experience a year passing, plus how long it took for light to travel between them.</s>
+ <s id="24">We can track what’s happening on a graph.</s>
+ <s id="25">The X axis marks distance from Earth, and the Y axis tracks the passage of time.</s>
+ <s id="26">From Terra’s perspective, her path will simply be a vertical line, with distance equal to zero and each tick on the line equivalent to a year as she perceives it.</s>
+ <s id="27">Stella’s path will stretch from the same origin to a point 11.5 years in time and 10 light-years in distance from Terra… before converging again at zero distance and 23 years’ time.</s>
+ <s id="28">At her first one-year mark, Terra will send a pulse of light from Earth towards Stella’s spaceship.</s>
+ <s id="29">Since light takes a year to travel one light-year, its path will be a 45-degree diagonal line.</s>
+ <s id="30">And because Stella is traveling away from it, by the time the light catches up to her, over 7 total years will have passed for Terra, and over 4 for Stella.</s>
+ <s id="31">By the time Stella observes Terra’s second burst, she will already be on her return journey.</s>
+ <s id="32">But now, since she’s moving towards the source of the light, it will take less time to reach her, and she’ll observe the bursts more frequently.</s>
+ <s id="33">This means that Stella observes Terra aging slowly for the first half of her journey, but aging rapidly during the return half.</s>
+ <s id="34">Meanwhile for Stella, it seems as though Terra, the destination star, and the whole universe are moving around her.</s>
+ <s id="35">And because of length contraction, Stella observes the distance between them shrinking by a factor of 2.</s>
+ <s id="36">This means each leg of the trip will only take about six years from Stella’s perspective.</s>
+ <s id="37">When she sends the first signal to Earth, two years will have passed for Terra.</s>
+ <s id="38">Stella will send four more light bursts during her outbound journey, each one from farther away.</s>
+ <s id="39">By the time Terra observes the first pulse from Stella's inbound journey, over 21 years will have passed for her.</s>
+ <s id="40">For the rest of Stella's return home, Terra receives multiple light bursts each year.</s>
+ <s id="41">Thus, Terra observes Stella aging slowly for about 90% of their 23 years apart, and aging rapidly during the last 10%.</s>
+ <s id="42">This asymmetry accounts for why the paradox isn’t really a paradox.</s>
+ <s id="43">Although each twin witnesses time both speeding up and slowing down for the other, Stella sees an even split, while Terra sees Stella aging slowly for most of the time they’re apart.</s>
+ <s id="44">This is consistent with each twin’s measurement of the space voyage, which takes 23 Earth years, but only 11.5 as experienced aboard the ship.</s>
+ <s id="45">When the twins are reunited, Terra will be 43 years old, while Stella will be 31.</s>
+ <s id="46">Where Stella went wrong was her assumption that she and Terra had equal claim to being inertial observers.</s>
+ <s id="47">To be an inertial observer, one has to maintain a constant speed and direction relative to the rest of the universe.</s>
+ <s id="48">Terra was at rest the entire time, so her velocity was a constant zero.</s>
+ <s id="49">But when Stella changed her direction for the return journey, she entered a different reference frame from the one she’d started in.</s>
+ <s id="50">Terra and Stella now both have a better understanding of how spacetime works.</s>
+ <s id="51">And as twins who are eleven years apart in age, they’re a perfect example of special relativity.</s>
+</text>

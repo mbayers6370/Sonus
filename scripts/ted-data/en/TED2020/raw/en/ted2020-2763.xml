@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">In the third act of "Swan Lake," the Black Swan pulls off a seemingly endless series of turns, bobbing up and down on one pointed foot and spinning around, and around, and around 32 times.</s>
+ <s id="2">It's one of the toughest sequences in ballet, and for those thirty seconds or so, she's like a human top in perpetual motion.</s>
+ <s id="3">Those spectacular turns are called fouettés, which means "whipped" in French, describing the dancer's incredible ability to whip around without stopping.</s>
+ <s id="4">But while we're marveling at the fouetté, can we unravel its physics?</s>
+ <s id="5">The dancer starts the fouetté by pushing off with her foot to generate torque.</s>
+ <s id="6">But the hard part is maintaining the rotation.</s>
+ <s id="7">As she turns, friction between her pointe shoe and the floor, and somewhat between her body and the air, reduces her momentum.</s>
+ <s id="8">So how does she keep turning?</s>
+ <s id="9">Between each turn, the dancer pauses for a split second and faces the audience.</s>
+ <s id="10">Her supporting foot flattens, and then twists as it rises back onto pointe, pushing against the floor to generate a tiny amount of new torque.</s>
+ <s id="11">At the same time, her arms sweep open to help her keep her balance.</s>
+ <s id="12">The turns are most effective if her center of gravity stays constant, and a skilled dancer will be able to keep her turning axis vertical.</s>
+ <s id="13">The extended arms and torque-generating foot both help drive the fouetté.</s>
+ <s id="14">But the real secret and the reason you hardly notice the pause is that her other leg never stops moving.</s>
+ <s id="15">During her momentary pause, the dancer's elevated leg straightens and moves from the front to the side, before it folds back into her knee.</s>
+ <s id="16">By staying in motion, that leg is storing some of the momentum of the turn.</s>
+ <s id="17">When the leg comes back in towards the body, that stored momentum gets transferred back to the dancer's body, propelling her around as she rises back onto pointe.</s>
+ <s id="18">As the ballerina extends and retracts her leg with each turn, momentum travels back and forth between leg and body, keeping her in motion.</s>
+ <s id="19">A really good ballerina can get more than one turn out of every leg extension in one of two ways.</s>
+ <s id="20">First, she can extend her leg sooner.</s>
+ <s id="21">The longer the leg is extended, the more momentum it stores, and the more momentum it can return to the body when it's pulled back in.</s>
+ <s id="22">More angular momentum means she can make more turns before needing to replenish what was lost to friction.</s>
+ <s id="23">The other option is for the dancer to bring her arms or leg in closer to her body once she returns to pointe.</s>
+ <s id="24">Why does this work?</s>
+ <s id="25">Like every other turn in ballet, the fouetté is governed by angular momentum, which is equal to the dancer's angular velocity times her rotational inertia.</s>
+ <s id="26">And except for what's lost to friction, that angular momentum has to stay constant while the dancer is on pointe.</s>
+ <s id="27">That's called conservation of angular momentum.</s>
+ <s id="28">Now, rotational inertia can be thought of as a body's resistance to rotational motion.</s>
+ <s id="29">It increases when more mass is distributed further from the axis of rotation, and decreases when the mass is distributed closer to the axis of rotation.</s>
+ <s id="30">So as she brings her arms closer to her body, her rotational inertia shrinks.</s>
+ <s id="31">In order to conserve angular momentum, her angular velocity, the speed of her turn, has to increase, allowing the same amount of stored momentum to carry her through multiple turns.</s>
+ <s id="32">You've probably seen ice skaters do the same thing, spinning faster and faster by drawing in their arms and legs.</s>
+ <s id="33">In Tchaikovsky's ballet, the Black Swan is a sorceress, and her 32 captivating fouettés do seem almost supernatural.</s>
+ <s id="34">But it's not magic that makes them possible.</s>
+ <s id="35">It's physics.</s>
+</text>

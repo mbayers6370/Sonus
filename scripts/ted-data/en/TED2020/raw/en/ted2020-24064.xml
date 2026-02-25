@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Light: it's the fastest thing in the universe, but we can still measure its speed if we slow down the animation, we can analyze light's motion using a space-time diagram, which takes a flipbook of animation panels, and turns them on their side.</s>
+ <s id="2">In this lesson, we'll add the single experimental fact that whenever anyone measures just how fast light moves, they get the same answer: 299,792,458 meters every second, which means that when we draw light on our space-time diagram, it's world line always has to appear at the same angle.</s>
+ <s id="3">But we saw previously that speed, or equivalently world line angles, change when we look at things from other people's perspective.</s>
+ <s id="4">To explore this contradiction, let's see what happens if I start moving while I stand still and shine the laser at Tom.</s>
+ <s id="5">First, we'll need to construct the space-time diagram.</s>
+ <s id="6">Yes, that means taking all of the different panels showing the different moments in time and stacking them up.</s>
+ <s id="7">From the side, we see the world line of the laser light at its correct fixed angle, just as before.</s>
+ <s id="8">So far, so good.</s>
+ <s id="9">But that space-time diagram represents Andrew's perspective.</s>
+ <s id="10">What does it look like to me?</s>
+ <s id="11">In the last lesson, we showed how to get Tom's perspective moving all the panels along a bit until his world line is completely vertical.</s>
+ <s id="12">But look carefully at the light world line.</s>
+ <s id="13">The rearrangement of the panels means it's now tilted over too far.</s>
+ <s id="14">I'd measure light traveling faster than Andrew would.</s>
+ <s id="15">But every experiment we've ever done, and we've tried very hard, says that everyone measures light to have a fixed speed.</s>
+ <s id="16">So let's start again.</s>
+ <s id="17">In the 1900s, a clever chap named Albert Einstein worked out how to see things properly, from Tom's point of view, while still getting the speed of light right.</s>
+ <s id="18">First, we need to glue together the separate panels into one solid block.</s>
+ <s id="19">This gives us our space-time, turning space and time into one smooth, continuous material.</s>
+ <s id="20">And now, here is the trick.</s>
+ <s id="21">What you do is stretch your block of space-time along the light world line, then squash it by the same amount, but at right angles to the light world line, and abracadabra!</s>
+ <s id="22">Tom's world line has gone vertical, so this does represent the world from his point of view, but most importantly, the light world line has never changed its angle, and so light will be measured by Tom going at the correct speed.</s>
+ <s id="23">This superb trick is known as a Lorentz transformation.</s>
+ <s id="24">Yeah, more than a trick.</s>
+ <s id="25">Slice up the space-time into new panels and you have the physically correct animation.</s>
+ <s id="26">I'm stationary in the car, everything else is coming past me and the speed of light works out to be that same fixed value that we know everyone measures.</s>
+ <s id="27">On the other hand, something strange has happened.</s>
+ <s id="28">The fence posts aren't spaced a meter apart anymore, and my mom will be worried that I look a bit thin.</s>
+ <p id="p29">
+  <s id="29.1">But that's not fair.</s>
+  <s id="29.2">Why don't I get to look thin?</s>
+ </p>
+ <s id="30">I thought physics was supposed to be the same for everyone.</s>
+ <s id="31">Yes, no, it is, and you do.</s>
+ <s id="32">All that stretching and squashing of space-time has just muddled together what we used to think of separately as space and time.</s>
+ <s id="33">This particular squashing effect is known as Lorentz contraction.</s>
+ <s id="34">Okay, but I still don't look thin.</s>
+ <s id="35">No, yes, you do.</s>
+ <s id="36">Now that we know better about space-time, we should redraw what the scene looked like to me.</s>
+ <s id="37">To you, I appear Lorentz contracted.</s>
+ <s id="38">Oh but to you, I appear Lorentz contracted.</s>
+ <s id="39">Yes.</s>
+ <s id="40">Uh, well, at least it's fair.</s>
+ <s id="41">And speaking of fairness, just as space gets muddled with time, time also gets muddled with space, in an effect known as time dilation.</s>
+ <s id="42">No, at everyday speeds, such as Tom's car reaches, actually all the effects are much, much smaller than we've illustrated them.</s>
+ <s id="43">Oh, yet, careful experiments, for instance watching the behavior of tiny particles whizzing around the Large Hadron Collider confirmed that the effects are real.</s>
+ <s id="44">And now that space-time is an experimentally confirmed part of reality, we can get a bit more ambitious.</s>
+ <s id="45">What if we were to start playing with the material of space-time itself?</s>
+ <s id="46">We'll find out all about that in the next animation.</s>
+</text>

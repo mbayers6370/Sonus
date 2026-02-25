@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Information technology grows in an exponential manner.</s>
+ <p id="p2">
+  <s id="2.1">It's not linear.</s>
+  <s id="2.2">And our intuition is linear.</s>
+ </p>
+ <p id="p3">
+  <s id="3.1">When we walked through the savanna a thousand years ago we made linear predictions where that animal would be, and that worked fine.</s>
+  <s id="3.2">It's hardwired in our brains.</s>
+ </p>
+ <s id="4">But the pace of exponential growth is really what describes information technologies.</s>
+ <s id="5">And it's not just computation.</s>
+ <s id="6">There is a big difference between linear and exponential growth.</s>
+ <s id="7">If I take 30 steps linearly -- one, two, three, four, five -- I get to 30.</s>
+ <s id="8">If I take 30 steps exponentially -- two, four, eight, 16 -- I get to a billion.</s>
+ <s id="9">It makes a huge difference.</s>
+ <s id="10">And that really describes information technology.</s>
+ <s id="11">When I was a student at MIT, we all shared one computer that took up a whole building.</s>
+ <s id="12">The computer in your cellphone today is a million times cheaper, a million times smaller, a thousand times more powerful.</s>
+ <s id="13">That's a billion-fold increase in capability per dollar that we've actually experienced since I was a student.</s>
+ <s id="14">And we're going to do it again in the next 25 years.</s>
+ <s id="15">Information technology progresses through a series of S-curves where each one is a different paradigm.</s>
+ <s id="16">So people say, "What's going to happen when Moore's Law comes to an end?"</s>
+ <s id="17">Which will happen around 2020.</s>
+ <s id="18">We'll then go to the next paradigm.</s>
+ <s id="19">And Moore's Law was not the first paradigm to bring exponential growth to computing.</s>
+ <s id="20">The exponential growth of computing started decades before Gordon Moore was even born.</s>
+ <s id="21">And it doesn't just apply to computation.</s>
+ <s id="22">It's really any technology where we can measure the underlying information properties.</s>
+ <p id="p23">
+  <s id="23.1">Here we have 49 famous computers.</s>
+  <s id="23.2">I put them in a logarithmic graph.</s>
+ </p>
+ <s id="24">The logarithmic scale hides the scale of the increase, because this represents trillions-fold increase since the 1890 census.</s>
+ <p id="p25">
+  <s id="25.1">In 1950s they were shrinking vacuum tubes, making them smaller and smaller.</s>
+  <s id="25.2">They finally hit a wall; they couldn't shrink the vacuum tube any more and keep the vacuum.</s>
+ </p>
+ <s id="26">And that was the end of the shrinking of vacuum tubes, but it was not the end of the exponential growth of computing.</s>
+ <s id="27">We went to the fourth paradigm, transistors, and finally integrated circuits.</s>
+ <s id="28">When that comes to an end we'll go to the sixth paradigm; three-dimensional self-organizing molecular circuits.</s>
+ <s id="29">But what's even more amazing, really, than this fantastic scale of progress, is that -- look at how predictable this is.</s>
+ <s id="30">I mean this went through thick and thin, through war and peace, through boom times and recessions.</s>
+ <s id="31">The Great Depression made not a dent in this exponential progression.</s>
+ <s id="32">We'll see the same thing in the economic recession we're having now.</s>
+ <s id="33">At least the exponential growth of information technology capability will continue unabated.</s>
+ <s id="34">And I just updated these graphs.</s>
+ <s id="35">Because I had them through 2002 in my book, "The Singularity is Near."</s>
+ <s id="36">So we updated them, so I could present it here, to 2007.</s>
+ <s id="37">And I was asked, "Well aren't you nervous?</s>
+ <s id="38">Maybe it kind of didn't stay on this exponential progression."</s>
+ <s id="39">I was a little nervous because maybe the data wouldn't be right, but I've done this now for 30 years, and it has stayed on this exponential progression.</s>
+ <s id="40">Look at this graph here.You could buy one transistor for a dollar in 1968.</s>
+ <s id="41">You can buy half a billion today, and they are actually better, because they are faster.</s>
+ <s id="42">But look at how predictable this is.</s>
+ <s id="43">And I'd say this knowledge is over-fitting to past data.</s>
+ <s id="44">I've been making these forward-looking predictions for about 30 years.</s>
+ <s id="45">And the cost of a transistor cycle, which is a measure of the price performance of electronics, comes down about every year.</s>
+ <s id="46">That's a 50 percent deflation rate.</s>
+ <s id="47">And it's also true of other examples, like DNA data or brain data.</s>
+ <s id="48">But we more than make up for that.</s>
+ <s id="49">We actually ship more than twice as much of every form of information technology.</s>
+ <s id="50">We've had 18 percent growth in constant dollars in every form of information technology for the last half-century, despite the fact that you can get twice as much of it each year.</s>
+ <s id="51">This is a completely different example.</s>
+ <s id="52">This is not Moore's Law.</s>
+ <s id="53">The amount of DNA data we've sequenced has doubled every year.</s>
+ <s id="54">The cost has come down by half every year.</s>
+ <s id="55">And this has been a smooth progression since the beginning of the genome project.</s>
+ <p id="p56">
+  <s id="56.1">And halfway through the project, skeptics said, "Well, this is not working out.</s>
+  <s id="56.2">You're halfway through the genome project and you've finished one percent of the project."</s>
+ </p>
+ <s id="57">But that was really right on schedule.</s>
+ <p id="p58">
+  <s id="58.1">Because if you double one percent seven more times, which is exactly what happened, you get 100 percent.</s>
+  <s id="58.2">And the project was finished on time.</s>
+ </p>
+ <s id="59">Communication technologies: 50 different ways to measure this, the number of bits being moved around, the size of the Internet.</s>
+ <s id="60">But this has progressed at an exponential pace.</s>
+ <s id="61">This is deeply democratizing.</s>
+ <s id="62">I wrote, over 20 years ago in "The Age of Intelligent Machines," when the Soviet Union was going strong, that it would be swept away by this growth of decentralized communication.</s>
+ <s id="63">And we will have plenty of computation as we go through the 21st century to do things like simulate regions of the human brain.</s>
+ <s id="64">But where will we get the software?</s>
+ <s id="65">Some critics say, "Oh, well software is stuck in the mud."</s>
+ <s id="66">But we are learning more and more about the human brain.</s>
+ <s id="67">Spatial resolution of brain scanning is doubling every year.</s>
+ <s id="68">The amount of data we're getting about the brain is doubling every year.</s>
+ <s id="69">And we're showing that we can actually turn this data into working models and simulations of brain regions.</s>
+ <s id="70">There is about 20 regions of the brain that have been modeled, simulated and tested: the auditory cortex, regions of the visual cortex; cerebellum, where we do our skill formation; slices of the cerebral cortex, where we do our rational thinking.</s>
+ <s id="71">And all of this has fueled an increase, very smooth and predictable, of productivity.</s>
+ <s id="72">We've gone from 30 dollars to 130 dollars in constant dollars in the value of an average hour of human labor, fueled by this information technology.</s>
+ <s id="73">And we're all concerned about energy and the environment.</s>
+ <s id="74">Well this is a logarithmic graph.</s>
+ <s id="75">This represents a smooth doubling, every two years, of the amount of solar energy we're creating, particularly as we're now applying nanotechnology, a form of information technology, to solar panels.</s>
+ <s id="76">And we're only eight doublings away from it meeting 100 percent of our energy needs.</s>
+ <s id="77">And there is 10 thousand times more sunlight than we need.</s>
+ <p id="p78">
+  <s id="78.1">We ultimately will merge with this technology.</s>
+  <s id="78.2">It's already very close to us.</s>
+ </p>
+ <s id="79">When I was a student it was across campus, now it's in our pockets.</s>
+ <s id="80">What used to take up a building now fits in our pockets.</s>
+ <s id="81">What now fits in our pockets would fit in a blood cell in 25 years.</s>
+ <s id="82">And we will begin to actually deeply influence our health and our intelligence, as we get closer and closer to this technology.</s>
+ <s id="83">Based on that we are announcing, here at TED, in true TED tradition, Singularity University.</s>
+ <s id="84">It's a new university that's founded by Peter Diamandis, who is here in the audience, and myself.</s>
+ <s id="85">It's backed by NASA and Google, and other leaders in the high-tech and science community.</s>
+ <s id="86">And our goal was to assemble the leaders, both teachers and students, in these exponentially growing information technologies, and their application.</s>
+ <s id="87">But Larry Page made an impassioned speech at our organizing meeting, saying we should devote this study to actually addressing some of the major challenges facing humanity.</s>
+ <s id="88">And if we did that, then Google would back this.</s>
+ <s id="89">And so that's what we've done.</s>
+ <s id="90">The last third of the nine-week intensive summer session will be devoted to a group project to address some major challenge of humanity.</s>
+ <s id="91">Like for example, applying the Internet, which is now ubiquitous, in the rural areas of China or in Africa, to bringing health information to developing areas of the world.</s>
+ <s id="92">And these projects will continue past these sessions, using collaborative interactive communication.</s>
+ <s id="93">All the intellectual property that is created and taught will be online and available, and developed online in a collaborative fashion.</s>
+ <s id="94">Here is our founding meeting.</s>
+ <s id="95">But this is being announced today.</s>
+ <s id="96">It will be permanently headquartered in Silicon Valley, at the NASA Ames research center.</s>
+ <s id="97">There are different programs for graduate students, for executives at different companies.</s>
+ <s id="98">The first six tracks here -- artificial intelligence, advanced computing technologies, biotechnology, nanotechnology -- are the different core areas of information technology.</s>
+ <s id="99">Then we are going to apply them to the other areas, like energy, ecology, policy law and ethics, entrepreneurship, so that people can bring these new technologies to the world.</s>
+ <s id="100">So we're very appreciative of the support we've gotten from both the intellectual leaders, the high-tech leaders, particularly Google and NASA.</s>
+ <s id="101">This is an exciting new venture.</s>
+ <p id="p102">
+  <s id="102.1">And we invite you to participate.</s>
+  <s id="102.2">Thank you very much.</s>
+ </p>
+ <s id="103">(Applause)</s>
+</text>

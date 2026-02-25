@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Hello everyone.</s>
+ <s id="2">And so the two of us are here to give you an example of creation.</s>
+ <s id="3">And I'm going to be folding one of Robert Lang's models.</s>
+ <s id="4">And this is the piece of paper it will be made from, and you can see all of the folds that are needed for it.</s>
+ <s id="5">And Rufus is going to be doing some improvisation on his custom, five-string electric cello, and it's very exciting to listen to him.</s>
+ <p id="p6">
+  <s id="6.1">Are you ready to go?</s>
+  <s id="6.2">OK.</s>
+ </p>
+ <s id="7">Just to make it a little bit more exciting.</s>
+ <p id="p8">
+  <s id="8.1">All right.</s>
+  <s id="8.2">Take it away, Rufus.</s>
+ </p>
+ <p id="p9">
+  <s id="9.1">(Music) All right.</s>
+  <s id="9.2">There you go.</s>
+ </p>
+ <s id="10">(Laughter) (Applause)</s>
+</text>

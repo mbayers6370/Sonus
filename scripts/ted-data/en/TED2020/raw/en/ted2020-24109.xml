@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Consider throwing a ball straight into the air.</s>
+ <s id="2">Can you predict the motion of the ball after it leaves your hand?</s>
+ <s id="3">Sure, that's easy.</s>
+ <s id="4">The ball will move upward until it gets to some highest point, then it will come back down and land in your hand again.</s>
+ <s id="5">Of course, that's what happens, and you know this because you have witnessed events like this countless times.</s>
+ <s id="6">You've been observing the physics of everyday phenomena your entire life.</s>
+ <s id="7">But suppose we explore a question about the physics of atoms, like what does the motion of an electron around the nucleus of a hydrogen atom look like?</s>
+ <s id="8">Could we answer that question based on our experience with everyday physics?</s>
+ <p id="p9">
+  <s id="9.1">Definietly not.</s>
+  <s id="9.2">Why?</s>
+ </p>
+ <s id="10">Because the physics that governs the behavior of systems at such small scales is much different than the physics of the macroscopic objects you see around you all the time.</s>
+ <s id="11">The everyday world you know and love behaves according to the laws of classical mechanics.</s>
+ <s id="12">But systems on the scale of atoms behave according to the laws of quantum mechanics.</s>
+ <s id="13">This quantum world turns out to be a very strange place.</s>
+ <s id="14">An illustration of quantum strangeness is given by a famous thought experiment: Schrödinger's cat.</s>
+ <s id="15">A physicist, who doesn't particularly like cats, puts a cat in a box, along with a bomb that has a 50% chance of blowing up after the lid is closed.</s>
+ <s id="16">Until we reopen the lid, there is no way of knowing whether the bomb exploded or not, and thus, no way of knowing if the cat is alive or dead.</s>
+ <s id="17">In quantum physics, we could say that before our observation the cat was in a superposition state.</s>
+ <s id="18">It was neither alive nor dead but rather in a mixture of both possibilities, with a 50% chance for each.</s>
+ <s id="19">The same sort of thing happens to physical systems at quantum scales, like an electron orbiting in a hydrogen atom.</s>
+ <s id="20">The electron isn't really orbiting at all.</s>
+ <s id="21">It's sort of everywhere in space, all at once, with more of a probability of being at some places than others, and it's only after we measure its position that we can pinpoint where it is at that moment.</s>
+ <s id="22">A lot like how we didn't know whether the cat was alive or dead until we opened the box.</s>
+ <s id="23">This brings us to the strange and beautiful phenomenon of quantum entanglement.</s>
+ <s id="24">Suppose that instead of one cat in a box, we have two cats in two different boxes.</s>
+ <s id="25">If we repeat the Schrödinger's cat experiment with this pair of cats, the outcome of the experiment can be one of four possibilities.</s>
+ <s id="26">Either both cats will be alive, or both will be dead, or one will be alive and the other dead, or vice versa.</s>
+ <s id="27">The system of both cats is again in a superposition state, with each outcome having a 25% chance rather than 50%.</s>
+ <s id="28">But here's the cool thing: quantum mechanics tells us it's possible to erase the both cats alive and both cats dead outcomes from the superposition state.</s>
+ <s id="29">In other words, there can be a two cat system, such that the outcome will always be one cat alive and the other cat dead.</s>
+ <s id="30">The technical term for this is that the states of the cats are entangled.</s>
+ <s id="31">But there's something truly mindblowing about quantum entanglement.</s>
+ <s id="32">If you prepare the system of two cats in boxes in this entangled state, then move the boxes to opposite ends of the universe, the outcome of the experiment will still always be the same.</s>
+ <s id="33">One cat will always come out alive, and the other cat will always end up dead, even though which particular cat lives or dies is completely undetermined before we measure the outcome.</s>
+ <s id="34">How is this possible?</s>
+ <s id="35">How is it that the states of cats on opposite sides of the universe can be entangled in this way?</s>
+ <s id="36">They're too far away to communicate with each other in time, so how do the two bombs always conspire such that one blows up and the other doesn't?</s>
+ <s id="37">You might be thinking, "This is just some theoretical mumbo jumbo.</s>
+ <s id="38">This sort of thing can't happen in the real world."</s>
+ <s id="39">But it turns out that quantum entanglement has been confirmed in real world lab experiments.</s>
+ <s id="40">Two subatomic particles entangled in a superposition state, where if one spins one way then the other must spin the other way, will do just that, even when there's no way for information to pass from one particle to the other indicating which way to spin to obey the rules of entanglement.</s>
+ <s id="41">It's not surprising then that entanglement is at the core of quantum information science, a growing field studying how to use the laws of the strange quantum world in our macroscopic world, like in quantum cryptography, so spies can send secure messages to each other, or quantum computing, for cracking secret codes.</s>
+ <s id="42">Everyday physics may start to look a bit more like the strange quantum world.</s>
+ <s id="43">Quantum teleportation may even progress so far, that one day your cat will escape to a safer galaxy, where there are no physicists and no boxes.</s>
+</text>

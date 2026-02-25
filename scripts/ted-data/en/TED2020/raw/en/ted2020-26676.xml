@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">One of the kingdom’s most prosperous merchants has been exposed for his corrupt dealings.</s>
+ <s id="2">Nearly all of his riches are invested in a collection of 30 exquisite Burmese rubies, and the crowd in the square is clamoring for their confiscation to reimburse his victims.</s>
+ <s id="3">But the scoundrel and his allies at court have made a convincing case that at least some of his wealth was obtained legitimately, and through good service to the crown.</s>
+ <s id="4">The king ponders for a minute and announces his judgment.</s>
+ <s id="5">Because there’s no way to know which portion of the rubies were bought with ill-gotten wealth, the fine will be determined through a game of wits between the merchant and the king’s most clever advisor – you.</s>
+ <s id="6">You’re both told the rules in advance.</s>
+ <s id="7">The merchant will be allowed to discreetly divide his rubies among three boxes, which will then be placed in front of you.</s>
+ <s id="8">You will be given three cards, and must write a number between 1 and 30 on each, before putting a card in front of each of the boxes.</s>
+ <s id="9">The boxes will then all be opened.</s>
+ <s id="10">For each box, you will receive exactly as many rubies as the number written on the corresponding card, if the box has that many.</s>
+ <s id="11">But if your number is greater than the number of rubies actually there, the scoundrel gets to keep the entire box.</s>
+ <s id="12">The king puts just two constraints on how the scoundrel distributes his rubies.</s>
+ <s id="13">Each box must contain at least two rubies and one of the boxes must contain exactly six more rubies than another— but you won’t know which boxes those are.</s>
+ <s id="14">After a few minutes of deliberation, the merchant hides the gems, and the boxes are brought in front of you.</s>
+ <s id="15">Which numbers should you choose in order to guarantee the largest possible fine for the scoundrel and the greatest compensation for his victims?</s>
+ <s id="16">Pause the video now if you want to figure it out for yourself.</s>
+ <s id="17">Answer in 3 Answer in 2 Answer in 1 You don’t want to overshoot by being too greedy.</s>
+ <s id="18">But there is a way you can guarantee to get more than half of the scoundrel’s stash.</s>
+ <s id="19">The situation resembles an adversarial game like chess – only here you can’t see the opponent’s position.</s>
+ <s id="20">To figure out the minimum number of rubies you’re guaranteed to win, you need to look for the worst case scenario, as if the merchant already knew your move and could arrange the rubies to minimize your winnings.</s>
+ <s id="21">Because you have no way of knowing which boxes will have more or fewer rubies, you should pick the same number for each.</s>
+ <s id="22">Suppose you write three 9’s.</s>
+ <s id="23">The scoundrel might have allocated the rubies as 8, 14 and 8.</s>
+ <s id="24">In that case, you’d receive 9 from the middle box and no others.</s>
+ <s id="25">On the other hand, you can be sure that at least two boxes have a minimum of 8 rubies.</s>
+ <s id="26">Here’s why.</s>
+ <s id="27">We’ll start by assuming the opposite, that two boxes have 7 or fewer.</s>
+ <s id="28">Those could not be the two that differ by 6, because every box must have at least 2 rubies.</s>
+ <s id="29">In that case, the third box would have at most 13 rubies—that’s 7 plus 6.</s>
+ <s id="30">Add up all three of those boxes, and the most that could equal is 27.</s>
+ <s id="31">Since that’s less than 30, this scenario isn’t possible.</s>
+ <s id="32">You now know, by what’s called a proof by contradiction, that two of the boxes have 8 or more rubies.</s>
+ <s id="33">If you ask for 8 from all three boxes you’ll receive at least 16— and that’s the best you can guarantee, as you can see by thinking again about the 8, 14, 8 scenario.</s>
+ <s id="34">You’ve recovered more than half the scoundrel’s fortune as restitution for the public.</s>
+ <s id="35">And though he’s managed to hold on to some of his rubies, his fortune has definitely lost some of its shine.</s>
+</text>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">In 1884, a patient’s luck seemed to go from bad to worse.</s>
+ <s id="2">This patient had a rapidly growing cancer in his neck, and then came down with an unrelated bacterial skin infection.</s>
+ <s id="3">But soon, something unexpected happened: as he recovered from the infection, the cancer also began to recede.</s>
+ <s id="4">When a physician named William Coley tracked the patient down 7 years later, no visible signs of the cancer remained.</s>
+ <s id="5">Coley believed something remarkable was happening: that the bacterial infection had stimulated the patient’s immune system to fight off the cancer.</s>
+ <s id="6">Coley’s fortunate discovery led him to pioneer the intentional injection of bacteria to successfully treat cancer.</s>
+ <s id="7">Over a century later, synthetic biologists have found an even better way to use these once unlikely allies— by programming them to safely deliver drugs directly to tumors.</s>
+ <s id="8">Cancer occurs when normal functions of cells are altered, causing them to rapidly multiply and form growths called tumors.</s>
+ <s id="9">Treatments like radiation, chemotherapy, and immunotherapy attempt to kill malignant cells, but can affect the entire body and disrupt healthy tissues in the process.</s>
+ <s id="10">However, some bacteria like E. coli have the unique advantage of being able to selectively grow inside tumors.</s>
+ <s id="11">In fact, the core of a tumor forms an ideal environment where they can safely multiply, hidden from immune cells.</s>
+ <s id="12">Instead of causing infection, bacteria can be reprogrammed to carry cancer-fighting drugs, acting as Trojan Horses that target the tumor from within.</s>
+ <s id="13">This idea of programming bacteria to sense and respond in novel ways is a major focus of a field called Synthetic Biology.</s>
+ <s id="14">But how can bacteria be programmed?</s>
+ <s id="15">The key lies in manipulating their DNA.</s>
+ <s id="16">By inserting particular genetic sequences into bacteria, they can be instructed to synthesize different molecules, including those that disrupt cancer growth.</s>
+ <s id="17">They can also be made to behave in very specific ways with the help of biological circuits.</s>
+ <s id="18">These program different behaviors depending on the presence, absence, or combination of certain factors.</s>
+ <s id="19">For example, tumors have low oxygen and pH levels and over-produce specific molecules.</s>
+ <s id="20">Synthetic biologists can program bacteria to sense those conditions, and by doing so, respond to tumors while avoiding healthy tissue.</s>
+ <s id="21">One type of biological circuit, known as a synchronized lysis circuit, or SLC, allows bacteria to not only deliver medicine, but to do so on a set schedule.</s>
+ <s id="22">First, to avoid harming healthy tissue, production of anti-cancer drugs begins as bacteria grow, which only happens within the tumor itself.</s>
+ <s id="23">Next, after they’ve produced the drugs, a kill-switch causes the bacteria to burst when they reach a critical population threshold.</s>
+ <s id="24">This both releases the medicine and decreases the bacteria’s population.</s>
+ <s id="25">However, a certain percentage of the bacteria remain alive to replenish the colony.</s>
+ <s id="26">Eventually their numbers grow large enough to trigger the kill switch again, and the cycle continues.</s>
+ <s id="27">This circuit can be fine-tuned to deliver drugs on whatever periodic schedule is best to fight the cancer.</s>
+ <s id="28">This approach has proven promising in scientific trials using mice.</s>
+ <s id="29">Not only were scientists able to successfully eliminate lymphoma tumors injected with bacteria, but the injection also stimulated the immune system, priming immune cells to identify and attack untreated lymphomas elsewhere in the mouse.</s>
+ <s id="30">Unlike many other therapies, bacteria don’t target a specific type of cancer, but rather the general characteristics shared by all solid tumors.</s>
+ <s id="31">Nor are programmable bacteria limited to simply fighting cancer.</s>
+ <s id="32">Instead, they can serve as sophisticated sensors that monitor sites of future disease.</s>
+ <s id="33">Safe probiotic bacteria could perhaps lie dormant within our guts, where they’d detect, prevent, and treat disorders before they have the chance to cause symptoms.</s>
+ <s id="34">Advances in technology have created excitement around a future of personalized medicine driven by mechanical nanobots.</s>
+ <s id="35">But thanks to billions of years of evolution we may already have a starting point in the unexpectedly biological form of bacteria.</s>
+ <s id="36">Add synthetic biology to the mix, and who knows what might soon be possible.</s>
+</text>

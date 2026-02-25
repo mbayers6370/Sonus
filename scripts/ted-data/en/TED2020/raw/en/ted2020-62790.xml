@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">So how are we going to beat this novel coronavirus?</s>
+ <s id="2">By using our best tools: our science and our technology.</s>
+ <s id="3">In my lab, we're using the tools of artificial intelligence and synthetic biology to speed up the fight against this pandemic.</s>
+ <s id="4">Our work was originally designed to tackle the antibiotic resistance crisis.</s>
+ <s id="5">Our project seeks to harness the power of machine learning to replenish our antibiotic arsenal and avoid a globally devastating postantibiotic era.</s>
+ <s id="6">Importantly, the same technology can be used to search for antiviral compounds that could help us fight the current pandemic.</s>
+ <s id="7">Machine learning is turning the traditional model of drug discovery on its head.</s>
+ <s id="8">With this approach, instead of painstakingly testing thousands of existing molecules one by one in a lab for their effectiveness, we can train a computer to explore the exponentially larger space of essentially all possible molecules that could be synthesized, and thus, instead of looking for a needle in a haystack, we can use the giant magnet of computing power to find many needles in multiple haystacks simultaneously.</s>
+ <s id="9">We've already had some early success.</s>
+ <s id="10">Recently, we used machine learning to discover new antibiotics that can help us fight off the bacterial infections that can occur alongside SARS-CoV-2 infections.</s>
+ <s id="11">Two months ago, TED's Audacious Project approved funding for us to massively scale up our work with the goal of discovering seven new classes of antibiotics against seven of the world's deadly bacterial pathogens over the next seven years.</s>
+ <s id="12">For context: the number of new class of antibiotics that have been discovered over the last three decades is zero.</s>
+ <s id="13">While the quest for new antibiotics is for our medium-term future, the novel coronavirus poses an immediate deadly threat, and I'm excited to share that we think we can use the same technology to search for therapeutics to fight this virus.</s>
+ <s id="14">So how are we going to do it?</s>
+ <s id="15">Well, we're creating a compound training library and with collaborators applying these molecules to SARS-CoV-2-infected cells to see which of them exhibit effective activity.</s>
+ <s id="16">These data will be use to train a machine learning model that will be applied to an in silico library of over a billion molecules to search for potential novel antiviral compounds.</s>
+ <s id="17">We will synthesize and test the top predictions and advance the most promising candidates into the clinic.</s>
+ <s id="18">Sound too good to be true?</s>
+ <s id="19">Well, it shouldn't.</s>
+ <s id="20">The Antibiotics AI Project is founded on our proof of concept research that led to the discovery of a novel broad-spectrum antibiotic called halicin.</s>
+ <s id="21">Halicin has potent antibacterial activity against almost all antibiotic-resistant bacterial pathogens, including untreatable panresistant infections.</s>
+ <s id="22">Importantly, in contrast to current antibiotics, the frequency at which bacteria develop resistance against halicin is remarkably low.</s>
+ <s id="23">We tested the ability of bacteria to evolve resistance against halicin as well as Cipro in the lab.</s>
+ <s id="24">In the case of Cipro, after just one day, we saw resistance.</s>
+ <s id="25">In the case of halicin, after one day, we didn't see any resistance.</s>
+ <s id="26">Amazingly, after even 30 days, we didn't see any resistance against halicin.</s>
+ <s id="27">In this pilot project, we first tested roughly 2,500 compounds against E. coli.</s>
+ <s id="28">This training set included known antibiotics, such as Cipro and penicillin, as well as many drugs that are not antibiotics.</s>
+ <s id="29">These data we used to train a model to learn molecular features associated with antibacterial activity.</s>
+ <s id="30">We then applied this model to a drug-repurposing library consisting of several thousand molecules and asked the model to identify molecules that are predicted to have antibacterial properties but don't look like existing antibiotics.</s>
+ <s id="31">Interestingly, only one molecule in that library fit these criteria, and that molecule turned out to be halicin.</s>
+ <s id="32">Given that halicin does not look like any existing antibiotic, it would have been impossible for a human, including an antibiotic expert, to identify halicin in this manner.</s>
+ <s id="33">Imagine now what we could do with this technology against SARS-CoV-2.</s>
+ <s id="34">And that's not all.</s>
+ <s id="35">We're also using the tools of synthetic biology, tinkering with DNA and other cellular machinery, to serve human purposes like combating COVID-19, and of note, we are working to develop a protective mask that can also serve as a rapid diagnostic test.</s>
+ <s id="36">So how does that work?</s>
+ <s id="37">Well, we recently showed that you can take the cellular machinery out of a living cell and freeze-dry it along with RNA sensors onto paper in order to create low-cost diagnostics for Ebola and Zika.</s>
+ <s id="38">The sensors are activated when they're rehydrated by a patient sample that could consist of blood or saliva, for example.</s>
+ <s id="39">It turns out, this technology is not limited to paper and can be applied to other materials, including cloth.</s>
+ <s id="40">For the COVID-19 pandemic, we're designing RNA sensors to detect the virus and freeze-drying these along with the needed cellular machinery into the fabric of a face mask, where the simple act of breathing, along with the water vapor that comes with it, can activate the test.</s>
+ <s id="41">Thus, if a patient is infected with SARS-CoV-2, the mask will produce a fluorescent signal that could be detected by a simple, inexpensive handheld device.</s>
+ <s id="42">In one or two hours, a patient could thus be diagnosed safely, remotely and accurately.</s>
+ <s id="43">We're also using synthetic biology to design a candidate vaccine for COVID-19.</s>
+ <s id="44">We are repurposing the BCG vaccine, which had been used against TB for almost a century.</s>
+ <s id="45">It's a live attenuated vaccine, and we're engineering it to express SARS-CoV-2 antigens, which should trigger the production of protective antibodies by the immune system.</s>
+ <s id="46">Importantly, BCG is massively scalable and has a safety profile that's among the best of any reported vaccine.</s>
+ <s id="47">With the tools of synthetic biology and artificial intelligence, we can win the fight against this novel coronavirus.</s>
+ <s id="48">This work is in its very early stages, but the promise is real.</s>
+ <s id="49">Science and technology can give us an important advantage in the battle of human wits versus the genes of superbugs, a battle we can win.</s>
+ <s id="50">Thank you.</s>
+</text>

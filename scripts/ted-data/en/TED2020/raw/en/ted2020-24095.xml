@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">You've probably heard that carbon dioxide is warming the Earth, but how does it work?</s>
+ <s id="2">Is it like the glass of a greenhouse or like an insulating blanket?</s>
+ <s id="3">Well, not entirely.</s>
+ <s id="4">The answer involves a bit of quantum mechanics, but don't worry, we'll start with a rainbow.</s>
+ <s id="5">If you look closely at sunlight separated through a prism, you'll see dark gaps where bands of color went missing.</s>
+ <s id="6">Where did they go?</s>
+ <s id="7">Before reaching our eyes, different gases absorbed those specific parts of the spectrum.</s>
+ <s id="8">For example, oxygen gas snatched up some of the dark red light, and sodium grabbed two bands of yellow.</s>
+ <s id="9">But why do these gases absorb specific colors of light?</s>
+ <s id="10">This is where we enter the quantum realm.</s>
+ <s id="11">Every atom and molecule has a set number of possible energy levels for its electrons.</s>
+ <s id="12">To shift its electrons from the ground state to a higher level, a molecule needs to gain a certain amount of energy.</s>
+ <s id="13">No more, no less.</s>
+ <s id="14">It gets that energy from light, which comes in more energy levels than you could count.</s>
+ <s id="15">Light consists of tiny particles called photons and the amount of energy in each photon corresponds to its color.</s>
+ <s id="16">Red light has lower energy and longer wavelengths.</s>
+ <s id="17">Purple light has higher energy and shorter wavelengths.</s>
+ <s id="18">Sunlight offers all the photons of the rainbow, so a gas molecule can choose the photons that carry the exact amount of energy needed to shift the molecule to its next energy level.</s>
+ <s id="19">When this match is made, the photon disappers as the molecule gains its energy, and we get a small gap in our rainbow.</s>
+ <s id="20">If a photon carries too much or too little energy, the molecule has no choice but to let it fly past.</s>
+ <s id="21">This is why glass is transparent.</s>
+ <s id="22">The atoms in glass do not pair well with any of the energy levels in visible light, so the photons pass through.</s>
+ <s id="23">So, which photons does carbon dioxide prefer?</s>
+ <s id="24">Where is the black line in our rainbow that explains global warming?</s>
+ <s id="25">Well, it's not there.</s>
+ <s id="26">Carbon dioxide doesn't absorb light directly from the Sun.</s>
+ <s id="27">It absorbs light from a totally different celestial body.</s>
+ <s id="28">One that doesn't appear to be emitting light at all: Earth.</s>
+ <s id="29">If you're wondering why our planet doesn't seem to be glowing, it's because the Earth doesn't emit visible light.</s>
+ <s id="30">It emits infared light.</s>
+ <s id="31">The light that our eyes can see, including all of the colors of the rainbow, is just a small part of the larger spectrum of electromagnetic radiation, which includes radio waves, microwaves, infrared, ultraviolet, x-rays, and gamma rays.</s>
+ <s id="32">It may seem strange to think of these things as light, but there is no fundamental difference between visible light and other electromagnetic radiation.</s>
+ <s id="33">It's the same energy, but at a higher or lower level.</s>
+ <s id="34">In fact, it's a bit presumptuous to define the term visible light by our own limitations.</s>
+ <s id="35">After all, infrared light is visible to snakes, and ultraviolet light is visible to birds.</s>
+ <s id="36">If our eyes were adapted to see light of 1900 megahertz, then a mobile phone would be a flashlight, and a cell phone tower would look like a huge lantern.</s>
+ <s id="37">Earth emits infrared radiation because every object with a temperature above absolute zero will emit light.</s>
+ <s id="38">This is called thermal radiation.</s>
+ <s id="39">The hotter an object gets, the higher frequency the light it emits.</s>
+ <s id="40">When you heat a piece of iron, it will emit more and more frequencies of infrared light, and then, at a temperature of around 450 degrees Celsius, its light will reach the visible spectrum.</s>
+ <s id="41">At first, it will look red hot.</s>
+ <s id="42">And with even more heat, it will glow white with all of the frequencies of visible light.</s>
+ <s id="43">This is how traditional light bulbs were designed to work and why they're so wasteful.</s>
+ <s id="44">95% of the light they emit is invisible to our eyes.</s>
+ <s id="45">It's wasted as heat.</s>
+ <s id="46">Earth's infrared radiation would escape to space if there weren't greenhouse gas molecules in our atmophere.</s>
+ <s id="47">Just as oxygen gas prefers the dark red photons, carbon dioxide and other greenhouse gases match with infrared photons.</s>
+ <s id="48">They provide the right amount of energy to shift the gas molecules into their higher energy level.</s>
+ <s id="49">Shortly after a carbon dioxide molecule absorbs an infrared photon, it will fall back to its previous energy level, and spit a photon back out in a random direction.</s>
+ <s id="50">Some of that energy then returns to Earth's surface, causing warming.</s>
+ <s id="51">The more carbon dioxide in the atmosphere, the more likely that infrared photons will land back on Earth and change our climate.</s>
+</text>

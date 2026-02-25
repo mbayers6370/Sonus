@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">One of the most striking properties about life is that it has color.</s>
+ <s id="2">To understand the phenomenon of color, it helps to think about light as a wave.</s>
+ <s id="3">But, before we get to that, let's talk a little bit about waves in general.</s>
+ <s id="4">Imagine you're sitting on a boat on the ocean watching a cork bob up and down in the water.</s>
+ <s id="5">The first thing you notice about the motion is that it repeats itself.</s>
+ <s id="6">The cork traces the same path over and over again... up and down, up and down.</s>
+ <s id="7">This repetitive or periodic motion is characteristic of waves.</s>
+ <s id="8">Then you notice something else...</s>
+ <s id="9">using a stopwatch, you measure the time it takes for the piece of cork to go over its highest position down to its lowest and then back up again.</s>
+ <s id="10">Suppose this takes two seconds.</s>
+ <s id="11">To use the physics jargon, you've measured the period of the waves that cork is bobbing on.</s>
+ <s id="12">That is, how long it takes a wave to go through its full range of motion once.</s>
+ <s id="13">The same information can be expressed in a different way by calculating the wave's frequency.</s>
+ <s id="14">Frequency, as the name suggest, tells you how frequent the waves are.</s>
+ <s id="15">That is, how many of them go by in one second.</s>
+ <s id="16">If you know how many seconds one full wave takes, then it's easy to work out how many waves go by in one second.</s>
+ <s id="17">In this case, since each wave takes 2 seconds, the frequency is 0.5 waves per second.</s>
+ <p id="p18">
+  <s id="18.1">So enough about bobbing corks...</s>
+  <s id="18.2">What about light and color?</s>
+ </p>
+ <p id="p19">
+  <s id="19.1">If light is a wave, then it must have a frequency.</s>
+  <s id="19.2">Right?</s>
+ </p>
+ <s id="20">Well... yes, it does.</s>
+ <s id="21">And it turns out that we already have a name for the frequency of the light that our eyes detect.</s>
+ <s id="22">It's called color.</s>
+ <p id="p23">
+  <s id="23.1">That's right.</s>
+  <s id="23.2">Color is nothing more than a measure of how quickly the light waves are waving.</s>
+ </p>
+ <s id="24">If our eyes were quick enough, we might be able to observe this periodic motion directly, like we can with the cork and the ocean.</s>
+ <p id="p25">
+  <s id="25.1">But the frequency of the light we see is so high, it waves up and down about 400 million million times a second, that we can't possibly see it as a wave.</s>
+  <s id="25.2">But we can tell, by looking at its color, what its frequency is.</s>
+ </p>
+ <s id="26">The lowest frequency light that we can see is red and the highest frequency is purple.</s>
+ <s id="27">In between all the other frequencies form a continuous band of color, called the visible spectrum.</s>
+ <s id="28">So, what if you had a yellow pencil sitting on your desk?</s>
+ <s id="29">Well, the sun emits all colors of light, so light of all colors is hitting your pencil.</s>
+ <s id="30">The pencil looks yellow because it reflects yellow light more than it reflects the other colors.</s>
+ <s id="31">What happens to the blue, purple and red light?</s>
+ <s id="32">They get absorbed and the energy they are carrying is turned into heat.</s>
+ <s id="33">It is similar with objects of other colors.</s>
+ <s id="34">Blue things reflect blue light, red things reflect red light and so on.</s>
+ <s id="35">White objects reflect all colors of light, while black things do exactly the opposite and absorb at all frequencies.</s>
+ <s id="36">This - by the way - is why it's uncomfortable to wear your favorite Metallica t-shirt on a sunny day.</s>
+</text>

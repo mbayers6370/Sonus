@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Humans have been fascinated with speed for ages.</s>
+ <s id="2">The history of human progress is one of ever-increasing velocity, and one of the most important achievements in this historical race was the breaking of the sound barrier.</s>
+ <s id="3">Not long after the first successful airplane flights, pilots were eager to push their planes to go faster and faster.</s>
+ <s id="4">But as they did so, increased turbulence and large forces on the plane prevented them from accelerating further.</s>
+ <s id="5">Some tried to circumvent the problem through risky dives, often with tragic results.</s>
+ <s id="6">Finally, in 1947, design improvements, such as a movable horizontal stabilizer, the all-moving tail, allowed an American military pilot named Chuck Yeager to fly the Bell X-1 aircraft at 1127 km/h, becoming the first person to break the sound barrier and travel faster than the speed of sound.</s>
+ <s id="7">The Bell X-1 was the first of many supersonic aircraft to follow, with later designs reaching speeds over Mach 3.</s>
+ <s id="8">Aircraft traveling at supersonic speed create a shock wave with a thunder-like noise known as a sonic boom, which can cause distress to people and animals below or even damage buildings.</s>
+ <s id="9">For this reason, scientists around the world have been looking at sonic booms, trying to predict their path in the atmosphere, where they will land, and how loud they will be.</s>
+ <s id="10">To better understand how scientists study sonic booms, let's start with some basics of sound.</s>
+ <s id="11">Imagine throwing a small stone in a still pond.</s>
+ <s id="12">What do you see?</s>
+ <s id="13">The stone causes waves to travel in the water at the same speed in every direction.</s>
+ <s id="14">These circles that keep growing in radius are called wave fronts.</s>
+ <s id="15">Similarly, even though we cannot see it, a stationary sound source, like a home stereo, creates sound waves traveling outward.</s>
+ <s id="16">The speed of the waves depends on factors like the altitude and temperature of the air they move through.</s>
+ <s id="17">At sea level, sound travels at about 1225 km/h.</s>
+ <s id="18">But instead of circles on a two-dimensional surface, the wave fronts are now concentric spheres, with the sound traveling along rays perpendicular to these waves.</s>
+ <s id="19">Now imagine a moving sound source, such as a train whistle.</s>
+ <s id="20">As the source keeps moving in a certain direction, the successive waves in front of it will become bunched closer together.</s>
+ <s id="21">This greater wave frequency is the cause of the famous Doppler effect, where approaching objects sound higher pitched.</s>
+ <s id="22">But as long as the source is moving slower than the sound waves themselves, they will remain nested within each other.</s>
+ <s id="23">It's when an object goes supersonic, moving faster than the sound it makes, that the picture changes dramatically.</s>
+ <s id="24">As it overtakes sound waves it has emitted, while generating new ones from its current position, the waves are forced together, forming a Mach cone.</s>
+ <s id="25">No sound is heard as it approaches an observer because the object is traveling faster than the sound it produces.</s>
+ <s id="26">Only after the object has passed will the observer hear the sonic boom.</s>
+ <s id="27">Where the Mach cone meets the ground, it forms a hyperbola, leaving a trail known as the boom carpet as it travels forward.</s>
+ <s id="28">This makes it possible to determine the area affected by a sonic boom.</s>
+ <s id="29">What about figuring out how strong a sonic boom will be?</s>
+ <s id="30">This involves solving the famous Navier-Stokes equations to find the variation of pressure in the air due to the supersonic aircraft flying through it.</s>
+ <s id="31">This results in the pressure signature known as the N-wave.</s>
+ <s id="32">What does this shape mean?</s>
+ <s id="33">Well, the sonic boom occurs when there is a sudden change in pressure, and the N-wave involves two booms: one for the initial pressure rise at the aircraft's nose, and another for when the tail passes, and the pressure suddenly returns to normal.</s>
+ <s id="34">This causes a double boom, but it is usually heard as a single boom by human ears.</s>
+ <s id="35">In practice, computer models using these principles can often predict the location and intensity of sonic booms for given atmospheric conditions and flight trajectories, and there is ongoing research to mitigate their effects.</s>
+ <s id="36">In the meantime, supersonic flight over land remains prohibited.</s>
+ <s id="37">So, are sonic booms a recent creation?</s>
+ <s id="38">Not exactly.</s>
+ <s id="39">While we try to find ways to silence them, a few other animals have been using sonic booms to their advantage.</s>
+ <s id="40">The gigantic Diplodocus may have been capable of cracking its tail faster than sound, at over 1200 km/h, possibly to deter predators.</s>
+ <s id="41">Some types of shrimp can also create a similar shock wave underwater, stunning or even killing pray at a distance with just a snap of their oversized claw.</s>
+ <s id="42">So while we humans have made great progress in our relentless pursuit of speed, it turns out that nature was there first.</s>
+</text>

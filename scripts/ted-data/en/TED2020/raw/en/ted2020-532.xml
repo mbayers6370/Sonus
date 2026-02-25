@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">We look around the media, as we see on the news from Iraq, Afghanistan, Sierra Leone, and the conflict seems incomprehensible to us.</s>
+ <s id="2">And that's certainly how it seemed to me when I started this project.</s>
+ <p id="p3">
+  <s id="3.1">But as a physicist, I thought, well if you give me some data, I could maybe understand this.</s>
+  <s id="3.2">You know, give us a go.</s>
+ </p>
+ <s id="4">So as a naive New Zealander I thought, well I'll go to the Pentagon.</s>
+ <s id="5">Can you get me some information?</s>
+ <p id="p6">
+  <s id="6.1">(Laughter) No.</s>
+  <s id="6.2">So I had to think a little harder.</s>
+ </p>
+ <s id="7">And I was watching the news one night in Oxford.</s>
+ <s id="8">And I looked down at the chattering heads on my channel of choice.</s>
+ <s id="9">And I saw that there was information there.</s>
+ <s id="10">There was data within the streams of news that we consume.</s>
+ <s id="11">All this noise around us actually has information.</s>
+ <s id="12">So what I started thinking was, perhaps there is something like open source intelligence here.</s>
+ <s id="13">If we can get enough of these streams of information together, we can perhaps start to understand the war.</s>
+ <p id="p14">
+  <s id="14.1">So this is exactly what I did.</s>
+  <s id="14.2">We started bringing a team together, an interdisciplinary team of scientists, of economists, mathematicians.</s>
+ </p>
+ <s id="15">We brought these guys together and we started to try and solve this.</s>
+ <s id="16">We did it in three steps.</s>
+ <p id="p17">
+  <s id="17.1">The first step we did was to collect.</s>
+  <s id="17.2">We did 130 different sources of information -- from NGO reports to newspapers and cable news.</s>
+ </p>
+ <s id="18">We brought this raw data in and we filtered it.</s>
+ <s id="19">We extracted the key bits on information to build the database.</s>
+ <s id="20">That database contained the timing of attacks, the location, the size and the weapons used.</s>
+ <s id="21">It's all in the streams of information we consume daily, we just have to know how to pull it out.</s>
+ <s id="22">And once we had this we could start doing some cool stuff.</s>
+ <s id="23">What if we were to look at the distribution of the sizes of attacks?</s>
+ <s id="24">What would that tell us?</s>
+ <p id="p25">
+  <s id="25.1">So we started doing this.</s>
+  <s id="25.2">And you can see here on the horizontal axis you've got the number of people killed in an attack or the size of the attack.</s>
+ </p>
+ <s id="26">And on the vertical axis you've got the number of attacks.</s>
+ <s id="27">So we plot data for sample on this.</s>
+ <s id="28">You see some sort of random distribution -- perhaps 67 attacks, one person was killed, or 47 attacks where seven people were killed.</s>
+ <s id="29">We did this exact same thing for Iraq.</s>
+ <s id="30">And we didn't know, for Iraq what we were going to find.</s>
+ <s id="31">It turns out what we found was pretty surprising.</s>
+ <s id="32">You take all of the conflict, all of the chaos, all of the noise, and out of that comes this precise mathematical distribution of the way attacks are ordered in this conflict.</s>
+ <s id="33">This blew our mind.</s>
+ <s id="34">Why should a conflict like Iraq have this as its fundamental signature?</s>
+ <s id="35">Why should there be order in war?</s>
+ <s id="36">We didn't really understand that.</s>
+ <s id="37">We thought maybe there is something special about Iraq.</s>
+ <s id="38">So we looked at a few more conflicts.</s>
+ <s id="39">We looked at Colombia, we looked at Afghanistan, and we looked at Senegal.</s>
+ <s id="40">And the same pattern emerged in each conflict.</s>
+ <s id="41">This wasn't supposed to happen.</s>
+ <s id="42">These are different wars, with different religious factions, different political factions, and different socioeconomic problems.</s>
+ <s id="43">And yet the fundamental patterns underlying them are the same.</s>
+ <s id="44">So we went a little wider.</s>
+ <s id="45">We looked around the world at all the data we could get our hands on.</s>
+ <s id="46">From Peru to Indonesia, we studied this same pattern again.</s>
+ <s id="47">And we found that not only were the distributions these straight lines, but the slope of these lines, they clustered around this value of alpha equals 2.5.</s>
+ <s id="48">And we could generate an equation that could predict the likelihood of an attack.</s>
+ <s id="49">What we're saying here is the probability of an attack killing X number of people in a country like Iraq is equal to a constant, times the size of that attack, raised to the power of negative alpha.</s>
+ <s id="50">And negative alpha is the slope of that line I showed you before.</s>
+ <s id="51">So what?</s>
+ <p id="p52">
+  <s id="52.1">This is data, statistics.</s>
+  <s id="52.2">What does it tell us about these conflicts?</s>
+ </p>
+ <s id="53">That was a challenge we had to face as physicists.</s>
+ <s id="54">How do we explain this?</s>
+ <s id="55">And what we really found was that alpha, if we think about it, is the organizational structure of the insurgency.</s>
+ <s id="56">Alpha is the distribution of the sizes of attacks, which is really the distribution of the group strength carrying out the attacks.</s>
+ <s id="57">So we look at a process of group dynamics: coalescence and fragmentation, groups coming together, groups breaking apart.</s>
+ <p id="p58">
+  <s id="58.1">And we start running the numbers on this.</s>
+  <s id="58.2">Can we simulate it?</s>
+ </p>
+ <s id="59">Can we create the kind of patterns that we're seeing in places like Iraq?</s>
+ <s id="60">Turns out we kind of do a reasonable job.</s>
+ <s id="61">We can run these simulations.</s>
+ <s id="62">We can recreate this using a process of group dynamics to explain the patterns that we see all around the conflicts around the world.</s>
+ <s id="63">So what's going on?</s>
+ <s id="64">Why should these different -- seemingly different conflicts have the same patterns?</s>
+ <p id="p65">
+  <s id="65.1">Now what I believe is going on is that the insurgent forces, they evolve over time.</s>
+  <s id="65.2">They adapt.</s>
+ </p>
+ <s id="66">And it turns out there is only one solution to fight a much stronger enemy.</s>
+ <s id="67">And if you don't find that solution as an insurgent force, you don't exist.</s>
+ <s id="68">So every insurgent force that is ongoing, every conflict that is ongoing, it's going to look something like this.</s>
+ <s id="69">And that is what we think is happening.</s>
+ <s id="70">Taking it forward, how do we change it?</s>
+ <s id="71">How do we end a war like Iraq?</s>
+ <s id="72">What does it look like?</s>
+ <p id="p73">
+  <s id="73.1">Alpha is the structure.</s>
+  <s id="73.2">It's got a stable state at 2.5.</s>
+ </p>
+ <s id="74">This is what wars look like when they continue.</s>
+ <s id="75">We've got to change that.</s>
+ <s id="76">We can push it up: the forces become more fragmented; there is more of them, but they are weaker.</s>
+ <s id="77">Or we push it down: they're more robust; there is less groups; but perhaps you can sit and talk to them.</s>
+ <s id="78">So this graph here, I'm going to show you now.</s>
+ <p id="p79">
+  <s id="79.1">No one has seen this before.</s>
+  <s id="79.2">This is literally stuff that we've come through last week.</s>
+ </p>
+ <s id="80">And we see the evolution of Alpha through time.</s>
+ <p id="p81">
+  <s id="81.1">We see it start.</s>
+  <s id="81.2">And we see it grow up to the stable state the wars around the world look like.</s>
+ </p>
+ <s id="82">And it stays there through the invasion of Fallujah until the Samarra bombings in the Iraqi elections of '06.</s>
+ <p id="p83">
+  <s id="83.1">And the system gets perturbed.</s>
+  <s id="83.2">It moves upwards to a fragmented state.</s>
+ </p>
+ <s id="84">This is when the surge happens.</s>
+ <s id="85">And depending on who you ask, the surge was supposed to push it up even further.</s>
+ <s id="86">The opposite happened.</s>
+ <s id="87">The groups became stronger.</s>
+ <s id="88">They became more robust.</s>
+ <s id="89">And so I'm thinking, right, great, it's going to keep going down.</s>
+ <p id="p90">
+  <s id="90.1">We can talk to them.</s>
+  <s id="90.2">We can get a solution.</s>
+  <s id="90.3">The opposite happened.</s>
+ </p>
+ <p id="p91">
+  <s id="91.1">It's moved up again.</s>
+  <s id="91.2">The groups are more fragmented.</s>
+ </p>
+ <s id="92">And this tells me one of two things.</s>
+ <s id="93">Either we're back where we started and the surge has had no effect; or finally the groups have been fragmented to the extent that we can start to think about maybe moving out.</s>
+ <s id="94">I don't know what the answer is to that.</s>
+ <s id="95">But I know that we should be looking at the structure of the insurgency to answer that question.</s>
+ <s id="96">Thank you.</s>
+ <s id="97">(Applause)</s>
+</text>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">In 1962, Buckminster Fuller presented the particularly audacious proposal for the Geoscope.</s>
+ <s id="2">It was a 200-foot diameter geodesic sphere to be suspended over the East River in New York City, in full view of the United Nations.</s>
+ <s id="3">It was a big idea, for sure, and it was one that he felt could truly inform and deeply affect the decision making of this body through animations of global data, trends and other information regarding the globe, on this sphere.</s>
+ <s id="4">And today, 45 years later, we clearly have no less need for this kind of clarity and perspective, but what we do have is improved technology.</s>
+ <s id="5">Today we don't need one million light bulbs to create a spherical display.</s>
+ <s id="6">We can use LEDs.</s>
+ <s id="7">LEDs are smaller, they're cheaper, they're longer lasting, they're more efficient.</s>
+ <s id="8">Most importantly for this, they're faster.</s>
+ <s id="9">And this speed, combined with today's high-performance micro-controllers, allows us to actually simulate, in this piece, over 17,000 LEDs -- using just 64.</s>
+ <s id="10">And the way this happens is through the phenomenon of persistence of vision.</s>
+ <s id="11">But as this ring rotates at about 1,700 rpm -- that's 28 times per second.</s>
+ <s id="12">The equator's speed is actually about 60 miles per hour.</s>
+ <s id="13">There are four on-board micro-controllers that, each time this ring rotates it, as it passes the rear of the display, it picks up a position signal.</s>
+ <s id="14">And from that, the on-board micro-controllers can extrapolate the position of the ring at all points around the revolution and display arbitrary bitmap images and animations.</s>
+ <s id="15">But this is really just the beginning.</s>
+ <s id="16">In addition to higher resolution versions of this display, my father and I are working on a new patent-pending design for a fully volumetric display using the same phenomenon.</s>
+ <s id="17">It achieves this by rotating LEDs about two axes.</s>
+ <s id="18">So as you can see here, this is a, eleven-inch diameter circuit board.</s>
+ <s id="19">These blocks represent LEDs.</s>
+ <s id="20">And so you could see that as this disc rotates about this axis, it will create a disc of light that we can control.</s>
+ <s id="21">That's nothing new: that's a propeller clock; that's the rims that you can buy for your car.</s>
+ <s id="22">But what is new is that, when we rotate this disc about this axis, this disc of light actually becomes a sphere of light.</s>
+ <s id="23">And so we can control that with micro-controllers and create a fully volumetric, three-dimensional display with just 256 LEDs.</s>
+ <s id="24">Now this piece is currently in process -- due out in May -- but what we've done is we've put together a small demo, just to show the geometric translation of points into a sphere.</s>
+ <s id="25">I've got a little video to show you, but keep in mind that this is with no electronic control, and this is also with only four LEDs.</s>
+ <s id="26">This is actually only about 1.5 percent of what the final display will be in May.</s>
+ <s id="27">So, take a look.</s>
+ <s id="28">And here you can see it's rotating about the vertical axis only, creating circles.</s>
+ <s id="29">And then, as the other axis kicks in, those actually blur into a volume.</s>
+ <s id="30">And the shutter speed of the camera actually makes it slightly less effective in this case.</s>
+ <s id="31">But this piece is due out in May.</s>
+ <s id="32">It'll be on display at the Interactive Telecommunications Spring Show in Greenwich Village in New York City -- that's open to the public, definitely invite you all to come and attend -- it's a fantastic show.</s>
+ <s id="33">There are hundreds of student innovators with fantastic projects.</s>
+ <s id="34">This piece, actually, will be on display down in the Sierra Simulcast Lounge in the breaks between now and the end of the show.</s>
+ <s id="35">So I'd love to talk to you all, and invite you to come down and take a closer look.</s>
+ <p id="p36">
+  <s id="36.1">It's an honor to be here.</s>
+  <s id="36.2">Thanks very much.</s>
+ </p>
+ <s id="37">(Applause)</s>
+</text>

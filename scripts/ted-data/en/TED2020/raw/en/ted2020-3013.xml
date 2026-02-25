@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">I'm a neuroscientist, and I'm the co-founder of Backyard Brains, and our mission is to train the next generation of neuroscientists by taking graduate-level neuroscience research equipment and making it available for kids in middle schools and high schools.</s>
+ <s id="2">And so when we go into the classroom, one way to get them thinking about the brain, which is very complex, is to ask them a very simple question about neuroscience, and that is, "What has a brain?"</s>
+ <s id="3">When we ask that, students will instantly tell you that their cat or dog has a brain, and most will say that a mouse or even a small insect has a brain, but almost nobody says that a plant or a tree or a shrub has a brain.</s>
+ <s id="4">And so when you push -- because this could actually help describe a little bit how the brain actually functions -- so you push and say, "Well, what is it that makes living things have brains versus not?"</s>
+ <s id="5">And often they'll come back with the classification that things that move tend to have brains.</s>
+ <s id="6">And that's absolutely correct.</s>
+ <s id="7">Our nervous system evolved because it is electrical.</s>
+ <s id="8">It's fast, so we can quickly respond to stimuli in the world and move if we need to.</s>
+ <s id="9">But you can go back and push back on a student, and say, "Well, you know, you say that plants don't have brains, but plants do move."</s>
+ <s id="10">Anyone who has grown a plant has noticed that the plant will move and face the sun.</s>
+ <s id="11">But they'll say, "But that's a slow movement.</s>
+ <p id="p12">
+  <s id="12.1">You know, that doesn't count.</s>
+  <s id="12.2">That could be a chemical process."</s>
+ </p>
+ <s id="13">But what about fast-moving plants?</s>
+ <s id="14">Now, in 1760, Arthur Dobbs, the Royal Governor of North Carolina, made a pretty fascinating discovery.</s>
+ <s id="15">In the swamps behind his house, he found a plant that would spring shut every time a bug would fall in between it.</s>
+ <s id="16">He called this plant the flytrap, and within a decade, it made its way over to Europe, where eventually the great Charles Darwin got to study this plant, and this plant absolutely blew him away.</s>
+ <s id="17">He called it the most wonderful plant in the world.</s>
+ <s id="18">This is a plant that was an evolutionary wonder.</s>
+ <s id="19">This is a plant that moves quickly, which is rare, and it's carnivorous, which is also rare.</s>
+ <s id="20">And this is in the same plant.</s>
+ <s id="21">But I'm here today to tell you that's not even the coolest thing about this plant.</s>
+ <s id="22">The coolest thing is that the plant can count.</s>
+ <s id="23">So in order to show that, we have to get some vocabulary out of the way.</s>
+ <s id="24">So I'm going to do what we do in the classroom with students.</s>
+ <s id="25">We're going to do an experiment on electrophysiology, which is the recording of the body's electrical signal, either coming from neurons or from muscles.</s>
+ <s id="26">And I'm putting some electrodes here on my wrists.</s>
+ <s id="27">As I hook them up, we're going to be able to see a signal on the screen here.</s>
+ <s id="28">And this signal may be familiar to you.</s>
+ <s id="29">It's called the EKG, or the electrocardiogram.</s>
+ <s id="30">And this is coming from neurons in my heart that are firing what's called action potentials, potential meaning voltage and action meaning it moves quickly up and down, which causes my heart to fire, which then causes the signal that you see here.</s>
+ <s id="31">And so I want you to remember the shape of what we'll be looking at right here, because this is going to be important.</s>
+ <s id="32">This is a way that the brain encodes information in the form of an action potential.</s>
+ <s id="33">So now let's turn to some plants.</s>
+ <s id="34">So I'm going to first introduce you to the mimosa, not the drink, but the Mimosa pudica, and this is a plant that's found in Central America and South America, and it has behaviors.</s>
+ <s id="35">And the first behavior I'm going to show you is if I touch the leaves here, you get to see that the leaves tend to curl up.</s>
+ <s id="36">And then the second behavior is, if I tap the leaf, the entire branch seems to fall down.</s>
+ <s id="37">So why does it do that?</s>
+ <s id="38">It's not really known to science.</s>
+ <s id="39">One of the reasons why could be that it scares away insects or it looks less appealing to herbivores.</s>
+ <p id="p40">
+  <s id="40.1">But how does it do that?</s>
+  <s id="40.2">Now, that's interesting.</s>
+ </p>
+ <s id="41">We can do an experiment to find out.</s>
+ <s id="42">So what we're going to do now, just like I recorded the electrical potential from my body, we're going to record the electrical potential from this plant, this mimosa.</s>
+ <s id="43">And so what we're going to do is I've got a wire wrapped around the stem, and I've got the ground electrode where?</s>
+ <p id="p44">
+  <s id="44.1">In the ground.</s>
+  <s id="44.2">It's an electrical engineering joke.</s>
+  <s id="44.3">Alright.</s>
+ </p>
+ <p id="p45">
+  <s id="45.1">(Laughter) Alright.</s>
+  <s id="45.2">So I'm going to go ahead and tap the leaf here, and I want you to look at the electrical recording that we're going to see inside the plant.</s>
+ </p>
+ <p id="p46">
+  <s id="46.1">Whoa.</s>
+  <s id="46.2">It is so big, I've got to scale it down.</s>
+ </p>
+ <p id="p47">
+  <s id="47.1">Alright.</s>
+  <s id="47.2">So what is that?</s>
+ </p>
+ <s id="48">That is an action potential that is happening inside the plant.</s>
+ <s id="49">Why was it happening?</s>
+ <p id="p50">
+  <s id="50.1">Because it wanted to move.</s>
+  <s id="50.2">Right?</s>
+ </p>
+ <s id="51">And so when I hit the touch receptors, it sent a voltage all the way down to the end of the stem, which caused it to move.</s>
+ <s id="52">And now, in our arms, we would move our muscles, but the plant doesn't have muscles.</s>
+ <s id="53">What it has is water inside the cells and when the voltage hits it, it opens up, releases the water, changes the shape of the cells, and the leaf falls.</s>
+ <p id="p54">
+  <s id="54.1">OK.</s>
+  <s id="54.2">So here we see an action potential encoding information to move.</s>
+  <s id="54.3">Alright?</s>
+ </p>
+ <s id="55">But can it do more?</s>
+ <s id="56">So let's go to find out.</s>
+ <s id="57">We're going to go to our good friend, the Venus flytrap here, and we're going to take a look at what happens inside the leaf when a fly lands on here.</s>
+ <s id="58">So I'm going to pretend to be a fly right now.</s>
+ <s id="59">And now here's my Venus flytrap, and inside the leaf, you're going to notice that there are three little hairs here, and those are trigger hairs.</s>
+ <s id="60">And so when a fly lands -- I'm going to touch one of the hairs right now.</s>
+ <p id="p61">
+  <s id="61.1">Ready?</s>
+  <s id="61.2">One, two, three.</s>
+ </p>
+ <p id="p62">
+  <s id="62.1">What do we get?</s>
+  <s id="62.2">We get a beautiful action potential.</s>
+ </p>
+ <s id="63">However, the flytrap doesn't close.</s>
+ <s id="64">And to understand why that is, we need to know a little bit more about the behavior of the flytrap.</s>
+ <s id="65">Number one is that it takes a long time to open the traps back up -- you know, about 24 to 48 hours if there's no fly inside of it.</s>
+ <s id="66">And so it takes a lot of energy.</s>
+ <s id="67">And two, it doesn't need to eat that many flies throughout the year.</s>
+ <p id="p68">
+  <s id="68.1">Only a handful.</s>
+  <s id="68.2">It gets most of its energy from the sun.</s>
+ </p>
+ <s id="69">It's just trying to replace some nutrients in the ground with flies.</s>
+ <s id="70">And the third thing is, it only opens then closes the traps a handful of times until that trap dies.</s>
+ <s id="71">So therefore, it wants to make really darn sure that there's a meal inside of it before the flytrap snaps shut.</s>
+ <s id="72">So how does it do that?</s>
+ <s id="73">It counts the number of seconds between successive touching of those hairs.</s>
+ <s id="74">And so the idea is that there's a high probability, if there's a fly inside of there, they're going to be quick together, and so when it gets the first action potential, it starts counting, one, two, and if it gets to 20 and it doesn't fire again, then it's not going to close, but if it does it within there, then the flytrap will close.</s>
+ <s id="75">So we're going to go back now.</s>
+ <s id="76">I'm going to touch the Venus flytrap again.</s>
+ <s id="77">I've been talking for more than 20 seconds.</s>
+ <s id="78">So we can see what happens when I touch the hair a second time.</s>
+ <p id="p79">
+  <s id="79.1">So what do we get?</s>
+  <s id="79.2">We get a second action potential, but again, the leaf doesn't close.</s>
+ </p>
+ <s id="80">So now if I go back in there and if I'm a fly moving around, I'm going to be touching the leaf a few times.</s>
+ <s id="81">I'm going to go and brush it a few times.</s>
+ <s id="82">And immediately, the flytrap closes.</s>
+ <s id="83">So here we are seeing the flytrap actually doing a computation.</s>
+ <s id="84">It's determining if there's a fly inside the trap, and then it closes.</s>
+ <s id="85">So let's go back to our original question.</s>
+ <s id="86">Do plants have brains?</s>
+ <s id="87">Well, the answer is no.</s>
+ <s id="88">There's no brains in here.</s>
+ <s id="89">There's no axons, no neurons.</s>
+ <s id="90">It doesn't get depressed.</s>
+ <s id="91">It doesn't want to know what the Tigers' score is.</s>
+ <s id="92">It doesn't have self-actualization problems.</s>
+ <s id="93">But what it does have is something that's very similar to us, which is the ability to communicate using electricity.</s>
+ <s id="94">It just uses slightly different ions than we do, but it's actually doing the same thing.</s>
+ <s id="95">So just to show you the ubiquitous nature of these action potentials, we saw it in the Venus flytrap, we've seen an action potential in the mimosa.</s>
+ <s id="96">We've even seen an action potential in a human.</s>
+ <s id="97">Now, this is the euro of the brain.</s>
+ <s id="98">It's the way that all information is passed.</s>
+ <s id="99">And so what we can do is we can use those action potentials to pass information between species of plants.</s>
+ <s id="100">And so this is our interspecies plant-to-plant communicator, and what we've done is we've created a brand new experiment where we're going to record the action potential from a Venus flytrap, and we're going to send it into the sensitive mimosa.</s>
+ <s id="101">So I want you to recall what happens when we touch the leaves of the mimosa.</s>
+ <s id="102">It has touch receptors that are sending that information back down in the form of an action potential.</s>
+ <s id="103">And so what would happen if we took the action potential from the Venus flytrap and sent it into all the stems of the mimosa?</s>
+ <s id="104">We should be able to create the behavior of the mimosas without actually touching it ourselves.</s>
+ <s id="105">And so if you'll allow me, I'm going to go ahead and trigger this mimosa right now by touching on the hairs of the Venus flytrap.</s>
+ <s id="106">So we're going to send information about touch from one plant to another.</s>
+ <s id="107">So there you see it.</s>
+ <s id="108">So -- (Applause) So I hope you learned a little bit, something about plants today, and not only that.</s>
+ <s id="109">You learned that plants could be used to help teach neuroscience and bring along the neurorevolution.</s>
+ <s id="110">Thank you.</s>
+ <s id="111">(Applause)</s>
+</text>

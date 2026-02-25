@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Your timing made you and your partner the most infamous bank robbers in the west.</s>
+ <s id="2">Now, you’ll need to use that timing to help you break out of jail.</s>
+ <s id="3">At the appointed time, you’ll be walking in the yard near the electric fence.</s>
+ <s id="4">Your partner will flash you the signal, and exactly 45 seconds later, short out the fence circuit.</s>
+ <s id="5">It’ll automatically restart after a second or two, but as long as you move fast, you’ll be home free.</s>
+ <s id="6">And then you notice, to your horror, that your watch is broken, and there’s no time to fix it.</s>
+ <s id="7">The signal is coming, and if you make even a small mistake in counting off 45 seconds, you’ll get fried.</s>
+ <s id="8">Searching your pockets, you find something that might help: a lighter and two fuses you made earlier in the prison work program.</s>
+ <s id="9">Each fuse is a length of flammable twine, built to be lit on either end and burn for precisely one minute.</s>
+ <s id="10">The problem is that even though the fuses look uniform, they don’t burn evenly, so if you cut one in half, for example, one side might burn longer than the other.</s>
+ <s id="11">Your partner is going to give the signal any minute, and you’ll have to make your move.</s>
+ <s id="12">How can you use the fuses and lighter to time exactly 45 seconds?</s>
+ <s id="13">Pause the video to figure it out yourself.</s>
+ <s id="14">Answer in 3 Answer in 2 Answer in 1 The length of the fuse may not tell you anything, but you do know the fuses take exactly 60 seconds to burn from end to end.</s>
+ <s id="15">Here’s the key insight: If you start a fuse on one side and it burns for 30 seconds, there’ll still be 30 seconds of fuse left.</s>
+ <s id="16">If you had started it from the other end, it would’ve reached the exact same spot in thirty seconds.</s>
+ <s id="17">That means that if you lit it from both ends simultaneously, it would burn out in precisely 30 seconds.</s>
+ <s id="18">But how will you time the last fifteen?</s>
+ <s id="19">That’ll have to come from the second fuse.</s>
+ <s id="20">If it were a 30 second fuse, you’d be able to use that same trick again to double the burning speed and make it last exactly 15 seconds.</s>
+ <s id="21">And, you realize, you can shorten the second fuse by lighting one end of it at the same time as you light the first.</s>
+ <s id="22">At the moment the first burns out, you’ll be left with 30 seconds on the second fuse.</s>
+ <s id="23">Just when you’ve got this all figured out, you see the signal from your partner, and spring into action.</s>
+ <s id="24">You gather the four ends of the two fuses and light three of them.</s>
+ <s id="25">The moment the first burns out, you light the other end of the second fuse.</s>
+ <s id="26">When it flickers and dies, you know that exactly 45 seconds have passed, and the electric fence is dead.</s>
+ <s id="27">By the time it hiccups back to life, you’re over the fence and home free.</s>
+</text>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">It's not about technology, it's about people and stories.</s>
+ <s id="2">I could show you what recently was on television as a high quality video: 60 Minutes, many of you may have seen it.</s>
+ <s id="3">And it was the now director of the entire piece of the veteran's administration -- who, himself, had lost an arm 39 years ago in Vietnam -- who was adamantly opposed to these crazy devices that don't work.</s>
+ <s id="4">And it turns out that with 60 Minutes cameras rolling in the background, after he pretty much made his position clear on this -- he had his hook and he had his -- he wore this arm for less than two hours and was able to pour himself a drink and got quite emotional over the fact that, quote -- his quote -- it's the first time he's felt like he's had an arm in 39 years.</s>
+ <s id="5">But that would sort of be jumping to the middle of the story, and I'm not going to show you that polished video.</s>
+ <s id="6">I'm going to, instead, in a minute or two, show you an early, crude video because I think it's a better way to tell a story.</s>
+ <s id="7">A few years ago I was visited by the guy that runs DARPA, the people that fund all the advanced technologies that businesses and universities probably wouldn't take the risk of doing.</s>
+ <s id="8">They have a particular interest in ones that will help our soldiers.</s>
+ <s id="9">I get this sort of unrequested -- by me anyway -- visit, and sitting in my conference room is a very senior surgeon from the military and the guy that runs DARPA.</s>
+ <p id="p10">
+  <s id="10.1">They proceed to tell me a story which comes down to basically the following.</s>
+  <s id="10.2">We have used such advanced technologies now and made them available in the most remote places that we put soldiers: hills of Afghanistan, Iraq ...</s>
+ </p>
+ <s id="11">They were quite proud of the fact that you know, before the dust clears, if some soldier has been hurt they will have collected him or her, they will have brought him back, they will be getting world-class triage emergency care faster than you and I would be getting it if we were hurt in a car accident in a major city in the United States.</s>
+ <s id="12">That's the good news.</s>
+ <s id="13">The bad news is if they've collected this person and he or she is missing an arm or leg, part of the face, it's probably not coming back.</s>
+ <s id="14">So, they started giving me the statistics on how many of these kids had lost an arm.</s>
+ <p id="p15">
+  <s id="15.1">And then the surgeon pointed out, with a lot of anger, he said, "Why is it?</s>
+  <s id="15.2">At the end of the Civil War, they were shooting each other with muskets.</s>
+  <s id="15.3">If somebody lost an arm, we gave them a wooden stick with a hook on it.</s>
+ </p>
+ <s id="16">Now we've got F18s and F22s, and if somebody loses an arm, we give them a plastic stick with a hook on it."</s>
+ <s id="17">And they basically said, "This is unacceptable," and then the punchline: "So, Dean, we're here because you make medical stuff.</s>
+ <s id="18">You're going to give us an arm."</s>
+ <s id="19">And I was waiting for the 500 pages of bureaucracy, paperwork and DODs.</s>
+ <s id="20">No, the guy says, "We're going to bring a guy into this conference room, and wearing the arm you're going to give us, he or she is going to pick up a raisin or a grape off this table.</s>
+ <s id="21">If it's the grape, they won't break it."</s>
+ <s id="22">Great he needs efferent, afferent, haptic response sensors.</s>
+ <s id="23">"If it's the raisin, they won't drop it."</s>
+ <s id="24">So he wants fine motor control: flex at the wrist, flex at the elbow, abduct and flex at the shoulder.</s>
+ <s id="25">Either way they were going to eat it.</s>
+ <p id="p26">
+  <s id="26.1">"Oh, by the way Dean.</s>
+  <s id="26.2">It's going to fit on a 50th percentile female frame -- namely 32 inches from the long finger -- and weigh less than nine pounds."</s>
+ </p>
+ <s id="27">50th percentile female frame.</s>
+ <s id="28">"And it's going to be completely self contained including all its power."</s>
+ <p id="p29">
+  <s id="29.1">So, they finished that.</s>
+  <s id="29.2">And I, as you can tell, am a bashful guy.</s>
+ </p>
+ <s id="30">I told them they're nuts.</s>
+ <s id="31">(Laughter) They've been watching too much "Terminator."</s>
+ <s id="32">(Laughter) Then, the surgeon says to me, "Dean, you need to know more than two dozen of these kids have come back bilateral."</s>
+ <s id="33">Now, I cannot imagine -- I'm sorry, you may have a better imagination than I do -- I can't imagine losing my arm, and typically at 22 years old.</s>
+ <s id="34">But compared to that, losing two?</s>
+ <s id="35">Seems like that would be an inconvenience.</s>
+ <p id="p36">
+  <s id="36.1">Anyway, I went home that night.</s>
+  <s id="36.2">I thought about it.</s>
+ </p>
+ <s id="37">I literally could not sleep thinking about, "I wonder how you'd roll over with no shoulders."</s>
+ <s id="38">So, I decided we've got to do this.</s>
+ <s id="39">And trust me, I've got a day job, I've got a lot of day jobs.</s>
+ <s id="40">Most of my day job keeps me busy funding my fantasies like FIRST and water and power ....</s>
+ <s id="41">And I've got a lot of day jobs.</s>
+ <s id="42">But I figured I gotta do this.</s>
+ <s id="43">Did a little investigation, went down to Washington, told them I still think they're nuts but we're going to do it.</s>
+ <s id="44">And I told them I'd build them an arm.</s>
+ <s id="45">I told them it would probably take five years to get through the FDA, and probably 10 years to be reasonably functional.</s>
+ <s id="46">Look what it takes to make things like iPods.</s>
+ <s id="47">"Great," he said, "You got two years."</s>
+ <p id="p48">
+  <s id="48.1">(Laughter) I said, "I'll tell you what.</s>
+  <s id="48.2">I'll build you an arm that's under nine pounds that has all that capability in one year.</s>
+ </p>
+ <s id="49">It will take the other nine to make it functional and useful."</s>
+ <s id="50">We sort of agreed to disagree.</s>
+ <s id="51">I went back and I started putting a team together, the best guys I could find with a passion to do this.</s>
+ <s id="52">At the end of exactly one year we had a device with 14 degrees of freedom, all the sensors, all the microprocessors, all the stuff inside.</s>
+ <s id="53">I could show you it with a cosmesis on it that's so real it's eerie, but then you wouldn't see all this cool stuff.</s>
+ <s id="54">I then thought it would be years before we'd be able to make it really, really useful.</s>
+ <s id="55">It turned out, as I think you could see in Aimee's capabilities and attitudes, people with a desire to do something are quite remarkable and nature is quite adaptable.</s>
+ <s id="56">Anyway, with less than 10 hours of use, two guys -- one that's bilateral.</s>
+ <s id="57">He's literally, he's got no shoulder on one side, and he's high trans-humeral on the other.</s>
+ <s id="58">And that's Chuck and Randy together, after 10 hours -- were playing in our office.</s>
+ <s id="59">And we took some pretty cruddy home movies.</s>
+ <s id="60">At the end of the one I'm going to show, it's only about a minute and a couple of seconds long, Chuck does something that to this day I'm jealous of, I can't do it.</s>
+ <s id="61">He picks up a spoon, picks it up, scoops out some Shredded Wheat and milk, holds the spoon level as he translates it, moving all these joints simultaneously, to his mouth, and he doesn't drop any milk.</s>
+ <s id="62">(Laughter) I cannot do that.</s>
+ <s id="63">(Laughter) His wife was standing behind me.</s>
+ <s id="64">She's standing behind me at the time and she says, "Dean, Chuck hasn't fed himself in 19 years.</s>
+ <s id="65">So, you've got a choice: We keep the arm, or you keep Chuck."</s>
+ <s id="66">(Laughter) (Applause) So, can we see that?</s>
+ <s id="67">This is Chuck showing simultaneous control of all the joints.</s>
+ <p id="p68">
+  <s id="68.1">He's punching our controls guy.</s>
+  <s id="68.2">The guy behind him is our engineer/surgeon, which is a convenient guy to have around.</s>
+ </p>
+ <s id="69">There's Randy, these guys are passing a rubber little puck between them.</s>
+ <s id="70">And just as in the spirit of FIRST, gracious professionalism, they are quite proud of this, so they decide to share a drink.</s>
+ <s id="71">This is a non-trivial thing to do, by the way.</s>
+ <s id="72">Imagine doing that with a wooden stick and a hook on the end of it, doing either of those.</s>
+ <s id="73">Now Chuck is doing something quite extraordinary, at least for my limited physical skill.</s>
+ <s id="74">And now he's going to do what DARPA asked me for.</s>
+ <s id="75">He's going to pick up a grape -- he didn't drop it, he didn't break it -- and he's going to eat it.</s>
+ <s id="76">So, that's where we were at the end of about 15 months.</s>
+ <s id="77">(Applause) But, as I've learned from Richard, the technology, the processors, the sensors, the motors, is not the story.</s>
+ <s id="78">I hadn't dealt with this kind of problem or frankly, this whole segment of the medical world.</s>
+ <s id="79">I'll give you some astounding things that have happened as we started this.</s>
+ <s id="80">After we were pretty much convinced we had a good design, and we'd have to make all the standard engineering trade-offs you always make -- you can always get three out of four of anything you want; the weight, the size, the cost, the functionality -- I put a bunch of guys in my plane and I said, "We're flying down to Walter Reed, and we're going talk to these kids, because frankly it doesn't matter whether we like this arm.</s>
+ <s id="81">It doesn't matter whether the Department of Defense likes this arm."</s>
+ <s id="82">When I told them that they weren't entirely enthusiastic, but I told them, "It really doesn't matter what their opinion is.</s>
+ <s id="83">There is only one opinion that matters, the kids that are either going to use it or not."</s>
+ <s id="84">I told a bunch of my engineers, "Look we're going to walk into Walter Reed, and you're going to see people, lots of them, missing major body parts.</s>
+ <s id="85">They're probably going to be angry, depressed, frustrated.</s>
+ <s id="86">We're probably going to have to give them support, encouragement.</s>
+ <s id="87">But we've got to extract from them enough information to make sure we're doing the right thing."</s>
+ <s id="88">We walked into Walter Reed and I could not have been more wrong.</s>
+ <s id="89">We did see a bunch of people, a lot of them missing a lot of body parts, and parts they had left were burned; half a face gone, an ear burned off.</s>
+ <p id="p90">
+  <s id="90.1">They were sitting at a table.</s>
+  <s id="90.2">They were brought together for us.</s>
+ </p>
+ <s id="91">And we started asking them all questions.</s>
+ <s id="92">"Look," I'd say to them, "We're not quite as good as nature yet.</s>
+ <s id="93">I could give you fine motor control, or I could let you curl 40 pounds; I probably can't do both.</s>
+ <s id="94">I can give you fast control with low reduction ratios in these gears, or I can give you power; I can't give you both.</s>
+ <s id="95">And we were trying to get them to all help us know what to give them.</s>
+ <s id="96">Not only were they enthusiastic, they kept thinking they're there to help us.</s>
+ <s id="97">"Well, would it help if I ..."</s>
+ <s id="98">"Guys, and woman, you've given enough.</s>
+ <p id="p99">
+  <s id="99.1">We're here to help you.</s>
+  <s id="99.2">We need data.</s>
+  <s id="99.3">We need to know what you need."</s>
+ </p>
+ <s id="100">After a half an hour, maybe, there was one guy at the far end of the table who wasn't saying much.</s>
+ <s id="101">You could see he was missing an arm.</s>
+ <s id="102">He was leaning on his other arm.</s>
+ <s id="103">I called down to the end, "Hey, you haven't said much.</s>
+ <s id="104">If we needed this or this, what would you want?"</s>
+ <s id="105">And he said, "You know, I'm the lucky guy at this table.</s>
+ <s id="106">I lost my right arm, but I'm a lefty."</s>
+ <s id="107">(Laughter) So, he wouldn't say much.</s>
+ <s id="108">He had a great spirit, like all the rest of them had great spirits.</s>
+ <s id="109">And he made a few comments.</s>
+ <p id="p110">
+  <s id="110.1">And then the meeting ended.</s>
+  <s id="110.2">We said goodbye to all these guys.</s>
+ </p>
+ <s id="111">And that guy pushed himself back from the table ...</s>
+ <s id="112">he has no legs.</s>
+ <s id="113">So, we left.</s>
+ <s id="114">And I was thinking, "We didn't give them support and encouragement; they gave it to us.</s>
+ <s id="115">They're not finished giving yet."</s>
+ <s id="116">It was astounding.</s>
+ <s id="117">So, we went back.</s>
+ <s id="118">And I started working harder, faster.</s>
+ <s id="119">Then we went out to Brooke Army Medical Center.</s>
+ <s id="120">And we saw lots of these kids, lots of them.</s>
+ <s id="121">And it was astounding how positive they are.</s>
+ <s id="122">So, we went back, and we've been working harder yet.</s>
+ <s id="123">We're in clinical trials, we've got five of them on people.</s>
+ <s id="124">We're screaming along.</s>
+ <s id="125">And I get a call and we go back to Washington.</s>
+ <s id="126">We go back to Walter Reed, and a kid, literally, 20 some-odd days before that was blown up.</s>
+ <s id="127">And they shipped him to Germany and 24 hours later they shipped him from Germany to Walter Reed.</s>
+ <s id="128">And he was there, and they said we needed to come.</s>
+ <s id="129">And I went down and they rolled him into a room.</s>
+ <s id="130">He's got no legs.</s>
+ <s id="131">He's got no arms.</s>
+ <s id="132">He's got a small residual limb on one side.</s>
+ <s id="133">Half of his face is gone, but they said his vision is coming back.</s>
+ <s id="134">He had one good eye.</s>
+ <s id="135">His name is Brandon Marrocco.</s>
+ <s id="136">And he said, "I need your arms, but I need two of them."</s>
+ <s id="137">"You'll get them."</s>
+ <s id="138">This kid was from Staten Island.</s>
+ <s id="139">And he said, "I had a truck, before I went over there, and it had a stick.</s>
+ <s id="140">You think I'll be able to drive it?"</s>
+ <s id="141">"Sure."</s>
+ <s id="142">And I turned around and went, "How are we going to do this?"</s>
+ <s id="143">(Laughter) Anyway, he was just like all the rest of them.</s>
+ <s id="144">He doesn't really want a lot.</s>
+ <p id="p145">
+  <s id="145.1">He wants to help.</s>
+  <s id="145.2">He told me that he wanted to go back to help his buddies.</s>
+ </p>
+ <s id="146">So, I was on my way out here.</s>
+ <s id="147">I was asked to stop at Texas.</s>
+ <s id="148">There were 3,500 people, the Veteran's Administration, U.S. ... just 3,500 at this huge event to help the families of all the kids -- some that have died, some that are like Brandon -- and they wanted me to speak.</s>
+ <s id="149">I said, "What am I going to say?</s>
+ <p id="p150">
+  <s id="150.1">This is not a happy thing.</s>
+  <s id="150.2">Look, if this happens to you, I can give you ...</s>
+  <s id="150.3">This stuff is still not as good at the original equipment."</s>
+ </p>
+ <s id="151">"You need to come."</s>
+ <s id="152">So, I went.</s>
+ <s id="153">And, as I think you get the point, there were a lot people there recovering.</s>
+ <s id="154">Some further along than others.</s>
+ <s id="155">But universally, these people that had been through this had astounding attitudes, and just the fact that people care makes a huge difference to them.</s>
+ <s id="156">I'll shut up, except one message or concern I have.</s>
+ <s id="157">I don't think anybody does it intentionally, but there were people there literally talking about, "Well, how much will they get?"</s>
+ <s id="158">You know, this country is involved as we've all heard, in this great healthcare debate.</s>
+ <s id="159">"Who is entitled to what?</s>
+ <s id="160">Who is entitled to how much?</s>
+ <s id="161">Who is going to pay for it?"</s>
+ <s id="162">Those are tough questions.</s>
+ <p id="p163">
+  <s id="163.1">I don't have an answer to that.</s>
+  <s id="163.2">Not everybody can be entitled to everything simply because you were born here.</s>
+ </p>
+ <p id="p164">
+  <s id="164.1">It's not possible.</s>
+  <s id="164.2">It would be nice but let's be realistic.</s>
+ </p>
+ <p id="p165">
+  <s id="165.1">They were tough questions.</s>
+  <s id="165.2">There's polarized groups down there.</s>
+ </p>
+ <s id="166">I don't know the answers.</s>
+ <s id="167">There are other questions that are tough.</s>
+ <s id="168">"Should we be there?</s>
+ <s id="169">How do we get out?</s>
+ <p id="p170">
+  <s id="170.1">What do we need to do?"</s>
+  <s id="170.2">There's very polarized answers to that question too, and I don't have any answers to that.</s>
+ </p>
+ <s id="171">Those are political questions, economic questions, strategic questions.</s>
+ <p id="p172">
+  <s id="172.1">I don't have the answer.</s>
+  <s id="172.2">But let me give you a simple concern or maybe statement, then.</s>
+ </p>
+ <s id="173">It is an easy answer.</s>
+ <s id="174">I know what these kids deserve on the healthcare side.</s>
+ <s id="175">I was talking to one of them, and he was really liking this arm -- it's way, way, way better than a plastic stick with a hook on it -- but there's nobody in this room that would rather have that than the one you got.</s>
+ <s id="176">But I was saying to him, "You know, the first airplane went 100 feet in 1903.</s>
+ <s id="177">Wilbur and Orville.</s>
+ <p id="p178">
+  <s id="178.1">But you know what?</s>
+  <s id="178.2">It wouldn't have made an old pigeon jealous.</s>
+ </p>
+ <s id="179">But now we got Eagles out there, F15s, even that Bald Eagle.</s>
+ <s id="180">I've never seen a bird flying around at Mach 2.</s>
+ <s id="181">I think eventually we'll make these things extraordinary."</s>
+ <s id="182">And I said to that kid, "I'll stop when your buddies are envious of your Luke arm because of what it can do, and how it does it.</s>
+ <p id="p183">
+  <s id="183.1">And we'll keep working.</s>
+  <s id="183.2">And I'm not going to stop working until we do that."</s>
+ </p>
+ <p id="p184">
+  <s id="184.1">And I think this country ought to continue its great debate, whining and complaining, "I'm entitled."</s>
+  <s id="184.2">"You're a victim."</s>
+ </p>
+ <s id="185">And whining and complaining about what our foreign policy ought to be.</s>
+ <s id="186">But while we have the luxury of whining and complaining about who's paying for what and how much we get, the people that are out there giving us that great privilege of whining and complaining, I know what they deserve: everything humanly possible.</s>
+ <s id="187">And we ought to give it to them.</s>
+ <s id="188">(Applause)</s>
+</text>

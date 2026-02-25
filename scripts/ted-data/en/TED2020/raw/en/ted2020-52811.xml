@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Ethic and her robot Hedge agree to help the resistance leader, Adila, sabotage the art-incinerating furnace-bots.</s>
+ <s id="2">In exchange, Adila promises to lead them to the first object of Ethic’s quest, an artifact called the Node of Power.</s>
+ <s id="3">Years ago, there was just one furnace-bot.</s>
+ <s id="4">It had a 0 inside its furnace and an unknown, randomly generated serial number.</s>
+ <s id="5">Over time, the original self-replicated to produce more identical furnace-bots.</s>
+ <s id="6">Each child inherited the original’s unknown serial number within its furnace, and had a random, unique serial number of its own inscribed on its shell.</s>
+ <s id="7">The second generation of furnace- bots also self-replicated in the same way, always passing their own serial numbers to their offspring’s furnaces.</s>
+ <s id="8">This continued on for many generations.</s>
+ <s id="9">Today, each furnace-bot receives its orders from its parent.</s>
+ <s id="10">So if Ethic can find the original 0 bot and somehow change its instructions, she could take over the entire army, all at once.</s>
+ <s id="11">Adila has the perfect solution: a data crystal that she’s been carrying for years, waiting for the right moment to activate it.</s>
+ <s id="12">It contains a program designed to gain control of a bot and give it new instructions.</s>
+ <s id="13">But if it’s uploaded to any furnace- bot other than the original, the 0 bot will override the instructions and destroy the data crystal in the process.</s>
+ <s id="14">The feeding is just a few minutes away, and there’s only one chance to get this right.</s>
+ <s id="15">Fortunately, Hedge’s ability to store data can help.</s>
+ <s id="16">In programming, a piece of information gets stored in something called a variable.</s>
+ <s id="17">Variables are basically containers that hold onto numbers, words, or other values.</s>
+ <s id="18">How does Ethic program Hedge to find the original 0 bot as quickly as possible?</s>
+ <s id="19">Pause now to figure it out for yourself.</s>
+ <s id="20">Here’s a hint.</s>
+ <s id="21">Programs can be written to have as many variables as you need, but you can solve this problem with just one.</s>
+ <s id="22">Hedge can use it to store a serial number and replace it with a new one as often as he needs.</s>
+ <s id="23">Pause now to figure it out for yourself.</s>
+ <s id="24">A key insight here is that Hedge doesn’t need to map out the entire set of relationships to find the original furnace-bot.</s>
+ <s id="25">If, for example, he gets lucky and picks the original one right away, he’ll be done.</s>
+ <s id="26">But if he starts with any other bot, he can still find a path that leads straight back to the 0-bot by following a simple set of instructions.</s>
+ <s id="27">To help craft them, let’s first simplify the problem.</s>
+ <s id="28">Let’s say there were only three furnace-bots; a parent and two children, but you don’t know which is which.</s>
+ <s id="29">You could have Hedge pick one at random and look inside its furnace.</s>
+ <s id="30">Now, you know the family tree looks like this.</s>
+ <s id="31">If the number inside the furnace is a 0, you’ve found the parent.</s>
+ <s id="32">If not, then no matter which child you chose, it must have the parent’s serial number in its furnace.</s>
+ <s id="33">So in this scenario, you’re guaranteed to find the parent in one or two moves.</s>
+ <s id="34">In actuality, there are many furnace-bots, and you don’t know how many generations there are nor what the family tree looks like.</s>
+ <s id="35">But you don’t need to, because Hedge can just keep repeating the same sequence of actions until he gets to the original.</s>
+ <p id="p36">
+  <s id="36.1">How?</s>
+  <s id="36.2">With a loop.</s>
+ </p>
+ <s id="37">Hedge can pick any bot at random, look inside its furnace, and store that serial number as a variable.</s>
+ <p id="p38">
+  <s id="38.1">Then he’ll begin the following loop that will repeat until the stored variable equals 0, the furnace number of the original bot: 1.</s>
+  <s id="38.2">Find the bot whose shell serial number matches the stored number.</s>
+ </p>
+ <p id="p39">
+  <s id="39.1">2.</s>
+  <s id="39.2">Look inside its furnace.</s>
+ </p>
+ <p id="p40">
+  <s id="40.1">3.</s>
+  <s id="40.2">Store that new number, overwriting the old one.</s>
+ </p>
+ <s id="41">Once the loop ends, we’ll know that Hedge has found the 0 bot, so he should upload the control program.</s>
+ <s id="42">So here’s what happens: Hedge only takes 5 repetitions to find the original: robot 733 has the 0 in its furnace.</s>
+ <s id="43">In a blink of a mechanical eye, the program spreads through the entire army, and Adila takes control.</s>
+ <s id="44">She has the furnace-bots give off theatrical bouts of flame to hide the fact that they’re now secretly safe-guarding all of that artistic output.</s>
+ <s id="45">Now that Ethic’s delivered the furnace-bots, Adila honors her end of the deal.</s>
+ <s id="46">She leads Ethic and Hedge to the location of the first artifact, the Node of Power.</s>
+ <s id="47">There, one thing is immediately clear: they’ll have to steal it.</s>
+</text>

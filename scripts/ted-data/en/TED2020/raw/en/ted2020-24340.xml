@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">Let's say you're on a game show.</s>
+ <s id="2">You've already earned $1000 in the first round when you land on the bonus space.</s>
+ <s id="3">Now, you have a choice.</s>
+ <s id="4">You can either take a $500 bonus guaranteed or you can flip a coin.</s>
+ <s id="5">If it's heads, you win $1000 bonus.</s>
+ <s id="6">If it's tails, you get no bonus at all.</s>
+ <s id="7">In the second round, you've earned $2000 when you land on the penalty space.</s>
+ <s id="8">Now you have another choice.</s>
+ <s id="9">You can either take a $500 loss, or try your luck at the coin flip.</s>
+ <s id="10">If it's heads, you lose nothing, but if it's tails, you lose $1000 instead.</s>
+ <s id="11">If you're like most people, you probably chose to take the guaranteed bonus in the first round and flip the coin in the second round.</s>
+ <s id="12">But if you think about it, this makes no sense.</s>
+ <s id="13">The odds and outcomes in both rounds are exactly the same.</s>
+ <s id="14">So why does the second round seem much scarier?</s>
+ <s id="15">The answer lies in a phenomenon known as loss aversion.</s>
+ <s id="16">Under rational economic theory, our decisions should follow a simple mathematical equation that weighs the level of risk against the amount at stake.</s>
+ <s id="17">But studies have found that for many people, the negative psychological impact we feel from losing something is about twice as strong as the positive impact of gaining the same thing.</s>
+ <s id="18">Loss aversion is one cognitive bias that arises from heuristics, problem-solving approaches based on previous experience and intuition rather than careful analysis.</s>
+ <s id="19">And these mental shortcuts can lead to irrational decisions, not like falling in love or bungee jumping off a cliff, but logical fallacies that can easily be proven wrong.</s>
+ <s id="20">Situations involving probability are notoriously bad for applying heuristics.</s>
+ <s id="21">For instance, say you were to roll a die with four green faces and two red faces twenty times.</s>
+ <s id="22">You can choose one of the following sequences of rolls, and if it shows up, you'll win $25.</s>
+ <s id="23">Which would you pick?</s>
+ <s id="24">In one study, 65% of the participants who were all college students chose sequence B even though A is shorter and contained within B, in other words, more likely.</s>
+ <s id="25">This is what's called a conjunction fallacy.</s>
+ <s id="26">Here, we expect to see more green rolls, so our brains can trick us into picking the less likely option.</s>
+ <s id="27">Heuristics are also terrible at dealing with numbers in general.</s>
+ <s id="28">In one example, students were split into two groups.</s>
+ <s id="29">The first group was asked whether Mahatma Gandhi died before or after age 9, while the second was asked whether he died before or after age 140.</s>
+ <s id="30">Both numbers were obviously way off, but when the students were then asked to guess the actual age at which he died, the first group's answers averaged to 50 while the second group's averaged to 67.</s>
+ <s id="31">Even though the clearly wrong information in the initial questions should have been irrelevant, it still affected the students' estimates.</s>
+ <s id="32">This is an example of the anchoring effect, and it's often used in marketing and negotiations to raise the prices that people are willing to pay.</s>
+ <s id="33">So, if heuristics lead to all these wrong decisions, why do we even have them?</s>
+ <s id="34">Well, because they can be quite effective.</s>
+ <s id="35">For most of human history, survival depended on making quick decisions with limited information.</s>
+ <s id="36">When there's no time to logically analyze all the possibilities, heuristics can sometimes save our lives.</s>
+ <s id="37">But today's environment requires far more complex decision-making, and these decisions are more biased by unconscious factors than we think, affecting everything from health and education to finance and criminal justice.</s>
+ <s id="38">We can't just shut off our brain's heuristics, but we can learn to be aware of them.</s>
+ <s id="39">When you come to a situation involving numbers, probability, or multiple details, pause for a second and consider that the intuitive answer might not be the right one after all.</s>
+</text>

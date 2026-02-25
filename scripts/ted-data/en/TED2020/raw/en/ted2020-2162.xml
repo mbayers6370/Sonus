@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">I have a confession to make.</s>
+ <s id="2">As a scientist and engineer, I've focused on efficiency for many years.</s>
+ <s id="3">But efficiency can be a cult, and today I'd like to tell you about a journey that moved me out of the cult and back to a far richer reality.</s>
+ <s id="4">A few years ago, after finishing my Ph.D. in London, I moved to Boston.</s>
+ <s id="5">I lived in Boston and worked in Cambridge.</s>
+ <s id="6">I bought a racing bicycle that summer, and I bicycled every day to work.</s>
+ <s id="7">To find my way, I used my phone.</s>
+ <p id="p8">
+  <s id="8.1">It sent me over Mass.</s>
+  <s id="8.2">Ave., Massachusetts Avenue, the shortest route from Boston to Cambridge.</s>
+ </p>
+ <p id="p9">
+  <s id="9.1">But after a month that I was cycling every day on the car-packed Mass.</s>
+  <s id="9.2">Ave., I took a different route one day.</s>
+ </p>
+ <s id="10">I'm not entirely sure why I took a different route that day, a detour.</s>
+ <p id="p11">
+  <s id="11.1">I just remember a feeling of surprise; surprise at finding a street with no cars, as opposed to the nearby Mass.</s>
+  <s id="11.2">Ave. full of cars; surprise at finding a street draped by leaves and surrounded by trees.</s>
+ </p>
+ <s id="12">But after the feeling of surprise, I felt shame.</s>
+ <s id="13">How could I have been so blind?</s>
+ <s id="14">For an entire month, I was so trapped in my mobile app that a journey to work became one thing only: the shortest path.</s>
+ <s id="15">In this single journey, there was no thought of enjoying the road, no pleasure in connecting with nature, no possibility of looking people in the eyes.</s>
+ <s id="16">And why?</s>
+ <s id="17">Because I was saving a minute out of my commute.</s>
+ <s id="18">Now let me ask you: Am I alone here?</s>
+ <s id="19">How many of you have never used a mapping app for finding directions?</s>
+ <s id="20">Most of you, if not all, have.</s>
+ <s id="21">And don't get me wrong -- mapping apps are the greatest game-changer for encouraging people to explore the city.</s>
+ <s id="22">You take your phone out and you know immediately where to go.</s>
+ <s id="23">However, the app also assumes there are only a handful of directions to the destination.</s>
+ <s id="24">It has the power to make those handful of directions the definitive direction to that destination.</s>
+ <s id="25">After that experience, I changed.</s>
+ <s id="26">I changed my research from traditional data-mining to understanding how people experience the city.</s>
+ <s id="27">I used computer science tools to replicate social science experiments at scale, at web scale.</s>
+ <s id="28">I became captivated by the beauty and genius of traditional social science experiments done by Jane Jacobs, Stanley Milgram, Kevin Lynch.</s>
+ <s id="29">The result of that research has been the creation of new maps, maps where you don't only find the shortest path, the blue one, but also the most enjoyable path, the red one.</s>
+ <s id="30">How was that possible?</s>
+ <s id="31">Einstein once said, "Logic will get you from A to B.</s>
+ <s id="32">Imagination will take you everywhere."</s>
+ <s id="33">So with a bit of imagination, we needed to understand which parts of the city people find beautiful.</s>
+ <s id="34">At the University of Cambridge, with colleagues, we thought about this simple experiment.</s>
+ <s id="35">If I were to show you these two urban scenes, and I were to ask you which one is more beautiful, which one would you say?</s>
+ <s id="36">Don't be shy.</s>
+ <p id="p37">
+  <s id="37.1">Who says A?</s>
+  <s id="37.2">Who says B?</s>
+ </p>
+ <s id="38">Brilliant.</s>
+ <s id="39">Based on that idea, we built a crowdsourcing platform, a web game.</s>
+ <s id="40">Players are shown pairs of urban scenes, and they're asked to choose which one is more beautiful, quiet and happy.</s>
+ <s id="41">Based on thousands of user votes, then we are able to see where consensus emerges.</s>
+ <s id="42">We are able to see which are the urban scenes that make people happy.</s>
+ <s id="43">After that work, I joined Yahoo Labs, and I teamed up with Luca and Rossano, and together, we aggregated those winning locations in London to build a new map of the city, a cartography weighted for human emotions.</s>
+ <s id="44">On this cartography, you're not only able to see and connect from point A to point B the shortest segments, but you're also able to see the happy segment, the beautiful path, the quiet path.</s>
+ <s id="45">In tests, participants found the happy, the beautiful, the quiet path far more enjoyable than the shortest one, and that just by adding a few minutes to travel time.</s>
+ <s id="46">Participants also love to attach memories to places.</s>
+ <s id="47">Shared memories -- that's where the old BBC building was; and personal memories -- that's where I gave my first kiss.</s>
+ <s id="48">They also recalled how some paths smelled and sounded.</s>
+ <s id="49">So what if we had a mapping tool that would return the most enjoyable routes based not only on aesthetics but also based on smell, sound, and memories?</s>
+ <s id="50">That's where our research is going right now.</s>
+ <s id="51">More generally, my research, what it tries to do is avoid the danger of the single path, to avoid robbing people of fully experiencing the city in which they live.</s>
+ <s id="52">Walk the path through the park, not through the car park, and you have an entirely different path.</s>
+ <s id="53">Walk the path full of people you love and not full of cars, and you have an entirely different path.</s>
+ <s id="54">It's that simple.</s>
+ <s id="55">I would like to end with this thought: do you remember "The Truman Show?"</s>
+ <s id="56">It's a media satire in which a real person doesn't know he's living in a fabricated world.</s>
+ <s id="57">Perhaps we live in a world fabricated for efficiency.</s>
+ <s id="58">Look at some of your daily habits, and as Truman did in the movie, escape the fabricated world.</s>
+ <s id="59">Why?</s>
+ <p id="p60">
+  <s id="60.1">Well, if you think that adventure is dangerous, try routine.</s>
+  <s id="60.2">It's deadly.</s>
+ </p>
+ <s id="61">Thank you.</s>
+ <s id="62">(Applause)</s>
+</text>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">About two and a half years ago, I watched this movie called "Her."</s>
+ <s id="2">And it features Samantha, a superintelligent form of AI that cannot take physical form.</s>
+ <s id="3">And because she can't appear in photographs, Samantha decides to write a piece of music that will capture a moment of her life just like a photograph would.</s>
+ <s id="4">As a musician and an engineer, and someone raised in a family of artists, I thought that this idea of musical photographs was really powerful.</s>
+ <s id="5">And I decided to create an AI composer.</s>
+ <s id="6">Her name is AIVA, and she's an artificial intelligence that has learned the art of music composition by reading over 30,000 scores of history's greatest.</s>
+ <s id="7">So here's what one score looks like to the algorithm in a matrix-like representation.</s>
+ <s id="8">And here's what 30,000 scores, written by the likes of Mozart and Beethoven, look like in a single frame.</s>
+ <s id="9">So, using deep neural networks, AIVA looks for patterns in the scores.</s>
+ <s id="10">And from a couple of bars of existing music, it actually tries to infer what notes should come next in those tracks.</s>
+ <s id="11">And once AIVA gets good at those predictions, it can actually build a set of mathematical rules for that style of music in order to create its own original compositions.</s>
+ <s id="12">And in a way, this is kind of how we, humans, compose music, too.</s>
+ <s id="13">It's a trial-and-error process, during which we may not get the right notes all the time.</s>
+ <s id="14">But we can correct ourselves, either with our musical ear or our musical knowledge.</s>
+ <s id="15">But for AIVA, this process is taken from years and years of learning, decades of learning as an artist, as a musician and a composer, down to a couple of hours.</s>
+ <s id="16">But music is also a supersubjective art.</s>
+ <s id="17">And we needed to teach AIVA how to compose the right music for the right person, because people have different preferences.</s>
+ <s id="18">And to do that, we show to the algorithm over 30 different category labels for each score in our database.</s>
+ <s id="19">So those category labels are like mood or note density or composer style of a piece or the epoch during which it was written.</s>
+ <s id="20">And by seeing all this data, AIVA can actually respond to very precise requirements.</s>
+ <s id="21">Like the ones, for example, we had for a project recently, where we were commissioned to create a piece that would be reminiscent of a science-fiction film soundtrack.</s>
+ <s id="22">And the piece that was created is called "Among the Stars" and it was recorded with CMG Orchestra in Hollywood, under great conductor John Beal, and this is what they recorded, made by AIVA.</s>
+ <s id="23">(Music) (Music ends) What do you think?</s>
+ <s id="24">(Applause) Thank you.</s>
+ <s id="25">So, as you've seen, AI can create beautiful pieces of music, and the best part of it is that humans can actually bring them to life.</s>
+ <s id="26">And it's not the first time in history that technology has augmented human creativity.</s>
+ <s id="27">Live music was almost always used in silent films to augment the experience.</s>
+ <s id="28">But the problem with live music is that it didn't scale.</s>
+ <s id="29">It's really hard to cram a full symphony into a small theater, and it's really hard to do that for every theater in the world.</s>
+ <s id="30">So when music recording was actually invented, it allowed content creators, like film creators, to have prerecorded and original music tailored to each and every frame of their stories.</s>
+ <s id="31">And that was really an enhancer of creativity.</s>
+ <s id="32">Two and a half years ago, when I watched this movie "Her," I thought to myself that personalized music would be the next single biggest change in how we consume and create music.</s>
+ <s id="33">Because nowadays, we have interactive content, like video games, that have hundreds of hours of interactive game plays, but only two hours of music, on average.</s>
+ <s id="34">And it means that the music loops and loops and loops over and over again, and it's not very immersive.</s>
+ <s id="35">So what we're working on is to make sure that AI can compose hundreds of hours of personalized music for those use cases where human creativity doesn't scale.</s>
+ <s id="36">And we don't just want to do that for games.</s>
+ <s id="37">Beethoven actually wrote a piece for his beloved, called "Für Elise," and imagine if we could bring back Beethoven to life.</s>
+ <s id="38">And if he was sitting next to you, composing a music for your personality and your life story.</s>
+ <s id="39">Or imagine if someone like Martin Luther King, for example, had a personalized AI composer.</s>
+ <s id="40">Maybe then we would remember "I Have a Dream" not only as a great speech, but also as a great piece of music, part of our history, and capturing Dr. King's ideals.</s>
+ <s id="41">And this is our vision at AIVA: to personalize music so that each and every one of you and every individual in the world can have access to a personalized live soundtrack, based on their story and their personality.</s>
+ <s id="42">So this moment here together at TED is now part of our life story.</s>
+ <s id="43">So it only felt fitting that AIVA would compose music for this moment.</s>
+ <s id="44">And that's exactly what we did.</s>
+ <s id="45">So my team and I worked on biasing AIVA on the style of the TED jingle, and on music that makes us feel a sense of awe and wonder.</s>
+ <s id="46">And the result is called "The Age of Amazement."</s>
+ <s id="47">Didn't take an AI to figure that one out.</s>
+ <s id="48">(Laughter) And I couldn't be more proud to show it to you, so if you can, close your eyes and enjoy the music.</s>
+ <s id="49">Thank you very much.</s>
+ <s id="50">(Music) [The Age of Amazement Composed by AIVA] (Music ends) This was for all of you.</s>
+ <s id="51">Thank you.</s>
+ <s id="52">(Applause)</s>
+</text>

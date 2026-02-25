@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">A shooting star crashes on Earth, and a hideous blob emerges.</s>
+ <s id="2">It creeps and leaps, it glides and slides.</s>
+ <s id="3">It’s also unstoppable: weapons, fire, extreme temperatures… no matter what you throw at it, it just regrows and continues its rampage.</s>
+ <s id="4">Its expansion is breathtaking; it doubles in size every hour.</s>
+ <s id="5">But there’s one opportunity: after each hour, it goes to sleep, forming itself into a flat triangle and resting for a few minutes before it begins eating and growing again.</s>
+ <s id="6">Your only chance to save the planet involves a satellite-mounted nano-fission ray that can cut through the blob.</s>
+ <s id="7">When the blog is active it heals itself within seconds.</s>
+ <s id="8">However, when you break the sleeping blob into two triangles, you make a critical discovery.</s>
+ <s id="9">The acute triangle portion, with all angles less than 90 degrees, is inert.</s>
+ <p id="p10">
+  <s id="10.1">It never “wakes up.”</s>
+  <s id="10.2">The obtuse triangle, which has an angle greater than 90 degrees, wakes up as usual and keeps growing.</s>
+ </p>
+ <s id="11">Similar experiments show that all shapes other than acute triangles, including right triangles, will also wake up.</s>
+ <s id="12">For the next few minutes, the blob is sleeping in its obtuse triangle form.</s>
+ <s id="13">You can make clean, straight-line cuts between any two points on or inside the triangle.</s>
+ <s id="14">But you’ll only have time to make 7 cuts while the satellite is above you.</s>
+ <s id="15">By the time it completes its orbit and returns, the blob will have consumed the entire world, if even a single portion that will wake up remains.</s>
+ <s id="16">How can you cut the blob entirely into acute triangles and stop it from destroying the planet?</s>
+ <s id="17">Pause the video now to figure out for yourself Answer in 3 Answer in 2 Answer in 1 While this seems doable at first, there’s a hidden difficulty when it comes to avoiding obtuse and right angles.</s>
+ <s id="18">Every time you make a cut that reaches an edge, it either makes an acute and an obtuse angle, or two right angles.</s>
+ <s id="19">That makes it seems like you’re doomed to keep creating obtuse angles.</s>
+ <s id="20">But as with so many of life’s problems, we can look to pizza for inspiration.</s>
+ <s id="21">Imagine squaring off the outside of a pizza, so that instead of a circle, it’s an octagon.</s>
+ <s id="22">When we cut it into slices, each of the eight triangles is acute.</s>
+ <s id="23">This works with larger polygons too.</s>
+ <s id="24">Importantly, it also works for some polygons with fewer sides, including heptagons, hexagons, and pentagons.</s>
+ <s id="25">That’s good news, because if you cut off the sharp corners of the blob triangle, a pentagon is exactly what you’ll be left with.</s>
+ <s id="26">And just like a pizza, you can cut the blob pentagon into five acute triangles.</s>
+ <s id="27">That’s 7 cuts, and it renders the blob completely inert.</s>
+ <s id="28">You’ve saved the day!</s>
+ <s id="29">Now you just need to figure out what to do with all of these giant, practically indestructible triangles.</s>
+</text>

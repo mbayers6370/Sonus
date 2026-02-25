@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<text>
+ <s id="1">What's an algorithm?</s>
+ <s id="2">In computer science, an algorithm is a set of instructions for solving some problem, step-by-step.</s>
+ <s id="3">Typically, algorithms are executed by computers, but we humans have algorithms as well.</s>
+ <s id="4">For instance, how would you go about counting the number of people in a room?</s>
+ <s id="5">Well, if you're like me, you probably point at each person, one at a time, and count up from 0: 1, 2, 3, 4 and so forth.</s>
+ <s id="6">Well, that's an algorithm.</s>
+ <s id="7">In fact, let's try to express it a bit more formally in pseudocode, English-like syntax that resembles a programming language.</s>
+ <s id="8">Let n equal 0.</s>
+ <s id="9">For each person in room, set n = n + 1.</s>
+ <s id="10">How to interpret this pseudocode?</s>
+ <s id="11">Well, line 1 declares, so to speak, a variable called n and initializes its value to zero.</s>
+ <s id="12">This just means that at the beginning of our algorithm, the thing with which we're counting has a value of zero.</s>
+ <s id="13">After all, before we start counting, we haven't counted anything yet.</s>
+ <s id="14">Calling this variable n is just a convention.</s>
+ <s id="15">I could have called it almost anything.</s>
+ <s id="16">Now, line 2 demarks the start of loop, a sequence of steps that will repeat some number of times.</s>
+ <s id="17">So, in our example, the step we're taking is counting people in the room.</s>
+ <s id="18">Beneath line 2 is line 3, which describes exactly how we'll go about counting.</s>
+ <s id="19">The indentation implies that it's line 3 that will repeat.</s>
+ <s id="20">So, what the pseudocode is saying is that after starting at zero, for each person in the room, we'll increase n by 1.</s>
+ <s id="21">Now, is this algorithm correct?</s>
+ <s id="22">Well, let's bang on it a bit.</s>
+ <s id="23">Does it work if there are 2 people in the room?</s>
+ <s id="24">Let's see.</s>
+ <s id="25">In line 1, we initialize n to zero.</s>
+ <s id="26">For each of these two people, we then increment n by 1.</s>
+ <s id="27">So, in the first trip through the loop, we update n from zero to 1, on the second trip through that same loop, we update n from 1 to 2.</s>
+ <s id="28">And so, by this algorithm's end, n is 2, which indeed matches the number of people in the room.</s>
+ <s id="29">So far, so good.</s>
+ <s id="30">How about a corner case, though?</s>
+ <s id="31">Suppose that there are zero people in the room, besides me, who's doing the counting.</s>
+ <s id="32">In line 1, we again initialize n to zero.</s>
+ <s id="33">This time, though, line 3 doesn't execute at all since there isn't a person in the room, and so, n remains zero, which indeed matches the number of people in the room.</s>
+ <s id="34">Pretty simple, right?</s>
+ <s id="35">But counting people one a time is pretty inefficient, too, no?</s>
+ <s id="36">Surely, we can do better!</s>
+ <s id="37">Why not count two people at a time?</s>
+ <s id="38">Instead of counting 1, 2, 3, 4, 5, 6, 7, 8, and so forth, why not count 2, 4, 6, 8, and so on?</s>
+ <s id="39">It even sounds faster, and it surely is.</s>
+ <s id="40">Let's express this optimization in pseudocode.</s>
+ <s id="41">Let n equal zero.</s>
+ <s id="42">For each pair of people in room, set n = n + 2.</s>
+ <s id="43">Pretty simple change, right?</s>
+ <s id="44">Rather than count people one at a time, we instead count them two at a time.</s>
+ <s id="45">This algorithm's thus twice as fast as the last.</s>
+ <s id="46">But is it correct?</s>
+ <s id="47">Let's see.</s>
+ <s id="48">Does it work if there are 2 people in the room?</s>
+ <s id="49">In line 1, we initialize n to zero.</s>
+ <s id="50">For that one pair of people, we then increment n by 2.</s>
+ <s id="51">And so, by this algorithm's end, n is 2, which indeed matches the number of people in the room.</s>
+ <s id="52">Suppose next that there are zero people in the room.</s>
+ <s id="53">In line 1, we initialize n to zero.</s>
+ <s id="54">As before, line 3 doesn't execute at all since there aren't any pairs of people in the room, and so, n remains zero, which indeed matches the number of people in the room.</s>
+ <s id="55">But what if there are 3 people in the room?</s>
+ <s id="56">How does this algorithm fair?</s>
+ <s id="57">Let's see.</s>
+ <s id="58">In line 1, we initialize n to zero.</s>
+ <s id="59">For a pair of those people, we then increment n by 2, but then what?</s>
+ <s id="60">There isn't another full pair of people in the room, so line 2 no longer applies.</s>
+ <s id="61">And so, by this algorithm's end, n is still 2, which isn't correct.</s>
+ <s id="62">Indeed this algorithm is said to be buggy because it has a mistake.</s>
+ <s id="63">Let's redress with some new pseudocode.</s>
+ <s id="64">Let n equal zero.</s>
+ <s id="65">For each pair of people in room, set n = n + 2.</s>
+ <s id="66">If 1 person remains unpaired, set n = n + 1.</s>
+ <s id="67">To solve this particular problem, we've introduced in line 4 a condition, otherwise known as a branch, that only executes if there is one person we could not pair with another.</s>
+ <s id="68">So now, whether there's 1 or 3 or any odd number of people in the room, this algorithm will now count them.</s>
+ <s id="69">Can we do even better?</s>
+ <s id="70">Well, we could count in 3's or 4's or even 5's and 10's, but beyond that it's going to get a little bit difficult to point.</s>
+ <s id="71">At the end of the day, whether executed by computers or humans, algorithms are just a set of instructions with which to solve problems.</s>
+ <s id="72">These were just three.</s>
+ <s id="73">What problem would you solve with an algorithm?</s>
+</text>
