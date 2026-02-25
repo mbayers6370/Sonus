@@ -336,37 +336,49 @@ export default function HomeDashboard({
         </section>
 
         <section
-          className={`${cardShell} md:order-3 md:col-span-2 bg-[#3E5648] text-white border-[#3E5648]/90 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)] text-center flex flex-col justify-center`}
+          className={`${cardShell} md:order-3 md:col-span-2 bg-[#3E5648] text-white border-[#3E5648]/90 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)] text-center flex flex-col justify-center relative overflow-hidden`}
           style={{ animationDelay: '135ms' }}
         >
-          <div className="main-font text-2xl leading-none mb-2 text-white">Travel Sprint</div>
-          <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
-            Short on time? Focus on essential travel phrases before you go.
-          </p>
-          <div className="grid grid-cols-3 gap-2 mb-4 max-w-md mx-auto">
-            <button onClick={() => onOpenTravelMode('airport-arrival')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
-              Airport
-            </button>
-            <button onClick={() => onOpenTravelMode('hotel')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
-              Hotel
-            </button>
-            <button onClick={() => onOpenTravelMode('emergency')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
-              Emergency
-            </button>
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              opacity: 0.05,
+              backgroundImage: "url('/branding/Transparent_Background.png')",
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+            }}
+          />
+          <div className="relative z-10">
+            <div className="main-font text-2xl leading-none mb-2 text-white">Travel Sprint</div>
+            <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
+              Short on time? Focus on essential travel phrases before you go.
+            </p>
+            <div className="grid grid-cols-3 gap-2 mb-4 max-w-md mx-auto">
+              <button onClick={() => onOpenTravelMode('airport-arrival')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
+                Airport
+              </button>
+              <button onClick={() => onOpenTravelMode('hotel')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
+                Hotel
+              </button>
+              <button onClick={() => onOpenTravelMode('emergency')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
+                Emergency
+              </button>
+            </div>
+            <div className="max-w-md mx-auto">
+              <button
+                onClick={() => onOpenTravelMode()}
+                className="w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-2xl bg-white/12 border border-white/30 hover:bg-white/18 transition-colors"
+              >
+                <BriefcaseConveyorBelt className="w-4 h-4" />
+                Explore Travel Content
+                <ArrowRight className="w-4 h-4 text-white/85" />
+              </button>
+            </div>
+            <p className="text-[11px] leading-relaxed text-white/68 mt-4 max-w-md mx-auto">
+              Travel Sprint is separate from your structured lesson path.
+            </p>
           </div>
-          <div className="max-w-md mx-auto">
-            <button
-              onClick={() => onOpenTravelMode()}
-              className="w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-2xl bg-white/12 border border-white/30 hover:bg-white/18 transition-colors"
-            >
-              <BriefcaseConveyorBelt className="w-4 h-4" />
-              Explore Travel Content
-              <ArrowRight className="w-4 h-4 text-white/85" />
-            </button>
-          </div>
-          <p className="text-[11px] leading-relaxed text-white/68 mt-4 max-w-md mx-auto">
-            Travel Sprint is separate from your structured lesson path.
-          </p>
         </section>
 
         <section
