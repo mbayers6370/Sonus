@@ -551,6 +551,7 @@ export default function ApplyMode({
   const [liveCharacterMap, setLiveCharacterMap] = useState<Record<string, { pinyin?: string[]; glosses?: string[] }>>({});
   const [resolvedSentencePinyin, setResolvedSentencePinyin] = useState('');
   const [resolvedSentenceRomaji, setResolvedSentenceRomaji] = useState('');
+  const effectiveActiveTab: ApplyTab = supportsCharacterTab ? activeTab : 'context';
 
   const zh = word.example?.zh?.trim() || word.simp;
   const en = word.example?.en?.trim() || 'Translation unavailable for this prompt.';
@@ -558,17 +559,11 @@ export default function ApplyMode({
 
   useEffect(() => {
     try {
-      window.sessionStorage.setItem(applyTabStorageKey, activeTab);
+      window.sessionStorage.setItem(applyTabStorageKey, effectiveActiveTab);
     } catch {
       // Ignore storage failures.
     }
-  }, [activeTab, applyTabStorageKey]);
-
-  useEffect(() => {
-    if (!supportsCharacterTab && activeTab !== 'context') {
-      setActiveTab('context');
-    }
-  }, [activeTab, supportsCharacterTab]);
+  }, [effectiveActiveTab, applyTabStorageKey]);
 
   useEffect(() => {
     let cancelled = false;
@@ -685,7 +680,7 @@ export default function ApplyMode({
   });
   const englishFocus = highlightEnglishFocus(en, word, priorWordsForEnglish);
   const sentencePinyin = containsHanCharacter(zh) ? resolvedSentencePinyin : (rawSentencePinyin || '');
-  const romajiSourceWords = useMemo(() => {
+  const romajiSourceWords = (() => {
     const byId = new Map<string, Word>();
     const push = (candidate: Word | null | undefined) => {
       if (!candidate?.id) return;
@@ -711,7 +706,7 @@ export default function ApplyMode({
     }
 
     return Array.from(byId.values());
-  }, [allWords, previousWords, state.activeBandData]);
+  })();
   const sentenceReading = isJapanese
     ? (
         (rawSentencePinyin || '').trim() ||
@@ -720,7 +715,7 @@ export default function ApplyMode({
       )
     : sentencePinyin;
 
-  const isCharactersTab = activeTab === 'characters';
+  const isCharactersTab = effectiveActiveTab === 'characters';
   const railTotal = supportsCharacterTab && isCharactersTab ? Math.max(1, characterRows.length) : totalWords;
   const railIndex = supportsCharacterTab && isCharactersTab ? clampedCharacterIndex : currentIndex;
   const activeCharacterRow = characterRows[clampedCharacterIndex] || null;
@@ -799,7 +794,7 @@ export default function ApplyMode({
             type="button"
             onClick={() => setActiveTab('context')}
             className={`rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider font-mono transition-all ${
-              activeTab === 'context' ? 'bg-[#186E95] text-white' : 'text-[#374151] hover:bg-white'
+              effectiveActiveTab === 'context' ? 'bg-[#186E95] text-white' : 'text-[#374151] hover:bg-white'
             }`}
           >
             Sentence Context
@@ -809,7 +804,7 @@ export default function ApplyMode({
               type="button"
               onClick={() => setActiveTab('characters')}
               className={`rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider font-mono transition-all ${
-                activeTab === 'characters' ? 'bg-[#3E5648] text-white' : 'text-[#374151] hover:bg-white'
+                effectiveActiveTab === 'characters' ? 'bg-[#3E5648] text-white' : 'text-[#374151] hover:bg-white'
               }`}
             >
               Characters
@@ -819,7 +814,7 @@ export default function ApplyMode({
       </div>
 
       <div className="flex-1 px-5 py-2 flex items-center justify-center">
-        {activeTab === 'context' ? (
+        {effectiveActiveTab === 'context' ? (
           <div className="w-full max-w-2xl bg-white rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-5 text-center">
             <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.14)] text-[#186E95]">
               Apply In Context

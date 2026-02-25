@@ -37,9 +37,15 @@ try {
 let cedictSingleCharMapPromise: Promise<Map<string, CedictRow[]>> | null = null;
 let cedictWordPinyinMapPromise: Promise<{ map: Map<string, string[]>; maxLen: number }> | null =
   null;
-let jaReadingMapPromise: Promise<{ map: Map<string, string>; charMap: Map<string, string>; maxLen: number }> | null = null;
+let jaReadingMapPromise: Promise<{
+  map: Map<string, string>;
+  charMap: Map<string, string>;
+  maxLen: number;
+}> | null = null;
 let kuromojiTokenizerPromise: Promise<{
-  tokenize: (text: string) => Array<{ surface_form?: string; reading?: string; pronunciation?: string }>;
+  tokenize: (
+    text: string
+  ) => Array<{ surface_form?: string; reading?: string; pronunciation?: string }>;
 } | null> | null = null;
 
 function normalizePinyin(value: string) {
@@ -216,35 +222,218 @@ function normalizeSentencePinyin(tokens: string[]) {
 }
 
 const JP_DIGRAPH_ROMAJI: Record<string, string> = {
-  きゃ: 'kya', きゅ: 'kyu', きょ: 'kyo', ぎゃ: 'gya', ぎゅ: 'gyu', ぎょ: 'gyo',
-  しゃ: 'sha', しゅ: 'shu', しょ: 'sho', じゃ: 'ja', じゅ: 'ju', じょ: 'jo',
-  ちゃ: 'cha', ちゅ: 'chu', ちょ: 'cho', にゃ: 'nya', にゅ: 'nyu', にょ: 'nyo',
-  ひゃ: 'hya', ひゅ: 'hyu', ひょ: 'hyo', びゃ: 'bya', びゅ: 'byu', びょ: 'byo',
-  ぴゃ: 'pya', ぴゅ: 'pyu', ぴょ: 'pyo', みゃ: 'mya', みゅ: 'myu', みょ: 'myo',
-  りゃ: 'rya', りゅ: 'ryu', りょ: 'ryo', シェ: 'she', チェ: 'che', ジェ: 'je',
-  ティ: 'ti', ディ: 'di', ファ: 'fa', フィ: 'fi', フェ: 'fe', フォ: 'fo',
-  ウィ: 'wi', ウェ: 'we', ウォ: 'wo', ヴァ: 'va', ヴィ: 'vi', ヴェ: 've', ヴォ: 'vo', ヴュ: 'vyu',
+  きゃ: 'kya',
+  きゅ: 'kyu',
+  きょ: 'kyo',
+  ぎゃ: 'gya',
+  ぎゅ: 'gyu',
+  ぎょ: 'gyo',
+  しゃ: 'sha',
+  しゅ: 'shu',
+  しょ: 'sho',
+  じゃ: 'ja',
+  じゅ: 'ju',
+  じょ: 'jo',
+  ちゃ: 'cha',
+  ちゅ: 'chu',
+  ちょ: 'cho',
+  にゃ: 'nya',
+  にゅ: 'nyu',
+  にょ: 'nyo',
+  ひゃ: 'hya',
+  ひゅ: 'hyu',
+  ひょ: 'hyo',
+  びゃ: 'bya',
+  びゅ: 'byu',
+  びょ: 'byo',
+  ぴゃ: 'pya',
+  ぴゅ: 'pyu',
+  ぴょ: 'pyo',
+  みゃ: 'mya',
+  みゅ: 'myu',
+  みょ: 'myo',
+  りゃ: 'rya',
+  りゅ: 'ryu',
+  りょ: 'ryo',
+  シェ: 'she',
+  チェ: 'che',
+  ジェ: 'je',
+  ティ: 'ti',
+  ディ: 'di',
+  ファ: 'fa',
+  フィ: 'fi',
+  フェ: 'fe',
+  フォ: 'fo',
+  ウィ: 'wi',
+  ウェ: 'we',
+  ウォ: 'wo',
+  ヴァ: 'va',
+  ヴィ: 'vi',
+  ヴェ: 've',
+  ヴォ: 'vo',
+  ヴュ: 'vyu',
 };
 
 const JP_KANA_ROMAJI: Record<string, string> = {
-  あ: 'a', い: 'i', う: 'u', え: 'e', お: 'o', か: 'ka', き: 'ki', く: 'ku', け: 'ke', こ: 'ko',
-  さ: 'sa', し: 'shi', す: 'su', せ: 'se', そ: 'so', た: 'ta', ち: 'chi', つ: 'tsu', て: 'te', と: 'to',
-  な: 'na', に: 'ni', ぬ: 'nu', ね: 'ne', の: 'no', は: 'ha', ひ: 'hi', ふ: 'fu', へ: 'he', ほ: 'ho',
-  ま: 'ma', み: 'mi', む: 'mu', め: 'me', も: 'mo', や: 'ya', ゆ: 'yu', よ: 'yo',
-  ら: 'ra', り: 'ri', る: 'ru', れ: 're', ろ: 'ro', わ: 'wa', を: 'o', ん: 'n',
-  が: 'ga', ぎ: 'gi', ぐ: 'gu', げ: 'ge', ご: 'go', ざ: 'za', じ: 'ji', ず: 'zu', ぜ: 'ze', ぞ: 'zo',
-  だ: 'da', ぢ: 'ji', づ: 'zu', で: 'de', ど: 'do', ば: 'ba', び: 'bi', ぶ: 'bu', べ: 'be', ぼ: 'bo',
-  ぱ: 'pa', ぴ: 'pi', ぷ: 'pu', ぺ: 'pe', ぽ: 'po',
-  ぁ: 'a', ぃ: 'i', ぅ: 'u', ぇ: 'e', ぉ: 'o', ゃ: 'ya', ゅ: 'yu', ょ: 'yo',
-  ア: 'a', イ: 'i', ウ: 'u', エ: 'e', オ: 'o', カ: 'ka', キ: 'ki', ク: 'ku', ケ: 'ke', コ: 'ko',
-  サ: 'sa', シ: 'shi', ス: 'su', セ: 'se', ソ: 'so', タ: 'ta', チ: 'chi', ツ: 'tsu', テ: 'te', ト: 'to',
-  ナ: 'na', ニ: 'ni', ヌ: 'nu', ネ: 'ne', ノ: 'no', ハ: 'ha', ヒ: 'hi', フ: 'fu', ヘ: 'he', ホ: 'ho',
-  マ: 'ma', ミ: 'mi', ム: 'mu', メ: 'me', モ: 'mo', ヤ: 'ya', ユ: 'yu', ヨ: 'yo',
-  ラ: 'ra', リ: 'ri', ル: 'ru', レ: 're', ロ: 'ro', ワ: 'wa', ヲ: 'o', ン: 'n',
-  ガ: 'ga', ギ: 'gi', グ: 'gu', ゲ: 'ge', ゴ: 'go', ザ: 'za', ジ: 'ji', ズ: 'zu', ゼ: 'ze', ゾ: 'zo',
-  ダ: 'da', ヂ: 'ji', ヅ: 'zu', デ: 'de', ド: 'do', バ: 'ba', ビ: 'bi', ブ: 'bu', ベ: 'be', ボ: 'bo',
-  パ: 'pa', ピ: 'pi', プ: 'pu', ペ: 'pe', ポ: 'po',
-  ァ: 'a', ィ: 'i', ゥ: 'u', ェ: 'e', ォ: 'o', ャ: 'ya', ュ: 'yu', ョ: 'yo', ヴ: 'vu',
+  あ: 'a',
+  い: 'i',
+  う: 'u',
+  え: 'e',
+  お: 'o',
+  か: 'ka',
+  き: 'ki',
+  く: 'ku',
+  け: 'ke',
+  こ: 'ko',
+  さ: 'sa',
+  し: 'shi',
+  す: 'su',
+  せ: 'se',
+  そ: 'so',
+  た: 'ta',
+  ち: 'chi',
+  つ: 'tsu',
+  て: 'te',
+  と: 'to',
+  な: 'na',
+  に: 'ni',
+  ぬ: 'nu',
+  ね: 'ne',
+  の: 'no',
+  は: 'ha',
+  ひ: 'hi',
+  ふ: 'fu',
+  へ: 'he',
+  ほ: 'ho',
+  ま: 'ma',
+  み: 'mi',
+  む: 'mu',
+  め: 'me',
+  も: 'mo',
+  や: 'ya',
+  ゆ: 'yu',
+  よ: 'yo',
+  ら: 'ra',
+  り: 'ri',
+  る: 'ru',
+  れ: 're',
+  ろ: 'ro',
+  わ: 'wa',
+  を: 'o',
+  ん: 'n',
+  が: 'ga',
+  ぎ: 'gi',
+  ぐ: 'gu',
+  げ: 'ge',
+  ご: 'go',
+  ざ: 'za',
+  じ: 'ji',
+  ず: 'zu',
+  ぜ: 'ze',
+  ぞ: 'zo',
+  だ: 'da',
+  ぢ: 'ji',
+  づ: 'zu',
+  で: 'de',
+  ど: 'do',
+  ば: 'ba',
+  び: 'bi',
+  ぶ: 'bu',
+  べ: 'be',
+  ぼ: 'bo',
+  ぱ: 'pa',
+  ぴ: 'pi',
+  ぷ: 'pu',
+  ぺ: 'pe',
+  ぽ: 'po',
+  ぁ: 'a',
+  ぃ: 'i',
+  ぅ: 'u',
+  ぇ: 'e',
+  ぉ: 'o',
+  ゃ: 'ya',
+  ゅ: 'yu',
+  ょ: 'yo',
+  ア: 'a',
+  イ: 'i',
+  ウ: 'u',
+  エ: 'e',
+  オ: 'o',
+  カ: 'ka',
+  キ: 'ki',
+  ク: 'ku',
+  ケ: 'ke',
+  コ: 'ko',
+  サ: 'sa',
+  シ: 'shi',
+  ス: 'su',
+  セ: 'se',
+  ソ: 'so',
+  タ: 'ta',
+  チ: 'chi',
+  ツ: 'tsu',
+  テ: 'te',
+  ト: 'to',
+  ナ: 'na',
+  ニ: 'ni',
+  ヌ: 'nu',
+  ネ: 'ne',
+  ノ: 'no',
+  ハ: 'ha',
+  ヒ: 'hi',
+  フ: 'fu',
+  ヘ: 'he',
+  ホ: 'ho',
+  マ: 'ma',
+  ミ: 'mi',
+  ム: 'mu',
+  メ: 'me',
+  モ: 'mo',
+  ヤ: 'ya',
+  ユ: 'yu',
+  ヨ: 'yo',
+  ラ: 'ra',
+  リ: 'ri',
+  ル: 'ru',
+  レ: 're',
+  ロ: 'ro',
+  ワ: 'wa',
+  ヲ: 'o',
+  ン: 'n',
+  ガ: 'ga',
+  ギ: 'gi',
+  グ: 'gu',
+  ゲ: 'ge',
+  ゴ: 'go',
+  ザ: 'za',
+  ジ: 'ji',
+  ズ: 'zu',
+  ゼ: 'ze',
+  ゾ: 'zo',
+  ダ: 'da',
+  ヂ: 'ji',
+  ヅ: 'zu',
+  デ: 'de',
+  ド: 'do',
+  バ: 'ba',
+  ビ: 'bi',
+  ブ: 'bu',
+  ベ: 'be',
+  ボ: 'bo',
+  パ: 'pa',
+  ピ: 'pi',
+  プ: 'pu',
+  ペ: 'pe',
+  ポ: 'po',
+  ァ: 'a',
+  ィ: 'i',
+  ゥ: 'u',
+  ェ: 'e',
+  ォ: 'o',
+  ャ: 'ya',
+  ュ: 'yu',
+  ョ: 'yo',
+  ヴ: 'vu',
 };
 
 function isKana(char: string) {
@@ -255,7 +444,7 @@ function katakanaToHiragana(text: string) {
   return Array.from(text)
     .map((char) => {
       const code = char.charCodeAt(0);
-      if (code >= 0x30A1 && code <= 0x30F6) {
+      if (code >= 0x30a1 && code <= 0x30f6) {
         return String.fromCharCode(code - 0x60);
       }
       return char;
@@ -346,7 +535,9 @@ async function getKuromojiTokenizer() {
   if (kuromojiTokenizerPromise) return kuromojiTokenizerPromise;
   kuromojiTokenizerPromise = (async () => {
     try {
-      const runtimeImport = new Function('name', 'return import(name)') as (name: string) => Promise<unknown>;
+      const runtimeImport = new Function('name', 'return import(name)') as (
+        name: string
+      ) => Promise<unknown>;
       const imported = (await runtimeImport('kuromoji')) as
         | {
             default?: unknown;
@@ -404,7 +595,9 @@ async function getKuromojiTokenizer() {
         }
       }
       const tokenizer = await new Promise<{
-        tokenize: (text: string) => Array<{ surface_form?: string; reading?: string; pronunciation?: string }>;
+        tokenize: (
+          text: string
+        ) => Array<{ surface_form?: string; reading?: string; pronunciation?: string }>;
       } | null>((resolve) => {
         builder({ dicPath }).build((err, builtTokenizer) => {
           if (err || !builtTokenizer) {
@@ -471,7 +664,9 @@ async function deriveJaRomajiWithKuromoji(text: string) {
       }
       if (segments.length > 0) {
         const prev = segments[segments.length - 1];
-        const startsWithGeminateConsonant = /^(bb|cc|dd|ff|gg|hh|jj|kk|mm|nn|pp|rr|ss|tt|zz)/i.test(romaji);
+        const startsWithGeminateConsonant = /^(bb|cc|dd|ff|gg|hh|jj|kk|mm|nn|pp|rr|ss|tt|zz)/i.test(
+          romaji
+        );
         if (/^[aeiou]$/i.test(prev) && startsWithGeminateConsonant) {
           segments[segments.length - 1] = `${prev}${romaji}`;
           continue;
@@ -567,7 +762,10 @@ async function getJaReadingMap() {
               const suffixKana = (kanji.match(/[\u3040-\u309F]+$/u)?.[0] || '').trim();
               const suffixRomaji = suffixKana ? toKanaRomaji(suffixKana) : '';
               if (suffixRomaji && readingRomaji.endsWith(suffixRomaji)) {
-                const stemRomaji = readingRomaji.slice(0, Math.max(0, readingRomaji.length - suffixRomaji.length));
+                const stemRomaji = readingRomaji.slice(
+                  0,
+                  Math.max(0, readingRomaji.length - suffixRomaji.length)
+                );
                 const stemKanji = kanji.replace(/[\u3040-\u309F]+$/u, '');
                 if (stemKanji.length === 1 && stemRomaji) {
                   pushCharCandidate(stemKanji, stemRomaji);
