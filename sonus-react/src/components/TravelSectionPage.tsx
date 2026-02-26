@@ -365,7 +365,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                 return (
                   <div
                     key={phrase.id}
-                    className={`relative rounded-2xl border p-4 sm:p-5 text-center min-h-[200px] md:min-h-[200px] md:aspect-square flex flex-col ${
+                    className={`relative rounded-2xl border p-4 sm:p-5 text-center min-h-[220px] md:min-h-[200px] md:aspect-square flex flex-col ${
                       isLearned ? 'bg-white/10' : 'bg-white/14'
                     }`}
                     style={{ borderColor: 'rgba(255,255,255,0.24)' }}
