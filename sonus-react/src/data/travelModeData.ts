@@ -335,11 +335,15 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
     ],
     [
       { id: 'ho-ja-1', hanzi: '予約があります。', pinyin: 'yoyaku ga arimasu', english: 'I have a reservation.' },
-      { id: 'ho-ja-2', hanzi: 'チェックインをお願いします。', pinyin: 'chekkuin o onegaishimasu', english: "I'd like to check in." },
-      { id: 'ho-ja-3', hanzi: '朝食は何時からですか？', pinyin: 'choushoku wa nanji kara desu ka', english: 'What time does breakfast start?' },
-      { id: 'ho-ja-4', hanzi: 'お湯が出ません。', pinyin: 'oyu ga demasen', english: "There is no hot water." },
-      { id: 'ho-ja-5', hanzi: 'Wi-Fiのパスワードを教えてください。', pinyin: 'waifai no pasuwaado o oshiete kudasai', english: 'Please tell me the Wi-Fi password.' },
-      { id: 'ho-ja-6', hanzi: 'チェックアウトをお願いします。', pinyin: 'chekkuauto o onegaishimasu', english: "I'd like to check out." },
+      { id: 'ho-ja-2', hanzi: 'パスポートはこちらです。', pinyin: 'pasupooto wa kochira desu', english: 'Here is my passport.' },
+      { id: 'ho-ja-3', hanzi: 'チェックインをお願いします。', pinyin: 'chekkuin o onegaishimasu', english: "I'd like to check in." },
+      { id: 'ho-ja-4', hanzi: '荷物を預かっていただけますか？', pinyin: 'nimotsu o azukatte itadakemasu ka', english: 'Could you store my luggage?' },
+      { id: 'ho-ja-5', hanzi: 'チェックアウトをお願いします。', pinyin: 'chekkuauto o onegaishimasu', english: "I'd like to check out." },
+      { id: 'ho-ja-6', hanzi: 'チェックアウトは何時ですか？', pinyin: 'chekkuauto wa nanji desu ka', english: 'What time is checkout?' },
+      { id: 'ho-ja-7', hanzi: 'Wi-Fiのパスワードを教えてください。', pinyin: 'waifai no pasuwaado o oshiete kudasai', english: 'Please tell me the Wi-Fi password.' },
+      { id: 'ho-ja-8', hanzi: 'ランドリーはありますか？', pinyin: 'randorii wa arimasu ka', english: 'Is there a laundry machine?' },
+      { id: 'ho-ja-9', hanzi: 'お湯が出ません。', pinyin: 'oyu ga demasen', english: 'There is no hot water.' },
+      { id: 'ho-ja-10', hanzi: '部屋を変えていただけますか？', pinyin: 'heya o kaete itadakemasu ka', english: 'Could I change rooms?' },
     ]
   ),
   s(
@@ -368,12 +372,16 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       'Small Cultural Notes::Water is usually provided automatically. \nPlastic food displays outside many restaurants can help you point and order confidently.',
     ],
     [
-      { id: 're-ja-1', hanzi: 'メニューをお願いします。', pinyin: 'menyuu o onegaishimasu', english: 'Menu, please.' },
-      { id: 're-ja-2', hanzi: 'これは辛いですか？', pinyin: 'kore wa karai desu ka', english: 'Is this spicy?' },
-      { id: 're-ja-3', hanzi: '豚肉は食べられません。', pinyin: 'butaniku wa taberaremasen', english: "I can't eat pork." },
+      { id: 're-ja-1', hanzi: 'すみません。', pinyin: 'sumimasen', english: 'Excuse me.' },
+      { id: 're-ja-2', hanzi: 'メニューをお願いします。', pinyin: 'menyuu o onegaishimasu', english: 'Menu, please.' },
+      { id: 're-ja-3', hanzi: 'これをお願いします。', pinyin: 'kore o onegaishimasu', english: 'This one, please.' },
       { id: 're-ja-4', hanzi: 'おすすめは何ですか？', pinyin: 'osusume wa nan desu ka', english: 'What do you recommend?' },
-      { id: 're-ja-5', hanzi: 'これを二つください。', pinyin: 'kore o futatsu kudasai', english: 'Two of these, please.' },
-      { id: 're-ja-6', hanzi: 'お会計をお願いします。', pinyin: 'okaikei o onegaishimasu', english: 'Check, please.' },
+      { id: 're-ja-5', hanzi: 'これは辛いですか？', pinyin: 'kore wa karai desu ka', english: 'Is this spicy?' },
+      { id: 're-ja-6', hanzi: 'アレルギーがあります。', pinyin: 'arerugii ga arimasu', english: 'I have an allergy.' },
+      { id: 're-ja-7', hanzi: '豚肉は食べられません。', pinyin: 'butaniku wa taberaremasen', english: "I can't eat pork." },
+      { id: 're-ja-8', hanzi: 'お会計お願いします。', pinyin: 'okaikei onegaishimasu', english: 'Check, please.' },
+      { id: 're-ja-9', hanzi: 'カードは使えますか？', pinyin: 'kaado wa tsukaemasu ka', english: 'Can I use a card?' },
+      { id: 're-ja-10', hanzi: '持ち帰りできますか？', pinyin: 'mochikaeri dekimasu ka', english: 'Can I get this to-go?' },
     ]
   ),
   s(
@@ -391,14 +399,18 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       'Returns & Exchanges::Return policies vary by store. Confirm the policy before opening sealed items.\nSome stores may offer exchange only rather than refunds.\nDuty-free purchases may have additional restrictions on returns.',
       'Practical Notes::Bring a reusable bag. Some stores charge for shopping bags.\nIn clothing stores, you may be asked to remove your shoes or use provided shoe covers in fitting rooms.\nConsumption tax is generally 10 percent for most goods, with a reduced rate for certain food items.\nCarrying your passport when planning larger purchases is recommended.',
     ],
-    [
-      { id: 'sh-ja-1', hanzi: 'これはいくらですか？', pinyin: 'kore wa ikura desu ka', english: 'How much is this?' },
-      { id: 'sh-ja-2', hanzi: 'もう少し安くなりますか？', pinyin: 'mou sukoshi yasuku narimasu ka', english: 'Can it be a little cheaper?' },
-      { id: 'sh-ja-3', hanzi: 'カードは使えますか？', pinyin: 'kaado wa tsukaemasu ka', english: 'Can I use a card?' },
-      { id: 'sh-ja-4', hanzi: '現金がありません。', pinyin: 'genkin ga arimasen', english: "I don't have cash." },
-      { id: 'sh-ja-5', hanzi: '返品できますか？', pinyin: 'henpin dekimasu ka', english: 'Can I return this?' },
-      { id: 'sh-ja-6', hanzi: 'レシートをください。', pinyin: 'reshiito o kudasai', english: 'Please give me a receipt.' },
-    ]
+      [
+        { id: 'sh-ja-1', hanzi: 'これはいくらですか？', pinyin: 'kore wa ikura desu ka', english: 'How much is this?' },
+        { id: 'sh-ja-2', hanzi: '税込みですか？', pinyin: 'zeikomi desu ka', english: 'Is tax included?' },
+        { id: 'sh-ja-3', hanzi: '免税できますか？', pinyin: 'menzei dekimasu ka', english: 'Is tax-free available?' },
+        { id: 'sh-ja-4', hanzi: 'パスポートはこちらです。', pinyin: 'pasupooto wa kochira desu', english: 'Here is my passport.' },
+        { id: 'sh-ja-5', hanzi: 'カードは使えますか？', pinyin: 'kaado wa tsukaemasu ka', english: 'Can I use a card?' },
+        { id: 'sh-ja-6', hanzi: '現金のみですか？', pinyin: 'genkin nomi desu ka', english: 'Is it cash only?' },
+        { id: 'sh-ja-7', hanzi: '袋はいりません。', pinyin: 'fukuro wa irimasen', english: "I don't need a bag." },
+        { id: 'sh-ja-8', hanzi: '試着できますか？', pinyin: 'shichaku dekimasu ka', english: 'Can I try this on?' },
+        { id: 'sh-ja-9', hanzi: 'サイズはありますか？', pinyin: 'saizu wa arimasu ka', english: 'Do you have this in another size?' },
+        { id: 'sh-ja-10', hanzi: 'レシートをください。', pinyin: 'reshiito o kudasai', english: 'Please give me the receipt.' },
+      ]
   ),
   s(
     'emergency',
@@ -418,12 +430,16 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       'Practical Advice Under Stress::Lead with your key need in the first sentence.\nUse short, direct statements.\nRepeat slowly if necessary.\nShow written information on your phone when possible.\nStation staff can often connect you to emergency services quickly if you are in transit areas.',
     ],
     [
-      { id: 'em-ja-1', hanzi: '医者が必要です。', pinyin: 'isha ga hitsuyou desu', english: 'I need a doctor.' },
+      { id: 'em-ja-1', hanzi: '助けてください。', pinyin: 'tasukete kudasai', english: 'Please help me.' },
       { id: 'em-ja-2', hanzi: '救急車を呼んでください。', pinyin: 'kyuukyuusha o yonde kudasai', english: 'Please call an ambulance.' },
-      { id: 'em-ja-3', hanzi: '気分が悪いです。', pinyin: 'kibun ga warui desu', english: "I feel unwell." },
-      { id: 'em-ja-4', hanzi: 'パスポートをなくしました。', pinyin: 'pasupooto o nakushimashita', english: 'I lost my passport.' },
-      { id: 'em-ja-5', hanzi: '警察を呼んでください。', pinyin: 'keisatsu o yonde kudasai', english: 'Please call the police.' },
-      { id: 'em-ja-6', hanzi: '通訳が必要です。', pinyin: 'tsuuyaku ga hitsuyou desu', english: 'I need an interpreter.' },
+      { id: 'em-ja-3', hanzi: '警察を呼んでください。', pinyin: 'keisatsu o yonde kudasai', english: 'Please call the police.' },
+      { id: 'em-ja-4', hanzi: '医者が必要です。', pinyin: 'isha ga hitsuyou desu', english: 'I need a doctor.' },
+      { id: 'em-ja-5', hanzi: '気分が悪いです。', pinyin: 'kibun ga warui desu', english: 'I feel unwell.' },
+      { id: 'em-ja-6', hanzi: 'けがをしました。', pinyin: 'kega o shimashita', english: 'I am injured.' },
+      { id: 'em-ja-7', hanzi: 'ここが痛いです。', pinyin: 'koko ga itai desu', english: 'It hurts here.' },
+      { id: 'em-ja-8', hanzi: '英語をお願いします。', pinyin: 'eigo o onegaishimasu', english: 'English, please.' },
+      { id: 'em-ja-9', hanzi: '救急外来はどこですか？', pinyin: 'kyuukyuu gairai wa doko desu ka', english: 'Where is the emergency room?' },
+      { id: 'em-ja-10', hanzi: 'パスポートをなくしました。', pinyin: 'pasupooto o nakushimashita', english: 'I lost my passport.' },
     ]
   ),
   s(
@@ -444,14 +460,18 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       '今日はありがとうございました\nkyou wa arigatou gozaimashita\nThank you for today.', 
       'Soft exits feel natural here.',
     ],
-    [
-      { id: 'st-ja-1', hanzi: 'どちらから来ましたか？', pinyin: 'dochira kara kimashita ka', english: 'Where are you from?' },
-      { id: 'st-ja-2', hanzi: '日本は初めてです。', pinyin: 'nihon wa hajimete desu', english: 'It is my first time in Japan.' },
-      { id: 'st-ja-3', hanzi: 'おすすめの場所はありますか？', pinyin: 'osusume no basho wa arimasu ka', english: 'Do you have a place you recommend?' },
-      { id: 'st-ja-4', hanzi: 'とても楽しいです。', pinyin: 'totemo tanoshii desu', english: 'I am having a great time.' },
-      { id: 'st-ja-5', hanzi: 'お会いできてうれしいです。', pinyin: 'oai dekite ureshii desu', english: 'Nice to meet you.' },
-      { id: 'st-ja-6', hanzi: 'では、また。', pinyin: 'dewa, mata', english: 'See you later.' },
-    ]
+      [
+        { id: 'st-ja-1', hanzi: 'どちらから来ましたか？', pinyin: 'dochira kara kimashita ka', english: 'Where are you from?' },
+        { id: 'st-ja-2', hanzi: '日本は初めてです。', pinyin: 'nihon wa hajimete desu', english: 'It is my first time in Japan.' },
+        { id: 'st-ja-3', hanzi: 'おすすめはありますか？', pinyin: 'osusume wa arimasu ka', english: 'Do you have a recommendation?' },
+        { id: 'st-ja-4', hanzi: 'すみません。', pinyin: 'sumimasen', english: 'Excuse me.' },
+        { id: 'st-ja-5', hanzi: 'ありがとうございます。', pinyin: 'arigatou gozaimasu', english: 'Thank you.' },
+        { id: 'st-ja-6', hanzi: '英語は話せますか？', pinyin: 'eigo wa hanasemasu ka', english: 'Do you speak English?' },
+        { id: 'st-ja-7', hanzi: '写真を撮ってもいいですか？', pinyin: 'shashin o totte mo ii desu ka', english: 'May I take a photo?' },
+        { id: 'st-ja-8', hanzi: 'お名前は何ですか？', pinyin: 'onamae wa nan desu ka', english: 'What is your name?' },
+        { id: 'st-ja-9', hanzi: 'お会いできてうれしいです。', pinyin: 'oai dekite ureshii desu', english: 'Nice to meet you.' },
+        { id: 'st-ja-10', hanzi: 'そろそろ失礼します。', pinyin: 'sorosoro shitsurei shimasu', english: 'I should be going now.' },
+      ]
   ),
   s(
     'digital',
@@ -471,10 +491,14 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
     [
       { id: 'di-ja-1', hanzi: 'Wi-Fiはありますか？', pinyin: 'waifai wa arimasu ka', english: 'Do you have Wi-Fi?' },
       { id: 'di-ja-2', hanzi: 'パスワードは何ですか？', pinyin: 'pasuwaado wa nan desu ka', english: 'What is the password?' },
-      { id: 'di-ja-3', hanzi: 'このQRコードを読み取ってください。', pinyin: 'kono kyuuaaru koodo o yomitotte kudasai', english: 'Please scan this QR code.' },
       { id: 'di-ja-4', hanzi: '携帯の充電がありません。', pinyin: 'keitai no juuden ga arimasen', english: 'My phone battery is dead.' },
       { id: 'di-ja-5', hanzi: '充電器を借りられますか？', pinyin: 'juudenki o kariraremasu ka', english: 'Can I borrow a charger?' },
-      { id: 'di-ja-6', hanzi: 'このアプリの使い方を教えてください。', pinyin: 'kono apuri no tsukaikata o oshiete kudasai', english: 'Please show me how to use this app.' },
+      { id: 'di-ja-6', hanzi: 'QRコードで注文できますか？', pinyin: 'kyuu aaru koodo de chuumon dekimasu ka', english: 'Can I order by QR code?' },
+      { id: 'di-ja-7', hanzi: 'Suicaをチャージしたいです。', pinyin: 'suika o chaaji shitai desu', english: 'I want to top up my Suica.' },
+      { id: 'di-ja-8', hanzi: '充電できる場所はありますか？', pinyin: 'juuden dekiru basho wa arimasu ka', english: 'Is there a place I can charge my phone?' },
+      { id: 'di-ja-9', hanzi: '電波が入りません。', pinyin: 'denpa ga hairimasen', english: 'I have no signal.' },
+      { id: 'di-ja-10', hanzi: 'もう一度リンクを送ってください。', pinyin: 'mou ichido rinku o okutte kudasai', english: 'Please send the link again.' },
+      { id: 'di-ja-11', hanzi: 'GOでタクシーを呼びたいです。', pinyin: 'go de takushii o yobitai desu', english: 'I want to call a taxi with GO.' },
     ]
   ),
 ];
