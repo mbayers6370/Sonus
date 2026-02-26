@@ -14,7 +14,7 @@ interface LessonRouteControllerProps {
 
 export default function LessonRouteController({ onGoHome, onOpenProfile }: LessonRouteControllerProps) {
   const navigate = useNavigate();
-  const { state, openLessonPath, restartLesson, exitLesson, setLessonMode, selectLanguage } = useApp();
+  const { state, openLessonPath, restartLesson, exitLesson, setLessonMode } = useApp();
   const { activeLesson, lessonWordIndex, activeBandId } = state;
   const { band, unitId, lessonIndex, mode } = useParams<{
     tier: string;
@@ -37,6 +37,16 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
   useEffect(() => {
     if (!band || !unitId || !Number.isFinite(parsedLessonIndex)) return;
     const isMandarinLevel = /^band\d+$/i.test(band) || band === 'advanced';
+    const isJapaneseLevel = /^n[1-5]$/i.test(band);
+    const normalizedLanguage = state.selectedLanguage === 'jp' ? 'ja' : state.selectedLanguage;
+    if (!normalizedLanguage) {
+      navigate('/learn', { replace: true });
+      return;
+    }
+    if ((isMandarinLevel && normalizedLanguage !== 'zh') || (isJapaneseLevel && normalizedLanguage !== 'ja')) {
+      navigate('/learn', { replace: true });
+      return;
+    }
     if (isMandarinLevel && isMandarinBandLocked(band, state.unlockedLevels)) {
       navigate('/learn', { replace: true });
       return;
@@ -84,9 +94,6 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
     if (pendingLoadKeyRef.current === loadKey) return;
     pendingLoadKeyRef.current = loadKey;
 
-    if (isMandarinLevel && state.selectedLanguage !== 'zh') selectLanguage('zh');
-    if (/^n[1-5]$/i.test(band) && state.selectedLanguage !== 'ja' && state.selectedLanguage !== 'jp') selectLanguage('ja');
-
     void openLessonPath(band, unitId, parsedLessonIndex)
       .then((opened) => {
         if (!opened) navigate(`/learn/${tierForBand(band)}/${band}`, { replace: true });
@@ -103,7 +110,6 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
     lessonMode,
     navigate,
     openLessonPath,
-    selectLanguage,
     state.selectedLanguage,
     state.activeBandId,
     state.activeLesson,

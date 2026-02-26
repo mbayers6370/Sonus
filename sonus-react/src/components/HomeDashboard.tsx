@@ -536,7 +536,7 @@ export default function HomeDashboard({
           <div
             className="pointer-events-none absolute inset-0"
             style={{
-              opacity: 0.05,
+              opacity: 0.07,
               backgroundImage: "url('/branding/Transparent_Background.png')",
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',

@@ -127,6 +127,10 @@ export default function AppRoutes() {
 
   const goLearn = useCallback(async () => {
     exitLesson();
+    if (!selectedLanguage) {
+      navigate('/');
+      return;
+    }
     if (currentLevel && levelMatchesLanguage(currentLevel.id, selectedLanguage)) {
       navigate(`/learn/${tierForBand(currentLevel.id)}/${currentLevel.id}`);
       return;
@@ -143,10 +147,6 @@ export default function AppRoutes() {
             navigate('/learn');
             return;
           }
-          if (!selectedLanguage) {
-            if (isMandarinLevel(level.id)) selectLanguage('zh');
-            if (isJapaneseLevel(level.id)) selectLanguage('ja');
-          }
           await selectLevel(level);
           navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
           return;
@@ -156,9 +156,8 @@ export default function AppRoutes() {
       // Fall through to generic learn page.
     }
 
-    if (!selectedLanguage) selectLanguage('zh');
     navigate('/learn');
-  }, [currentLevel, exitLesson, navigate, selectLanguage, selectLevel, selectedLanguage, state.unlockedLevels]);
+  }, [currentLevel, exitLesson, navigate, selectLevel, selectedLanguage, state.unlockedLevels]);
 
   const openPracticeFromHome = useCallback(
     (kind: 'listening' | 'speaking', bandId?: string | null) => {
@@ -239,15 +238,16 @@ export default function AppRoutes() {
 
     useEffect(() => {
       if (!level) return;
-      if (isMandarinLevel(level.id) && selectedLanguage !== 'zh') selectLanguage('zh');
-      if (isJapaneseLevel(level.id) && selectedLanguage !== 'ja' && selectedLanguage !== 'jp') selectLanguage('ja');
       // Ensure band payload is loaded when route band changes.
       if (currentLevel?.id !== level.id) {
         void selectLevel(level);
       }
-    }, [currentLevel?.id, level, selectLanguage, selectLevel, selectedLanguage]);
+    }, [currentLevel?.id, level, selectLevel]);
 
     if (!level) return <Navigate to="/learn" replace />;
+    if (!selectedLanguage || !levelMatchesLanguage(level.id, selectedLanguage)) {
+      return <Navigate to="/learn" replace />;
+    }
     if (isMandarinLevel(level.id) && isMandarinBandLocked(level.id, state.unlockedLevels)) return <Navigate to="/learn" replace />;
     if (!currentLevel || currentLevel.id !== level.id || !state.activeBandData) {
       return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading units…</div>;
@@ -380,7 +380,7 @@ export default function AppRoutes() {
             languageResolved={languageResolved}
             onGoHome={goHome}
             onOpenProfile={goProfile}
-            switchMode={isLanguageSwitchMode || Boolean(selectedLanguage)}
+            switchMode={isLanguageSwitchMode || !selectedLanguage}
             onCancelSwitch={() => navigate(languageSwitchReturnTo)}
             onSelectLanguage={(langId) => {
               writeLastLanguage(langId);
