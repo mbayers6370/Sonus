@@ -88,24 +88,18 @@ export default function ProfileScreen({
   const [timezone, setTimezone] = useState('');
   const [deletingAccount, setDeletingAccount] = useState(false);
 
-  const learningLanguageName =
-    (currentLearningLanguage === 'zh' && 'Mandarin') ||
-    (currentLearningLanguage === 'ja' && 'Japanese') ||
-    (currentLearningLanguage === 'jp' && 'Japanese') ||
-    (currentLearningLanguage === 'kr' && 'Korean') ||
-    (currentLearningLanguage === 'fr' && 'French') ||
-    'Not set';
-
-  const profileTargetLanguageNameRaw =
-    (targetLanguage === 'zh' && 'Mandarin') ||
-    (targetLanguage === 'es' && 'Spanish') ||
-    (targetLanguage === 'fr' && 'French') ||
-    (targetLanguage === 'de' && 'German') ||
-    (targetLanguage === 'ja' && 'Japanese') ||
-    (targetLanguage === 'ko' && 'Korean') ||
-    null;
-  const profileTargetLanguageName =
-    profileTargetLanguageNameRaw || (learningLanguageName !== 'Not set' ? learningLanguageName : null);
+  const languageNameById: Record<string, string> = {
+    zh: 'Mandarin',
+    ja: 'Japanese',
+    kr: 'Korean',
+    ko: 'Korean',
+    fr: 'French',
+    es: 'Spanish',
+    de: 'German',
+  };
+  const activeLanguageName = resolvedCurrentLearningLanguage
+    ? (languageNameById[resolvedCurrentLearningLanguage] || 'Language')
+    : null;
 
   const effectiveBandId =
     progress?.currentBandId ??
@@ -196,7 +190,7 @@ export default function ProfileScreen({
       // Preserve existing user identity/progress on transient backend failures.
       setProfile((prev) => prev ?? {
         displayName: null,
-        targetLanguage: currentLearningLanguage || null,
+        targetLanguage: resolvedCurrentLearningLanguage || null,
         timezone: timezone || null,
         onboardingComplete: false,
         email: null,
@@ -324,7 +318,7 @@ export default function ProfileScreen({
             <div className="text-sm text-text-med">{profile?.email || '—'}</div>
             <div className="mt-1 flex flex-wrap items-center justify-center gap-1.5">
               <span className="inline-flex items-center rounded-full border border-border bg-[rgba(55,65,81,0.06)] px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider text-text-med">
-                {profileTargetLanguageName ? `Target: ${profileTargetLanguageName}` : 'Target: Not set'}
+                {activeLanguageName ? `Target: ${activeLanguageName}` : 'Target: Not set'}
               </span>
             </div>
             <button
@@ -406,7 +400,7 @@ export default function ProfileScreen({
               <div className="mt-4 rounded-2xl border border-[rgba(24,110,149,0.18)] bg-white/85 p-3">
                 <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-text-light">Current</div>
                 <div className="mt-1.5 inline-flex items-center rounded-full border border-[#186E95]/25 bg-[rgba(24,110,149,0.08)] px-3 py-1 text-xs font-semibold text-[#186E95]">
-                  {learningLanguageName}
+                  {activeLanguageName || 'Not set'}
                 </div>
 
                 <div className="mt-3 space-y-2.5">

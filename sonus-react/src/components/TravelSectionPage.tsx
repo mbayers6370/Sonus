@@ -4,6 +4,7 @@ import BottomNav from './BottomNav';
 import { useAudio } from '../hooks/useAudio';
 import type { TravelSectionData } from '../data/travelModeData';
 import GlassHeader from './GlassHeader';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 interface TravelSectionPageProps {
   section: TravelSectionData;
@@ -45,7 +46,7 @@ function getRecallMode(index: number): RecallMode {
 
 export default function TravelSectionPage({ section, onGoHome, onOpenProfile, selectedLanguage }: TravelSectionPageProps) {
   const { speak } = useAudio();
-  const isJapanese = selectedLanguage === 'ja' || selectedLanguage === 'jp';
+  const isJapanese = normalizeLanguageId(selectedLanguage) === 'ja';
   const targetLabel = isJapanese ? 'Japanese' : 'Chinese';
   const [learnedBySection, setLearnedBySection] = useState<Record<string, Record<string, boolean>>>(() => {
     try {

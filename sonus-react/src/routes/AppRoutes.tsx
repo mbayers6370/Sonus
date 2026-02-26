@@ -102,6 +102,11 @@ export default function AppRoutes() {
     };
   }, [selectedLanguage, navigate, selectLanguage]);
 
+  useEffect(() => {
+    if (!selectedLanguage) return;
+    writeLastLanguage(selectedLanguage);
+  }, [selectedLanguage]);
+
   const goHome = useCallback(() => {
     exitLesson();
     void selectLevel(null);

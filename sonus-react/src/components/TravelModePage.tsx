@@ -13,6 +13,7 @@ import type { LucideIcon } from 'lucide-react';
 import GlassHeader from './GlassHeader';
 import { toTitleCase } from '../lib/textCase';
 import { getTravelModeSections } from '../data/travelModeData';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 const travelSectionIcons: Record<string, LucideIcon> = {
   'airport-arrival': Plane,
@@ -46,8 +47,9 @@ function renderTileTitle(title: string) {
 }
 
 export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection, selectedLanguage }: TravelModePageProps) {
-  const sections = getTravelModeSections(selectedLanguage || 'zh');
-  const isJapanese = selectedLanguage === 'ja' || selectedLanguage === 'jp';
+  const normalizedLanguage = normalizeLanguageId(selectedLanguage);
+  const sections = getTravelModeSections(normalizedLanguage);
+  const isJapanese = normalizedLanguage === 'ja';
   const targetLabel = isJapanese ? 'Japanese' : 'Mandarin';
   return (
     <div className="relative min-h-screen page-shell px-6 with-bottom-nav overflow-hidden">

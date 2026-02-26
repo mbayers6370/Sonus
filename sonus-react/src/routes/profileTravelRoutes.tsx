@@ -4,6 +4,7 @@ import TravelSectionPage from '../components/TravelSectionPage';
 import ProfileScreen from '../components/ProfileScreen';
 import { getTravelSectionById } from '../data/travelModeData';
 import { useApp } from '../contexts/AppContext';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 type TravelRouteProps = {
   onGoHome: () => void;
@@ -13,12 +14,13 @@ type TravelRouteProps = {
 
 export function TravelRoute({ onGoHome, onOpenProfile, onOpenSection }: TravelRouteProps) {
   const { state } = useApp();
+  const selectedTravelLanguage = resolveTravelLanguage(state);
   return (
     <TravelModePage
       onGoHome={onGoHome}
       onOpenProfile={onOpenProfile}
       onOpenSection={onOpenSection}
-      selectedLanguage={state.selectedLanguage}
+      selectedLanguage={selectedTravelLanguage}
     />
   );
 }
@@ -31,7 +33,8 @@ type TravelSectionRouteProps = {
 
 export function TravelSectionRoute({ sectionId, onGoHome, onOpenProfile }: TravelSectionRouteProps) {
   const { state } = useApp();
-  const section = sectionId ? getTravelSectionById(sectionId, state.selectedLanguage) : undefined;
+  const selectedTravelLanguage = resolveTravelLanguage(state);
+  const section = sectionId ? getTravelSectionById(sectionId, selectedTravelLanguage) : undefined;
   if (!section) return <Navigate to="/travel" replace />;
 
   return (
@@ -40,9 +43,24 @@ export function TravelSectionRoute({ sectionId, onGoHome, onOpenProfile }: Trave
       section={section}
       onGoHome={onGoHome}
       onOpenProfile={onOpenProfile}
-      selectedLanguage={state.selectedLanguage}
+      selectedLanguage={selectedTravelLanguage}
     />
   );
+}
+
+function resolveTravelLanguage(state: ReturnType<typeof useApp>['state']): string {
+  const activeBandId =
+    state.currentLevel?.id ||
+    state.activeBandId ||
+    state.resumeCheckpoint?.bandId ||
+    null;
+
+  if (activeBandId && /^n[1-5]$/i.test(activeBandId)) return 'ja';
+  if (activeBandId && (/^band\d+$/i.test(activeBandId) || activeBandId === 'advanced')) return 'zh';
+
+  const normalized = normalizeLanguageId(state.selectedLanguage);
+  if (normalized === 'ja' || normalized === 'zh') return normalized;
+  return 'zh';
 }
 
 type ProfileRouteProps = {

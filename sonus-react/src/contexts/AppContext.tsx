@@ -613,6 +613,10 @@ function loadPersistedState(storageKey = resolveStateStorageKey()): AppState {
     return {
       ...initialState,
       ...parsed,
+      selectedLanguage:
+        typeof parsed.selectedLanguage === 'string'
+          ? (parsed.selectedLanguage === 'jp' ? 'ja' : parsed.selectedLanguage)
+          : initialState.selectedLanguage,
       unlockedLevels: Array.from(new Set([...defaultUnlockedLevelIds(), ...preservedNonMandarin, ...preservedBandOne])),
       lessonProgress: normalizeLessonProgressKeys(parsed.lessonProgress || {}),
       wordReview: parsed.wordReview || {},
@@ -785,9 +789,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [authStatus, authEmail]);
 
   const selectLanguage = (langId: string | null) => {
+    const normalizedLangId = langId === 'jp' ? 'ja' : langId;
     setState((prev) => ({
       ...prev,
-      selectedLanguage: langId,
+      selectedLanguage: normalizedLangId,
       currentLevel: null,
       activeBandId: null,
       activeBandData: null,
