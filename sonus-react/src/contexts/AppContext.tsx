@@ -11,6 +11,7 @@ import type {
   ConfidenceLevel,
   QuizPromptType,
   WordReviewState,
+  ResumeCheckpoint,
 } from '../types/lesson.types';
 import {
   getUnitMetadata,
@@ -138,6 +139,43 @@ function resolveStateStorageKey() {
 function defaultUnlockedLevelIds() {
   const base = ALL_LEVEL_IDS.filter((id) => !/^band\d+$/i.test(id) && id !== 'advanced');
   return Array.from(new Set([...base, 'band1']));
+}
+
+function normalizeLanguageForState(languageId: string | null | undefined): string | null {
+  if (!languageId) return null;
+  const normalized = languageId.trim().toLowerCase();
+  if (!normalized) return null;
+  return normalized === 'jp' ? 'ja' : normalized;
+}
+
+function inferLanguageFromBandId(bandId: string | null | undefined): string | null {
+  if (!bandId) return null;
+  if (/^n[1-5]$/i.test(bandId)) return 'ja';
+  if (/^band\d+$/i.test(bandId) || bandId === 'advanced') return 'zh';
+  return null;
+}
+
+function normalizeResumeCheckpointMap(
+  value: unknown
+): Record<string, ResumeCheckpoint> {
+  if (!value || typeof value !== 'object') return {};
+  const map = value as Record<string, unknown>;
+  const normalized: Record<string, ResumeCheckpoint> = {};
+  for (const [key, checkpoint] of Object.entries(map)) {
+    const lang = normalizeLanguageForState(key);
+    if (!lang || !checkpoint || typeof checkpoint !== 'object') continue;
+    const parsed = checkpoint as Partial<ResumeCheckpoint>;
+    if (
+      typeof parsed.bandId !== 'string' ||
+      typeof parsed.unitId !== 'string' ||
+      typeof parsed.lessonIndex !== 'number' ||
+      !parsed.activeLesson
+    ) {
+      continue;
+    }
+    normalized[lang] = parsed as ResumeCheckpoint;
+  }
+  return normalized;
 }
 
 function inferLanguageForBand(bandId: string, selectedLanguage: string | null) {
@@ -590,6 +628,7 @@ const initialState: AppState = {
   speakBreakdownByIndex: {},
   lastActiveDate: null,
   resumeCheckpoint: null,
+  resumeCheckpointByLanguage: {},
   activeBandId: null,
   activeBandData: null,
   activeUnitId: null,
@@ -610,13 +649,31 @@ function loadPersistedState(storageKey = resolveStateStorageKey()): AppState {
       : [];
     const preservedNonMandarin = parsedUnlocked.filter((levelId) => !isMandarinBandId(levelId));
     const preservedBandOne = parsedUnlocked.filter((levelId) => levelId === 'band1');
+    const normalizedLanguage = normalizeLanguageForState(
+      typeof parsed.selectedLanguage === 'string' ? parsed.selectedLanguage : null
+    );
+    const persistedCheckpointMap = normalizeResumeCheckpointMap(
+      (parsed as Partial<AppState>).resumeCheckpointByLanguage
+    );
+    const rawResumeCheckpoint = (parsed as Partial<AppState>).resumeCheckpoint;
+    const resumeCheckpoint =
+      rawResumeCheckpoint && typeof rawResumeCheckpoint === 'object'
+        ? (rawResumeCheckpoint as ResumeCheckpoint)
+        : null;
+    const checkpointMap = { ...persistedCheckpointMap };
+    if (resumeCheckpoint) {
+      const inferred =
+        normalizeLanguageForState(normalizedLanguage) ||
+        inferLanguageFromBandId(resumeCheckpoint.bandId);
+      if (inferred) checkpointMap[inferred] = resumeCheckpoint;
+    }
     return {
       ...initialState,
       ...parsed,
-      selectedLanguage:
-        typeof parsed.selectedLanguage === 'string'
-          ? (parsed.selectedLanguage === 'jp' ? 'ja' : parsed.selectedLanguage)
-          : initialState.selectedLanguage,
+      selectedLanguage: normalizedLanguage,
+      resumeCheckpointByLanguage: checkpointMap,
+      resumeCheckpoint:
+        (normalizedLanguage && checkpointMap[normalizedLanguage]) || resumeCheckpoint || null,
       unlockedLevels: Array.from(new Set([...defaultUnlockedLevelIds(), ...preservedNonMandarin, ...preservedBandOne])),
       lessonProgress: normalizeLessonProgressKeys(parsed.lessonProgress || {}),
       wordReview: parsed.wordReview || {},
@@ -789,21 +846,32 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [authStatus, authEmail]);
 
   const selectLanguage = (langId: string | null) => {
-    const normalizedLangId = langId === 'jp' ? 'ja' : langId;
-    setState((prev) => ({
-      ...prev,
-      selectedLanguage: normalizedLangId,
-      currentLevel: null,
-      activeBandId: null,
-      activeBandData: null,
-      activeLesson: null,
-      lessonMode: 'intro',
-      lessonWordIndex: 0,
-      quizResultsByIndex: {},
-      speakResultsByIndex: {},
-      speakBreakdownByIndex: {},
-      resumeCheckpoint: null,
-    }));
+    const normalizedLangId = normalizeLanguageForState(langId);
+    setState((prev) => {
+      const previousLanguage =
+        normalizeLanguageForState(prev.selectedLanguage) ||
+        inferLanguageFromBandId(prev.activeBandId);
+      const nextCheckpointMap = { ...prev.resumeCheckpointByLanguage };
+      if (previousLanguage && prev.resumeCheckpoint) {
+        nextCheckpointMap[previousLanguage] = prev.resumeCheckpoint;
+      }
+      return {
+        ...prev,
+        selectedLanguage: normalizedLangId,
+        currentLevel: null,
+        activeBandId: null,
+        activeBandData: null,
+        activeLesson: null,
+        lessonMode: 'intro',
+        lessonWordIndex: 0,
+        quizResultsByIndex: {},
+        speakResultsByIndex: {},
+        speakBreakdownByIndex: {},
+        resumeCheckpointByLanguage: nextCheckpointMap,
+        resumeCheckpoint:
+          (normalizedLangId && nextCheckpointMap[normalizedLangId]) || null,
+      };
+    });
   };
 
   const selectLevel = async (level: LessonBand | null) => {
@@ -1592,6 +1660,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
         speakResultsByIndex: {},
         speakBreakdownByIndex: {},
         resumeCheckpoint: null,
+        resumeCheckpointByLanguage: (() => {
+          const currentLanguage =
+            normalizeLanguageForState(prev.selectedLanguage) ||
+            inferLanguageFromBandId(targetBandId);
+          if (!currentLanguage) return prev.resumeCheckpointByLanguage;
+          const nextCheckpointMap = { ...prev.resumeCheckpointByLanguage };
+          delete nextCheckpointMap[currentLanguage];
+          return nextCheckpointMap;
+        })(),
         dailySetDate: today,
         dailySetWordIds: picks,
       }));
@@ -1766,6 +1843,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
         streak: newStreak,
         lastActiveDate: today,
         resumeCheckpoint: null,
+        resumeCheckpointByLanguage: (() => {
+          const currentLanguage =
+            normalizeLanguageForState(prev.selectedLanguage) ||
+            inferLanguageFromBandId(bandId);
+          if (!currentLanguage) return prev.resumeCheckpointByLanguage;
+          const nextCheckpointMap = { ...prev.resumeCheckpointByLanguage };
+          delete nextCheckpointMap[currentLanguage];
+          return nextCheckpointMap;
+        })(),
         unlockedLevels: nextUnlockedLevels,
         wordReview: (() => {
           if (!masteryJustAchieved || lessonMode === 'intro') return prev.wordReview;
@@ -1838,21 +1924,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const restartLesson = () => {
-    setState((prev) => ({
-      ...prev,
-      lessonWordIndex: 0,
-      lessonMode: 'intro',
-      quizResultsByIndex: {},
-      speakResultsByIndex: {},
-      speakBreakdownByIndex: {},
-      resumeCheckpoint: null,
-    }));
+    setState((prev) => {
+      const currentLanguage =
+        normalizeLanguageForState(prev.selectedLanguage) ||
+        inferLanguageFromBandId(prev.activeBandId);
+      const nextCheckpointMap = { ...prev.resumeCheckpointByLanguage };
+      if (currentLanguage) {
+        delete nextCheckpointMap[currentLanguage];
+      }
+      return {
+        ...prev,
+        lessonWordIndex: 0,
+        lessonMode: 'intro',
+        quizResultsByIndex: {},
+        speakResultsByIndex: {},
+        speakBreakdownByIndex: {},
+        resumeCheckpoint: null,
+        resumeCheckpointByLanguage: nextCheckpointMap,
+      };
+    });
   };
 
   const exitLesson = () => {
-    setState((prev) => ({
-      ...prev,
-      resumeCheckpoint:
+    setState((prev) => {
+      const nextResumeCheckpoint =
         prev.activeLesson &&
         prev.activeBandId &&
         !isPracticeUnitId(prev.activeLesson.unitId) &&
@@ -1872,14 +1967,28 @@ export function AppProvider({ children }: { children: ReactNode }) {
               speakResultsByIndex: prev.speakResultsByIndex,
               speakBreakdownByIndex: prev.speakBreakdownByIndex,
             }
-          : prev.resumeCheckpoint,
-      activeLesson: null,
-      lessonWordIndex: 0,
-      lessonMode: 'intro',
-      quizResultsByIndex: {},
-      speakResultsByIndex: {},
-      speakBreakdownByIndex: {},
-    }));
+          : prev.resumeCheckpoint;
+
+      const currentLanguage =
+        normalizeLanguageForState(prev.selectedLanguage) ||
+        inferLanguageFromBandId(nextResumeCheckpoint?.bandId || prev.activeBandId);
+      const nextCheckpointMap = { ...prev.resumeCheckpointByLanguage };
+      if (currentLanguage && nextResumeCheckpoint) {
+        nextCheckpointMap[currentLanguage] = nextResumeCheckpoint;
+      }
+
+      return {
+        ...prev,
+        resumeCheckpoint: nextResumeCheckpoint,
+        resumeCheckpointByLanguage: nextCheckpointMap,
+        activeLesson: null,
+        lessonWordIndex: 0,
+        lessonMode: 'intro',
+        quizResultsByIndex: {},
+        speakResultsByIndex: {},
+        speakBreakdownByIndex: {},
+      };
+    });
   };
 
   const value: AppContextType = {

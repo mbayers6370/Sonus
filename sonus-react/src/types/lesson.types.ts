@@ -151,6 +151,18 @@ export interface SpeakBreakdown {
   tone: SpeakComponentScore;
 }
 
+export interface ResumeCheckpoint {
+  bandId: string;
+  unitId: string;
+  lessonIndex: number;
+  lessonMode: LessonMode;
+  lessonWordIndex: number;
+  activeLesson: ActiveLesson;
+  quizResultsByIndex: Record<number, boolean>;
+  speakResultsByIndex: Record<number, boolean>;
+  speakBreakdownByIndex: Record<number, SpeakBreakdown>;
+}
+
 // App state
 export interface AppState {
   selectedLanguage: string | null;
@@ -178,17 +190,8 @@ export interface AppState {
   speakResultsByIndex: Record<number, boolean>;
   speakBreakdownByIndex: Record<number, SpeakBreakdown>;
   lastActiveDate: string | null;
-  resumeCheckpoint: {
-    bandId: string;
-    unitId: string;
-    lessonIndex: number;
-    lessonMode: LessonMode;
-    lessonWordIndex: number;
-    activeLesson: ActiveLesson;
-    quizResultsByIndex: Record<number, boolean>;
-    speakResultsByIndex: Record<number, boolean>;
-    speakBreakdownByIndex: Record<number, SpeakBreakdown>;
-  } | null;
+  resumeCheckpoint: ResumeCheckpoint | null;
+  resumeCheckpointByLanguage: Record<string, ResumeCheckpoint>;
 
   // Band data cache
   activeBandId: string | null;
