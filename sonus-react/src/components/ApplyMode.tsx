@@ -789,12 +789,12 @@ export default function ApplyMode({
       <WordProgressRail total={railTotal} currentIndex={railIndex} />
 
       <div className="px-5 pt-2">
-        <div className={`mx-auto w-full max-w-3xl mb-3 grid ${supportsCharacterTab ? 'grid-cols-2' : 'grid-cols-1'} gap-2 rounded-2xl bg-[rgba(55,65,81,0.06)] p-1`}>
+        <div className={`mx-auto w-full max-w-3xl mb-3 grid ${supportsCharacterTab ? 'grid-cols-2' : 'grid-cols-1'} gap-2 rounded-2xl bg-[rgba(31,42,55,0.06)] p-1`}>
           <button
             type="button"
             onClick={() => setActiveTab('context')}
             className={`rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider font-mono transition-all ${
-              effectiveActiveTab === 'context' ? 'bg-[#186E95] text-white' : 'text-[#374151] hover:bg-white'
+              effectiveActiveTab === 'context' ? 'bg-[#186E95] text-white' : 'text-[#1F2A37] hover:bg-white'
             }`}
           >
             Sentence Context
@@ -804,7 +804,7 @@ export default function ApplyMode({
               type="button"
               onClick={() => setActiveTab('characters')}
               className={`rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider font-mono transition-all ${
-                effectiveActiveTab === 'characters' ? 'bg-[#3E5648] text-white' : 'text-[#374151] hover:bg-white'
+                effectiveActiveTab === 'characters' ? 'bg-[#3E5648] text-white' : 'text-[#1F2A37] hover:bg-white'
               }`}
             >
               Characters
@@ -825,7 +825,7 @@ export default function ApplyMode({
                 {isJapanese ? sentenceCasePinyin(sentenceReading) : renderPinyinWithToneNumber(sentenceCasePinyin(sentenceReading))}
               </div>
             ) : null}
-            <div className="mt-2 inline-flex items-center rounded-full border border-border bg-[rgba(55,65,81,0.05)] px-3 py-1 text-xs text-text-med">
+            <div className="mt-2 inline-flex items-center rounded-full border border-border bg-[rgba(31,42,55,0.05)] px-3 py-1 text-xs text-text-med">
               Focus word: <span className="ml-1 font-semibold text-text-dark">{word.simp}</span>{' '}
               <span className="font-mono">
                 {isJapanese
@@ -833,7 +833,7 @@ export default function ApplyMode({
                   : renderPinyinWithToneNumber(word.pinyin)}
               </span>
             </div>
-            <div className="mt-3 rounded-xl border border-border bg-[rgba(55,65,81,0.06)] px-4 py-3 text-text-dark text-center">
+            <div className="mt-3 rounded-xl border border-border bg-[rgba(31,42,55,0.06)] px-4 py-3 text-text-dark text-center">
               {englishFocus}
             </div>
           </div>
@@ -846,14 +846,14 @@ export default function ApplyMode({
                 </div>
                 <div className="main-font text-[3.2rem] leading-none text-text-dark">{activeCharacterRow.char}</div>
                 {activeCharacterPinyin ? (
-                  <div className="mt-2 text-sm font-mono text-[#374151]">
+                  <div className="mt-2 text-sm font-mono text-[#1F2A37]">
                     {isJapanese ? activeCharacterPinyin : renderPinyinWithToneNumber(activeCharacterPinyin)}
                   </div>
                 ) : null}
                 {activeCharacterGloss ? <div className="mt-1.5 text-sm text-text-med">{activeCharacterGloss}</div> : null}
 
-                <div className="mt-4 rounded-xl border border-border bg-[rgba(55,65,81,0.05)] p-3">
-                  <div className="text-[11px] font-semibold uppercase tracking-wider font-mono text-[#374151]">
+                <div className="mt-4 rounded-xl border border-border bg-[rgba(31,42,55,0.05)] p-3">
+                  <div className="text-[11px] font-semibold uppercase tracking-wider font-mono text-[#1F2A37]">
                     Words From This Lesson
                   </div>
                   <div className="mt-2 flex flex-wrap gap-1.5 justify-center">
@@ -888,7 +888,7 @@ export default function ApplyMode({
         </button>
         <button
           onClick={() => speak(speakText, speakPinyin, true, state.selectedLanguage)}
-          className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(55,65,81,0.40)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)]"
+          className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)]"
         >
           <Snail className="w-5 h-5" />
           Slow
@@ -900,14 +900,14 @@ export default function ApplyMode({
           <button
             onClick={handlePrev}
             disabled={prevDisabled}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(55,65,81,0.35)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)] disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(31,42,55,0.35)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)] disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-5 h-5" />
             Previous
           </button>
           <button
             onClick={handleNextAction}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#374151] hover:-translate-y-0.5 hover:shadow-lg"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#1F2A37] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2A37] hover:-translate-y-0.5 hover:shadow-lg"
           >
             {nextLabel}
             <ChevronRight className="w-5 h-5" />

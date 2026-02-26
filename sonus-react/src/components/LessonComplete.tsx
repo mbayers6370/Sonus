@@ -215,7 +215,7 @@ export default function LessonComplete({
               {quizMissedTotalCount > 0 && (
                 <button
                   onClick={onReviewMissed}
-                  className="w-full py-4 px-6 bg-white text-[#374151] border-2 border-[rgba(55,65,81,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] active:bg-[rgba(55,65,81,0.12)]"
+                  className="w-full py-4 px-6 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.12)]"
                 >
                   Review Missed Words
                 </button>
@@ -239,7 +239,7 @@ export default function LessonComplete({
               {quizMissedTotalCount > 0 && (
                 <button
                   onClick={onReviewMissed}
-                  className="w-full py-4 px-6 bg-white text-[#374151] border-2 border-[rgba(55,65,81,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] active:bg-[rgba(55,65,81,0.12)]"
+                  className="w-full py-4 px-6 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.12)]"
                 >
                   Review Missed Words
                 </button>
@@ -262,7 +262,7 @@ export default function LessonComplete({
               </button>
               <button
                 onClick={onStartSpeak}
-                className="w-full py-4 px-6 bg-white text-[#374151] border-2 border-[rgba(55,65,81,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] active:bg-[rgba(55,65,81,0.12)]"
+                className="w-full py-4 px-6 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.12)]"
               >
                 Start Speak
               </button>

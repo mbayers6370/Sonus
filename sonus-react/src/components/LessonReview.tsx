@@ -58,7 +58,7 @@ export default function LessonReview({
           <div className="mb-1 text-sm text-text-med text-center">
             {`${Math.min(safeIndex + 1, Math.max(1, totalMissed))} of ${Math.max(1, totalMissed)}`}
           </div>
-          <div className="w-full h-1.5 rounded-full bg-[rgba(55,65,81,0.14)] overflow-hidden">
+          <div className="w-full h-1.5 rounded-full bg-[rgba(31,42,55,0.14)] overflow-hidden">
             <div
               className="h-full rounded-full bg-[#186E95] transition-all duration-300"
               style={{ width: `${progressPercent}%` }}
@@ -91,14 +91,14 @@ export default function LessonReview({
                 <button
                   onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
                   disabled={isFirstCard}
-                  className="w-full py-3 px-4 bg-white text-[#374151] border-2 border-[rgba(55,65,81,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] active:bg-[rgba(55,65,81,0.12)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
+                  className="w-full py-3 px-4 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.12)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
                 >
                   Previous
                 </button>
                 <button
                   onClick={() => setCurrentIndex((prev) => Math.min(totalMissed - 1, prev + 1))}
                   disabled={isLastCard}
-                  className="w-full py-3 px-4 bg-white text-[#374151] border-2 border-[rgba(55,65,81,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(55,65,81,0.08)] active:bg-[rgba(55,65,81,0.12)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
+                  className="w-full py-3 px-4 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.12)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
                 >
                   Next
                 </button>

@@ -62,7 +62,9 @@ function clearLearningState() {
     for (let idx = 0; idx < window.localStorage.length; idx += 1) {
       const key = window.localStorage.key(idx);
       if (!key) continue;
-      if (key === 'sonus.last_language' || key.startsWith('sonus-app-state')) {
+      // Keep user-scoped learning state + last selected language across auth
+      // transitions. Only clear anonymous leftovers to avoid stale bleed.
+      if (key === 'sonus-app-state:anon') {
         keysToRemove.push(key);
       }
     }

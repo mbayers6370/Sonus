@@ -18,7 +18,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
       language: 'Japanese',
       system: 'JLPT',
       range: 'N5-N1',
-      accent: 'border-[#374151]/26 bg-[rgba(55,65,81,0.08)] text-[#374151]',
+      accent: 'border-[#1F2A37]/26 bg-[rgba(31,42,55,0.08)] text-[#1F2A37]',
     },
     {
       language: 'Korean',
@@ -30,7 +30,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
       language: 'French',
       system: 'CEFR',
       range: 'A1-C2 path',
-      accent: 'border-[#374151]/26 bg-[rgba(55,65,81,0.08)] text-[#374151]',
+      accent: 'border-[#1F2A37]/26 bg-[rgba(31,42,55,0.08)] text-[#1F2A37]',
     },
   ];
 
@@ -128,7 +128,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
             </div>
           </div>
 
-          <div className="mt-3 rounded-2xl border border-[#3E5648]/24 bg-[linear-gradient(135deg,rgba(62,86,72,0.10),rgba(55,65,81,0.04))] px-4 py-3.5">
+          <div className="mt-3 rounded-2xl border border-[#3E5648]/24 bg-[linear-gradient(135deg,rgba(62,86,72,0.10),rgba(31,42,55,0.04))] px-4 py-3.5">
             <div className="text-[11px] uppercase tracking-wider font-mono text-[#3E5648] mb-1.5">Core Principle</div>
             <p className="text-sm text-text-med">
               Frameworks provide structure, but every screen is tuned for one outcome: confident communication in real situations.
@@ -136,7 +136,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
           </div>
         </section>
 
-        <section className="dashboard-card-enter border border-[#374151]/90 rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#374151_0%,#2B3440_45%,#24303A_100%)] text-white">
+        <section className="dashboard-card-enter border border-[#1F2A37]/90 rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#1F2A37_0%,#2B3440_45%,#24303A_100%)] text-white">
           <div className="text-[11px] uppercase tracking-[0.16em] font-mono text-white/70 mb-2">Why I Started This</div>
           <h4 className="main-font text-3xl leading-tight text-white">Learning tools should be accessible.</h4>
           <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-white/88">

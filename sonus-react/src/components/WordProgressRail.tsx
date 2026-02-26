@@ -19,7 +19,7 @@ function nodeClasses(
     return 'bg-white border-[#186E95] shadow-[0_0_0_2px_rgba(255,255,255,0.9)]';
   }
   if (index < currentIndex) {
-    return 'bg-[rgba(55,65,81,0.26)] border-[rgba(55,65,81,0.34)]';
+    return 'bg-[rgba(31,42,55,0.26)] border-[rgba(31,42,55,0.34)]';
   }
   return 'bg-[rgba(255,255,255,0.7)] border-[rgba(148,163,184,0.45)]';
 }

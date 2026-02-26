@@ -465,7 +465,7 @@ export default function HomeDashboard({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
         <section
-          className={`${cardShell} md:order-1 bg-[#374151] text-white border-[#374151]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(55,65,81,0.42)]`}
+          className={`${cardShell} md:order-1 bg-[#1F2A37] text-white border-[#1F2A37]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(31,42,55,0.42)]`}
           style={{ animationDelay: '35ms' }}
         >
           <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white/10 to-transparent rounded-t-3xl" />
@@ -500,7 +500,7 @@ export default function HomeDashboard({
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={onOpenLevels}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#374151] border transition-colors font-semibold"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#1F2A37] border transition-colors font-semibold"
                   style={{
                     borderColor: 'rgba(255,255,255,0.6)',
                     color: 'rgba(255,255,255,0.6)',
@@ -511,7 +511,7 @@ export default function HomeDashboard({
                 </button>
                 <button
                   onClick={openResumeCard}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#374151] text-white border border-white/75 hover:bg-[#2D3748] transition-colors font-semibold"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#1F2A37] text-white border border-white/75 hover:bg-[#2D3748] transition-colors font-semibold"
                 >
                   Continue Learning
                   <ArrowRight className="w-4 h-4" />
@@ -520,7 +520,7 @@ export default function HomeDashboard({
             ) : (
               <button
                 onClick={openResumeCard}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#374151] text-white border border-white/75 hover:bg-[#2D3748] transition-colors font-semibold"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#1F2A37] text-white border border-white/75 hover:bg-[#2D3748] transition-colors font-semibold"
               >
                 {!hasOpenedLessons ? 'Start Lessons' : 'Browse Lessons'}
                 <ArrowRight className="w-4 h-4" />
@@ -639,14 +639,14 @@ export default function HomeDashboard({
         </section>
 
         <section
-          className={`${cardShell} md:order-4 md:col-span-2 bg-white text-text-dark border-[#374151]/35 flex flex-col justify-center`}
+          className={`${cardShell} md:order-4 md:col-span-2 bg-white text-text-dark border-[#1F2A37]/35 flex flex-col justify-center`}
           style={{ animationDelay: '235ms' }}
         >
-          <div className="main-font text-2xl leading-none mb-3 text-[#374151]">Shortcuts</div>
+          <div className="main-font text-2xl leading-none mb-3 text-[#1F2A37]">Shortcuts</div>
           <div className="grid grid-cols-1 gap-2">
             <button
               onClick={onOpenWeakWords}
-              className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(55,65,81,0.06)] transition-colors"
+              className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(31,42,55,0.06)] transition-colors"
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
                 <ListChecks className="w-4 h-4 text-[#3E5648]" />
@@ -656,10 +656,10 @@ export default function HomeDashboard({
             </button>
             <button
               onClick={onOpenProfile}
-              className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(55,65,81,0.06)] transition-colors"
+              className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(31,42,55,0.06)] transition-colors"
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
-                <Bolt className="w-4 h-4 text-[#374151]" />
+                <Bolt className="w-4 h-4 text-[#1F2A37]" />
                 Profile Settings
               </span>
               <ArrowRight className="w-4 h-4 text-text-light" />

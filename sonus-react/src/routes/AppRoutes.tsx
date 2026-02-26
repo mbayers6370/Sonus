@@ -74,6 +74,15 @@ export default function AppRoutes() {
 
     setLanguageResolved(false);
 
+    const cachedLanguage = readLastLanguage();
+    if (cachedLanguage) {
+      selectLanguage(cachedLanguage);
+      navigate('/home', { replace: true });
+      return () => {
+        cancelled = true;
+      };
+    }
+
     void (async () => {
       try {
         const response = await apiFetch('/v1/me/profile');
@@ -92,13 +101,6 @@ export default function AppRoutes() {
         }
       } catch {
         // Fall back to onboarding language selection.
-      }
-
-      const cachedLanguage = readLastLanguage();
-      if (!cancelled && cachedLanguage) {
-        selectLanguage(cachedLanguage);
-        navigate('/home', { replace: true });
-        return;
       }
 
       if (!cancelled) setLanguageResolved(true);

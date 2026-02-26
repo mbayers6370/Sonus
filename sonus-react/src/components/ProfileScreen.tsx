@@ -111,6 +111,18 @@ export default function ProfileScreen({
     bandMatchesLanguage(progress?.currentBandId, resolvedCurrentLearningLanguage)
       ? progress?.currentBandId
       : null;
+  const languageScopedResumeBandId =
+    bandMatchesLanguage(state.resumeCheckpoint?.bandId, resolvedCurrentLearningLanguage)
+      ? state.resumeCheckpoint?.bandId
+      : null;
+  const languageScopedActiveBandId =
+    bandMatchesLanguage(state.activeBandId, resolvedCurrentLearningLanguage)
+      ? state.activeBandId
+      : null;
+  const languageScopedCurrentLevelBandId =
+    bandMatchesLanguage(state.currentLevel?.id, resolvedCurrentLearningLanguage)
+      ? state.currentLevel?.id
+      : null;
   const languageScopedProgressUnitId =
     languageScopedProgressBandId ? progress?.currentUnitId : null;
   const languageScopedProgressLessonIdx =
@@ -118,9 +130,9 @@ export default function ProfileScreen({
 
   const effectiveBandId =
     languageScopedProgressBandId ??
-    state.resumeCheckpoint?.bandId ??
-    state.activeBandId ??
-    state.currentLevel?.id ??
+    languageScopedResumeBandId ??
+    languageScopedActiveBandId ??
+    languageScopedCurrentLevelBandId ??
     null;
   const inferredUnitId = inferUnitFromLessonProgress(effectiveBandId, state.lessonProgress || {});
   const effectiveUnitId =
@@ -134,20 +146,18 @@ export default function ProfileScreen({
     typeof languageScopedProgressLessonIdx === 'number'
       ? languageScopedProgressLessonIdx
       : (state.resumeCheckpoint?.lessonIndex ?? state.activeLesson?.lessonIndex ?? null);
-  const lessonsCompleted = effectiveBandId
-    ? Object.entries(state.lessonProgress || {}).filter(([key, progressEntry]) => {
+  const lessonsCompleted = Object.entries(state.lessonProgress || {}).filter(([key, progressEntry]) => {
       const entry = progressEntry as {
         completed?: boolean;
         quizScore?: number | null;
         speakScore?: number | null;
       };
       const [bandId, unitId] = key.split(':');
-      if (bandId !== effectiveBandId) return false;
+      if (!bandMatchesLanguage(bandId, resolvedCurrentLearningLanguage)) return false;
       if (unitId === 'daily-review') return false;
       if (isCheckpointUnitId(unitId) || isPracticeUnitId(unitId)) return false;
       return Boolean(entry.completed || isInstructionalComplete(entry.quizScore, entry.speakScore));
-    }).length
-    : 0;
+    }).length;
   const currentUnitMeta =
     effectiveBandId && effectiveUnitId
       ? getUnitMetadata(effectiveBandId, effectiveUnitId)
@@ -332,7 +342,7 @@ export default function ProfileScreen({
             </div>
             <div className="text-sm text-text-med">{profile?.email || '—'}</div>
             <div className="mt-1 flex flex-wrap items-center justify-center gap-1.5">
-              <span className="inline-flex items-center rounded-full border border-border bg-[rgba(55,65,81,0.06)] px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider text-text-med">
+              <span className="inline-flex items-center rounded-full border border-border bg-[rgba(31,42,55,0.06)] px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider text-text-med">
                 {activeLanguageName ? `Target: ${activeLanguageName}` : 'Target: Not set'}
               </span>
             </div>

@@ -1471,7 +1471,7 @@ export default function SpeakMode({
 
         {resultPinyinLabel ? (
           <div className="mt-2 flex justify-center">
-            <div className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1 bg-[rgba(55,65,81,0.08)]">
+            <div className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1 bg-[rgba(31,42,55,0.08)]">
               <span className="text-[10px] uppercase tracking-wider font-mono text-text-light">{resultPinyinTag}</span>
               <span className="text-sm font-semibold text-text-dark">{resultPinyinLabel}</span>
             </div>
@@ -1578,7 +1578,7 @@ export default function SpeakMode({
           <button
             onClick={onPrev}
             disabled={currentIndex === 0 || navLocked}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(55,65,81,0.35)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)] disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(31,42,55,0.35)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)] disabled:cursor-not-allowed disabled:opacity-60"
           >
             <ChevronLeft className="w-5 h-5" />
             Previous
@@ -1586,7 +1586,7 @@ export default function SpeakMode({
           <button
             onClick={onNext}
             disabled={navLocked}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#374151] hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#1F2A37] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2A37] hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
           >
             Next
             <ChevronRight className="w-5 h-5" />

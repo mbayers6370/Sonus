@@ -16,10 +16,10 @@ const CARD_ACCENTS = [
     hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(62,86,72,0.40)]',
   },
   {
-    borderColor: 'border-[#374151]/55',
-    badgeBg: 'bg-[rgba(55,65,81,0.14)]',
-    badgeText: 'text-[#374151]',
-    hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(55,65,81,0.42)]',
+    borderColor: 'border-[#1F2A37]/55',
+    badgeBg: 'bg-[rgba(31,42,55,0.14)]',
+    badgeText: 'text-[#1F2A37]',
+    hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(31,42,55,0.42)]',
   },
   {
     borderColor: 'border-[#C2410C]/55',
@@ -154,7 +154,7 @@ export default function LanguageSelect({
                   <span />
                 )}
                 {!isAvailable && (
-                  <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider font-mono bg-[rgba(55,65,81,0.12)] text-[#374151]">
+                  <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider font-mono bg-[rgba(31,42,55,0.12)] text-[#1F2A37]">
                     Coming Soon
                   </span>
                 )}

@@ -131,7 +131,7 @@ export default function ReviewQueue({
         <button
           onClick={() => void loadQueue()}
           disabled={loading}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-border rounded-lg text-sm font-medium hover:bg-[rgba(55,65,81,0.08)] disabled:opacity-60"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-border rounded-lg text-sm font-medium hover:bg-[rgba(31,42,55,0.08)] disabled:opacity-60"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           Refresh

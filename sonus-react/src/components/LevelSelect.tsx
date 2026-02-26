@@ -15,7 +15,7 @@ const ACCENT = {
   gray: { badgeBg: 'bg-gray-100/80', badgeText: 'text-gray-700', ctaText: 'text-gray-700', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(107,114,128,0.18)]', leftBorder: 'border-gray-400/55' },
   navy: { badgeBg: 'bg-[rgba(24,110,149,0.12)]', badgeText: 'text-[#186E95]', ctaText: 'text-[#186E95]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(24,110,149,0.28)]', leftBorder: 'border-[#186E95]/55' },
   sage: { badgeBg: 'bg-[rgba(62,86,72,0.12)]', badgeText: 'text-[#3E5648]', ctaText: 'text-[#3E5648]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(62,86,72,0.26)]', leftBorder: 'border-[#3E5648]/55' },
-  graphite: { badgeBg: 'bg-[rgba(55,65,81,0.10)]', badgeText: 'text-[#374151]', ctaText: 'text-[#374151]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(55,65,81,0.24)]', leftBorder: 'border-[#374151]/55' },
+  graphite: { badgeBg: 'bg-[rgba(31,42,55,0.10)]', badgeText: 'text-[#1F2A37]', ctaText: 'text-[#1F2A37]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(31,42,55,0.24)]', leftBorder: 'border-[#1F2A37]/55' },
   rust: { badgeBg: 'bg-[rgba(194,65,12,0.12)]', badgeText: 'text-[#C2410C]', ctaText: 'text-[#C2410C]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.30)]', leftBorder: 'border-[#C2410C]/55' },
 } as const;
 
@@ -441,13 +441,13 @@ function LevelCard({
         isDrenched && isUnlocked
           ? `${
             level.id === 'intro'
-              ? 'bg-[#374151]'
+              ? 'bg-[#1F2A37]'
               : level.id === 'band1' || level.id === 'band2'
                 ? 'bg-[#3E5648]'
                 : level.id === 'band3' || level.id === 'band4'
                   ? 'bg-[#186E95]'
                   : level.id === 'band5' || level.id === 'band6'
-                    ? 'bg-[#374151]'
+                    ? 'bg-[#1F2A37]'
                     : 'bg-[#C2410C]'
           } border-transparent text-white`
           : isLocked

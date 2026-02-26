@@ -163,11 +163,23 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     bandMatchesLanguage(progress?.currentBandId, languageId)
       ? progress?.currentBandId
       : null;
+  const languageScopedResumeBandId =
+    bandMatchesLanguage(state.resumeCheckpoint?.bandId, languageId)
+      ? state.resumeCheckpoint?.bandId
+      : null;
+  const languageScopedActiveBandId =
+    bandMatchesLanguage(state.activeBandId, languageId)
+      ? state.activeBandId
+      : null;
+  const languageScopedCurrentLevelBandId =
+    bandMatchesLanguage(state.currentLevel?.id, languageId)
+      ? state.currentLevel?.id
+      : null;
   const effectiveBandId =
     languageScopedProgressBandId ??
-    state.resumeCheckpoint?.bandId ??
-    state.activeBandId ??
-    state.currentLevel?.id ??
+    languageScopedResumeBandId ??
+    languageScopedActiveBandId ??
+    languageScopedCurrentLevelBandId ??
     null;
   const inferredUnitId = inferUnitFromLessonProgress(effectiveBandId, state.lessonProgress || {});
   const coreUnits = effectiveBandId
@@ -186,21 +198,19 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     }
     return inferLessonCountFromProgress(effectiveBandId, unitId, state.lessonProgress || {});
   };
-  const completedLessons = effectiveBandId
-    ? Object.entries(state.lessonProgress || {}).filter(([key, progressEntry]) => {
+  const completedLessons = Object.entries(state.lessonProgress || {}).filter(([key, progressEntry]) => {
       const entry = progressEntry as {
         completed?: boolean;
         quizScore?: number | null;
         speakScore?: number | null;
       };
       const [bandId, unitId] = key.split(':');
-      if (bandId !== effectiveBandId) return false;
+      if (!bandMatchesLanguage(bandId, languageId)) return false;
       if (!entry?.completed && !isInstructionalComplete(entry?.quizScore, entry?.speakScore)) return false;
       if (unitId === 'daily-review') return false;
       if (isCheckpointUnitId(unitId) || isPracticeUnitId(unitId)) return false;
       return true;
-    }).length
-    : 0;
+    }).length;
 
   const currentPath = (() => {
     if (!effectiveBandId || coreUnits.length === 0) return { unitId: inferredUnitId, lessonIdx: null as number | null };

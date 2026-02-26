@@ -56,11 +56,11 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </p>
         </section>
 
-        <section className="rounded-3xl border border-[#374151]/35 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
-          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(55,65,81,0.10)] text-[#374151]">
+        <section className="rounded-3xl border border-[#1F2A37]/35 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
+          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(31,42,55,0.10)] text-[#1F2A37]">
             How It Works
           </div>
-          <h2 className="main-font text-[1.9rem] text-[#374151] mt-3">Build a Syllable in 3 Parts</h2>
+          <h2 className="main-font text-[1.9rem] text-[#1F2A37] mt-3">Build a Syllable in 3 Parts</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
             <div className="rounded-2xl border border-border bg-white p-4 text-center">
               <div className="text-xs font-mono uppercase tracking-wider text-text-light">1</div>
@@ -98,7 +98,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
                 <div className="flex items-center justify-center gap-3 text-text-dark mt-3">
                   <button
                     onClick={() => speak(item.left.hanzi, item.left.pinyin)}
-                    className="text-center rounded-xl border border-border/80 px-3 py-2 min-w-[80px] hover:bg-[rgba(55,65,81,0.06)]"
+                    className="text-center rounded-xl border border-border/80 px-3 py-2 min-w-[80px] hover:bg-[rgba(31,42,55,0.06)]"
                   >
                     <div className="text-3xl secondary-font leading-none">{item.left.hanzi}</div>
                     <div className="text-xs text-text-med">{item.left.pinyin}</div>
@@ -107,7 +107,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
                   <span className="text-xl text-text-light font-semibold">+</span>
                   <button
                     onClick={() => speak(item.right.hanzi, item.right.pinyin)}
-                    className="text-center rounded-xl border border-border/80 px-3 py-2 min-w-[80px] hover:bg-[rgba(55,65,81,0.06)]"
+                    className="text-center rounded-xl border border-border/80 px-3 py-2 min-w-[80px] hover:bg-[rgba(31,42,55,0.06)]"
                   >
                     <div className="text-3xl secondary-font leading-none">{item.right.hanzi}</div>
                     <div className="text-xs text-text-med">{item.right.pinyin}</div>

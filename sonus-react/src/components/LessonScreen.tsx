@@ -260,7 +260,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
       {modeTabs.length > 0 ? (
         <div className="bg-bg-warm/90 backdrop-blur-sm border-b border-border px-4 py-2.5 -mt-8 relative z-40">
           <div
-            className={`mx-auto grid gap-2 rounded-2xl bg-[rgba(55,65,81,0.06)] p-1 ${
+            className={`mx-auto grid gap-2 rounded-2xl bg-[rgba(31,42,55,0.06)] p-1 ${
               modeTabs.length === 1 ? 'max-w-xl grid-cols-1' : modeTabs.length === 2 ? 'max-w-2xl grid-cols-2' : 'max-w-5xl grid-cols-3'
             }`}
           >
@@ -276,7 +276,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
                   className={`relative rounded-xl py-2.5 px-4 text-[1.03rem] font-semibold tracking-wide transition-all ${
                     isActive
                       ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
-                      : 'text-[#374151] hover:bg-white'
+                      : 'text-[#1F2A37] hover:bg-white'
                   }`}
                 >
                   <span className="inline-flex w-full items-center justify-center">{tab.label}</span>

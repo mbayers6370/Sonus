@@ -102,7 +102,7 @@ export default function CharacterFoundations({ onGoHome, onOpenProfile }: Charac
                   {group.examples.map((example) => (
                     <div
                       key={`${group.id}-${example.hanzi}`}
-                      className="rounded-lg bg-[rgba(55,65,81,0.08)] px-3 py-2 text-text-dark"
+                      className="rounded-lg bg-[rgba(31,42,55,0.08)] px-3 py-2 text-text-dark"
                     >
                       <div className="text-2xl font-bold secondary-font leading-none">{example.hanzi}</div>
                       <div className="text-xs text-text-med mt-1">{example.pinyin} · {example.gloss}</div>
@@ -114,11 +114,11 @@ export default function CharacterFoundations({ onGoHome, onOpenProfile }: Charac
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[#374151]/35 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
-          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(55,65,81,0.10)] text-[#374151]">
+        <section className="rounded-3xl border border-[#1F2A37]/35 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
+          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(31,42,55,0.10)] text-[#1F2A37]">
             Build + Remember
           </div>
-          <h2 className="main-font text-[1.9rem] text-[#374151] mt-3">Character Memory Hooks</h2>
+          <h2 className="main-font text-[1.9rem] text-[#1F2A37] mt-3">Character Memory Hooks</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
             {BUILD_CARDS.map((card) => (

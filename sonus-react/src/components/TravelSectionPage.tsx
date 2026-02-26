@@ -241,7 +241,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                   </div>
                 </div>
 
-                <div className="mx-auto max-w-3xl space-y-3 text-left text-[#374151] text-pretty">
+                <div className="mx-auto max-w-3xl space-y-3 text-left text-[#1F2A37] text-pretty">
                   {section.culturalNotes.map((note, idx) => {
                     const trimmed = note.trim();
                     if (trimmed.startsWith('•')) {

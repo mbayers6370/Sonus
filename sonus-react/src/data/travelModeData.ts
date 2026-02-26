@@ -115,7 +115,7 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
   s(
     'restaurants',
     'Restaurants & Ordering Food',
-    '#374151',
+    '#1F2A37',
     'Social + practical',
     'Ordering, Dietary Needs, & Payment Flow',
     'You sit down at a busy restaurant and need to order quickly and clearly.',
@@ -193,7 +193,7 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
   s(
     'small-talk',
     'Everyday Small Talk',
-    '#374151',
+    '#1F2A37',
     'Warm',
     'Friendly Social Connection',
     'You are meeting locals and want to be friendly without sounding textbook.',
@@ -349,7 +349,7 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
   s(
     'restaurants',
     'Restaurants & Ordering Food',
-    '#374151',
+    '#1F2A37',
     'Social + practical',
     'Ordering, Restrictions, & Bill Language',
     'You are ordering in a busy restaurant and need clear food and payment phrases.',
@@ -445,7 +445,7 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
   s(
     'small-talk',
     'Everyday Small Talk',
-    '#374151',
+    '#1F2A37',
     'Warm',
     'Politeness & Conversations with New People',
     'You are meeting locals and want friendly but natural conversation.',

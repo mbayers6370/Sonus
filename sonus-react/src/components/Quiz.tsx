@@ -230,7 +230,7 @@ export default function Quiz({
                     <div className="mt-2">
                       <button
                         onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
-                        className="mx-auto w-12 h-12 rounded-full border border-[#374151]/35 bg-transparent text-[#374151] flex items-center justify-center hover:bg-[rgba(55,65,81,0.08)] transition-all"
+                        className="mx-auto w-12 h-12 rounded-full border border-[#1F2A37]/35 bg-transparent text-[#1F2A37] flex items-center justify-center hover:bg-[rgba(31,42,55,0.08)] transition-all"
                         aria-label="Play audio"
                       >
                         <Volume2 className="w-5 h-5" />
@@ -242,7 +242,7 @@ export default function Quiz({
                 <div className="mt-1">
                   <button
                     onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
-                    className="mx-auto w-12 h-12 rounded-full bg-[#374151] text-white flex items-center justify-center hover:bg-[#1F2937] transition-all"
+                    className="mx-auto w-12 h-12 rounded-full bg-[#1F2A37] text-white flex items-center justify-center hover:bg-[#1F2937] transition-all"
                     aria-label="Play audio"
                   >
                     <Volume2 className="w-5 h-5" />
@@ -305,14 +305,14 @@ export default function Quiz({
           <button
             onClick={onPrev}
             disabled={currentIndex === 0}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(55,65,81,0.35)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)] disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(31,42,55,0.35)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)] disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-5 h-5" />
             Previous
           </button>
           <button
             onClick={handleNext}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#374151] hover:-translate-y-0.5 hover:shadow-lg"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#1F2A37] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2A37] hover:-translate-y-0.5 hover:shadow-lg"
           >
             Next
             <ChevronRight className="w-5 h-5" />
