@@ -254,10 +254,7 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
     'You just landed in Tokyo and need fast, clear phrases for immigration, baggage, and train access.',
     ['Immigration', 'Baggage', 'Customs', 'Asking for help'],
     [
-      'Keep answers short and direct at immigration counters.',
-      'Save your hotel name and address in Japanese on your phone.',
-      'Ask staff to repeat slowly before moving to the next step.',
-      'After arrival, follow rail signs before taxi lines if you want the fastest city transfer.',
+      'Before you land, it’s worth completing your arrival forms through Visit Japan Web and saving the QR code on your phone at https://services.digital.go.jp/en/visit-japan-web/. It speeds things up once you arrive and keeps everything simple at the counters. At immigration, you’ll scan your passport and confirm where you’re staying. Answers can be short and straightforward. Having your hotel name and address saved in Japanese can make that part smoother. After baggage claim, many people stop for a few practical things before heading into the city. You might withdraw yen at a 7-Eleven or Japan Post ATM, pick up a SIM or pocket Wi-Fi, and set up your transit card. If you have an iPhone, you can add a Suica directly to Apple Wallet, so you do not need a physical card. When you’re ready to leave the airport, trains are usually the fastest way into the city. Service typically ends later in the evening, and Narita stops earlier than Haneda, so it’s smart to check the last departure time if you are arriving late. If you are traveling with large bags, you can use Japan’s luggage delivery services, called takkyūbin, to send them straight to your hotel and move through the station more comfortably.',
     ],
     [
       { id: 'aa-ja-1', hanzi: '観光で来ました。', pinyin: 'kankou de kimashita', english: "I'm here for tourism." },

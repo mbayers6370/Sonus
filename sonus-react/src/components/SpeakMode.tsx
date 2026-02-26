@@ -66,6 +66,7 @@ type SpeechRecognitionAlternativeLike = {
 
 type SpeechRecognitionResultLike = {
   isFinal: boolean;
+  length: number;
   [index: number]: SpeechRecognitionAlternativeLike;
 };
 
@@ -905,6 +906,39 @@ export default function SpeakMode({
     recognitionRef.current = null;
   };
 
+  const releaseMediaStream = () => {
+    mediaStreamRef.current?.getTracks().forEach((track) => track.stop());
+    mediaStreamRef.current = null;
+  };
+
+  const abortActiveCapture = (preserveStream = false) => {
+    const recorder = mediaRecorderRef.current;
+    if (recorder) {
+      recorder.onstop = null;
+      if (recorder.state !== 'inactive') {
+        try {
+          recorder.stop();
+        } catch {
+          // Ignore recorder stop errors while aborting.
+        }
+      }
+    }
+    mediaRecorderRef.current = null;
+    stopRecognition();
+    if (recognitionStopTimerRef.current) {
+      window.clearTimeout(recognitionStopTimerRef.current);
+      recognitionStopTimerRef.current = null;
+    }
+    if (!preserveStream) {
+      releaseMediaStream();
+    }
+    isRecordingRef.current = false;
+    recognitionStateRef.current = 'idle';
+    pendingSpeakAttemptRef.current = null;
+    setIsRecording(false);
+    setIsFinalizing(false);
+  };
+
   const startRecognition = () => {
     const recognitionWindow = window as SpeechRecognitionWindow;
     const SpeechRecognitionCtor =
@@ -945,43 +979,43 @@ export default function SpeakMode({
       // Single-utterance mode improves responsiveness for short words.
       recognition.continuous = false;
       recognition.interimResults = true;
-      recognition.maxAlternatives = 1;
+      recognition.maxAlternatives = 3;
 
       recognition.onresult = (event: SpeechRecognitionEventLike) => {
         if (sessionId !== recordingSessionRef.current) return;
         if (recognitionStateRef.current === 'idle') return;
 
-        let latestFinal = '';
-        let latestInterim = '';
+        let latestFinal: SpeakCandidate | null = null;
+        let latestInterim: SpeakCandidate | null = null;
         for (let i = event.resultIndex; i < event.results.length; i += 1) {
           const result = event.results[i];
-          const text = result?.[0]?.transcript?.trim?.() || '';
-          if (!text) continue;
-          if (result.isFinal) {
-            latestFinal = text;
-          } else {
-            latestInterim = text;
+          const altCount = Math.min(result?.length || 1, 3);
+          for (let altIdx = 0; altIdx < altCount; altIdx += 1) {
+            const text = result?.[altIdx]?.transcript?.trim?.() || '';
+            if (!text) continue;
+            const nextAnalysis = analyzePronunciation(text);
+            const matched = nextAnalysis
+              ? nextAnalysis.initial.pass && nextAnalysis.final.pass && nextAnalysis.tone.pass
+              : isMatch(text);
+            const candidate: SpeakCandidate = {
+              recognizedText: text,
+              analysis: nextAnalysis,
+              match: matched,
+              isFinal: Boolean(result.isFinal),
+              compositeScore: analysisCompositeScore(nextAnalysis, matched),
+              updatedAt: Date.now(),
+            };
+            if (result.isFinal) {
+              latestFinal = pickBetterCandidate(latestFinal, candidate);
+            } else {
+              latestInterim = pickBetterCandidate(latestInterim, candidate);
+            }
           }
         }
 
-        const bestText = latestFinal || latestInterim;
-        setTranscript(bestText);
-        if (bestText) {
-          const nextAnalysis = analyzePronunciation(bestText);
-          setAnalysis(nextAnalysis);
-          const matched = nextAnalysis
-            ? nextAnalysis.initial.pass && nextAnalysis.final.pass && nextAnalysis.tone.pass
-            : isMatch(bestText);
-          const candidate: SpeakCandidate = {
-            recognizedText: bestText,
-            analysis: nextAnalysis,
-            match: matched,
-            isFinal: Boolean(latestFinal),
-            compositeScore: analysisCompositeScore(nextAnalysis, matched),
-            updatedAt: Date.now(),
-          };
-
-          const chosen = pickBetterCandidate(pendingSpeakAttemptRef.current, candidate);
+        const bestCandidate = latestFinal || latestInterim;
+        if (bestCandidate) {
+          const chosen = pickBetterCandidate(pendingSpeakAttemptRef.current, bestCandidate);
           pendingSpeakAttemptRef.current = chosen;
           setTranscript(chosen.recognizedText);
           setAnalysis(chosen.analysis);
@@ -1061,20 +1095,19 @@ export default function SpeakMode({
     const recorder = mediaRecorderRef.current;
     if (recorder && recorder.state !== 'inactive') {
       recorder.stop();
+    } else {
+      scheduleFinalize(sessionId, FINALIZE_DELAY_MS);
     }
     if (recognitionStopTimerRef.current) {
       window.clearTimeout(recognitionStopTimerRef.current);
       recognitionStopTimerRef.current = null;
     }
-    // Transition recognition state before stopping recognition/media tracks.
+    // Transition recognition state before stopping recognition.
     recognitionStateRef.current = 'finalizing';
     setIsFinalizing(true);
     stopRecognition();
-    mediaStreamRef.current?.getTracks().forEach((track) => track.stop());
-    mediaStreamRef.current = null;
     isRecordingRef.current = false;
     setIsRecording(false);
-    scheduleFinalize(sessionId, FINALIZE_DELAY_MS);
   };
 
   const handleRecord = async () => {
@@ -1110,7 +1143,16 @@ export default function SpeakMode({
       recognitionStateRef.current = 'recording';
       setIsFinalizing(false);
       const sessionId = recordingSessionRef.current;
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      let stream = mediaStreamRef.current;
+      if (!stream || stream.getTracks().every((track) => track.readyState === 'ended')) {
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+          },
+        });
+      }
       const recorder = new MediaRecorder(stream);
       mediaRecorderRef.current = recorder;
       mediaStreamRef.current = stream;
@@ -1152,7 +1194,7 @@ export default function SpeakMode({
 
   useEffect(() => {
     return () => {
-      stopMediaRecorder();
+      abortActiveCapture(false);
       if (finalizeTimerRef.current) {
         window.clearTimeout(finalizeTimerRef.current);
         finalizeTimerRef.current = null;
@@ -1167,6 +1209,7 @@ export default function SpeakMode({
   }, []);
 
   useEffect(() => {
+    abortActiveCapture(true);
     setTranscript('');
     setMatchResult(null);
     setAnalysis(null);
@@ -1197,7 +1240,6 @@ export default function SpeakMode({
       ? matchResult === 'match'
       : (analysis && analysis.initial.pass && analysis.final.pass && analysis.tone.pass)
   );
-  const noSpeechMobileClass = isNoSpeech ? 'text-[0.95rem] font-medium' : 'text-[1.5rem]';
   const noSpeechResultClass = isNoSpeech ? 'text-base' : 'text-lg';
   const hasAttempt =
     Boolean(transcript.trim()) || Boolean(analysis) || Boolean(matchResult) || Boolean(audioError);
@@ -1209,7 +1251,10 @@ export default function SpeakMode({
   const detectedFromTranscript = transcript ? resolveDetectedPinyin(transcript).pinyin : '';
   const fallbackDetectedFromChars = heardHanzi ? mapHanziToPinyin(heardHanzi) : '';
   const inferredFromTarget = heardHanzi ? inferPinyinFromTargetHanzi(heardHanzi, word.simp, word.pinyin || '') : '';
-  const firstUsableDetected = [analysis?.detectedPinyin || '', detectedFromTranscript, fallbackDetectedFromChars, inferredFromTarget]
+  const rawDetectedPinyin = [analysis?.detectedPinyin || '', detectedFromTranscript, fallbackDetectedFromChars, inferredFromTarget]
+    .map((value) => value.trim())
+    .find((value) => Boolean(value) && value.toLowerCase() !== 'unresolved') || '';
+  const firstUsableDetected = [rawDetectedPinyin]
     .map((value) => stripUnknownPinyinTokens(value))
     .find((value) => {
       if (!value) return false;
@@ -1217,13 +1262,16 @@ export default function SpeakMode({
       if (/^\?(\s+\?)*$/.test(value)) return false;
       return true;
     });
-  const detectedPinyinLabel = firstUsableDetected || '';
+  const detectedPinyinLabel =
+    firstUsableDetected ||
+    (isMandarinLesson && transcript && !isNoSpeech ? (rawDetectedPinyin || 'Unknown pinyin') : '');
   const shouldShowTargetPinyin = !detectedPinyinLabel && (!heardHanzi || isNoSpeech);
   const resultPinyinLabel = detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : '');
   const resultPinyinTag = isJapaneseLesson
     ? (detectedPinyinLabel ? 'Heard' : 'Target')
     : (detectedPinyinLabel ? 'Detected' : 'Target');
   const displayMeaning = useMemo(() => getPrimaryMeaning(word), [word]);
+  const navLocked = isRecording || isFinalizing;
 
   const renderScoreChips = (compact: boolean) => {
     if (isJapaneseLesson) return null;
@@ -1495,8 +1543,11 @@ export default function SpeakMode({
             />
 
             <div className="h-full flex flex-col justify-center text-center">
-              <div className={`secondary-font font-semibold text-text-dark leading-tight break-words ${noSpeechMobileClass}`}>
-                {transcript || '...'}
+              <div className="secondary-font text-2xl font-semibold text-text-dark leading-tight">
+                {isRecording ? 'Done' : 'Record'}
+              </div>
+              <div className={`secondary-font font-semibold text-text-med leading-tight break-words mt-1 ${isNoSpeech ? 'text-sm' : 'text-base'}`}>
+                {transcript || 'Tap to start'}
               </div>
               <div className="text-xs text-text-med mt-1">
                 {!sttSupported
@@ -1504,7 +1555,7 @@ export default function SpeakMode({
                   : isFinalizing
                     ? 'Finalizing...'
                     : isRecording
-                      ? 'Recording...'
+                      ? 'Recording... tap Done to submit'
                       : 'Results appear below'}
               </div>
             </div>
@@ -1526,15 +1577,16 @@ export default function SpeakMode({
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={onPrev}
-            disabled={currentIndex === 0}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(55,65,81,0.35)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)] disabled:cursor-not-allowed"
+            disabled={currentIndex === 0 || navLocked}
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(55,65,81,0.35)] text-[#374151] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(55,65,81,0.08)] disabled:cursor-not-allowed disabled:opacity-60"
           >
             <ChevronLeft className="w-5 h-5" />
             Previous
           </button>
           <button
             onClick={onNext}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#374151] hover:-translate-y-0.5 hover:shadow-lg"
+            disabled={navLocked}
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#374151] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#374151] hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
           >
             Next
             <ChevronRight className="w-5 h-5" />
