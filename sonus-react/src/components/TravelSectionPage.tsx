@@ -44,6 +44,36 @@ function getRecallMode(index: number): RecallMode {
   return 'audio_only';
 }
 
+function renderNoteText(text: string) {
+  const renderWithLineBreaks = (value: string, keyPrefix: string) => {
+    const lines = value.split('\n');
+    return lines.map((line, lineIdx) => (
+      <span key={`${keyPrefix}-line-${lineIdx}`}>
+        {line}
+        {lineIdx < lines.length - 1 ? <br /> : null}
+      </span>
+    ));
+  };
+
+  const parts = text.split(/(https?:\/\/[^\s]+)/g);
+  return parts.map((part, idx) => {
+    if (/^https?:\/\/[^\s]+$/.test(part)) {
+      return (
+        <a
+          key={`url-${idx}`}
+          href={part}
+          target="_blank"
+          rel="noreferrer"
+          className="underline decoration-[#186E95]/45 underline-offset-2 hover:text-[#186E95]"
+        >
+          {part}
+        </a>
+      );
+    }
+    return <span key={`txt-${idx}`}>{renderWithLineBreaks(part, `txt-${idx}`)}</span>;
+  });
+}
+
 export default function TravelSectionPage({ section, onGoHome, onOpenProfile, selectedLanguage }: TravelSectionPageProps) {
   const { speak } = useAudio();
   const isJapanese = normalizeLanguageId(selectedLanguage) === 'ja';
@@ -211,12 +241,39 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                   </div>
                 </div>
 
-                <div className="space-y-2 text-[0.8rem] leading-relaxed text-[#374151] text-pretty">
-                  {section.culturalNotes.map((note, idx) => (
-                    <p key={`${section.id}-tip-${idx}`}>
-                      {note}
-                    </p>
-                  ))}
+                <div className="mx-auto max-w-3xl space-y-3 text-left text-[#374151] text-pretty">
+                  {section.culturalNotes.map((note, idx) => {
+                    const trimmed = note.trim();
+                    if (trimmed.startsWith('•')) {
+                      return (
+                        <p key={`${section.id}-tip-${idx}`} className="pl-5 relative text-[0.98rem] leading-7">
+                          <span className="absolute left-0 top-[0.42rem] text-[#3E5648]">•</span>
+                          {renderNoteText(trimmed.slice(1).trim())}
+                        </p>
+                      );
+                    }
+                    if (trimmed.includes('::')) {
+                      const [title, ...rest] = trimmed.split('::');
+                      const body = rest.join('::').trim();
+                      return (
+                        <div key={`${section.id}-tip-${idx}`} className="pt-1">
+                          <p className="text-[0.9rem] sm:text-[0.9rem] font-semibold text-[#1F2A37] leading-tight mb-1.5">
+                            {title}
+                          </p>
+                          {body ? (
+                            <p className="text-[0.8rem] leading-7">
+                              {renderNoteText(body)}
+                            </p>
+                          ) : null}
+                        </div>
+                      );
+                    }
+                    return (
+                      <p key={`${section.id}-tip-${idx}`} className="text-[0.8rem] leading-7">
+                        {renderNoteText(trimmed)}
+                      </p>
+                    );
+                  })}
                 </div>
               </div>
             </section>
@@ -237,7 +294,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                 <div className="mb-2 min-h-[104px] flex flex-col items-center justify-center text-center">
                   {revealRecall ? (
                     <div className="text-center">
-                      <div className="text-xs uppercase tracking-wider font-mono text-white/75">Revealed answer</div>
+                      <div className="text-xs uppercase tracking-wider font-mono text-white/75">answer</div>
                       <div className="text-lg secondary-font text-white mt-1">{recallPhrase.hanzi}</div>
                       <div className="text-sm text-white/80">{recallPhrase.pinyin}</div>
                       <div className="text-sm text-white mt-1">{recallPhrase.english}</div>
@@ -308,7 +365,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                 return (
                   <div
                     key={phrase.id}
-                    className={`relative rounded-2xl border p-4 sm:p-5 text-center min-h-[188px] md:min-h-[220px] md:aspect-square flex flex-col ${
+                    className={`relative rounded-2xl border p-4 sm:p-5 text-center min-h-[200px] md:min-h-[200px] md:aspect-square flex flex-col ${
                       isLearned ? 'bg-white/10' : 'bg-white/14'
                     }`}
                     style={{ borderColor: 'rgba(255,255,255,0.24)' }}
@@ -335,13 +392,13 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
 
                     <div className={`h-full flex flex-col ${isLearned ? 'opacity-55' : ''}`}>
                       <div className="flex-1 flex flex-col items-center justify-center gap-1.5 pt-5">
-                        <div className="secondary-font text-white leading-tight text-[1.8rem] lg:text-[1.65rem] xl:text-2xl">
+                        <div className="secondary-font text-white leading-tight text-[1.2rem] lg:text-[1.2rem] xl:text-2xl">
                           {phrase.hanzi}
                         </div>
-                        <div className="max-w-[90%] text-white/80 leading-snug text-[0.95rem] lg:text-[0.9rem] xl:text-sm">
+                        <div className="max-w-[90%] text-white/40 leading-snug text-[0.7rem] lg:text-[0.7rem] xl:text-sm">
                           {phrase.pinyin}
                         </div>
-                        <div className="max-w-[90%] text-white leading-snug text-[1rem] lg:text-[0.94rem] xl:text-sm">
+                        <div className="max-w-[90%] text-white leading-snug text-[0.9rem] lg:text-[0.9rem] xl:text-sm">
                           {phrase.english}
                         </div>
                       </div>
