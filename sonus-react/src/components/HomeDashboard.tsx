@@ -343,30 +343,16 @@ export default function HomeDashboard({
                   const wordsLength = words.length;
                   const coreLessonCount = getLessonRanges(wordsLength, 10).length;
                   if (mounted) setProgressPathIsApply(coreLessonCount > 0 && lessonIdx === coreLessonCount);
-
-                  if (mounted && coreLessonCount > 0) {
-                    const completedLessons = Array.from({ length: coreLessonCount }).reduce<number>((count, _, idx) => {
-                      const lessonKey = makeLessonKey(bandId, unitId, idx);
-                      const status = state.lessonProgress[lessonKey];
-                      return count + Number(Boolean(status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore)));
-                    }, 0);
-                    setUnitCompletionPercent(Math.round((completedLessons / coreLessonCount) * 100));
-                  } else if (mounted) {
-                    setUnitCompletionPercent(null);
-                  }
                 } else if (mounted) {
                   setProgressPathIsApply(false);
-                  setUnitCompletionPercent(null);
                 }
               } catch {
                 if (mounted) {
                   setProgressPathIsApply(false);
-                  setUnitCompletionPercent(null);
                 }
               }
             } else if (mounted) {
               setProgressPathIsApply(false);
-              setUnitCompletionPercent(null);
             }
           }
         }
@@ -384,6 +370,69 @@ export default function HomeDashboard({
       mounted = false;
     };
   }, [languageId, state.lessonProgress]);
+
+  useEffect(() => {
+    let mounted = true;
+    void (async () => {
+      if (
+        !resolvedResumeTarget ||
+        isPracticeUnitId(resolvedResumeTarget.unitId) ||
+        isCheckpointUnitId(resolvedResumeTarget.unitId) ||
+        resolvedResumeTarget.unitId === 'daily-review'
+      ) {
+        if (mounted) setUnitCompletionPercent(null);
+        return;
+      }
+      try {
+        const bandLanguage = inferLanguageForBand(resolvedResumeTarget.bandId, languageId);
+        const bandRes = await fetch(resolveBandDataPath(bandLanguage, resolvedResumeTarget.bandId), { cache: 'no-store' });
+        if (!bandRes.ok) {
+          if (mounted) setUnitCompletionPercent(null);
+          return;
+        }
+        const bandData = (await bandRes.json()) as {
+          units?: Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }>;
+        };
+        const units = bandData.units;
+        let words: Array<{ id?: string }> = [];
+        if (Array.isArray(units)) {
+          words = (units.find((unit) => unit?.id === resolvedResumeTarget.unitId)?.words || []) as typeof words;
+        } else if (units && typeof units === 'object') {
+          words = (units[resolvedResumeTarget.unitId]?.words || []) as typeof words;
+        }
+        const coreLessonCount = getLessonRanges(words.length, 10).length;
+        if (!mounted || coreLessonCount <= 0) {
+          if (mounted) setUnitCompletionPercent(null);
+          return;
+        }
+        const completedLessons = Array.from({ length: coreLessonCount }).reduce<number>((count, _, idx) => {
+          const lessonKey = makeLessonKey(resolvedResumeTarget.bandId, resolvedResumeTarget.unitId, idx);
+          const status = state.lessonProgress[lessonKey];
+          return count + Number(Boolean(status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore)));
+        }, 0);
+        const masteredLessons = Array.from({ length: coreLessonCount }).reduce<number>((count, _, idx) => {
+          const lessonKey = makeLessonKey(resolvedResumeTarget.bandId, resolvedResumeTarget.unitId, idx);
+          const status = state.lessonProgress[lessonKey];
+          return count + Number(Boolean(status?.mastered));
+        }, 0);
+        const totalTrackSteps = coreLessonCount * 2;
+        const completionPercent =
+          totalTrackSteps > 0 ? Math.round(((completedLessons + masteredLessons) / totalTrackSteps) * 100) : null;
+        if (mounted) setUnitCompletionPercent(completionPercent);
+      } catch {
+        if (mounted) setUnitCompletionPercent(null);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [
+    languageId,
+    resolvedResumeTarget?.bandId,
+    resolvedResumeTarget?.unitId,
+    state.lessonProgress,
+  ]);
 
   const openResumeCard = () => {
     if (!hasOpenedLessons) {
