@@ -40,7 +40,7 @@ interface ProfileScreenProps {
   onOpenAbout: () => void;
   onGoHome: () => void;
   currentLearningLanguage: string | null;
-  onRequestLearningLanguageChange: (languageId: string) => Promise<void> | void;
+  onOpenLanguageSelection: () => void;
 }
 
 function inferUnitFromLessonProgress(
@@ -71,7 +71,7 @@ export default function ProfileScreen({
   onOpenAbout,
   onGoHome,
   currentLearningLanguage,
-  onRequestLearningLanguageChange,
+  onOpenLanguageSelection,
 }: ProfileScreenProps) {
   const { state } = useApp();
   const { isDemo, signOut } = useAuth();
@@ -86,11 +86,6 @@ export default function ProfileScreen({
   const [displayName, setDisplayName] = useState('');
   const [targetLanguage, setTargetLanguage] = useState('');
   const [timezone, setTimezone] = useState('');
-  const [learningLanguageSelection, setLearningLanguageSelection] = useState(
-    resolvedCurrentLearningLanguage || 'zh'
-  );
-  const [pendingLearningLanguage, setPendingLearningLanguage] = useState<string | null>(null);
-  const [switchingLanguage, setSwitchingLanguage] = useState(false);
   const [deletingAccount, setDeletingAccount] = useState(false);
 
   const learningLanguageName =
@@ -195,7 +190,6 @@ export default function ProfileScreen({
       setDisplayName(profileJson.profile.displayName || '');
       setTargetLanguage(profileJson.profile.targetLanguage || '');
       setTimezone(resolvedTimezone);
-      setLearningLanguageSelection(resolvedCurrentLearningLanguage || 'zh');
     } catch {
       setBackendOffline(true);
       setError(null);
@@ -226,10 +220,6 @@ export default function ProfileScreen({
   useEffect(() => {
     void loadProfile();
   }, [loadProfile]);
-
-  useEffect(() => {
-    setLearningLanguageSelection(resolvedCurrentLearningLanguage || 'zh');
-  }, [resolvedCurrentLearningLanguage]);
 
   useEffect(() => {
     const onFocus = () => {
@@ -273,22 +263,6 @@ export default function ProfileScreen({
       setError((err as Error).message || 'Failed to save profile');
     } finally {
       setSaving(false);
-    }
-  };
-
-  const requestLanguageSwitch = () => {
-    if (!learningLanguageSelection || learningLanguageSelection === currentLearningLanguage) return;
-    setPendingLearningLanguage(learningLanguageSelection);
-  };
-
-  const confirmLanguageSwitch = async () => {
-    if (!pendingLearningLanguage) return;
-    setSwitchingLanguage(true);
-    try {
-      await onRequestLearningLanguageChange(pendingLearningLanguage);
-      setPendingLearningLanguage(null);
-    } finally {
-      setSwitchingLanguage(false);
     }
   };
 
@@ -436,26 +410,13 @@ export default function ProfileScreen({
                 </div>
 
                 <div className="mt-3 space-y-2.5">
-                  <select
-                    value={learningLanguageSelection}
-                    onChange={(e) => setLearningLanguageSelection(e.target.value)}
-                    className="w-full rounded-xl border border-border bg-white px-3 py-2.5 text-sm text-text-dark"
-                  >
-                    <option value="zh">Mandarin</option>
-                    <option value="ja">Japanese</option>
-                  </select>
                   <button
-                    onClick={requestLanguageSwitch}
-                    disabled={!learningLanguageSelection || learningLanguageSelection === currentLearningLanguage}
+                    onClick={onOpenLanguageSelection}
                     className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#186E95] px-3 py-2.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-18px_rgba(24,110,149,0.55)] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
                   >
-                    Switch Language
+                    Go to Language Selection
                   </button>
                 </div>
-              </div>
-
-              <div className="mt-3 text-[11px] leading-tight text-text-light">
-                Roadmap: Korean and French curriculum are coming soon.
               </div>
             </div>
           </SurfaceCard>
@@ -488,32 +449,6 @@ export default function ProfileScreen({
       </div>
 
       <BottomNav active="profile" onHome={onGoHome} onProfile={() => {}} />
-
-      {pendingLearningLanguage && (
-        <div className="fixed inset-0 bg-black/35 z-[60] flex items-center justify-center px-6">
-          <div className="w-full max-w-sm bg-white border border-border rounded-2xl p-5">
-            <h3 className="font-semibold text-text-dark mb-2">Switch Learning Language?</h3>
-            <p className="text-sm text-text-med mb-4">
-              This changes your active language dashboard. Your saved progress data remains stored.
-            </p>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setPendingLearningLanguage(null)}
-                className="flex-1 px-3 py-2 rounded-lg border border-border text-sm text-text-dark"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => void confirmLanguageSwitch()}
-                disabled={switchingLanguage}
-                className="flex-1 px-3 py-2 rounded-lg bg-[#186E95] text-white text-sm font-semibold disabled:opacity-60"
-              >
-                {switchingLanguage ? 'Switching...' : 'Confirm'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {profileEditorOpen && (
         <div className="fixed inset-0 bg-black/35 z-[70] flex items-center justify-center px-6">

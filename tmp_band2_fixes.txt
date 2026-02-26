@@ -1,0 +1,670 @@
+
+
+When I say a word is "not Band 1," I am referring to the specific curriculum list of 517 words provided in your band1.json file.
+In your original file, the example sentence for "Cup" (
+杯子
+) was:
+"
+这
+个杯子很漂亮。
+" (This cup is very pretty.)
+The Problem
+The word 
+漂亮
+ (piàoliang/pretty) does not exist in your Band 1 word list. If a complete beginner uses your app, they will encounter the word "pretty" in an example sentence before they have actually learned it as a vocabulary word. This can be frustrating for a learner because it introduces "mystery words" they haven't been taught yet.
+My Fix
+To keep the app strictly for "complete beginners," I replaced the mystery word with a word that is in your Band 1 list: 
+大
+ (dà/big).
+1. Unit Audit: b2-pronouns & b2-politeness
+The Goal: Establish clear social boundaries and formal respect.
+Word ID
+Word (Simp)
+Pinyin
+Tag
+Recommendation / Fix
+New Example (Band 2 Only)
+English Translation
+L2-0231
+大家
+dàjiā
+-
+Inclusive and rhythmic.
+大家好！
+Hello everyone!
+L2-0120
+您
+们
+nínmen
+polite
+POLITE TAG. Mark as formal.
+您
+们
+好，老
+师
+。
+Hello (formal), teachers.
+L2-0450
+原
+谅
+yuánliàng
+polite
+FIX: "
+请
+求
+" is Band 3.
+请
+原
+谅
+我。
+Please forgive me.
+L2-0212
+抱歉
+bàoqiàn
+polite
+Rhythm: Good for tone practice.
+很抱歉，我
+迟
+到了。
+So sorry, I am late.
+2. Unit Audit: b2-time & b2-routines
+The Goal: Focus on frequent actions and the passage of time.
+Word ID
+Word (Simp)
+Pinyin
+Tag
+Recommendation / Fix
+New Example (Band 2 Only)
+English Translation
+L2-0115
+刚
+才
+gāngcái
+-
+FIX: "
+离开
+" is Band 3.
+他
+刚
+才走了。
+He just left.
+L2-0312
+经
+常
+jīngcháng
+-
+Rhythm: Use simple verbs.
+我
+经
+常喝茶。
+I often drink tea.
+L2-0448
+洗澡
+xǐzǎo
+-
+Concrete daily routine.
+我在洗澡。
+I am taking a bath.
+L2-0453
+运
+动
+yùndòng
+-
+FIX: "
+减肥
+" is Band 4.
+运
+动对
+身体好。
+Exercise is good for the body.
+3. Unit Audit: b2-food & b2-shopping
+The Goal: Practical interactions for the "Sonus" user's daily life.
+Word ID
+Word (Simp)
+Pinyin
+Tag
+Recommendation / Fix
+New Example (Band 2 Only)
+English Translation
+L2-0341
+菜
+单
+càidān
+polite
+Essential for dining UI.
+请给
+我菜
+单
+。
+Please give me the menu.
+L2-0105
+打折
+dǎzhé
+-
+FIX: "
+优
+惠券
+" is Band 4.
+商店在打折。
+The store is having a sale.
+L2-0329
+便宜
+piányi
+-
+Descriptive and common.
+这
+个衣服很便宜。
+These clothes are very cheap.
+L2-0421
+咸
+xián
+-
+Rhythm: Tone contrast.
+这
+个菜很咸。
+This dish is very salty.
+4. Unit Audit: b2-locations & b2-directions
+The Goal: Mastering movement within the Band 2 environment.
+Word ID
+Word (Simp)
+Pinyin
+Tag
+Recommendation / Fix
+New Example (Band 2 Only)
+English Translation
+L2-0220
+超市
+chāoshì
+-
+Standard destination.
+我去超市
+买东
+西。
+I am going to the supermarket.
+L2-0118
+附近
+fùjìn
+-
+FIX: "
+银
+行
+" is Band 3.
+我家在附近。
+My home is nearby.
+L2-0445
+向
+xiàng
+polite
+Used in formal directions.
+请
+向左走。
+Please walk toward the left.
+Export Document Template: Band 2 Audit
+You can copy this into your project document for the developer:
+SONUS UPDATE: BAND 2 CORE UNITS
+Tagging Rule: Any word with the ID L2-0120 (
+您
+们
+), L2-0450 (
+原
+谅
+), or L2-0341 (
+菜
+单
+) must receive the * (Polite) marker in the UI.
+Linguistic Filter: All "Mystery Words" (like 
+银
+行
+, 
+减肥
+, 
+离开
+) have been stripped from example sentences.
+Tone Practice Focus: For words like 
+运
+动
+ (yùndòng - Fourth/Fourth tone) and 
+洗澡
+ (xǐzǎo - Third/Third tone), ensure the "Speak" coach provides friendly correction if the user misses the tone drop or sandhi.
+1. Global UI & Politeness Strategy
+Polite Tagging: I have marked formal verbs and social greetings with the tags: ["polite"] field.
+Rhythm & Tone: For the Social unit, I've used repetitive structures to help users "feel" the tones of greetings and well-wishes.
+2. Unit Audit: Verbs (u02, u03, u04)
+The Goal: Describe concrete actions using only the vocabulary a Band 2 student has mastered.
+Unit ID
+Word ID
+Word (Simp)
+Pinyin
+Tag
+Recommendation / Fix
+New Example (Band 2 Only)
+English Translation
+Verbs-1
+L2-0014
+报
+名
+bào míng
+-
+FIX: "
+比
+赛
+" is Band 3.
+我想
+报
+名学
+汉语
+。
+I want to sign up to learn Chinese.
+Verbs-1
+L2-0048
+参
+观
+cān guān
+-
+FIX: "
+博物
+馆
+" is Band 3.
+我
+们
+参
+观
+了学校。
+We visited the school.
+Verbs-1
+L2-0073
+出
+现
+chū xiàn
+-
+FIX: "
+突然
+" is Band 3.
+老
+师
+出
+现
+了。
+The teacher appeared.
+Verbs-2
+L2-0153
+回
+忆
+huí yì
+-
+FIX: "
+童年
+" is Band 4.
+我回
+忆
+起那个地方。
+I recalled that place.
+Verbs-2
+L2-0187
+考
+虑
+kǎo lǜ
+polite
+Mark for polite hesitation.
+请让
+我考
+虑
+一下。
+Please let me consider it.
+Verbs-3
+L2-0351
+参
+观
+cān guān
+-
+Note: Duplicate check.
+我
+们
+去参
+观
+北京。
+We are going to visit Beijing.
+Verbs-3
+L2-0450
+原
+谅
+yuán liàng
+polite
+FIX: "
+请
+求
+" is Band 3.
+请
+原
+谅
+我。
+Please forgive me.
+3. Unit Audit: Social & People (u12, u13)
+The Goal: Mastery of social etiquette and introductions.
+Unit ID
+Word ID
+Word (Simp)
+Pinyin
+Tag
+Recommendation / Fix
+New Example (Band 2 Only)
+English Translation
+Social
+L2-0143
+欢
+迎
+huān yíng
+polite
+Standard rhythmic greeting.
+欢
+迎来到中国。
+Welcome to China.
+Social
+L2-0315
+救命
+jiù mìng
+-
+High-urgency "mouth-feel".
+救命！快来。
+Help! Come quickly.
+Social
+L2-0460
+祝
+zhù
+polite
+Use for simple well-wishes.
+祝你生日快
+乐
+。
+Wish you a happy birthday.
+People
+L2-0120
+您
+们
+nín men
+polite
+POLITE TAG.
+您
+们
+好，老
+师
+。
+Hello, teachers.
+People
+L2-0231
+大家
+dà jiā
+-
+Inclusive and rhythmic.
+大家好，我是王老
+师
+。
+Hello everyone, I am Teacher Wang.
+4. Unit Audit: Feelings & Adjectives (u16)
+The Goal: Express internal states with basic, evocative words.
+Unit ID
+Word ID
+Word (Simp)
+Pinyin
+Tag
+Recommendation / Fix
+New Example (Band 2 Only)
+English Translation
+Feelings
+L2-0129
+害怕
+hài pà
+-
+Simple and direct.
+我害怕大狗。
+I am afraid of big dogs.
+Feelings
+L2-0239
+单
+心
+dān xīn
+polite
+FIX: "
+安全
+" is Band 3.
+别
+担心，我很好。
+Don't worry, I am fine.
+Feelings
+L2-0275
+高
+兴
+gāo xìng
+-
+Standard emotion check.
+我很高
+兴
+。
+I am happy.
+Feelings
+L2-0331
+漂亮
+piào liang
+-
+Now available in Band 2!
+你的衣服很漂亮。
+Your clothes are very pretty.
+Strategic Implementation Notes
+The "Pretty" Milestone: In Band 1, we had to replace "Pretty" (
+漂亮
+) with "Big" or "Good." In Band 2, the user finally learns this word, making it a great "reward" moment for the UI.
+Formal Hesitation: Phrases like 
+考
+虑
+一下
+ (Consider it a bit) are vital for social politeness in Mandarin. Tagging this as polite teaches the user how to say "no" or "maybe" softly.
+Emergency Social: Words like 
+救命
+ (Help!) are included in Band 2. In Sonus, these should have a distinct visual style (perhaps a red icon) to differentiate them from polite social greetings.
+1. Unit Audit: Travel & Places (u09, u14)
+The Goal: Navigating the world with clear, rhythmic directions.
+Word ID
+Word (Simp)
+Pinyin
+Tag
+Recommendation / Fix
+New Example (Band 2 Only)
+English Translation
+Travel
+L2-0272
+交通
+jiāotōng
+-
+FIX: "
+方便
+" is Band 3.
+这
+里的交通很好。
+Travel
+L2-0624
+行人
+xíngrén
+-
+FIX: "
+人行道
+" is Band 3.
+这
+里有很多行人。
+Travel
+L2-0231
+护
+照
+hùzhào
+polite
+FIX: "
+出示
+" is Band 4.
+请给
+我看你的
+护
+照。
+Places
+L2-0713
+站
+zhàn
+polite
+Standard polite inquiry.
+请问
+，火
+车
+站怎么走？
+2. Unit Audit: Health & Weather (u10, u11)
+The Goal: Describing physical states and the environment.
+Word ID
+Word (Simp)
+Pinyin
+Tag
+Recommendation / Fix
+New Example (Band 2 Only)
+English Translation
+Health
+L2-0229
+护
+士
+hùshi
+polite
+Rhythm: Professional address.
+护
+士，
+谢谢
+你。
+Health
+L2-0422
+限制
+xiànzhì
+-
+FIX: "
+吸烟
+" is Band 3.
+那个地方有限制。
+Weather
+L2-0210
+报
+bào
+-
+Simple weather check.
+报纸
+上
+说
+今天有雨。
+Weather
+L2-0294
+极了
+jíle
+-
+Rhythm: Tone emphasis.
+今天好极了。
+3. Unit Audit: Tech & Objects (u15)
+The Goal: Identifying modern tools with basic verbs.
+Word ID
+Word (Simp)
+Pinyin
+Tag
+Recommendation / Fix
+New Example (Band 2 Only)
+English Translation
+Tech
+L2-0209
+笔
+记
+本
+bǐjìběn
+-
+FIX: "
+记录
+" is Band 3.
+我
+买
+了一个笔
+记
+本。
+Tech
+L2-0125
+电
+子
+邮
+件
+diànzǐ yóujiàn
+polite
+FIX: "
+查
+收
+" is Band 4.
+请
+看我的
+电
+子
+邮
+件。
+Tech
+L2-0447
+洗衣机
+xǐyījī
+-
+Rhythm: Tone flow.
+我有洗衣机。
+4. Unit Audit: Quantifiers & Classifiers (u17, u18)
+The Goal: Correcting the "mouth-feel" of counting in Mandarin.
+Word ID
+Word (Simp)
+Pinyin
+Tag
+Recommendation / Fix
+New Example (Band 2 Only)
+English Translation
+Quant
+L2-0114
+刚
+才
+gāngcái
+-
+Rhythm: Clear timeline.
+他
+刚
+才就在。
+Class
+L2-0216
+份
+fèn
+polite
+Rhythm: Ordering items.
+请给
+我一份
+报纸
+。
+Class
+L2-0487
+张
+zhāng
+-
+Concrete counting.
+桌上有两
+张纸
+。
+Strategic Note for Sonus
+Classifiers for UI: In Unit 18, words like 
+张
+ (zhāng) and 
+份
+ (fèn) are essential for your app's "Shopping" and "Restaurant" UI. Ensure the tone coaching highlights the Third-Tone to Fourth-Tone shift (Tone Sandhi) when users say these aloud.
+The Email Shift: While most people say "Check your email" (
+查
+收
+), those verbs are advanced. For Sonus Band 2, sticking to "Look at my email" (
+看我的
+电
+子
+邮
+件
+) is natural and fits the user's current knowledge.
+Travel Courtesy: Phrases involving passports (
+护
+照
+) or stations (
+站
+) should trigger a "Polite Mode" UI cue, as these are high-stakes interactions for a traveler.

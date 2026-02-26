@@ -2543,8 +2543,8 @@
         "if possible, as much as possible"
       ],
       "example": {
-        "ja": "漢字を書くときは点やはらいに気をつけて、なるべく早くていねいに書きましょう。",
-        "en": "When drawing kanji be careful of dots and sweeps, write as carefully and quickly as possible."
+        "ja": "なるべく早く返信します。",
+        "en": "I will reply as soon as possible."
       },
       "type": "word",
       "pos_detail": "adv"
@@ -3179,8 +3179,8 @@
         "to lose weight"
       ],
       "example": {
-        "ja": "痩せる必要がないというのは残念だ。",
-        "en": "It's too bad that I don't need to lose weight."
+        "ja": "夏までに少し痩せたいです。",
+        "en": "I want to lose a little weight by summer."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -3197,8 +3197,8 @@
         "line, wire"
       ],
       "example": {
-        "ja": "私は眠らなければなりません。",
-        "en": "I have to go to sleep."
+        "ja": "地図に赤い線を引いてください。",
+        "en": "Please draw a red line on the map."
       },
       "type": "word",
       "pos_detail": "n"
@@ -3579,8 +3579,8 @@
         "thing(s), matter(s), fact"
       ],
       "example": {
-        "ja": "そんなことは起きないでしょう。",
-        "en": "That won't happen."
+        "ja": "大切な事はメモしておきなさい。",
+        "en": "Write down important things."
       },
       "type": "word",
       "pos_detail": "n"
@@ -3818,8 +3818,8 @@
         "dentist"
       ],
       "example": {
-        "ja": "前の歯医者さんに、たばこをやめるなら、ヤニ取りしてあげる・・・といわれたそうです。",
-        "en": "He said that his previous dentist told him that he'd remove nicotine stains if he stopped smoking."
+        "ja": "明日の午後、歯医者に行きます。",
+        "en": "I am going to the dentist tomorrow afternoon."
       },
       "type": "word",
       "pos_detail": "n"
@@ -4615,8 +4615,8 @@
         "forest"
       ],
       "example": {
-        "ja": "自分勝手にするつもりはない。",
-        "en": "I don't intend to be selfish."
+        "ja": "朝の森は空気が澄んでいる。",
+        "en": "The air in the forest is clear in the morning."
       },
       "type": "word",
       "pos_detail": "n"
@@ -4651,8 +4651,8 @@
         "plans, arrangement, schedule"
       ],
       "example": {
-        "ja": "人生とは、他の予定を立てることに忙しくしている時に起こる現象のことだ。",
-        "en": "Life is what happens to you while you're busy making other plans."
+        "ja": "来週の予定をカレンダーに書いた。",
+        "en": "I wrote next week's schedule on the calendar."
       },
       "type": "word",
       "pos_detail": "n"
@@ -4706,8 +4706,8 @@
         "stone"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "川で丸い石を拾った。",
+        "en": "I picked up a round stone by the river."
       },
       "type": "word",
       "pos_detail": "n"
@@ -5447,8 +5447,8 @@
         "-- extra-modest expression for いる --"
       ],
       "example": {
-        "ja": "彼はタオルを水で濡らした。",
-        "en": "He wetted his towel with water."
+        "ja": "私は受付におります。",
+        "en": "I am at the reception desk."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -5683,8 +5683,8 @@
         "traffic, transportation"
       ],
       "example": {
-        "ja": "東北・秋田新幹線が運転を見合わせるなど交通も混乱した。",
-        "en": "Traffic was also disrupted including the suspension of the Akita, Tohoku bullet train."
+        "ja": "雨の日は交通が混みやすい。",
+        "en": "Traffic tends to be heavy on rainy days."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -5971,8 +5971,8 @@
         "to pass away"
       ],
       "example": {
-        "ja": "私はストレスがたまると食欲がなくなるのではなく、逆に何か食べないと気が済まなくなる。",
-        "en": "I don't lose my appetite when I get stressed, rather I can't calm down unless I eat something."
+        "ja": "祖父は九十歳で亡くなった。",
+        "en": "My grandfather passed away at ninety."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -5989,8 +5989,8 @@
         "science"
       ],
       "example": {
-        "ja": "ほとんどの科学的進歩は当然のことについての発見に過ぎない。",
-        "en": "Most scientific breakthroughs are nothing else than the discovery of the obvious."
+        "ja": "科学の授業で電池の実験をした。",
+        "en": "We did a battery experiment in science class."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -6025,8 +6025,8 @@
         "-- humble expression for あげる --"
       ],
       "example": {
-        "ja": "突然にかような奇怪な手紙を差し上げる非礼をお許し下さい。",
-        "en": "Please forgive my impoliteness in sending you suddenly such a strange letter."
+        "ja": "お礼にこの本を差し上げます。",
+        "en": "I would like to give you this book as thanks."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -6188,8 +6188,8 @@
         "(personal) computer"
       ],
       "example": {
-        "ja": "私のパソコンは何かの役に立つはずだ。",
-        "en": "My computer has got to be useful for something."
+        "ja": "新しいぱそこんでレポートを書いています。",
+        "en": "I am writing a report on my new computer."
       },
       "type": "word",
       "pos_detail": "n"
@@ -6242,8 +6242,8 @@
         "to add (numbers)"
       ],
       "example": {
-        "ja": "先ずは憧れの作家の文章の呼吸をつかむためにひたすら筆写、丸写しをする。",
-        "en": "First, in order to get a feel for your favourite author's work, transcribe and copy in full."
+        "ja": "その数字に十を足してください。",
+        "en": "Please add ten to that number."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -6260,8 +6260,8 @@
         "church"
       ],
       "example": {
-        "ja": "今夜教会に行くよ。",
-        "en": "Tonight we're going to church."
+        "ja": "その教会は駅の北側にあります。",
+        "en": "That church is on the north side of the station."
       },
       "type": "word",
       "pos_detail": "n"
@@ -6407,8 +6407,8 @@
         "to get dark, to come to an end"
       ],
       "example": {
-        "ja": "私は彼らにチケットをもう一枚送ってくれるように頼んだ。",
-        "en": "I told them to send me another ticket."
+        "ja": "夏は日が暮れるのが遅い。",
+        "en": "In summer, it gets dark late."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -6461,8 +6461,8 @@
         "to hit, to strike"
       ],
       "example": {
-        "ja": "バカがうつる、近づくな。",
-        "en": "Stay away from me, I'll catch the stupid."
+        "ja": "彼はキーボードを速く打つ。",
+        "en": "He types quickly on the keyboard."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -6641,8 +6641,8 @@
         "humble form of 行く (いく), 聞く (きく) and 来る (くる)"
       ],
       "example": {
-        "ja": "病気のため本日はうかがうことができませんでした。",
-        "en": "On account of illness, I couldn't call on you today."
+        "ja": "来週、結果を伺いに参ります。",
+        "en": "I will come next week to ask about the results."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -6821,8 +6821,8 @@
         "hair, fur"
       ],
       "example": {
-        "ja": "私は眠らなければなりません。",
-        "en": "I have to go to sleep."
+        "ja": "その犬は毛が長くて白い。",
+        "en": "That dog has long white fur."
       },
       "type": "word",
       "pos_detail": "n"
@@ -7001,8 +7001,8 @@
         "to be surprised"
       ],
       "example": {
-        "ja": "一週間でどれほどのことが学べるか、自分でもびっくりするはずだよ！",
-        "en": "You'd be surprised what you can learn in a week."
+        "ja": "ドアが急に開いてびっくりした。",
+        "en": "The door suddenly opened and surprised me."
       },
       "type": "expression",
       "pos_detail": "vs"
@@ -7075,8 +7075,8 @@
         "child"
       ],
       "example": {
-        "ja": "この世界の教育にはがっかりしてしまう。",
-        "en": "Education in this world disappoints me."
+        "ja": "あの子はピアノを習っています。",
+        "en": "That child is learning piano."
       },
       "type": "word",
       "pos_detail": "n"
@@ -7255,8 +7255,8 @@
         "like this, this way"
       ],
       "example": {
-        "ja": "最悪の場合を考えておこう。",
-        "en": "Let's consider the worst that could happen."
+        "ja": "こうすれば時間を節約できます。",
+        "en": "If you do it like this, you can save time."
       },
       "type": "word",
       "pos_detail": "adv"
@@ -7418,8 +7418,8 @@
         "city"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "この市は図書館が多くて便利です。",
+        "en": "This city is convenient because it has many libraries."
       },
       "type": "word",
       "pos_detail": "n"
@@ -7711,8 +7711,8 @@
         "metropolitan"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "彼は都で働くことを夢見ている。",
+        "en": "He dreams of working in the metropolis."
       },
       "type": "word",
       "pos_detail": "n"
@@ -7784,8 +7784,8 @@
         "explanation"
       ],
       "example": {
-        "ja": "いつまでかかっても全部を説明するのは無理だ。",
-        "en": "It would take forever for me to explain everything."
+        "ja": "先生の説明はとても分かりやすい。",
+        "en": "The teacher's explanation is very easy to understand."
       },
       "type": "word",
       "pos_detail": "n"
@@ -7802,8 +7802,8 @@
         "island"
       ],
       "example": {
-        "ja": "この世界の教育にはがっかりしてしまう。",
-        "en": "Education in this world disappoints me."
+        "ja": "夏休みに小さな島へ行きたい。",
+        "en": "I want to go to a small island during summer vacation."
       },
       "type": "word",
       "pos_detail": "n"
@@ -7948,8 +7948,8 @@
         "wife (humble)"
       ],
       "example": {
-        "ja": "いつまでかかっても全部を説明するのは無理だ。",
-        "en": "It would take forever for me to explain everything."
+        "ja": "妻は毎朝早く起きて弁当を作る。",
+        "en": "My wife wakes up early every morning and makes lunch boxes."
       },
       "type": "word",
       "pos_detail": "n"
@@ -8056,8 +8056,8 @@
         "danger, risk, hazard"
       ],
       "example": {
-        "ja": "それをするためには危険を冒さなければならない。",
-        "en": "In order to do that, you have to take risks."
+        "ja": "夜の山道は危険だから行かない。",
+        "en": "Mountain roads at night are dangerous, so I will not go."
       },
       "type": "word",
       "pos_detail": "n"
@@ -8256,8 +8256,8 @@
         "to give"
       ],
       "example": {
-        "ja": "恐い話が聞きたいなら、数週間前に私が見た夢のことを話してあげるよ。",
-        "en": "If you want to hear a scary story, I'll tell you about a dream I had a few weeks ago."
+        "ja": "妹に新しいノートをあげた。",
+        "en": "I gave my younger sister a new notebook."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -8418,8 +8418,8 @@
         "rural, countryside"
       ],
       "example": {
-        "ja": "あなたは他の誰も見ていなかった場所で私を見つけた。",
-        "en": "You found me where no one else was looking."
+        "ja": "休みには田舎の祖母を訪ねます。",
+        "en": "During breaks, I visit my grandmother in the countryside."
       },
       "type": "word",
       "pos_detail": "n"
@@ -8436,8 +8436,8 @@
         "to discover, to find (v.t.)"
       ],
       "example": {
-        "ja": "宇宙でどうやって食べ物をみつけるの？",
-        "en": "How do you find food in outer space?"
+        "ja": "なくした鍵をやっと見つけた。",
+        "en": "I finally found the lost key."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -8563,8 +8563,8 @@
         "arm (in reference to body)"
       ],
       "example": {
-        "ja": "前の歯医者さんに、たばこをやめるなら、ヤニ取りしてあげる・・・といわれたそうです。",
-        "en": "He said that his previous dentist told him that he'd remove nicotine stains if he stopped smoking."
+        "ja": "荷物が重くて腕が痛い。",
+        "en": "My arms hurt because the luggage is heavy."
       },
       "type": "word",
       "pos_detail": "n"
@@ -8691,8 +8691,8 @@
         "heating"
       ],
       "example": {
-        "ja": "断熱が悪いと、いくら暖房してもちっとも暖かくならない。",
-        "en": "If it's badly insulated, it won't warm up regardless of how much heating you use."
+        "ja": "寒いので暖房を入れてください。",
+        "en": "It is cold, so please turn on the heating."
       },
       "type": "word",
       "pos_detail": "vs"
@@ -8746,8 +8746,8 @@
         "Buddhist temple"
       ],
       "example": {
-        "ja": "芝居小屋跡地に学校が建てられたのが1905年4月でした。",
-        "en": "It was April 1905 when a school was built on the site of the theatre."
+        "ja": "この寺は秋の紅葉で有名です。",
+        "en": "This temple is famous for its autumn leaves."
       },
       "type": "word",
       "pos_detail": "n"
@@ -9073,8 +9073,8 @@
         "character"
       ],
       "example": {
-        "ja": "たぶん彼にしてみれば同じことよ。",
-        "en": "Maybe it will be exactly the same for him."
+        "ja": "彼女の字は丁寧で読みやすい。",
+        "en": "Her handwriting is neat and easy to read."
       },
       "type": "word",
       "pos_detail": "n"
@@ -9091,8 +9091,8 @@
         "Asia"
       ],
       "example": {
-        "ja": "アジア諸国などから出稼ぎにきた外国人をメイドとして使うのが常識のようになっている。",
-        "en": "It has become common practise to employ foreigners working abroad from Asian countries as maids."
+        "ja": "あじあの歴史について発表した。",
+        "en": "I gave a presentation about Asian history."
       },
       "type": "word",
       "pos_detail": "n"
@@ -9310,8 +9310,8 @@
         "curtain"
       ],
       "example": {
-        "ja": "カーテンに火が点いた。",
-        "en": "The curtain caught fire."
+        "ja": "朝日で目が覚めないように、厚いかーてんを閉めた。",
+        "en": "I closed the thick curtains so the morning sun would not wake me."
       },
       "type": "word",
       "pos_detail": "n"
@@ -9436,8 +9436,8 @@
         "way, manner, kind"
       ],
       "example": {
-        "ja": "あなたの勉強を邪魔しないようにします。",
-        "en": "I'll do my best not to disturb your studying."
+        "ja": "この様な機会はめったにありません。",
+        "en": "An opportunity like this is rare."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -9526,8 +9526,8 @@
         "to be fixed"
       ],
       "example": {
-        "ja": "かぜがなおるのに３週間かかった。",
-        "en": "It took three weeks for me to get over my cold."
+        "ja": "壊れていた時計が直った。",
+        "en": "The broken clock got fixed."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -9727,8 +9727,8 @@
         "culture"
       ],
       "example": {
-        "ja": "日本文化に造詣深いことはいいことです。",
-        "en": "Being knowledgeable about Japanese culture is a good thing."
+        "ja": "旅行では食べ物から文化を学べる。",
+        "en": "You can learn about culture through food when traveling."
       },
       "type": "word",
       "pos_detail": "n"
@@ -9799,8 +9799,8 @@
         "you (informal for men)"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "君の意見を先に聞かせて。",
+        "en": "Let me hear your opinion first."
       },
       "type": "word",
       "pos_detail": "pron"
@@ -9835,8 +9835,8 @@
         "to be started, to be switched on"
       ],
       "example": {
-        "ja": "技術が追いつくまでに5年はかかるだろう。",
-        "en": "It must be five years before the technology catches up."
+        "ja": "廊下の電気が自動で点く。",
+        "en": "The hallway light turns on automatically."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -9961,8 +9961,8 @@
         "(humble) (polite) seeing, look at"
       ],
       "example": {
-        "ja": "英語のコミュニティでお名前とコメントを拝見し、プロフィールを拝読しました。",
-        "en": "I saw your name and posts in an English forum and took the liberty of reading your profile."
+        "ja": "先日の資料を拝見しました。",
+        "en": "I reviewed the materials from the other day."
       },
       "type": "expression",
       "pos_detail": "vs"
@@ -10195,8 +10195,8 @@
         "to consider"
       ],
       "example": {
-        "ja": "最近考えることが多過ぎる。",
-        "en": "I have too many things on my mind these days."
+        "ja": "この問題はもう少し考える必要がある。",
+        "en": "We need to think about this problem a little more."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -10303,8 +10303,8 @@
         "substitute, replacement"
       ],
       "example": {
-        "ja": "これは代わりになるものをみつけたい単語だ。",
-        "en": "It's a word I'd like to find a substitute for."
+        "ja": "今日は部長の代わりに私が出席します。",
+        "en": "I will attend today in place of the manager."
       },
       "type": "word",
       "pos_detail": "n"
@@ -10359,8 +10359,8 @@
         "to shift"
       ],
       "example": {
-        "ja": "バカがうつる、近づくな。",
-        "en": "Stay away from me, I'll catch the stupid."
+        "ja": "来月、会社の近くへ移る予定です。",
+        "en": "I plan to move near the office next month."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -10377,8 +10377,8 @@
         "suitcase"
       ],
       "example": {
-        "ja": "目が覚めてみたら、スーツケースがなくなっていた。",
-        "en": "I awoke to find my suitcase gone."
+        "ja": "すーつけーすに服を詰めた。",
+        "en": "I packed clothes into my suitcase."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -10450,8 +10450,8 @@
         "an introduction"
       ],
       "example": {
-        "ja": "それを皮切りとして欧州の詩や文学を多数紹介するようになりました。",
-        "en": "With that as a start many European poems and much literature came to be introduced."
+        "ja": "新しい同僚を皆に紹介した。",
+        "en": "I introduced the new colleague to everyone."
       },
       "type": "word",
       "pos_detail": "n"
@@ -10540,8 +10540,8 @@
         "kind (person), gentle (person), easy (problem)"
       ],
       "example": {
-        "ja": "ひげを生やしているせいなのか、一見怖そうなのに、実はやさしい人だ。",
-        "en": "Possibly because he's got a beard, he looks scary at first glance but he's really a kind man."
+        "ja": "その店員はいつも優しい。",
+        "en": "That clerk is always kind."
       },
       "type": "word",
       "pos_detail": "adj-i"
@@ -10848,8 +10848,8 @@
         "to be helpful, to be useful"
       ],
       "example": {
-        "ja": "私のパソコンは何かの役に立つはずだ。",
-        "en": "My computer has got to be useful for something."
+        "ja": "このメモは旅行のときに役に立つ。",
+        "en": "This memo is useful when traveling."
       },
       "type": "expression",
       "pos_detail": "expr"
@@ -10868,8 +10868,8 @@
         "days"
       ],
       "example": {
-        "ja": "もうすぐ授業が再開する。",
-        "en": "Classes are starting again soon."
+        "ja": "バスはもうすぐ来ます。",
+        "en": "The bus will arrive very soon."
       },
       "type": "expression",
       "pos_detail": "expr"
@@ -11013,8 +11013,8 @@
         "to visit"
       ],
       "example": {
-        "ja": "友人が、私は元気かとたずねる手紙をくれた。",
-        "en": "My friend sent me a letter asking how I was."
+        "ja": "週末に恩師を訪ねる予定です。",
+        "en": "I plan to visit my former teacher this weekend."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -11068,8 +11068,8 @@
         "on the way, midway"
       ],
       "example": {
-        "ja": "おやおや、食事の途中に席を立つとはマナーに反しますね。",
-        "en": "Oh my, leaving the table in the middle of a meal is bad manners, you know."
+        "ja": "駅までの途中で雨が降り出した。",
+        "en": "It started raining on the way to the station."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -11230,8 +11230,8 @@
         "gas station, service station"
       ],
       "example": {
-        "ja": "彼はガソリンスタンドで車を洗ってもらった。",
-        "en": "He got his car washed at the filling station."
+        "ja": "角のがそりんすたんどで空気を入れた。",
+        "en": "I filled my tires with air at the gas station on the corner."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11284,8 +11284,8 @@
         "to rise, to go up"
       ],
       "example": {
-        "ja": "親切にしてやればつけあがる。",
-        "en": "Give him an inch and he'll take a yard."
+        "ja": "夕方になると風が上がる。",
+        "en": "The wind picks up in the evening."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -11466,8 +11466,8 @@
         "to live"
       ],
       "example": {
-        "ja": "想像力は私たちの生活のどの側面にも影響を与える。",
-        "en": "Imagination affects every aspect of our lives."
+        "ja": "一人暮らしの生活にも慣れてきた。",
+        "en": "I have gotten used to living alone."
       },
       "type": "expression",
       "pos_detail": "vs"
@@ -11484,8 +11484,8 @@
         "thread"
       ],
       "example": {
-        "ja": "痩せる必要がないというのは残念だ。",
-        "en": "It's too bad that I don't need to lose weight."
+        "ja": "このボタンは糸が切れかけている。",
+        "en": "The thread on this button is about to snap."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11704,8 +11704,8 @@
         "software"
       ],
       "example": {
-        "ja": "日本語のソフトを落とすコツ・いいサイトありませんか？",
-        "en": "Are there any knacks, or good sites, for downloading Japanese software?"
+        "ja": "このそふとは操作が簡単です。",
+        "en": "This software is easy to use."
       },
       "type": "word",
       "pos_detail": "adj-na"
@@ -11849,8 +11849,8 @@
         "from now on, after this"
       ],
       "example": {
-        "ja": "これから何か手職を身に付けたいと思う方は、是非お読みになることをおすすめします。",
-        "en": "I greatly recommend reading it to anybody thinking of learning a craft."
+        "ja": "これから会議が始まります。",
+        "en": "The meeting will start now."
       },
       "type": "expression",
       "pos_detail": "expr"
@@ -11885,8 +11885,8 @@
         "society"
       ],
       "example": {
-        "ja": "私は反社会的かもしれないけれど人と話さないわけではない。",
-        "en": "I may be antisocial, but it doesn't mean I don't talk to people."
+        "ja": "社会の変化に合わせて教育も変わる。",
+        "en": "Education also changes with shifts in society."
       },
       "type": "word",
       "pos_detail": "n"

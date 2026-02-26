@@ -812,8 +812,8 @@
         "tongue"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "熱いスープで舌をやけどした。",
+        "en": "I burned my tongue on hot soup."
       },
       "type": "word",
       "pos_detail": "n"
@@ -1032,8 +1032,8 @@
         "enforcement, carry out, operation"
       ],
       "example": {
-        "ja": "政府が住民に問う一般投票を実施しました。",
-        "en": "The government put the question to the people in a referendum."
+        "ja": "利用者アンケートを来週実施する。",
+        "en": "We will conduct a user survey next week."
       },
       "type": "word",
       "pos_detail": "n"
@@ -1322,8 +1322,8 @@
         "payment"
       ],
       "example": {
-        "ja": "義務は、許可通知の後、発行料を支払った後も続く点に留意。",
-        "en": "It should be noted that the duty continues after a notice of allowance is mailed and the issue fee is paid."
+        "ja": "代金の支払は現金のみです。",
+        "en": "Payment is cash only."
       },
       "type": "word",
       "pos_detail": "n"
@@ -1523,8 +1523,8 @@
         "under, below, beneath"
       ],
       "example": {
-        "ja": "誰しも、夢はかなうと信じたいものだ。",
-        "en": "Everyone would like to believe that dreams can come true."
+        "ja": "机の下にかばんを置いた。",
+        "en": "I put my bag under the desk."
       },
       "type": "word",
       "pos_detail": "n"
@@ -1541,8 +1541,8 @@
         "frost"
       ],
       "example": {
-        "ja": "誰しも、夢はかなうと信じたいものだ。",
-        "en": "Everyone would like to believe that dreams can come true."
+        "ja": "今朝は畑一面に霜が降りていた。",
+        "en": "This morning, frost had formed all over the field."
       },
       "type": "word",
       "pos_detail": "n"
@@ -1595,8 +1595,8 @@
         "week"
       ],
       "example": {
-        "ja": "彼は復しゅう心にかられて行動した。",
-        "en": "He was driven by revenge."
+        "ja": "来週は出張で大阪へ行く。",
+        "en": "I'm going to Osaka on a business trip next week."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -1613,8 +1613,8 @@
         "state, province"
       ],
       "example": {
-        "ja": "彼は復しゅう心にかられて行動した。",
-        "en": "He was driven by revenge."
+        "ja": "その州では水不足が深刻だ。",
+        "en": "Water shortages are severe in that state."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -1685,8 +1685,8 @@
         "religion"
       ],
       "example": {
-        "ja": "馬鹿が移るまえにそのような宗教に関わらんほうがいい。",
-        "en": "You should stay away from cults like that before you turn into a moron."
+        "ja": "宗教の自由は尊重されるべきだ。",
+        "en": "Freedom of religion should be respected."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -1902,8 +1902,8 @@
         "inhabitants, residents"
       ],
       "example": {
-        "ja": "政府が住民に問う一般投票を実施しました。",
-        "en": "The government put the question to the people in a referendum."
+        "ja": "地域住民の意見を丁寧に聞いた。",
+        "en": "We listened carefully to the residents' opinions."
       },
       "type": "word",
       "pos_detail": "n"
@@ -2280,8 +2280,8 @@
         "use (same as 使うこと (つかうこと)), application, employment, utilization"
       ],
       "example": {
-        "ja": "私が何をしようと彼女はもっとうまくできると言うんだ。",
-        "en": "Whatever I do, she says I can do better."
+        "ja": "この部屋は会議にのみ使用できます。",
+        "en": "This room can only be used for meetings."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -2298,8 +2298,8 @@
         "small"
       ],
       "example": {
-        "ja": "何かしてみましょう。",
-        "en": "Let's try something."
+        "ja": "その箱は小と中の二つのサイズがある。",
+        "en": "That box comes in two sizes: small and medium."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -2317,8 +2317,8 @@
         "medal"
       ],
       "example": {
-        "ja": "何かしてみましょう。",
-        "en": "Let's try something."
+        "ja": "次の章に進む前に要点を整理しよう。",
+        "en": "Let's organize the key points before moving to the next chapter."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -2335,8 +2335,8 @@
         "prize, award"
       ],
       "example": {
-        "ja": "何かしてみましょう。",
-        "en": "Let's try something."
+        "ja": "彼女は新人賞を受賞した。",
+        "en": "She won the newcomer award."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -2734,8 +2734,8 @@
         "boys, juveniles"
       ],
       "example": {
-        "ja": "中国のＧＤＰ統計はオオカミ少年か。",
-        "en": "Are the Chinese GDP figures a case of the boy crying wolf?"
+        "ja": "公園で少年たちが野球をしていた。",
+        "en": "Boys were playing baseball in the park."
       },
       "type": "word",
       "pos_detail": "n"
@@ -3256,8 +3256,8 @@
         "buttocks, bottom"
       ],
       "example": {
-        "ja": "アルミニウム、マグネシウム、シリコンなどの粉末が爆発する。",
-        "en": "Powders of aluminium, magnesium, silicon, etc. explode."
+        "ja": "ズボンの尻の部分が少し破れてしまった。",
+        "en": "The seat of my pants got slightly torn."
       },
       "type": "word",
       "pos_detail": "n"
@@ -3420,8 +3420,8 @@
         "artificial, man made, human work"
       ],
       "example": {
-        "ja": "２回目の人工内耳移植への低所得者医療扶助制度の適用不許可を取り下げる。",
-        "en": "Decision to disallow Medicaid for second cochlea implant withdrawn."
+        "ja": "この花は人工の素材で作られている。",
+        "en": "These flowers are made from artificial materials."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -3672,8 +3672,8 @@
         "improvement, progress, development"
       ],
       "example": {
-        "ja": "ほとんどの科学的進歩は当然のことについての発見に過ぎない。",
-        "en": "Most scientific breakthroughs are nothing else than the discovery of the obvious."
+        "ja": "技術の進歩で生活が便利になった。",
+        "en": "Advances in technology have made life more convenient."
       },
       "type": "word",
       "pos_detail": "n"
@@ -3780,8 +3780,8 @@
         "nest, breeding place"
       ],
       "example": {
-        "ja": "今日は６月１８日で、ムーリエルの誕生日です！",
-        "en": "Today is June 18th and it is Muiriel's birthday!"
+        "ja": "木の上に鳥の巣が見える。",
+        "en": "You can see a bird's nest in the tree."
       },
       "type": "word",
       "pos_detail": "n"
@@ -3798,8 +3798,8 @@
         "vinegar"
       ],
       "example": {
-        "ja": "今日は６月１８日で、ムーリエルの誕生日です！",
-        "en": "Today is June 18th and it is Muiriel's birthday!"
+        "ja": "この料理には酢を少し入れる。",
+        "en": "Add a little vinegar to this dish."
       },
       "type": "word",
       "pos_detail": "n"
@@ -4248,8 +4248,8 @@
         "headache"
       ],
       "example": {
-        "ja": "あぁいらいらする・・・今やパソコンを使うたびに頭痛がするよ。",
-        "en": "So annoying... Now I get a headache whenever I use the computer!"
+        "ja": "昨夜は頭痛がひどくて早く寝た。",
+        "en": "I had a bad headache last night and went to bed early."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -4592,8 +4592,8 @@
         "(logical) true, regular"
       ],
       "example": {
-        "ja": "私のせいじゃない！",
-        "en": "It's not my fault!"
+        "ja": "正しい答えを選んでください。",
+        "en": "Please choose the correct answer."
       },
       "type": "word",
       "pos_detail": "n"
@@ -4610,8 +4610,8 @@
         "birth"
       ],
       "example": {
-        "ja": "私のせいじゃない！",
-        "en": "It's not my fault!"
+        "ja": "新しい命の誕生は家族に喜びをもたらす。",
+        "en": "The birth of a new life brings joy to the family."
       },
       "type": "word",
       "pos_detail": "n"
@@ -4632,8 +4632,8 @@
         "sexuality"
       ],
       "example": {
-        "ja": "私のせいじゃない！",
-        "en": "It's not my fault!"
+        "ja": "この素材は水に強い性を持つ。",
+        "en": "This material has water-resistant properties."
       },
       "type": "word",
       "pos_detail": "n"
@@ -4650,8 +4650,8 @@
         "surname, family name"
       ],
       "example": {
-        "ja": "私のせいじゃない！",
-        "en": "It's not my fault!"
+        "ja": "初対面なので、まず姓をうかがった。",
+        "en": "Since it was our first meeting, I first asked for their family name."
       },
       "type": "word",
       "pos_detail": "n"
@@ -4668,8 +4668,8 @@
         "cause, reason, fault"
       ],
       "example": {
-        "ja": "私のせいじゃない！",
-        "en": "It's not my fault!"
+        "ja": "遅刻したのは私の所為です。",
+        "en": "Being late was my fault."
       },
       "type": "word",
       "pos_detail": "n"
@@ -4704,8 +4704,8 @@
         "character, personality"
       ],
       "example": {
-        "ja": "私はいつも不思議な性格の方が好きだった。",
-        "en": "I always liked mysterious characters more."
+        "ja": "明るい性格の人と一緒にいると元気が出る。",
+        "en": "Being around cheerful people lifts my mood."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -4848,8 +4848,8 @@
         "official, formal"
       ],
       "example": {
-        "ja": "２００２年：国土安全保障省設立法にブッシュ大統領がサインし正式な省となる。",
-        "en": "2002: President Bush signs the Homeland Security Act and it becomes an official Cabinet agency."
+        "ja": "正式な発表は明日の午前です。",
+        "en": "The official announcement is tomorrow morning."
       },
       "type": "word",
       "pos_detail": "adj-na"
@@ -5028,8 +5028,8 @@
         "system, institution"
       ],
       "example": {
-        "ja": "２回目の人工内耳移植への低所得者医療扶助制度の適用不許可を取り下げる。",
-        "en": "Decision to disallow Medicaid for second cochlea implant withdrawn."
+        "ja": "新しい制度が来月から始まる。",
+        "en": "A new system will start next month."
       },
       "type": "word",
       "pos_detail": "n"
@@ -5352,8 +5352,8 @@
         "love"
       ],
       "example": {
-        "ja": "このシステムのもとでは、生徒は交替で教えあい、お互いに助け合わなければなりません。",
-        "en": "The basis of this system is that the students must take turns in teaching, they have to help each other."
+        "ja": "家族への愛を言葉で伝えるのは大切だ。",
+        "en": "It is important to express love for your family in words."
       },
       "type": "word",
       "pos_detail": "n"
@@ -5678,8 +5678,8 @@
         "to lift, to fry"
       ],
       "example": {
-        "ja": "恐い話が聞きたいなら、数週間前に私が見た夢のことを話してあげるよ。",
-        "en": "If you want to hear a scary story, I'll tell you about a dream I had a few weeks ago."
+        "ja": "夕食に野菜を揚げて出した。",
+        "en": "I fried vegetables and served them for dinner."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -5697,8 +5697,8 @@
         "to list, to cite"
       ],
       "example": {
-        "ja": "恐い話が聞きたいなら、数週間前に私が見た夢のことを話してあげるよ。",
-        "en": "If you want to hear a scary story, I'll tell you about a dream I had a few weeks ago."
+        "ja": "会議で三つの課題を挙げた。",
+        "en": "I raised three issues in the meeting."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -6385,8 +6385,8 @@
         "to combine"
       ],
       "example": {
-        "ja": "仏政府は国家予算の帳尻を合わせるよう納税者に挑むオンラインゲームを売り出した。",
-        "en": "The French government has launched an online game that challenges taxpayers to balance the national budget."
+        "ja": "予定を合わせて来週会おう。",
+        "en": "Let's match our schedules and meet next week."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -6709,8 +6709,8 @@
         "doctor, physician"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "医師の指示に従って薬を飲んだ。",
+        "en": "I took the medicine according to the doctor's instructions."
       },
       "type": "word",
       "pos_detail": "n"
@@ -6727,8 +6727,8 @@
         "intention, purpose"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "本人の意思を確認してから手続きを進める。",
+        "en": "We'll proceed after confirming the person's intention."
       },
       "type": "word",
       "pos_detail": "n"
@@ -6745,8 +6745,8 @@
         "will, volition"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "強い意志があれば習慣は変えられる。",
+        "en": "With strong will, you can change your habits."
       },
       "type": "word",
       "pos_detail": "n"
@@ -6763,8 +6763,8 @@
         "maintenance, preservation"
       ],
       "example": {
-        "ja": "私のせいじゃない！",
-        "en": "It's not my fault!"
+        "ja": "橋の維持には多くの費用がかかる。",
+        "en": "Maintaining the bridge costs a lot."
       },
       "type": "word",
       "pos_detail": "n"
@@ -7016,8 +7016,8 @@
         "market, fair"
       ],
       "example": {
-        "ja": "こちらは私の友達のレイチェルです。私たちは同じ高校に通っていました。",
-        "en": "This is my friend Rachel. We went to high school together."
+        "ja": "週末の朝市で新鮮な野菜を買った。",
+        "en": "I bought fresh vegetables at the weekend market."
       },
       "type": "word",
       "pos_detail": "n"
@@ -7034,8 +7034,8 @@
         "place, position"
       ],
       "example": {
-        "ja": "こちらは私の友達のレイチェルです。私たちは同じ高校に通っていました。",
-        "en": "This is my friend Rachel. We went to high school together."
+        "ja": "地図で現在地の位置を確認する。",
+        "en": "Check your current position on the map."
       },
       "type": "word",
       "pos_detail": "n"
@@ -7290,8 +7290,8 @@
         "general, average"
       ],
       "example": {
-        "ja": "政府が住民に問う一般投票を実施しました。",
-        "en": "The government put the question to the people in a referendum."
+        "ja": "一般向けの説明会を開催した。",
+        "en": "We held an information session for the general public."
       },
       "type": "word",
       "pos_detail": "adj-na"
@@ -7399,8 +7399,8 @@
         "rice-plant"
       ],
       "example": {
-        "ja": "驚くことではないね。",
-        "en": "It doesn't surprise me."
+        "ja": "秋になると田んぼの稲が黄金色になる。",
+        "en": "In autumn, the rice plants in the fields turn golden."
       },
       "type": "word",
       "pos_detail": "n"
@@ -7652,8 +7652,8 @@
         "medical care, medical treatment"
       ],
       "example": {
-        "ja": "２回目の人工内耳移植への低所得者医療扶助制度の適用不許可を取り下げる。",
-        "en": "Decision to disallow Medicaid for second cochlea implant withdrawn."
+        "ja": "地域の医療体制を強化する必要がある。",
+        "en": "We need to strengthen the local medical system."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -7886,8 +7886,8 @@
         "upper, outer, surface"
       ],
       "example": {
-        "ja": "先程、どういうわけかマイクが入りませんでした。",
-        "en": "For some reason the microphone didn't work earlier."
+        "ja": "上着を一枚持っていくと安心だ。",
+        "en": "It's reassuring to bring one extra jacket."
       },
       "type": "word",
       "pos_detail": "n"
@@ -7922,8 +7922,8 @@
         "gargling"
       ],
       "example": {
-        "ja": "馬鹿が移るまえにそのような宗教に関わらんほうがいい。",
-        "en": "You should stay away from cults like that before you turn into a moron."
+        "ja": "外出後は手洗いとうがいをする。",
+        "en": "After going out, wash your hands and gargle."
       },
       "type": "word",
       "pos_detail": "n"
@@ -8066,8 +8066,8 @@
         "to attack, to avenge"
       ],
       "example": {
-        "ja": "バカがうつる、近づくな。",
-        "en": "Stay away from me, I'll catch the stupid."
+        "ja": "敵を討つために兵が集まった。",
+        "en": "Soldiers gathered to strike down the enemy."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -8084,8 +8084,8 @@
         "to attack, to shoot"
       ],
       "example": {
-        "ja": "バカがうつる、近づくな。",
-        "en": "Stay away from me, I'll catch the stupid."
+        "ja": "的をよく狙って撃つ。",
+        "en": "Aim carefully before you shoot."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -8157,8 +8157,8 @@
         "to be photographed, to be projected"
       ],
       "example": {
-        "ja": "バカがうつる、近づくな。",
-        "en": "Stay away from me, I'll catch the stupid."
+        "ja": "集合写真に私も写っていた。",
+        "en": "I was in the group photo too."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -8175,8 +8175,8 @@
         "to be reflected, to come out (photo)"
       ],
       "example": {
-        "ja": "バカがうつる、近づくな。",
-        "en": "Stay away from me, I'll catch the stupid."
+        "ja": "窓ガラスに山の景色が映っている。",
+        "en": "The mountain scenery is reflected in the window glass."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -8230,8 +8230,8 @@
         "promoted bishop (in Japanese chess known as shogi)"
       ],
       "example": {
-        "ja": "私が何をしようと彼女はもっとうまくできると言うんだ。",
-        "en": "Whatever I do, she says I can do better."
+        "ja": "牧場で白い馬を見かけた。",
+        "en": "I spotted a white horse at the ranch."
       },
       "type": "word",
       "pos_detail": "n"
@@ -8266,8 +8266,8 @@
         "yes or no, presence or absence"
       ],
       "example": {
-        "ja": "アルミニウム、マグネシウム、シリコンなどの粉末が爆発する。",
-        "en": "Powders of aluminium, magnesium, silicon, etc. explode."
+        "ja": "参加の有無を明日までに知らせてください。",
+        "en": "Please let us know by tomorrow whether you will attend."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -8392,8 +8392,8 @@
         "fortune, luck"
       ],
       "example": {
-        "ja": "私が何をしようと彼女はもっとうまくできると言うんだ。",
-        "en": "Whatever I do, she says I can do better."
+        "ja": "今日は運がいいね。",
+        "en": "You're lucky today."
       },
       "type": "word",
       "pos_detail": "n"
@@ -8428,8 +8428,8 @@
         "handle (of a sword, dagger, etc.), grip"
       ],
       "example": {
-        "ja": "今日は６月１８日で、ムーリエルの誕生日です！",
-        "en": "Today is June 18th and it is Muiriel's birthday!"
+        "ja": "この包丁は柄が握りやすい。",
+        "en": "This knife has an easy-to-grip handle."
       },
       "type": "word",
       "pos_detail": "n"
@@ -8626,8 +8626,8 @@
         "to get, to gain, to win, to learn"
       ],
       "example": {
-        "ja": "今日は６月１８日で、ムーリエルの誕生日です！",
-        "en": "Today is June 18th and it is Muiriel's birthday!"
+        "ja": "経験から多くのことを得る。",
+        "en": "You gain a lot from experience."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -8878,8 +8878,8 @@
         "king"
       ],
       "example": {
-        "ja": "大きくなったら王様になりたい。",
-        "en": "When I grow up, I want to be a king."
+        "ja": "物語では王様が国を治めていた。",
+        "en": "In the story, a king ruled the country."
       },
       "type": "word",
       "pos_detail": "n"
@@ -9545,8 +9545,8 @@
         "Congratulations!, an auspicious occasion!"
       ],
       "example": {
-        "ja": "お誕生日おめでとうムーリエル！",
-        "en": "Happy birthday, Muiriel!"
+        "ja": "ご卒業おめでとうございます。",
+        "en": "Congratulations on your graduation."
       },
       "type": "word",
       "pos_detail": "int"
@@ -9833,8 +9833,8 @@
         "passable"
       ],
       "example": {
-        "ja": "何かしてみましょう。",
-        "en": "Let's try something."
+        "ja": "この案は可と判断された。",
+        "en": "This proposal was judged acceptable."
       },
       "type": "word",
       "pos_detail": "n"
@@ -9851,8 +9851,8 @@
         "mosquito"
       ],
       "example": {
-        "ja": "何かしてみましょう。",
-        "en": "Let's try something."
+        "ja": "夜に蚊が多くて眠れなかった。",
+        "en": "There were so many mosquitoes at night that I couldn't sleep."
       },
       "type": "word",
       "pos_detail": "n"
@@ -9869,8 +9869,8 @@
         "department, division"
       ],
       "example": {
-        "ja": "何かしてみましょう。",
-        "en": "Let's try something."
+        "ja": "人事課に書類を提出してください。",
+        "en": "Please submit the documents to the HR department."
       },
       "type": "word",
       "pos_detail": "n"
@@ -10232,8 +10232,8 @@
         "to exchange, to interchange, to substitute"
       ],
       "example": {
-        "ja": "卵がかえる前にひよこの数を数えるな。",
-        "en": "Don't count your chickens before they are hatched."
+        "ja": "古い椅子を新しいものに代える。",
+        "en": "I replace the old chair with a new one."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -10268,8 +10268,8 @@
         "to exchange, to interchange, to substitute"
       ],
       "example": {
-        "ja": "卵がかえる前にひよこの数を数えるな。",
-        "en": "Don't count your chickens before they are hatched."
+        "ja": "席を換えて景色の良い方に座った。",
+        "en": "I changed seats and sat where the view was better."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -10286,8 +10286,8 @@
         "to warp, to be warped, to curve"
       ],
       "example": {
-        "ja": "卵がかえる前にひよこの数を数えるな。",
-        "en": "Don't count your chickens before they are hatched."
+        "ja": "乾燥で板が少し反ってしまった。",
+        "en": "The board warped slightly due to dryness."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -10466,8 +10466,8 @@
         "to scratch"
       ],
       "example": {
-        "ja": "とにかく誰かをぶたないと気が済まない。",
-        "en": "I really need to hit somebody."
+        "ja": "蚊に刺されて腕を掻いてしまった。",
+        "en": "I got bitten by a mosquito and ended up scratching my arm."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -10484,8 +10484,8 @@
         "to draw, to depict, to describe"
       ],
       "example": {
-        "ja": "とにかく誰かをぶたないと気が済まない。",
-        "en": "I really need to hit somebody."
+        "ja": "彼女は故郷の風景を丁寧に描いた。",
+        "en": "She carefully drew the scenery of her hometown."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -10936,8 +10936,8 @@
         "loan, lending"
       ],
       "example": {
-        "ja": "何かしてみましょう。",
-        "en": "Let's try something."
+        "ja": "前回の貸しはこれでなしにしよう。",
+        "en": "Let's call it even for what you owed me last time."
       },
       "type": "word",
       "pos_detail": "n"
@@ -10954,8 +10954,8 @@
         "confectionery, sweet"
       ],
       "example": {
-        "ja": "何かしてみましょう。",
-        "en": "Let's try something."
+        "ja": "和菓子をお土産に買った。",
+        "en": "I bought Japanese sweets as a souvenir."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11063,8 +11063,8 @@
         "to count"
       ],
       "example": {
-        "ja": "卵がかえる前にひよこの数を数えるな。",
-        "en": "Don't count your chickens before they are hatched."
+        "ja": "参加人数を正確に数える。",
+        "en": "Count the number of participants accurately."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -11354,8 +11354,8 @@
         "activity"
       ],
       "example": {
-        "ja": "企業経営で活躍するために必要となるのが多くの仲間と仕事を遂行するための協調精神です。",
-        "en": "What you need to take part in business management is the team spirit to work with many colleagues."
+        "ja": "彼は海外でも活躍している。",
+        "en": "He is active internationally as well."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11612,8 +11612,8 @@
         "governmental"
       ],
       "example": {
-        "ja": "中国のＧＤＰ統計はオオカミ少年か。",
-        "en": "Are the Chinese GDP figures a case of the boy crying wolf?"
+        "ja": "小説の上を先に読んでから下に進んだ。",
+        "en": "I read the first volume of the novel before moving on to the second."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11630,8 +11630,8 @@
         "god"
       ],
       "example": {
-        "ja": "中国のＧＤＰ統計はオオカミ少年か。",
-        "en": "Are the Chinese GDP figures a case of the boy crying wolf?"
+        "ja": "神に祈る気持ちで結果を待った。",
+        "en": "I waited for the result as if praying to God."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11756,8 +11756,8 @@
         "empty"
       ],
       "example": {
-        "ja": "それはあなたが一人になりたくないからです。",
-        "en": "It's because you don't want to be alone."
+        "ja": "冷蔵庫を開けたら中は空だった。",
+        "en": "When I opened the fridge, it was empty inside."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11774,8 +11774,8 @@
         "shell, husk, hull"
       ],
       "example": {
-        "ja": "それはあなたが一人になりたくないからです。",
-        "en": "It's because you don't want to be alone."
+        "ja": "卵の殻をむいてサラダにのせた。",
+        "en": "I peeled the egg shell and put it on the salad."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11830,8 +11830,8 @@
         "river, stream"
       ],
       "example": {
-        "ja": "睡眠は重要であるにもかかわらず、その役割は謎である。",
-        "en": "Despite the importance of sleep, its purpose is a mystery."
+        "ja": "この河は春になると水量が増える。",
+        "en": "This river carries more water in spring."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11848,8 +11848,8 @@
         "skin, hide, leather"
       ],
       "example": {
-        "ja": "睡眠は重要であるにもかかわらず、その役割は謎である。",
-        "en": "Despite the importance of sleep, its purpose is a mystery."
+        "ja": "りんごの皮をむいて皿に並べた。",
+        "en": "I peeled the apple skin and arranged the slices on a plate."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11866,8 +11866,8 @@
         "leather"
       ],
       "example": {
-        "ja": "睡眠は重要であるにもかかわらず、その役割は謎である。",
-        "en": "Despite the importance of sleep, its purpose is a mystery."
+        "ja": "革の財布を長く使っている。",
+        "en": "I have used this leather wallet for a long time."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11974,8 +11974,8 @@
         "can, tin"
       ],
       "example": {
-        "ja": "バカンスに行くのが待ち遠しい。",
-        "en": "I can't wait to go on a vacation."
+        "ja": "飲み終わった缶は分別して捨てる。",
+        "en": "Dispose of empty cans in the proper recycling category."
       },
       "type": "word",
       "pos_detail": "n"
@@ -11992,8 +11992,8 @@
         "perception, intuition, the sixth sense"
       ],
       "example": {
-        "ja": "バカンスに行くのが待ち遠しい。",
-        "en": "I can't wait to go on a vacation."
+        "ja": "地図を見なくても勘で道が分かった。",
+        "en": "Even without a map, I found the way by intuition."
       },
       "type": "word",
       "pos_detail": "n"
@@ -12587,8 +12587,8 @@
         "period, term"
       ],
       "example": {
-        "ja": "あいつとは断固２度と口をきかんぞ。",
-        "en": "I absolutely will not speak to that fellow again!"
+        "ja": "研修期間は三か月です。",
+        "en": "The training period is three months."
       },
       "type": "word",
       "pos_detail": "n"
@@ -12606,8 +12606,8 @@
         "institution, organization"
       ],
       "example": {
-        "ja": "あいつとは断固２度と口をきかんぞ。",
-        "en": "I absolutely will not speak to that fellow again!"
+        "ja": "この機関は環境調査を担当している。",
+        "en": "This agency is in charge of environmental surveys."
       },
       "type": "word",
       "pos_detail": "n"
@@ -12642,8 +12642,8 @@
         "to be effective"
       ],
       "example": {
-        "ja": "大きくなったら王様になりたい。",
-        "en": "When I grow up, I want to be a king."
+        "ja": "この薬は頭痛によく効く。",
+        "en": "This medicine works well for headaches."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -12823,8 +12823,8 @@
         "expectation, anticipation, hope"
       ],
       "example": {
-        "ja": "恐い話が聞きたいなら、数週間前に私が見た夢のことを話してあげるよ。",
-        "en": "If you want to hear a scary story, I'll tell you about a dream I had a few weeks ago."
+        "ja": "新製品への期待が高まっている。",
+        "en": "Expectations for the new product are rising."
       },
       "type": "word",
       "pos_detail": "n"
@@ -12841,8 +12841,8 @@
         "vapor, gas"
       ],
       "example": {
-        "ja": "恐い話が聞きたいなら、数週間前に私が見た夢のことを話してあげるよ。",
-        "en": "If you want to hear a scary story, I'll tell you about a dream I had a few weeks ago."
+        "ja": "水は温度によって液体にも気体にもなる。",
+        "en": "Depending on temperature, water can become either a liquid or a gas."
       },
       "type": "word",
       "pos_detail": "n"
@@ -13129,8 +13129,8 @@
         "-like, -looking, -looked"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "彼は最近、疲れ気味だ。",
+        "en": "He has seemed a little tired lately."
       },
       "type": "word",
       "pos_detail": "n"
@@ -13165,8 +13165,8 @@
         "duty, obligation, responsibility"
       ],
       "example": {
-        "ja": "義務は、許可通知の後、発行料を支払った後も続く点に留意。",
-        "en": "It should be noted that the duty continues after a notice of allowance is mailed and the issue fee is paid."
+        "ja": "納税は国民の義務です。",
+        "en": "Paying taxes is a civic duty."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -13688,8 +13688,8 @@
         "permission, approval"
       ],
       "example": {
-        "ja": "義務は、許可通知の後、発行料を支払った後も続く点に留意。",
-        "en": "It should be noted that the duty continues after a notice of allowance is mailed and the issue fee is paid."
+        "ja": "ここでの撮影には許可が必要だ。",
+        "en": "Filming here requires permission."
       },
       "type": "word",
       "pos_detail": "n"
@@ -13833,8 +13833,8 @@
         "argument, discussion, dispute"
       ],
       "example": {
-        "ja": "「エグゼンプション」の議論を機に働き方を見直そう。",
-        "en": "Let's take advantage of the 'exemption' controversy to reconsider the way we work."
+        "ja": "この問題は事実に基づいて議論すべきだ。",
+        "en": "We should discuss this issue based on facts."
       },
       "type": "word",
       "pos_detail": "n"
@@ -14068,8 +14068,8 @@
         "phrase"
       ],
       "example": {
-        "ja": "先程、どういうわけかマイクが入りませんでした。",
-        "en": "For some reason the microphone didn't work earlier."
+        "ja": "この句には冬の静けさがよく表れている。",
+        "en": "This phrase expresses winter's quietness very well."
       },
       "type": "word",
       "pos_detail": "n"
@@ -14428,8 +14428,8 @@
         "grade, rank, about"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "彼は大会で三位に入った。",
+        "en": "He placed third in the tournament."
       },
       "type": "word",
       "pos_detail": "n"
@@ -14921,8 +14921,8 @@
         "management, administration"
       ],
       "example": {
-        "ja": "企業経営で活躍するために必要となるのが多くの仲間と仕事を遂行するための協調精神です。",
-        "en": "What you need to take part in business management is the team spirit to work with many colleagues."
+        "ja": "小さな店を家族で経営している。",
+        "en": "My family runs a small shop."
       },
       "type": "word",
       "pos_detail": "n"
@@ -15119,8 +15119,8 @@
         "game"
       ],
       "example": {
-        "ja": "仏政府は国家予算の帳尻を合わせるよう納税者に挑むオンラインゲームを売り出した。",
-        "en": "The French government has launched an online game that challenges taxpayers to balance the national budget."
+        "ja": "休憩時間にみんなでげーむをした。",
+        "en": "We played a game together during the break."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -15803,8 +15803,8 @@
         "love, tender passion"
       ],
       "example": {
-        "ja": "10ヶ国語を話せたらどんなにかっこいいだろう！",
-        "en": "It would be so cool if I could speak ten languages!"
+        "ja": "高校時代に初めて恋をした。",
+        "en": "I fell in love for the first time in high school."
       },
       "type": "word",
       "pos_detail": "n"
@@ -15821,8 +15821,8 @@
         "thick (as of color, liquid), dense, strong"
       ],
       "example": {
-        "ja": "10ヶ国語を話せたらどんなにかっこいいだろう！",
-        "en": "It would be so cool if I could speak ten languages!"
+        "ja": "このスープは少し味が濃い。",
+        "en": "This soup tastes a little strong."
       },
       "type": "word",
       "pos_detail": "adj-i"
@@ -16003,8 +16003,8 @@
         "aviation, flying"
       ],
       "example": {
-        "ja": "ブルーワン航空は、エア・ボトゥニアとして1988年に創設されました。",
-        "en": "Blue1 was founded as Air Botnia in 1988."
+        "ja": "航空業界では安全管理が最優先だ。",
+        "en": "Safety management is the top priority in the aviation industry."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -16237,8 +16237,8 @@
         "action, conduct, behavior"
       ],
       "example": {
-        "ja": "彼は復しゅう心にかられて行動した。",
-        "en": "He was driven by revenge."
+        "ja": "異常を感じたらすぐ避難行動を取る。",
+        "en": "If you sense danger, evacuate immediately."
       },
       "type": "word",
       "pos_detail": "n"
@@ -16581,8 +16581,8 @@
         "national language"
       ],
       "example": {
-        "ja": "10ヶ国語を話せたらどんなにかっこいいだろう！",
-        "en": "It would be so cool if I could speak ten languages!"
+        "ja": "国語の授業で短歌を学んだ。",
+        "en": "We studied tanka in Japanese class."
       },
       "type": "word",
       "pos_detail": "n"
@@ -17539,8 +17539,8 @@
         "sine"
       ],
       "example": {
-        "ja": "２００２年：国土安全保障省設立法にブッシュ大統領がサインし正式な省となる。",
-        "en": "2002: President Bush signs the Homeland Security Act and it becomes an official Cabinet agency."
+        "ja": "作家からさいんをもらった。",
+        "en": "I got an autograph from the author."
       },
       "type": "word",
       "pos_detail": "n"
@@ -17629,8 +17629,8 @@
         "to tear, to split"
       ],
       "example": {
-        "ja": "うるさくて眠れないんです。",
-        "en": "We can't sleep because of the noise."
+        "ja": "不要な書類は細かく裂いて捨てる。",
+        "en": "Tear up unnecessary documents before throwing them away."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -17647,8 +17647,8 @@
         "last (year), yesterday"
       ],
       "example": {
-        "ja": "うるさくて眠れないんです。",
-        "en": "We can't sleep because of the noise."
+        "ja": "昨年からこの町で働いている。",
+        "en": "I've been working in this town since last year."
       },
       "type": "affix",
       "pos_detail": "pref"
@@ -17810,8 +17810,8 @@
         "to sting, to bite (e.g., bug), to prick, to stab"
       ],
       "example": {
-        "ja": "靴が小さすぎるから新しいのを買う必要があるな。",
-        "en": "My shoes are too small. I need new ones."
+        "ja": "とげが指を刺してしまった。",
+        "en": "A thorn pricked my finger."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -17828,8 +17828,8 @@
         "to point"
       ],
       "example": {
-        "ja": "靴が小さすぎるから新しいのを買う必要があるな。",
-        "en": "My shoes are too small. I need new ones."
+        "ja": "地図で駅の場所を指してください。",
+        "en": "Please point to the station on the map."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -17846,8 +17846,8 @@
         "to insert, to put in, to graft"
       ],
       "example": {
-        "ja": "靴が小さすぎるから新しいのを買う必要があるな。",
-        "en": "My shoes are too small. I need new ones."
+        "ja": "花瓶に季節の花を挿した。",
+        "en": "I put seasonal flowers in a vase."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -17864,8 +17864,8 @@
         "to pour (drink), to serve (drinks)"
       ],
       "example": {
-        "ja": "靴が小さすぎるから新しいのを買う必要があるな。",
-        "en": "My shoes are too small. I need new ones."
+        "ja": "来客のために湯のみへお茶を注した。",
+        "en": "I poured tea into cups for the guests."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -17882,8 +17882,8 @@
         "to shine, to strike"
       ],
       "example": {
-        "ja": "靴が小さすぎるから新しいのを買う必要があるな。",
-        "en": "My shoes are too small. I need new ones."
+        "ja": "朝日が窓から部屋に射してきた。",
+        "en": "Morning sunlight streamed into the room through the window."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -18245,8 +18245,8 @@
         "body, main part"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "寒いので身を縮めて歩いた。",
+        "en": "Because it was cold, I walked with my body hunched."
       },
       "type": "word",
       "pos_detail": "n"
@@ -18263,8 +18263,8 @@
         "fruit, seed, good result"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "庭の柿の木に実がなった。",
+        "en": "Fruit grew on the persimmon tree in the yard."
       },
       "type": "word",
       "pos_detail": "n"
@@ -18571,8 +18571,8 @@
         "nothing, naught, zero"
       ],
       "example": {
-        "ja": "今日は６月１８日で、ムーリエルの誕生日です！",
-        "en": "Today is June 18th and it is Muiriel's birthday!"
+        "ja": "計画は無から作り直した。",
+        "en": "We rebuilt the plan from nothing."
       },
       "type": "word",
       "pos_detail": "n"
@@ -18860,8 +18860,8 @@
         "sprout"
       ],
       "example": {
-        "ja": "お誕生日おめでとうムーリエル！",
-        "en": "Happy birthday, Muiriel!"
+        "ja": "庭のチューリップの芽が出てきた。",
+        "en": "Tulip sprouts have come up in the garden."
       },
       "type": "word",
       "pos_detail": "n"
@@ -19440,8 +19440,8 @@
         "former"
       ],
       "example": {
-        "ja": "このシステムのもとでは、生徒は交替で教えあい、お互いに助け合わなければなりません。",
-        "en": "The basis of this system is that the students must take turns in teaching, they have to help each other."
+        "ja": "この考えの元は現場の提案だ。",
+        "en": "The source of this idea was a proposal from the field team."
       },
       "type": "word",
       "pos_detail": "n"
@@ -19458,8 +19458,8 @@
         "basis"
       ],
       "example": {
-        "ja": "このシステムのもとでは、生徒は交替で教えあい、お互いに助け合わなければなりません。",
-        "en": "The basis of this system is that the students must take turns in teaching, they have to help each other."
+        "ja": "計画の基をもう一度確認しよう。",
+        "en": "Let's check the basis of the plan once more."
       },
       "type": "word",
       "pos_detail": "n"
@@ -19476,8 +19476,8 @@
         "prime"
       ],
       "example": {
-        "ja": "このシステムのもとでは、生徒は交替で教えあい、お互いに助け合わなければなりません。",
-        "en": "The basis of this system is that the students must take turns in teaching, they have to help each other."
+        "ja": "素から丁寧に練習すれば上達する。",
+        "en": "If you practice carefully from the fundamentals, you will improve."
       },
       "type": "word",
       "pos_detail": "n"
@@ -19549,8 +19549,8 @@
         "person (same as 人 (ひと))"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "約束を破る者は信頼を失う。",
+        "en": "Those who break promises lose trust."
       },
       "type": "word",
       "pos_detail": "n"
@@ -19765,8 +19765,8 @@
         "assigning (allotment of) parts, role, duties"
       ],
       "example": {
-        "ja": "睡眠は重要であるにもかかわらず、その役割は謎である。",
-        "en": "Despite the importance of sleep, its purpose is a mystery."
+        "ja": "会議では全員の役割を明確にした。",
+        "en": "We clarified everyone's roles in the meeting."
       },
       "type": "word",
       "pos_detail": "n"
@@ -20271,8 +20271,8 @@
         "evening, night"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "夜は静かな音楽を聞いて過ごす。",
+        "en": "I spend my nights listening to calm music."
       },
       "type": "word",
       "pos_detail": "n"
@@ -20577,8 +20577,8 @@
         "estimate, budget"
       ],
       "example": {
-        "ja": "仏政府は国家予算の帳尻を合わせるよう納税者に挑むオンラインゲームを売り出した。",
-        "en": "The French government has launched an online game that challenges taxpayers to balance the national budget."
+        "ja": "来年度の予算案を提出した。",
+        "en": "We submitted next year's budget proposal."
       },
       "type": "word",
       "pos_detail": "n"
@@ -21047,8 +21047,8 @@
         "divorce"
       ],
       "example": {
-        "ja": "アルミニウム、マグネシウム、シリコンなどの粉末が爆発する。",
-        "en": "Powders of aluminium, magnesium, silicon, etc. explode."
+        "ja": "その夫婦は昨年、円満に離婚した。",
+        "en": "That couple divorced amicably last year."
       },
       "type": "word",
       "pos_detail": "n"
@@ -21209,8 +21209,8 @@
         "instance, example, case"
       ],
       "example": {
-        "ja": "こちらは私の友達のレイチェルです。私たちは同じ高校に通っていました。",
-        "en": "This is my friend Rachel. We went to high school together."
+        "ja": "具体的な例を一つ示してください。",
+        "en": "Please provide one concrete example."
       },
       "type": "word",
       "pos_detail": "n"
@@ -21228,8 +21228,8 @@
         "bow"
       ],
       "example": {
-        "ja": "こちらは私の友達のレイチェルです。私たちは同じ高校に通っていました。",
-        "en": "This is my friend Rachel. We went to high school together."
+        "ja": "手伝ってくれた友人に礼を言った。",
+        "en": "I thanked the friend who helped me."
       },
       "type": "word",
       "pos_detail": "n"
@@ -21336,8 +21336,8 @@
         "level"
       ],
       "example": {
-        "ja": "たまには偏差値の高い人とレベルの高い会話してみたい。",
-        "en": "I like to have a deep conversation with a more academic person from time to time."
+        "ja": "この教材は中級れべるを想定している。",
+        "en": "This material is intended for an intermediate level."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -21498,8 +21498,8 @@
         "ring, hoop, circle"
       ],
       "example": {
-        "ja": "先程、どういうわけかマイクが入りませんでした。",
-        "en": "For some reason the microphone didn't work earlier."
+        "ja": "みんなで輪になって自己紹介をした。",
+        "en": "We formed a circle and introduced ourselves."
       },
       "type": "word",
       "pos_detail": "n"
@@ -21786,8 +21786,8 @@
         "bay, gulf, inlet"
       ],
       "example": {
-        "ja": "ブルーワン航空は、エア・ボトゥニアとして1988年に創設されました。",
-        "en": "Blue1 was founded as Air Botnia in 1988."
+        "ja": "静かな湾に小舟が浮かんでいた。",
+        "en": "A small boat was floating in the quiet bay."
       },
       "type": "word",
       "pos_detail": "n"
@@ -21804,8 +21804,8 @@
         "bowl"
       ],
       "example": {
-        "ja": "ブルーワン航空は、エア・ボトゥニアとして1988年に創設されました。",
-        "en": "Blue1 was founded as Air Botnia in 1988."
+        "ja": "温かい汁を椀によそった。",
+        "en": "I served hot soup into bowls."
       },
       "type": "word",
       "pos_detail": "n"
@@ -21822,8 +21822,8 @@
         "bowl"
       ],
       "example": {
-        "ja": "ブルーワン航空は、エア・ボトゥニアとして1988年に創設されました。",
-        "en": "Blue1 was founded as Air Botnia in 1988."
+        "ja": "来客用に磁器の碗を用意した。",
+        "en": "I prepared porcelain bowls for guests."
       },
       "type": "word",
       "pos_detail": "n"
@@ -22020,8 +22020,8 @@
         "disposition, spirit, obstinacy, appetite"
       ],
       "example": {
-        "ja": "私のせいじゃない！",
-        "en": "It's not my fault!"
+        "ja": "彼は意地を張って謝ろうとしない。",
+        "en": "He is too stubborn to apologize."
       },
       "type": "word",
       "pos_detail": "n"
@@ -22182,8 +22182,8 @@
         "to give birth (v.t.), to deliver, to produce"
       ],
       "example": {
-        "ja": "アルミニウム、マグネシウム、シリコンなどの粉末が爆発する。",
-        "en": "Powders of aluminium, magnesium, silicon, etc. explode."
+        "ja": "彼女は先月、元気な男の子を産んだ。",
+        "en": "She gave birth to a healthy baby boy last month."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -22218,8 +22218,8 @@
         "tail, ridge"
       ],
       "example": {
-        "ja": "お誕生日おめでとうムーリエル！",
-        "en": "Happy birthday, Muiriel!"
+        "ja": "彗星の長い尾が夜空に見えた。",
+        "en": "The comet's long tail was visible in the night sky."
       },
       "type": "word",
       "pos_detail": "n"
@@ -22326,8 +22326,8 @@
         "to lack, to crack"
       ],
       "example": {
-        "ja": "とにかく誰かをぶたないと気が済まない。",
-        "en": "I really need to hit somebody."
+        "ja": "朝食を欠くと午前中に集中できない。",
+        "en": "If I skip breakfast, I can't focus in the morning."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -22344,8 +22344,8 @@
         "angle"
       ],
       "example": {
-        "ja": "とにかく誰かをぶたないと気が済まない。",
-        "en": "I really need to hit somebody."
+        "ja": "机の角にひざをぶつけてしまった。",
+        "en": "I banged my knee against the corner of the desk."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -22362,8 +22362,8 @@
         "nucleus, kernel"
       ],
       "example": {
-        "ja": "とにかく誰かをぶたないと気が済まない。",
-        "en": "I really need to hit somebody."
+        "ja": "その議論の核は公平性にある。",
+        "en": "The core of that discussion is fairness."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -22380,8 +22380,8 @@
         "status, character, case"
       ],
       "example": {
-        "ja": "とにかく誰かをぶたないと気が済まない。",
-        "en": "I really need to hit somebody."
+        "ja": "彼は一流選手の格を備えている。",
+        "en": "He has the caliber of a top-class athlete."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -22488,8 +22488,8 @@
         "seasoning, flavoring"
       ],
       "example": {
-        "ja": "中国のＧＤＰ統計はオオカミ少年か。",
-        "en": "Are the Chinese GDP figures a case of the boy crying wolf?"
+        "ja": "相手の事情も加味して判断した。",
+        "en": "I made my decision while taking the other side's circumstances into account."
       },
       "type": "word",
       "pos_detail": "n"
@@ -22506,8 +22506,8 @@
         "borrowing, debt, loan"
       ],
       "example": {
-        "ja": "何と言ったら良いか分かりません。",
-        "en": "I'm at a loss for words."
+        "ja": "友人に本を借りたままになっている。",
+        "en": "I still have a book I borrowed from a friend."
       },
       "type": "word",
       "pos_detail": "n"
@@ -22524,8 +22524,8 @@
         "hunting"
       ],
       "example": {
-        "ja": "何と言ったら良いか分かりません。",
-        "en": "I'm at a loss for words."
+        "ja": "秋になると山で栗狩りを楽しむ。",
+        "en": "In autumn, we enjoy chestnut picking in the mountains."
       },
       "type": "word",
       "pos_detail": "n"
@@ -22542,8 +22542,8 @@
         "pipe, tube"
       ],
       "example": {
-        "ja": "バカンスに行くのが待ち遠しい。",
-        "en": "I can't wait to go on a vacation."
+        "ja": "古い管を交換して水漏れを止めた。",
+        "en": "We replaced the old pipe and stopped the leak."
       },
       "type": "word",
       "pos_detail": "n"
@@ -22560,8 +22560,8 @@
         "feeling, view"
       ],
       "example": {
-        "ja": "バカンスに行くのが待ち遠しい。",
-        "en": "I can't wait to go on a vacation."
+        "ja": "自然観が変わる一冊だった。",
+        "en": "It was a book that changed my view of nature."
       },
       "type": "affix",
       "pos_detail": "suf"
@@ -22668,8 +22668,8 @@
         "organ (of body, instrument)"
       ],
       "example": {
-        "ja": "あいつとは断固２度と口をきかんぞ。",
-        "en": "I absolutely will not speak to that fellow again!"
+        "ja": "目は光を感じる器官の一つだ。",
+        "en": "The eye is one of the organs that sense light."
       },
       "type": "word",
       "pos_detail": "n"
@@ -22686,8 +22686,8 @@
         "quarterly (e.g., magazine)"
       ],
       "example": {
-        "ja": "あいつとは断固２度と口をきかんぞ。",
-        "en": "I absolutely will not speak to that fellow again!"
+        "ja": "その雑誌は季刊で発行されている。",
+        "en": "That magazine is published quarterly."
       },
       "type": "word",
       "pos_detail": "n"
@@ -22830,8 +22830,8 @@
         "co-operation, conciliation, harmony"
       ],
       "example": {
-        "ja": "企業経営で活躍するために必要となるのが多くの仲間と仕事を遂行するための協調精神です。",
-        "en": "What you need to take part in business management is the team spirit to work with many colleagues."
+        "ja": "部署間の協調が成果につながる。",
+        "en": "Cooperation between departments leads to results."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -22902,8 +22902,8 @@
         "trouble, worry, difficulty"
       ],
       "example": {
-        "ja": "先程、どういうわけかマイクが入りませんでした。",
-        "en": "For some reason the microphone didn't work earlier."
+        "ja": "苦を乗り越えてこそ成長できる。",
+        "en": "You can grow only by overcoming hardship."
       },
       "type": "word",
       "pos_detail": "n"
@@ -23371,8 +23371,8 @@
         "a work, a harvest"
       ],
       "example": {
-        "ja": "うるさくて眠れないんです。",
-        "en": "We can't sleep because of the noise."
+        "ja": "今年の米の作はとても良い。",
+        "en": "This year's rice harvest is very good."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -23389,8 +23389,8 @@
         "plan, policy"
       ],
       "example": {
-        "ja": "うるさくて眠れないんです。",
-        "en": "We can't sleep because of the noise."
+        "ja": "渋滞対策として新しい策を提案した。",
+        "en": "I proposed a new measure as a traffic congestion counterplan."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -23497,8 +23497,8 @@
         "good, virtue"
       ],
       "example": {
-        "ja": "「エグゼンプション」の議論を機に働き方を見直そう。",
-        "en": "Let's take advantage of the 'exemption' controversy to reconsider the way we work."
+        "ja": "善を積むことを大切にして生きたい。",
+        "en": "I want to live by valuing virtuous actions."
       },
       "type": "word",
       "pos_detail": "n"
@@ -23515,8 +23515,8 @@
         "all, whole, entire"
       ],
       "example": {
-        "ja": "「エグゼンプション」の議論を機に働き方を見直そう。",
-        "en": "Let's take advantage of the 'exemption' controversy to reconsider the way we work."
+        "ja": "全社員に新しい方針を共有した。",
+        "en": "We shared the new policy with all employees."
       },
       "type": "affix",
       "pos_detail": "pref"
@@ -24437,8 +24437,8 @@
         "rice field"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "祖父は田で米を作っている。",
+        "en": "My grandfather grows rice in the fields."
       },
       "type": "word",
       "pos_detail": "n"
@@ -24455,8 +24455,8 @@
         "other (esp. places and things)"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "この件は他では話さないでください。",
+        "en": "Please don't discuss this matter elsewhere."
       },
       "type": "word",
       "pos_detail": "adv"
@@ -24473,8 +24473,8 @@
         "pair, couple, set"
       ],
       "example": {
-        "ja": "大きくなったら王様になりたい。",
-        "en": "When I grow up, I want to be a king."
+        "ja": "靴を一対買って旅行に備えた。",
+        "en": "I bought a pair of shoes to prepare for the trip."
       },
       "type": "word",
       "pos_detail": "n"
@@ -24817,8 +24817,8 @@
         "president"
       ],
       "example": {
-        "ja": "２００２年：国土安全保障省設立法にブッシュ大統領がサインし正式な省となる。",
-        "en": "2002: President Bush signs the Homeland Security Act and it becomes an official Cabinet agency."
+        "ja": "大統領は記者会見で方針を説明した。",
+        "en": "The president explained the policy at a press conference."
       },
       "type": "word",
       "pos_detail": "n"
@@ -25142,8 +25142,8 @@
         "house, home"
       ],
       "example": {
-        "ja": "それはあなたが一人になりたくないからです。",
-        "en": "It's because you don't want to be alone."
+        "ja": "夕方にご自宅へ伺います。",
+        "en": "I'll visit your home this evening."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -25160,8 +25160,8 @@
         "to boil, to cook"
       ],
       "example": {
-        "ja": "それはあなたが一人になりたくないからです。",
-        "en": "It's because you don't want to be alone."
+        "ja": "今夜は土鍋でご飯を炊く。",
+        "en": "Tonight I'll cook rice in an earthenware pot."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -25178,8 +25178,8 @@
         "to burn, to kindle, to build a fire"
       ],
       "example": {
-        "ja": "それはあなたが一人になりたくないからです。",
-        "en": "It's because you don't want to be alone."
+        "ja": "寒かったので庭で火を焚いた。",
+        "en": "It was cold, so we built a fire in the yard."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -25706,8 +25706,8 @@
         "Japanese socks (with split toe)"
       ],
       "example": {
-        "ja": "あぁいらいらする・・・今やパソコンを使うたびに頭痛がするよ。",
-        "en": "So annoying... Now I get a headache whenever I use the computer!"
+        "ja": "祭りの日には白い足袋をはく。",
+        "en": "I wear white tabi socks on festival days."
       },
       "type": "word",
       "pos_detail": "n"
@@ -25724,8 +25724,8 @@
         "counter for occurrences"
       ],
       "example": {
-        "ja": "あぁいらいらする・・・今やパソコンを使うたびに頭痛がするよ。",
-        "en": "So annoying... Now I get a headache whenever I use the computer!"
+        "ja": "そのたびにメモを取り直している。",
+        "en": "I rewrite my notes every time it happens."
       },
       "type": "word",
       "pos_detail": "n"
@@ -25742,8 +25742,8 @@
         "travel, trip, journey"
       ],
       "example": {
-        "ja": "あぁいらいらする・・・今やパソコンを使うたびに頭痛がするよ。",
-        "en": "So annoying... Now I get a headache whenever I use the computer!"
+        "ja": "春の旅は気候がよくて快適だ。",
+        "en": "Spring trips are comfortable because the weather is pleasant."
       },
       "type": "word",
       "pos_detail": "n"
@@ -25778,8 +25778,8 @@
         "ball, sphere, coin"
       ],
       "example": {
-        "ja": "たまには偏差値の高い人とレベルの高い会話してみたい。",
-        "en": "I like to have a deep conversation with a more academic person from time to time."
+        "ja": "子どもが色とりどりのビー玉を集めている。",
+        "en": "The child collects colorful marbles."
       },
       "type": "word",
       "pos_detail": "n"
@@ -25796,8 +25796,8 @@
         "globe, sphere, ball"
       ],
       "example": {
-        "ja": "たまには偏差値の高い人とレベルの高い会話してみたい。",
-        "en": "I like to have a deep conversation with a more academic person from time to time."
+        "ja": "地球はほぼ球の形をしている。",
+        "en": "The Earth is almost spherical in shape."
       },
       "type": "word",
       "pos_detail": "n"
@@ -25814,8 +25814,8 @@
         "bullet, shot"
       ],
       "example": {
-        "ja": "たまには偏差値の高い人とレベルの高い会話してみたい。",
-        "en": "I like to have a deep conversation with a more academic person from time to time."
+        "ja": "弾が的の中心に命中した。",
+        "en": "The bullet hit the center of the target."
       },
       "type": "word",
       "pos_detail": "n"
@@ -25832,8 +25832,8 @@
         "even number, couple, friend"
       ],
       "example": {
-        "ja": "たまには偏差値の高い人とレベルの高い会話してみたい。",
-        "en": "I like to have a deep conversation with a more academic person from time to time."
+        "ja": "偶数だけを左の欄に書いてください。",
+        "en": "Write only even numbers in the left column."
       },
       "type": "word",
       "pos_detail": "adj-na"
@@ -26122,8 +26122,8 @@
         "birth"
       ],
       "example": {
-        "ja": "今日は６月１８日で、ムーリエルの誕生日です！",
-        "en": "Today is June 18th and it is Muiriel's birthday!"
+        "ja": "新しい制度の誕生に注目が集まっている。",
+        "en": "Attention is focused on the birth of the new system."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -26230,8 +26230,8 @@
         "earth"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "この地は昔から水が豊かだ。",
+        "en": "This land has had abundant water since long ago."
       },
       "type": "word",
       "pos_detail": "n"
@@ -27734,8 +27734,8 @@
         "fishing"
       ],
       "example": {
-        "ja": "また雨が降っている。２月の雪まつりは無事行えるだろうか。",
-        "en": "It's raining again. I wonder if we will be able to have the February snow festival?"
+        "ja": "週末は川で釣をする予定だ。",
+        "en": "I plan to go fishing at the river this weekend."
       },
       "type": "word",
       "pos_detail": "n"
@@ -27770,8 +27770,8 @@
         "outflow, coming (going) out, graduate (of)"
       ],
       "example": {
-        "ja": "今日は６月１８日で、ムーリエルの誕生日です！",
-        "en": "Today is June 18th and it is Muiriel's birthday!"
+        "ja": "この商売は出が大きい月と小さい月がある。",
+        "en": "In this business, some months have high turnover and others have low turnover."
       },
       "type": "word",
       "pos_detail": "n"
@@ -27986,8 +27986,8 @@
         "enemy, rival"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "敵を知れば、対策を立てやすい。",
+        "en": "If you know your opponent, it's easier to plan countermeasures."
       },
       "type": "word",
       "pos_detail": "n"
@@ -28076,8 +28076,8 @@
         "applying"
       ],
       "example": {
-        "ja": "２回目の人工内耳移植への低所得者医療扶助制度の適用不許可を取り下げる。",
-        "en": "Decision to disallow Medicaid for second cochlea implant withdrawn."
+        "ja": "この規則は来年度から適用される。",
+        "en": "This rule will be applied from next fiscal year."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -28420,8 +28420,8 @@
         "party (political)"
       ],
       "example": {
-        "ja": "お誕生日おめでとうムーリエル！",
-        "en": "Happy birthday, Muiriel!"
+        "ja": "その党は教育改革を公約に掲げている。",
+        "en": "That party has made education reform one of its campaign pledges."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -28438,8 +28438,8 @@
         "tower, pagoda"
       ],
       "example": {
-        "ja": "お誕生日おめでとうムーリエル！",
-        "en": "Happy birthday, Muiriel!"
+        "ja": "古い塔が町の中心に立っている。",
+        "en": "An old tower stands in the center of town."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -28636,8 +28636,8 @@
         "voting, poll"
       ],
       "example": {
-        "ja": "政府が住民に問う一般投票を実施しました。",
-        "en": "The government put the question to the people in a referendum."
+        "ja": "選挙の前に期日前投票を済ませた。",
+        "en": "I cast an early ballot before the election."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -28799,8 +28799,8 @@
         "to dissolve (paint)"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "絵の具を水で溶いて使う。",
+        "en": "Dilute the paint with water before using it."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -28818,8 +28818,8 @@
         "answer, solve"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "帰宅するとすぐにネクタイを解く。",
+        "en": "I loosen my tie as soon as I get home."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -29109,8 +29109,8 @@
         "town, city, urban"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "この都市は公共交通が発達している。",
+        "en": "Public transportation is well developed in this city."
       },
       "type": "word",
       "pos_detail": "n"
@@ -29289,8 +29289,8 @@
         "anyhow, at any rate, anyway"
       ],
       "example": {
-        "ja": "とにかく誰かをぶたないと気が済まない。",
-        "en": "I really need to hit somebody."
+        "ja": "とにかく、まずは深呼吸して落ち着こう。",
+        "en": "Anyway, let's take a deep breath and calm down first."
       },
       "type": "word",
       "pos_detail": "adv"
@@ -29325,8 +29325,8 @@
         "to jump out, to rush out, to fly out"
       ],
       "example": {
-        "ja": "椎間板ヘルニアは背骨の間にある椎間板という軟骨が飛び出すものです。",
-        "en": "Disk herniation is when cartilage, called 'intervertebral disk' and found between each vertebra, slips out."
+        "ja": "子どもが玄関から元気よく飛び出した。",
+        "en": "The child energetically rushed out of the front door."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -29615,8 +29615,8 @@
         "ton (1000 lbs.)"
       ],
       "example": {
-        "ja": "ほとんどの科学的進歩は当然のことについての発見に過ぎない。",
-        "en": "Most scientific breakthroughs are nothing else than the discovery of the obvious."
+        "ja": "この荷物は二トンを超えている。",
+        "en": "This cargo exceeds two tons."
       },
       "type": "word",
       "pos_detail": "n"
@@ -29651,8 +29651,8 @@
         "how, how much"
       ],
       "example": {
-        "ja": "10ヶ国語を話せたらどんなにかっこいいだろう！",
-        "en": "It would be so cool if I could speak ten languages!"
+        "ja": "どんなに忙しくても朝食は抜かない。",
+        "en": "No matter how busy I am, I never skip breakfast."
       },
       "type": "word",
       "pos_detail": "adv"
@@ -29795,8 +29795,8 @@
         "company, fellow, colleague, associate"
       ],
       "example": {
-        "ja": "企業経営で活躍するために必要となるのが多くの仲間と仕事を遂行するための協調精神です。",
-        "en": "What you need to take part in business management is the team spirit to work with many colleagues."
+        "ja": "学生時代の仲間と今も連絡を取っている。",
+        "en": "I still keep in touch with my friends from school."
       },
       "type": "word",
       "pos_detail": "n"
@@ -30035,8 +30035,8 @@
         "something"
       ],
       "example": {
-        "ja": "10ヶ国語を話せたらどんなにかっこいいだろう！",
-        "en": "It would be so cool if I could speak ten languages!"
+        "ja": "何か困ったことがあればすぐ連絡してください。",
+        "en": "If anything troubles you, please contact me right away."
       },
       "type": "word",
       "pos_detail": "pron"
@@ -30395,8 +30395,8 @@
         "day"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "出発日は十五日に決まった。",
+        "en": "The departure date was set for the fifteenth."
       },
       "type": "word",
       "pos_detail": "n"
@@ -30665,8 +30665,8 @@
         "root"
       ],
       "example": {
-        "ja": "驚くことではないね。",
-        "en": "It doesn't surprise me."
+        "ja": "木の根が歩道を押し上げていた。",
+        "en": "The tree roots had pushed up the sidewalk."
       },
       "type": "word",
       "pos_detail": "n"
@@ -30683,8 +30683,8 @@
         "value, price, cost"
       ],
       "example": {
-        "ja": "驚くことではないね。",
-        "en": "It doesn't surprise me."
+        "ja": "品質に見合う値だと思う。",
+        "en": "I think it's a price that matches the quality."
       },
       "type": "word",
       "pos_detail": "n"
@@ -30881,8 +30881,8 @@
         "field"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "野に咲く花を写真に撮った。",
+        "en": "I took a photo of flowers blooming in the field."
       },
       "type": "word",
       "pos_detail": "n"
@@ -31388,8 +31388,8 @@
         "(sigh)"
       ],
       "example": {
-        "ja": "それはあなたが一人になりたくないからです。",
-        "en": "It's because you don't want to be alone."
+        "ja": "はあ、とため息をついて席に戻った。",
+        "en": "I sighed and went back to my seat."
       },
       "type": "word",
       "pos_detail": "n"
@@ -31424,8 +31424,8 @@
         "ash"
       ],
       "example": {
-        "ja": "私はいつも不思議な性格の方が好きだった。",
-        "en": "I always liked mysterious characters more."
+        "ja": "暖炉の灰を朝のうちに片づけた。",
+        "en": "I cleaned out the fireplace ash in the morning."
       },
       "type": "word",
       "pos_detail": "n"
@@ -31642,8 +31642,8 @@
         "to measure, to weigh, to survey"
       ],
       "example": {
-        "ja": "我々は出費と収入の間で均衡をはかるべきだ。",
-        "en": "We should strike a balance between our expenditure and income."
+        "ja": "最適な開始時期を計って発表する。",
+        "en": "We will gauge the best timing before making the announcement."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -31660,8 +31660,8 @@
         "to measure, to weigh, to survey"
       ],
       "example": {
-        "ja": "我々は出費と収入の間で均衡をはかるべきだ。",
-        "en": "We should strike a balance between our expenditure and income."
+        "ja": "料理の前に米を正確に量る。",
+        "en": "Measure the rice accurately before cooking."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -31678,8 +31678,8 @@
         "to measure, to weigh, to survey"
       ],
       "example": {
-        "ja": "我々は出費と収入の間で均衡をはかるべきだ。",
-        "en": "We should strike a balance between our expenditure and income."
+        "ja": "朝は毎日血圧を測って記録している。",
+        "en": "I measure and record my blood pressure every morning."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -31768,8 +31768,8 @@
         "explosion, detonation, eruption"
       ],
       "example": {
-        "ja": "アルミニウム、マグネシウム、シリコンなどの粉末が爆発する。",
-        "en": "Powders of aluminium, magnesium, silicon, etc. explode."
+        "ja": "工場で小規模な爆発が発生した。",
+        "en": "A small explosion occurred at the factory."
       },
       "type": "word",
       "pos_detail": "n"
@@ -32075,8 +32075,8 @@
         "discovery, detection, finding"
       ],
       "example": {
-        "ja": "ほとんどの科学的進歩は当然のことについての発見に過ぎない。",
-        "en": "Most scientific breakthroughs are nothing else than the discovery of the obvious."
+        "ja": "新種の植物が山で発見された。",
+        "en": "A new species of plant was discovered in the mountains."
       },
       "type": "word",
       "pos_detail": "n"
@@ -32093,8 +32093,8 @@
         "issue (publications)"
       ],
       "example": {
-        "ja": "義務は、許可通知の後、発行料を支払った後も続く点に留意。",
-        "en": "It should be noted that the duty continues after a notice of allowance is mailed and the issue fee is paid."
+        "ja": "新しい会員証は本日発行される。",
+        "en": "New membership cards will be issued today."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -33522,8 +33522,8 @@
         "un(), non(), negative prefix"
       ],
       "example": {
-        "ja": "私はいつも不思議な性格の方が好きだった。",
-        "en": "I always liked mysterious characters more."
+        "ja": "これは不可能ではなく、時間がかかるだけだ。",
+        "en": "This isn't impossible; it just takes time."
       },
       "type": "affix",
       "pos_detail": "pref"
@@ -33540,8 +33540,8 @@
         "un(), non(), negative prefix"
       ],
       "example": {
-        "ja": "私はいつも不思議な性格の方が好きだった。",
-        "en": "I always liked mysterious characters more."
+        "ja": "彼は舞台で不器用な青年を演じた。",
+        "en": "He played an awkward young man on stage."
       },
       "type": "affix",
       "pos_detail": "pref"
@@ -33576,8 +33576,8 @@
         "dividing, part"
       ],
       "example": {
-        "ja": "何と言ったら良いか分かりません。",
-        "en": "I'm at a loss for words."
+        "ja": "全体の三分の一が完成した。",
+        "en": "One third of the whole has been completed."
       },
       "type": "word",
       "pos_detail": "num"
@@ -33864,8 +33864,8 @@
         "mystery, curiosity"
       ],
       "example": {
-        "ja": "私はいつも不思議な性格の方が好きだった。",
-        "en": "I always liked mysterious characters more."
+        "ja": "海の色が急に変わって不思議だった。",
+        "en": "It was strange how the sea's color suddenly changed."
       },
       "type": "word",
       "pos_detail": "adj-na"
@@ -34694,8 +34694,8 @@
         "to decrease (in size or number), to diminish"
       ],
       "example": {
-        "ja": "椎間板ヘルニアは背骨の間にある椎間板という軟骨が飛び出すものです。",
-        "en": "Disk herniation is when cartilage, called 'intervertebral disk' and found between each vertebra, slips out."
+        "ja": "人口が減る地域への支援が必要だ。",
+        "en": "Areas with declining populations need support."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -34820,8 +34820,8 @@
         "side"
       ],
       "example": {
-        "ja": "馬鹿が移るまえにそのような宗教に関わらんほうがいい。",
-        "en": "You should stay away from cults like that before you turn into a moron."
+        "ja": "駅は川の向こうの方にある。",
+        "en": "The station is on the far side of the river."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -34838,8 +34838,8 @@
         "Act (law: the X Act)"
       ],
       "example": {
-        "ja": "馬鹿が移るまえにそのような宗教に関わらんほうがいい。",
-        "en": "You should stay away from cults like that before you turn into a moron."
+        "ja": "契約前に関連する法を確認した。",
+        "en": "I checked the relevant law before signing the contract."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -35237,8 +35237,8 @@
         "Buddha"
       ],
       "example": {
-        "ja": "仏政府は国家予算の帳尻を合わせるよう納税者に挑むオンラインゲームを売り出した。",
-        "en": "The French government has launched an online game that challenges taxpayers to balance the national budget."
+        "ja": "寺には大きな仏像が安置されている。",
+        "en": "A large Buddha statue is enshrined in the temple."
       },
       "type": "word",
       "pos_detail": "n"
@@ -35255,8 +35255,8 @@
         "bone"
       ],
       "example": {
-        "ja": "椎間板ヘルニアは背骨の間にある椎間板という軟骨が飛び出すものです。",
-        "en": "Disk herniation is when cartilage, called 'intervertebral disk' and found between each vertebra, slips out."
+        "ja": "骨を強くするために運動を続けている。",
+        "en": "I keep exercising to strengthen my bones."
       },
       "type": "word",
       "pos_detail": "n"
@@ -35471,8 +35471,8 @@
         "space, room, pause"
       ],
       "example": {
-        "ja": "何かしてみましょう。",
-        "en": "Let's try something."
+        "ja": "発表の前に少し間を置いた。",
+        "en": "I paused briefly before the presentation."
       },
       "type": "word",
       "pos_detail": "n"
@@ -35525,8 +35525,8 @@
         "mic"
       ],
       "example": {
-        "ja": "先程、どういうわけかマイクが入りませんでした。",
-        "en": "For some reason the microphone didn't work earlier."
+        "ja": "まいくの音量を少し上げてください。",
+        "en": "Please raise the mic volume a little."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -35597,8 +35597,8 @@
         "to wind, to coil, to roll"
       ],
       "example": {
-        "ja": "私が何をしようと彼女はもっとうまくできると言うんだ。",
-        "en": "Whatever I do, she says I can do better."
+        "ja": "寒いので首にマフラーを巻く。",
+        "en": "Because it's cold, I wrap a scarf around my neck."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -35615,8 +35615,8 @@
         "to sow (seeds)"
       ],
       "example": {
-        "ja": "私が何をしようと彼女はもっとうまくできると言うんだ。",
-        "en": "Whatever I do, she says I can do better."
+        "ja": "春になったら畑に種を蒔く。",
+        "en": "When spring comes, we sow seeds in the field."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -35633,8 +35633,8 @@
         "to scatter, to sprinkle, to sow"
       ],
       "example": {
-        "ja": "私が何をしようと彼女はもっとうまくできると言うんだ。",
-        "en": "Whatever I do, she says I can do better."
+        "ja": "雪道に塩を撒いて滑りにくくする。",
+        "en": "We spread salt on snowy roads to make them less slippery."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -35651,8 +35651,8 @@
         "curtain, act (in play)"
       ],
       "example": {
-        "ja": "私が何をしようと彼女はもっとうまくできると言うんだ。",
-        "en": "Whatever I do, she says I can do better."
+        "ja": "一幕が終わると客席から拍手が起きた。",
+        "en": "When the first act ended, applause rose from the audience."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -35958,8 +35958,8 @@
         "pine tree"
       ],
       "example": {
-        "ja": "また雨が降っている。２月の雪まつりは無事行えるだろうか。",
-        "en": "It's raining again. I wonder if we will be able to have the February snow festival?"
+        "ja": "神社の入口に大きな松が立っている。",
+        "en": "A large pine tree stands at the shrine entrance."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -36012,8 +36012,8 @@
         "festival, feast"
       ],
       "example": {
-        "ja": "また雨が降っている。２月の雪まつりは無事行えるだろうか。",
-        "en": "It's raining again. I wonder if we will be able to have the February snow festival?"
+        "ja": "町の祭は毎年多くの人でにぎわう。",
+        "en": "The town festival is crowded with people every year."
       },
       "type": "word",
       "pos_detail": "n"
@@ -36139,8 +36139,8 @@
         "fence, paling"
       ],
       "example": {
-        "ja": "うるさくて眠れないんです。",
-        "en": "We can't sleep because of the noise."
+        "ja": "牧場の柵を週末に修理した。",
+        "en": "We repaired the ranch fence over the weekend."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -36211,8 +36211,8 @@
         "death, decease"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "事故の死を減らすために安全教育を強化する。",
+        "en": "Safety education is being strengthened to reduce accidental deaths."
       },
       "type": "word",
       "pos_detail": "n"
@@ -36337,8 +36337,8 @@
         "font, lettering"
       ],
       "example": {
-        "ja": "誰しも、夢はかなうと信じたいものだ。",
-        "en": "Everyone would like to believe that dreams can come true."
+        "ja": "この字体は画面でも読みやすい。",
+        "en": "This font is easy to read even on screens."
       },
       "type": "word",
       "pos_detail": "n"
@@ -36355,8 +36355,8 @@
         "refusal"
       ],
       "example": {
-        "ja": "誰しも、夢はかなうと信じたいものだ。",
-        "en": "Everyone would like to believe that dreams can come true."
+        "ja": "体調不良のため参加を辞退した。",
+        "en": "I declined participation due to poor health."
       },
       "type": "word",
       "pos_detail": "n"
@@ -36427,8 +36427,8 @@
         "masses, people"
       ],
       "example": {
-        "ja": "彼は復しゅう心にかられて行動した。",
-        "en": "He was driven by revenge."
+        "ja": "聴衆が静かに講演を聞いていた。",
+        "en": "The audience listened to the lecture quietly."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -36482,8 +36482,8 @@
         "personal use, private business"
       ],
       "example": {
-        "ja": "私が何をしようと彼女はもっとうまくできると言うんだ。",
-        "en": "Whatever I do, she says I can do better."
+        "ja": "午後は私用で外出します。",
+        "en": "I'll be out this afternoon on personal business."
       },
       "type": "word",
       "pos_detail": "n"
@@ -36500,8 +36500,8 @@
         "way, method, specification"
       ],
       "example": {
-        "ja": "私が何をしようと彼女はもっとうまくできると言うんだ。",
-        "en": "Whatever I do, she says I can do better."
+        "ja": "購入前に仕様を確認してください。",
+        "en": "Please check the specifications before purchasing."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -36952,8 +36952,8 @@
         "(small) table, tray, meal"
       ],
       "example": {
-        "ja": "「エグゼンプション」の議論を機に働き方を見直そう。",
-        "en": "Let's take advantage of the 'exemption' controversy to reconsider the way we work."
+        "ja": "お膳に料理がきれいに並べられていた。",
+        "en": "The dishes were neatly arranged on the serving tray."
       },
       "type": "word",
       "pos_detail": "n"
@@ -36970,8 +36970,8 @@
         "Zen (Buddhism)"
       ],
       "example": {
-        "ja": "「エグゼンプション」の議論を機に働き方を見直そう。",
-        "en": "Let's take advantage of the 'exemption' controversy to reconsider the way we work."
+        "ja": "彼は禅の教えに関心を持っている。",
+        "en": "He is interested in Zen teachings."
       },
       "type": "word",
       "pos_detail": "n"
@@ -37042,8 +37042,8 @@
         "aspect, phase, countenance"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "物事にはいくつもの相がある。",
+        "en": "Things have multiple aspects."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -37060,8 +37060,8 @@
         "to run along, to follow"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "川に沿う道を駅まで歩いた。",
+        "en": "I walked along the river to the station."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -37078,8 +37078,8 @@
         "to accompany, to comply with"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "希望に添う結果になって安心した。",
+        "en": "I was relieved that the result met my expectations."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -37096,8 +37096,8 @@
         "monk, priest"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "僧が朝の読経を始めた。",
+        "en": "The monk began the morning sutra chanting."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -37186,8 +37186,8 @@
         "party, troops"
       ],
       "example": {
-        "ja": "大きくなったら王様になりたい。",
-        "en": "When I grow up, I want to be a king."
+        "ja": "救助隊が夜通し捜索を続けた。",
+        "en": "The rescue team continued searching through the night."
       },
       "type": "word",
       "pos_detail": "n"
@@ -37606,8 +37606,8 @@
         "and"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "パンとスープで簡単な昼食にした。",
+        "en": "I had a simple lunch of bread and soup."
       },
       "type": "word",
       "pos_detail": "part"
@@ -37624,8 +37624,8 @@
         "to ask, to question"
       ],
       "example": {
-        "ja": "お誕生日おめでとうムーリエル！",
-        "en": "Happy birthday, Muiriel!"
+        "ja": "結果だけで努力の価値を問うべきではない。",
+        "en": "We shouldn't judge the value of effort by results alone."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -37642,8 +37642,8 @@
         "ridge"
       ],
       "example": {
-        "ja": "お誕生日おめでとうムーリエル！",
-        "en": "Happy birthday, Muiriel!"
+        "ja": "新しい病棟が来月開設される。",
+        "en": "A new hospital wing will open next month."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -37715,8 +37715,8 @@
         "natural"
       ],
       "example": {
-        "ja": "ほとんどの科学的進歩は当然のことについての発見に過ぎない。",
-        "en": "Most scientific breakthroughs are nothing else than the discovery of the obvious."
+        "ja": "約束を守るのは当然のことだ。",
+        "en": "Keeping promises is only natural."
       },
       "type": "word",
       "pos_detail": "adj-na"
@@ -37751,8 +37751,8 @@
         "to explain, to advocate"
       ],
       "example": {
-        "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-        "en": "I can only wonder if this is the same for everyone else."
+        "ja": "先生は例を使って理論を分かりやすく説いた。",
+        "en": "The teacher explained the theory clearly using examples."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -37877,8 +37877,8 @@
         "sound, note"
       ],
       "example": {
-        "ja": "驚くことではないね。",
-        "en": "It doesn't surprise me."
+        "ja": "遠くで鈴の音が聞こえた。",
+        "en": "I heard the sound of a bell in the distance."
       },
       "type": "word",
       "pos_detail": "n"
@@ -37949,8 +37949,8 @@
         "lung"
       ],
       "example": {
-        "ja": "私はいつも不思議な性格の方が好きだった。",
-        "en": "I always liked mysterious characters more."
+        "ja": "肺の検査結果は問題なかった。",
+        "en": "The lung test results showed no problems."
       },
       "type": "word",
       "pos_detail": "n"
@@ -37967,8 +37967,8 @@
         "counter for loss, defeat"
       ],
       "example": {
-        "ja": "私はいつも不思議な性格の方が好きだった。",
-        "en": "I always liked mysterious characters more."
+        "ja": "このチームは今季まだ一敗しかしていない。",
+        "en": "This team has suffered only one loss this season."
       },
       "type": "affix",
       "pos_detail": "suf"
@@ -38003,8 +38003,8 @@
         "to consult with, to confer"
       ],
       "example": {
-        "ja": "我々は出費と収入の間で均衡をはかるべきだ。",
-        "en": "We should strike a balance between our expenditure and income."
+        "ja": "重要な案件は理事会に諮って決める。",
+        "en": "Important matters are decided after consulting the board."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -38021,8 +38021,8 @@
         "to plot, to attempt, to devise, to design, to refer A to B"
       ],
       "example": {
-        "ja": "我々は出費と収入の間で均衡をはかるべきだ。",
-        "en": "We should strike a balance between our expenditure and income."
+        "ja": "会社は物流の効率化を図っている。",
+        "en": "The company is trying to improve logistics efficiency."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -38237,8 +38237,8 @@
         "to pass, to elapse, to experience"
       ],
       "example": {
-        "ja": "椎間板ヘルニアは背骨の間にある椎間板という軟骨が飛び出すものです。",
-        "en": "Disk herniation is when cartilage, called 'intervertebral disk' and found between each vertebra, slips out."
+        "ja": "長い議論を経ることで方針が固まった。",
+        "en": "The policy was finalized after a long discussion process."
       },
       "type": "word",
       "pos_detail": "v1"
@@ -38273,8 +38273,8 @@
         "guarantee, security, warranty"
       ],
       "example": {
-        "ja": "２００２年：国土安全保障省設立法にブッシュ大統領がサインし正式な省となる。",
-        "en": "2002: President Bush signs the Homeland Security Act and it becomes an official Cabinet agency."
+        "ja": "個人情報の保障を重視して設計した。",
+        "en": "It was designed with strong emphasis on protecting personal information."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -38345,8 +38345,8 @@
         "membrane, film"
       ],
       "example": {
-        "ja": "私が何をしようと彼女はもっとうまくできると言うんだ。",
-        "en": "Whatever I do, she says I can do better."
+        "ja": "水面に薄い膜が張っている。",
+        "en": "A thin film has formed on the water's surface."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -38399,8 +38399,8 @@
         "the end of"
       ],
       "example": {
-        "ja": "また雨が降っている。２月の雪まつりは無事行えるだろうか。",
-        "en": "It's raining again. I wonder if we will be able to have the February snow festival?"
+        "ja": "月末までに報告書を提出してください。",
+        "en": "Please submit the report by the end of the month."
       },
       "type": "word",
       "pos_detail": "v5"
@@ -38543,8 +38543,8 @@
         "world, society, generation"
       ],
       "example": {
-        "ja": "きみにちょっとしたものをもってきたよ。",
-        "en": "I brought you a little something."
+        "ja": "世の中は思うより広い。",
+        "en": "The world is broader than you think."
       },
       "type": "word",
       "pos_detail": "n"
@@ -38561,8 +38561,8 @@
         "good, nice"
       ],
       "example": {
-        "ja": "何と言ったら良いか分かりません。",
-        "en": "I'm at a loss for words."
+        "ja": "体調が良い日は作業がはかどる。",
+        "en": "On days when I feel well, work goes smoothly."
       },
       "type": "word",
       "pos_detail": "adj-i"

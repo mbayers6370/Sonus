@@ -1,0 +1,932 @@
+{
+  "language": "zh",
+  "bandId": "band6",
+  "helperWords": [
+    "与其",
+    "宁可",
+    "哪怕",
+    "固然",
+    "何况",
+    "况且",
+    "即便",
+    "既然",
+    "所谓",
+    "总之",
+    "可见"
+  ],
+  "units": {
+    "b6-grammar": [
+      {
+        "id": "b6-grammar-apply-001",
+        "wordId": "L6-0006",
+        "zh": "不过是一个文字游戏罢了。",
+        "en": "It's just a play on words.",
+        "pinyin": "bu4 shi4 ge4 le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-002",
+        "wordId": "L6-0033",
+        "zh": "电视上的内容本身很有意义。",
+        "en": "The content on TV itself is very meaningful.",
+        "pinyin": "de5 ben3 hen3 you3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-003",
+        "wordId": "L6-0060",
+        "zh": "他不再是以前那个他。",
+        "en": "He isn't himself anymore.",
+        "pinyin": "ta1 bu4 shi4 na4 ge4 ta1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-004",
+        "wordId": "L6-0106",
+        "zh": "他常年在外出差，很少回家。",
+        "en": "He travels on business all year round and rarely comes home.",
+        "pinyin": "ta1 zai4， hen3 shao3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-005",
+        "wordId": "L6-0167",
+        "zh": "此前我父亲从没出过国。",
+        "en": "My father has never been outside the country until now.",
+        "pinyin": "ci3 wo3 cong2 mei2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-006",
+        "wordId": "L6-0168",
+        "zh": "此事必有隐情。",
+        "en": "There must be something at the back of this matter.",
+        "pinyin": "ci3 you3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-007",
+        "wordId": "L6-0172",
+        "zh": "我以前从没见过她。",
+        "en": "Never have I seen her before.",
+        "pinyin": "wo3 cong2 mei2 ta1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-008",
+        "wordId": "L6-0176",
+        "zh": "他搭错了车。",
+        "en": "He took the wrong bus by mistake.",
+        "pinyin": "ta1 da1 le5 che1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-009",
+        "wordId": "L6-0194",
+        "zh": "你先去，我待会儿就来。",
+        "en": "You go first, I'll come in a moment.",
+        "pinyin": "ni3 qu4， wo3 lai2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-010",
+        "wordId": "L6-0376",
+        "zh": "很难说明天的天气将会怎样。",
+        "en": "It's hard to predict what the weather will be like tomorrow.",
+        "pinyin": "hen3 tian1 de5 tian1 yang4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-011",
+        "wordId": "L6-0400",
+        "zh": "油和水不能混合。",
+        "en": "Oil and water don't blend.",
+        "pinyin": "he2 bu4 hun4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-012",
+        "wordId": "L6-0416",
+        "zh": "他请求她给予优待。",
+        "en": "He asked her to give him preferential treatment.",
+        "pinyin": "ta1 ta1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-013",
+        "wordId": "L6-0425",
+        "zh": "你不介意的路上捡东西回来？",
+        "en": "Would you mind picking up something on the way back?",
+        "pinyin": "ni3 bu4 de5 jian3 lai2？",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-014",
+        "wordId": "L6-0450",
+        "zh": "不要相信一个你一点都不了解他过去的人。",
+        "en": "Don't trust a man whose past you know nothing about.",
+        "pinyin": "bu4 ge4 ni3 dou1 bu4 le5 jie3 ta1 qu4 de5 ren2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-015",
+        "wordId": "L6-0481",
+        "zh": "据说山上的天气变化很快。",
+        "en": "It is said that the weather on the mountain changes easily.",
+        "pinyin": "ju4 de5 tian1 hen3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-016",
+        "wordId": "L6-0511",
+        "zh": "你肯定吗？",
+        "en": "Are you sure?",
+        "pinyin": "ni3 ken3 ma5？",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-017",
+        "wordId": "L6-0521",
+        "zh": "Ann是啦啦队队长。",
+        "en": "Ann is the cheerleading captain.",
+        "pinyin": "A n n shi4 la5 la5 zhang3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-018",
+        "wordId": "L6-0660",
+        "zh": "我亲眼见到了它。",
+        "en": "I saw it with my own eyes.",
+        "pinyin": "wo3 le5 ta1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-019",
+        "wordId": "L6-0735",
+        "zh": "我时而乐观，时而悲观。",
+        "en": "I am by turns an optimist and a pessimist.",
+        "pinyin": "wo3，。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-grammar-apply-020",
+        "wordId": "L6-0752",
+        "zh": "这首歌让我想家了。",
+        "en": "The song reminds me of my home.",
+        "pinyin": "zhe4 shou3 wo3 le5。",
+        "fromOriginalExample": true
+      }
+    ],
+    "b6-academic": [
+      {
+        "id": "b6-academic-apply-001",
+        "wordId": "L6-0257",
+        "zh": "他也会说法语。",
+        "en": "He can also speak French.",
+        "pinyin": "ta1 ye3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-academic-apply-002",
+        "wordId": "L6-0498",
+        "zh": "他老是开夜车。",
+        "en": "He always sits up late at night.",
+        "pinyin": "ta1 shi4 che1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-academic-apply-003",
+        "wordId": "L6-0870",
+        "zh": "西班牙语是她的母语。",
+        "en": "Spanish is her native language.",
+        "pinyin": "shi4 ta1 de5 mu3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-academic-apply-004",
+        "wordId": "L6-1042",
+        "zh": "那就是那台他用来写文章的电脑。",
+        "en": "That's the computer he used to write the article.",
+        "pinyin": "na4 shi4 na4 ta1 lai2 zhang1 de5。",
+        "fromOriginalExample": true
+      }
+    ],
+    "b6-work": [
+      {
+        "id": "b6-work-apply-001",
+        "wordId": "L6-0007",
+        "zh": "这座城市有很多白领在写字楼工作。",
+        "en": "This city has many white-collar workers in office buildings.",
+        "pinyin": "zhe4 cheng2 you3 hen3 duo1 zai4 zuo4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-002",
+        "wordId": "L6-0009",
+        "zh": "明天在办公室见。",
+        "en": "See you tomorrow in the office.",
+        "pinyin": "tian1 zai4 gong1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-003",
+        "wordId": "L6-0044",
+        "zh": "如果计划有变更，我会及时通知大家。",
+        "en": "If there are any changes to the plan, I will notify everyone in time.",
+        "pinyin": "ru2 you3 geng4， wo3 da4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-004",
+        "wordId": "L6-0091",
+        "zh": "他在策划部工作。",
+        "en": "He works in the planning section.",
+        "pinyin": "ta1 zai4 zuo4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-005",
+        "wordId": "L6-0105",
+        "zh": "这个问题不能以常规方法解决。",
+        "en": "You cannot solve this problem with the usual method.",
+        "pinyin": "zhe4 ge4 bu4 jie3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-006",
+        "wordId": "L6-0149",
+        "zh": "我是个好厨师。",
+        "en": "I'm a good cook.",
+        "pinyin": "wo3 shi4 ge4 hao3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-007",
+        "wordId": "L6-0164",
+        "zh": "他很有创意。",
+        "en": "He is very creative.",
+        "pinyin": "ta1 hen3 you3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-008",
+        "wordId": "L6-0312",
+        "zh": "他是个网球高手。",
+        "en": "He is a good tennis player.",
+        "pinyin": "ta1 shi4 ge4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-009",
+        "wordId": "L6-0428",
+        "zh": "经鉴定，此人三观不正。",
+        "en": "This person's worldview is officially unhealthy.",
+        "pinyin": "， ci3 ren2 bu4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-010",
+        "wordId": "L6-0522",
+        "zh": "你最好不要和他来往。",
+        "en": "You'd better not keep company with him.",
+        "pinyin": "ni3 hao3 bu4 he2 ta1 lai2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-011",
+        "wordId": "L6-0550",
+        "zh": "我能在机场领取机票吗？",
+        "en": "Can I pick my ticket up at the airport?",
+        "pinyin": "wo3 zai4 ma5？",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-012",
+        "wordId": "L6-0613",
+        "zh": "公司派出了三名代表参加谈判。",
+        "en": "The company sent three representatives to participate in the negotiations.",
+        "pinyin": "gong1 le5 pan4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-013",
+        "wordId": "L6-0618",
+        "zh": "他陪同外宾参观了工厂。",
+        "en": "He accompanied the foreign guests to visit the factory.",
+        "pinyin": "ta1 tong2 le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-014",
+        "wordId": "L6-0715",
+        "zh": "这家公司上市了。",
+        "en": "This company has gone public.",
+        "pinyin": "zhe4 gong1 le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-015",
+        "wordId": "L6-0729",
+        "zh": "美国的生活费用起了。",
+        "en": "The cost of living in the United States was rising.",
+        "pinyin": "de5 le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-016",
+        "wordId": "L6-0751",
+        "zh": "手续费是多少？",
+        "en": "How much is the commission?",
+        "pinyin": "shi4 duo1 shao3？",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-017",
+        "wordId": "L6-0755",
+        "zh": "他是这家公司的首席技术官。",
+        "en": "He is the chief technology officer of this company.",
+        "pinyin": "ta1 shi4 zhe4 gong1 de5 shou3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-018",
+        "wordId": "L6-0897",
+        "zh": "他将协助这个计划。",
+        "en": "He will assist this project.",
+        "pinyin": "ta1 zhe4 ge4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-019",
+        "wordId": "L6-0914",
+        "zh": "他在路边开了一家修车铺。",
+        "en": "He opened a car repair shop by the roadside.",
+        "pinyin": "ta1 zai4 le5 xiu1 che1 pu1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-work-apply-020",
+        "wordId": "L6-1019",
+        "zh": "额。。。这个是怎么运作的？",
+        "en": "Uh...how does this work?",
+        "pinyin": "。。。 zhe4 ge4 shi4 zuo4 de5？",
+        "fromOriginalExample": true
+      }
+    ],
+    "b6-negotiation": [
+      {
+        "id": "b6-negotiation-apply-001",
+        "wordId": "L6-0486",
+        "zh": "这是一个重大的决策。",
+        "en": "This is a major decision.",
+        "pinyin": "zhe4 shi4 ge4 da4 de5。",
+        "fromOriginalExample": true
+      }
+    ],
+    "b6-policy": [
+      {
+        "id": "b6-policy-apply-001",
+        "wordId": "L6-0127",
+        "zh": "他住在城区，上班很方便。",
+        "en": "He lives in the urban area, commuting to work is very convenient.",
+        "pinyin": "ta1 zai4 cheng2， hen3 bian4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-policy-apply-002",
+        "wordId": "L6-0193",
+        "zh": "他是美国大使馆的外交官。",
+        "en": "He is a diplomat at the American Embassy.",
+        "pinyin": "ta1 shi4 da4 de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-policy-apply-003",
+        "wordId": "L6-0230",
+        "zh": "他强调都市生活的便利方面。",
+        "en": "He stressed the convenient aspects of city life.",
+        "pinyin": "ta1 dou1 de5 bian4 li4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-policy-apply-004",
+        "wordId": "L6-0406",
+        "zh": "收音机关掉了。",
+        "en": "The radio is powered off.",
+        "pinyin": "le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-policy-apply-005",
+        "wordId": "L6-0439",
+        "zh": "教育部发布了新的教育改革方案。",
+        "en": "The Ministry of Education issued a new education reform plan.",
+        "pinyin": "le5 de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-policy-apply-006",
+        "wordId": "L6-0492",
+        "zh": "这个国家的军事力量很先进。",
+        "en": "The military power of this country is very advanced.",
+        "pinyin": "zhe4 ge4 de5 hen3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-policy-apply-007",
+        "wordId": "L6-0622",
+        "zh": "他怎么在这样的贫困中谋生？",
+        "en": "How did he make his living in such poverty?",
+        "pinyin": "ta1 zai4 zhe4 yang4 de5？",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-policy-apply-008",
+        "wordId": "L6-0689",
+        "zh": "它是基本人权。",
+        "en": "It's a basic human right.",
+        "pinyin": "ta1 shi4 ben3 ren2 quan2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-policy-apply-009",
+        "wordId": "L6-0919",
+        "zh": "美国妇女没有选举权。",
+        "en": "American women didn't have the right to vote.",
+        "pinyin": "mei2 you3 quan2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-policy-apply-010",
+        "wordId": "L6-1066",
+        "zh": "当然我接受了他的支援请求。",
+        "en": "Of course I accepted his offer of support.",
+        "pinyin": "dang4 wo3 le5 ta1 de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-policy-apply-011",
+        "wordId": "L6-1130",
+        "zh": "我爱我的祖国。",
+        "en": "I love my motherland.",
+        "pinyin": "wo3 wo3 de5。",
+        "fromOriginalExample": true
+      }
+    ],
+    "b6-news": [
+      {
+        "id": "b6-news-apply-001",
+        "wordId": "L6-0804",
+        "zh": "肯站在跳水台上",
+        "en": "Ken stands on the diving board.",
+        "pinyin": "ken3 zai4",
+        "fromOriginalExample": true
+      }
+    ],
+    "b6-science": [
+      {
+        "id": "b6-science-apply-001",
+        "wordId": "L6-0023",
+        "zh": "在全体职员回家后，火事爆发了。",
+        "en": "The fire broke out after the staff went home.",
+        "pinyin": "zai4， bao4 le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-science-apply-002",
+        "wordId": "L6-0024",
+        "zh": "节日夜空中的爆炸声来自烟花表演。",
+        "en": "The explosive sounds in the holiday night sky came from a fireworks show.",
+        "pinyin": "jie2 de5 bao4 zha4 lai2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-science-apply-003",
+        "wordId": "L6-0043",
+        "zh": "他是扁平足。",
+        "en": "He has flat feet.",
+        "pinyin": "ta1 shi4 bian3 zu2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-science-apply-004",
+        "wordId": "L6-0401",
+        "zh": "油和水不能混合。",
+        "en": "Oil and water don't blend.",
+        "pinyin": "he2 bu4 hun4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-science-apply-005",
+        "wordId": "L6-0802",
+        "zh": "这位是安田先生。",
+        "en": "This is Mr Yasuda.",
+        "pinyin": "zhe4 shi4 tian2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-science-apply-006",
+        "wordId": "L6-0863",
+        "zh": "空中有一大片乌云。",
+        "en": "There is a mass of dark clouds in the sky.",
+        "pinyin": "you3 da4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-science-apply-007",
+        "wordId": "L6-0888",
+        "zh": "面粉是小麦制成的。",
+        "en": "Flour is made from wheat.",
+        "pinyin": "shi4 xiao3 cheng2 de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-science-apply-008",
+        "wordId": "L6-0971",
+        "zh": "不存在没有阴影的光明，也不存在没有光明的阴影。",
+        "en": "There's no light without shade, and no shade without light.",
+        "pinyin": "bu4 zai4 mei2 you3 de5， ye3 bu4 zai4 mei2 you3 de5。",
+        "fromOriginalExample": true
+      }
+    ],
+    "b6-tech": [
+      {
+        "id": "b6-tech-apply-001",
+        "wordId": "L6-0338",
+        "zh": "我的电视机出故障了，所以我不得不拿去修。",
+        "en": "My television was broken down, so I had to get it repaired.",
+        "pinyin": "wo3 de5 le5， suo3 wo3 bu4 bu4 qu4 xiu1。",
+        "fromOriginalExample": true
+      }
+    ],
+    "b6-culture": [
+      {
+        "id": "b6-culture-apply-001",
+        "wordId": "L6-0088",
+        "zh": "厕所冲水不正常。",
+        "en": "The toilet doesn't flush properly.",
+        "pinyin": "suo3 chong4 bu4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-002",
+        "wordId": "L6-0114",
+        "zh": "老实说，他被炒了。",
+        "en": "Not to mince words, he got fired.",
+        "pinyin": "， ta1 chao3 le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-003",
+        "wordId": "L6-0232",
+        "zh": "我赌明天会下雨。",
+        "en": "I bet it will rain tomorrow.",
+        "pinyin": "wo3 du3 tian1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-004",
+        "wordId": "L6-0286",
+        "zh": "父父子子。",
+        "en": "Let the fathers be fathers and the sons sons.",
+        "pinyin": "。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-005",
+        "wordId": "L6-0314",
+        "zh": "我唱歌唱得很好。",
+        "en": "I'm good at singing.",
+        "pinyin": "wo3 hen3 hao3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-006",
+        "wordId": "L6-0332",
+        "zh": "你有没有给孤儿献上一首歌呢？",
+        "en": "Have you ever dedicated a song to the orphans?",
+        "pinyin": "ni3 you3 mei2 you3 shou3 ne5？",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-007",
+        "wordId": "L6-0438",
+        "zh": "教堂位于山脚。",
+        "en": "The church is at the foot of a mountain.",
+        "pinyin": "yu2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-008",
+        "wordId": "L6-0529",
+        "zh": "原来你和我是老乡。",
+        "en": "It turns out that you and I come from the same country.",
+        "pinyin": "yuan2 lai2 ni3 he2 wo3 shi4 xiang1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-009",
+        "wordId": "L6-0556",
+        "zh": "到处都是新建造的楼房。",
+        "en": "New buildings are being built here, there and everywhere.",
+        "pinyin": "chu4 dou1 shi4 de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-010",
+        "wordId": "L6-0600",
+        "zh": "这对母子的感情很深。",
+        "en": "This mother and son have a very deep emotional bond.",
+        "pinyin": "zhe4 mu3 de5 hen3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-011",
+        "wordId": "L6-0645",
+        "zh": "我能用一下你的铅笔吗？",
+        "en": "Can I borrow your pencil for a bit?",
+        "pinyin": "wo3 ni3 de5 ma5？",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-012",
+        "wordId": "L6-0714",
+        "zh": "你相信上帝吗？",
+        "en": "Do you believe in God?",
+        "pinyin": "ni3 ma5？",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-013",
+        "wordId": "L6-0739",
+        "zh": "时装不是我的天分。",
+        "en": "Fashion is not my specialty.",
+        "pinyin": "bu4 shi4 wo3 de5 tian1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-014",
+        "wordId": "L6-0772",
+        "zh": "我去飞机场为他送行了。",
+        "en": "I have been to the airport to see him off.",
+        "pinyin": "wo3 qu4 ta1 le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-culture-apply-015",
+        "wordId": "L6-0873",
+        "zh": "我用洗衣粉。",
+        "en": "I use laundry detergent.",
+        "pinyin": "wo3。",
+        "fromOriginalExample": true
+      }
+    ],
+    "b6-health": [
+      {
+        "id": "b6-health-apply-001",
+        "wordId": "L6-0082",
+        "zh": "这个商场设有残疾人专用通道。",
+        "en": "This shopping mall has special access for disabled people.",
+        "pinyin": "zhe4 ge4 you3 ren2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-health-apply-002",
+        "wordId": "L6-0274",
+        "zh": "吸烟影响了他的肺部。",
+        "en": "Smoking has affected his lungs.",
+        "pinyin": "le5 ta1 de5 fei4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-health-apply-003",
+        "wordId": "L6-0474",
+        "zh": "他是我的救命恩人。",
+        "en": "I owe him my life.",
+        "pinyin": "ta1 shi4 wo3 de5 ming4 ren2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-health-apply-004",
+        "wordId": "L6-0505",
+        "zh": "我的父亲很快就会康复。",
+        "en": "My father will get well soon.",
+        "pinyin": "wo3 de5 hen3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-health-apply-005",
+        "wordId": "L6-0572",
+        "zh": "团队在对话中自然地用了“美容”这个词。",
+        "en": "The team used the word \"美容\" naturally in the conversation.",
+        "pinyin": "zai4 le5 “ ” zhe4 ge4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-health-apply-006",
+        "wordId": "L6-0653",
+        "zh": "他看起来健康强壮。",
+        "en": "He appears to be strong and healthy.",
+        "pinyin": "ta1 kan1 lai2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-health-apply-007",
+        "wordId": "L6-0818",
+        "zh": "我的头疼。",
+        "en": "I have a headache.",
+        "pinyin": "wo3 de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-health-apply-008",
+        "wordId": "L6-0839",
+        "zh": "我父亲是一名外科专家。",
+        "en": "My father is an expert surgeon.",
+        "pinyin": "wo3 shi4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-health-apply-009",
+        "wordId": "L6-1017",
+        "zh": "天气太热，我站久了有点晕。",
+        "en": "It was so hot that I felt dizzy after standing for a long time.",
+        "pinyin": "tian1， wo3 le5 you3 yun1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-health-apply-010",
+        "wordId": "L6-1081",
+        "zh": "医生的职责就是治病救人。",
+        "en": "A doctor's duty is to treat illnesses and save lives.",
+        "pinyin": "de5 shi4 zhi4 bing4 ren2。",
+        "fromOriginalExample": true
+      }
+    ],
+    "b6-human-experience": [
+      {
+        "id": "b6-human-experience-apply-001",
+        "wordId": "L6-0111",
+        "zh": "修好这条路后，交通变得畅通多了。",
+        "en": "After repairing this road, the traffic became much smoother.",
+        "pinyin": "xiu1 hao3 zhe4， duo1 le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-002",
+        "wordId": "L6-0224",
+        "zh": "米价下跌了。",
+        "en": "The price of rice has come down.",
+        "pinyin": "die1 le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-003",
+        "wordId": "L6-0247",
+        "zh": "他是我的救命恩人。",
+        "en": "I owe him my life.",
+        "pinyin": "ta1 shi4 wo3 de5 ming4 ren2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-004",
+        "wordId": "L6-0293",
+        "zh": "日本是个富有的国家。",
+        "en": "Japan is a rich country.",
+        "pinyin": "ben3 shi4 ge4 you3 de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-005",
+        "wordId": "L6-0331",
+        "zh": "我觉得很孤独。",
+        "en": "I felt lonely.",
+        "pinyin": "wo3 jiao4 hen3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-006",
+        "wordId": "L6-0343",
+        "zh": "两者没有关联。",
+        "en": "There is no connection between them.",
+        "pinyin": "mei2 you3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-007",
+        "wordId": "L6-0403",
+        "zh": "我母亲很活跃。",
+        "en": "My mother is active.",
+        "pinyin": "wo3 mu3 hen3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-008",
+        "wordId": "L6-0411",
+        "zh": "Tux 是 Linux 的吉祥物。",
+        "en": "Tux is the mascot for Linux.",
+        "pinyin": "T u x  shi4  L i n u x  de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-009",
+        "wordId": "L6-0463",
+        "zh": "这是一个惊喜。",
+        "en": "It's a surprise.",
+        "pinyin": "zhe4 shi4 ge4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-010",
+        "wordId": "L6-0487",
+        "zh": "经过教育，他的政治觉悟提高了。",
+        "en": "After education, his political consciousness improved.",
+        "pinyin": "， ta1 de5 zhi4 jiao4 le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-011",
+        "wordId": "L6-0515",
+        "zh": "她酷爱打网球。",
+        "en": "She is fond of playing tennis.",
+        "pinyin": "ta1 ku4。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-012",
+        "wordId": "L6-0536",
+        "zh": "他在医学界有很大的影响力。",
+        "en": "He's very influential in the world of medicine.",
+        "pinyin": "ta1 zai4 jie4 you3 hen3 da4 de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-013",
+        "wordId": "L6-0549",
+        "zh": "他是一个脑子灵活的人。",
+        "en": "He is a quick-witted man.",
+        "pinyin": "ta1 shi4 ge4 de5 ren2。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-014",
+        "wordId": "L6-0615",
+        "zh": "老师和学生一样盼望假期。",
+        "en": "Not only the student but their teacher is looking forward to holiday.",
+        "pinyin": "he2 yang4 qi1。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-015",
+        "wordId": "L6-0637",
+        "zh": "他企图说服团队采用新的方案。",
+        "en": "He attempted to persuade the team to adopt a new plan.",
+        "pinyin": "ta1 fu2 de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-016",
+        "wordId": "L6-0641",
+        "zh": "在恰当的时机说出恰当的话很重要。",
+        "en": "It's important to say the right words at the right time.",
+        "pinyin": "zai4 dang4 de5 dang4 de5 hen3。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-017",
+        "wordId": "L6-0646",
+        "zh": "你太谦虚了。",
+        "en": "You're too modest.",
+        "pinyin": "ni3 le5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-018",
+        "wordId": "L6-0649",
+        "zh": "他有极大的潜力。",
+        "en": "He has enormous potential.",
+        "pinyin": "ta1 you3 da4 de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-019",
+        "wordId": "L6-0680",
+        "zh": "这是全新的。",
+        "en": "It's brand new.",
+        "pinyin": "zhe4 shi4 de5。",
+        "fromOriginalExample": true
+      },
+      {
+        "id": "b6-human-experience-apply-020",
+        "wordId": "L6-0690",
+        "zh": "我无法认同你。",
+        "en": "I cannot agree with you.",
+        "pinyin": "wo3 tong2 ni3。",
+        "fromOriginalExample": true
+      }
+    ],
+    "b6-idioms": [],
+    "b6-listening": [],
+    "b6-speaking": []
+  }
+}

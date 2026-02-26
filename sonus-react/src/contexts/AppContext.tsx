@@ -33,6 +33,7 @@ import {
 import {
   inferLanguageForBand as inferLanguageForBandRuntime,
   normalizeBandDataPayload as normalizeBandDataPayloadRuntime,
+  resolveApplyDataPaths,
   resolveBandDataPath as resolveBandDataPathRuntime,
 } from '../lib/languageRuntime';
 import {
@@ -331,24 +332,32 @@ async function fetchApplyPayload(path: string) {
   return (await response.json()) as ApplyBandPayload;
 }
 
-async function fetchApplySentenceMap(bandId: string, forceRefresh = false) {
-  if (!forceRefresh && applySentenceCache.has(bandId)) {
-    return applySentenceCache.get(bandId) || {};
+function applySentenceCacheKey(languageId: string, bandId: string) {
+  return `${languageId}:${bandId}`;
+}
+
+async function fetchApplySentenceMap(languageId: string, bandId: string, forceRefresh = false) {
+  const cacheKey = applySentenceCacheKey(languageId, bandId);
+  if (!forceRefresh && applySentenceCache.has(cacheKey)) {
+    return applySentenceCache.get(cacheKey) || {};
   }
   try {
     const cacheBuster = forceRefresh ? `?v=${Date.now()}` : '';
-    const payload =
-      (await fetchApplyPayload(`/data/zh/${bandId}-apply.json${cacheBuster}`)) ||
-      (await fetchApplyPayload(`/data/zh/${bandId}.apply.json${cacheBuster}`));
+    const paths = resolveApplyDataPaths(languageId, bandId);
+    let payload: ApplyBandPayload | null = null;
+    for (const path of paths) {
+      payload = await fetchApplyPayload(`${path}${cacheBuster}`);
+      if (payload) break;
+    }
     if (!payload) {
-      applySentenceCache.set(bandId, {});
+      applySentenceCache.set(cacheKey, {});
       return {};
     }
     const units = normalizeApplyUnits(payload.units);
-    applySentenceCache.set(bandId, units);
+    applySentenceCache.set(cacheKey, units);
     return units;
   } catch {
-    applySentenceCache.set(bandId, {});
+    applySentenceCache.set(cacheKey, {});
     return {};
   }
 }
@@ -942,7 +951,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       } else {
         if (!unit && !practiceMode) return false;
         // Apply lessons override examples with curated sentence prompts.
-        const applySentenceByUnit = isApplyLesson ? await fetchApplySentenceMap(bandId, true) : {};
+        const applySentenceByUnit = isApplyLesson ? await fetchApplySentenceMap(languageId, bandId, true) : {};
         const applySentences = applySentenceByUnit[resolvedUnitId] || [];
         const applyByWordId = new Map(
           applySentences

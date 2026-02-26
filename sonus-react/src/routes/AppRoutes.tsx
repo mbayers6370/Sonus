@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import type { LessonBand, LessonMode } from '../types/lesson.types';
 import LevelSelect from '../components/LevelSelect';
 import UnitSelect from '../components/UnitSelect';
 import AboutSonusScreen from '../components/AboutSonusScreen';
 import ProfileProgressScreen from '../components/ProfileProgressScreen';
+import JapaneseIntroScreen from '../components/JapaneseIntroScreen';
 import LessonRouteController from './LessonRouteController';
 import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
 import { apiFetch } from '../lib/apiClient';
@@ -40,6 +41,7 @@ function writeLastLanguage(languageId: string) {
 
 export default function AppRoutes() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [languageResolved, setLanguageResolved] = useState(false);
   const {
     state,
@@ -199,6 +201,7 @@ export default function AppRoutes() {
         onGoHome={goHome}
         onOpenProfile={goProfile}
         onOpenFoundations={() => navigate('/learn/foundations')}
+        onOpenLanguageIntro={() => navigate('/learn/language-intro')}
         onSelectLevel={(level: LessonBand) => {
           if (selectedLanguage === 'zh' && isMandarinBandLocked(level.id, state.unlockedLevels)) {
             return;
@@ -324,6 +327,13 @@ export default function AppRoutes() {
     return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Building daily set…</div>;
   }
 
+  const languageRouteState = (location.state || {}) as {
+    mode?: 'switch';
+    returnTo?: string;
+  };
+  const isLanguageSwitchMode = location.pathname === '/language' && languageRouteState.mode === 'switch';
+  const languageSwitchReturnTo = languageRouteState.returnTo || '/home';
+
   return (
     <Routes>
       <Route
@@ -350,10 +360,12 @@ export default function AppRoutes() {
             languageResolved={languageResolved}
             onGoHome={goHome}
             onOpenProfile={goProfile}
+            switchMode={isLanguageSwitchMode || Boolean(selectedLanguage)}
+            onCancelSwitch={() => navigate(languageSwitchReturnTo)}
             onSelectLanguage={(langId) => {
               writeLastLanguage(langId);
               selectLanguage(langId);
-              navigate('/home');
+              navigate(isLanguageSwitchMode ? languageSwitchReturnTo : '/home');
             }}
           />
         }
@@ -387,6 +399,16 @@ export default function AppRoutes() {
         element={<TravelSectionRouteWithParams onGoHome={goHome} onOpenProfile={goProfile} />}
       />
       <Route path="/learn" element={<LearnRoute />} />
+      <Route
+        path="/learn/language-intro"
+        element={
+          <JapaneseIntroScreen
+            onGoHome={goHome}
+            onOpenProfile={goProfile}
+            onBackToLearn={() => navigate('/learn')}
+          />
+        }
+      />
       <Route path="/learn/tones" element={<Navigate to="/learn/foundations/tones" replace />} />
       <Route
         path="/learn/foundations"
@@ -429,12 +451,9 @@ export default function AppRoutes() {
             onGoHome={goHome}
             onOpenProgress={() => navigate('/profile/progress')}
             onOpenAbout={() => navigate('/about')}
-            onChangeLearningLanguage={async (languageId) => {
-              await selectLevel(null);
-              writeLastLanguage(languageId);
-              selectLanguage(languageId);
-              navigate('/profile');
-            }}
+            onOpenLanguageSelection={() =>
+              navigate('/language', { state: { mode: 'switch', returnTo: '/profile' } })
+            }
           />
         }
       />

@@ -10,6 +10,15 @@ export function useAudio() {
     const normalizedHint = (languageHint || '').toLowerCase() === 'jp'
       ? 'ja'
       : (languageHint || '').toLowerCase();
+    const languageToLocale: Record<string, string> = {
+      zh: 'zh-CN',
+      ja: 'ja-JP',
+      kr: 'ko-KR',
+      ko: 'ko-KR',
+      fr: 'fr-FR',
+      it: 'it-IT',
+      es: 'es-ES',
+    };
     const hasKana = /[\u3040-\u30ff]/.test(text || '');
     const hasToneMarks = /[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/i.test(reading || '');
     const hasToneNumbers = /(?:^|\s)[a-züv:]+[1-5](?=\s|$)/i.test(reading || '');
@@ -18,55 +27,44 @@ export function useAudio() {
       normalizedHint === 'ja' ||
       hasKana ||
       (isCjk && Boolean(reading?.trim()) && !hasToneMarks && !hasToneNumbers);
-    const targetLanguage = isLikelyJapanese ? 'ja' : 'zh';
+    const hintedLanguage = ['zh', 'ja', 'kr', 'ko', 'fr', 'it', 'es'].includes(normalizedHint)
+      ? normalizedHint
+      : null;
+    const targetLanguage = hintedLanguage || (isLikelyJapanese ? 'ja' : 'zh');
 
     const synth = window.speechSynthesis;
     synth.cancel();
 
     const voices = synth.getVoices();
 
-    // Prefer high-quality Mandarin voices when available.
-    const preferredChineseVoice = voices.find((v) =>
-      v.lang.includes('zh') &&
-      (v.name.includes('Ting-Ting') ||
-        v.name.includes('Sin-Ji') ||
-        v.name.includes('Meijia'))
+    const preferredByLanguage: Record<string, RegExp[]> = {
+      zh: [/ting-ting/i, /sin-ji/i, /meijia/i],
+      ja: [/kyoko/i, /otoya/i, /haruka/i, /ichiro/i],
+      ko: [/yuna/i, /narae/i],
+      fr: [/thomas/i, /amelie/i, /aurelie/i],
+      it: [/alice/i, /luca/i],
+      es: [/jorge/i, /monica/i, /paulina/i],
+    };
+    const voiceLanguageKey = targetLanguage === 'kr' ? 'ko' : targetLanguage;
+    const voiceLangPrefix = voiceLanguageKey.toLowerCase();
+    const sameLangVoices = voices.filter((v) => v.lang.toLowerCase().startsWith(voiceLangPrefix));
+    const preferredVoice = sameLangVoices.find((v) =>
+      (preferredByLanguage[voiceLanguageKey] || []).some((pattern) => pattern.test(v.name))
     );
-    const preferredJapaneseVoice = voices.find((v) =>
-      v.lang.toLowerCase().includes('ja') &&
-      (v.name.includes('Kyoko') ||
-        v.name.includes('Otoya') ||
-        v.name.includes('Haruka') ||
-        v.name.includes('Ichiro'))
-    );
-
-    const anyChineseVoice = voices.find((v) => v.lang.includes('zh'));
-    const anyJapaneseVoice = voices.find((v) => v.lang.toLowerCase().includes('ja'));
-
-    const chineseVoice: SpeechSynthesisVoice | undefined =
-      preferredChineseVoice ??
-      (anyChineseVoice && !anyChineseVoice.name.includes('Eddy')
-        ? anyChineseVoice
-        : undefined);
-    const japaneseVoice: SpeechSynthesisVoice | undefined = preferredJapaneseVoice ?? anyJapaneseVoice;
+    const anyLanguageVoice = sameLangVoices[0];
 
     let textToSpeak: string;
     let lang: string;
     let voice: SpeechSynthesisVoice | undefined;
 
-    if (targetLanguage === 'ja') {
+    const locale = languageToLocale[targetLanguage] || 'en-US';
+    if (preferredVoice || anyLanguageVoice) {
       textToSpeak = text || reading;
-      lang = 'ja-JP';
-      voice = japaneseVoice;
+      lang = locale;
+      voice = preferredVoice || anyLanguageVoice;
       if (!textToSpeak) {
         textToSpeak = reading || text;
-        lang = 'en-US';
-        voice = voices.find((v) => v.lang.includes('en'));
       }
-    } else if (chineseVoice) {
-      textToSpeak = text;
-      lang = 'zh-CN';
-      voice = chineseVoice;
     } else {
       // Fallback to pinyin/romaji when a matching voice is unavailable.
       textToSpeak = reading || text;

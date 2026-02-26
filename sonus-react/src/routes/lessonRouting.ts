@@ -15,11 +15,11 @@ export const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
 };
 
 export const JAPANESE_LEVEL_BY_ID: Record<string, LessonBand> = {
-  n5: { id: 'n5', band: 0, name: 'JLPT N5', title: 'JLPT N5', subtitle: 'Basic', wordCount: 0, wordRange: '', color: 'bg-[#3E5648]', description: 'Basic', units: [] },
-  n4: { id: 'n4', band: 0, name: 'JLPT N4', title: 'JLPT N4', subtitle: 'Elementary', wordCount: 0, wordRange: '', color: 'bg-[#186E95]', description: 'Elementary', units: [] },
-  n3: { id: 'n3', band: 0, name: 'JLPT N3', title: 'JLPT N3', subtitle: 'Intermediate', wordCount: 0, wordRange: '', color: 'bg-yellow-500', description: 'Intermediate', units: [] },
-  n2: { id: 'n2', band: 0, name: 'JLPT N2', title: 'JLPT N2', subtitle: 'Upper Intermediate', wordCount: 0, wordRange: '', color: 'bg-orange-500', description: 'Upper Intermediate', units: [] },
-  n1: { id: 'n1', band: 0, name: 'JLPT N1', title: 'JLPT N1', subtitle: 'Advanced', wordCount: 0, wordRange: '', color: 'bg-red-500', description: 'Advanced', units: [] },
+  n5: { id: 'n5', band: 0, name: 'N5', title: 'N5', subtitle: 'Basic', wordCount: 0, wordRange: '', color: 'bg-[#3E5648]', description: 'Basic', units: [] },
+  n4: { id: 'n4', band: 0, name: 'N4', title: 'N4', subtitle: 'Elementary', wordCount: 0, wordRange: '', color: 'bg-[#186E95]', description: 'Elementary', units: [] },
+  n3: { id: 'n3', band: 0, name: 'N3', title: 'N3', subtitle: 'Intermediate', wordCount: 0, wordRange: '', color: 'bg-yellow-500', description: 'Intermediate', units: [] },
+  n2: { id: 'n2', band: 0, name: 'N2', title: 'N2', subtitle: 'Upper Intermediate', wordCount: 0, wordRange: '', color: 'bg-orange-500', description: 'Upper Intermediate', units: [] },
+  n1: { id: 'n1', band: 0, name: 'N1', title: 'N1', subtitle: 'Advanced', wordCount: 0, wordRange: '', color: 'bg-red-500', description: 'Advanced', units: [] },
 };
 
 export const LEVEL_BY_ID: Record<string, LessonBand> = {

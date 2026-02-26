@@ -1,0 +1,4657 @@
+{
+  "language": "zh",
+  "bandId": "band2",
+  "helperWords": [
+    "我",
+    "你",
+    "他",
+    "她",
+    "我们",
+    "你们",
+    "他们",
+    "她们",
+    "您",
+    "是",
+    "在",
+    "有",
+    "的",
+    "吗",
+    "呢",
+    "不",
+    "很",
+    "也",
+    "都",
+    "和",
+    "去",
+    "来",
+    "想",
+    "要",
+    "会",
+    "能",
+    "可以",
+    "这",
+    "那",
+    "这里",
+    "那里",
+    "这儿",
+    "哪儿",
+    "哪里",
+    "个",
+    "人",
+    "谁",
+    "什么",
+    "怎么",
+    "几",
+    "比如",
+    "因为",
+    "所以",
+    "但是",
+    "如果",
+    "虽然",
+    "觉得",
+    "知道",
+    "帮助"
+  ],
+  "units": {
+    "b2-u01-grammar": [
+      {
+        "id": "b2-u01-grammar-apply-001",
+        "wordId": "L2-0001",
+        "zh": "真漂亮啊！",
+        "en": "So beautiful!",
+        "pinyin": "zhen1 piao4 liang4 a5！"
+      },
+      {
+        "id": "b2-u01-grammar-apply-002",
+        "wordId": "L2-0019",
+        "zh": "比如说，你可以先吃饭。",
+        "en": "For example, you could eat first.",
+        "pinyin": "bi3 ru2 shuo1， ni3 ke3 yi3 xian1 chi1 fan4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-003",
+        "wordId": "L2-0023",
+        "zh": "你必须来。",
+        "en": "You must come.",
+        "pinyin": "ni3 bi4 xu1 lai2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-004",
+        "wordId": "L2-0033",
+        "zh": "我想去，不过没时间。",
+        "en": "I want to go, but I don't have time.",
+        "pinyin": "wo3 xiang3 qu4， bu4 guo4 mei2 shi2 jian1。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-005",
+        "wordId": "L2-0034",
+        "zh": "我不太清楚。",
+        "en": "I'm not too sure.",
+        "pinyin": "wo3 bu4 tai5 qing1 chu5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-006",
+        "wordId": "L2-0035",
+        "zh": "不要说话。",
+        "en": "Don't talk.",
+        "pinyin": "bu4 yao4 shuo1 hua4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-007",
+        "wordId": "L2-0037",
+        "zh": "他不久就会来。",
+        "en": "He'll come soon.",
+        "pinyin": "ta1 bu4 jiu3 jiu4 hui4 lai2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-008",
+        "wordId": "L2-0039",
+        "zh": "走路不如坐车快。",
+        "en": "Walking isn't as fast as driving.",
+        "pinyin": "zou3 lu4 bu4 ru2 zuo4 che1 kuai4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-009",
+        "wordId": "L2-0043",
+        "zh": "他不一定来。",
+        "en": "He may not come.",
+        "pinyin": "ta1 bu4 yi1 ding4 lai2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-010",
+        "wordId": "L2-0044",
+        "zh": "不一会儿他就到了。",
+        "en": "He arrived soon after.",
+        "pinyin": "bu4 yi1 hui4 ta1 jiu4 dao4 le5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-011",
+        "wordId": "L2-0046",
+        "zh": "他八点才来。",
+        "en": "He didn't come until 8 o'clock.",
+        "pinyin": "ta1 ba1 dian3 cai2 lai2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-012",
+        "wordId": "L2-0054",
+        "zh": "我差不多做完了。",
+        "en": "I'm almost finished.",
+        "pinyin": "wo3 cha4 bu4 duo1 zuo4 wan2 le5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-013",
+        "wordId": "L2-0105",
+        "zh": "我想去，但是没时间。",
+        "en": "I want to go, but I don't have time.",
+        "pinyin": "wo3 xiang3 qu4， dan4 shi4 mei2 shi2 jian1。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-014",
+        "wordId": "L2-0117",
+        "zh": "明天有事的话，就别来了。",
+        "en": "If something comes up tomorrow, don't come.",
+        "pinyin": "ming2 tian1 you3 shi4 di4 hua4， jiu4 bie2 lai2 le5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-015",
+        "wordId": "L2-0118",
+        "zh": "他跑得很快。",
+        "en": "He runs very fast.",
+        "pinyin": "ta1 pao3 de2 hen3 kuai4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-016",
+        "wordId": "L2-0172",
+        "zh": "该走了。",
+        "en": "It's time to go.",
+        "pinyin": "gai1 zou3 le5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-017",
+        "wordId": "L2-0187",
+        "zh": "今天比昨天更冷。",
+        "en": "Today is even colder than yesterday.",
+        "pinyin": "jin1 tian1 bi3 tian1 geng4 leng3。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-018",
+        "wordId": "L2-0220",
+        "zh": "他好像不高兴。",
+        "en": "He seems unhappy.",
+        "pinyin": "ta1 hao3 xiang4 bu4 gao1。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-019",
+        "wordId": "L2-0245",
+        "zh": "我会说汉语。",
+        "en": "I can speak Chinese.",
+        "pinyin": "wo3 hui4 shuo1 yu3。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-020",
+        "wordId": "L2-0285",
+        "zh": "接下来我们做什么？",
+        "en": "What do we do next?",
+        "pinyin": "jie1 xia4 lai2 wo3 men5 zuo4 shen2 me5？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-021",
+        "wordId": "L2-0286",
+        "zh": "你先走，我接着就来。",
+        "en": "You go first, I'll come right after.",
+        "pinyin": "ni3 xian1 zou3， wo3 jie1 zhe5 jiu4 lai2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-022",
+        "wordId": "L2-0303",
+        "zh": "火车就要开了。",
+        "en": "The train is about to leave.",
+        "pinyin": "che1 jiu4 yao4 kai1 le5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-023",
+        "wordId": "L2-0319",
+        "zh": "他可能不来了。",
+        "en": "He might not come.",
+        "pinyin": "ta1 ke3 neng2 bu4 lai2 le5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-024",
+        "wordId": "L2-0321",
+        "zh": "我想去，可是太忙了。",
+        "en": "I want to go, but I'm too busy.",
+        "pinyin": "wo3 xiang3 qu4， ke3 shi4 tai5 mang2 le5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-025",
+        "wordId": "L2-0322",
+        "zh": "我可以进来吗？",
+        "en": "May I come in?",
+        "pinyin": "wo3 ke3 yi3 jin4 lai2 ma5？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-026",
+        "wordId": "L2-0468",
+        "zh": "如果明天下雨，我就不去。",
+        "en": "If it rains tomorrow, I won't go.",
+        "pinyin": "ru2 guo3 ming2 tian1 xia4 yu3， wo3 jiu4 bu4 qu4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-027",
+        "wordId": "L2-0510",
+        "zh": "虽然很累，但我很开心。",
+        "en": "Although I'm tired, I'm happy.",
+        "pinyin": "ran2 hen3 lei4， dan4 wo3 hen3 kai1 xin1。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-028",
+        "wordId": "L2-0513",
+        "zh": "下雨了，所以没出门。",
+        "en": "It rained, so I didn't go out.",
+        "pinyin": "xia4 yu3 le5， suo3 yi3 mei2 chu1 men2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-029",
+        "wordId": "L2-0546",
+        "zh": "他同时做两件事。",
+        "en": "He does two things at once.",
+        "pinyin": "ta1 tong2 shi2 zuo4 liang3 jian4 shi4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-030",
+        "wordId": "L2-0570",
+        "zh": "这是为你准备的。",
+        "en": "This is prepared for you.",
+        "pinyin": "zhe4 shi4 wei2 ni3 zhun3 di4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-031",
+        "wordId": "L2-0599",
+        "zh": "请向左走。",
+        "en": "Please walk toward the left.",
+        "pinyin": "qing3 xiang4 zuo3 zou3。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-032",
+        "wordId": "L2-0667",
+        "zh": "因为下雨，我没出门。",
+        "en": "Because it rained, I didn't go out.",
+        "pinyin": "yin1 wei2 xia4 yu3， wo3 mei2 chu1 men2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-033",
+        "wordId": "L2-0699",
+        "zh": "雨越下越大。",
+        "en": "The rain is getting heavier and heavier.",
+        "pinyin": "yu3 yue4 xia4 yue4 da4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-034",
+        "wordId": "L2-0728",
+        "zh": "这正是我想要的。",
+        "en": "This is exactly what I wanted.",
+        "pinyin": "zhe4 zheng4 shi4 wo3 xiang3 yao4 di4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-035",
+        "wordId": "L2-0730",
+        "zh": "我只带了一块钱。",
+        "en": "I only brought one yuan.",
+        "pinyin": "wo3 zhi3 dai4 le5 yi1 kuai4 qian2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-036",
+        "wordId": "L2-0731",
+        "zh": "只能这样了。",
+        "en": "There's no other way.",
+        "pinyin": "zhi3 neng2 zhe4 yang4 le5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-037",
+        "wordId": "L2-0104",
+        "zh": "他说要来，但没来。",
+        "en": "He said he'd come, but didn't.",
+        "pinyin": "ta1 shuo1 yao4 lai2， dan4 mei2 lai2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-038",
+        "wordId": "L2-0145",
+        "zh": "他对我说了什么？",
+        "en": "What did he say to me?",
+        "pinyin": "ta1 dui4 wo3 shuo1 le5 shen2 me5？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-039",
+        "wordId": "L2-0150",
+        "zh": "多么漂亮！",
+        "en": "How beautiful!",
+        "pinyin": "duo1 me5 piao4 liang4！"
+      },
+      {
+        "id": "b2-u01-grammar-apply-040",
+        "wordId": "L2-0247",
+        "zh": "你去或他去都可以。",
+        "en": "Either you go or he goes.",
+        "pinyin": "ni3 qu4 huo4 ta1 qu4 dou1 ke3 yi3。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-041",
+        "wordId": "L2-0387",
+        "zh": "那好吧。",
+        "en": "OK then.",
+        "pinyin": "na4 hao3 ba5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-042",
+        "wordId": "L2-0389",
+        "zh": "那么，我们走吧。",
+        "en": "Well then, let's go.",
+        "pinyin": "na4 me5， wo3 men5 zou3 ba5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-043",
+        "wordId": "L2-0391",
+        "zh": "别那样做。",
+        "en": "Don't do it that way.",
+        "pinyin": "bie2 na4 yang4 zuo4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-044",
+        "wordId": "L2-0398",
+        "zh": "我能够完成。",
+        "en": "I can finish it.",
+        "pinyin": "wo3 neng2 gou4 wan2 cheng2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-045",
+        "wordId": "L2-0459",
+        "zh": "先吃饭，然后看电影。",
+        "en": "Eat first, then watch a movie.",
+        "pinyin": "xian1 chi1 fan4， ran2 hou4 kan4 dian4 ying3。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-046",
+        "wordId": "L2-0515",
+        "zh": "这本书很好，我很喜欢它。",
+        "en": "This book is good, I like it.",
+        "pinyin": "zhe4 ben3 shu1 hen3 hao3， wo3 hen3 huan1 ta1。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-047",
+        "wordId": "L2-0542",
+        "zh": "今天天气挺好。",
+        "en": "The weather is pretty good today.",
+        "pinyin": "jin1 tian1 tian1 qi4 ting3 hao3。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-048",
+        "wordId": "L2-0571",
+        "zh": "你为什么不来？",
+        "en": "Why didn't you come?",
+        "pinyin": "ni3 wei2 shen2 me5 bu4 lai2？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-049",
+        "wordId": "L2-0574",
+        "zh": "喂，你好吗？",
+        "en": "Hello, how are you?",
+        "pinyin": "wei4， ni3 hao3 ma5？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-050",
+        "wordId": "L2-0643",
+        "zh": "他也许会来。",
+        "en": "Maybe he'll come.",
+        "pinyin": "ta1 ye3 xu3 hui4 lai2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-051",
+        "wordId": "L2-0648",
+        "zh": "一共多少钱？",
+        "en": "How much altogether?",
+        "pinyin": "yi1 gong4 duo1 shao3 qian2？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-052",
+        "wordId": "L2-0652",
+        "zh": "他已经走了。",
+        "en": "He's already left.",
+        "pinyin": "ta1 yi3 jing1 zou3 le5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-053",
+        "wordId": "L2-0655",
+        "zh": "十八岁以上可以开车。",
+        "en": "People over 18 can drive.",
+        "pinyin": "shi2 ba1 sui4 yi3 shang4 ke3 yi3 kai1 che1。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-054",
+        "wordId": "L2-0658",
+        "zh": "十八岁以下不能喝酒。",
+        "en": "People under 18 can't drink alcohol.",
+        "pinyin": "shi2 ba1 sui4 yi3 xia4 bu4 neng2 he1 jiu3。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-055",
+        "wordId": "L2-0663",
+        "zh": "我一直等你。",
+        "en": "I've been waiting for you the whole time.",
+        "pinyin": "wo3 yi1 zhi2 deng3 ni3。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-056",
+        "wordId": "L2-0675",
+        "zh": "你应该好好学习。",
+        "en": "You should study hard.",
+        "pinyin": "ni3 ying5 gai1 hao3 hao3 xue2 xi2。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-057",
+        "wordId": "L2-0688",
+        "zh": "他又来了。",
+        "en": "He came again.",
+        "pinyin": "ta1 you4 lai2 le5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-058",
+        "wordId": "L2-0709",
+        "zh": "我忘带钱了，怎么办？",
+        "en": "I forgot money, what should I do?",
+        "pinyin": "wo3 wang4 dai4 qian2 le5， zen3 me5 ban4？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-059",
+        "wordId": "L2-0710",
+        "zh": "最近怎么样？",
+        "en": "How's it going lately?",
+        "pinyin": "zui4 jin4 zen3 me5 yang4？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-060",
+        "wordId": "L2-0711",
+        "zh": "怎样去车站？",
+        "en": "How to get to the station?",
+        "pinyin": "zen3 yang4 qu4 che1 zhan4？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-061",
+        "wordId": "L2-0721",
+        "zh": "你这么忙吗？",
+        "en": "Are you this busy?",
+        "pinyin": "ni3 zhe4 me5 mang2 ma5？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-062",
+        "wordId": "L2-0723",
+        "zh": "这样做不对。",
+        "en": "Doing it this way is wrong.",
+        "pinyin": "zhe4 yang4 zuo4 bu4 dui4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-063",
+        "wordId": "L2-0751",
+        "zh": "我自己做。",
+        "en": "I'll do it myself.",
+        "pinyin": "wo3 zi4 ji3 zuo4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-064",
+        "wordId": "L2-0110",
+        "zh": "到处都找不到他。",
+        "en": "He's nowhere to be found.",
+        "pinyin": "dao4 chu4 dou1 zhao3 bu4 dao4 ta1。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-065",
+        "wordId": "L2-0426",
+        "zh": "其他人呢？",
+        "en": "Where are the others?",
+        "pinyin": "qi2 ta1 ren2 ne5？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-066",
+        "wordId": "L2-0476",
+        "zh": "你想要什么样的？",
+        "en": "What kind do you want?",
+        "pinyin": "ni3 xiang3 yao4 shen2 me5 yang4 di4？"
+      },
+      {
+        "id": "b2-u01-grammar-apply-067",
+        "wordId": "L2-0541",
+        "zh": "挺好。",
+        "en": "Pretty good.",
+        "pinyin": "ting3 hao3。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-068",
+        "wordId": "L2-0686",
+        "zh": "我有点儿累。",
+        "en": "I'm a little tired.",
+        "pinyin": "wo3 you3 dian3 lei4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-069",
+        "wordId": "L2-0686b",
+        "zh": "他有一点儿不高兴。",
+        "en": "He's a bit unhappy.",
+        "pinyin": "ta1 you3 yi1 dian3 bu4 gao1。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-070",
+        "wordId": "L2-0700",
+        "zh": "天气越来越热。",
+        "en": "It's getting hotter and hotter.",
+        "pinyin": "tian1 qi4 yue4 lai2 yue4 re4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-071",
+        "wordId": "L2-0703",
+        "zh": "咱走吧。",
+        "en": "Let's go.",
+        "pinyin": "zan2 zou3 ba5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-072",
+        "wordId": "L2-0704",
+        "zh": "咱们一起吃饭吧。",
+        "en": "Let's eat together.",
+        "pinyin": "zan2 men5 yi1 qi3 chi1 fan4 ba5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-073",
+        "wordId": "L2-0027",
+        "zh": "我找了一遍。",
+        "en": "I looked for it once.",
+        "pinyin": "wo3 zhao3 le5 yi1 bian4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-074",
+        "wordId": "L2-0067",
+        "zh": "请重新做一遍。",
+        "en": "Please do it again.",
+        "pinyin": "qing3 zhong4 xin1 zuo4 yi1 bian4。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-075",
+        "wordId": "L2-0090",
+        "zh": "他的成绩大大提高了。",
+        "en": "His grades improved greatly.",
+        "pinyin": "ta1 di4 cheng2 ji4 da4 da4 ti2 gao1 le5。"
+      },
+      {
+        "id": "b2-u01-grammar-apply-076",
+        "wordId": "L2-0726",
+        "zh": "你来得正好。",
+        "en": "You came just in time.",
+        "pinyin": "ni3 lai2 de2 zheng4 hao3。"
+      }
+    ],
+    "b2-u02-verbs-1": [
+      {
+        "id": "b2-u02-verbs-1-apply-001",
+        "wordId": "L2-0008",
+        "zh": "这件事我来办。",
+        "en": "I'll handle this matter.",
+        "pinyin": "zhe4 jian4 shi4 wo3 lai2 ban4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-002",
+        "wordId": "L2-0012",
+        "zh": "你能帮助我吗？",
+        "en": "Can you help me?",
+        "pinyin": "ni3 neng2 bang1 zhu4 wo3 ma5？"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-003",
+        "wordId": "L2-0014",
+        "zh": "我想报名学汉语。",
+        "en": "I want to sign up to learn Chinese.",
+        "pinyin": "wo3 xiang3 bao4 ming2 xue2 yu3。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-004",
+        "wordId": "L2-0025",
+        "zh": "天气变了。",
+        "en": "The weather changed.",
+        "pinyin": "tian1 qi4 bian4 le5。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-005",
+        "wordId": "L2-0029",
+        "zh": "他表示同意。",
+        "en": "He expressed agreement.",
+        "pinyin": "ta1 biao3 shi4 tong2 yi4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-006",
+        "wordId": "L2-0036",
+        "zh": "他不好意思说话。",
+        "en": "He was too shy to speak.",
+        "pinyin": "ta1 bu4 hao3 yi4 si5 shuo1 hua4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-007",
+        "wordId": "L2-0048",
+        "zh": "我们参观了学校。",
+        "en": "We visited the school.",
+        "pinyin": "wo3 men5 can1 guan1 le5 xue2 xiao4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-008",
+        "wordId": "L2-0053",
+        "zh": "我查一下字典。",
+        "en": "I'll check the dictionary.",
+        "pinyin": "wo3 cha2 yi1 xia4 zi4 dian3。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-009",
+        "wordId": "L2-0059",
+        "zh": "他超过了所有人。",
+        "en": "He surpassed everyone.",
+        "pinyin": "ta1 chao1 guo4 le5 suo3 you3 ren2。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-010",
+        "wordId": "L2-0063",
+        "zh": "他成了医生。",
+        "en": "He became a doctor.",
+        "pinyin": "ta1 cheng2 le5 yi1 sheng1。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-011",
+        "wordId": "L2-0065",
+        "zh": "我想成为一名老师。",
+        "en": "I want to become a teacher.",
+        "pinyin": "wo3 xiang3 cheng2 wei2 yi1 ming2 lao3 shi1。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-012",
+        "wordId": "L2-0068",
+        "zh": "我们明天出发。",
+        "en": "We set off tomorrow.",
+        "pinyin": "wo3 men5 ming2 tian1 chu1 fa5。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-013",
+        "wordId": "L2-0072",
+        "zh": "我出生在北京。",
+        "en": "I was born in Beijing.",
+        "pinyin": "wo3 chu1 sheng1 zai4 bei3。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-014",
+        "wordId": "L2-0073",
+        "zh": "老师出现了。",
+        "en": "The teacher appeared.",
+        "pinyin": "lao3 shi1 chu1 xian4 le5。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-015",
+        "wordId": "L2-0075",
+        "zh": "这个房子出租。",
+        "en": "This house is for rent.",
+        "pinyin": "zhe4 ge4 fang2 zi5 chu1 zu1。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-016",
+        "wordId": "L2-0085",
+        "zh": "他答应明天来。",
+        "en": "He promised to come tomorrow.",
+        "pinyin": "ta1 da1 ying5 ming2 tian1 lai2。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-017",
+        "wordId": "L2-0087",
+        "zh": "你打算做什么？",
+        "en": "What do you plan to do?",
+        "pinyin": "ni3 da3 suan4 zuo4 shen2 me5？"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-018",
+        "wordId": "L2-0088",
+        "zh": "请打印这份文件。",
+        "en": "Please print this document.",
+        "pinyin": "qing3 da3 yin4 zhe4 fen4 wen2 jian4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-019",
+        "wordId": "L2-0107",
+        "zh": "他想当老师。",
+        "en": "He wants to be a teacher.",
+        "pinyin": "ta1 xiang3 dang1 lao3 shi1。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-020",
+        "wordId": "L2-0111",
+        "zh": "请倒一杯茶。",
+        "en": "Please pour a cup of tea.",
+        "pinyin": "qing3 dao3 yi1 bei1 cha2。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-021",
+        "wordId": "L2-0115",
+        "zh": "他得了第一名。",
+        "en": "He got first place.",
+        "pinyin": "ta1 de2 le5 di4 yi1 ming2。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-022",
+        "wordId": "L2-0116",
+        "zh": "我们得出了结论。",
+        "en": "We reached a conclusion.",
+        "pinyin": "wo3 men5 de2 chu1 le5 jie2 lun4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-023",
+        "wordId": "L2-0120",
+        "zh": "请等我一下。",
+        "en": "Please wait for me.",
+        "pinyin": "qing3 deng3 wo3 yi1 xia4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-024",
+        "wordId": "L2-0121",
+        "zh": "等到明天再说。",
+        "en": "Wait until tomorrow to discuss.",
+        "pinyin": "deng3 dao4 ming2 tian1 zai4 shuo1。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-025",
+        "wordId": "L2-0122",
+        "zh": "一加一等于二。",
+        "en": "One plus one equals two.",
+        "pinyin": "yi1 jia1 yi1 deng3 yu2 er4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-026",
+        "wordId": "L2-0127",
+        "zh": "他点头同意了。",
+        "en": "He nodded in agreement.",
+        "pinyin": "ta1 dian3 tou5 tong2 yi4 le5。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-027",
+        "wordId": "L2-0134",
+        "zh": "我懂了。",
+        "en": "I understand.",
+        "pinyin": "wo3 dong3 le5。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-028",
+        "wordId": "L2-0135",
+        "zh": "他懂得很多。",
+        "en": "He knows a lot.",
+        "pinyin": "ta1 dong3 de2 hen3 duo1。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-029",
+        "wordId": "L2-0139",
+        "zh": "我们度过了一个快乐的周末。",
+        "en": "We spent a happy weekend.",
+        "pinyin": "wo3 men5 du4 guo4 le5 yi1 ge4 kuai4 le4 di4 zhou1 mo4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-030",
+        "wordId": "L2-0146",
+        "zh": "我们在对话。",
+        "en": "We're having a conversation.",
+        "pinyin": "wo3 men5 zai4 dui4 hua4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-031",
+        "wordId": "L2-0163",
+        "zh": "你放心，我会来的。",
+        "en": "Don't worry, I'll come.",
+        "pinyin": "ni3 fang4 xin1， wo3 hui4 lai2 di4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-032",
+        "wordId": "L2-0165",
+        "zh": "他们分开了。",
+        "en": "They separated.",
+        "pinyin": "ta1 men5 fen5 kai1 le5。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-033",
+        "wordId": "L2-0170",
+        "zh": "他为客人服务。",
+        "en": "He serves the guests.",
+        "pinyin": "ta1 wei2 ke4 ren2 fu5 wu4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-034",
+        "wordId": "L2-0173",
+        "zh": "我想改个时间。",
+        "en": "I want to change the time.",
+        "pinyin": "wo3 xiang3 gai3 ge4 shi2 jian1。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-035",
+        "wordId": "L2-0174",
+        "zh": "他的想法改变了。",
+        "en": "His idea changed.",
+        "pinyin": "ta1 di4 xiang3 fa3 gai3 bian4 le5。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-036",
+        "wordId": "L2-0176",
+        "zh": "我感到很高兴。",
+        "en": "I feel very happy.",
+        "pinyin": "wo3 gan3 dao4 hen3 gao1。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-037",
+        "wordId": "L2-0177",
+        "zh": "他的话感动了我。",
+        "en": "His words moved me.",
+        "pinyin": "ta1 di4 hua4 gan3 dong4 le5 wo3。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-038",
+        "wordId": "L2-0179",
+        "zh": "感谢你的帮助。",
+        "en": "Thanks for your help.",
+        "pinyin": "gan3 xie4 ni3 di4 bang1 zhu4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-039",
+        "wordId": "L2-0180",
+        "zh": "他在干活儿。",
+        "en": "He's working.",
+        "pinyin": "ta1 zai4 gan1 huo2。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-040",
+        "wordId": "L2-0201",
+        "zh": "请关机。",
+        "en": "Please turn it off.",
+        "pinyin": "qing3 guan1 ji1。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-041",
+        "wordId": "L2-0202",
+        "zh": "他很关心我。",
+        "en": "He cares about me.",
+        "pinyin": "ta1 hen3 guan1 xin1 wo3。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-042",
+        "wordId": "L2-0207",
+        "zh": "请过来一下。",
+        "en": "Please come over.",
+        "pinyin": "qing3 guo4 lai2 yi1 xia4。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-043",
+        "wordId": "L2-0210",
+        "zh": "过马路要小心。",
+        "en": "Be careful crossing the street.",
+        "pinyin": "guo4 lu4 yao4 xiao3 xin1。"
+      },
+      {
+        "id": "b2-u02-verbs-1-apply-044",
+        "wordId": "L2-0213",
+        "zh": "他喊了一声。",
+        "en": "He shouted.",
+        "pinyin": "ta1 han3 le5 yi1 sheng1。"
+      }
+    ],
+    "b2-u03-verbs-2": [
+      {
+        "id": "b2-u03-verbs-2-apply-001",
+        "wordId": "L2-0234",
+        "zh": "他喜欢画山水。",
+        "en": "He likes to paint landscapes.",
+        "pinyin": "ta1 huan1 hua4 shan1 shui3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-002",
+        "wordId": "L2-0239",
+        "zh": "欢迎来到中国。",
+        "en": "Welcome to China.",
+        "pinyin": "huan1 ying2 lai2 dao4 zhong1 guo2。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-003",
+        "wordId": "L2-0240",
+        "zh": "我想换钱。",
+        "en": "I want to exchange money.",
+        "pinyin": "wo3 xiang3 huan4 qian2。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-004",
+        "wordId": "L2-0243",
+        "zh": "我明天回家。",
+        "en": "I'm going home tomorrow.",
+        "pinyin": "wo3 ming2 tian1 hui2 jia1。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-005",
+        "wordId": "L2-0255",
+        "zh": "二加二等于四。",
+        "en": "Two plus two equals four.",
+        "pinyin": "er4 jia1 er4 deng3 yu2 si4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-006",
+        "wordId": "L2-0262",
+        "zh": "老师检查作业。",
+        "en": "The teacher checks homework.",
+        "pinyin": "lao3 shi1 jian3 cha2 zuo4 ye4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-007",
+        "wordId": "L2-0263",
+        "zh": "很高兴见到你。",
+        "en": "Nice to meet you.",
+        "pinyin": "hen3 gao1 jian4 dao4 ni3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-008",
+        "wordId": "L2-0264",
+        "zh": "我见过他一次。",
+        "en": "I've met him once.",
+        "pinyin": "wo3 jian4 guo4 ta1 yi1 ci4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-009",
+        "wordId": "L2-0267",
+        "zh": "请讲慢一点。",
+        "en": "Please speak more slowly.",
+        "pinyin": "qing3 jiang3 man4 yi1 dian3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-010",
+        "wordId": "L2-0268",
+        "zh": "他在讲话。",
+        "en": "He's speaking.",
+        "pinyin": "ta1 zai4 jiang3 hua4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-011",
+        "wordId": "L2-0280",
+        "zh": "他在大学教学。",
+        "en": "He teaches at university.",
+        "pinyin": "ta1 zai4 da4 xue2 jiao4 xue2。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-012",
+        "wordId": "L2-0281",
+        "zh": "教育孩子很重要。",
+        "en": "Educating children is important.",
+        "pinyin": "jiao4 yu4 zi5 hen3 zhong4 yao4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-013",
+        "wordId": "L2-0282",
+        "zh": "我去机场接朋友。",
+        "en": "I'm going to the airport to pick up a friend.",
+        "pinyin": "wo3 qu4 ji1 chang3 jie1 peng2 you5。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-014",
+        "wordId": "L2-0283",
+        "zh": "我接到了电话。",
+        "en": "I received the call.",
+        "pinyin": "wo3 jie1 dao4 le5 dian4 hua4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-015",
+        "wordId": "L2-0292",
+        "zh": "我可以借你的书吗？",
+        "en": "Can I borrow your book?",
+        "pinyin": "wo3 ke3 yi3 jie4 ni3 di4 shu1 ma5？"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-016",
+        "wordId": "L2-0299",
+        "zh": "我经过公园。",
+        "en": "I passed by the park.",
+        "pinyin": "wo3 jing1 guo4 gong1。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-017",
+        "wordId": "L2-0304",
+        "zh": "请举手。",
+        "en": "Please raise your hand.",
+        "pinyin": "qing3 ju3 shou3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-018",
+        "wordId": "L2-0305",
+        "zh": "有问题请举手。",
+        "en": "Please raise your hand if you have questions.",
+        "pinyin": "you3 wen4 ti2 qing3 ju3 shou3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-019",
+        "wordId": "L2-0310",
+        "zh": "电脑开机很慢。",
+        "en": "The computer starts up slowly.",
+        "pinyin": "dian4 kai1 ji1 hen3 man4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-020",
+        "wordId": "L2-0311",
+        "zh": "他很开心。",
+        "en": "He's very happy.",
+        "pinyin": "ta1 hen3 kai1 xin1。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-021",
+        "wordId": "L2-0312",
+        "zh": "九月一号开学。",
+        "en": "School starts on September 1st.",
+        "pinyin": "jiu3 yue4 yi1 hao4 kai1 xue2。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-022",
+        "wordId": "L2-0315",
+        "zh": "请靠右站。",
+        "en": "Please stand on the right.",
+        "pinyin": "qing3 kao4 you4 zhan4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-023",
+        "wordId": "L2-0328",
+        "zh": "孩子哭了。",
+        "en": "The child is crying.",
+        "pinyin": "zi5 ku1 le5。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-024",
+        "wordId": "L2-0334",
+        "zh": "请拉门。",
+        "en": "Please pull the door.",
+        "pinyin": "qing3 la1 men2。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-025",
+        "wordId": "L2-0335",
+        "zh": "我来自中国。",
+        "en": "I come from China.",
+        "pinyin": "wo3 lai2 zi4 zhong1 guo2。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-026",
+        "wordId": "L2-0344",
+        "zh": "离我远点。",
+        "en": "Stay away from me.",
+        "pinyin": "li2 wo3 yuan3 dian3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-027",
+        "wordId": "L2-0345",
+        "zh": "他离开了家。",
+        "en": "He left home.",
+        "pinyin": "ta1 li2 kai1 le5 jia1。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-028",
+        "wordId": "L2-0353",
+        "zh": "练习说汉语。",
+        "en": "Practice speaking Chinese.",
+        "pinyin": "lian4 xi2 shuo1 yu3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-029",
+        "wordId": "L2-0360",
+        "zh": "请留在这里。",
+        "en": "Please stay here.",
+        "pinyin": "qing3 liu2 zai4 zhe4 li3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-030",
+        "wordId": "L2-0361",
+        "zh": "请留下你的电话。",
+        "en": "Please leave your phone number.",
+        "pinyin": "qing3 liu2 xia4 ni3 di4 dian4 hua4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-031",
+        "wordId": "L2-0363",
+        "zh": "水在流。",
+        "en": "Water is flowing.",
+        "pinyin": "shui3 zai4 liu2。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-032",
+        "wordId": "L2-0373",
+        "zh": "杯子满了。",
+        "en": "The cup is full.",
+        "pinyin": "bei1 zi5 man3 le5。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-033",
+        "wordId": "L2-0385",
+        "zh": "拿出你的书。",
+        "en": "Take out your book.",
+        "pinyin": "na2 chu1 ni3 di4 shu1。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-034",
+        "wordId": "L2-0402",
+        "zh": "别弄坏了。",
+        "en": "Don't break it.",
+        "pinyin": "bie2 nong4 huai4 le5。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-035",
+        "wordId": "L2-0403",
+        "zh": "努力学习。",
+        "en": "Study hard.",
+        "pinyin": "nu3 li4 xue2 xi2。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-036",
+        "wordId": "L2-0405",
+        "zh": "周末去爬山。",
+        "en": "Go hiking on the weekend.",
+        "pinyin": "zhou1 mo4 qu4 pa2 shan1。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-037",
+        "wordId": "L2-0406",
+        "zh": "我怕狗。",
+        "en": "I'm afraid of dogs.",
+        "pinyin": "wo3 pa4 gou3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-038",
+        "wordId": "L2-0408",
+        "zh": "请排队等候。",
+        "en": "Please line up and wait.",
+        "pinyin": "qing3 pai2 dui4 deng3 hou5。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-039",
+        "wordId": "L2-0410",
+        "zh": "别碰那个。",
+        "en": "Don't touch that.",
+        "pinyin": "bie2 peng4 na4 ge4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-040",
+        "wordId": "L2-0411",
+        "zh": "我碰到老朋友了。",
+        "en": "I ran into an old friend.",
+        "pinyin": "wo3 peng4 dao4 lao3 peng2 you5 le5。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-041",
+        "wordId": "L2-0412",
+        "zh": "我在街上碰见他。",
+        "en": "I met him on the street.",
+        "pinyin": "wo3 zai4 jie1 shang4 peng4 jian4 ta1。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-042",
+        "wordId": "L2-0429",
+        "zh": "他骑车上学。",
+        "en": "He rides a bike to school.",
+        "pinyin": "ta1 qi2 che1 shang4 xue2。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-043",
+        "wordId": "L2-0430",
+        "zh": "飞机起飞了。",
+        "en": "The plane took off.",
+        "pinyin": "fei1 ji1 qi3 fei1 le5。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-044",
+        "wordId": "L2-0443",
+        "zh": "今天我请客。",
+        "en": "It's my treat today.",
+        "pinyin": "jin1 tian1 wo3 qing3 ke4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-045",
+        "wordId": "L2-0444",
+        "zh": "我请求你的帮助。",
+        "en": "I request your help.",
+        "pinyin": "wo3 qing3 qiu2 ni3 di4 bang1 zhu4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-046",
+        "wordId": "L2-0446",
+        "zh": "求你别走。",
+        "en": "Please don't go.",
+        "pinyin": "qiu2 ni3 bie2 zou3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-047",
+        "wordId": "L2-0450",
+        "zh": "我去取钱。",
+        "en": "I'm going to withdraw money.",
+        "pinyin": "wo3 qu4 qu3 qian2。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-048",
+        "wordId": "L2-0460",
+        "zh": "让我想想。",
+        "en": "Let me think.",
+        "pinyin": "rang4 wo3 xiang3 xiang3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-049",
+        "wordId": "L2-0465",
+        "zh": "我认为你说得对。",
+        "en": "I think you're right.",
+        "pinyin": "wo3 ren4 wei2 ni3 shuo1 de2 dui4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-050",
+        "wordId": "L2-0470",
+        "zh": "我们商量一下。",
+        "en": "Let's discuss it.",
+        "pinyin": "wo3 men5 shang1 liang4 yi1 xia4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-051",
+        "wordId": "L2-0477",
+        "zh": "她生了一个男孩。",
+        "en": "She gave birth to a boy.",
+        "pinyin": "ta1 sheng1 le5 yi1 ge4 nan2。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-052",
+        "wordId": "L2-0479",
+        "zh": "我生活在北京。",
+        "en": "I live in Beijing.",
+        "pinyin": "wo3 sheng1 huo2 zai4 bei3。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-053",
+        "wordId": "L2-0481",
+        "zh": "省钱很重要。",
+        "en": "Saving money is important.",
+        "pinyin": "sheng3 qian2 hen3 zhong4 yao4。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-054",
+        "wordId": "L2-0109",
+        "zh": "树倒了。",
+        "en": "The tree fell.",
+        "pinyin": "shu4 dao3 le5。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-055",
+        "wordId": "L2-0129",
+        "zh": "我的钱包掉了。",
+        "en": "My wallet fell.",
+        "pinyin": "wo3 di4 qian2 bao1 diao4 le5。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-056",
+        "wordId": "L2-0277",
+        "zh": "这个东西叫作什么？",
+        "en": "What is this thing called?",
+        "pinyin": "zhe4 ge4 dong1 xi1 jiao4 zuo4 shen2 me5？"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-057",
+        "wordId": "L2-0757",
+        "zh": "请走开。",
+        "en": "Please go away.",
+        "pinyin": "qing3 zou3 kai1。"
+      },
+      {
+        "id": "b2-u03-verbs-2-apply-058",
+        "wordId": "L2-0066",
+        "zh": "请重复一遍。",
+        "en": "Please repeat it.",
+        "pinyin": "qing3 zhong4 fu4 yi1 bian4。"
+      }
+    ],
+    "b2-u04-verbs-3": [
+      {
+        "id": "b2-u04-verbs-3-apply-001",
+        "wordId": "L2-0485",
+        "zh": "他在公司实习。",
+        "en": "He's interning at a company.",
+        "pinyin": "ta1 zai4 gong1 si1 shi2 xi2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-002",
+        "wordId": "L2-0490",
+        "zh": "请小心使用这个。",
+        "en": "Please use this carefully.",
+        "pinyin": "qing3 xiao3 xin1 shi3 yong4 zhe4 ge4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-003",
+        "wordId": "L2-0494",
+        "zh": "我收下了这份礼物。",
+        "en": "I accepted this gift.",
+        "pinyin": "wo3 shou1 xia4 le5 zhe4 fen4 li3 wu4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-004",
+        "wordId": "L2-0498",
+        "zh": "她受到了大家的欢迎。",
+        "en": "She received a warm welcome from everyone.",
+        "pinyin": "ta1 shou4 dao4 le5 da4 jia1 di4 huan1 ying2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-005",
+        "wordId": "L2-0501",
+        "zh": "请数一下有多少人。",
+        "en": "Please count how many people there are.",
+        "pinyin": "qing3 shu4 yi1 xia4 you3 duo1 shao3 ren2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-006",
+        "wordId": "L2-0505",
+        "zh": "请说明原因。",
+        "en": "Please explain the reason.",
+        "pinyin": "qing3 shuo1 ming2 yuan2 yin1。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-007",
+        "wordId": "L2-0520",
+        "zh": "我们讨论问题。",
+        "en": "We discuss the problem.",
+        "pinyin": "wo3 men5 tao3 lun4 wen4 ti2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-008",
+        "wordId": "L2-0521",
+        "zh": "套上外套。",
+        "en": "Put on a coat.",
+        "pinyin": "tao4 shang4 wai4 tao4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-009",
+        "wordId": "L2-0524",
+        "zh": "我头疼。",
+        "en": "My head hurts.",
+        "pinyin": "wo3 tou5 teng2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-010",
+        "wordId": "L2-0525",
+        "zh": "提东西。",
+        "en": "Carry things.",
+        "pinyin": "ti2 dong1 xi1。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-011",
+        "wordId": "L2-0526",
+        "zh": "提出问题。",
+        "en": "Raise a question.",
+        "pinyin": "ti2 chu1 wen4 ti2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-012",
+        "wordId": "L2-0527",
+        "zh": "他提到你。",
+        "en": "He mentioned you.",
+        "pinyin": "ta1 ti2 dao4 ni3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-013",
+        "wordId": "L2-0528",
+        "zh": "提高水平。",
+        "en": "Improve the level.",
+        "pinyin": "ti2 gao1 shui3 ping2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-014",
+        "wordId": "L2-0536",
+        "zh": "学生在听讲。",
+        "en": "Students are listening to the lecture.",
+        "pinyin": "xue2 sheng1 zai4 ting1 jiang3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-015",
+        "wordId": "L2-0537",
+        "zh": "听说你要来。",
+        "en": "I heard you're coming.",
+        "pinyin": "ting1 shuo1 ni3 yao4 lai2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-016",
+        "wordId": "L2-0538",
+        "zh": "雨停了。",
+        "en": "The rain stopped.",
+        "pinyin": "yu3 ting2 le5。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-017",
+        "wordId": "L2-0539",
+        "zh": "这里不能停车。",
+        "en": "Can't park here.",
+        "pinyin": "zhe4 li3 bu4 neng2 ting2 che1。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-018",
+        "wordId": "L2-0543",
+        "zh": "电话通了。",
+        "en": "The call went through.",
+        "pinyin": "dian4 hua4 tong1 le5。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-019",
+        "wordId": "L2-0544",
+        "zh": "我通过了考试。",
+        "en": "I passed the exam.",
+        "pinyin": "wo3 tong1 guo4 le5 kao3 shi4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-020",
+        "wordId": "L2-0545",
+        "zh": "请通知大家。",
+        "en": "Please inform everyone.",
+        "pinyin": "qing3 tong1 zhi1 da4 jia1。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-021",
+        "wordId": "L2-0553",
+        "zh": "推门。",
+        "en": "Push the door.",
+        "pinyin": "tui1 men2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-022",
+        "wordId": "L2-0557",
+        "zh": "我做完作业了。",
+        "en": "I finished my homework.",
+        "pinyin": "wo3 zuo4 wan2 zuo4 ye4 le5。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-023",
+        "wordId": "L2-0569",
+        "zh": "往前走。",
+        "en": "Go forward.",
+        "pinyin": "wang3 qian2 zou3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-024",
+        "wordId": "L2-0580",
+        "zh": "我中午午睡。",
+        "en": "I take a nap at noon.",
+        "pinyin": "wo3 zhong1 wu3 wu3 shui4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-025",
+        "wordId": "L2-0588",
+        "zh": "我在洗澡。",
+        "en": "I am taking a bath.",
+        "pinyin": "wo3 zai4 xi3 zao3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-026",
+        "wordId": "L2-0594",
+        "zh": "我相信你。",
+        "en": "I believe you.",
+        "pinyin": "wo3 xiang1 xin4 ni3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-027",
+        "wordId": "L2-0601",
+        "zh": "他像他爸爸。",
+        "en": "He looks like his dad.",
+        "pinyin": "ta1 xiang4 ta1 ba4 ba4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-028",
+        "wordId": "L2-0606",
+        "zh": "小心点。",
+        "en": "Be careful.",
+        "pinyin": "xiao3 xin1 dian3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-029",
+        "wordId": "L2-0610",
+        "zh": "别笑话我。",
+        "en": "Don't laugh at me.",
+        "pinyin": "bie2 xiao4 hua4 wo3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-030",
+        "wordId": "L2-0630",
+        "zh": "选一个。",
+        "en": "Choose one.",
+        "pinyin": "xuan3 yi1 ge4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-031",
+        "wordId": "L2-0636",
+        "zh": "我养了一只狗。",
+        "en": "I keep a dog.",
+        "pinyin": "wo3 yang3 le5 yi1 zhi3 gou3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-032",
+        "wordId": "L2-0638",
+        "zh": "要求帮助。",
+        "en": "Request help.",
+        "pinyin": "yao4 qiu2 bang1 zhu4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-033",
+        "wordId": "L2-0651",
+        "zh": "一路顺风。",
+        "en": "Have a good trip.",
+        "pinyin": "yi1 lu4 shun4 feng1。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-034",
+        "wordId": "L2-0657",
+        "zh": "我以为他会来。",
+        "en": "I thought he would come.",
+        "pinyin": "wo3 yi3 wei2 ta1 hui4 lai2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-035",
+        "wordId": "L2-0679",
+        "zh": "这会影响学习。",
+        "en": "This affects studying.",
+        "pinyin": "zhe4 hui4 ying3 xiang3 xue2 xi2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-036",
+        "wordId": "L2-0696",
+        "zh": "我愿意帮你。",
+        "en": "I'm willing to help you.",
+        "pinyin": "wo3 yuan4 yi4 bang1 ni3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-037",
+        "wordId": "L2-0702",
+        "zh": "运动对身体好。",
+        "en": "Exercise is good for the body.",
+        "pinyin": "yun4 dong4 dui4 shen1 ti3 hao3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-038",
+        "wordId": "L2-0714",
+        "zh": "站住！",
+        "en": "Stop!",
+        "pinyin": "zhan4 zhu4！"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-039",
+        "wordId": "L2-0716",
+        "zh": "我想快点长大。",
+        "en": "I want to grow up quickly.",
+        "pinyin": "wo3 xiang3 kuai4 dian3 zhang3 da4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-040",
+        "wordId": "L2-0718",
+        "zh": "照顾老人。",
+        "en": "Take care of the elderly.",
+        "pinyin": "zhao4 gu4 lao3 ren2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-041",
+        "wordId": "L2-0741",
+        "zh": "重视教育。",
+        "en": "Value education.",
+        "pinyin": "zhong4 shi4 jiao4 yu4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-042",
+        "wordId": "L2-0749",
+        "zh": "装不知道。",
+        "en": "Pretend not to know.",
+        "pinyin": "zhuang1 bu4 zhi1 dao4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-043",
+        "wordId": "L2-0755",
+        "zh": "走过那条街。",
+        "en": "Walk past that street.",
+        "pinyin": "zou3 guo4 na4 tiao2 jie1。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-044",
+        "wordId": "L2-0756",
+        "zh": "走进房间。",
+        "en": "Enter the room.",
+        "pinyin": "zou3 jin4 fang2 jian1。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-045",
+        "wordId": "L2-0758",
+        "zh": "租房子。",
+        "en": "Rent a house.",
+        "pinyin": "zu1 fang2 zi5。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-046",
+        "wordId": "L2-0759",
+        "zh": "组一个队。",
+        "en": "Form a team.",
+        "pinyin": "zu3 yi1 ge4 dui4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-047",
+        "wordId": "L2-0760",
+        "zh": "组成小组。",
+        "en": "Form a group.",
+        "pinyin": "zu3 cheng2 xiao3 zu3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-048",
+        "wordId": "L2-0765",
+        "zh": "写作文。",
+        "en": "Write an essay.",
+        "pinyin": "xie3 zuo4 wen2。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-049",
+        "wordId": "L2-0770",
+        "zh": "做到最好。",
+        "en": "Do your best.",
+        "pinyin": "zuo4 dao4 zui4 hao3。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-050",
+        "wordId": "L2-0596",
+        "zh": "想到一个好主意。",
+        "en": "Thought of a good idea.",
+        "pinyin": "xiang3 dao4 yi1 ge4 hao3 zhu3 yi4。"
+      },
+      {
+        "id": "b2-u04-verbs-3-apply-051",
+        "wordId": "L2-0598",
+        "zh": "我想起你了。",
+        "en": "I remember you.",
+        "pinyin": "wo3 xiang3 qi3 ni3 le5。"
+      }
+    ],
+    "b2-u05-time": [
+      {
+        "id": "b2-u05-time-apply-001",
+        "wordId": "L2-0011",
+        "zh": "他半夜才回家。",
+        "en": "He came home at midnight.",
+        "pinyin": "ta1 ban4 ye4 cai2 hui2 jia1。"
+      },
+      {
+        "id": "b2-u05-time-apply-002",
+        "wordId": "L2-0108",
+        "zh": "我当时不在。",
+        "en": "I wasn't there at that time.",
+        "pinyin": "wo3 dang1 shi2 bu4 zai4。"
+      },
+      {
+        "id": "b2-u05-time-apply-003",
+        "wordId": "L2-0149",
+        "zh": "你等多久了？",
+        "en": "How long have you waited?",
+        "pinyin": "ni3 deng3 duo1 jiu3 le5？"
+      },
+      {
+        "id": "b2-u05-time-apply-004",
+        "wordId": "L2-0167",
+        "zh": "等十分钟。",
+        "en": "Wait ten minutes.",
+        "pinyin": "deng3 shi2 fen5 zhong1。"
+      },
+      {
+        "id": "b2-u05-time-apply-005",
+        "wordId": "L2-0181",
+        "zh": "他刚走。",
+        "en": "He just left.",
+        "pinyin": "ta1 gang1 zou3。"
+      },
+      {
+        "id": "b2-u05-time-apply-006",
+        "wordId": "L2-0182",
+        "zh": "他刚才走了。",
+        "en": "He just left.",
+        "pinyin": "ta1 gang1 cai2 zou3 le5。"
+      },
+      {
+        "id": "b2-u05-time-apply-007",
+        "wordId": "L2-0183",
+        "zh": "我刚刚到。",
+        "en": "I just arrived.",
+        "pinyin": "wo3 gang1 gang1 dao4。"
+      },
+      {
+        "id": "b2-u05-time-apply-008",
+        "wordId": "L2-0208",
+        "zh": "回家过年。",
+        "en": "Go home for New Year.",
+        "pinyin": "hui2 jia1 guo4 nian2。"
+      },
+      {
+        "id": "b2-u05-time-apply-009",
+        "wordId": "L2-0209",
+        "zh": "过去的事情。",
+        "en": "Things of the past.",
+        "pinyin": "guo4 qu4 di4 shi4 qing2。"
+      },
+      {
+        "id": "b2-u05-time-apply-010",
+        "wordId": "L2-0217",
+        "zh": "好久不见。",
+        "en": "Long time no see.",
+        "pinyin": "hao3 jiu3 bu4 jian4。"
+      },
+      {
+        "id": "b2-u05-time-apply-011",
+        "wordId": "L2-0228",
+        "zh": "后来他明白了。",
+        "en": "Later he understood.",
+        "pinyin": "hou4 lai2 ta1 ming2 bai2 le5。"
+      },
+      {
+        "id": "b2-u05-time-apply-012",
+        "wordId": "L2-0229",
+        "zh": "忽然下雨了。",
+        "en": "Suddenly it rained.",
+        "pinyin": "ran2 xia4 yu3 le5。"
+      },
+      {
+        "id": "b2-u05-time-apply-013",
+        "wordId": "L2-0290",
+        "zh": "节日快乐。",
+        "en": "Happy holiday.",
+        "pinyin": "jie2 ri4 kuai4 le4。"
+      },
+      {
+        "id": "b2-u05-time-apply-014",
+        "wordId": "L2-0324",
+        "zh": "三点一刻。",
+        "en": "Quarter past three.",
+        "pinyin": "san1 dian3 yi1 ke4。"
+      },
+      {
+        "id": "b2-u05-time-apply-015",
+        "wordId": "L2-0390-2",
+        "zh": "那时我还小。",
+        "en": "I was young then.",
+        "pinyin": "na4 shi2 wo3 hai2 xiao3。"
+      },
+      {
+        "id": "b2-u05-time-apply-016",
+        "wordId": "L2-0435",
+        "zh": "前年我去了北京。",
+        "en": "I went to Beijing the year before last.",
+        "pinyin": "qian2 nian2 wo3 qu4 le5 bei3。"
+      },
+      {
+        "id": "b2-u05-time-apply-017",
+        "wordId": "L2-0467",
+        "zh": "今天是个好日子。",
+        "en": "Today is a good day.",
+        "pinyin": "jin1 tian1 shi4 ge4 hao3 ri4 zi5。"
+      },
+      {
+        "id": "b2-u05-time-apply-018",
+        "wordId": "L2-0472",
+        "zh": "上周我病了。",
+        "en": "I was sick last week.",
+        "pinyin": "shang4 zhou1 wo3 bing4 le5。"
+      },
+      {
+        "id": "b2-u05-time-apply-019",
+        "wordId": "L2-0591",
+        "zh": "下周再见。",
+        "en": "See you next week.",
+        "pinyin": "xia4 zhou1 zai4 jian4。"
+      },
+      {
+        "id": "b2-u05-time-apply-020",
+        "wordId": "L2-0628",
+        "zh": "下周休假。",
+        "en": "Taking vacation next week.",
+        "pinyin": "xia4 zhou1 xiu1 jia3。"
+      },
+      {
+        "id": "b2-u05-time-apply-021",
+        "wordId": "L2-0649",
+        "zh": "等一会儿。",
+        "en": "Wait a moment.",
+        "pinyin": "deng3 yi1 hui4。"
+      },
+      {
+        "id": "b2-u05-time-apply-022",
+        "wordId": "L2-0653",
+        "zh": "以后再说。",
+        "en": "Talk about it later.",
+        "pinyin": "yi3 hou4 zai4 shuo1。"
+      },
+      {
+        "id": "b2-u05-time-apply-023",
+        "wordId": "L2-0654",
+        "zh": "以前我不认识你。",
+        "en": "I didn't know you before.",
+        "pinyin": "yi3 qian2 wo3 bu4 ren4 ni3。"
+      },
+      {
+        "id": "b2-u05-time-apply-024",
+        "wordId": "L2-0697",
+        "zh": "这个月份很忙。",
+        "en": "This month is busy.",
+        "pinyin": "zhe4 ge4 yue4 fen4 hen3 mang2。"
+      },
+      {
+        "id": "b2-u05-time-apply-025",
+        "wordId": "L2-0722-2",
+        "zh": "这时他来了。",
+        "en": "At this moment he came.",
+        "pinyin": "zhe4 shi2 ta1 lai2 le5。"
+      },
+      {
+        "id": "b2-u05-time-apply-026",
+        "wordId": "L2-0742",
+        "zh": "一周七天。",
+        "en": "Seven days a week.",
+        "pinyin": "yi1 zhou1 qi1 tian1。"
+      },
+      {
+        "id": "b2-u05-time-apply-027",
+        "wordId": "L2-0763",
+        "zh": "最近怎么样？",
+        "en": "How's it going lately?",
+        "pinyin": "zui4 jin4 zen3 me5 yang4？"
+      },
+      {
+        "id": "b2-u05-time-apply-028",
+        "wordId": "L2-0133",
+        "zh": "冬天很冷。",
+        "en": "Winter is cold.",
+        "pinyin": "dong1 tian1 hen3 leng3。"
+      },
+      {
+        "id": "b2-u05-time-apply-029",
+        "wordId": "L2-0294",
+        "zh": "今后要努力。",
+        "en": "From now on, work hard.",
+        "pinyin": "jin1 hou4 yao4 nu3 li4。"
+      },
+      {
+        "id": "b2-u05-time-apply-030",
+        "wordId": "L2-0388",
+        "zh": "那会儿我还小。",
+        "en": "I was young back then.",
+        "pinyin": "na4 hui4 wo3 hai2 xiao3。"
+      },
+      {
+        "id": "b2-u05-time-apply-031",
+        "wordId": "L2-0390",
+        "zh": "那时候没有手机。",
+        "en": "There were no phones back then.",
+        "pinyin": "na4 shi2 hou5 mei2 you3 shou3 ji1。"
+      },
+      {
+        "id": "b2-u05-time-apply-032",
+        "wordId": "L2-0421",
+        "zh": "平时我七点起床。",
+        "en": "I usually get up at seven.",
+        "pinyin": "ping2 shi2 wo3 qi1 dian3 qi3 chuang2。"
+      },
+      {
+        "id": "b2-u05-time-apply-033",
+        "wordId": "L2-0445",
+        "zh": "秋天很凉快。",
+        "en": "Autumn is cool.",
+        "pinyin": "qiu1 tian1 hen3 liang2 kuai4。"
+      },
+      {
+        "id": "b2-u05-time-apply-034",
+        "wordId": "L2-0512",
+        "zh": "随时欢迎。",
+        "en": "Welcome anytime.",
+        "pinyin": "sui2 shi2 huan1 ying2。"
+      },
+      {
+        "id": "b2-u05-time-apply-035",
+        "wordId": "L2-0592",
+        "zh": "夏天很热。",
+        "en": "Summer is hot.",
+        "pinyin": "xia4 tian1 hen3 re4。"
+      },
+      {
+        "id": "b2-u05-time-apply-036",
+        "wordId": "L2-0604",
+        "zh": "这是我小时候的照片。",
+        "en": "These are photos from my childhood.",
+        "pinyin": "zhe4 shi4 wo3 xiao3 shi2 hou5 di4 zhao4 pian4。"
+      },
+      {
+        "id": "b2-u05-time-apply-037",
+        "wordId": "L2-0645",
+        "zh": "夜里很安静。",
+        "en": "It's quiet at night.",
+        "pinyin": "ye4 li3 hen3 an1 jing4。"
+      },
+      {
+        "id": "b2-u05-time-apply-038",
+        "wordId": "L2-0707",
+        "zh": "早晨空气好。",
+        "en": "Morning air is good.",
+        "pinyin": "zao3 chen2 kong1 qi4 hao3。"
+      },
+      {
+        "id": "b2-u05-time-apply-039",
+        "wordId": "L2-0708",
+        "zh": "我早就知道了。",
+        "en": "I knew it long ago.",
+        "pinyin": "wo3 zao3 jiu4 zhi1 dao4 le5。"
+      },
+      {
+        "id": "b2-u05-time-apply-040",
+        "wordId": "L2-0084",
+        "zh": "他从小学习汉语。",
+        "en": "He's studied Chinese since childhood.",
+        "pinyin": "ta1 cong2 xiao3 xue2 xi2 yu3。"
+      },
+      {
+        "id": "b2-u05-time-apply-041",
+        "wordId": "L2-0261",
+        "zh": "假期去哪儿？",
+        "en": "Where to go on vacation?",
+        "pinyin": "jia3 qi1 qu4 na3？"
+      },
+      {
+        "id": "b2-u05-time-apply-042",
+        "wordId": "L2-0298",
+        "zh": "我经常喝茶。",
+        "en": "I often drink tea.",
+        "pinyin": "wo3 jing1 chang2 he1 cha2。"
+      },
+      {
+        "id": "b2-u05-time-apply-043",
+        "wordId": "L2-0722",
+        "zh": "这时候他应该在家。",
+        "en": "He should be home right now.",
+        "pinyin": "zhe4 shi2 hou5 ta1 ying5 gai1 zai4 jia1。"
+      },
+      {
+        "id": "b2-u05-time-apply-044",
+        "wordId": "L2-0662",
+        "zh": "一生难忘。",
+        "en": "Unforgettable lifetime.",
+        "pinyin": "yi1 sheng1 nan2 wang4。"
+      }
+    ],
+    "b2-u06-home": [
+      {
+        "id": "b2-u06-home-apply-001",
+        "wordId": "L2-0010",
+        "zh": "他在办公室工作。",
+        "en": "He works in an office.",
+        "pinyin": "ta1 zai4 ban4 gong1 shi4 gong1 zuo4。"
+      },
+      {
+        "id": "b2-u06-home-apply-002",
+        "wordId": "L2-0028",
+        "zh": "我的表快了。",
+        "en": "My watch is fast.",
+        "pinyin": "wo3 di4 biao3 kuai4 le5。"
+      },
+      {
+        "id": "b2-u06-home-apply-003",
+        "wordId": "L2-0071",
+        "zh": "他出门了。",
+        "en": "He went out.",
+        "pinyin": "ta1 chu1 men2 le5。"
+      },
+      {
+        "id": "b2-u06-home-apply-004",
+        "wordId": "L2-0093",
+        "zh": "大家好！",
+        "en": "Hello everyone!",
+        "pinyin": "da4 jia1 hao3！"
+      },
+      {
+        "id": "b2-u06-home-apply-005",
+        "wordId": "L2-0244",
+        "zh": "他下个月回国。",
+        "en": "He's returning to his country next month.",
+        "pinyin": "ta1 xia4 ge4 yue4 hui2 guo2。"
+      },
+      {
+        "id": "b2-u06-home-apply-006",
+        "wordId": "L2-0257",
+        "zh": "我家在北京。",
+        "en": "My home is in Beijing.",
+        "pinyin": "wo3 jia1 zai4 bei3。"
+      },
+      {
+        "id": "b2-u06-home-apply-007",
+        "wordId": "L2-0259",
+        "zh": "今天有家长会。",
+        "en": "There is a parent meeting today.",
+        "pinyin": "jin1 tian1 you3 jia1 zhang3 hui4。"
+      },
+      {
+        "id": "b2-u06-home-apply-008",
+        "wordId": "L2-0279",
+        "zh": "教室很干净。",
+        "en": "The classroom is clean.",
+        "pinyin": "jiao4 shi4 hen3 gan1。"
+      },
+      {
+        "id": "b2-u06-home-apply-009",
+        "wordId": "L2-0326",
+        "zh": "课堂上要安静。",
+        "en": "You should be quiet in class.",
+        "pinyin": "ke4 tang2 shang4 yao4 an1 jing4。"
+      },
+      {
+        "id": "b2-u06-home-apply-010",
+        "wordId": "L2-0375",
+        "zh": "我家有只猫。",
+        "en": "My family has a cat.",
+        "pinyin": "wo3 jia1 you3 zhi3 mao1。"
+      },
+      {
+        "id": "b2-u06-home-apply-011",
+        "wordId": "L2-0626",
+        "zh": "你姓什么？",
+        "en": "What's your last name?",
+        "pinyin": "ni3 xing4 shen2 me5？"
+      },
+      {
+        "id": "b2-u06-home-apply-012",
+        "wordId": "L2-0627",
+        "zh": "请写下你的姓名。",
+        "en": "Please write your name.",
+        "pinyin": "qing3 xie3 xia4 ni3 di4 xing4 ming2。"
+      },
+      {
+        "id": "b2-u06-home-apply-013",
+        "wordId": "L2-0694",
+        "zh": "院长讲话。",
+        "en": "The dean speaks.",
+        "pinyin": "yuan4 zhang3 jiang3 hua4。"
+      },
+      {
+        "id": "b2-u06-home-apply-014",
+        "wordId": "L2-0766",
+        "zh": "做作业。",
+        "en": "Do homework.",
+        "pinyin": "zuo4 zuo4 ye4。"
+      },
+      {
+        "id": "b2-u06-home-apply-015",
+        "wordId": "L2-0747",
+        "zh": "住房是一个大问题。",
+        "en": "Housing is a major issue.",
+        "pinyin": "zhu4 fang2 shi4 yi1 ge4 da4 wen4 ti2。"
+      }
+    ],
+    "b2-u07-food": [
+      {
+        "id": "b2-u07-food-apply-001",
+        "wordId": "L2-0013",
+        "zh": "我吃饱了。",
+        "en": "I'm full.",
+        "pinyin": "wo3 chi1 bao3 le5。"
+      },
+      {
+        "id": "b2-u07-food-apply-002",
+        "wordId": "L2-0047",
+        "zh": "请给我菜单。",
+        "en": "Please give me the menu.",
+        "pinyin": "qing3 gei3 wo3 cai4 dan1。"
+      },
+      {
+        "id": "b2-u07-food-apply-003",
+        "wordId": "L2-0156",
+        "zh": "这家饭馆很好。",
+        "en": "This restaurant is good.",
+        "pinyin": "zhe4 jia1 fan4 guan3 hen3 hao3。"
+      },
+      {
+        "id": "b2-u07-food-apply-004",
+        "wordId": "L2-0175",
+        "zh": "来，干杯！",
+        "en": "Come, cheers!",
+        "pinyin": "lai2， gan1 bei1！"
+      },
+      {
+        "id": "b2-u07-food-apply-005",
+        "wordId": "L2-0329",
+        "zh": "吃快餐。",
+        "en": "Eat fast food.",
+        "pinyin": "chi1 kuai4 can1。"
+      },
+      {
+        "id": "b2-u07-food-apply-006",
+        "wordId": "L2-0376",
+        "zh": "买米。",
+        "en": "Buy rice.",
+        "pinyin": "mai3 mi3。"
+      },
+      {
+        "id": "b2-u07-food-apply-007",
+        "wordId": "L2-0489",
+        "zh": "这是健康的食物。",
+        "en": "This is healthy food.",
+        "pinyin": "zhe4 shi4 jian4 kang1 di4 shi2 wu4。"
+      },
+      {
+        "id": "b2-u07-food-apply-008",
+        "wordId": "L2-0562",
+        "zh": "一起吃晚餐。",
+        "en": "Have dinner together.",
+        "pinyin": "yi1 qi3 chi1 wan3 can1。"
+      },
+      {
+        "id": "b2-u07-food-apply-009",
+        "wordId": "L2-0582",
+        "zh": "我喜欢西餐。",
+        "en": "I like Western food.",
+        "pinyin": "wo3 huan1 xi1 can1。"
+      },
+      {
+        "id": "b2-u07-food-apply-010",
+        "wordId": "L2-0689",
+        "zh": "吃鱼健康。",
+        "en": "Eating fish is healthy.",
+        "pinyin": "chi1 yu2 jian4 kang1。"
+      },
+      {
+        "id": "b2-u07-food-apply-011",
+        "wordId": "L2-0734",
+        "zh": "中餐很好吃。",
+        "en": "Chinese food is delicious.",
+        "pinyin": "zhong1 can1 hen3 hao3 chi1。"
+      },
+      {
+        "id": "b2-u07-food-apply-012",
+        "wordId": "L2-0772",
+        "zh": "妈妈在做饭。",
+        "en": "Mom is cooking.",
+        "pinyin": "ma1 ma1 zai4 zuo4 fan4。"
+      },
+      {
+        "id": "b2-u07-food-apply-013",
+        "wordId": "L2-0106",
+        "zh": "吃鸡蛋。",
+        "en": "Eat eggs.",
+        "pinyin": "chi1 ji1 dan4。"
+      },
+      {
+        "id": "b2-u07-food-apply-014",
+        "wordId": "L2-0144",
+        "zh": "他是队长。",
+        "en": "He is the captain.",
+        "pinyin": "ta1 shi4 dui4 zhang3。"
+      },
+      {
+        "id": "b2-u07-food-apply-015",
+        "wordId": "L2-0147",
+        "zh": "我家对面有个公园。",
+        "en": "There's a park opposite my house.",
+        "pinyin": "wo3 jia1 dui4 mian4 you3 ge4 gong1。"
+      },
+      {
+        "id": "b2-u07-food-apply-016",
+        "wordId": "L2-0158",
+        "zh": "晚上吃方便面。",
+        "en": "Eat instant noodles at night.",
+        "pinyin": "wan3 shang4 chi1 fang1 bian4 mian4。"
+      },
+      {
+        "id": "b2-u07-food-apply-017",
+        "wordId": "L2-0160",
+        "zh": "这方面我不懂。",
+        "en": "I don't understand this aspect.",
+        "pinyin": "zhe4 fang1 mian4 wo3 bu4 dong3。"
+      },
+      {
+        "id": "b2-u07-food-apply-018",
+        "wordId": "L2-0275",
+        "zh": "我喜欢吃饺子。",
+        "en": "I like eating dumplings.",
+        "pinyin": "wo3 huan1 chi1 jiao3 zi5。"
+      },
+      {
+        "id": "b2-u07-food-apply-019",
+        "wordId": "L2-0301",
+        "zh": "少喝酒。",
+        "en": "Drink less alcohol.",
+        "pinyin": "shao3 he1 jiu3。"
+      },
+      {
+        "id": "b2-u07-food-apply-020",
+        "wordId": "L2-0377",
+        "zh": "吃面。",
+        "en": "Eat noodles.",
+        "pinyin": "chi1 mian4。"
+      },
+      {
+        "id": "b2-u07-food-apply-021",
+        "wordId": "L2-0378",
+        "zh": "牛肉面。",
+        "en": "Beef noodles.",
+        "pinyin": "rou4 mian4。"
+      },
+      {
+        "id": "b2-u07-food-apply-022",
+        "wordId": "L2-0379",
+        "zh": "在我面前。",
+        "en": "In front of me.",
+        "pinyin": "zai4 wo3 mian4 qian2。"
+      },
+      {
+        "id": "b2-u07-food-apply-023",
+        "wordId": "L2-0448",
+        "zh": "他加入了球队。",
+        "en": "He joined the team.",
+        "pinyin": "ta1 jia1 ru4 le5 qiu2 dui4。"
+      },
+      {
+        "id": "b2-u07-food-apply-024",
+        "wordId": "L2-0556",
+        "zh": "点外卖。",
+        "en": "Order takeout.",
+        "pinyin": "dian3 wai4 mai4。"
+      },
+      {
+        "id": "b2-u07-food-apply-025",
+        "wordId": "L2-0250",
+        "zh": "鸡肉很好吃。",
+        "en": "Chicken is delicious.",
+        "pinyin": "ji1 rou4 hen3 hao3 chi1。"
+      },
+      {
+        "id": "b2-u07-food-apply-026",
+        "wordId": "L2-0579",
+        "zh": "午餐吃什么？",
+        "en": "What's for lunch?",
+        "pinyin": "wu3 can1 chi1 shen2 me5？"
+      },
+      {
+        "id": "b2-u07-food-apply-027",
+        "wordId": "L2-0706",
+        "zh": "早餐很重要。",
+        "en": "Breakfast is important.",
+        "pinyin": "zao3 can1 hen3 zhong4 yao4。"
+      }
+    ],
+    "b2-u08-shopping": [
+      {
+        "id": "b2-u08-shopping-apply-001",
+        "wordId": "L2-0128",
+        "zh": "书店。",
+        "en": "Bookstore.",
+        "pinyin": "shu1 dian4。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-002",
+        "wordId": "L2-0200",
+        "zh": "顾客很多。",
+        "en": "Many customers.",
+        "pinyin": "gu4 ke4 hen3 duo1。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-003",
+        "wordId": "L2-0205",
+        "zh": "看电视广告。",
+        "en": "Watch TV commercials.",
+        "pinyin": "kan4 dian4 shi4 guang3 gao4。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-004",
+        "wordId": "L2-0323",
+        "zh": "这个重五百克。",
+        "en": "This weighs 500 grams.",
+        "pinyin": "zhe4 ge4 zhong4 wu3 bai3 ke4。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-005",
+        "wordId": "L2-0346",
+        "zh": "生日礼物。",
+        "en": "Birthday gift.",
+        "pinyin": "sheng1 ri4 li3 wu4。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-006",
+        "wordId": "L2-0372",
+        "zh": "这家店卖衣服。",
+        "en": "This store sells clothes.",
+        "pinyin": "zhe4 jia1 dian4 mai4 yi1 fu5。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-007",
+        "wordId": "L2-0414",
+        "zh": "这个衣服很便宜。",
+        "en": "This piece of clothing is very cheap.",
+        "pinyin": "zhe4 ge4 yi1 fu5 hen3 bian4 yi5。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-008",
+        "wordId": "L2-0434",
+        "zh": "一千克大米。",
+        "en": "One kilogram of rice.",
+        "pinyin": "yi1 qian1 ke4 da4 mi3。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-009",
+        "wordId": "L2-0265",
+        "zh": "一件衣服。",
+        "en": "One piece of clothing.",
+        "pinyin": "yi1 jian4 yi1 fu5。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-010",
+        "wordId": "L2-0356",
+        "zh": "两块钱。",
+        "en": "Two yuan.",
+        "pinyin": "liang3 kuai4 qian2。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-011",
+        "wordId": "L2-0433",
+        "zh": "一千元。",
+        "en": "One thousand yuan.",
+        "pinyin": "yi1 qian1 yuan2。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-012",
+        "wordId": "L2-0534",
+        "zh": "一条鱼。",
+        "en": "One fish.",
+        "pinyin": "yi1 tiao2 yu2。"
+      },
+      {
+        "id": "b2-u08-shopping-apply-013",
+        "wordId": "L2-0565",
+        "zh": "一万元。",
+        "en": "Ten thousand yuan.",
+        "pinyin": "yi1 wan4 yuan2。"
+      }
+    ],
+    "b2-u09-travel": [
+      {
+        "id": "b2-u09-travel-apply-001",
+        "wordId": "L2-0076",
+        "zh": "坐出租车去机场。",
+        "en": "Take a taxi to the airport.",
+        "pinyin": "zuo4 chu1 zu1 che1 qu4 ji1 chang3。"
+      },
+      {
+        "id": "b2-u09-travel-apply-002",
+        "wordId": "L2-0126",
+        "zh": "地铁站在前面。",
+        "en": "The subway station is ahead.",
+        "pinyin": "di4 tie3 zhan4 zai4 qian2 mian4。"
+      },
+      {
+        "id": "b2-u09-travel-apply-003",
+        "wordId": "L2-0188",
+        "zh": "坐公共汽车上学。",
+        "en": "Take the bus to school.",
+        "pinyin": "zuo4 gong1 gong4 qi4 che1 shang4 xue2。"
+      },
+      {
+        "id": "b2-u09-travel-apply-004",
+        "wordId": "L2-0189",
+        "zh": "公交车来了。",
+        "en": "The bus is coming.",
+        "pinyin": "gong1 jiao1 che1 lai2 le5。"
+      },
+      {
+        "id": "b2-u09-travel-apply-005",
+        "wordId": "L2-0191",
+        "zh": "一公里路。",
+        "en": "One kilometer of road.",
+        "pinyin": "yi1 gong1 li3 lu4。"
+      },
+      {
+        "id": "b2-u09-travel-apply-006",
+        "wordId": "L2-0192",
+        "zh": "公路上车很多。",
+        "en": "There are many cars on the highway.",
+        "pinyin": "gong1 lu4 shang4 che1 hen3 duo1。"
+      },
+      {
+        "id": "b2-u09-travel-apply-007",
+        "wordId": "L2-0272",
+        "zh": "这里的交通很好。",
+        "en": "Traffic here is very good.",
+        "pinyin": "zhe4 li3 di4 jiao1 tong1 hen3 hao3。"
+      },
+      {
+        "id": "b2-u09-travel-apply-008",
+        "wordId": "L2-0367",
+        "zh": "旅客很多。",
+        "en": "Many travelers.",
+        "pinyin": "lv3 ke4 hen3 duo1。"
+      },
+      {
+        "id": "b2-u09-travel-apply-009",
+        "wordId": "L2-0368",
+        "zh": "我喜欢旅行。",
+        "en": "I like to travel.",
+        "pinyin": "wo3 huan1 lv3 xing2。"
+      },
+      {
+        "id": "b2-u09-travel-apply-010",
+        "wordId": "L2-0369",
+        "zh": "去北京旅游。",
+        "en": "Travel to Beijing.",
+        "pinyin": "qu4 bei3 lv3 you2。"
+      },
+      {
+        "id": "b2-u09-travel-apply-011",
+        "wordId": "L2-0624",
+        "zh": "这里有很多行人。",
+        "en": "There are many pedestrians here.",
+        "pinyin": "zhe4 li3 you3 hen3 duo1 xing2 ren2。"
+      },
+      {
+        "id": "b2-u09-travel-apply-012",
+        "wordId": "L2-0682",
+        "zh": "很多游客。",
+        "en": "Many tourists.",
+        "pinyin": "hen3 duo1 you2 ke4。"
+      },
+      {
+        "id": "b2-u09-travel-apply-013",
+        "wordId": "L2-0713",
+        "zh": "请问，火车站怎么走？",
+        "en": "Excuse me, how do I get to the train station?",
+        "pinyin": "qing3 wen4， che1 zhan4 zen3 me5 zou3？"
+      },
+      {
+        "id": "b2-u09-travel-apply-014",
+        "wordId": "L2-0231",
+        "zh": "请给我看你的护照。",
+        "en": "Please show me your passport.",
+        "pinyin": "qing3 gei3 wo3 kan4 ni3 di4 hu4 zhao4。"
+      },
+      {
+        "id": "b2-u09-travel-apply-015",
+        "wordId": "L2-0752",
+        "zh": "骑自行车上学。",
+        "en": "Ride a bike to school.",
+        "pinyin": "qi2 zi4 xing2 che1 shang4 xue2。"
+      },
+      {
+        "id": "b2-u09-travel-apply-016",
+        "wordId": "L2-0061",
+        "zh": "车辆很多。",
+        "en": "Many vehicles.",
+        "pinyin": "che1 liang4 hen3 duo1。"
+      },
+      {
+        "id": "b2-u09-travel-apply-017",
+        "wordId": "L2-0077",
+        "zh": "坐船过河。",
+        "en": "Take a boat across the river.",
+        "pinyin": "zuo4 chuan2 guo4 he2。"
+      },
+      {
+        "id": "b2-u09-travel-apply-018",
+        "wordId": "L2-0125",
+        "zh": "坐地铁很快。",
+        "en": "Taking the subway is fast.",
+        "pinyin": "zuo4 di4 tie3 hen3 kuai4。"
+      },
+      {
+        "id": "b2-u09-travel-apply-019",
+        "wordId": "L2-0540",
+        "zh": "车在停车场。",
+        "en": "The car is in the parking lot.",
+        "pinyin": "che1 zai4 ting2 che1 chang3。"
+      },
+      {
+        "id": "b2-u09-travel-apply-020",
+        "wordId": "L2-0069",
+        "zh": "他出国了。",
+        "en": "He went abroad.",
+        "pinyin": "ta1 chu1 guo2 le5。"
+      },
+      {
+        "id": "b2-u09-travel-apply-021",
+        "wordId": "L2-0070",
+        "zh": "出口在那边。",
+        "en": "The exit is over there.",
+        "pinyin": "chu1 kou3 zai4 na4 bian1。"
+      },
+      {
+        "id": "b2-u09-travel-apply-022",
+        "wordId": "L2-0469",
+        "zh": "入口在这里。",
+        "en": "The entrance is here.",
+        "pinyin": "ru4 kou3 zai4 zhe4 li3。"
+      },
+      {
+        "id": "b2-u09-travel-apply-023",
+        "wordId": "L2-0506",
+        "zh": "司机开车很快。",
+        "en": "The driver drives fast.",
+        "pinyin": "si1 ji1 kai1 che1 hen3 kuai4。"
+      },
+      {
+        "id": "b2-u09-travel-apply-024",
+        "wordId": "L2-0555",
+        "zh": "他去外地工作了。",
+        "en": "He went to work in another city.",
+        "pinyin": "ta1 qu4 wai4 di4 gong1 zuo4 le5。"
+      }
+    ],
+    "b2-u10-health": [
+      {
+        "id": "b2-u10-health-apply-001",
+        "wordId": "L2-0074",
+        "zh": "他明天出院。",
+        "en": "He's leaving the hospital tomorrow.",
+        "pinyin": "ta1 ming2 tian1 chu1 yuan4。"
+      },
+      {
+        "id": "b2-u10-health-apply-002",
+        "wordId": "L2-0266",
+        "zh": "身体健康。",
+        "en": "Good health.",
+        "pinyin": "shen1 ti3 jian4 kang1。"
+      },
+      {
+        "id": "b2-u10-health-apply-003",
+        "wordId": "L2-0395",
+        "zh": "我很难受。",
+        "en": "I feel terrible.",
+        "pinyin": "wo3 hen3 nan2 shou4。"
+      },
+      {
+        "id": "b2-u10-health-apply-004",
+        "wordId": "L2-0639",
+        "zh": "吃药。",
+        "en": "Take medicine.",
+        "pinyin": "chi1 yao4。"
+      },
+      {
+        "id": "b2-u10-health-apply-005",
+        "wordId": "L2-0739",
+        "zh": "看中医。",
+        "en": "See a Chinese medicine doctor.",
+        "pinyin": "kan4 zhong1 yi1。"
+      },
+      {
+        "id": "b2-u10-health-apply-006",
+        "wordId": "L2-0748",
+        "zh": "他住院了。",
+        "en": "He's in the hospital.",
+        "pinyin": "ta1 zhu4 yuan4 le5。"
+      },
+      {
+        "id": "b2-u10-health-apply-007",
+        "wordId": "L2-0276",
+        "zh": "我的脚疼。",
+        "en": "My foot hurts.",
+        "pinyin": "wo3 di4 jiao3 teng2。"
+      },
+      {
+        "id": "b2-u10-health-apply-008",
+        "wordId": "L2-0351",
+        "zh": "洗脸。",
+        "en": "Wash face.",
+        "pinyin": "xi3 lian3。"
+      },
+      {
+        "id": "b2-u10-health-apply-009",
+        "wordId": "L2-0457",
+        "zh": "全身都疼。",
+        "en": "Whole body hurts.",
+        "pinyin": "quan2 shen1 dou1 teng2。"
+      },
+      {
+        "id": "b2-u10-health-apply-010",
+        "wordId": "L2-0550",
+        "zh": "头疼。",
+        "en": "Headache.",
+        "pinyin": "tou5 teng2。"
+      },
+      {
+        "id": "b2-u10-health-apply-011",
+        "wordId": "L2-0551",
+        "zh": "长头发。",
+        "en": "Long hair.",
+        "pinyin": "zhang3 tou5 fa5。"
+      },
+      {
+        "id": "b2-u10-health-apply-012",
+        "wordId": "L2-0634",
+        "zh": "眼睛。",
+        "en": "Eyes.",
+        "pinyin": "yan3 jing5。"
+      },
+      {
+        "id": "b2-u10-health-apply-013",
+        "wordId": "L2-0635",
+        "zh": "她的眼睛很大。",
+        "en": "Her eyes are big.",
+        "pinyin": "ta1 di4 yan3 jing5 hen3 da4。"
+      },
+      {
+        "id": "b2-u10-health-apply-014",
+        "wordId": "L2-0585",
+        "zh": "看西医。",
+        "en": "See a Western doctor.",
+        "pinyin": "kan4 xi1 yi1。"
+      },
+      {
+        "id": "b2-u10-health-apply-015",
+        "wordId": "L2-0549",
+        "zh": "洗头。",
+        "en": "Wash hair.",
+        "pinyin": "xi3 tou5。"
+      }
+    ],
+    "b2-u11-weather": [
+      {
+        "id": "b2-u11-weather-apply-001",
+        "wordId": "L2-0078",
+        "zh": "风吹着。",
+        "en": "The wind is blowing.",
+        "pinyin": "feng1 chui1 zhe5。"
+      },
+      {
+        "id": "b2-u11-weather-apply-002",
+        "wordId": "L2-0152",
+        "zh": "今天多云。",
+        "en": "It's cloudy today.",
+        "pinyin": "jin1 tian1 duo1 yun2。"
+      },
+      {
+        "id": "b2-u11-weather-apply-003",
+        "wordId": "L2-0354",
+        "zh": "天气凉了。",
+        "en": "The weather is cool.",
+        "pinyin": "tian1 qi4 liang2 le5。"
+      },
+      {
+        "id": "b2-u11-weather-apply-004",
+        "wordId": "L2-0355",
+        "zh": "秋天很凉快。",
+        "en": "Autumn is cool.",
+        "pinyin": "qiu1 tian1 hen3 liang2 kuai4。"
+      },
+      {
+        "id": "b2-u11-weather-apply-005",
+        "wordId": "L2-0431",
+        "zh": "空气很好。",
+        "en": "The air is good.",
+        "pinyin": "kong1 qi4 hen3 hao3。"
+      },
+      {
+        "id": "b2-u11-weather-apply-006",
+        "wordId": "L2-0432",
+        "zh": "气温很高。",
+        "en": "The temperature is high.",
+        "pinyin": "qi4 wen1 hen3 gao1。"
+      },
+      {
+        "id": "b2-u11-weather-apply-007",
+        "wordId": "L2-0442",
+        "zh": "今天是晴天。",
+        "en": "Today is sunny.",
+        "pinyin": "jin1 tian1 shi4 qing2 tian1。"
+      },
+      {
+        "id": "b2-u11-weather-apply-008",
+        "wordId": "L2-0518",
+        "zh": "太阳出来了。",
+        "en": "The sun came out.",
+        "pinyin": "tai5 yang2 chu1 lai2 le5。"
+      },
+      {
+        "id": "b2-u11-weather-apply-009",
+        "wordId": "L2-0590",
+        "zh": "下雪了。",
+        "en": "It's snowing.",
+        "pinyin": "xia4 xue3 le5。"
+      },
+      {
+        "id": "b2-u11-weather-apply-010",
+        "wordId": "L2-0632",
+        "zh": "白色的雪。",
+        "en": "White snow.",
+        "pinyin": "bai2 se4 di4 xue3。"
+      },
+      {
+        "id": "b2-u11-weather-apply-011",
+        "wordId": "L2-0669",
+        "zh": "今天是阴天。",
+        "en": "It's overcast today.",
+        "pinyin": "jin1 tian1 shi4 yin1 tian1。"
+      },
+      {
+        "id": "b2-u11-weather-apply-012",
+        "wordId": "L2-0701",
+        "zh": "天上有很多云。",
+        "en": "There are many clouds in the sky.",
+        "pinyin": "tian1 shang4 you3 hen3 duo1 yun2。"
+      },
+      {
+        "id": "b2-u11-weather-apply-013",
+        "wordId": "L2-0211",
+        "zh": "看海。",
+        "en": "Look at the sea.",
+        "pinyin": "kan4 hai3。"
+      },
+      {
+        "id": "b2-u11-weather-apply-014",
+        "wordId": "L2-0359",
+        "zh": "气温零下五度。",
+        "en": "Temperature is minus five degrees.",
+        "pinyin": "qi4 wen1 ling2 xia4 wu3 du4。"
+      },
+      {
+        "id": "b2-u11-weather-apply-015",
+        "wordId": "L2-0533",
+        "zh": "天上有鸟。",
+        "en": "There are birds in the sky.",
+        "pinyin": "tian1 shang4 you3 niao3。"
+      },
+      {
+        "id": "b2-u11-weather-apply-016",
+        "wordId": "L2-0575",
+        "zh": "温度多少？",
+        "en": "What's the temperature?",
+        "pinyin": "wen1 du4 duo1 shao3？"
+      },
+      {
+        "id": "b2-u11-weather-apply-017",
+        "wordId": "L2-0622",
+        "zh": "晚上看星星。",
+        "en": "Look at stars at night.",
+        "pinyin": "wan3 shang4 kan4 xing1 xing1。"
+      },
+      {
+        "id": "b2-u11-weather-apply-018",
+        "wordId": "L2-0100",
+        "zh": "喜欢大自然。",
+        "en": "Love nature.",
+        "pinyin": "huan1 da4 zi4 ran2。"
+      },
+      {
+        "id": "b2-u11-weather-apply-019",
+        "wordId": "L2-0401",
+        "zh": "小鸟在飞。",
+        "en": "Little birds are flying.",
+        "pinyin": "xiao3 niao3 zai4 fei1。"
+      },
+      {
+        "id": "b2-u11-weather-apply-020",
+        "wordId": "L2-0050",
+        "zh": "草地很绿。",
+        "en": "The grass is green.",
+        "pinyin": "cao3 di4 hen3 lv4。"
+      },
+      {
+        "id": "b2-u11-weather-apply-021",
+        "wordId": "L2-0080",
+        "zh": "春天花开了。",
+        "en": "Flowers bloom in spring.",
+        "pinyin": "chun1 tian1 hua1 kai1 le5。"
+      },
+      {
+        "id": "b2-u11-weather-apply-022",
+        "wordId": "L2-0092",
+        "zh": "大海很蓝。",
+        "en": "The ocean is blue.",
+        "pinyin": "da4 hai3 hen3 lan2。"
+      }
+    ],
+    "b2-u12-social": [
+      {
+        "id": "b2-u12-social-apply-001",
+        "wordId": "L2-0079",
+        "zh": "春节快乐。",
+        "en": "Happy Spring Festival.",
+        "pinyin": "chun1 jie2 kuai4 le4。"
+      },
+      {
+        "id": "b2-u12-social-apply-002",
+        "wordId": "L2-0198",
+        "zh": "讲个故事。",
+        "en": "Tell a story.",
+        "pinyin": "jiang3 ge4 gu4 shi4。"
+      },
+      {
+        "id": "b2-u12-social-apply-003",
+        "wordId": "L2-0219",
+        "zh": "做了一件好事。",
+        "en": "Did a good deed.",
+        "pinyin": "zuo4 le5 yi1 jian4 hao3 shi4。"
+      },
+      {
+        "id": "b2-u12-social-apply-004",
+        "wordId": "L2-0246",
+        "zh": "参加活动。",
+        "en": "Participate in activities.",
+        "pinyin": "can1 jia1 huo2 dong4。"
+      },
+      {
+        "id": "b2-u12-social-apply-005",
+        "wordId": "L2-0269",
+        "zh": "交作业。",
+        "en": "Hand in homework.",
+        "pinyin": "jiao1 zuo4 ye4。"
+      },
+      {
+        "id": "b2-u12-social-apply-006",
+        "wordId": "L2-0271",
+        "zh": "我想和你交朋友。",
+        "en": "I want to be friends with you.",
+        "pinyin": "wo3 xiang3 he2 ni3 jiao1 peng2 you5。"
+      },
+      {
+        "id": "b2-u12-social-apply-007",
+        "wordId": "L2-0437",
+        "zh": "他是一个青年。",
+        "en": "He is a young person.",
+        "pinyin": "ta1 shi4 yi1 ge4 qing1 nian2。"
+      },
+      {
+        "id": "b2-u12-social-apply-008",
+        "wordId": "L2-0499",
+        "zh": "很舒服。",
+        "en": "Very comfortable.",
+        "pinyin": "hen3 shu1 fu5。"
+      },
+      {
+        "id": "b2-u12-social-apply-009",
+        "wordId": "L2-0573",
+        "zh": "味道很好。",
+        "en": "Tastes good.",
+        "pinyin": "wei4 dao4 hen3 hao3。"
+      },
+      {
+        "id": "b2-u12-social-apply-010",
+        "wordId": "L2-0625",
+        "zh": "好的行为。",
+        "en": "Good behavior.",
+        "pinyin": "hao3 di4 xing2 wei2。"
+      },
+      {
+        "id": "b2-u12-social-apply-011",
+        "wordId": "L2-0683",
+        "zh": "他对我很友好。",
+        "en": "He's friendly to me.",
+        "pinyin": "ta1 dui4 wo3 hen3 you5 hao3。"
+      },
+      {
+        "id": "b2-u12-social-apply-012",
+        "wordId": "L2-0684",
+        "zh": "有空儿来找我。",
+        "en": "Come find me when you're free.",
+        "pinyin": "you3 kong1 lai2 zhao3 wo3。"
+      },
+      {
+        "id": "b2-u12-social-apply-013",
+        "wordId": "L2-0720",
+        "zh": "我们一起照相。",
+        "en": "Let's take a photo together.",
+        "pinyin": "wo3 men5 yi1 qi3 zhao4 xiang1。"
+      },
+      {
+        "id": "b2-u12-social-apply-014",
+        "wordId": "L2-0767",
+        "zh": "起什么作用？",
+        "en": "What function does it serve?",
+        "pinyin": "qi3 shen2 me5 zuo4 yong4？"
+      },
+      {
+        "id": "b2-u12-social-apply-015",
+        "wordId": "L2-0113",
+        "zh": "你说的有道理。",
+        "en": "What you said makes sense.",
+        "pinyin": "ni3 shuo1 di4 you3 dao4 li3。"
+      },
+      {
+        "id": "b2-u12-social-apply-016",
+        "wordId": "L2-0159",
+        "zh": "学习方法很重要。",
+        "en": "Study methods are important.",
+        "pinyin": "xue2 xi2 fang1 fa3 hen3 zhong4 yao4。"
+      },
+      {
+        "id": "b2-u12-social-apply-017",
+        "wordId": "L2-0249",
+        "zh": "好机会。",
+        "en": "Good opportunity.",
+        "pinyin": "hao3 ji1 hui4。"
+      },
+      {
+        "id": "b2-u12-social-apply-018",
+        "wordId": "L2-0256",
+        "zh": "加油！你可以的。",
+        "en": "Come on! You can do it.",
+        "pinyin": "jia1 you2！ ni3 ke3 yi3 di4。"
+      },
+      {
+        "id": "b2-u12-social-apply-019",
+        "wordId": "L2-0291",
+        "zh": "考试结果。",
+        "en": "Exam results.",
+        "pinyin": "kao3 shi4 jie2 guo3。"
+      },
+      {
+        "id": "b2-u12-social-apply-020",
+        "wordId": "L2-0313",
+        "zh": "你的看法是什么？",
+        "en": "What's your view?",
+        "pinyin": "ni3 di4 kan4 fa3 shi4 shen2 me5？"
+      },
+      {
+        "id": "b2-u12-social-apply-021",
+        "wordId": "L2-0493",
+        "zh": "有什么事情吗？",
+        "en": "Is there anything going on?",
+        "pinyin": "you3 shen2 me5 shi4 qing2 ma5？"
+      },
+      {
+        "id": "b2-u12-social-apply-022",
+        "wordId": "L2-0519",
+        "zh": "态度很好。",
+        "en": "Good attitude.",
+        "pinyin": "tai4 du4 hen3 hao3。"
+      },
+      {
+        "id": "b2-u12-social-apply-023",
+        "wordId": "L2-0523",
+        "zh": "有什么特点？",
+        "en": "What are the characteristics?",
+        "pinyin": "you3 shen2 me5 te4 dian3？"
+      },
+      {
+        "id": "b2-u12-social-apply-024",
+        "wordId": "L2-0535",
+        "zh": "条件很好。",
+        "en": "Good conditions.",
+        "pinyin": "tiao2 jian4 hen3 hao3。"
+      },
+      {
+        "id": "b2-u12-social-apply-025",
+        "wordId": "L2-0560",
+        "zh": "晚安，明天见。",
+        "en": "Good night, see you tomorrow.",
+        "pinyin": "wan3 an1， ming2 tian1 jian4。"
+      },
+      {
+        "id": "b2-u12-social-apply-026",
+        "wordId": "L2-0578",
+        "zh": "有问题吗？",
+        "en": "Any questions?",
+        "pinyin": "you3 wen4 ti2 ma5？"
+      },
+      {
+        "id": "b2-u12-social-apply-027",
+        "wordId": "L2-0597",
+        "zh": "好想法。",
+        "en": "Good idea.",
+        "pinyin": "hao3 xiang3 fa3。"
+      },
+      {
+        "id": "b2-u12-social-apply-028",
+        "wordId": "L2-0665",
+        "zh": "你的意见很好。",
+        "en": "Your opinion is good.",
+        "pinyin": "ni3 di4 yi4 jian4 hen3 hao3。"
+      },
+      {
+        "id": "b2-u12-social-apply-029",
+        "wordId": "L2-0666",
+        "zh": "什么意思？",
+        "en": "What does it mean?",
+        "pinyin": "shen2 me5 yi4 si5？"
+      },
+      {
+        "id": "b2-u12-social-apply-030",
+        "wordId": "L2-0692",
+        "zh": "什么原因？",
+        "en": "What's the reason?",
+        "pinyin": "shen2 me5 yuan2 yin1？"
+      },
+      {
+        "id": "b2-u12-social-apply-031",
+        "wordId": "L2-0009",
+        "zh": "有办法了。",
+        "en": "Found a way.",
+        "pinyin": "you3 ban4 fa3 le5。"
+      },
+      {
+        "id": "b2-u12-social-apply-032",
+        "wordId": "L2-0203",
+        "zh": "不同的观点。",
+        "en": "Different viewpoints.",
+        "pinyin": "bu4 tong2 di4 guan1 dian3。"
+      },
+      {
+        "id": "b2-u12-social-apply-033",
+        "wordId": "L2-0215",
+        "zh": "有什么好处？",
+        "en": "What are the benefits?",
+        "pinyin": "you3 shen2 me5 hao3 chu4？"
+      },
+      {
+        "id": "b2-u12-social-apply-034",
+        "wordId": "L2-0237",
+        "zh": "坏处很多。",
+        "en": "Many disadvantages.",
+        "pinyin": "huai4 chu4 hen3 duo1。"
+      },
+      {
+        "id": "b2-u12-social-apply-035",
+        "wordId": "L2-0350",
+        "zh": "举个例子。",
+        "en": "Give an example.",
+        "pinyin": "ju3 ge4 li4 zi5。"
+      },
+      {
+        "id": "b2-u12-social-apply-036",
+        "wordId": "L2-0530",
+        "zh": "体育课。",
+        "en": "PE class.",
+        "pinyin": "ti3 yu4 ke4。"
+      },
+      {
+        "id": "b2-u12-social-apply-037",
+        "wordId": "L2-0563",
+        "zh": "参加晚会。",
+        "en": "Attend a party.",
+        "pinyin": "can1 jia1 wan3 hui4。"
+      },
+      {
+        "id": "b2-u12-social-apply-038",
+        "wordId": "L2-0586",
+        "zh": "好习惯。",
+        "en": "Good habit.",
+        "pinyin": "hao3 xi2 guan4。"
+      },
+      {
+        "id": "b2-u12-social-apply-039",
+        "wordId": "L2-0611",
+        "zh": "讲个笑话儿。",
+        "en": "Tell a joke.",
+        "pinyin": "jiang3 ge4 xiao4 hua4。"
+      },
+      {
+        "id": "b2-u12-social-apply-040",
+        "wordId": "L2-0615",
+        "zh": "心中有你。",
+        "en": "You're in my heart.",
+        "pinyin": "xin1 zhong1 you3 ni3。"
+      },
+      {
+        "id": "b2-u12-social-apply-041",
+        "wordId": "L2-0676",
+        "zh": "说英文。",
+        "en": "Speak English.",
+        "pinyin": "shuo1 ying1 wen2。"
+      },
+      {
+        "id": "b2-u12-social-apply-042",
+        "wordId": "L2-0677",
+        "zh": "学英语。",
+        "en": "Learn English.",
+        "pinyin": "xue2 ying1 yu3。"
+      },
+      {
+        "id": "b2-u12-social-apply-043",
+        "wordId": "L2-0690",
+        "zh": "学习语言。",
+        "en": "Learn a language.",
+        "pinyin": "xue2 xi2 yu3 yan2。"
+      },
+      {
+        "id": "b2-u12-social-apply-044",
+        "wordId": "L2-0740",
+        "zh": "重点是学习。",
+        "en": "The focus is on studying.",
+        "pinyin": "zhong4 dian3 shi4 xue2 xi2。"
+      },
+      {
+        "id": "b2-u12-social-apply-045",
+        "wordId": "L2-0064",
+        "zh": "考试成绩很好。",
+        "en": "Good exam results.",
+        "pinyin": "kao3 shi4 cheng2 ji4 hen3 hao3。"
+      },
+      {
+        "id": "b2-u12-social-apply-046",
+        "wordId": "L2-0317",
+        "zh": "科学很重要。",
+        "en": "Science is important.",
+        "pinyin": "ke1 xue2 hen3 zhong4 yao4。"
+      },
+      {
+        "id": "b2-u12-social-apply-047",
+        "wordId": "L2-0384",
+        "zh": "目的是什么？",
+        "en": "What's the purpose?",
+        "pinyin": "mu4 di4 shi4 shen2 me5？"
+      },
+      {
+        "id": "b2-u12-social-apply-048",
+        "wordId": "L2-0475",
+        "zh": "这些是我身边的朋友。",
+        "en": "These are my friends nearby.",
+        "pinyin": "zhe4 shi4 wo3 shen1 bian1 di4 peng2 you5。"
+      },
+      {
+        "id": "b2-u12-social-apply-049",
+        "wordId": "L2-0529",
+        "zh": "这道题很难。",
+        "en": "This question is hard.",
+        "pinyin": "zhe4 dao4 ti2 hen3 nan2。"
+      },
+      {
+        "id": "b2-u12-social-apply-050",
+        "wordId": "L2-0289",
+        "zh": "电视节目。",
+        "en": "TV program.",
+        "pinyin": "dian4 shi4 jie2 mu4。"
+      },
+      {
+        "id": "b2-u12-social-apply-051",
+        "wordId": "L2-0496",
+        "zh": "他的收入很高。",
+        "en": "His income is high.",
+        "pinyin": "ta1 di4 shou1 ru4 hen3 gao1。"
+      },
+      {
+        "id": "b2-u12-social-apply-052",
+        "wordId": "L2-0480",
+        "zh": "这个声音很大。",
+        "en": "This sound is loud.",
+        "pinyin": "zhe4 ge4 sheng1 yin1 hen3 da4。"
+      }
+    ],
+    "b2-u13-people-social": [
+      {
+        "id": "b2-u13-people-social-apply-001",
+        "wordId": "L2-0003",
+        "zh": "这是我的爱人。",
+        "en": "This is my spouse.",
+        "pinyin": "zhe4 shi4 wo3 di4 ai4 ren2。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-002",
+        "wordId": "L2-0096",
+        "zh": "大人和孩子。",
+        "en": "Adults and children.",
+        "pinyin": "da4 ren2 he2 zi5。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-003",
+        "wordId": "L2-0218",
+        "zh": "他是个好人。",
+        "en": "He's a good person.",
+        "pinyin": "ta1 shi4 ge4 hao3 ren2。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-004",
+        "wordId": "L2-0238",
+        "zh": "电影里的坏人。",
+        "en": "The villain in the movie.",
+        "pinyin": "dian4 ying3 li3 di4 huai4 ren2。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-005",
+        "wordId": "L2-0278",
+        "zh": "他是大学教师。",
+        "en": "He's a university teacher.",
+        "pinyin": "ta1 shi4 da4 xue2 jiao4 shi1。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-006",
+        "wordId": "L2-0314",
+        "zh": "考生很多。",
+        "en": "Many exam candidates.",
+        "pinyin": "kao3 sheng1 hen3 duo1。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-007",
+        "wordId": "L2-0325",
+        "zh": "家里来客人了。",
+        "en": "Guests came to the house.",
+        "pinyin": "jia1 li3 lai2 ke4 ren2 le5。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-008",
+        "wordId": "L2-0342",
+        "zh": "他是我的老朋友。",
+        "en": "He's my old friend.",
+        "pinyin": "ta1 shi4 wo3 di4 lao3 peng2 you5。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-009",
+        "wordId": "L2-0462",
+        "zh": "中国人口很多。",
+        "en": "China's population is large.",
+        "pinyin": "zhong1 guo2 ren2 kou3 hen3 duo1。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-010",
+        "wordId": "L2-0463",
+        "zh": "人们都很高兴。",
+        "en": "People are all happy.",
+        "pinyin": "ren2 men5 dou1 hen3 gao1。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-011",
+        "wordId": "L2-0464",
+        "zh": "来的人数不多。",
+        "en": "Not many people came.",
+        "pinyin": "lai2 di4 ren2 shu4 bu4 duo1。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-012",
+        "wordId": "L2-0685",
+        "zh": "有人找你。",
+        "en": "Someone's looking for you.",
+        "pinyin": "you3 ren2 zhao3 ni3。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-013",
+        "wordId": "L2-0745",
+        "zh": "房子的主人。",
+        "en": "The owner of the house.",
+        "pinyin": "fang2 zi5 di4 zhu3 ren2。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-014",
+        "wordId": "L2-0257-2",
+        "zh": "他是一位科学家。",
+        "en": "He is a scientist.",
+        "pinyin": "ta1 shi4 yi1 wei4 ke1 xue2 jia1。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-015",
+        "wordId": "L2-0300",
+        "zh": "他是公司经理。",
+        "en": "He is the company manager.",
+        "pinyin": "ta1 shi4 gong1 si1 jing1 li3。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-016",
+        "wordId": "L2-0341",
+        "zh": "他已经老年了。",
+        "en": "He is already elderly.",
+        "pinyin": "ta1 yi3 jing1 lao3 nian2 le5。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-017",
+        "wordId": "L2-0383",
+        "zh": "她是一位电影明星。",
+        "en": "She is a movie star.",
+        "pinyin": "ta1 shi4 yi1 wei4 dian4 ying3 ming2 xing1。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-018",
+        "wordId": "L2-0438",
+        "zh": "这是青少年问题。",
+        "en": "This is a teenage issue.",
+        "pinyin": "zhe4 shi4 qing1 shao3 nian2 wen4 ti2。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-019",
+        "wordId": "L2-0492",
+        "zh": "市长正在讲话。",
+        "en": "The mayor is speaking.",
+        "pinyin": "shi4 zhang3 zheng4 zai4 jiang3 hua4。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-020",
+        "wordId": "L2-0517",
+        "zh": "王太太。",
+        "en": "Mrs. Wang.",
+        "pinyin": "wang2 tai5 tai5。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-021",
+        "wordId": "L2-0547",
+        "zh": "这是我的同事。",
+        "en": "This is my colleague.",
+        "pinyin": "zhe4 shi4 wo3 di4 tong2 shi4。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-022",
+        "wordId": "L2-0602b",
+        "zh": "小王来了。",
+        "en": "Xiao Wang is here.",
+        "pinyin": "xiao3 wang2 lai2 le5。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-023",
+        "wordId": "L2-0609",
+        "zh": "他是学校校长。",
+        "en": "He is the school principal.",
+        "pinyin": "ta1 shi4 xue2 xiao4 xiao4 zhang3。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-024",
+        "wordId": "L2-0736",
+        "zh": "他是中年人。",
+        "en": "He is middle-aged.",
+        "pinyin": "ta1 shi4 zhong1 nian2 ren2。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-025",
+        "wordId": "L2-0761",
+        "zh": "他是组长。",
+        "en": "He's the group leader.",
+        "pinyin": "ta1 shi4 zu3 zhang3。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-026",
+        "wordId": "L2-0002",
+        "zh": "爱情故事。",
+        "en": "Love story.",
+        "pinyin": "ai4 qing2 gu4 shi4。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-027",
+        "wordId": "L2-0007",
+        "zh": "他是班长。",
+        "en": "He's the class monitor.",
+        "pinyin": "ta1 shi4 ban1 zhang3。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-028",
+        "wordId": "L2-0235",
+        "zh": "他是画家。",
+        "en": "He's a painter.",
+        "pinyin": "ta1 shi4 hua4 jia1。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-029",
+        "wordId": "L2-0251",
+        "zh": "高级汉语。",
+        "en": "Advanced Chinese.",
+        "pinyin": "gao1 ji2 yu3。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-030",
+        "wordId": "L2-0399",
+        "zh": "一年级学生。",
+        "en": "First-year student.",
+        "pinyin": "yi1 nian2 ji2 xue2 sheng1。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-031",
+        "wordId": "L2-0607",
+        "zh": "分小组讨论。",
+        "en": "Discuss in small groups.",
+        "pinyin": "fen5 xiao3 zu3 tao3 lun4。"
+      },
+      {
+        "id": "b2-u13-people-social-apply-032",
+        "wordId": "L2-0362",
+        "zh": "他是留学生。",
+        "en": "He's an international student.",
+        "pinyin": "ta1 shi4 liu2 xue2 sheng1。"
+      }
+    ],
+    "b2-u14-places": [
+      {
+        "id": "b2-u14-places-apply-001",
+        "wordId": "L2-0060",
+        "zh": "我去超市买东西。",
+        "en": "I am going to the supermarket.",
+        "pinyin": "wo3 qu4 chao1 shi4 mai3 dong1 xi1。"
+      },
+      {
+        "id": "b2-u14-places-apply-002",
+        "wordId": "L2-0185",
+        "zh": "我姐姐在高中当老师。",
+        "en": "My older sister teaches at a senior high school.",
+        "pinyin": "wo3 jie3 jie3 zai4 gao1 zhong1 dang1 lao3 shi1。"
+      },
+      {
+        "id": "b2-u14-places-apply-003",
+        "wordId": "L2-0673",
+        "zh": "我下午要去银行办业务。",
+        "en": "I need to go to the bank this afternoon to handle some business.",
+        "pinyin": "wo3 xia4 wu3 yao4 qu4 xing2 ban4 ye4 wu4。"
+      },
+      {
+        "id": "b2-u14-places-apply-004",
+        "wordId": "L2-0137",
+        "zh": "孩子们最喜欢去动物园。",
+        "en": "Children like going to the zoo the most.",
+        "pinyin": "zi5 men5 zui4 huan1 qu4 dong4 wu4。"
+      },
+      {
+        "id": "b2-u14-places-apply-005",
+        "wordId": "L2-0532",
+        "zh": "下雨了，我们去体育馆打球。",
+        "en": "It is raining, so we are going to play ball in the gymnasium.",
+        "pinyin": "xia4 yu3 le5， wo3 men5 qu4 ti3 yu4 guan3 da3 qiu2。"
+      },
+      {
+        "id": "b2-u14-places-apply-006",
+        "wordId": "L2-0608",
+        "zh": "早上的校园很安静。",
+        "en": "The campus is very quiet in the morning.",
+        "pinyin": "zao3 shang4 di4 xiao4 hen3 an1 jing4。"
+      },
+      {
+        "id": "b2-u14-places-apply-007",
+        "wordId": "L2-0693",
+        "zh": "这个院很安静。",
+        "en": "This courtyard is very quiet.",
+        "pinyin": "zhe4 ge4 yuan4 hen3 an1 jing4。"
+      },
+      {
+        "id": "b2-u14-places-apply-008",
+        "wordId": "L2-0491",
+        "zh": "这个市的交通很方便。",
+        "en": "Transportation in this city is very convenient.",
+        "pinyin": "zhe4 ge4 shi4 di4 jiao1 tong1 hen3 fang1 bian4。"
+      },
+      {
+        "id": "b2-u14-places-apply-009",
+        "wordId": "L2-0095",
+        "zh": "学校大门六点关。",
+        "en": "The school main gate closes at six.",
+        "pinyin": "xue2 xiao4 da4 men2 liu4 dian3 guan1。"
+      },
+      {
+        "id": "b2-u14-places-apply-010",
+        "wordId": "L2-0366",
+        "zh": "路边不能随便停车。",
+        "en": "You cannot park casually by the roadside.",
+        "pinyin": "lu4 bian1 bu4 neng2 sui2 bian4 ting2 che1。"
+      },
+      {
+        "id": "b2-u14-places-apply-011",
+        "wordId": "L2-0392",
+        "zh": "南方冬天没那么冷。",
+        "en": "Winters in the south are not that cold.",
+        "pinyin": "nan2 fang1 dong1 tian1 mei2 na4 me5 leng3。"
+      },
+      {
+        "id": "b2-u14-places-apply-012",
+        "wordId": "L2-0130",
+        "zh": "我朋友来自东北。",
+        "en": "My friend is from the northeast.",
+        "pinyin": "wo3 peng2 you5 lai2 zi4 dong1 bei3。"
+      },
+      {
+        "id": "b2-u14-places-apply-013",
+        "wordId": "L2-0132",
+        "zh": "东南方向有一座山。",
+        "en": "There is a mountain to the southeast.",
+        "pinyin": "dong1 nan2 fang1 xiang4 you3 yi1 zuo4 shan1。"
+      },
+      {
+        "id": "b2-u14-places-apply-014",
+        "wordId": "L2-0274",
+        "zh": "你可以换个角度想一想。",
+        "en": "You can think about it from another angle.",
+        "pinyin": "ni3 ke3 yi3 huan4 ge4 jiao3 du4 xiang3 yi1 xiang3。"
+      },
+      {
+        "id": "b2-u14-places-apply-015",
+        "wordId": "L2-0454",
+        "zh": "这个节目在全国都很受欢迎。",
+        "en": "This program is popular nationwide.",
+        "pinyin": "zhe4 ge4 jie2 mu4 zai4 quan2 guo2 dou1 hen3 shou4 huan1 ying2。"
+      },
+      {
+        "id": "b2-u14-places-apply-016",
+        "wordId": "L2-0016",
+        "zh": "北方人冬天常吃面食。",
+        "en": "People in the north often eat wheat-based foods in winter.",
+        "pinyin": "bei3 fang1 ren2 dong1 tian1 chang2 chi1 mian4 shi2。"
+      },
+      {
+        "id": "b2-u14-places-apply-017",
+        "wordId": "L2-0024",
+        "zh": "河边风很大。",
+        "en": "It is very windy by the river.",
+        "pinyin": "he2 bian1 feng1 hen3 da4。"
+      },
+      {
+        "id": "b2-u14-places-apply-018",
+        "wordId": "L2-0161",
+        "zh": "你走错方向了。",
+        "en": "You went in the wrong direction.",
+        "pinyin": "ni3 zou3 cuo4 fang1 xiang4 le5。"
+      },
+      {
+        "id": "b2-u14-places-apply-019",
+        "wordId": "L2-0212",
+        "zh": "夏天我们去海边玩。",
+        "en": "We go to the seaside in summer.",
+        "pinyin": "xia4 tian1 wo3 men5 qu4 hai3 bian1。"
+      }
+    ],
+    "b2-u15-objects-tech": [
+      {
+        "id": "b2-u15-objects-tech-apply-001",
+        "wordId": "L2-0022",
+        "zh": "我买了一个笔记本。",
+        "en": "I bought a notebook.",
+        "pinyin": "wo3 mai3 le5 yi1 ge4 bi3 ji4 ben3。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-002",
+        "wordId": "L2-0028-2",
+        "zh": "我的表快了一分钟。",
+        "en": "My watch is one minute fast.",
+        "pinyin": "wo3 di4 biao3 kuai4 le5 yi1 fen5 zhong1。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-003",
+        "wordId": "L2-0254",
+        "zh": "我用计算机工作。",
+        "en": "I use a computer for work.",
+        "pinyin": "wo3 yong4 ji4 suan4 ji1 gong1 zuo4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-004",
+        "wordId": "L2-0422",
+        "zh": "一瓶水。",
+        "en": "A bottle of water.",
+        "pinyin": "yi1 ping2 shui3。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-005",
+        "wordId": "L2-0423",
+        "zh": "这个瓶子是空的。",
+        "en": "This bottle is empty.",
+        "pinyin": "zhe4 ge4 ping2 zi5 shi4 kong1 di4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-006",
+        "wordId": "L2-0564",
+        "zh": "一碗米饭。",
+        "en": "A bowl of rice.",
+        "pinyin": "yi1 wan3 mi3 fan4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-007",
+        "wordId": "L2-0641",
+        "zh": "一天吃三次药片。",
+        "en": "Take the pills three times a day.",
+        "pinyin": "yi1 tian1 chi1 san1 ci4 yao4 pian4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-008",
+        "wordId": "L2-0099",
+        "zh": "冬天穿大衣。",
+        "en": "Wear an overcoat in winter.",
+        "pinyin": "dong1 tian1 chuan1 da4 yi1。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-009",
+        "wordId": "L2-0119",
+        "zh": "请打开灯。",
+        "en": "Please turn on the light.",
+        "pinyin": "qing3 da3 kai1 deng1。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-010",
+        "wordId": "L2-0136",
+        "zh": "我喜欢动物。",
+        "en": "I like animals.",
+        "pinyin": "wo3 huan1 dong4 wu4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-011",
+        "wordId": "L2-0138",
+        "zh": "这个字的读音是什么？",
+        "en": "What's the pronunciation of this character?",
+        "pinyin": "zhe4 ge4 zi4 di4 du2 yin1 shi4 shen2 me5？"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-012",
+        "wordId": "L2-0141",
+        "zh": "我发了一条短信。",
+        "en": "I sent a text message.",
+        "pinyin": "wo3 fa5 le5 yi1 tiao2 duan3 xin4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-013",
+        "wordId": "L2-0166",
+        "zh": "考试成绩分数很高。",
+        "en": "The exam score is very high.",
+        "pinyin": "kao3 shi4 cheng2 ji4 fen5 shu4 hen3 gao1。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-014",
+        "wordId": "L2-0186",
+        "zh": "他个子很高。",
+        "en": "He is very tall.",
+        "pinyin": "ta1 ge4 zi5 hen3 gao1。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-015",
+        "wordId": "L2-0196",
+        "zh": "我家有一只狗。",
+        "en": "My family has a dog.",
+        "pinyin": "wo3 jia1 you3 yi1 zhi3 gou3。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-016",
+        "wordId": "L2-0224",
+        "zh": "老师在黑板上写字。",
+        "en": "The teacher writes on the blackboard.",
+        "pinyin": "lao3 shi1 zai4 hei1 ban3 shang4 xie3 zi4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-017",
+        "wordId": "L2-0225",
+        "zh": "他喜欢黑色。",
+        "en": "He likes black.",
+        "pinyin": "ta1 huan1 hei1 se4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-018",
+        "wordId": "L2-0227",
+        "zh": "红色的花。",
+        "en": "Red flowers.",
+        "pinyin": "hong2 se4 di4 hua1。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-019",
+        "wordId": "L2-0307",
+        "zh": "一句话。",
+        "en": "One sentence.",
+        "pinyin": "yi1 ju4 hua4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-020",
+        "wordId": "L2-0308",
+        "zh": "这个句子很长。",
+        "en": "This sentence is long.",
+        "pinyin": "zhe4 ge4 ju4 zi5 hen3 zhang3。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-021",
+        "wordId": "L2-0333",
+        "zh": "中国人用筷子吃饭。",
+        "en": "Chinese people eat with chopsticks.",
+        "pinyin": "zhong1 guo2 ren2 yong4 kuai4 zi5 chi1 fan4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-022",
+        "wordId": "L2-0337",
+        "zh": "蓝色的天空。",
+        "en": "Blue sky.",
+        "pinyin": "lan2 se4 di4 tian1 kong1。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-023",
+        "wordId": "L2-0338",
+        "zh": "他喜欢打篮球。",
+        "en": "He likes playing basketball.",
+        "pinyin": "ta1 huan1 da3 lan2 qiu2。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-024",
+        "wordId": "L2-0371",
+        "zh": "绿色的草地。",
+        "en": "Green grass.",
+        "pinyin": "lv4 se4 di4 cao3 di4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-025",
+        "wordId": "L2-0382",
+        "zh": "名单上有你的名字。",
+        "en": "Your name is on the list.",
+        "pinyin": "ming2 dan1 shang4 you3 ni3 di4 ming2 zi4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-026",
+        "wordId": "L2-0409",
+        "zh": "她在打排球。",
+        "en": "She's playing volleyball.",
+        "pinyin": "ta1 zai4 da3 pai2 qiu2。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-027",
+        "wordId": "L2-0567",
+        "zh": "他喜欢打网球。",
+        "en": "He likes playing tennis.",
+        "pinyin": "ta1 huan1 da3 wang3 qiu2。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-028",
+        "wordId": "L2-0568",
+        "zh": "这个网站很有用。",
+        "en": "This website is very useful.",
+        "pinyin": "zhe4 ge4 wang3 zhan4 hen3 you3 yong4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-029",
+        "wordId": "L2-0587",
+        "zh": "我有洗衣机。",
+        "en": "I have a washing machine.",
+        "pinyin": "wo3 you3 xi3 yi1 ji1。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-030",
+        "wordId": "L2-0617",
+        "zh": "我收到一封信。",
+        "en": "I received a letter.",
+        "pinyin": "wo3 shou1 dao4 yi1 feng1 xin4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-031",
+        "wordId": "L2-0618",
+        "zh": "手机信号不好。",
+        "en": "The phone signal is bad.",
+        "pinyin": "shou3 ji1 xin4 hao4 bu4 hao3。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-032",
+        "wordId": "L2-0670",
+        "zh": "这个单词有两个音节。",
+        "en": "This word has two syllables.",
+        "pinyin": "zhe4 ge4 dan1 ci2 you3 liang3 ge4 yin1 jie2。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-033",
+        "wordId": "L2-0671",
+        "zh": "我喜欢听音乐。",
+        "en": "I like listening to music.",
+        "pinyin": "wo3 huan1 ting1 yin1 le4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-034",
+        "wordId": "L2-0672",
+        "zh": "我们去听音乐会。",
+        "en": "We're going to a concert.",
+        "pinyin": "wo3 men5 qu4 ting1 yin1 le4 hui4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-035",
+        "wordId": "L2-0754",
+        "zh": "查字典。",
+        "en": "Look it up in the dictionary.",
+        "pinyin": "cha2 zi4 dian3。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-036",
+        "wordId": "L2-0006",
+        "zh": "白色的雪。",
+        "en": "White snow.",
+        "pinyin": "bai2 se4 di4 xue3。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-037",
+        "wordId": "L2-0020",
+        "zh": "用笔写字。",
+        "en": "Write with a pen.",
+        "pinyin": "yong4 bi3 xie3 zi4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-038",
+        "wordId": "L2-0021",
+        "zh": "上课记笔记。",
+        "en": "Take notes in class.",
+        "pinyin": "shang4 ke4 ji4 bi3 ji4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-039",
+        "wordId": "L2-0082",
+        "zh": "查词典学新词。",
+        "en": "Look up new words in the dictionary.",
+        "pinyin": "cha2 ci2 dian3 xue2 xin1 ci2。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-040",
+        "wordId": "L2-0083",
+        "zh": "学习新词语。",
+        "en": "Learn new words.",
+        "pinyin": "xue2 xi2 xin1 ci2 yu3。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-041",
+        "wordId": "L2-0605",
+        "zh": "看小说。",
+        "en": "Read a novel.",
+        "pinyin": "kan4 xiao3 shuo1。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-042",
+        "wordId": "L2-0678",
+        "zh": "看一部影片。",
+        "en": "Watch a film.",
+        "pinyin": "kan4 yi1 bu4 ying3 pian4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-043",
+        "wordId": "L2-0768",
+        "zh": "一座山。",
+        "en": "A mountain.",
+        "pinyin": "yi1 zuo4 shan1。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-044",
+        "wordId": "L2-0769",
+        "zh": "请找座位坐下。",
+        "en": "Please find a seat and sit down.",
+        "pinyin": "qing3 zhao3 zuo4 wei4 zuo4 xia4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-045",
+        "wordId": "L2-0052",
+        "zh": "这是第三层。",
+        "en": "This is the third floor.",
+        "pinyin": "zhe4 shi4 di4 san1 ceng2。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-046",
+        "wordId": "L2-0081",
+        "zh": "这个词怎么用？",
+        "en": "How to use this word?",
+        "pinyin": "zhe4 ge4 ci2 zen3 me5 yong4？"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-047",
+        "wordId": "L2-0502",
+        "zh": "学数字。",
+        "en": "Learn numbers.",
+        "pinyin": "xue2 shu4 zi4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-048",
+        "wordId": "L2-0015",
+        "zh": "看报纸。",
+        "en": "Read the newspaper.",
+        "pinyin": "kan4 bao4 zhi3。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-049",
+        "wordId": "L2-0561",
+        "zh": "北京晚报。",
+        "en": "Beijing Evening News.",
+        "pinyin": "bei3 wan3 bao4。"
+      },
+      {
+        "id": "b2-u15-objects-tech-apply-050",
+        "wordId": "L2-0407",
+        "zh": "一排座位。",
+        "en": "A row of seats.",
+        "pinyin": "yi1 pai2 zuo4 wei4。"
+      }
+    ],
+    "b2-u16-adjectives-feelings": [
+      {
+        "id": "b2-u16-adjectives-feelings-apply-001",
+        "wordId": "L2-0004",
+        "zh": "图书馆很安静。",
+        "en": "The library is very quiet.",
+        "pinyin": "tu2 shu1 guan3 hen3 an1 jing4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-002",
+        "wordId": "L2-0005",
+        "zh": "这里很安全。",
+        "en": "It's safe here.",
+        "pinyin": "zhe4 li3 hen3 an1 quan2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-003",
+        "wordId": "L2-0032",
+        "zh": "时间不够。",
+        "en": "Not enough time.",
+        "pinyin": "shi2 jian1 bu4 gou4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-004",
+        "wordId": "L2-0038",
+        "zh": "他对结果不满。",
+        "en": "He's dissatisfied with the result.",
+        "pinyin": "ta1 dui4 jie2 guo3 bu4 man3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-005",
+        "wordId": "L2-0040",
+        "zh": "不少人来了。",
+        "en": "Quite a few people came.",
+        "pinyin": "bu4 shao3 ren2 lai2 le5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-006",
+        "wordId": "L2-0042",
+        "zh": "这样不行。",
+        "en": "This won't work.",
+        "pinyin": "zhe4 yang4 bu4 xing2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-007",
+        "wordId": "L2-0055",
+        "zh": "这条路很长。",
+        "en": "This road is long.",
+        "pinyin": "zhe4 tiao2 lu4 hen3 zhang3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-008",
+        "wordId": "L2-0057",
+        "zh": "这是常用词语。",
+        "en": "This is a commonly used word.",
+        "pinyin": "zhe4 shi4 chang2 yong4 ci2 yu3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-009",
+        "wordId": "L2-0094",
+        "zh": "大量工作。",
+        "en": "A large amount of work.",
+        "pinyin": "da4 liang4 gong1 zuo4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-010",
+        "wordId": "L2-0140",
+        "zh": "头发很短。",
+        "en": "Short hair.",
+        "pinyin": "tou5 fa5 hen3 duan3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-011",
+        "wordId": "L2-0157",
+        "zh": "地铁很方便。",
+        "en": "The subway is convenient.",
+        "pinyin": "di4 tie3 hen3 fang1 bian4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-012",
+        "wordId": "L2-0184",
+        "zh": "高级汉语。",
+        "en": "Advanced Chinese.",
+        "pinyin": "gao1 ji2 yu3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-013",
+        "wordId": "L2-0193",
+        "zh": "这样不公平。",
+        "en": "This isn't fair.",
+        "pinyin": "zhe4 yang4 bu4 gong1 ping2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-014",
+        "wordId": "L2-0197",
+        "zh": "时间够吗？",
+        "en": "Is there enough time?",
+        "pinyin": "shi2 jian1 gou4 ma5？"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-015",
+        "wordId": "L2-0214",
+        "zh": "天气很好。",
+        "en": "The weather is good.",
+        "pinyin": "tian1 qi4 hen3 hao3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-016",
+        "wordId": "L2-0221",
+        "zh": "这件衣服很合适。",
+        "en": "This clothing fits well.",
+        "pinyin": "zhe4 jian4 yi1 fu5 hen3 he2 shi4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-017",
+        "wordId": "L2-0223",
+        "zh": "天黑了。",
+        "en": "It's dark outside.",
+        "pinyin": "tian1 hei1 le5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-018",
+        "wordId": "L2-0241",
+        "zh": "黄色的花。",
+        "en": "Yellow flower.",
+        "pinyin": "huang2 se4 di4 hua1。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-019",
+        "wordId": "L2-0252",
+        "zh": "有急事。",
+        "en": "Have something urgent.",
+        "pinyin": "you3 ji2 shi4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-020",
+        "wordId": "L2-0260",
+        "zh": "这是假钱。",
+        "en": "This is fake money.",
+        "pinyin": "zhe4 shi4 jia3 qian2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-021",
+        "wordId": "L2-0297",
+        "zh": "学校很近。",
+        "en": "School is very near.",
+        "pinyin": "xue2 xiao4 hen3 jin4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-022",
+        "wordId": "L2-0318",
+        "zh": "可爱的孩子。",
+        "en": "Cute child.",
+        "pinyin": "ke3 ai4 di4 zi5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-023",
+        "wordId": "L2-0320",
+        "zh": "可怕的故事。",
+        "en": "Scary story.",
+        "pinyin": "ke3 pa4 di4 gu4 shi4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-024",
+        "wordId": "L2-0331",
+        "zh": "生日快乐。",
+        "en": "Happy birthday.",
+        "pinyin": "sheng1 ri4 kuai4 le4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-025",
+        "wordId": "L2-0332",
+        "zh": "快要下雨了。",
+        "en": "It's about to rain.",
+        "pinyin": "kuai4 yao4 xia4 yu3 le5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-026",
+        "wordId": "L2-0336",
+        "zh": "蓝蓝的天空。",
+        "en": "Blue sky.",
+        "pinyin": "lan2 lan2 di4 tian1 kong1。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-027",
+        "wordId": "L2-0339",
+        "zh": "老人。",
+        "en": "Old person.",
+        "pinyin": "lao3 ren2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-028",
+        "wordId": "L2-0364",
+        "zh": "他说汉语很流利。",
+        "en": "He speaks Chinese fluently.",
+        "pinyin": "ta1 shuo1 yu3 hen3 liu2 li4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-029",
+        "wordId": "L2-0370",
+        "zh": "绿色的树。",
+        "en": "Green trees.",
+        "pinyin": "lv4 se4 di4 shu4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-030",
+        "wordId": "L2-0374",
+        "zh": "我对结果很满意。",
+        "en": "I'm very satisfied with the result.",
+        "pinyin": "wo3 dui4 jie2 guo3 hen3 man3 yi4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-031",
+        "wordId": "L2-0394",
+        "zh": "这件衣服很难看。",
+        "en": "This clothing is ugly.",
+        "pinyin": "zhe4 jian4 yi1 fu5 hen3 nan2 kan4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-032",
+        "wordId": "L2-0396",
+        "zh": "数学难题。",
+        "en": "Difficult math problem.",
+        "pinyin": "shu4 xue2 nan2 ti2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-033",
+        "wordId": "L2-0400",
+        "zh": "年轻的时候。",
+        "en": "When I was young.",
+        "pinyin": "nian2 qing1 di4 shi2 hou5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-034",
+        "wordId": "L2-0417",
+        "zh": "这条路很平。",
+        "en": "This road is flat.",
+        "pinyin": "zhe4 tiao2 lu4 hen3 ping2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-035",
+        "wordId": "L2-0418",
+        "zh": "一路平安。",
+        "en": "Safe journey.",
+        "pinyin": "yi1 lu4 ping2 an1。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-036",
+        "wordId": "L2-0419",
+        "zh": "平常的日子。",
+        "en": "Ordinary day.",
+        "pinyin": "ping2 chang2 di4 ri4 zi5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-037",
+        "wordId": "L2-0420",
+        "zh": "人人平等。",
+        "en": "Everyone is equal.",
+        "pinyin": "ren2 ren2 ping2 deng3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-038",
+        "wordId": "L2-0424",
+        "zh": "普通人。",
+        "en": "Ordinary person.",
+        "pinyin": "pu3 tong1 ren2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-039",
+        "wordId": "L2-0428",
+        "zh": "骑自行车。",
+        "en": "Ride a bike.",
+        "pinyin": "qi2 zi4 xing2 che1。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-040",
+        "wordId": "L2-0440",
+        "zh": "我说清楚了吗？",
+        "en": "Did I make it clear?",
+        "pinyin": "wo3 shuo1 qing1 chu5 le5 ma5？"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-041",
+        "wordId": "L2-0441",
+        "zh": "今天天气晴。",
+        "en": "It's sunny today.",
+        "pinyin": "jin1 tian1 tian1 qi4 qing2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-042",
+        "wordId": "L2-0478",
+        "zh": "学了很多生词。",
+        "en": "Learned many new words.",
+        "pinyin": "xue2 le5 hen3 duo1 sheng1 ci2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-043",
+        "wordId": "L2-0488",
+        "zh": "他很实在。",
+        "en": "He's very honest.",
+        "pinyin": "ta1 hen3 shi2 zai4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-044",
+        "wordId": "L2-0500",
+        "zh": "水果熟了。",
+        "en": "The fruit is ripe.",
+        "pinyin": "shui3 guo3 shou2 le5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-045",
+        "wordId": "L2-0500-2",
+        "zh": "我们很熟。",
+        "en": "We know each other well.",
+        "pinyin": "wo3 men5 hen3 shou2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-046",
+        "wordId": "L2-0511",
+        "zh": "随便坐。",
+        "en": "Sit anywhere.",
+        "pinyin": "sui2 bian4 zuo4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-047",
+        "wordId": "L2-0514",
+        "zh": "所有人都在。",
+        "en": "Everyone is here.",
+        "pinyin": "suo3 you3 ren2 dou1 zai4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-048",
+        "wordId": "L2-0522",
+        "zh": "特别的日子。",
+        "en": "Special day.",
+        "pinyin": "te4 bie2 di4 ri4 zi5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-049",
+        "wordId": "L2-0548",
+        "zh": "我们穿同样的衣服。",
+        "en": "We wear the same clothes.",
+        "pinyin": "wo3 men5 chuan1 tong2 yang4 di4 yi1 fu5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-050",
+        "wordId": "L2-0559",
+        "zh": "我完全同意。",
+        "en": "I completely agree.",
+        "pinyin": "wo3 wan2 quan2 tong2 yi4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-051",
+        "wordId": "L2-0593",
+        "zh": "我们有相同的想法。",
+        "en": "We have the same idea.",
+        "pinyin": "wo3 men5 you3 xiang1 tong2 di4 xiang3 fa3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-052",
+        "wordId": "L2-0595",
+        "zh": "声音很响。",
+        "en": "The sound is loud.",
+        "pinyin": "sheng1 yin1 hen3 xiang3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-053",
+        "wordId": "L2-0616",
+        "zh": "看新闻。",
+        "en": "Watch the news.",
+        "pinyin": "kan4 xin1 wen2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-054",
+        "wordId": "L2-0619",
+        "zh": "重要信息。",
+        "en": "Important information.",
+        "pinyin": "zhong4 yao4 xin4 xi1。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-055",
+        "wordId": "L2-0647",
+        "zh": "我一定来。",
+        "en": "I'll definitely come.",
+        "pinyin": "wo3 yi1 ding4 lai2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-056",
+        "wordId": "L2-0660",
+        "zh": "一般水平。",
+        "en": "Average level.",
+        "pinyin": "yi1 ban1 shui3 ping2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-057",
+        "wordId": "L2-0668",
+        "zh": "阴天。",
+        "en": "Cloudy day.",
+        "pinyin": "yin1 tian1。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-058",
+        "wordId": "L2-0705",
+        "zh": "衣服脏了。",
+        "en": "Clothes are dirty.",
+        "pinyin": "yi1 fu5 zang1 le5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-059",
+        "wordId": "L2-0715",
+        "zh": "他是班长。",
+        "en": "He's the class leader.",
+        "pinyin": "ta1 shi4 ban1 zhang3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-060",
+        "wordId": "L2-0724",
+        "zh": "真正的朋友。",
+        "en": "True friend.",
+        "pinyin": "zhen1 zheng4 di4 peng2 you5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-061",
+        "wordId": "L2-0729",
+        "zh": "直接说。",
+        "en": "Say it directly.",
+        "pinyin": "zhi2 jie1 shuo1。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-062",
+        "wordId": "L2-0735",
+        "zh": "中级汉语。",
+        "en": "Intermediate Chinese.",
+        "pinyin": "zhong1 ji2 yu3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-063",
+        "wordId": "L2-0746",
+        "zh": "主要问题。",
+        "en": "Main problem.",
+        "pinyin": "zhu3 yao4 wen4 ti2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-064",
+        "wordId": "L2-0199",
+        "zh": "他不是故意的。",
+        "en": "He didn't do it on purpose.",
+        "pinyin": "ta1 bu4 shi4 gu4 yi4 di4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-065",
+        "wordId": "L2-0330",
+        "zh": "快点儿走。",
+        "en": "Walk faster.",
+        "pinyin": "kuai4 dian3 zou3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-066",
+        "wordId": "L2-0348",
+        "zh": "我的理想是当老师。",
+        "en": "My dream is to become a teacher.",
+        "pinyin": "wo3 di4 li3 xiang3 shi4 dang1 lao3 shi1。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-067",
+        "wordId": "L2-0416",
+        "zh": "你的衣服很漂亮。",
+        "en": "Your clothes are very pretty.",
+        "pinyin": "ni3 di4 yi1 fu5 hen3 piao4 liang4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-068",
+        "wordId": "L2-0425",
+        "zh": "她说普通话。",
+        "en": "She speaks Mandarin.",
+        "pinyin": "ta1 shuo1 pu3 tong1 hua4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-069",
+        "wordId": "L2-0461",
+        "zh": "她很热情。",
+        "en": "She's very enthusiastic.",
+        "pinyin": "ta1 hen3 re4 qing2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-070",
+        "wordId": "L2-0483",
+        "zh": "十分感谢。",
+        "en": "Thank you very much.",
+        "pinyin": "shi2 fen5 gan3 xie4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-071",
+        "wordId": "L2-0487",
+        "zh": "实在对不起。",
+        "en": "I'm really sorry.",
+        "pinyin": "shi2 zai4 dui4 bu4 qi3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-072",
+        "wordId": "L2-0503",
+        "zh": "我的汉语水平提高了。",
+        "en": "My Chinese level has improved.",
+        "pinyin": "wo3 di4 yu3 shui3 ping2 ti2 gao1 le5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-073",
+        "wordId": "L2-0602",
+        "zh": "小狗。",
+        "en": "Small dog.",
+        "pinyin": "xiao3 gou3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-074",
+        "wordId": "L2-0603",
+        "zh": "小声说话。",
+        "en": "Speak quietly.",
+        "pinyin": "xiao3 sheng1 shuo1 hua4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-075",
+        "wordId": "L2-0680",
+        "zh": "我永远爱你。",
+        "en": "I'll love you forever.",
+        "pinyin": "wo3 yong3 yuan3 ai4 ni3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-076",
+        "wordId": "L2-0687",
+        "zh": "这本书很有意思。",
+        "en": "This book is interesting.",
+        "pinyin": "zhe4 ben3 shu1 hen3 you3 yi4 si5。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-077",
+        "wordId": "L2-0753",
+        "zh": "他想过自由的生活。",
+        "en": "He wants a free life.",
+        "pinyin": "ta1 xiang3 guo4 zi4 you2 di4 sheng1 huo2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-078",
+        "wordId": "L2-0041",
+        "zh": "我们想法不同。",
+        "en": "We have different ideas.",
+        "pinyin": "wo3 men5 xiang3 fa3 bu4 tong2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-079",
+        "wordId": "L2-0056",
+        "zh": "常见问题。",
+        "en": "Common questions.",
+        "pinyin": "chang2 jian4 wen4 ti2。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-080",
+        "wordId": "L2-0097",
+        "zh": "大声说话。",
+        "en": "Speak loudly.",
+        "pinyin": "da4 sheng1 shuo1 hua4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-081",
+        "wordId": "L2-0614",
+        "zh": "心情很好。",
+        "en": "In a good mood.",
+        "pinyin": "xin1 qing2 hen3 hao3。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-082",
+        "wordId": "L2-0620",
+        "zh": "有信心。",
+        "en": "Have confidence.",
+        "pinyin": "you3 xin4 xin1。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-083",
+        "wordId": "L2-0633",
+        "zh": "这是什么颜色？",
+        "en": "What color is this?",
+        "pinyin": "zhe4 shi4 shen2 me5 yan2 se4？"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-084",
+        "wordId": "L2-0637",
+        "zh": "样子很好看。",
+        "en": "Looks very nice.",
+        "pinyin": "yang4 zi5 hen3 hao3 kan4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-085",
+        "wordId": "L2-0098",
+        "zh": "这个大小很合适。",
+        "en": "This size is just right.",
+        "pinyin": "zhe4 ge4 da4 xiao3 hen3 he2 shi4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-086",
+        "wordId": "L2-0030",
+        "zh": "做的不错。",
+        "en": "Not bad work.",
+        "pinyin": "zuo4 di4 bu4 cuo4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-087",
+        "wordId": "L2-0357",
+        "zh": "灯很亮。",
+        "en": "The light is bright.",
+        "pinyin": "deng1 hen3 liang4。"
+      },
+      {
+        "id": "b2-u16-adjectives-feelings-apply-088",
+        "wordId": "L2-0613",
+        "zh": "我心里明白。",
+        "en": "I understand in my heart.",
+        "pinyin": "wo3 xin1 li3 ming2 bai2。"
+      }
+    ],
+    "b2-u17-quantifiers": [
+      {
+        "id": "b2-u17-quantifiers-apply-001",
+        "wordId": "L2-0148",
+        "zh": "很多人。",
+        "en": "Many people.",
+        "pinyin": "hen3 duo1 ren2。"
+      },
+      {
+        "id": "b2-u17-quantifiers-apply-002",
+        "wordId": "L2-0151",
+        "zh": "多数人同意。",
+        "en": "Most people agree.",
+        "pinyin": "duo1 shu4 ren2 tong2 yi4。"
+      },
+      {
+        "id": "b2-u17-quantifiers-apply-003",
+        "wordId": "L2-0629",
+        "zh": "许多朋友。",
+        "en": "Many friends.",
+        "pinyin": "xu3 duo1 peng2 you5。"
+      },
+      {
+        "id": "b2-u17-quantifiers-apply-004",
+        "wordId": "L2-0452",
+        "zh": "全班同学都到了。",
+        "en": "The whole class has arrived.",
+        "pinyin": "quan2 ban1 tong2 xue2 dou1 dao4 le5。"
+      },
+      {
+        "id": "b2-u17-quantifiers-apply-005",
+        "wordId": "L2-0453",
+        "zh": "全部吃完。",
+        "en": "Ate it all.",
+        "pinyin": "quan2 bu4 chi1 wan2。"
+      },
+      {
+        "id": "b2-u17-quantifiers-apply-006",
+        "wordId": "L2-0458",
+        "zh": "全体师生。",
+        "en": "All teachers and students.",
+        "pinyin": "quan2 ti3 shi1 sheng1。"
+      },
+      {
+        "id": "b2-u17-quantifiers-apply-007",
+        "wordId": "L2-0473",
+        "zh": "少数人不同意。",
+        "en": "A few people disagree.",
+        "pinyin": "shao3 shu4 ren2 bu4 tong2 yi4。"
+      },
+      {
+        "id": "b2-u17-quantifiers-apply-008",
+        "wordId": "L2-0646",
+        "zh": "一部分学生。",
+        "en": "Some of the students.",
+        "pinyin": "yi1 bu4 fen5 xue2 sheng1。"
+      },
+      {
+        "id": "b2-u17-quantifiers-apply-009",
+        "wordId": "L2-0045",
+        "zh": "一部分工作。",
+        "en": "Part of the work.",
+        "pinyin": "yi1 bu4 fen5 gong1 zuo4。"
+      },
+      {
+        "id": "b2-u17-quantifiers-apply-010",
+        "wordId": "L2-0089",
+        "zh": "大部分人都来了。",
+        "en": "Most people came.",
+        "pinyin": "da4 bu4 fen5 ren2 dou1 lai2 le5。"
+      },
+      {
+        "id": "b2-u17-quantifiers-apply-011",
+        "wordId": "L2-0091",
+        "zh": "大多数学生通过了考试。",
+        "en": "Most students passed the exam.",
+        "pinyin": "da4 duo1 shu4 xue2 sheng1 tong1 guo4 le5 kao3 shi4。"
+      },
+      {
+        "id": "b2-u17-quantifiers-apply-012",
+        "wordId": "L2-0216",
+        "zh": "这里有好多人。",
+        "en": "There are lots of people here.",
+        "pinyin": "zhe4 li3 you3 hao3 duo1 ren2。"
+      }
+    ],
+    "b2-u18-classifiers": [
+      {
+        "id": "b2-u18-classifiers-apply-001",
+        "wordId": "L2-0288",
+        "zh": "我今天有一节课。",
+        "en": "I have one class today.",
+        "pinyin": "wo3 jin1 tian1 you3 yi1 jie2 ke4。"
+      },
+      {
+        "id": "b2-u18-classifiers-apply-002",
+        "wordId": "L2-0316",
+        "zh": "三科作业。",
+        "en": "Homework for three subjects.",
+        "pinyin": "san1 ke1 zuo4 ye4。"
+      },
+      {
+        "id": "b2-u18-classifiers-apply-003",
+        "wordId": "L2-0358",
+        "zh": "他有一辆车。",
+        "en": "He has a car.",
+        "pinyin": "ta1 you3 yi1 liang4 che1。"
+      },
+      {
+        "id": "b2-u18-classifiers-apply-004",
+        "wordId": "L2-0380",
+        "zh": "他是一名老师。",
+        "en": "He is a teacher.",
+        "pinyin": "ta1 shi4 yi1 ming2 lao3 shi1。"
+      },
+      {
+        "id": "b2-u18-classifiers-apply-005",
+        "wordId": "L2-0413",
+        "zh": "我写了一篇作文。",
+        "en": "I wrote an essay.",
+        "pinyin": "wo3 xie3 le5 yi1 pian1 zuo4 wen2。"
+      },
+      {
+        "id": "b2-u18-classifiers-apply-006",
+        "wordId": "L2-0415",
+        "zh": "一片面包。",
+        "en": "A slice of bread.",
+        "pinyin": "yi1 pian4 mian4 bao1。"
+      },
+      {
+        "id": "b2-u18-classifiers-apply-007",
+        "wordId": "L2-0589",
+        "zh": "看一下。",
+        "en": "Take a look.",
+        "pinyin": "kan4 yi1 xia4。"
+      },
+      {
+        "id": "b2-u18-classifiers-apply-008",
+        "wordId": "L2-0168",
+        "zh": "请给我一份报纸。",
+        "en": "Please give me a newspaper.",
+        "pinyin": "qing3 gei3 wo3 yi1 fen4 bao4 zhi3。"
+      },
+      {
+        "id": "b2-u18-classifiers-apply-009",
+        "wordId": "L2-0169",
+        "zh": "我写了一封信。",
+        "en": "I wrote a letter.",
+        "pinyin": "wo3 xie3 le5 yi1 feng1 xin4。"
+      },
+      {
+        "id": "b2-u18-classifiers-apply-010",
+        "wordId": "L2-0572",
+        "zh": "来了一位客人。",
+        "en": "A guest arrived.",
+        "pinyin": "lai2 le5 yi1 wei4 ke4 ren2。"
+      }
+    ]
+  }
+}

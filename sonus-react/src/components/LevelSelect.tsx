@@ -194,7 +194,7 @@ const japaneseLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'n5', name: 'JLPT N5', description: 'Basic', color: 'bg-[#3E5648]',
+    id: 'n5', name: 'N5', description: 'Basic', color: 'bg-[#3E5648]',
     band: 0,
     title: '',
     subtitle: '',
@@ -203,7 +203,7 @@ const japaneseLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'n4', name: 'JLPT N4', description: 'Elementary', color: 'bg-[#186E95]',
+    id: 'n4', name: 'N4', description: 'Elementary', color: 'bg-[#186E95]',
     band: 0,
     title: '',
     subtitle: '',
@@ -212,7 +212,7 @@ const japaneseLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'n3', name: 'JLPT N3', description: 'Intermediate', color: 'bg-yellow-500',
+    id: 'n3', name: 'N3', description: 'Intermediate', color: 'bg-yellow-500',
     band: 0,
     title: '',
     subtitle: '',
@@ -221,7 +221,7 @@ const japaneseLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'n2', name: 'JLPT N2', description: 'Upper Intermediate', color: 'bg-orange-500',
+    id: 'n2', name: 'N2', description: 'Upper Intermediate', color: 'bg-orange-500',
     band: 0,
     title: '',
     subtitle: '',
@@ -230,7 +230,7 @@ const japaneseLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'n1', name: 'JLPT N1', description: 'Advanced', color: 'bg-red-500',
+    id: 'n1', name: 'N1', description: 'Advanced', color: 'bg-red-500',
     band: 0,
     title: '',
     subtitle: '',
@@ -389,6 +389,9 @@ interface LevelCardProps {
   bodyText?: string;
   accentOverride?: AccentKey;
   showBadge?: boolean;
+  showStats?: boolean;
+  showCta?: boolean;
+  centerContent?: boolean;
 }
 
 function LevelCard({
@@ -404,6 +407,9 @@ function LevelCard({
   bodyText,
   accentOverride,
   showBadge = true,
+  showStats = true,
+  showCta = true,
+  centerContent = false,
 }: LevelCardProps) {
   const a = ACCENT[accentOverride ?? 'navy'];
   const isLocked = !isUnlocked;
@@ -431,9 +437,19 @@ function LevelCard({
     <button
       onClick={() => isUnlocked && onSelect(level)}
       disabled={!isUnlocked}
-      className={`w-full border rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
+      className={`w-full border rounded-3xl min-h-[170px] p-5 ${centerContent ? 'text-center' : 'text-left'} shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
         isDrenched && isUnlocked
-          ? `${level.id === 'band1' || level.id === 'band2' ? 'bg-[#3E5648]' : level.id === 'band3' || level.id === 'band4' ? 'bg-[#186E95]' : level.id === 'band5' || level.id === 'band6' ? 'bg-[#374151]' : 'bg-[#C2410C]'} border-transparent text-white`
+          ? `${
+            level.id === 'intro'
+              ? 'bg-[#374151]'
+              : level.id === 'band1' || level.id === 'band2'
+                ? 'bg-[#3E5648]'
+                : level.id === 'band3' || level.id === 'band4'
+                  ? 'bg-[#186E95]'
+                  : level.id === 'band5' || level.id === 'band6'
+                    ? 'bg-[#374151]'
+                    : 'bg-[#C2410C]'
+          } border-transparent text-white`
           : isLocked
             ? 'bg-[#F3F4F6] border-[#D1D5DB]'
             : `bg-white ${a.leftBorder}`
@@ -491,23 +507,25 @@ function LevelCard({
             {level.subtitle || level.description}
           </p>
 
-          <div className={`flex gap-10 text-sm font-mono mb-4 ${isDrenched ? 'text-white' : isLocked ? lockedTone : 'text-text-dark'}`}>
-            <div>
-              <span className="text-lg font-semibold">{level.wordRange || '—'}</span>
-              <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : isLocked ? lockedSoftTone : 'text-text-med'}`}>Vocabulary</div>
+          {showStats && (
+            <div className={`flex gap-10 text-sm font-mono mb-4 ${isDrenched ? 'text-white' : isLocked ? lockedTone : 'text-text-dark'} ${centerContent ? 'justify-center' : ''}`}>
+              <div>
+                <span className="text-lg font-semibold">{level.wordRange || '—'}</span>
+                <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : isLocked ? lockedSoftTone : 'text-text-med'}`}>Vocabulary</div>
+              </div>
+              <div>
+                <span className="text-lg font-semibold">{unitCount}</span>
+                <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : isLocked ? lockedSoftTone : 'text-text-med'}`}>Units</div>
+              </div>
             </div>
-            <div>
-              <span className="text-lg font-semibold">{unitCount}</span>
-              <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : isLocked ? lockedSoftTone : 'text-text-med'}`}>Units</div>
-            </div>
-          </div>
+          )}
 
           <p className={`text-[11px] leading-relaxed font-mono tracking-wide mb-4 ${isDrenched ? 'text-white/80' : isLocked ? lockedTone : 'text-text-med'}`}>
             {bodyText ||
               'Structured lessons and practice built on official proficiency frameworks.'}
           </p>
 
-          {isUnlocked && (
+          {isUnlocked && showCta && (
             <div className={`${isDrenched ? 'text-white' : a.ctaText} text-sm font-semibold tracking-wide`}>{ctaLabel}</div>
           )}
         </div>
@@ -519,6 +537,7 @@ function LevelCard({
 interface LevelSelectProps {
   onSelectLevel: (level: LessonBand) => void;
   onOpenFoundations?: () => void;
+  onOpenLanguageIntro?: () => void;
   onGoHome: () => void;
   onOpenProfile: () => void;
 }
@@ -526,6 +545,7 @@ interface LevelSelectProps {
 export default function LevelSelect({
   onSelectLevel,
   onOpenFoundations,
+  onOpenLanguageIntro,
   onGoHome,
   onOpenProfile,
 }: LevelSelectProps) {
@@ -566,6 +586,7 @@ export default function LevelSelect({
   };
 
   const levels = getLevelsForLanguage();
+  const isJapaneseLanguage = state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp';
   const advancedTrackLevel: LessonBand = {
     id: 'advanced',
     band: 7,
@@ -843,8 +864,7 @@ export default function LevelSelect({
 
         {state.selectedLanguage !== 'zh' &&
           levels.map((level, index) => {
-            const isJapanese = state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp';
-            const isUnlocked = isJapanese ? level.id === 'n5' : false;
+            const isUnlocked = isJapaneseLanguage ? (level.id === 'intro' || level.id === 'n5') : false;
             const isCompleted = state.completedLevels.includes(level.id);
             return (
               <LevelCard
@@ -852,14 +872,34 @@ export default function LevelSelect({
                 level={level}
                 isUnlocked={isUnlocked}
                 isCompleted={isCompleted}
-                onSelect={onSelectLevel}
+                onSelect={(selectedLevel) => {
+                  if (isJapaneseLanguage && selectedLevel.id === 'intro') {
+                    onOpenLanguageIntro?.();
+                    return;
+                  }
+                  onSelectLevel(selectedLevel);
+                }}
                 badgeLabel={level.id === 'intro' ? 'Intro' : 'Level'}
                 showChevronWhenUnlocked={true}
+                showStats={false}
+                showCta={false}
+                centerContent={isJapaneseLanguage && level.id === 'intro'}
+                isDrenched={isJapaneseLanguage && level.id === 'intro'}
                 bodyText={
-                  isJapanese
-                    ? (level.id === 'n5'
-                      ? 'JLPT N5 is available now.'
-                      : 'This JLPT level is not unlocked yet.')
+                  isJapaneseLanguage
+                    ? (level.id === 'intro'
+                      ? 'Open orientation cards before JLPT study.'
+                      : level.id === 'n5'
+                        ? 'Core survival Japanese'
+                        : level.id === 'n4'
+                          ? 'Daily life communication'
+                          : level.id === 'n3'
+                            ? 'Broader real-world topics'
+                            : level.id === 'n2'
+                              ? 'Advanced reading and listening'
+                              : level.id === 'n1'
+                                ? 'Nuance and high-level Japanese'
+                                : '')
                     : 'Curriculum is in production for this language. Mandarin is currently available.'
                 }
                 topRightLabel={isUnlocked ? undefined : 'Coming Soon'}

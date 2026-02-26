@@ -1,0 +1,1879 @@
+id	simp	current_unit	manifest_old_unit	manifest_new_unit	tag	resolution	old_unit_matches_current
+L7-0001	阿拉伯语	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-language		id+simp	yes
+L7-0002	哎	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-interjections		id+simp	yes
+L7-0003	哎呀	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-interjections		id+simp	yes
+L7-0004	哀求	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions	polite	id+simp	yes
+L7-0005	挨家挨户	b79-m1-cause-effect	b79-m1-cause-effect	b7-idioms-formal		id+simp	yes
+L7-0006	癌	b79-m1-cause-effect	b79-m1-cause-effect	b7-health-medical		id+simp	yes
+L7-0007	癌症	b79-m1-cause-effect	b79-m1-cause-effect	b7-health-medical		id+simp	yes
+L7-0008	艾滋病	b79-m1-cause-effect	b79-m1-cause-effect	b7-health-medical		id+simp	yes
+L7-0009	唉	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-interjections		id+simp	yes
+L7-0010	爱不释手	b79-m1-cause-effect	b79-m1-cause-effect	b7-idioms-formal		id+simp	yes
+L7-0011	爱理不理	b79-m1-cause-effect	b79-m1-cause-effect	b7-idioms-behavior		id+simp	yes
+L7-0012	爱面子	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-culture		id+simp	yes
+L7-0013	爱惜	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-virtues		id+simp	yes
+L7-0014	碍事	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0015	安定	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-society		id+simp	yes
+L7-0016	安抚	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions	polite	id+simp	yes
+L7-0017	安眠药	b79-m1-cause-effect	b79-m1-cause-effect	b7-health-medical		id+simp	yes
+L7-0018	安宁	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-society		id+simp	yes
+L7-0019	安稳	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0020	安心	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0021	安逸	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0022	按键	b79-m1-cause-effect	b79-m1-cause-effect	b7-tech-science		id+simp	yes
+L7-0023	按理说	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-logic		id+simp	yes
+L7-0024	按说	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-logic		id+simp	yes
+L7-0025	案件	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-legal		id+simp	yes
+L7-0026	暗地里	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0027	暗杀	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-crime		id+simp	yes
+L7-0028	暗中	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0029	昂贵	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		id+simp	yes
+L7-0030	凹	b79-m1-cause-effect	b79-m1-cause-effect	b7-tech-science		id+simp	yes
+L7-0031	熬	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0032	熬夜	b79-m1-cause-effect	b79-m1-cause-effect	b7-health-lifestyle		id+simp	yes
+L7-0033	傲	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0034	傲慢	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0035	奥秘	b79-m1-cause-effect	b79-m1-cause-effect	b7-tech-science		id+simp	yes
+L7-0036	奥运会	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-sports		id+simp	yes
+L7-0037	八卦	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-culture		id+simp	yes
+L7-0038	巴不得	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0039	扒	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0040	芭蕾	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-arts		id+simp	yes
+L7-0041	把柄	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance		id+simp	yes
+L7-0042	把关	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		id+simp	yes
+L7-0043	把手	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0044	靶子	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0045	坝	b79-m1-cause-effect	b79-m1-cause-effect	b7-tech-infrastructure		id+simp	yes
+L7-0046	罢免	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-diplomacy	polite	id+simp	yes
+L7-0047	罢休	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0048	霸占	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-society		id+simp	yes
+L7-0049	掰	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0050	白白	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0051	百分比	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-logic		id+simp	yes
+L7-0052	百合	b79-m1-cause-effect	b79-m1-cause-effect	b7-nature-flora		id+simp	yes
+L7-0053	百科全书	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-logic		id+simp	yes
+L7-0054	柏树	b79-m1-cause-effect	b79-m1-cause-effect	b7-nature-flora		id+simp	yes
+L7-0055	摆放	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0056	摆平	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance		id+simp	yes
+L7-0057	摆设	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0058	拜会	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-diplomacy	polite	id+simp	yes
+L7-0059	拜见	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance	polite	id+simp	yes
+L7-0060	拜年	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-holidays		id+simp	yes
+L7-0061	拜托	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance	polite	id+simp	yes
+L7-0062	扳	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0063	颁布	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-legal		id+simp	yes
+L7-0064	颁发	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-diplomacy	polite	id+simp	yes
+L7-0065	颁奖	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-social	polite	id+simp	yes
+L7-0066	斑点	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0067	搬迁	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0068	板块	b79-m1-cause-effect	b79-m1-cause-effect	b7-tech-science		id+simp	yes
+L7-0069	办不到	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0070	半边天	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-culture		id+simp	yes
+L7-0071	半场	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-sports		id+simp	yes
+L7-0072	半岛	b79-m1-cause-effect	b79-m1-cause-effect	b7-nature-geography		id+simp	yes
+L7-0073	半路	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0074	半数	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-logic		id+simp	yes
+L7-0075	半途而废	b79-m1-cause-effect	b79-m1-cause-effect	b7-idioms-formal		id+simp	yes
+L7-0076	半信半疑	b79-m1-cause-effect	b79-m1-cause-effect	b7-idioms-formal		id+simp	yes
+L7-0077	半真半假	b79-m1-cause-effect	b79-m1-cause-effect	b7-idioms-formal		id+simp	yes
+L7-0078	扮	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-arts		id+simp	yes
+L7-0079	伴	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0080	伴侣	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0081	伴随	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0082	伴奏	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-arts		id+simp	yes
+L7-0083	拌	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0084	帮手	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-work		id+simp	yes
+L7-0085	绑	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0086	绑架	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-crime		id+simp	yes
+L7-0087	榜样	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-virtues		id+simp	yes
+L7-0088	棒球	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-sports		id+simp	yes
+L7-0089	磅	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-logic		id+simp	yes
+L7-0090	包袱	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0091	包容	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-virtues	polite	id+simp	yes
+L7-0092	包扎	b79-m1-cause-effect	b79-m1-cause-effect	b7-health-medical		id+simp	yes
+L7-0093	剥	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0094	煲	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-food		id+simp	yes
+L7-0095	饱和	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		id+simp	yes
+L7-0096	饱满	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0097	宝库	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-heritage		id+simp	yes
+L7-0098	宝藏	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-heritage		id+simp	yes
+L7-0099	保管	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		id+simp	yes
+L7-0100	保姆	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-work		id+simp	yes
+L7-0101	保暖	b79-m1-cause-effect	b79-m1-cause-effect	b7-health-lifestyle		id+simp	yes
+L7-0102	保鲜	b79-m1-cause-effect	b79-m1-cause-effect	b7-tech-science		id+simp	yes
+L7-0103	保修	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		id+simp	yes
+L7-0104	保佑	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-culture	polite	id+simp	yes
+L7-0105	保障	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-diplomacy		id+simp	yes
+L7-0106	保质期	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		id+simp	yes
+L7-0107	保重	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance	polite	id+simp	yes
+L7-0108	堡垒	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-society		id+simp	yes
+L7-0109	报	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0110	报仇	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance		id+simp	yes
+L7-0111	报酬	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		id+simp	yes
+L7-0112	报废	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		id+simp	yes
+L7-0113	报复	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance		id+simp	yes
+L7-0114	报社	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-media		id+simp	yes
+L7-0115	报亭	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-media		id+simp	yes
+L7-0116	报销	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		id+simp	yes
+L7-0117	抱负	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0118	豹	b79-m1-cause-effect	b79-m1-cause-effect	b7-nature-fauna		id+simp	yes
+L7-0119	暴风骤雨	b79-m1-cause-effect	b79-m1-cause-effect	b7-idioms-formal		id+simp	yes
+L7-0120	暴利	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		id+simp	yes
+L7-0121	暴躁	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0122	曝光	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-media		id+simp	yes
+L7-0123	爆冷门	b79-m1-cause-effect	b79-m1-cause-effect	b7-idioms-formal		id+simp	yes
+L7-0124	爆满	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-social		id+simp	yes
+L7-0125	爆竹	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-holidays		id+simp	yes
+L7-0126	卑鄙	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0127	悲哀	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0128	悲观	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0129	悲欢离合	b79-m1-cause-effect	b79-m1-cause-effect	b7-idioms-formal		id+simp	yes
+L7-0130	悲痛	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		id+simp	yes
+L7-0131	碑	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-heritage		id+simp	yes
+L7-0132	贝壳	b79-m1-cause-effect	b79-m1-cause-effect	b7-nature-fauna		id+simp	yes
+L7-0133	备课	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-work		id+simp	yes
+L7-0134	备受	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0135	备用	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0136	背面	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0137	背叛	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance		id+simp	yes
+L7-0138	背诵	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-work		id+simp	yes
+L7-0139	被捕	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-legal		id+simp	yes
+L7-0140	奔波	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-work		id+simp	yes
+L7-0141	奔赴	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0142	本分	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-virtues		id+simp	yes
+L7-0143	本能	b79-m1-cause-effect	b79-m1-cause-effect	b7-tech-science		id+simp	yes
+L7-0144	本钱	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		id+simp	yes
+L7-0145	本色	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-virtues		id+simp	yes
+L7-0146	本性	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-virtues		id+simp	yes
+L7-0147	本意	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-logic		id+simp	yes
+L7-0148	本着	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-logic		id+simp	yes
+L7-0149	奔	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		id+simp	yes
+L7-0150	笨蛋	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance		id+simp	yes
+L7-0151	本着	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-logic		simp_fallback	yes
+L7-0152	本周		b79-m1-cause-effect	b7-general-formal		id_mismatch_no_simp	no
+L7-0153	本尊		b79-m1-cause-effect	b7-social-culture		id_mismatch_no_simp	no
+L7-0154	泵		b79-m1-cause-effect	b7-tech-science		id_mismatch_no_simp	no
+L7-0155	崩溃	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		simp_fallback	yes
+L7-0156	迸发		b79-m1-cause-effect	b7-general-formal		id_mismatch_no_simp	no
+L7-0157	逼迫	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance		id+simp	yes
+L7-0158	鼻孔		b79-m1-cause-effect	b7-health-medical		id_mismatch_no_simp	no
+L7-0159	鼻梁		b79-m1-cause-effect	b7-health-medical		id_mismatch_no_simp	no
+L7-0160	鼻子		b79-m1-cause-effect	b7-health-medical		id_mismatch_no_simp	no
+L7-0161	比重		b79-m1-cause-effect	b7-academic-logic		id_mismatch_no_simp	no
+L7-0162	彼此		b79-m1-cause-effect	b7-social-nuance		id_mismatch_no_simp	no
+L7-0163	笔记		b79-m1-cause-effect	b7-academic-work		id_mismatch_no_simp	no
+L7-0164	毕恭毕敬		b79-m1-cause-effect	b7-idioms-behavior	polite	id_mismatch_no_simp	no
+L7-0165	毕竟		b79-m1-cause-effect	b7-academic-logic		id_mismatch_no_simp	no
+L7-0166	闭幕		b79-m1-cause-effect	b7-politics-diplomacy	polite	id_mismatch_no_simp	no
+L7-0167	闭幕式		b79-m1-cause-effect	b7-politics-diplomacy	polite	id_mismatch_no_simp	no
+L7-0168	避讳		b79-m1-cause-effect	b7-social-culture		id_mismatch_no_simp	no
+L7-0169	避开		b79-m1-cause-effect	b7-general-formal		id_mismatch_no_simp	no
+L7-0170	避暑	b79-m1-cause-effect	b79-m1-cause-effect	b7-nature-lifestyle		simp_fallback	yes
+L7-0171	避孕		b79-m1-cause-effect	b7-health-medical		id_mismatch_no_simp	no
+L7-0172	壁画	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-arts		simp_fallback	yes
+L7-0173	臂章		b79-m1-cause-effect	b7-politics-society		id_mismatch_no_simp	no
+L7-0174	边境		b79-m1-cause-effect	b7-politics-geography		id_mismatch_no_simp	no
+L7-0175	边框		b79-m1-cause-effect	b7-tech-science		id_mismatch_no_simp	no
+L7-0176	边缘		b79-m1-cause-effect	b7-general-formal		id_mismatch_no_simp	no
+L7-0177	编导		b79-m1-cause-effect	b7-culture-media		id_mismatch_no_simp	no
+L7-0178	编号	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		simp_fallback	yes
+L7-0179	编辑		b79-m1-cause-effect	b7-culture-media		id_mismatch_no_simp	no
+L7-0180	编排	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-work		simp_fallback	yes
+L7-0181	编写	b79-m1-cause-effect	b79-m1-cause-effect	b7-academic-work		simp_fallback	yes
+L7-0182	编织		b79-m1-cause-effect	b7-culture-arts		id_mismatch_no_simp	no
+L7-0183	编制		b79-m1-cause-effect	b7-politics-society		id_mismatch_no_simp	no
+L7-0184	蝙蝠		b79-m1-cause-effect	b7-nature-fauna		id_mismatch_no_simp	no
+L7-0185	鞭策	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-virtues		simp_fallback	yes
+L7-0186	鞭炮	b79-m1-cause-effect	b79-m1-cause-effect	b7-culture-holidays		simp_fallback	yes
+L7-0187	贬低		b79-m1-cause-effect	b7-social-nuance		id_mismatch_no_simp	no
+L7-0188	贬值	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		simp_fallback	yes
+L7-0189	扁平		b79-m1-cause-effect	b7-tech-science		id_mismatch_no_simp	no
+L7-0190	便道	b79-m1-cause-effect	b79-m1-cause-effect	b7-nature-infrastructure		id+simp	yes
+L7-0191	便服		b79-m1-cause-effect	b7-social-culture		id_mismatch_no_simp	no
+L7-0192	便捷	b79-m1-cause-effect	b79-m1-cause-effect	b7-tech-science		id+simp	yes
+L7-0193	便条		b79-m1-cause-effect	b7-academic-work		id_mismatch_no_simp	no
+L7-0194	便于		b79-m1-cause-effect	b7-academic-logic		id_mismatch_no_simp	no
+L7-0195	变故		b79-m1-cause-effect	b7-social-nuance		id_mismatch_no_simp	no
+L7-0196	变迁	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-society		simp_fallback	yes
+L7-0197	变通		b79-m1-cause-effect	b7-general-formal		id_mismatch_no_simp	no
+L7-0198	变质	b79-m1-cause-effect	b79-m1-cause-effect	b7-health-medical		simp_fallback	yes
+L7-0199	辩解	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance		id+simp	yes
+L7-0200	辩证		b79-m1-cause-effect	b7-academic-logic		id_mismatch_no_simp	no
+L7-0201	辨认	b79-m1-cause-effect	b79-m1-cause-effect	b7-general-formal		simp_fallback	yes
+L7-0202	辨析		b79-m1-cause-effect	b7-academic-logic		id_mismatch_no_simp	no
+L7-0203	辩词		b79-m1-cause-effect	b7-politics-legal		id_mismatch_no_simp	no
+L7-0204	辩护	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-legal		simp_fallback	yes
+L7-0205	辩论		b79-m1-cause-effect	b7-academic-logic		id_mismatch_no_simp	no
+L7-0206	标本	b79-m1-cause-effect	b79-m1-cause-effect	b7-tech-science		simp_fallback	yes
+L7-0207	标点		b79-m1-cause-effect	b7-academic-work		id_mismatch_no_simp	no
+L7-0208	符号		b79-m1-cause-effect	b7-academic-work		id_mismatch_no_simp	no
+L7-0209	标记		b79-m1-cause-effect	b7-general-formal		id_mismatch_no_simp	no
+L7-0210	标签	b79-m1-cause-effect	b79-m1-cause-effect	b7-finance-business		simp_fallback	yes
+L7-0211	标题		b79-m1-cause-effect	b7-academic-work		id_mismatch_no_simp	no
+L7-0212	标志		b79-m1-cause-effect	b7-general-formal		id_mismatch_no_simp	no
+L7-0213	表白	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		simp_fallback	yes
+L7-0214	表决	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-diplomacy		simp_fallback	yes
+L7-0215	表态	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-nuance		simp_fallback	yes
+L7-0216	表彰	b79-m1-cause-effect	b79-m1-cause-effect	b7-politics-diplomacy	polite	simp_fallback	yes
+L7-0217	憋	b79-m1-cause-effect	b79-m1-cause-effect	b7-social-emotions		simp_fallback	yes
+L7-0218	别墅	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-finance-business		id+simp	yes
+L7-0219	别说	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-academic-logic		id+simp	yes
+L7-0220	别提了	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-interjections		id+simp	yes
+L7-0221	别致	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-culture-arts		id+simp	yes
+L7-0222	别扭	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-emotions		id+simp	yes
+L7-0223	濒临		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0224	冰雹		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0225	冰山	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-nature-geography		simp_fallback	yes
+L7-0226	兵		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0227	兵团		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0228	兵役		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0229	并存		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0230	并非	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-academic-logic		id+simp	yes
+L7-0231	并列	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	yes
+L7-0232	并入		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0233	并行	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-tech-science		id+simp	yes
+L7-0234	并非如此		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0235	并非易事		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0236	并非偶然		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0237	并不见得		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0238	并不意味		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0239	播放器		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0240	播种		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0241	驳回	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-politics-legal		simp_fallback	yes
+L7-0242	博大精深		b79-m1-comparison-evaluation	b7-idioms-formal		id_mismatch_no_simp	no
+L7-0243	博览会		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0244	博士后		b79-m1-comparison-evaluation	b7-academic-work		id_mismatch_no_simp	no
+L7-0245	博弈		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0246	薄弱		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0247	补救	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	yes
+L7-0248	补贴		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0249	哺乳		b79-m1-comparison-evaluation	b7-health-medical		id_mismatch_no_simp	no
+L7-0250	不大		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0251	不动产		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0252	不妨	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-nuance	polite	simp_fallback	yes
+L7-0253	不敢当		b79-m1-comparison-evaluation	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-0254	不敢恭维		b79-m1-comparison-evaluation	b7-social-nuance		id_mismatch_no_simp	no
+L7-0255	不顾		b79-m1-comparison-evaluation	b7-social-nuance		id_mismatch_no_simp	no
+L7-0256	不禁		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0257	不禁想起		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0258	不堪	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	yes
+L7-0259	不堪入目		b79-m1-comparison-evaluation	b7-idioms-behavior		id_mismatch_no_simp	no
+L7-0260	不堪重负		b79-m1-comparison-evaluation	b7-idioms-formal		id_mismatch_no_simp	no
+L7-0261	不可思议	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-idioms-formal		simp_fallback	yes
+L7-0262	不愧		b79-m1-comparison-evaluation	b7-social-virtues		id_mismatch_no_simp	no
+L7-0263	不料		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0264	不三不四		b79-m1-comparison-evaluation	b7-idioms-behavior		id_mismatch_no_simp	no
+L7-0265	不慎	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	yes
+L7-0266	不时		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0267	不由得	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	yes
+L7-0268	不由自主	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-idioms-behavior		simp_fallback	yes
+L7-0269	不再		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0270	不止		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0271	不致		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0272	不足以		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0273	布告		b79-m1-comparison-evaluation	b7-culture-media		id_mismatch_no_simp	no
+L7-0274	布局	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	yes
+L7-0275	布置		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0276	步伐	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-politics-society		simp_fallback	yes
+L7-0277	部署	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-politics-military		simp_fallback	yes
+L7-0278	部位		b79-m1-comparison-evaluation	b7-health-medical		id_mismatch_no_simp	no
+L7-0279	猜想	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	yes
+L7-0280	才干		b79-m1-comparison-evaluation	b7-social-work		id_mismatch_no_simp	no
+L7-0281	裁判		b79-m1-comparison-evaluation	b7-culture-sports		id_mismatch_no_simp	no
+L7-0282	财务	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	yes
+L7-0283	财政	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-politics-finance		simp_fallback	yes
+L7-0284	裁员		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0285	采纳		b79-m1-comparison-evaluation	b7-academic-logic	polite	id_mismatch_no_simp	no
+L7-0286	采集	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	yes
+L7-0287	彩票		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0288	采访		b79-m1-comparison-evaluation	b7-culture-media		id_mismatch_no_simp	no
+L7-0289	参谋	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-politics-military		simp_fallback	yes
+L7-0290	参赛		b79-m1-comparison-evaluation	b7-culture-sports		id_mismatch_no_simp	no
+L7-0291	参照	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	yes
+L7-0292	残酷		b79-m1-comparison-evaluation	b7-social-nuance		id_mismatch_no_simp	no
+L7-0293	残留	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	yes
+L7-0294	残缺	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	yes
+L7-0295	惭愧	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	yes
+L7-0296	惨重	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	yes
+L7-0297	灿烂	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-nature-geography		simp_fallback	yes
+L7-0298	仓促		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0299	仓库		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0300	舱	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-tech-transport		simp_fallback	yes
+L7-0301	操劳	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-work		simp_fallback	yes
+L7-0302	操练		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0303	操纵		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0304	操作		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0305	草案	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-politics-legal		simp_fallback	yes
+L7-0306	草率		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0307	策划		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0308	策略		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0309	测量		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0310	侧面	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	yes
+L7-0311	层出不穷	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-idioms-formal		simp_fallback	yes
+L7-0312	层次		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0313	叉		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0314	差距		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0315	插座		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0316	查获		b79-m1-comparison-evaluation	b7-politics-legal		id_mismatch_no_simp	no
+L7-0317	查封		b79-m1-comparison-evaluation	b7-politics-legal		id_mismatch_no_simp	no
+L7-0318	查看		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0319	查阅		b79-m1-comparison-evaluation	b7-academic-work	polite	id_mismatch_no_simp	no
+L7-0320	察觉	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	yes
+L7-0321	刹车		b79-m1-comparison-evaluation	b7-tech-transport		id_mismatch_no_simp	no
+L7-0322	岔		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0323	差错	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	yes
+L7-0324	柴火		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0325	搀	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-nuance	polite	simp_fallback	yes
+L7-0326	馋	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	yes
+L7-0327	缠绕		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0328	阐述	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-academic-logic	polite	simp_fallback	yes
+L7-0329	产物	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	yes
+L7-0330	产业		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0331	颤抖	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	yes
+L7-0332	昌盛		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0333	尝试		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0334	偿还	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	yes
+L7-0335	常规		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0336	常年		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0337	常任		b79-m1-comparison-evaluation	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-0338	常设		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0339	常态	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	yes
+L7-0340	常务		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0341	厂商		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0342	场所		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0343	畅通		b79-m1-comparison-evaluation	b7-tech-infrastructure		id_mismatch_no_simp	no
+L7-0344	畅销	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	yes
+L7-0345	倡导		b79-m1-comparison-evaluation	b7-politics-society	polite	id_mismatch_no_simp	no
+L7-0346	倡议	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-nuance	polite	simp_fallback	yes
+L7-0347	抄写		b79-m1-comparison-evaluation	b7-academic-work		id_mismatch_no_simp	no
+L7-0348	超标	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	yes
+L7-0349	超额		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0350	超级		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0351	超前	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	yes
+L7-0352	超人		b79-m1-comparison-evaluation	b7-culture-media		id_mismatch_no_simp	no
+L7-0353	超速	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-tech-transport		simp_fallback	yes
+L7-0354	超越		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0355	朝		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0356	朝代	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-culture-heritage		simp_fallback	yes
+L7-0357	潮流		b79-m1-comparison-evaluation	b7-social-culture		id_mismatch_no_simp	no
+L7-0358	嘲笑	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	yes
+L7-0359	潮湿		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0360	撤	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-politics-military		simp_fallback	yes
+L7-0361	撤出		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0362	撤回		b79-m1-comparison-evaluation	b7-politics-legal		id_mismatch_no_simp	no
+L7-0363	撤离		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0364	撤销		b79-m1-comparison-evaluation	b7-politics-legal		id_mismatch_no_simp	no
+L7-0365	车道	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-tech-transport		simp_fallback	yes
+L7-0366	车队		b79-m1-comparison-evaluation	b7-tech-transport		id_mismatch_no_simp	no
+L7-0367	车库		b79-m1-comparison-evaluation	b7-tech-transport		id_mismatch_no_simp	no
+L7-0368	车辆		b79-m1-comparison-evaluation	b7-tech-transport		id_mismatch_no_simp	no
+L7-0369	车厢	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-tech-transport		simp_fallback	yes
+L7-0370	车展		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0371	彻底		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0372	沉		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0373	沉淀	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	yes
+L7-0374	沉浸	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	yes
+L7-0375	沉闷	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	yes
+L7-0376	沉默		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0377	沉思	b79-m1-comparison-evaluation	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	yes
+L7-0378	沉重		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0379	陈列	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-culture-heritage		simp_fallback	no
+L7-0380	陈述	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-academic-logic	polite	simp_fallback	no
+L7-0381	称心如意		b79-m1-comparison-evaluation	b7-idioms-formal		id_mismatch_no_simp	no
+L7-0382	称号		b79-m1-comparison-evaluation	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-0383	成本		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0384	成成交		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0385	成效		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0386	成心		b79-m1-comparison-evaluation	b7-social-nuance		id_mismatch_no_simp	no
+L7-0387	成员		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0388	呈		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0389	呈现	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0390	乘		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0391	乘法		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0392	乘客		b79-m1-comparison-evaluation	b7-tech-transport		id_mismatch_no_simp	no
+L7-0393	惩罚	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-politics-legal		simp_fallback	no
+L7-0394	澄清	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0395	橙		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0396	秤	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0397	吃力		b79-m1-comparison-evaluation	b7-social-work		id_mismatch_no_simp	no
+L7-0398	吃亏	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0399	迟疑	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	no
+L7-0400	持久	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0401	持续		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0402	池塘	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-nature-geography		simp_fallback	no
+L7-0403	赤道		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0404	赤字	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-politics-finance		simp_fallback	no
+L7-0405	崇拜		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0406	崇高	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-virtues	polite	simp_fallback	no
+L7-0407	崇敬		b79-m1-comparison-evaluation	b7-social-emotions	polite	id_mismatch_no_simp	no
+L7-0408	宠物		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0409	冲突		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0410	充当	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0411	充电器		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0412	充分		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0413	充满		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0414	充沛	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0415	充实	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	no
+L7-0416	重叠	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	no
+L7-0417	重返	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0418	重复		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0419	重申	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-politics-diplomacy	polite	simp_fallback	no
+L7-0420	重视		b79-m1-comparison-evaluation	b7-academic-logic	polite	id_mismatch_no_simp	no
+L7-0421	重提		b79-m1-comparison-evaluation	b7-social-nuance		id_mismatch_no_simp	no
+L7-0422	重温		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0423	重新		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0424	重阳节		b79-m1-comparison-evaluation	b7-culture-holidays		id_mismatch_no_simp	no
+L7-0425	重组		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0426	抽样		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0427	筹备	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-finance-business	polite	simp_fallback	no
+L7-0428	筹号		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0429	筹款		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0430	踌躇		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0431	丑恶	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0432	出路		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0433	出卖	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0434	出色		b79-m1-comparison-evaluation	b7-social-virtues	polite	id_mismatch_no_simp	no
+L7-0435	出身	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-culture		simp_fallback	no
+L7-0436	出神		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0437	出事		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0438	出手	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0439	出息	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-virtues		simp_fallback	no
+L7-0440	出洋相	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0441	出自	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0442	初步		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0443	初级		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0444	除		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0445	厨房		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0446	储备	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-politics-finance		simp_fallback	no
+L7-0447	储藏		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0448	储蓄	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0449	处分		b79-m1-comparison-evaluation	b7-politics-legal		id_mismatch_no_simp	no
+L7-0450	处境	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0451	处事		b79-m1-comparison-evaluation	b7-social-behavior		id_mismatch_no_simp	no
+L7-0452	处理		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0453	处世		b79-m1-comparison-evaluation	b7-social-behavior		id_mismatch_no_simp	no
+L7-0454	处于		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0455	传单		b79-m1-comparison-evaluation	b7-culture-media		id_mismatch_no_simp	no
+L7-0456	传授	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-academic-work	polite	simp_fallback	no
+L7-0457	传说		b79-m1-comparison-evaluation	b7-culture-heritage		id_mismatch_no_simp	no
+L7-0458	传真		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0459	船只		b79-m1-comparison-evaluation	b7-tech-transport		id_mismatch_no_simp	no
+L7-0460	喘气		b79-m1-comparison-evaluation	b7-health-medical		id_mismatch_no_simp	no
+L7-0461	串		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0462	窗帘		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0463	闯		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0464	创立		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0465	创新		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0466	创业		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0467	创作		b79-m1-comparison-evaluation	b7-culture-arts		id_mismatch_no_simp	no
+L7-0468	吹牛	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0469	吹捧	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0470	垂直		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0471	锤		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0472	纯洁	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-virtues		simp_fallback	no
+L7-0473	纯粹	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0474	词汇		b79-m1-comparison-evaluation	b7-academic-work		id_mismatch_no_simp	no
+L7-0475	词句		b79-m1-comparison-evaluation	b7-academic-work		id_mismatch_no_simp	no
+L7-0476	词曲		b79-m1-comparison-evaluation	b7-culture-arts		id_mismatch_no_simp	no
+L7-0477	词序		b79-m1-comparison-evaluation	b7-academic-work		id_mismatch_no_simp	no
+L7-0478	磁带	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	no
+L7-0479	磁盘	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	no
+L7-0480	慈善	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-culture	polite	simp_fallback	no
+L7-0481	慈祥	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-emotions	polite	simp_fallback	no
+L7-0482	此外		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0483	次数		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0484	次序		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0485	刺		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0486	伺候	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0487	匆忙	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0488	丛		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0489	丛书		b79-m1-comparison-evaluation	b7-academic-work		id_mismatch_no_simp	no
+L7-0490	凑	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0491	凑合	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0492	粗鲁	b79-m1-hypothesis-speculation	b79-m1-comparison-evaluation	b7-social-behavior		simp_fallback	no
+L7-0493	粗俗		b79-m1-comparison-evaluation	b7-social-behavior		id_mismatch_no_simp	no
+L7-0494	粗心大意	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-idioms-behavior		simp_fallback	no
+L7-0495	促使		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0496	催	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0497	催眠	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-health-medical		simp_fallback	no
+L7-0498	璀璨		b79-m1-comparison-evaluation	b7-culture-arts		id_mismatch_no_simp	no
+L7-0499	脆弱	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	no
+L7-0500	存单		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0501	存款		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0502	存档		b79-m1-comparison-evaluation	b7-academic-work		id_mismatch_no_simp	no
+L7-0503	搓	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0504	磋商	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-politics-diplomacy	polite	simp_fallback	no
+L7-0505	挫折		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0506	搭		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0507	搭配		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0508	达成		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0509	答辩	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-academic-work		simp_fallback	no
+L7-0510	答复		b79-m1-comparison-evaluation	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-0511	打包		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0512	打官司		b79-m1-comparison-evaluation	b7-politics-legal		id_mismatch_no_simp	no
+L7-0513	打击		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0514	打量	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-behavior		simp_fallback	no
+L7-0515	打猎	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-culture-sports		simp_fallback	no
+L7-0516	打破		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0517	打扫		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0518	打听		b79-m1-comparison-evaluation	b7-social-nuance		id_mismatch_no_simp	no
+L7-0519	打印机		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0520	打仗	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-politics-military		simp_fallback	no
+L7-0521	大巴		b79-m1-comparison-evaluation	b7-tech-transport		id_mismatch_no_simp	no
+L7-0522	大白菜		b79-m1-comparison-evaluation	b7-nature-flora		id_mismatch_no_simp	no
+L7-0523	大不如前		b79-m1-comparison-evaluation	b7-idioms-formal		id_mismatch_no_simp	no
+L7-0524	大臣	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-politics-society		simp_fallback	no
+L7-0525	大道		b79-m1-comparison-evaluation	b7-tech-transport		id_mismatch_no_simp	no
+L7-0526	大度		b79-m1-comparison-evaluation	b7-social-virtues	polite	id_mismatch_no_simp	no
+L7-0527	大多		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0528	大多数		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0529	大纲		b79-m1-comparison-evaluation	b7-academic-work		id_mismatch_no_simp	no
+L7-0530	大哥		b79-m1-comparison-evaluation	b7-social-nuance		id_mismatch_no_simp	no
+L7-0531	大海		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0532	大家		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0533	大奖		b79-m1-comparison-evaluation	b7-culture-social		id_mismatch_no_simp	no
+L7-0534	大街		b79-m1-comparison-evaluation	b7-tech-transport		id_mismatch_no_simp	no
+L7-0535	大量		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0536	大脑		b79-m1-comparison-evaluation	b7-health-medical		id_mismatch_no_simp	no
+L7-0537	大气	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-nature-geography		simp_fallback	no
+L7-0538	大事		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0539	大手大脚		b79-m1-comparison-evaluation	b7-idioms-behavior		id_mismatch_no_simp	no
+L7-0540	大使		b79-m1-comparison-evaluation	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-0541	大使馆		b79-m1-comparison-evaluation	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-0542	大厅		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0543	大小		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0544	大一		b79-m1-comparison-evaluation	b7-academic-work		id_mismatch_no_simp	no
+L7-0545	大意		b79-m1-comparison-evaluation	b7-social-behavior		simp_ambiguous	no
+L7-0546	大约		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0547	大致		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0548	大众		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0549	代		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0550	代表团		b79-m1-comparison-evaluation	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-0551	代价		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0552	代理		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0553	代码		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0554	代言		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0555	逮捕	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-politics-legal		simp_fallback	no
+L7-0556	贷款		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0557	待遇		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0558	怠慢	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-nuance	polite	simp_fallback	no
+L7-0559	担		b79-m1-comparison-evaluation	b7-general-formal		simp_ambiguous	no
+L7-0560	担保		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0561	担负	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-work		simp_fallback	no
+L7-0562	担任		b79-m1-comparison-evaluation	b7-social-work		id_mismatch_no_simp	no
+L7-0563	担忧		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0564	耽误	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0565	胆怯	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	no
+L7-0566	诞生		b79-m1-comparison-evaluation	b7-politics-society	polite	id_mismatch_no_simp	no
+L7-0567	淡季	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0568	淡水		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0569	蛋白质	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-health-medical		simp_fallback	no
+L7-0570	当场		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0571	当初		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0572	当代		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0573	当地		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0574	当面	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0575	当前		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0576	当事人	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-politics-legal		simp_fallback	no
+L7-0577	当选		b79-m1-comparison-evaluation	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-0578	当中		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0579	挡		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0580	党的		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0581	档案		b79-m1-comparison-evaluation	b7-academic-work		id_mismatch_no_simp	no
+L7-0582	档次	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0583	导弹	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-politics-military		simp_fallback	no
+L7-0584	岛		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0585	岛屿	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-nature-geography		simp_fallback	no
+L7-0586	倒闭		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0587	倒计		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0588	倒霉	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0589	倒数	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0590	道德		b79-m1-comparison-evaluation	b7-social-virtues		id_mismatch_no_simp	no
+L7-0591	道理		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0592	盗版		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0593	盗窃	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-politics-legal		simp_fallback	no
+L7-0594	稻谷		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0595	得不偿失	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-idioms-formal		simp_fallback	no
+L7-0596	得力	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-work		simp_fallback	no
+L7-0597	得体	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-behavior	polite	simp_fallback	no
+L7-0598	得天独厚	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-idioms-formal		simp_fallback	no
+L7-0599	得意		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0600	登		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0601	登记		b79-m1-comparison-evaluation	b7-finance-business	polite	id_mismatch_no_simp	no
+L7-0602	登机	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-tech-transport		simp_fallback	no
+L7-0603	登录		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0604	登陆	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	no
+L7-0605	登门		b79-m1-comparison-evaluation	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-0606	灯笼	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-culture-holidays		simp_fallback	no
+L7-0607	等待		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0608	等候		b79-m1-comparison-evaluation	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-0609	等级		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0610	等同		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0611	等于		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0612	瞪	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-behavior		simp_fallback	no
+L7-0613	低估	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0614	低级		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0615	低廉		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0616	低落		b79-m1-comparison-evaluation	b7-social-emotions		id_mismatch_no_simp	no
+L7-0617	低头		b79-m1-comparison-evaluation	b7-social-behavior		id_mismatch_no_simp	no
+L7-0618	堤坝	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-tech-infrastructure		simp_fallback	no
+L7-0619	敌视		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0620	抵达		b79-m1-comparison-evaluation	b7-general-formal	polite	id_mismatch_no_simp	no
+L7-0621	抵靠		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0622	抵抗		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0623	抵消	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0624	抵制	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-politics-society		simp_fallback	no
+L7-0625	地步	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0626	地道		b79-m1-comparison-evaluation	b7-social-culture		simp_ambiguous	no
+L7-0627	地段	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0628	地势		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0629	地毯	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0630	地质	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	no
+L7-0631	递增		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0632	颠簸		b79-m1-comparison-evaluation	b7-tech-transport		id_mismatch_no_simp	no
+L7-0633	颠倒	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0634	颠覆	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-politics-society		simp_fallback	no
+L7-0635	巅峰	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0636	典型		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0637	点播		b79-m1-comparison-evaluation	b7-culture-media		id_mismatch_no_simp	no
+L7-0638	点菜		b79-m1-comparison-evaluation	b7-culture-food		id_mismatch_no_simp	no
+L7-0639	点火	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	no
+L7-0640	点缀	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-culture-arts		simp_fallback	no
+L7-0641	垫	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0642	垫底	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-nuance		simp_fallback	no
+L7-0643	奠定	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-academic-logic	polite	simp_fallback	no
+L7-0644	奠基		b79-m1-comparison-evaluation	b7-politics-society	polite	id_mismatch_no_simp	no
+L7-0645	惦记	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	no
+L7-0646	电报	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	no
+L7-0647	电磁		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0648	电道		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0649	电费		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0650	电工		b79-m1-comparison-evaluation	b7-social-work		id_mismatch_no_simp	no
+L7-0651	电击		b79-m1-comparison-evaluation	b7-health-medical		id_mismatch_no_simp	no
+L7-0652	电力		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0653	电铃	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	no
+L7-0654	电路		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0655	电瓶		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0656	电器		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0657	电线	b79-m2-agreement-concession	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	no
+L7-0658	电压		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0659	电源		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0660	电子		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0661	雕刻	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-culture-arts		simp_fallback	no
+L7-0662	雕塑	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-culture-arts		simp_fallback	no
+L7-0663	吊		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0664	钓		b79-m1-comparison-evaluation	b7-culture-sports		id_mismatch_no_simp	no
+L7-0665	调动		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0666	跌		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0667	跌幅		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0668	叮嘱	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-social-nuance	polite	simp_fallback	no
+L7-0669	顶端		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0670	订单	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0671	订购	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0672	订阅		b79-m1-comparison-evaluation	b7-culture-media		id_mismatch_no_simp	no
+L7-0673	盯	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-social-behavior		simp_fallback	no
+L7-0674	定额		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0675	定理		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0676	定律		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0677	定期		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0678	定食		b79-m1-comparison-evaluation	b7-culture-food		id_mismatch_no_simp	no
+L7-0679	定性		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0680	定义	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0681	定制		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0682	东道主	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-politics-diplomacy		simp_fallback	no
+L7-0683	东张西望	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-idioms-behavior		simp_fallback	no
+L7-0684	董事长	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0685	董事会	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0686	懂事	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-social-virtues		simp_fallback	no
+L7-0687	动荡	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-politics-society		simp_fallback	no
+L7-0688	动机		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0689	动力		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0690	动乱		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0691	动态		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0692	动向	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-politics-society		simp_fallback	no
+L7-0693	动员		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0694	动脉	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-health-medical		simp_fallback	no
+L7-0695	冻结	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0696	洞		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0697	洞察		b79-m1-comparison-evaluation	b7-academic-logic	polite	id_mismatch_no_simp	no
+L7-0698	洞穴		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0699	都		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0700	都市		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0701	兜	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0702	陡	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-nature-geography		simp_fallback	no
+L7-0703	陡峭		b79-m1-comparison-evaluation	b7-nature-geography		id_mismatch_no_simp	no
+L7-0704	斗	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-politics-society		simp_fallback	no
+L7-0705	斗争		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0706	督促	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-social-work		simp_fallback	no
+L7-0707	毒品		b79-m1-comparison-evaluation	b7-health-medical		id_mismatch_no_simp	no
+L7-0708	独立自主		b79-m1-comparison-evaluation	b7-idioms-formal		id_mismatch_no_simp	no
+L7-0709	独生子女		b79-m1-comparison-evaluation	b7-social-culture		id_mismatch_no_simp	no
+L7-0710	独裁		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0711	独到		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0712	独家	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-culture-media		simp_fallback	no
+L7-0713	独特		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0714	独一无二	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-idioms-formal		simp_fallback	no
+L7-0715	赌		b79-m1-comparison-evaluation	b7-social-culture		id_mismatch_no_simp	no
+L7-0716	赌博		b79-m1-comparison-evaluation	b7-social-culture		id_mismatch_no_simp	no
+L7-0717	杜绝	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-politics-society	polite	simp_fallback	no
+L7-0718	端午节		b79-m1-comparison-evaluation	b7-culture-holidays		id_mismatch_no_simp	no
+L7-0719	端正	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-social-virtues		simp_fallback	no
+L7-0720	短缺	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0721	短途		b79-m1-comparison-evaluation	b7-tech-transport		id_mismatch_no_simp	no
+L7-0722	断断续续		b79-m1-comparison-evaluation	b7-idioms-formal		id_mismatch_no_simp	no
+L7-0723	断定	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0724	断绝		b79-m1-comparison-evaluation	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-0725	堆		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0726	堆积		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0727	队列		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0728	对抗		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0729	对联	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-culture-heritage		simp_fallback	no
+L7-0730	对应		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0731	对照	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0732	对策	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-politics-society		simp_fallback	no
+L7-0733	对称	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-tech-science		simp_fallback	no
+L7-0734	兑现	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0735	吨		b79-m1-comparison-evaluation	b7-academic-logic		id_mismatch_no_simp	no
+L7-0736	蹲		b79-m1-comparison-evaluation	b7-social-behavior		id_mismatch_no_simp	no
+L7-0737	顿时	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0738	多变		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0739	多亏	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-social-nuance	polite	simp_fallback	no
+L7-0740	多媒体		b79-m1-comparison-evaluation	b7-tech-science		id_mismatch_no_simp	no
+L7-0741	多元	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-politics-society		simp_fallback	no
+L7-0742	多元化		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0743	夺		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0744	夺取		b79-m1-comparison-evaluation	b7-politics-military		id_mismatch_no_simp	no
+L7-0745	朵		b79-m1-comparison-evaluation	b7-general-formal		id_mismatch_no_simp	no
+L7-0746	躲避	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-general-formal		simp_fallback	no
+L7-0747	额外	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-finance-business		simp_fallback	no
+L7-0748	恶霸		b79-m1-comparison-evaluation	b7-politics-society		id_mismatch_no_simp	no
+L7-0749	恶化	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0750	恶心		b79-m1-comparison-evaluation	b7-health-medical		id_mismatch_no_simp	no
+L7-0751	恶劣	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-nature-geography		simp_fallback	no
+L7-0752	遏制	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-politics-society		simp_fallback	no
+L7-0753	恩怨	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-social-emotions		simp_fallback	no
+L7-0754	而已	b79-m2-emphasis-reinforcement	b79-m1-comparison-evaluation	b7-academic-logic		simp_fallback	no
+L7-0755	耳环		b79-m1-comparison-evaluation	b7-social-culture		id_mismatch_no_simp	no
+L7-0756	二手		b79-m1-comparison-evaluation	b7-finance-business		id_mismatch_no_simp	no
+L7-0757	发布会	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-culture-media		simp_fallback	no
+L7-0758	发财	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-finance-business		simp_fallback	no
+L7-0759	发呆		b79-m2-agreement-concession	b7-social-behavior		id_mismatch_no_simp	no
+L7-0760	发抖	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-social-emotions		simp_fallback	no
+L7-0761	发挥		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0762	发火	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-social-emotions		simp_fallback	no
+L7-0763	发掘	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-tech-science		simp_fallback	no
+L7-0764	发考卷		b79-m2-agreement-concession	b7-academic-work		id_mismatch_no_simp	no
+L7-0765	发狂		b79-m2-agreement-concession	b7-social-emotions		id_mismatch_no_simp	no
+L7-0766	发脾气	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-social-behavior		simp_fallback	no
+L7-0767	发票		b79-m2-agreement-concession	b7-finance-business		id_mismatch_no_simp	no
+L7-0768	发起		b79-m2-agreement-concession	b7-politics-society		id_mismatch_no_simp	no
+L7-0769	发射		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0770	发誓	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-social-nuance		simp_fallback	no
+L7-0771	发行		b79-m2-agreement-concession	b7-finance-business		id_mismatch_no_simp	no
+L7-0772	发炎		b79-m2-agreement-concession	b7-health-medical		id_mismatch_no_simp	no
+L7-0773	发扬	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-social-virtues	polite	simp_fallback	no
+L7-0774	发育	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-health-medical		simp_fallback	no
+L7-0775	发源		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0776	发展中国家		b79-m2-agreement-concession	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-0777	法案		b79-m2-agreement-concession	b7-politics-legal		id_mismatch_no_simp	no
+L7-0778	法定		b79-m2-agreement-concession	b7-politics-legal		id_mismatch_no_simp	no
+L7-0779	法规		b79-m2-agreement-concession	b7-politics-legal		id_mismatch_no_simp	no
+L7-0780	法术		b79-m2-agreement-concession	b7-culture-heritage		id_mismatch_no_simp	no
+L7-0781	法制		b79-m2-agreement-concession	b7-politics-legal		id_mismatch_no_simp	no
+L7-0782	法子		b79-m2-agreement-concession	b7-general-formal		id_mismatch_no_simp	no
+L7-0783	番		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0784	繁多		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0785	繁忙	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-general-formal		simp_fallback	no
+L7-0786	繁荣		b79-m2-agreement-concession	b7-politics-society		id_mismatch_no_simp	no
+L7-0787	繁殖		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0788	反驳	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-academic-logic		simp_fallback	no
+L7-0789	反差	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-academic-logic		simp_fallback	no
+L7-0790	反常	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-general-formal		simp_fallback	no
+L7-0791	反倒	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-academic-logic		simp_fallback	no
+L7-0792	反感	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-social-emotions		simp_fallback	no
+L7-0793	反击	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-politics-military		simp_fallback	no
+L7-0794	反抗		b79-m2-agreement-concession	b7-politics-society		id_mismatch_no_simp	no
+L7-0795	反馈	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-academic-work	polite	simp_fallback	no
+L7-0796	反面	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-academic-logic		simp_fallback	no
+L7-0797	反派		b79-m2-agreement-concession	b7-culture-media		id_mismatch_no_simp	no
+L7-0798	反省	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-social-virtues		simp_fallback	no
+L7-0799	反映		b79-m2-agreement-concession	b7-academic-logic		not_found	no
+L7-0800	反应堆		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0801	反之		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0802	范畴	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-academic-logic		simp_fallback	no
+L7-0803	贩卖	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-finance-business		simp_fallback	no
+L7-0804	方才		b79-m2-agreement-concession	b7-general-formal		id_mismatch_no_simp	no
+L7-0805	方寸		b79-m2-agreement-concession	b7-social-nuance		id_mismatch_no_simp	no
+L7-0806	方案		b79-m2-agreement-concession	b7-finance-business		id_mismatch_no_simp	no
+L7-0807	方位		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0808	方针		b79-m2-agreement-concession	b7-politics-society		id_mismatch_no_simp	no
+L7-0809	防备		b79-m2-agreement-concession	b7-politics-military		id_mismatch_no_simp	no
+L7-0810	防范		b79-m2-agreement-concession	b7-politics-society		id_mismatch_no_simp	no
+L7-0811	防腐		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0812	防洪		b79-m2-agreement-concession	b7-tech-infrastructure		id_mismatch_no_simp	no
+L7-0813	防火墙	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-tech-science		simp_fallback	no
+L7-0814	防守		b79-m2-agreement-concession	b7-culture-sports		id_mismatch_no_simp	no
+L7-0815	防疫	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-health-medical		simp_fallback	no
+L7-0816	防御	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-politics-military		simp_fallback	no
+L7-0817	防止		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0818	防治		b79-m2-agreement-concession	b7-health-medical		id_mismatch_no_simp	no
+L7-0819	妨碍	b79-m2-emphasis-reinforcement	b79-m2-agreement-concession	b7-general-formal		simp_fallback	no
+L7-0820	仿佛		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0821	非法	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-legal		simp_fallback	no
+L7-0822	非凡	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-virtues	polite	simp_fallback	no
+L7-0823	飞船		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0824	飞弹		b79-m2-agreement-concession	b7-politics-military		id_mismatch_no_simp	no
+L7-0825	飞快		b79-m2-agreement-concession	b7-general-formal		id_mismatch_no_simp	no
+L7-0826	飞禽走兽		b79-m2-agreement-concession	b7-idioms-formal		id_mismatch_no_simp	no
+L7-0827	飞速	b79-m2-counterargument	b79-m2-agreement-concession	b7-general-formal		simp_fallback	no
+L7-0828	飞翔	b79-m2-counterargument	b79-m2-agreement-concession	b7-general-formal		simp_fallback	no
+L7-0829	飞跃	b79-m2-counterargument	b79-m2-agreement-concession	b7-academic-logic		simp_fallback	no
+L7-0830	肥胖	b79-m2-counterargument	b79-m2-agreement-concession	b7-health-medical		simp_fallback	no
+L7-0831	肥沃	b79-m2-counterargument	b79-m2-agreement-concession	b7-nature-geography		simp_fallback	no
+L7-0832	诽谤	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-legal		simp_fallback	no
+L7-0833	废除	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-legal		simp_fallback	no
+L7-0834	废话	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-nuance		simp_fallback	no
+L7-0835	废弃		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0836	废寝忘食		b79-m2-agreement-concession	b7-idioms-behavior		id_mismatch_no_simp	no
+L7-0837	废墟	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-society		simp_fallback	no
+L7-0838	沸腾	b79-m2-counterargument	b79-m2-agreement-concession	b7-tech-science		simp_fallback	no
+L7-0839	费劲	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-work		simp_fallback	no
+L7-0840	分辨	b79-m2-counterargument	b79-m2-agreement-concession	b7-academic-logic		simp_fallback	no
+L7-0841	分辨率		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0842	分寸	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-behavior	polite	simp_fallback	no
+L7-0843	分担	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-work		simp_fallback	no
+L7-0844	分店		b79-m2-agreement-concession	b7-finance-business		id_mismatch_no_simp	no
+L7-0845	分红	b79-m2-counterargument	b79-m2-agreement-concession	b7-finance-business		simp_fallback	no
+L7-0846	分级		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0847	分界		b79-m2-agreement-concession	b7-nature-geography		id_mismatch_no_simp	no
+L7-0848	分离		b79-m2-agreement-concession	b7-tech-science		not_found	no
+L7-0849	分裂		b79-m2-agreement-concession	b7-politics-society		id_mismatch_no_simp	no
+L7-0850	分泌	b79-m2-counterargument	b79-m2-agreement-concession	b7-health-medical		simp_fallback	no
+L7-0851	分明	b79-m2-counterargument	b79-m2-agreement-concession	b7-academic-logic		simp_fallback	no
+L7-0852	分批		b79-m2-agreement-concession	b7-finance-business		id_mismatch_no_simp	no
+L7-0853	分歧	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-society		simp_fallback	no
+L7-0854	分散		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0855	分手		b79-m2-agreement-concession	b7-social-nuance		id_mismatch_no_simp	no
+L7-0856	分数		b79-m2-agreement-concession	b7-academic-work		id_mismatch_no_simp	no
+L7-0857	分外	b79-m2-counterargument	b79-m2-agreement-concession	b7-general-formal		simp_fallback	no
+L7-0858	分享		b79-m2-agreement-concession	b7-social-culture		id_mismatch_no_simp	no
+L7-0859	分业		b79-m2-agreement-concession	b7-finance-business		id_mismatch_no_simp	no
+L7-0860	分子		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0861	吩咐	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-nuance	polite	simp_fallback	no
+L7-0862	坟墓	b79-m2-counterargument	b79-m2-agreement-concession	b7-culture-heritage		simp_fallback	no
+L7-0863	粉末		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0864	粉碎	b79-m2-counterargument	b79-m2-agreement-concession	b7-general-formal		simp_fallback	no
+L7-0865	分量	b79-m2-counterargument	b79-m2-agreement-concession	b7-academic-logic		simp_fallback	no
+L7-0866	愤怒		b79-m2-agreement-concession	b7-social-emotions		id_mismatch_no_simp	no
+L7-0867	丰满	b79-m2-counterargument	b79-m2-agreement-concession	b7-general-formal		simp_fallback	no
+L7-0868	丰盛	b79-m2-counterargument	b79-m2-agreement-concession	b7-culture-food		simp_fallback	no
+L7-0869	丰收		b79-m2-agreement-concession	b7-nature-geography		id_mismatch_no_simp	no
+L7-0870	风暴		b79-m2-agreement-concession	b7-nature-geography		id_mismatch_no_simp	no
+L7-0871	风度		b79-m2-agreement-concession	b7-social-behavior	polite	id_mismatch_no_simp	no
+L7-0872	风光		b79-m2-agreement-concession	b7-nature-geography		id_mismatch_no_simp	no
+L7-0873	风气	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-culture		simp_fallback	no
+L7-0874	风趣	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-behavior		simp_fallback	no
+L7-0875	风土人情		b79-m2-agreement-concession	b7-idioms-formal		id_mismatch_no_simp	no
+L7-0876	风味	b79-m2-counterargument	b79-m2-agreement-concession	b7-culture-food		simp_fallback	no
+L7-0877	封闭		b79-m2-agreement-concession	b7-politics-society		id_mismatch_no_simp	no
+L7-0878	封建	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-society		simp_fallback	no
+L7-0879	封锁	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-military		simp_fallback	no
+L7-0880	峰会		b79-m2-agreement-concession	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-0881	锋利		b79-m2-agreement-concession	b7-general-formal		id_mismatch_no_simp	no
+L7-0882	疯狂		b79-m2-agreement-concession	b7-social-emotions		id_mismatch_no_simp	no
+L7-0883	逢	b79-m2-counterargument	b79-m2-agreement-concession	b7-general-formal		simp_fallback	no
+L7-0884	奉献		b79-m2-agreement-concession	b7-social-virtues	polite	id_mismatch_no_simp	no
+L7-0885	否定		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0886	否决	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-legal		simp_fallback	no
+L7-0887	否则		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0888	夫		b79-m2-agreement-concession	b7-social-culture		id_mismatch_no_simp	no
+L7-0889	夫妇		b79-m2-agreement-concession	b7-social-nuance		id_mismatch_no_simp	no
+L7-0890	夫人		b79-m2-agreement-concession	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-0891	敷衍		b79-m2-agreement-concession	b7-social-behavior		id_mismatch_no_simp	no
+L7-0892	幅度		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0893	辐射	b79-m2-counterargument	b79-m2-agreement-concession	b7-tech-science		simp_fallback	no
+L7-0894	辅导		b79-m2-agreement-concession	b7-academic-work		id_mismatch_no_simp	no
+L7-0895	辅助		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0896	腐败	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-society		simp_fallback	no
+L7-0897	腐烂	b79-m2-counterargument	b79-m2-agreement-concession	b7-tech-science		simp_fallback	no
+L7-0898	腐蚀	b79-m2-counterargument	b79-m2-agreement-concession	b7-tech-science		simp_fallback	no
+L7-0899	腐朽		b79-m2-agreement-concession	b7-social-culture		id_mismatch_no_simp	no
+L7-0900	抚摸	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-behavior		simp_fallback	no
+L7-0901	抚养		b79-m2-agreement-concession	b7-social-nuance		id_mismatch_no_simp	no
+L7-0902	俯瞰		b79-m2-agreement-concession	b7-nature-geography	polite	id_mismatch_no_simp	no
+L7-0903	辅助语		b79-m2-agreement-concession	b7-academic-work		id_mismatch_no_simp	no
+L7-0904	附件		b79-m2-agreement-concession	b7-academic-work		id_mismatch_no_simp	no
+L7-0905	附属	b79-m2-counterargument	b79-m2-agreement-concession	b7-finance-business		simp_fallback	no
+L7-0906	腐化	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-society		simp_fallback	no
+L7-0907	复仇		b79-m2-agreement-concession	b7-social-nuance		id_mismatch_no_simp	no
+L7-0908	复合		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0909	复活	b79-m2-counterargument	b79-m2-agreement-concession	b7-culture-heritage		simp_fallback	no
+L7-0910	复兴	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-society		simp_fallback	no
+L7-0911	复印机		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0912	副词		b79-m2-agreement-concession	b7-academic-work		id_mismatch_no_simp	no
+L7-0913	副本		b79-m2-agreement-concession	b7-politics-legal		id_mismatch_no_simp	no
+L7-0914	赋予		b79-m2-agreement-concession	b7-politics-society	polite	id_mismatch_no_simp	no
+L7-0915	富强	b79-m2-counterargument	b79-m2-agreement-concession	b7-politics-society		simp_fallback	no
+L7-0916	富饶		b79-m2-agreement-concession	b7-nature-geography		id_mismatch_no_simp	no
+L7-0917	富裕	b79-m2-counterargument	b79-m2-agreement-concession	b7-finance-business		simp_fallback	no
+L7-0918	腹部	b79-m2-counterargument	b79-m2-agreement-concession	b7-health-medical		simp_fallback	no
+L7-0919	覆盖	b79-m2-counterargument	b79-m2-agreement-concession	b7-academic-logic		simp_fallback	no
+L7-0920	改版	b79-m2-counterargument	b79-m2-agreement-concession	b7-culture-media		simp_fallback	no
+L7-0921	改革		b79-m2-agreement-concession	b7-politics-society		id_mismatch_no_simp	no
+L7-0922	改观		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0923	改良	b79-m2-counterargument	b79-m2-agreement-concession	b7-tech-science		simp_fallback	no
+L7-0924	改选		b79-m2-agreement-concession	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-0925	改造		b79-m2-agreement-concession	b7-tech-infrastructure		id_mismatch_no_simp	no
+L7-0926	钙	b79-m2-counterargument	b79-m2-agreement-concession	b7-health-medical		simp_fallback	no
+L7-0927	盖章		b79-m2-agreement-concession	b7-finance-business	polite	id_mismatch_no_simp	no
+L7-0928	概括		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0929	概率	b79-m2-counterargument	b79-m2-agreement-concession	b7-academic-logic		simp_fallback	no
+L7-0930	概念		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0931	干杯		b79-m2-agreement-concession	b7-social-culture	polite	id_mismatch_no_simp	no
+L7-0932	干扰		b79-m2-agreement-concession	b7-tech-science		id_mismatch_no_simp	no
+L7-0933	干涉		b79-m2-agreement-concession	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-0934	干预		b79-m2-agreement-concession	b7-politics-society		id_mismatch_no_simp	no
+L7-0935	干旱	b79-m2-counterargument	b79-m2-agreement-concession	b7-nature-geography		simp_fallback	no
+L7-0936	甘心	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-emotions		simp_fallback	no
+L7-0937	尴尬	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-nuance		simp_fallback	no
+L7-0938	杆		b79-m2-agreement-concession	b7-general-formal		id_mismatch_no_simp	no
+L7-0939	敢于		b79-m2-agreement-concession	b7-social-virtues		id_mismatch_no_simp	no
+L7-0940	感化		b79-m2-agreement-concession	b7-social-nuance		id_mismatch_no_simp	no
+L7-0941	感慨	b79-m2-counterargument	b79-m2-agreement-concession	b7-social-emotions		simp_fallback	no
+L7-0942	感染	b79-m2-counterargument	b79-m2-agreement-concession	b7-health-medical		simp_fallback	no
+L7-0943	感叹	b79-m2-counterargument	b79-m2-agreement-concession	b7-academic-work		simp_fallback	no
+L7-0944	感性		b79-m2-agreement-concession	b7-academic-logic		id_mismatch_no_simp	no
+L7-0945	赶工		b79-m2-agreement-concession	b7-social-work		id_mismatch_no_simp	no
+L7-0946	赶忙		b79-m2-agreement-concession	b7-general-formal		id_mismatch_no_simp	no
+L7-0947	赶趟儿		b79-m2-agreement-concession	b7-social-culture		id_mismatch_no_simp	no
+L7-0948	纲领		b79-m2-agreement-concession	b7-politics-society		id_mismatch_no_simp	no
+L7-0949	岗位		b79-m2-agreement-concession	b7-social-work		id_mismatch_no_simp	no
+L7-0950	港湾		b79-m2-agreement-concession	b7-nature-geography		id_mismatch_no_simp	no
+L7-0951	港口		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-0952	杠杆		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-0953	高超	b79-m2-counterargument	b79-m2	b7-social-virtues	polite	simp_fallback	no
+L7-0954	高潮		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-0955	高峰		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-0956	高级		b79-m2	b7-general-formal		not_found	no
+L7-0957	高考		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-0958	高明	b79-m2-counterargument	b79-m2	b7-social-virtues	polite	simp_fallback	no
+L7-0959	高尚		b79-m2	b7-social-virtues	polite	id_mismatch_no_simp	no
+L7-0960	高手		b79-m2	b7-social-work		id_mismatch_no_simp	no
+L7-0961	高速		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-0962	高压	b79-m2-counterargument	b79-m2	b7-tech-science		simp_fallback	no
+L7-0963	高原		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-0964	稿件		b79-m2	b7-culture-media		id_mismatch_no_simp	no
+L7-0965	告辞	b79-m2-counterargument	b79-m2	b7-social-nuance	polite	simp_fallback	no
+L7-0966	告诫	b79-m2-counterargument	b79-m2	b7-social-nuance		simp_fallback	no
+L7-0967	告示	b79-m2-counterargument	b79-m2	b7-culture-media		simp_fallback	no
+L7-0968	戈壁	b79-m2-counterargument	b79-m2	b7-nature-geography		simp_fallback	no
+L7-0969	疙瘩		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-0970	鸽子		b79-m2	b7-nature-fauna		id_mismatch_no_simp	no
+L7-0971	各抒己见		b79-m2	b7-idioms-formal		id_mismatch_no_simp	no
+L7-0972	各位		b79-m2	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-0973	各行各业		b79-m2	b7-idioms-formal		id_mismatch_no_simp	no
+L7-0974	各自		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-0975	根源	b79-m3-politics-policy	b79-m2	b7-academic-logic		simp_fallback	no
+L7-0976	跟前		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-0977	跟随		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-0978	更改	b79-m3-politics-policy	b79-m2	b7-general-formal		simp_fallback	no
+L7-0979	更迭		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-0980	更正		b79-m2	b7-academic-work	polite	id_mismatch_no_simp	no
+L7-0981	公安		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-0982	公道	b79-m3-politics-policy	b79-m2	b7-social-virtues		simp_fallback	no
+L7-0983	公告		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-0984	公关	b79-m3-politics-policy	b79-m2	b7-finance-business		simp_fallback	no
+L7-0985	公开		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-0986	公款	b79-m3-politics-policy	b79-m2	b7-politics-finance		simp_fallback	no
+L7-0987	公路		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-0988	公民		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-0989	公认		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-0990	公式		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-0991	公务	b79-m3-politics-policy	b79-m2	b7-politics-society		simp_fallback	no
+L7-0992	公演		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-0993	公益	b79-m3-politics-policy	b79-m2	b7-social-culture		simp_fallback	no
+L7-0994	公用	b79-m3-politics-policy	b79-m2	b7-general-formal		simp_fallback	no
+L7-0995	公元		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-0996	公约	b79-m3-politics-policy	b79-m2	b7-politics-diplomacy		simp_fallback	no
+L7-0997	公证	b79-m3-politics-policy	b79-m2	b7-politics-legal		simp_fallback	no
+L7-0998	公主		b79-m2	b7-culture-heritage		id_mismatch_no_simp	no
+L7-0999	功率	b79-m3-politics-policy	b79-m2	b7-tech-science		simp_fallback	no
+L7-1000	功劳	b79-m3-politics-policy	b79-m2	b7-social-work	polite	simp_fallback	no
+L7-1001	功能		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1002	功效	b79-m3-politics-policy	b79-m2	b7-health-medical		simp_fallback	no
+L7-1003	攻克		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1004	攻击		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1005	供不应求		b79-m2	b7-idioms-formal		id_mismatch_no_simp	no
+L7-1006	供求	b79-m3-politics-policy	b79-m2	b7-finance-business		simp_fallback	no
+L7-1007	供给		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1008	宫殿	b79-m3-politics-policy	b79-m2	b7-culture-heritage		simp_fallback	no
+L7-1009	恭敬		b79-m2	b7-social-behavior	polite	not_found	no
+L7-1010	恭喜	b79-m3-politics-policy	b79-m2	b7-social-nuance	polite	simp_fallback	no
+L7-1011	巩固		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1012	共存		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1013	共计		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1014	共鸣	b79-m3-politics-policy	b79-m2	b7-social-emotions		simp_fallback	no
+L7-1015	共同点		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1016	贡献		b79-m2	b7-social-virtues	polite	id_mismatch_no_simp	no
+L7-1017	勾结	b79-m3-politics-policy	b79-m2	b7-politics-society		simp_fallback	no
+L7-1018	钩子	b79-m3-politics-policy	b79-m2	b7-general-formal		simp_fallback	no
+L7-1019	沟通		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1020	苟且		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1021	构成		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1022	构思		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1023	构想		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1024	构造		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1025	姑且		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1026	孤独		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1027	孤儿		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1028	孤立		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1029	孤掌难鸣		b79-m2	b7-idioms-formal		id_mismatch_no_simp	no
+L7-1030	辜负	b79-m3-politics-policy	b79-m2	b7-social-emotions		simp_fallback	no
+L7-1031	古板		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1032	古代		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1033	古典		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1034	古怪	b79-m3-politics-policy	b79-m2	b7-social-behavior		simp_fallback	no
+L7-1035	古籍		b79-m2	b7-culture-heritage		id_mismatch_no_simp	no
+L7-1036	古老		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1037	古玩		b79-m2	b7-culture-heritage		id_mismatch_no_simp	no
+L7-1038	鼓动	b79-m3-politics-policy	b79-m2	b7-politics-society		simp_fallback	no
+L7-1039	鼓舞	b79-m3-politics-policy	b79-m2	b7-social-emotions		simp_fallback	no
+L7-1040	股本		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1041	股份	b79-m3-politics-policy	b79-m2	b7-finance-business		simp_fallback	no
+L7-1042	股市	b79-m3-politics-policy	b79-m2	b7-finance-business		simp_fallback	no
+L7-1043	骨干	b79-m3-politics-policy	b79-m2	b7-social-work		simp_fallback	no
+L7-1044	骨骼		b79-m2	b7-health-medical		id_mismatch_no_simp	no
+L7-1045	骨头		b79-m2	b7-health-medical		id_mismatch_no_simp	no
+L7-1046	谷物		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1047	股掌之间		b79-m2	b7-idioms-nuance		id_mismatch_no_simp	no
+L7-1048	固定		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1049	固然		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1050	固体		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1051	固有		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1052	固执		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1053	故居		b79-m2	b7-culture-heritage		id_mismatch_no_simp	no
+L7-1054	故障		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1055	顾及	b79-m3-politics-policy	b79-m2	b7-social-nuance	polite	simp_fallback	no
+L7-1056	顾问		b79-m2	b7-finance-business	polite	id_mismatch_no_simp	no
+L7-1057	雇佣	b79-m3-politics-policy	b79-m2	b7-finance-business		simp_fallback	no
+L7-1058	瓜分	b79-m3-politics-policy	b79-m2	b7-politics-society		simp_fallback	no
+L7-1059	挂钩	b79-m3-politics-policy	b79-m2	b7-finance-business		simp_fallback	no
+L7-1060	乖	b79-m3-politics-policy	b79-m2	b7-social-behavior		simp_fallback	no
+L7-1061	拐杖	b79-m3-politics-policy	b79-m2	b7-health-medical		simp_fallback	no
+L7-1062	怪不得	b79-m3-politics-policy	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1063	怪诞		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1064	关怀		b79-m2	b7-social-emotions	polite	id_mismatch_no_simp	no
+L7-1065	关卡		b79-m2	b7-politics-geography		id_mismatch_no_simp	no
+L7-1066	关键		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1067	关联		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1068	关税	b79-m3-politics-policy	b79-m2	b7-politics-finance		simp_fallback	no
+L7-1069	关照		b79-m2	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-1070	观光		b79-m2	b7-culture-social		id_mismatch_no_simp	no
+L7-1071	观看		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1072	观摩		b79-m2	b7-academic-work	polite	id_mismatch_no_simp	no
+L7-1073	观念		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1074	观测	b79-m3-politics-policy	b79-m2	b7-tech-science		simp_fallback	no
+L7-1075	观察		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1076	官兵	b79-m3-politics-policy	b79-m2	b7-politics-military		simp_fallback	no
+L7-1077	官方		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1078	官僚	b79-m3-politics-policy	b79-m2	b7-politics-society		simp_fallback	no
+L7-1079	官员	b79-m3-politics-policy	b79-m2	b7-politics-society		simp_fallback	no
+L7-1080	管辖	b79-m3-politics-policy	b79-m2	b7-politics-legal		simp_fallback	no
+L7-1081	惯例	b79-m3-politics-policy	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1082	灌溉	b79-m3-politics-policy	b79-m2	b7-tech-infrastructure		simp_fallback	no
+L7-1083	罐头	b79-m3-politics-policy	b79-m2	b7-general-formal		simp_fallback	no
+L7-1084	光彩		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1085	光辉		b79-m2	b7-social-virtues		id_mismatch_no_simp	no
+L7-1086	光芒	b79-m3-politics-policy	b79-m2	b7-nature-geography		simp_fallback	no
+L7-1087	光荣		b79-m2	b7-social-virtues	polite	id_mismatch_no_simp	no
+L7-1088	光纤		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1089	光泽	b79-m3-politics-policy	b79-m2	b7-general-formal		simp_fallback	no
+L7-1090	广阔		b79-m2	b7-nature-geography		not_found	no
+L7-1091	广泛		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1092	逛		b79-m2	b7-culture-social		id_mismatch_no_simp	no
+L7-1093	规定		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1094	规范		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1095	规格	b79-m3-politics-policy	b79-m2	b7-tech-science		simp_fallback	no
+L7-1096	规划		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1097	规矩		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1098	规律		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1099	规模		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1100	规章		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1101	归还	b79-m3-politics-policy	b79-m2	b7-social-nuance	polite	simp_fallback	no
+L7-1102	归结	b79-m3-politics-policy	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1103	归劳		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1104	归纳	b79-m3-politics-policy	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1105	归宿		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1106	轨迹		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1107	轨道		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-1108	柜台		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1109	贵宾	b79-m3-politics-policy	b79-m2	b7-social-nuance	polite	simp_fallback	no
+L7-1110	贵族		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1111	刽子手		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1112	滚		b79-m2	b7-general-formal		not_found	no
+L7-1113	棍子	b79-m3-politics-policy	b79-m2	b7-general-formal		simp_fallback	no
+L7-1114	国安		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1115	国策		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1116	国防	b79-m3-politics-policy	b79-m2	b7-politics-military		simp_fallback	no
+L7-1117	国徽	b79-m3-politics-policy	b79-m2	b7-politics-society		simp_fallback	no
+L7-1118	国籍		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1119	国家级		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1120	国库		b79-m2	b7-politics-finance		id_mismatch_no_simp	no
+L7-1121	国旗		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1122	国庆		b79-m2	b7-culture-holidays		id_mismatch_no_simp	no
+L7-1123	国情	b79-m3-politics-policy	b79-m2	b7-politics-society		simp_fallback	no
+L7-1124	国容		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1125	国外		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1126	国务院		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1127	国宴		b79-m2	b7-politics-diplomacy	polite	id_mismatch_no_simp	no
+L7-1128	国有		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1129	果断	b79-m3-economy-finance	b79-m2	b7-social-behavior		simp_fallback	no
+L7-1130	果实		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1131	果真		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1132	过度		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1133	过渡		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1134	过滤	b79-m3-economy-finance	b79-m2	b7-tech-science		simp_fallback	no
+L7-1135	过奖	b79-m3-economy-finance	b79-m2	b7-social-nuance	polite	simp_fallback	no
+L7-1136	过目		b79-m2	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-1137	过失		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1138	过问		b79-m2	b7-social-work		id_mismatch_no_simp	no
+L7-1139	过瘾		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1140	过于		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1141	嗨		b79-m2	b7-social-interjections		id_mismatch_no_simp	no
+L7-1142	海拔	b79-m3-economy-finance	b79-m2	b7-nature-geography		simp_fallback	no
+L7-1143	海滨	b79-m3-economy-finance	b79-m2	b7-nature-geography		simp_fallback	no
+L7-1144	海岛		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1145	海归		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1146	海军		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1147	海客		b79-m2	b7-culture-heritage		id_mismatch_no_simp	no
+L7-1148	海里		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1149	海面	b79-m3-economy-finance	b79-m2	b7-nature-geography		simp_fallback	no
+L7-1150	海内外	b79-m3-economy-finance	b79-m2	b7-politics-society		simp_fallback	no
+L7-1151	海鲜		b79-m2	b7-culture-food		not_found	no
+L7-1152	海域		b79-m2	b7-nature-geography		not_found	no
+L7-1153	海运	b79-m3-economy-finance	b79-m2	b7-tech-transport		simp_fallback	no
+L7-1154	海遭		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1155	害羞	b79-m3-economy-finance	b79-m2	b7-social-emotions		simp_fallback	no
+L7-1156	含义		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1157	含糊	b79-m3-economy-finance	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1158	含量		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1159	罕见		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1160	捍卫		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1161	行列	b79-m3-economy-finance	b79-m2	b7-general-formal		simp_fallback	no
+L7-1162	航空		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-1163	航海	b79-m3-economy-finance	b79-m2	b7-tech-transport		simp_fallback	no
+L7-1164	航行	b79-m3-economy-finance	b79-m2	b7-tech-transport		simp_fallback	no
+L7-1165	航天		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1166	航向		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-1167	豪迈		b79-m2	b7-social-virtues		id_mismatch_no_simp	no
+L7-1168	豪情		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1169	豪华		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1170	好感	b79-m3-economy-finance	b79-m2	b7-social-emotions		simp_fallback	no
+L7-1171	好客		b79-m2	b7-social-culture	polite	id_mismatch_no_simp	no
+L7-1172	好评	b79-m3-economy-finance	b79-m2	b7-culture-media		simp_fallback	no
+L7-1173	好转		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1174	耗	b79-m3-economy-finance	b79-m2	b7-general-formal		simp_fallback	no
+L7-1175	耗费	b79-m3-economy-finance	b79-m2	b7-finance-business		simp_fallback	no
+L7-1176	耗尽		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1177	号召		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1178	号召力		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1179	呵护		b79-m2	b7-social-emotions	polite	id_mismatch_no_simp	no
+L7-1180	呵欠		b79-m2	b7-health-medical		id_mismatch_no_simp	no
+L7-1181	禾苗		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1182	和蔼		b79-m2	b7-social-behavior	polite	id_mismatch_no_simp	no
+L7-1183	和解	b79-m3-economy-finance	b79-m2	b7-politics-diplomacy	polite	simp_fallback	no
+L7-1184	和睦	b79-m3-economy-finance	b79-m2	b7-social-culture	polite	simp_fallback	no
+L7-1185	和其		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1186	和善		b79-m2	b7-social-behavior	polite	id_mismatch_no_simp	no
+L7-1187	和谐		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1188	合并		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1189	合成		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1190	合法		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1191	合格		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1192	合理		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1193	合情合理		b79-m2	b7-idioms-formal		id_mismatch_no_simp	no
+L7-1194	合算		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1195	合同		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1196	合影	b79-m3-economy-finance	b79-m2	b7-social-culture	polite	simp_fallback	no
+L7-1197	合资	b79-m3-economy-finance	b79-m2	b7-finance-business		simp_fallback	no
+L7-1198	何必	b79-m3-economy-finance	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1199	何尝		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1200	何等		b79-m2	b7-academic-logic		not_found	no
+L7-1201	何况		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1202	何去何从		b79-m2	b7-idioms-formal		id_mismatch_no_simp	no
+L7-1203	何况是		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1204	核对	b79-m3-economy-finance	b79-m2	b7-academic-work	polite	simp_fallback	no
+L7-1205	核能	b79-m3-economy-finance	b79-m2	b7-tech-science		simp_fallback	no
+L7-1206	核算		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1207	核心		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1208	贺词		b79-m2	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-1209	贺卡		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1210	嘿	b79-m3-economy-finance	b79-m2	b7-social-interjections		simp_fallback	no
+L7-1211	痕迹		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1212	狠		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1213	狠命		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1214	恨		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1215	哼	b79-m3-economy-finance	b79-m2	b7-social-interjections		simp_fallback	no
+L7-1216	恒心		b79-m2	b7-social-virtues		id_mismatch_no_simp	no
+L7-1217	恒星		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1218	横		b79-m2	b7-general-formal		not_found	no
+L7-1219	轰	b79-m3-economy-finance	b79-m2	b7-politics-military		simp_fallback	no
+L7-1220	轰动	b79-m3-economy-finance	b79-m2	b7-culture-media		simp_fallback	no
+L7-1221	轰隆		b79-m2	b7-general-formal		not_found	no
+L7-1222	烘		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1223	红火	b79-m3-economy-finance	b79-m2	b7-finance-business		simp_fallback	no
+L7-1224	红润		b79-m2	b7-health-medical		id_mismatch_no_simp	no
+L7-1225	宏观		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1226	宏伟		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1227	洪亮		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1228	洪水		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1229	喉咙		b79-m2	b7-health-medical		id_mismatch_no_simp	no
+L7-1230	吼	b79-m3-economy-finance	b79-m2	b7-social-behavior		simp_fallback	no
+L7-1231	忽略		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1232	忽视		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1233	呼喊		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1234	呼唤		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1235	呼吸		b79-m2	b7-health-medical		id_mismatch_no_simp	no
+L7-1236	呼啸		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1237	呼吁		b79-m2	b7-politics-society		not_found	no
+L7-1238	弧形		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1239	胡说		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1240	蝴蝶		b79-m2	b7-nature-fauna		id_mismatch_no_simp	no
+L7-1241	湖泊	b79-m3-economy-finance	b79-m2	b7-nature-geography		simp_fallback	no
+L7-1242	糊里糊涂		b79-m2	b7-idioms-behavior		not_found	no
+L7-1243	糊涂		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1244	虎		b79-m2	b7-nature-fauna		id_mismatch_no_simp	no
+L7-1245	户口		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1246	互补	b79-m3-economy-finance	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1247	互惠		b79-m2	b7-politics-diplomacy		not_found	no
+L7-1248	互联		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1249	互利		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1250	互动		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1251	护栏		b79-m2	b7-tech-infrastructure		id_mismatch_no_simp	no
+L7-1252	护士		b79-m2	b7-health-medical		id_mismatch_no_simp	no
+L7-1253	花瓣	b79-m3-economy-finance	b79-m2	b7-nature-flora		simp_fallback	no
+L7-1254	花费		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1255	花生		b79-m2	b7-nature-flora		id_mismatch_no_simp	no
+L7-1256	花纹	b79-m3-economy-finance	b79-m2	b7-culture-arts		simp_fallback	no
+L7-1257	华贵		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1258	华丽		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1259	华侨		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1260	哗		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1261	滑行		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-1262	画报		b79-m2	b7-culture-media		id_mismatch_no_simp	no
+L7-1263	画布		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1264	划分		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1265	化肥	b79-m3-economy-finance	b79-m2	b7-tech-science		simp_fallback	no
+L7-1266	化工		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1267	化解		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1268	化石		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1269	化验		b79-m2	b7-health-medical		not_found	no
+L7-1270	话筒		b79-m2	b7-tech-science		not_found	no
+L7-1271	坏事	b79-m3-tech-innovation	b79-m2	b7-social-nuance		simp_fallback	no
+L7-1272	欢送		b79-m2	b7-social-culture	polite	id_mismatch_no_simp	no
+L7-1273	缓解		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1274	幻想		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1275	环节		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1276	环球	b79-m3-tech-innovation	b79-m2	b7-politics-society		simp_fallback	no
+L7-1277	环绕	b79-m3-tech-innovation	b79-m2	b7-nature-geography		simp_fallback	no
+L7-1278	缓和	b79-m3-tech-innovation	b79-m2	b7-politics-diplomacy	polite	simp_fallback	no
+L7-1279	缓慢	b79-m3-tech-innovation	b79-m2	b7-general-formal		simp_fallback	no
+L7-1280	幻想		b79-m2	b7-culture-media		id_mismatch_no_simp	no
+L7-1281	幻影		b79-m2	b7-tech-science		not_found	no
+L7-1282	换岗		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1283	换季		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1284	唤醒		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1285	荒地		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1286	荒废		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1287	荒凉	b79-m3-tech-innovation	b79-m2	b7-nature-geography		simp_fallback	no
+L7-1288	荒谬	b79-m3-tech-innovation	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1289	荒唐		b79-m2	b7-social-behavior		not_found	no
+L7-1290	慌忙		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1291	慌张	b79-m3-tech-innovation	b79-m2	b7-social-emotions		simp_fallback	no
+L7-1292	黄昏	b79-m3-tech-innovation	b79-m2	b7-nature-geography		simp_fallback	no
+L7-1293	恍然大悟		b79-m2	b7-idioms-formal		id_mismatch_no_simp	no
+L7-1294	晃		b79-m2	b7-general-formal		simp_ambiguous	no
+L7-1295	晃动		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1296	挥发		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1297	挥霍		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1298	挥手		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1299	辉煌		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1300	辉映		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1301	恢复		b79-m2	b7-academic-logic		not_found	no
+L7-1302	回避		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1303	回顾		b79-m2	b7-academic-logic	polite	id_mismatch_no_simp	no
+L7-1304	回击		b79-m2	b7-politics-military		not_found	no
+L7-1305	回绝		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1306	回笼		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1307	回收		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1308	回忆		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1309	回音		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1310	悔恨	b79-m3-tech-innovation	b79-m2	b7-social-emotions		simp_fallback	no
+L7-1311	毁灭	b79-m3-tech-innovation	b79-m2	b7-politics-society		simp_fallback	no
+L7-1312	会标		b79-m2	b7-culture-media		id_mismatch_no_simp	no
+L7-1313	会馆		b79-m2	b7-social-culture		not_found	no
+L7-1314	会籍		b79-m2	b7-social-culture		not_found	no
+L7-1315	会见		b79-m2	b7-politics-diplomacy	polite	not_found	no
+L7-1316	会面	b79-m3-tech-innovation	b79-m2	b7-social-nuance	polite	simp_fallback	no
+L7-1317	会谈		b79-m2	b7-politics-diplomacy	polite	id_mismatch_no_simp	no
+L7-1318	会晤	b79-m3-tech-innovation	b79-m2	b7-politics-diplomacy	polite	simp_fallback	no
+L7-1319	会心		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1320	会员		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1321	汇合	b79-m3-tech-innovation	b79-m2	b7-nature-geography		simp_fallback	no
+L7-1322	汇报		b79-m2	b7-academic-work	polite	id_mismatch_no_simp	no
+L7-1323	汇编		b79-m2	b7-academic-work		not_found	no
+L7-1324	汇集	b79-m3-tech-innovation	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1325	汇款		b79-m2	b7-finance-business		not_found	no
+L7-1326	汇率		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1327	汇展		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1328	绘		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1329	绘画		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1330	绘制		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1331	贿赂		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1332	婚变		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1333	婚介		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1334	婚礼		b79-m2	b7-social-culture	polite	not_found	no
+L7-1335	婚纱		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1336	婚姻		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1337	混合		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1338	混浊		b79-m2	b7-nature-geography		not_found	no
+L7-1339	混乱		b79-m2	b7-academic-logic		not_found	no
+L7-1340	混淆		b79-m2	b7-academic-logic		not_found	no
+L7-1341	活动		b79-m2	b7-general-formal		not_found	no
+L7-1342	活跃		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1343	火箭		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1344	火力		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1345	火热		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1346	火势		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1347	火药	b79-m3-tech-innovation	b79-m2	b7-tech-science		simp_fallback	no
+L7-1348	伙		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1349	伙伴		b79-m2	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-1350	货币		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1351	机器人		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1352	极其		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1353	极限	b79-m3-tech-innovation	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1354	即使		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1355	急促		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1356	急功近利		b79-m2	b7-idioms-behavior		id_mismatch_no_simp	no
+L7-1357	急剧	b79-m3-tech-innovation	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1358	急忙		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1359	急迫		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1360	急于	b79-m3-tech-innovation	b79-m2	b7-social-emotions		simp_fallback	no
+L7-1361	急于求成		b79-m2	b7-idioms-behavior		id_mismatch_no_simp	no
+L7-1362	级别	b79-m3-tech-innovation	b79-m2	b7-politics-society		simp_fallback	no
+L7-1363	籍贯		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1364	集成		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1365	集结	b79-m3-tech-innovation	b79-m2	b7-politics-military		simp_fallback	no
+L7-1366	集群		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1367	集市		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1368	集团		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1369	集训		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1370	集约		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1371	集资	b79-m3-tech-innovation	b79-m2	b7-finance-business		simp_fallback	no
+L7-1372	嫉妒		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1373	挤压		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1374	给予		b79-m2	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-1375	技能		b79-m2	b7-social-work		id_mismatch_no_simp	no
+L7-1376	技巧		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1377	季度		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1378	季风		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1379	季节		b79-m2	b7-nature-geography		not_found	no
+L7-1380	纪律		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1381	纪念碑	b79-m3-tech-innovation	b79-m2	b7-culture-heritage		simp_fallback	no
+L7-1382	纪实		b79-m2	b7-culture-media		id_mismatch_no_simp	no
+L7-1383	纪录		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1384	纪要		b79-m2	b7-politics-diplomacy		not_found	no
+L7-1385	忌讳	b79-m3-tech-innovation	b79-m2	b7-social-culture		simp_fallback	no
+L7-1386	寂静	b79-m3-tech-innovation	b79-m2	b7-nature-geography		simp_fallback	no
+L7-1387	寂寞		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1388	祭祀	b79-m3-tech-innovation	b79-m2	b7-culture-heritage		simp_fallback	no
+L7-1389	记载		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1390	寄托	b79-m3-tech-innovation	b79-m2	b7-social-emotions		simp_fallback	no
+L7-1391	寄信		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1392	加剧	b79-m3-tech-innovation	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1393	加快		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1394	加密		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1395	加强		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1396	加速		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1397	加薪		b79-m2	b7-finance-business		not_found	no
+L7-1398	佳节		b79-m2	b7-culture-holidays	polite	not_found	no
+L7-1399	佳丽		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1400	家常		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1401	家伙	b79-m3-tech-innovation	b79-m2	b7-social-nuance		simp_fallback	no
+L7-1402	家教	b79-m3-tech-innovation	b79-m2	b7-academic-work		simp_fallback	no
+L7-1403	家眷		b79-m2	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-1404	家具		b79-m2	b7-general-formal		not_found	no
+L7-1405	家里		b79-m2	b7-general-formal		not_found	no
+L7-1406	家谱		b79-m2	b7-culture-heritage		not_found	no
+L7-1407	家属		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1408	家乡		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1409	家喻户晓		b79-m2	b7-idioms-formal		id_mismatch_no_simp	no
+L7-1410	家族		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1411	嘉奖		b79-m2	b7-politics-society	polite	not_found	no
+L7-1412	假设		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1413	假装		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1414	价差		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1415	价值		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1416	价值观		b79-m2	b7-social-virtues		id_mismatch_no_simp	no
+L7-1417	驾驶		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-1418	假期		b79-m2	b7-general-formal		not_found	no
+L7-1419	坚定		b79-m2	b7-social-virtues		not_found	no
+L7-1420	坚固		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1421	坚持		b79-m2	b7-social-virtues		id_mismatch_no_simp	no
+L7-1422	坚决		b79-m2	b7-academic-logic		not_found	no
+L7-1423	坚强		b79-m2	b7-social-virtues		not_found	no
+L7-1424	坚韧		b79-m2	b7-social-virtues		not_found	no
+L7-1425	坚守		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1426	坚实		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1427	坚硬		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1428	兼并		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1429	兼容	b79-m4-meetings-discussion	b79-m2	b7-tech-science		simp_fallback	no
+L7-1430	兼任	b79-m4-meetings-discussion	b79-m2	b7-social-work		simp_fallback	no
+L7-1431	兼职		b79-m2	b7-social-work		id_mismatch_no_simp	no
+L7-1432	监控		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1433	监督		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1434	监考		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1435	监狱		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1436	煎	b79-m4-meetings-discussion	b79-m2	b7-culture-food		simp_fallback	no
+L7-1437	歼灭		b79-m2	b7-politics-military		not_found	no
+L7-1438	拣	b79-m4-meetings-discussion	b79-m2	b7-general-formal		simp_fallback	no
+L7-1439	捡		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1440	检举		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1441	检讨		b79-m2	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-1442	检验		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1443	检阅		b79-m2	b7-politics-military	polite	id_mismatch_no_simp	no
+L7-1444	简直		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1445	剪辑		b79-m2	b7-culture-media		id_mismatch_no_simp	no
+L7-1446	减低		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1447	减肥		b79-m2	b7-health-medical		id_mismatch_no_simp	no
+L7-1448	减轻		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1449	减弱	b79-m4-meetings-discussion	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1450	减税		b79-m2	b7-politics-finance		id_mismatch_no_simp	no
+L7-1451	减速	b79-m4-meetings-discussion	b79-m2	b7-tech-transport		simp_fallback	no
+L7-1452	减刑		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1453	减少		b79-m2	b7-academic-logic		not_found	no
+L7-1454	见多识广		b79-m2	b7-idioms-formal		id_mismatch_no_simp	no
+L7-1455	见解	b79-m4-meetings-discussion	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1456	见面		b79-m2	b7-social-nuance	polite	not_found	no
+L7-1457	见闻		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1458	见证		b79-m2	b7-academic-logic		not_found	no
+L7-1459	间谍		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1460	间隔	b79-m4-meetings-discussion	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1461	间接		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1462	间隙		b79-m2	b7-tech-science		not_found	no
+L7-1463	建材		b79-m2	b7-tech-infrastructure		id_mismatch_no_simp	no
+L7-1464	建地		b79-m2	b7-finance-business		not_found	no
+L7-1465	建立		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1466	建设		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1467	建议		b79-m2	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-1468	建筑		b79-m2	b7-tech-infrastructure		id_mismatch_no_simp	no
+L7-1469	健安		b79-m2	b7-health-medical		id_mismatch_no_simp	no
+L7-1470	健身房		b79-m2	b7-health-lifestyle		not_found	no
+L7-1471	健全		b79-m2	b7-politics-society		not_found	no
+L7-1472	渐渐		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1473	鉴别	b79-m4-meetings-discussion	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1474	鉴定		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1475	鉴于		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1476	贱	b79-m4-meetings-discussion	b79-m2	b7-finance-business		simp_fallback	no
+L7-1477	箭头		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1478	将近		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1479	将就		b79-m2	b7-social-nuance		not_found	no
+L7-1480	将军		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1481	奖杯	b79-m4-meetings-discussion	b79-m2	b7-culture-social		simp_fallback	no
+L7-1482	奖励		b79-m2	b7-social-work		not_found	no
+L7-1483	奖状		b79-m2	b7-academic-work		not_found	no
+L7-1484	奖金		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1485	降低		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1486	降价		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1487	降临	b79-m4-meetings-discussion	b79-m2	b7-general-formal		simp_fallback	no
+L7-1488	降服		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1489	降温		b79-m2	b7-nature-geography		not_found	no
+L7-1490	降雨量		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1491	交杯酒		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1492	交付	b79-m4-meetings-discussion	b79-m2	b7-finance-business		simp_fallback	no
+L7-1493	交代		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1494	交换		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1495	交际		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1496	交流		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1497	交涉		b79-m2	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-1498	交通工具		b79-m2	b7-tech-transport		not_found	no
+L7-1499	交往		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1500	交易		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1501	娇气		b79-m2	b7-social-behavior		not_found	no
+L7-1502	骄傲		b79-m2	b7-social-emotions		not_found	no
+L7-1503	焦点		b79-m2	b7-culture-media		id_mismatch_no_simp	no
+L7-1504	焦急	b79-m4-meetings-discussion	b79-m2	b7-social-emotions		simp_fallback	no
+L7-1505	焦虑		b79-m2	b7-social-emotions		not_found	no
+L7-1506	胶带		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1507	胶卷		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1508	胶水		b79-m2	b7-general-formal		not_found	no
+L7-1509	侥幸		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1510	角度		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1511	角落	b79-m4-meetings-discussion	b79-m2	b7-general-formal		simp_fallback	no
+L7-1512	搅拌	b79-m4-meetings-discussion	b79-m2	b7-tech-science		simp_fallback	no
+L7-1513	缴纳	b79-m4-meetings-discussion	b79-m2	b7-finance-business	polite	simp_fallback	no
+L7-1514	狡猾		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1515	矫正		b79-m2	b7-health-medical		id_mismatch_no_simp	no
+L7-1516	脚步		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1517	脚印		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1518	叫好	b79-m4-meetings-discussion	b79-m2	b7-culture-arts		simp_fallback	no
+L7-1519	叫唤		b79-m2	b7-social-nuance		not_found	no
+L7-1520	较量	b79-m4-meetings-discussion	b79-m2	b7-politics-military		simp_fallback	no
+L7-1521	阶层		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1522	阶段		b79-m2	b7-academic-logic		not_found	no
+L7-1523	结伴		b79-m2	b7-social-nuance		not_found	no
+L7-1524	结合		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1525	结局	b79-m4-meetings-discussion	b79-m2	b7-culture-media		simp_fallback	no
+L7-1526	结论		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1527	结算		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1528	结晶		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1529	结果		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1530	结实		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1531	结构		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1532	结业		b79-m2	b7-academic-work	polite	id_mismatch_no_simp	no
+L7-1533	结余		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1534	结账		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1535	截止		b79-m2	b7-academic-logic		not_found	no
+L7-1536	节奏		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1537	杰出		b79-m2	b7-social-virtues	polite	not_found	no
+L7-1538	杰作		b79-m2	b7-culture-arts		not_found	no
+L7-1539	截断		b79-m2	b7-academic-logic		not_found	no
+L7-1540	截止日期		b79-m2	b7-finance-business		not_found	no
+L7-1541	捷报		b79-m2	b7-politics-military		not_found	no
+L7-1542	捷径		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1543	揭发	b79-m4-meetings-discussion	b79-m2	b7-politics-legal		simp_fallback	no
+L7-1544	揭露	b79-m4-meetings-discussion	b79-m2	b7-politics-society		simp_fallback	no
+L7-1545	揭幕		b79-m2	b7-politics-diplomacy	polite	id_mismatch_no_simp	no
+L7-1546	节奏感		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1547	姐姐		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1548	解决		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1549	解放		b79-m2	b7-politics-society		not_found	no
+L7-1550	解雇	b79-m4-meetings-discussion	b79-m2	b7-finance-business		simp_fallback	no
+L7-1551	解渴		b79-m2	b7-health-lifestyle		id_mismatch_no_simp	no
+L7-1552	解理		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1553	解散	b79-m4-meetings-discussion	b79-m2	b7-politics-society		simp_fallback	no
+L7-1554	解释		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1555	解说		b79-m2	b7-culture-media		not_found	no
+L7-1556	解体		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1557	解脱		b79-m2	b7-social-emotions		not_found	no
+L7-1558	金额		b79-m2	b7-finance-business		not_found	no
+L7-1559	金牌		b79-m2	b7-culture-sports		id_mismatch_no_simp	no
+L7-1560	金融		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1561	金色		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1562	津贴		b79-m2	b7-finance-business		not_found	no
+L7-1563	紧逼		b79-m2	b7-politics-military		not_found	no
+L7-1564	紧凑	b79-m4-meetings-discussion	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1565	紧急		b79-m2	b7-general-formal		not_found	no
+L7-1566	紧密		b79-m2	b7-academic-logic		not_found	no
+L7-1567	紧迫		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1568	紧缺		b79-m2	b7-finance-business		not_found	no
+L7-1569	谨慎		b79-m2	b7-social-behavior	polite	not_found	no
+L7-1570	进展		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1571	近海		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1572	近来		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1573	晋级		b79-m2	b7-culture-sports		not_found	no
+L7-1574	浸		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1575	禁令		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1576	精彩		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1577	精确		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1578	精神		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1579	精通		b79-m2	b7-social-work		not_found	no
+L7-1580	精细		b79-m2	b7-tech-science		not_found	no
+L7-1581	精益求精		b79-m2	b7-idioms-formal		id_mismatch_no_simp	no
+L7-1582	景气		b79-m2	b7-finance-business		not_found	no
+L7-1583	景色		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1584	敬而远之		b79-m2	b7-idioms-behavior		not_found	no
+L7-1585	敬礼	b79-m4-negotiation	b79-m2	b7-politics-military	polite	simp_fallback	no
+L7-1586	敬佩		b79-m2	b7-social-emotions	polite	not_found	no
+L7-1587	敬业		b79-m2	b7-social-work	polite	id_mismatch_no_simp	no
+L7-1588	境界		b79-m2	b7-academic-logic		not_found	no
+L7-1589	静态		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1590	竞争		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1591	纠纷		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1592	纠正		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1593	拘留		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1594	居然		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1595	局面		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1596	局部	b79-m4-negotiation	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1597	局势		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1598	局限		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1599	剧本		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1600	剧烈		b79-m2	b7-academic-logic		not_found	no
+L7-1601	剧目		b79-m2	b7-culture-arts		not_found	no
+L7-1602	巨额		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1603	巨大		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1604	巨头		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1605	具备		b79-m2	b7-academic-logic		not_found	no
+L7-1606	具体		b79-m2	b7-academic-logic		not_found	no
+L7-1607	具有		b79-m2	b7-academic-logic		not_found	no
+L7-1608	剧院		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1609	据悉		b79-m2	b7-culture-media		id_mismatch_no_simp	no
+L7-1610	距离		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1611	拒绝		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1612	俱乐部		b79-m2	b7-social-culture		not_found	no
+L7-1613	捐款		b79-m2	b7-social-culture	polite	id_mismatch_no_simp	no
+L7-1614	捐献		b79-m2	b7-social-culture	polite	id_mismatch_no_simp	no
+L7-1615	决策		b79-m2	b7-finance-business		not_found	no
+L7-1616	绝望		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1617	军事		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1618	均匀		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1619	军队		b79-m2	b7-politics-military		not_found	no
+L7-1620	军港		b79-m2	b7-politics-military		not_found	no
+L7-1621	军火		b79-m2	b7-politics-military		not_found	no
+L7-1622	军衔		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1623	军营		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1624	军种		b79-m2	b7-politics-military		not_found	no
+L7-1625	刊登	b79-m4-negotiation	b79-m2	b7-culture-media		simp_fallback	no
+L7-1626	堪称	b79-m4-negotiation	b79-m2	b7-academic-logic	polite	simp_fallback	no
+L7-1627	扛		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1628	抗议		b79-m2	b7-politics-society		not_found	no
+L7-1629	考卷		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1630	考察		b79-m2	b7-tech-science		not_found	no
+L7-1631	考虑		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1632	拷贝		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1633	颗粒		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1634	克服		b79-m2	b7-social-virtues		id_mismatch_no_simp	no
+L7-1635	课题		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1636	可观		b79-m2	b7-finance-business		not_found	no
+L7-1637	可靠		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1638	可怜		b79-m2	b7-social-emotions		not_found	no
+L7-1639	可燃		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1640	可喜		b79-m2	b7-social-emotions		not_found	no
+L7-1641	渴望		b79-m2	b7-social-emotions		not_found	no
+L7-1642	可笑		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1643	克制		b79-m2	b7-social-virtues		id_mismatch_no_simp	no
+L7-1644	客户		b79-m2	b7-finance-business	polite	id_mismatch_no_simp	no
+L7-1645	肯定		b79-m2	b7-academic-logic		not_found	no
+L7-1646	空白	b79-m4-formal-writing	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1647	空间		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1648	空军		b79-m2	b7-politics-military		not_found	no
+L7-1649	空旷		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1650	空虚		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1651	恐怖		b79-m2	b7-politics-society		not_found	no
+L7-1652	恐吓		b79-m2	b7-politics-legal		not_found	no
+L7-1653	恐惧		b79-m2	b7-social-emotions		not_found	no
+L7-1654	控制		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1655	叩		b79-m2	b7-social-behavior	polite	id_mismatch_no_simp	no
+L7-1656	口碑	b79-m4-formal-writing	b79-m2	b7-social-culture		simp_fallback	no
+L7-1657	口才	b79-m4-formal-writing	b79-m2	b7-social-virtues		simp_fallback	no
+L7-1658	口袋		b79-m2	b7-general-formal		not_found	no
+L7-1659	口号		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1660	口径		b79-m2	b7-tech-science		not_found	no
+L7-1661	口气		b79-m2	b7-social-behavior		not_found	no
+L7-1662	口哨		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1663	口试		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1664	口述		b79-m2	b7-academic-work		not_found	no
+L7-1665	口头		b79-m2	b7-academic-logic		not_found	no
+L7-1666	口音		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1667	口罩		b79-m2	b7-health-medical		not_found	no
+L7-1668	扣		b79-m2	b7-finance-business		not_found	no
+L7-1669	枯燥		b79-m2	b7-academic-work		not_found	no
+L7-1670	苦恼		b79-m2	b7-social-emotions		not_found	no
+L7-1671	库		b79-m2	b7-tech-science		not_found	no
+L7-1672	裤子		b79-m2	b7-general-formal		not_found	no
+L7-1673	夸奖	b79-m4-formal-writing	b79-m2	b7-social-nuance	polite	simp_fallback	no
+L7-1674	夸张		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1675	跨度		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1676	跨越		b79-m2	b7-general-formal		not_found	no
+L7-1677	快活		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1678	宽带		b79-m2	b7-tech-science		not_found	no
+L7-1679	宽广		b79-m2	b7-nature-geography		not_found	no
+L7-1680	宽阔		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1681	宽容		b79-m2	b7-social-virtues	polite	id_mismatch_no_simp	no
+L7-1682	款待		b79-m2	b7-social-culture	polite	id_mismatch_no_simp	no
+L7-1683	筐		b79-m2	b7-general-formal		not_found	no
+L7-1684	框架		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1685	旷工		b79-m2	b7-social-work		not_found	no
+L7-1686	矿产		b79-m2	b7-nature-geography		not_found	no
+L7-1687	矿石		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1688	况且		b79-m2	b7-academic-logic		not_found	no
+L7-1689	亏损		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1690	傀儡		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1691	魁梧		b79-m2	b7-social-behavior		not_found	no
+L7-1692	馈赠		b79-m2	b7-social-culture	polite	not_found	no
+L7-1693	扩散		b79-m2	b7-tech-science		not_found	no
+L7-1694	昆虫		b79-m2	b7-nature-fauna		id_mismatch_no_simp	no
+L7-1695	捆		b79-m2	b7-general-formal		not_found	no
+L7-1696	困惑		b79-m2	b7-social-emotions		not_found	no
+L7-1697	困境		b79-m2	b7-social-nuance		not_found	no
+L7-1698	扩充		b79-m2	b7-academic-logic		not_found	no
+L7-1699	扩张		b79-m2	b7-politics-society		not_found	no
+L7-1700	垃圾桶		b79-m2	b7-general-formal		not_found	no
+L7-1701	拉拢		b79-m2	b7-politics-society		not_found	no
+L7-1702	喇叭		b79-m2	b7-tech-science		not_found	no
+L7-1703	腊月		b79-m2	b7-culture-holidays		id_mismatch_no_simp	no
+L7-1704	蜡烛		b79-m2	b7-general-formal		not_found	no
+L7-1705	辣		b79-m2	b7-culture-food		not_found	no
+L7-1706	来访		b79-m2	b7-social-nuance	polite	id_mismatch_no_simp	no
+L7-1707	来历		b79-m2	b7-academic-logic		not_found	no
+L7-1708	来临		b79-m2	b7-general-formal		not_found	no
+L7-1709	来源		b79-m2	b7-academic-logic		not_found	no
+L7-1710	兰花		b79-m2	b7-nature-flora		id_mismatch_no_simp	no
+L7-1711	拦截		b79-m2	b7-politics-military		id_mismatch_no_simp	no
+L7-1712	栏目		b79-m2	b7-culture-media		id_mismatch_no_simp	no
+L7-1713	懒		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1714	滥用		b79-m2	b7-politics-society		not_found	no
+L7-1715	篮		b79-m2	b7-culture-sports		not_found	no
+L7-1716	篮球		b79-m2	b7-culture-sports		not_found	no
+L7-1717	狼		b79-m2	b7-nature-fauna		not_found	no
+L7-1718	朗读		b79-m2	b7-academic-work		not_found	no
+L7-1719	朗诵		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1720	浪费		b79-m2	b7-finance-business		not_found	no
+L7-1721	浪漫		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1722	劳动力		b79-m2	b7-finance-business		not_found	no
+L7-1723	劳改		b79-m2	b7-politics-legal		not_found	no
+L7-1724	劳苦		b79-m2	b7-social-work		id_mismatch_no_simp	no
+L7-1725	劳累		b79-m2	b7-social-work		id_mismatch_no_simp	no
+L7-1726	牢固		b79-m2	b7-tech-science		not_found	no
+L7-1727	牢记	b79-m4-formal-writing	b79-m2	b7-academic-logic	polite	simp_fallback	no
+L7-1728	牢骚		b79-m2	b7-social-nuance		not_found	no
+L7-1729	姥姥		b79-m2	b7-social-nuance		not_found	no
+L7-1730	乐观		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1731	乐谱		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1732	乐器		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1733	乐意		b79-m2	b7-social-emotions		not_found	no
+L7-1734	雷		b79-m2	b7-nature-geography		not_found	no
+L7-1735	雷达		b79-m2	b7-tech-science		not_found	no
+L7-1736	类别	b79-m4-formal-writing	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1737	泪		b79-m2	b7-social-emotions		not_found	no
+L7-1738	冷冰冰		b79-m2	b7-social-behavior		not_found	no
+L7-1739	冷却		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1740	冷色		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1741	愣		b79-m2	b7-social-behavior		id_mismatch_no_simp	no
+L7-1742	离别		b79-m2	b7-social-emotions	polite	not_found	no
+L7-1743	离婚		b79-m2	b7-social-culture		not_found	no
+L7-1744	离休		b79-m2	b7-social-work		not_found	no
+L7-1745	离子		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1746	梨		b79-m2	b7-nature-flora		not_found	no
+L7-1747	黎明		b79-m2	b7-nature-geography		not_found	no
+L7-1748	礼物		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1749	礼仪		b79-m2	b7-social-culture	polite	not_found	no
+L7-1750	礼遇		b79-m2	b7-social-culture	polite	id_mismatch_no_simp	no
+L7-1751	里程碑		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1752	理睬		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1753	理发		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1754	理解		b79-m2	b7-social-nuance		not_found	no
+L7-1755	理想		b79-m2	b7-social-virtues		id_mismatch_no_simp	no
+L7-1756	理论		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1757	理智		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1758	栗子		b79-m2	b7-nature-flora		id_mismatch_no_simp	no
+L7-1759	立场		b79-m2	b7-politics-society		not_found	no
+L7-1760	立法		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1761	立即		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1762	立刻		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1763	立体		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1764	立项		b79-m2	b7-finance-business		not_found	no
+L7-1765	利益		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1766	利率		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1767	例会		b79-m2	b7-social-work		id_mismatch_no_simp	no
+L7-1768	例假		b79-m2	b7-health-medical		id_mismatch_no_simp	no
+L7-1769	例外		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1770	连续		b79-m2	b7-academic-logic		not_found	no
+L7-1771	联盟		b79-m2	b7-politics-diplomacy		id_mismatch_no_simp	no
+L7-1772	联络		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1773	联邦		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1774	联合		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1775	联欢		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1776	联赛		b79-m2	b7-culture-sports		id_mismatch_no_simp	no
+L7-1777	联系		b79-m2	b7-academic-logic		not_found	no
+L7-1778	廉洁		b79-m2	b7-politics-society	polite	not_found	no
+L7-1779	廉价		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1780	怜悯		b79-m2	b7-social-emotions		not_found	no
+L7-1781	脸		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1782	练		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1783	恋爱		b79-m2	b7-social-culture		not_found	no
+L7-1784	练习		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1785	炼		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1786	链		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1787	亮		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1788	谅解		b79-m2	b7-politics-diplomacy	polite	id_mismatch_no_simp	no
+L7-1789	辽阔		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1790	聊天		b79-m2	b7-social-culture		not_found	no
+L7-1791	列		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1792	列表		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1793	列车		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-1794	劣质		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1795	猎人		b79-m2	b7-culture-sports		id_mismatch_no_simp	no
+L7-1796	裂		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1797	邻居		b79-m2	b7-social-nuance		id_mismatch_no_simp	no
+L7-1798	临近	b79-m5-idiomatic-social	b79-m2	b7-general-formal		simp_fallback	no
+L7-1799	临时		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1800	凌晨		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1801	灵活		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1802	灵敏		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1803	灵魂		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1804	零件		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1805	零售		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1806	零星		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1807	领		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1808	领带		b79-m2	b7-social-culture		id_mismatch_no_simp	no
+L7-1809	领地		b79-m2	b7-politics-geography		not_found	no
+L7-1810	领导		b79-m2	b7-social-work	polite	id_mismatch_no_simp	no
+L7-1811	领海		b79-m2	b7-politics-geography		not_found	no
+L7-1812	领会		b79-m2	b7-academic-logic		not_found	no
+L7-1813	领空		b79-m2	b7-politics-geography		not_found	no
+L7-1814	领事馆		b79-m2	b7-politics-diplomacy		not_found	no
+L7-1815	领土		b79-m2	b7-politics-geography		not_found	no
+L7-1816	领悟		b79-m2	b7-academic-logic		not_found	no
+L7-1817	领域		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1818	领袖		b79-m2	b7-politics-society		not_found	no
+L7-1819	领养		b79-m2	b7-social-culture		not_found	no
+L7-1820	溜		b79-m2	b7-general-formal		not_found	no
+L7-1821	流程		b79-m2	b7-tech-science		id_mismatch_no_simp	no
+L7-1822	流传		b79-m2	b7-culture-heritage		id_mismatch_no_simp	no
+L7-1823	流动		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1824	流利		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1825	流露		b79-m2	b7-social-emotions		id_mismatch_no_simp	no
+L7-1826	流氓		b79-m2	b7-politics-society		id_mismatch_no_simp	no
+L7-1827	流派		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1828	流失		b79-m2	b7-finance-business		not_found	no
+L7-1829	流通		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1830	流行		b79-m2	b7-culture-social		id_mismatch_no_simp	no
+L7-1831	浏览		b79-m2	b7-tech-science		not_found	no
+L7-1832	流量		b79-m2	b7-tech-science		not_found	no
+L7-1833	流域		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1834	柳树		b79-m2	b7-nature-flora		id_mismatch_no_simp	no
+L7-1835	路径		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1836	路线		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-1837	路标		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-1838	路程		b79-m2	b7-tech-transport		not_found	no
+L7-1839	路灯		b79-m2	b7-tech-infrastructure		not_found	no
+L7-1840	录取		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1841	录制		b79-m2	b7-tech-science		not_found	no
+L7-1842	鹿		b79-m2	b7-nature-fauna		not_found	no
+L7-1843	露		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1844	露水		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1845	露天		b79-m2	b7-general-formal		not_found	no
+L7-1846	炉		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1847	驴		b79-m2	b7-nature-fauna		not_found	no
+L7-1848	旅游业		b79-m2	b7-finance-business		id_mismatch_no_simp	no
+L7-1849	履行		b79-m2	b7-politics-legal	polite	not_found	no
+L7-1850	律师		b79-m2	b7-politics-legal		id_mismatch_no_simp	no
+L7-1851	屡次	b79-m5-idiomatic-social	b79-m2	b7-academic-logic		simp_fallback	no
+L7-1852	率		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1853	率领		b79-m2	b7-politics-military		not_found	no
+L7-1854	绿化		b79-m2	b7-nature-geography		not_found	no
+L7-1855	略		b79-m2	b7-academic-logic		not_found	no
+L7-1856	略微		b79-m2	b7-academic-logic		not_found	no
+L7-1857	伦理		b79-m2	b7-social-virtues		id_mismatch_no_simp	no
+L7-1858	轮		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1859	轮船		b79-m2	b7-tech-transport		id_mismatch_no_simp	no
+L7-1860	轮廓		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1861	轮流		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1862	轮胎		b79-m2	b7-tech-transport		not_found	no
+L7-1863	论点		b79-m2	b7-academic-logic		not_found	no
+L7-1864	论据		b79-m2	b7-academic-logic		not_found	no
+L7-1865	论述		b79-m2	b7-academic-logic	polite	not_found	no
+L7-1866	论文		b79-m2	b7-academic-work		id_mismatch_no_simp	no
+L7-1867	论证		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1868	逻辑		b79-m2	b7-academic-logic		id_mismatch_no_simp	no
+L7-1869	锣		b79-m2	b7-culture-arts		id_mismatch_no_simp	no
+L7-1870	萝卜		b79-m2	b7-nature-flora		not_found	no
+L7-1871	螺丝		b79-m2	b7-tech-science		not_found	no
+L7-1872	螺旋		b79-m2	b7-tech-science		not_found	no
+L7-1873	裸		b79-m2	b7-general-formal		id_mismatch_no_simp	no
+L7-1874	裸露		b79-m2	b7-nature-geography		id_mismatch_no_simp	no
+L7-1875	洛阳		b79-m2	b7-culture-heritage		id_mismatch_no_simp	no
+L7-1876	落在		b79-m2	b7-general-formal		not_found	no
+L7-1877	落后		b79-m2	b7-academic-logic		not_found	no
+L7-1878	落后于		b79-m2	b7-academic-logic		not_found	no

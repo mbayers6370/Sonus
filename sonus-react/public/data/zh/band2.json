@@ -27,7 +27,8 @@
           "example": {
             "zh": "真漂亮啊！",
             "en": "So beautiful!"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0018",
@@ -41,9 +42,10 @@
             "for instance"
           ],
           "example": {
-            "zh": "我喜欢水果，比如苹果。",
-            "en": "I like fruits, for example apples."
-          }
+            "zh": "我喜欢水果，比如西瓜。",
+            "en": "I like fruits, for example watermelon."
+          },
+          "tags": null
         },
         {
           "id": "L2-0019",
@@ -58,7 +60,8 @@
           "example": {
             "zh": "比如说，你可以先吃饭。",
             "en": "For example, you could eat first."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0023",
@@ -73,7 +76,8 @@
           "example": {
             "zh": "你必须来。",
             "en": "You must come."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0031",
@@ -86,9 +90,10 @@
             "not only"
           ],
           "example": {
-            "zh": "她不但漂亮，而且聪明。",
-            "en": "She is not only pretty but also smart."
-          }
+            "zh": "她不但好，而且漂亮。",
+            "en": "She is not only good, but also pretty."
+          },
+          "tags": null
         },
         {
           "id": "L2-0033",
@@ -103,7 +108,8 @@
           "example": {
             "zh": "我想去，不过没时间。",
             "en": "I want to go, but I don't have time."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0034",
@@ -118,7 +124,8 @@
           "example": {
             "zh": "我不太清楚。",
             "en": "I'm not too sure."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0035",
@@ -134,7 +141,8 @@
           "example": {
             "zh": "不要说话。",
             "en": "Don't talk."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0037",
@@ -150,7 +158,8 @@
           "example": {
             "zh": "他不久就会来。",
             "en": "He'll come soon."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0039",
@@ -166,7 +175,8 @@
           "example": {
             "zh": "走路不如坐车快。",
             "en": "Walking isn't as fast as driving."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0043",
@@ -181,7 +191,8 @@
           "example": {
             "zh": "他不一定来。",
             "en": "He may not come."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0044",
@@ -196,7 +207,8 @@
           "example": {
             "zh": "不一会儿他就到了。",
             "en": "He arrived soon after."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0046",
@@ -212,7 +224,8 @@
           "example": {
             "zh": "他八点才来。",
             "en": "He didn't come until 8 o'clock."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0054",
@@ -227,7 +240,8 @@
           "example": {
             "zh": "我差不多做完了。",
             "en": "I'm almost finished."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0105",
@@ -242,7 +256,8 @@
           "example": {
             "zh": "我想去，但是没时间。",
             "en": "I want to go, but I don't have time."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0117",
@@ -257,7 +272,8 @@
           "example": {
             "zh": "明天有事的话，就别来了。",
             "en": "If something comes up tomorrow, don't come."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0118",
@@ -273,7 +289,8 @@
           "example": {
             "zh": "他跑得很快。",
             "en": "He runs very fast."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0153",
@@ -289,7 +306,8 @@
           "example": {
             "zh": "她很漂亮，而且很聪明。",
             "en": "She's pretty and also smart."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0172",
@@ -304,7 +322,8 @@
           "example": {
             "zh": "该走了。",
             "en": "It's time to go."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0187",
@@ -320,7 +339,8 @@
           "example": {
             "zh": "今天比昨天更冷。",
             "en": "Today is even colder than yesterday."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0220",
@@ -336,7 +356,8 @@
           "example": {
             "zh": "他好像不高兴。",
             "en": "He seems unhappy."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0245",
@@ -351,7 +372,8 @@
           "example": {
             "zh": "我会说汉语。",
             "en": "I can speak Chinese."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0248",
@@ -364,9 +386,10 @@
             "or"
           ],
           "example": {
-            "zh": "喝茶或者咖啡都可以。",
-            "en": "Tea or coffee is fine."
-          }
+            "zh": "喝茶或者喝水都可以。",
+            "en": "Drinking tea or water are both fine."
+          },
+          "tags": null
         },
         {
           "id": "L2-0285",
@@ -381,7 +404,8 @@
           "example": {
             "zh": "接下来我们做什么？",
             "en": "What do we do next?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0286",
@@ -396,7 +420,8 @@
           "example": {
             "zh": "你先走，我接着就来。",
             "en": "You go first, I'll come right after."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0303",
@@ -412,7 +437,8 @@
           "example": {
             "zh": "火车就要开了。",
             "en": "The train is about to leave."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0319",
@@ -427,7 +453,8 @@
           "example": {
             "zh": "他可能不来了。",
             "en": "He might not come."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0321",
@@ -442,7 +469,8 @@
           "example": {
             "zh": "我想去，可是太忙了。",
             "en": "I want to go, but I'm too busy."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0322",
@@ -457,7 +485,8 @@
           "example": {
             "zh": "我可以进来吗？",
             "en": "May I come in?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0468",
@@ -472,7 +501,8 @@
           "example": {
             "zh": "如果明天下雨，我就不去。",
             "en": "If it rains tomorrow, I won't go."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0510",
@@ -487,7 +517,8 @@
           "example": {
             "zh": "虽然很累，但我很开心。",
             "en": "Although I'm tired, I'm happy."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0513",
@@ -502,7 +533,8 @@
           "example": {
             "zh": "下雨了，所以没出门。",
             "en": "It rained, so I didn't go out."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0546",
@@ -518,7 +550,8 @@
           "example": {
             "zh": "他同时做两件事。",
             "en": "He does two things at once."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0570",
@@ -533,7 +566,8 @@
           "example": {
             "zh": "这是为你准备的。",
             "en": "This is prepared for you."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0599",
@@ -547,9 +581,10 @@
             "to turn towards"
           ],
           "example": {
-            "zh": "向前走。",
-            "en": "Walk forward."
-          }
+            "zh": "请向左走。",
+            "en": "Please walk toward the left."
+          },
+          "tags": null
         },
         {
           "id": "L2-0667",
@@ -564,7 +599,8 @@
           "example": {
             "zh": "因为下雨，我没出门。",
             "en": "Because it rained, I didn't go out."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0699",
@@ -580,7 +616,8 @@
           "example": {
             "zh": "雨越下越大。",
             "en": "The rain is getting heavier and heavier."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0728",
@@ -595,7 +632,8 @@
           "example": {
             "zh": "这正是我想要的。",
             "en": "This is exactly what I wanted."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0730",
@@ -610,7 +648,8 @@
           "example": {
             "zh": "我只带了一块钱。",
             "en": "I only brought one yuan."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0731",
@@ -625,7 +664,8 @@
           "example": {
             "zh": "只能这样了。",
             "en": "There's no other way."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0104",
@@ -640,7 +680,8 @@
           "example": {
             "zh": "他说要来，但没来。",
             "en": "He said he'd come, but didn't."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0145",
@@ -656,7 +697,8 @@
           "example": {
             "zh": "他对我说了什么？",
             "en": "What did he say to me?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0150",
@@ -671,7 +713,8 @@
           "example": {
             "zh": "多么漂亮！",
             "en": "How beautiful!"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0247",
@@ -686,7 +729,8 @@
           "example": {
             "zh": "你去或他去都可以。",
             "en": "Either you go or he goes."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0349",
@@ -702,7 +746,8 @@
           "example": {
             "zh": "我喜欢运动，例如游泳。",
             "en": "I like sports, for example swimming."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0387",
@@ -717,7 +762,8 @@
           "example": {
             "zh": "那好吧。",
             "en": "OK then."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0389",
@@ -732,7 +778,8 @@
           "example": {
             "zh": "那么，我们走吧。",
             "en": "Well then, let's go."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0391",
@@ -748,7 +795,8 @@
           "example": {
             "zh": "别那样做。",
             "en": "Don't do it that way."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0398",
@@ -764,7 +812,8 @@
           "example": {
             "zh": "我能够完成。",
             "en": "I can finish it."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0427",
@@ -779,7 +828,8 @@
           "example": {
             "zh": "我有三个苹果，其中一个坏了。",
             "en": "I have three apples, and one of them is bad."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0459",
@@ -794,7 +844,8 @@
           "example": {
             "zh": "先吃饭，然后看电影。",
             "en": "Eat first, then watch a movie."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0515",
@@ -809,7 +860,8 @@
           "example": {
             "zh": "这本书很好，我很喜欢它。",
             "en": "This book is good, I like it."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0516",
@@ -824,7 +876,8 @@
           "example": {
             "zh": "这些水果都很新鲜，我买了它们。",
             "en": "These fruits are fresh, I bought them."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0542",
@@ -840,7 +893,8 @@
           "example": {
             "zh": "今天天气挺好。",
             "en": "The weather is pretty good today."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0571",
@@ -856,7 +910,8 @@
           "example": {
             "zh": "你为什么不来？",
             "en": "Why didn't you come?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0574",
@@ -871,7 +926,8 @@
           "example": {
             "zh": "喂，你好吗？",
             "en": "Hello, how are you?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0643",
@@ -886,7 +942,8 @@
           "example": {
             "zh": "他也许会来。",
             "en": "Maybe he'll come."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0648",
@@ -901,7 +958,8 @@
           "example": {
             "zh": "一共多少钱？",
             "en": "How much altogether?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0652",
@@ -916,7 +974,8 @@
           "example": {
             "zh": "他已经走了。",
             "en": "He's already left."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0655",
@@ -932,7 +991,8 @@
           "example": {
             "zh": "十八岁以上可以开车。",
             "en": "People over 18 can drive."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0656",
@@ -948,7 +1008,8 @@
           "example": {
             "zh": "除了他以外，别人都来了。",
             "en": "Everyone except him came."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0658",
@@ -964,7 +1025,8 @@
           "example": {
             "zh": "十八岁以下不能喝酒。",
             "en": "People under 18 can't drink alcohol."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0663",
@@ -979,7 +1041,8 @@
           "example": {
             "zh": "我一直等你。",
             "en": "I've been waiting for you the whole time."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0675",
@@ -994,7 +1057,8 @@
           "example": {
             "zh": "你应该好好学习。",
             "en": "You should study hard."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0688",
@@ -1009,7 +1073,8 @@
           "example": {
             "zh": "他又来了。",
             "en": "He came again."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0709",
@@ -1025,7 +1090,8 @@
           "example": {
             "zh": "我忘带钱了，怎么办？",
             "en": "I forgot money, what should I do?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0710",
@@ -1041,7 +1107,8 @@
           "example": {
             "zh": "最近怎么样？",
             "en": "How's it going lately?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0711",
@@ -1056,7 +1123,8 @@
           "example": {
             "zh": "怎样去车站？",
             "en": "How to get to the station?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0721",
@@ -1072,7 +1140,8 @@
           "example": {
             "zh": "你这么忙吗？",
             "en": "Are you this busy?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0723",
@@ -1088,7 +1157,8 @@
           "example": {
             "zh": "这样做不对。",
             "en": "Doing it this way is wrong."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0751",
@@ -1103,7 +1173,8 @@
           "example": {
             "zh": "我自己做。",
             "en": "I'll do it myself."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0110",
@@ -1118,7 +1189,8 @@
           "example": {
             "zh": "到处都找不到他。",
             "en": "He's nowhere to be found."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0426",
@@ -1133,7 +1205,8 @@
           "example": {
             "zh": "其他人呢？",
             "en": "Where are the others?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0476",
@@ -1149,7 +1222,8 @@
           "example": {
             "zh": "你想要什么样的？",
             "en": "What kind do you want?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0541",
@@ -1164,7 +1238,8 @@
           "example": {
             "zh": "挺好。",
             "en": "Pretty good."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0686",
@@ -1179,7 +1254,8 @@
           "example": {
             "zh": "我有点儿累。",
             "en": "I'm a little tired."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0686b",
@@ -1194,7 +1270,8 @@
           "example": {
             "zh": "他有一点儿不高兴。",
             "en": "He's a bit unhappy."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0700",
@@ -1209,7 +1286,8 @@
           "example": {
             "zh": "天气越来越热。",
             "en": "It's getting hotter and hotter."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0703",
@@ -1224,7 +1302,8 @@
           "example": {
             "zh": "咱走吧。",
             "en": "Let's go."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0704",
@@ -1240,7 +1319,8 @@
           "example": {
             "zh": "咱们一起吃饭吧。",
             "en": "Let's eat together."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0027",
@@ -1255,7 +1335,8 @@
           "example": {
             "zh": "我找了一遍。",
             "en": "I looked for it once."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0067",
@@ -1270,7 +1351,8 @@
           "example": {
             "zh": "请重新做一遍。",
             "en": "Please do it again."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0090",
@@ -1285,7 +1367,8 @@
           "example": {
             "zh": "他的成绩大大提高了。",
             "en": "His grades improved greatly."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0726",
@@ -1301,7 +1384,8 @@
           "example": {
             "zh": "你来得正好。",
             "en": "You came just in time."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -1325,7 +1409,8 @@
           "example": {
             "zh": "这件事我来办。",
             "en": "I'll handle this matter."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0012",
@@ -1341,7 +1426,8 @@
           "example": {
             "zh": "你能帮助我吗？",
             "en": "Can you help me?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0014",
@@ -1355,9 +1441,10 @@
             "to apply"
           ],
           "example": {
-            "zh": "我想报名参加比赛。",
-            "en": "I want to sign up for the competition."
-          }
+            "zh": "我想报名学汉语。",
+            "en": "I want to sign up to learn Chinese."
+          },
+          "tags": null
         },
         {
           "id": "L2-0017",
@@ -1373,7 +1460,8 @@
           "example": {
             "zh": "他背了很多古诗。",
             "en": "He memorized many ancient poems."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0025",
@@ -1389,7 +1477,8 @@
           "example": {
             "zh": "天气变了。",
             "en": "The weather changed."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0026",
@@ -1405,7 +1494,8 @@
           "example": {
             "zh": "水变成了冰。",
             "en": "Water turned into ice."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0029",
@@ -1421,7 +1511,8 @@
           "example": {
             "zh": "他表示同意。",
             "en": "He expressed agreement."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0036",
@@ -1437,7 +1528,8 @@
           "example": {
             "zh": "他不好意思说话。",
             "en": "He was too shy to speak."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0048",
@@ -1451,9 +1543,10 @@
             "to tour"
           ],
           "example": {
-            "zh": "我们参观了博物馆。",
-            "en": "We visited the museum."
-          }
+            "zh": "我们参观了学校。",
+            "en": "We visited the school."
+          },
+          "tags": null
         },
         {
           "id": "L2-0049",
@@ -1469,7 +1562,8 @@
           "example": {
             "zh": "我想参加比赛。",
             "en": "I want to participate in the competition."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0053",
@@ -1485,7 +1579,8 @@
           "example": {
             "zh": "我查一下字典。",
             "en": "I'll check the dictionary."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0059",
@@ -1501,7 +1596,8 @@
           "example": {
             "zh": "他超过了所有人。",
             "en": "He surpassed everyone."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0062",
@@ -1517,7 +1613,8 @@
           "example": {
             "zh": "大家都称他老李。",
             "en": "Everyone calls him Old Li."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0063",
@@ -1533,7 +1630,8 @@
           "example": {
             "zh": "他成了医生。",
             "en": "He became a doctor."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0065",
@@ -1549,7 +1647,8 @@
           "example": {
             "zh": "我想成为一名老师。",
             "en": "I want to become a teacher."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0068",
@@ -1565,7 +1664,8 @@
           "example": {
             "zh": "我们明天出发。",
             "en": "We set off tomorrow."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0072",
@@ -1580,7 +1680,8 @@
           "example": {
             "zh": "我出生在北京。",
             "en": "I was born in Beijing."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0073",
@@ -1594,9 +1695,10 @@
             "to arise"
           ],
           "example": {
-            "zh": "他突然出现了。",
-            "en": "He suddenly appeared."
-          }
+            "zh": "老师出现了。",
+            "en": "The teacher appeared."
+          },
+          "tags": null
         },
         {
           "id": "L2-0075",
@@ -1612,7 +1714,8 @@
           "example": {
             "zh": "这个房子出租。",
             "en": "This house is for rent."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0085",
@@ -1628,7 +1731,8 @@
           "example": {
             "zh": "他答应明天来。",
             "en": "He promised to come tomorrow."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0086",
@@ -1644,7 +1748,8 @@
           "example": {
             "zh": "他在餐厅打工。",
             "en": "He works part-time at a restaurant."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0087",
@@ -1660,7 +1765,8 @@
           "example": {
             "zh": "你打算做什么？",
             "en": "What do you plan to do?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0088",
@@ -1676,7 +1782,8 @@
           "example": {
             "zh": "请打印这份文件。",
             "en": "Please print this document."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0101",
@@ -1689,9 +1796,10 @@
             "to bring"
           ],
           "example": {
-            "zh": "别忘了带钥匙。",
-            "en": "Don't forget to bring your keys."
-          }
+            "zh": "别忘了带你的包。",
+            "en": "Don't forget to bring your bag."
+          },
+          "tags": null
         },
         {
           "id": "L2-0102",
@@ -1707,7 +1815,8 @@
           "example": {
             "zh": "他带来了好消息。",
             "en": "He brought good news."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0107",
@@ -1723,7 +1832,8 @@
           "example": {
             "zh": "他想当老师。",
             "en": "He wants to be a teacher."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0111",
@@ -1739,7 +1849,8 @@
           "example": {
             "zh": "请倒一杯茶。",
             "en": "Please pour a cup of tea."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0115",
@@ -1755,7 +1866,8 @@
           "example": {
             "zh": "他得了第一名。",
             "en": "He got first place."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0116",
@@ -1771,7 +1883,8 @@
           "example": {
             "zh": "我们得出了结论。",
             "en": "We reached a conclusion."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0120",
@@ -1787,7 +1900,8 @@
           "example": {
             "zh": "请等我一下。",
             "en": "Please wait for me."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0121",
@@ -1802,7 +1916,8 @@
           "example": {
             "zh": "等到明天再说。",
             "en": "Wait until tomorrow to discuss."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0122",
@@ -1818,7 +1933,8 @@
           "example": {
             "zh": "一加一等于二。",
             "en": "One plus one equals two."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0127",
@@ -1833,7 +1949,8 @@
           "example": {
             "zh": "他点头同意了。",
             "en": "He nodded in agreement."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0134",
@@ -1849,7 +1966,8 @@
           "example": {
             "zh": "我懂了。",
             "en": "I understand."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0135",
@@ -1865,7 +1983,8 @@
           "example": {
             "zh": "他懂得很多。",
             "en": "He knows a lot."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0139",
@@ -1881,7 +2000,8 @@
           "example": {
             "zh": "我们度过了一个快乐的周末。",
             "en": "We spent a happy weekend."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0146",
@@ -1896,7 +2016,8 @@
           "example": {
             "zh": "我们在对话。",
             "en": "We're having a conversation."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0154",
@@ -1912,7 +2033,8 @@
           "example": {
             "zh": "我发了一封邮件。",
             "en": "I sent an email."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0155",
@@ -1928,7 +2050,8 @@
           "example": {
             "zh": "我发现了一个秘密。",
             "en": "I discovered a secret."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0162",
@@ -1944,7 +2067,8 @@
           "example": {
             "zh": "把书放下。",
             "en": "Put the book down."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0163",
@@ -1960,7 +2084,8 @@
           "example": {
             "zh": "你放心，我会来的。",
             "en": "Don't worry, I'll come."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0164",
@@ -1976,7 +2101,8 @@
           "example": {
             "zh": "我们分了蛋糕。",
             "en": "We divided the cake."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0165",
@@ -1992,7 +2118,8 @@
           "example": {
             "zh": "他们分开了。",
             "en": "They separated."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0170",
@@ -2007,7 +2134,8 @@
           "example": {
             "zh": "他为客人服务。",
             "en": "He serves the guests."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0171",
@@ -2022,7 +2150,8 @@
           "example": {
             "zh": "我要复习功课。",
             "en": "I need to review my lessons."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0173",
@@ -2038,7 +2167,8 @@
           "example": {
             "zh": "我想改个时间。",
             "en": "I want to change the time."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0174",
@@ -2054,7 +2184,8 @@
           "example": {
             "zh": "他的想法改变了。",
             "en": "His idea changed."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0176",
@@ -2070,7 +2201,8 @@
           "example": {
             "zh": "我感到很高兴。",
             "en": "I feel very happy."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0177",
@@ -2086,7 +2218,8 @@
           "example": {
             "zh": "他的话感动了我。",
             "en": "His words moved me."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0179",
@@ -2101,7 +2234,8 @@
           "example": {
             "zh": "感谢你的帮助。",
             "en": "Thanks for your help."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0180",
@@ -2116,7 +2250,8 @@
           "example": {
             "zh": "他在干活儿。",
             "en": "He's working."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0201",
@@ -2132,7 +2267,8 @@
           "example": {
             "zh": "请关机。",
             "en": "Please turn it off."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0202",
@@ -2148,7 +2284,8 @@
           "example": {
             "zh": "他很关心我。",
             "en": "He cares about me."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0207",
@@ -2164,7 +2301,8 @@
           "example": {
             "zh": "请过来一下。",
             "en": "Please come over."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0210",
@@ -2180,7 +2318,8 @@
           "example": {
             "zh": "过马路要小心。",
             "en": "Be careful crossing the street."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0213",
@@ -2196,7 +2335,8 @@
           "example": {
             "zh": "他喊了一声。",
             "en": "He shouted."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -2220,7 +2360,8 @@
           "example": {
             "zh": "他喜欢画山水。",
             "en": "He likes to paint landscapes."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0239",
@@ -2234,9 +2375,12 @@
             "welcome"
           ],
           "example": {
-            "zh": "欢迎你来我家。",
-            "en": "Welcome to my home."
-          }
+            "zh": "欢迎来到中国。",
+            "en": "Welcome to China."
+          },
+          "tags": [
+            "polite"
+          ]
         },
         {
           "id": "L2-0240",
@@ -2252,7 +2396,8 @@
           "example": {
             "zh": "我想换钱。",
             "en": "I want to exchange money."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0243",
@@ -2268,7 +2413,8 @@
           "example": {
             "zh": "我明天回家。",
             "en": "I'm going home tomorrow."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0255",
@@ -2284,7 +2430,8 @@
           "example": {
             "zh": "二加二等于四。",
             "en": "Two plus two equals four."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0262",
@@ -2300,7 +2447,8 @@
           "example": {
             "zh": "老师检查作业。",
             "en": "The teacher checks homework."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0263",
@@ -2315,7 +2463,8 @@
           "example": {
             "zh": "很高兴见到你。",
             "en": "Nice to meet you."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0264",
@@ -2330,7 +2479,8 @@
           "example": {
             "zh": "我见过他一次。",
             "en": "I've met him once."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0267",
@@ -2346,7 +2496,8 @@
           "example": {
             "zh": "请讲慢一点。",
             "en": "Please speak more slowly."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0268",
@@ -2362,7 +2513,8 @@
           "example": {
             "zh": "他在讲话。",
             "en": "He's speaking."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0270",
@@ -2378,7 +2530,8 @@
           "example": {
             "zh": "请把信交给他。",
             "en": "Please give the letter to him."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0280",
@@ -2393,7 +2546,8 @@
           "example": {
             "zh": "他在大学教学。",
             "en": "He teaches at university."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0281",
@@ -2409,7 +2563,8 @@
           "example": {
             "zh": "教育孩子很重要。",
             "en": "Educating children is important."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0282",
@@ -2424,7 +2579,8 @@
           "example": {
             "zh": "我去机场接朋友。",
             "en": "I'm going to the airport to pick up a friend."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0283",
@@ -2439,7 +2595,8 @@
           "example": {
             "zh": "我接到了电话。",
             "en": "I received the call."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0284",
@@ -2453,9 +2610,10 @@
             "to acquiesce"
           ],
           "example": {
-            "zh": "我接受你的建议。",
-            "en": "I accept your suggestion."
-          }
+            "zh": "我接受你的书。",
+            "en": "I accept your book."
+          },
+          "tags": null
         },
         {
           "id": "L2-0292",
@@ -2471,7 +2629,8 @@
           "example": {
             "zh": "我可以借你的书吗？",
             "en": "Can I borrow your book?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0295",
@@ -2486,7 +2645,8 @@
           "example": {
             "zh": "请勿进入。",
             "en": "Do not enter."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0296",
@@ -2502,7 +2662,8 @@
           "example": {
             "zh": "会议正在进行。",
             "en": "The meeting is in progress."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0299",
@@ -2518,7 +2679,8 @@
           "example": {
             "zh": "我经过公园。",
             "en": "I passed by the park."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0304",
@@ -2533,7 +2695,8 @@
           "example": {
             "zh": "请举手。",
             "en": "Please raise your hand."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0305",
@@ -2549,7 +2712,8 @@
           "example": {
             "zh": "有问题请举手。",
             "en": "Please raise your hand if you have questions."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0306",
@@ -2564,7 +2728,8 @@
           "example": {
             "zh": "明天举行婚礼。",
             "en": "The wedding will be held tomorrow."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0309",
@@ -2580,7 +2745,8 @@
           "example": {
             "zh": "钥匙卡在锁里了。",
             "en": "The key got stuck in the lock."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0310",
@@ -2595,7 +2761,8 @@
           "example": {
             "zh": "电脑开机很慢。",
             "en": "The computer starts up slowly."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0311",
@@ -2611,7 +2778,8 @@
           "example": {
             "zh": "他很开心。",
             "en": "He's very happy."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0312",
@@ -2627,7 +2795,8 @@
           "example": {
             "zh": "九月一号开学。",
             "en": "School starts on September 1st."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0315",
@@ -2642,7 +2811,8 @@
           "example": {
             "zh": "请靠右站。",
             "en": "Please stand on the right."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0328",
@@ -2658,7 +2828,8 @@
           "example": {
             "zh": "孩子哭了。",
             "en": "The child is crying."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0334",
@@ -2674,7 +2845,8 @@
           "example": {
             "zh": "请拉门。",
             "en": "Please pull the door."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0335",
@@ -2689,7 +2861,8 @@
           "example": {
             "zh": "我来自中国。",
             "en": "I come from China."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0344",
@@ -2705,7 +2878,8 @@
           "example": {
             "zh": "离我远点。",
             "en": "Stay away from me."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0345",
@@ -2721,7 +2895,8 @@
           "example": {
             "zh": "他离开了家。",
             "en": "He left home."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0352",
@@ -2735,9 +2910,10 @@
             "to train"
           ],
           "example": {
-            "zh": "我每天练钢琴。",
-            "en": "I practice piano every day."
-          }
+            "zh": "我每天练说汉语。",
+            "en": "I practice speaking Chinese every day."
+          },
+          "tags": null
         },
         {
           "id": "L2-0353",
@@ -2753,7 +2929,8 @@
           "example": {
             "zh": "练习说汉语。",
             "en": "Practice speaking Chinese."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0360",
@@ -2769,7 +2946,8 @@
           "example": {
             "zh": "请留在这里。",
             "en": "Please stay here."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0361",
@@ -2785,7 +2963,8 @@
           "example": {
             "zh": "请留下你的电话。",
             "en": "Please leave your phone number."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0363",
@@ -2801,7 +2980,8 @@
           "example": {
             "zh": "水在流。",
             "en": "Water is flowing."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0365",
@@ -2817,7 +2997,8 @@
           "example": {
             "zh": "这首歌很流行。",
             "en": "This song is very popular."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0373",
@@ -2832,7 +3013,8 @@
           "example": {
             "zh": "杯子满了。",
             "en": "The cup is full."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0385",
@@ -2848,7 +3030,8 @@
           "example": {
             "zh": "拿出你的书。",
             "en": "Take out your book."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0386",
@@ -2862,9 +3045,10 @@
             "to obtain"
           ],
           "example": {
-            "zh": "我拿到了签证。",
-            "en": "I got the visa."
-          }
+            "zh": "我拿到了那本书。",
+            "en": "I got that book."
+          },
+          "tags": null
         },
         {
           "id": "L2-0402",
@@ -2880,7 +3064,8 @@
           "example": {
             "zh": "别弄坏了。",
             "en": "Don't break it."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0403",
@@ -2896,7 +3081,8 @@
           "example": {
             "zh": "努力学习。",
             "en": "Study hard."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0404",
@@ -2912,7 +3098,8 @@
           "example": {
             "zh": "宝宝会爬了。",
             "en": "The baby can crawl."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0405",
@@ -2928,7 +3115,8 @@
           "example": {
             "zh": "周末去爬山。",
             "en": "Go hiking on the weekend."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0406",
@@ -2944,7 +3132,8 @@
           "example": {
             "zh": "我怕狗。",
             "en": "I'm afraid of dogs."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0408",
@@ -2959,7 +3148,8 @@
           "example": {
             "zh": "请排队等候。",
             "en": "Please line up and wait."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0410",
@@ -2975,7 +3165,8 @@
           "example": {
             "zh": "别碰那个。",
             "en": "Don't touch that."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0411",
@@ -2991,7 +3182,8 @@
           "example": {
             "zh": "我碰到老朋友了。",
             "en": "I ran into an old friend."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0412",
@@ -3007,7 +3199,8 @@
           "example": {
             "zh": "我在街上碰见他。",
             "en": "I met him on the street."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0429",
@@ -3022,7 +3215,8 @@
           "example": {
             "zh": "他骑车上学。",
             "en": "He rides a bike to school."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0430",
@@ -3038,7 +3232,8 @@
           "example": {
             "zh": "飞机起飞了。",
             "en": "The plane took off."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0443",
@@ -3054,7 +3249,8 @@
           "example": {
             "zh": "今天我请客。",
             "en": "It's my treat today."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0444",
@@ -3070,7 +3266,8 @@
           "example": {
             "zh": "我请求你的帮助。",
             "en": "I request your help."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0446",
@@ -3086,7 +3283,8 @@
           "example": {
             "zh": "求你别走。",
             "en": "Please don't go."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0450",
@@ -3102,7 +3300,8 @@
           "example": {
             "zh": "我去取钱。",
             "en": "I'm going to withdraw money."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0451",
@@ -3118,7 +3317,8 @@
           "example": {
             "zh": "他取得了成功。",
             "en": "He achieved success."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0460",
@@ -3134,7 +3334,8 @@
           "example": {
             "zh": "让我想想。",
             "en": "Let me think."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0465",
@@ -3150,7 +3351,8 @@
           "example": {
             "zh": "我认为你说得对。",
             "en": "I think you're right."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0470",
@@ -3166,7 +3368,8 @@
           "example": {
             "zh": "我们商量一下。",
             "en": "Let's discuss it."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0477",
@@ -3182,7 +3385,8 @@
           "example": {
             "zh": "她生了一个男孩。",
             "en": "She gave birth to a boy."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0479",
@@ -3198,7 +3402,8 @@
           "example": {
             "zh": "我生活在北京。",
             "en": "I live in Beijing."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0481",
@@ -3213,7 +3418,8 @@
           "example": {
             "zh": "省钱很重要。",
             "en": "Saving money is important."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0109",
@@ -3229,7 +3435,8 @@
           "example": {
             "zh": "树倒了。",
             "en": "The tree fell."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0129",
@@ -3245,7 +3452,8 @@
           "example": {
             "zh": "我的钱包掉了。",
             "en": "My wallet fell."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0277",
@@ -3261,7 +3469,8 @@
           "example": {
             "zh": "这个东西叫作什么？",
             "en": "What is this thing called?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0757",
@@ -3277,7 +3486,8 @@
           "example": {
             "zh": "请走开。",
             "en": "Please go away."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0066",
@@ -3293,7 +3503,8 @@
           "example": {
             "zh": "请重复一遍。",
             "en": "Please repeat it."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -3317,7 +3528,8 @@
           "example": {
             "zh": "他在公司实习。",
             "en": "He's interning at a company."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0486",
@@ -3333,7 +3545,8 @@
           "example": {
             "zh": "她实现了自己的梦想。",
             "en": "She achieved her dream."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0490",
@@ -3349,7 +3562,8 @@
           "example": {
             "zh": "请小心使用这个。",
             "en": "Please use this carefully."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0494",
@@ -3364,7 +3578,8 @@
           "example": {
             "zh": "我收下了这份礼物。",
             "en": "I accepted this gift."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0495",
@@ -3379,7 +3594,8 @@
           "example": {
             "zh": "昨天我收到了你的邮件。",
             "en": "I received your email yesterday."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0498",
@@ -3395,7 +3611,8 @@
           "example": {
             "zh": "她受到了大家的欢迎。",
             "en": "She received a warm welcome from everyone."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0501",
@@ -3411,7 +3628,8 @@
           "example": {
             "zh": "请数一下有多少人。",
             "en": "Please count how many people there are."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0505",
@@ -3427,7 +3645,8 @@
           "example": {
             "zh": "请说明原因。",
             "en": "Please explain the reason."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0507",
@@ -3442,7 +3661,8 @@
           "example": {
             "zh": "把饭送到房间。",
             "en": "Deliver the meal to the room."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0508",
@@ -3458,7 +3678,8 @@
           "example": {
             "zh": "他把花送给了妈妈。",
             "en": "He gave the flowers to his mom."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0509",
@@ -3474,7 +3695,8 @@
           "example": {
             "zh": "你帮我算一下总共多少钱？",
             "en": "Can you help me calculate the total?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0520",
@@ -3490,7 +3712,8 @@
           "example": {
             "zh": "我们讨论问题。",
             "en": "We discuss the problem."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0521",
@@ -3506,7 +3729,8 @@
           "example": {
             "zh": "套上外套。",
             "en": "Put on a coat."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0524",
@@ -3522,7 +3746,8 @@
           "example": {
             "zh": "我头疼。",
             "en": "My head hurts."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0525",
@@ -3538,7 +3763,8 @@
           "example": {
             "zh": "提东西。",
             "en": "Carry things."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0526",
@@ -3554,7 +3780,8 @@
           "example": {
             "zh": "提出问题。",
             "en": "Raise a question."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0527",
@@ -3570,7 +3797,8 @@
           "example": {
             "zh": "他提到你。",
             "en": "He mentioned you."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0528",
@@ -3586,7 +3814,8 @@
           "example": {
             "zh": "提高水平。",
             "en": "Improve the level."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0536",
@@ -3602,7 +3831,8 @@
           "example": {
             "zh": "学生在听讲。",
             "en": "Students are listening to the lecture."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0537",
@@ -3617,7 +3847,8 @@
           "example": {
             "zh": "听说你要来。",
             "en": "I heard you're coming."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0538",
@@ -3633,7 +3864,8 @@
           "example": {
             "zh": "雨停了。",
             "en": "The rain stopped."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0539",
@@ -3649,7 +3881,8 @@
           "example": {
             "zh": "这里不能停车。",
             "en": "Can't park here."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0543",
@@ -3665,7 +3898,8 @@
           "example": {
             "zh": "电话通了。",
             "en": "The call went through."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0544",
@@ -3681,7 +3915,8 @@
           "example": {
             "zh": "我通过了考试。",
             "en": "I passed the exam."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0545",
@@ -3697,7 +3932,8 @@
           "example": {
             "zh": "请通知大家。",
             "en": "Please inform everyone."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0553",
@@ -3713,7 +3949,8 @@
           "example": {
             "zh": "推门。",
             "en": "Push the door."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0557",
@@ -3729,7 +3966,8 @@
           "example": {
             "zh": "我做完作业了。",
             "en": "I finished my homework."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0558",
@@ -3745,7 +3983,8 @@
           "example": {
             "zh": "完成任务。",
             "en": "Complete the task."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0569",
@@ -3761,7 +4000,8 @@
           "example": {
             "zh": "往前走。",
             "en": "Go forward."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0576",
@@ -3777,7 +4017,8 @@
           "example": {
             "zh": "闻闻花香。",
             "en": "Smell the flower."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0580",
@@ -3793,7 +4034,8 @@
           "example": {
             "zh": "我中午午睡。",
             "en": "I take a nap at noon."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0588",
@@ -3807,9 +4049,10 @@
             "to take a shower"
           ],
           "example": {
-            "zh": "我去洗澡。",
-            "en": "I'm going to shower."
-          }
+            "zh": "我在洗澡。",
+            "en": "I am taking a bath."
+          },
+          "tags": null
         },
         {
           "id": "L2-0594",
@@ -3825,7 +4068,8 @@
           "example": {
             "zh": "我相信你。",
             "en": "I believe you."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0601",
@@ -3841,7 +4085,8 @@
           "example": {
             "zh": "他像他爸爸。",
             "en": "He looks like his dad."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0606",
@@ -3857,7 +4102,8 @@
           "example": {
             "zh": "小心点。",
             "en": "Be careful."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0610",
@@ -3873,7 +4119,8 @@
           "example": {
             "zh": "别笑话我。",
             "en": "Don't laugh at me."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0630",
@@ -3889,7 +4136,8 @@
           "example": {
             "zh": "选一个。",
             "en": "Choose one."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0636",
@@ -3905,7 +4153,8 @@
           "example": {
             "zh": "我养了一只狗。",
             "en": "I keep a dog."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0638",
@@ -3921,7 +4170,8 @@
           "example": {
             "zh": "要求帮助。",
             "en": "Request help."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0650",
@@ -3937,7 +4187,8 @@
           "example": {
             "zh": "祝你一路平安。",
             "en": "Wish you a safe journey."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0651",
@@ -3953,7 +4204,8 @@
           "example": {
             "zh": "一路顺风。",
             "en": "Have a good trip."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0657",
@@ -3969,7 +4221,8 @@
           "example": {
             "zh": "我以为他会来。",
             "en": "I thought he would come."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0679",
@@ -3985,7 +4238,8 @@
           "example": {
             "zh": "这会影响学习。",
             "en": "This affects studying."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0696",
@@ -4001,7 +4255,8 @@
           "example": {
             "zh": "我愿意帮你。",
             "en": "I'm willing to help you."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0702",
@@ -4015,9 +4270,10 @@
             "exercise"
           ],
           "example": {
-            "zh": "每天运动。",
-            "en": "Exercise every day."
-          }
+            "zh": "运动对身体好。",
+            "en": "Exercise is good for the body."
+          },
+          "tags": null
         },
         {
           "id": "L2-0712",
@@ -4033,7 +4289,8 @@
           "example": {
             "zh": "占位置。",
             "en": "Occupy a seat."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0714",
@@ -4049,7 +4306,8 @@
           "example": {
             "zh": "站住！",
             "en": "Stop!"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0716",
@@ -4064,7 +4322,8 @@
           "example": {
             "zh": "我想快点长大。",
             "en": "I want to grow up quickly."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0717",
@@ -4080,7 +4339,8 @@
           "example": {
             "zh": "找出答案。",
             "en": "Find the answer."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0718",
@@ -4096,7 +4356,8 @@
           "example": {
             "zh": "照顾老人。",
             "en": "Take care of the elderly."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0741",
@@ -4112,7 +4373,8 @@
           "example": {
             "zh": "重视教育。",
             "en": "Value education."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0749",
@@ -4128,7 +4390,8 @@
           "example": {
             "zh": "装不知道。",
             "en": "Pretend not to know."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0755",
@@ -4144,7 +4407,8 @@
           "example": {
             "zh": "走过那条街。",
             "en": "Walk past that street."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0756",
@@ -4160,7 +4424,8 @@
           "example": {
             "zh": "走进房间。",
             "en": "Enter the room."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0758",
@@ -4176,7 +4441,8 @@
           "example": {
             "zh": "租房子。",
             "en": "Rent a house."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0759",
@@ -4192,7 +4458,8 @@
           "example": {
             "zh": "组一个队。",
             "en": "Form a team."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0760",
@@ -4208,7 +4475,8 @@
           "example": {
             "zh": "组成小组。",
             "en": "Form a group."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0765",
@@ -4223,7 +4491,8 @@
           "example": {
             "zh": "写作文。",
             "en": "Write an essay."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0770",
@@ -4239,7 +4508,8 @@
           "example": {
             "zh": "做到最好。",
             "en": "Do your best."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0596",
@@ -4255,7 +4525,8 @@
           "example": {
             "zh": "想到一个好主意。",
             "en": "Thought of a good idea."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0598",
@@ -4271,7 +4542,8 @@
           "example": {
             "zh": "我想起你了。",
             "en": "I remember you."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -4294,7 +4566,8 @@
           "example": {
             "zh": "他半夜才回家。",
             "en": "He came home at midnight."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0108",
@@ -4310,7 +4583,8 @@
           "example": {
             "zh": "我当时不在。",
             "en": "I wasn't there at that time."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0149",
@@ -4326,7 +4600,8 @@
           "example": {
             "zh": "你等多久了？",
             "en": "How long have you waited?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0167",
@@ -4341,7 +4616,8 @@
           "example": {
             "zh": "等十分钟。",
             "en": "Wait ten minutes."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0181",
@@ -4357,7 +4633,8 @@
           "example": {
             "zh": "他刚走。",
             "en": "He just left."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0182",
@@ -4370,9 +4647,10 @@
             "just now"
           ],
           "example": {
-            "zh": "刚才有人找你。",
-            "en": "Someone was looking for you just now."
-          }
+            "zh": "他刚才走了。",
+            "en": "He just left."
+          },
+          "tags": null
         },
         {
           "id": "L2-0183",
@@ -4388,7 +4666,8 @@
           "example": {
             "zh": "我刚刚到。",
             "en": "I just arrived."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0208",
@@ -4404,7 +4683,8 @@
           "example": {
             "zh": "回家过年。",
             "en": "Go home for New Year."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0209",
@@ -4420,7 +4700,8 @@
           "example": {
             "zh": "过去的事情。",
             "en": "Things of the past."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0217",
@@ -4435,7 +4716,8 @@
           "example": {
             "zh": "好久不见。",
             "en": "Long time no see."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0228",
@@ -4450,7 +4732,8 @@
           "example": {
             "zh": "后来他明白了。",
             "en": "Later he understood."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0229",
@@ -4465,7 +4748,8 @@
           "example": {
             "zh": "忽然下雨了。",
             "en": "Suddenly it rained."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0290",
@@ -4480,7 +4764,8 @@
           "example": {
             "zh": "节日快乐。",
             "en": "Happy holiday."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0324",
@@ -4496,7 +4781,8 @@
           "example": {
             "zh": "三点一刻。",
             "en": "Quarter past three."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0390-2",
@@ -4511,7 +4797,8 @@
           "example": {
             "zh": "那时我还小。",
             "en": "I was young then."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0435",
@@ -4527,7 +4814,8 @@
           "example": {
             "zh": "前年我去了北京。",
             "en": "I went to Beijing the year before last."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0456",
@@ -4543,7 +4831,8 @@
           "example": {
             "zh": "全年无休。",
             "en": "Open all year."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0467",
@@ -4558,7 +4847,8 @@
           "example": {
             "zh": "今天是个好日子。",
             "en": "Today is a good day."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0472",
@@ -4573,7 +4863,8 @@
           "example": {
             "zh": "上周我病了。",
             "en": "I was sick last week."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0591",
@@ -4588,7 +4879,8 @@
           "example": {
             "zh": "下周再见。",
             "en": "See you next week."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0628",
@@ -4604,7 +4896,8 @@
           "example": {
             "zh": "下周休假。",
             "en": "Taking vacation next week."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0649",
@@ -4620,7 +4913,8 @@
           "example": {
             "zh": "等一会儿。",
             "en": "Wait a moment."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0653",
@@ -4635,7 +4929,8 @@
           "example": {
             "zh": "以后再说。",
             "en": "Talk about it later."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0654",
@@ -4650,7 +4945,8 @@
           "example": {
             "zh": "以前我不认识你。",
             "en": "I didn't know you before."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0697",
@@ -4665,7 +4961,8 @@
           "example": {
             "zh": "这个月份很忙。",
             "en": "This month is busy."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0722-2",
@@ -4681,7 +4978,8 @@
           "example": {
             "zh": "这时他来了。",
             "en": "At this moment he came."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0742",
@@ -4696,7 +4994,8 @@
           "example": {
             "zh": "一周七天。",
             "en": "Seven days a week."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0743",
@@ -4711,7 +5010,8 @@
           "example": {
             "zh": "周末愉快。",
             "en": "Happy weekend."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0763",
@@ -4726,7 +5026,8 @@
           "example": {
             "zh": "最近怎么样？",
             "en": "How's it going lately?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0133",
@@ -4741,7 +5042,8 @@
           "example": {
             "zh": "冬天很冷。",
             "en": "Winter is cold."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0294",
@@ -4756,7 +5058,8 @@
           "example": {
             "zh": "今后要努力。",
             "en": "From now on, work hard."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0388",
@@ -4771,7 +5074,8 @@
           "example": {
             "zh": "那会儿我还小。",
             "en": "I was young back then."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0390",
@@ -4786,7 +5090,8 @@
           "example": {
             "zh": "那时候没有手机。",
             "en": "There were no phones back then."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0421",
@@ -4801,7 +5106,8 @@
           "example": {
             "zh": "平时我七点起床。",
             "en": "I usually get up at seven."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0445",
@@ -4816,7 +5122,8 @@
           "example": {
             "zh": "秋天很凉快。",
             "en": "Autumn is cool."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0512",
@@ -4832,7 +5139,8 @@
           "example": {
             "zh": "随时欢迎。",
             "en": "Welcome anytime."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0592",
@@ -4847,7 +5155,8 @@
           "example": {
             "zh": "夏天很热。",
             "en": "Summer is hot."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0604",
@@ -4863,7 +5172,8 @@
           "example": {
             "zh": "这是我小时候的照片。",
             "en": "These are photos from my childhood."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0644",
@@ -4878,7 +5188,8 @@
           "example": {
             "zh": "现在已经深夜了。",
             "en": "It is already late at night."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0645",
@@ -4894,7 +5205,8 @@
           "example": {
             "zh": "夜里很安静。",
             "en": "It's quiet at night."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0707",
@@ -4909,7 +5221,8 @@
           "example": {
             "zh": "早晨空气好。",
             "en": "Morning air is good."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0708",
@@ -4924,7 +5237,8 @@
           "example": {
             "zh": "我早就知道了。",
             "en": "I knew it long ago."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0744",
@@ -4939,7 +5253,8 @@
           "example": {
             "zh": "结婚周年。",
             "en": "Wedding anniversary."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0084",
@@ -4955,7 +5270,8 @@
           "example": {
             "zh": "他从小学习汉语。",
             "en": "He's studied Chinese since childhood."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0261",
@@ -4970,7 +5286,8 @@
           "example": {
             "zh": "假期去哪儿？",
             "en": "Where to go on vacation?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0298",
@@ -4983,9 +5300,10 @@
             "often"
           ],
           "example": {
-            "zh": "我经常跑步。",
-            "en": "I often run."
-          }
+            "zh": "我经常喝茶。",
+            "en": "I often drink tea."
+          },
+          "tags": null
         },
         {
           "id": "L2-0343",
@@ -5000,7 +5318,8 @@
           "example": {
             "zh": "他老是迟到。",
             "en": "He's always late."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0631",
@@ -5015,7 +5334,8 @@
           "example": {
             "zh": "新学期开始。",
             "en": "New semester begins."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0722",
@@ -5030,7 +5350,8 @@
           "example": {
             "zh": "这时候他应该在家。",
             "en": "He should be home right now."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0662",
@@ -5045,7 +5366,8 @@
           "example": {
             "zh": "一生难忘。",
             "en": "Unforgettable lifetime."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -5068,7 +5390,8 @@
           "example": {
             "zh": "他在办公室工作。",
             "en": "He works in an office."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0028",
@@ -5083,7 +5406,8 @@
           "example": {
             "zh": "我的表快了。",
             "en": "My watch is fast."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0071",
@@ -5099,7 +5423,8 @@
           "example": {
             "zh": "他出门了。",
             "en": "He went out."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0093",
@@ -5112,9 +5437,10 @@
             "everyone"
           ],
           "example": {
-            "zh": "大家好。",
-            "en": "Hello everyone."
-          }
+            "zh": "大家好！",
+            "en": "Hello everyone!"
+          },
+          "tags": null
         },
         {
           "id": "L2-0244",
@@ -5130,7 +5456,8 @@
           "example": {
             "zh": "他下个月回国。",
             "en": "He's returning to his country next month."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0257",
@@ -5145,7 +5472,8 @@
           "example": {
             "zh": "我家在北京。",
             "en": "My home is in Beijing."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0258",
@@ -5160,7 +5488,8 @@
           "example": {
             "zh": "幸福的家庭。",
             "en": "Happy family."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0259",
@@ -5176,7 +5505,8 @@
           "example": {
             "zh": "今天有家长会。",
             "en": "There is a parent meeting today."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0279",
@@ -5191,7 +5521,8 @@
           "example": {
             "zh": "教室很干净。",
             "en": "The classroom is clean."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0326",
@@ -5207,7 +5538,8 @@
           "example": {
             "zh": "课堂上要安静。",
             "en": "You should be quiet in class."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0375",
@@ -5223,7 +5555,8 @@
           "example": {
             "zh": "我家有只猫。",
             "en": "My family has a cat."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0455",
@@ -5238,7 +5571,8 @@
           "example": {
             "zh": "全家福。",
             "en": "Family photo."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0626",
@@ -5253,7 +5587,8 @@
           "example": {
             "zh": "你姓什么？",
             "en": "What's your last name?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0627",
@@ -5268,7 +5603,8 @@
           "example": {
             "zh": "请写下你的姓名。",
             "en": "Please write your name."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0659",
@@ -5281,9 +5617,10 @@
             "chair"
           ],
           "example": {
-            "zh": "这把椅子很舒服。",
-            "en": "This chair is comfortable."
-          }
+            "zh": "这个椅子很舒服。",
+            "en": "This chair is very comfortable."
+          },
+          "tags": null
         },
         {
           "id": "L2-0694",
@@ -5299,7 +5636,8 @@
           "example": {
             "zh": "院长讲话。",
             "en": "The dean speaks."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0766",
@@ -5314,7 +5652,8 @@
           "example": {
             "zh": "做作业。",
             "en": "Do homework."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0747",
@@ -5329,7 +5668,8 @@
           "example": {
             "zh": "住房是一个大问题。",
             "en": "Housing is a major issue."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -5353,7 +5693,8 @@
           "example": {
             "zh": "我吃饱了。",
             "en": "I'm full."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0047",
@@ -5366,9 +5707,10 @@
             "menu"
           ],
           "example": {
-            "zh": "请看菜单。",
-            "en": "Please look at the menu."
-          }
+            "zh": "请给我菜单。",
+            "en": "Please give me the menu."
+          },
+          "tags": null
         },
         {
           "id": "L2-0156",
@@ -5383,7 +5725,8 @@
           "example": {
             "zh": "这家饭馆很好。",
             "en": "This restaurant is good."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0175",
@@ -5399,7 +5742,8 @@
           "example": {
             "zh": "来，干杯！",
             "en": "Come, cheers!"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0329",
@@ -5414,7 +5758,8 @@
           "example": {
             "zh": "吃快餐。",
             "en": "Eat fast food."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0376",
@@ -5430,7 +5775,8 @@
           "example": {
             "zh": "买米。",
             "en": "Buy rice."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0489",
@@ -5445,7 +5791,8 @@
           "example": {
             "zh": "这是健康的食物。",
             "en": "This is healthy food."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0562",
@@ -5460,7 +5807,8 @@
           "example": {
             "zh": "一起吃晚餐。",
             "en": "Have dinner together."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0582",
@@ -5476,7 +5824,8 @@
           "example": {
             "zh": "我喜欢西餐。",
             "en": "I like Western food."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0689",
@@ -5492,7 +5841,8 @@
           "example": {
             "zh": "吃鱼健康。",
             "en": "Eating fish is healthy."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0734",
@@ -5508,7 +5858,8 @@
           "example": {
             "zh": "中餐很好吃。",
             "en": "Chinese food is delicious."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0772",
@@ -5524,7 +5875,8 @@
           "example": {
             "zh": "妈妈在做饭。",
             "en": "Mom is cooking."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0106",
@@ -5539,7 +5891,8 @@
           "example": {
             "zh": "吃鸡蛋。",
             "en": "Eat eggs."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0143",
@@ -5554,7 +5907,8 @@
           "example": {
             "zh": "我们的队赢了。",
             "en": "Our team won."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0144",
@@ -5569,7 +5923,8 @@
           "example": {
             "zh": "他是队长。",
             "en": "He is the captain."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0147",
@@ -5585,7 +5940,8 @@
           "example": {
             "zh": "我家对面有个公园。",
             "en": "There's a park opposite my house."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0158",
@@ -5600,7 +5956,8 @@
           "example": {
             "zh": "晚上吃方便面。",
             "en": "Eat instant noodles at night."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0160",
@@ -5615,7 +5972,8 @@
           "example": {
             "zh": "这方面我不懂。",
             "en": "I don't understand this aspect."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0275",
@@ -5630,7 +5988,8 @@
           "example": {
             "zh": "我喜欢吃饺子。",
             "en": "I like eating dumplings."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0301",
@@ -5645,7 +6004,8 @@
           "example": {
             "zh": "少喝酒。",
             "en": "Drink less alcohol."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0377",
@@ -5660,7 +6020,8 @@
           "example": {
             "zh": "吃面。",
             "en": "Eat noodles."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0378",
@@ -5675,7 +6036,8 @@
           "example": {
             "zh": "牛肉面。",
             "en": "Beef noodles."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0379",
@@ -5690,7 +6052,8 @@
           "example": {
             "zh": "在我面前。",
             "en": "In front of me."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0448",
@@ -5706,7 +6069,8 @@
           "example": {
             "zh": "他加入了球队。",
             "en": "He joined the team."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0556",
@@ -5722,7 +6086,8 @@
           "example": {
             "zh": "点外卖。",
             "en": "Order takeout."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0232",
@@ -5737,7 +6102,8 @@
           "example": {
             "zh": "这花真香。",
             "en": "This flower is fragrant."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0250",
@@ -5752,7 +6118,8 @@
           "example": {
             "zh": "鸡肉很好吃。",
             "en": "Chicken is delicious."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0579",
@@ -5767,7 +6134,8 @@
           "example": {
             "zh": "午餐吃什么？",
             "en": "What's for lunch?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0681",
@@ -5783,7 +6151,8 @@
           "example": {
             "zh": "放油炒菜。",
             "en": "Add oil to stir-fry."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0706",
@@ -5798,7 +6167,8 @@
           "example": {
             "zh": "早餐很重要。",
             "en": "Breakfast is important."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -5821,7 +6191,8 @@
           "example": {
             "zh": "书店。",
             "en": "Bookstore."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0190",
@@ -5836,7 +6207,8 @@
           "example": {
             "zh": "一公斤苹果。",
             "en": "One kilogram of apples."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0200",
@@ -5851,7 +6223,8 @@
           "example": {
             "zh": "顾客很多。",
             "en": "Many customers."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0205",
@@ -5866,7 +6239,8 @@
           "example": {
             "zh": "看电视广告。",
             "en": "Watch TV commercials."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0323",
@@ -5881,7 +6255,8 @@
           "example": {
             "zh": "这个重五百克。",
             "en": "This weighs 500 grams."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0346",
@@ -5896,7 +6271,8 @@
           "example": {
             "zh": "生日礼物。",
             "en": "Birthday gift."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0372",
@@ -5912,7 +6288,8 @@
           "example": {
             "zh": "这家店卖衣服。",
             "en": "This store sells clothes."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0414",
@@ -5925,9 +6302,10 @@
             "cheap"
           ],
           "example": {
-            "zh": "这个很便宜。",
-            "en": "This is very cheap."
-          }
+            "zh": "这个衣服很便宜。",
+            "en": "This piece of clothing is very cheap."
+          },
+          "tags": null
         },
         {
           "id": "L2-0434",
@@ -5942,7 +6320,8 @@
           "example": {
             "zh": "一千克大米。",
             "en": "One kilogram of rice."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0265",
@@ -5957,7 +6336,8 @@
           "example": {
             "zh": "一件衣服。",
             "en": "One piece of clothing."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0293",
@@ -5972,7 +6352,8 @@
           "example": {
             "zh": "一斤苹果。",
             "en": "Half kilo of apples."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0356",
@@ -5987,7 +6368,8 @@
           "example": {
             "zh": "两块钱。",
             "en": "Two yuan."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0433",
@@ -6002,7 +6384,8 @@
           "example": {
             "zh": "一千元。",
             "en": "One thousand yuan."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0534",
@@ -6018,7 +6401,8 @@
           "example": {
             "zh": "一条鱼。",
             "en": "One fish."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0565",
@@ -6033,7 +6417,8 @@
           "example": {
             "zh": "一万元。",
             "en": "Ten thousand yuan."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0664",
@@ -6049,7 +6434,8 @@
           "example": {
             "zh": "这个城市有一亿人口。",
             "en": "This city has 100 million people."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -6072,7 +6458,8 @@
           "example": {
             "zh": "坐出租车去机场。",
             "en": "Take a taxi to the airport."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0126",
@@ -6087,7 +6474,8 @@
           "example": {
             "zh": "地铁站在前面。",
             "en": "The subway station is ahead."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0188",
@@ -6102,7 +6490,8 @@
           "example": {
             "zh": "坐公共汽车上学。",
             "en": "Take the bus to school."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0189",
@@ -6118,7 +6507,8 @@
           "example": {
             "zh": "公交车来了。",
             "en": "The bus is coming."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0191",
@@ -6133,7 +6523,8 @@
           "example": {
             "zh": "一公里路。",
             "en": "One kilometer of road."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0192",
@@ -6148,7 +6539,8 @@
           "example": {
             "zh": "公路上车很多。",
             "en": "There are many cars on the highway."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0272",
@@ -6161,9 +6553,10 @@
             "traffic"
           ],
           "example": {
-            "zh": "交通很方便。",
-            "en": "Transportation is convenient."
-          }
+            "zh": "这里的交通很好。",
+            "en": "Traffic here is very good."
+          },
+          "tags": null
         },
         {
           "id": "L2-0367",
@@ -6178,7 +6571,8 @@
           "example": {
             "zh": "旅客很多。",
             "en": "Many travelers."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0368",
@@ -6193,7 +6587,8 @@
           "example": {
             "zh": "我喜欢旅行。",
             "en": "I like to travel."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0369",
@@ -6209,7 +6604,8 @@
           "example": {
             "zh": "去北京旅游。",
             "en": "Travel to Beijing."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0624",
@@ -6222,9 +6618,10 @@
             "pedestrian"
           ],
           "example": {
-            "zh": "行人走人行道。",
-            "en": "Pedestrians use the sidewalk."
-          }
+            "zh": "这里有很多行人。",
+            "en": "There are many pedestrians here."
+          },
+          "tags": null
         },
         {
           "id": "L2-0682",
@@ -6239,7 +6636,8 @@
           "example": {
             "zh": "很多游客。",
             "en": "Many tourists."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0713",
@@ -6252,9 +6650,10 @@
             "station"
           ],
           "example": {
-            "zh": "这是火车站。",
-            "en": "This is the train station."
-          }
+            "zh": "请问，火车站怎么走？",
+            "en": "Excuse me, how do I get to the train station?"
+          },
+          "tags": null
         },
         {
           "id": "L2-0231",
@@ -6267,9 +6666,10 @@
             "passport"
           ],
           "example": {
-            "zh": "请出示护照。",
-            "en": "Please show your passport."
-          }
+            "zh": "请给我看你的护照。",
+            "en": "Please show me your passport."
+          },
+          "tags": null
         },
         {
           "id": "L2-0752",
@@ -6284,7 +6684,8 @@
           "example": {
             "zh": "骑自行车上学。",
             "en": "Ride a bike to school."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0061",
@@ -6299,7 +6700,8 @@
           "example": {
             "zh": "车辆很多。",
             "en": "Many vehicles."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0077",
@@ -6314,7 +6716,8 @@
           "example": {
             "zh": "坐船过河。",
             "en": "Take a boat across the river."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0125",
@@ -6330,7 +6733,8 @@
           "example": {
             "zh": "坐地铁很快。",
             "en": "Taking the subway is fast."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0540",
@@ -6345,7 +6749,8 @@
           "example": {
             "zh": "车在停车场。",
             "en": "The car is in the parking lot."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0069",
@@ -6361,7 +6766,8 @@
           "example": {
             "zh": "他出国了。",
             "en": "He went abroad."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0070",
@@ -6377,7 +6783,8 @@
           "example": {
             "zh": "出口在那边。",
             "en": "The exit is over there."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0114",
@@ -6392,7 +6799,8 @@
           "example": {
             "zh": "道路很宽。",
             "en": "The road is wide."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0469",
@@ -6407,7 +6815,8 @@
           "example": {
             "zh": "入口在这里。",
             "en": "The entrance is here."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0506",
@@ -6422,7 +6831,8 @@
           "example": {
             "zh": "司机开车很快。",
             "en": "The driver drives fast."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0577",
@@ -6438,7 +6848,8 @@
           "example": {
             "zh": "他向警察问路。",
             "en": "He asked the police for directions."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0555",
@@ -6453,7 +6864,8 @@
           "example": {
             "zh": "他去外地工作了。",
             "en": "He went to work in another city."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -6477,7 +6889,8 @@
           "example": {
             "zh": "他明天出院。",
             "en": "He's leaving the hospital tomorrow."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0266",
@@ -6492,7 +6905,8 @@
           "example": {
             "zh": "身体健康。",
             "en": "Good health."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0395",
@@ -6507,7 +6921,8 @@
           "example": {
             "zh": "我很难受。",
             "en": "I feel terrible."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0639",
@@ -6522,7 +6937,8 @@
           "example": {
             "zh": "吃药。",
             "en": "Take medicine."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0739",
@@ -6538,7 +6954,8 @@
           "example": {
             "zh": "看中医。",
             "en": "See a Chinese medicine doctor."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0748",
@@ -6554,7 +6971,8 @@
           "example": {
             "zh": "他住院了。",
             "en": "He's in the hospital."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0276",
@@ -6569,7 +6987,8 @@
           "example": {
             "zh": "我的脚疼。",
             "en": "My foot hurts."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0351",
@@ -6584,7 +7003,8 @@
           "example": {
             "zh": "洗脸。",
             "en": "Wash face."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0457",
@@ -6600,7 +7020,8 @@
           "example": {
             "zh": "全身都疼。",
             "en": "Whole body hurts."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0550",
@@ -6615,7 +7036,8 @@
           "example": {
             "zh": "头疼。",
             "en": "Headache."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0551",
@@ -6630,7 +7052,8 @@
           "example": {
             "zh": "长头发。",
             "en": "Long hair."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0554",
@@ -6645,7 +7068,8 @@
           "example": {
             "zh": "跑步腿会疼。",
             "en": "Legs hurt from running."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0634",
@@ -6661,7 +7085,8 @@
           "example": {
             "zh": "眼睛。",
             "en": "Eyes."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0635",
@@ -6676,7 +7101,8 @@
           "example": {
             "zh": "她的眼睛很大。",
             "en": "Her eyes are big."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0762",
@@ -6691,7 +7117,8 @@
           "example": {
             "zh": "张开嘴。",
             "en": "Open your mouth."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0585",
@@ -6707,7 +7134,8 @@
           "example": {
             "zh": "看西医。",
             "en": "See a Western doctor."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0549",
@@ -6722,7 +7150,8 @@
           "example": {
             "zh": "洗头。",
             "en": "Wash hair."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -6746,7 +7175,8 @@
           "example": {
             "zh": "风吹着。",
             "en": "The wind is blowing."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0152",
@@ -6761,7 +7191,8 @@
           "example": {
             "zh": "今天多云。",
             "en": "It's cloudy today."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0354",
@@ -6777,7 +7208,8 @@
           "example": {
             "zh": "天气凉了。",
             "en": "The weather is cool."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0355",
@@ -6793,7 +7225,8 @@
           "example": {
             "zh": "秋天很凉快。",
             "en": "Autumn is cool."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0431",
@@ -6808,7 +7241,8 @@
           "example": {
             "zh": "空气很好。",
             "en": "The air is good."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0432",
@@ -6824,7 +7258,8 @@
           "example": {
             "zh": "气温很高。",
             "en": "The temperature is high."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0442",
@@ -6839,7 +7274,8 @@
           "example": {
             "zh": "今天是晴天。",
             "en": "Today is sunny."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0518",
@@ -6854,7 +7290,8 @@
           "example": {
             "zh": "太阳出来了。",
             "en": "The sun came out."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0590",
@@ -6869,7 +7306,8 @@
           "example": {
             "zh": "下雪了。",
             "en": "It's snowing."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0632",
@@ -6884,7 +7322,8 @@
           "example": {
             "zh": "白色的雪。",
             "en": "White snow."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0669",
@@ -6899,7 +7338,8 @@
           "example": {
             "zh": "今天是阴天。",
             "en": "It's overcast today."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0701",
@@ -6914,7 +7354,8 @@
           "example": {
             "zh": "天上有很多云。",
             "en": "There are many clouds in the sky."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0211",
@@ -6929,7 +7370,8 @@
           "example": {
             "zh": "看海。",
             "en": "Look at the sea."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0230",
@@ -6944,7 +7386,8 @@
           "example": {
             "zh": "西湖很美。",
             "en": "West Lake is beautiful."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0359",
@@ -6959,7 +7402,8 @@
           "example": {
             "zh": "气温零下五度。",
             "en": "Temperature is minus five degrees."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0533",
@@ -6975,7 +7419,8 @@
           "example": {
             "zh": "天上有鸟。",
             "en": "There are birds in the sky."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0575",
@@ -6990,7 +7435,8 @@
           "example": {
             "zh": "温度多少？",
             "en": "What's the temperature?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0622",
@@ -7006,7 +7452,8 @@
           "example": {
             "zh": "晚上看星星。",
             "en": "Look at stars at night."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0698",
@@ -7022,7 +7469,8 @@
           "example": {
             "zh": "今晚月亮很圆。",
             "en": "The moon is round tonight."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0100",
@@ -7037,7 +7485,8 @@
           "example": {
             "zh": "喜欢大自然。",
             "en": "Love nature."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0401",
@@ -7053,7 +7502,8 @@
           "example": {
             "zh": "小鸟在飞。",
             "en": "Little birds are flying."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0050",
@@ -7068,7 +7518,8 @@
           "example": {
             "zh": "草地很绿。",
             "en": "The grass is green."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0080",
@@ -7083,7 +7534,8 @@
           "example": {
             "zh": "春天花开了。",
             "en": "Flowers bloom in spring."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0092",
@@ -7098,7 +7550,8 @@
           "example": {
             "zh": "大海很蓝。",
             "en": "The ocean is blue."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0327",
@@ -7113,7 +7566,8 @@
           "example": {
             "zh": "空气新鲜。",
             "en": "Fresh air."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -7136,7 +7590,8 @@
           "example": {
             "zh": "春节快乐。",
             "en": "Happy Spring Festival."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0178",
@@ -7151,7 +7606,8 @@
           "example": {
             "zh": "这种感觉很好。",
             "en": "This feeling is good."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0198",
@@ -7166,7 +7622,8 @@
           "example": {
             "zh": "讲个故事。",
             "en": "Tell a story."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0219",
@@ -7182,7 +7639,8 @@
           "example": {
             "zh": "做了一件好事。",
             "en": "Did a good deed."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0246",
@@ -7197,7 +7655,8 @@
           "example": {
             "zh": "参加活动。",
             "en": "Participate in activities."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0269",
@@ -7213,7 +7672,8 @@
           "example": {
             "zh": "交作业。",
             "en": "Hand in homework."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0271",
@@ -7229,7 +7689,8 @@
           "example": {
             "zh": "我想和你交朋友。",
             "en": "I want to be friends with you."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0397",
@@ -7244,7 +7705,8 @@
           "example": {
             "zh": "这首歌很难听。",
             "en": "This song sounds awful."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0437",
@@ -7259,7 +7721,8 @@
           "example": {
             "zh": "他是一个青年。",
             "en": "He is a young person."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0499",
@@ -7274,7 +7737,8 @@
           "example": {
             "zh": "很舒服。",
             "en": "Very comfortable."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0573",
@@ -7289,7 +7753,8 @@
           "example": {
             "zh": "味道很好。",
             "en": "Tastes good."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0623",
@@ -7304,7 +7769,8 @@
           "example": {
             "zh": "立刻行动。",
             "en": "Take action immediately."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0625",
@@ -7319,7 +7785,8 @@
           "example": {
             "zh": "好的行为。",
             "en": "Good behavior."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0683",
@@ -7334,7 +7801,8 @@
           "example": {
             "zh": "他对我很友好。",
             "en": "He's friendly to me."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0684",
@@ -7349,7 +7817,8 @@
           "example": {
             "zh": "有空儿来找我。",
             "en": "Come find me when you're free."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0720",
@@ -7365,7 +7834,8 @@
           "example": {
             "zh": "我们一起照相。",
             "en": "Let's take a photo together."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0767",
@@ -7380,7 +7850,8 @@
           "example": {
             "zh": "起什么作用？",
             "en": "What function does it serve?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0113",
@@ -7395,7 +7866,8 @@
           "example": {
             "zh": "你说的有道理。",
             "en": "What you said makes sense."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0159",
@@ -7410,7 +7882,8 @@
           "example": {
             "zh": "学习方法很重要。",
             "en": "Study methods are important."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0249",
@@ -7425,7 +7898,8 @@
           "example": {
             "zh": "好机会。",
             "en": "Good opportunity."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0253",
@@ -7441,7 +7915,8 @@
           "example": {
             "zh": "暑假计划。",
             "en": "Summer vacation plan."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0256",
@@ -7457,7 +7932,8 @@
           "example": {
             "zh": "加油！你可以的。",
             "en": "Come on! You can do it."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0291",
@@ -7473,7 +7949,8 @@
           "example": {
             "zh": "考试结果。",
             "en": "Exam results."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0313",
@@ -7488,7 +7965,8 @@
           "example": {
             "zh": "你的看法是什么？",
             "en": "What's your view?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0493",
@@ -7503,7 +7981,8 @@
           "example": {
             "zh": "有什么事情吗？",
             "en": "Is there anything going on?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0519",
@@ -7518,7 +7997,8 @@
           "example": {
             "zh": "态度很好。",
             "en": "Good attitude."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0523",
@@ -7533,7 +8013,8 @@
           "example": {
             "zh": "有什么特点？",
             "en": "What are the characteristics?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0535",
@@ -7548,7 +8029,8 @@
           "example": {
             "zh": "条件很好。",
             "en": "Good conditions."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0560",
@@ -7564,7 +8046,8 @@
           "example": {
             "zh": "晚安，明天见。",
             "en": "Good night, see you tomorrow."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0578",
@@ -7579,7 +8062,8 @@
           "example": {
             "zh": "有问题吗？",
             "en": "Any questions?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0597",
@@ -7594,7 +8078,8 @@
           "example": {
             "zh": "好想法。",
             "en": "Good idea."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0665",
@@ -7609,7 +8094,8 @@
           "example": {
             "zh": "你的意见很好。",
             "en": "Your opinion is good."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0666",
@@ -7624,7 +8110,8 @@
           "example": {
             "zh": "什么意思？",
             "en": "What does it mean?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0692",
@@ -7639,7 +8126,8 @@
           "example": {
             "zh": "什么原因？",
             "en": "What's the reason?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0771",
@@ -7655,7 +8143,8 @@
           "example": {
             "zh": "这种做法不对。",
             "en": "This way of doing it is wrong."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0009",
@@ -7671,7 +8160,8 @@
           "example": {
             "zh": "有办法了。",
             "en": "Found a way."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0203",
@@ -7686,7 +8176,8 @@
           "example": {
             "zh": "不同的观点。",
             "en": "Different viewpoints."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0215",
@@ -7701,7 +8192,8 @@
           "example": {
             "zh": "有什么好处？",
             "en": "What are the benefits?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0237",
@@ -7716,7 +8208,8 @@
           "example": {
             "zh": "坏处很多。",
             "en": "Many disadvantages."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0350",
@@ -7731,7 +8224,8 @@
           "example": {
             "zh": "举个例子。",
             "en": "Give an example."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0530",
@@ -7746,7 +8240,8 @@
           "example": {
             "zh": "体育课。",
             "en": "PE class."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0563",
@@ -7761,7 +8256,8 @@
           "example": {
             "zh": "参加晚会。",
             "en": "Attend a party."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0586",
@@ -7776,7 +8272,8 @@
           "example": {
             "zh": "好习惯。",
             "en": "Good habit."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0611",
@@ -7791,7 +8288,8 @@
           "example": {
             "zh": "讲个笑话儿。",
             "en": "Tell a joke."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0615",
@@ -7807,7 +8305,8 @@
           "example": {
             "zh": "心中有你。",
             "en": "You're in my heart."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0676",
@@ -7822,7 +8321,8 @@
           "example": {
             "zh": "说英文。",
             "en": "Speak English."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0677",
@@ -7837,7 +8337,8 @@
           "example": {
             "zh": "学英语。",
             "en": "Learn English."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0690",
@@ -7852,7 +8353,8 @@
           "example": {
             "zh": "学习语言。",
             "en": "Learn a language."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0740",
@@ -7868,7 +8370,8 @@
           "example": {
             "zh": "重点是学习。",
             "en": "The focus is on studying."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0064",
@@ -7883,7 +8386,8 @@
           "example": {
             "zh": "考试成绩很好。",
             "en": "Good exam results."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0317",
@@ -7898,7 +8402,8 @@
           "example": {
             "zh": "科学很重要。",
             "en": "Science is important."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0384",
@@ -7913,7 +8418,8 @@
           "example": {
             "zh": "目的是什么？",
             "en": "What's the purpose?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0475",
@@ -7928,7 +8434,8 @@
           "example": {
             "zh": "这些是我身边的朋友。",
             "en": "These are my friends nearby."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0484",
@@ -7943,7 +8450,8 @@
           "example": {
             "zh": "这才是实际情况。",
             "en": "This is the actual situation."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0529",
@@ -7958,7 +8466,8 @@
           "example": {
             "zh": "这道题很难。",
             "en": "This question is hard."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0289",
@@ -7973,7 +8482,8 @@
           "example": {
             "zh": "电视节目。",
             "en": "TV program."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0496",
@@ -7988,7 +8498,8 @@
           "example": {
             "zh": "他的收入很高。",
             "en": "His income is high."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0480",
@@ -8003,7 +8514,8 @@
           "example": {
             "zh": "这个声音很大。",
             "en": "This sound is loud."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -8026,7 +8538,8 @@
           "example": {
             "zh": "这是我的爱人。",
             "en": "This is my spouse."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0096",
@@ -8041,7 +8554,8 @@
           "example": {
             "zh": "大人和孩子。",
             "en": "Adults and children."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0218",
@@ -8057,7 +8571,8 @@
           "example": {
             "zh": "他是个好人。",
             "en": "He's a good person."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0238",
@@ -8072,7 +8587,8 @@
           "example": {
             "zh": "电影里的坏人。",
             "en": "The villain in the movie."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0278",
@@ -8087,7 +8603,8 @@
           "example": {
             "zh": "他是大学教师。",
             "en": "He's a university teacher."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0314",
@@ -8102,7 +8619,8 @@
           "example": {
             "zh": "考生很多。",
             "en": "Many exam candidates."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0325",
@@ -8117,7 +8635,8 @@
           "example": {
             "zh": "家里来客人了。",
             "en": "Guests came to the house."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0342",
@@ -8132,7 +8651,8 @@
           "example": {
             "zh": "他是我的老朋友。",
             "en": "He's my old friend."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0462",
@@ -8147,7 +8667,8 @@
           "example": {
             "zh": "中国人口很多。",
             "en": "China's population is large."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0463",
@@ -8162,7 +8683,8 @@
           "example": {
             "zh": "人们都很高兴。",
             "en": "People are all happy."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0464",
@@ -8177,7 +8699,8 @@
           "example": {
             "zh": "来的人数不多。",
             "en": "Not many people came."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0471",
@@ -8192,7 +8715,8 @@
           "example": {
             "zh": "他是个成功的商人。",
             "en": "He's a successful businessperson."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0685",
@@ -8208,7 +8732,8 @@
           "example": {
             "zh": "有人找你。",
             "en": "Someone's looking for you."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0745",
@@ -8223,7 +8748,8 @@
           "example": {
             "zh": "房子的主人。",
             "en": "The owner of the house."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0257-2",
@@ -8238,7 +8764,8 @@
           "example": {
             "zh": "他是一位科学家。",
             "en": "He is a scientist."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0300",
@@ -8253,7 +8780,8 @@
           "example": {
             "zh": "他是公司经理。",
             "en": "He is the company manager."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0341",
@@ -8268,7 +8796,8 @@
           "example": {
             "zh": "他已经老年了。",
             "en": "He is already elderly."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0383",
@@ -8283,7 +8812,8 @@
           "example": {
             "zh": "她是一位电影明星。",
             "en": "She is a movie star."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0438",
@@ -8298,7 +8828,8 @@
           "example": {
             "zh": "这是青少年问题。",
             "en": "This is a teenage issue."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0474",
@@ -8314,7 +8845,8 @@
           "example": {
             "zh": "那是他的少年时代。",
             "en": "That was his youth."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0492",
@@ -8329,7 +8861,8 @@
           "example": {
             "zh": "市长正在讲话。",
             "en": "The mayor is speaking."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0517",
@@ -8344,7 +8877,8 @@
           "example": {
             "zh": "王太太。",
             "en": "Mrs. Wang."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0547",
@@ -8359,7 +8893,8 @@
           "example": {
             "zh": "这是我的同事。",
             "en": "This is my colleague."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0602b",
@@ -8374,7 +8909,8 @@
           "example": {
             "zh": "小王来了。",
             "en": "Xiao Wang is here."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0609",
@@ -8389,7 +8925,8 @@
           "example": {
             "zh": "他是学校校长。",
             "en": "He is the school principal."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0736",
@@ -8404,7 +8941,8 @@
           "example": {
             "zh": "他是中年人。",
             "en": "He is middle-aged."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0761",
@@ -8419,7 +8957,8 @@
           "example": {
             "zh": "他是组长。",
             "en": "He's the group leader."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0764",
@@ -8434,7 +8973,8 @@
           "example": {
             "zh": "他是一位著名作家。",
             "en": "He is a famous writer."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0002",
@@ -8449,7 +8989,8 @@
           "example": {
             "zh": "爱情故事。",
             "en": "Love story."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0007",
@@ -8464,7 +9005,8 @@
           "example": {
             "zh": "他是班长。",
             "en": "He's the class monitor."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0235",
@@ -8479,7 +9021,8 @@
           "example": {
             "zh": "他是画家。",
             "en": "He's a painter."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0251",
@@ -8494,7 +9037,8 @@
           "example": {
             "zh": "高级汉语。",
             "en": "Advanced Chinese."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0399",
@@ -8510,7 +9054,8 @@
           "example": {
             "zh": "一年级学生。",
             "en": "First-year student."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0607",
@@ -8525,7 +9070,8 @@
           "example": {
             "zh": "分小组讨论。",
             "en": "Discuss in small groups."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0362",
@@ -8541,7 +9087,8 @@
           "example": {
             "zh": "他是留学生。",
             "en": "He's an international student."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -8565,7 +9112,8 @@
           "example": {
             "zh": "这是一场重要的比赛。",
             "en": "This is an important match."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0060",
@@ -8578,9 +9126,10 @@
             "supermarket"
           ],
           "example": {
-            "zh": "我下班后去超市买菜。",
-            "en": "I go to the supermarket to buy groceries after work."
-          }
+            "zh": "我去超市买东西。",
+            "en": "I am going to the supermarket."
+          },
+          "tags": null
         },
         {
           "id": "L2-0185",
@@ -8595,7 +9144,8 @@
           "example": {
             "zh": "我姐姐在高中当老师。",
             "en": "My older sister teaches at a senior high school."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0194",
@@ -8610,7 +9160,8 @@
           "example": {
             "zh": "他在一家科技公司上班。",
             "en": "He works at a tech company."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0195",
@@ -8625,7 +9176,8 @@
           "example": {
             "zh": "周末我们去公园散步。",
             "en": "We go for a walk in the park on weekends."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0233",
@@ -8640,7 +9192,8 @@
           "example": {
             "zh": "奶奶在花园里种花。",
             "en": "Grandma grows flowers in the garden."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0287",
@@ -8655,7 +9208,8 @@
           "example": {
             "zh": "这条街晚上很热闹。",
             "en": "This street is lively at night."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0640",
@@ -8670,7 +9224,8 @@
           "example": {
             "zh": "感冒了，我先去药店买药。",
             "en": "I caught a cold, so I will go to the pharmacy first."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0673",
@@ -8685,7 +9240,8 @@
           "example": {
             "zh": "我下午要去银行办业务。",
             "en": "I need to go to the bank this afternoon to handle some business."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0674",
@@ -8700,7 +9256,8 @@
           "example": {
             "zh": "请把银行卡插进去。",
             "en": "Please insert your bank card."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0737",
@@ -8715,7 +9272,8 @@
           "example": {
             "zh": "这个区的中小学很多。",
             "en": "There are many primary and middle schools in this district."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0137",
@@ -8730,7 +9288,8 @@
           "example": {
             "zh": "孩子们最喜欢去动物园。",
             "en": "Children like going to the zoo the most."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0204",
@@ -8745,7 +9304,8 @@
           "example": {
             "zh": "晚上很多人在广场跳舞。",
             "en": "Many people dance in the square at night."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0447",
@@ -8760,7 +9320,8 @@
           "example": {
             "zh": "他们在球场踢足球。",
             "en": "They are playing soccer on the field."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0531",
@@ -8775,7 +9336,8 @@
           "example": {
             "zh": "演唱会在体育场举行。",
             "en": "The concert is held in the stadium."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0532",
@@ -8790,7 +9352,8 @@
           "example": {
             "zh": "下雨了，我们去体育馆打球。",
             "en": "It is raining, so we are going to play ball in the gymnasium."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0608",
@@ -8805,7 +9368,8 @@
           "example": {
             "zh": "早上的校园很安静。",
             "en": "The campus is very quiet in the morning."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0693",
@@ -8820,7 +9384,8 @@
           "example": {
             "zh": "这个院很安静。",
             "en": "This courtyard is very quiet."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0695",
@@ -8835,7 +9400,8 @@
           "example": {
             "zh": "小猫在院子里晒太阳。",
             "en": "The kitten is sunbathing in the yard."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0051",
@@ -8850,7 +9416,8 @@
           "example": {
             "zh": "请不要踩草地。",
             "en": "Please do not step on the grass."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0103",
@@ -8866,7 +9433,8 @@
           "example": {
             "zh": "我爸在政府单位工作。",
             "en": "My dad works at a government work unit."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0302",
@@ -8881,7 +9449,8 @@
           "example": {
             "zh": "我们订了市中心的酒店。",
             "en": "We booked a hotel in the city center."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0491",
@@ -8896,7 +9465,8 @@
           "example": {
             "zh": "这个市的交通很方便。",
             "en": "Transportation in this city is very convenient."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0095",
@@ -8912,7 +9482,8 @@
           "example": {
             "zh": "学校大门六点关。",
             "en": "The school main gate closes at six."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0347",
@@ -8927,7 +9498,8 @@
           "example": {
             "zh": "包里头有我的钥匙。",
             "en": "My keys are inside the bag."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0366",
@@ -8942,7 +9514,8 @@
           "example": {
             "zh": "路边不能随便停车。",
             "en": "You cannot park casually by the roadside."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0392",
@@ -8957,7 +9530,8 @@
           "example": {
             "zh": "南方冬天没那么冷。",
             "en": "Winters in the south are not that cold."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0130",
@@ -8973,7 +9547,8 @@
           "example": {
             "zh": "我朋友来自东北。",
             "en": "My friend is from the northeast."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0131",
@@ -8989,7 +9564,8 @@
           "example": {
             "zh": "太阳从东方升起。",
             "en": "The sun rises in the east."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0132",
@@ -9004,7 +9580,8 @@
           "example": {
             "zh": "东南方向有一座山。",
             "en": "There is a mountain to the southeast."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0206",
@@ -9019,7 +9596,8 @@
           "example": {
             "zh": "她读的是国际新闻专业。",
             "en": "She studies international journalism."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0273",
@@ -9034,7 +9612,8 @@
           "example": {
             "zh": "桌子角有点尖。",
             "en": "The corner of the table is a bit sharp."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0274",
@@ -9049,7 +9628,8 @@
           "example": {
             "zh": "你可以换个角度想一想。",
             "en": "You can think about it from another angle."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0436",
@@ -9065,7 +9645,8 @@
           "example": {
             "zh": "墙上挂着一张照片。",
             "en": "A photo is hanging on the wall."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0454",
@@ -9080,7 +9661,8 @@
           "example": {
             "zh": "这个节目在全国都很受欢迎。",
             "en": "This program is popular nationwide."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0581",
@@ -9096,7 +9678,8 @@
           "example": {
             "zh": "西北地区风比较大。",
             "en": "Winds are relatively strong in the northwest region."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0584",
@@ -9111,7 +9694,8 @@
           "example": {
             "zh": "他毕业后去了西南工作。",
             "en": "After graduating, he went to work in the southwest."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0738",
@@ -9126,7 +9710,8 @@
           "example": {
             "zh": "我们住在市中心附近。",
             "en": "We live near the city center."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0016",
@@ -9142,7 +9727,8 @@
           "example": {
             "zh": "北方人冬天常吃面食。",
             "en": "People in the north often eat wheat-based foods in winter."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0024",
@@ -9157,7 +9743,8 @@
           "example": {
             "zh": "河边风很大。",
             "en": "It is very windy by the river."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0583",
@@ -9173,7 +9760,8 @@
           "example": {
             "zh": "他对西方文化很感兴趣。",
             "en": "He is very interested in Western culture."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0112",
@@ -9188,7 +9776,8 @@
           "example": {
             "zh": "这条道比较宽。",
             "en": "This road is relatively wide."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0161",
@@ -9203,7 +9792,8 @@
           "example": {
             "zh": "你走错方向了。",
             "en": "You went in the wrong direction."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0212",
@@ -9218,7 +9808,8 @@
           "example": {
             "zh": "夏天我们去海边玩。",
             "en": "We go to the seaside in summer."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0222",
@@ -9234,7 +9825,8 @@
           "example": {
             "zh": "村子旁边有一条河。",
             "en": "There is a river next to the village."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -9256,9 +9848,10 @@
             "notebook ("
           ],
           "example": {
-            "zh": "我用笔记本记笔记。",
-            "en": "I use a notebook to take notes."
-          }
+            "zh": "我买了一个笔记本。",
+            "en": "I bought a notebook."
+          },
+          "tags": null
         },
         {
           "id": "L2-0028-2",
@@ -9273,7 +9866,8 @@
           "example": {
             "zh": "我的表快了一分钟。",
             "en": "My watch is one minute fast."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0254",
@@ -9288,7 +9882,8 @@
           "example": {
             "zh": "我用计算机工作。",
             "en": "I use a computer for work."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0422",
@@ -9303,7 +9898,8 @@
           "example": {
             "zh": "一瓶水。",
             "en": "A bottle of water."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0423",
@@ -9318,7 +9914,8 @@
           "example": {
             "zh": "这个瓶子是空的。",
             "en": "This bottle is empty."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0497",
@@ -9333,7 +9930,8 @@
           "example": {
             "zh": "他戴着一块手表。",
             "en": "He's wearing a watch."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0564",
@@ -9348,7 +9946,8 @@
           "example": {
             "zh": "一碗米饭。",
             "en": "A bowl of rice."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0621",
@@ -9363,7 +9962,8 @@
           "example": {
             "zh": "我用信用卡付钱。",
             "en": "I pay with a credit card."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0641",
@@ -9379,7 +9979,8 @@
           "example": {
             "zh": "一天吃三次药片。",
             "en": "Take the pills three times a day."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0099",
@@ -9394,7 +9995,8 @@
           "example": {
             "zh": "冬天穿大衣。",
             "en": "Wear an overcoat in winter."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0119",
@@ -9409,7 +10011,8 @@
           "example": {
             "zh": "请打开灯。",
             "en": "Please turn on the light."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0124",
@@ -9425,7 +10028,8 @@
           "example": {
             "zh": "地球是圆的。",
             "en": "The Earth is round."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0136",
@@ -9440,7 +10044,8 @@
           "example": {
             "zh": "我喜欢动物。",
             "en": "I like animals."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0138",
@@ -9455,7 +10060,8 @@
           "example": {
             "zh": "这个字的读音是什么？",
             "en": "What's the pronunciation of this character?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0141",
@@ -9470,7 +10076,8 @@
           "example": {
             "zh": "我发了一条短信。",
             "en": "I sent a text message."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0142",
@@ -9485,7 +10092,8 @@
           "example": {
             "zh": "一段文章。",
             "en": "A paragraph of text."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0166",
@@ -9500,7 +10108,8 @@
           "example": {
             "zh": "考试成绩分数很高。",
             "en": "The exam score is very high."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0186",
@@ -9515,7 +10124,8 @@
           "example": {
             "zh": "他个子很高。",
             "en": "He is very tall."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0196",
@@ -9530,7 +10140,8 @@
           "example": {
             "zh": "我家有一只狗。",
             "en": "My family has a dog."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0224",
@@ -9545,7 +10156,8 @@
           "example": {
             "zh": "老师在黑板上写字。",
             "en": "The teacher writes on the blackboard."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0225",
@@ -9561,7 +10173,8 @@
           "example": {
             "zh": "他喜欢黑色。",
             "en": "He likes black."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0227",
@@ -9577,7 +10190,8 @@
           "example": {
             "zh": "红色的花。",
             "en": "Red flowers."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0236",
@@ -9592,7 +10206,8 @@
           "example": {
             "zh": "墙上挂着一幅画儿。",
             "en": "A picture hangs on the wall."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0242",
@@ -9608,7 +10223,8 @@
           "example": {
             "zh": "黄色的香蕉。",
             "en": "Yellow bananas."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0307",
@@ -9623,7 +10239,8 @@
           "example": {
             "zh": "一句话。",
             "en": "One sentence."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0308",
@@ -9638,7 +10255,8 @@
           "example": {
             "zh": "这个句子很长。",
             "en": "This sentence is long."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0333",
@@ -9653,7 +10271,8 @@
           "example": {
             "zh": "中国人用筷子吃饭。",
             "en": "Chinese people eat with chopsticks."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0337",
@@ -9669,7 +10288,8 @@
           "example": {
             "zh": "蓝色的天空。",
             "en": "Blue sky."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0338",
@@ -9684,7 +10304,8 @@
           "example": {
             "zh": "他喜欢打篮球。",
             "en": "He likes playing basketball."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0371",
@@ -9700,7 +10321,8 @@
           "example": {
             "zh": "绿色的草地。",
             "en": "Green grass."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0381",
@@ -9715,7 +10337,8 @@
           "example": {
             "zh": "这个产品的名称是什么？",
             "en": "What's the name of this product?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0382",
@@ -9731,7 +10354,8 @@
           "example": {
             "zh": "名单上有你的名字。",
             "en": "Your name is on the list."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0409",
@@ -9746,7 +10370,8 @@
           "example": {
             "zh": "她在打排球。",
             "en": "She's playing volleyball."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0449",
@@ -9761,7 +10386,8 @@
           "example": {
             "zh": "他穿着球鞋跑步。",
             "en": "He runs in sneakers."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0552",
@@ -9776,7 +10402,8 @@
           "example": {
             "zh": "这张图片很漂亮。",
             "en": "This picture is beautiful."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0566",
@@ -9791,7 +10418,8 @@
           "example": {
             "zh": "上网查资料。",
             "en": "Go online to check information."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0567",
@@ -9807,7 +10435,8 @@
           "example": {
             "zh": "他喜欢打网球。",
             "en": "He likes playing tennis."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0568",
@@ -9822,7 +10451,8 @@
           "example": {
             "zh": "这个网站很有用。",
             "en": "This website is very useful."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0587",
@@ -9835,9 +10465,10 @@
             "washing machine"
           ],
           "example": {
-            "zh": "用洗衣机洗衣服。",
-            "en": "Wash clothes with the washing machine."
-          }
+            "zh": "我有洗衣机。",
+            "en": "I have a washing machine."
+          },
+          "tags": null
         },
         {
           "id": "L2-0612",
@@ -9852,7 +10483,8 @@
           "example": {
             "zh": "这双鞋很舒服。",
             "en": "These shoes are comfortable."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0617",
@@ -9867,7 +10499,8 @@
           "example": {
             "zh": "我收到一封信。",
             "en": "I received a letter."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0618",
@@ -9882,7 +10515,8 @@
           "example": {
             "zh": "手机信号不好。",
             "en": "The phone signal is bad."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0670",
@@ -9897,7 +10531,8 @@
           "example": {
             "zh": "这个单词有两个音节。",
             "en": "This word has two syllables."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0671",
@@ -9912,7 +10547,8 @@
           "example": {
             "zh": "我喜欢听音乐。",
             "en": "I like listening to music."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0672",
@@ -9927,7 +10563,8 @@
           "example": {
             "zh": "我们去听音乐会。",
             "en": "We're going to a concert."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0719",
@@ -9942,7 +10579,8 @@
           "example": {
             "zh": "拍一张照片。",
             "en": "Take a photo."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0733",
@@ -9958,7 +10596,8 @@
           "example": {
             "zh": "一张纸。",
             "en": "A piece of paper."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0754",
@@ -9974,7 +10613,8 @@
           "example": {
             "zh": "查字典。",
             "en": "Look it up in the dictionary."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0006",
@@ -9990,7 +10630,8 @@
           "example": {
             "zh": "白色的雪。",
             "en": "White snow."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0020",
@@ -10005,7 +10646,8 @@
           "example": {
             "zh": "用笔写字。",
             "en": "Write with a pen."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0021",
@@ -10020,7 +10662,8 @@
           "example": {
             "zh": "上课记笔记。",
             "en": "Take notes in class."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0082",
@@ -10035,7 +10678,8 @@
           "example": {
             "zh": "查词典学新词。",
             "en": "Look up new words in the dictionary."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0083",
@@ -10050,7 +10694,8 @@
           "example": {
             "zh": "学习新词语。",
             "en": "Learn new words."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0605",
@@ -10065,7 +10710,8 @@
           "example": {
             "zh": "看小说。",
             "en": "Read a novel."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0678",
@@ -10081,7 +10727,8 @@
           "example": {
             "zh": "看一部影片。",
             "en": "Watch a film."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0768",
@@ -10096,7 +10743,8 @@
           "example": {
             "zh": "一座山。",
             "en": "A mountain."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0769",
@@ -10111,7 +10759,8 @@
           "example": {
             "zh": "请找座位坐下。",
             "en": "Please find a seat and sit down."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0052",
@@ -10126,7 +10775,8 @@
           "example": {
             "zh": "这是第三层。",
             "en": "This is the third floor."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0081",
@@ -10141,7 +10791,8 @@
           "example": {
             "zh": "这个词怎么用？",
             "en": "How to use this word?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0502",
@@ -10156,7 +10807,8 @@
           "example": {
             "zh": "学数字。",
             "en": "Learn numbers."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0015",
@@ -10171,7 +10823,8 @@
           "example": {
             "zh": "看报纸。",
             "en": "Read the newspaper."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0466",
@@ -10186,7 +10839,8 @@
           "example": {
             "zh": "人民日报。",
             "en": "People's Daily."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0561",
@@ -10202,7 +10856,8 @@
           "example": {
             "zh": "北京晚报。",
             "en": "Beijing Evening News."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0600",
@@ -10217,7 +10872,8 @@
           "example": {
             "zh": "用相机拍照。",
             "en": "Take photos with a camera."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0407",
@@ -10233,7 +10889,8 @@
           "example": {
             "zh": "一排座位。",
             "en": "A row of seats."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -10256,7 +10913,8 @@
           "example": {
             "zh": "图书馆很安静。",
             "en": "The library is very quiet."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0005",
@@ -10271,7 +10929,8 @@
           "example": {
             "zh": "这里很安全。",
             "en": "It's safe here."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0032",
@@ -10286,7 +10945,8 @@
           "example": {
             "zh": "时间不够。",
             "en": "Not enough time."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0038",
@@ -10301,7 +10961,8 @@
           "example": {
             "zh": "他对结果不满。",
             "en": "He's dissatisfied with the result."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0040",
@@ -10316,7 +10977,8 @@
           "example": {
             "zh": "不少人来了。",
             "en": "Quite a few people came."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0042",
@@ -10332,7 +10994,8 @@
           "example": {
             "zh": "这样不行。",
             "en": "This won't work."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0055",
@@ -10347,7 +11010,8 @@
           "example": {
             "zh": "这条路很长。",
             "en": "This road is long."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0057",
@@ -10362,7 +11026,8 @@
           "example": {
             "zh": "这是常用词语。",
             "en": "This is a commonly used word."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0094",
@@ -10378,7 +11043,8 @@
           "example": {
             "zh": "大量工作。",
             "en": "A large amount of work."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0123",
@@ -10393,7 +11059,8 @@
           "example": {
             "zh": "价格很低。",
             "en": "The price is low."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0140",
@@ -10408,7 +11075,8 @@
           "example": {
             "zh": "头发很短。",
             "en": "Short hair."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0157",
@@ -10423,7 +11091,8 @@
           "example": {
             "zh": "地铁很方便。",
             "en": "The subway is convenient."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0184",
@@ -10438,7 +11107,8 @@
           "example": {
             "zh": "高级汉语。",
             "en": "Advanced Chinese."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0193",
@@ -10453,7 +11123,8 @@
           "example": {
             "zh": "这样不公平。",
             "en": "This isn't fair."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0197",
@@ -10468,7 +11139,8 @@
           "example": {
             "zh": "时间够吗？",
             "en": "Is there enough time?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0214",
@@ -10484,7 +11156,8 @@
           "example": {
             "zh": "天气很好。",
             "en": "The weather is good."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0221",
@@ -10499,7 +11172,8 @@
           "example": {
             "zh": "这件衣服很合适。",
             "en": "This clothing fits well."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0223",
@@ -10514,7 +11188,8 @@
           "example": {
             "zh": "天黑了。",
             "en": "It's dark outside."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0226",
@@ -10529,7 +11204,8 @@
           "example": {
             "zh": "红色的苹果。",
             "en": "Red apple."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0241",
@@ -10544,7 +11220,8 @@
           "example": {
             "zh": "黄色的花。",
             "en": "Yellow flower."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0252",
@@ -10559,7 +11236,8 @@
           "example": {
             "zh": "有急事。",
             "en": "Have something urgent."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0260",
@@ -10574,7 +11252,8 @@
           "example": {
             "zh": "这是假钱。",
             "en": "This is fake money."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0297",
@@ -10589,7 +11268,8 @@
           "example": {
             "zh": "学校很近。",
             "en": "School is very near."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0318",
@@ -10604,7 +11284,8 @@
           "example": {
             "zh": "可爱的孩子。",
             "en": "Cute child."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0320",
@@ -10619,7 +11300,8 @@
           "example": {
             "zh": "可怕的故事。",
             "en": "Scary story."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0331",
@@ -10634,7 +11316,8 @@
           "example": {
             "zh": "生日快乐。",
             "en": "Happy birthday."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0332",
@@ -10649,7 +11332,8 @@
           "example": {
             "zh": "快要下雨了。",
             "en": "It's about to rain."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0336",
@@ -10664,7 +11348,8 @@
           "example": {
             "zh": "蓝蓝的天空。",
             "en": "Blue sky."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0339",
@@ -10679,7 +11364,8 @@
           "example": {
             "zh": "老人。",
             "en": "Old person."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0364",
@@ -10694,7 +11380,8 @@
           "example": {
             "zh": "他说汉语很流利。",
             "en": "He speaks Chinese fluently."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0370",
@@ -10709,7 +11396,8 @@
           "example": {
             "zh": "绿色的树。",
             "en": "Green trees."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0374",
@@ -10724,7 +11412,8 @@
           "example": {
             "zh": "我对结果很满意。",
             "en": "I'm very satisfied with the result."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0393",
@@ -10740,7 +11429,8 @@
           "example": {
             "zh": "听到这个消息很难过。",
             "en": "Very sad to hear this news."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0394",
@@ -10755,7 +11445,8 @@
           "example": {
             "zh": "这件衣服很难看。",
             "en": "This clothing is ugly."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0396",
@@ -10770,7 +11461,8 @@
           "example": {
             "zh": "数学难题。",
             "en": "Difficult math problem."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0400",
@@ -10785,7 +11477,8 @@
           "example": {
             "zh": "年轻的时候。",
             "en": "When I was young."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0417",
@@ -10800,7 +11493,8 @@
           "example": {
             "zh": "这条路很平。",
             "en": "This road is flat."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0418",
@@ -10816,7 +11510,8 @@
           "example": {
             "zh": "一路平安。",
             "en": "Safe journey."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0419",
@@ -10831,7 +11526,8 @@
           "example": {
             "zh": "平常的日子。",
             "en": "Ordinary day."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0420",
@@ -10846,7 +11542,8 @@
           "example": {
             "zh": "人人平等。",
             "en": "Everyone is equal."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0424",
@@ -10861,7 +11558,8 @@
           "example": {
             "zh": "普通人。",
             "en": "Ordinary person."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0428",
@@ -10877,7 +11575,8 @@
           "example": {
             "zh": "骑自行车。",
             "en": "Ride a bike."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0439",
@@ -10892,7 +11591,8 @@
           "example": {
             "zh": "这个箱子很轻。",
             "en": "This box is light."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0440",
@@ -10908,7 +11608,8 @@
           "example": {
             "zh": "我说清楚了吗？",
             "en": "Did I make it clear?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0441",
@@ -10923,7 +11624,8 @@
           "example": {
             "zh": "今天天气晴。",
             "en": "It's sunny today."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0478",
@@ -10939,7 +11641,8 @@
           "example": {
             "zh": "学了很多生词。",
             "en": "Learned many new words."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0488",
@@ -10954,7 +11657,8 @@
           "example": {
             "zh": "他很实在。",
             "en": "He's very honest."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0500",
@@ -10969,7 +11673,8 @@
           "example": {
             "zh": "水果熟了。",
             "en": "The fruit is ripe."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0500-2",
@@ -10984,7 +11689,8 @@
           "example": {
             "zh": "我们很熟。",
             "en": "We know each other well."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0504",
@@ -10999,7 +11705,8 @@
           "example": {
             "zh": "一切顺利。",
             "en": "Everything is going smoothly."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0511",
@@ -11014,7 +11721,8 @@
           "example": {
             "zh": "随便坐。",
             "en": "Sit anywhere."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0514",
@@ -11029,7 +11737,8 @@
           "example": {
             "zh": "所有人都在。",
             "en": "Everyone is here."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0522",
@@ -11044,7 +11753,8 @@
           "example": {
             "zh": "特别的日子。",
             "en": "Special day."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0548",
@@ -11059,7 +11769,8 @@
           "example": {
             "zh": "我们穿同样的衣服。",
             "en": "We wear the same clothes."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0559",
@@ -11074,7 +11785,8 @@
           "example": {
             "zh": "我完全同意。",
             "en": "I completely agree."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0593",
@@ -11089,7 +11801,8 @@
           "example": {
             "zh": "我们有相同的想法。",
             "en": "We have the same idea."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0595",
@@ -11104,7 +11817,8 @@
           "example": {
             "zh": "声音很响。",
             "en": "The sound is loud."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0616",
@@ -11119,7 +11833,8 @@
           "example": {
             "zh": "看新闻。",
             "en": "Watch the news."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0619",
@@ -11134,7 +11849,8 @@
           "example": {
             "zh": "重要信息。",
             "en": "Important information."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0647",
@@ -11150,7 +11866,8 @@
           "example": {
             "zh": "我一定来。",
             "en": "I'll definitely come."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0660",
@@ -11165,7 +11882,8 @@
           "example": {
             "zh": "一般水平。",
             "en": "Average level."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0668",
@@ -11180,7 +11898,8 @@
           "example": {
             "zh": "阴天。",
             "en": "Cloudy day."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0691",
@@ -11195,7 +11914,8 @@
           "example": {
             "zh": "原来如此。",
             "en": "So that's how it is."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0705",
@@ -11211,7 +11931,8 @@
           "example": {
             "zh": "衣服脏了。",
             "en": "Clothes are dirty."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0715",
@@ -11226,7 +11947,8 @@
           "example": {
             "zh": "他是班长。",
             "en": "He's the class leader."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0724",
@@ -11241,7 +11963,8 @@
           "example": {
             "zh": "真正的朋友。",
             "en": "True friend."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0725",
@@ -11256,7 +11979,8 @@
           "example": {
             "zh": "一切正常。",
             "en": "Everything is normal."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0729",
@@ -11271,7 +11995,8 @@
           "example": {
             "zh": "直接说。",
             "en": "Say it directly."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0732",
@@ -11287,7 +12012,8 @@
           "example": {
             "zh": "只要努力，就能成功。",
             "en": "As long as you work hard, you can succeed."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0735",
@@ -11302,7 +12028,8 @@
           "example": {
             "zh": "中级汉语。",
             "en": "Intermediate Chinese."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0746",
@@ -11317,7 +12044,8 @@
           "example": {
             "zh": "主要问题。",
             "en": "Main problem."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0750",
@@ -11332,7 +12060,8 @@
           "example": {
             "zh": "答案准确。",
             "en": "The answer is accurate."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0199",
@@ -11347,7 +12076,8 @@
           "example": {
             "zh": "他不是故意的。",
             "en": "He didn't do it on purpose."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0330",
@@ -11362,7 +12092,8 @@
           "example": {
             "zh": "快点儿走。",
             "en": "Walk faster."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0348",
@@ -11378,7 +12109,8 @@
           "example": {
             "zh": "我的理想是当老师。",
             "en": "My dream is to become a teacher."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0416",
@@ -11391,9 +12123,10 @@
             "beautiful"
           ],
           "example": {
-            "zh": "她真漂亮。",
-            "en": "She's really beautiful."
-          }
+            "zh": "你的衣服很漂亮。",
+            "en": "Your clothes are very pretty."
+          },
+          "tags": null
         },
         {
           "id": "L2-0425",
@@ -11408,7 +12141,8 @@
           "example": {
             "zh": "她说普通话。",
             "en": "She speaks Mandarin."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0461",
@@ -11423,7 +12157,8 @@
           "example": {
             "zh": "她很热情。",
             "en": "She's very enthusiastic."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0483",
@@ -11438,7 +12173,8 @@
           "example": {
             "zh": "十分感谢。",
             "en": "Thank you very much."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0487",
@@ -11453,7 +12189,8 @@
           "example": {
             "zh": "实在对不起。",
             "en": "I'm really sorry."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0503",
@@ -11469,7 +12206,8 @@
           "example": {
             "zh": "我的汉语水平提高了。",
             "en": "My Chinese level has improved."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0602",
@@ -11484,7 +12222,8 @@
           "example": {
             "zh": "小狗。",
             "en": "Small dog."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0603",
@@ -11500,7 +12239,8 @@
           "example": {
             "zh": "小声说话。",
             "en": "Speak quietly."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0680",
@@ -11515,7 +12255,8 @@
           "example": {
             "zh": "我永远爱你。",
             "en": "I'll love you forever."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0687",
@@ -11530,7 +12271,8 @@
           "example": {
             "zh": "这本书很有意思。",
             "en": "This book is interesting."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0753",
@@ -11545,7 +12287,8 @@
           "example": {
             "zh": "他想过自由的生活。",
             "en": "He wants a free life."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0041",
@@ -11560,7 +12303,8 @@
           "example": {
             "zh": "我们想法不同。",
             "en": "We have different ideas."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0056",
@@ -11575,7 +12319,8 @@
           "example": {
             "zh": "常见问题。",
             "en": "Common questions."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0097",
@@ -11591,7 +12336,8 @@
           "example": {
             "zh": "大声说话。",
             "en": "Speak loudly."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0614",
@@ -11606,7 +12352,8 @@
           "example": {
             "zh": "心情很好。",
             "en": "In a good mood."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0620",
@@ -11621,7 +12368,8 @@
           "example": {
             "zh": "有信心。",
             "en": "Have confidence."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0633",
@@ -11636,7 +12384,8 @@
           "example": {
             "zh": "这是什么颜色？",
             "en": "What color is this?"
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0637",
@@ -11651,7 +12400,8 @@
           "example": {
             "zh": "样子很好看。",
             "en": "Looks very nice."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0098",
@@ -11666,7 +12416,8 @@
           "example": {
             "zh": "这个大小很合适。",
             "en": "This size is just right."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0030",
@@ -11681,7 +12432,8 @@
           "example": {
             "zh": "做的不错。",
             "en": "Not bad work."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0727",
@@ -11696,7 +12448,8 @@
           "example": {
             "zh": "答案正确。",
             "en": "The answer is correct."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0357",
@@ -11711,7 +12464,8 @@
           "example": {
             "zh": "灯很亮。",
             "en": "The light is bright."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0613",
@@ -11726,7 +12480,8 @@
           "example": {
             "zh": "我心里明白。",
             "en": "I understand in my heart."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -11750,7 +12505,8 @@
           "example": {
             "zh": "很多人。",
             "en": "Many people."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0151",
@@ -11765,7 +12521,8 @@
           "example": {
             "zh": "多数人同意。",
             "en": "Most people agree."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0629",
@@ -11780,7 +12537,8 @@
           "example": {
             "zh": "许多朋友。",
             "en": "Many friends."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0452",
@@ -11795,7 +12553,8 @@
           "example": {
             "zh": "全班同学都到了。",
             "en": "The whole class has arrived."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0453",
@@ -11810,7 +12569,8 @@
           "example": {
             "zh": "全部吃完。",
             "en": "Ate it all."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0458",
@@ -11826,7 +12586,8 @@
           "example": {
             "zh": "全体师生。",
             "en": "All teachers and students."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0473",
@@ -11841,7 +12602,8 @@
           "example": {
             "zh": "少数人不同意。",
             "en": "A few people disagree."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0646",
@@ -11857,7 +12619,8 @@
           "example": {
             "zh": "一部分学生。",
             "en": "Some of the students."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0045",
@@ -11872,7 +12635,8 @@
           "example": {
             "zh": "一部分工作。",
             "en": "Part of the work."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0089",
@@ -11887,7 +12651,8 @@
           "example": {
             "zh": "大部分人都来了。",
             "en": "Most people came."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0091",
@@ -11902,7 +12667,8 @@
           "example": {
             "zh": "大多数学生通过了考试。",
             "en": "Most students passed the exam."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0216",
@@ -11917,7 +12683,8 @@
           "example": {
             "zh": "这里有好多人。",
             "en": "There are lots of people here."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0661",
@@ -11933,7 +12700,8 @@
           "example": {
             "zh": "只要一点点盐。",
             "en": "Just a tiny bit of salt."
-          }
+          },
+          "tags": null
         }
       ]
     },
@@ -11957,7 +12725,8 @@
           "example": {
             "zh": "我今天有一节课。",
             "en": "I have one class today."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0316",
@@ -11972,7 +12741,8 @@
           "example": {
             "zh": "三科作业。",
             "en": "Homework for three subjects."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0358",
@@ -11988,7 +12758,8 @@
           "example": {
             "zh": "他有一辆车。",
             "en": "He has a car."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0380",
@@ -12004,7 +12775,8 @@
           "example": {
             "zh": "他是一名老师。",
             "en": "He is a teacher."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0413",
@@ -12020,7 +12792,8 @@
           "example": {
             "zh": "我写了一篇作文。",
             "en": "I wrote an essay."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0415",
@@ -12036,7 +12809,8 @@
           "example": {
             "zh": "一片面包。",
             "en": "A slice of bread."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0589",
@@ -12051,7 +12825,8 @@
           "example": {
             "zh": "看一下。",
             "en": "Take a look."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0168",
@@ -12065,9 +12840,10 @@
             "classifier for gifts"
           ],
           "example": {
-            "zh": "我收到了一份礼物。",
-            "en": "I received a gift."
-          }
+            "zh": "请给我一份报纸。",
+            "en": "Please give me a newspaper."
+          },
+          "tags": null
         },
         {
           "id": "L2-0169",
@@ -12083,7 +12859,8 @@
           "example": {
             "zh": "我写了一封信。",
             "en": "I wrote a letter."
-          }
+          },
+          "tags": null
         },
         {
           "id": "L2-0572",
@@ -12099,7 +12876,8 @@
           "example": {
             "zh": "来了一位客人。",
             "en": "A guest arrived."
-          }
+          },
+          "tags": null
         }
       ]
     }

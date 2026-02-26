@@ -342,8 +342,8 @@
             "counter for people"
           ],
           "example": {
-            "ja": "朝型人間？",
-            "en": "Are you a morning person?"
+            "ja": "公園に五人来ました。",
+            "en": "Five people came to the park."
           },
           "type": "affix",
           "pos_detail": "suf"
@@ -714,8 +714,8 @@
             "to be, to have"
           ],
           "example": {
-            "ja": "時間があるか分かりません。",
-            "en": "I don't know if I have the time."
+            "ja": "机の上に古い地図が有る。",
+            "en": "There is an old map on the desk."
           },
           "type": "word",
           "pos_detail": "v5"
@@ -822,8 +822,8 @@
             "to need"
           ],
           "example": {
-            "ja": "君は僕にとてもいらいらしている。",
-            "en": "You're so impatient with me."
+            "ja": "パスポートが要るので忘れないでください。",
+            "en": "You need your passport, so please don't forget it."
           },
           "type": "word",
           "pos_detail": "v5"
@@ -1261,8 +1261,8 @@
             "to wear"
           ],
           "example": {
-            "ja": "できるよ！",
-            "en": "You can do it."
+            "ja": "寒いので厚いコートを着る。",
+            "en": "It is cold, so I wear a thick coat."
           },
           "type": "word",
           "pos_detail": "v1"
@@ -1405,8 +1405,8 @@
             "to raise (stretch out) hands, to raise (e.g., umbrella)"
           ],
           "example": {
-            "ja": "靴が小さすぎるから新しいのを買う必要があるな。",
-            "en": "My shoes are too small. I need new ones."
+            "ja": "雨が降ってきたので傘を差す。",
+            "en": "It started raining, so I open my umbrella."
           },
           "type": "word",
           "pos_detail": "v5"
@@ -1808,8 +1808,8 @@
             "to be able to (to accomplish)"
           ],
           "example": {
-            "ja": "できるよ！",
-            "en": "You can do it."
+            "ja": "ここで予約ができる。",
+            "en": "You can make a reservation here."
           },
           "type": "word",
           "pos_detail": "v1"
@@ -1899,8 +1899,8 @@
             "to take (a photo), to make (a film)"
           ],
           "example": {
-            "ja": "一立方メートルは千リットルにあたる。",
-            "en": "A cubic meter corresponds to 1000 liters."
+            "ja": "旅行で写真をたくさん撮る。",
+            "en": "I take a lot of photos on trips."
           },
           "type": "word",
           "pos_detail": "v5"
@@ -2246,8 +2246,8 @@
             "to attach"
           ],
           "example": {
-            "ja": "彼らのコミュニケーションは我々が考えてきたものよりはるかに複雑かもしれません。",
-            "en": "Their communication may be much more complex than we thought."
+            "ja": "壁にポスターを貼る。",
+            "en": "I put up a poster on the wall."
           },
           "type": "word",
           "pos_detail": "v5"
@@ -3163,8 +3163,8 @@
             "first day of the month"
           ],
           "example": {
-            "ja": "私は一日に100ユーロ稼ぎます。",
-            "en": "I make €100 a day."
+            "ja": "一日三回くすりを飲んでください。",
+            "en": "Please take the medicine three times a day."
           },
           "type": "word",
           "pos_detail": "n"
@@ -3218,8 +3218,8 @@
             "at the time of"
           ],
           "example": {
-            "ja": "もう５時？",
-            "en": "Is it five already?"
+            "ja": "子どもの時、この町に住んでいました。",
+            "en": "I lived in this town when I was a child."
           },
           "type": "affix",
           "pos_detail": "suf"
@@ -3309,8 +3309,8 @@
             "seventh day (of the month)"
           ],
           "example": {
-            "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-            "en": "I can only wonder if this is the same for everyone else."
+            "ja": "七日後に結果が出ます。",
+            "en": "The results will come out in seven days."
           },
           "type": "word",
           "pos_detail": "n"
@@ -3707,8 +3707,8 @@
             "snow"
           ],
           "example": {
-            "ja": "三村・泰之氏（みむら・やすゆき＝コニチカ株式会社取締役）三日、心不全で死去。４５歳。",
-            "en": "Mimura Yasuyuki (Konichika LTD, Managing Director) died of heart attack on the third, age 45."
+            "ja": "雪が降ったので電車が遅れた。",
+            "en": "The train was delayed because it snowed."
           },
           "type": "word",
           "pos_detail": "n"
@@ -3856,8 +3856,8 @@
             "Friday"
           ],
           "example": {
-            "ja": "木曜日よりむしろ金曜日においでいただきたい。",
-            "en": "I would rather you came on Friday than on Thursday."
+            "ja": "金曜日の午後は会議があります。",
+            "en": "There is a meeting on Friday afternoon."
           },
           "type": "word",
           "pos_detail": "n"
@@ -4117,8 +4117,8 @@
             "nine"
           ],
           "example": {
-            "ja": "先程、どういうわけかマイクが入りませんでした。",
-            "en": "For some reason the microphone didn't work earlier."
+            "ja": "りんごを九こ買いました。",
+            "en": "I bought nine apples."
           },
           "type": "word",
           "pos_detail": "num"
@@ -4279,8 +4279,8 @@
             "four"
           ],
           "example": {
-            "ja": "きみにちょっとしたものをもってきたよ。",
-            "en": "I brought you a little something."
+            "ja": "四人で映画を見に行きます。",
+            "en": "Four of us are going to see a movie."
           },
           "type": "word",
           "pos_detail": "num"
@@ -4480,8 +4480,8 @@
             "seven things"
           ],
           "example": {
-            "ja": "一つ、二つ、三つ、四つ、五つ、六つ、七つ、八つ、九つ、十。",
-            "en": "One, two, three, four, five, six, seven, eight, nine, ten."
+            "ja": "皿を七つ並べてください。",
+            "en": "Please line up seven plates."
           },
           "type": "word",
           "pos_detail": "num"
@@ -4607,8 +4607,8 @@
             "one thing"
           ],
           "example": {
-            "ja": "そうしたらひとつ問題があって・・・。",
-            "en": "Then there is a problem..."
+            "ja": "箱の中にりんごが一つあります。",
+            "en": "There is one apple in the box."
           },
           "type": "word",
           "pos_detail": "num"
@@ -4967,8 +4967,8 @@
             "meter"
           ],
           "example": {
-            "ja": "一立方メートルは千リットルにあたる。",
-            "en": "A cubic meter corresponds to 1000 liters."
+            "ja": "この橋の長さは三百めーとるです。",
+            "en": "This bridge is three hundred meters long."
           },
           "type": "word",
           "pos_detail": "v5"
@@ -5382,8 +5382,8 @@
             "older sister (formal)"
           ],
           "example": {
-            "ja": "ねえ蓮、お姉さんが手をつないであげようか？キミは毎年すぐにはぐれちゃうもんね。",
-            "en": "By the way, Ren. Should I take your hand? Every year you wander off."
+            "ja": "お姉さんは駅で働いています。",
+            "en": "My older sister works at the station."
           },
           "type": "word",
           "pos_detail": "n"
@@ -5472,8 +5472,8 @@
             "friend"
           ],
           "example": {
-            "ja": "こちらは私の友達のレイチェルです。私たちは同じ高校に通っていました。",
-            "en": "This is my friend Rachel. We went to high school together."
+            "ja": "友達と図書館で勉強しました。",
+            "en": "I studied at the library with a friend."
           },
           "type": "word",
           "pos_detail": "n"
@@ -5508,8 +5508,8 @@
             "to be born"
           ],
           "example": {
-            "ja": "来月赤ん坊が生まれるんです。",
-            "en": "We are going to have a baby next month."
+            "ja": "この町で生まれる子どもは毎年増えています。",
+            "en": "The number of children born in this town increases every year."
           },
           "type": "word",
           "pos_detail": "v1"
@@ -5895,8 +5895,8 @@
             "food"
           ],
           "example": {
-            "ja": "宇宙でどうやって食べ物をみつけるの？",
-            "en": "How do you find food in outer space?"
+            "ja": "食べ物を無駄にしないでください。",
+            "en": "Please do not waste food."
           },
           "type": "word",
           "pos_detail": "n"
@@ -5985,8 +5985,8 @@
             "butter"
           ],
           "example": {
-            "ja": "４．中華鍋にごま油を熱してバターを溶かす。",
-            "en": "4. Heat the sesame oil in the wok and melt the butter."
+            "ja": "朝ごはんのパンにばたーをぬりました。",
+            "en": "I spread butter on my breakfast bread."
           },
           "type": "word",
           "pos_detail": "n"
@@ -6176,8 +6176,8 @@
             "my place"
           ],
           "example": {
-            "ja": "私の生きているうちに共産主義が効力を持つことは無いだろう。",
-            "en": "Communism will never be reached in my lifetime."
+            "ja": "うちで映画を見ませんか。",
+            "en": "Would you like to watch a movie at my place?"
           },
           "type": "word",
           "pos_detail": "n"
@@ -6249,8 +6249,8 @@
             "abroad"
           ],
           "example": {
-            "ja": "外国人って面白いなあ。",
-            "en": "Foreign people intrigue me."
+            "ja": "外国で働くのが夢です。",
+            "en": "My dream is to work abroad."
           },
           "type": "word",
           "pos_detail": "v5"
@@ -6448,8 +6448,8 @@
             "intersection"
           ],
           "example": {
-            "ja": "きのう交差点でお釜を掘られちゃったよ。",
-            "en": "Someone ploughed into me from behind at an intersection yesterday."
+            "ja": "次の交差点を右に曲がってください。",
+            "en": "Please turn right at the next intersection."
           },
           "type": "word",
           "pos_detail": "n"
@@ -6503,8 +6503,8 @@
             "this way (polite)"
           ],
           "example": {
-            "ja": "こちらは私の友達のレイチェルです。私たちは同じ高校に通っていました。",
-            "en": "This is my friend Rachel. We went to high school together."
+            "ja": "こちらへどうぞ。",
+            "en": "This way, please."
           },
           "type": "word",
           "pos_detail": "pron"
@@ -6541,8 +6541,8 @@
             "this one"
           ],
           "example": {
-            "ja": "これは代わりになるものをみつけたい単語だ。",
-            "en": "It's a word I'd like to find a substitute for."
+            "ja": "これは私のノートです。",
+            "en": "This is my notebook."
           },
           "type": "word",
           "pos_detail": "pron"
@@ -6577,8 +6577,8 @@
             "under, below, beneath"
           ],
           "example": {
-            "ja": "きみにちょっとしたものをもってきたよ。",
-            "en": "I brought you a little something."
+            "ja": "いすの下にねこがいます。",
+            "en": "There is a cat under the chair."
           },
           "type": "word",
           "pos_detail": "n"
@@ -6596,8 +6596,8 @@
             "bottom, sole"
           ],
           "example": {
-            "ja": "その後私はそこを出るんだけど、鞄を忘れてきたことに気付くんだ。",
-            "en": "After that, I left, but then I realized that I forgot my backpack at their house."
+            "ja": "そこに名前を書いてください。",
+            "en": "Please write your name there."
           },
           "type": "word",
           "pos_detail": "pron"
@@ -6705,8 +6705,8 @@
             "door (Japanese style)"
           ],
           "example": {
-            "ja": "きみにちょっとしたものをもってきたよ。",
-            "en": "I brought you a little something."
+            "ja": "その戸を静かに閉めてください。",
+            "en": "Please close that door quietly."
           },
           "type": "word",
           "pos_detail": "n"
@@ -6832,8 +6832,8 @@
             "chicken (lit., bird)"
           ],
           "example": {
-            "ja": "ひとりにさせて！",
-            "en": "Leave me alone!"
+            "ja": "朝、鳥の声で目が覚めた。",
+            "en": "I woke up to the sound of birds this morning."
           },
           "type": "word",
           "pos_detail": "n"
@@ -6868,8 +6868,8 @@
             "inside, middle, among"
           ],
           "example": {
-            "ja": "それがどこから来たのか分からなかった。",
-            "en": "I didn't know where it came from."
+            "ja": "かばんの中に鍵があります。",
+            "en": "The keys are inside the bag."
           },
           "type": "word",
           "pos_detail": "n"
@@ -6886,8 +6886,8 @@
             "west"
           ],
           "example": {
-            "ja": "あなたの勉強を邪魔しないようにします。",
-            "en": "I'll do my best not to disturb your studying."
+            "ja": "西の空が赤くなってきた。",
+            "en": "The western sky is turning red."
           },
           "type": "word",
           "pos_detail": "n"
@@ -7031,8 +7031,8 @@
             "right hand side"
           ],
           "example": {
-            "ja": "右よ～し、左よ～し・・・、よし。大丈夫。",
-            "en": "Right - clear, left - clear..., OK, all clear."
+            "ja": "右に曲がると郵便局があります。",
+            "en": "If you turn right, there is a post office."
           },
           "type": "word",
           "pos_detail": "n"
@@ -7140,8 +7140,8 @@
             "gate"
           ],
           "example": {
-            "ja": "パックマンが、ある条件を満たすと追ってくるモンスターを逆襲して食べることができる。",
-            "en": "Pac-Man, when a certain condition is reached, can counter attack and eat the monsters chasing him."
+            "ja": "門の前で友達を待っています。",
+            "en": "I am waiting for my friend in front of the gate."
           },
           "type": "word",
           "pos_detail": "n"
@@ -7196,8 +7196,8 @@
             "width"
           ],
           "example": {
-            "ja": "卵がかえる前にひよこの数を数えるな。",
-            "en": "Don't count your chickens before they are hatched."
+            "ja": "駅は銀行の横です。",
+            "en": "The station is beside the bank."
           },
           "type": "word",
           "pos_detail": "n"
@@ -7269,8 +7269,8 @@
             "in the neighborhood"
           ],
           "example": {
-            "ja": "私は海の近くに住んでいるのでよく海岸に行きます。",
-            "en": "I live near the sea, so I often get to go to the beach."
+            "ja": "駅の近くに新しい店ができた。",
+            "en": "A new store opened near the station."
           },
           "type": "word",
           "pos_detail": "v5"
@@ -7287,8 +7287,8 @@
             "bridge"
           ],
           "example": {
-            "ja": "僕は不幸かも知れないけれど自殺はしない。",
-            "en": "I'd be unhappy, but I wouldn't kill myself."
+            "ja": "古い橋を渡ると駅があります。",
+            "en": "If you cross the old bridge, there is a station."
           },
           "type": "word",
           "pos_detail": "n"
@@ -7842,8 +7842,8 @@
             "doctor"
           ],
           "example": {
-            "ja": "私の物理の先生は授業をサボっても気にしない。",
-            "en": "My physics teacher doesn't care if I skip classes."
+            "ja": "先生に質問してもいいですか。",
+            "en": "May I ask the teacher a question?"
           },
           "type": "word",
           "pos_detail": "n"
@@ -7987,8 +7987,8 @@
             "airplane"
           ],
           "example": {
-            "ja": "飛行機が乱気流に近付いていたため操縦士は乗客にシートベルトを締めるよう呼びかけた。",
-            "en": "As the plane was approaching turbulence, the pilot asked the passengers aboard the plane to fasten their seat belts."
+            "ja": "飛行機で大阪へ行く予定です。",
+            "en": "I plan to go to Osaka by airplane."
           },
           "type": "word",
           "pos_detail": "n"
@@ -8005,8 +8005,8 @@
             "convenient, handy"
           ],
           "example": {
-            "ja": "この百科事典は検索に便利である。",
-            "en": "This encyclopaedia is convenient for looking up things."
+            "ja": "このアプリは旅行中に便利です。",
+            "en": "This app is convenient while traveling."
           },
           "type": "word",
           "pos_detail": "adj-na"
@@ -8812,8 +8812,8 @@
             "bag, basket"
           ],
           "example": {
-            "ja": "いいからさっき盗ったモノを、カバンの中から出しなさい。",
-            "en": "Never mind that, just take out what you've just nicked from your bag."
+            "ja": "このかばんは軽くて丈夫です。",
+            "en": "This bag is light and durable."
           },
           "type": "word",
           "pos_detail": "n"
@@ -9192,8 +9192,8 @@
             "desk"
           ],
           "example": {
-            "ja": "中央には机が据えられていて、赤い革張りの回転椅子がそえてあった。",
-            "en": "A desk stood in the centre, with a red leather swivel chair."
+            "ja": "新しい机を買いました。",
+            "en": "I bought a new desk."
           },
           "type": "word",
           "pos_detail": "n"
@@ -9906,8 +9906,8 @@
             "red"
           ],
           "example": {
-            "ja": "赤い冷蔵庫を見たことがない。",
-            "en": "I have never seen a red refrigerator."
+            "ja": "赤い車が角を曲がった。",
+            "en": "A red car turned the corner."
           },
           "type": "word",
           "pos_detail": "adj-i"
@@ -10310,8 +10310,8 @@
             "dark, gloomy"
           ],
           "example": {
-            "ja": "みんなもそうなのかな、と思うことくらいしかできない。",
-            "en": "I can only wonder if this is the same for everyone else."
+            "ja": "この部屋は暗いので電気をつけましょう。",
+            "en": "This room is dark, so let's turn on the light."
           },
           "type": "word",
           "pos_detail": "adj-i"
@@ -10365,8 +10365,8 @@
             "white"
           ],
           "example": {
-            "ja": "野球をするのはおもしろい。",
-            "en": "It is fun to play baseball."
+            "ja": "白いシャツを毎日着ます。",
+            "en": "I wear a white shirt every day."
           },
           "type": "word",
           "pos_detail": "adj-i"
@@ -10638,8 +10638,8 @@
             "fast, quick"
           ],
           "example": {
-            "ja": "脈がはやいです。",
-            "en": "My pulse is fast."
+            "ja": "新幹線はとても速い。",
+            "en": "The Shinkansen is very fast."
           },
           "type": "word",
           "pos_detail": "adj-i"
@@ -10656,8 +10656,8 @@
             "short, low"
           ],
           "example": {
-            "ja": "まだ水温低いから泳ぐつもりはないんよ？",
-            "en": "The water temperature's still low so you're not going to swim, are you?"
+            "ja": "この机は低いので子どもにちょうどいい。",
+            "en": "This desk is low, so it is just right for children."
           },
           "type": "word",
           "pos_detail": "adj-i"
@@ -10839,8 +10839,8 @@
             "cheap (things)"
           ],
           "example": {
-            "ja": "こわれやすいガラス張りの家に住む者は石を投げてはいけない。",
-            "en": "Those who live in glass houses should not throw stones."
+            "ja": "この店は安いのにおいしい。",
+            "en": "This place is cheap, yet delicious."
           },
           "type": "word",
           "pos_detail": "adj-i"
@@ -11247,8 +11247,8 @@
             "unskillful, poor"
           ],
           "example": {
-            "ja": "私は料理をしますが、とんでもなく下手くそです。",
-            "en": "I cook, but I'm really crap at it."
+            "ja": "彼は歌が下手だけど楽しそうだ。",
+            "en": "He is bad at singing, but he looks happy."
           },
           "type": "word",
           "pos_detail": "adj-na"
@@ -11436,8 +11436,8 @@
             "small, little"
           ],
           "example": {
-            "ja": "彼女はちいさな金のスプーンで紅茶をかき回した。",
-            "en": "She stirred her tea with a little gold spoon."
+            "ja": "小さな犬が庭で走っている。",
+            "en": "A small dog is running in the yard."
           },
           "type": "word",
           "pos_detail": "n"
@@ -11454,8 +11454,8 @@
             "brown"
           ],
           "example": {
-            "ja": "冷たい北風が木の葉を茶色にした。",
-            "en": "The cold north wind turned the leaves brown."
+            "ja": "茶色の靴を探しています。",
+            "en": "I am looking for brown shoes."
           },
           "type": "word",
           "pos_detail": "n"
@@ -11472,8 +11472,8 @@
             "tooth"
           ],
           "example": {
-            "ja": "私は眠らなければなりません。",
-            "en": "I have to go to sleep."
+            "ja": "歯をみがいてから寝ます。",
+            "en": "I brush my teeth before bed."
           },
           "type": "word",
           "pos_detail": "n"
@@ -11994,8 +11994,8 @@
             "no, not at all"
           ],
           "example": {
-            "ja": "「はい」と「いいえ」しか言わない人と会話を続けるのは難しい。",
-            "en": "It is difficult to keep up a conversation with someone who only says Yes and No."
+            "ja": "いいえ、まだ食べていません。",
+            "en": "No, I haven't eaten yet."
           },
           "type": "word",
           "pos_detail": "int"
@@ -12030,8 +12030,8 @@
             "how many, how old"
           ],
           "example": {
-            "ja": "おいくつですか？",
-            "en": "How old are you?"
+            "ja": "りんごはいくつ買いますか。",
+            "en": "How many apples will you buy?"
           },
           "type": "word",
           "pos_detail": "adv"
@@ -12066,8 +12066,8 @@
             "when"
           ],
           "example": {
-            "ja": "私はいつも不思議な性格の方が好きだった。",
-            "en": "I always liked mysterious characters more."
+            "ja": "いつ日本に来ましたか。",
+            "en": "When did you come to Japan?"
           },
           "type": "word",
           "pos_detail": "pron"
@@ -12084,8 +12084,8 @@
             "always, usually, every time, never (with neg. verb)"
           ],
           "example": {
-            "ja": "私はいつも不思議な性格の方が好きだった。",
-            "en": "I always liked mysterious characters more."
+            "ja": "彼はいつも朝ご飯を作ります。",
+            "en": "He always makes breakfast."
           },
           "type": "word",
           "pos_detail": "adv"
@@ -12266,8 +12266,8 @@
             "during, while ing"
           ],
           "example": {
-            "ja": "中華は好き？",
-            "en": "Do you like Chinese cuisine?"
+            "ja": "雨の中を歩いて帰った。",
+            "en": "I walked home in the rain."
           },
           "type": "affix",
           "pos_detail": "suf"
@@ -12302,8 +12302,8 @@
             "but, however"
           ],
           "example": {
-            "ja": "時間はいくらでも作れる。",
-            "en": "One can always find time."
+            "ja": "週末でも学校へ行くことがある。",
+            "en": "Even on weekends, I sometimes go to school."
           },
           "type": "word",
           "pos_detail": "conj"
@@ -12320,8 +12320,8 @@
             "how, in what way"
           ],
           "example": {
-            "ja": "先程、どういうわけかマイクが入りませんでした。",
-            "en": "For some reason the microphone didn't work earlier."
+            "ja": "どうやって駅まで行きますか。",
+            "en": "How do I get to the station?"
           },
           "type": "word",
           "pos_detail": "adv"
@@ -12448,8 +12448,8 @@
             "yes"
           ],
           "example": {
-            "ja": "私はいつも不思議な性格の方が好きだった。",
-            "en": "I always liked mysterious characters more."
+            "ja": "はい、分かりました。",
+            "en": "Yes, I understand."
           },
           "type": "word",
           "pos_detail": "int"
@@ -12485,8 +12485,8 @@
             "surplus"
           ],
           "example": {
-            "ja": "歌詞を見てみれば、あまり意味が無いことに気付くでしょう。",
-            "en": "If you look at the lyrics, they don't really mean much."
+            "ja": "この店は余り高くない。",
+            "en": "This shop is not very expensive."
           },
           "type": "word",
           "pos_detail": "n"
@@ -12637,8 +12637,8 @@
             "walk, stroll"
           ],
           "example": {
-            "ja": "公園を散歩しています。",
-            "en": "I'm taking a walk in a park."
+            "ja": "夕方に母と散歩します。",
+            "en": "I take a walk with my mother in the evening."
           },
           "type": "word",
           "pos_detail": "n"
@@ -12709,8 +12709,8 @@
             "over there"
           ],
           "example": {
-            "ja": "そちら様のお電話番号をいただけますか。",
-            "en": "May I please have your telephone number?"
+            "ja": "そちらの席は空いていますか。",
+            "en": "Is that seat over there available?"
           },
           "type": "word",
           "pos_detail": "pron"
@@ -12745,8 +12745,8 @@
             "that"
           ],
           "example": {
-            "ja": "その後私はそこを出るんだけど、鞄を忘れてきたことに気付くんだ。",
-            "en": "After that, I left, but then I realized that I forgot my backpack at their house."
+            "ja": "その映画はもう見ました。",
+            "en": "I already watched that movie."
           },
           "type": "word",
           "pos_detail": "int"
@@ -12763,8 +12763,8 @@
             "that one"
           ],
           "example": {
-            "ja": "それは最近の写真？",
-            "en": "Is it a recent picture?"
+            "ja": "それは私のペンです。",
+            "en": "That is my pen."
           },
           "type": "word",
           "pos_detail": "pron"
@@ -12872,8 +12872,8 @@
             "just a little, somewhat"
           ],
           "example": {
-            "ja": "きみにちょっとしたものをもってきたよ。",
-            "en": "I brought you a little something."
+            "ja": "ちょっと待ってください。",
+            "en": "Please wait a moment."
           },
           "type": "word",
           "pos_detail": "adv"
@@ -12890,8 +12890,8 @@
             "very (much), greatly, exceedingly"
           ],
           "example": {
-            "ja": "君は僕にとてもいらいらしている。",
-            "en": "You're so impatient with me."
+            "ja": "この本はとても読みやすいです。",
+            "en": "This book is very easy to read."
           },
           "type": "word",
           "pos_detail": "adv"

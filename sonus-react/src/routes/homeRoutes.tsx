@@ -10,10 +10,20 @@ type LanguageRouteProps = {
   onGoHome: () => void;
   onOpenProfile: () => void;
   onSelectLanguage: (languageId: string) => void;
+  switchMode?: boolean;
+  onCancelSwitch?: () => void;
 };
 
 export function LanguageRoute(props: LanguageRouteProps) {
-  const { selectedLanguage, languageResolved, onGoHome, onOpenProfile, onSelectLanguage } = props;
+  const {
+    selectedLanguage,
+    languageResolved,
+    onGoHome,
+    onOpenProfile,
+    onSelectLanguage,
+    switchMode = false,
+    onCancelSwitch,
+  } = props;
 
   if (!selectedLanguage && !languageResolved) {
     return (
@@ -22,14 +32,17 @@ export function LanguageRoute(props: LanguageRouteProps) {
       </div>
     );
   }
-  if (selectedLanguage) return <Navigate to="/home" replace />;
+  if (selectedLanguage && !switchMode) return <Navigate to="/home" replace />;
 
   return (
     <LanguageSelect
       onGoHome={onGoHome}
       onOpenProfile={onOpenProfile}
+      currentLanguage={selectedLanguage}
+      switchMode={switchMode}
+      onCancelSwitch={onCancelSwitch}
       onSelectLanguage={(langId: string) => {
-        const isFirstSelection = !selectedLanguage;
+        const isFirstSelection = !selectedLanguage && !switchMode;
         onSelectLanguage(langId);
         if (isFirstSelection) {
           trackEvent('onboarding_language_selected', { languageId: langId });

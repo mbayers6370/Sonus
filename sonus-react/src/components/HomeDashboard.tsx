@@ -15,6 +15,7 @@ import { apiFetch } from '../lib/apiClient';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { makeLessonKey } from '../lib/lessonProgress';
+import { inferLanguageForBand, resolveBandDataPath } from '../lib/languageRuntime';
 
 type Progress = {
   streak: number;
@@ -104,11 +105,6 @@ function writeLessonsOpened(languageId: string) {
   }
 }
 
-function resolveBandDataId(bandId: string) {
-  if (/^band[7-9]$/i.test(bandId) || bandId === 'advanced') return 'band7-9';
-  return bandId;
-}
-
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
   (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
 
@@ -171,6 +167,7 @@ export default function HomeDashboard({
       : null;
   const resumeTarget = resumeFromCheckpoint || resumeFromProgress;
   const hasSavedLessonPath = Boolean(resumeTarget);
+  const resumeCardTitle = hasSavedLessonPath ? 'Resume' : 'Start';
   const lessonNumber = resumeTarget ? resumeTarget.lessonIndex + 1 : null;
   const cardShell =
     'dashboard-card-enter rounded-3xl border p-5 sm:p-6 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
@@ -239,8 +236,8 @@ export default function HomeDashboard({
               unitId !== 'daily-review'
             ) {
               try {
-                const dataBandId = resolveBandDataId(bandId);
-                const bandRes = await fetch(`/data/zh/${dataBandId}.json`, { cache: 'no-store' });
+                const bandLanguage = inferLanguageForBand(bandId, languageId);
+                const bandRes = await fetch(resolveBandDataPath(bandLanguage, bandId), { cache: 'no-store' });
                 if (bandRes.ok) {
                   const bandData = (await bandRes.json()) as {
                     units?: Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }>;
@@ -338,7 +335,7 @@ export default function HomeDashboard({
           <div className="text-[11px] tracking-wide font-mono uppercase text-white/70 mb-1">
             Welcome{profileName ? `, ${profileName}` : ''}
           </div>
-          <div className="main-font text-2xl leading-none mb-3 text-white">Resume</div>
+          <div className="main-font text-2xl leading-none mb-3 text-white">{resumeCardTitle}</div>
           {hasSavedLessonPath ? (
             <>
               <div className="text-sm text-white font-medium mb-1">{formatBandLabel(resumeTarget?.bandId || null)}</div>

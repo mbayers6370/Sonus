@@ -931,10 +931,17 @@ export default function SpeakMode({
     try {
       const sessionId = recordingSessionRef.current;
       const recognition = new SpeechRecognitionCtor();
-      recognition.lang =
-        state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp'
-          ? 'ja-JP'
-          : (word.pinyin ? 'zh-CN' : 'en-US');
+      const normalizedLanguage = state.selectedLanguage === 'jp' ? 'ja' : (state.selectedLanguage || '');
+      const recognitionLangByLanguage: Record<string, string> = {
+        zh: 'zh-CN',
+        ja: 'ja-JP',
+        kr: 'ko-KR',
+        ko: 'ko-KR',
+        fr: 'fr-FR',
+        it: 'it-IT',
+        es: 'es-ES',
+      };
+      recognition.lang = recognitionLangByLanguage[normalizedLanguage] || (word.pinyin ? 'zh-CN' : 'en-US');
       // Single-utterance mode improves responsiveness for short words.
       recognition.continuous = false;
       recognition.interimResults = true;

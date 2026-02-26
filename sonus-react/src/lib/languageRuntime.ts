@@ -7,11 +7,16 @@ export type LanguageRuntime = {
   id: LanguageId;
   label: string;
   homeCollectionLabel: 'Bands' | 'Levels';
+  available: boolean;
 };
 
 const LANGUAGE_RUNTIMES: Record<string, LanguageRuntime> = {
-  zh: { id: 'zh', label: 'Mandarin', homeCollectionLabel: 'Bands' },
-  ja: { id: 'ja', label: 'Japanese', homeCollectionLabel: 'Levels' },
+  zh: { id: 'zh', label: 'Mandarin', homeCollectionLabel: 'Bands', available: true },
+  ja: { id: 'ja', label: 'Japanese', homeCollectionLabel: 'Levels', available: true },
+  kr: { id: 'kr', label: 'Korean', homeCollectionLabel: 'Levels', available: false },
+  fr: { id: 'fr', label: 'French', homeCollectionLabel: 'Levels', available: false },
+  it: { id: 'it', label: 'Italian', homeCollectionLabel: 'Levels', available: false },
+  es: { id: 'es', label: 'Spanish', homeCollectionLabel: 'Levels', available: false },
 };
 
 export function normalizeLanguageId(languageId: string | null | undefined): string {
@@ -23,7 +28,14 @@ export function normalizeLanguageId(languageId: string | null | undefined): stri
 
 export function getLanguageRuntime(languageId: string | null | undefined): LanguageRuntime {
   const id = normalizeLanguageId(languageId);
-  return LANGUAGE_RUNTIMES[id] || { id, label: 'Language', homeCollectionLabel: 'Levels' };
+  return (
+    LANGUAGE_RUNTIMES[id] || {
+      id,
+      label: 'Language',
+      homeCollectionLabel: 'Levels',
+      available: false,
+    }
+  );
 }
 
 export function inferLanguageForBand(bandId: string, selectedLanguage: string | null): string {
@@ -36,6 +48,26 @@ export function resolveBandDataPath(languageId: string, bandId: string): string 
     return `/data/zh/${resolveBandDataId(bandId)}.json`;
   }
   return `/data/${languageId}/${bandId}.json`;
+}
+
+export function resolveApplyDataPaths(languageId: string, bandId: string): string[] {
+  const normalized = normalizeLanguageId(languageId);
+  const paths = [
+    `/data/${normalized}/apply/${bandId}-apply.json`,
+    `/data/${normalized}/apply/${bandId}.apply.json`,
+    `/data/${normalized}/${bandId}-apply.json`,
+    `/data/${normalized}/${bandId}.apply.json`,
+  ];
+  if (normalized !== 'zh') {
+    // Backward compatibility while non-Mandarin apply JSON is rolled out.
+    paths.push(
+      `/data/zh/apply/${bandId}-apply.json`,
+      `/data/zh/apply/${bandId}.apply.json`,
+      `/data/zh/${bandId}-apply.json`,
+      `/data/zh/${bandId}.apply.json`
+    );
+  }
+  return paths;
 }
 
 function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null {

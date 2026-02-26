@@ -1,4 +1,4 @@
-import { ScrollText, Landmark, MessagesSquare, Feather } from 'lucide-react';
+import { ScrollText, Landmark, MessagesSquare, Feather, XCircle } from 'lucide-react';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
 
@@ -62,19 +62,59 @@ const languages = [
     icon: Feather,
     framework: 'CEFR · A1 - C2',
   },
+  {
+    id: 'it',
+    name: 'Italian',
+    nativeName: 'Italiano',
+    nativeClassName: 'font-secondary',
+    icon: Feather,
+    framework: 'CEFR · A1 - C2',
+  },
+  {
+    id: 'es',
+    name: 'Spanish',
+    nativeName: 'Español',
+    nativeClassName: 'font-secondary',
+    icon: Feather,
+    framework: 'CEFR · A1 - C2',
+  },
 ];
 
 interface LanguageSelectProps {
   onSelectLanguage: (langId: string) => void;
   onOpenProfile?: () => void;
   onGoHome?: () => void;
+  currentLanguage?: string | null;
+  switchMode?: boolean;
+  onCancelSwitch?: () => void;
 }
 
-export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHome }: LanguageSelectProps) {
+export default function LanguageSelect({
+  onSelectLanguage,
+  onOpenProfile,
+  onGoHome,
+  currentLanguage,
+  switchMode = false,
+  onCancelSwitch,
+}: LanguageSelectProps) {
+  const normalizedCurrent = (currentLanguage || '').toLowerCase() === 'jp' ? 'ja' : (currentLanguage || '').toLowerCase();
+  const title = switchMode ? 'Switch Language' : 'Choose a Language';
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
-      <GlassHeader title="Choose a Language" />
+      <GlassHeader title={title} />
+
+      {switchMode && onCancelSwitch ? (
+        <div className="mb-4">
+          <button
+            onClick={onCancelSwitch}
+            className="inline-flex items-center gap-2 rounded-xl border border-[#C2410C]/35 bg-[#C2410C] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#A8350A] transition-colors"
+          >
+            <XCircle className="w-4 h-4" />
+            Cancel
+          </button>
+        </div>
+      ) : null}
 
       {/* Language Cards */}
       <div className="space-y-4">
@@ -82,22 +122,38 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
           const Icon = lang.icon;
           const accent = CARD_ACCENTS[index % CARD_ACCENTS.length];
           const isAvailable = lang.id === 'zh' || lang.id === 'ja';
+          const isCurrent = normalizedCurrent === lang.id;
           return (
             <button
               key={lang.id}
               onClick={() => {
                 if (!isAvailable) return;
+                if (switchMode) {
+                  if (isCurrent) return;
+                  const confirmed = window.confirm(`Switch learning language to ${lang.name}?`);
+                  if (!confirmed) return;
+                }
                 onSelectLanguage(lang.id);
               }}
               disabled={!isAvailable}
-              className={`w-full bg-white border ${accent.borderColor} rounded-3xl p-6 text-center transition-all ${
+              className={`w-full border rounded-3xl p-6 text-center transition-all ${
                 isAvailable
                   ? `hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`
                   : 'cursor-not-allowed'
+              } ${
+                isCurrent
+                  ? 'bg-[#186E95] border-[#186E95] ring-2 ring-[#186E95]/35'
+                  : `bg-white ${accent.borderColor}`
               }`}
             >
               <div className="flex justify-between items-start">
-                <span />
+                {isCurrent ? (
+                  <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider font-mono bg-white/18 text-white border border-white/30">
+                    Current
+                  </span>
+                ) : (
+                  <span />
+                )}
                 {!isAvailable && (
                   <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider font-mono bg-[rgba(55,65,81,0.12)] text-[#374151]">
                     Coming Soon
@@ -108,8 +164,8 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
               <div className="flex justify-center mt-1">
                 {/* Icon Badge */}
                 <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${accent.badgeBg}`}>
-                  <Icon className={`w-3 h-3 ${accent.badgeText}`} />
-                  <span className={`text-xs font-semibold uppercase tracking-wider font-mono ${accent.badgeText}`}>
+                  <Icon className={`w-3 h-3 ${isCurrent ? 'text-white' : accent.badgeText}`} />
+                  <span className={`text-xs font-semibold uppercase tracking-wider font-mono ${isCurrent ? 'text-white' : accent.badgeText}`}>
                     {lang.name}
                   </span>
                 </div>
@@ -117,24 +173,19 @@ export default function LanguageSelect({ onSelectLanguage, onOpenProfile, onGoHo
 
               {/* Content */}
               <div className="mt-4">
-                <h2 className={`main-font text-2xl font-normal mb-1 ${isAvailable ? 'text-text-dark' : 'text-[#6B7280]'}`}>
+                <h2 className={`main-font text-2xl font-normal mb-1 ${isCurrent ? 'text-white' : (isAvailable ? 'text-text-dark' : 'text-[#6B7280]')}`}>
                   {lang.name}
                 </h2>
-                <p className={`text-lg mb-3 ${isAvailable ? 'text-text-med' : 'text-[#6B7280]'} ${lang.nativeClassName}`}>
+                <p className={`text-lg mb-3 ${isCurrent ? 'text-white/90' : (isAvailable ? 'text-text-med' : 'text-[#6B7280]')} ${lang.nativeClassName}`}>
                   {lang.nativeName}
                 </p>
-                <p className={`text-xs font-mono uppercase tracking-wider ${isAvailable ? 'text-text-med' : 'text-[#9CA3AF]'}`}>
+                <p className={`text-xs font-mono uppercase tracking-wider ${isCurrent ? 'text-white/85' : (isAvailable ? 'text-text-med' : 'text-[#9CA3AF]')}`}>
                   {lang.framework}
                 </p>
               </div>
             </button>
           );
         })}
-      </div>
-
-      {/* Footer */}
-      <div className="text-center mt-12 text-sm text-text-light">
-        <i>Mandarin and Japanese are live now. More languages are on the way.</i>
       </div>
 
       <BottomNav
