@@ -3,6 +3,7 @@ import LanguageSelect from '../components/LanguageSelect';
 import HomeDashboard from '../components/HomeDashboard';
 import { saveOnboardingSelectionSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
+import type { LessonMode } from '../types/lesson.types';
 
 type LanguageRouteProps = {
   selectedLanguage: string | null;
@@ -56,7 +57,7 @@ export function LanguageRoute(props: LanguageRouteProps) {
 type HomeRouteProps = {
   selectedLanguage: string | null;
   onOpenLevels: () => void;
-  onResumeToUnit: (target: { bandId: string; unitId: string; lessonIndex: number; isCheckpoint: boolean }) => void;
+  onResumeToUnit: (target: { bandId: string; unitId: string; lessonIndex: number; isCheckpoint: boolean; mode?: LessonMode }) => void;
   onOpenPractice: (kind: 'listening' | 'speaking', bandId?: string | null) => void;
   onOpenWeakWords: () => void;
   onOpenProfile: () => void;

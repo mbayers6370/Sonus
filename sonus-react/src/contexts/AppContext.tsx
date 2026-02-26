@@ -116,6 +116,7 @@ const ALL_LEVEL_IDS = [
 ] as const;
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const BAND_UNLOCK_PASS_PERCENT = 90;
+const MASTERY_RESET_FAIL_PERCENT = 60;
 const APPLY_PROMPT_COUNT = 12;
 const DAILY_REVIEW_WORD_COUNT = 5;
 const QA_UNLOCK_ALL_EMAILS = new Set(['qa-admin-f8n2x7r1@sonus.test']);
@@ -1745,6 +1746,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const completed = existing.completed || computedCompleted;
 
       const isMasteryAttempt = existing.completed && !existing.mastered;
+      const shouldResetFromMastery =
+        isMasteryAttempt &&
+        (
+          (lessonMode === 'quiz' && (nextQuizScore ?? 0) < MASTERY_RESET_FAIL_PERCENT) ||
+          (lessonMode === 'speak' && (nextSpeakScore ?? 0) < MASTERY_RESET_FAIL_PERCENT)
+        );
       if (lessonMode === 'apply') {
         nextMastered = true;
       } else if (
@@ -1756,6 +1763,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ) {
         nextMastered = true;
       }
+      const nextCompleted = shouldResetFromMastery ? false : completed;
+      if (shouldResetFromMastery) {
+        nextMastered = false;
+      }
       const masteryJustAchieved = !existing.mastered && nextMastered;
 
       const nextLessonProgress = {
@@ -1765,7 +1776,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           quizScore: nextQuizScore,
           speakScore: nextSpeakScore,
           speakAllCorrect: nextSpeakAllCorrect,
-          completed,
+          completed: nextCompleted,
           mastered: nextMastered,
         },
       };
@@ -1777,7 +1788,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         quizScore: nextQuizScore,
         speakScore: nextSpeakScore,
         speakAllCorrect: nextSpeakAllCorrect,
-        completed,
+        completed: nextCompleted,
         mastered: nextMastered,
       };
 

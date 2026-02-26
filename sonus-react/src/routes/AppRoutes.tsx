@@ -178,7 +178,7 @@ export default function AppRoutes() {
   );
 
   const openResumeFromHome = useCallback(
-    async (target: { bandId: string; unitId: string; lessonIndex: number; isCheckpoint: boolean }) => {
+    async (target: { bandId: string; unitId: string; lessonIndex: number; isCheckpoint: boolean; mode?: LessonMode }) => {
       void target.lessonIndex;
       exitLesson();
       const level = LEVEL_BY_ID[target.bandId];
@@ -194,6 +194,10 @@ export default function AppRoutes() {
       const basePath = `/learn/${tierForBand(level.id)}/${level.id}`;
       if (target.isCheckpoint) {
         navigate(basePath);
+        return;
+      }
+      if (target.mode && (target.mode === 'quiz' || target.mode === 'speak')) {
+        navigate(`${basePath}/unit/${encodeURIComponent(target.unitId)}/lesson/${target.lessonIndex}/${target.mode}`);
         return;
       }
       navigate(`${basePath}?unit=${encodeURIComponent(target.unitId)}`);
@@ -468,7 +472,7 @@ export default function AppRoutes() {
             onOpenProgress={() => navigate('/profile/progress')}
             onOpenAbout={() => navigate('/about')}
             onOpenLanguageSelection={() =>
-              navigate('/language', { state: { mode: 'switch', returnTo: '/profile' } })
+              navigate('/language', { state: { mode: 'switch', returnTo: '/home' } })
             }
           />
         }

@@ -213,8 +213,8 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const lessonStatus = lessonKey ? lessonProgress[lessonKey] : undefined;
   const isMasterySession = !!lessonStatus?.completed && !lessonStatus?.mastered;
   const learnDone = Boolean(lessonStatus?.introViewed);
-  const quizDone = (lessonStatus?.quizScore ?? 0) >= QUIZ_PASS_PERCENT;
-  const speakDone = (lessonStatus?.speakScore ?? 0) >= SPEAK_PASS_PERCENT;
+  const quizDone = !isMasterySession && (lessonStatus?.quizScore ?? 0) >= QUIZ_PASS_PERCENT;
+  const speakDone = !isMasterySession && (lessonStatus?.speakScore ?? 0) >= SPEAK_PASS_PERCENT;
   const modeTabs: Array<{
     mode: LessonMode;
     label: string;
