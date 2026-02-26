@@ -139,7 +139,7 @@ export default function LanguageSelect({
             >
               {switchMode && isCurrent ? (
                 <div className="pointer-events-none absolute inset-0 rounded-3xl bg-white/16 backdrop-blur-md invisible group-hover:visible group-focus-visible:visible flex flex-col items-center justify-center px-6 text-center">
-                  <p className="main-font text-white text-[1.18rem] leading-tight">Cancel language change</p>
+                  <p className="main-font text-white text-[1.18rem] leading-tight">Cancel Language Change</p>
                   <p className="secondary-font text-white text-sm mt-1.5 leading-snug">Keep your current language and return to Profile.</p>
                 </div>
               ) : null}
