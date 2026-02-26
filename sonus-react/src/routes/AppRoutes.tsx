@@ -54,6 +54,13 @@ export default function AppRoutes() {
   const { selectedLanguage, currentLevel } = state;
   const isMandarinLevel = (levelId: string) => /^band\d+$/i.test(levelId) || levelId === 'advanced';
   const isJapaneseLevel = (levelId: string) => /^n[1-5]$/i.test(levelId);
+  const levelMatchesLanguage = (levelId: string, languageId: string | null) => {
+    if (!languageId) return true;
+    const normalizedLanguage = languageId === 'jp' ? 'ja' : languageId;
+    if (normalizedLanguage === 'zh') return isMandarinLevel(levelId);
+    if (normalizedLanguage === 'ja') return isJapaneseLevel(levelId);
+    return true;
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -120,7 +127,7 @@ export default function AppRoutes() {
 
   const goLearn = useCallback(async () => {
     exitLesson();
-    if (currentLevel) {
+    if (currentLevel && levelMatchesLanguage(currentLevel.id, selectedLanguage)) {
       navigate(`/learn/${tierForBand(currentLevel.id)}/${currentLevel.id}`);
       return;
     }
@@ -131,13 +138,15 @@ export default function AppRoutes() {
         const payload = (await response.json()) as ProgressPayload;
         const currentBandId = payload.progress?.currentBandId;
         const level = typeof currentBandId === 'string' ? LEVEL_BY_ID[currentBandId] : undefined;
-        if (level) {
+        if (level && levelMatchesLanguage(level.id, selectedLanguage)) {
           if (isMandarinLevel(level.id) && isMandarinBandLocked(level.id, state.unlockedLevels)) {
             navigate('/learn');
             return;
           }
-          if (isMandarinLevel(level.id) && selectedLanguage !== 'zh') selectLanguage('zh');
-          if (isJapaneseLevel(level.id) && selectedLanguage !== 'ja' && selectedLanguage !== 'jp') selectLanguage('ja');
+          if (!selectedLanguage) {
+            if (isMandarinLevel(level.id)) selectLanguage('zh');
+            if (isJapaneseLevel(level.id)) selectLanguage('ja');
+          }
           await selectLevel(level);
           navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
           return;
@@ -177,8 +186,10 @@ export default function AppRoutes() {
         navigate('/learn');
         return;
       }
-      if (isMandarinLevel(level.id) && selectedLanguage !== 'zh') selectLanguage('zh');
-      if (isJapaneseLevel(level.id) && selectedLanguage !== 'ja' && selectedLanguage !== 'jp') selectLanguage('ja');
+      if (!levelMatchesLanguage(level.id, selectedLanguage)) {
+        navigate('/learn');
+        return;
+      }
       await selectLevel(level);
       const basePath = `/learn/${tierForBand(level.id)}/${level.id}`;
       if (target.isCheckpoint) {
@@ -187,7 +198,7 @@ export default function AppRoutes() {
       }
       navigate(`${basePath}?unit=${encodeURIComponent(target.unitId)}`);
     },
-    [exitLesson, navigate, selectLanguage, selectLevel, selectedLanguage, state.unlockedLevels]
+    [exitLesson, navigate, selectLevel, selectedLanguage, state.unlockedLevels]
   );
 
   useEffect(() => {

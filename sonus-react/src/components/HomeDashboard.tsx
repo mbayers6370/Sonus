@@ -61,6 +61,13 @@ function isJapaneseBandId(value: string | null | undefined) {
   return Boolean(value && /^n[1-5]$/i.test(value));
 }
 
+function bandMatchesLanguage(bandId: string | null | undefined, languageId: string) {
+  if (!bandId) return false;
+  if (languageId === 'ja') return /^n[1-5]$/i.test(bandId);
+  if (languageId === 'zh') return /^band\d+$/i.test(bandId) || bandId === 'advanced';
+  return true;
+}
+
 function resolveHomeLanguageId(input: {
   selectedLanguage: string;
   stateSelectedLanguage: string | null;
@@ -143,6 +150,7 @@ export default function HomeDashboard({
   const isJapaneseLanguage = languageId === 'ja';
   const resumeFromCheckpoint =
     state.resumeCheckpoint &&
+    bandMatchesLanguage(state.resumeCheckpoint.bandId, languageId) &&
     !isPracticeUnitId(state.resumeCheckpoint.unitId) &&
     state.resumeCheckpoint.unitId !== 'daily-review' &&
     state.resumeCheckpoint.lessonMode !== 'apply'
@@ -154,6 +162,7 @@ export default function HomeDashboard({
       : null;
   const resumeFromProgress =
     progress.currentBandId &&
+    bandMatchesLanguage(progress.currentBandId, languageId) &&
     progress.currentUnitId &&
     progress.currentLessonIdx !== null &&
     !isPracticeUnitId(progress.currentUnitId) &&
@@ -166,6 +175,9 @@ export default function HomeDashboard({
         }
       : null;
   const resumeTarget = resumeFromCheckpoint || resumeFromProgress;
+  const practiceBandId = bandMatchesLanguage(progress.currentBandId, languageId)
+    ? progress.currentBandId
+    : null;
   const hasSavedLessonPath = Boolean(resumeTarget);
   const resumeCardTitle = hasSavedLessonPath ? 'Resume' : 'Start';
   const lessonNumber = resumeTarget ? resumeTarget.lessonIndex + 1 : null;
@@ -471,7 +483,7 @@ export default function HomeDashboard({
           {selectedLanguage === 'zh' || isJapaneseLanguage ? (
             <div className="flex items-center justify-center gap-3 max-w-md mx-auto">
               <button
-                onClick={() => onOpenPractice('listening', progress.currentBandId)}
+                onClick={() => onOpenPractice('listening', practiceBandId)}
                 className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[rgba(24,110,149,0.10)] border border-[#186E95]/28 hover:bg-[rgba(24,110,149,0.16)] transition-colors"
                 aria-label="Listening practice"
                 title="Listening practice"
@@ -479,7 +491,7 @@ export default function HomeDashboard({
                 <Headphones className="w-5 h-5 text-[#186E95]" />
               </button>
               <button
-                onClick={() => onOpenPractice('speaking', progress.currentBandId)}
+                onClick={() => onOpenPractice('speaking', practiceBandId)}
                 className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[rgba(24,110,149,0.10)] border border-[#186E95]/28 hover:bg-[rgba(24,110,149,0.16)] transition-colors"
                 aria-label="Speaking practice"
                 title="Speaking practice"
