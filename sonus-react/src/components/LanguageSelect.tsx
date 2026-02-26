@@ -111,6 +111,7 @@ export default function LanguageSelect({
           const accent = CARD_ACCENTS[index % CARD_ACCENTS.length];
           const isAvailable = lang.id === 'zh' || lang.id === 'ja';
           const isCurrent = normalizedCurrent === lang.id;
+          const showCancelState = switchMode && isCurrent;
           return (
             <button
               key={lang.id}
@@ -137,13 +138,13 @@ export default function LanguageSelect({
                   : `bg-white ${accent.borderColor}`
               }`}
             >
-              {switchMode && isCurrent ? (
-                <div className="pointer-events-none absolute inset-0 rounded-3xl bg-white/16 backdrop-blur-md invisible group-hover:visible group-focus-visible:visible flex flex-col items-center justify-center px-6 text-center">
+              {showCancelState ? (
+                <div className="pointer-events-none absolute inset-0 rounded-3xl bg-white/16 backdrop-blur-md flex lg:invisible lg:group-hover:visible lg:group-focus-visible:visible flex-col items-center justify-center px-6 text-center">
                   <p className="main-font text-white text-[1.18rem] leading-tight">Cancel Language Change</p>
                   <p className="secondary-font text-white text-sm mt-1.5 leading-snug">Keep your current language and return to Profile.</p>
                 </div>
               ) : null}
-              <div className={`${switchMode && isCurrent ? 'group-hover:invisible group-focus-visible:invisible' : ''}`}>
+              <div className={`${showCancelState ? 'invisible lg:visible lg:group-hover:invisible lg:group-focus-visible:invisible' : ''}`}>
               <div className="flex justify-between items-start">
                 {isCurrent ? (
                   <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider font-mono bg-white/18 text-white border border-white/30">
