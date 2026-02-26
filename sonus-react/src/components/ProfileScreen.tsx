@@ -66,6 +66,13 @@ function isInstructionalComplete(quizScore: number | null | undefined, speakScor
   return (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
 }
 
+function bandMatchesLanguage(bandId: string | null | undefined, languageId: string | null) {
+  if (!bandId || !languageId) return false;
+  if (languageId === 'ja') return /^n[1-5]$/i.test(bandId);
+  if (languageId === 'zh') return /^band\d+$/i.test(bandId) || bandId === 'advanced';
+  return true;
+}
+
 export default function ProfileScreen({
   onOpenProgress,
   onOpenAbout,
@@ -100,24 +107,32 @@ export default function ProfileScreen({
   const activeLanguageName = resolvedCurrentLearningLanguage
     ? (languageNameById[resolvedCurrentLearningLanguage] || 'Language')
     : null;
+  const languageScopedProgressBandId =
+    bandMatchesLanguage(progress?.currentBandId, resolvedCurrentLearningLanguage)
+      ? progress?.currentBandId
+      : null;
+  const languageScopedProgressUnitId =
+    languageScopedProgressBandId ? progress?.currentUnitId : null;
+  const languageScopedProgressLessonIdx =
+    languageScopedProgressBandId ? progress?.currentLessonIdx : null;
 
   const effectiveBandId =
-    progress?.currentBandId ??
+    languageScopedProgressBandId ??
     state.resumeCheckpoint?.bandId ??
     state.activeBandId ??
     state.currentLevel?.id ??
     null;
   const inferredUnitId = inferUnitFromLessonProgress(effectiveBandId, state.lessonProgress || {});
   const effectiveUnitId =
-    progress?.currentUnitId ??
+    languageScopedProgressUnitId ??
     state.resumeCheckpoint?.unitId ??
     state.activeUnitId ??
     state.activeLesson?.unitId ??
     inferredUnitId ??
     null;
   const effectiveLessonIdx =
-    typeof progress?.currentLessonIdx === 'number'
-      ? progress.currentLessonIdx
+    typeof languageScopedProgressLessonIdx === 'number'
+      ? languageScopedProgressLessonIdx
       : (state.resumeCheckpoint?.lessonIndex ?? state.activeLesson?.lessonIndex ?? null);
   const lessonsCompleted = effectiveBandId
     ? Object.entries(state.lessonProgress || {}).filter(([key, progressEntry]) => {

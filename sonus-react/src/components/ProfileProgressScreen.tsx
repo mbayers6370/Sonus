@@ -79,6 +79,13 @@ function getNeedsWorkColumns(width: number) {
   return 2;
 }
 
+function bandMatchesLanguage(bandId: string | null | undefined, languageId: string | null) {
+  if (!bandId || !languageId) return false;
+  if (languageId === 'ja') return /^n[1-5]$/i.test(bandId);
+  if (languageId === 'zh') return /^band\d+$/i.test(bandId) || bandId === 'advanced';
+  return true;
+}
+
 export default function ProfileProgressScreen({ onGoHome, onGoProfile }: ProfileProgressScreenProps) {
   const { state } = useApp();
   const languageId = state.selectedLanguage === 'jp' ? 'ja' : (state.selectedLanguage || 'zh');
@@ -152,8 +159,12 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   const visibleNeedsWorkCount = Math.min(needsWork.length, visibleRows * needsWorkColumns);
   const visibleNeedsWork = needsWork.slice(0, visibleNeedsWorkCount);
   const hasMoreNeedsWork = visibleNeedsWorkCount < needsWork.length;
+  const languageScopedProgressBandId =
+    bandMatchesLanguage(progress?.currentBandId, languageId)
+      ? progress?.currentBandId
+      : null;
   const effectiveBandId =
-    progress?.currentBandId ??
+    languageScopedProgressBandId ??
     state.resumeCheckpoint?.bandId ??
     state.activeBandId ??
     state.currentLevel?.id ??

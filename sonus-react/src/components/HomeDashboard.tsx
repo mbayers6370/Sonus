@@ -50,6 +50,8 @@ const LANGUAGE_LABELS: Record<string, string> = {
   kr: 'Korean',
   fr: 'French',
 };
+const ZH_BAND_ORDER = ['band1', 'band2', 'band3', 'band4', 'band5', 'band6', 'band7', 'band8', 'band9', 'advanced'];
+const JA_BAND_ORDER = ['n5', 'n4', 'n3', 'n2', 'n1'];
 
 function normalizeLanguageId(value: string | null | undefined) {
   if (!value) return null;
@@ -66,6 +68,39 @@ function bandMatchesLanguage(bandId: string | null | undefined, languageId: stri
   if (languageId === 'ja') return /^n[1-5]$/i.test(bandId);
   if (languageId === 'zh') return /^band\d+$/i.test(bandId) || bandId === 'advanced';
   return true;
+}
+
+function rankBandForLanguage(bandId: string, languageId: string) {
+  const order = languageId === 'ja' ? JA_BAND_ORDER : ZH_BAND_ORDER;
+  const index = order.indexOf((bandId || '').toLowerCase());
+  return index >= 0 ? index : -1;
+}
+
+function deriveResumeFromLessonProgress(
+  lessonProgress: Record<string, unknown>,
+  languageId: string
+) {
+  const byUnit = new Map<string, { bandId: string; unitId: string; lessonIndex: number }>();
+  for (const key of Object.keys(lessonProgress || {})) {
+    const [bandId, unitId, lessonIndexRaw] = key.split(':');
+    if (!bandMatchesLanguage(bandId, languageId)) continue;
+    if (!unitId || isPracticeUnitId(unitId) || isCheckpointUnitId(unitId) || unitId === 'daily-review') continue;
+    const lessonIndex = Number(lessonIndexRaw);
+    if (!Number.isFinite(lessonIndex)) continue;
+    const mapKey = `${bandId}:${unitId}`;
+    const existing = byUnit.get(mapKey);
+    if (!existing || lessonIndex > existing.lessonIndex) {
+      byUnit.set(mapKey, { bandId, unitId, lessonIndex });
+    }
+  }
+  if (!byUnit.size) return null;
+  return Array.from(byUnit.values()).sort((a, b) => {
+    const bandDelta = rankBandForLanguage(b.bandId, languageId) - rankBandForLanguage(a.bandId, languageId);
+    if (bandDelta !== 0) return bandDelta;
+    const unitDelta = (getUnitMetadata(b.bandId, b.unitId)?.order || 0) - (getUnitMetadata(a.bandId, a.unitId)?.order || 0);
+    if (unitDelta !== 0) return unitDelta;
+    return b.lessonIndex - a.lessonIndex;
+  })[0];
 }
 
 function resolveHomeLanguageId(input: {
@@ -175,12 +210,16 @@ export default function HomeDashboard({
         }
       : null;
   const resumeTarget = resumeFromCheckpoint || resumeFromProgress;
+  const resumeFromLocalProgress = !resumeTarget
+    ? deriveResumeFromLessonProgress(state.lessonProgress || {}, languageId)
+    : null;
+  const resolvedResumeTarget = resumeTarget || resumeFromLocalProgress;
   const practiceBandId = bandMatchesLanguage(progress.currentBandId, languageId)
     ? progress.currentBandId
-    : null;
-  const hasSavedLessonPath = Boolean(resumeTarget);
+    : (resumeFromLocalProgress?.bandId || null);
+  const hasSavedLessonPath = Boolean(resolvedResumeTarget);
   const resumeCardTitle = hasSavedLessonPath ? 'Resume' : 'Start';
-  const lessonNumber = resumeTarget ? resumeTarget.lessonIndex + 1 : null;
+  const lessonNumber = resolvedResumeTarget ? resolvedResumeTarget.lessonIndex + 1 : null;
   const cardShell =
     'dashboard-card-enter rounded-3xl border p-5 sm:p-6 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
   const formatBandLabel = (bandId: string | null) => {
@@ -317,16 +356,16 @@ export default function HomeDashboard({
       return;
     }
 
-    if (!resumeTarget) {
+    if (!resolvedResumeTarget) {
       onOpenLevels();
       return;
     }
 
     onResumeToUnit({
-      bandId: resumeTarget.bandId,
-      unitId: resumeTarget.unitId,
-      lessonIndex: resumeTarget.lessonIndex,
-      isCheckpoint: isCheckpointUnitId(resumeTarget.unitId),
+      bandId: resolvedResumeTarget.bandId,
+      unitId: resolvedResumeTarget.unitId,
+      lessonIndex: resolvedResumeTarget.lessonIndex,
+      isCheckpoint: isCheckpointUnitId(resolvedResumeTarget.unitId),
     });
   };
 
@@ -350,13 +389,13 @@ export default function HomeDashboard({
           <div className="main-font text-2xl leading-none mb-3 text-white">{resumeCardTitle}</div>
           {hasSavedLessonPath ? (
             <>
-              <div className="text-sm text-white font-medium mb-1">{formatBandLabel(resumeTarget?.bandId || null)}</div>
+              <div className="text-sm text-white font-medium mb-1">{formatBandLabel(resolvedResumeTarget?.bandId || null)}</div>
               <div className="text-sm text-white/85 mb-3">
-                {isCheckpointUnitId(resumeTarget?.unitId || '')
-                  ? `${formatUnitLabel(resumeTarget?.unitId || null, resumeTarget?.bandId || null)} · Unit review quiz`
-                  : `${formatUnitLabel(resumeTarget?.unitId || null, resumeTarget?.bandId || null)} · Lesson ${lessonNumber}`}
+                {isCheckpointUnitId(resolvedResumeTarget?.unitId || '')
+                  ? `${formatUnitLabel(resolvedResumeTarget?.unitId || null, resolvedResumeTarget?.bandId || null)} · Unit review quiz`
+                  : `${formatUnitLabel(resolvedResumeTarget?.unitId || null, resolvedResumeTarget?.bandId || null)} · Lesson ${lessonNumber}`}
               </div>
-              {!isCheckpointUnitId(resumeTarget?.unitId || '') && unitCompletionPercent !== null && (
+              {!isCheckpointUnitId(resolvedResumeTarget?.unitId || '') && unitCompletionPercent !== null && (
                 <div className="inline-flex items-center rounded-full px-3 py-1 border border-white/25 bg-white/10 text-[11px] font-mono uppercase tracking-wider text-white/90 mb-4 mx-auto">
                   Unit {unitCompletionPercent}% complete
                 </div>
