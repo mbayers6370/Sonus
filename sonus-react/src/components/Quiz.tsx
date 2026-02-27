@@ -171,7 +171,7 @@ export default function Quiz({
   const clozeEn = fullEn
     ? maskExample(fullEn, [word.en, ...(word.defs || [])])
     : '';
-  const highlightClass = 'text-[#3E5648] font-semibold';
+  const highlightClass = listeningMode ? 'text-[#3E5648] font-semibold' : 'text-[#B7E4CC] font-semibold';
   const zhFilled = fullZh
     ? highlightFirstMatch(fullZh, [word.simp, word.trad], highlightClass)
     : '';
@@ -193,34 +193,34 @@ export default function Quiz({
         <div
           className={`rounded-3xl p-3.5 mb-3 border relative ${
             listeningMode
-              ? 'bg-transparent border-transparent'
-              : 'bg-[#F0F2F5] border-[#D1D5DB]'
+              ? 'bg-white border-[#D1D5DB]'
+              : 'bg-[#1F2A37] border-[#1F2A37]'
           }`}
         >
           <div className="text-center">
             <>
               {!listeningMode ? (
                 <>
-                  <div className="secondary-font text-4xl mb-1 text-text-dark leading-tight">
+                  <div className="secondary-font text-4xl mb-1 text-white leading-tight">
                     {word.simp}
                   </div>
                   {word.pinyin && (
-                    <div className="text-[1.2rem] text-text-med">{word.pinyin}</div>
+                    <div className="text-[1.2rem] text-white/80">{word.pinyin}</div>
                   )}
                   {(clozeZh || clozeEn || fullEn) && (
                     <div className="mt-2 text-center space-y-1">
                       {selectedAnswer && fullZh ? (
-                        <div className="text-sm text-text-light leading-relaxed">{zhFilled}</div>
+                        <div className="text-sm text-white/80 leading-relaxed">{zhFilled}</div>
                       ) : null}
                       {selectedAnswer && fullEn ? (
-                        <div className="text-xs text-text-light leading-relaxed">{enFilled}</div>
+                        <div className="text-xs text-white/75 leading-relaxed">{enFilled}</div>
                       ) : null}
                     </div>
                   )}
                   {selectedAnswer ? (
                     <div
                       className={`mt-2 text-base font-semibold ${
-                        isCorrect ? 'text-[#3E5648]' : 'text-[#C2410C]'
+                        isCorrect ? 'text-[#8DD3AE]' : 'text-[#FCA5A5]'
                       }`}
                     >
                       {isCorrect ? 'Correct!' : 'Not Quite!'}
@@ -230,7 +230,7 @@ export default function Quiz({
                     <div className="mt-2">
                       <button
                         onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
-                        className="mx-auto w-12 h-12 rounded-full border border-[#1F2A37]/35 bg-transparent text-[#1F2A37] flex items-center justify-center hover:bg-[rgba(31,42,55,0.08)] transition-all"
+                        className="mx-auto w-12 h-12 rounded-full border border-white/35 bg-transparent text-white flex items-center justify-center hover:bg-white/10 transition-all"
                         aria-label="Play audio"
                       >
                         <Volume2 className="w-5 h-5" />
@@ -242,16 +242,16 @@ export default function Quiz({
                 <div className="mt-1">
                   <button
                     onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
-                    className="mx-auto w-12 h-12 rounded-full bg-[#1F2A37] text-white flex items-center justify-center hover:bg-[#1F2937] transition-all"
+                    className="mx-auto w-12 h-12 rounded-full bg-[#1F2A37] text-white flex items-center justify-center hover:bg-[#253242] transition-all"
                     aria-label="Play audio"
                   >
                     <Volume2 className="w-5 h-5" />
                   </button>
                   {selectedAnswer ? (
                     <div className="mt-2 text-center">
-                      <div className="secondary-font text-3xl text-white leading-tight">{word.simp}</div>
+                      <div className="secondary-font text-3xl text-[#1F2A37] leading-tight">{word.simp}</div>
                       {word.pinyin ? (
-                        <div className="text-sm text-white/85 mt-0.5">{word.pinyin}</div>
+                        <div className="text-sm text-[#475569] mt-0.5">{word.pinyin}</div>
                       ) : null}
                     </div>
                   ) : null}
@@ -268,7 +268,7 @@ export default function Quiz({
             const isSelected = selectedAnswer === choice;
             const isCorrectAnswer = choice === word.en;
 
-            let buttonClass = 'w-full min-h-[56px] p-3 rounded-2xl font-medium text-center transition-all border-2 bg-white ';
+            let buttonClass = 'w-full min-h-[56px] p-3 rounded-2xl text-sm sm:text-[13px] font-medium text-center transition-all border-2 bg-white ';
 
             if (selectedAnswer) {
               // After answering

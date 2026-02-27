@@ -43,7 +43,9 @@ export default function Flashcard({
       <div className="flex-1 flex items-center justify-center px-5 py-2">
         <div
           onClick={handleFlip}
-          className="w-full max-w-md min-h-[220px] md:min-h-[255px] bg-white rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-6"
+          className={`w-full max-w-md min-h-[220px] md:min-h-[255px] rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-6 ${
+            isFlipped ? 'bg-[#1F2A37] border-[#1F2A37]' : 'bg-white border-border'
+          }`}
         >
           {!isFlipped ? (
             // Front side
@@ -68,7 +70,7 @@ export default function Flashcard({
                 {meaningList.map((def, idx) => (
                   <div
                     key={idx}
-                    className="text-base md:text-lg text-text-dark leading-relaxed font-medium"
+                    className="text-base md:text-lg text-white leading-relaxed font-medium"
                   >
                     {def}
                   </div>

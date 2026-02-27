@@ -1235,11 +1235,6 @@ export default function SpeakMode({
 
   const heardHanzi = normalizeHanzi(transcript);
   const isNoSpeech = transcript.toLowerCase() === 'no speech detected';
-  const isPerfectListening = Boolean(
-    isJapaneseLesson
-      ? matchResult === 'match'
-      : (analysis && analysis.initial.pass && analysis.final.pass && analysis.tone.pass)
-  );
   const noSpeechResultClass = isNoSpeech ? 'text-base' : 'text-lg';
   const hasAttempt =
     Boolean(transcript.trim()) || Boolean(analysis) || Boolean(matchResult) || Boolean(audioError);
@@ -1281,7 +1276,7 @@ export default function SpeakMode({
       : 'px-2.5 py-1 rounded-lg text-[11px] font-mono uppercase tracking-wider';
     const toneFor = (pass: boolean) =>
       pass
-        ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]'
+        ? 'bg-[#DDF5E8] text-[#255B45]'
         : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]';
 
     return (
@@ -1422,18 +1417,24 @@ export default function SpeakMode({
     };
   };
 
-  const renderSupportiveFeedback = (compact: boolean) => {
+  const renderSupportiveFeedback = (compact: boolean, onDark = false) => {
     if (!hasAttempt) return null;
     const feedback = buildSupportiveFeedback();
     const baseText = compact ? 'text-[12px]' : 'text-sm';
     const firstCoaching = feedback.coaching[0];
+    const feedbackToneClass =
+      onDark && feedback.toneClass === 'text-[#3E5648]'
+        ? 'text-[#8DD3AE]'
+        : onDark && feedback.toneClass === 'text-[#186E95]'
+          ? 'text-[#AFCFE0]'
+          : feedback.toneClass;
     return (
       <div className="mt-1 text-center">
-        <div className={`${baseText} ${feedback.toneClass} font-semibold`}>
+        <div className={`${baseText} ${feedbackToneClass} font-semibold`}>
           {feedback.summary ? `${feedback.label}: ${feedback.summary}` : feedback.label}
         </div>
-        {firstCoaching ? <div className={`${baseText} text-text-med mt-1`}>{firstCoaching}</div> : null}
-        <div className={`${baseText} text-[#186E95] mt-1`}>{feedback.nextGoal}</div>
+        {firstCoaching ? <div className={`${baseText} ${onDark ? 'text-white/80' : 'text-text-med'} mt-1`}>{firstCoaching}</div> : null}
+        <div className={`${baseText} ${onDark ? 'text-[#AFCFE0]' : 'text-[#186E95]'} mt-1`}>{feedback.nextGoal}</div>
       </div>
     );
   };
@@ -1441,14 +1442,14 @@ export default function SpeakMode({
   const renderResultCard = (compact: boolean) => {
     if (!showMobileResult && !showDesktopResult) return null;
     const shell = compact
-      ? 'rounded-2xl border border-[rgba(194,65,12,0.18)] bg-white px-3 py-3'
-      : 'rounded-2xl border border-[rgba(194,65,12,0.18)] bg-white px-4 py-3.5';
+      ? 'rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-3 py-3'
+      : 'rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5';
     const titleClass = compact
-      ? 'text-[11px] tracking-wide font-mono text-[#C2410C]'
-      : 'text-xs tracking-wide font-mono text-[#C2410C]';
+      ? 'text-[11px] tracking-wide font-mono text-white/85'
+      : 'text-xs tracking-wide font-mono text-white/85';
     const heardClass = compact
-      ? `secondary-font font-semibold ${noSpeechResultClass} text-text-dark leading-tight break-words text-center`
-      : 'secondary-font font-semibold text-2xl text-text-dark leading-tight break-words text-center';
+      ? `secondary-font font-semibold ${noSpeechResultClass} text-white leading-tight break-words text-center`
+      : 'secondary-font font-semibold text-2xl text-white leading-tight break-words text-center';
 
     return (
       <div className={`${shell} text-center`}>
@@ -1458,7 +1459,7 @@ export default function SpeakMode({
             <span
               className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
                 matchResult === 'match'
-                  ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]'
+                  ? 'bg-[#DDF5E8] text-[#255B45]'
                   : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'
               }`}
             >
@@ -1471,16 +1472,16 @@ export default function SpeakMode({
 
         {resultPinyinLabel ? (
           <div className="mt-2 flex justify-center">
-            <div className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1 bg-[rgba(31,42,55,0.08)]">
-              <span className="text-[10px] uppercase tracking-wider font-mono text-text-light">{resultPinyinTag}</span>
-              <span className="text-sm font-semibold text-text-dark">{resultPinyinLabel}</span>
+            <div className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1 bg-white/12 border border-white/15">
+              <span className="text-[10px] uppercase tracking-wider font-mono text-white/70">{resultPinyinTag}</span>
+              <span className="text-sm font-semibold text-white">{resultPinyinLabel}</span>
             </div>
           </div>
         ) : null}
 
         {renderScoreChips(compact)}
-        <div className="mt-2">{renderSupportiveFeedback(compact)}</div>
-        {audioError && <div className="text-xs text-[#C2410C] mt-2 text-center">{audioError}</div>}
+        <div className="mt-2">{renderSupportiveFeedback(compact, true)}</div>
+        {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
       </div>
     );
   };
@@ -1500,26 +1501,22 @@ export default function SpeakMode({
           <button
             type="button"
             onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
-            className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] flex flex-col items-center justify-center text-center transition-colors ${
-              practiceMode
-                ? 'border-[#E5B8A5] bg-[#F8EEE9] active:bg-[#F3E4DC]'
-                : 'border-[#AFCFE0] bg-[#EAF3F8] active:bg-[#DFEDF5]'
-            }`}
+            className="relative rounded-3xl border border-[#1F2A37] bg-white px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] flex flex-col items-center justify-center text-center transition-colors active:bg-[#F8FAFC]"
             aria-label="Play target audio"
             title="Play target audio"
           >
-            <Volume2 className={`absolute top-3 right-3 w-5 h-5 ${practiceMode ? 'text-[#C2410C]' : 'text-[#186E95]'}`} />
+            <Volume2 className="absolute top-3 right-3 w-5 h-5 text-[#1F2A37]" />
             {!practiceMode ? (
               <>
-                <div className="text-base sm:text-lg font-semibold text-text-dark leading-tight">{displayMeaning}</div>
-                <div className="secondary-font text-xl sm:text-2xl text-text-med mt-1">{word.simp}</div>
-                {word.pinyin ? <div className="text-[13px] sm:text-sm text-text-light">{word.pinyin}</div> : null}
+                <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight">{displayMeaning}</div>
+                <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
+                {word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
               </>
             ) : (
               <>
-                <div className="secondary-font text-xl sm:text-2xl text-text-dark mt-1">{word.simp}</div>
-                {word.pinyin ? <div className="text-[13px] sm:text-sm text-text-light">{word.pinyin}</div> : null}
-                <div className="text-base sm:text-lg font-semibold text-text-med leading-tight mt-1">{displayMeaning}</div>
+                <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
+                {word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
+                <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1">{displayMeaning}</div>
               </>
             )}
           </button>
@@ -1531,33 +1528,33 @@ export default function SpeakMode({
             className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] transition-colors ${
               !sttSupported
                 ? 'border-[#D1D5DB] bg-[#F3F4F6] opacity-75 cursor-not-allowed'
-                : isPerfectListening
-                ? 'border-[#AEBFB5] bg-[#E8F0EB]'
-                : 'border-[#E5B8A5] bg-[#F8EEE9] active:bg-[#F3E4DC]'
+                : isRecording
+                  ? 'border-[#2B3440] bg-[#2B3440] shadow-[0_0_0_1px_rgba(255,255,255,0.06)] active:bg-[#344253]'
+                : 'border-[#1F2A37] bg-[#1F2A37] active:bg-[#273243]'
             }`}
             aria-label={isRecording ? 'Stop recording' : 'Start recording'}
             title={isRecording ? 'Stop recording' : 'Start recording'}
           >
             <Mic
-              className={`absolute top-3 right-3 w-5 h-5 text-[#C2410C] ${isRecording ? 'animate-pulse' : ''}`}
+              className={`absolute top-3 right-3 w-5 h-5 text-white ${isRecording ? 'animate-pulse' : ''}`}
             />
 
             <div className="h-full flex flex-col justify-center text-center">
-              <div className="secondary-font text-2xl font-semibold text-text-dark leading-tight">
-                {isRecording ? 'Done' : 'Record'}
+              <div className="text-base sm:text-lg font-semibold text-white leading-tight">
+                Record
               </div>
-              <div className={`secondary-font font-semibold text-text-med leading-tight break-words mt-1 ${isNoSpeech ? 'text-sm' : 'text-base'}`}>
-                {transcript || 'Tap to start'}
-              </div>
-              <div className="text-xs text-text-med mt-1">
+              <div className="text-base sm:text-lg font-semibold text-white leading-tight break-words mt-1">
                 {!sttSupported
-                  ? 'Speech recognition unavailable'
-                  : isFinalizing
-                    ? 'Finalizing...'
-                    : isRecording
-                      ? 'Recording... tap Done to submit'
-                      : 'Results appear below'}
+                  ? 'Speech Unavailable'
+                  : isRecording
+                    ? 'Tap To Finish'
+                    : 'Tap To Start'}
               </div>
+              {!sttSupported ? null : (isFinalizing || isRecording) ? (
+                <div className="text-xs text-white/82 mt-1">
+                  Results Will Appear Below in a Few Seconds
+                </div>
+              ) : null}
             </div>
           </button>
 

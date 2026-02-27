@@ -200,7 +200,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const speakingPageTheme = isSpeakingPractice
     ? {
         shell: '',
-        title: 'text-[#C2410C]',
+        title: 'text-[#1F2A37]',
         content: '',
       }
     : {
@@ -250,7 +250,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             <span className={`text-sm text-text-med ${isApplyMode ? 'italic' : ''}`}>{subtitleText}</span>
           ) : undefined}
           hideLogoOnMobile={hideLogoOnMobile}
-          className={isSpeakingPractice ? 'bg-white/75 border-[#C2410C]/25' : ''}
+          className={isSpeakingPractice ? 'bg-white/75 border-[#1F2A37]/25' : ''}
           titleClassName={speakingPageTheme.title}
           subtitleClassName="text-text-med"
         />
