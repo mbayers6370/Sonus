@@ -158,9 +158,7 @@ export async function fetchNeedsWork(
           HAVING COUNT(*) FILTER (WHERE rn <= 2) = 2
             AND BOOL_AND(is_correct) FILTER (WHERE rn <= 2)
         `;
-  const clearedByRecentCorrectSet = new Set(
-    recentCorrectStreakClearRows.map((row) => row.word_id)
-  );
+  const clearedByRecentCorrectSet = new Set(recentCorrectStreakClearRows.map((row) => row.word_id));
 
   const needsWork = rows
     .map((row) => {
