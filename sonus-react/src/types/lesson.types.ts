@@ -13,6 +13,7 @@ export interface Word {
   simp: string;
   trad: string;
   pinyin: string;
+  tags?: string[] | null;
   pinyinNum?: string; // canonical storage: syllables with tone numbers, e.g. "bei3 jing1"
   variants?: string[]; // alternative real-world forms, e.g. ["星期日"] for preferred "星期天"
   preferred?: boolean; // preferred teaching/display form when variants exist

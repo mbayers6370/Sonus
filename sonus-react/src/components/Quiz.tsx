@@ -124,6 +124,8 @@ export default function Quiz({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [allChoices, setAllChoices] = useState<string[]>(() => buildChoices(word, allWords));
   const { speak } = useAudio();
+  const hasPoliteTag = [...(word.tags || []), ...(word.meta?.grammarTags || [])]
+    .some((tag) => tag.trim().toLowerCase() === 'polite');
 
   const handleAnswer = (choice: string) => {
     if (selectedAnswer) return; // Already answered
@@ -197,11 +199,22 @@ export default function Quiz({
               : 'bg-[#1F2A37] border-[#1F2A37]'
           }`}
         >
+          {hasPoliteTag ? (
+            <div
+              className={`absolute top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.14em] ${
+                listeningMode
+                  ? 'bg-[#1F2A37]/8 text-[#1F2A37] border border-[#1F2A37]/20'
+                  : 'bg-white/15 text-white/90 border border-white/20'
+              }`}
+            >
+              Polite
+            </div>
+          ) : null}
           <div className="text-center">
             <>
               {!listeningMode ? (
                 <>
-                  <div className="secondary-font text-4xl mb-1 text-white leading-tight">
+                  <div className={`secondary-font text-4xl mb-1 text-white leading-tight ${hasPoliteTag ? 'mt-7' : ''}`}>
                     {word.simp}
                   </div>
                   {word.pinyin && (
@@ -239,7 +252,7 @@ export default function Quiz({
                   ) : null}
                 </>
               ) : (
-                <div className="mt-1">
+                <div className={hasPoliteTag ? 'mt-7' : 'mt-1'}>
                   <button
                     onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
                     className="mx-auto w-12 h-12 rounded-full bg-[#1F2A37] text-white flex items-center justify-center hover:bg-[#253242] transition-all"

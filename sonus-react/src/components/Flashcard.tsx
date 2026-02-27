@@ -24,6 +24,8 @@ export default function Flashcard({
   const { state } = useApp();
   const { speak } = useAudio();
   const meaningList = (word.defs && word.defs.length > 0 ? word.defs : [word.en]).slice(0, 3);
+  const hasPoliteTag = [...(word.tags || []), ...(word.meta?.grammarTags || [])]
+    .some((tag) => tag.trim().toLowerCase() === 'polite');
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
@@ -43,13 +45,20 @@ export default function Flashcard({
       <div className="flex-1 flex items-center justify-center px-5 py-2">
         <div
           onClick={handleFlip}
-          className={`w-full max-w-md min-h-[220px] md:min-h-[255px] rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-6 ${
+          className={`relative w-full max-w-md min-h-[220px] md:min-h-[255px] rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-6 ${
             isFlipped ? 'bg-[#1F2A37] border-[#1F2A37]' : 'bg-white border-border'
           }`}
         >
+          {hasPoliteTag ? (
+            <div className={`absolute top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.14em] ${
+              isFlipped ? 'bg-white/15 text-white/90 border border-white/20' : 'bg-[#1F2A37]/8 text-[#1F2A37] border border-[#1F2A37]/20'
+            }`}>
+              Polite
+            </div>
+          ) : null}
           {!isFlipped ? (
             // Front side
-            <div className="text-center w-full">
+            <div className={`text-center w-full ${hasPoliteTag ? 'pt-7' : ''}`}>
               <div className="secondary-font text-5xl mb-3 text-text-dark leading-tight">
                 {word.simp}
               </div>
@@ -64,7 +73,7 @@ export default function Flashcard({
             </div>
           ) : (
             // Back side
-            <div className="text-center w-full">
+            <div className={`text-center w-full ${hasPoliteTag ? 'pt-7' : ''}`}>
               <div className="mt-1 flex justify-center">
                 <div className="w-full max-w-sm text-center space-y-4">
                 {meaningList.map((def, idx) => (

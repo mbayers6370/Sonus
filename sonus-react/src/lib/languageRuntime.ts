@@ -72,8 +72,14 @@ export function resolveApplyDataPaths(languageId: string, bandId: string): strin
 
 function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null {
   if (typeof rawWord.id !== 'string') return null;
+  const tags = Array.isArray(rawWord.tags)
+    ? rawWord.tags.filter((value): value is string => typeof value === 'string')
+    : undefined;
   if (typeof rawWord.simp === 'string' && typeof rawWord.trad === 'string') {
-    return rawWord as unknown as Word;
+    return {
+      ...(rawWord as unknown as Word),
+      tags,
+    };
   }
 
   const exampleRaw = (rawWord.example || {}) as Record<string, unknown>;
@@ -86,6 +92,7 @@ function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null 
     simp: kanji || hiragana,
     trad: kanji || hiragana,
     pinyin: romaji,
+    tags,
     pos: typeof rawWord.pos === 'string' ? rawWord.pos : '',
     en: typeof rawWord.en === 'string' ? rawWord.en : '',
     defs: Array.isArray(rawWord.defs)
