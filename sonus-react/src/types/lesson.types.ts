@@ -80,6 +80,8 @@ export interface Unit {
 
 export interface BandUnitData {
   id?: string;
+  title?: string;
+  description?: string;
   band?: number;
   targetWords: number;
   allocatedWords: number;
@@ -125,6 +127,12 @@ export interface BandData {
   wordCount: number;
   availableWords: number;
   unallocatedWords: number;
+  sections?: Array<{
+    id: string;
+    title: string;
+    subtitle?: string;
+    unitIds: string[];
+  }>;
   units: BandUnitData[] | Record<string, BandUnitData>;
   curriculum?: {
     prerequisites?: Record<string, string[]>;

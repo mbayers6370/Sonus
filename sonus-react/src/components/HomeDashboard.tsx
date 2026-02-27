@@ -71,6 +71,19 @@ function isJapaneseBandId(value: string | null | undefined) {
   return Boolean(value && /^n[1-5]$/i.test(value));
 }
 
+function toJapaneseSectionTitle(sectionId: string) {
+  const normalized = sectionId.trim().toLowerCase();
+  if (normalized === 'base-i') return 'Core';
+  if (normalized === 'base-ii') return 'Expansion';
+  if (normalized === 'widen' || normalized === 'connect') return 'Integration';
+  if (normalized === 'core') return 'Core';
+  if (normalized === 'expansion') return 'Expansion';
+  if (normalized === 'integration') return 'Integration';
+  return sectionId
+    .replace(/[-_]+/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
 function bandMatchesLanguage(bandId: string | null | undefined, languageId: string) {
   if (!bandId) return false;
   if (languageId === 'ja') return /^n[1-5]$/i.test(bandId);
@@ -268,10 +281,29 @@ export default function HomeDashboard({
 
   const formatUnitLabel = (unitId: string | null, bandId: string | null) => {
     if (!unitId) return 'Unit';
+    if (isJapaneseLanguage && bandId && isJapaneseBandId(bandId)) {
+      const sectionMatch = new RegExp(`^${bandId}-(core|expansion|integration|base-i|base-ii|widen|connect)-u(\\d+)$`, 'i').exec(unitId);
+      if (sectionMatch) {
+        const sectionTitle = toJapaneseSectionTitle(sectionMatch[1]);
+        const sectionUnitNumber = String(Number(sectionMatch[2]));
+        return `${sectionTitle} · Unit ${sectionUnitNumber}`;
+      }
+      const fallbackMatch = /(?:base\s*i{1,2}|core|expansion|integration|widen|connect)\s*u?(\d+)/i.exec(unitId);
+      if (fallbackMatch) {
+        const prefix = /base\s*i{1,2}|core|expansion|integration|widen|connect/i.exec(unitId)?.[0] || 'core';
+        return `${toJapaneseSectionTitle(prefix)} · Unit ${String(Number(fallbackMatch[1]))}`;
+      }
+    }
     const fromMetadata =
       bandId && unitId
         ? getUnitMetadata(bandId, unitId)?.name
         : undefined;
+    if (isJapaneseLanguage && fromMetadata) {
+      const metadataMatch = /(base\s*i{1,2}|core|expansion|integration|widen|connect)\s*u?(\d+)/i.exec(fromMetadata);
+      if (metadataMatch) {
+        return `${toJapaneseSectionTitle(metadataMatch[1])} · Unit ${String(Number(metadataMatch[2]))}`;
+      }
+    }
     if (fromMetadata) return formatUnitNameForDisplay(fromMetadata);
     return formatUnitNameForDisplay(
       unitId

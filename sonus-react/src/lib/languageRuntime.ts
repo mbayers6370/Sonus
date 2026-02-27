@@ -19,6 +19,14 @@ const LANGUAGE_RUNTIMES: Record<string, LanguageRuntime> = {
   es: { id: 'es', label: 'Spanish', homeCollectionLabel: 'Levels', available: false },
 };
 
+const DEFAULT_JA_SECTIONS = [
+  { id: 'base-i', title: 'Base I', subtitle: 'Concrete & Physical' },
+  { id: 'base-ii', title: 'Base II', subtitle: 'Situational & Common Context' },
+  { id: 'widen', title: 'Widen', subtitle: 'Sentence Glue' },
+  { id: 'connect', title: 'Connect', subtitle: 'Advanced Society & Nuance' },
+] as const;
+const JA_SEQUENTIAL_UNIT_SIZE = 80;
+
 export function normalizeLanguageId(languageId: string | null | undefined): string {
   const normalized = (languageId || '').trim().toLowerCase();
   if (!normalized) return 'zh';
@@ -113,6 +121,217 @@ function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null 
   };
 }
 
+function buildJapaneseSequentialBandData(
+  raw: Record<string, unknown>,
+  bandId: string,
+  languageId: string
+): BandData | null {
+  const wordsById = new Map<string, Word>();
+  const addWord = (rawWord: unknown) => {
+    const normalized = normalizeWordForRuntime((rawWord || {}) as Record<string, unknown>);
+    if (!normalized) return;
+    wordsById.set(normalized.id, normalized);
+  };
+
+  const rawSections = Array.isArray(raw.sections) ? raw.sections : [];
+  const sectionHasUnits = rawSections.some((section) =>
+    Array.isArray(((section || {}) as Record<string, unknown>).units)
+  );
+  const explicitSectionWords = rawSections.some(
+    (section) => Array.isArray((section as Record<string, unknown>)?.words)
+  );
+
+  if (explicitSectionWords) {
+    for (const section of rawSections) {
+      const sectionRecord = (section || {}) as Record<string, unknown>;
+      for (const rawWord of Array.isArray(sectionRecord.words) ? sectionRecord.words : []) {
+        addWord(rawWord);
+      }
+    }
+  }
+
+  if (!wordsById.size && sectionHasUnits) {
+    for (const section of rawSections) {
+      const sectionRecord = (section || {}) as Record<string, unknown>;
+      for (const rawUnit of Array.isArray(sectionRecord.units) ? sectionRecord.units : []) {
+        const unitRecord = (rawUnit || {}) as Record<string, unknown>;
+        for (const rawWord of Array.isArray(unitRecord.words) ? unitRecord.words : []) {
+          addWord(rawWord);
+        }
+      }
+    }
+  }
+
+  if (!wordsById.size && Array.isArray(raw.words)) {
+    for (const rawWord of raw.words) addWord(rawWord);
+  }
+
+  if (!wordsById.size && Array.isArray(raw.units)) {
+    for (const rawUnit of raw.units) {
+      const unitRecord = (rawUnit || {}) as Record<string, unknown>;
+      for (const rawWord of Array.isArray(unitRecord.words) ? unitRecord.words : []) {
+        addWord(rawWord);
+      }
+    }
+  }
+
+  if (!wordsById.size) return null;
+  const allWords = Array.from(wordsById.values());
+
+  const hasMappedSections = rawSections.some((section) => {
+    const record = (section || {}) as Record<string, unknown>;
+    return (
+      (Array.isArray(record.words) && record.words.length > 0) ||
+      (Array.isArray(record.wordIds) && record.wordIds.length > 0)
+    );
+  });
+
+  const mappedSectionRows = rawSections
+    .map((section, index) => {
+      const record = (section || {}) as Record<string, unknown>;
+      const sectionId =
+        typeof record.id === 'string' && record.id.trim()
+          ? record.id.trim().toLowerCase()
+          : `section-${index + 1}`;
+      const title =
+        typeof record.title === 'string' && record.title.trim()
+          ? record.title.trim()
+          : `Section ${index + 1}`;
+      const subtitle =
+        typeof record.subtitle === 'string' && record.subtitle.trim()
+          ? record.subtitle.trim()
+          : undefined;
+      const sectionWords = Array.isArray(record.words)
+        ? record.words
+            .map((rawWord) => normalizeWordForRuntime((rawWord || {}) as Record<string, unknown>))
+            .filter((word): word is Word => Boolean(word))
+        : [];
+      const sectionWordIds = Array.isArray(record.wordIds)
+        ? record.wordIds.filter((value): value is string => typeof value === 'string')
+        : [];
+      const words =
+        sectionWords.length > 0
+          ? sectionWords
+          : sectionWordIds
+              .map((id) => wordsById.get(id))
+              .filter((word): word is Word => Boolean(word));
+
+      const units = Array.isArray(record.units)
+        ? record.units
+            .map((rawUnit, unitIndex) => {
+              const unitRecord = (rawUnit || {}) as Record<string, unknown>;
+              const explicitUnitId =
+                typeof unitRecord.id === 'string' && unitRecord.id.trim()
+                  ? unitRecord.id.trim()
+                  : `${bandId}-${sectionId}-u${String(unitIndex + 1).padStart(2, '0')}`;
+              const unitWordsFromObjects = Array.isArray(unitRecord.words)
+                ? unitRecord.words
+                    .map((rawWord) =>
+                      normalizeWordForRuntime((rawWord || {}) as Record<string, unknown>)
+                    )
+                    .filter((word): word is Word => Boolean(word))
+                : [];
+              const unitWordIds = Array.isArray(unitRecord.wordIds)
+                ? unitRecord.wordIds.filter((value): value is string => typeof value === 'string')
+                : [];
+              const unitWords =
+                unitWordsFromObjects.length > 0
+                  ? unitWordsFromObjects
+                  : unitWordIds
+                      .map((id) => wordsById.get(id))
+                      .filter((word): word is Word => Boolean(word));
+              return {
+                id: explicitUnitId,
+                title:
+                  typeof unitRecord.title === 'string' && unitRecord.title.trim()
+                    ? unitRecord.title.trim()
+                    : undefined,
+                description:
+                  typeof unitRecord.description === 'string' && unitRecord.description.trim()
+                    ? unitRecord.description.trim()
+                    : undefined,
+                words: unitWords,
+              };
+            })
+            .filter((unit) => unit.words.length > 0)
+        : [];
+
+      return { id: sectionId, title, subtitle, words, units };
+    })
+    .filter((section) => section.words.length > 0 || section.units.length > 0);
+
+  const sectionRows = hasMappedSections || sectionHasUnits
+    ? mappedSectionRows
+    : DEFAULT_JA_SECTIONS.map((section, index) => {
+        const start = Math.floor((allWords.length * index) / DEFAULT_JA_SECTIONS.length);
+        const end = Math.floor((allWords.length * (index + 1)) / DEFAULT_JA_SECTIONS.length);
+        return {
+          id: section.id,
+          title: section.title,
+          subtitle: section.subtitle,
+          words: allWords.slice(start, end),
+          units: [],
+        };
+      });
+
+  const generatedUnits: BandData['units'] = [];
+  const sectionMeta: NonNullable<BandData['sections']> = [];
+  for (const section of sectionRows) {
+    const unitIds: string[] = [];
+    if (section.units.length > 0) {
+      for (const unit of section.units) {
+        unitIds.push(unit.id);
+        generatedUnits.push({
+          id: unit.id,
+          title: unit.title,
+          description: unit.description,
+          targetWords: unit.words.length,
+          allocatedWords: unit.words.length,
+          words: unit.words,
+        });
+      }
+    } else {
+      for (let i = 0; i < section.words.length; i += JA_SEQUENTIAL_UNIT_SIZE) {
+        const chunkWords = section.words.slice(i, i + JA_SEQUENTIAL_UNIT_SIZE);
+        const chunkIndex = Math.floor(i / JA_SEQUENTIAL_UNIT_SIZE) + 1;
+        const unitId = `${bandId}-${section.id}-u${String(chunkIndex).padStart(2, '0')}`;
+        unitIds.push(unitId);
+        generatedUnits.push({
+          id: unitId,
+          targetWords: chunkWords.length,
+          allocatedWords: chunkWords.length,
+          words: chunkWords,
+        });
+      }
+    }
+    sectionMeta.push({
+      id: section.id,
+      title: section.title,
+      subtitle: section.subtitle,
+      unitIds,
+    });
+  }
+
+  const total = generatedUnits.reduce((sum, unit) => sum + ((unit.words || []).length), 0);
+  return {
+    language: (typeof raw.language === 'string' && raw.language) || languageId,
+    source: typeof raw.source === 'string' ? raw.source : '',
+    bandId:
+      typeof raw.bandId === 'string'
+        ? raw.bandId
+        : (typeof raw.levelId === 'string' ? raw.levelId : bandId),
+    band:
+      typeof raw.band === 'number'
+        ? raw.band
+        : (typeof raw.level === 'number' ? raw.level : 0),
+    wordCount: typeof raw.wordCount === 'number' ? raw.wordCount : total,
+    availableWords: total,
+    unallocatedWords: 0,
+    sections: sectionMeta,
+    units: generatedUnits,
+  };
+}
+
 export function normalizeBandDataPayload(
   rawPayload: unknown,
   bandId: string,
@@ -120,6 +339,12 @@ export function normalizeBandDataPayload(
 ): BandData | null {
   if (!rawPayload || typeof rawPayload !== 'object') return null;
   const raw = rawPayload as Record<string, unknown>;
+  const normalizedLanguageId = normalizeLanguageId(languageId);
+
+  if (normalizedLanguageId === 'ja') {
+    const generated = buildJapaneseSequentialBandData(raw, bandId, normalizedLanguageId);
+    if (generated) return generated;
+  }
 
   if (raw.units) {
     const unitsRaw = raw.units;

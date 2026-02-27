@@ -86,15 +86,23 @@ function getUnitDataById(
 }
 
 function getDataUnits(
-  units: Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }> | undefined
+  units:
+    | Record<string, { words?: unknown[]; title?: string; description?: string }>
+    | Array<{ id?: string; words?: unknown[]; title?: string; description?: string }>
+    | undefined
 ) {
-  if (!units) return [] as Array<{ id: string; words: unknown[] }>;
+  if (!units) return [] as Array<{ id: string; words: unknown[]; title?: string; description?: string }>;
   if (Array.isArray(units)) {
     return units
-      .filter((unit): unit is { id: string; words?: unknown[] } => Boolean(unit?.id))
-      .map((unit) => ({ id: unit.id, words: unit.words || [] }));
+      .filter((unit): unit is { id: string; words?: unknown[]; title?: string; description?: string } => Boolean(unit?.id))
+      .map((unit) => ({ id: unit.id, words: unit.words || [], title: unit.title, description: unit.description }));
   }
-  return Object.entries(units).map(([id, unit]) => ({ id, words: unit?.words || [] }));
+  return Object.entries(units).map(([id, unit]) => ({
+    id,
+    words: unit?.words || [],
+    title: unit?.title,
+    description: unit?.description,
+  }));
 }
 
 function getGridColumns(width: number) {
@@ -125,6 +133,7 @@ export default function UnitSelect({
     typeof window === 'undefined' ? 1280 : window.innerWidth
   );
   const activeUnitId = searchParams.get('unit');
+  const activeSectionId = searchParams.get('section');
 
   const setActiveUnit = (unitId: string | null) => {
     const next = new URLSearchParams(searchParams);
@@ -133,6 +142,16 @@ export default function UnitSelect({
     } else {
       next.delete('unit');
     }
+    setSearchParams(next);
+  };
+  const setActiveSection = (sectionId: string | null) => {
+    const next = new URLSearchParams(searchParams);
+    if (sectionId) {
+      next.set('section', sectionId);
+    } else {
+      next.delete('section');
+    }
+    next.delete('unit');
     setSearchParams(next);
   };
 
@@ -152,6 +171,14 @@ export default function UnitSelect({
 
   // Get unit metadata for proper ordering and display
   const configuredUnits = getUnitsForBand(currentLevel.id);
+  const isJapaneseLevel = (state.selectedLanguage || '').toLowerCase() === 'ja';
+  const availableSections = isJapaneseLevel && Array.isArray(activeBandData.sections)
+    ? activeBandData.sections
+    : [];
+  const showSectionStep = isJapaneseLevel && availableSections.length > 0;
+  const activeSectionRaw = showSectionStep
+    ? availableSections.find((section) => section.id === activeSectionId) || null
+    : null;
   const orderedUnits = configuredUnits.length > 0
     ? configuredUnits
     : getDataUnits(
@@ -160,13 +187,13 @@ export default function UnitSelect({
       .filter((unit) => unit.id !== '_unallocated')
       .map((unit, index) => ({
         id: unit.id,
-        name: unit.id
+        name: (unit.title || unit.id
           .replace(/^[a-z]\d+-/i, '')
           .replace(/^u\d+-/i, '')
           .replace(/[-_]+/g, ' ')
-          .replace(/\b\w/g, (char) => char.toUpperCase()),
+          .replace(/\b\w/g, (char) => char.toUpperCase())).trim(),
         hanzi: '',
-        description: 'Core vocabulary.',
+        description: (unit.description || 'Core vocabulary.').trim(),
         microUnits: undefined,
         order: index + 1,
         icon: BookOpen,
@@ -259,17 +286,53 @@ export default function UnitSelect({
   };
   const hasCheckpointPassedThreshold = (checkpointUnitId: string) =>
     hasLessonPassedThreshold(checkpointUnitId, 0);
+  const sectionOrder = ['core', 'expansion', 'integration'];
+  const orderedSections = [...availableSections].sort((a, b) => {
+    const ai = sectionOrder.indexOf(a.id);
+    const bi = sectionOrder.indexOf(b.id);
+    const aRank = ai >= 0 ? ai : Number.MAX_SAFE_INTEGER;
+    const bRank = bi >= 0 ? bi : Number.MAX_SAFE_INTEGER;
+    if (aRank !== bRank) return aRank - bRank;
+    return a.id.localeCompare(b.id);
+  });
+  const unlockedBySectionId = new Map<string, boolean>();
+  for (let idx = 0; idx < orderedSections.length; idx += 1) {
+    const section = orderedSections[idx];
+    if (idx === 0) {
+      unlockedBySectionId.set(section.id, true);
+      continue;
+    }
+    const previous = orderedSections[idx - 1];
+    const prevUnlocked = Boolean(unlockedBySectionId.get(previous.id));
+    const previousInstructionalUnitIds = Array.isArray(previous.unitIds)
+      ? previous.unitIds.filter((unitId) => {
+        const metric = unitMetricById.get(unitId);
+        return Boolean(metric && metric.practiceType === null);
+      })
+      : [];
+    const prevComplete =
+      previousInstructionalUnitIds.length > 0 &&
+      previousInstructionalUnitIds.every((unitId) => hasUnitPassedThreshold(unitId));
+    unlockedBySectionId.set(section.id, prevUnlocked && prevComplete);
+  }
+
+  const activeSection = activeSectionRaw && Boolean(unlockedBySectionId.get(activeSectionRaw.id))
+    ? activeSectionRaw
+    : null;
   const unlockedByUnitId = new Map<string, boolean>();
   const coreUnitIds = orderedUnits
     .filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id))
+    .filter((unit) => !showSectionStep || !activeSection || activeSection.unitIds.includes(unit.id))
     .map((unit) => unit.id)
     .filter((unitId) => unitMetricById.has(unitId));
   const checkpointUnitIds = orderedUnits
     .filter((unit) => isCheckpointUnitId(unit.id))
+    .filter((unit) => !showSectionStep || !activeSection || activeSection.unitIds.includes(unit.id))
     .map((unit) => unit.id)
     .filter((unitId) => unitMetricById.has(unitId));
   const practiceUnitIds = orderedUnits
     .filter((unit) => isPracticeUnitId(unit.id))
+    .filter((unit) => !showSectionStep || !activeSection || activeSection.unitIds.includes(unit.id))
     .map((unit) => unit.id)
     .filter((unitId) => unitMetricById.has(unitId));
 
@@ -312,17 +375,24 @@ export default function UnitSelect({
   for (const practiceUnitId of practiceUnitIds) {
     unlockedByUnitId.set(practiceUnitId, coreUnitIds.length > 0);
   }
+  const filteredUnitMetrics = showSectionStep && activeSection
+    ? unitMetrics.filter((metric) => activeSection.unitIds.includes(metric.unitId))
+    : unitMetrics;
 
   const columns = getGridColumns(viewportWidth);
   const activeUnit = activeUnitId
     ? (unlockedByUnitId.get(activeUnitId) ?? true)
-      ? unitMetrics.find((u) => u.unitId === activeUnitId) ?? null
+      ? filteredUnitMetrics.find((u) => u.unitId === activeUnitId) ?? null
       : null
     : null;
-  const standardUnitMetrics = unitMetrics.filter(
+  const standardUnitMetrics = filteredUnitMetrics.filter(
     (metric) => metric.practiceType !== 'listening' && metric.practiceType !== 'speaking'
   );
-  const headerTitle = activeUnit ? `Unit ${activeUnit.metadata.order}` : currentLevel.name;
+  const headerTitle = activeUnit
+    ? `Unit ${activeUnit.metadata.order}`
+    : activeSection
+      ? activeSection.title
+      : currentLevel.name;
   const isActiveUnitMastered = activeUnit
     ? activeUnit.lessonsCount > 0 &&
       activeUnit.completedLessons === activeUnit.lessonsCount &&
@@ -353,8 +423,60 @@ export default function UnitSelect({
         </div>
       )}
 
+      {/* Japanese Sections */}
+      {!activeUnit && !activeSection && showSectionStep && !isMandarinBandLocked && (
+        <div className="pt-2 space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {orderedSections.map((section, index) => {
+              const accent = CARD_ACCENTS[index % CARD_ACCENTS.length];
+              const isSectionUnlocked = Boolean(unlockedBySectionId.get(section.id));
+              const sectionWords = section.unitIds.reduce((sum, unitId) => {
+                const metric = unitMetricById.get(unitId);
+                return sum + (metric?.totalWords || 0);
+              }, 0);
+              return (
+                <button
+                  key={section.id}
+                  onClick={() => {
+                    if (!isSectionUnlocked) return;
+                    setActiveSection(section.id);
+                  }}
+                  disabled={!isSectionUnlocked}
+                  className={`bg-white text-text-dark border ${accent.borderColor} rounded-3xl min-h-[172px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                >
+                  <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg w-fit ${accent.badgeBg} ${accent.badgeText}`}>
+                    <span className="text-[10px] font-semibold uppercase tracking-wider font-mono">
+                      Section
+                    </span>
+                  </div>
+                  <div className="mt-3 main-font text-[1.45rem] leading-tight text-text-dark">
+                    {section.title}
+                  </div>
+                  {section.subtitle ? (
+                    <div className="mt-1 text-xs font-mono uppercase tracking-wider text-text-med">
+                      {section.subtitle}
+                    </div>
+                  ) : null}
+                  <div className="mt-auto pt-5 text-xs font-mono tracking-wide text-text-light">
+                    {section.unitIds.length} units · {sectionWords} words
+                  </div>
+                  {!isSectionUnlocked && (
+                    <div className="absolute inset-0 z-20 rounded-3xl bg-white/45 backdrop-blur-[2px] border border-white/50 flex items-center justify-center pointer-events-none">
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/80 border border-[#D1D5DB] text-[#6B7280]">
+                        <LockKeyhole className="w-3.5 h-3.5" />
+                        <span className="text-xs font-semibold uppercase tracking-wider font-mono">Locked</span>
+                      </div>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Units Grid */}
-      {!activeUnit && !isMandarinBandLocked && (
+      {!activeUnit && (!showSectionStep || Boolean(activeSection)) && !isMandarinBandLocked && (
       <div className="pt-2 space-y-4">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
           {standardUnitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, masteredLessons, completionPercent, practiceType, isBlueprint }, index) => {
@@ -668,7 +790,7 @@ export default function UnitSelect({
       )}
 
       {/* Empty State */}
-      {unitMetrics.length === 0 && !activeUnit && (
+      {filteredUnitMetrics.length === 0 && !activeUnit && (!showSectionStep || Boolean(activeSection)) && (
         <div className="flex flex-col items-center justify-center py-16 px-6">
           <div className="text-6xl mb-4">📚</div>
           <h3 className="text-xl font-bold text-text-dark mb-2">No Units Available</h3>
