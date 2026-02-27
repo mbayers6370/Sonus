@@ -116,7 +116,6 @@ const ALL_LEVEL_IDS = [
 ] as const;
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const BAND_UNLOCK_PASS_PERCENT = 90;
-const MASTERY_RESET_FAIL_PERCENT = 60;
 const APPLY_PROMPT_COUNT = 12;
 const DAILY_REVIEW_WORD_COUNT = 5;
 const QA_UNLOCK_ALL_EMAILS = new Set(['qa-admin-f8n2x7r1@sonus.test']);
@@ -273,6 +272,12 @@ function getPracticeModeFromUnit(unitId: string): LessonMode | null {
   if (/listening$/i.test(unitId)) return 'quiz';
   if (/speaking$/i.test(unitId)) return 'speak';
   return null;
+}
+
+function getPracticeSourceUnitId(unitId: string): string | null {
+  const match = /^(.*?)-(listening|speaking)$/i.exec(unitId.trim());
+  if (!match) return null;
+  return match[1] || null;
 }
 
 function isPracticeDataUnit(unitId: string) {
@@ -965,6 +970,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
         }
         return true;
       };
+      const hasUnitMastered = (targetUnitId: string) => {
+        const lessons = unitLessonCount(targetUnitId);
+        if (lessons === 0) return false;
+        for (let lessonIdx = 0; lessonIdx < lessons; lessonIdx += 1) {
+          const key = makeLessonKey(bandId, targetUnitId, lessonIdx);
+          if (!state.lessonProgress[key]?.mastered) return false;
+        }
+        return true;
+      };
       const hasCheckpointPassedThreshold = (targetCheckpointId: string) =>
         hasLessonPassedThreshold(targetCheckpointId, 0);
       const unlockedByUnitId = new Map<string, boolean>();
@@ -993,6 +1007,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
       if (configuredUnits.length === 0 && practiceMode) {
         unlockedByUnitId.set(resolvedUnitId, coreUnitIds.length > 0);
+      }
+      // Unit-scoped practice cards (e.g. b1-pronouns-listening) unlock only
+      // after the source unit is fully mastered.
+      if (practiceMode && !unlockedByUnitId.has(resolvedUnitId)) {
+        const sourceUnitId = getPracticeSourceUnitId(resolvedUnitId);
+        if (sourceUnitId && coreUnitIds.includes(sourceUnitId)) {
+          unlockedByUnitId.set(resolvedUnitId, hasUnitMastered(sourceUnitId));
+        }
       }
       if (!(unlockedByUnitId.get(resolvedUnitId) ?? false)) {
         return false;
@@ -1078,7 +1100,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
             (activeUnitId && coreUnitIds.includes(activeUnitId) ? activeUnitId : null) ||
             latestUnlockedCoreUnitId ||
             coreUnitIds[0];
-          if (!sourceUnitId) return buildPracticeWordPool(bandData, 5);
+          if (!sourceUnitId) return buildPracticeWordPool(bandData, 10);
 
           const sourceUnit = getBandUnitById(bandData, sourceUnitId);
           const sourceWords = sourceUnit?.words || [];
@@ -1095,11 +1117,27 @@ export function AppProvider({ children }: { children: ReactNode }) {
             sliceWordsForLesson(sourceWords, idx, 10)
           );
           const uniqueById = Array.from(new Map(pool.map((word) => [word.id, word])).values());
-          if (!uniqueById.length) return buildPracticeWordPool(bandData, 5);
+          if (!uniqueById.length) return buildPracticeWordPool(bandData, 10);
           return shuffleWords(uniqueById)
-            .slice(0, 5)
+            .slice(0, 10)
             .map((word) => ({ ...word, sourceUnitId, isReview: false }));
         };
+        const explicitPracticeSourceUnitId = practiceMode ? getPracticeSourceUnitId(resolvedUnitId) : null;
+        const buildPracticePoolFromSpecificUnit = (sourceUnitId: string) => {
+          const sourceUnit = getBandUnitById(bandData, sourceUnitId);
+          const sourceWords = sourceUnit?.words || [];
+          const uniqueById = Array.from(new Map(sourceWords.map((word) => [word.id, word])).values());
+          if (!uniqueById.length) return [] as Word[];
+          return shuffleWords(uniqueById)
+            .slice(0, 10)
+            .map((word) => ({ ...word, sourceUnitId, isReview: false }));
+        };
+        const isSpecificPracticeRequest =
+          Boolean(explicitPracticeSourceUnitId) &&
+          coreUnitIds.includes(explicitPracticeSourceUnitId as string);
+        const specificPracticePool = isSpecificPracticeRequest
+          ? buildPracticePoolFromSpecificUnit(explicitPracticeSourceUnitId as string)
+          : [];
 
         lessonChunk =
           isApplyLesson
@@ -1109,7 +1147,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
                 applyWordsResolved.length > 0 ? applyWordsResolved : applyFallbackByWord
               ).slice(0, APPLY_PROMPT_COUNT)
           : practiceMode
-            ? buildPracticePoolFromCurrentUnit()
+            ? (specificPracticePool.length > 0 ? specificPracticePool : buildPracticePoolFromCurrentUnit())
             : sliceWordsForLesson(words, lessonIndex);
       }
       if (!lessonChunk.length) return false;
@@ -1230,10 +1268,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
 
       const metadata = getUnitMetadata(bandId, resolvedUnitId);
+      const practiceSourceUnitId = practiceMode ? getPracticeSourceUnitId(resolvedUnitId) : null;
+      const practiceSourceMetadata =
+        practiceSourceUnitId ? getUnitMetadata(bandId, practiceSourceUnitId) : null;
       const newLesson: ActiveLesson = {
         unitId: resolvedUnitId,
         unitName: isApplyLesson
           ? `${metadata?.name ?? formatUnitLabel(resolvedUnitId)} · Apply`
+          : practiceMode
+            ? `${practiceSourceMetadata?.name ?? formatUnitLabel(practiceSourceUnitId || resolvedUnitId)} · ${
+                practiceMode === 'quiz' ? 'Listening Practice' : 'Speaking Practice'
+              }`
           : (metadata?.name ?? formatUnitLabel(resolvedUnitId)),
         unitOrder: metadata?.order,
         lessonIndex,
@@ -1746,12 +1791,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const completed = existing.completed || computedCompleted;
 
       const isMasteryAttempt = existing.completed && !existing.mastered;
-      const shouldResetFromMastery =
-        isMasteryAttempt &&
-        (
-          (lessonMode === 'quiz' && (nextQuizScore ?? 0) < MASTERY_RESET_FAIL_PERCENT) ||
-          (lessonMode === 'speak' && (nextSpeakScore ?? 0) < MASTERY_RESET_FAIL_PERCENT)
-        );
       if (lessonMode === 'apply') {
         nextMastered = true;
       } else if (
@@ -1763,10 +1802,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ) {
         nextMastered = true;
       }
-      const nextCompleted = shouldResetFromMastery ? false : completed;
-      if (shouldResetFromMastery) {
-        nextMastered = false;
-      }
+      const nextCompleted = completed;
       const masteryJustAchieved = !existing.mastered && nextMastered;
 
       const nextLessonProgress = {

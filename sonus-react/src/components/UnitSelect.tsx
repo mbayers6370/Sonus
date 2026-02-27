@@ -319,13 +319,15 @@ export default function UnitSelect({
       ? unitMetrics.find((u) => u.unitId === activeUnitId) ?? null
       : null
     : null;
-  const featuredPracticeUnits = unitMetrics.filter(
-    (metric) => metric.practiceType === 'listening' || metric.practiceType === 'speaking'
-  );
   const standardUnitMetrics = unitMetrics.filter(
     (metric) => metric.practiceType !== 'listening' && metric.practiceType !== 'speaking'
   );
   const headerTitle = activeUnit ? `Unit ${activeUnit.metadata.order}` : currentLevel.name;
+  const isActiveUnitMastered = activeUnit
+    ? activeUnit.lessonsCount > 0 &&
+      activeUnit.completedLessons === activeUnit.lessonsCount &&
+      activeUnit.masteredLessons === activeUnit.lessonsCount
+    : false;
   const isMandarinBandLocked =
     state.selectedLanguage === 'zh' &&
     (/^band\d+$/i.test(currentLevel.id) || currentLevel.id === 'advanced') &&
@@ -354,90 +356,6 @@ export default function UnitSelect({
       {/* Units Grid */}
       {!activeUnit && !isMandarinBandLocked && (
       <div className="pt-2 space-y-4">
-        {featuredPracticeUnits.length > 0 && (
-          <div className="grid grid-cols-2 gap-0 max-w-[23em] mx-auto">
-            {featuredPracticeUnits.map(({ unitId, metadata, practiceType }) => {
-              const isUnitUnlocked = Boolean(unlockedByUnitId.get(unitId));
-              const isListening = practiceType === 'listening';
-              const tone = isListening
-                ? {
-                    bg: 'bg-[#186E95]',
-                    border: 'border-[#186E95]',
-                    text: 'text-[#186E95]',
-                    pillBg: 'bg-[rgba(24,110,149,0.12)]',
-                  }
-                : {
-                    bg: 'bg-[#C2410C]',
-                    border: 'border-[#C2410C]',
-                    text: 'text-[#C2410C]',
-                    pillBg: 'bg-[rgba(194,65,12,0.12)]',
-                  };
-              const Icon = metadata.icon;
-              return (
-                <button
-                  key={unitId}
-                  onClick={() => {
-                    if (!isUnitUnlocked) return;
-                    onOpenPractice(unitId);
-                  }}
-                  disabled={!isUnitUnlocked}
-                  className={`${isUnitUnlocked ? `${tone.bg} text-white border ${tone.border}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl w-full max-w-[10em] mx-auto aspect-square p-4 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.3)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
-                >
-                  {isUnitUnlocked && (
-                    <div
-                      className="pointer-events-none absolute inset-0"
-                      style={
-                        isListening
-                          ? {
-                              backgroundImage:
-                                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Cpath d='M0 20 Q10 8 20 20 T40 20 T60 20 T80 20' stroke='rgba(255,255,255,0.16)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E\")",
-                              backgroundRepeat: 'repeat',
-                              backgroundSize: '80px 40px',
-                            }
-                          : {
-                              backgroundImage:
-                                'repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.06) 1px, transparent 1px, transparent 14px)',
-                            }
-                      }
-                    />
-                  )}
-
-                  <div className="relative z-10 space-y-1.5 flex flex-col items-center text-center">
-                    <div className={`text-xs font-mono tracking-wide ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
-                      {isListening ? 'Practice' : 'Practice'}
-                    </div>
-                    <div className={`main-font text-[1.6rem] leading-none ${isUnitUnlocked ? 'text-white' : 'text-[#4B5563]'}`}>
-                      {isListening ? '听力练习' : '口语练习'}
-                    </div>
-                  </div>
-
-                  <div className="mt-auto pt-3 relative z-10 flex flex-col items-center text-center">
-                    <div
-                      className={`inline-flex items-center justify-center w-9 h-9 rounded-full ${
-                        isUnitUnlocked ? 'bg-white/20 text-white' : 'bg-white text-[#6B7280] border border-[#D1D5DB]'
-                      }`}
-                    >
-                      <Icon className={`w-3.5 h-3.5 ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`} />
-                    </div>
-                    <div className={`mt-2 text-[11px] font-semibold tracking-wide font-mono ${isUnitUnlocked ? 'text-white/92' : 'text-[#6B7280]'}`}>
-                      {isListening ? 'Start Listening →' : 'Start Speaking →'}
-                    </div>
-                  </div>
-
-                  {!isUnitUnlocked && (
-                    <div className="absolute inset-0 z-20 rounded-3xl bg-white/45 backdrop-blur-[2px] border border-white/50 flex items-center justify-center pointer-events-none">
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/80 border border-[#D1D5DB] text-[#6B7280]">
-                        <LockKeyhole className="w-3.5 h-3.5" />
-                        <span className="text-xs font-semibold uppercase tracking-wider font-mono">Locked</span>
-                      </div>
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        )}
-
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
           {standardUnitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, masteredLessons, completionPercent, practiceType, isBlueprint }, index) => {
             const row = Math.floor(index / columns);
@@ -458,7 +376,7 @@ export default function UnitSelect({
                     onSelectLesson(unitId, 0, 'quiz');
                   }}
                   disabled={!isUnitUnlocked}
-                  className={`${isUnitUnlocked ? `${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isUnitUnlocked ? `${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl h-[236px] sm:h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <div className={`inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitUnlocked ? 'bg-white/20 text-white' : 'bg-white text-[#6B7280] border border-[#D1D5DB]'}`}>
@@ -529,7 +447,7 @@ export default function UnitSelect({
                   setActiveUnit(unitId);
                 }}
                 disabled={isBlueprint || !isUnitUnlocked}
-                className={`${isUnitMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#1F2A37]' ? 'bg-[#1F2A37]' : 'bg-[#C2410C]'} text-white` : !isUnitUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-3xl h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                className={`${isUnitMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#1F2A37]' ? 'bg-[#1F2A37]' : 'bg-[#C2410C]'} text-white` : !isUnitUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-3xl h-[236px] sm:h-[220px] p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
               >
                 <div className="flex items-start justify-between gap-2 mb-3">
                   <div className={`inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitMastered ? 'bg-white/20 text-white' : !isUnitUnlocked ? 'bg-white text-[#6B7280] border border-[#D1D5DB]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
@@ -592,7 +510,12 @@ export default function UnitSelect({
                       </span>
                     )
                     : isUnitMastered
-                    ? 'Mastered'
+                    ? (
+                      <span>
+                        <span className="font-bold">Mastered</span>
+                        <span className="font-normal"> - (Practice Available)</span>
+                      </span>
+                    )
                     : isUnitCompleted
                     ? 'Continue Mastery Lessons →'
                     : lessonsCount > 1
@@ -617,6 +540,24 @@ export default function UnitSelect({
       {/* Lesson Squares for Selected Unit */}
       {activeUnit && !isMandarinBandLocked && (
         <div className="pt-2">
+          {isActiveUnitMastered && (
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <button
+                onClick={() => onOpenPractice(`${activeUnit.unitId}-listening`)}
+                className="rounded-2xl border border-[#186E95] bg-[#186E95] text-white min-h-[92px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(24,110,149,0.55)]"
+              >
+                <div className="text-[11px] uppercase tracking-wider font-mono text-white/85">Practice</div>
+                <div className="main-font text-[1.1rem] leading-tight mt-1">Listening</div>
+              </button>
+              <button
+                onClick={() => onOpenPractice(`${activeUnit.unitId}-speaking`)}
+                className="rounded-2xl border border-[#C2410C] bg-[#C2410C] text-white min-h-[92px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(194,65,12,0.58)]"
+              >
+                <div className="text-[11px] uppercase tracking-wider font-mono text-white/85">Practice</div>
+                <div className="main-font text-[1.1rem] leading-tight mt-1">Speaking</div>
+              </button>
+            </div>
+          )}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {Array.from({ length: activeUnit.lessonsCount }).map((_, lessonIndex) => {
               const row = Math.floor(lessonIndex / columns);

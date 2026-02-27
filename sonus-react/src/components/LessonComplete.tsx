@@ -60,6 +60,7 @@ export default function LessonComplete({
   const quizMissedTotalCount = Math.max(0, totalQuizItems - quizCorrectCount);
   const isSpeakCompletion = lessonMode === 'speak';
   const isLearnCompletion = !isQuizCompletion && !isSpeakCompletion && !isApplyCompletion;
+  const isJapaneseSpeak = /^n[1-5]$/i.test(activeBandId || '');
   const speakCorrectCoreCount = coreIndexes.filter((index) => Boolean(speakResultsByIndex[index])).length;
   const speakCorrectCount = activeLesson.words.filter((_, index) => Boolean(speakResultsByIndex[index])).length;
   const speakScorePercentCore =
@@ -140,15 +141,34 @@ export default function LessonComplete({
             <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
               {activeLesson.words.map((word, index) => {
                 const breakdown = speakBreakdownByIndex[index];
-                const missing = !breakdown;
+                const hasSpeakResult = Object.prototype.hasOwnProperty.call(speakResultsByIndex, index);
+                const isSpeakCorrect = Boolean(speakResultsByIndex[index]);
+                const missing = !hasSpeakResult;
                 const suggestions = getSpeakSuggestions(index);
                 return (
                   <div key={`${word.id}-${index}`} className="rounded-xl border border-border p-3">
-                    <div className="text-sm text-text-dark font-semibold">
-                      {word.simp} <span className="text-text-med font-normal">({word.pinyin})</span>
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="text-sm text-text-dark font-semibold">
+                        {word.simp} <span className="text-text-med font-normal">({word.pinyin})</span>
+                      </div>
+                      {!missing && (
+                        <span
+                          className={`px-2 py-1 rounded text-[10px] font-mono uppercase tracking-wider ${
+                            isSpeakCorrect
+                              ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]'
+                              : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'
+                          }`}
+                        >
+                          {isSpeakCorrect ? 'Correct' : 'Needs work'}
+                        </span>
+                      )}
                     </div>
                     {missing ? (
                       <div className="text-xs text-text-light mt-1">No speaking submission captured.</div>
+                    ) : isJapaneseSpeak ? (
+                      <div className="text-xs text-text-med mt-1">
+                        Heard: <span className="text-text-dark">{breakdown?.heardText || '...'}</span>
+                      </div>
                     ) : (
                       <>
                         <div className="text-xs text-text-med mt-1">
