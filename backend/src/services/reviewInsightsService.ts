@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma.js';
 
 type SupportedLanguage = 'zh' | 'ja';
@@ -119,6 +120,48 @@ export async function fetchNeedsWork(
     ],
   });
 
+  const candidateWordIds = rows.map((row) => row.wordId);
+  const recentCorrectStreakClearRows =
+    candidateWordIds.length === 0
+      ? []
+      : await prisma.$queryRaw<Array<{ word_id: string }>>`
+          WITH combined_attempts AS (
+            SELECT
+              word_id,
+              created_at,
+              is_correct AS is_correct
+            FROM quiz_attempts
+            WHERE user_id = ${userId}::uuid
+              AND word_id IN (${Prisma.join(candidateWordIds)})
+
+            UNION ALL
+
+            SELECT
+              word_id,
+              created_at,
+              (initial_ok AND final_ok AND tone_ok) AS is_correct
+            FROM speak_attempts
+            WHERE user_id = ${userId}::uuid
+              AND word_id IN (${Prisma.join(candidateWordIds)})
+          ),
+          ranked_attempts AS (
+            SELECT
+              word_id,
+              is_correct,
+              created_at,
+              ROW_NUMBER() OVER (PARTITION BY word_id ORDER BY created_at DESC) AS rn
+            FROM combined_attempts
+          )
+          SELECT word_id
+          FROM ranked_attempts
+          GROUP BY word_id
+          HAVING COUNT(*) FILTER (WHERE rn <= 2) = 2
+            AND BOOL_AND(is_correct) FILTER (WHERE rn <= 2)
+        `;
+  const clearedByRecentCorrectSet = new Set(
+    recentCorrectStreakClearRows.map((row) => row.word_id)
+  );
+
   const needsWork = rows
     .map((row) => {
       const priority = buildReviewPriority({
@@ -146,6 +189,7 @@ export async function fetchNeedsWork(
         updatedAt: row.updatedAt,
       };
     })
+    .filter((row) => !clearedByRecentCorrectSet.has(row.wordId))
     .filter((row) => row.totalMisses >= minTotalMisses)
     .sort((a, b) => b.priorityScore - a.priorityScore)
     .slice(0, limit);

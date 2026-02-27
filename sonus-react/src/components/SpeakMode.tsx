@@ -1551,7 +1551,7 @@ export default function SpeakMode({
                     : 'Tap To Start'}
               </div>
               {!sttSupported ? null : (isFinalizing || isRecording) ? (
-                <div className="text-xs text-white/82 mt-1">
+                <div className="text-xs text-[#E7EDF6] mt-1">
                   Results Will Appear Below in a Few Seconds
                 </div>
               ) : null}

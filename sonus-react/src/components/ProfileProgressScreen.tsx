@@ -331,7 +331,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                     onClick={() => setVisibleRows((prev) => prev + ROWS_PER_PAGE)}
                     className="mt-3 text-sm font-medium text-[#186E95] hover:opacity-80"
                   >
-                    Show more ({needsWork.length})
+                    Show More
                   </button>
                 )}
               </>

@@ -1,4 +1,5 @@
 import type { BandData, Word } from '../types/lesson.types';
+import { normalizeBandDataPayload as normalizeBandDataPayloadRuntime } from './languageRuntime';
 
 export type WordLookup = Record<string, Pick<Word, 'id' | 'simp' | 'pinyin' | 'en'>>;
 
@@ -28,7 +29,8 @@ export async function loadWordLookup(languageId?: string | null): Promise<WordLo
     bandIds.map(async (bandId) => {
       const response = await fetch(`/data/${language}/${bandId}.json`, { cache: 'no-store' });
       if (!response.ok) return null;
-      return (await response.json()) as BandData;
+      const raw = await response.json();
+      return normalizeBandDataPayloadRuntime(raw, bandId, language) as BandData | null;
     })
   );
 
@@ -39,9 +41,9 @@ export async function loadWordLookup(languageId?: string | null): Promise<WordLo
     for (const word of words) {
       lookup[word.id] = {
         id: word.id,
-        simp: word.simp,
-        pinyin: word.pinyin,
-        en: word.en,
+        simp: word.simp || word.en || '',
+        pinyin: word.pinyin || '',
+        en: word.en || '',
       };
     }
   }
