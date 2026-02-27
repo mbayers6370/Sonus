@@ -1,24 +1,22 @@
 {
   "language": "zh",
   "source": "hsk3.0",
-  "bandId": "band1",
-  "band": 1,
-  "wordCount": 517,
-  "availableWords": 517,
+  "levelId": "band1",
+  "level": 1,
+  "wordCount": 509,
+  "availableWords": 509,
   "unallocatedWords": 0,
   "units": [
     {
       "id": "_unallocated",
-      "band": 1,
-      "targetWords": 5,
+      "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b1-pronouns",
-      "band": 1,
-      "targetWords": 24,
-      "allocatedWords": 27,
+      "targetWords": 25,
+      "allocatedWords": 25,
       "words": [
         {
           "id": "L1-0026",
@@ -279,22 +277,6 @@
           "tags": null
         },
         {
-          "id": "L1-0445b",
-          "simp": "有一点儿",
-          "trad": "有一點兒",
-          "pinyin": "yǒu yīdiǎnr",
-          "pos": "Adv",
-          "en": "a little",
-          "defs": [
-            "a little bit"
-          ],
-          "example": {
-            "zh": "我有一点儿累。",
-            "en": "I'm a little tired."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0464",
           "simp": "这",
           "trad": "這",
@@ -391,25 +373,25 @@
           "tags": null
         },
         {
-          "id": "L1-0251b",
-          "simp": "哪里",
-          "trad": "哪裏",
-          "pinyin": "nǎlǐ",
+          "id": "L1-0255",
+          "simp": "那边",
+          "trad": "那邊",
+          "pinyin": "nàbiān",
           "pos": "Pron",
-          "en": "where",
+          "en": "over there",
           "defs": [
-            "where"
+            "there; that side"
           ],
           "example": {
-            "zh": "老师在哪里？",
-            "en": "Where is the teacher?"
+            "zh": "他在那边。",
+            "en": "He's over there."
           },
           "tags": null
         },
         {
-          "id": "L1-0256b",
+          "id": "L1-0256a",
           "simp": "那里",
-          "trad": "那裏",
+          "trad": "那裡",
           "pinyin": "nàlǐ",
           "pos": "Pron",
           "en": "there",
@@ -417,24 +399,24 @@
             "that place"
           ],
           "example": {
-            "zh": "我在那里等你。",
-            "en": "I'll wait for you there."
+            "zh": "那里很美。",
+            "en": "That place is beautiful."
           },
           "tags": null
         },
         {
-          "id": "L1-0241a",
-          "simp": "们",
-          "trad": "們",
-          "pinyin": "men",
-          "pos": "Suffix",
-          "en": "plural marker",
+          "id": "L1-0257",
+          "simp": "那儿",
+          "trad": "那兒",
+          "pinyin": "nàr",
+          "pos": "Pron",
+          "en": "there",
           "defs": [
-            "(plural suffix)"
+            "that place"
           ],
           "example": {
-            "zh": "我们一起去。",
-            "en": "Let's go together."
+            "zh": "那儿有一个商店。",
+            "en": "There's a store over there."
           },
           "tags": null
         }
@@ -442,7 +424,6 @@
     },
     {
       "id": "b1-politeness",
-      "band": 1,
       "targetWords": 12,
       "allocatedWords": 12,
       "words": [
@@ -450,7 +431,7 @@
           "id": "L1-0032",
           "simp": "不客气",
           "trad": "不客氣",
-          "pinyin": "bù kèqì",
+          "pinyin": "bùkèqì",
           "pos": "Phrase",
           "en": "you're welcome",
           "defs": [
@@ -498,7 +479,7 @@
           "id": "L1-0233",
           "simp": "没关系",
           "trad": "沒關係",
-          "pinyin": "méi guānxi",
+          "pinyin": "méiguānxi",
           "pos": "Phrase",
           "en": "it's okay",
           "defs": [
@@ -514,7 +495,7 @@
           "id": "L1-0234",
           "simp": "没什么",
           "trad": "沒什麼",
-          "pinyin": "méi shénme",
+          "pinyin": "méishénme",
           "pos": "Phrase",
           "en": "it's nothing",
           "defs": [
@@ -563,7 +544,7 @@
           "id": "L1-0298",
           "simp": "请进",
           "trad": "請進",
-          "pinyin": "qǐng jìn",
+          "pinyin": "qǐngjìn",
           "pos": "Phrase",
           "en": "please come in",
           "defs": [
@@ -595,7 +576,7 @@
           "id": "L1-0300",
           "simp": "请坐",
           "trad": "請坐",
-          "pinyin": "qǐng zuò",
+          "pinyin": "qǐngzuò",
           "pos": "Phrase",
           "en": "please sit",
           "defs": [
@@ -644,9 +625,8 @@
     },
     {
       "id": "b1-numbers",
-      "band": 1,
-      "targetWords": 16,
-      "allocatedWords": 18,
+      "targetWords": 17,
+      "allocatedWords": 17,
       "words": [
         {
           "id": "L1-0003",
@@ -924,9 +904,8 @@
     },
     {
       "id": "b1-time",
-      "band": 1,
       "targetWords": 47,
-      "allocatedWords": 46,
+      "allocatedWords": 47,
       "words": [
         {
           "id": "L1-0007",
@@ -1252,7 +1231,7 @@
           "id": "L1-0319",
           "simp": "上次",
           "trad": "上次",
-          "pinyin": "shàng cì",
+          "pinyin": "shàngcì",
           "pos": "N",
           "en": "last time",
           "defs": [
@@ -1364,7 +1343,7 @@
           "id": "L1-0393",
           "simp": "下次",
           "trad": "下次",
-          "pinyin": "xià cì",
+          "pinyin": "xiàcì",
           "pos": "N",
           "en": "next time",
           "defs": [
@@ -1452,8 +1431,8 @@
             "week"
           ],
           "example": {
-            "zh": "一周有七天。",
-            "en": "There are seven days in a week."
+            "zh": "这个星期你忙吗？",
+            "en": "Are you busy this week?"
           },
           "tags": null
         },
@@ -1666,14 +1645,29 @@
             "en": "I went to the bookstore yesterday."
           },
           "tags": null
+        },
+        {
+          "id": "L1-0414",
+          "simp": "星期日",
+          "trad": "星期日",
+          "pinyin": "xīngqīrì",
+          "pos": "N",
+          "en": "Sunday",
+          "defs": [
+            "Sunday"
+          ],
+          "example": {
+            "zh": "星期日我休息。",
+            "en": "I rest on Sunday."
+          },
+          "tags": null
         }
       ]
     },
     {
       "id": "b1-verbs-1",
-      "band": 1,
-      "targetWords": 26,
-      "allocatedWords": 26,
+      "targetWords": 25,
+      "allocatedWords": 25,
       "words": [
         {
           "id": "L1-0013",
@@ -1848,22 +1842,6 @@
           "example": {
             "zh": "明天放假。",
             "en": "Tomorrow is a holiday."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0111",
-          "simp": "干",
-          "trad": "乾",
-          "pinyin": "gān",
-          "pos": "Adj",
-          "en": "dry",
-          "defs": [
-            "dry"
-          ],
-          "example": {
-            "zh": "衣服干了。",
-            "en": "The clothes are dry."
           },
           "tags": null
         },
@@ -2095,9 +2073,8 @@
     },
     {
       "id": "b1-family",
-      "band": 1,
-      "targetWords": 37,
-      "allocatedWords": 43,
+      "targetWords": 42,
+      "allocatedWords": 42,
       "words": [
         {
           "id": "L1-0004b",
@@ -2112,22 +2089,6 @@
           "example": {
             "zh": "爸，我们回家吧。",
             "en": "Dad, let's go home."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0061",
-          "simp": "大",
-          "trad": "大",
-          "pinyin": "dà",
-          "pos": "Adj",
-          "en": "big",
-          "defs": [
-            "big; large"
-          ],
-          "example": {
-            "zh": "北京很大。",
-            "en": "Beijing is very big."
           },
           "tags": null
         },
@@ -2792,9 +2753,8 @@
     },
     {
       "id": "b1-routine",
-      "band": 1,
-      "targetWords": 34,
-      "allocatedWords": 34,
+      "targetWords": 35,
+      "allocatedWords": 35,
       "words": [
         {
           "id": "L1-0028",
@@ -2880,7 +2840,7 @@
           "id": "L1-0058",
           "simp": "打电话",
           "trad": "打電話",
-          "pinyin": "dǎ diànhuà",
+          "pinyin": "dǎdiànhuà",
           "pos": "V",
           "en": "to make a phone call",
           "defs": [
@@ -2896,7 +2856,7 @@
           "id": "L1-0060",
           "simp": "打球",
           "trad": "打球",
-          "pinyin": "dǎ qiú",
+          "pinyin": "dǎqiú",
           "pos": "V",
           "en": "to play ball",
           "defs": [
@@ -2992,7 +2952,7 @@
           "id": "L1-0157",
           "simp": "回家",
           "trad": "回家",
-          "pinyin": "huí jiā",
+          "pinyin": "huíjiā",
           "pos": "V",
           "en": "to go home",
           "defs": [
@@ -3031,8 +2991,8 @@
             "to rise; to get up"
           ],
           "example": {
-            "zh": "我每天六点起床。",
-            "en": "I get up at six every day."
+            "zh": "请起来。",
+            "en": "Please get up."
           },
           "tags": null
         },
@@ -3248,7 +3208,7 @@
           "id": "L1-0396",
           "simp": "下雨",
           "trad": "下雨",
-          "pinyin": "xià yǔ",
+          "pinyin": "xiàyǔ",
           "pos": "V",
           "en": "to rain",
           "defs": [
@@ -3339,13 +3299,28 @@
             "en": "Please say it one more time."
           },
           "tags": null
+        },
+        {
+          "id": "L1-0029",
+          "simp": "病人",
+          "trad": "病人",
+          "pinyin": "bìngrén",
+          "pos": "N",
+          "en": "patient",
+          "defs": [
+            "sick person; patient"
+          ],
+          "example": {
+            "zh": "医院里有病人。",
+            "en": "There are patients in the hospital."
+          },
+          "tags": null
         }
       ]
     },
     {
       "id": "b1-food",
-      "band": 1,
-      "targetWords": 21,
+      "targetWords": 20,
       "allocatedWords": 20,
       "words": [
         {
@@ -3672,9 +3647,8 @@
     },
     {
       "id": "b1-shopping",
-      "band": 1,
-      "targetWords": 13,
-      "allocatedWords": 14,
+      "targetWords": 12,
+      "allocatedWords": 12,
       "words": [
         {
           "id": "L1-0086",
@@ -3853,22 +3827,6 @@
           "tags": null
         },
         {
-          "id": "L1-0414",
-          "simp": "星期日",
-          "trad": "星期日",
-          "pinyin": "xīngqīrì",
-          "pos": "N",
-          "en": "Sunday",
-          "defs": [
-            "Sunday"
-          ],
-          "example": {
-            "zh": "星期日我休息。",
-            "en": "I rest on Sunday."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0450",
           "simp": "元",
           "trad": "元",
@@ -3883,30 +3841,13 @@
             "en": "Ten yuan."
           },
           "tags": null
-        },
-        {
-          "id": "L1-0489b",
-          "simp": "桌子",
-          "trad": "桌子",
-          "pinyin": "zhuōzi",
-          "pos": "N",
-          "en": "table",
-          "defs": [
-            "table"
-          ],
-          "example": {
-            "zh": "这是一张桌子。",
-            "en": "This is a table."
-          },
-          "tags": null
         }
       ]
     },
     {
       "id": "b1-locations",
-      "band": 1,
-      "targetWords": 37,
-      "allocatedWords": 35,
+      "targetWords": 31,
+      "allocatedWords": 31,
       "words": [
         {
           "id": "L1-0021",
@@ -3921,22 +3862,6 @@
           "example": {
             "zh": "我想去北京。",
             "en": "I want to go to Beijing."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0029",
-          "simp": "病人",
-          "trad": "病人",
-          "pinyin": "bìngrén",
-          "pos": "N",
-          "en": "patient",
-          "defs": [
-            "sick person; patient"
-          ],
-          "example": {
-            "zh": "医院里有病人。",
-            "en": "There are patients in the hospital."
           },
           "tags": null
         },
@@ -4104,7 +4029,7 @@
           "id": "L1-0170",
           "simp": "家里",
           "trad": "家裡",
-          "pinyin": "jiā li",
+          "pinyin": "jiāli",
           "pos": "N",
           "en": "at home",
           "defs": [
@@ -4241,54 +4166,6 @@
           "example": {
             "zh": "门票多少钱？",
             "en": "How much is the entrance ticket?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0255",
-          "simp": "那边",
-          "trad": "那邊",
-          "pinyin": "nàbiān",
-          "pos": "Pron",
-          "en": "over there",
-          "defs": [
-            "there; that side"
-          ],
-          "example": {
-            "zh": "他在那边。",
-            "en": "He's over there."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0256a",
-          "simp": "那里",
-          "trad": "那裡",
-          "pinyin": "nàlǐ",
-          "pos": "Pron",
-          "en": "there",
-          "defs": [
-            "that place"
-          ],
-          "example": {
-            "zh": "那里很美。",
-            "en": "That place is beautiful."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0257",
-          "simp": "那儿",
-          "trad": "那兒",
-          "pinyin": "nàr",
-          "pos": "Pron",
-          "en": "there",
-          "defs": [
-            "that place"
-          ],
-          "example": {
-            "zh": "那儿有一个商店。",
-            "en": "There's a store over there."
           },
           "tags": null
         },
@@ -4467,28 +4344,11 @@
             "en": "There are books on the table."
           },
           "tags": null
-        },
-        {
-          "id": "L1-0213b",
-          "simp": "里",
-          "trad": "裏",
-          "pinyin": "lǐ",
-          "pos": "N",
-          "en": "inside",
-          "defs": [
-            "inside"
-          ],
-          "example": {
-            "zh": "我在家里。",
-            "en": "I'm at home."
-          },
-          "tags": null
         }
       ]
     },
     {
       "id": "b1-directions",
-      "band": 1,
       "targetWords": 37,
       "allocatedWords": 37,
       "words": [
@@ -4720,7 +4580,7 @@
           "id": "L1-0219",
           "simp": "楼上",
           "trad": "樓上",
-          "pinyin": "lóu shàng",
+          "pinyin": "lóushàng",
           "pos": "N",
           "en": "upstairs",
           "defs": [
@@ -4736,7 +4596,7 @@
           "id": "L1-0220",
           "simp": "楼下",
           "trad": "樓下",
-          "pinyin": "lóu xià",
+          "pinyin": "lóuxià",
           "pos": "N",
           "en": "downstairs",
           "defs": [
@@ -5088,7 +4948,6 @@
     },
     {
       "id": "b1-transport",
-      "band": 1,
       "targetWords": 27,
       "allocatedWords": 27,
       "words": [
@@ -5128,7 +4987,7 @@
           "id": "L1-0044",
           "simp": "车上",
           "trad": "車上",
-          "pinyin": "chē shang",
+          "pinyin": "chēshang",
           "pos": "N",
           "en": "in the car",
           "defs": [
@@ -5448,7 +5307,7 @@
           "id": "L1-0318",
           "simp": "上车",
           "trad": "上車",
-          "pinyin": "shàng chē",
+          "pinyin": "shàngchē",
           "pos": "V",
           "en": "to get on",
           "defs": [
@@ -5496,7 +5355,7 @@
           "id": "L1-0392",
           "simp": "下车",
           "trad": "下車",
-          "pinyin": "xià chē",
+          "pinyin": "xiàchē",
           "pos": "V",
           "en": "to get off",
           "defs": [
@@ -5528,8 +5387,7 @@
     },
     {
       "id": "b1-school",
-      "band": 1,
-      "targetWords": 49,
+      "targetWords": 47,
       "allocatedWords": 47,
       "words": [
         {
@@ -5744,7 +5602,7 @@
           "id": "L1-0130",
           "simp": "国外",
           "trad": "國外",
-          "pinyin": "guó wài",
+          "pinyin": "guówài",
           "pos": "N",
           "en": "abroad",
           "defs": [
@@ -6096,7 +5954,7 @@
           "id": "L1-0375",
           "simp": "网上",
           "trad": "網上",
-          "pinyin": "wǎng shang",
+          "pinyin": "wǎngshang",
           "pos": "N",
           "en": "online",
           "defs": [
@@ -6288,9 +6146,8 @@
     },
     {
       "id": "b1-questions",
-      "band": 1,
-      "targetWords": 17,
-      "allocatedWords": 15,
+      "targetWords": 12,
+      "allocatedWords": 12,
       "words": [
         {
           "id": "L1-0095",
@@ -6305,22 +6162,6 @@
           "example": {
             "zh": "多少钱？",
             "en": "How much is it?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0114",
-          "simp": "干什么",
-          "trad": "幹什麼",
-          "pinyin": "gàn shénme",
-          "pos": "Phrase",
-          "en": "what doing",
-          "defs": [
-            "what are you doing?"
-          ],
-          "example": {
-            "zh": "你在干什么？",
-            "en": "What are you doing?"
           },
           "tags": null
         },
@@ -6444,7 +6285,8 @@
           "pos": "Pron",
           "en": "who",
           "defs": [
-            "who"
+            "who",
+            "alt: shuí"
           ],
           "example": {
             "zh": "他是谁？",
@@ -6472,7 +6314,7 @@
           "id": "L1-0338",
           "simp": "是不是",
           "trad": "是不是",
-          "pinyin": "shì bu shì",
+          "pinyin": "shìbushì",
           "pos": "Phrase",
           "en": "is or isn't",
           "defs": [
@@ -6481,22 +6323,6 @@
           "example": {
             "zh": "你是不是中国人？",
             "en": "Are you Chinese or not?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0325b",
-          "simp": "谁",
-          "trad": "誰",
-          "pinyin": "shuí",
-          "pos": "Pron",
-          "en": "who",
-          "defs": [
-            "who"
-          ],
-          "example": {
-            "zh": "谁来了？",
-            "en": "Who came?"
           },
           "tags": null
         },
@@ -6515,28 +6341,11 @@
             "en": "What happened to you?"
           },
           "tags": null
-        },
-        {
-          "id": "L1-0469",
-          "simp": "着",
-          "trad": "著",
-          "pinyin": "zhe",
-          "pos": "Part",
-          "en": "indicating ongoing action",
-          "defs": [
-            "(particle for continuous state)"
-          ],
-          "example": {
-            "zh": "门开着。",
-            "en": "The door is open."
-          },
-          "tags": null
         }
       ]
     },
     {
       "id": "b1-verbs-2",
-      "band": 1,
       "targetWords": 26,
       "allocatedWords": 26,
       "words": [
@@ -6664,7 +6473,7 @@
           ],
           "example": {
             "zh": "请回答我的话。",
-            "en": "Please answer my words."
+            "en": "Please respond to what I said."
           },
           "tags": null
         },
@@ -6784,7 +6593,7 @@
           "id": "L1-0191",
           "simp": "开玩笑",
           "trad": "開玩笑",
-          "pinyin": "kāi wánxiào",
+          "pinyin": "kāiwánxiào",
           "pos": "V",
           "en": "to joke",
           "defs": [
@@ -6944,7 +6753,7 @@
           "id": "L1-0499",
           "simp": "坐下",
           "trad": "坐下",
-          "pinyin": "zuò xia",
+          "pinyin": "zuòxia",
           "pos": "V",
           "en": "to sit down",
           "defs": [
@@ -6960,9 +6769,8 @@
     },
     {
       "id": "b1-measure",
-      "band": 1,
-      "targetWords": 15,
-      "allocatedWords": 15,
+      "targetWords": 16,
+      "allocatedWords": 16,
       "words": [
         {
           "id": "L1-0009",
@@ -7203,14 +7011,29 @@
             "en": "He has a steamed bun."
           },
           "tags": null
+        },
+        {
+          "id": "L1-0241a",
+          "simp": "们",
+          "trad": "們",
+          "pinyin": "men",
+          "pos": "Suffix",
+          "en": "plural marker",
+          "defs": [
+            "(plural suffix)"
+          ],
+          "example": {
+            "zh": "我们一起去。",
+            "en": "Let's go together."
+          },
+          "tags": null
         }
       ]
     },
     {
       "id": "b1-opinions",
-      "band": 1,
-      "targetWords": 30,
-      "allocatedWords": 30,
+      "targetWords": 31,
+      "allocatedWords": 31,
       "words": [
         {
           "id": "L1-0001",
@@ -7408,7 +7231,7 @@
           "id": "L1-0134",
           "simp": "还有",
           "trad": "還有",
-          "pinyin": "hái yǒu",
+          "pinyin": "háiyǒu",
           "pos": "Phrase",
           "en": "also have",
           "defs": [
@@ -7648,7 +7471,7 @@
           "id": "L1-0471",
           "simp": "真的",
           "trad": "真的",
-          "pinyin": "zhēn de",
+          "pinyin": "zhēnde",
           "pos": "Adv",
           "en": "really",
           "defs": [
@@ -7691,14 +7514,29 @@
             "en": "This matter is very important."
           },
           "tags": null
+        },
+        {
+          "id": "L1-0445b",
+          "simp": "有一点儿",
+          "trad": "有一點兒",
+          "pinyin": "yǒuyīdiǎnr",
+          "pos": "Adv",
+          "en": "a little",
+          "defs": [
+            "a little bit"
+          ],
+          "example": {
+            "zh": "我有一点儿累。",
+            "en": "I'm a little tired."
+          },
+          "tags": null
         }
       ]
     },
     {
       "id": "b1-ability",
-      "band": 1,
-      "targetWords": 9,
-      "allocatedWords": 9,
+      "targetWords": 10,
+      "allocatedWords": 10,
       "words": [
         {
           "id": "L1-0005",
@@ -7843,12 +7681,27 @@
             "en": "Can you help me?"
           },
           "tags": null
+        },
+        {
+          "id": "L1-0469",
+          "simp": "着",
+          "trad": "著",
+          "pinyin": "zhe",
+          "pos": "Part",
+          "en": "indicating ongoing action",
+          "defs": [
+            "(particle for continuous state)"
+          ],
+          "example": {
+            "zh": "门开着。",
+            "en": "The door is open."
+          },
+          "tags": null
         }
       ]
     },
     {
       "id": "b1-verbs-3",
-      "band": 1,
       "targetWords": 25,
       "allocatedWords": 25,
       "words": [
@@ -7922,9 +7775,9 @@
           "trad": "起來",
           "pinyin": "qǐlái",
           "pos": "V",
-          "en": "to get up",
+          "en": "to get up; to stand up",
           "defs": [
-            "to stand up"
+            "to rise; upward (directional complement)"
           ],
           "example": {
             "zh": "请起来。",
@@ -8152,7 +8005,7 @@
           ],
           "example": {
             "zh": "请问一下。",
-            "en": "May I ask a bit?"
+            "en": "Excuse me, may I ask something?"
           },
           "tags": null
         },
@@ -8256,9 +8109,8 @@
     },
     {
       "id": "b1-comparison",
-      "band": 1,
-      "targetWords": 10,
-      "allocatedWords": 10,
+      "targetWords": 12,
+      "allocatedWords": 12,
       "words": [
         {
           "id": "L1-0024",
@@ -8280,7 +8132,7 @@
           "id": "L1-0030",
           "simp": "不大",
           "trad": "不大",
-          "pinyin": "bù dà",
+          "pinyin": "bùdà",
           "pos": "Adv",
           "en": "not very",
           "defs": [
@@ -8419,19 +8271,49 @@
             "en": "You'd better rest a bit."
           },
           "tags": null
+        },
+        {
+          "id": "L1-0111",
+          "simp": "干",
+          "trad": "乾",
+          "pinyin": "gān",
+          "pos": "Adj",
+          "en": "dry",
+          "defs": [
+            "dry"
+          ],
+          "example": {
+            "zh": "衣服干了。",
+            "en": "The clothes are dry."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0061",
+          "simp": "大",
+          "trad": "大",
+          "pinyin": "dà",
+          "pos": "Adj",
+          "en": "big",
+          "defs": [
+            "big; large"
+          ],
+          "example": {
+            "zh": "北京很大。",
+            "en": "Beijing is very big."
+          },
+          "tags": null
         }
       ]
     },
     {
       "id": "b1-listening",
-      "band": 1,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b1-speaking",
-      "band": 1,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []

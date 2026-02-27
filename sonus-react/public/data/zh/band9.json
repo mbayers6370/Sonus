@@ -1,99 +1,86 @@
 {
   "language": "zh",
   "source": "hsk3.0",
-  "bandId": "band9",
-  "band": 9,
+  "levelId": "band9",
+  "level": 9,
   "wordCount": 1879,
   "availableWords": 1879,
   "unallocatedWords": 0,
   "units": [
     {
       "id": "b79-m1-cause-effect",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m1-comparison-evaluation",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m1-hypothesis-speculation",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m2-agreement-concession",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m2-emphasis-reinforcement",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m2-counterargument",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m3-politics-policy",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m3-economy-finance",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m3-tech-innovation",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m4-meetings-discussion",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m4-negotiation",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m4-formal-writing",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b79-m5-idiomatic-social",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 1,
       "words": [
@@ -118,7 +105,6 @@
     },
     {
       "id": "b79-m5-register-shift",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 7,
       "words": [
@@ -243,7 +229,6 @@
     },
     {
       "id": "b79-m5-emotional-subtlety",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 12,
       "words": [
@@ -453,7 +438,6 @@
     },
     {
       "id": "b79-m6-chengyu",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 28,
       "words": [
@@ -934,7 +918,6 @@
     },
     {
       "id": "b79-m6-literary-connectors",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 49,
       "words": [
@@ -1771,7 +1754,6 @@
     },
     {
       "id": "b79-m6-cultural-references",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 128,
       "words": [
@@ -3937,7 +3919,6 @@
     },
     {
       "id": "b79-m7-nominalization",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 169,
       "words": [
@@ -6794,7 +6775,6 @@
     },
     {
       "id": "b79-m7-passive-causative",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 195,
       "words": [
@@ -10084,7 +10064,6 @@
     },
     {
       "id": "b79-m7-discourse-chaining",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 212,
       "words": [
@@ -13652,7 +13631,6 @@
     },
     {
       "id": "b79-m8-legal",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 217,
       "words": [
@@ -17301,7 +17279,6 @@
     },
     {
       "id": "b79-m8-medical",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 217,
       "words": [
@@ -20955,7 +20932,6 @@
     },
     {
       "id": "b79-m8-business-analytics",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 217,
       "words": [
@@ -24611,7 +24587,6 @@
     },
     {
       "id": "b79-listening",
-      "band": 9,
       "targetWords": 217,
       "allocatedWords": 217,
       "words": [
@@ -28261,7 +28236,6 @@
     },
     {
       "id": "b79-speaking",
-      "band": 9,
       "targetWords": 211,
       "allocatedWords": 210,
       "words": [

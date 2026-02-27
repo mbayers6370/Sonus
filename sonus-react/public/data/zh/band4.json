@@ -1,15 +1,14 @@
 {
   "language": "zh",
   "source": "hsk3.0",
-  "bandId": "band4",
-  "band": 4,
+  "levelId": "band4",
+  "level": 4,
   "wordCount": 1000,
   "availableWords": 1000,
   "unallocatedWords": 0,
   "units": [
     {
       "id": "b4-grammar",
-      "band": 4,
       "targetWords": 126,
       "allocatedWords": 126,
       "words": [
@@ -2069,7 +2068,6 @@
     },
     {
       "id": "b4-services",
-      "band": 4,
       "targetWords": 4,
       "allocatedWords": 4,
       "words": [
@@ -2147,7 +2145,6 @@
     },
     {
       "id": "b4-work",
-      "band": 4,
       "targetWords": 20,
       "allocatedWords": 20,
       "words": [
@@ -2492,21 +2489,18 @@
     },
     {
       "id": "b4-learning",
-      "band": 4,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b4-travel",
-      "band": 4,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b4-society",
-      "band": 4,
       "targetWords": 5,
       "allocatedWords": 5,
       "words": [
@@ -2594,7 +2588,6 @@
     },
     {
       "id": "b4-environment",
-      "band": 4,
       "targetWords": 2,
       "allocatedWords": 2,
       "words": [
@@ -2634,14 +2627,12 @@
     },
     {
       "id": "b4-tech",
-      "band": 4,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b4-health",
-      "band": 4,
       "targetWords": 13,
       "allocatedWords": 13,
       "words": [
@@ -2860,42 +2851,36 @@
     },
     {
       "id": "b4-opinion",
-      "band": 4,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b4-narrative",
-      "band": 4,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b4-review",
-      "band": 4,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b4-listening",
-      "band": 4,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b4-speaking",
-      "band": 4,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b4-people",
-      "band": 4,
       "targetWords": 61,
       "allocatedWords": 61,
       "words": [
@@ -3903,7 +3888,6 @@
     },
     {
       "id": "b4-appearance",
-      "band": 4,
       "targetWords": 22,
       "allocatedWords": 22,
       "words": [
@@ -4265,7 +4249,6 @@
     },
     {
       "id": "b4-feelings",
-      "band": 4,
       "targetWords": 43,
       "allocatedWords": 43,
       "words": [
@@ -4979,7 +4962,6 @@
     },
     {
       "id": "b4-time",
-      "band": 4,
       "targetWords": 30,
       "allocatedWords": 30,
       "words": [
@@ -5479,7 +5461,6 @@
     },
     {
       "id": "b4-communication",
-      "band": 4,
       "targetWords": 33,
       "allocatedWords": 33,
       "words": [
@@ -6045,7 +6026,6 @@
     },
     {
       "id": "b4-transport",
-      "band": 4,
       "targetWords": 13,
       "allocatedWords": 13,
       "words": [
@@ -6264,7 +6244,6 @@
     },
     {
       "id": "b4-shopping",
-      "band": 4,
       "targetWords": 15,
       "allocatedWords": 15,
       "words": [
@@ -6517,7 +6496,6 @@
     },
     {
       "id": "b4-actions",
-      "band": 4,
       "targetWords": 219,
       "allocatedWords": 219,
       "words": [
@@ -10204,7 +10182,6 @@
     },
     {
       "id": "b4-objects",
-      "band": 4,
       "targetWords": 23,
       "allocatedWords": 23,
       "words": [
@@ -10581,7 +10558,6 @@
     },
     {
       "id": "b4-abstract",
-      "band": 4,
       "targetWords": 114,
       "allocatedWords": 114,
       "words": [
@@ -12429,7 +12405,6 @@
     },
     {
       "id": "b4-personality",
-      "band": 4,
       "targetWords": 20,
       "allocatedWords": 20,
       "words": [
@@ -12760,7 +12735,6 @@
     },
     {
       "id": "b4-numbers",
-      "band": 4,
       "targetWords": 4,
       "allocatedWords": 4,
       "words": [
@@ -12832,7 +12806,6 @@
     },
     {
       "id": "b4-education",
-      "band": 4,
       "targetWords": 26,
       "allocatedWords": 26,
       "words": [
@@ -13266,7 +13239,6 @@
     },
     {
       "id": "b4-sports",
-      "band": 4,
       "targetWords": 8,
       "allocatedWords": 8,
       "words": [
@@ -13405,7 +13377,6 @@
     },
     {
       "id": "b4-nature",
-      "band": 4,
       "targetWords": 29,
       "allocatedWords": 29,
       "words": [
@@ -13882,7 +13853,6 @@
     },
     {
       "id": "b4-home",
-      "band": 4,
       "targetWords": 18,
       "allocatedWords": 18,
       "words": [
@@ -14180,7 +14150,6 @@
     },
     {
       "id": "b4-places",
-      "band": 4,
       "targetWords": 29,
       "allocatedWords": 29,
       "words": [
@@ -14656,7 +14625,6 @@
     },
     {
       "id": "b4-food",
-      "band": 4,
       "targetWords": 20,
       "allocatedWords": 20,
       "words": [
@@ -14986,7 +14954,6 @@
     },
     {
       "id": "b4-entertainment",
-      "band": 4,
       "targetWords": 4,
       "allocatedWords": 4,
       "words": [
@@ -15058,7 +15025,6 @@
     },
     {
       "id": "b4-fashion",
-      "band": 4,
       "targetWords": 3,
       "allocatedWords": 3,
       "words": [
@@ -15115,7 +15081,6 @@
     },
     {
       "id": "b4-technology",
-      "band": 4,
       "targetWords": 15,
       "allocatedWords": 15,
       "words": [
@@ -15366,7 +15331,6 @@
     },
     {
       "id": "b4-measurement",
-      "band": 4,
       "targetWords": 16,
       "allocatedWords": 16,
       "words": [
@@ -15632,7 +15596,6 @@
     },
     {
       "id": "b4-language",
-      "band": 4,
       "targetWords": 7,
       "allocatedWords": 7,
       "words": [
@@ -15753,7 +15716,6 @@
     },
     {
       "id": "b4-events",
-      "band": 4,
       "targetWords": 4,
       "allocatedWords": 4,
       "words": [
@@ -15826,7 +15788,6 @@
     },
     {
       "id": "b4-body",
-      "band": 4,
       "targetWords": 18,
       "allocatedWords": 18,
       "words": [
@@ -16126,7 +16087,6 @@
     },
     {
       "id": "b4-relationships",
-      "band": 4,
       "targetWords": 3,
       "allocatedWords": 3,
       "words": [
@@ -16184,7 +16144,6 @@
     },
     {
       "id": "b4-economy",
-      "band": 4,
       "targetWords": 10,
       "allocatedWords": 10,
       "words": [
@@ -16353,7 +16312,6 @@
     },
     {
       "id": "b4-ceremony",
-      "band": 4,
       "targetWords": 1,
       "allocatedWords": 1,
       "words": [
@@ -16378,7 +16336,6 @@
     },
     {
       "id": "b4-clothing",
-      "band": 4,
       "targetWords": 8,
       "allocatedWords": 8,
       "words": [
@@ -16514,7 +16471,6 @@
     },
     {
       "id": "b4-energy",
-      "band": 4,
       "targetWords": 1,
       "allocatedWords": 1,
       "words": [
@@ -16538,7 +16494,6 @@
     },
     {
       "id": "b4-culture",
-      "band": 4,
       "targetWords": 3,
       "allocatedWords": 3,
       "words": [
@@ -16594,7 +16549,6 @@
     },
     {
       "id": "b4-materials",
-      "band": 4,
       "targetWords": 2,
       "allocatedWords": 2,
       "words": [
@@ -16634,7 +16588,6 @@
     },
     {
       "id": "b4-taste",
-      "band": 4,
       "targetWords": 5,
       "allocatedWords": 5,
       "words": [
@@ -16722,7 +16675,6 @@
     },
     {
       "id": "b4-art",
-      "band": 4,
       "targetWords": 1,
       "allocatedWords": 1,
       "words": [
@@ -16746,7 +16698,6 @@
     },
     {
       "id": "b4-animals",
-      "band": 4,
       "targetWords": 1,
       "allocatedWords": 1,
       "words": [
@@ -16770,7 +16721,6 @@
     },
     {
       "id": "b4-shapes",
-      "band": 4,
       "targetWords": 1,
       "allocatedWords": 1,
       "words": [

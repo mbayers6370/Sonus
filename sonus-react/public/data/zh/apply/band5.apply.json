@@ -1,6 +1,5 @@
 {
   "language": "zh",
-  "bandId": "band5",
   "helperWords": [
     "综上所述",
     "总之",
@@ -1990,5 +1989,6 @@
     "b5-writing": [],
     "b5-listening": [],
     "b5-speaking": []
-  }
+  },
+  "levelId": "band5"
 }

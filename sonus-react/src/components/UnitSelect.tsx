@@ -342,10 +342,10 @@ export default function UnitSelect({
               Coming Soon
             </div>
             <h3 className="main-font text-[2rem] leading-tight font-normal mt-4 text-[#186E95]">
-              This Band Is In Progress
+              This Level Is In Progress
             </h3>
             <p className="text-sm text-text-med mt-2 max-w-xl mx-auto">
-              This band unlocks after achieving 90% completion in the previous band.
+              This level unlocks after achieving 90% completion in the previous level.
             </p>
           </div>
         </div>

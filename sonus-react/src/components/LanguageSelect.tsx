@@ -36,7 +36,7 @@ const languages = [
     nativeName: '普通话',
     nativeClassName: 'font-secondary',
     icon: ScrollText,
-    framework: 'HSK 3.0 · Bands 1 - 9',
+    framework: 'HSK 3.0 · Levels 1 - 9',
   },
   {
     id: 'ja',

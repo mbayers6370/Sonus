@@ -1,6 +1,5 @@
 {
   "language": "zh",
-  "bandId": "band4",
   "helperWords": [
     "虽然",
     "但是",
@@ -2378,5 +2377,6 @@
         "pinyin": "ta1 you3 zhang1 yuan2 lian3。"
       }
     ]
-  }
+  },
+  "levelId": "band4"
 }

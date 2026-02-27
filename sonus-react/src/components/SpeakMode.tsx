@@ -1264,7 +1264,7 @@ export default function SpeakMode({
     });
   const detectedPinyinLabel =
     firstUsableDetected ||
-    (isMandarinLesson && transcript && !isNoSpeech ? (rawDetectedPinyin || 'Unknown pinyin') : '');
+    (isMandarinLesson && transcript && !isNoSpeech ? (rawDetectedPinyin || 'Unknown pronunciation') : '');
   const shouldShowTargetPinyin = !detectedPinyinLabel && (!heardHanzi || isNoSpeech);
   const resultPinyinLabel = detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : '');
   const resultPinyinTag = isJapaneseLesson

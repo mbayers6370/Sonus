@@ -1,15 +1,14 @@
 {
   "language": "zh",
   "source": "hsk3.0",
-  "bandId": "band3",
-  "band": 3,
+  "levelId": "band3",
+  "level": 3,
   "wordCount": 966,
   "availableWords": 966,
   "unallocatedWords": 0,
   "units": [
     {
       "id": "b3-grammar",
-      "band": 3,
       "targetWords": 90,
       "allocatedWords": 88,
       "words": [
@@ -1480,7 +1479,6 @@
     },
     {
       "id": "b3-workstudy",
-      "band": 3,
       "targetWords": 90,
       "allocatedWords": 89,
       "words": [
@@ -2962,7 +2960,6 @@
     },
     {
       "id": "b3-social",
-      "band": 3,
       "targetWords": 80,
       "allocatedWords": 80,
       "words": [
@@ -4279,7 +4276,6 @@
     },
     {
       "id": "b3-food",
-      "band": 3,
       "targetWords": 80,
       "allocatedWords": 80,
       "words": [
@@ -5570,7 +5566,6 @@
     },
     {
       "id": "b3-health",
-      "band": 3,
       "targetWords": 80,
       "allocatedWords": 79,
       "words": [
@@ -6881,7 +6876,6 @@
     },
     {
       "id": "b3-travel",
-      "band": 3,
       "targetWords": 80,
       "allocatedWords": 80,
       "words": [
@@ -8196,7 +8190,6 @@
     },
     {
       "id": "b3-hobbies",
-      "band": 3,
       "targetWords": 80,
       "allocatedWords": 80,
       "words": [
@@ -9507,7 +9500,6 @@
     },
     {
       "id": "b3-media",
-      "band": 3,
       "targetWords": 80,
       "allocatedWords": 79,
       "words": [
@@ -10801,7 +10793,6 @@
     },
     {
       "id": "b3-feelings",
-      "band": 3,
       "targetWords": 80,
       "allocatedWords": 78,
       "words": [
@@ -12080,7 +12071,6 @@
     },
     {
       "id": "b3-story",
-      "band": 3,
       "targetWords": 90,
       "allocatedWords": 89,
       "words": [
@@ -13525,7 +13515,6 @@
     },
     {
       "id": "b3-problems",
-      "band": 3,
       "targetWords": 73,
       "allocatedWords": 73,
       "words": [
@@ -14697,7 +14686,6 @@
     },
     {
       "id": "b3-review",
-      "band": 3,
       "targetWords": 70,
       "allocatedWords": 75,
       "words": [
@@ -15932,14 +15920,12 @@
     },
     {
       "id": "b3-listening",
-      "band": 3,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b3-speaking",
-      "band": 3,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []

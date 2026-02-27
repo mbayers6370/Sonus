@@ -1,6 +1,5 @@
 {
   "language": "zh",
-  "bandId": "band6",
   "helperWords": [
     "与其",
     "宁可",
@@ -928,5 +927,6 @@
     "b6-idioms": [],
     "b6-listening": [],
     "b6-speaking": []
-  }
+  },
+  "levelId": "band6"
 }

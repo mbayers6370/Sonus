@@ -1,5 +1,4 @@
 {
-  "bandId": "band1",
   "generatedAt": "2026-02-23T21:39:45.709Z",
   "sources": {
     "bandFile": "band1.json",
@@ -4715,5 +4714,6 @@
       "components": [],
       "notes": []
     }
-  }
+  },
+  "levelId": "band1"
 }

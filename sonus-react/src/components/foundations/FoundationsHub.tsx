@@ -56,7 +56,7 @@ export default function FoundationsHub({
           <div className="text-xs uppercase tracking-wider font-mono text-white/80">Mandarin Core Tools</div>
           <h2 className="main-font text-[2rem] leading-tight text-white mt-2">Build Sound + Script Confidence</h2>
           <p className="text-sm text-white/90 mt-2">
-            Use these short modules alongside band lessons to improve pronunciation accuracy and character recognition.
+            Use these short modules alongside level lessons to improve pronunciation accuracy and character recognition.
           </p>
         </div>
 

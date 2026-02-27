@@ -1,7 +1,11 @@
 export type TravelPhrase = {
   id: string;
-  hanzi: string;
-  pinyin: string;
+  // Generic fields for multi-language support.
+  script?: string;
+  pronunciation?: string;
+  // Legacy keys kept for backward compatibility with existing data.
+  hanzi?: string;
+  pinyin?: string;
   literal?: string;
   english: string;
 };
@@ -48,16 +52,16 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
       'Screenshot your hotel address before leaving arrivals.',
     ],
     [
-      { id: 'aa-1', hanzi: '我来旅游。', pinyin: 'wǒ lái lǚyóu', literal: 'I come travel', english: "I'm here for tourism." },
-      { id: 'aa-2', hanzi: '我来出差。', pinyin: 'wǒ lái chūchāi', literal: 'I come business-trip', english: "I'm here for business." },
-      { id: 'aa-3', hanzi: '这是我的护照。', pinyin: 'zhè shì wǒ de hùzhào', english: 'This is my passport.' },
-      { id: 'aa-4', hanzi: '我的行李在哪儿？', pinyin: 'wǒ de xíngli zài nǎr', english: 'Where is my baggage?' },
-      { id: 'aa-5', hanzi: '我听不懂，请慢一点。', pinyin: 'wǒ tīng bù dǒng, qǐng màn yìdiǎn', english: "I don't understand, please speak slower." },
-      { id: 'aa-6', hanzi: '请问，怎么去地铁？', pinyin: 'qǐngwèn, zěnme qù dìtiě', english: 'How do I get to the metro?' },
-      { id: 'aa-7', hanzi: '我需要帮助。', pinyin: 'wǒ xūyào bāngzhù', english: 'I need help.' },
-      { id: 'aa-8', hanzi: '请问海关在哪儿？', pinyin: 'qǐngwèn hǎiguān zài nǎr', english: 'Where is customs?' },
-      { id: 'aa-9', hanzi: '我没有要申报的物品。', pinyin: 'wǒ méiyǒu yào shēnbào de wùpǐn', english: 'I have nothing to declare.' },
-      { id: 'aa-10', hanzi: '请再说一遍。', pinyin: 'qǐng zài shuō yí biàn', english: 'Please say it again.' },
+      { id: 'aa-1', script: '我来旅游。', pronunciation: 'wǒ lái lǚyóu', literal: 'I come travel', english: "I'm here for tourism." },
+      { id: 'aa-2', script: '我来出差。', pronunciation: 'wǒ lái chūchāi', literal: 'I come business-trip', english: "I'm here for business." },
+      { id: 'aa-3', script: '这是我的护照。', pronunciation: 'zhè shì wǒ de hùzhào', english: 'This is my passport.' },
+      { id: 'aa-4', script: '我的行李在哪儿？', pronunciation: 'wǒ de xíngli zài nǎr', english: 'Where is my baggage?' },
+      { id: 'aa-5', script: '我听不懂，请慢一点。', pronunciation: 'wǒ tīng bù dǒng, qǐng màn yìdiǎn', english: "I don't understand, please speak slower." },
+      { id: 'aa-6', script: '请问，怎么去地铁？', pronunciation: 'qǐngwèn, zěnme qù dìtiě', english: 'How do I get to the metro?' },
+      { id: 'aa-7', script: '我需要帮助。', pronunciation: 'wǒ xūyào bāngzhù', english: 'I need help.' },
+      { id: 'aa-8', script: '请问海关在哪儿？', pronunciation: 'qǐngwèn hǎiguān zài nǎr', english: 'Where is customs?' },
+      { id: 'aa-9', script: '我没有要申报的物品。', pronunciation: 'wǒ méiyǒu yào shēnbào de wùpǐn', english: 'I have nothing to declare.' },
+      { id: 'aa-10', script: '请再说一遍。', pronunciation: 'qǐng zài shuō yí biàn', english: 'Please say it again.' },
     ]
   ),
   s(
@@ -74,16 +78,16 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
       'Confirm destination before the ride starts.',
     ],
     [
-      { id: 'tr-1', hanzi: '去这个地址。', pinyin: 'qù zhège dìzhǐ', english: 'Go to this address.' },
-      { id: 'tr-2', hanzi: '大概多少钱？', pinyin: 'dàgài duōshao qián', english: 'About how much is it?' },
-      { id: 'tr-3', hanzi: '请开快一点。', pinyin: 'qǐng kāi kuài yìdiǎn', english: 'Please drive a little faster.' },
-      { id: 'tr-4', hanzi: '请在这里停车。', pinyin: 'qǐng zài zhèlǐ tíngchē', english: 'Please stop here.' },
-      { id: 'tr-5', hanzi: '最近的地铁站在哪儿？', pinyin: 'zuìjìn de dìtiě zhàn zài nǎr', english: 'Where is the nearest metro station?' },
-      { id: 'tr-6', hanzi: '我要去市中心。', pinyin: 'wǒ yào qù shì zhōngxīn', english: 'I need to go to downtown.' },
-      { id: 'tr-7', hanzi: '这个方向对吗？', pinyin: 'zhège fāngxiàng duì ma', english: 'Is this the right direction?' },
-      { id: 'tr-8', hanzi: '请帮我叫车。', pinyin: 'qǐng bāng wǒ jiào chē', english: 'Please help me call a car.' },
-      { id: 'tr-9', hanzi: '我在这里下车。', pinyin: 'wǒ zài zhèlǐ xià chē', english: 'I will get off here.' },
-      { id: 'tr-10', hanzi: '请问要换乘吗？', pinyin: 'qǐngwèn yào huànchéng ma', english: 'Do I need to transfer?' },
+      { id: 'tr-1', script: '去这个地址。', pronunciation: 'qù zhège dìzhǐ', english: 'Go to this address.' },
+      { id: 'tr-2', script: '大概多少钱？', pronunciation: 'dàgài duōshao qián', english: 'About how much is it?' },
+      { id: 'tr-3', script: '请开快一点。', pronunciation: 'qǐng kāi kuài yìdiǎn', english: 'Please drive a little faster.' },
+      { id: 'tr-4', script: '请在这里停车。', pronunciation: 'qǐng zài zhèlǐ tíngchē', english: 'Please stop here.' },
+      { id: 'tr-5', script: '最近的地铁站在哪儿？', pronunciation: 'zuìjìn de dìtiě zhàn zài nǎr', english: 'Where is the nearest metro station?' },
+      { id: 'tr-6', script: '我要去市中心。', pronunciation: 'wǒ yào qù shì zhōngxīn', english: 'I need to go to downtown.' },
+      { id: 'tr-7', script: '这个方向对吗？', pronunciation: 'zhège fāngxiàng duì ma', english: 'Is this the right direction?' },
+      { id: 'tr-8', script: '请帮我叫车。', pronunciation: 'qǐng bāng wǒ jiào chē', english: 'Please help me call a car.' },
+      { id: 'tr-9', script: '我在这里下车。', pronunciation: 'wǒ zài zhèlǐ xià chē', english: 'I will get off here.' },
+      { id: 'tr-10', script: '请问要换乘吗？', pronunciation: 'qǐngwèn yào huànchéng ma', english: 'Do I need to transfer?' },
     ]
   ),
   s(
@@ -100,16 +104,16 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
       'Asking politely first gets faster support.',
     ],
     [
-      { id: 'ho-1', hanzi: '我有预订。', pinyin: 'wǒ yǒu yùdìng', english: 'I have a reservation.' },
-      { id: 'ho-2', hanzi: '我想办理入住。', pinyin: 'wǒ xiǎng bànlǐ rùzhù', english: "I'd like to check in." },
-      { id: 'ho-3', hanzi: '请问早餐几点开始？', pinyin: 'qǐngwèn zǎocān jǐ diǎn kāishǐ', english: 'What time does breakfast start?' },
-      { id: 'ho-4', hanzi: '房间没有热水。', pinyin: 'fángjiān méiyǒu rèshuǐ', english: "There's no hot water in the room." },
-      { id: 'ho-5', hanzi: '空调坏了。', pinyin: 'kōngtiáo huài le', english: 'The air conditioner is broken.' },
-      { id: 'ho-6', hanzi: '可以换房间吗？', pinyin: 'kěyǐ huàn fángjiān ma', english: 'Can I change rooms?' },
-      { id: 'ho-7', hanzi: '请给我无线网密码。', pinyin: 'qǐng gěi wǒ wúxiànwǎng mìmǎ', english: 'Please give me the Wi-Fi password.' },
-      { id: 'ho-8', hanzi: '我想延住一天。', pinyin: 'wǒ xiǎng yánzhù yì tiān', english: "I'd like to extend one more day." },
-      { id: 'ho-9', hanzi: '请帮我叫出租车。', pinyin: 'qǐng bāng wǒ jiào chūzūchē', english: 'Please call a taxi for me.' },
-      { id: 'ho-10', hanzi: '我现在退房。', pinyin: 'wǒ xiànzài tuìfáng', english: 'I am checking out now.' },
+      { id: 'ho-1', script: '我有预订。', pronunciation: 'wǒ yǒu yùdìng', english: 'I have a reservation.' },
+      { id: 'ho-2', script: '我想办理入住。', pronunciation: 'wǒ xiǎng bànlǐ rùzhù', english: "I'd like to check in." },
+      { id: 'ho-3', script: '请问早餐几点开始？', pronunciation: 'qǐngwèn zǎocān jǐ diǎn kāishǐ', english: 'What time does breakfast start?' },
+      { id: 'ho-4', script: '房间没有热水。', pronunciation: 'fángjiān méiyǒu rèshuǐ', english: "There's no hot water in the room." },
+      { id: 'ho-5', script: '空调坏了。', pronunciation: 'kōngtiáo huài le', english: 'The air conditioner is broken.' },
+      { id: 'ho-6', script: '可以换房间吗？', pronunciation: 'kěyǐ huàn fángjiān ma', english: 'Can I change rooms?' },
+      { id: 'ho-7', script: '请给我无线网密码。', pronunciation: 'qǐng gěi wǒ wúxiànwǎng mìmǎ', english: 'Please give me the Wi-Fi password.' },
+      { id: 'ho-8', script: '我想延住一天。', pronunciation: 'wǒ xiǎng yánzhù yì tiān', english: "I'd like to extend one more day." },
+      { id: 'ho-9', script: '请帮我叫出租车。', pronunciation: 'qǐng bāng wǒ jiào chūzūchē', english: 'Please call a taxi for me.' },
+      { id: 'ho-10', script: '我现在退房。', pronunciation: 'wǒ xiànzài tuìfáng', english: 'I am checking out now.' },
     ]
   ),
   s(
@@ -126,16 +130,16 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
       'Say food restrictions early before ordering.',
     ],
     [
-      { id: 're-1', hanzi: '请给我菜单。', pinyin: 'qǐng gěi wǒ càidān', english: 'Please give me the menu.' },
-      { id: 're-2', hanzi: '这个辣吗？', pinyin: 'zhège là ma', english: 'Is this spicy?' },
-      { id: 're-3', hanzi: '我不吃猪肉。', pinyin: 'wǒ bù chī zhūròu', english: "I don't eat pork." },
-      { id: 're-4', hanzi: '我对花生过敏。', pinyin: 'wǒ duì huāshēng guòmǐn', english: "I'm allergic to peanuts." },
-      { id: 're-5', hanzi: '请推荐一下。', pinyin: 'qǐng tuījiàn yíxià', english: 'Please recommend something.' },
-      { id: 're-6', hanzi: '我们要两份这个。', pinyin: 'wǒmen yào liǎng fèn zhège', english: "We'll take two of this." },
-      { id: 're-7', hanzi: '请慢一点上菜。', pinyin: 'qǐng màn yìdiǎn shàngcài', english: 'Please serve the dishes a bit slower.' },
-      { id: 're-8', hanzi: '可以打包吗？', pinyin: 'kěyǐ dǎbāo ma', english: 'Can I get this to-go?' },
-      { id: 're-9', hanzi: '买单。', pinyin: 'mǎidān', english: 'Check, please.' },
-      { id: 're-10', hanzi: '我们可以AA吗？', pinyin: 'wǒmen kěyǐ AA ma', english: 'Can we split the bill?' },
+      { id: 're-1', script: '请给我菜单。', pronunciation: 'qǐng gěi wǒ càidān', english: 'Please give me the menu.' },
+      { id: 're-2', script: '这个辣吗？', pronunciation: 'zhège là ma', english: 'Is this spicy?' },
+      { id: 're-3', script: '我不吃猪肉。', pronunciation: 'wǒ bù chī zhūròu', english: "I don't eat pork." },
+      { id: 're-4', script: '我对花生过敏。', pronunciation: 'wǒ duì huāshēng guòmǐn', english: "I'm allergic to peanuts." },
+      { id: 're-5', script: '请推荐一下。', pronunciation: 'qǐng tuījiàn yíxià', english: 'Please recommend something.' },
+      { id: 're-6', script: '我们要两份这个。', pronunciation: 'wǒmen yào liǎng fèn zhège', english: "We'll take two of this." },
+      { id: 're-7', script: '请慢一点上菜。', pronunciation: 'qǐng màn yìdiǎn shàngcài', english: 'Please serve the dishes a bit slower.' },
+      { id: 're-8', script: '可以打包吗？', pronunciation: 'kěyǐ dǎbāo ma', english: 'Can I get this to-go?' },
+      { id: 're-9', script: '买单。', pronunciation: 'mǎidān', english: 'Check, please.' },
+      { id: 're-10', script: '我们可以AA吗？', pronunciation: 'wǒmen kěyǐ AA ma', english: 'Can we split the bill?' },
     ]
   ),
   s(
@@ -152,16 +156,16 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
       'Always confirm return policy before paying.',
     ],
     [
-      { id: 'sh-1', hanzi: '这个多少钱？', pinyin: 'zhège duōshao qián', english: 'How much is this?' },
-      { id: 'sh-2', hanzi: '可以便宜一点吗？', pinyin: 'kěyǐ piányi yìdiǎn ma', english: 'Can it be a little cheaper?' },
-      { id: 'sh-3', hanzi: '我用微信支付。', pinyin: 'wǒ yòng Wēixìn zhīfù', english: 'I will pay with WeChat Pay.' },
-      { id: 'sh-4', hanzi: '我用支付宝。', pinyin: 'wǒ yòng Zhīfùbǎo', english: 'I will pay with Alipay.' },
-      { id: 'sh-5', hanzi: '可以刷卡吗？', pinyin: 'kěyǐ shuākǎ ma', english: 'Can I use a card?' },
-      { id: 'sh-6', hanzi: '我没有现金。', pinyin: 'wǒ méiyǒu xiànjīn', english: "I don't have cash." },
-      { id: 'sh-7', hanzi: '有折扣吗？', pinyin: 'yǒu zhékòu ma', english: 'Is there a discount?' },
-      { id: 'sh-8', hanzi: '可以退货吗？', pinyin: 'kěyǐ tuìhuò ma', english: 'Can I return this?' },
-      { id: 'sh-9', hanzi: '我想换一个。', pinyin: 'wǒ xiǎng huàn yí ge', english: 'I want to exchange it.' },
-      { id: 'sh-10', hanzi: '请给我发票。', pinyin: 'qǐng gěi wǒ fāpiào', english: 'Please give me a receipt/invoice.' },
+      { id: 'sh-1', script: '这个多少钱？', pronunciation: 'zhège duōshao qián', english: 'How much is this?' },
+      { id: 'sh-2', script: '可以便宜一点吗？', pronunciation: 'kěyǐ piányi yìdiǎn ma', english: 'Can it be a little cheaper?' },
+      { id: 'sh-3', script: '我用微信支付。', pronunciation: 'wǒ yòng Wēixìn zhīfù', english: 'I will pay with WeChat Pay.' },
+      { id: 'sh-4', script: '我用支付宝。', pronunciation: 'wǒ yòng Zhīfùbǎo', english: 'I will pay with Alipay.' },
+      { id: 'sh-5', script: '可以刷卡吗？', pronunciation: 'kěyǐ shuākǎ ma', english: 'Can I use a card?' },
+      { id: 'sh-6', script: '我没有现金。', pronunciation: 'wǒ méiyǒu xiànjīn', english: "I don't have cash." },
+      { id: 'sh-7', script: '有折扣吗？', pronunciation: 'yǒu zhékòu ma', english: 'Is there a discount?' },
+      { id: 'sh-8', script: '可以退货吗？', pronunciation: 'kěyǐ tuìhuò ma', english: 'Can I return this?' },
+      { id: 'sh-9', script: '我想换一个。', pronunciation: 'wǒ xiǎng huàn yí ge', english: 'I want to exchange it.' },
+      { id: 'sh-10', script: '请给我发票。', pronunciation: 'qǐng gěi wǒ fāpiào', english: 'Please give me a receipt/invoice.' },
     ]
   ),
   s(
@@ -178,16 +182,16 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
       'In urgent moments, short sentences work best.',
     ],
     [
-      { id: 'em-1', hanzi: '我需要医生。', pinyin: 'wǒ xūyào yīshēng', english: 'I need a doctor.' },
-      { id: 'em-2', hanzi: '请叫救护车。', pinyin: 'qǐng jiào jiùhùchē', english: 'Please call an ambulance.' },
-      { id: 'em-3', hanzi: '我不舒服。', pinyin: 'wǒ bù shūfu', english: "I don't feel well." },
-      { id: 'em-4', hanzi: '我丢了护照。', pinyin: 'wǒ diū le hùzhào', english: 'I lost my passport.' },
-      { id: 'em-5', hanzi: '请帮我报警。', pinyin: 'qǐng bāng wǒ bàojǐng', english: 'Please help me call the police.' },
-      { id: 'em-6', hanzi: '最近的医院在哪儿？', pinyin: 'zuìjìn de yīyuàn zài nǎr', english: 'Where is the nearest hospital?' },
-      { id: 'em-7', hanzi: '我需要翻译。', pinyin: 'wǒ xūyào fānyì', english: 'I need an interpreter.' },
-      { id: 'em-8', hanzi: '请慢慢说。', pinyin: 'qǐng mànmàn shuō', english: 'Please speak slowly.' },
-      { id: 'em-9', hanzi: '我在这里。', pinyin: 'wǒ zài zhèlǐ', english: 'I am here.' },
-      { id: 'em-10', hanzi: '请帮我联系大使馆。', pinyin: 'qǐng bāng wǒ liánxì dàshǐguǎn', english: 'Please help me contact the embassy.' },
+      { id: 'em-1', script: '我需要医生。', pronunciation: 'wǒ xūyào yīshēng', english: 'I need a doctor.' },
+      { id: 'em-2', script: '请叫救护车。', pronunciation: 'qǐng jiào jiùhùchē', english: 'Please call an ambulance.' },
+      { id: 'em-3', script: '我不舒服。', pronunciation: 'wǒ bù shūfu', english: "I don't feel well." },
+      { id: 'em-4', script: '我丢了护照。', pronunciation: 'wǒ diū le hùzhào', english: 'I lost my passport.' },
+      { id: 'em-5', script: '请帮我报警。', pronunciation: 'qǐng bāng wǒ bàojǐng', english: 'Please help me call the police.' },
+      { id: 'em-6', script: '最近的医院在哪儿？', pronunciation: 'zuìjìn de yīyuàn zài nǎr', english: 'Where is the nearest hospital?' },
+      { id: 'em-7', script: '我需要翻译。', pronunciation: 'wǒ xūyào fānyì', english: 'I need an interpreter.' },
+      { id: 'em-8', script: '请慢慢说。', pronunciation: 'qǐng mànmàn shuō', english: 'Please speak slowly.' },
+      { id: 'em-9', script: '我在这里。', pronunciation: 'wǒ zài zhèlǐ', english: 'I am here.' },
+      { id: 'em-10', script: '请帮我联系大使馆。', pronunciation: 'qǐng bāng wǒ liánxì dàshǐguǎn', english: 'Please help me contact the embassy.' },
     ]
   ),
   s(
@@ -204,16 +208,16 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
       'A polite exit line helps avoid awkward endings.',
     ],
     [
-      { id: 'st-1', hanzi: '你是哪里人？', pinyin: 'nǐ shì nǎlǐ rén', english: 'Where are you from?' },
-      { id: 'st-2', hanzi: '我是第一次来中国。', pinyin: 'wǒ shì dì yī cì lái Zhōngguó', english: 'This is my first time in China.' },
-      { id: 'st-3', hanzi: '你的中文很好。', pinyin: 'nǐ de Zhōngwén hěn hǎo', english: 'Your Chinese is very good.' },
-      { id: 'st-4', hanzi: '你推荐去哪里玩？', pinyin: 'nǐ tuījiàn qù nǎlǐ wán', english: 'Where do you recommend visiting?' },
-      { id: 'st-5', hanzi: '这个地方真不错。', pinyin: 'zhège dìfang zhēn búcuò', english: 'This place is really nice.' },
-      { id: 'st-6', hanzi: '很高兴认识你。', pinyin: 'hěn gāoxìng rènshi nǐ', english: 'Nice to meet you.' },
-      { id: 'st-7', hanzi: '我先走了。', pinyin: 'wǒ xiān zǒu le', english: 'I will head out first.' },
-      { id: 'st-8', hanzi: '下次见！', pinyin: 'xià cì jiàn', english: 'See you next time!' },
-      { id: 'st-9', hanzi: '谢谢你今天的帮助。', pinyin: 'xièxie nǐ jīntiān de bāngzhù', english: 'Thanks for your help today.' },
-      { id: 'st-10', hanzi: '祝你今天顺利。', pinyin: 'zhù nǐ jīntiān shùnlì', english: 'Hope your day goes smoothly.' },
+      { id: 'st-1', script: '你是哪里人？', pronunciation: 'nǐ shì nǎlǐ rén', english: 'Where are you from?' },
+      { id: 'st-2', script: '我是第一次来中国。', pronunciation: 'wǒ shì dì yī cì lái Zhōngguó', english: 'This is my first time in China.' },
+      { id: 'st-3', script: '你的中文很好。', pronunciation: 'nǐ de Zhōngwén hěn hǎo', english: 'Your Chinese is very good.' },
+      { id: 'st-4', script: '你推荐去哪里玩？', pronunciation: 'nǐ tuījiàn qù nǎlǐ wán', english: 'Where do you recommend visiting?' },
+      { id: 'st-5', script: '这个地方真不错。', pronunciation: 'zhège dìfang zhēn búcuò', english: 'This place is really nice.' },
+      { id: 'st-6', script: '很高兴认识你。', pronunciation: 'hěn gāoxìng rènshi nǐ', english: 'Nice to meet you.' },
+      { id: 'st-7', script: '我先走了。', pronunciation: 'wǒ xiān zǒu le', english: 'I will head out first.' },
+      { id: 'st-8', script: '下次见！', pronunciation: 'xià cì jiàn', english: 'See you next time!' },
+      { id: 'st-9', script: '谢谢你今天的帮助。', pronunciation: 'xièxie nǐ jīntiān de bāngzhù', english: 'Thanks for your help today.' },
+      { id: 'st-10', script: '祝你今天顺利。', pronunciation: 'zhù nǐ jīntiān shùnlì', english: 'Hope your day goes smoothly.' },
     ]
   ),
   s(
@@ -230,16 +234,16 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
       'Download maps and key addresses offline before transit.',
     ],
     [
-      { id: 'di-1', hanzi: '请问有Wi-Fi吗？', pinyin: 'qǐngwèn yǒu Wi-Fi ma', english: 'Do you have Wi-Fi?' },
-      { id: 'di-2', hanzi: '密码是多少？', pinyin: 'mìmǎ shì duōshao', english: 'What is the password?' },
-      { id: 'di-3', hanzi: '请扫这个二维码。', pinyin: 'qǐng sǎo zhège èrwéimǎ', english: 'Please scan this QR code.' },
-      { id: 'di-4', hanzi: '我的手机没电了。', pinyin: 'wǒ de shǒujī méi diàn le', english: 'My phone is out of battery.' },
-      { id: 'di-5', hanzi: '可以借我充电器吗？', pinyin: 'kěyǐ jiè wǒ chōngdiànqì ma', english: 'Can I borrow a charger?' },
-      { id: 'di-6', hanzi: '这个App怎么用？', pinyin: 'zhège App zěnme yòng', english: 'How do I use this app?' },
-      { id: 'di-7', hanzi: '网络有点慢。', pinyin: 'wǎngluò yǒudiǎn màn', english: 'The internet is a bit slow.' },
-      { id: 'di-8', hanzi: '我打不开这个页面。', pinyin: 'wǒ dǎ bù kāi zhège yèmiàn', english: "I can't open this page." },
-      { id: 'di-9', hanzi: '请再发一次链接。', pinyin: 'qǐng zài fā yí cì liànjiē', english: 'Please send the link again.' },
-      { id: 'di-10', hanzi: '我现在可以扫码付款。', pinyin: 'wǒ xiànzài kěyǐ sǎomǎ fùkuǎn', english: 'I can pay by scanning now.' },
+      { id: 'di-1', script: '请问有Wi-Fi吗？', pronunciation: 'qǐngwèn yǒu Wi-Fi ma', english: 'Do you have Wi-Fi?' },
+      { id: 'di-2', script: '密码是多少？', pronunciation: 'mìmǎ shì duōshao', english: 'What is the password?' },
+      { id: 'di-3', script: '请扫这个二维码。', pronunciation: 'qǐng sǎo zhège èrwéimǎ', english: 'Please scan this QR code.' },
+      { id: 'di-4', script: '我的手机没电了。', pronunciation: 'wǒ de shǒujī méi diàn le', english: 'My phone is out of battery.' },
+      { id: 'di-5', script: '可以借我充电器吗？', pronunciation: 'kěyǐ jiè wǒ chōngdiànqì ma', english: 'Can I borrow a charger?' },
+      { id: 'di-6', script: '这个App怎么用？', pronunciation: 'zhège App zěnme yòng', english: 'How do I use this app?' },
+      { id: 'di-7', script: '网络有点慢。', pronunciation: 'wǎngluò yǒudiǎn màn', english: 'The internet is a bit slow.' },
+      { id: 'di-8', script: '我打不开这个页面。', pronunciation: 'wǒ dǎ bù kāi zhège yèmiàn', english: "I can't open this page." },
+      { id: 'di-9', script: '请再发一次链接。', pronunciation: 'qǐng zài fā yí cì liànjiē', english: 'Please send the link again.' },
+      { id: 'di-10', script: '我现在可以扫码付款。', pronunciation: 'wǒ xiànzài kěyǐ sǎomǎ fùkuǎn', english: 'I can pay by scanning now.' },
     ]
   ),
 ];
@@ -263,16 +267,16 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       "Luggage Tip::Traveling with large bags? Use Japan's luggage delivery service, called takkyubin (宅急便), to ship your luggage directly to your hotel and travel more comfortably through stations.",
     ],
     [
-      { id: 'aa-ja-1', hanzi: '入国審査はどこですか？', pinyin: 'nyuukoku shinsa wa doko desu ka', english: 'Where is immigration?' },
-      { id: 'aa-ja-2', hanzi: 'Visit Japan WebのQRコードがあります。', pinyin: 'bijitto japan webu no kyuu aaru koodo ga arimasu', english: 'I have the Visit Japan Web QR code.' },
-      { id: 'aa-ja-3', hanzi: '滞在先は（ホテル名）です。', pinyin: 'taizaisaki wa (hoteru mei) desu', english: 'My place of stay is (hotel name).' },
-      { id: 'aa-ja-4', hanzi: '申告するものはありません。', pinyin: 'shinkoku suru mono wa arimasen', english: 'I have nothing to declare.' },
-      { id: 'aa-ja-5', hanzi: '荷物が出てきません。', pinyin: 'nimotsu ga dete kimasen', english: "My luggage isn't coming out." },
-      { id: 'aa-ja-6', hanzi: 'この荷物が見つかりません。', pinyin: 'kono nimotsu ga mitsukarimasen', english: "I can't find this bag." },
-      { id: 'aa-ja-7', hanzi: 'ATMはどこですか？', pinyin: 'eetiiemu wa doko desu ka', english: 'Where is an ATM?' },
-      { id: 'aa-ja-8', hanzi: 'SIMカード（またはポケットWi-Fi）の受け取りはどこですか？', pinyin: 'shimu kaado (mata wa poketto waifai) no uketori wa doko desu ka', english: 'Where do I pick up my SIM (or pocket Wi-Fi)?' },
-      { id: 'aa-ja-9', hanzi: '（東京）まで一枚お願いします。', pinyin: '(toukyou) made ichimai onegaishimasu', english: 'One ticket to (Tokyo), please.' },
-      { id: 'aa-ja-10', hanzi: '最終電車は何時ですか？', pinyin: 'saishuu densha wa nanji desu ka', english: 'What time is the last train?' },
+      { id: 'aa-ja-1', script: '入国審査はどこですか？', pronunciation: 'nyuukoku shinsa wa doko desu ka', english: 'Where is immigration?' },
+      { id: 'aa-ja-2', script: 'Visit Japan WebのQRコードがあります。', pronunciation: 'bijitto japan webu no kyuu aaru koodo ga arimasu', english: 'I have the Visit Japan Web QR code.' },
+      { id: 'aa-ja-3', script: '滞在先は（ホテル名）です。', pronunciation: 'taizaisaki wa (hoteru mei) desu', english: 'My place of stay is (hotel name).' },
+      { id: 'aa-ja-4', script: '申告するものはありません。', pronunciation: 'shinkoku suru mono wa arimasen', english: 'I have nothing to declare.' },
+      { id: 'aa-ja-5', script: '荷物が出てきません。', pronunciation: 'nimotsu ga dete kimasen', english: "My luggage isn't coming out." },
+      { id: 'aa-ja-6', script: 'この荷物が見つかりません。', pronunciation: 'kono nimotsu ga mitsukarimasen', english: "I can't find this bag." },
+      { id: 'aa-ja-7', script: 'ATMはどこですか？', pronunciation: 'eetiiemu wa doko desu ka', english: 'Where is an ATM?' },
+      { id: 'aa-ja-8', script: 'SIMカード（またはポケットWi-Fi）の受け取りはどこですか？', pronunciation: 'shimu kaado (mata wa poketto waifai) no uketori wa doko desu ka', english: 'Where do I pick up my SIM (or pocket Wi-Fi)?' },
+      { id: 'aa-ja-9', script: '（東京）まで一枚お願いします。', pronunciation: '(toukyou) made ichimai onegaishimasu', english: 'One ticket to (Tokyo), please.' },
+      { id: 'aa-ja-10', script: '最終電車は何時ですか？', pronunciation: 'saishuu densha wa nanji desu ka', english: 'What time is the last train?' },
     ]
   ),
   s(
@@ -298,16 +302,16 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       'Confirm fare estimates early for longer rides.',
     ],
     [
-      { id: 'aa-ja-1', hanzi: '入国審査はどこですか？', pinyin: 'nyuukoku shinsa wa doko desu ka', english: 'Where is immigration?' },
-      { id: 'aa-ja-2', hanzi: 'Visit Japan WebのQRコードがあります。', pinyin: 'bijitto japan webu no kyuu aaru koodo ga arimasu', english: 'I have the Visit Japan Web QR code.' },
-      { id: 'aa-ja-3', hanzi: '滞在先は（ホテル名）です。', pinyin: 'taizaisaki wa (hoteru mei) desu', english: 'My place of stay is (hotel name).' },
-      { id: 'aa-ja-4', hanzi: '申告するものはありません。', pinyin: 'shinkoku suru mono wa arimasen', english: 'I have nothing to declare.' },
-      { id: 'aa-ja-5', hanzi: '荷物が出てきません。', pinyin: 'nimotsu ga dete kimasen', english: "My luggage isn't coming out." },
-      { id: 'aa-ja-6', hanzi: 'この荷物が見つかりません。', pinyin: 'kono nimotsu ga mitsukarimasen', english: "I can't find this bag." },
-      { id: 'aa-ja-7', hanzi: 'ATMはどこですか？', pinyin: 'eetiiemu wa doko desu ka', english: 'Where is an ATM?' },
-      { id: 'aa-ja-8', hanzi: 'SIMカード（またはポケットWi-Fi）の受け取りはどこですか？', pinyin: 'shimu kaado (mata wa poketto waifai) no uketori wa doko desu ka', english: 'Where do I pick up my SIM (or pocket Wi-Fi)?' },
-      { id: 'aa-ja-9', hanzi: '（東京）まで一枚お願いします。', pinyin: '(toukyou) made ichimai onegaishimasu', english: 'One ticket to (Tokyo), please.' },
-      { id: 'aa-ja-10', hanzi: '最終電車は何時ですか？', pinyin: 'saishuu densha wa nanji desu ka', english: 'What time is the last train?' },
+      { id: 'aa-ja-1', script: '入国審査はどこですか？', pronunciation: 'nyuukoku shinsa wa doko desu ka', english: 'Where is immigration?' },
+      { id: 'aa-ja-2', script: 'Visit Japan WebのQRコードがあります。', pronunciation: 'bijitto japan webu no kyuu aaru koodo ga arimasu', english: 'I have the Visit Japan Web QR code.' },
+      { id: 'aa-ja-3', script: '滞在先は（ホテル名）です。', pronunciation: 'taizaisaki wa (hoteru mei) desu', english: 'My place of stay is (hotel name).' },
+      { id: 'aa-ja-4', script: '申告するものはありません。', pronunciation: 'shinkoku suru mono wa arimasen', english: 'I have nothing to declare.' },
+      { id: 'aa-ja-5', script: '荷物が出てきません。', pronunciation: 'nimotsu ga dete kimasen', english: "My luggage isn't coming out." },
+      { id: 'aa-ja-6', script: 'この荷物が見つかりません。', pronunciation: 'kono nimotsu ga mitsukarimasen', english: "I can't find this bag." },
+      { id: 'aa-ja-7', script: 'ATMはどこですか？', pronunciation: 'eetiiemu wa doko desu ka', english: 'Where is an ATM?' },
+      { id: 'aa-ja-8', script: 'SIMカード（またはポケットWi-Fi）の受け取りはどこですか？', pronunciation: 'shimu kaado (mata wa poketto waifai) no uketori wa doko desu ka', english: 'Where do I pick up my SIM (or pocket Wi-Fi)?' },
+      { id: 'aa-ja-9', script: '（東京）まで一枚お願いします。', pronunciation: '(toukyou) made ichimai onegaishimasu', english: 'One ticket to (Tokyo), please.' },
+      { id: 'aa-ja-10', script: '最終電車は何時ですか？', pronunciation: 'saishuu densha wa nanji desu ka', english: 'What time is the last train?' },
     ]
   ),
   s(
@@ -334,16 +338,16 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       'Common requests include extra towels, luggage storage, late checkout, or Wi-Fi help.',
     ],
     [
-      { id: 'ho-ja-1', hanzi: '予約があります。', pinyin: 'yoyaku ga arimasu', english: 'I have a reservation.' },
-      { id: 'ho-ja-2', hanzi: 'パスポートはこちらです。', pinyin: 'pasupooto wa kochira desu', english: 'Here is my passport.' },
-      { id: 'ho-ja-3', hanzi: 'チェックインをお願いします。', pinyin: 'chekkuin o onegaishimasu', english: "I'd like to check in." },
-      { id: 'ho-ja-4', hanzi: '荷物を預かっていただけますか？', pinyin: 'nimotsu o azukatte itadakemasu ka', english: 'Could you store my luggage?' },
-      { id: 'ho-ja-5', hanzi: 'チェックアウトをお願いします。', pinyin: 'chekkuauto o onegaishimasu', english: "I'd like to check out." },
-      { id: 'ho-ja-6', hanzi: 'チェックアウトは何時ですか？', pinyin: 'chekkuauto wa nanji desu ka', english: 'What time is checkout?' },
-      { id: 'ho-ja-7', hanzi: 'Wi-Fiのパスワードを教えてください。', pinyin: 'waifai no pasuwaado o oshiete kudasai', english: 'Please tell me the Wi-Fi password.' },
-      { id: 'ho-ja-8', hanzi: 'ランドリーはありますか？', pinyin: 'randorii wa arimasu ka', english: 'Is there a laundry machine?' },
-      { id: 'ho-ja-9', hanzi: 'お湯が出ません。', pinyin: 'oyu ga demasen', english: 'There is no hot water.' },
-      { id: 'ho-ja-10', hanzi: '部屋を変えていただけますか？', pinyin: 'heya o kaete itadakemasu ka', english: 'Could I change rooms?' },
+      { id: 'ho-ja-1', script: '予約があります。', pronunciation: 'yoyaku ga arimasu', english: 'I have a reservation.' },
+      { id: 'ho-ja-2', script: 'パスポートはこちらです。', pronunciation: 'pasupooto wa kochira desu', english: 'Here is my passport.' },
+      { id: 'ho-ja-3', script: 'チェックインをお願いします。', pronunciation: 'chekkuin o onegaishimasu', english: "I'd like to check in." },
+      { id: 'ho-ja-4', script: '荷物を預かっていただけますか？', pronunciation: 'nimotsu o azukatte itadakemasu ka', english: 'Could you store my luggage?' },
+      { id: 'ho-ja-5', script: 'チェックアウトをお願いします。', pronunciation: 'chekkuauto o onegaishimasu', english: "I'd like to check out." },
+      { id: 'ho-ja-6', script: 'チェックアウトは何時ですか？', pronunciation: 'chekkuauto wa nanji desu ka', english: 'What time is checkout?' },
+      { id: 'ho-ja-7', script: 'Wi-Fiのパスワードを教えてください。', pronunciation: 'waifai no pasuwaado o oshiete kudasai', english: 'Please tell me the Wi-Fi password.' },
+      { id: 'ho-ja-8', script: 'ランドリーはありますか？', pronunciation: 'randorii wa arimasu ka', english: 'Is there a laundry machine?' },
+      { id: 'ho-ja-9', script: 'お湯が出ません。', pronunciation: 'oyu ga demasen', english: 'There is no hot water.' },
+      { id: 'ho-ja-10', script: '部屋を変えていただけますか？', pronunciation: 'heya o kaete itadakemasu ka', english: 'Could I change rooms?' },
     ]
   ),
   s(
@@ -372,16 +376,16 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       'Small Cultural Notes::Water is usually provided automatically. \nPlastic food displays outside many restaurants can help you point and order confidently.',
     ],
     [
-      { id: 're-ja-1', hanzi: 'すみません。', pinyin: 'sumimasen', english: 'Excuse me.' },
-      { id: 're-ja-2', hanzi: 'メニューをお願いします。', pinyin: 'menyuu o onegaishimasu', english: 'Menu, please.' },
-      { id: 're-ja-3', hanzi: 'これをお願いします。', pinyin: 'kore o onegaishimasu', english: 'This one, please.' },
-      { id: 're-ja-4', hanzi: 'おすすめは何ですか？', pinyin: 'osusume wa nan desu ka', english: 'What do you recommend?' },
-      { id: 're-ja-5', hanzi: 'これは辛いですか？', pinyin: 'kore wa karai desu ka', english: 'Is this spicy?' },
-      { id: 're-ja-6', hanzi: 'アレルギーがあります。', pinyin: 'arerugii ga arimasu', english: 'I have an allergy.' },
-      { id: 're-ja-7', hanzi: '豚肉は食べられません。', pinyin: 'butaniku wa taberaremasen', english: "I can't eat pork." },
-      { id: 're-ja-8', hanzi: 'お会計お願いします。', pinyin: 'okaikei onegaishimasu', english: 'Check, please.' },
-      { id: 're-ja-9', hanzi: 'カードは使えますか？', pinyin: 'kaado wa tsukaemasu ka', english: 'Can I use a card?' },
-      { id: 're-ja-10', hanzi: '持ち帰りできますか？', pinyin: 'mochikaeri dekimasu ka', english: 'Can I get this to-go?' },
+      { id: 're-ja-1', script: 'すみません。', pronunciation: 'sumimasen', english: 'Excuse me.' },
+      { id: 're-ja-2', script: 'メニューをお願いします。', pronunciation: 'menyuu o onegaishimasu', english: 'Menu, please.' },
+      { id: 're-ja-3', script: 'これをお願いします。', pronunciation: 'kore o onegaishimasu', english: 'This one, please.' },
+      { id: 're-ja-4', script: 'おすすめは何ですか？', pronunciation: 'osusume wa nan desu ka', english: 'What do you recommend?' },
+      { id: 're-ja-5', script: 'これは辛いですか？', pronunciation: 'kore wa karai desu ka', english: 'Is this spicy?' },
+      { id: 're-ja-6', script: 'アレルギーがあります。', pronunciation: 'arerugii ga arimasu', english: 'I have an allergy.' },
+      { id: 're-ja-7', script: '豚肉は食べられません。', pronunciation: 'butaniku wa taberaremasen', english: "I can't eat pork." },
+      { id: 're-ja-8', script: 'お会計お願いします。', pronunciation: 'okaikei onegaishimasu', english: 'Check, please.' },
+      { id: 're-ja-9', script: 'カードは使えますか？', pronunciation: 'kaado wa tsukaemasu ka', english: 'Can I use a card?' },
+      { id: 're-ja-10', script: '持ち帰りできますか？', pronunciation: 'mochikaeri dekimasu ka', english: 'Can I get this to-go?' },
     ]
   ),
   s(
@@ -400,16 +404,16 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       'Practical Notes::Bring a reusable bag. Some stores charge for shopping bags.\nIn clothing stores, you may be asked to remove your shoes or use provided shoe covers in fitting rooms.\nConsumption tax is generally 10 percent for most goods, with a reduced rate for certain food items.\nCarrying your passport when planning larger purchases is recommended.',
     ],
       [
-        { id: 'sh-ja-1', hanzi: 'これはいくらですか？', pinyin: 'kore wa ikura desu ka', english: 'How much is this?' },
-        { id: 'sh-ja-2', hanzi: '税込みですか？', pinyin: 'zeikomi desu ka', english: 'Is tax included?' },
-        { id: 'sh-ja-3', hanzi: '免税できますか？', pinyin: 'menzei dekimasu ka', english: 'Is tax-free available?' },
-        { id: 'sh-ja-4', hanzi: 'パスポートはこちらです。', pinyin: 'pasupooto wa kochira desu', english: 'Here is my passport.' },
-        { id: 'sh-ja-5', hanzi: 'カードは使えますか？', pinyin: 'kaado wa tsukaemasu ka', english: 'Can I use a card?' },
-        { id: 'sh-ja-6', hanzi: '現金のみですか？', pinyin: 'genkin nomi desu ka', english: 'Is it cash only?' },
-        { id: 'sh-ja-7', hanzi: '袋はいりません。', pinyin: 'fukuro wa irimasen', english: "I don't need a bag." },
-        { id: 'sh-ja-8', hanzi: '試着できますか？', pinyin: 'shichaku dekimasu ka', english: 'Can I try this on?' },
-        { id: 'sh-ja-9', hanzi: 'サイズはありますか？', pinyin: 'saizu wa arimasu ka', english: 'Do you have this in another size?' },
-        { id: 'sh-ja-10', hanzi: 'レシートをください。', pinyin: 'reshiito o kudasai', english: 'Please give me the receipt.' },
+        { id: 'sh-ja-1', script: 'これはいくらですか？', pronunciation: 'kore wa ikura desu ka', english: 'How much is this?' },
+        { id: 'sh-ja-2', script: '税込みですか？', pronunciation: 'zeikomi desu ka', english: 'Is tax included?' },
+        { id: 'sh-ja-3', script: '免税できますか？', pronunciation: 'menzei dekimasu ka', english: 'Is tax-free available?' },
+        { id: 'sh-ja-4', script: 'パスポートはこちらです。', pronunciation: 'pasupooto wa kochira desu', english: 'Here is my passport.' },
+        { id: 'sh-ja-5', script: 'カードは使えますか？', pronunciation: 'kaado wa tsukaemasu ka', english: 'Can I use a card?' },
+        { id: 'sh-ja-6', script: '現金のみですか？', pronunciation: 'genkin nomi desu ka', english: 'Is it cash only?' },
+        { id: 'sh-ja-7', script: '袋はいりません。', pronunciation: 'fukuro wa irimasen', english: "I don't need a bag." },
+        { id: 'sh-ja-8', script: '試着できますか？', pronunciation: 'shichaku dekimasu ka', english: 'Can I try this on?' },
+        { id: 'sh-ja-9', script: 'サイズはありますか？', pronunciation: 'saizu wa arimasu ka', english: 'Do you have this in another size?' },
+        { id: 'sh-ja-10', script: 'レシートをください。', pronunciation: 'reshiito o kudasai', english: 'Please give me the receipt.' },
       ]
   ),
   s(
@@ -430,16 +434,16 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       'Practical Advice Under Stress::Lead with your key need in the first sentence.\nUse short, direct statements.\nRepeat slowly if necessary.\nShow written information on your phone when possible.\nStation staff can often connect you to emergency services quickly if you are in transit areas.',
     ],
     [
-      { id: 'em-ja-1', hanzi: '助けてください。', pinyin: 'tasukete kudasai', english: 'Please help me.' },
-      { id: 'em-ja-2', hanzi: '救急車を呼んでください。', pinyin: 'kyuukyuusha o yonde kudasai', english: 'Please call an ambulance.' },
-      { id: 'em-ja-3', hanzi: '警察を呼んでください。', pinyin: 'keisatsu o yonde kudasai', english: 'Please call the police.' },
-      { id: 'em-ja-4', hanzi: '医者が必要です。', pinyin: 'isha ga hitsuyou desu', english: 'I need a doctor.' },
-      { id: 'em-ja-5', hanzi: '気分が悪いです。', pinyin: 'kibun ga warui desu', english: 'I feel unwell.' },
-      { id: 'em-ja-6', hanzi: 'けがをしました。', pinyin: 'kega o shimashita', english: 'I am injured.' },
-      { id: 'em-ja-7', hanzi: 'ここが痛いです。', pinyin: 'koko ga itai desu', english: 'It hurts here.' },
-      { id: 'em-ja-8', hanzi: '英語をお願いします。', pinyin: 'eigo o onegaishimasu', english: 'English, please.' },
-      { id: 'em-ja-9', hanzi: '救急外来はどこですか？', pinyin: 'kyuukyuu gairai wa doko desu ka', english: 'Where is the emergency room?' },
-      { id: 'em-ja-10', hanzi: 'パスポートをなくしました。', pinyin: 'pasupooto o nakushimashita', english: 'I lost my passport.' },
+      { id: 'em-ja-1', script: '助けてください。', pronunciation: 'tasukete kudasai', english: 'Please help me.' },
+      { id: 'em-ja-2', script: '救急車を呼んでください。', pronunciation: 'kyuukyuusha o yonde kudasai', english: 'Please call an ambulance.' },
+      { id: 'em-ja-3', script: '警察を呼んでください。', pronunciation: 'keisatsu o yonde kudasai', english: 'Please call the police.' },
+      { id: 'em-ja-4', script: '医者が必要です。', pronunciation: 'isha ga hitsuyou desu', english: 'I need a doctor.' },
+      { id: 'em-ja-5', script: '気分が悪いです。', pronunciation: 'kibun ga warui desu', english: 'I feel unwell.' },
+      { id: 'em-ja-6', script: 'けがをしました。', pronunciation: 'kega o shimashita', english: 'I am injured.' },
+      { id: 'em-ja-7', script: 'ここが痛いです。', pronunciation: 'koko ga itai desu', english: 'It hurts here.' },
+      { id: 'em-ja-8', script: '英語をお願いします。', pronunciation: 'eigo o onegaishimasu', english: 'English, please.' },
+      { id: 'em-ja-9', script: '救急外来はどこですか？', pronunciation: 'kyuukyuu gairai wa doko desu ka', english: 'Where is the emergency room?' },
+      { id: 'em-ja-10', script: 'パスポートをなくしました。', pronunciation: 'pasupooto o nakushimashita', english: 'I lost my passport.' },
     ]
   ),
   s(
@@ -461,16 +465,16 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       'Soft exits feel natural here.',
     ],
       [
-        { id: 'st-ja-1', hanzi: 'どちらから来ましたか？', pinyin: 'dochira kara kimashita ka', english: 'Where are you from?' },
-        { id: 'st-ja-2', hanzi: '日本は初めてです。', pinyin: 'nihon wa hajimete desu', english: 'It is my first time in Japan.' },
-        { id: 'st-ja-3', hanzi: 'おすすめはありますか？', pinyin: 'osusume wa arimasu ka', english: 'Do you have a recommendation?' },
-        { id: 'st-ja-4', hanzi: 'すみません。', pinyin: 'sumimasen', english: 'Excuse me.' },
-        { id: 'st-ja-5', hanzi: 'ありがとうございます。', pinyin: 'arigatou gozaimasu', english: 'Thank you.' },
-        { id: 'st-ja-6', hanzi: '英語は話せますか？', pinyin: 'eigo wa hanasemasu ka', english: 'Do you speak English?' },
-        { id: 'st-ja-7', hanzi: '写真を撮ってもいいですか？', pinyin: 'shashin o totte mo ii desu ka', english: 'May I take a photo?' },
-        { id: 'st-ja-8', hanzi: 'お名前は何ですか？', pinyin: 'onamae wa nan desu ka', english: 'What is your name?' },
-        { id: 'st-ja-9', hanzi: 'お会いできてうれしいです。', pinyin: 'oai dekite ureshii desu', english: 'Nice to meet you.' },
-        { id: 'st-ja-10', hanzi: 'そろそろ失礼します。', pinyin: 'sorosoro shitsurei shimasu', english: 'I should be going now.' },
+        { id: 'st-ja-1', script: 'どちらから来ましたか？', pronunciation: 'dochira kara kimashita ka', english: 'Where are you from?' },
+        { id: 'st-ja-2', script: '日本は初めてです。', pronunciation: 'nihon wa hajimete desu', english: 'It is my first time in Japan.' },
+        { id: 'st-ja-3', script: 'おすすめはありますか？', pronunciation: 'osusume wa arimasu ka', english: 'Do you have a recommendation?' },
+        { id: 'st-ja-4', script: 'すみません。', pronunciation: 'sumimasen', english: 'Excuse me.' },
+        { id: 'st-ja-5', script: 'ありがとうございます。', pronunciation: 'arigatou gozaimasu', english: 'Thank you.' },
+        { id: 'st-ja-6', script: '英語は話せますか？', pronunciation: 'eigo wa hanasemasu ka', english: 'Do you speak English?' },
+        { id: 'st-ja-7', script: '写真を撮ってもいいですか？', pronunciation: 'shashin o totte mo ii desu ka', english: 'May I take a photo?' },
+        { id: 'st-ja-8', script: 'お名前は何ですか？', pronunciation: 'onamae wa nan desu ka', english: 'What is your name?' },
+        { id: 'st-ja-9', script: 'お会いできてうれしいです。', pronunciation: 'oai dekite ureshii desu', english: 'Nice to meet you.' },
+        { id: 'st-ja-10', script: 'そろそろ失礼します。', pronunciation: 'sorosoro shitsurei shimasu', english: 'I should be going now.' },
       ]
   ),
   s(
@@ -489,16 +493,16 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
       'Useful Apps::The GO app is widely used for taxis in major cities.\nTabelog is a popular restaurant review platform. Ratings are stricter than on Google. A score around 3.5 to 3.8 is often very good.\nLINE is the most common messaging app in Japan. It is useful if you exchange contact details with locals or certain businesses.',
     ],
     [
-      { id: 'di-ja-1', hanzi: 'Wi-Fiはありますか？', pinyin: 'waifai wa arimasu ka', english: 'Do you have Wi-Fi?' },
-      { id: 'di-ja-2', hanzi: 'パスワードは何ですか？', pinyin: 'pasuwaado wa nan desu ka', english: 'What is the password?' },
-      { id: 'di-ja-4', hanzi: '携帯の充電がありません。', pinyin: 'keitai no juuden ga arimasen', english: 'My phone battery is dead.' },
-      { id: 'di-ja-5', hanzi: '充電器を借りられますか？', pinyin: 'juudenki o kariraremasu ka', english: 'Can I borrow a charger?' },
-      { id: 'di-ja-6', hanzi: 'QRコードで注文できますか？', pinyin: 'kyuu aaru koodo de chuumon dekimasu ka', english: 'Can I order by QR code?' },
-      { id: 'di-ja-7', hanzi: 'Suicaをチャージしたいです。', pinyin: 'suika o chaaji shitai desu', english: 'I want to top up my Suica.' },
-      { id: 'di-ja-8', hanzi: '充電できる場所はありますか？', pinyin: 'juuden dekiru basho wa arimasu ka', english: 'Is there a place I can charge my phone?' },
-      { id: 'di-ja-9', hanzi: '電波が入りません。', pinyin: 'denpa ga hairimasen', english: 'I have no signal.' },
-      { id: 'di-ja-10', hanzi: 'もう一度リンクを送ってください。', pinyin: 'mou ichido rinku o okutte kudasai', english: 'Please send the link again.' },
-      { id: 'di-ja-11', hanzi: 'GOでタクシーを呼びたいです。', pinyin: 'go de takushii o yobitai desu', english: 'I want to call a taxi with GO.' },
+      { id: 'di-ja-1', script: 'Wi-Fiはありますか？', pronunciation: 'waifai wa arimasu ka', english: 'Do you have Wi-Fi?' },
+      { id: 'di-ja-2', script: 'パスワードは何ですか？', pronunciation: 'pasuwaado wa nan desu ka', english: 'What is the password?' },
+      { id: 'di-ja-4', script: '携帯の充電がありません。', pronunciation: 'keitai no juuden ga arimasen', english: 'My phone battery is dead.' },
+      { id: 'di-ja-5', script: '充電器を借りられますか？', pronunciation: 'juudenki o kariraremasu ka', english: 'Can I borrow a charger?' },
+      { id: 'di-ja-6', script: 'QRコードで注文できますか？', pronunciation: 'kyuu aaru koodo de chuumon dekimasu ka', english: 'Can I order by QR code?' },
+      { id: 'di-ja-7', script: 'Suicaをチャージしたいです。', pronunciation: 'suika o chaaji shitai desu', english: 'I want to top up my Suica.' },
+      { id: 'di-ja-8', script: '充電できる場所はありますか？', pronunciation: 'juuden dekiru basho wa arimasu ka', english: 'Is there a place I can charge my phone?' },
+      { id: 'di-ja-9', script: '電波が入りません。', pronunciation: 'denpa ga hairimasen', english: 'I have no signal.' },
+      { id: 'di-ja-10', script: 'もう一度リンクを送ってください。', pronunciation: 'mou ichido rinku o okutte kudasai', english: 'Please send the link again.' },
+      { id: 'di-ja-11', script: 'GOでタクシーを呼びたいです。', pronunciation: 'go de takushii o yobitai desu', english: 'I want to call a taxi with GO.' },
     ]
   ),
 ];
@@ -511,4 +515,12 @@ export function getTravelModeSections(languageId: string | null | undefined) {
 
 export function getTravelSectionById(sectionId: string, languageId: string | null | undefined = 'zh') {
   return getTravelModeSections(languageId).find((section) => section.id === sectionId);
+}
+
+export function getPhraseScriptText(phrase: TravelPhrase): string {
+  return phrase.script || phrase.hanzi || '';
+}
+
+export function getPhrasePronunciationText(phrase: TravelPhrase): string {
+  return phrase.pronunciation || phrase.pinyin || '';
 }

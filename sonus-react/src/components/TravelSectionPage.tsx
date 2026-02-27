@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Square, SquareCheckBig, Volume2 } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { useAudio } from '../hooks/useAudio';
-import type { TravelSectionData } from '../data/travelModeData';
+import {
+  getPhrasePronunciationText,
+  getPhraseScriptText,
+  type TravelSectionData,
+} from '../data/travelModeData';
 import GlassHeader from './GlassHeader';
 import { normalizeLanguageId } from '../lib/languageRuntime';
 
@@ -132,7 +136,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
       return (
         <>
           <div className="text-xs uppercase tracking-wider font-mono text-white/75">{`${targetLabel} → Speak`}</div>
-          <div className="text-3xl secondary-font text-white mt-2">{recallPhrase.hanzi}</div>
+          <div className="text-3xl secondary-font text-white mt-2">{getPhraseScriptText(recallPhrase)}</div>
         </>
       );
     }
@@ -140,7 +144,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
       <>
         <div className="text-xs uppercase tracking-wider font-mono text-white/75">Audio Only → Respond</div>
         <button
-          onClick={() => speak(recallPhrase.hanzi, recallPhrase.pinyin)}
+          onClick={() => speak(getPhraseScriptText(recallPhrase), getPhrasePronunciationText(recallPhrase))}
           className="mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/14 border border-white/28 text-white text-sm"
         >
           <Volume2 className="w-4 h-4" />
@@ -295,8 +299,8 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                   {revealRecall ? (
                     <div className="text-center">
                       <div className="text-xs uppercase tracking-wider font-mono text-white/75">answer</div>
-                      <div className="text-lg secondary-font text-white mt-1">{recallPhrase.hanzi}</div>
-                      <div className="text-sm text-white/80">{recallPhrase.pinyin}</div>
+                      <div className="text-lg secondary-font text-white mt-1">{getPhraseScriptText(recallPhrase)}</div>
+                      <div className="text-sm text-white/80">{getPhrasePronunciationText(recallPhrase)}</div>
                       <div className="text-sm text-white mt-1">{recallPhrase.english}</div>
                     </div>
                   ) : (
@@ -393,10 +397,10 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                     <div className={`h-full flex flex-col ${isLearned ? 'opacity-55' : ''}`}>
                       <div className="flex-1 flex flex-col items-center justify-center gap-1.5 pt-5">
                         <div className="secondary-font text-white leading-tight text-[1.2rem] lg:text-[1.2rem] xl:text-2xl">
-                          {phrase.hanzi}
+                          {getPhraseScriptText(phrase)}
                         </div>
                         <div className="max-w-[90%] text-white/40 leading-snug text-[0.7rem] lg:text-[0.7rem] xl:text-sm">
-                          {phrase.pinyin}
+                          {getPhrasePronunciationText(phrase)}
                         </div>
                         <div className="max-w-[90%] text-white leading-snug text-[0.9rem] lg:text-[0.9rem] xl:text-sm">
                           {phrase.english}
@@ -405,7 +409,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
 
                       <div className="flex items-center justify-center pt-3">
                         <button
-                          onClick={() => speak(phrase.hanzi, phrase.pinyin)}
+                          onClick={() => speak(getPhraseScriptText(phrase), getPhrasePronunciationText(phrase))}
                           disabled={isLearned}
                           className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-white/28 bg-white/16 text-white disabled:opacity-40 disabled:cursor-not-allowed"
                           aria-label={`Play ${phrase.english}`}

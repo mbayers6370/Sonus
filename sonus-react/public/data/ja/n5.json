@@ -1,24 +1,20 @@
 {
   "language": "ja",
   "source": "jlpt.csv",
-  "bandId": "n5",
   "levelId": "n5",
   "level": "N5",
-  "band": 5,
   "wordCount": 711,
   "availableWords": 711,
   "unallocatedWords": 0,
   "units": [
     {
       "id": "_unallocated",
-      "band": 5,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "n5-u01-foundations-and-identity",
-      "band": 5,
       "targetWords": 29,
       "allocatedWords": 29,
       "words": [
@@ -552,7 +548,6 @@
     },
     {
       "id": "n5-u02-core-verbs-and-actions",
-      "band": 5,
       "targetWords": 114,
       "allocatedWords": 114,
       "words": [
@@ -2640,7 +2635,6 @@
     },
     {
       "id": "n5-u03-time-and-dates",
-      "band": 5,
       "targetWords": 72,
       "allocatedWords": 72,
       "words": [
@@ -3957,7 +3951,6 @@
     },
     {
       "id": "n5-u04-numbers-and-counters",
-      "band": 5,
       "targetWords": 57,
       "allocatedWords": 57,
       "words": [
@@ -4995,7 +4988,6 @@
     },
     {
       "id": "n5-u05-daily-routine",
-      "band": 5,
       "targetWords": 10,
       "allocatedWords": 10,
       "words": [
@@ -5186,7 +5178,6 @@
     },
     {
       "id": "n5-u06-family-and-relationships",
-      "band": 5,
       "targetWords": 20,
       "allocatedWords": 20,
       "words": [
@@ -5554,7 +5545,6 @@
     },
     {
       "id": "n5-u07-food-and-drink",
-      "band": 5,
       "targetWords": 30,
       "allocatedWords": 30,
       "words": [
@@ -6104,7 +6094,6 @@
     },
     {
       "id": "n5-u08-places-and-directions",
-      "band": 5,
       "targetWords": 68,
       "allocatedWords": 68,
       "words": [
@@ -7351,7 +7340,6 @@
     },
     {
       "id": "n5-u09-school-and-work",
-      "band": 5,
       "targetWords": 55,
       "allocatedWords": 55,
       "words": [
@@ -8359,7 +8347,6 @@
     },
     {
       "id": "n5-u10-shopping-and-money",
-      "band": 5,
       "targetWords": 11,
       "allocatedWords": 11,
       "words": [
@@ -8567,7 +8554,6 @@
     },
     {
       "id": "n5-u11-transportation-and-travel",
-      "band": 5,
       "targetWords": 6,
       "allocatedWords": 6,
       "words": [
@@ -8686,7 +8672,6 @@
     },
     {
       "id": "n5-u12-home-and-everyday-objects",
-      "band": 5,
       "targetWords": 65,
       "allocatedWords": 65,
       "words": [
@@ -9872,7 +9857,6 @@
     },
     {
       "id": "n5-u13-i-adjectives",
-      "band": 5,
       "targetWords": 57,
       "allocatedWords": 57,
       "words": [
@@ -10922,7 +10906,6 @@
     },
     {
       "id": "n5-u14-na-adjectives",
-      "band": 5,
       "targetWords": 20,
       "allocatedWords": 20,
       "words": [
@@ -11293,7 +11276,6 @@
     },
     {
       "id": "n5-u15-colors-and-physical-description",
-      "band": 5,
       "targetWords": 16,
       "allocatedWords": 16,
       "words": [
@@ -11590,7 +11572,6 @@
     },
     {
       "id": "n5-u16-weather-and-seasons",
-      "band": 5,
       "targetWords": 4,
       "allocatedWords": 4,
       "words": [
@@ -11670,7 +11651,6 @@
     },
     {
       "id": "n5-u17-hobbies-and-leisure",
-      "band": 5,
       "targetWords": 9,
       "allocatedWords": 9,
       "words": [
@@ -11840,7 +11820,6 @@
     },
     {
       "id": "n5-u18-feelings-and-states",
-      "band": 5,
       "targetWords": 4,
       "allocatedWords": 4,
       "words": [
@@ -11922,7 +11901,6 @@
     },
     {
       "id": "n5-u19-particles-and-sentence-glue",
-      "band": 5,
       "targetWords": 31,
       "allocatedWords": 31,
       "words": [
@@ -12495,7 +12473,6 @@
     },
     {
       "id": "n5-u20-common-expressions-and-everyday-phrases",
-      "band": 5,
       "targetWords": 33,
       "allocatedWords": 33,
       "words": [

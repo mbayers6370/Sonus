@@ -11,7 +11,7 @@ export const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
   band7: { id: 'band7', band: 7, name: 'Advanced I', title: 'Advanced I', subtitle: 'Complex topics · High range', wordCount: 7356, wordRange: '5456–7356', color: 'bg-red-500', description: 'Complex topics · High range', units: [] },
   band8: { id: 'band8', band: 8, name: 'Advanced II', title: 'Advanced II', subtitle: 'Formal language · Precision', wordCount: 9256, wordRange: '7356–9256', color: 'bg-slate-500', description: 'Formal language · Precision', units: [] },
   band9: { id: 'band9', band: 9, name: 'Advanced III', title: 'Advanced III', subtitle: 'Near-native range · Depth', wordCount: 11092, wordRange: '9256–11092', color: 'bg-slate-900', description: 'Near-native range · Depth', units: [] },
-  advanced: { id: 'advanced', band: 7, name: 'Advanced', title: 'Advanced', subtitle: 'Bands 7–9 · Mastery', wordCount: 0, wordRange: 'Band 7–9', color: 'bg-red-500', description: 'Macro-unit track for Bands 7-9', units: [] },
+  advanced: { id: 'advanced', band: 7, name: 'Advanced', title: 'Advanced', subtitle: 'Levels 7–9 · Mastery', wordCount: 0, wordRange: 'Levels 7–9', color: 'bg-red-500', description: 'Macro-unit track for Levels 7-9', units: [] },
 };
 
 export const JAPANESE_LEVEL_BY_ID: Record<string, LessonBand> = {

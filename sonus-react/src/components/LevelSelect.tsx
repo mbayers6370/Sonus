@@ -592,11 +592,11 @@ export default function LevelSelect({
     band: 7,
     name: 'Advanced',
     title: 'Advanced',
-    subtitle: 'Bands 7–9 · Mastery',
+    subtitle: 'Levels 7–9 · Mastery',
     wordCount: 0,
-    wordRange: 'Band 7–9',
+    wordRange: 'Level 7–9',
     color: 'bg-red-500',
-    description: 'Macro-unit track for Bands 7-9',
+    description: 'Macro-unit track for Levels 7-9',
     units: [],
   };
 
@@ -617,10 +617,10 @@ export default function LevelSelect({
         {
           id: 'beginner',
           title: 'Beginner',
-          subtitle: 'Bands 1–3 · Core Foundations',
+          subtitle: 'Levels 1–3 · Core Foundations',
           style: { rail: 'bg-[#3E5648]', accent: 'green' as const },
           summary:
-            'Tone control, core grammar, and everyday communication across the first three bands. Bands 1–2 are live now.',
+            'Tone control, core grammar, and everyday communication across the first three levels. Levels 1–2 are live now.',
           isAvailable: levels
             .filter(l => ['band1', 'band2', 'band3'].includes(l.id))
             .some((level) => state.unlockedLevels.includes(level.id)),
@@ -631,7 +631,7 @@ export default function LevelSelect({
         {
           id: 'intermediate',
           title: 'Intermediate',
-          subtitle: 'Bands 4–6 · Functional Fluency',
+          subtitle: 'Levels 4–6 · Functional Fluency',
           style: { rail: 'bg-[#186E95]', accent: 'blue' as const },
           summary:
             'Longer conversations, work/study scenarios, and more flexible sentence patterns for real-world fluency.',
@@ -645,7 +645,7 @@ export default function LevelSelect({
         {
           id: 'advanced',
           title: 'Advanced',
-          subtitle: 'Bands 7–9 · Mastery',
+          subtitle: 'Levels 7–9 · Mastery',
           style: { rail: 'bg-red-500', accent: 'red' as const },
           summary:
             'High-register vocabulary, abstract topics, nuanced expression, and advanced comprehension/speaking precision.',
@@ -806,7 +806,7 @@ export default function LevelSelect({
                       <div>
                         <span className="text-lg font-semibold">{tier.levels.length}</span>
                         <div className={`text-[11px] tracking-wide ${isTierDrenched ? 'text-white/75' : isLocked ? 'text-[#9CA3AF]' : 'text-text-med'}`}>
-                          Bands
+                          Levels
                         </div>
                       </div>
                     </div>
@@ -844,12 +844,12 @@ export default function LevelSelect({
                     isCompleted={isCompleted}
                     isDrenched={isQuizCompleted}
                     onSelect={onSelectLevel}
-                    badgeLabel={`Band ${level.band}`}
+                    badgeLabel={`Level ${level.band}`}
                     showBadge={activeTier !== 'advanced'}
                     headerKicker={undefined}
                     bodyText={
                       !isUnlocked
-                        ? 'Unlock this band by reaching at least 90% completion in the previous band.'
+                        ? 'Unlock this level by reaching at least 90% completion in the previous level.'
                         : level.description ||
                           'Core pronunciation, high‑frequency vocabulary, and functional progression within this band.'
                     }

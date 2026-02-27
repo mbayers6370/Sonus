@@ -1,6 +1,5 @@
 {
   "language": "zh",
-  "bandId": "band3",
   "helperWords": [
     "虽然",
     "但是",
@@ -3328,5 +3327,6 @@
     ],
     "b3-listening": [],
     "b3-speaking": []
-  }
+  },
+  "levelId": "band3"
 }

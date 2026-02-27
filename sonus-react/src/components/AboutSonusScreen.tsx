@@ -11,7 +11,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
     {
       language: 'Mandarin',
       system: 'HSK 3.0',
-      range: 'Bands 1-9',
+      range: 'Levels 1-9',
       accent: 'border-[#3E5648]/26 bg-[rgba(62,86,72,0.08)] text-[#3E5648]',
     },
     {
@@ -37,7 +37,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
   const principles = [
     {
       title: 'Clear progression',
-      body: 'Bands and units map to official frameworks, so each step has a defined difficulty target.',
+      body: 'Levels and units map to official frameworks, so each step has a defined difficulty target.',
     },
     {
       title: 'Practical first',
@@ -53,7 +53,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
     {
       step: '1',
       title: 'Choose a path',
-      body: 'Start in your current band and move unit by unit through a sequence designed for usable communication.',
+      body: 'Start in your current level and move unit by unit through a sequence designed for usable communication.',
     },
     {
       step: '2',

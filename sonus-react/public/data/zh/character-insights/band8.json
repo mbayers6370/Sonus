@@ -1,5 +1,4 @@
 {
-  "bandId": "band8",
   "generatedAt": "2026-02-23T21:39:46.166Z",
   "sources": {
     "bandFile": "band7-9.json",
@@ -34,5 +33,6 @@
     "b79-listening": [],
     "b79-speaking": []
   },
-  "characters": {}
+  "characters": {},
+  "levelId": "band8"
 }

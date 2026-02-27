@@ -1,6 +1,5 @@
 {
   "language": "zh",
-  "bandId": "band2",
   "helperWords": [
     "我",
     "你",
@@ -4653,5 +4652,6 @@
         "pinyin": "lai2 le5 yi1 wei4 ke4 ren2。"
       }
     ]
-  }
+  },
+  "levelId": "band2"
 }

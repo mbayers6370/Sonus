@@ -260,9 +260,9 @@ export default function HomeDashboard({
   const cardShell =
     'dashboard-card-enter rounded-3xl border p-5 sm:p-6 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
   const formatBandLabel = (bandId: string | null) => {
-    if (!bandId) return 'Band';
+    if (!bandId) return 'Level';
     const matched = /^band(\d+)$/i.exec(bandId);
-    if (matched) return `Band ${matched[1]}`;
+    if (matched) return `Level ${matched[1]}`;
     return bandId.toUpperCase();
   };
 
@@ -506,7 +506,7 @@ export default function HomeDashboard({
                     color: 'rgba(255,255,255,0.6)',
                   }}
                 >
-                  {isJapaneseLanguage ? 'Levels' : 'Bands'}
+                  Levels
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <button

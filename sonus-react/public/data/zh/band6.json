@@ -1,15 +1,14 @@
 {
   "language": "zh",
   "source": "hsk3.0",
-  "bandId": "band6",
-  "band": 6,
+  "levelId": "band6",
+  "level": 6,
   "wordCount": 1140,
   "availableWords": 1140,
   "unallocatedWords": 0,
   "units": [
     {
       "id": "b6-grammar",
-      "band": 6,
       "targetWords": 252,
       "allocatedWords": 252,
       "words": [
@@ -4213,7 +4212,6 @@
     },
     {
       "id": "b6-academic",
-      "band": 6,
       "targetWords": 34,
       "allocatedWords": 34,
       "words": [
@@ -4779,7 +4777,6 @@
     },
     {
       "id": "b6-work",
-      "band": 6,
       "targetWords": 158,
       "allocatedWords": 158,
       "words": [
@@ -7388,7 +7385,6 @@
     },
     {
       "id": "b6-negotiation",
-      "band": 6,
       "targetWords": 10,
       "allocatedWords": 10,
       "words": [
@@ -7562,7 +7558,6 @@
     },
     {
       "id": "b6-policy",
-      "band": 6,
       "targetWords": 94,
       "allocatedWords": 94,
       "words": [
@@ -9119,7 +9114,6 @@
     },
     {
       "id": "b6-news",
-      "band": 6,
       "targetWords": 33,
       "allocatedWords": 33,
       "words": [
@@ -9670,7 +9664,6 @@
     },
     {
       "id": "b6-science",
-      "band": 6,
       "targetWords": 102,
       "allocatedWords": 102,
       "words": [
@@ -11349,7 +11342,6 @@
     },
     {
       "id": "b6-tech",
-      "band": 6,
       "targetWords": 54,
       "allocatedWords": 54,
       "words": [
@@ -12250,7 +12242,6 @@
     },
     {
       "id": "b6-culture",
-      "band": 6,
       "targetWords": 151,
       "allocatedWords": 151,
       "words": [
@@ -14715,7 +14706,6 @@
     },
     {
       "id": "b6-health",
-      "band": 6,
       "targetWords": 52,
       "allocatedWords": 52,
       "words": [
@@ -15567,7 +15557,6 @@
     },
     {
       "id": "b6-human-experience",
-      "band": 6,
       "targetWords": 197,
       "allocatedWords": 197,
       "words": [
@@ -18810,7 +18799,6 @@
     },
     {
       "id": "b6-idioms",
-      "band": 6,
       "targetWords": 3,
       "allocatedWords": 3,
       "words": [
@@ -18867,21 +18855,18 @@
     },
     {
       "id": "b6-review",
-      "band": 6,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b6-listening",
-      "band": 6,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b6-speaking",
-      "band": 6,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []

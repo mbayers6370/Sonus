@@ -1,15 +1,14 @@
 {
   "language": "zh",
   "source": "hsk3.0",
-  "bandId": "band5",
-  "band": 5,
+  "levelId": "band5",
+  "level": 5,
   "wordCount": 1069,
   "availableWords": 1069,
   "unallocatedWords": 0,
   "units": [
     {
       "id": "b5-grammar",
-      "band": 5,
       "targetWords": 252,
       "allocatedWords": 252,
       "words": [
@@ -4205,7 +4204,6 @@
     },
     {
       "id": "b5-work",
-      "band": 5,
       "targetWords": 101,
       "allocatedWords": 101,
       "words": [
@@ -5883,7 +5881,6 @@
     },
     {
       "id": "b5-finance",
-      "band": 5,
       "targetWords": 25,
       "allocatedWords": 25,
       "words": [
@@ -6304,7 +6301,6 @@
     },
     {
       "id": "b5-culture",
-      "band": 5,
       "targetWords": 90,
       "allocatedWords": 90,
       "words": [
@@ -7796,7 +7792,6 @@
     },
     {
       "id": "b5-media",
-      "band": 5,
       "targetWords": 13,
       "allocatedWords": 13,
       "words": [
@@ -8021,7 +8016,6 @@
     },
     {
       "id": "b5-tech",
-      "band": 5,
       "targetWords": 35,
       "allocatedWords": 35,
       "words": [
@@ -8611,7 +8605,6 @@
     },
     {
       "id": "b5-lifestyle",
-      "band": 5,
       "targetWords": 61,
       "allocatedWords": 61,
       "words": [
@@ -9615,7 +9608,6 @@
     },
     {
       "id": "b5-relationships",
-      "band": 5,
       "targetWords": 40,
       "allocatedWords": 40,
       "words": [
@@ -10293,7 +10285,6 @@
     },
     {
       "id": "b5-society",
-      "band": 5,
       "targetWords": 20,
       "allocatedWords": 20,
       "words": [
@@ -10627,7 +10618,6 @@
     },
     {
       "id": "b5-nuance",
-      "band": 5,
       "targetWords": 76,
       "allocatedWords": 76,
       "words": [
@@ -11897,7 +11887,6 @@
     },
     {
       "id": "b5-academic",
-      "band": 5,
       "targetWords": 19,
       "allocatedWords": 19,
       "words": [
@@ -12214,7 +12203,6 @@
     },
     {
       "id": "b5-news",
-      "band": 5,
       "targetWords": 12,
       "allocatedWords": 12,
       "words": [
@@ -12421,7 +12409,6 @@
     },
     {
       "id": "b5-science",
-      "band": 5,
       "targetWords": 102,
       "allocatedWords": 102,
       "words": [
@@ -14089,7 +14076,6 @@
     },
     {
       "id": "b5-health",
-      "band": 5,
       "targetWords": 44,
       "allocatedWords": 44,
       "words": [
@@ -14820,7 +14806,6 @@
     },
     {
       "id": "b5-abstract",
-      "band": 5,
       "targetWords": 135,
       "allocatedWords": 135,
       "words": [
@@ -17057,7 +17042,6 @@
     },
     {
       "id": "b5-policy",
-      "band": 5,
       "targetWords": 44,
       "allocatedWords": 44,
       "words": [
@@ -17800,28 +17784,24 @@
     },
     {
       "id": "b5-writing",
-      "band": 5,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b5-review",
-      "band": 5,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b5-listening",
-      "band": 5,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []
     },
     {
       "id": "b5-speaking",
-      "band": 5,
       "targetWords": 0,
       "allocatedWords": 0,
       "words": []

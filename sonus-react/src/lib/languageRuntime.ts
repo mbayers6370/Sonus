@@ -6,12 +6,12 @@ export type LanguageId = 'zh' | 'ja' | (string & {});
 export type LanguageRuntime = {
   id: LanguageId;
   label: string;
-  homeCollectionLabel: 'Bands' | 'Levels';
+  homeCollectionLabel: 'Levels';
   available: boolean;
 };
 
 const LANGUAGE_RUNTIMES: Record<string, LanguageRuntime> = {
-  zh: { id: 'zh', label: 'Mandarin', homeCollectionLabel: 'Bands', available: true },
+  zh: { id: 'zh', label: 'Mandarin', homeCollectionLabel: 'Levels', available: true },
   ja: { id: 'ja', label: 'Japanese', homeCollectionLabel: 'Levels', available: true },
   kr: { id: 'kr', label: 'Korean', homeCollectionLabel: 'Levels', available: false },
   fr: { id: 'fr', label: 'French', homeCollectionLabel: 'Levels', available: false },
@@ -137,8 +137,14 @@ export function normalizeBandDataPayload(
       return {
         language: (typeof raw.language === 'string' && raw.language) || languageId,
         source: typeof raw.source === 'string' ? raw.source : '',
-        bandId: typeof raw.bandId === 'string' ? raw.bandId : bandId,
-        band: typeof raw.band === 'number' ? raw.band : 0,
+        bandId:
+          typeof raw.bandId === 'string'
+            ? raw.bandId
+            : (typeof raw.levelId === 'string' ? raw.levelId : bandId),
+        band:
+          typeof raw.band === 'number'
+            ? raw.band
+            : (typeof raw.level === 'number' ? raw.level : 0),
         wordCount:
           typeof raw.wordCount === 'number'
             ? raw.wordCount
@@ -176,8 +182,14 @@ export function normalizeBandDataPayload(
       return {
         language: (typeof raw.language === 'string' && raw.language) || languageId,
         source: typeof raw.source === 'string' ? raw.source : '',
-        bandId: typeof raw.bandId === 'string' ? raw.bandId : bandId,
-        band: typeof raw.band === 'number' ? raw.band : 0,
+        bandId:
+          typeof raw.bandId === 'string'
+            ? raw.bandId
+            : (typeof raw.levelId === 'string' ? raw.levelId : bandId),
+        band:
+          typeof raw.band === 'number'
+            ? raw.band
+            : (typeof raw.level === 'number' ? raw.level : 0),
         wordCount: typeof raw.wordCount === 'number' ? raw.wordCount : count,
         availableWords: typeof raw.availableWords === 'number' ? raw.availableWords : count,
         unallocatedWords: typeof raw.unallocatedWords === 'number' ? raw.unallocatedWords : 0,
@@ -195,8 +207,14 @@ export function normalizeBandDataPayload(
   return {
     language: (typeof raw.language === 'string' && raw.language) || languageId,
     source: typeof raw.source === 'string' ? raw.source : '',
-    bandId: typeof raw.bandId === 'string' ? raw.bandId : bandId,
-    band: typeof raw.band === 'number' ? raw.band : 0,
+    bandId:
+      typeof raw.bandId === 'string'
+        ? raw.bandId
+        : (typeof raw.levelId === 'string' ? raw.levelId : bandId),
+    band:
+      typeof raw.band === 'number'
+        ? raw.band
+        : (typeof raw.level === 'number' ? raw.level : 0),
     wordCount: typeof raw.wordCount === 'number' ? raw.wordCount : words.length,
     availableWords: words.length,
     unallocatedWords: 0,
