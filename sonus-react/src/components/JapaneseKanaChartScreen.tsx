@@ -97,21 +97,21 @@ export default function JapaneseKanaChartScreen({
           <h3 className="main-font text-[1.5rem] sm:text-[1.75rem] leading-tight text-white">Gojuon Chart</h3>
           <p className="mt-1 text-[11px] uppercase tracking-[0.16em] font-mono text-[#B5D8EA]">Tap to Play Audio</p>
 
-          <div className="mt-4 overflow-x-auto">
-            <div className="min-w-[560px]">
-              <div className="grid grid-cols-[52px_repeat(5,minmax(0,1fr))] gap-2">
+          <div className="mt-4">
+            <div>
+              <div className="grid grid-cols-[34px_repeat(5,minmax(0,1fr))] gap-1.5 sm:grid-cols-[40px_repeat(5,minmax(0,1fr))] sm:gap-2 md:grid-cols-[46px_repeat(5,minmax(0,1fr))] lg:grid-cols-[52px_repeat(5,minmax(0,1fr))]">
                 <div />
                 {COLUMN_HEADERS.map((header) => (
                   <div
                     key={header}
-                    className="rounded-xl border border-[#3A4654] bg-[#2B3440] py-2 text-center text-[11px] font-mono tracking-[0.14em] text-[#B5D8EA]"
+                    className="rounded-lg border border-[#3A4654] bg-[#2B3440] py-1.5 text-center text-[10px] font-mono tracking-[0.12em] text-[#B5D8EA] sm:rounded-xl sm:py-2 sm:text-[11px] sm:tracking-[0.14em]"
                   >
                     {header}
                   </div>
                 ))}
                 {rows.map((row, rowIndex) => (
                   <div className="contents" key={`${row.label}-${rowIndex}`}>
-                    <div className="rounded-xl border border-[#3A4654] bg-[#2B3440] py-2 text-center text-[11px] font-mono tracking-[0.14em] text-[#B5D8EA]">
+                    <div className="rounded-lg border border-[#3A4654] bg-[#2B3440] py-1.5 text-center text-[10px] font-mono tracking-[0.12em] text-[#B5D8EA] sm:rounded-xl sm:py-2 sm:text-[11px] sm:tracking-[0.14em]">
                       {row.label}
                     </div>
                     {row.cells.map((entry, cellIndex) => {
@@ -119,7 +119,7 @@ export default function JapaneseKanaChartScreen({
                         return (
                           <div
                             key={`empty-${rowIndex}-${cellIndex}`}
-                            className="rounded-xl border border-dashed border-[#3A4654] bg-[#26303C]"
+                            className="rounded-lg border border-dashed border-[#3A4654] bg-[#26303C] sm:rounded-xl"
                           />
                         );
                       }
@@ -129,15 +129,15 @@ export default function JapaneseKanaChartScreen({
                           type="button"
                           key={entry.kana}
                           onClick={() => playKana(entry)}
-                          className={`rounded-xl border px-2 py-3.5 text-left transition-all ${
+                          className={`rounded-lg border px-1.5 py-2.5 text-left transition-all sm:rounded-xl sm:px-2 sm:py-3.5 ${
                             isActive
                               ? 'border-[#7CC3E2] bg-[#23506A] shadow-[0_10px_22px_-18px_rgba(124,195,226,0.55)]'
                               : 'border-[#3A4654] bg-[#2B3440] hover:border-[#7CC3E2]/55 active:scale-[0.985]'
                           }`}
                           aria-label={`Play ${entry.kana} (${entry.romaji})`}
                         >
-                          <p className="main-font text-[1.35rem] text-white leading-none">{entry.kana}</p>
-                          <p className="mt-1 text-[12px] text-[#B5D8EA]">{entry.romaji}</p>
+                          <p className="main-font text-[1.05rem] text-white leading-none sm:text-[1.2rem] md:text-[1.35rem]">{entry.kana}</p>
+                          <p className="mt-1 text-[10px] text-[#B5D8EA] sm:text-[11px] md:text-[12px]">{entry.romaji}</p>
                         </button>
                       );
                     })}
