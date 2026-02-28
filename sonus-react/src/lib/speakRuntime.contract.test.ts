@@ -32,6 +32,9 @@ describe('speak runtime language contract', () => {
 
   it('romanizes Japanese kana transcripts for display', () => {
     expect(romanizeJapaneseForDisplay('さようなら')).toBe('sayounara');
+    expect(romanizeJapaneseForDisplay('がっこう')).toBe('gakkou');
+    expect(romanizeJapaneseForDisplay('スーパー')).toBe('suupaa');
+    expect(romanizeJapaneseForDisplay('しんぶん')).toBe('shinbun');
   });
 
   it('builds speak dimensions that UI can render without branching on hardcoded labels', () => {

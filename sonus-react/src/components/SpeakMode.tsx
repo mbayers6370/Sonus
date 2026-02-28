@@ -245,6 +245,72 @@ function mapPinyinToHanzi(pinyinRaw: string) {
   return chars.join('');
 }
 
+function samePinyinToken(a: string, b: string) {
+  const aKeys = pinyinLookupKeys(a);
+  const bKeys = pinyinLookupKeys(b);
+  return aKeys.some((key) => bKeys.includes(key));
+}
+
+function inferHanziFromDetectedPinyin(
+  detectedPinyinRaw: string,
+  targetHanziRaw: string,
+  targetPinyinRaw: string,
+  lessonWords: Word[]
+) {
+  const detectedTokens = tokenizePinyin(detectedPinyinRaw || '', 1);
+  if (!detectedTokens.length) return '';
+
+  const targetChars = Array.from(normalizeHanzi(targetHanziRaw));
+  const targetTokens = tokenizePinyin(targetPinyinRaw || '', targetChars.length);
+  const resolvedChars: string[] = [];
+
+  for (let index = 0; index < detectedTokens.length; index += 1) {
+    const detected = detectedTokens[index];
+    if (!detected) continue;
+
+    // Highest confidence: exact target alignment.
+    if (index < targetTokens.length && index < targetChars.length && samePinyinToken(detected, targetTokens[index])) {
+      resolvedChars.push(targetChars[index]);
+      continue;
+    }
+    if (detectedTokens.length === 1) {
+      const targetIdx = targetTokens.findIndex((token) => samePinyinToken(detected, token));
+      if (targetIdx >= 0 && targetChars[targetIdx]) {
+        resolvedChars.push(targetChars[targetIdx]);
+        continue;
+      }
+    }
+
+    // Next confidence: lesson-context alignment vote.
+    const vote = new Map<string, number>();
+    for (const lessonWord of lessonWords) {
+      const chars = Array.from(normalizeHanzi(lessonWord.simp || lessonWord.trad || ''));
+      if (!chars.length) continue;
+      const tokens = tokenizePinyin(lessonWord.pinyin || '', chars.length);
+      for (let i = 0; i < Math.min(chars.length, tokens.length); i += 1) {
+        if (samePinyinToken(detected, tokens[i])) {
+          vote.set(chars[i], (vote.get(chars[i]) || 0) + 1);
+        }
+      }
+    }
+    const ranked = [...vote.entries()].sort((a, b) => b[1] - a[1]);
+    const top = ranked[0];
+    const runnerUp = ranked[1];
+    if (top && (!runnerUp || top[1] >= runnerUp[1] + 1) && top[1] >= 2) {
+      resolvedChars.push(top[0]);
+      continue;
+    }
+
+    // Lowest confidence fallback: only allow when token has a direct, unique map.
+    const fallbackChar = mapPinyinToHanzi(detected);
+    if (fallbackChar && Array.from(fallbackChar).length === 1) {
+      resolvedChars.push(fallbackChar);
+    }
+  }
+
+  return resolvedChars.join('');
+}
+
 function hydrateLookupFromWords(words: Word[]) {
   for (const lessonWord of words || []) {
     addHanziMapping(lessonWord.simp, lessonWord.pinyin || '');
@@ -1397,7 +1463,12 @@ export default function SpeakMode({
     : (detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : ''));
   const resultPinyinTag = isJapaneseLesson ? 'Romaji' : (isMandarinLesson ? 'Pinyin' : 'Reading');
   const mappedMandarinHeard = isMandarinLesson && transcript && !heardHanzi
-    ? mapPinyinToHanzi(firstUsableDetected || rawDetectedPinyin || transcript)
+    ? inferHanziFromDetectedPinyin(
+        firstUsableDetected || rawDetectedPinyin || transcript,
+        word.simp || '',
+        word.pinyin || '',
+        allWords
+      )
     : '';
   const displayHeardText =
     isNoSpeech
