@@ -14,9 +14,339 @@
       "words": []
     },
     {
+      "id": "b1-getting-started",
+      "title": "Getting Started",
+      "targetWords": 20,
+      "allocatedWords": 20,
+      "words": [
+        {
+          "id": "L1-0380",
+          "simp": "我",
+          "trad": "我",
+          "pinyin": "wǒ",
+          "pos": "Pron",
+          "en": "I",
+          "defs": [
+            "I; me"
+          ],
+          "example": {
+            "zh": "我是学生。",
+            "en": "I am a student."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0271",
+          "simp": "你",
+          "trad": "你",
+          "pinyin": "nǐ",
+          "pos": "Pron",
+          "en": "you",
+          "defs": [
+            "you (singular)"
+          ],
+          "example": {
+            "zh": "你叫什么？",
+            "en": "What's your name?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0337",
+          "simp": "是",
+          "trad": "是",
+          "pinyin": "shì",
+          "pos": "V",
+          "en": "to be",
+          "defs": [
+            "to be; is"
+          ],
+          "example": {
+            "zh": "我是学生。",
+            "en": "I am a student."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0176",
+          "simp": "叫",
+          "trad": "叫",
+          "pinyin": "jiào",
+          "pos": "V",
+          "en": "to call; to be called",
+          "defs": [
+            "to call; named"
+          ],
+          "example": {
+            "zh": "你叫什么名字？",
+            "en": "What's your name?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0227",
+          "simp": "吗",
+          "trad": "嗎",
+          "pinyin": "ma",
+          "pos": "Part",
+          "en": "question particle",
+          "defs": [
+            "(question marker)"
+          ],
+          "example": {
+            "zh": "你好吗？",
+            "en": "How are you?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0269",
+          "simp": "呢",
+          "trad": "呢",
+          "pinyin": "ne",
+          "pos": "Part",
+          "en": "question particle",
+          "defs": [
+            "(question particle for context)"
+          ],
+          "example": {
+            "zh": "我是学生，你呢？",
+            "en": "I am a student, and you?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0328",
+          "simp": "什么",
+          "trad": "什麼",
+          "pinyin": "shénme",
+          "pos": "Pron",
+          "en": "what",
+          "defs": [
+            "what"
+          ],
+          "example": {
+            "zh": "这是什么？",
+            "en": "What is this?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0325a",
+          "simp": "谁",
+          "trad": "誰",
+          "pinyin": "shéi",
+          "pos": "Pron",
+          "en": "who",
+          "defs": [
+            "who",
+            "alt: shuí"
+          ],
+          "example": {
+            "zh": "他是谁？",
+            "en": "Who is he?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0251a",
+          "simp": "哪里",
+          "trad": "哪裡",
+          "pinyin": "nǎlǐ",
+          "pos": "Pron",
+          "en": "where",
+          "defs": [
+            "where"
+          ],
+          "example": {
+            "zh": "你去哪里？",
+            "en": "Where are you going?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0388",
+          "simp": "喜欢",
+          "trad": "喜歡",
+          "pinyin": "xǐhuan",
+          "pos": "V",
+          "en": "to like",
+          "defs": [
+            "to be fond of"
+          ],
+          "example": {
+            "zh": "我喜欢你。",
+            "en": "I like you."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0400",
+          "simp": "想",
+          "trad": "想",
+          "pinyin": "xiǎng",
+          "pos": "V",
+          "en": "to think; to want",
+          "defs": [
+            "to think; to want to"
+          ],
+          "example": {
+            "zh": "我想去中国。",
+            "en": "I want to go to China."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0423",
+          "simp": "要",
+          "trad": "要",
+          "pinyin": "yào",
+          "pos": "V,Aux",
+          "en": "to want; will",
+          "defs": [
+            "to want; must; will"
+          ],
+          "example": {
+            "zh": "我要喝水。",
+            "en": "I want to drink water."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0116",
+          "simp": "高兴",
+          "trad": "高興",
+          "pinyin": "gāoxìng",
+          "pos": "Adj",
+          "en": "happy",
+          "defs": [
+            "happy; glad"
+          ],
+          "example": {
+            "zh": "我很高兴认识你。",
+            "en": "I'm happy to meet you."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0160",
+          "simp": "会",
+          "trad": "會",
+          "pinyin": "huì",
+          "pos": "V,Aux",
+          "en": "can; will",
+          "defs": [
+            "know how to; will"
+          ],
+          "example": {
+            "zh": "我会说汉语。",
+            "en": "I can speak Chinese."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0349",
+          "simp": "说",
+          "trad": "說",
+          "pinyin": "shuō",
+          "pos": "V",
+          "en": "to speak",
+          "defs": [
+            "to say; to talk"
+          ],
+          "example": {
+            "zh": "你说什么？",
+            "en": "What did you say?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0479",
+          "simp": "中文",
+          "trad": "中文",
+          "pinyin": "zhōngwén",
+          "pos": "N",
+          "en": "Chinese language",
+          "defs": [
+            "Chinese (written)"
+          ],
+          "example": {
+            "zh": "我会说中文。",
+            "en": "I can speak Chinese."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0145",
+          "simp": "和",
+          "trad": "和",
+          "pinyin": "hé",
+          "pos": "Conj",
+          "en": "and",
+          "defs": [
+            "and; with"
+          ],
+          "example": {
+            "zh": "我和你一起去。",
+            "en": "I'll go with you."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0146",
+          "simp": "很",
+          "trad": "很",
+          "pinyin": "hěn",
+          "pos": "Adv",
+          "en": "very",
+          "defs": [
+            "very"
+          ],
+          "example": {
+            "zh": "这个很好。",
+            "en": "This is very good."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0138",
+          "simp": "好",
+          "trad": "好",
+          "pinyin": "hǎo",
+          "pos": "Adj",
+          "en": "good",
+          "defs": [
+            "good; fine"
+          ],
+          "example": {
+            "zh": "今天天气很好。",
+            "en": "The weather is good today."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0410",
+          "simp": "谢谢",
+          "trad": "謝謝",
+          "pinyin": "xièxie",
+          "pos": "V",
+          "en": "to thank; thanks",
+          "defs": [
+            "to thank",
+            "thanks"
+          ],
+          "example": {
+            "zh": "谢谢你的书。",
+            "en": "Thank you for your book."
+          },
+          "tags": null
+        }
+      ]
+    },
+    {
       "id": "b1-pronouns",
-      "targetWords": 25,
-      "allocatedWords": 25,
+      "targetWords": 23,
+      "allocatedWords": 23,
       "words": [
         {
           "id": "L1-0026",
@@ -95,22 +425,6 @@
           "example": {
             "zh": "那些是我的朋友。",
             "en": "Those are my friends."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0271",
-          "simp": "你",
-          "trad": "你",
-          "pinyin": "nǐ",
-          "pos": "Pron",
-          "en": "you",
-          "defs": [
-            "you (singular)"
-          ],
-          "example": {
-            "zh": "你叫什么？",
-            "en": "What's your name?"
           },
           "tags": null
         },
@@ -209,22 +523,6 @@
           "example": {
             "zh": "她们都是医生。",
             "en": "They are all doctors."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0380",
-          "simp": "我",
-          "trad": "我",
-          "pinyin": "wǒ",
-          "pos": "Pron",
-          "en": "I",
-          "defs": [
-            "I; me"
-          ],
-          "example": {
-            "zh": "我是学生。",
-            "en": "I am a student."
           },
           "tags": null
         },
@@ -424,8 +722,8 @@
     },
     {
       "id": "b1-politeness",
-      "targetWords": 12,
-      "allocatedWords": 12,
+      "targetWords": 11,
+      "allocatedWords": 11,
       "words": [
         {
           "id": "L1-0032",
@@ -585,23 +883,6 @@
           "example": {
             "zh": "请坐，喝茶。",
             "en": "Please sit, drink tea."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0410",
-          "simp": "谢谢",
-          "trad": "謝謝",
-          "pinyin": "xièxie",
-          "pos": "V",
-          "en": "to thank; thanks",
-          "defs": [
-            "to thank",
-            "thanks"
-          ],
-          "example": {
-            "zh": "谢谢你的书。",
-            "en": "Thank you for your book."
           },
           "tags": null
         },
@@ -5387,8 +5668,8 @@
     },
     {
       "id": "b1-school",
-      "targetWords": 47,
-      "allocatedWords": 47,
+      "targetWords": 46,
+      "allocatedWords": 46,
       "words": [
         {
           "id": "L1-0023",
@@ -6079,22 +6360,6 @@
           "tags": null
         },
         {
-          "id": "L1-0479",
-          "simp": "中文",
-          "trad": "中文",
-          "pinyin": "zhōngwén",
-          "pos": "N",
-          "en": "Chinese language",
-          "defs": [
-            "Chinese (written)"
-          ],
-          "example": {
-            "zh": "我会说中文。",
-            "en": "I can speak Chinese."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0481",
           "simp": "中学",
           "trad": "中學",
@@ -6146,8 +6411,8 @@
     },
     {
       "id": "b1-questions",
-      "targetWords": 12,
-      "allocatedWords": 12,
+      "targetWords": 7,
+      "allocatedWords": 7,
       "words": [
         {
           "id": "L1-0095",
@@ -6198,22 +6463,6 @@
           "tags": null
         },
         {
-          "id": "L1-0227",
-          "simp": "吗",
-          "trad": "嗎",
-          "pinyin": "ma",
-          "pos": "Part",
-          "en": "question particle",
-          "defs": [
-            "(question marker)"
-          ],
-          "example": {
-            "zh": "你好吗？",
-            "en": "How are you?"
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0250",
           "simp": "哪",
           "trad": "哪",
@@ -6230,22 +6479,6 @@
           "tags": null
         },
         {
-          "id": "L1-0251a",
-          "simp": "哪里",
-          "trad": "哪裡",
-          "pinyin": "nǎlǐ",
-          "pos": "Pron",
-          "en": "where",
-          "defs": [
-            "where"
-          ],
-          "example": {
-            "zh": "你去哪里？",
-            "en": "Where are you going?"
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0252",
           "simp": "哪儿",
           "trad": "哪兒",
@@ -6258,55 +6491,6 @@
           "example": {
             "zh": "你去哪儿？",
             "en": "Where are you going?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0269",
-          "simp": "呢",
-          "trad": "呢",
-          "pinyin": "ne",
-          "pos": "Part",
-          "en": "question particle",
-          "defs": [
-            "(question particle for context)"
-          ],
-          "example": {
-            "zh": "我是学生，你呢？",
-            "en": "I am a student, and you?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0325a",
-          "simp": "谁",
-          "trad": "誰",
-          "pinyin": "shéi",
-          "pos": "Pron",
-          "en": "who",
-          "defs": [
-            "who",
-            "alt: shuí"
-          ],
-          "example": {
-            "zh": "他是谁？",
-            "en": "Who is he?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0328",
-          "simp": "什么",
-          "trad": "什麼",
-          "pinyin": "shénme",
-          "pos": "Pron",
-          "en": "what",
-          "defs": [
-            "what"
-          ],
-          "example": {
-            "zh": "这是什么？",
-            "en": "What is this?"
           },
           "tags": null
         },
@@ -6346,8 +6530,8 @@
     },
     {
       "id": "b1-verbs-2",
-      "targetWords": 26,
-      "allocatedWords": 26,
+      "targetWords": 22,
+      "allocatedWords": 22,
       "words": [
         {
           "id": "L1-0132",
@@ -6366,22 +6550,6 @@
           "tags": null
         },
         {
-          "id": "L1-0138",
-          "simp": "好",
-          "trad": "好",
-          "pinyin": "hǎo",
-          "pos": "Adj",
-          "en": "good",
-          "defs": [
-            "good; fine"
-          ],
-          "example": {
-            "zh": "今天天气很好。",
-            "en": "The weather is good today."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0141",
           "simp": "好听",
           "trad": "好聽",
@@ -6394,22 +6562,6 @@
           "example": {
             "zh": "这首歌很好听。",
             "en": "This song sounds nice."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0145",
-          "simp": "和",
-          "trad": "和",
-          "pinyin": "hé",
-          "pos": "Conj",
-          "en": "and",
-          "defs": [
-            "and; with"
-          ],
-          "example": {
-            "zh": "我和你一起去。",
-            "en": "I'll go with you."
           },
           "tags": null
         },
@@ -6522,22 +6674,6 @@
           "example": {
             "zh": "我们什么时候见面？",
             "en": "When will we meet?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0176",
-          "simp": "叫",
-          "trad": "叫",
-          "pinyin": "jiào",
-          "pos": "V",
-          "en": "to call; to be called",
-          "defs": [
-            "to call; named"
-          ],
-          "example": {
-            "zh": "你叫什么名字？",
-            "en": "What's your name?"
           },
           "tags": null
         },
@@ -6730,22 +6866,6 @@
           "example": {
             "zh": "我很忙。",
             "en": "I'm very busy."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0337",
-          "simp": "是",
-          "trad": "是",
-          "pinyin": "shì",
-          "pos": "V",
-          "en": "to be",
-          "defs": [
-            "to be; is"
-          ],
-          "example": {
-            "zh": "我是学生。",
-            "en": "I am a student."
           },
           "tags": null
         },
@@ -7032,8 +7152,8 @@
     },
     {
       "id": "b1-opinions",
-      "targetWords": 31,
-      "allocatedWords": 31,
+      "targetWords": 26,
+      "allocatedWords": 26,
       "words": [
         {
           "id": "L1-0001",
@@ -7196,22 +7316,6 @@
           "tags": null
         },
         {
-          "id": "L1-0116",
-          "simp": "高兴",
-          "trad": "高興",
-          "pinyin": "gāoxìng",
-          "pos": "Adj",
-          "en": "happy",
-          "defs": [
-            "happy; glad"
-          ],
-          "example": {
-            "zh": "我很高兴认识你。",
-            "en": "I'm happy to meet you."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0119",
           "simp": "歌",
           "trad": "歌",
@@ -7272,22 +7376,6 @@
           "example": {
             "zh": "这个地方很好玩儿。",
             "en": "This place is fun."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0146",
-          "simp": "很",
-          "trad": "很",
-          "pinyin": "hěn",
-          "pos": "Adv",
-          "en": "very",
-          "defs": [
-            "very"
-          ],
-          "example": {
-            "zh": "这个很好。",
-            "en": "This is very good."
           },
           "tags": null
         },
@@ -7368,54 +7456,6 @@
           "example": {
             "zh": "别生气。",
             "en": "Don't be angry."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0388",
-          "simp": "喜欢",
-          "trad": "喜歡",
-          "pinyin": "xǐhuan",
-          "pos": "V",
-          "en": "to like",
-          "defs": [
-            "to be fond of"
-          ],
-          "example": {
-            "zh": "我喜欢你。",
-            "en": "I like you."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0400",
-          "simp": "想",
-          "trad": "想",
-          "pinyin": "xiǎng",
-          "pos": "V",
-          "en": "to think; to want",
-          "defs": [
-            "to think; to want to"
-          ],
-          "example": {
-            "zh": "我想去中国。",
-            "en": "I want to go to China."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0423",
-          "simp": "要",
-          "trad": "要",
-          "pinyin": "yào",
-          "pos": "V,Aux",
-          "en": "to want; will",
-          "defs": [
-            "to want; must; will"
-          ],
-          "example": {
-            "zh": "我要喝水。",
-            "en": "I want to drink water."
           },
           "tags": null
         },
@@ -7535,8 +7575,8 @@
     },
     {
       "id": "b1-ability",
-      "targetWords": 10,
-      "allocatedWords": 10,
+      "targetWords": 9,
+      "allocatedWords": 9,
       "words": [
         {
           "id": "L1-0005",
@@ -7619,22 +7659,6 @@
           "tags": null
         },
         {
-          "id": "L1-0160",
-          "simp": "会",
-          "trad": "會",
-          "pinyin": "huì",
-          "pos": "V,Aux",
-          "en": "can; will",
-          "defs": [
-            "know how to; will"
-          ],
-          "example": {
-            "zh": "我会说汉语。",
-            "en": "I can speak Chinese."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0210",
           "simp": "了",
           "trad": "了",
@@ -7702,8 +7726,8 @@
     },
     {
       "id": "b1-verbs-3",
-      "targetWords": 25,
-      "allocatedWords": 25,
+      "targetWords": 24,
+      "allocatedWords": 24,
       "words": [
         {
           "id": "L1-0236",
@@ -7862,22 +7886,6 @@
           "example": {
             "zh": "你少说一点。",
             "en": "Talk a little less."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0349",
-          "simp": "说",
-          "trad": "說",
-          "pinyin": "shuō",
-          "pos": "V",
-          "en": "to speak",
-          "defs": [
-            "to say; to talk"
-          ],
-          "example": {
-            "zh": "你说什么？",
-            "en": "What did you say?"
           },
           "tags": null
         },

@@ -43,31 +43,31 @@ export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScre
   const [needsWork, setNeedsWork] = useState<NeedsWorkItem[]>([]);
   const [wordLookup, setWordLookup] = useState<WordLookup>({});
 
-  const load = async () => {
-    setLoading(true);
-    setError(null);
-    setBackendOffline(false);
-    try {
-      const response = await apiFetch(`/v1/me/needs-work?limit=30&minTotalMisses=1&language=${encodeURIComponent(languageId)}`);
-      if (!response.ok) throw new Error('Failed to load words to work on');
-      const json = (await response.json()) as { needsWork: NeedsWorkItem[] };
-      const normalized = (json.needsWork || [])
-        .map((item) => ({
-          ...item,
-          totalMisses: item.totalMisses ?? item.missedQuizCount + item.mispronounceCount,
-        }))
-        .filter((item) => item.totalMisses >= 1);
-      setNeedsWork(normalized);
-    } catch {
-      setBackendOffline(true);
-      setError(null);
-      setNeedsWork([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const load = async () => {
+      setLoading(true);
+      setError(null);
+      setBackendOffline(false);
+      try {
+        const response = await apiFetch(`/v1/me/needs-work?limit=30&minTotalMisses=1&language=${encodeURIComponent(languageId)}`);
+        if (!response.ok) throw new Error('Failed to load words to work on');
+        const json = (await response.json()) as { needsWork: NeedsWorkItem[] };
+        const normalized = (json.needsWork || [])
+          .map((item) => ({
+            ...item,
+            totalMisses: item.totalMisses ?? item.missedQuizCount + item.mispronounceCount,
+          }))
+          .filter((item) => item.totalMisses >= 1);
+        setNeedsWork(normalized);
+      } catch {
+        setBackendOffline(true);
+        setError(null);
+        setNeedsWork([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     void load();
     void (async () => {
       const lookup = await loadWordLookup(languageId);

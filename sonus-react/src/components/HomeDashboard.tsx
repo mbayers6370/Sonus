@@ -461,8 +461,7 @@ export default function HomeDashboard({
     };
   }, [
     languageId,
-    resolvedResumeTarget?.bandId,
-    resolvedResumeTarget?.unitId,
+    resolvedResumeTarget,
     state.lessonProgress,
   ]);
 

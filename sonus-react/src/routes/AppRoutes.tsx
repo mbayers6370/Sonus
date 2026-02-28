@@ -22,6 +22,16 @@ type ProgressPayload = {
 
 const LAST_LANGUAGE_KEY = 'sonus.last_language';
 
+const isMandarinLevel = (levelId: string) => /^band\d+$/i.test(levelId) || levelId === 'advanced';
+const isJapaneseLevel = (levelId: string) => /^n[1-5]$/i.test(levelId);
+const levelMatchesLanguage = (levelId: string, languageId: string | null) => {
+  if (!languageId) return true;
+  const normalizedLanguage = languageId === 'jp' ? 'ja' : languageId;
+  if (normalizedLanguage === 'zh') return isMandarinLevel(levelId);
+  if (normalizedLanguage === 'ja') return isJapaneseLevel(levelId);
+  return true;
+};
+
 function readLastLanguage(): string | null {
   try {
     const value = window.localStorage.getItem(LAST_LANGUAGE_KEY);
@@ -52,15 +62,6 @@ export default function AppRoutes() {
     generateDailyReviewSet,
   } = useApp();
   const { selectedLanguage, currentLevel } = state;
-  const isMandarinLevel = (levelId: string) => /^band\d+$/i.test(levelId) || levelId === 'advanced';
-  const isJapaneseLevel = (levelId: string) => /^n[1-5]$/i.test(levelId);
-  const levelMatchesLanguage = (levelId: string, languageId: string | null) => {
-    if (!languageId) return true;
-    const normalizedLanguage = languageId === 'jp' ? 'ja' : languageId;
-    if (normalizedLanguage === 'zh') return isMandarinLevel(levelId);
-    if (normalizedLanguage === 'ja') return isJapaneseLevel(levelId);
-    return true;
-  };
 
   useEffect(() => {
     let cancelled = false;
@@ -244,7 +245,7 @@ export default function AppRoutes() {
       if (currentLevel?.id !== level.id) {
         void selectLevel(level);
       }
-    }, [currentLevel?.id, level, selectLevel]);
+    }, [level]);
 
     if (!level) return <Navigate to="/learn" replace />;
     if (!selectedLanguage || !levelMatchesLanguage(level.id, selectedLanguage)) {

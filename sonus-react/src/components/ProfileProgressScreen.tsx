@@ -99,41 +99,41 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     typeof window === 'undefined' ? 4 : getNeedsWorkColumns(window.innerWidth)
   );
 
-  const load = async () => {
-    setError(null);
-    setBackendOffline(false);
-    try {
-      const [progressResponse, needsWorkResponse] = await Promise.all([
-        apiFetch('/v1/me/progress'),
-        apiFetch(`/v1/me/needs-work?limit=40&minTotalMisses=1&language=${encodeURIComponent(languageId)}`),
-      ]);
-      if (!progressResponse.ok) throw new Error('Failed to load progress');
-      const json = (await progressResponse.json()) as {
-        progress: Progress;
-      };
-      setProgress(json.progress);
+  useEffect(() => {
+    const load = async () => {
+      setError(null);
+      setBackendOffline(false);
+      try {
+        const [progressResponse, needsWorkResponse] = await Promise.all([
+          apiFetch('/v1/me/progress'),
+          apiFetch(`/v1/me/needs-work?limit=40&minTotalMisses=1&language=${encodeURIComponent(languageId)}`),
+        ]);
+        if (!progressResponse.ok) throw new Error('Failed to load progress');
+        const json = (await progressResponse.json()) as {
+          progress: Progress;
+        };
+        setProgress(json.progress);
 
-      if (needsWorkResponse.ok) {
-        const weakJson = (await needsWorkResponse.json()) as { needsWork: NeedsWorkItem[] };
-        setNeedsWork(weakJson.needsWork || []);
-      } else {
+        if (needsWorkResponse.ok) {
+          const weakJson = (await needsWorkResponse.json()) as { needsWork: NeedsWorkItem[] };
+          setNeedsWork(weakJson.needsWork || []);
+        } else {
+          setNeedsWork([]);
+        }
+      } catch {
+        setBackendOffline(true);
+        setError(null);
+        setProgress({
+          streak: 0,
+          lastActiveDate: null,
+          currentBandId: null,
+          currentUnitId: null,
+          currentLessonIdx: null,
+        });
         setNeedsWork([]);
       }
-    } catch {
-      setBackendOffline(true);
-      setError(null);
-      setProgress({
-        streak: 0,
-        lastActiveDate: null,
-        currentBandId: null,
-        currentUnitId: null,
-        currentLessonIdx: null,
-      });
-      setNeedsWork([]);
-    }
-  };
+    };
 
-  useEffect(() => {
     void load();
     void (async () => {
       const lookup = await loadWordLookup(languageId);
