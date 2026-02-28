@@ -1729,7 +1729,7 @@ export default function SpeakMode({
         <div className="grid grid-cols-2 gap-2 mb-2 items-stretch">
           <button
             type="button"
-            onClick={() => speak(word.simp, word.pinyin, false, speakLanguageId)}
+            onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage || speakLanguageId)}
             className="relative rounded-3xl border border-[#1F2A37] bg-white px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] flex flex-col items-center justify-center text-center transition-colors active:bg-[#F8FAFC]"
             aria-label="Play target audio"
             title="Play target audio"

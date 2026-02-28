@@ -37,30 +37,45 @@ export function useAudio() {
     const voices = synth.getVoices();
 
     const preferredByLanguage: Record<string, RegExp[]> = {
-      zh: [/ting-ting/i, /sin-ji/i, /meijia/i],
-      ja: [/kyoko/i, /otoya/i, /haruka/i, /ichiro/i],
+      zh: [/ting-ting/i, /sin-ji/i, /meijia/i, /xiaoxiao/i, /xiaoyi/i],
+      ja: [/kyoko/i, /otoya/i, /haruka/i, /ichiro/i, /nanami/i, /keita/i],
       ko: [/yuna/i, /narae/i],
       fr: [/thomas/i, /amelie/i, /aurelie/i],
       it: [/alice/i, /luca/i],
       es: [/jorge/i, /monica/i, /paulina/i],
     };
+    const qualityBonus = (name: string) => {
+      let bonus = 0;
+      if (/(premium|enhanced|natural|neural)/i.test(name)) bonus += 3;
+      if (/(compact|ecompact|legacy)/i.test(name)) bonus -= 2;
+      return bonus;
+    };
     const voiceLanguageKey = targetLanguage === 'kr' ? 'ko' : targetLanguage;
     const voiceLangPrefix = voiceLanguageKey.toLowerCase();
     const sameLangVoices = voices.filter((v) => v.lang.toLowerCase().startsWith(voiceLangPrefix));
-    const preferredVoice = sameLangVoices.find((v) =>
-      (preferredByLanguage[voiceLanguageKey] || []).some((pattern) => pattern.test(v.name))
-    );
-    const anyLanguageVoice = sameLangVoices[0];
+    const rankedVoices = sameLangVoices
+      .map((voice) => {
+        const preferredScore = (preferredByLanguage[voiceLanguageKey] || []).some((pattern) => pattern.test(voice.name))
+          ? 10
+          : 0;
+        const localBonus = voice.localService ? 1 : 0;
+        return {
+          voice,
+          score: preferredScore + qualityBonus(voice.name) + localBonus,
+        };
+      })
+      .sort((a, b) => b.score - a.score);
+    const selectedSameLangVoice = rankedVoices[0]?.voice;
 
     let textToSpeak: string;
     let lang: string;
     let voice: SpeechSynthesisVoice | undefined;
 
     const locale = languageToLocale[targetLanguage] || 'en-US';
-    if (preferredVoice || anyLanguageVoice) {
+    if (selectedSameLangVoice) {
       textToSpeak = text || reading;
       lang = locale;
-      voice = preferredVoice || anyLanguageVoice;
+      voice = selectedSameLangVoice;
       if (!textToSpeak) {
         textToSpeak = reading || text;
       }
@@ -77,7 +92,15 @@ export function useAudio() {
       : textToSpeak;
     const utterance = new SpeechSynthesisUtterance(playbackText);
     utterance.lang = lang;
-    utterance.rate = slow ? 0.35 : 0.9;
+    const defaultRateByLanguage: Record<string, number> = {
+      zh: 0.86,
+      ja: 0.8,
+      ko: 0.84,
+      fr: 0.9,
+      it: 0.9,
+      es: 0.9,
+    };
+    utterance.rate = slow ? 0.35 : (defaultRateByLanguage[voiceLanguageKey] || 0.9);
     utterance.pitch = 1.0;
     utterance.volume = 1.0;
     if (voice) utterance.voice = voice;
