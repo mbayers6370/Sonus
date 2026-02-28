@@ -783,7 +783,10 @@ export default function SpeakMode({
       const heard = normalizeJapaneseForCompare(recognized);
       const targetWord = normalizeJapaneseForCompare(word.simp || '');
       if (!heard || !targetWord) return false;
-      return heard === targetWord;
+      if (heard === targetWord) return true;
+      if (heard.includes(targetWord) || targetWord.includes(heard)) return true;
+      const dist = levenshtein(heard, targetWord);
+      return dist <= (targetWord.length <= 4 ? 1 : 2);
     }
 
     const recognizedHanzi = normalizeHanzi(recognized);
@@ -1173,7 +1176,8 @@ export default function SpeakMode({
         if (recordingUrl) URL.revokeObjectURL(recordingUrl);
         const nextUrl = URL.createObjectURL(blob);
         setRecordingUrl(nextUrl);
-
+        // Always release the mic after each attempt so playback remains reliable on mobile.
+        releaseMediaStream();
         scheduleFinalize(sessionId, FINALIZE_DELAY_MS);
       };
 
@@ -1209,7 +1213,7 @@ export default function SpeakMode({
   }, []);
 
   useEffect(() => {
-    abortActiveCapture(true);
+    abortActiveCapture(false);
     setTranscript('');
     setMatchResult(null);
     setAnalysis(null);
