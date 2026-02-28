@@ -783,10 +783,8 @@ export default function SpeakMode({
       const heard = normalizeJapaneseForCompare(recognized);
       const targetWord = normalizeJapaneseForCompare(word.simp || '');
       if (!heard || !targetWord) return false;
-      if (heard === targetWord) return true;
-      if (heard.includes(targetWord) || targetWord.includes(heard)) return true;
-      const dist = levenshtein(heard, targetWord);
-      return dist <= (targetWord.length <= 4 ? 1 : 2);
+      // Japanese scoring is whole-word strict after script normalization.
+      return heard === targetWord;
     }
 
     const recognizedHanzi = normalizeHanzi(recognized);
