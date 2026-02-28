@@ -80,18 +80,13 @@ type SpeechRecognitionEventLike = {
   results: SpeechRecognitionResultListLike;
 };
 
-type SpeechRecognitionErrorEventLike = {
-  error?: string;
-  message?: string;
-};
-
 type SpeechRecognitionLike = {
   lang: string;
   continuous: boolean;
   interimResults: boolean;
   maxAlternatives: number;
   onresult: ((event: SpeechRecognitionEventLike) => void) | null;
-  onerror: ((event: SpeechRecognitionErrorEventLike) => void) | null;
+  onerror: (() => void) | null;
   onend: (() => void) | null;
   start: () => void;
   stop: () => void;
@@ -562,25 +557,6 @@ function pickBetterCandidate(current: SpeakCandidate | null, next: SpeakCandidat
   return next.updatedAt >= current.updatedAt ? next : current;
 }
 
-function recognitionErrorMessage(errorCode: string | undefined) {
-  if (errorCode === 'not-allowed' || errorCode === 'service-not-allowed') {
-    return 'Speech permission was blocked. Enable microphone and speech recognition permissions, then try again.';
-  }
-  if (errorCode === 'audio-capture') {
-    return 'No microphone was detected. Connect or enable a microphone and try again.';
-  }
-  if (errorCode === 'network') {
-    return 'Speech recognition network error. Check connection and try again.';
-  }
-  if (errorCode === 'no-speech') {
-    return 'No speech detected. Speak clearly near the microphone and try again.';
-  }
-  if (errorCode === 'aborted') {
-    return 'Recording was interrupted. Try again.';
-  }
-  return 'Speech recognition could not process audio. Please try again.';
-}
-
 export default function SpeakMode({
   word,
   allWords,
@@ -616,21 +592,10 @@ export default function SpeakMode({
 
   const { speak } = useAudio();
   const { state, recordSpeakResult, recordWordOutcome } = useApp();
-  const [sttCapability, setSttCapability] = useState<SttCapability>(() => getSttCapability());
+  const sttCapability = useMemo(() => getSttCapability(), []);
   const sttSupported = sttCapability.supported;
   const isJapaneseLesson = state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp';
   const isMandarinLesson = state.selectedLanguage === 'zh';
-
-  useEffect(() => {
-    const refresh = () => setSttCapability(getSttCapability());
-    refresh();
-    window.addEventListener('focus', refresh);
-    window.addEventListener('visibilitychange', refresh);
-    return () => {
-      window.removeEventListener('focus', refresh);
-      window.removeEventListener('visibilitychange', refresh);
-    };
-  }, []);
 
   const targetHanzi = normalizeHanzi(word.simp);
   const targetSyllableCount = Math.max(
@@ -974,12 +939,11 @@ export default function SpeakMode({
     setIsFinalizing(false);
   };
 
-  const startRecognition = (): boolean => {
+  const startRecognition = () => {
     const recognitionWindow = window as SpeechRecognitionWindow;
     const SpeechRecognitionCtor =
       recognitionWindow.SpeechRecognition || recognitionWindow.webkitSpeechRecognition;
     if (!SpeechRecognitionCtor) {
-      setSttCapability(getSttCapability());
       if (!sttUnavailableTrackedRef.current) {
         sttUnavailableTrackedRef.current = true;
         trackEvent('speak_stt_unavailable', {
@@ -995,7 +959,7 @@ export default function SpeakMode({
           },
         });
       }
-      return false;
+      return;
     }
 
     try {
@@ -1072,21 +1036,12 @@ export default function SpeakMode({
         }
       };
 
-      recognition.onerror = (event: SpeechRecognitionErrorEventLike) => {
-        const errorCode = event?.error;
-        const message = recognitionErrorMessage(errorCode);
-        setAudioError(message);
-        setMatchResult('retry');
-        pendingSpeakAttemptRef.current = null;
-        // End the active session immediately so this does not look like a no-op.
-        abortActiveCapture(false);
-
+      recognition.onerror = () => {
         // Speech recognition errors do not invalidate the active media stream.
         trackEvent('speak_stt_error', {
           phase: 'runtime',
           wordId: word.id,
           isReview: Boolean(word.isReview),
-          error: errorCode || null,
         });
         sendClientTelemetrySafe({
           name: 'speak_stt_error',
@@ -1094,8 +1049,6 @@ export default function SpeakMode({
             phase: 'runtime',
             wordId: word.id,
             isReview: Boolean(word.isReview),
-            error: errorCode || null,
-            message: event?.message || null,
           },
         });
       };
@@ -1119,7 +1072,6 @@ export default function SpeakMode({
 
       recognition.start();
       recognitionRef.current = recognition;
-      return true;
     } catch {
       // Recognition startup failures do not block media recording.
       trackEvent('speak_stt_error', {
@@ -1135,7 +1087,6 @@ export default function SpeakMode({
           isReview: Boolean(word.isReview),
         },
       });
-      return false;
     }
   };
 
@@ -1167,21 +1118,19 @@ export default function SpeakMode({
       return;
     }
 
-    const detectedCapability = getSttCapability();
-    setSttCapability(detectedCapability);
-    if (!detectedCapability.supported) {
+    if (!sttSupported) {
       setAudioError('Speech recognition is unavailable on this browser. Please use Safari or Chrome.');
       trackEvent('speak_stt_unavailable', {
         wordId: word.id,
         isReview: Boolean(word.isReview),
-        engine: detectedCapability.engine,
+        engine: sttCapability.engine,
       });
       sendClientTelemetrySafe({
         name: 'speak_stt_unavailable',
         payload: {
           wordId: word.id,
           isReview: Boolean(word.isReview),
-          engine: detectedCapability.engine,
+          engine: sttCapability.engine,
         },
       });
       return;
@@ -1230,28 +1179,14 @@ export default function SpeakMode({
 
       setIsRecording(true);
       recorder.start();
-      const recognitionStarted = startRecognition();
-      if (!recognitionStarted) {
-        setAudioError('Speech recognition could not start. Please try Safari or Chrome with mic + speech permissions enabled.');
-        abortActiveCapture(false);
-        setMatchResult('retry');
-      }
-    } catch (error) {
+      startRecognition();
+    } catch {
       isRecordingRef.current = false;
-      const errName = error instanceof DOMException ? error.name : '';
-      const message =
-        errName === 'NotAllowedError'
-          ? 'Microphone access was blocked. Please allow mic access and try again.'
-          : errName === 'NotFoundError'
-            ? 'No microphone was found on this device.'
-            : errName === 'NotReadableError'
-              ? 'Microphone is currently in use by another app. Close it and try again.'
-              : 'Microphone could not start. Please check device permissions and try again.';
-      setAudioError(message);
+      setAudioError('Microphone access was blocked. Please allow mic access and try again.');
       trackEvent('speak_retry', {
         wordId: word.id,
         isReview: Boolean(word.isReview),
-        source: errName ? `mic-${errName}` : 'mic-blocked',
+        source: 'mic-blocked',
       });
       setIsRecording(false);
     }
@@ -1589,13 +1524,13 @@ export default function SpeakMode({
           <button
             type="button"
             onClick={handleRecord}
-            disabled={isFinalizing}
+            disabled={isFinalizing || !sttSupported}
             className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] transition-colors ${
               !sttSupported
-                ? 'border-[#D1D5DB] bg-[#F3F4F6] opacity-75'
+                ? 'border-[#D1D5DB] bg-[#F3F4F6] opacity-75 cursor-not-allowed'
                 : isRecording
                   ? 'border-[#2B3440] bg-[#2B3440] shadow-[0_0_0_1px_rgba(255,255,255,0.06)] active:bg-[#344253]'
-                  : 'border-[#1F2A37] bg-[#1F2A37] active:bg-[#273243]'
+                : 'border-[#1F2A37] bg-[#1F2A37] active:bg-[#273243]'
             }`}
             aria-label={isRecording ? 'Stop recording' : 'Start recording'}
             title={isRecording ? 'Stop recording' : 'Start recording'}
