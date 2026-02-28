@@ -23,7 +23,10 @@ function AppShell() {
 }
 
 export default function App() {
-  const Router = import.meta.env.PROD ? HashRouter : BrowserRouter;
+  const routerMode = (import.meta.env.VITE_ROUTER_MODE || '').toLowerCase();
+  const useBrowserRouter =
+    routerMode === 'browser' || (routerMode !== 'hash' && !import.meta.env.PROD);
+  const Router = useBrowserRouter ? BrowserRouter : HashRouter;
   return (
     <AuthProvider>
       <Router>

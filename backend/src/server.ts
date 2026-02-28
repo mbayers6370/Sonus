@@ -30,6 +30,52 @@ function buildCspHeader(allowedOrigins: Set<string>) {
   ].join('; ');
 }
 
+function sanitizeErrorPayload(
+  payload: unknown,
+  statusCode: number,
+  contentTypeHeader: unknown,
+  requestId: string
+) {
+  if (env.NODE_ENV !== 'production') return payload;
+  if (statusCode < 400) return payload;
+  const contentType = typeof contentTypeHeader === 'string' ? contentTypeHeader.toLowerCase() : '';
+  const isJsonPayloadType =
+    contentType.includes('application/json') ||
+    (typeof payload === 'object' && payload !== null);
+  if (!isJsonPayloadType) return payload;
+
+  let obj: Record<string, unknown>;
+  if (typeof payload === 'string') {
+    try {
+      const parsed = JSON.parse(payload) as unknown;
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return payload;
+      obj = parsed as Record<string, unknown>;
+    } catch {
+      return payload;
+    }
+  } else if (typeof payload === 'object' && payload !== null && !Array.isArray(payload)) {
+    obj = payload as Record<string, unknown>;
+  } else {
+    return payload;
+  }
+
+  const sanitized: Record<string, unknown> = {};
+  if (typeof obj.error === 'string') {
+    sanitized.error = obj.error;
+  } else if (typeof obj.message === 'string') {
+    // Fallback for route handlers that return { message } shape.
+    sanitized.error = obj.message;
+  }
+  if (typeof obj.code === 'string') {
+    sanitized.code = obj.code;
+  }
+  if (requestId) {
+    sanitized.requestId = requestId;
+  }
+
+  return typeof payload === 'string' ? JSON.stringify(sanitized) : sanitized;
+}
+
 export async function buildServer() {
   const app = Fastify({
     logger: true,
@@ -78,7 +124,7 @@ export async function buildServer() {
     }
   });
 
-  app.addHook('onSend', async (_request, reply, payload) => {
+  app.addHook('onSend', async (request, reply, payload) => {
     reply.header('X-Content-Type-Options', 'nosniff');
     reply.header('X-Frame-Options', 'DENY');
     reply.header('Referrer-Policy', 'strict-origin-when-cross-origin');
@@ -89,7 +135,7 @@ export async function buildServer() {
     if (env.NODE_ENV === 'production') {
       reply.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
     }
-    return payload;
+    return sanitizeErrorPayload(payload, reply.statusCode, reply.getHeader('content-type'), request.id);
   });
 
   app.addHook('onResponse', async (request, reply) => {

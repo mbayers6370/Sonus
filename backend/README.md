@@ -55,6 +55,14 @@ npm run db:up
 npm run prisma:generate
 npm run prisma:push
 ```
+- Production-safe migration deploy (recommended for Render deploy hooks):
+```bash
+npm run prisma:migrate:deploy
+```
+- Check migration state:
+```bash
+npm run prisma:migrate:status
+```
 
 ## Run
 ```bash
@@ -170,6 +178,15 @@ CSRF controls for cookie-auth flows:
 
 `memory` mode is per-instance and intended for local/demo deployments.  
 Use `redis` or gateway/CDN enforcement for multi-instance production deployments.
+
+## SQL Security Verification
+- Apply baseline table + policy SQL in order:
+  - `sql/001_init.sql`
+  - `sql/002_rls_policies.sql`
+  - `sql/003_remove_xp_columns.sql`
+  - `sql/004_harden_auth_table_rls.sql`
+- Verify RLS coverage/report:
+  - run `sql/005_rls_audit_report.sql`
 
 ## Backend Module Layout
 - `src/routes/` exposes HTTP handlers and request validation.

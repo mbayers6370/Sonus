@@ -25,7 +25,9 @@
     "db:reset": "docker compose down -v && docker compose up -d",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:migrate:status": "prisma migrate status"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.2",

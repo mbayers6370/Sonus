@@ -56,6 +56,13 @@ type AuthApiResponse = {
   message?: string;
 };
 
+function resolveScopedAppStateKeyForIdentity(identity: { userId: string | null; email: string | null }) {
+  const scope = (identity.userId || identity.email || 'anon')
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]/g, '_');
+  return `sonus-app-state:${scope}`;
+}
+
 function clearLearningState() {
   try {
     const keysToRemove: string[] = [];
@@ -111,6 +118,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
 
   const clearToSignedOut = useCallback(() => {
+    const identity = getMockIdentity();
+    const scopedAppStateKey = resolveScopedAppStateKeyForIdentity(identity);
+    if (getDemoMode() || identity.email === 'dev@local.test') {
+      try {
+        window.localStorage.removeItem(scopedAppStateKey);
+      } catch {
+        // Ignore localStorage failures.
+      }
+    }
     setDemoMode(false);
     setMockIdentity(null, null);
     clearAuthSession();

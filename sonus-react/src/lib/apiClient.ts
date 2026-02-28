@@ -10,9 +10,51 @@ type RefreshPayload = {
 };
 
 let refreshPromise: Promise<boolean> | null = null;
+const RETRYABLE_STATUS_CODES = new Set([408, 425, 429, 500, 502, 503, 504]);
+const TRANSIENT_RETRY_ATTEMPTS = 2;
+const BASE_RETRY_DELAY_MS = 350;
 
 function isAuthRoute(path: string) {
   return path.startsWith('/v1/auth/');
+}
+
+function normalizedMethod(init: RequestInit) {
+  return (init.method || 'GET').toUpperCase();
+}
+
+function isIdempotentMethod(method: string) {
+  return method === 'GET' || method === 'HEAD' || method === 'OPTIONS';
+}
+
+function parseRetryAfterMs(retryAfterHeader: string | null) {
+  if (!retryAfterHeader) return null;
+  const seconds = Number(retryAfterHeader);
+  if (Number.isFinite(seconds) && seconds >= 0) {
+    return Math.round(seconds * 1000);
+  }
+  const retryAt = Date.parse(retryAfterHeader);
+  if (Number.isFinite(retryAt)) {
+    return Math.max(0, retryAt - Date.now());
+  }
+  return null;
+}
+
+function sleep(ms: number) {
+  return new Promise<void>((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+}
+
+function backoffDelayMs(attempt: number) {
+  const base = BASE_RETRY_DELAY_MS * (2 ** attempt);
+  const jitter = Math.floor(Math.random() * 125);
+  return base + jitter;
+}
+
+function shouldRetryStatus(response: Response, path: string, method: string) {
+  if (isAuthRoute(path)) return false;
+  if (!isIdempotentMethod(method)) return false;
+  return RETRYABLE_STATUS_CODES.has(response.status);
 }
 
 function dispatchAuthExpired() {
@@ -46,12 +88,48 @@ async function refreshAccessToken() {
       setMockIdentity(payload.user?.id ?? null, payload.user?.email ?? null);
       return true;
     } catch {
+      clearAuthSession();
+      dispatchAuthExpired();
       return false;
     } finally {
       refreshPromise = null;
     }
   })();
   return refreshPromise;
+}
+
+async function requestWithRetry(url: string, path: string, init: RequestInit, headers: Headers) {
+  const method = normalizedMethod(init);
+  let lastNetworkError: unknown = null;
+
+  for (let attempt = 0; attempt <= TRANSIENT_RETRY_ATTEMPTS; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        ...init,
+        headers,
+        credentials: init.credentials ?? 'include',
+      });
+
+      if (attempt >= TRANSIENT_RETRY_ATTEMPTS || !shouldRetryStatus(response, path, method)) {
+        return response;
+      }
+
+      const retryAfterMs = parseRetryAfterMs(response.headers.get('retry-after'));
+      const delayMs = retryAfterMs ?? backoffDelayMs(attempt);
+      await sleep(delayMs);
+    } catch (error) {
+      lastNetworkError = error;
+      const canRetryNetworkError =
+        attempt < TRANSIENT_RETRY_ATTEMPTS &&
+        !isAuthRoute(path) &&
+        isIdempotentMethod(method);
+      if (!canRetryNetworkError) throw error;
+      await sleep(backoffDelayMs(attempt));
+    }
+  }
+
+  if (lastNetworkError) throw lastNetworkError;
+  throw new Error('Request failed');
 }
 
 export async function apiFetch(path: string, init: RequestInit = {}) {
@@ -72,14 +150,9 @@ export async function apiFetch(path: string, init: RequestInit = {}) {
     headers.set('x-dev-user-email', mockIdentity.email);
   }
 
-  const response = await fetch(url, {
-    ...init,
-    headers,
-    credentials: init.credentials ?? 'include',
-  });
+  const response = await requestWithRetry(url, path, init, headers);
 
-  const hasAuthToken = Boolean(token);
-  const canRetryWithRefresh = hasAuthToken && !isAuthRoute(path) && (response.status === 401 || response.status === 403);
+  const canRetryWithRefresh = !isAuthRoute(path) && (response.status === 401 || response.status === 403);
   if (!canRetryWithRefresh) {
     return response;
   }
@@ -103,9 +176,5 @@ export async function apiFetch(path: string, init: RequestInit = {}) {
     retryHeaders.set('x-dev-user-email', mockIdentityRetry.email);
   }
 
-  return fetch(url, {
-    ...init,
-    headers: retryHeaders,
-    credentials: init.credentials ?? 'include',
-  });
+  return requestWithRetry(url, path, init, retryHeaders);
 }

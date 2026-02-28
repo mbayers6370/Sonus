@@ -192,8 +192,11 @@ export default function ProfileScreen({
       ]);
 
       if (profileRes.status === 401 || profileRes.status === 403 || progressRes.status === 401 || progressRes.status === 403) {
-        signOut();
-        return;
+        if (!isDemo) {
+          signOut();
+          return;
+        }
+        throw new Error('Demo auth unavailable');
       }
 
       if (!profileRes.ok || !progressRes.ok) {
@@ -234,7 +237,7 @@ export default function ProfileScreen({
         }
       }
     }
-  }, [resolvedCurrentLearningLanguage, signOut, timezone]);
+  }, [isDemo, resolvedCurrentLearningLanguage, signOut, timezone]);
 
   useEffect(() => {
     void loadProfile();
