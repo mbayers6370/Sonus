@@ -1793,6 +1793,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const isMasteryAttempt = existing.completed && !existing.mastered;
       if (lessonMode === 'apply') {
         nextMastered = true;
+      } else if (computedCompleted) {
+        // Mastery is achieved once both instructional thresholds are met.
+        nextMastered = true;
       } else if (
         isMasteryAttempt &&
         lessonMode === 'speak' &&

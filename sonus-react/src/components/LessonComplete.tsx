@@ -67,6 +67,8 @@ export default function LessonComplete({
     totalCoreItems > 0 ? Math.round((speakCorrectCoreCount / totalCoreItems) * 100) : 0;
   const speakScorePercent = totalQuizItems > 0 ? Math.round((speakCorrectCount / totalQuizItems) * 100) : 0;
   const speakPassed = speakScorePercentCore >= SPEAK_PASS_PERCENT;
+  const SPEAK_FULL_RETRY_PERCENT = 60;
+  const speakNeedsFullLessonRetry = speakScorePercentCore < SPEAK_FULL_RETRY_PERCENT;
   const characterCount = Array.from(
     new Set(
       activeLesson.words.flatMap((word) => Array.from(word.simp || '')).filter((char) => /[\u3400-\u9FFF]/.test(char))
@@ -132,6 +134,11 @@ export default function LessonComplete({
                     ? `${characterCount} character cards completed.`
                     : `${totalCoreItems} sentence prompts completed.`
                 : `${totalCoreItems} words introduced.`}
+          </p>
+        )}
+        {isSpeakCompletion && speakNeedsFullLessonRetry && (
+          <p className="mb-5 text-center text-[#C2410C]">
+            Score below {SPEAK_FULL_RETRY_PERCENT}%: return to Learn, then retake Quiz and Speak.
           </p>
         )}
 
@@ -310,7 +317,7 @@ export default function LessonComplete({
               </button>
             </>
           )}
-          {isSpeakCompletion && !speakPassed && (
+          {isSpeakCompletion && !speakNeedsFullLessonRetry && !speakPassed && (
             <button
               onClick={onStartSpeak}
               className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
@@ -318,7 +325,15 @@ export default function LessonComplete({
               Retake Speaking
             </button>
           )}
-          {isSpeakCompletion && (
+          {isSpeakCompletion && speakNeedsFullLessonRetry && (
+            <button
+              onClick={onRestart}
+              className="w-full py-4 px-6 bg-[#C2410C] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+            >
+              Return to Full Lesson Flow
+            </button>
+          )}
+          {isSpeakCompletion && !speakNeedsFullLessonRetry && (
             <>
               <button
                 onClick={onContinue}

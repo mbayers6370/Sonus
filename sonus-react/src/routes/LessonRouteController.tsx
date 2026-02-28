@@ -145,6 +145,15 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
   }
 
   if (isCompleteRoute) {
+    const coreIndexes = activeLesson.words
+      .map((word, index) => ({ word, index }))
+      .filter(({ word }) => !word.isReview)
+      .map(({ index }) => index);
+    const coreTotal = coreIndexes.length;
+    const speakCorrectCore = coreIndexes.filter((index) => Boolean(state.speakResultsByIndex[index])).length;
+    const speakScoreCorePercent = coreTotal > 0 ? Math.round((speakCorrectCore / coreTotal) * 100) : 0;
+    const shouldReturnToFullLesson = state.lessonMode === 'speak' && speakScoreCorePercent < 60;
+
     return (
       <LessonComplete
         onGoHome={onGoHome}
@@ -158,6 +167,13 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
           navigate(`/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/speak`);
         }}
         onContinue={() => {
+          if (shouldReturnToFullLesson) {
+            restartLesson();
+            navigate(
+              `/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/intro`
+            );
+            return;
+          }
           exitLesson();
           navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
         }}
