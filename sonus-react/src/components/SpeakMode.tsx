@@ -591,6 +591,7 @@ export default function SpeakMode({
   onNext,
 }: SpeakModeProps) {
   const [isRecording, setIsRecording] = useState(false);
+  const [isStartingRecording, setIsStartingRecording] = useState(false);
   const [isFinalizing, setIsFinalizing] = useState(false);
   const [recordingUrl, setRecordingUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState('');
@@ -971,6 +972,7 @@ export default function SpeakMode({
     recognitionStateRef.current = 'idle';
     pendingSpeakAttemptRef.current = null;
     setIsRecording(false);
+    setIsStartingRecording(false);
     setIsFinalizing(false);
   };
 
@@ -1160,6 +1162,7 @@ export default function SpeakMode({
   };
 
   const handleRecord = async () => {
+    if (isStartingRecording) return;
     setAudioError(null);
 
     if (isRecording) {
@@ -1167,6 +1170,7 @@ export default function SpeakMode({
       return;
     }
 
+    setIsStartingRecording(true);
     const detectedCapability = getSttCapability();
     setSttCapability(detectedCapability);
     if (!detectedCapability.supported) {
@@ -1184,6 +1188,7 @@ export default function SpeakMode({
           engine: detectedCapability.engine,
         },
       });
+      setIsStartingRecording(false);
       return;
     }
 
@@ -1236,6 +1241,7 @@ export default function SpeakMode({
         abortActiveCapture(false);
         setMatchResult('retry');
       }
+      setIsStartingRecording(false);
     } catch (error) {
       isRecordingRef.current = false;
       const errName = error instanceof DOMException ? error.name : '';
@@ -1254,6 +1260,7 @@ export default function SpeakMode({
         source: errName ? `mic-${errName}` : 'mic-blocked',
       });
       setIsRecording(false);
+      setIsStartingRecording(false);
     }
   };
 
@@ -1278,6 +1285,7 @@ export default function SpeakMode({
     setTranscript('');
     setMatchResult(null);
     setAnalysis(null);
+    setIsStartingRecording(false);
     setIsFinalizing(false);
     if (finalizeTimerRef.current) {
       window.clearTimeout(finalizeTimerRef.current);
@@ -1331,7 +1339,7 @@ export default function SpeakMode({
     ? (detectedPinyinLabel ? 'Heard' : 'Target')
     : (detectedPinyinLabel ? 'Detected' : 'Target');
   const displayMeaning = useMemo(() => getPrimaryMeaning(word), [word]);
-  const navLocked = isRecording || isFinalizing;
+  const navLocked = isRecording || isStartingRecording || isFinalizing;
 
   const renderScoreChips = (compact: boolean) => {
     if (isJapaneseLesson) return null;
@@ -1566,9 +1574,10 @@ export default function SpeakMode({
           <button
             type="button"
             onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
-            className="relative rounded-3xl border border-[#1F2A37] bg-white px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] flex flex-col items-center justify-center text-center transition-colors active:bg-[#F8FAFC]"
+            className="relative z-10 rounded-3xl border border-[#1F2A37] bg-white px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] flex flex-col items-center justify-center text-center transition-colors active:bg-[#F8FAFC] touch-manipulation"
             aria-label="Play target audio"
             title="Play target audio"
+            style={{ touchAction: 'manipulation' }}
           >
             <Volume2 className="absolute top-3 right-3 w-5 h-5 text-[#1F2A37]" />
             {!practiceMode ? (
@@ -1589,8 +1598,8 @@ export default function SpeakMode({
           <button
             type="button"
             onClick={handleRecord}
-            disabled={isFinalizing}
-            className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] transition-colors ${
+            disabled={isFinalizing || isStartingRecording}
+            className={`relative z-10 rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] transition-colors touch-manipulation ${
               !sttSupported
                 ? 'border-[#D1D5DB] bg-[#F3F4F6] opacity-75'
                 : isRecording
@@ -1599,6 +1608,7 @@ export default function SpeakMode({
             }`}
             aria-label={isRecording ? 'Stop recording' : 'Start recording'}
             title={isRecording ? 'Stop recording' : 'Start recording'}
+            style={{ touchAction: 'manipulation' }}
           >
             <Mic
               className={`absolute top-3 right-3 w-5 h-5 text-white ${isRecording ? 'animate-pulse' : ''}`}
@@ -1611,6 +1621,8 @@ export default function SpeakMode({
               <div className="text-base sm:text-lg font-semibold text-white leading-tight break-words mt-1">
                 {!sttSupported
                   ? 'Speech Unavailable'
+                  : isStartingRecording
+                    ? 'Starting...'
                   : isRecording
                     ? 'Tap To Finish'
                     : 'Tap To Start'}
@@ -1632,7 +1644,7 @@ export default function SpeakMode({
 
       {/* Navigation Buttons */}
       <div
-        className={`fixed left-0 right-0 z-40 px-5 pb-2 border-t pt-2 backdrop-blur-sm bottom-[calc(var(--sonus-bottom-nav-height,5rem)+env(safe-area-inset-bottom,0px))] ${
+        className={`sticky left-0 right-0 z-30 px-5 pb-2 border-t pt-2 backdrop-blur-sm bottom-[calc(var(--sonus-bottom-nav-height,5rem)+env(safe-area-inset-bottom,0px))] ${
           practiceMode ? 'bg-white border-white/30' : 'bg-bg-warm/95 border-border'
         }`}
       >
