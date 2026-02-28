@@ -8,7 +8,7 @@
     {
       "id": "core",
       "title": "Core",
-      "subtitle": "Everyday Beginnings",
+      "subtitle": "First Steps, Clear Speech",
       "unitIds": [
         "n5-core-01",
         "n5-core-02",
@@ -6408,7 +6408,7 @@
     {
       "id": "expansion",
       "title": "Expansion",
-      "subtitle": "Daily Life in Motion",
+      "subtitle": "Daily Scenes, Growing Range",
       "unitIds": [
         "n5-expansion-01",
         "n5-expansion-02",
@@ -10900,7 +10900,7 @@
     {
       "id": "integration",
       "title": "Integration",
-      "subtitle": "Connector & Context Usage",
+      "subtitle": "Linking Ideas Naturally",
       "unitIds": [
         "n5-integration-01",
         "n5-integration-02",

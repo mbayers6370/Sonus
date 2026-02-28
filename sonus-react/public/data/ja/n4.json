@@ -8,7 +8,7 @@
     {
       "id": "core",
       "title": "Core",
-      "subtitle": "Home, School, Street",
+      "subtitle": "Street, Home, Classroom",
       "unitIds": [],
       "words": [
         {
@@ -5926,7 +5926,7 @@
     {
       "id": "expansion",
       "title": "Expansion",
-      "subtitle": "Social Everyday Japanese",
+      "subtitle": "People, Plans, Routine",
       "unitIds": [],
       "words": [
         {
@@ -7572,7 +7572,7 @@
     {
       "id": "integration",
       "title": "Integration",
-      "subtitle": "Connector & Context Usage",
+      "subtitle": "Flow, Contrast, Nuance",
       "unitIds": [],
       "words": [
         {
