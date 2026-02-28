@@ -18,6 +18,7 @@ import { useApp } from '../contexts/AppContext';
 import { SurfaceButtonCard, SurfaceCard } from './ui/SurfaceCard';
 import { formatUnitNameForDisplay, getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 type Profile = {
   displayName: string | null;
@@ -82,7 +83,9 @@ export default function ProfileScreen({
 }: ProfileScreenProps) {
   const { state } = useApp();
   const { isDemo, signOut } = useAuth();
-  const resolvedCurrentLearningLanguage = currentLearningLanguage === 'jp' ? 'ja' : currentLearningLanguage;
+  const resolvedCurrentLearningLanguage = currentLearningLanguage
+    ? normalizeLanguageId(currentLearningLanguage)
+    : null;
   const [saving, setSaving] = useState(false);
   const [profileEditorOpen, setProfileEditorOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);

@@ -5,6 +5,7 @@ import { loadWordLookup, type WordLookup } from '../lib/wordLookup';
 import GlassHeader from './GlassHeader';
 import { apiFetch } from '../lib/apiClient';
 import { useApp } from '../contexts/AppContext';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 type NeedsWorkItem = {
   wordId: string;
@@ -36,7 +37,7 @@ function reasonLabel(reason: string) {
 
 export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScreenProps) {
   const { state } = useApp();
-  const languageId = state.selectedLanguage === 'jp' ? 'ja' : (state.selectedLanguage || 'zh');
+  const languageId = normalizeLanguageId(state.selectedLanguage);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [backendOffline, setBackendOffline] = useState(false);
@@ -116,7 +117,9 @@ export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScre
                     <div className="secondary-font text-2xl text-text-dark leading-none">
                       {wordLookup[item.wordId].simp}
                     </div>
-                    <div className="text-sm text-text-med mt-1">{wordLookup[item.wordId].pinyin}</div>
+                    <div className="text-sm text-text-med mt-1">
+                      {wordLookup[item.wordId].pronunciation || wordLookup[item.wordId].reading || wordLookup[item.wordId].pinyin}
+                    </div>
                     <div className="text-sm text-text-light mt-0.5">{wordLookup[item.wordId].en}</div>
                   </div>
                 ) : null}

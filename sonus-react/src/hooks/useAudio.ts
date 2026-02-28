@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 export function useAudio() {
   const speak = useCallback((text: string, reading: string, slow = false, languageHint?: string | null) => {
@@ -7,9 +8,7 @@ export function useAudio() {
       return;
     }
 
-    const normalizedHint = (languageHint || '').toLowerCase() === 'jp'
-      ? 'ja'
-      : (languageHint || '').toLowerCase();
+    const normalizedHint = languageHint ? normalizeLanguageId(languageHint) : '';
     const languageToLocale: Record<string, string> = {
       zh: 'zh-CN',
       ja: 'ja-JP',

@@ -13,6 +13,8 @@ export interface Word {
   simp: string;
   trad: string;
   pinyin: string;
+  reading?: string; // neutral pronunciation alias (e.g. pinyin/romaji)
+  pronunciation?: string; // explicit cross-language pronunciation field
   tags?: string[] | null;
   pinyinNum?: string; // canonical storage: syllables with tone numbers, e.g. "bei3 jing1"
   variants?: string[]; // alternative real-world forms, e.g. ["星期日"] for preferred "星期天"
@@ -33,6 +35,8 @@ export interface Word {
     zh?: string;
     en?: string;
     pinyin?: string;
+    reading?: string;
+    pronunciation?: string;
   };
 }
 
@@ -150,10 +154,17 @@ export interface SpeakComponentScore {
   pass: boolean;
 }
 
+export interface SpeakDimensionScore extends SpeakComponentScore {
+  key: string;
+  label: string;
+}
+
 export interface SpeakBreakdown {
   heardText: string;
   targetPinyin: string;
   detectedPinyin: string;
+  language?: string;
+  dimensions?: SpeakDimensionScore[];
   source: 'hanzi-map' | 'latin' | 'unresolved' | 'no-speech';
   initial: SpeakComponentScore;
   final: SpeakComponentScore;

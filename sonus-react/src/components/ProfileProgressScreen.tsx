@@ -8,6 +8,7 @@ import { formatUnitNameForDisplay, getUnitMetadata, getUnitsForBand, isCheckpoin
 import { useApp } from '../contexts/AppContext';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 type Progress = {
   streak: number;
@@ -88,7 +89,7 @@ function bandMatchesLanguage(bandId: string | null | undefined, languageId: stri
 
 export default function ProfileProgressScreen({ onGoHome, onGoProfile }: ProfileProgressScreenProps) {
   const { state } = useApp();
-  const languageId = state.selectedLanguage === 'jp' ? 'ja' : (state.selectedLanguage || 'zh');
+  const languageId = normalizeLanguageId(state.selectedLanguage);
   const [error, setError] = useState<string | null>(null);
   const [backendOffline, setBackendOffline] = useState(false);
   const [progress, setProgress] = useState<Progress | null>(null);
@@ -316,7 +317,9 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                           <div className="secondary-font text-2xl text-text-dark leading-none">
                             {wordLookup[item.wordId].simp}
                           </div>
-                          <div className="text-xs text-text-med mt-1">{wordLookup[item.wordId].pinyin}</div>
+                          <div className="text-xs text-text-med mt-1">
+                            {wordLookup[item.wordId].pronunciation || wordLookup[item.wordId].reading || wordLookup[item.wordId].pinyin}
+                          </div>
                           <div className="text-xs text-text-light mt-0.5">{wordLookup[item.wordId].en}</div>
                         </div>
                       ) : <div className="text-xs text-text-med">Word</div>}

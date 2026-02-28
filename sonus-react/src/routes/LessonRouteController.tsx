@@ -6,6 +6,7 @@ import LessonReview from '../components/LessonReview';
 import LessonScreen from '../components/LessonScreen';
 import type { LessonMode } from '../types/lesson.types';
 import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 interface LessonRouteControllerProps {
   onGoHome: () => void;
@@ -38,11 +39,11 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
     if (!band || !unitId || !Number.isFinite(parsedLessonIndex)) return;
     const isMandarinLevel = /^band\d+$/i.test(band) || band === 'advanced';
     const isJapaneseLevel = /^n[1-5]$/i.test(band);
-    const normalizedLanguage = state.selectedLanguage === 'jp' ? 'ja' : state.selectedLanguage;
-    if (!normalizedLanguage) {
+    if (!state.selectedLanguage) {
       navigate('/learn', { replace: true });
       return;
     }
+    const normalizedLanguage = normalizeLanguageId(state.selectedLanguage);
     if ((isMandarinLevel && normalizedLanguage !== 'zh') || (isJapaneseLevel && normalizedLanguage !== 'ja')) {
       navigate('/learn', { replace: true });
       return;

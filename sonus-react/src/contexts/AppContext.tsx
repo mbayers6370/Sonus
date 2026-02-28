@@ -33,6 +33,7 @@ import {
 } from '../lib/bandIds';
 import {
   inferLanguageForBand as inferLanguageForBandRuntime,
+  normalizeLanguageId,
   normalizeBandDataPayload as normalizeBandDataPayloadRuntime,
   resolveApplyDataPaths,
   resolveBandDataPath as resolveBandDataPathRuntime,
@@ -143,9 +144,10 @@ function defaultUnlockedLevelIds() {
 
 function normalizeLanguageForState(languageId: string | null | undefined): string | null {
   if (!languageId) return null;
-  const normalized = languageId.trim().toLowerCase();
-  if (!normalized) return null;
-  return normalized === 'jp' ? 'ja' : normalized;
+  const trimmed = languageId.trim();
+  if (!trimmed) return null;
+  const normalized = normalizeLanguageId(trimmed);
+  return normalized || null;
 }
 
 function inferLanguageFromBandId(bandId: string | null | undefined): string | null {
@@ -319,6 +321,8 @@ type ApplySentence = {
   zh: string;
   en: string;
   pinyin?: string;
+  reading?: string;
+  pronunciation?: string;
   py?: string;
   strictUnitOnly?: boolean;
 };
@@ -1062,6 +1066,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
               zh: word.example?.zh?.trim() || '',
               en: word.example?.en?.trim() || '',
               pinyin: word.example?.pinyin?.trim() || undefined,
+              reading: word.example?.reading?.trim() || word.example?.pronunciation?.trim() || word.example?.pinyin?.trim() || undefined,
+              pronunciation: word.example?.pronunciation?.trim() || word.example?.reading?.trim() || word.example?.pinyin?.trim() || undefined,
             },
           }));
         const applyWordsFromMap: Word[] = [];
@@ -1075,6 +1081,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
               zh: applySentence.zh,
               en: applySentence.en,
               pinyin: applySentence.pinyin?.trim() || applySentence.py?.trim() || undefined,
+              reading:
+                applySentence.reading?.trim() ||
+                applySentence.pronunciation?.trim() ||
+                applySentence.pinyin?.trim() ||
+                applySentence.py?.trim() ||
+                undefined,
+              pronunciation:
+                applySentence.pronunciation?.trim() ||
+                applySentence.reading?.trim() ||
+                applySentence.pinyin?.trim() ||
+                applySentence.py?.trim() ||
+                undefined,
             },
           });
         }

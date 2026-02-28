@@ -14,6 +14,7 @@ import { apiFetch } from '../lib/apiClient';
 import { LanguageRoute, HomeRoute } from './homeRoutes';
 import { CharactersRoute, FoundationsRoute, PinyinRoute, TonesRoute } from './foundationRoutes';
 import { ProfileRoute, TravelRoute, TravelSectionRoute } from './profileTravelRoutes';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 type ProgressPayload = {
   progress?: {
@@ -27,7 +28,7 @@ const isMandarinLevel = (levelId: string) => /^band\d+$/i.test(levelId) || level
 const isJapaneseLevel = (levelId: string) => /^n[1-5]$/i.test(levelId);
 const levelMatchesLanguage = (levelId: string, languageId: string | null) => {
   if (!languageId) return true;
-  const normalizedLanguage = languageId === 'jp' ? 'ja' : languageId;
+  const normalizedLanguage = normalizeLanguageId(languageId);
   if (normalizedLanguage === 'zh') return isMandarinLevel(levelId);
   if (normalizedLanguage === 'ja') return isJapaneseLevel(levelId);
   return true;
@@ -165,7 +166,8 @@ export default function AppRoutes() {
 
   const openPracticeFromHome = useCallback(
     (kind: 'listening' | 'speaking', bandId?: string | null) => {
-      const isJapanese = selectedLanguage === 'ja' || selectedLanguage === 'jp';
+      const normalizedLanguage = normalizeLanguageId(selectedLanguage);
+      const isJapanese = normalizedLanguage === 'ja';
       const requestedBandId = isJapanese
         ? (
             bandId && /^n[1-5]$/i.test(bandId)

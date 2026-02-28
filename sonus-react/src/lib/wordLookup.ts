@@ -1,7 +1,7 @@
 import type { BandData, Word } from '../types/lesson.types';
-import { normalizeBandDataPayload as normalizeBandDataPayloadRuntime } from './languageRuntime';
+import { normalizeBandDataPayload as normalizeBandDataPayloadRuntime, normalizeLanguageId } from './languageRuntime';
 
-export type WordLookup = Record<string, Pick<Word, 'id' | 'simp' | 'pinyin' | 'en'>>;
+export type WordLookup = Record<string, Pick<Word, 'id' | 'simp' | 'pinyin' | 'reading' | 'pronunciation' | 'en'>>;
 
 const BAND_IDS = ['band1', 'band2', 'band3', 'band4', 'band5', 'band6', 'band7', 'band8', 'band9'] as const;
 const JLPT_IDS = ['n5', 'n4', 'n3', 'n2', 'n1'] as const;
@@ -9,8 +9,8 @@ const JLPT_IDS = ['n5', 'n4', 'n3', 'n2', 'n1'] as const;
 type LanguageId = 'zh' | 'ja';
 
 function normalizeLanguage(languageId: string | null | undefined): LanguageId {
-  const value = (languageId || '').toLowerCase();
-  if (value === 'ja' || value === 'jp') return 'ja';
+  const value = normalizeLanguageId(languageId);
+  if (value === 'ja') return 'ja';
   return 'zh';
 }
 
@@ -43,6 +43,8 @@ export async function loadWordLookup(languageId?: string | null): Promise<WordLo
         id: word.id,
         simp: word.simp || word.en || '',
         pinyin: word.pinyin || '',
+        reading: word.reading || word.pronunciation || word.pinyin || '',
+        pronunciation: word.pronunciation || word.reading || word.pinyin || '',
         en: word.en || '',
       };
     }

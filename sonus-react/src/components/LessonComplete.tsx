@@ -187,15 +187,20 @@ export default function LessonComplete({
                           ) : null}
                         </div>
                         <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-mono uppercase tracking-wider">
-                          <span className={`px-2 py-1 rounded ${breakdown.initial.pass ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}>
-                            Initial {breakdown.initial.pass ? 'OK' : 'Fix'}
-                          </span>
-                          <span className={`px-2 py-1 rounded ${breakdown.final.pass ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}>
-                            Final {breakdown.final.pass ? 'OK' : 'Fix'}
-                          </span>
-                          <span className={`px-2 py-1 rounded ${breakdown.tone.pass ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}>
-                            Tone {breakdown.tone.pass ? 'OK' : 'Fix'}
-                          </span>
+                          {(breakdown.dimensions?.length
+                            ? breakdown.dimensions
+                            : [
+                                { key: 'initial', label: 'Initial', pass: breakdown.initial.pass },
+                                { key: 'final', label: 'Final', pass: breakdown.final.pass },
+                                { key: 'tone', label: 'Tone', pass: breakdown.tone.pass },
+                              ]).map((dimension) => (
+                                <span
+                                  key={dimension.key}
+                                  className={`px-2 py-1 rounded ${dimension.pass ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}
+                                >
+                                  {dimension.label} {dimension.pass ? 'OK' : 'Fix'}
+                                </span>
+                              ))}
                         </div>
                         {suggestions.length > 0 && (
                           <div className="mt-2 space-y-1">

@@ -9,6 +9,7 @@ import GlassHeader from './GlassHeader';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT } from '../lib/passCriteria';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 // Accent styling helpers
 const ACCENT = {
@@ -550,15 +551,15 @@ export default function LevelSelect({
   onOpenProfile,
 }: LevelSelectProps) {
   const { state } = useApp();
+  const normalizedLanguageId = normalizeLanguageId(state.selectedLanguage);
   const [searchParams, setSearchParams] = useSearchParams();
   const [bandQuizRequirementKeys, setBandQuizRequirementKeys] = useState<Record<string, string[]>>({});
 
   const getLevelsForLanguage = () => {
-    switch (state.selectedLanguage) {
+    switch (normalizedLanguageId) {
       case 'zh':
         return chineseLevels;
       case 'ja':
-      case 'jp':
         return japaneseLevels;
       case 'kr':
         return koreanLevels;
@@ -570,11 +571,10 @@ export default function LevelSelect({
   };
 
   const getLanguageName = () => {
-    switch (state.selectedLanguage) {
+    switch (normalizedLanguageId) {
       case 'zh':
         return 'Mandarin';
       case 'ja':
-      case 'jp':
         return 'Japanese';
       case 'kr':
         return 'Korean';
@@ -586,7 +586,7 @@ export default function LevelSelect({
   };
 
   const levels = getLevelsForLanguage();
-  const isJapaneseLanguage = state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp';
+  const isJapaneseLanguage = normalizedLanguageId === 'ja';
   const advancedTrackLevel: LessonBand = {
     id: 'advanced',
     band: 7,
@@ -600,7 +600,7 @@ export default function LevelSelect({
     units: [],
   };
 
-  const activeTier = state.selectedLanguage === 'zh' ? searchParams.get('tier') : null;
+  const activeTier = normalizedLanguageId === 'zh' ? searchParams.get('tier') : null;
 
   const setTier = (tier: string | null) => {
     const next = new URLSearchParams(searchParams);
@@ -612,7 +612,7 @@ export default function LevelSelect({
     setSearchParams(next);
   };
 
-  const tiers = state.selectedLanguage === 'zh'
+  const tiers = normalizedLanguageId === 'zh'
     ? [
         {
           id: 'beginner',
@@ -660,7 +660,7 @@ export default function LevelSelect({
     : [];
 
   useEffect(() => {
-    if (state.selectedLanguage !== 'zh') return;
+    if (normalizedLanguageId !== 'zh') return;
     let cancelled = false;
 
     const bandLevels = chineseLevels.filter((level) => /^band\d+$/i.test(level.id));
@@ -697,7 +697,7 @@ export default function LevelSelect({
     return () => {
       cancelled = true;
     };
-  }, [state.selectedLanguage]);
+  }, [normalizedLanguageId]);
 
   const bandQuizCompleteById = useMemo(() => {
     const next: Record<string, boolean> = {};
@@ -715,7 +715,7 @@ export default function LevelSelect({
 
       {/* Tier or Level Cards */}
       <div className="space-y-4">
-        {state.selectedLanguage === 'zh' && activeTier === null && (
+        {normalizedLanguageId === 'zh' && activeTier === null && (
           <>
             <button
               onClick={onOpenFoundations}
@@ -828,7 +828,7 @@ export default function LevelSelect({
           </>
         )}
 
-        {state.selectedLanguage === 'zh' && activeTier !== null && (
+        {normalizedLanguageId === 'zh' && activeTier !== null && (
           <>
             {tiers
               .find(t => t.id === activeTier)!
@@ -862,7 +862,7 @@ export default function LevelSelect({
           </>
         )}
 
-        {state.selectedLanguage !== 'zh' &&
+        {normalizedLanguageId !== 'zh' &&
           levels.map((level, index) => {
             const isUnlocked = isJapaneseLanguage ? (level.id === 'intro' || level.id === 'n5') : false;
             const isCompleted = state.completedLevels.includes(level.id);

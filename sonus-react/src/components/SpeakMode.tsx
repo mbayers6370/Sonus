@@ -7,6 +7,13 @@ import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
 import WordProgressRail from './WordProgressRail';
 import { getPrimaryMeaning } from '../lib/wordMeaning';
+import {
+  buildSpeakDimensionScores,
+  getSpeakRecognitionLocale,
+  normalizeSpeechCandidate,
+  resolveSpeakLanguageForSession,
+  romanizeJapaneseForDisplay,
+} from '../lib/speakRuntime';
 
 interface SpeakModeProps {
   word: Word;
@@ -85,6 +92,7 @@ type SpeechRecognitionLike = {
   continuous: boolean;
   interimResults: boolean;
   maxAlternatives: number;
+  phrases?: Array<{ phrase: string; boost?: number }>;
   onresult: ((event: SpeechRecognitionEventLike) => void) | null;
   onerror: (() => void) | null;
   onend: (() => void) | null;
@@ -169,9 +177,17 @@ const hanziLookupLoadedBands = new Set<string>();
 const hanziLookupPromises = new Map<string, Promise<void>>();
 const hanziToPinyinWord = new Map<string, string>();
 const hanziToPinyinChar = new Map<string, string>();
+const pinyinToHanziChar = new Map<string, string>();
 
 function firstPinyinSyllable(pinyin: string) {
   return pinyin.trim().split(/\s+/)[0] || '';
+}
+
+function pinyinLookupKeys(rawSyllable: string) {
+  const { ascii, tone } = toToneAndAscii(rawSyllable);
+  if (!ascii) return [];
+  const keyWithTone = tone === 5 ? ascii : `${ascii}${tone}`;
+  return [keyWithTone, ascii];
 }
 
 function addHanziMapping(hanziRaw: string, pinyinRaw: string) {
@@ -181,12 +197,52 @@ function addHanziMapping(hanziRaw: string, pinyinRaw: string) {
   if (!hanziToPinyinWord.has(hanzi)) {
     hanziToPinyinWord.set(hanzi, pinyin);
   }
-  if (hanzi.length === 1 && !hanziToPinyinChar.has(hanzi)) {
+  const chars = Array.from(hanzi);
+  const tokens = tokenizePinyin(pinyin, chars.length);
+  if (chars.length === 1) {
     const syllable = firstPinyinSyllable(pinyin);
-    if (syllable) {
+    if (!syllable) return;
+    if (!hanziToPinyinChar.has(hanzi)) {
       hanziToPinyinChar.set(hanzi, syllable);
     }
+    for (const key of pinyinLookupKeys(syllable)) {
+      if (!pinyinToHanziChar.has(key)) {
+        pinyinToHanziChar.set(key, hanzi);
+      }
+    }
+    return;
   }
+
+  if (tokens.length === chars.length) {
+    chars.forEach((char, index) => {
+      const token = tokens[index];
+      if (!token) return;
+      if (!hanziToPinyinChar.has(char)) {
+        hanziToPinyinChar.set(char, token);
+      }
+      for (const key of pinyinLookupKeys(token)) {
+        if (!pinyinToHanziChar.has(key)) {
+          pinyinToHanziChar.set(key, char);
+        }
+      }
+    });
+  }
+}
+
+function mapPinyinToHanzi(pinyinRaw: string) {
+  const tokens = tokenizePinyin(pinyinRaw || '', 1);
+  if (!tokens.length) return '';
+  const chars = tokens
+    .map((token) => {
+      const keys = pinyinLookupKeys(token);
+      for (const key of keys) {
+        const mapped = pinyinToHanziChar.get(key);
+        if (mapped) return mapped;
+      }
+      return '';
+    })
+    .filter(Boolean);
+  return chars.join('');
 }
 
 function hydrateLookupFromWords(words: Word[]) {
@@ -334,7 +390,24 @@ function normalizeJapaneseForCompare(value: string) {
       })
       .join('');
 
-  return katakanaToHiragana((value || '').toLowerCase())
+  const withKanjiDigits = Array.from(value || '')
+    .map((char) =>
+      ({
+        '0': '零',
+        '1': '一',
+        '2': '二',
+        '3': '三',
+        '4': '四',
+        '5': '五',
+        '6': '六',
+        '7': '七',
+        '8': '八',
+        '9': '九',
+      } as Record<string, string>)[char] || char
+    )
+    .join('');
+
+  return katakanaToHiragana(withKanjiDigits.toLowerCase())
     .replace(/[^\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/gu, '')
     .trim();
 }
@@ -350,13 +423,23 @@ function normalizeHanzi(value: string) {
 function buildSpeakBreakdown(
   heardText: string,
   targetPinyin: string,
-  analysis: PronunciationAnalysis | null
+  analysis: PronunciationAnalysis | null,
+  languageId: string,
+  isMatch: boolean
 ): SpeakBreakdown {
   if (!analysis) {
+    const baseWordScore = isMatch
+      ? { matched: 1, total: 1, percent: 100, pass: true }
+      : EMPTY_SCORE;
     return {
       heardText,
       targetPinyin,
       detectedPinyin: '',
+      language: languageId,
+      dimensions: buildSpeakDimensionScores({
+        languageId,
+        word: baseWordScore,
+      }),
       source: heardText === 'No speech detected' ? 'no-speech' : 'unresolved',
       initial: EMPTY_SCORE,
       final: EMPTY_SCORE,
@@ -368,6 +451,13 @@ function buildSpeakBreakdown(
     heardText,
     targetPinyin,
     detectedPinyin: analysis.detectedPinyin,
+    language: languageId,
+    dimensions: buildSpeakDimensionScores({
+      languageId,
+      initial: analysis.initial,
+      final: analysis.final,
+      tone: analysis.tone,
+    }),
     source: analysis.source,
     initial: analysis.initial,
     final: analysis.final,
@@ -594,8 +684,9 @@ export default function SpeakMode({
   const { state, recordSpeakResult, recordWordOutcome } = useApp();
   const sttCapability = useMemo(() => getSttCapability(), []);
   const sttSupported = sttCapability.supported;
-  const isJapaneseLesson = state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp';
-  const isMandarinLesson = state.selectedLanguage === 'zh';
+  const speakLanguageId = resolveSpeakLanguageForSession(state.selectedLanguage, state.activeBandId);
+  const isJapaneseLesson = speakLanguageId === 'ja';
+  const isMandarinLesson = speakLanguageId === 'zh';
 
   const targetHanzi = normalizeHanzi(word.simp);
   const targetSyllableCount = Math.max(
@@ -767,43 +858,54 @@ export default function SpeakMode({
     };
   };
 
-  const isMatch = (recognized: string) => {
+  const evaluateTranscript = (recognizedRaw: string) => {
+    const recognized = normalizeSpeechCandidate(speakLanguageId, recognizedRaw);
     const nextAnalysis = analyzePronunciation(recognized);
-    setAnalysis(nextAnalysis);
-
     if (nextAnalysis) {
-      return nextAnalysis.initial.pass && nextAnalysis.final.pass && nextAnalysis.tone.pass;
+      return {
+        recognizedText: recognized,
+        analysis: nextAnalysis,
+        match: nextAnalysis.initial.pass && nextAnalysis.final.pass && nextAnalysis.tone.pass,
+      };
     }
 
     const cleanedRecognized = normalize(recognized);
-    if (!cleanedRecognized) return false;
+    if (!cleanedRecognized) {
+      return { recognizedText: recognized, analysis: null, match: false };
+    }
 
     if (isJapaneseLesson) {
-      if (!hasJapaneseScript(recognized)) return false;
+      if (!hasJapaneseScript(recognized)) {
+        return { recognizedText: recognized, analysis: null, match: false };
+      }
       const heard = normalizeJapaneseForCompare(recognized);
       const targetWord = normalizeJapaneseForCompare(word.simp || '');
-      if (!heard || !targetWord) return false;
+      if (!heard || !targetWord) {
+        return { recognizedText: recognized, analysis: null, match: false };
+      }
       // Japanese scoring is whole-word strict after script normalization.
-      return heard === targetWord;
+      return { recognizedText: recognized, analysis: null, match: heard === targetWord };
     }
 
     const recognizedHanzi = normalizeHanzi(recognized);
     const targetPinyin = normalize(word.pinyin || '');
 
     if (recognizedHanzi) {
-      return targetHanzi.length > 0 && recognizedHanzi === targetHanzi;
+      return { recognizedText: recognized, analysis: null, match: targetHanzi.length > 0 && recognizedHanzi === targetHanzi };
     }
 
     if (isMandarinLesson) {
-      return false;
+      return { recognizedText: recognized, analysis: null, match: false };
     }
 
-    if (!targetPinyin) return false;
+    if (!targetPinyin) return { recognizedText: recognized, analysis: null, match: false };
     // Accept exact or contained matches before falling back to edit distance.
-    if (cleanedRecognized === targetPinyin || cleanedRecognized.includes(targetPinyin)) return true;
+    if (cleanedRecognized === targetPinyin || cleanedRecognized.includes(targetPinyin)) {
+      return { recognizedText: recognized, analysis: null, match: true };
+    }
 
     const dist = levenshtein(cleanedRecognized, targetPinyin);
-    return dist <= (targetPinyin.length <= 4 ? 1 : 2);
+    return { recognizedText: recognized, analysis: null, match: dist <= (targetPinyin.length <= 4 ? 1 : 2) };
   };
 
   const postSpeakAttempt = (
@@ -815,12 +917,13 @@ export default function SpeakMode({
     if (postedSpeakSessionRef.current === sessionId) return;
     postedSpeakSessionRef.current = sessionId;
 
-    const nextAnalysis = explicitAnalysis ?? analyzePronunciation(recognizedText);
+    const evaluated = evaluateTranscript(recognizedText);
+    const nextAnalysis = explicitAnalysis ?? evaluated.analysis;
     const match =
       explicitMatch ??
       (nextAnalysis
         ? nextAnalysis.initial.pass && nextAnalysis.final.pass && nextAnalysis.tone.pass
-        : isMatch(recognizedText));
+        : evaluated.match);
 
     const fallbackValue = match ? 100 : 0;
 
@@ -851,7 +954,13 @@ export default function SpeakMode({
       recordSpeakResult(
         currentIndex,
         pending.match,
-        buildSpeakBreakdown(pending.recognizedText, word.pinyin || '', pending.analysis)
+        buildSpeakBreakdown(
+          pending.recognizedText,
+          word.pinyin || '',
+          pending.analysis,
+          speakLanguageId,
+          pending.match
+        )
       );
       recordWordOutcome(word, pending.match, pending.match ? 'sure' : 'unsure', 'speak');
       if (!pending.match) {
@@ -874,7 +983,7 @@ export default function SpeakMode({
       recordSpeakResult(
         currentIndex,
         false,
-        buildSpeakBreakdown('No speech detected', word.pinyin || '', null)
+        buildSpeakBreakdown('No speech detected', word.pinyin || '', null, speakLanguageId, false)
       );
       recordWordOutcome(word, false, 'unsure', 'speak');
       trackEvent('speak_retry', {
@@ -968,21 +1077,20 @@ export default function SpeakMode({
     try {
       const sessionId = recordingSessionRef.current;
       const recognition = new SpeechRecognitionCtor();
-      const normalizedLanguage = state.selectedLanguage === 'jp' ? 'ja' : (state.selectedLanguage || '');
-      const recognitionLangByLanguage: Record<string, string> = {
-        zh: 'zh-CN',
-        ja: 'ja-JP',
-        kr: 'ko-KR',
-        ko: 'ko-KR',
-        fr: 'fr-FR',
-        it: 'it-IT',
-        es: 'es-ES',
-      };
-      recognition.lang = recognitionLangByLanguage[normalizedLanguage] || (word.pinyin ? 'zh-CN' : 'en-US');
+      recognition.lang = getSpeakRecognitionLocale(speakLanguageId);
       // Single-utterance mode improves responsiveness for short words.
       recognition.continuous = false;
       recognition.interimResults = true;
       recognition.maxAlternatives = 3;
+      if ('phrases' in recognition) {
+        recognition.phrases = Array.from(
+          new Set(
+            [word.simp, word.trad || '', word.pinyin || '', ...allWords.slice(0, 12).map((candidate) => candidate.simp)]
+              .map((value) => value.trim())
+              .filter(Boolean)
+          )
+        ).map((phrase) => ({ phrase, boost: 5 }));
+      }
 
       recognition.onresult = (event: SpeechRecognitionEventLike) => {
         if (sessionId !== recordingSessionRef.current) return;
@@ -996,12 +1104,11 @@ export default function SpeakMode({
           for (let altIdx = 0; altIdx < altCount; altIdx += 1) {
             const text = result?.[altIdx]?.transcript?.trim?.() || '';
             if (!text) continue;
-            const nextAnalysis = analyzePronunciation(text);
-            const matched = nextAnalysis
-              ? nextAnalysis.initial.pass && nextAnalysis.final.pass && nextAnalysis.tone.pass
-              : isMatch(text);
+            const evaluated = evaluateTranscript(text);
+            const nextAnalysis = evaluated.analysis;
+            const matched = evaluated.match;
             const candidate: SpeakCandidate = {
-              recognizedText: text,
+              recognizedText: evaluated.recognizedText,
               analysis: nextAnalysis,
               match: matched,
               isFinal: Boolean(result.isFinal),
@@ -1265,17 +1372,61 @@ export default function SpeakMode({
   const detectedPinyinLabel =
     firstUsableDetected ||
     (isMandarinLesson && transcript && !isNoSpeech ? (rawDetectedPinyin || 'Unknown pronunciation') : '');
-  const shouldShowTargetPinyin = !detectedPinyinLabel && (!heardHanzi || isNoSpeech);
-  const resultPinyinLabel = detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : '');
-  const resultPinyinTag = isJapaneseLesson
-    ? (detectedPinyinLabel ? 'Heard' : 'Target')
-    : (detectedPinyinLabel ? 'Detected' : 'Target');
+  const normalizedHeardJapanese = normalizeJapaneseForCompare(transcript || '');
+  const heardJapaneseMatch = isJapaneseLesson && normalizedHeardJapanese
+    ? [word, ...allWords].find((candidate) => {
+        const simp = normalizeJapaneseForCompare(candidate.simp || '');
+        const trad = normalizeJapaneseForCompare(candidate.trad || '');
+        return normalizedHeardJapanese === simp || normalizedHeardJapanese === trad;
+      })
+    : null;
+  const heardRomanized =
+    isJapaneseLesson && transcript && !isNoSpeech
+      ? (
+          heardJapaneseMatch?.pinyin ||
+          romanizeJapaneseForDisplay(transcript) ||
+          ''
+        )
+      : '';
+  const shouldShowTargetPinyin =
+    isJapaneseLesson
+      ? (!heardRomanized && (isNoSpeech || !transcript.trim()))
+      : (!detectedPinyinLabel && (!heardHanzi || isNoSpeech));
+  const resultPinyinLabel = isJapaneseLesson
+    ? (heardRomanized || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : ''))
+    : (detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : ''));
+  const resultPinyinTag = isJapaneseLesson ? 'Romaji' : (isMandarinLesson ? 'Pinyin' : 'Reading');
+  const mappedMandarinHeard = isMandarinLesson && transcript && !heardHanzi
+    ? mapPinyinToHanzi(firstUsableDetected || rawDetectedPinyin || transcript)
+    : '';
+  const displayHeardText =
+    isNoSpeech
+      ? transcript
+      : isMandarinLesson
+        ? (heardHanzi || mappedMandarinHeard || transcript)
+        : transcript;
   const displayMeaning = useMemo(() => getPrimaryMeaning(word), [word]);
   const navLocked = isRecording || isFinalizing;
 
   const renderScoreChips = (compact: boolean) => {
-    if (isJapaneseLesson) return null;
-    if (!analysis) return null;
+    const dimensions = analysis
+      ? buildSpeakDimensionScores({
+          languageId: speakLanguageId,
+          initial: analysis.initial,
+          final: analysis.final,
+          tone: analysis.tone,
+        })
+      : (
+          hasAttempt && !isNoSpeech
+            ? buildSpeakDimensionScores({
+                languageId: speakLanguageId,
+                word: matchResult === 'match'
+                  ? { matched: 1, total: 1, percent: 100, pass: true }
+                  : EMPTY_SCORE,
+              })
+            : []
+        );
+    if (!dimensions.length) return null;
     const chipBase = compact
       ? 'px-2 py-1 rounded-lg text-[10px] font-mono uppercase tracking-wider'
       : 'px-2.5 py-1 rounded-lg text-[11px] font-mono uppercase tracking-wider';
@@ -1286,9 +1437,11 @@ export default function SpeakMode({
 
     return (
       <div className="mt-2 flex flex-wrap justify-center gap-1.5">
-        <span className={`${chipBase} ${toneFor(analysis.initial.pass)}`}>Initial {analysis.initial.percent}%</span>
-        <span className={`${chipBase} ${toneFor(analysis.final.pass)}`}>Final {analysis.final.percent}%</span>
-        <span className={`${chipBase} ${toneFor(analysis.tone.pass)}`}>Tone {analysis.tone.percent}%</span>
+        {dimensions.map((dimension) => (
+          <span key={dimension.key} className={`${chipBase} ${toneFor(dimension.pass)}`}>
+            {dimension.label} {dimension.percent}%
+          </span>
+        ))}
       </div>
     );
   };
@@ -1473,7 +1626,7 @@ export default function SpeakMode({
           ) : null}
         </div>
 
-        <div className={heardClass}>{transcript || '...'}</div>
+        <div className={heardClass}>{displayHeardText || '...'}</div>
 
         {resultPinyinLabel ? (
           <div className="mt-2 flex justify-center">
@@ -1505,7 +1658,7 @@ export default function SpeakMode({
         <div className="grid grid-cols-2 gap-2 mb-2 items-stretch">
           <button
             type="button"
-            onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
+            onClick={() => speak(word.simp, word.pinyin, false, speakLanguageId)}
             className="relative rounded-3xl border border-[#1F2A37] bg-white px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] flex flex-col items-center justify-center text-center transition-colors active:bg-[#F8FAFC]"
             aria-label="Play target audio"
             title="Play target audio"

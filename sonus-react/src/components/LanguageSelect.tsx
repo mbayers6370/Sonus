@@ -1,6 +1,7 @@
 import { ScrollText, Landmark, MessagesSquare, Feather } from 'lucide-react';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 const CARD_ACCENTS = [
   {
@@ -97,7 +98,7 @@ export default function LanguageSelect({
   switchMode = false,
   onCancelSwitch,
 }: LanguageSelectProps) {
-  const normalizedCurrent = (currentLanguage || '').toLowerCase() === 'jp' ? 'ja' : (currentLanguage || '').toLowerCase();
+  const normalizedCurrent = currentLanguage ? normalizeLanguageId(currentLanguage) : null;
   const title = switchMode ? 'Switch Language' : 'Choose a Language';
 
   return (

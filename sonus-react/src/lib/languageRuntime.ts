@@ -84,8 +84,19 @@ function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null 
     ? rawWord.tags.filter((value): value is string => typeof value === 'string')
     : undefined;
   if (typeof rawWord.simp === 'string' && typeof rawWord.trad === 'string') {
+    const pinyinValue =
+      typeof rawWord.pinyin === 'string'
+        ? rawWord.pinyin
+        : (typeof rawWord.romaji === 'string' ? rawWord.romaji : '');
+    const readingValue =
+      typeof rawWord.reading === 'string'
+        ? rawWord.reading
+        : (typeof rawWord.pronunciation === 'string' ? rawWord.pronunciation : pinyinValue);
     return {
       ...(rawWord as unknown as Word),
+      pinyin: pinyinValue,
+      reading: readingValue,
+      pronunciation: readingValue,
       tags,
     };
   }
@@ -100,6 +111,8 @@ function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null 
     simp: kanji || hiragana,
     trad: kanji || hiragana,
     pinyin: romaji,
+    reading: romaji,
+    pronunciation: romaji,
     tags,
     pos: typeof rawWord.pos === 'string' ? rawWord.pos : '',
     en: typeof rawWord.en === 'string' ? rawWord.en : '',
@@ -117,6 +130,30 @@ function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null 
         typeof exampleRaw.pinyin === 'string'
           ? exampleRaw.pinyin
           : (typeof exampleRaw.romaji === 'string' ? exampleRaw.romaji : undefined),
+      reading:
+        typeof exampleRaw.reading === 'string'
+          ? exampleRaw.reading
+          : (
+              typeof exampleRaw.pronunciation === 'string'
+                ? exampleRaw.pronunciation
+                : (
+                    typeof exampleRaw.pinyin === 'string'
+                      ? exampleRaw.pinyin
+                      : (typeof exampleRaw.romaji === 'string' ? exampleRaw.romaji : undefined)
+                  )
+            ),
+      pronunciation:
+        typeof exampleRaw.pronunciation === 'string'
+          ? exampleRaw.pronunciation
+          : (
+              typeof exampleRaw.reading === 'string'
+                ? exampleRaw.reading
+                : (
+                    typeof exampleRaw.pinyin === 'string'
+                      ? exampleRaw.pinyin
+                      : (typeof exampleRaw.romaji === 'string' ? exampleRaw.romaji : undefined)
+                  )
+            ),
     },
   };
 }

@@ -1,3 +1,5 @@
+import { normalizeLanguageId } from '../lib/languageRuntime';
+
 export type TravelPhrase = {
   id: string;
   // Generic fields for multi-language support.
@@ -508,8 +510,8 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
 ];
 
 export function getTravelModeSections(languageId: string | null | undefined) {
-  const normalized = (languageId || '').toLowerCase();
-  if (normalized === 'ja' || normalized === 'jp') return TRAVEL_MODE_SECTIONS_JA;
+  const normalized = normalizeLanguageId(languageId);
+  if (normalized === 'ja') return TRAVEL_MODE_SECTIONS_JA;
   return TRAVEL_MODE_SECTIONS_ZH;
 }
 

@@ -8,6 +8,7 @@ import { tokenizeMeaningCandidates } from '../lib/wordMeaning';
 import { resolveBandDataId } from '../lib/bandIds';
 import { apiFetch } from '../lib/apiClient';
 import { useApp } from '../contexts/AppContext';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 interface ApplyModeProps {
   word: Word;
@@ -527,9 +528,10 @@ export default function ApplyMode({
 }: ApplyModeProps) {
   const { state } = useApp();
   const { speak } = useAudio();
-  const isJapanese = state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp';
-  const supportsCharacterTab = state.selectedLanguage === 'zh' || isJapanese;
-  const useZhCharacterServices = state.selectedLanguage === 'zh';
+  const normalizedLanguageId = state.selectedLanguage ? normalizeLanguageId(state.selectedLanguage) : '';
+  const isJapanese = normalizedLanguageId === 'ja';
+  const supportsCharacterTab = normalizedLanguageId === 'zh' || isJapanese;
+  const useZhCharacterServices = normalizedLanguageId === 'zh';
   const location = useLocation();
   const navigate = useNavigate();
   const applyPath = useMemo(

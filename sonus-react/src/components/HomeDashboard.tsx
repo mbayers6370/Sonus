@@ -15,7 +15,7 @@ import { apiFetch } from '../lib/apiClient';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { makeLessonKey } from '../lib/lessonProgress';
-import { inferLanguageForBand, resolveBandDataPath } from '../lib/languageRuntime';
+import { inferLanguageForBand, normalizeLanguageId, resolveBandDataPath } from '../lib/languageRuntime';
 import type { LessonMode } from '../types/lesson.types';
 
 type Progress = {
@@ -54,18 +54,11 @@ interface HomeDashboardProps {
 const LANGUAGE_LABELS: Record<string, string> = {
   zh: 'Mandarin',
   ja: 'Japanese',
-  jp: 'Japanese',
   kr: 'Korean',
   fr: 'French',
 };
 const ZH_BAND_ORDER = ['band1', 'band2', 'band3', 'band4', 'band5', 'band6', 'band7', 'band8', 'band9', 'advanced'];
 const JA_BAND_ORDER = ['n5', 'n4', 'n3', 'n2', 'n1'];
-
-function normalizeLanguageId(value: string | null | undefined) {
-  if (!value) return null;
-  const lower = value.toLowerCase();
-  return lower === 'jp' ? 'ja' : lower;
-}
 
 function isJapaneseBandId(value: string | null | undefined) {
   return Boolean(value && /^n[1-5]$/i.test(value));
@@ -158,8 +151,8 @@ function resolveHomeLanguageId(input: {
   progressBandId: string | null | undefined;
 }) {
   const explicit =
-    normalizeLanguageId(input.stateSelectedLanguage) ||
-    normalizeLanguageId(input.selectedLanguage);
+    (input.stateSelectedLanguage ? normalizeLanguageId(input.stateSelectedLanguage) : null) ||
+    (input.selectedLanguage ? normalizeLanguageId(input.selectedLanguage) : null);
   if (explicit) return explicit;
 
   if (
