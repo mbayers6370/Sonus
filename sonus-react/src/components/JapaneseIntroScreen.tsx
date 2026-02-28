@@ -6,6 +6,8 @@ interface JapaneseIntroScreenProps {
   onGoHome: () => void;
   onOpenProfile: () => void;
   onBackToLearn: () => void;
+  onOpenHiragana: () => void;
+  onOpenKatakana: () => void;
 }
 
 const INTRO_SECTIONS = [
@@ -47,7 +49,11 @@ const STARTING_FLOW = [
   'Use romaji briefly, then phase it out as script confidence grows.',
 ];
 
-function cardContent(id: string): ReactNode {
+function cardContent(
+  id: string,
+  onOpenHiragana: () => void,
+  onOpenKatakana: () => void
+): ReactNode {
   if (id === 'writing') {
     return (
       <div className="mt-4 space-y-4 text-[15px] leading-7 text-white/90">
@@ -59,11 +65,25 @@ function cardContent(id: string): ReactNode {
             <p className="main-font text-[1.08rem] text-text-dark">Hiragana</p>
             <p className="mt-1 text-[14px] text-text-med">Core grammar endings and many native words. First script to master.</p>
             <p className="mt-1.5 text-[13px] text-text-light">Example: これはほんです。</p>
+            <button
+              type="button"
+              onClick={onOpenHiragana}
+              className="mt-3 inline-flex rounded-lg border border-[#186E95]/40 bg-[#186E95]/10 px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-[#186E95] hover:bg-[#186E95]/15"
+            >
+              Open Chart
+            </button>
           </div>
           <div className="rounded-2xl border border-[#D2DEE7] bg-white p-3.5">
             <p className="main-font text-[1.08rem] text-text-dark">Katakana</p>
             <p className="mt-1 text-[14px] text-text-med">Loanwords, names, and modern vocabulary.</p>
             <p className="mt-1.5 text-[13px] text-text-light">Example: コーヒーをのみます。</p>
+            <button
+              type="button"
+              onClick={onOpenKatakana}
+              className="mt-3 inline-flex rounded-lg border border-[#186E95]/40 bg-[#186E95]/10 px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-[#186E95] hover:bg-[#186E95]/15"
+            >
+              Open Chart
+            </button>
           </div>
           <div className="rounded-2xl border border-[#D2DEE7] bg-white p-3.5">
             <p className="main-font text-[1.08rem] text-text-dark">Kanji</p>
@@ -147,6 +167,8 @@ function cardContent(id: string): ReactNode {
 export default function JapaneseIntroScreen({
   onGoHome,
   onOpenProfile,
+  onOpenHiragana,
+  onOpenKatakana,
 }: JapaneseIntroScreenProps) {
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav bg-[linear-gradient(180deg,#F7FAFD_0%,#EEF4F8_100%)]">
@@ -191,7 +213,7 @@ export default function JapaneseIntroScreen({
             <article key={section.id} className="px-5 py-6 sm:px-7 sm:py-7">
               <h3 className="main-font text-[1.5rem] sm:text-[1.75rem] leading-tight text-white">{section.title}</h3>
               <p className="mt-1 text-[11px] uppercase tracking-[0.16em] font-mono text-[#B5D8EA]">Japanese Foundations</p>
-              <div className="text-white/90">{cardContent(section.id)}</div>
+              <div className="text-white/90">{cardContent(section.id, onOpenHiragana, onOpenKatakana)}</div>
             </article>
           ))}
         </div>

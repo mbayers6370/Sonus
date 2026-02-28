@@ -7,6 +7,7 @@ import UnitSelect from '../components/UnitSelect';
 import AboutSonusScreen from '../components/AboutSonusScreen';
 import ProfileProgressScreen from '../components/ProfileProgressScreen';
 import JapaneseIntroScreen from '../components/JapaneseIntroScreen';
+import JapaneseKanaChartScreen from '../components/JapaneseKanaChartScreen';
 import LessonRouteController from './LessonRouteController';
 import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
 import { apiFetch } from '../lib/apiClient';
@@ -429,6 +430,28 @@ export default function AppRoutes() {
             onGoHome={goHome}
             onOpenProfile={goProfile}
             onBackToLearn={() => navigate('/learn')}
+            onOpenHiragana={() => navigate('/learn/language-intro/hiragana')}
+            onOpenKatakana={() => navigate('/learn/language-intro/katakana')}
+          />
+        }
+      />
+      <Route
+        path="/learn/language-intro/hiragana"
+        element={
+          <JapaneseKanaChartScreen
+            script="hiragana"
+            onGoHome={goHome}
+            onOpenProfile={goProfile}
+          />
+        }
+      />
+      <Route
+        path="/learn/language-intro/katakana"
+        element={
+          <JapaneseKanaChartScreen
+            script="katakana"
+            onGoHome={goHome}
+            onOpenProfile={goProfile}
           />
         }
       />
