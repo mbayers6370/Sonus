@@ -915,6 +915,10 @@ export default function SpeakMode({
   };
 
   const abortActiveCapture = (preserveStream = false) => {
+    // Set idle flags first so recognition onend cannot restart while tearing down.
+    isRecordingRef.current = false;
+    recognitionStateRef.current = 'idle';
+
     const recorder = mediaRecorderRef.current;
     if (recorder) {
       recorder.onstop = null;
@@ -935,8 +939,6 @@ export default function SpeakMode({
     if (!preserveStream) {
       releaseMediaStream();
     }
-    isRecordingRef.current = false;
-    recognitionStateRef.current = 'idle';
     pendingSpeakAttemptRef.current = null;
     setIsRecording(false);
     setIsFinalizing(false);
@@ -1064,7 +1066,7 @@ export default function SpeakMode({
           stopMediaRecorder();
           return;
         }
-        if (isRecordingRef.current) {
+        if (isRecordingRef.current && recognitionStateRef.current === 'recording') {
           try {
             recognition.start();
           } catch {
@@ -1096,6 +1098,12 @@ export default function SpeakMode({
   const stopMediaRecorder = () => {
     const sessionId = recordingSessionRef.current;
     const recorder = mediaRecorderRef.current;
+    // Transition flags before stopping recognition to prevent onend restarts.
+    isRecordingRef.current = false;
+    recognitionStateRef.current = 'finalizing';
+    setIsRecording(false);
+    setIsFinalizing(true);
+
     if (recorder && recorder.state !== 'inactive') {
       recorder.stop();
     } else {
@@ -1105,12 +1113,7 @@ export default function SpeakMode({
       window.clearTimeout(recognitionStopTimerRef.current);
       recognitionStopTimerRef.current = null;
     }
-    // Transition recognition state before stopping recognition.
-    recognitionStateRef.current = 'finalizing';
-    setIsFinalizing(true);
     stopRecognition();
-    isRecordingRef.current = false;
-    setIsRecording(false);
   };
 
   const handleRecord = async () => {
