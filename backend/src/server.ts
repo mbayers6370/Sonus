@@ -40,8 +40,7 @@ function sanitizeErrorPayload(
   if (statusCode < 400) return payload;
   const contentType = typeof contentTypeHeader === 'string' ? contentTypeHeader.toLowerCase() : '';
   const isJsonPayloadType =
-    contentType.includes('application/json') ||
-    (typeof payload === 'object' && payload !== null);
+    contentType.includes('application/json') || (typeof payload === 'object' && payload !== null);
   if (!isJsonPayloadType) return payload;
 
   let obj: Record<string, unknown>;
@@ -135,7 +134,12 @@ export async function buildServer() {
     if (env.NODE_ENV === 'production') {
       reply.header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
     }
-    return sanitizeErrorPayload(payload, reply.statusCode, reply.getHeader('content-type'), request.id);
+    return sanitizeErrorPayload(
+      payload,
+      reply.statusCode,
+      reply.getHeader('content-type'),
+      request.id
+    );
   });
 
   app.addHook('onResponse', async (request, reply) => {
