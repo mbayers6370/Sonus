@@ -1,5 +1,12 @@
 import { API_BASE_URL } from './apiBase';
-import { clearAuthSession, getAccessToken, getMockIdentity, setAuthSession, setMockIdentity } from './authSession';
+import {
+  clearAuthSession,
+  getAccessToken,
+  getDemoMode,
+  getMockIdentity,
+  setAuthSession,
+  setMockIdentity,
+} from './authSession';
 
 type RefreshPayload = {
   user?: {
@@ -152,7 +159,10 @@ export async function apiFetch(path: string, init: RequestInit = {}) {
 
   const response = await requestWithRetry(url, path, init, headers);
 
-  const canRetryWithRefresh = !isAuthRoute(path) && (response.status === 401 || response.status === 403);
+  const canRetryWithRefresh =
+    !getDemoMode() &&
+    !isAuthRoute(path) &&
+    (response.status === 401 || response.status === 403);
   if (!canRetryWithRefresh) {
     return response;
   }
