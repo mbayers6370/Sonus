@@ -592,10 +592,21 @@ export default function SpeakMode({
 
   const { speak } = useAudio();
   const { state, recordSpeakResult, recordWordOutcome } = useApp();
-  const sttCapability = useMemo(() => getSttCapability(), []);
+  const [sttCapability, setSttCapability] = useState<SttCapability>(() => getSttCapability());
   const sttSupported = sttCapability.supported;
   const isJapaneseLesson = state.selectedLanguage === 'ja' || state.selectedLanguage === 'jp';
   const isMandarinLesson = state.selectedLanguage === 'zh';
+
+  useEffect(() => {
+    const refresh = () => setSttCapability(getSttCapability());
+    refresh();
+    window.addEventListener('focus', refresh);
+    window.addEventListener('visibilitychange', refresh);
+    return () => {
+      window.removeEventListener('focus', refresh);
+      window.removeEventListener('visibilitychange', refresh);
+    };
+  }, []);
 
   const targetHanzi = normalizeHanzi(word.simp);
   const targetSyllableCount = Math.max(
@@ -939,11 +950,12 @@ export default function SpeakMode({
     setIsFinalizing(false);
   };
 
-  const startRecognition = () => {
+  const startRecognition = (): boolean => {
     const recognitionWindow = window as SpeechRecognitionWindow;
     const SpeechRecognitionCtor =
       recognitionWindow.SpeechRecognition || recognitionWindow.webkitSpeechRecognition;
     if (!SpeechRecognitionCtor) {
+      setSttCapability(getSttCapability());
       if (!sttUnavailableTrackedRef.current) {
         sttUnavailableTrackedRef.current = true;
         trackEvent('speak_stt_unavailable', {
@@ -959,7 +971,7 @@ export default function SpeakMode({
           },
         });
       }
-      return;
+      return false;
     }
 
     try {
@@ -1072,6 +1084,7 @@ export default function SpeakMode({
 
       recognition.start();
       recognitionRef.current = recognition;
+      return true;
     } catch {
       // Recognition startup failures do not block media recording.
       trackEvent('speak_stt_error', {
@@ -1087,6 +1100,7 @@ export default function SpeakMode({
           isReview: Boolean(word.isReview),
         },
       });
+      return false;
     }
   };
 
@@ -1118,19 +1132,21 @@ export default function SpeakMode({
       return;
     }
 
-    if (!sttSupported) {
+    const detectedCapability = getSttCapability();
+    setSttCapability(detectedCapability);
+    if (!detectedCapability.supported) {
       setAudioError('Speech recognition is unavailable on this browser. Please use Safari or Chrome.');
       trackEvent('speak_stt_unavailable', {
         wordId: word.id,
         isReview: Boolean(word.isReview),
-        engine: sttCapability.engine,
+        engine: detectedCapability.engine,
       });
       sendClientTelemetrySafe({
         name: 'speak_stt_unavailable',
         payload: {
           wordId: word.id,
           isReview: Boolean(word.isReview),
-          engine: sttCapability.engine,
+          engine: detectedCapability.engine,
         },
       });
       return;
@@ -1179,7 +1195,12 @@ export default function SpeakMode({
 
       setIsRecording(true);
       recorder.start();
-      startRecognition();
+      const recognitionStarted = startRecognition();
+      if (!recognitionStarted) {
+        setAudioError('Speech recognition could not start. Please try Safari or Chrome with mic + speech permissions enabled.');
+        abortActiveCapture(false);
+        setMatchResult('retry');
+      }
     } catch {
       isRecordingRef.current = false;
       setAudioError('Microphone access was blocked. Please allow mic access and try again.');
@@ -1524,13 +1545,13 @@ export default function SpeakMode({
           <button
             type="button"
             onClick={handleRecord}
-            disabled={isFinalizing || !sttSupported}
+            disabled={isFinalizing}
             className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] transition-colors ${
               !sttSupported
-                ? 'border-[#D1D5DB] bg-[#F3F4F6] opacity-75 cursor-not-allowed'
+                ? 'border-[#D1D5DB] bg-[#F3F4F6] opacity-75'
                 : isRecording
                   ? 'border-[#2B3440] bg-[#2B3440] shadow-[0_0_0_1px_rgba(255,255,255,0.06)] active:bg-[#344253]'
-                : 'border-[#1F2A37] bg-[#1F2A37] active:bg-[#273243]'
+                  : 'border-[#1F2A37] bg-[#1F2A37] active:bg-[#273243]'
             }`}
             aria-label={isRecording ? 'Stop recording' : 'Start recording'}
             title={isRecording ? 'Stop recording' : 'Start recording'}
