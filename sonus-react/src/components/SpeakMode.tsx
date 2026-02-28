@@ -80,13 +80,18 @@ type SpeechRecognitionEventLike = {
   results: SpeechRecognitionResultListLike;
 };
 
+type SpeechRecognitionErrorEventLike = {
+  error?: string;
+  message?: string;
+};
+
 type SpeechRecognitionLike = {
   lang: string;
   continuous: boolean;
   interimResults: boolean;
   maxAlternatives: number;
   onresult: ((event: SpeechRecognitionEventLike) => void) | null;
-  onerror: (() => void) | null;
+  onerror: ((event: SpeechRecognitionErrorEventLike) => void) | null;
   onend: (() => void) | null;
   start: () => void;
   stop: () => void;
@@ -555,6 +560,25 @@ function pickBetterCandidate(current: SpeakCandidate | null, next: SpeakCandidat
     return next.compositeScore > current.compositeScore ? next : current;
   }
   return next.updatedAt >= current.updatedAt ? next : current;
+}
+
+function recognitionErrorMessage(errorCode: string | undefined) {
+  if (errorCode === 'not-allowed' || errorCode === 'service-not-allowed') {
+    return 'Speech permission was blocked. Enable microphone and speech recognition permissions, then try again.';
+  }
+  if (errorCode === 'audio-capture') {
+    return 'No microphone was detected. Connect or enable a microphone and try again.';
+  }
+  if (errorCode === 'network') {
+    return 'Speech recognition network error. Check connection and try again.';
+  }
+  if (errorCode === 'no-speech') {
+    return 'No speech detected. Speak clearly near the microphone and try again.';
+  }
+  if (errorCode === 'aborted') {
+    return 'Recording was interrupted. Try again.';
+  }
+  return 'Speech recognition could not process audio. Please try again.';
 }
 
 export default function SpeakMode({
@@ -1048,12 +1072,21 @@ export default function SpeakMode({
         }
       };
 
-      recognition.onerror = () => {
+      recognition.onerror = (event: SpeechRecognitionErrorEventLike) => {
+        const errorCode = event?.error;
+        const message = recognitionErrorMessage(errorCode);
+        setAudioError(message);
+        setMatchResult('retry');
+        pendingSpeakAttemptRef.current = null;
+        // End the active session immediately so this does not look like a no-op.
+        abortActiveCapture(false);
+
         // Speech recognition errors do not invalidate the active media stream.
         trackEvent('speak_stt_error', {
           phase: 'runtime',
           wordId: word.id,
           isReview: Boolean(word.isReview),
+          error: errorCode || null,
         });
         sendClientTelemetrySafe({
           name: 'speak_stt_error',
@@ -1061,6 +1094,8 @@ export default function SpeakMode({
             phase: 'runtime',
             wordId: word.id,
             isReview: Boolean(word.isReview),
+            error: errorCode || null,
+            message: event?.message || null,
           },
         });
       };
@@ -1201,13 +1236,22 @@ export default function SpeakMode({
         abortActiveCapture(false);
         setMatchResult('retry');
       }
-    } catch {
+    } catch (error) {
       isRecordingRef.current = false;
-      setAudioError('Microphone access was blocked. Please allow mic access and try again.');
+      const errName = error instanceof DOMException ? error.name : '';
+      const message =
+        errName === 'NotAllowedError'
+          ? 'Microphone access was blocked. Please allow mic access and try again.'
+          : errName === 'NotFoundError'
+            ? 'No microphone was found on this device.'
+            : errName === 'NotReadableError'
+              ? 'Microphone is currently in use by another app. Close it and try again.'
+              : 'Microphone could not start. Please check device permissions and try again.';
+      setAudioError(message);
       trackEvent('speak_retry', {
         wordId: word.id,
         isReview: Boolean(word.isReview),
-        source: 'mic-blocked',
+        source: errName ? `mic-${errName}` : 'mic-blocked',
       });
       setIsRecording(false);
     }
