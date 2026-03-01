@@ -330,7 +330,6 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             currentIndex={lessonWordIndex}
             totalWords={totalWords}
             listeningMode={isListeningPractice}
-            onPrev={prevWord}
             onNext={nextWord}
           />
         )}
@@ -341,7 +340,6 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             currentIndex={lessonWordIndex}
             totalWords={totalWords}
             practiceMode={isSpeakingPractice}
-            onPrev={prevWord}
             onNext={nextWord}
           />
         )}

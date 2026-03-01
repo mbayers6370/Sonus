@@ -77,7 +77,7 @@ export default function ProfileScreen({
   onOpenLanguageSelection,
 }: ProfileScreenProps) {
   const { state } = useApp();
-  const { isDemo, signOut } = useAuth();
+  const { isDemo, signOut, email: authEmail } = useAuth();
   const resolvedCurrentLearningLanguage = currentLearningLanguage
     ? normalizeLanguageId(currentLearningLanguage)
     : null;
@@ -219,7 +219,7 @@ export default function ProfileScreen({
         targetLanguage: resolvedCurrentLearningLanguage || null,
         timezone: timezone || null,
         onboardingComplete: false,
-        email: null,
+        email: authEmail || null,
       });
       setProgress((prev) => prev ?? {
         streak: 0,
@@ -235,7 +235,7 @@ export default function ProfileScreen({
         }
       }
     }
-  }, [isDemo, resolvedCurrentLearningLanguage, signOut, timezone]);
+  }, [authEmail, isDemo, resolvedCurrentLearningLanguage, signOut, timezone]);
 
   useEffect(() => {
     void loadProfile();

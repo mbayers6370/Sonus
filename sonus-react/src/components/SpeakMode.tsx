@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { BandData, Word, SpeakBreakdown } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
-import { Volume2, Mic, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Volume2, Mic, ChevronRight } from 'lucide-react';
 import { sendClientTelemetrySafe, sendSpeakAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
@@ -21,7 +21,6 @@ interface SpeakModeProps {
   currentIndex: number;
   totalWords: number;
   practiceMode?: boolean;
-  onPrev: () => void;
   onNext: () => void;
 }
 
@@ -57,6 +56,7 @@ const EMPTY_SCORE: SpeakBreakdown['initial'] = {
   pass: false,
 };
 const FINALIZE_DELAY_MS = 480;
+const STOP_FINALIZE_WATCHDOG_MS = 1800;
 
 type SpeakCandidate = {
   recognizedText: string;
@@ -719,10 +719,25 @@ export default function SpeakMode({
   currentIndex,
   totalWords,
   practiceMode = false,
-  onPrev,
   onNext,
 }: SpeakModeProps) {
+  const renderAnimatedEllipsis = () => (
+    <span aria-hidden="true" className="inline-flex ml-0.5">
+      {[0, 1, 2].map((idx) => (
+        <span
+          // Staggered pulses so users get clear "in progress" feedback.
+          key={idx}
+          className="inline-block animate-pulse"
+          style={{ animationDelay: `${idx * 180}ms` }}
+        >
+          .
+        </span>
+      ))}
+    </span>
+  );
+
   const [isRecording, setIsRecording] = useState(false);
+  const [isStartingRecording, setIsStartingRecording] = useState(false);
   const [isFinalizing, setIsFinalizing] = useState(false);
   const [recordingUrl, setRecordingUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState('');
@@ -736,6 +751,7 @@ export default function SpeakMode({
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const finalizeTimerRef = useRef<number | null>(null);
+  const stopWatchdogTimerRef = useRef<number | null>(null);
   const recognitionStopTimerRef = useRef<number | null>(null);
   const sttUnavailableTrackedRef = useRef(false);
   const lookupTelemetryKeysRef = useRef<Set<string>>(new Set());
@@ -1043,6 +1059,10 @@ export default function SpeakMode({
   };
 
   const finalizeSpeakSession = (sessionId: number) => {
+    if (stopWatchdogTimerRef.current) {
+      window.clearTimeout(stopWatchdogTimerRef.current);
+      stopWatchdogTimerRef.current = null;
+    }
     if (postedSpeakSessionRef.current === sessionId) {
       setIsFinalizing(false);
       recognitionStateRef.current = 'idle';
@@ -1144,10 +1164,15 @@ export default function SpeakMode({
       window.clearTimeout(recognitionStopTimerRef.current);
       recognitionStopTimerRef.current = null;
     }
+    if (stopWatchdogTimerRef.current) {
+      window.clearTimeout(stopWatchdogTimerRef.current);
+      stopWatchdogTimerRef.current = null;
+    }
     if (!preserveStream) {
       releaseMediaStream();
     }
     pendingSpeakAttemptRef.current = null;
+    setIsStartingRecording(false);
     setIsRecording(false);
     setIsFinalizing(false);
   };
@@ -1312,6 +1337,16 @@ export default function SpeakMode({
 
     if (recorder && recorder.state !== 'inactive') {
       recorder.stop();
+      if (stopWatchdogTimerRef.current) {
+        window.clearTimeout(stopWatchdogTimerRef.current);
+      }
+      stopWatchdogTimerRef.current = window.setTimeout(() => {
+        // AirPods/mobile can occasionally skip recorder.onstop; finalize anyway.
+        if (recordingSessionRef.current !== sessionId) return;
+        if (recognitionStateRef.current !== 'finalizing') return;
+        releaseMediaStream();
+        scheduleFinalize(sessionId, 80);
+      }, STOP_FINALIZE_WATCHDOG_MS);
     } else {
       scheduleFinalize(sessionId, FINALIZE_DELAY_MS);
     }
@@ -1329,6 +1364,7 @@ export default function SpeakMode({
       stopMediaRecorder();
       return;
     }
+    if (isStartingRecording) return;
 
     if (!sttSupported) {
       setAudioError('Speech recognition is unavailable on this browser. Please use Safari or Chrome.');
@@ -1349,6 +1385,7 @@ export default function SpeakMode({
     }
 
     try {
+      setIsStartingRecording(true);
       recordingSessionRef.current += 1;
       postedSpeakSessionRef.current = null;
       pendingSpeakAttemptRef.current = null;
@@ -1383,6 +1420,10 @@ export default function SpeakMode({
       };
 
       recorder.onstop = () => {
+        if (stopWatchdogTimerRef.current) {
+          window.clearTimeout(stopWatchdogTimerRef.current);
+          stopWatchdogTimerRef.current = null;
+        }
         const blob = new Blob(chunksRef.current, { type: recorder.mimeType || 'audio/webm' });
         if (recordingUrl) URL.revokeObjectURL(recordingUrl);
         const nextUrl = URL.createObjectURL(blob);
@@ -1393,6 +1434,7 @@ export default function SpeakMode({
       };
 
       setIsRecording(true);
+      setIsStartingRecording(false);
       recorder.start();
       startRecognition();
     } catch {
@@ -1403,6 +1445,7 @@ export default function SpeakMode({
         isReview: Boolean(word.isReview),
         source: 'mic-blocked',
       });
+      setIsStartingRecording(false);
       setIsRecording(false);
     }
   };
@@ -1418,6 +1461,10 @@ export default function SpeakMode({
         window.clearTimeout(recognitionStopTimerRef.current);
         recognitionStopTimerRef.current = null;
       }
+      if (stopWatchdogTimerRef.current) {
+        window.clearTimeout(stopWatchdogTimerRef.current);
+        stopWatchdogTimerRef.current = null;
+      }
       if (recordingUrl) URL.revokeObjectURL(recordingUrl);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1428,6 +1475,7 @@ export default function SpeakMode({
     setTranscript('');
     setMatchResult(null);
     setAnalysis(null);
+    setIsStartingRecording(false);
     setIsFinalizing(false);
     if (finalizeTimerRef.current) {
       window.clearTimeout(finalizeTimerRef.current);
@@ -1436,6 +1484,10 @@ export default function SpeakMode({
     if (recognitionStopTimerRef.current) {
       window.clearTimeout(recognitionStopTimerRef.current);
       recognitionStopTimerRef.current = null;
+    }
+    if (stopWatchdogTimerRef.current) {
+      window.clearTimeout(stopWatchdogTimerRef.current);
+      stopWatchdogTimerRef.current = null;
     }
     if (recordingUrl) {
       URL.revokeObjectURL(recordingUrl);
@@ -1513,10 +1565,20 @@ export default function SpeakMode({
       : isMandarinLesson
         ? (heardHanzi || mappedMandarinHeard || transcript)
         : transcript;
-  const recordTitle = !sttSupported ? 'Record' : isRecording ? 'Listening' : isFinalizing ? 'Scoring' : 'Record';
+  const recordTitle = !sttSupported
+    ? 'Record'
+    : isStartingRecording
+      ? 'Listening Now'
+      : isRecording
+        ? 'Listening Now'
+        : isFinalizing
+          ? 'Scoring'
+          : 'Record';
   const recordSubtitle = !sttSupported
     ? 'Speech Unavailable'
-    : isRecording
+    : isStartingRecording
+      ? 'Starting mic'
+      : isRecording
       ? 'Tap To Finish'
       : isFinalizing || hasAttempt
         ? 'Results Below'
@@ -1564,7 +1626,7 @@ export default function SpeakMode({
 
   const buildSupportiveFeedback = () => {
     const coaching: string[] = [];
-    const nextGoalDefault = 'Next try goal: lock one component first, then add the rest.';
+    const nextGoalDefault = 'Next Goal: lock one component first, then add the rest.';
     const targetHint = word.pinyin || word.simp;
 
     if (isJapaneseLesson) {
@@ -1574,7 +1636,7 @@ export default function SpeakMode({
           toneClass: 'text-[#C2410C]',
           summary: '',
           coaching,
-          nextGoal: 'Next try goal: speak clearly and a bit slower near the mic.',
+          nextGoal: 'Next Goal: speak clearly and a bit slower near the mic.',
         };
       }
       if (matchResult === 'match') {
@@ -1583,7 +1645,7 @@ export default function SpeakMode({
           toneClass: 'text-[#3E5648]',
           summary: 'Great match on the target Japanese word.',
           coaching,
-          nextGoal: 'Next try goal: keep this clarity on the next word.',
+          nextGoal: 'Next Goal: keep this clarity on the next word.',
         };
       }
       return {
@@ -1591,7 +1653,7 @@ export default function SpeakMode({
         toneClass: 'text-[#186E95]',
         summary: 'You are close. Focus on matching the target word shape.',
         coaching,
-        nextGoal: `Next try goal: repeat "${targetHint}" more clearly and steadily.`,
+        nextGoal: `Next Goal: repeat "${targetHint}" more clearly and steadily.`,
       };
     }
 
@@ -1601,7 +1663,7 @@ export default function SpeakMode({
         toneClass: 'text-[#C2410C]',
         summary: '',
         coaching,
-        nextGoal: 'Next try goal: use a clear, steady voice close to the mic.',
+        nextGoal: 'Next Goal: use a clear, steady voice close to the mic.',
       };
     }
 
@@ -1646,7 +1708,7 @@ export default function SpeakMode({
         toneClass: 'text-[#3E5648]',
         summary: 'Great initial, final, and tone control.',
         coaching,
-        nextGoal: 'Next try goal: keep this same clarity on the next word.',
+        nextGoal: 'Next Goal: keep this same clarity on the next word.',
       };
     }
 
@@ -1655,13 +1717,13 @@ export default function SpeakMode({
       let nextGoal = nextGoalDefault;
       if (!analysis.tone.pass) {
         summary = 'Great initial + final. Tone is the only miss.';
-        nextGoal = 'Next try goal: keep initial + final, focus only on tone.';
+        nextGoal = 'Next Goal: keep initial + final, focus only on tone.';
       } else if (!analysis.initial.pass) {
         summary = 'Great final + tone. Initial is the only miss.';
-        nextGoal = 'Next try goal: keep final + tone, focus only on initial.';
+        nextGoal = 'Next Goal: keep final + tone, focus only on initial.';
       } else if (!analysis.final.pass) {
         summary = 'Great initial + tone. Final is the only miss.';
-        nextGoal = 'Next try goal: keep initial + tone, focus only on final.';
+        nextGoal = 'Next Goal: keep initial + tone, focus only on final.';
       }
       return {
         label: 'Almost there',
@@ -1678,7 +1740,7 @@ export default function SpeakMode({
         toneClass: 'text-[#186E95]',
         summary: 'One component is in place. Let’s stack the next two.',
         coaching,
-        nextGoal: 'Next try goal: keep your strongest component, then add one more.',
+        nextGoal: 'Next Goal: keep your strongest component, then add one more.',
       };
     }
 
@@ -1798,11 +1860,11 @@ export default function SpeakMode({
           <button
             type="button"
             onClick={handleRecord}
-            disabled={isFinalizing || !sttSupported}
+            disabled={isFinalizing || isStartingRecording || !sttSupported}
             className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] transition-colors ${
               !sttSupported
                 ? 'border-[#D1D5DB] bg-[#F3F4F6] opacity-75 cursor-not-allowed'
-                : isRecording
+                : (isRecording || isStartingRecording)
                   ? 'border-[#2B3440] bg-[#2B3440] shadow-[0_0_0_1px_rgba(255,255,255,0.06)] active:bg-[#344253]'
                 : 'border-[#1F2A37] bg-[#1F2A37] active:bg-[#273243]'
             }`}
@@ -1810,19 +1872,20 @@ export default function SpeakMode({
             title={isRecording ? 'Stop recording' : 'Start recording'}
           >
             <Mic
-              className={`absolute top-3 right-3 w-5 h-5 text-white ${isRecording ? 'animate-pulse' : ''}`}
+              className={`absolute top-3 right-3 w-5 h-5 text-white ${(isRecording || isStartingRecording) ? 'animate-pulse' : ''}`}
             />
 
             <div className="h-full flex flex-col justify-center text-center">
-              <div className="text-[clamp(0.98rem,4.4vw,1.2rem)] sm:text-[1.2rem] font-semibold text-white leading-tight">
+              <div className="text-[clamp(0.92rem,4vw,1.08rem)] sm:text-[1.08rem] font-semibold text-white leading-tight">
                 {recordTitle}
+                {(isStartingRecording || isRecording || isFinalizing) ? renderAnimatedEllipsis() : null}
               </div>
-              <div className="text-[clamp(0.98rem,4.4vw,1.2rem)] sm:text-[1.2rem] font-semibold text-white leading-tight break-words mt-1 px-1">
+              <div className="text-[clamp(0.92rem,4vw,1.08rem)] sm:text-[1.08rem] font-semibold text-white leading-tight break-words mt-1 px-1">
                 {recordSubtitle}
               </div>
-              {!sttSupported ? null : (isFinalizing || isRecording) ? (
+              {!sttSupported ? null : (isFinalizing || isRecording || isStartingRecording) ? (
                 <div className="text-[11px] sm:text-xs text-[#E7EDF6] mt-1 px-1">
-                  {isRecording ? 'Listening now' : 'Scoring now'}
+                  {isStartingRecording ? 'Connecting audio' : isRecording ? 'Listening now' : 'Scoring now'}
                 </div>
               ) : null}
             </div>
@@ -1841,15 +1904,7 @@ export default function SpeakMode({
           practiceMode ? 'bg-white border-white/30' : 'bg-bg-warm/95 border-border'
         }`}
       >
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            onClick={onPrev}
-            disabled={currentIndex === 0 || navLocked}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(31,42,55,0.35)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            Previous
-          </button>
+        <div className="grid grid-cols-1 gap-2">
           <button
             onClick={onNext}
             disabled={navLocked}

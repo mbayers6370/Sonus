@@ -167,16 +167,18 @@ async function refreshAccessToken() {
       });
       const payload = await readJson(response);
       if (!response.ok || !payload.accessToken) {
-        clearAuthSession();
-        dispatchAuthExpired();
+        // Only hard-sign-out on explicit auth invalidation.
+        if (response.status === 401 || response.status === 403) {
+          clearAuthSession();
+          dispatchAuthExpired();
+        }
         return false;
       }
       setAuthSession(payload.accessToken);
       setMockIdentity(payload.user?.id ?? null, payload.user?.email ?? null);
       return true;
     } catch {
-      clearAuthSession();
-      dispatchAuthExpired();
+      // Transient backend/network failures (e.g. Render cold start) should not force logout.
       return false;
     } finally {
       refreshPromise = null;

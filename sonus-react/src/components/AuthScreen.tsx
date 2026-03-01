@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import GlassLoader from './ui/GlassLoader';
 
-type Mode = 'signin' | 'signup' | 'forgot' | 'reset';
+type Mode = 'signin' | 'signup' | 'demo' | 'forgot' | 'reset';
 
 function readResetTokenFromUrl() {
   if (typeof window === 'undefined') return null;
@@ -241,7 +241,7 @@ export default function AuthScreen() {
           className="h-7 mx-auto mb-5 opacity-90"
         />
 
-        {(mode === 'signin' || mode === 'signup') && (
+        {(mode === 'signin' || mode === 'signup' || mode === 'demo') && (
           <div className="inline-flex items-center gap-5 mb-5 border-b border-border/80 pb-1">
             <button
               type="button"
@@ -265,21 +265,53 @@ export default function AuthScreen() {
             >
               Sign Up
             </button>
+            <button
+              type="button"
+              onClick={() => setMode('demo')}
+              className={`pb-1 text-[11px] font-semibold uppercase tracking-wider font-mono transition-colors border-b-2 ${
+                mode === 'demo'
+                  ? 'text-[#1F2A37] border-[#1F2A37]'
+                  : 'text-text-med border-transparent hover:text-text-dark'
+              }`}
+            >
+              Demo
+            </button>
           </div>
         )}
 
         <h1 className="main-font text-[2rem] leading-tight text-[#1F2A37]">
           {mode === 'signin' && 'Welcome Back'}
           {mode === 'signup' && 'Create Account'}
+          {mode === 'demo' && 'Try Sonus Demo'}
           {mode === 'forgot' && 'Reset Password'}
           {mode === 'reset' && 'Set New Password'}
         </h1>
-        <p className="text-sm text-text-med mt-1 mb-4">
+        <p className="text-[13px] font-light text-[#94A3B8] mt-1 mb-4">
           {mode === 'signin' && 'Sign in with your email and password.'}
           {mode === 'signup' && 'Use your name, email, and password to create your profile.'}
+          {mode === 'demo' && 'Explore real lesson flow in under two minutes.'}
           {mode === 'forgot' && 'Enter your email and we will send a secure reset link.'}
           {mode === 'reset' && 'Choose a new password for your account.'}
         </p>
+
+        {mode === 'demo' && (
+          <div className="mb-4 rounded-2xl border border-[#1F2A37]/12 bg-white p-3 text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-wider font-mono text-[#1F2A37]">
+              Demo Includes
+            </p>
+            <div className="mt-2 grid grid-cols-1 gap-1.5">
+              <div className="text-[12px] font-mono text-[#475569]">
+                <span className="font-semibold text-[#1F2A37]">No signup:</span> start instantly.
+              </div>
+              <div className="text-[12px] font-mono text-[#475569]">
+                <span className="font-semibold text-[#1F2A37]">Core flow:</span> Learn, Quiz, and Speak.
+              </div>
+              <div className="text-[12px] font-mono text-[#475569]">
+                <span className="font-semibold text-[#1F2A37]">Safe preview:</span> temporary session.
+              </div>
+            </div>
+          </div>
+        )}
 
         <form
           onSubmit={(e) => {
@@ -337,21 +369,6 @@ export default function AuthScreen() {
                 autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
                 className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
               />
-              {mode === 'signin' && (
-                <div className="text-right">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMode('forgot');
-                      setError(null);
-                      setMessage(null);
-                    }}
-                    className="text-xs text-text-med underline underline-offset-2 hover:text-text-dark"
-                  >
-                    Forgot password?
-                  </button>
-                </div>
-              )}
             </div>
           )}
 
@@ -379,33 +396,50 @@ export default function AuthScreen() {
           {error && <p className="text-sm text-[#C2410C] mt-3">{error}</p>}
           {message && <p className="text-sm text-[#3E5648] mt-3">{message}</p>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full mt-4 inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-[#1F2A37] text-white font-semibold hover:bg-[#111827] transition-colors disabled:opacity-60"
-          >
-            {loading && 'Working…'}
-            {!loading && mode === 'signin' && 'Sign In'}
-            {!loading && mode === 'signup' && 'Create Account'}
-            {!loading && mode === 'forgot' && 'Send Reset Link'}
-            {!loading && mode === 'reset' && 'Update Password'}
-          </button>
+          {mode !== 'demo' && (
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full mt-4 inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-[#1F2A37] text-white font-semibold hover:bg-[#111827] transition-colors disabled:opacity-60"
+            >
+              {loading && 'Working…'}
+              {!loading && mode === 'signin' && 'Sign In'}
+              {!loading && mode === 'signup' && 'Create Account'}
+              {!loading && mode === 'forgot' && 'Send Reset Link'}
+              {!loading && mode === 'reset' && 'Update Password'}
+            </button>
+          )}
         </form>
 
         {mode === 'signin' && (
-          <button
-            type="button"
-            onClick={continueAsDemo}
-            disabled={loading}
-            className="mt-3 text-sm text-text-med underline underline-offset-2 hover:text-text-dark transition-colors disabled:opacity-60"
-          >
-            Continue as Demo
-          </button>
+          <div className="mt-3 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                setMode('forgot');
+                setError(null);
+                setMessage(null);
+              }}
+              className="text-xs text-text-med underline underline-offset-2 hover:text-text-dark"
+            >
+              Forgot password?
+            </button>
+          </div>
         )}
-        {mode === 'signin' && (
-          <p className="mt-2 text-[11px] text-text-light">
-            Demo sessions end when you close this window or after 1 hour idle.
-          </p>
+        {mode === 'demo' && (
+          <div className="mt-4 text-center">
+            <p className="mx-auto max-w-[26ch] text-[11px] leading-snug font-light text-[#94A3B8]">
+              Demo progress is temporary and will reset after inactivity.
+            </p>
+            <button
+              type="button"
+              onClick={continueAsDemo}
+              disabled={loading}
+              className="w-full mt-3 inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-[#1F2A37] text-white font-semibold hover:bg-[#111827] transition-colors disabled:opacity-60"
+            >
+              Start Demo Tour
+            </button>
+          </div>
         )}
 
         {(mode === 'forgot' || mode === 'reset') && (
