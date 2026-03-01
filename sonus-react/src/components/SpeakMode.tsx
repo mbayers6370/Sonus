@@ -1885,6 +1885,7 @@ export default function SpeakMode({
     }
     if (!analysis.tone.pass) {
       const toneTargets = toneMisses
+        .slice(0, 2)
         .map((index) => {
           const token = targetTokens[index];
           if (!token) return null;
@@ -1892,7 +1893,12 @@ export default function SpeakMode({
         })
         .filter((line): line is string => Boolean(line));
       if (toneTargets.length) {
-        coaching.push(`Tone: ${toneTargets.join(' ')}`);
+        const remaining = Math.max(0, toneMisses.length - toneTargets.length);
+        coaching.push(
+          remaining > 0
+            ? `Tone: ${toneTargets.join(' ')} ${remaining} more tone target${remaining === 1 ? '' : 's'} to fix.`
+            : `Tone: ${toneTargets.join(' ')}`
+        );
       } else {
         coaching.push('Tone: match each target tone contour more clearly.');
       }
@@ -1902,6 +1908,22 @@ export default function SpeakMode({
     }
 
     const passCount = [analysis.initial.pass, analysis.final.pass, analysis.tone.pass].filter(Boolean).length;
+    const conciseToneFocus = toneMisses.length
+      ? `tone on ${formatTokens(toneMisses)}`
+      : 'tone';
+    if (analysis.initial.pass && analysis.final.pass && !analysis.tone.pass) {
+      coaching.unshift(`You're getting the word shape. Keep initial + final strong and fix ${conciseToneFocus}.`);
+    } else if (!analysis.initial.pass && analysis.final.pass && !analysis.tone.pass) {
+      coaching.unshift(`You're getting the final sound. Keep it strong, add the opening consonant, and fix ${conciseToneFocus}.`);
+    } else if (analysis.initial.pass && !analysis.final.pass && !analysis.tone.pass) {
+      coaching.unshift(`You're getting the start right. Tighten the ending sound and fix ${conciseToneFocus}.`);
+    } else if (!analysis.initial.pass && !analysis.final.pass && analysis.tone.pass) {
+      coaching.unshift('Tone is in place. Now fix the opening consonant and ending sound.');
+    } else if (!analysis.initial.pass && analysis.final.pass && analysis.tone.pass) {
+      coaching.unshift('Final + tone are strong. Focus on the opening consonant only.');
+    } else if (analysis.initial.pass && !analysis.final.pass && analysis.tone.pass) {
+      coaching.unshift('Initial + tone are strong. Focus on the ending sound only.');
+    }
 
     if (passCount === 3) {
       return {
@@ -1969,7 +1991,8 @@ export default function SpeakMode({
   const renderSupportiveFeedback = (compact: boolean, onDark = false) => {
     if (!hasAttempt) return null;
     const feedback = buildSupportiveFeedback();
-    const baseText = compact ? 'text-[12px]' : 'text-sm';
+    const summaryText = compact ? 'text-[11px] leading-[1.35]' : 'text-sm leading-[1.45]';
+    const detailText = compact ? 'text-[11px] leading-[1.4]' : 'text-sm leading-[1.45]';
     const firstCoaching = feedback.coaching[0];
     const feedbackToneClass =
       onDark && feedback.toneClass === 'text-[#3E5648]'
@@ -1978,12 +2001,18 @@ export default function SpeakMode({
           ? 'text-[#AFCFE0]'
           : feedback.toneClass;
     return (
-      <div className="mt-1 text-center">
-        <div className={`${baseText} ${feedbackToneClass} font-semibold`}>
+      <div className={`mt-1 text-center ${compact ? 'px-0.5' : 'px-1'}`}>
+        <div className={`${summaryText} ${feedbackToneClass} font-semibold max-w-[28rem] mx-auto`}>
           {feedback.summary ? `${feedback.label}: ${feedback.summary}` : feedback.label}
         </div>
-        {firstCoaching ? <div className={`${baseText} ${onDark ? 'text-white/80' : 'text-text-med'} mt-1`}>{firstCoaching}</div> : null}
-        <div className={`${baseText} ${onDark ? 'text-[#AFCFE0]' : 'text-[#186E95]'} mt-1`}>{feedback.nextGoal}</div>
+        {firstCoaching ? (
+          <div className={`${detailText} ${onDark ? 'text-white/80' : 'text-text-med'} mt-1 max-w-[30rem] mx-auto`}>
+            {firstCoaching}
+          </div>
+        ) : null}
+        <div className={`${detailText} ${onDark ? 'text-[#AFCFE0]' : 'text-[#186E95]'} mt-1.5 max-w-[30rem] mx-auto`}>
+          {feedback.nextGoal}
+        </div>
       </div>
     );
   };
@@ -1991,7 +2020,7 @@ export default function SpeakMode({
   const renderResultCard = (compact: boolean) => {
     if (!showMobileResult && !showDesktopResult) return null;
     const shell = compact
-      ? 'rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-3 py-3'
+      ? 'rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-3 py-3.5'
       : 'rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5';
     const titleClass = compact
       ? 'text-[11px] tracking-wide font-mono text-white/85'
