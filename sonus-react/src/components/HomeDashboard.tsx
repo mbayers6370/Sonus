@@ -248,6 +248,14 @@ export default function HomeDashboard({
       : `${needsWorkCount} words are in your practice queue.`;
   const formatBandLabel = (bandId: string | null) => {
     if (!bandId) return 'Level';
+    if (languageId === 'zh') {
+      if (/^band[1-3]$/i.test(bandId)) return 'Beginner';
+      if (/^band[4-6]$/i.test(bandId)) return 'Intermediate';
+      if (/^band[7-9]$/i.test(bandId) || bandId === 'advanced') return 'Advanced';
+    }
+    if (languageId === 'ja' && /^n[1-5]$/i.test(bandId)) {
+      return bandId.toUpperCase();
+    }
     const matched = /^band(\d+)$/i.exec(bandId);
     if (matched) return `Level ${matched[1]}`;
     return bandId.toUpperCase();

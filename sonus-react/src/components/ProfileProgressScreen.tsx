@@ -83,17 +83,9 @@ function bandMatchesLanguage(bandId: string | null | undefined, languageId: stri
   return true;
 }
 
-function readingLabelForLanguage(languageId: string) {
-  if (languageId === 'zh') return 'Pinyin';
-  if (languageId === 'ja') return 'Romaji';
-  if (languageId === 'ko' || languageId === 'kr') return 'Romanization';
-  return 'Reading';
-}
-
 function toNeedsWorkCard(
   item: NeedsWorkItem,
-  fallbackLookup: WordLookup,
-  activeLanguageId: string
+  fallbackLookup: WordLookup
 ) {
   if (item.lexeme) {
     const reading =
@@ -104,7 +96,6 @@ function toNeedsWorkCard(
     return {
       term: item.lexeme.term,
       reading,
-      readingLabel: readingLabelForLanguage(item.lexeme.lang || activeLanguageId),
       en: item.lexeme.en,
     };
   }
@@ -113,7 +104,6 @@ function toNeedsWorkCard(
   return {
     term: fallback?.simp || 'Word',
     reading: fallback?.pronunciation || fallback?.reading || fallback?.pinyin || '',
-    readingLabel: readingLabelForLanguage(activeLanguageId),
     en: fallback?.en || '',
   };
 }
@@ -341,7 +331,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
               <>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {visibleNeedsWork.map((item) => {
-                    const card = toNeedsWorkCard(item, wordLookup, languageId);
+                    const card = toNeedsWorkCard(item, wordLookup);
                     return (
                       <div
                         key={item.wordId}
@@ -352,10 +342,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                             {card.term}
                           </div>
                           {card.reading ? (
-                            <div className="text-xs text-text-med mt-1">
-                              <span className="font-mono uppercase tracking-wider text-text-light">{card.readingLabel}</span>{' '}
-                              {card.reading}
-                            </div>
+                            <div className="text-xs text-text-med mt-1">{card.reading}</div>
                           ) : null}
                           {card.en ? (
                             <div className="text-xs text-text-light mt-0.5">{card.en}</div>
