@@ -26,8 +26,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
-      <div className="h-full w-full flex items-center justify-between px-4">
-        <div className="hidden lg:block w-[120px]" />
+      <div className="h-full w-full relative flex items-center justify-center px-4">
         <div className="flex items-center justify-center gap-4 sm:gap-6">
           <button
             onClick={onHome}
@@ -60,7 +59,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
         <button
           type="button"
           onClick={signOut}
-          className="hidden lg:flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-text-light transition-colors hover:text-text-dark"
+          className="hidden lg:flex absolute right-4 items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-text-light transition-colors hover:text-text-dark"
           aria-label={isDemo ? 'Exit Demo' : 'Sign Out'}
           title={isDemo ? 'Exit Demo' : 'Sign Out'}
         >
