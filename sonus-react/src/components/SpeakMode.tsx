@@ -44,6 +44,7 @@ type PronunciationAnalysis = {
   targetPinyin: string;
   detectedPinyin: string;
   source: 'hanzi-map' | 'latin' | 'unresolved';
+  alignedHeard: Array<PinyinSyllable | null>;
   initial: ScoreBreakdown;
   final: ScoreBreakdown;
   tone: ScoreBreakdown;
@@ -693,6 +694,110 @@ function parsePinyin(input: string, expectedCount: number): PinyinSyllable[] {
     .filter((syllable): syllable is PinyinSyllable => syllable !== null);
 }
 
+function alignHeardToTargetSyllables(
+  target: PinyinSyllable[],
+  heard: PinyinSyllable[]
+) {
+  const MANDARIN_ALIGNMENT_WEIGHTS = {
+    initial: 1,
+    final: 3,
+    toneExact: 2,
+  } as const;
+  const targetLen = target.length;
+  const heardLen = heard.length;
+  const dp: number[][] = Array.from({ length: targetLen + 1 }, () =>
+    Array.from({ length: heardLen + 1 }, () => Number.NEGATIVE_INFINITY)
+  );
+  const back: Array<Array<'skip-target' | 'skip-heard' | 'match' | null>> = Array.from(
+    { length: targetLen + 1 },
+    () => Array.from({ length: heardLen + 1 }, () => null)
+  );
+  const alignedHeard: Array<PinyinSyllable | null> = Array.from({ length: targetLen }, () => null);
+
+  dp[0][0] = 0;
+  for (let i = 1; i <= targetLen; i += 1) {
+    dp[i][0] = dp[i - 1][0];
+    back[i][0] = 'skip-target';
+  }
+  for (let j = 1; j <= heardLen; j += 1) {
+    dp[0][j] = dp[0][j - 1];
+    back[0][j] = 'skip-heard';
+  }
+
+  const matchWeight = (targetSyllable: PinyinSyllable, heardSyllable: PinyinSyllable) => {
+    let weight = 0;
+    if (targetSyllable.initial === heardSyllable.initial) weight += MANDARIN_ALIGNMENT_WEIGHTS.initial;
+    if (targetSyllable.final === heardSyllable.final) weight += MANDARIN_ALIGNMENT_WEIGHTS.final;
+    const toneMatchesExactly = targetSyllable.tone === heardSyllable.tone;
+    if (toneMatchesExactly) weight += MANDARIN_ALIGNMENT_WEIGHTS.toneExact;
+    return weight;
+  };
+
+  for (let i = 0; i < targetLen; i += 1) {
+    for (let j = 0; j < heardLen; j += 1) {
+      const skipTarget = dp[i][j + 1];
+      const skipHeard = dp[i + 1][j];
+      const match = dp[i][j] + matchWeight(target[i], heard[j]);
+
+      let best = skipTarget;
+      let choice: 'skip-target' | 'skip-heard' | 'match' = 'skip-target';
+      if (skipHeard > best) {
+        best = skipHeard;
+        choice = 'skip-heard';
+      }
+      if (match > best) {
+        best = match;
+        choice = 'match';
+      }
+      dp[i + 1][j + 1] = best;
+      back[i + 1][j + 1] = choice;
+    }
+  }
+
+  let i = targetLen;
+  let j = heardLen;
+  while (i > 0 || j > 0) {
+    const choice = back[i][j];
+    if (choice === 'match') {
+      alignedHeard[i - 1] = heard[j - 1];
+      i -= 1;
+      j -= 1;
+      continue;
+    }
+    if (choice === 'skip-heard') {
+      j -= 1;
+      continue;
+    }
+    if (choice === 'skip-target') {
+      i -= 1;
+      continue;
+    }
+    if (i > 0) i -= 1;
+    else if (j > 0) j -= 1;
+  }
+
+  let initialMatches = 0;
+  let finalMatches = 0;
+  let toneMatches = 0;
+
+  for (let idx = 0; idx < targetLen; idx += 1) {
+    const targetSyllable = target[idx];
+    const heardSyllable = alignedHeard[idx];
+    if (!heardSyllable) continue;
+
+    if (targetSyllable.initial === heardSyllable.initial) initialMatches += 1;
+    if (targetSyllable.final === heardSyllable.final) finalMatches += 1;
+    if (targetSyllable.tone === heardSyllable.tone) toneMatches += 1;
+  }
+
+  return {
+    alignedHeard,
+    initialMatches,
+    finalMatches,
+    toneMatches,
+  };
+}
+
 function buildScore(matches: number, total: number): ScoreBreakdown {
   if (total <= 0) {
     return { matched: 0, total: 0, percent: 0, pass: false };
@@ -882,16 +987,23 @@ export default function SpeakMode({
       return { pinyin: '', source: 'unresolved' };
     }
 
-    // Mandarin lessons should not score raw English/latin fallback text (e.g. "Siri").
     if (isMandarinLesson) {
-      return { pinyin: '', source: 'unresolved' };
+      const detected = parsePinyin(recognized, targetSyllableCount);
+      if (!detected.length) {
+        return { pinyin: '', source: 'unresolved' };
+      }
+      return {
+        pinyin: detected.map((token) => token.raw).join(' '),
+        source: 'latin',
+      };
     }
 
     return { pinyin: recognized, source: 'latin' };
   };
 
   const analyzePronunciation = (recognized: string): PronunciationAnalysis | null => {
-    if (isJapaneseLesson) return null;
+    // Deep phonological scoring is intentionally Mandarin-only.
+    if (!isMandarinLesson) return null;
     const targetPinyin = word.pinyin || '';
     if (!targetPinyin.trim()) return null;
 
@@ -905,6 +1017,7 @@ export default function SpeakMode({
         targetPinyin,
         detectedPinyin: targetPinyin,
         source: 'hanzi-map',
+        alignedHeard: target,
         initial: buildScore(target.length, target.length),
         final: buildScore(target.length, target.length),
         tone: buildScore(target.length, target.length),
@@ -915,6 +1028,7 @@ export default function SpeakMode({
         targetPinyin,
         detectedPinyin: '',
         source: detected.source,
+        alignedHeard: Array.from({ length: target.length }, () => null),
         initial: buildScore(0, target.length),
         final: buildScore(0, target.length),
         tone: buildScore(0, target.length),
@@ -922,31 +1036,16 @@ export default function SpeakMode({
     }
 
     const heard = parsePinyin(detected.pinyin, target.length);
-
-    let initialMatches = 0;
-    let finalMatches = 0;
-    let toneMatches = 0;
-
-    // Compare by syllable index so per-component scores map to target structure.
-    for (let i = 0; i < target.length; i += 1) {
-      const targetSyllable = target[i];
-      const heardSyllable = heard[i];
-      if (!heardSyllable) continue;
-
-      if (targetSyllable.initial === heardSyllable.initial) initialMatches += 1;
-      if (targetSyllable.final === heardSyllable.final) finalMatches += 1;
-      const toneMatchesExactly = targetSyllable.tone === heardSyllable.tone;
-      const toneIsUnmarkedLatin = detected.source === 'latin' && heardSyllable.tone === 5;
-      if (toneMatchesExactly || toneIsUnmarkedLatin) toneMatches += 1;
-    }
+    const aligned = alignHeardToTargetSyllables(target, heard);
 
     return {
       targetPinyin,
       detectedPinyin: detected.pinyin,
       source: detected.source,
-      initial: buildScore(initialMatches, target.length),
-      final: buildScore(finalMatches, target.length),
-      tone: buildScore(toneMatches, target.length),
+      alignedHeard: aligned.alignedHeard,
+      initial: buildScore(aligned.initialMatches, target.length),
+      final: buildScore(aligned.finalMatches, target.length),
+      tone: buildScore(aligned.toneMatches, target.length),
     };
   };
 
@@ -1739,23 +1838,64 @@ export default function SpeakMode({
     }
 
     const targetTokens = parsePinyin(word.pinyin || '', targetSyllableCount);
-    const heardTokens = parsePinyin(analysis.detectedPinyin || '', targetTokens.length || targetSyllableCount);
+    const heardTokens = analysis.alignedHeard.length
+      ? analysis.alignedHeard
+      : parsePinyin(analysis.detectedPinyin || '', targetTokens.length || targetSyllableCount);
+
+    const initialMisses: number[] = [];
+    const finalMisses: number[] = [];
+    const toneMisses: number[] = [];
+
+    for (let index = 0; index < targetTokens.length; index += 1) {
+      const targetToken = targetTokens[index];
+      const heardToken = heardTokens[index];
+      if (!heardToken) {
+        initialMisses.push(index);
+        finalMisses.push(index);
+        toneMisses.push(index);
+        continue;
+      }
+      if (targetToken.initial !== heardToken.initial) initialMisses.push(index);
+      if (targetToken.final !== heardToken.final) finalMisses.push(index);
+      const toneMatchesExactly = targetToken.tone === heardToken.tone;
+      if (!toneMatchesExactly) toneMisses.push(index);
+    }
+
+    const formatTokens = (misses: number[]) => {
+      const labels = misses.map((index) => `"${targetTokens[index]?.raw || targetHint}"`).filter(Boolean);
+      if (!labels.length) return `"${targetHint}"`;
+      if (labels.length === 1) return labels[0];
+      if (labels.length === 2) return `${labels[0]} and ${labels[1]}`;
+      return `${labels.slice(0, 2).join(', ')}, and ${labels.length - 2} more`;
+    };
+
+    const toneAction = (tone: number) => {
+      if (tone === 1) return 'keep it flat and steady';
+      if (tone === 2) return 'let the vowel rise';
+      if (tone === 3) return 'dip, then lift at the end';
+      if (tone === 4) return 'start high and drop sharply';
+      return 'keep it light and neutral';
+    };
 
     if (!analysis.initial.pass) {
-      const idx = targetTokens.findIndex((token, index) => token.initial !== (heardTokens[index]?.initial || ''));
-      const tokenHint = idx >= 0 ? targetTokens[idx].raw : targetHint;
-      coaching.push(`Tip: reset the first consonant in "${tokenHint}".`);
+      coaching.push(`Initial: reset the opening consonant on ${formatTokens(initialMisses)}.`);
     }
     if (!analysis.final.pass) {
-      const idx = targetTokens.findIndex((token, index) => token.final !== (heardTokens[index]?.final || ''));
-      const tokenHint = idx >= 0 ? targetTokens[idx].raw : targetHint;
-      coaching.push(`Ending sound: finish "${tokenHint}" cleanly before stopping.`);
+      coaching.push(`Final: hold the ending sound clearly on ${formatTokens(finalMisses)}.`);
     }
     if (!analysis.tone.pass) {
-      const idx = targetTokens.findIndex((token, index) => token.tone !== (heardTokens[index]?.tone || 0));
-      const tokenHint = idx >= 0 ? targetTokens[idx].raw : targetHint;
-      const wantedTone = idx >= 0 ? toneLabel(targetTokens[idx].tone) : 'target tone';
-      coaching.push(`Tone target: "${tokenHint}" should use ${wantedTone}.`);
+      const toneTargets = toneMisses
+        .map((index) => {
+          const token = targetTokens[index];
+          if (!token) return null;
+          return `"${token.raw}" should be ${toneLabel(token.tone)} (${toneAction(token.tone)}).`;
+        })
+        .filter((line): line is string => Boolean(line));
+      if (toneTargets.length) {
+        coaching.push(`Tone: ${toneTargets.join(' ')}`);
+      } else {
+        coaching.push('Tone: match each target tone contour more clearly.');
+      }
     }
     if (analysis.source === 'unresolved' && heardHanzi) {
       coaching.push(`Detected "${transcript}" but mapping is partial; try a cleaner, slower pronunciation.`);
@@ -1796,12 +1936,24 @@ export default function SpeakMode({
     }
 
     if (passCount === 1) {
+      let summary = 'One component is in place. Let’s stack the next two.';
+      let nextGoal = 'Next Goal: keep your strongest component, then add one more.';
+      if (analysis.initial.pass) {
+        summary = 'Great initial control. Final and tone need work.';
+        nextGoal = 'Next Goal: keep your initial, then lock final and tone.';
+      } else if (analysis.final.pass) {
+        summary = 'Great final control. Initial and tone need work.';
+        nextGoal = 'Next Goal: keep your final, then lock initial and tone.';
+      } else if (analysis.tone.pass) {
+        summary = 'Great tone control. Initial and final need work.';
+        nextGoal = 'Next Goal: keep your tone, then lock initial and final.';
+      }
       return {
         label: 'Good start',
         toneClass: 'text-[#186E95]',
-        summary: 'One component is in place. Let’s stack the next two.',
+        summary,
         coaching,
-        nextGoal: 'Next Goal: keep your strongest component, then add one more.',
+        nextGoal,
       };
     }
 
