@@ -112,6 +112,14 @@ type SttCapability = {
   engine: 'standard' | 'webkit' | 'none';
 };
 
+function isIOSDevice() {
+  if (typeof navigator === 'undefined') return false;
+  const ua = navigator.userAgent || '';
+  const platform = navigator.platform || '';
+  const touchPoints = (navigator as Navigator & { maxTouchPoints?: number }).maxTouchPoints || 0;
+  return /iPad|iPhone|iPod/i.test(ua) || (platform === 'MacIntel' && touchPoints > 1);
+}
+
 function getSttCapability(): SttCapability {
   if (typeof window === 'undefined') return { supported: false, engine: 'none' };
   const recognitionWindow = window as SpeechRecognitionWindow;
@@ -753,6 +761,7 @@ export default function SpeakMode({
   const finalizeTimerRef = useRef<number | null>(null);
   const stopWatchdogTimerRef = useRef<number | null>(null);
   const recognitionStopTimerRef = useRef<number | null>(null);
+  const listenRetryTimerRef = useRef<number | null>(null);
   const sttUnavailableTrackedRef = useRef(false);
   const lookupTelemetryKeysRef = useRef<Set<string>>(new Set());
   const recordingSessionRef = useRef(0);
@@ -766,6 +775,7 @@ export default function SpeakMode({
   const { state, recordSpeakResult, recordWordOutcome } = useApp();
   const sttCapability = useMemo(() => getSttCapability(), []);
   const sttSupported = sttCapability.supported;
+  const useRecognitionOnlyCapture = useMemo(() => isIOSDevice(), []);
   const speakLanguageId = resolveSpeakLanguageForSession(state.selectedLanguage, state.activeBandId);
   const isJapaneseLesson = speakLanguageId === 'ja';
   const isMandarinLesson = speakLanguageId === 'zh';
@@ -1376,6 +1386,26 @@ export default function SpeakMode({
     }
   };
 
+  const handlePlayTargetAudio = () => {
+    if (isRecording || isStartingRecording) return;
+    speak(word.simp, word.pinyin, false, state.selectedLanguage || speakLanguageId);
+
+    // Safari/Web Speech can occasionally swallow the first call right after navigation.
+    // If that happens, retry once shortly after the tap gesture.
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      if (listenRetryTimerRef.current) {
+        window.clearTimeout(listenRetryTimerRef.current);
+      }
+      listenRetryTimerRef.current = window.setTimeout(() => {
+        const synth = window.speechSynthesis;
+        if (!synth.speaking && !synth.pending) {
+          speak(word.simp, word.pinyin, false, state.selectedLanguage || speakLanguageId);
+        }
+        listenRetryTimerRef.current = null;
+      }, 120);
+    }
+  };
+
   const handleRecord = async () => {
     setAudioError(null);
 
@@ -1412,20 +1442,24 @@ export default function SpeakMode({
       setIsFinalizing(false);
       const sessionId = recordingSessionRef.current;
       let stream = mediaStreamRef.current;
-      if (!stream || stream.getTracks().every((track) => track.readyState === 'ended')) {
-        stream = await requestMicStream();
+      if (!useRecognitionOnlyCapture) {
+        if (!stream || stream.getTracks().every((track) => track.readyState === 'ended')) {
+          stream = await requestMicStream();
+        }
+        mediaStreamRef.current = stream;
       }
-      mediaStreamRef.current = stream;
       chunksRef.current = [];
       isRecordingRef.current = true;
       setTranscript('');
       setMatchResult(null);
       setAnalysis(null);
       let recorder: MediaRecorder | null = null;
-      try {
-        recorder = new MediaRecorder(stream);
-      } catch {
-        recorder = null;
+      if (!useRecognitionOnlyCapture && stream) {
+        try {
+          recorder = new MediaRecorder(stream);
+        } catch {
+          recorder = null;
+        }
       }
       mediaRecorderRef.current = recorder;
       if (recorder) {
@@ -1484,6 +1518,10 @@ export default function SpeakMode({
         window.clearTimeout(stopWatchdogTimerRef.current);
         stopWatchdogTimerRef.current = null;
       }
+      if (listenRetryTimerRef.current) {
+        window.clearTimeout(listenRetryTimerRef.current);
+        listenRetryTimerRef.current = null;
+      }
       if (recordingUrl) URL.revokeObjectURL(recordingUrl);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1507,6 +1545,10 @@ export default function SpeakMode({
     if (stopWatchdogTimerRef.current) {
       window.clearTimeout(stopWatchdogTimerRef.current);
       stopWatchdogTimerRef.current = null;
+    }
+    if (listenRetryTimerRef.current) {
+      window.clearTimeout(listenRetryTimerRef.current);
+      listenRetryTimerRef.current = null;
     }
     if (recordingUrl) {
       URL.revokeObjectURL(recordingUrl);
@@ -1855,7 +1897,8 @@ export default function SpeakMode({
         <div className="grid grid-cols-2 gap-2 mb-2 items-stretch">
           <button
             type="button"
-            onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage || speakLanguageId)}
+            onClick={handlePlayTargetAudio}
+            disabled={isRecording || isStartingRecording}
             className="relative rounded-3xl border border-[#1F2A37] bg-white px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] flex flex-col items-center justify-center text-center transition-colors active:bg-[#F8FAFC]"
             aria-label="Play target audio"
             title="Play target audio"
