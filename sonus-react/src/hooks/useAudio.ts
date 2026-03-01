@@ -1,6 +1,30 @@
 import { useCallback } from 'react';
 import { normalizeLanguageId } from '../lib/languageRuntime';
 
+let voiceRegistryInitialized = false;
+let cachedVoices: SpeechSynthesisVoice[] = [];
+
+function refreshVoiceCache() {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    cachedVoices = voices;
+  }
+}
+
+function ensureVoiceRegistry() {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+  refreshVoiceCache();
+  if (voiceRegistryInitialized) return;
+  voiceRegistryInitialized = true;
+  const synth = window.speechSynthesis;
+  const onVoicesChanged = () => refreshVoiceCache();
+  synth.addEventListener?.('voiceschanged', onVoicesChanged);
+  if ('onvoiceschanged' in synth) {
+    synth.onvoiceschanged = onVoicesChanged;
+  }
+}
+
 export function useAudio() {
   const speak = useCallback((text: string, reading: string, slow = false, languageHint?: string | null) => {
     if (!('speechSynthesis' in window)) {
@@ -32,9 +56,10 @@ export function useAudio() {
     const targetLanguage = hintedLanguage || (isLikelyJapanese ? 'ja' : 'zh');
 
     const synth = window.speechSynthesis;
+    ensureVoiceRegistry();
     synth.cancel();
 
-    const voices = synth.getVoices();
+    const voices = cachedVoices.length > 0 ? cachedVoices : synth.getVoices();
 
     const preferredByLanguage: Record<string, RegExp[]> = {
       zh: [/ting-ting/i, /sin-ji/i, /meijia/i, /xiaoxiao/i, /xiaoyi/i],
@@ -80,10 +105,10 @@ export function useAudio() {
         textToSpeak = reading || text;
       }
     } else {
-      // Fallback to pinyin/romaji when a matching voice is unavailable.
-      textToSpeak = reading || text;
-      lang = 'en-US';
-      voice = voices.find((v) => v.lang.includes('en'));
+      // Keep locale target even before voices finish loading to avoid robotic English fallback.
+      textToSpeak = text || reading;
+      lang = locale;
+      voice = undefined;
     }
 
     const isCjkText = /[\u3040-\u30ff\u3400-\u9fff]/.test(textToSpeak);

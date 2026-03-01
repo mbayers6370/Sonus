@@ -1348,6 +1348,7 @@ export default function SpeakMode({
         scheduleFinalize(sessionId, 80);
       }, STOP_FINALIZE_WATCHDOG_MS);
     } else {
+      releaseMediaStream();
       scheduleFinalize(sessionId, FINALIZE_DELAY_MS);
     }
     if (recognitionStopTimerRef.current) {
@@ -1355,6 +1356,24 @@ export default function SpeakMode({
       recognitionStopTimerRef.current = null;
     }
     stopRecognition();
+  };
+
+  const requestMicStream = async () => {
+    const tunedConstraints: MediaStreamConstraints = {
+      audio: {
+        // Prefer stable spoken-word capture across built-in and Bluetooth mics.
+        echoCancellation: { ideal: true },
+        noiseSuppression: { ideal: true },
+        autoGainControl: { ideal: true },
+        channelCount: { ideal: 1 },
+      },
+    };
+    try {
+      return await navigator.mediaDevices.getUserMedia(tunedConstraints);
+    } catch {
+      // Fallback for stricter mobile/browser stacks (including some Bluetooth routes).
+      return navigator.mediaDevices.getUserMedia({ audio: true });
+    }
   };
 
   const handleRecord = async () => {
@@ -1394,48 +1413,48 @@ export default function SpeakMode({
       const sessionId = recordingSessionRef.current;
       let stream = mediaStreamRef.current;
       if (!stream || stream.getTracks().every((track) => track.readyState === 'ended')) {
-        stream = await navigator.mediaDevices.getUserMedia({
-          audio: {
-            // Keep capture close to raw mic input; aggressive processing hurts pronunciation STT,
-            // especially with Bluetooth/wireless headphone microphones.
-            echoCancellation: { ideal: false },
-            noiseSuppression: { ideal: false },
-            autoGainControl: { ideal: false },
-          },
-        });
+        stream = await requestMicStream();
       }
-      const recorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = recorder;
       mediaStreamRef.current = stream;
       chunksRef.current = [];
       isRecordingRef.current = true;
       setTranscript('');
       setMatchResult(null);
       setAnalysis(null);
+      let recorder: MediaRecorder | null = null;
+      try {
+        recorder = new MediaRecorder(stream);
+      } catch {
+        recorder = null;
+      }
+      mediaRecorderRef.current = recorder;
+      if (recorder) {
+        recorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            chunksRef.current.push(event.data);
+          }
+        };
 
-      recorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          chunksRef.current.push(event.data);
-        }
-      };
-
-      recorder.onstop = () => {
-        if (stopWatchdogTimerRef.current) {
-          window.clearTimeout(stopWatchdogTimerRef.current);
-          stopWatchdogTimerRef.current = null;
-        }
-        const blob = new Blob(chunksRef.current, { type: recorder.mimeType || 'audio/webm' });
-        if (recordingUrl) URL.revokeObjectURL(recordingUrl);
-        const nextUrl = URL.createObjectURL(blob);
-        setRecordingUrl(nextUrl);
-        // Always release the mic after each attempt so playback remains reliable on mobile.
-        releaseMediaStream();
-        scheduleFinalize(sessionId, FINALIZE_DELAY_MS);
-      };
+        recorder.onstop = () => {
+          if (stopWatchdogTimerRef.current) {
+            window.clearTimeout(stopWatchdogTimerRef.current);
+            stopWatchdogTimerRef.current = null;
+          }
+          const blob = new Blob(chunksRef.current, { type: recorder!.mimeType || 'audio/webm' });
+          if (recordingUrl) URL.revokeObjectURL(recordingUrl);
+          const nextUrl = URL.createObjectURL(blob);
+          setRecordingUrl(nextUrl);
+          // Always release the mic after each attempt so playback remains reliable on mobile.
+          releaseMediaStream();
+          scheduleFinalize(sessionId, FINALIZE_DELAY_MS);
+        };
+      }
 
       setIsRecording(true);
       setIsStartingRecording(false);
-      recorder.start();
+      if (recorder) {
+        recorder.start();
+      }
       startRecognition();
     } catch {
       isRecordingRef.current = false;
