@@ -2,6 +2,7 @@
   "name": "language-app-project",
   "private": true,
   "scripts": {
+    "hooks:install": "git config core.hooksPath .githooks && chmod +x .githooks/pre-commit .githooks/pre-push",
     "dev:frontend": "npm --prefix sonus-react run dev",
     "dev:backend": "npm --prefix backend run dev",
     "dev:all": "bash -lc 'trap \"kill 0\" EXIT; npm --prefix backend run dev & npm --prefix sonus-react run dev & wait'",

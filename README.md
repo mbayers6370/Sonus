@@ -42,6 +42,10 @@ Live app: https://sonus-1.onrender.com
 npm --prefix backend install
 npm --prefix sonus-react install
 ```
+Optional but recommended: install repo git hooks (auto-format/check on commit/push):
+```bash
+npm run hooks:install
+```
 2. Configure backend environment:
 ```bash
 cp backend/.env.example backend/.env

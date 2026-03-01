@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if git diff --cached --name-only | grep -E '^backend/(src/.*\.ts|scripts/.*\.mjs)$' >/dev/null; then
+  echo "[hooks] Formatting backend TypeScript/MJS files..."
+  npm --prefix backend run format
+  git add backend/src backend/scripts
+fi

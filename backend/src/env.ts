@@ -225,7 +225,6 @@ const envSchema = z
         message: 'required when JA_ROMAJI_MODE=provider',
       });
     }
-
   });
 
 const parsed = envSchema.safeParse(process.env);

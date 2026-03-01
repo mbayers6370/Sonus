@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "[hooks] Verifying backend formatting..."
+npm --prefix backend run format:check
