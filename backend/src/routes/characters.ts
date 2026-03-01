@@ -535,10 +535,8 @@ async function getKuromojiTokenizer() {
   if (kuromojiTokenizerPromise) return kuromojiTokenizerPromise;
   kuromojiTokenizerPromise = (async () => {
     try {
-      const runtimeImport = new Function('name', 'return import(name)') as (
-        name: string
-      ) => Promise<unknown>;
-      const imported = (await runtimeImport('kuromoji')) as
+      const moduleName = 'kuromoji';
+      const imported = (await import(moduleName)) as
         | {
             default?: unknown;
             builder?: (params: { dicPath: string }) => {
