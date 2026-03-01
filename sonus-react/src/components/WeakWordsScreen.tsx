@@ -6,6 +6,7 @@ import GlassHeader from './GlassHeader';
 import { apiFetch } from '../lib/apiClient';
 import { useApp } from '../contexts/AppContext';
 import { normalizeLanguageId } from '../lib/languageRuntime';
+import GlassLoader from './ui/GlassLoader';
 
 type NeedsWorkItem = {
   wordId: string;
@@ -104,7 +105,9 @@ export default function WeakWordsScreen({ onGoHome, onGoProfile }: WeakWordsScre
       )}
 
       <div className="bg-white border border-border rounded-2xl p-5 mb-4">
-        {needsWork.length === 0 ? (
+        {loading ? (
+          <GlassLoader compact message="Loading words to work on..." />
+        ) : needsWork.length === 0 ? (
           <div className="text-sm text-text-med">
             No words to work on right now. Missed words appear here after the first miss.
           </div>

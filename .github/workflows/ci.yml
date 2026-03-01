@@ -37,6 +37,13 @@ jobs:
             exit 1
           fi
 
+      - name: Block unsafe Prisma raw queries
+        run: |
+          if grep -R -nE --include='*.ts' '\$(queryRawUnsafe|executeRawUnsafe)\b' backend/src; then
+            echo "Unsafe Prisma raw query API detected."
+            exit 1
+          fi
+
       - name: Install frontend dependencies
         run: npm ci --prefix sonus-react
 

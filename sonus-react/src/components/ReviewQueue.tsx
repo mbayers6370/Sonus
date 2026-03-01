@@ -4,6 +4,7 @@ import type { BandData, Word } from '../types/lesson.types';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
 import { apiFetch } from '../lib/apiClient';
+import GlassLoader from './ui/GlassLoader';
 
 type ReviewQueueItem = {
   wordId: string;
@@ -139,8 +140,8 @@ export default function ReviewQueue({
       </div>
 
       {loading && (
-        <div className="bg-white border border-border rounded-2xl p-6 text-sm text-text-med">
-          Loading review queue...
+        <div className="bg-white border border-border rounded-2xl p-6">
+          <GlassLoader compact message="Loading review queue..." />
         </div>
       )}
 

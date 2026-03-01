@@ -1,11 +1,10 @@
 import type { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma.js';
+import type { SharedUserProgress } from '../types.js';
 
-interface UpdateProgressCurrentInput {
-  currentBandId?: string | null;
-  currentUnitId?: string | null;
-  currentLessonIdx?: number | null;
-}
+type UpdateProgressCurrentInput = Partial<
+  Pick<SharedUserProgress, 'currentBandId' | 'currentUnitId' | 'currentLessonIdx'>
+>;
 
 interface ProgressEventInput {
   eventType:

@@ -9,14 +9,9 @@ import { useApp } from '../contexts/AppContext';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { normalizeLanguageId } from '../lib/languageRuntime';
+import type { SharedUserProgress } from '../../../shared/contracts';
 
-type Progress = {
-  streak: number;
-  lastActiveDate: string | null;
-  currentBandId: string | null;
-  currentUnitId: string | null;
-  currentLessonIdx: number | null;
-};
+type Progress = SharedUserProgress;
 
 type NeedsWorkItem = {
   wordId: string;

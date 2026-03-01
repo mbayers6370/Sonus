@@ -3,12 +3,17 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AppProvider } from './contexts/AppContext';
 import AppRoutes from './routes/AppRoutes';
 import AuthScreen from './components/AuthScreen';
+import GlassLoader from './components/ui/GlassLoader';
 
 function AppShell() {
   const { status } = useAuth();
 
   if (status === 'loading') {
-    return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading…</div>;
+    return (
+      <div className="min-h-screen page-shell flex items-center justify-center">
+        <GlassLoader message="Preparing Sonus..." />
+      </div>
+    );
   }
 
   if (status === 'signed_out') {

@@ -170,3 +170,150 @@ body.auth-screen-open {
 [class*='active:opacity-']:active {
   opacity: 1 !important;
 }
+
+.sonus-loader-wrap {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+}
+
+.sonus-loader-wrap--compact {
+  gap: 0.65rem;
+}
+
+.sonus-loader {
+  --loader-size: 8.5rem;
+  position: relative;
+  width: var(--loader-size);
+  height: var(--loader-size);
+  display: grid;
+  place-items: center;
+}
+
+.sonus-loader__core {
+  position: relative;
+  z-index: 3;
+  width: 62%;
+  height: 62%;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.56) 40%, rgba(255, 255, 255, 0.42) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(148, 163, 184, 0.24),
+    0 0 24px rgba(255, 255, 255, 0.72),
+    0 10px 24px rgba(31, 42, 55, 0.12);
+  backdrop-filter: blur(6px);
+}
+
+.sonus-loader__wordmark {
+  font-family: var(--font-main);
+  letter-spacing: 0.28em;
+  font-size: clamp(0.6rem, 2.1vw, 0.78rem);
+  color: #1f2a37;
+}
+
+.sonus-loader__ring {
+  position: absolute;
+  width: 82%;
+  height: 82%;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 0 0 1px rgba(148, 163, 184, 0.28),
+    0 0 26px rgba(255, 255, 255, 0.78),
+    inset 0 0 20px rgba(255, 255, 255, 0.42);
+  animation: sonus-loader-ring-pulse 1700ms ease-in-out infinite;
+}
+
+.sonus-loader__dot {
+  --dot-size: clamp(0.32rem, 1.2vw, 0.44rem);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: calc(var(--dot-size) * -0.5);
+  margin-top: calc(var(--dot-size) * -0.5);
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow:
+    0 0 10px rgba(255, 255, 255, 0.95),
+    0 0 18px rgba(24, 110, 149, 0.42);
+  transform: rotate(calc(360deg / var(--dot-total) * var(--dot-index)))
+    translateY(calc((var(--loader-size) * -0.43) + var(--dot-lift)));
+  animation: sonus-loader-dot-wave 1500ms ease-in-out infinite;
+  animation-delay: calc(var(--dot-index) * 80ms);
+}
+
+.sonus-loader__message {
+  font-size: 0.84rem;
+  color: #556274;
+  letter-spacing: 0.02em;
+}
+
+@media (min-width: 640px) {
+  .sonus-loader {
+    --loader-size: 10.4rem;
+  }
+
+  .sonus-loader__wordmark {
+    font-size: 0.82rem;
+  }
+
+  .sonus-loader__message {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sonus-loader {
+    --loader-size: 12rem;
+  }
+}
+
+@keyframes sonus-loader-ring-pulse {
+  0%,
+  100% {
+    transform: scale(0.96);
+    box-shadow:
+      0 0 0 1px rgba(148, 163, 184, 0.28),
+      0 0 18px rgba(255, 255, 255, 0.72),
+      inset 0 0 16px rgba(255, 255, 255, 0.38);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow:
+      0 0 0 1px rgba(148, 163, 184, 0.32),
+      0 0 32px rgba(255, 255, 255, 0.9),
+      inset 0 0 28px rgba(255, 255, 255, 0.48);
+  }
+}
+
+@keyframes sonus-loader-dot-wave {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: rotate(calc(360deg / var(--dot-total) * var(--dot-index)))
+      translateY(calc((var(--loader-size) * -0.42) + var(--dot-lift)))
+      scale(0.78);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(calc(360deg / var(--dot-total) * var(--dot-index)))
+      translateY(calc((var(--loader-size) * -0.49) + var(--dot-lift)))
+      scale(1.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sonus-loader__ring,
+  .sonus-loader__dot {
+    animation: none;
+  }
+}

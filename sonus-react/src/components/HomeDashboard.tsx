@@ -10,6 +10,7 @@ import {
 import BottomNav from './BottomNav';
 import { formatUnitNameForDisplay, getUnitMetadata, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import GlassHeader from './GlassHeader';
+import GlassLoader from './ui/GlassLoader';
 import { useApp } from '../contexts/AppContext';
 import { apiFetch } from '../lib/apiClient';
 import { getLessonRanges } from '../lib/lessonChunks';
@@ -17,13 +18,9 @@ import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { inferLanguageForBand, normalizeLanguageId, resolveBandDataPath } from '../lib/languageRuntime';
 import type { LessonMode } from '../types/lesson.types';
+import type { SharedUserProgress } from '../../../shared/contracts';
 
-type Progress = {
-  streak: number;
-  currentBandId: string | null;
-  currentUnitId: string | null;
-  currentLessonIdx: number | null;
-};
+type Progress = SharedUserProgress;
 
 type Profile = {
   displayName?: string | null;
@@ -202,6 +199,7 @@ export default function HomeDashboard({
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState<Progress>({
     streak: 0,
+    lastActiveDate: null,
     currentBandId: null,
     currentUnitId: null,
     currentLessonIdx: null,
@@ -692,7 +690,11 @@ export default function HomeDashboard({
         </section>
       </div>
 
-      {loading && <div className="mt-4 text-xs text-text-light">Refreshing dashboard data...</div>}
+      {loading && (
+        <div className="mt-4">
+          <GlassLoader compact message="Refreshing dashboard..." />
+        </div>
+      )}
 
       <BottomNav active="home" onHome={() => {}} onProfile={onOpenProfile} />
     </div>

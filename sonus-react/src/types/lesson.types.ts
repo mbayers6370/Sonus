@@ -1,3 +1,5 @@
+import type { SharedWord } from '../../../shared/contracts';
+
 // Core vocabulary word structure
 export interface WordMetadata {
   frequencyRank?: number;
@@ -8,13 +10,7 @@ export interface WordMetadata {
   dependencies?: string[]; // word ids that should be introduced first
 }
 
-export interface Word {
-  id: string;
-  simp: string;
-  trad: string;
-  pinyin: string;
-  reading?: string; // neutral pronunciation alias (e.g. pinyin/romaji)
-  pronunciation?: string; // explicit cross-language pronunciation field
+export interface Word extends SharedWord {
   tags?: string[] | null;
   pinyinNum?: string; // canonical storage: syllables with tone numbers, e.g. "bei3 jing1"
   variants?: string[]; // alternative real-world forms, e.g. ["星期日"] for preferred "星期天"

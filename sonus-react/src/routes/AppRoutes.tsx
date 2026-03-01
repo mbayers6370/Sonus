@@ -15,11 +15,10 @@ import { LanguageRoute, HomeRoute } from './homeRoutes';
 import { CharactersRoute, FoundationsRoute, PinyinRoute, TonesRoute } from './foundationRoutes';
 import { ProfileRoute, TravelRoute, TravelSectionRoute } from './profileTravelRoutes';
 import { normalizeLanguageId } from '../lib/languageRuntime';
+import type { SharedUserProgress } from '../../../shared/contracts';
 
 type ProgressPayload = {
-  progress?: {
-    currentBandId?: string | null;
-  };
+  progress?: Partial<SharedUserProgress>;
 };
 
 const LAST_LANGUAGE_KEY = 'sonus.last_language';

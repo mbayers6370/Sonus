@@ -19,6 +19,7 @@ import { SurfaceButtonCard, SurfaceCard } from './ui/SurfaceCard';
 import { formatUnitNameForDisplay, getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { normalizeLanguageId } from '../lib/languageRuntime';
+import type { SharedUserProgress } from '../../../shared/contracts';
 
 type Profile = {
   displayName: string | null;
@@ -28,13 +29,7 @@ type Profile = {
   email: string | null;
 };
 
-type Progress = {
-  streak: number;
-  lastActiveDate: string | null;
-  currentBandId: string | null;
-  currentUnitId: string | null;
-  currentLessonIdx: number | null;
-};
+type Progress = SharedUserProgress;
 
 interface ProfileScreenProps {
   onOpenProgress: () => void;

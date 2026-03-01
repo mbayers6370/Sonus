@@ -79,11 +79,24 @@ npm --prefix backend run lint
 npm --prefix backend run build
 ```
 
+## Security Baseline
+- `.env` files are git-ignored (`backend/.env`, `sonus-react/.env`, local variants).
+- CI checks for tracked `.env` files and likely secret patterns.
+- Backend CORS uses explicit allowlist via `CORS_ORIGINS` (required in production).
+- CI blocks `Prisma` unsafe raw-query APIs (`$queryRawUnsafe`, `$executeRawUnsafe`).
+- CI runs production dependency audits for frontend and backend.
+
 Optional:
 ```bash
 npm --prefix sonus-react run test:unit
 npm --prefix sonus-react run test:e2e
 ```
+
+## Shared Contracts
+- Shared declaration contracts live in [`shared/contracts.d.ts`](shared/contracts.d.ts).
+- Frontend and backend both consume these for drift-prone payloads:
+  - `SharedWord`
+  - `SharedUserProgress`
 
 ## Data Operations
 Top-level scripts for Mandarin data maintenance:
