@@ -5,7 +5,6 @@ import type { LessonBand, LessonMode } from '../types/lesson.types';
 import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
 import { apiFetch } from '../lib/apiClient';
 import { normalizeLanguageId } from '../lib/languageRuntime';
-import type { SharedUserProgress } from '../../../shared/contracts';
 import GlassLoader from '../components/ui/GlassLoader';
 
 const LevelSelect = lazy(() => import('../components/LevelSelect'));
@@ -24,10 +23,6 @@ const TonesRoute = lazy(() => import('./foundationRoutes').then((m) => ({ defaul
 const ProfileRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.ProfileRoute })));
 const TravelRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelRoute })));
 const TravelSectionRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelSectionRoute })));
-
-type ProgressPayload = {
-  progress?: Partial<SharedUserProgress>;
-};
 
 const LAST_LANGUAGE_KEY = 'sonus.last_language';
 
@@ -152,39 +147,15 @@ export default function AppRoutes() {
     navigate('/profile');
   }, [exitLesson, navigate]);
 
-  const goLearn = useCallback(async () => {
+  const goLearn = useCallback(() => {
     exitLesson();
     if (!selectedLanguage) {
       navigate('/');
       return;
     }
-    if (currentLevel && levelMatchesLanguage(currentLevel.id, selectedLanguage)) {
-      navigate(`/learn/${tierForBand(currentLevel.id)}/${currentLevel.id}`);
-      return;
-    }
-
-    try {
-      const response = await apiFetch('/v1/me/progress');
-      if (response.ok) {
-        const payload = (await response.json()) as ProgressPayload;
-        const currentBandId = payload.progress?.currentBandId;
-        const level = typeof currentBandId === 'string' ? LEVEL_BY_ID[currentBandId] : undefined;
-        if (level && levelMatchesLanguage(level.id, selectedLanguage)) {
-          if (isMandarinLevel(level.id) && isMandarinBandLocked(level.id, state.unlockedLevels)) {
-            navigate('/learn');
-            return;
-          }
-          await selectLevel(level);
-          navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
-          return;
-        }
-      }
-    } catch {
-      // Fall through to generic learn page.
-    }
-
+    // Learn tab should always land on levels (N5-N1, Band list, etc.).
     navigate('/learn');
-  }, [currentLevel, exitLesson, navigate, selectLevel, selectedLanguage, state.unlockedLevels]);
+  }, [exitLesson, navigate, selectedLanguage]);
 
   const openPracticeFromHome = useCallback(
     (kind: 'listening' | 'speaking', bandId?: string | null) => {
@@ -207,6 +178,8 @@ export default function AppRoutes() {
   const openResumeFromHome = useCallback(
     async (target: { bandId: string; unitId: string; lessonIndex: number; isCheckpoint: boolean; mode?: LessonMode }) => {
       void target.lessonIndex;
+      void target.isCheckpoint;
+      void target.mode;
       exitLesson();
       const level = LEVEL_BY_ID[target.bandId];
       if (!level || (isMandarinLevel(level.id) && isMandarinBandLocked(level.id, state.unlockedLevels))) {
@@ -219,14 +192,7 @@ export default function AppRoutes() {
       }
       await selectLevel(level);
       const basePath = `/learn/${tierForBand(level.id)}/${level.id}`;
-      if (target.isCheckpoint) {
-        navigate(basePath);
-        return;
-      }
-      if (target.mode && (target.mode === 'quiz' || target.mode === 'speak')) {
-        navigate(`${basePath}/unit/${encodeURIComponent(target.unitId)}/lesson/${target.lessonIndex}/${target.mode}`);
-        return;
-      }
+      // Resume card should open the unit/lessons page context, not jump directly into a mode.
       navigate(`${basePath}?unit=${encodeURIComponent(target.unitId)}`);
     },
     [exitLesson, navigate, selectLevel, selectedLanguage, state.unlockedLevels]
@@ -290,6 +256,7 @@ export default function AppRoutes() {
       <UnitSelect
         onGoHome={goHome}
         onOpenProfile={goProfile}
+        onGoLevels={(tierId) => navigate(tierId ? `/learn?tier=${encodeURIComponent(tierId)}` : '/learn')}
         onOpenPractice={(unitId) => {
           const mode: LessonMode = /listening$/i.test(unitId) ? 'quiz' : 'speak';
           navigate(`/learn/${tier}/${level.id}/unit/${unitId}/lesson/0/${mode}`);

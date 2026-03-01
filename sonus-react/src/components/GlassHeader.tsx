@@ -71,7 +71,9 @@ export default function GlassHeader({
   const showMobileLogo = showLogo && !isStandalone && !hideLogoOnMobile;
   const showDesktopLogo = showLogo && !isStandalone;
   const showStandaloneLogo = showLogo && isStandalone && !hideLogoOnMobile;
-  const headerHeightClass = showStandaloneLogo ? 'h-24 md:h-24' : 'h-20 md:h-20';
+  const headerHeightClass = showStandaloneLogo
+    ? 'h-[6.5rem] md:h-[6.5rem]'
+    : 'h-[5.75rem] md:h-[5.75rem]';
   const displayTitle = toTitleCase(title);
   const standaloneTitleWords = displayTitle.trim().split(/\s+/);
   const standaloneFirstWord = standaloneTitleWords[0] ?? displayTitle;

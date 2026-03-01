@@ -267,7 +267,6 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
           subtitleClassName="text-text-med"
         />
       </div>
-
       {/* Mode Tabs */}
       {modeTabs.length > 1 ? (
         <div className="bg-bg-warm/90 backdrop-blur-sm border-b border-border px-4 py-2.5 -mt-8 relative z-40">

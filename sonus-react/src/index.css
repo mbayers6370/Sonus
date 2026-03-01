@@ -137,6 +137,28 @@ body.lesson-screen-open #root {
   .dashboard-card-enter {
     animation: none;
   }
+
+  .sonus-btn-border-pulse {
+    animation: none;
+  }
+}
+
+.sonus-btn-border-pulse {
+  animation: sonus-btn-border-pulse 20s ease-in-out infinite;
+}
+
+@keyframes sonus-btn-border-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.2),
+      0 0 0 0 rgba(255, 255, 255, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.5),
+      0 0 24px -4px rgba(255, 255, 255, 0.5);
+  }
 }
 
 .page-shell {

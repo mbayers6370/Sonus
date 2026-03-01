@@ -9,6 +9,7 @@ import { makeLessonKey } from '../lib/lessonProgress';
 import GlassHeader from './GlassHeader';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import type { LessonMode } from '../types/lesson.types';
+import { tierForBand } from '../routes/lessonRouting';
 
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
@@ -50,6 +51,7 @@ const CARD_ACCENTS = [
 interface UnitSelectProps {
   onSelectLesson: (unitId: string, lessonIndex: number, mode?: LessonMode) => void;
   onOpenPractice: (unitId: string) => void;
+  onGoLevels: (tierId?: string) => void;
   onGoHome: () => void;
   onOpenProfile: () => void;
 }
@@ -123,6 +125,7 @@ function getPracticeType(unitId: string): 'listening' | 'speaking' | 'checkpoint
 export default function UnitSelect({
   onSelectLesson,
   onOpenPractice,
+  onGoLevels,
   onGoHome,
   onOpenProfile,
 }: UnitSelectProps) {
@@ -401,6 +404,88 @@ export default function UnitSelect({
       activeUnit.completedLessons === activeUnit.lessonsCount &&
       activeUnit.masteredLessons === activeUnit.lessonsCount
     : false;
+  const sectionFromUnitId = (() => {
+    const unitId = activeUnit?.unitId || '';
+    const match = /^n[1-5]-(core|expansion|integration|base-i|base-ii|widen|connect)-/i.exec(unitId);
+    if (!match) return null;
+    const raw = match[1].toLowerCase();
+    if (raw === 'base-i') return 'Core';
+    if (raw === 'base-ii') return 'Expansion';
+    if (raw === 'widen' || raw === 'connect') return 'Integration';
+    return raw.charAt(0).toUpperCase() + raw.slice(1);
+  })();
+  const contextTabLabel = activeSection?.title || sectionFromUnitId || null;
+  const bandLabel = (currentLevel.name || currentLevel.id || '').trim();
+  const normalizedLanguageId = (state.selectedLanguage || '').toLowerCase();
+  const parentTierId = normalizedLanguageId === 'zh' ? tierForBand(currentLevel.id) : undefined;
+  const parentLabel = (() => {
+    if (normalizedLanguageId === 'zh') {
+      if (parentTierId === 'beginner') return 'Beginner';
+      if (parentTierId === 'intermediate') return 'Intermediate';
+      if (parentTierId === 'advanced') return 'Advanced';
+    }
+    return 'Levels';
+  })();
+  const sectionIdForActiveUnit = activeUnit
+    ? (orderedSections.find((section) => section.unitIds.includes(activeUnit.unitId))?.id || null)
+    : null;
+  const goToLevelContext = () => {
+    setActiveUnit(null);
+    if (showSectionStep) setActiveSection(null);
+  };
+  const subtitleLinkClass =
+    'underline underline-offset-2 decoration-[#1F2A37]/35 hover:decoration-[#1F2A37] text-text-med hover:text-[#1F2A37] font-medium hover:font-semibold transition-all';
+  const renderHeaderSubtitle = () => {
+    if (activeUnit) {
+      return (
+        <span className="inline-flex items-center gap-3 sm:gap-4 text-[11px] sm:text-xs text-text-med uppercase tracking-[0.14em]">
+          <button type="button" onClick={() => onGoLevels(parentTierId)} className={subtitleLinkClass}>
+            {parentLabel}
+          </button>
+          <button type="button" onClick={goToLevelContext} className={subtitleLinkClass}>
+            {bandLabel}
+          </button>
+          {contextTabLabel ? (
+            <>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveUnit(null);
+                  if (showSectionStep && sectionIdForActiveUnit) {
+                    setActiveSection(sectionIdForActiveUnit);
+                  }
+                }}
+                className={subtitleLinkClass}
+              >
+                {contextTabLabel}
+              </button>
+            </>
+          ) : null}
+        </span>
+      );
+    }
+
+    if (activeSection) {
+      return (
+        <span className="inline-flex items-center gap-3 sm:gap-4 text-[11px] sm:text-xs text-text-med uppercase tracking-[0.14em]">
+          <button type="button" onClick={() => onGoLevels(parentTierId)} className={subtitleLinkClass}>
+            {parentLabel}
+          </button>
+          <button type="button" onClick={goToLevelContext} className={subtitleLinkClass}>
+            {bandLabel}
+          </button>
+        </span>
+      );
+    }
+
+    return (
+      <span className="inline-flex items-center gap-3 sm:gap-4 text-[11px] sm:text-xs text-text-med uppercase tracking-[0.14em]">
+        <button type="button" onClick={() => onGoLevels(parentTierId)} className={subtitleLinkClass}>
+          {parentLabel}
+        </button>
+      </span>
+    );
+  };
   const isMandarinBandLocked =
     state.selectedLanguage === 'zh' &&
     (/^band\d+$/i.test(currentLevel.id) || currentLevel.id === 'advanced') &&
@@ -408,7 +493,11 @@ export default function UnitSelect({
 
   return (
     <div className="min-h-screen page-shell with-bottom-nav px-6">
-      <GlassHeader title={headerTitle} showLogo={false} />
+      <GlassHeader
+        title={headerTitle}
+        subtitle={renderHeaderSubtitle()}
+        showLogo={false}
+      />
 
       {isMandarinBandLocked && (
         <div className="pt-2">

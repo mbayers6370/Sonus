@@ -163,26 +163,6 @@ function resolveHomeLanguageId(input: {
   return 'zh';
 }
 
-function lessonsOpenedStorageKey(languageId: string) {
-  return `sonus.home.lessons_opened:${languageId}`;
-}
-
-function readLessonsOpened(languageId: string) {
-  try {
-    return window.localStorage.getItem(lessonsOpenedStorageKey(languageId)) === '1';
-  } catch {
-    return false;
-  }
-}
-
-function writeLessonsOpened(languageId: string) {
-  try {
-    window.localStorage.setItem(lessonsOpenedStorageKey(languageId), '1');
-  } catch {
-    // Ignore storage failures.
-  }
-}
-
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
   (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
 
@@ -205,7 +185,6 @@ export default function HomeDashboard({
     currentLessonIdx: null,
   });
   const [needsWorkCount, setNeedsWorkCount] = useState(0);
-  const [hasOpenedLessons, setHasOpenedLessons] = useState(false);
   const [progressPathIsApply, setProgressPathIsApply] = useState(false);
   const [profileName, setProfileName] = useState<string | null>(null);
   const [unitCompletionPercent, setUnitCompletionPercent] = useState<number | null>(null);
@@ -263,6 +242,10 @@ export default function HomeDashboard({
   const lessonNumber = resolvedResumeTarget ? resolvedResumeTarget.lessonIndex + 1 : null;
   const cardShell =
     'dashboard-card-enter rounded-3xl border p-5 sm:p-6 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
+  const needsWorkLead =
+    needsWorkCount === 1
+      ? '1 word is in your practice queue.'
+      : `${needsWorkCount} words are in your practice queue.`;
   const formatBandLabel = (bandId: string | null) => {
     if (!bandId) return 'Level';
     const matched = /^band(\d+)$/i.exec(bandId);
@@ -303,10 +286,6 @@ export default function HomeDashboard({
     )
       .replace(/\b\w/g, (c) => c.toUpperCase());
   };
-
-  useEffect(() => {
-    setHasOpenedLessons(readLessonsOpened(languageId));
-  }, [languageId]);
 
   useEffect(() => {
     let mounted = true;
@@ -457,13 +436,6 @@ export default function HomeDashboard({
   ]);
 
   const openResumeCard = () => {
-    if (!hasOpenedLessons) {
-      writeLessonsOpened(languageId);
-      setHasOpenedLessons(true);
-      onOpenLevels();
-      return;
-    }
-
     if (!resolvedResumeTarget) {
       onOpenLevels();
       return;
@@ -478,6 +450,19 @@ export default function HomeDashboard({
     });
   };
 
+  const glassBtnDark =
+    'inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold border border-white/38 bg-white/12 text-white backdrop-blur-sm transition-all duration-200 hover:bg-black/30 hover:border-white/54';
+  const glassBtnPrimary =
+    'inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold border border-white/34 bg-[linear-gradient(180deg,rgba(31,42,55,0.8)_0%,rgba(21,29,38,0.9)_100%)] text-white backdrop-blur-sm shadow-[0_14px_28px_-20px_rgba(10,14,20,0.9)] transition-all duration-200 hover:bg-[linear-gradient(180deg,rgba(22,31,42,0.92)_0%,rgba(14,20,28,0.98)_100%)]';
+  const glassBtnLight =
+    'inline-flex items-center justify-center gap-2 rounded-2xl px-3 py-2.5 border border-[#186E95]/30 bg-white/56 text-[#186E95] backdrop-blur-sm transition-all hover:bg-[#D9ECF7]/72 hover:border-[#186E95]/42';
+  const glassPillLight =
+    'rounded-xl text-xs border border-[#186E95]/25 bg-white/58 text-[#186E95] backdrop-blur-sm transition-all hover:bg-[#D9ECF7]/78 hover:border-[#186E95]/42';
+  const glassBarShell = 'mt-2 h-2.5 w-full rounded-full overflow-hidden border border-white/28 bg-white/10 backdrop-blur-sm flex';
+  const glassStatPill = 'rounded-xl border border-white/26 bg-white/12 backdrop-blur-sm px-2.5 py-2 text-left';
+  const glassRowBtn =
+    'w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-[rgba(31,42,55,0.15)] bg-white/56 backdrop-blur-sm hover:bg-[#E8EEF4]/78 hover:border-[rgba(31,42,55,0.25)] transition-colors';
+
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav relative overflow-hidden">
       <div className="absolute inset-x-0 top-0 h-72 bg-gradient-to-br from-[#186E95]/18 via-[#3E5648]/10 to-transparent pointer-events-none" />
@@ -487,7 +472,7 @@ export default function HomeDashboard({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
         <section
-          className={`${cardShell} md:order-1 bg-[#1F2A37] text-white border-[#1F2A37]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(31,42,55,0.42)]`}
+          className={`${cardShell} md:order-1 md:col-span-2 bg-[#1F2A37] text-white border-[#1F2A37]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(31,42,55,0.42)]`}
           style={{ animationDelay: '35ms' }}
         >
           <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white/10 to-transparent rounded-t-3xl" />
@@ -512,39 +497,24 @@ export default function HomeDashboard({
             </>
           ) : (
             <div className="text-sm text-white/85 mb-4">
-              {!hasOpenedLessons
-                ? 'Start lessons once to set your learning path. After that, this card becomes your resume shortcut.'
-                : 'No saved lesson path yet. Start your first lesson and Sonus will remember exactly where to continue.'}
+              Choose a level to begin. After your first lesson, this card will switch to Continue Learning.
             </div>
           )}
           <div className="max-w-md mx-auto w-full">
             {hasSavedLessonPath ? (
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  onClick={onOpenLevels}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#1F2A37] border transition-colors font-semibold"
-                  style={{
-                    borderColor: 'rgba(255,255,255,0.6)',
-                    color: 'rgba(255,255,255,0.6)',
-                  }}
-                >
-                  Levels
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={openResumeCard}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#1F2A37] text-white border border-white/75 hover:bg-[#2D3748] transition-colors font-semibold"
-                >
-                  Continue Learning
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
+              <button
+                onClick={openResumeCard}
+                className={`w-full ${glassBtnPrimary} sonus-btn-border-pulse`}
+              >
+                Continue Learning
+                <ArrowRight className="w-4 h-4" />
+              </button>
             ) : (
               <button
                 onClick={openResumeCard}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#1F2A37] text-white border border-white/75 hover:bg-[#2D3748] transition-colors font-semibold"
+                className={`w-full ${glassBtnDark}`}
               >
-                {!hasOpenedLessons ? 'Start Lessons' : 'Browse Lessons'}
+                Levels
                 <ArrowRight className="w-4 h-4" />
               </button>
             )}
@@ -552,106 +522,94 @@ export default function HomeDashboard({
         </section>
 
         <section
-          className={`${cardShell} md:order-3 md:col-span-2 bg-[#3E5648] text-white border-[#3E5648]/90 min-h-[260px] shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)] text-center flex flex-col justify-center relative overflow-hidden`}
+          className={`${cardShell} md:order-3 md:h-full bg-white text-text-dark border-[#1F2A37]/18 min-h-[260px] text-center flex flex-col justify-center relative overflow-hidden`}
           style={{ animationDelay: '135ms' }}
         >
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              opacity: 0.07,
-              backgroundImage: "url('/branding/Transparent_Background.png')",
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover',
-            }}
-          />
-          <div className="relative z-10">
-            <div className="main-font text-2xl leading-none mb-2 text-white">Travel Sprint</div>
-            <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
+          <div className="relative z-10 w-full h-full flex flex-col justify-between">
+            <div className="main-font text-2xl leading-none mb-2 text-[#186E95]">Travel Sprint</div>
+            <p className="text-sm leading-relaxed text-text-med mb-4 max-w-md mx-auto">
               Short on time? Focus on essential travel phrases before you go.
             </p>
             <div className="grid grid-cols-3 gap-2 mb-4 max-w-md mx-auto">
-              <button onClick={() => onOpenTravelMode('airport-arrival')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
+              <button onClick={() => onOpenTravelMode('airport-arrival')} className={`px-2 py-2 ${glassPillLight}`}>
                 Airport
               </button>
-              <button onClick={() => onOpenTravelMode('hotel')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
+              <button onClick={() => onOpenTravelMode('hotel')} className={`px-2 py-2 ${glassPillLight}`}>
                 Hotel
               </button>
-              <button onClick={() => onOpenTravelMode('emergency')} className="px-2 py-2 rounded-xl text-xs bg-white/10 border border-white/20 hover:bg-white/15 transition-colors">
+              <button onClick={() => onOpenTravelMode('emergency')} className={`px-2 py-2 ${glassPillLight}`}>
                 Emergency
               </button>
             </div>
             <div className="max-w-md mx-auto">
               <button
                 onClick={() => onOpenTravelMode()}
-                className="w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-2xl bg-white/12 border border-white/30 hover:bg-white/18 transition-colors"
+                className={`w-full ${glassBtnLight}`}
               >
-                <BriefcaseConveyorBelt className="w-4 h-4" />
+                <BriefcaseConveyorBelt className="w-4 h-4 text-[#186E95]" />
                 Explore Travel Content
-                <ArrowRight className="w-4 h-4 text-white/85" />
+                <ArrowRight className="w-4 h-4 text-[#186E95]" />
               </button>
             </div>
-            <p className="text-[11px] leading-relaxed text-white/68 mt-4 max-w-md mx-auto">
+            <p className="text-[11px] leading-relaxed text-text-light mt-4 max-w-md mx-auto">
               Travel Sprint is separate from your structured lesson path.
             </p>
           </div>
         </section>
 
         <section
-          className={`${cardShell} md:order-2 bg-white text-text-dark border-[#186E95]/35 min-h-[210px] text-center flex flex-col justify-center`}
+          className={`${cardShell} md:order-2 md:h-full bg-[#3E5648] text-white border-[#3E5648]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)]`}
           style={{ animationDelay: '85ms' }}
         >
-          <div className="main-font text-2xl leading-none mb-2 text-[#186E95]">Practice Focus</div>
-          <div className="w-full max-w-sm mx-auto mb-3">
-            <div className="inline-flex items-center rounded-full px-3 py-1 bg-[rgba(24,110,149,0.08)] border border-[#186E95]/25 text-[10px] uppercase tracking-[0.22em] font-mono text-[#186E95] animate-[pulse_3.6s_ease-in-out_infinite]">
+          <div className="main-font text-2xl leading-none mb-2 text-white">Practice Focus</div>
+          <div className="w-full mb-3">
+            <div className="inline-flex items-center rounded-full px-3 py-1 bg-white/14 border border-white/30 text-[10px] uppercase tracking-[0.22em] font-mono text-white/90 backdrop-blur-sm animate-[pulse_6.2s_ease-in-out_infinite]">
               Adaptive Mix
             </div>
-            <div className="mt-2 h-2 w-full rounded-full overflow-hidden border border-[#186E95]/18 bg-[rgba(24,110,149,0.08)] flex">
-              <div className="h-full w-[70%] bg-[#186E95]" />
-              <div className="h-full w-[30%] bg-[rgba(62,86,72,0.7)]" />
+            <div className={glassBarShell}>
+              <div className="h-full w-[70%] bg-gradient-to-r from-white/70 via-white/62 to-white/56" />
+              <div className="h-full w-[30%] bg-gradient-to-r from-white/38 via-white/30 to-white/24" />
             </div>
             <div className="mt-2 grid grid-cols-2 gap-2">
-              <div className="rounded-xl border border-[#186E95]/20 bg-[rgba(24,110,149,0.06)] px-2.5 py-2 text-left">
-                <div className="text-sm font-semibold leading-none text-[#186E95]">70%</div>
-                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-text-med">Weak Words</div>
+              <div className={glassStatPill}>
+                <div className="text-sm font-semibold leading-none text-white">70%</div>
+                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-white/80">Weak Words</div>
               </div>
-              <div className="rounded-xl border border-[#186E95]/20 bg-[rgba(24,110,149,0.06)] px-2.5 py-2 text-left">
-                <div className="text-sm font-semibold leading-none text-[#3E5648]">30%</div>
-                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-[#3E5648]">Reinforce</div>
+              <div className={glassStatPill}>
+                <div className="text-sm font-semibold leading-none text-white">30%</div>
+                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-white/80">Reinforce</div>
               </div>
             </div>
           </div>
-          <p className="text-sm leading-relaxed text-text-med mb-4 max-w-md mx-auto">
+          <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
             {selectedLanguage === 'zh' || isJapaneseLanguage
-              ? needsWorkCount > 0
-                ? `${needsWorkCount} word(s) are in your practice queue. Let's work on those first, then reinforce with current-band reps!`
-                : 'Use this as a helper while you learn. Come back anytime for focused reps to keep your skills sharp.'
+              ? `${needsWorkLead} Let's work on those first, then reinforce with current-band reps!`
               : `Practice labs are currently available for ${languageLabel}.`}
           </p>
           {selectedLanguage === 'zh' || isJapaneseLanguage ? (
             <div className="flex items-center justify-center gap-3 max-w-md mx-auto">
               <button
                 onClick={() => onOpenPractice('listening', practiceBandId)}
-                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[rgba(24,110,149,0.10)] border border-[#186E95]/28 hover:bg-[rgba(24,110,149,0.16)] transition-colors"
+                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/14 border border-white/30 backdrop-blur-sm hover:bg-black/30 hover:border-white/52 transition-colors duration-200"
                 aria-label="Listening practice"
                 title="Listening practice"
               >
-                <Headphones className="w-5 h-5 text-[#186E95]" />
+                <Headphones className="w-5 h-5 text-white" />
               </button>
               <button
                 onClick={() => onOpenPractice('speaking', practiceBandId)}
-                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[rgba(24,110,149,0.10)] border border-[#186E95]/28 hover:bg-[rgba(24,110,149,0.16)] transition-colors"
+                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/14 border border-white/30 backdrop-blur-sm hover:bg-black/30 hover:border-white/52 transition-colors duration-200"
                 aria-label="Speaking practice"
                 title="Speaking practice"
               >
-                <Mic className="w-5 h-5 text-[#186E95]" />
+                <Mic className="w-5 h-5 text-white" />
               </button>
             </div>
           ) : (
             <div className="max-w-md mx-auto">
               <button
                 onClick={onOpenLevels}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-[#186E95] text-white hover:bg-[#145C7C] transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white/14 text-white border border-white/30 backdrop-blur-sm hover:bg-black/30 hover:border-white/52 transition-colors duration-200"
               >
                 Continue learning
                 <ArrowRight className="w-4 h-4" />
@@ -668,7 +626,7 @@ export default function HomeDashboard({
           <div className="grid grid-cols-1 gap-2">
             <button
               onClick={onOpenWeakWords}
-              className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(31,42,55,0.06)] transition-colors"
+              className={glassRowBtn}
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
                 <ListChecks className="w-4 h-4 text-[#3E5648]" />
@@ -678,7 +636,7 @@ export default function HomeDashboard({
             </button>
             <button
               onClick={onOpenProfile}
-              className="w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-border hover:bg-[rgba(31,42,55,0.06)] transition-colors"
+              className={glassRowBtn}
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
                 <Bolt className="w-4 h-4 text-[#1F2A37]" />
