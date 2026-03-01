@@ -4,6 +4,7 @@ import { useApp } from '../contexts/AppContext';
 import LessonComplete from '../components/LessonComplete';
 import LessonReview from '../components/LessonReview';
 import LessonScreen from '../components/LessonScreen';
+import GlassLoader from '../components/ui/GlassLoader';
 import type { LessonMode } from '../types/lesson.types';
 import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
 import { normalizeLanguageId } from '../lib/languageRuntime';
@@ -34,6 +35,13 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
       : 'intro';
   const level = band ? LEVEL_BY_ID[band] : undefined;
   const pendingLoadKeyRef = useRef<string>('');
+
+  useEffect(() => {
+    document.body.classList.add('lesson-screen-open');
+    return () => {
+      document.body.classList.remove('lesson-screen-open');
+    };
+  }, []);
 
   useEffect(() => {
     if (!band || !unitId || !Number.isFinite(parsedLessonIndex)) return;
@@ -132,7 +140,11 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
     activeLesson?.unitId === unitId &&
     activeLesson?.lessonIndex === parsedLessonIndex;
   if (!routeMatchesActiveLesson) {
-    return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading lesson…</div>;
+    return (
+      <div className="h-[100svh] min-h-[100svh] page-shell flex items-center justify-center overflow-hidden">
+        <GlassLoader compact message="Loading lesson..." />
+      </div>
+    );
   }
 
   const isComplete = lessonWordIndex >= activeLesson.words.length;

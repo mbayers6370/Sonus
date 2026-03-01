@@ -105,7 +105,11 @@ export async function attemptRoutes(app: FastifyInstance) {
         },
       });
 
-      return { attempt, memory };
+      return {
+        attempt,
+        memory,
+        previousQuizIntervalDays: existing?.quizIntervalDays ?? null,
+      };
     });
 
     await touchUserActivity(userId);
@@ -114,6 +118,16 @@ export async function attemptRoutes(app: FastifyInstance) {
       durationMs: Date.now() - startedAt,
       ok: true,
       isReview,
+      wasMiss: isMiss,
+      dueDays: result.memory.quizDueAt
+        ? Math.max(0, Math.round((result.memory.quizDueAt.getTime() - Date.now()) / 86_400_000))
+        : undefined,
+      quizIntervalDays: result.memory.quizIntervalDays,
+      quizEase: result.memory.quizEase,
+      pronunciationRisk: result.memory.pronunciationRisk,
+      intervalGrowthDays:
+        result.memory.quizIntervalDays -
+        (result.previousQuizIntervalDays ?? result.memory.quizIntervalDays),
     });
     return result;
   });
@@ -194,7 +208,11 @@ export async function attemptRoutes(app: FastifyInstance) {
         },
       });
 
-      return { attempt, memory };
+      return {
+        attempt,
+        memory,
+        previousQuizIntervalDays: existing?.quizIntervalDays ?? null,
+      };
     });
 
     await touchUserActivity(userId);
@@ -203,6 +221,16 @@ export async function attemptRoutes(app: FastifyInstance) {
       durationMs: Date.now() - startedAt,
       ok: true,
       isReview,
+      wasMiss: mispronounced,
+      dueDays: result.memory.quizDueAt
+        ? Math.max(0, Math.round((result.memory.quizDueAt.getTime() - Date.now()) / 86_400_000))
+        : undefined,
+      quizIntervalDays: result.memory.quizIntervalDays,
+      quizEase: result.memory.quizEase,
+      pronunciationRisk: result.memory.pronunciationRisk,
+      intervalGrowthDays:
+        result.memory.quizIntervalDays -
+        (result.previousQuizIntervalDays ?? result.memory.quizIntervalDays),
     });
     return result;
   });

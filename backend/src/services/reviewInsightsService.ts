@@ -1,7 +1,9 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma.js';
+import { resolveLexemeForWordId } from '../lib/lexemeCatalog.js';
 
 type SupportedLanguage = 'zh' | 'ja';
+type ResponseShape = 'legacy' | 'lexeme';
 
 function normalizeLanguage(language: string | null | undefined): SupportedLanguage | null {
   const value = (language || '').trim().toLowerCase();
@@ -45,7 +47,12 @@ function buildReviewPriority(input: {
   };
 }
 
-export async function fetchReviewQueue(userId: string, limit: number, language?: string | null) {
+export async function fetchReviewQueue(
+  userId: string,
+  limit: number,
+  language?: string | null,
+  shape: ResponseShape = 'legacy'
+) {
   const now = new Date();
   const wordFilter = languageWordFilter(language);
   const rows = await prisma.wordMemoryState.findMany({
@@ -95,14 +102,26 @@ export async function fetchReviewQueue(userId: string, limit: number, language?:
     .sort((a, b) => b.priorityScore - a.priorityScore)
     .slice(0, limit);
 
-  return { count: queue.length, limit, queue };
+  if (shape === 'legacy') {
+    return { count: queue.length, limit, queue };
+  }
+
+  const queueWithLexemes = await Promise.all(
+    queue.map(async (item) => ({
+      ...item,
+      lexeme: await resolveLexemeForWordId(item.wordId, language),
+    }))
+  );
+
+  return { count: queueWithLexemes.length, limit, queue: queueWithLexemes };
 }
 
 export async function fetchNeedsWork(
   userId: string,
   limit: number,
   minTotalMisses: number,
-  language?: string | null
+  language?: string | null,
+  shape: ResponseShape = 'legacy'
 ) {
   const wordFilter = languageWordFilter(language);
   const rows = await prisma.wordMemoryState.findMany({
@@ -192,7 +211,18 @@ export async function fetchNeedsWork(
     .sort((a, b) => b.priorityScore - a.priorityScore)
     .slice(0, limit);
 
-  return { count: needsWork.length, limit, needsWork };
+  if (shape === 'legacy') {
+    return { count: needsWork.length, limit, needsWork };
+  }
+
+  const needsWorkWithLexemes = await Promise.all(
+    needsWork.map(async (item) => ({
+      ...item,
+      lexeme: await resolveLexemeForWordId(item.wordId, language),
+    }))
+  );
+
+  return { count: needsWorkWithLexemes.length, limit, needsWork: needsWorkWithLexemes };
 }
 
 export async function fetchWeakLogs(userId: string, limit: number, language?: string | null) {

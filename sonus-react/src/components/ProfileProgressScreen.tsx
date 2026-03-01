@@ -9,7 +9,7 @@ import { useApp } from '../contexts/AppContext';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { normalizeLanguageId } from '../lib/languageRuntime';
-import type { SharedUserProgress } from '../../../shared/contracts';
+import type { SharedLexeme, SharedUserProgress } from '../../../shared/contracts';
 
 type Progress = SharedUserProgress;
 
@@ -20,6 +20,7 @@ type NeedsWorkItem = {
   pronunciationRisk: number;
   missedQuizCount: number;
   mispronounceCount: number;
+  lexeme?: SharedLexeme;
 };
 
 interface ProfileProgressScreenProps {
@@ -82,6 +83,41 @@ function bandMatchesLanguage(bandId: string | null | undefined, languageId: stri
   return true;
 }
 
+function readingLabelForLanguage(languageId: string) {
+  if (languageId === 'zh') return 'Pinyin';
+  if (languageId === 'ja') return 'Romaji';
+  if (languageId === 'ko' || languageId === 'kr') return 'Romanization';
+  return 'Reading';
+}
+
+function toNeedsWorkCard(
+  item: NeedsWorkItem,
+  fallbackLookup: WordLookup,
+  activeLanguageId: string
+) {
+  if (item.lexeme) {
+    const reading =
+      item.lexeme.reading ||
+      item.lexeme.pronunciation ||
+      item.lexeme.scripts?.secondary ||
+      '';
+    return {
+      term: item.lexeme.term,
+      reading,
+      readingLabel: readingLabelForLanguage(item.lexeme.lang || activeLanguageId),
+      en: item.lexeme.en,
+    };
+  }
+
+  const fallback = fallbackLookup[item.wordId];
+  return {
+    term: fallback?.simp || 'Word',
+    reading: fallback?.pronunciation || fallback?.reading || fallback?.pinyin || '',
+    readingLabel: readingLabelForLanguage(activeLanguageId),
+    en: fallback?.en || '',
+  };
+}
+
 export default function ProfileProgressScreen({ onGoHome, onGoProfile }: ProfileProgressScreenProps) {
   const { state } = useApp();
   const languageId = normalizeLanguageId(state.selectedLanguage);
@@ -102,7 +138,9 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       try {
         const [progressResponse, needsWorkResponse] = await Promise.all([
           apiFetch('/v1/me/progress'),
-          apiFetch(`/v1/me/needs-work?limit=40&minTotalMisses=1&language=${encodeURIComponent(languageId)}`),
+          apiFetch(
+            `/v1/me/needs-work?limit=40&minTotalMisses=1&shape=lexeme&language=${encodeURIComponent(languageId)}`
+          ),
         ]);
         if (!progressResponse.ok) throw new Error('Failed to load progress');
         const json = (await progressResponse.json()) as {
@@ -302,27 +340,33 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
             ) : (
               <>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {visibleNeedsWork.map((item) => (
-                    <div
-                      key={item.wordId}
-                      className="border border-border rounded-xl p-2 bg-[#FBFBF9] min-h-[116px] sm:min-h-[124px] flex flex-col items-center justify-center text-center"
-                    >
-                      {wordLookup[item.wordId] ? (
+                  {visibleNeedsWork.map((item) => {
+                    const card = toNeedsWorkCard(item, wordLookup, languageId);
+                    return (
+                      <div
+                        key={item.wordId}
+                        className="border border-border rounded-xl p-2 bg-[#FBFBF9] min-h-[116px] sm:min-h-[124px] flex flex-col items-center justify-center text-center"
+                      >
                         <div>
                           <div className="secondary-font text-2xl text-text-dark leading-none">
-                            {wordLookup[item.wordId].simp}
+                            {card.term}
                           </div>
-                          <div className="text-xs text-text-med mt-1">
-                            {wordLookup[item.wordId].pronunciation || wordLookup[item.wordId].reading || wordLookup[item.wordId].pinyin}
-                          </div>
-                          <div className="text-xs text-text-light mt-0.5">{wordLookup[item.wordId].en}</div>
+                          {card.reading ? (
+                            <div className="text-xs text-text-med mt-1">
+                              <span className="font-mono uppercase tracking-wider text-text-light">{card.readingLabel}</span>{' '}
+                              {card.reading}
+                            </div>
+                          ) : null}
+                          {card.en ? (
+                            <div className="text-xs text-text-light mt-0.5">{card.en}</div>
+                          ) : null}
                         </div>
-                      ) : <div className="text-xs text-text-med">Word</div>}
                       <div className="mt-1 text-xs text-[#C2410C] font-semibold">
                         {item.totalMisses} misses
                       </div>
-                    </div>
-                  ))}
+                      </div>
+                    );
+                  })}
                 </div>
                 {hasMoreNeedsWork && (
                   <button

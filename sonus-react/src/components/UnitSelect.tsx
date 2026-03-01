@@ -408,7 +408,7 @@ export default function UnitSelect({
 
   return (
     <div className="min-h-screen page-shell with-bottom-nav px-6">
-      <GlassHeader title={headerTitle} />
+      <GlassHeader title={headerTitle} showLogo={false} />
 
       {isMandarinBandLocked && (
         <div className="pt-2">

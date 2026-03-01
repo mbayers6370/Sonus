@@ -239,9 +239,20 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
       { mode: 'speak', label: 'Speak', done: speakDone },
     ];
   })();
+  const lockViewportScroll = lessonMode === 'quiz' || lessonMode === 'speak';
+  const lessonContentClass = isApplyMode
+    ? 'overflow-y-auto md:overflow-y-hidden pb-0'
+    : lockViewportScroll
+      ? 'overflow-y-hidden pb-0'
+      : 'overflow-y-auto pb-8';
+  const lessonContentPaddingBottom = isApplyMode
+    ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 5.25rem)'
+    : lockViewportScroll
+      ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 1rem)'
+      : 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 9rem)';
 
   return (
-    <div className={`flex flex-col h-[100dvh] page-shell ${speakingPageTheme.shell}`}>
+    <div className={`flex flex-col h-[100svh] min-h-[100svh] overflow-hidden page-shell ${speakingPageTheme.shell}`}>
       {/* Header */}
       <div className="px-6 pb-1">
         <GlassHeader
@@ -249,6 +260,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
           subtitle={subtitleText ? (
             <span className={`text-sm text-text-med ${isApplyMode ? 'italic' : ''}`}>{subtitleText}</span>
           ) : undefined}
+          showLogo={false}
           hideLogoOnMobile={hideLogoOnMobile}
           className={isSpeakingPractice ? 'bg-white/75 border-[#1F2A37]/25' : ''}
           titleClassName={speakingPageTheme.title}
@@ -296,11 +308,9 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
 
       {/* Lesson Content */}
       <div
-        className={`flex-1 ${isApplyMode ? 'overflow-y-auto md:overflow-y-hidden pb-0' : 'overflow-y-auto pb-8'} ${speakingPageTheme.content}`}
+        className={`flex-1 ${lessonContentClass} ${speakingPageTheme.content}`}
         style={{
-          paddingBottom: isApplyMode
-            ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 5.25rem)'
-            : 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 9rem)',
+          paddingBottom: lessonContentPaddingBottom,
         }}
       >
         {lessonMode === 'intro' && (

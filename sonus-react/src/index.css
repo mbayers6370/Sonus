@@ -57,6 +57,21 @@ body.auth-screen-open {
   touch-action: manipulation;
 }
 
+body.auth-screen-open #root {
+  height: 100svh;
+  overflow: hidden;
+}
+
+body.lesson-screen-open {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body.lesson-screen-open #root {
+  height: 100svh;
+  overflow: hidden;
+}
+
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -241,10 +256,11 @@ body.auth-screen-open {
   width: var(--dot-size);
   height: var(--dot-size);
   border-radius: 999px;
-  background: #ffffff;
+  background: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.5);
   box-shadow:
-    0 0 10px rgba(255, 255, 255, 0.95),
-    0 0 18px rgba(24, 110, 149, 0.42);
+    0 0 8px rgba(148, 163, 184, 0.38),
+    0 0 14px rgba(148, 163, 184, 0.26);
   transform: rotate(calc(360deg / var(--dot-total) * var(--dot-index)))
     translateY(calc((var(--loader-size) * -0.43) + var(--dot-lift)));
   animation: sonus-loader-dot-wave 1500ms ease-in-out infinite;

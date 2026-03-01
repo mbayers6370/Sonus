@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import LanguageSelect from '../components/LanguageSelect';
 import HomeDashboard from '../components/HomeDashboard';
+import GlassLoader from '../components/ui/GlassLoader';
 import { saveOnboardingSelectionSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import type { LessonMode } from '../types/lesson.types';
@@ -28,8 +29,8 @@ export function LanguageRoute(props: LanguageRouteProps) {
 
   if (!selectedLanguage && !languageResolved) {
     return (
-      <div className="min-h-screen page-shell flex items-center justify-center text-text-med">
-        Loading language…
+      <div className="min-h-screen page-shell flex items-center justify-center">
+        <GlassLoader compact message="Loading language..." />
       </div>
     );
   }

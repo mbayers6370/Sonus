@@ -1,3 +1,5 @@
+import { env } from '../env.js';
+
 export type ExistingWordMemorySnapshot = {
   missedQuizCount: number;
   mispronounceCount: number;
@@ -26,18 +28,25 @@ export type SpeakMemoryUpdate = {
 
 const POLICY = {
   minEase: 1.3,
+  maxEase: 3.6,
+  maxRisk: 2.0,
+  minIntervalDays: env.SRS_MIN_INTERVAL_DAYS,
+  maxIntervalDays: env.SRS_MAX_INTERVAL_DAYS,
+  baseIntervalDays: env.SRS_BASE_INTERVAL_DAYS,
+  correctGrowthFactor: env.SRS_CORRECT_GROWTH_FACTOR,
+  missPenaltyFactor: env.SRS_MISS_PENALTY_FACTOR,
   quiz: {
     missEaseDelta: -0.2,
-    reviewCorrectEaseDelta: 0.12,
-    lessonCorrectEaseDelta: 0.06,
+    reviewCorrectEaseDelta: 0.1,
+    lessonCorrectEaseDelta: 0.05,
     reviewRiskMissDelta: 0.22,
     lessonRiskMissDelta: 0.1,
     reviewIntervalGain: 2,
     lessonIntervalGain: 1,
     missDueDaysReview: 0,
     missDueDaysLesson: 1,
-    correctDueDaysReview: 4,
-    correctDueDaysLesson: 2,
+    correctDueDaysReview: 5,
+    correctDueDaysLesson: 3,
   },
   speak: {
     missRiskReviewDelta: 0.35,
@@ -47,13 +56,13 @@ const POLICY = {
     reviewIntervalGain: 1,
     missDueDaysReview: 0,
     missDueDaysLesson: 1,
-    correctDueDaysReview: 3,
-    correctDueDaysLesson: 2,
+    correctDueDaysReview: 4,
+    correctDueDaysLesson: 3,
   },
 } as const;
 
-function clampMin(value: number, min: number) {
-  return Math.max(min, value);
+function clampRange(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
 }
 
 export function computeQuizMemoryUpdate(
@@ -63,29 +72,40 @@ export function computeQuizMemoryUpdate(
 ): QuizMemoryUpdate {
   const nextMissedQuizCount = isMiss ? (existing?.missedQuizCount ?? 0) + 1 : 0;
   const nextMispronounceCount = isMiss ? (existing?.mispronounceCount ?? 0) : 0;
-  const nextQuizEase = clampMin(
+  const nextQuizEase = clampRange(
     (existing?.quizEase ?? 2.5) +
       (isMiss
         ? POLICY.quiz.missEaseDelta
         : isReview
           ? POLICY.quiz.reviewCorrectEaseDelta
           : POLICY.quiz.lessonCorrectEaseDelta),
-    POLICY.minEase
+    POLICY.minEase,
+    POLICY.maxEase
   );
   const nextPronunciationRisk = isMiss
-    ? clampMin(
+    ? clampRange(
         (existing?.pronunciationRisk ?? 0) +
           (isReview ? POLICY.quiz.reviewRiskMissDelta : POLICY.quiz.lessonRiskMissDelta),
-        0
+        0,
+        POLICY.maxRisk
       )
     : 0;
 
-  const baseInterval = existing?.quizIntervalDays ?? 1;
+  const baseInterval = existing?.quizIntervalDays ?? POLICY.baseIntervalDays;
   const nextQuizIntervalDays = isMiss
-    ? 1
-    : clampMin(
-        baseInterval + (isReview ? POLICY.quiz.reviewIntervalGain : POLICY.quiz.lessonIntervalGain),
-        1
+    ? clampRange(
+        Math.round(baseInterval * POLICY.missPenaltyFactor),
+        POLICY.minIntervalDays,
+        POLICY.maxIntervalDays
+      )
+    : clampRange(
+        Math.round(
+          baseInterval +
+            (isReview ? POLICY.quiz.reviewIntervalGain : POLICY.quiz.lessonIntervalGain) *
+              POLICY.correctGrowthFactor
+        ),
+        POLICY.minIntervalDays,
+        POLICY.maxIntervalDays
       );
   const dueDays = isMiss
     ? isReview
@@ -113,17 +133,28 @@ export function computeSpeakMemoryUpdate(
   const nextMispronounceCount = mispronounced ? (existing?.mispronounceCount ?? 0) + 1 : 0;
   const nextMissedQuizCount = mispronounced ? (existing?.missedQuizCount ?? 0) : 0;
   const nextPronunciationRisk = mispronounced
-    ? clampMin(
+    ? clampRange(
         (existing?.pronunciationRisk ?? 0) +
           (isReview ? POLICY.speak.missRiskReviewDelta : POLICY.speak.missRiskLessonDelta),
-        0
+        0,
+        POLICY.maxRisk
       )
     : 0;
   const nextQuizIntervalDays = mispronounced
-    ? 1
-    : clampMin(
-        (existing?.quizIntervalDays ?? 1) + (isReview ? POLICY.speak.reviewIntervalGain : 0),
-        1
+    ? clampRange(
+        Math.round(
+          (existing?.quizIntervalDays ?? POLICY.baseIntervalDays) * POLICY.missPenaltyFactor
+        ),
+        POLICY.minIntervalDays,
+        POLICY.maxIntervalDays
+      )
+    : clampRange(
+        Math.round(
+          (existing?.quizIntervalDays ?? POLICY.baseIntervalDays) +
+            (isReview ? POLICY.speak.reviewIntervalGain : 0) * POLICY.correctGrowthFactor
+        ),
+        POLICY.minIntervalDays,
+        POLICY.maxIntervalDays
       );
   const dueDays = mispronounced
     ? isReview
@@ -132,10 +163,11 @@ export function computeSpeakMemoryUpdate(
     : isReview
       ? POLICY.speak.correctDueDaysReview
       : POLICY.speak.correctDueDaysLesson;
-  const nextQuizEase = clampMin(
+  const nextQuizEase = clampRange(
     (existing?.quizEase ?? 2.5) +
       (mispronounced ? POLICY.speak.missEaseDelta : POLICY.speak.correctEaseDelta),
-    POLICY.minEase
+    POLICY.minEase,
+    POLICY.maxEase
   );
 
   return {

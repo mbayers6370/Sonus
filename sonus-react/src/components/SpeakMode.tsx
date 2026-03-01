@@ -478,8 +478,8 @@ function normalizeJapaneseForCompare(value: string) {
     .trim();
 }
 
-function hasJapaneseScript(value: string) {
-  return /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(value);
+function normalizeLatinForCompare(value: string) {
+  return normalize(value || '').replace(/[^a-z0-9]/g, '');
 }
 
 function normalizeHanzi(value: string) {
@@ -928,10 +928,25 @@ export default function SpeakMode({
     const recognized = normalizeSpeechCandidate(speakLanguageId, recognizedRaw);
     const nextAnalysis = analyzePronunciation(recognized);
     if (nextAnalysis) {
+      const strictAnalysisMatch = nextAnalysis.initial.pass && nextAnalysis.final.pass && nextAnalysis.tone.pass;
+      let shortTargetAssistMatch = false;
+      if (!strictAnalysisMatch && isMandarinLesson && targetSyllableCount <= 1) {
+        const heardForCompare = normalize(recognized);
+        const targetForCompare = normalize(word.pinyin || '');
+        if (heardForCompare && targetForCompare) {
+          // Short Mandarin syllables are often returned without tone marks/numbers by browser STT.
+          shortTargetAssistMatch =
+            heardForCompare === targetForCompare ||
+            levenshtein(heardForCompare, targetForCompare) <= 1;
+        }
+        if (!shortTargetAssistMatch) {
+          shortTargetAssistMatch = nextAnalysis.initial.pass && nextAnalysis.final.pass;
+        }
+      }
       return {
         recognizedText: recognized,
         analysis: nextAnalysis,
-        match: nextAnalysis.initial.pass && nextAnalysis.final.pass && nextAnalysis.tone.pass,
+        match: strictAnalysisMatch || shortTargetAssistMatch,
       };
     }
 
@@ -941,16 +956,36 @@ export default function SpeakMode({
     }
 
     if (isJapaneseLesson) {
-      if (!hasJapaneseScript(recognized)) {
-        return { recognizedText: recognized, analysis: null, match: false };
-      }
       const heard = normalizeJapaneseForCompare(recognized);
       const targetWord = normalizeJapaneseForCompare(word.simp || '');
-      if (!heard || !targetWord) {
+      if (heard && targetWord) {
+        // Japanese scoring stays script-first and exact after normalization.
+        return { recognizedText: recognized, analysis: null, match: heard === targetWord };
+      }
+
+      const targetRomaji = normalizeLatinForCompare(romanizeJapaneseForDisplay(word.simp || '') || word.pinyin || '');
+      const heardRomaji = normalizeLatinForCompare(romanizeJapaneseForDisplay(recognized) || recognized);
+      if (!targetRomaji || !heardRomaji) {
         return { recognizedText: recognized, analysis: null, match: false };
       }
-      // Japanese scoring is whole-word strict after script normalization.
-      return { recognizedText: recognized, analysis: null, match: heard === targetWord };
+
+      const targetScriptLength = Array.from(targetWord).length;
+      const isShortJapaneseTarget = targetScriptLength <= 1 || targetRomaji.length <= 2;
+
+      if (heardRomaji === targetRomaji) {
+        return { recognizedText: recognized, analysis: null, match: true };
+      }
+
+      if (!isShortJapaneseTarget) {
+        return { recognizedText: recognized, analysis: null, match: false };
+      }
+
+      // Only for very short targets (e.g. "o"), allow tiny slack for STT noise.
+      if (heardRomaji.includes(targetRomaji) || targetRomaji.includes(heardRomaji)) {
+        return { recognizedText: recognized, analysis: null, match: true };
+      }
+      const dist = levenshtein(heardRomaji, targetRomaji);
+      return { recognizedText: recognized, analysis: null, match: dist <= 1 };
     }
 
     const recognizedHanzi = normalizeHanzi(recognized);
@@ -1324,9 +1359,11 @@ export default function SpeakMode({
       if (!stream || stream.getTracks().every((track) => track.readyState === 'ended')) {
         stream = await navigator.mediaDevices.getUserMedia({
           audio: {
-            echoCancellation: true,
-            noiseSuppression: true,
-            autoGainControl: true,
+            // Keep capture close to raw mic input; aggressive processing hurts pronunciation STT,
+            // especially with Bluetooth/wireless headphone microphones.
+            echoCancellation: { ideal: false },
+            noiseSuppression: { ideal: false },
+            autoGainControl: { ideal: false },
           },
         });
       }
@@ -1476,6 +1513,14 @@ export default function SpeakMode({
       : isMandarinLesson
         ? (heardHanzi || mappedMandarinHeard || transcript)
         : transcript;
+  const recordTitle = !sttSupported ? 'Record' : isRecording ? 'Listening' : isFinalizing ? 'Scoring' : 'Record';
+  const recordSubtitle = !sttSupported
+    ? 'Speech Unavailable'
+    : isRecording
+      ? 'Tap To Finish'
+      : isFinalizing || hasAttempt
+        ? 'Results Below'
+        : 'Tap To Start';
   const displayMeaning = useMemo(() => getPrimaryMeaning(word), [word]);
   const navLocked = isRecording || isFinalizing;
 
@@ -1769,19 +1814,15 @@ export default function SpeakMode({
             />
 
             <div className="h-full flex flex-col justify-center text-center">
-              <div className="text-base sm:text-lg font-semibold text-white leading-tight">
-                Record
+              <div className="text-[clamp(0.98rem,4.4vw,1.2rem)] sm:text-[1.2rem] font-semibold text-white leading-tight">
+                {recordTitle}
               </div>
-              <div className="text-base sm:text-lg font-semibold text-white leading-tight break-words mt-1">
-                {!sttSupported
-                  ? 'Speech Unavailable'
-                  : isRecording
-                    ? 'Tap To Finish'
-                    : 'Tap To Start'}
+              <div className="text-[clamp(0.98rem,4.4vw,1.2rem)] sm:text-[1.2rem] font-semibold text-white leading-tight break-words mt-1 px-1">
+                {recordSubtitle}
               </div>
               {!sttSupported ? null : (isFinalizing || isRecording) ? (
-                <div className="text-xs text-[#E7EDF6] mt-1">
-                  Results Will Appear Below in a Few Seconds
+                <div className="text-[11px] sm:text-xs text-[#E7EDF6] mt-1 px-1">
+                  {isRecording ? 'Listening now' : 'Scoring now'}
                 </div>
               ) : null}
             </div>

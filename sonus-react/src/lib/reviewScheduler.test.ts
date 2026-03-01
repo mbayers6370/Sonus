@@ -28,9 +28,9 @@ describe('reviewScheduler', () => {
   });
 
   it('applies streak scheduling and confidence fallback', () => {
-    expect(scheduleDaysForCorrectStreak(1)).toBe(3);
-    expect(scheduleDaysForCorrectStreak(2)).toBe(7);
-    expect(scheduleDaysForCorrectStreak(3)).toBe(14);
+    expect(scheduleDaysForCorrectStreak(1)).toBe(2);
+    expect(scheduleDaysForCorrectStreak(2)).toBe(5);
+    expect(scheduleDaysForCorrectStreak(3)).toBe(10);
 
     expect(applyConfidenceAdjustment(14, 3, 'sure')).toBe(14);
     expect(applyConfidenceAdjustment(14, 3, 'unsure')).toBe(7);

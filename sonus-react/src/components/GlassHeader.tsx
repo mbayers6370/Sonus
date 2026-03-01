@@ -71,7 +71,7 @@ export default function GlassHeader({
   const showMobileLogo = showLogo && !isStandalone && !hideLogoOnMobile;
   const showDesktopLogo = showLogo && !isStandalone;
   const showStandaloneLogo = showLogo && isStandalone && !hideLogoOnMobile;
-  const headerHeightClass = showStandaloneLogo ? 'h-28 md:h-24' : 'h-24 md:h-20';
+  const headerHeightClass = showStandaloneLogo ? 'h-24 md:h-24' : 'h-20 md:h-20';
   const displayTitle = toTitleCase(title);
   const standaloneTitleWords = displayTitle.trim().split(/\s+/);
   const standaloneFirstWord = standaloneTitleWords[0] ?? displayTitle;
@@ -115,7 +115,7 @@ export default function GlassHeader({
               ) : null}
               <div className="text-center">
                 <h1
-                  className={`main-font text-3xl md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
+                  className={`main-font text-[1.85rem] md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
                 >
                   {showBackButton && standaloneRemainingWords ? (
                     <>
@@ -185,7 +185,7 @@ export default function GlassHeader({
             ) : null}
             <div className="text-center">
               <h1
-                className={`main-font text-3xl md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
+                className={`main-font text-[1.85rem] md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
               >
                 {displayTitle}
               </h1>

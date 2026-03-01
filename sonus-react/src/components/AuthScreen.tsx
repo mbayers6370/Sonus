@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import GlassLoader from './ui/GlassLoader';
 
 type Mode = 'signin' | 'signup' | 'forgot' | 'reset';
 
@@ -209,15 +210,31 @@ export default function AuthScreen() {
     };
   }, [releaseFormFocus]);
 
+  if (loading) {
+    const loadingMessage =
+      mode === 'signin'
+        ? 'Signing you in...'
+        : mode === 'signup'
+          ? 'Creating your account...'
+          : mode === 'forgot'
+            ? 'Sending reset link...'
+            : 'Updating your password...';
+    return (
+      <div className="h-[100svh] min-h-[100svh] page-shell px-6 flex items-center justify-center overflow-hidden overscroll-none">
+        <GlassLoader message={loadingMessage} />
+      </div>
+    );
+  }
+
   return (
     <div
-      className="h-[100dvh] page-shell px-6 flex items-center justify-center overflow-hidden"
+      className="h-[100svh] min-h-[100svh] page-shell px-6 flex items-center justify-center overflow-hidden overscroll-none"
       style={{
         paddingTop: 'max(1.25rem, env(safe-area-inset-top, 0px))',
         paddingBottom: 'max(1.25rem, env(safe-area-inset-bottom, 0px))',
       }}
     >
-      <div className="w-full max-w-md bg-white border border-border rounded-3xl p-5 sm:p-6 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] text-center">
+      <div className="w-full max-w-md bg-white border border-border rounded-3xl p-5 sm:p-6 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] text-center max-h-[calc(100svh-2.5rem)] overflow-hidden">
         <img
           src="/branding/logo_name_solo.png"
           alt="Sonus"

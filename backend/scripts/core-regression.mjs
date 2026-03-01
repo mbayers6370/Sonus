@@ -178,6 +178,33 @@ async function main() {
   assert(hasWordAfterMiss, 'word should appear in needs-work after miss');
   console.log('PASS weak-word appears after miss');
 
+  const lexemeShape = await requestJson('/v1/me/needs-work?limit=5&minTotalMisses=1&shape=lexeme');
+  const lexemeEntry = Array.isArray(lexemeShape?.needsWork)
+    ? lexemeShape.needsWork.find((item) => item.wordId === TEST_WORD_ID)
+    : null;
+  assert(lexemeEntry, 'lexeme shape should include missed word');
+  assert(
+    typeof lexemeEntry.lexeme?.lang === 'string' && lexemeEntry.lexeme.lang.length > 0,
+    'lexeme.lang missing'
+  );
+  assert(
+    typeof lexemeEntry.lexeme?.term === 'string' && lexemeEntry.lexeme.term.length > 0,
+    'lexeme.term missing'
+  );
+  assert(
+    typeof lexemeEntry.lexeme?.en === 'string' && lexemeEntry.lexeme.en.length > 0,
+    'lexeme.en missing'
+  );
+  assert(
+    !('reading' in lexemeEntry.lexeme) || Boolean(lexemeEntry.lexeme.reading),
+    'lexeme.reading should be omitted when unavailable'
+  );
+  assert(
+    !('pronunciation' in lexemeEntry.lexeme) || Boolean(lexemeEntry.lexeme.pronunciation),
+    'lexeme.pronunciation should be omitted when unavailable'
+  );
+  console.log('PASS needs-work lexeme contract shape');
+
   await requestJson('/v1/attempts/speak', {
     method: 'POST',
     body: {

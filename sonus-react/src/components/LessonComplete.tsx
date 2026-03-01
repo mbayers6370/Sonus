@@ -93,7 +93,7 @@ export default function LessonComplete({
   };
 
   return (
-    <div className="flex flex-col h-[100dvh] page-shell">
+    <div className="flex flex-col h-[100svh] min-h-[100svh] overflow-hidden page-shell">
       <div className="px-6">
         <GlassHeader
           title={
@@ -107,6 +107,7 @@ export default function LessonComplete({
                   ? (speakPassed ? 'Lesson Complete' : 'Speaking Review')
                   : 'Lesson Complete'
           }
+          showLogo={false}
           hideLogoOnMobile={hideLogoOnMobile}
         />
       </div>
@@ -254,13 +255,13 @@ export default function LessonComplete({
               )}
               <button
                 onClick={onStartQuiz}
-                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[#1F2A37] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Retake Quiz
               </button>
               <button
                 onClick={onStartSpeak}
-                className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
+                className="self-center text-sm font-medium text-[#1F2A37] underline underline-offset-4 hover:text-[#0F172A]"
               >
                 Continue to Speak
               </button>
@@ -278,7 +279,7 @@ export default function LessonComplete({
               )}
               <button
                 onClick={onStartSpeak}
-                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[#1F2A37] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Continue to Speak
               </button>
@@ -288,7 +289,7 @@ export default function LessonComplete({
             <>
               <button
                 onClick={onStartQuiz}
-                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[#1F2A37] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Start Quiz
               </button>
@@ -300,7 +301,7 @@ export default function LessonComplete({
               </button>
               <button
                 onClick={onRestart}
-                className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
+                className="self-center text-sm font-medium text-[#1F2A37] underline underline-offset-4 hover:text-[#0F172A]"
               >
                 Review Flashcards Again
               </button>
@@ -316,7 +317,7 @@ export default function LessonComplete({
               </button>
               <button
                 onClick={onRestart}
-                className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
+                className="self-center text-sm font-medium text-[#1F2A37] underline underline-offset-4 hover:text-[#0F172A]"
               >
                 {applyCompletionVariant === 'characters' ? 'Review Characters Again' : 'Review Sentences Again'}
               </button>
@@ -325,7 +326,7 @@ export default function LessonComplete({
           {isSpeakCompletion && !speakNeedsFullLessonRetry && !speakPassed && (
             <button
               onClick={onStartSpeak}
-              className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full py-4 px-6 bg-[#1F2A37] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
             >
               Retake Speaking
             </button>
@@ -348,7 +349,7 @@ export default function LessonComplete({
               </button>
               <button
                 onClick={onRestart}
-                className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
+                className="self-center text-sm font-medium text-[#1F2A37] underline underline-offset-4 hover:text-[#0F172A]"
               >
                 Practice Again
               </button>

@@ -2,6 +2,7 @@ import { Navigate } from 'react-router-dom';
 import TravelModePage from '../components/TravelModePage';
 import TravelSectionPage from '../components/TravelSectionPage';
 import ProfileScreen from '../components/ProfileScreen';
+import GlassLoader from '../components/ui/GlassLoader';
 import { getTravelSectionById } from '../data/travelModeData';
 import { useApp } from '../contexts/AppContext';
 import { normalizeLanguageId } from '../lib/languageRuntime';
@@ -85,8 +86,8 @@ export function ProfileRoute(props: ProfileRouteProps) {
   if (!selectedLanguage) {
     if (!languageResolved) {
       return (
-        <div className="min-h-screen page-shell flex items-center justify-center text-text-med">
-          Loading language…
+        <div className="min-h-screen page-shell flex items-center justify-center">
+          <GlassLoader compact message="Loading language..." />
         </div>
       );
     }

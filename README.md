@@ -16,8 +16,10 @@ Core study loop:
 - Weak-word tracking from quiz/speak misses
 - Mastery gating based on quiz + speak thresholds
 - Travel mode phrase practice by language/section
+- Dataset layout: Mandarin band JSON under `sonus-react/public/data/zh/`; Japanese JLPT JSON under `sonus-react/public/data/ja/`
 
 Live app: https://sonus-1.onrender.com
+Deployment note: Render is the primary deploy target; see `docs/ENV.md` for required variables.
 
 ## Tech Stack
 - Frontend: React 19, Vite 7, TypeScript, Tailwind
@@ -81,7 +83,7 @@ npm --prefix backend run build
 
 ## Security Baseline
 - `.env` files are git-ignored (`backend/.env`, `sonus-react/.env`, local variants).
-- CI checks for tracked `.env` files and likely secret patterns.
+- CI checks for tracked `.env` files and runs a lightweight likely-secret pattern scan.
 - Backend CORS uses explicit allowlist via `CORS_ORIGINS` (required in production).
 - CI blocks `Prisma` unsafe raw-query APIs (`$queryRawUnsafe`, `$executeRawUnsafe`).
 - CI runs production dependency audits for frontend and backend.
@@ -95,8 +97,21 @@ npm --prefix sonus-react run test:e2e
 ## Shared Contracts
 - Shared declaration contracts live in [`shared/contracts.d.ts`](shared/contracts.d.ts).
 - Frontend and backend both consume these for drift-prone payloads:
-  - `SharedWord`
+  - `SharedWord` (legacy/compat)
+  - `SharedLexeme` (language-agnostic boundary)
   - `SharedUserProgress`
+
+## Freshness vs Speed Knobs
+- Frontend SWR-style cache TTL defaults (see `sonus-react/src/config/cachePolicy.ts`):
+  - `profileTTLms=15000`
+  - `progressTTLms=10000`
+  - `needsWorkTTLms=8000`
+  - `reviewQueueTTLms=8000`
+- Frontend band JSON memory cache:
+  - `bandCacheTTLms=600000` (10 minutes default)
+  - override in dev via `VITE_BAND_CACHE_TTL_MS`
+
+These knobs only tune cache freshness vs responsiveness; they do not change API contracts.
 
 ## Data Operations
 Top-level scripts for Mandarin data maintenance:

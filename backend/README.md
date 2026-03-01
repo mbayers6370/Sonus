@@ -164,6 +164,23 @@ x-dev-user-email: test@example.com
 - Refresh cookie controls: `AUTH_COOKIE_NAME`, `AUTH_COOKIE_SAME_SITE`, `AUTH_COOKIE_SECURE`
 - Optional cookie domain scope: `AUTH_COOKIE_DOMAIN`
 
+## SRS + Telemetry Tuning Knobs
+SRS scheduling knobs (env-backed, defaults preserve current behavior):
+- `SRS_BASE_INTERVAL_DAYS=1`
+- `SRS_CORRECT_GROWTH_FACTOR=1`
+- `SRS_MISS_PENALTY_FACTOR=0`
+- `SRS_MIN_INTERVAL_DAYS=1`
+- `SRS_MAX_INTERVAL_DAYS=3650`
+
+Telemetry warning thresholds (logging only; no auto-adjustment):
+- `TELEMETRY_QUIZ_MISS_RATE_WARN_PCT=70`
+- `TELEMETRY_SPEAK_MISS_RATE_WARN_PCT=70`
+- `TELEMETRY_INTERVAL_GROWTH_WARN_DAYS=3`
+- `TELEMETRY_WARN_MIN_SAMPLES=50`
+
+Logged metrics include quiz/speak miss rates and average interval growth values.
+Threshold crossings produce server warnings only; policy values are not changed automatically.
+
 Production guardrails:
 - `NODE_ENV=production` requires `AUTH_MODE=supabase` or `AUTH_MODE=local`
 - `NODE_ENV=production` requires `RATE_LIMIT_MODE=redis` or `edge`

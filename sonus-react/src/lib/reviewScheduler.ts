@@ -16,9 +16,10 @@ export function plusDays(days: number) {
 }
 
 export function scheduleDaysForCorrectStreak(streak: number) {
-  if (streak >= 3) return 14;
-  if (streak >= 2) return 7;
-  return 3;
+  if (streak >= 4) return 16;
+  if (streak >= 3) return 10;
+  if (streak >= 2) return 5;
+  return 2;
 }
 
 export function applyConfidenceAdjustment(days: number, streak: number, confidence: ConfidenceLevel) {

@@ -1,21 +1,29 @@
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import type { LessonBand, LessonMode } from '../types/lesson.types';
-import LevelSelect from '../components/LevelSelect';
-import UnitSelect from '../components/UnitSelect';
-import AboutSonusScreen from '../components/AboutSonusScreen';
-import ProfileProgressScreen from '../components/ProfileProgressScreen';
-import JapaneseIntroScreen from '../components/JapaneseIntroScreen';
-import JapaneseKanaChartScreen from '../components/JapaneseKanaChartScreen';
-import LessonRouteController from './LessonRouteController';
 import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
 import { apiFetch } from '../lib/apiClient';
-import { LanguageRoute, HomeRoute } from './homeRoutes';
-import { CharactersRoute, FoundationsRoute, PinyinRoute, TonesRoute } from './foundationRoutes';
-import { ProfileRoute, TravelRoute, TravelSectionRoute } from './profileTravelRoutes';
 import { normalizeLanguageId } from '../lib/languageRuntime';
 import type { SharedUserProgress } from '../../../shared/contracts';
+import GlassLoader from '../components/ui/GlassLoader';
+
+const LevelSelect = lazy(() => import('../components/LevelSelect'));
+const UnitSelect = lazy(() => import('../components/UnitSelect'));
+const AboutSonusScreen = lazy(() => import('../components/AboutSonusScreen'));
+const ProfileProgressScreen = lazy(() => import('../components/ProfileProgressScreen'));
+const JapaneseIntroScreen = lazy(() => import('../components/JapaneseIntroScreen'));
+const JapaneseKanaChartScreen = lazy(() => import('../components/JapaneseKanaChartScreen'));
+const LessonRouteController = lazy(() => import('./LessonRouteController'));
+const LanguageRoute = lazy(() => import('./homeRoutes').then((m) => ({ default: m.LanguageRoute })));
+const HomeRoute = lazy(() => import('./homeRoutes').then((m) => ({ default: m.HomeRoute })));
+const CharactersRoute = lazy(() => import('./foundationRoutes').then((m) => ({ default: m.CharactersRoute })));
+const FoundationsRoute = lazy(() => import('./foundationRoutes').then((m) => ({ default: m.FoundationsRoute })));
+const PinyinRoute = lazy(() => import('./foundationRoutes').then((m) => ({ default: m.PinyinRoute })));
+const TonesRoute = lazy(() => import('./foundationRoutes').then((m) => ({ default: m.TonesRoute })));
+const ProfileRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.ProfileRoute })));
+const TravelRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelRoute })));
+const TravelSectionRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelSectionRoute })));
 
 type ProgressPayload = {
   progress?: Partial<SharedUserProgress>;
@@ -117,6 +125,21 @@ export default function AppRoutes() {
     if (!selectedLanguage) return;
     writeLastLanguage(selectedLanguage);
   }, [selectedLanguage]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const { scrollRestoration } = window.history;
+    window.history.scrollRestoration = 'manual';
+    return () => {
+      window.history.scrollRestoration = scrollRestoration;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    // Keep navigation deterministic on mobile: every route starts from the top.
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [location.pathname, location.search]);
 
   const goHome = useCallback(() => {
     exitLesson();
@@ -255,7 +278,11 @@ export default function AppRoutes() {
     }
     if (isMandarinLevel(level.id) && isMandarinBandLocked(level.id, state.unlockedLevels)) return <Navigate to="/learn" replace />;
     if (!currentLevel || currentLevel.id !== level.id || !state.activeBandData) {
-      return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading units…</div>;
+      return (
+        <div className="min-h-screen page-shell flex items-center justify-center">
+          <GlassLoader compact message="Loading units..." />
+        </div>
+      );
     }
 
     const tier = tierForBand(level.id);
@@ -327,7 +354,11 @@ export default function AppRoutes() {
       });
     }, [isJapaneseBand, resolvedBand, targetKind, targetMode, targetUnitId]);
 
-    return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Loading practice…</div>;
+    return (
+      <div className="min-h-screen page-shell flex items-center justify-center">
+        <GlassLoader compact message="Loading practice..." />
+      </div>
+    );
   }
 
   function DailyPracticeRoute() {
@@ -349,7 +380,11 @@ export default function AppRoutes() {
       });
     }, [resolvedBand]);
 
-    return <div className="min-h-screen page-shell flex items-center justify-center text-text-med">Building daily set…</div>;
+    return (
+      <div className="min-h-screen page-shell flex items-center justify-center">
+        <GlassLoader compact message="Building daily set..." />
+      </div>
+    );
   }
 
   const languageRouteState = (location.state || {}) as {
@@ -360,7 +395,14 @@ export default function AppRoutes() {
   const languageSwitchReturnTo = languageRouteState.returnTo || '/home';
 
   return (
-    <Routes>
+    <Suspense
+      fallback={
+        <div className="min-h-screen page-shell flex items-center justify-center">
+          <GlassLoader compact message="Loading screen..." />
+        </div>
+      }
+    >
+      <Routes>
       <Route
         path="/"
         element={
@@ -513,7 +555,8 @@ export default function AppRoutes() {
         element={<AboutSonusScreen onGoHome={goHome} onGoProfile={() => navigate('/profile')} />}
       />
       <Route path="*" element={<Navigate to={selectedLanguage ? '/home' : '/'} replace />} />
-    </Routes>
+      </Routes>
+    </Suspense>
   );
 }
 

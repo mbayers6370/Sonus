@@ -54,6 +54,7 @@ import {
 } from '../lib/lessonProgressState';
 import type { ProgressEventEnvelope } from '../lib/lessonProgressState';
 import { apiFetch } from '../lib/apiClient';
+import { cachePolicy } from '../config/cachePolicy';
 import { getMockIdentity } from '../lib/authSession';
 import { useAuth } from './AuthContext';
 
@@ -334,9 +335,42 @@ type ApplyBandPayload = {
 };
 
 const applySentenceCache = new Map<string, Record<string, ApplySentence[]>>();
+const bandDataCache = new Map<string, { data: BandData; fetchedAt: number }>();
+const BAND_DATA_CACHE_TTL_MS = cachePolicy.bandData.bandCacheTTLms;
 
 function normalizeHanzi(value: string | undefined) {
   return (value || '').trim();
+}
+
+function bandDataCacheKey(languageId: string, bandId: string) {
+  return `${languageId}:${bandId}`;
+}
+
+async function fetchBandData(
+  languageId: string,
+  bandId: string,
+  options: { forceRefresh?: boolean } = {}
+) {
+  const cacheKey = bandDataCacheKey(languageId, bandId);
+  const now = Date.now();
+  const cached = bandDataCache.get(cacheKey);
+  if (
+    cached &&
+    !options.forceRefresh &&
+    now - cached.fetchedAt <= BAND_DATA_CACHE_TTL_MS
+  ) {
+    return cached.data;
+  }
+
+  const response = await fetch(resolveBandDataPath(languageId, bandId), {
+    cache: options.forceRefresh ? 'no-store' : 'default',
+  });
+  if (!response.ok) return null;
+  const raw = await response.json();
+  const bandData = normalizeBandDataPayload(raw, bandId, languageId);
+  if (!bandData) return null;
+  bandDataCache.set(cacheKey, { data: bandData, fetchedAt: now });
+  return bandData;
 }
 
 function sentenceUsesFocusWord(sentenceZh: string | undefined, word: Word) {
@@ -772,12 +806,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const activeBandId = state.activeBandId;
     const languageId = inferLanguageForBand(activeBandId, state.selectedLanguage);
 
-    void fetch(resolveBandDataPath(languageId, activeBandId), { cache: 'no-store' })
-      .then(async (response) => {
-        if (!response.ok) return null;
-        const raw = await response.json();
-        return normalizeBandDataPayload(raw, activeBandId, languageId);
-      })
+    void fetchBandData(languageId, activeBandId)
       .then((bandData) => {
         if (!bandData || cancelled) return;
         setState((prev) => {
@@ -901,10 +930,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
     try {
       const languageId = inferLanguageForBand(level.id, state.selectedLanguage);
-      const response = await fetch(resolveBandDataPath(languageId, level.id), { cache: 'no-store' });
-      if (!response.ok) throw new Error(`Failed to load ${level.id}`);
-      const raw = await response.json();
-      const bandData = normalizeBandDataPayload(raw, level.id, languageId);
+      const bandData = await fetchBandData(languageId, level.id);
       if (!bandData) throw new Error(`Invalid band data: ${level.id}`);
 
       setState((prev) => ({
@@ -926,10 +952,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }
       const resolvedUnitId = resolveUnitIdForBand(bandId, unitId);
       const languageId = inferLanguageForBand(bandId, state.selectedLanguage);
-      const response = await fetch(resolveBandDataPath(languageId, bandId), { cache: 'no-store' });
-      if (!response.ok) return false;
-      const raw = await response.json();
-      const bandData = normalizeBandDataPayload(raw, bandId, languageId);
+      const bandData = await fetchBandData(languageId, bandId);
       if (!bandData) return false;
       const checkpointIndex = parseCheckpointIndex(resolvedUnitId);
       const isCheckpointQuiz = checkpointIndex !== null;

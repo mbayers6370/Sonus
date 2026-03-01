@@ -22,12 +22,14 @@ import {
 const reviewQueueQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(20),
   language: z.string().trim().min(2).max(12).optional(),
+  shape: z.enum(['legacy', 'lexeme']).default('legacy'),
 });
 
 const needsWorkQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(200).default(30),
   minTotalMisses: z.coerce.number().int().min(1).max(100).default(3),
   language: z.string().trim().min(2).max(12).optional(),
+  shape: z.enum(['legacy', 'lexeme']).default('legacy'),
 });
 
 const weakLogsQuerySchema = z.object({
@@ -171,7 +173,7 @@ export async function meRoutes(app: FastifyInstance) {
     }
 
     const { id } = request.user;
-    return fetchReviewQueue(id, parsed.data.limit, parsed.data.language);
+    return fetchReviewQueue(id, parsed.data.limit, parsed.data.language, parsed.data.shape);
   });
 
   app.get('/v1/me/needs-work', { preHandler: [requireAuth] }, async (request, reply) => {
@@ -182,7 +184,13 @@ export async function meRoutes(app: FastifyInstance) {
     }
 
     const { id } = request.user;
-    return fetchNeedsWork(id, parsed.data.limit, parsed.data.minTotalMisses, parsed.data.language);
+    return fetchNeedsWork(
+      id,
+      parsed.data.limit,
+      parsed.data.minTotalMisses,
+      parsed.data.language,
+      parsed.data.shape
+    );
   });
 
   app.get('/v1/me/logs/weak', { preHandler: [requireAuth] }, async (request, reply) => {

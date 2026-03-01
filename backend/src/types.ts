@@ -4,4 +4,4 @@ export type AuthenticatedUser = {
   displayName: string | null;
 };
 
-export type { SharedWord, SharedUserProgress } from '../../shared/contracts.d.ts';
+export type { SharedLexeme, SharedWord, SharedUserProgress } from '../../shared/contracts.d.ts';
