@@ -68,7 +68,7 @@ function cardContent(
             <button
               type="button"
               onClick={onOpenHiragana}
-              className="mt-3 inline-flex rounded-lg border border-[#186E95]/40 bg-[#186E95]/10 px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-[#186E95] hover:bg-[#186E95]/15"
+              className="mt-3 inline-flex items-center justify-center rounded-xl bg-[#1F2A37] px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#111827]"
             >
               Open Chart
             </button>
@@ -80,7 +80,7 @@ function cardContent(
             <button
               type="button"
               onClick={onOpenKatakana}
-              className="mt-3 inline-flex rounded-lg border border-[#186E95]/40 bg-[#186E95]/10 px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-[#186E95] hover:bg-[#186E95]/15"
+              className="mt-3 inline-flex items-center justify-center rounded-xl bg-[#1F2A37] px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#111827]"
             >
               Open Chart
             </button>

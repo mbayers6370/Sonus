@@ -1,4 +1,5 @@
-import { BookOpen, House, User } from 'lucide-react';
+import { BookOpen, House, LogOut, User } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 interface BottomNavProps {
   onHome: () => void;
@@ -8,6 +9,7 @@ interface BottomNavProps {
 }
 
 export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' }: BottomNavProps) {
+  const { signOut, isDemo } = useAuth();
   const handleLearn = () => {
     if (onLearn) {
       onLearn();
@@ -24,7 +26,8 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
-      <div className="h-full w-full flex items-center justify-center px-4">
+      <div className="h-full w-full flex items-center justify-between px-4">
+        <div className="hidden lg:block w-[120px]" />
         <div className="flex items-center justify-center gap-4 sm:gap-6">
           <button
             onClick={onHome}
@@ -54,6 +57,16 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
             <span className="text-xs">Profile</span>
           </button>
         </div>
+        <button
+          type="button"
+          onClick={signOut}
+          className="hidden lg:flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-text-light transition-colors hover:text-text-dark"
+          aria-label={isDemo ? 'Exit Demo' : 'Sign Out'}
+          title={isDemo ? 'Exit Demo' : 'Sign Out'}
+        >
+          <LogOut className="w-4 h-4" />
+          <span>{isDemo ? 'Exit Demo' : 'Sign Out'}</span>
+        </button>
       </div>
     </div>
   );

@@ -80,6 +80,9 @@ export default function AuthScreen() {
       const resolvedPassword = passwordOverride ?? password;
       if (mode === 'signin') {
         await signIn(resolvedEmail, resolvedPassword);
+        // Route through "/" so first-time users without a language see selection,
+        // while returning users are redirected straight to Home.
+        navigate('/', { replace: true });
       } else if (mode === 'signup') {
         const { requiresEmailVerification } = await signUp({
           firstName: firstName.trim(),
