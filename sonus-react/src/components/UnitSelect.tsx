@@ -407,13 +407,13 @@ export default function UnitSelect({
     : false;
   const normalizedLanguageId = (state.selectedLanguage || '').toLowerCase();
   const parentTierId = normalizedLanguageId === 'zh' ? tierForBand(currentLevel.id) : undefined;
-  const isUnitsStage = (!showSectionStep && !activeUnit) || (showSectionStep && Boolean(activeSection) && !activeUnit);
+  const isUnitsStage = !activeUnit && !(showSectionStep && !activeSection);
   const isLevelsStage = showSectionStep && !activeSection && !activeUnit;
   const isLessonsStage = Boolean(activeUnit);
   const headerBreadcrumbItems: BreadcrumbItem[] = [
     {
       label: 'Main',
-      onClick: () => onGoLevels(parentTierId),
+      onClick: () => onGoLevels(),
       current: false,
     },
     {
@@ -421,12 +421,15 @@ export default function UnitSelect({
       onClick:
         isUnitsStage || isLessonsStage
           ? () => {
-              setActiveUnit(null);
-              if (showSectionStep) setActiveSection(null);
+              if (showSectionStep) {
+                setActiveUnit(null);
+                setActiveSection(null);
+                return;
+              }
+              onGoLevels(parentTierId);
             }
           : undefined,
       current: isLevelsStage,
-      disabled: !showSectionStep && !isLevelsStage,
     },
     {
       label: 'Units',

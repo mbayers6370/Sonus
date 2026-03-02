@@ -45,7 +45,7 @@ export default function Flashcard({
       <div className="flex-1 flex items-center justify-center px-5 py-2">
         <div
           onClick={handleFlip}
-          className={`relative w-full max-w-md h-[250px] sm:h-[270px] md:h-[295px] rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border cursor-pointer transition-shadow duration-200 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-6 overflow-hidden ${
+          className={`relative w-full max-w-md md:max-w-xl lg:max-w-2xl h-[250px] sm:h-[270px] md:h-[235px] lg:h-[220px] rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border cursor-pointer transition-shadow duration-200 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-6 overflow-hidden ${
             isFlipped ? 'bg-[#1F2A37] border-[#1F2A37]' : 'bg-white border-border'
           }`}
         >
@@ -92,7 +92,7 @@ export default function Flashcard({
       </div>
 
       {/* Audio Controls */}
-      <div className="flex gap-3 justify-center px-5 pb-4 mb-[5.75rem] sm:mb-[6.25rem]">
+      <div className="flex gap-3 justify-center px-5 pb-4 mb-[5.75rem] sm:mb-[6.25rem] md:mb-[6.75rem]">
         <button
           onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
           className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-colors hover:bg-[#145B7A] active:bg-[#145B7A]"

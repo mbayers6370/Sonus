@@ -716,12 +716,21 @@ export default function LevelSelect({
         title={getLanguageName()}
         subtitle={
           <CollapsibleBreadcrumbs
-            items={[
-              { label: 'Main', current: true },
-              { label: 'Levels', disabled: true },
-              { label: 'Units', disabled: true },
-              { label: 'Lessons', disabled: true },
-            ]}
+            items={
+              normalizedLanguageId === 'zh' && activeTier !== null
+                ? [
+                    { label: 'Main', onClick: () => setTier(null) },
+                    { label: 'Levels', current: true },
+                    { label: 'Units', disabled: true },
+                    { label: 'Lessons', disabled: true },
+                  ]
+                : [
+                    { label: 'Main', current: true },
+                    { label: 'Levels', disabled: true },
+                    { label: 'Units', disabled: true },
+                    { label: 'Lessons', disabled: true },
+                  ]
+            }
           />
         }
       />
