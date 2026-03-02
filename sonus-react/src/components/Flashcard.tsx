@@ -37,7 +37,7 @@ export default function Flashcard({
   };
 
   return (
-    <div className="flex flex-col min-h-full">
+    <div className="flex flex-col h-full">
       {/* Progress Bar */}
       <WordProgressRail total={totalWords} currentIndex={currentIndex} />
 
@@ -92,7 +92,7 @@ export default function Flashcard({
       </div>
 
       {/* Audio Controls */}
-      <div className="flex gap-3 justify-center px-5 pb-4">
+      <div className="flex gap-3 justify-center px-5 pb-4 mb-[5.75rem] sm:mb-[6.25rem]">
         <button
           onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
           className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-colors hover:bg-[#145B7A] active:bg-[#145B7A]"

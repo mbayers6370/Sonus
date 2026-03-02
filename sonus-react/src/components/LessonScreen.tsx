@@ -234,7 +234,8 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
       { mode: 'speak', label: 'Speak', done: speakDone },
     ];
   })();
-  const lockViewportScroll = lessonMode === 'quiz' || lessonMode === 'speak';
+  const isIntroMode = lessonMode === 'intro';
+  const lockViewportScroll = lessonMode === 'quiz' || lessonMode === 'speak' || isIntroMode;
   const lessonContentClass = isApplyMode
     ? 'overflow-y-auto md:overflow-y-hidden pb-0'
     : lockViewportScroll
