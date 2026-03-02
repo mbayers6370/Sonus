@@ -16,27 +16,27 @@ const MODULES = [
     title: 'Tones',
     subtitle: 'Pitch patterns and ear training',
     icon: Music2,
-    accent: 'text-[#186E95]',
-    border: 'border-[#186E95]/55',
-    badge: 'bg-[rgba(24,110,149,0.12)] text-[#186E95]',
+    accent: 'text-[#1F2A37]',
+    border: 'border-[#D2DEE7]',
+    badge: 'bg-[rgba(181,216,234,0.35)] text-[#186E95]',
   },
   {
     id: 'pinyin',
     title: 'Pinyin',
     subtitle: 'Initials, finals, and contrast pairs',
     icon: BookOpenText,
-    accent: 'text-[#3E5648]',
-    border: 'border-[#3E5648]/55',
-    badge: 'bg-[rgba(62,86,72,0.12)] text-[#3E5648]',
+    accent: 'text-[#1F2A37]',
+    border: 'border-[#D2DEE7]',
+    badge: 'bg-[rgba(181,216,234,0.35)] text-[#186E95]',
   },
   {
     id: 'characters',
     title: 'Characters',
     subtitle: 'Components, meaning clues, and memory hooks',
     icon: PenLine,
-    accent: 'text-[#C2410C]',
-    border: 'border-[#C2410C]/55',
-    badge: 'bg-[rgba(194,65,12,0.12)] text-[#C2410C]',
+    accent: 'text-[#1F2A37]',
+    border: 'border-[#D2DEE7]',
+    badge: 'bg-[rgba(181,216,234,0.35)] text-[#186E95]',
   },
 ] as const;
 
@@ -48,18 +48,25 @@ export default function FoundationsHub({
   onOpenCharacters,
 }: FoundationsHubProps) {
   return (
-    <div className="min-h-screen page-shell px-6 with-bottom-nav">
-      <GlassHeader title="Foundations" />
+    <div className="min-h-screen page-shell px-6 with-bottom-nav bg-[linear-gradient(180deg,#F7FAFD_0%,#EEF4F8_100%)]">
+      <GlassHeader
+        title="Foundations"
+        className="bg-white/12 border-white/25"
+        scrolledClassName="bg-[#186E95]/88 border-white/35"
+        titleClassName="text-[#1F2A37]"
+        scrolledTitleClassName="text-white"
+      />
 
-      <div className="space-y-4">
-        <div className="rounded-3xl border text-center border-[#186E95] bg-[#186E95] p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)]">
-          <div className="text-xs uppercase tracking-wider font-mono text-white/80">Mandarin Core Tools</div>
+      <div className="max-w-6xl mx-auto space-y-4">
+        <div className="dashboard-card-enter rounded-3xl border-2 text-center border-[#1F2A37] bg-[#1F2A37] p-5 sm:p-6 shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+          <div className="text-[11px] uppercase tracking-[0.2em] font-mono text-[#B5D8EA]">Mandarin Core Tools</div>
           <h2 className="main-font text-[2rem] leading-tight text-white mt-2">Build Sound + Script Confidence</h2>
-          <p className="text-sm text-white/90 mt-2">
+          <p className="text-sm text-white/92 mt-2">
             Use these short modules alongside level lessons to improve pronunciation accuracy and character recognition.
           </p>
         </div>
 
+        <div className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[#1F2A37] p-4 sm:p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {MODULES.map((module) => {
             const Icon = module.icon;
@@ -86,6 +93,7 @@ export default function FoundationsHub({
               </button>
             );
           })}
+        </div>
         </div>
       </div>
 

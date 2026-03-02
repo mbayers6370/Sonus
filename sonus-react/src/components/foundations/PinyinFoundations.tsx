@@ -42,12 +42,19 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
   const { speak } = useAudio();
 
   return (
-    <div className="min-h-screen page-shell px-6 with-bottom-nav">
-      <GlassHeader title="Pinyin Foundations" spacerClassName="mb-10" />
+    <div className="min-h-screen page-shell px-6 with-bottom-nav bg-[linear-gradient(180deg,#F7FAFD_0%,#EEF4F8_100%)]">
+      <GlassHeader
+        title="Pinyin Foundations"
+        spacerClassName="mb-10"
+        className="bg-white/12 border-white/25"
+        scrolledClassName="bg-[#186E95]/88 border-white/35"
+        titleClassName="text-[#1F2A37]"
+        scrolledTitleClassName="text-white"
+      />
 
-      <div className="space-y-4">
-        <section className="rounded-3xl border border-[#186E95] bg-[#186E95] p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)]">
-          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-white/20 text-white">
+      <div className="max-w-6xl mx-auto space-y-4">
+        <section className="dashboard-card-enter rounded-3xl border-2 border-[#1F2A37] bg-[#1F2A37] p-5 sm:p-6 shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(181,216,234,0.16)] text-[#B5D8EA]">
             Why Pinyin Matters
           </div>
           <h2 className="main-font text-[1.9rem] text-white mt-3">Pinyin Is Your Sound Map</h2>
@@ -56,11 +63,11 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </p>
         </section>
 
-        <section className="rounded-3xl border border-[#1F2A37]/35 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
-          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(31,42,55,0.10)] text-[#1F2A37]">
+        <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[#1F2A37] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
+          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(181,216,234,0.16)] text-[#B5D8EA]">
             How It Works
           </div>
-          <h2 className="main-font text-[1.9rem] text-[#1F2A37] mt-3">Build a Syllable in 3 Parts</h2>
+          <h2 className="main-font text-[1.9rem] text-white mt-3">Build a Syllable in 3 Parts</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
             <div className="rounded-2xl border border-border bg-white p-4 text-center">
               <div className="text-xs font-mono uppercase tracking-wider text-text-light">1</div>
@@ -80,12 +87,12 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[#C2410C]/40 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
-          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(194,65,12,0.12)] text-[#C2410C]">
+        <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[#1F2A37] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
+          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(181,216,234,0.16)] text-[#B5D8EA]">
             Character to Pinyin
           </div>
-          <h2 className="main-font text-[1.9rem] text-[#C2410C] mt-3">Read Characters with Sound Support</h2>
-          <p className="text-sm text-text-med mt-2">
+          <h2 className="main-font text-[1.9rem] text-white mt-3">Read Characters with Sound Support</h2>
+          <p className="text-sm text-[#B5D8EA] mt-2">
             Start by connecting each character to its pinyin. This helps you read aloud and remember pronunciation while your character recognition grows.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
@@ -116,10 +123,10 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
                   <span className="text-xl text-text-light font-semibold">=</span>
                   <button
                     onClick={() => speak(item.result.hanzi, item.result.pinyin)}
-                    className="text-center rounded-xl border border-[#C2410C]/30 bg-[rgba(194,65,12,0.06)] px-3 py-2 min-w-[100px] hover:bg-[rgba(194,65,12,0.12)]"
+                    className="text-center rounded-xl border border-[#9EC7DC] bg-[rgba(181,216,234,0.28)] px-3 py-2 min-w-[100px] hover:bg-[rgba(181,216,234,0.40)]"
                   >
                     <div className="text-3xl secondary-font leading-none">{item.result.hanzi}</div>
-                    <div className="text-xs text-[#C2410C] font-medium">{item.result.pinyin}</div>
+                    <div className="text-xs text-[#186E95] font-medium">{item.result.pinyin}</div>
                   </button>
                 </div>
               </div>
@@ -127,12 +134,12 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[#186E95]/40 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
-          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.12)] text-[#186E95]">
+        <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[#1F2A37] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
+          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(181,216,234,0.16)] text-[#B5D8EA]">
             Build Better Pronunciation
           </div>
-          <h2 className="main-font text-[1.9rem] text-[#186E95] mt-3">Train the Difficult Distinctions</h2>
-          <p className="text-sm text-text-med mt-2">
+          <h2 className="main-font text-[1.9rem] text-white mt-3">Train the Difficult Distinctions</h2>
+          <p className="text-sm text-[#B5D8EA] mt-2">
             These pinyin pairs are commonly mixed up by beginners. Train them early so new words are easier to learn later.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">

@@ -80,16 +80,31 @@ const BUILD_CARDS = [
 
 export default function CharacterFoundations({ onGoHome, onOpenProfile }: CharacterFoundationsProps) {
   return (
-    <div className="min-h-screen page-shell px-6 with-bottom-nav">
-      <GlassHeader title="Character Foundations" spacerClassName="mb-10" />
+    <div className="min-h-screen page-shell px-6 with-bottom-nav bg-[linear-gradient(180deg,#F7FAFD_0%,#EEF4F8_100%)]">
+      <GlassHeader
+        title="Character Foundations"
+        spacerClassName="mb-10"
+        className="bg-white/12 border-white/25"
+        scrolledClassName="bg-[#186E95]/88 border-white/35"
+        titleClassName="text-[#1F2A37]"
+        scrolledTitleClassName="text-white"
+      />
 
-      <div className="space-y-4">
-        <section className="rounded-3xl border border-[#C2410C]/40 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
-          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(194,65,12,0.12)] text-[#C2410C]">
+      <div className="max-w-6xl mx-auto space-y-4">
+        <section className="dashboard-card-enter rounded-3xl border-2 border-[#1F2A37] bg-[#1F2A37] p-5 sm:p-6 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+          <div className="text-[11px] uppercase tracking-[0.2em] font-mono text-[#B5D8EA]">Mandarin Foundations</div>
+          <h2 className="main-font mt-2 text-[2rem] leading-tight">Decode Characters with Structure</h2>
+          <p className="mt-2 text-sm text-white/90">
+            Learn radicals and component patterns to recognize meaning faster and remember forms longer.
+          </p>
+        </section>
+
+        <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[#1F2A37] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
+          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(181,216,234,0.16)] text-[#B5D8EA]">
             Component Radar
           </div>
-          <h2 className="main-font text-[1.9rem] text-[#C2410C] mt-3">Spot Meaning Hints Faster</h2>
-          <p className="text-sm text-text-med mt-2">
+          <h2 className="main-font text-[1.9rem] text-white mt-3">Spot Meaning Hints Faster</h2>
+          <p className="text-sm text-[#B5D8EA] mt-2">
             Learn common radicals so unknown characters become easier to decode while reading.
           </p>
 
@@ -114,11 +129,11 @@ export default function CharacterFoundations({ onGoHome, onOpenProfile }: Charac
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[#1F2A37]/35 bg-white p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
-          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(31,42,55,0.10)] text-[#1F2A37]">
+        <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[#1F2A37] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
+          <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(181,216,234,0.16)] text-[#B5D8EA]">
             Build + Remember
           </div>
-          <h2 className="main-font text-[1.9rem] text-[#1F2A37] mt-3">Character Memory Hooks</h2>
+          <h2 className="main-font text-[1.9rem] text-white mt-3">Character Memory Hooks</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
             {BUILD_CARDS.map((card) => (
