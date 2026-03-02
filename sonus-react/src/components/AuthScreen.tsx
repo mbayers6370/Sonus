@@ -4,6 +4,8 @@ import { useAuth } from '../contexts/AuthContext';
 import GlassLoader from './ui/GlassLoader';
 
 type Mode = 'signin' | 'signup' | 'demo' | 'forgot' | 'reset';
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PASSWORD_RULE_TEXT = 'Use at least 8 characters, with at least 1 letter and 1 number.';
 
 function readResetTokenFromUrl() {
   if (typeof window === 'undefined') return null;
@@ -48,11 +50,15 @@ export default function AuthScreen() {
   const navigate = useNavigate();
   const { signIn, signUp, continueAsDemo, requestPasswordReset, resetPassword } = useAuth();
   const [mode, setMode] = useState<Mode>('signin');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [signInEmail, setSignInEmail] = useState('');
+  const [signInPassword, setSignInPassword] = useState('');
+  const [signUpFirstName, setSignUpFirstName] = useState('');
+  const [signUpLastName, setSignUpLastName] = useState('');
+  const [signUpEmail, setSignUpEmail] = useState('');
+  const [signUpPassword, setSignUpPassword] = useState('');
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [resetNewPassword, setResetNewPassword] = useState('');
+  const [resetConfirmPassword, setResetConfirmPassword] = useState('');
   const [resetToken, setResetToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -68,25 +74,62 @@ export default function AuthScreen() {
     active?.blur?.();
   }, []);
 
+  const isValidEmail = useCallback((value: string) => EMAIL_PATTERN.test(value.trim()), []);
+
+  const passwordCreationError = useCallback((value: string) => {
+    const trimmed = value.trim();
+    if (trimmed.length < 8) return 'Password must be at least 8 characters.';
+    if (!/[a-zA-Z]/.test(trimmed)) return 'Password must include at least 1 letter.';
+    if (!/\d/.test(trimmed)) return 'Password must include at least 1 number.';
+    return null;
+  }, []);
+
   const handleAuthSubmit = useCallback(async (emailOverride?: string, passwordOverride?: string) => {
     if (loading) return;
     releaseFormFocus();
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     setError(null);
     setMessage(null);
-    setLoading(true);
-    try {
-      const resolvedEmail = (emailOverride ?? email).trim();
-      const resolvedPassword = passwordOverride ?? password;
-      if (mode === 'signin') {
+    if (mode === 'signin') {
+      const resolvedEmail = (emailOverride ?? signInEmail).trim();
+      const resolvedPassword = passwordOverride ?? signInPassword;
+      if (!isValidEmail(resolvedEmail)) {
+        setError('Please enter a valid email address.');
+        return;
+      }
+      if (!resolvedPassword.trim()) {
+        setError('Please enter your password.');
+        return;
+      }
+      setLoading(true);
+      try {
         await signIn(resolvedEmail, resolvedPassword);
-        // Route through "/" so first-time users without a language see selection,
-        // while returning users are redirected straight to Home.
         navigate('/', { replace: true });
-      } else if (mode === 'signup') {
+      } catch (err) {
+        setError((err as Error).message || 'Authentication failed');
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    if (mode === 'signup') {
+      const resolvedEmail = signUpEmail.trim();
+      const resolvedPassword = signUpPassword;
+      if (!isValidEmail(resolvedEmail)) {
+        setError('Please enter a valid email address.');
+        return;
+      }
+      const validationError = passwordCreationError(resolvedPassword);
+      if (validationError) {
+        setError(validationError);
+        return;
+      }
+      setLoading(true);
+      try {
         const { requiresEmailVerification } = await signUp({
-          firstName: firstName.trim(),
-          lastName: lastName.trim(),
+          firstName: signUpFirstName.trim(),
+          lastName: signUpLastName.trim(),
           email: resolvedEmail,
           password: resolvedPassword,
           timezone,
@@ -97,22 +140,43 @@ export default function AuthScreen() {
         } else {
           navigate('/');
         }
+      } catch (err) {
+        setError((err as Error).message || 'Authentication failed');
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      setError((err as Error).message || 'Authentication failed');
-    } finally {
-      setLoading(false);
     }
-  }, [email, firstName, lastName, loading, mode, navigate, password, releaseFormFocus, signIn, signUp, timezone]);
+  }, [
+    isValidEmail,
+    loading,
+    mode,
+    navigate,
+    passwordCreationError,
+    releaseFormFocus,
+    signIn,
+    signInEmail,
+    signInPassword,
+    signUp,
+    signUpEmail,
+    signUpFirstName,
+    signUpLastName,
+    signUpPassword,
+    timezone,
+  ]);
 
   const handleForgotSubmit = async () => {
     if (loading) return;
     releaseFormFocus();
     setError(null);
     setMessage(null);
+    const resolvedEmail = forgotEmail.trim();
+    if (!isValidEmail(resolvedEmail)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
     setLoading(true);
     try {
-      await requestPasswordReset(email.trim());
+      await requestPasswordReset(resolvedEmail);
       setMessage('If an account exists, a reset link has been sent to that email.');
     } catch (err) {
       setError((err as Error).message || 'Unable to send reset link');
@@ -127,8 +191,13 @@ export default function AuthScreen() {
       setError('Reset link is missing or invalid.');
       return;
     }
-    if (password !== confirmPassword) {
+    if (resetNewPassword !== resetConfirmPassword) {
       setError('Passwords do not match.');
+      return;
+    }
+    const validationError = passwordCreationError(resetNewPassword);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
@@ -137,11 +206,11 @@ export default function AuthScreen() {
     setMessage(null);
     setLoading(true);
     try {
-      await resetPassword(resetToken, password);
+      await resetPassword(resetToken, resetNewPassword);
       removeResetTokenFromUrl();
       setResetToken(null);
-      setPassword('');
-      setConfirmPassword('');
+      setResetNewPassword('');
+      setResetConfirmPassword('');
       setMode('signin');
       setMessage('Password updated. Sign in with your new password.');
     } catch (err) {
@@ -166,8 +235,8 @@ export default function AuthScreen() {
       const nextEmail = emailEl.value.trim();
       const nextPassword = passwordEl.value;
 
-      if (nextEmail && nextEmail !== email) setEmail(nextEmail);
-      if (nextPassword && nextPassword !== password) setPassword(nextPassword);
+      if (nextEmail && nextEmail !== signInEmail) setSignInEmail(nextEmail);
+      if (nextPassword && nextPassword !== signInPassword) setSignInPassword(nextPassword);
 
       const isAutoFilled = (() => {
         try {
@@ -194,7 +263,7 @@ export default function AuthScreen() {
     return () => {
       window.clearInterval(timer);
     };
-  }, [mode, loading, email, password, handleAuthSubmit]);
+  }, [mode, loading, signInEmail, signInPassword, handleAuthSubmit]);
 
   useEffect(() => {
     const token = readResetTokenFromUrl();
@@ -333,15 +402,15 @@ export default function AuthScreen() {
           {mode === 'signup' && (
             <div className="grid grid-cols-2 gap-2 mb-2">
               <input
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                value={signUpFirstName}
+                onChange={(e) => setSignUpFirstName(e.target.value)}
                 placeholder="First name"
                 autoComplete="given-name"
                 className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
               />
               <input
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                value={signUpLastName}
+                onChange={(e) => setSignUpLastName(e.target.value)}
                 placeholder="Last name"
                 autoComplete="family-name"
                 className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
@@ -351,10 +420,15 @@ export default function AuthScreen() {
 
           {(mode === 'signin' || mode === 'signup' || mode === 'forgot') && (
             <input
-              ref={emailInputRef}
+              ref={mode === 'signin' ? emailInputRef : null}
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={mode === 'signin' ? signInEmail : mode === 'signup' ? signUpEmail : forgotEmail}
+              onChange={(e) => {
+                const next = e.target.value;
+                if (mode === 'signin') setSignInEmail(next);
+                else if (mode === 'signup') setSignUpEmail(next);
+                else setForgotEmail(next);
+              }}
               placeholder="Email"
               autoComplete="username webauthn"
               className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
@@ -364,14 +438,23 @@ export default function AuthScreen() {
           {(mode === 'signin' || mode === 'signup') && (
             <div className="mt-2 space-y-2">
               <input
-                ref={passwordInputRef}
+                ref={mode === 'signin' ? passwordInputRef : null}
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={mode === 'signin' ? signInPassword : signUpPassword}
+                onChange={(e) => {
+                  const next = e.target.value;
+                  if (mode === 'signin') setSignInPassword(next);
+                  else setSignUpPassword(next);
+                }}
                 placeholder="Password"
                 autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
                 className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
               />
+              {mode === 'signup' ? (
+                <p className="text-[11px] text-text-med text-left px-1">
+                  {PASSWORD_RULE_TEXT}
+                </p>
+              ) : null}
             </div>
           )}
 
@@ -379,20 +462,23 @@ export default function AuthScreen() {
             <div className="space-y-2">
               <input
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={resetNewPassword}
+                onChange={(e) => setResetNewPassword(e.target.value)}
                 placeholder="New password"
                 autoComplete="new-password"
                 className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
               />
               <input
                 type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={resetConfirmPassword}
+                onChange={(e) => setResetConfirmPassword(e.target.value)}
                 placeholder="Confirm new password"
                 autoComplete="new-password"
                 className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left"
               />
+              <p className="text-[11px] text-text-med text-left px-1">
+                {PASSWORD_RULE_TEXT}
+              </p>
             </div>
           )}
 

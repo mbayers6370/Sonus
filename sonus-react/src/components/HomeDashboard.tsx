@@ -38,6 +38,19 @@ type ResumeTarget = {
   mode?: LessonMode;
 };
 
+function getFirstNameFromIdentity(displayName?: string | null, email?: string | null) {
+  const trimmedDisplay = (displayName || '').trim();
+  if (trimmedDisplay) {
+    const firstToken = trimmedDisplay.split(/\s+/)[0] || '';
+    return firstToken || null;
+  }
+
+  const localPart = (email || '').split('@')[0]?.trim() || '';
+  if (!localPart) return null;
+  const firstLocalToken = localPart.split(/[._-]+/)[0] || localPart;
+  return firstLocalToken || null;
+}
+
 interface HomeDashboardProps {
   selectedLanguage: string;
   onOpenLevels: () => void;
@@ -56,6 +69,7 @@ const LANGUAGE_LABELS: Record<string, string> = {
 };
 const ZH_BAND_ORDER = ['band1', 'band2', 'band3', 'band4', 'band5', 'band6', 'band7', 'band8', 'band9', 'advanced'];
 const JA_BAND_ORDER = ['n5', 'n4', 'n3', 'n2', 'n1'];
+const LESSON_UNLOCK_PASS_PERCENT = 85;
 
 function isJapaneseBandId(value: string | null | undefined) {
   return Boolean(value && /^n[1-5]$/i.test(value));
@@ -104,6 +118,56 @@ function deriveResumeFromLessonProgress(
       byUnit.set(mapKey, { bandId, unitId, lessonIndex });
     }
   }
+  if (!byUnit.size) return null;
+  return Array.from(byUnit.values()).sort((a, b) => {
+    const bandDelta = rankBandForLanguage(b.bandId, languageId) - rankBandForLanguage(a.bandId, languageId);
+    if (bandDelta !== 0) return bandDelta;
+    const unitDelta = (getUnitMetadata(b.bandId, b.unitId)?.order || 0) - (getUnitMetadata(a.bandId, a.unitId)?.order || 0);
+    if (unitDelta !== 0) return unitDelta;
+    return b.lessonIndex - a.lessonIndex;
+  })[0];
+}
+
+function hasLessonUnlockCredit(status: { completed?: boolean; quizScore?: number | null; speakScore?: number | null } | undefined) {
+  return Boolean(
+    status?.completed ||
+    isInstructionalComplete(status?.quizScore, status?.speakScore) ||
+    (status?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT
+  );
+}
+
+function deriveLatestUnlockedFromLessonProgress(
+  lessonProgress: Record<string, unknown>,
+  languageId: string
+) {
+  const byUnit = new Map<string, ResumeTarget>();
+  for (const key of Object.keys(lessonProgress || {})) {
+    const [bandId, unitId, lessonIndexRaw] = key.split(':');
+    if (!bandMatchesLanguage(bandId, languageId)) continue;
+    if (!unitId || isPracticeUnitId(unitId) || isCheckpointUnitId(unitId) || unitId === 'daily-review') continue;
+    const lessonIndex = Number(lessonIndexRaw);
+    if (!Number.isFinite(lessonIndex)) continue;
+    const status = lessonProgress[key] as {
+      completed?: boolean;
+      mastered?: boolean;
+      quizScore?: number | null;
+      speakScore?: number | null;
+    } | undefined;
+    if (!hasLessonUnlockCredit(status)) continue;
+
+    const target: ResumeTarget = {
+      bandId,
+      unitId,
+      lessonIndex,
+      mode: status?.completed && !status?.mastered ? 'quiz' : undefined,
+    };
+    const mapKey = `${bandId}:${unitId}`;
+    const existing = byUnit.get(mapKey);
+    if (!existing || lessonIndex > existing.lessonIndex) {
+      byUnit.set(mapKey, target);
+    }
+  }
+
   if (!byUnit.size) return null;
   return Array.from(byUnit.values()).sort((a, b) => {
     const bandDelta = rankBandForLanguage(b.bandId, languageId) - rankBandForLanguage(a.bandId, languageId);
@@ -226,14 +290,14 @@ export default function HomeDashboard({
           lessonIndex: progress.currentLessonIdx,
         }
       : null;
-  const resumeFromMasteryLocalProgress: ResumeTarget | null = !resumeFromCheckpoint && !resumeFromProgress
-    ? deriveMasteryResumeFromLessonProgress(state.lessonProgress || {}, languageId)
-    : null;
-  const resumeTarget: ResumeTarget | null = resumeFromCheckpoint || resumeFromProgress || resumeFromMasteryLocalProgress;
-  const resumeFromLocalProgress: ResumeTarget | null = !resumeTarget
-    ? deriveResumeFromLessonProgress(state.lessonProgress || {}, languageId)
-    : null;
-  const resolvedResumeTarget: ResumeTarget | null = resumeTarget || resumeFromLocalProgress;
+  const resumeFromMasteryLocalProgress: ResumeTarget | null =
+    deriveMasteryResumeFromLessonProgress(state.lessonProgress || {}, languageId);
+  const resumeFromLatestUnlockedLocalProgress: ResumeTarget | null =
+    deriveLatestUnlockedFromLessonProgress(state.lessonProgress || {}, languageId);
+  const resumeFromLocalProgress: ResumeTarget | null =
+    resumeFromLatestUnlockedLocalProgress || deriveResumeFromLessonProgress(state.lessonProgress || {}, languageId);
+  const resolvedResumeTarget: ResumeTarget | null =
+    resumeFromLocalProgress || resumeFromMasteryLocalProgress || resumeFromCheckpoint || resumeFromProgress;
   const practiceBandId = bandMatchesLanguage(progress.currentBandId, languageId)
     ? progress.currentBandId
     : (resumeFromLocalProgress?.bandId || null);
@@ -246,6 +310,10 @@ export default function HomeDashboard({
     needsWorkCount === 1
       ? '1 word is in your practice queue.'
       : `${needsWorkCount} words are in your practice queue.`;
+  const needsWorkMessage =
+    needsWorkCount === 0
+      ? '0 words are in your practice queue. Great work. Keep reinforcing with unit practice, click Continue Learning above to begin!'
+      : `${needsWorkLead} Let's work on those first with Practice Listening & Speaking below!`;
   const formatBandLabel = (bandId: string | null) => {
     if (!bandId) return 'Level';
     if (languageId === 'zh') {
@@ -308,14 +376,7 @@ export default function HomeDashboard({
 
         if (mounted && profileRes.ok) {
           const profileJson = (await profileRes.json()) as { profile?: Profile };
-          const displayName = profileJson.profile?.displayName?.trim();
-          if (displayName) {
-            setProfileName(displayName);
-          } else {
-            const email = profileJson.profile?.email || '';
-            const emailLocalPart = email.includes('@') ? email.split('@')[0] : '';
-            setProfileName(emailLocalPart || null);
-          }
+          setProfileName(getFirstNameFromIdentity(profileJson.profile?.displayName, profileJson.profile?.email));
         }
 
         if (mounted && progressRes.ok) {
@@ -485,10 +546,10 @@ export default function HomeDashboard({
         >
           <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white/10 to-transparent rounded-t-3xl" />
           <div className="pointer-events-none absolute inset-[8px] rounded-[1.2rem] border border-white/18" />
-          <div className="text-[11px] tracking-wide font-mono uppercase text-white/70 mb-1">
+          <div className="text-[11px] tracking-wide font-mono uppercase text-[#C9D7E7] mb-1">
             Welcome{profileName ? `, ${profileName}` : ''}
           </div>
-          <div className="main-font text-2xl leading-none mb-3 text-white">{resumeCardTitle}</div>
+          <div className="main-font text-2xl leading-none mb-3 text-[#E8F1FF]">{resumeCardTitle}</div>
           {hasSavedLessonPath ? (
             <>
               <div className="text-sm text-white font-medium mb-1">{formatBandLabel(resolvedResumeTarget?.bandId || null)}</div>
@@ -534,9 +595,9 @@ export default function HomeDashboard({
           style={{ animationDelay: '135ms' }}
         >
           <div className="relative z-10 w-full h-full flex flex-col justify-between">
-            <div className="main-font text-2xl leading-none mb-2 text-[#186E95]">Travel Sprint</div>
+          <div className="main-font text-2xl leading-none mb-2 text-[#145A7D]">Travel Sprint</div>
             <p className="text-sm leading-relaxed text-text-med mb-4 max-w-md mx-auto">
-              Short on time? Focus on essential travel phrases before you go.
+              <span className="font-bold">Short on time?</span> Practice essential travel phrases before you go.
             </p>
             <div className="grid grid-cols-3 gap-2 mb-4 max-w-md mx-auto">
               <button onClick={() => onOpenTravelMode('airport-arrival')} className={`px-2 py-2 ${glassPillLight}`}>
@@ -569,7 +630,7 @@ export default function HomeDashboard({
           className={`${cardShell} md:order-2 md:h-full bg-[#3E5648] text-white border-[#3E5648]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)]`}
           style={{ animationDelay: '85ms' }}
         >
-          <div className="main-font text-2xl leading-none mb-2 text-white">Practice Focus</div>
+          <div className="main-font text-2xl leading-none mb-2 text-[#D7F0E4]">Practice Focus</div>
           <div className="w-full mb-3">
             <div className="inline-flex items-center rounded-full px-3 py-1 bg-white/14 border border-white/30 text-[10px] uppercase tracking-[0.22em] font-mono text-white/90 backdrop-blur-sm animate-[pulse_6.2s_ease-in-out_infinite]">
               Adaptive Mix
@@ -580,18 +641,18 @@ export default function HomeDashboard({
             </div>
             <div className="mt-2 grid grid-cols-2 gap-2">
               <div className={glassStatPill}>
-                <div className="text-sm font-semibold leading-none text-white">70%</div>
-                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-white/80">Weak Words</div>
+                <div className="text-sm font-semibold text-center leading-none text-white">70%</div>
+                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-center font-mono text-white/80">Weak Words</div>
               </div>
               <div className={glassStatPill}>
-                <div className="text-sm font-semibold leading-none text-white">30%</div>
-                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] font-mono text-white/80">Reinforce</div>
+                <div className="text-sm font-semibold text-center leading-none text-white">30%</div>
+                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-center font-mono text-white/80">Reinforce</div>
               </div>
             </div>
           </div>
           <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
             {selectedLanguage === 'zh' || isJapaneseLanguage
-              ? `${needsWorkLead} Let's work on those first, then reinforce with current-band reps!`
+              ? needsWorkMessage
               : `Practice labs are currently available for ${languageLabel}.`}
           </p>
           {selectedLanguage === 'zh' || isJapaneseLanguage ? (
@@ -630,7 +691,7 @@ export default function HomeDashboard({
           className={`${cardShell} md:order-4 md:col-span-2 bg-white text-text-dark border-[#1F2A37]/35 flex flex-col justify-center`}
           style={{ animationDelay: '235ms' }}
         >
-          <div className="main-font text-2xl leading-none mb-3 text-[#1F2A37]">Shortcuts</div>
+          <div className="main-font text-2xl leading-none mb-3 text-[#1B3446]">Shortcuts</div>
           <div className="grid grid-cols-1 gap-2">
             <button
               onClick={onOpenWeakWords}

@@ -45,7 +45,7 @@ export default function Flashcard({
       <div className="flex-1 flex items-center justify-center px-5 py-2">
         <div
           onClick={handleFlip}
-          className={`relative w-full max-w-md min-h-[220px] md:min-h-[255px] rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-6 ${
+          className={`relative w-full max-w-md h-[250px] sm:h-[270px] md:h-[295px] rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border cursor-pointer transition-shadow duration-200 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-6 overflow-hidden ${
             isFlipped ? 'bg-[#1F2A37] border-[#1F2A37]' : 'bg-white border-border'
           }`}
         >
@@ -58,28 +58,28 @@ export default function Flashcard({
           ) : null}
           {!isFlipped ? (
             // Front side
-            <div className={`text-center w-full ${hasPoliteTag ? 'pt-7' : ''}`}>
-              <div className="secondary-font text-5xl mb-3 text-text-dark leading-tight">
+            <div className={`text-center w-full h-full flex flex-col items-center justify-center ${hasPoliteTag ? 'pt-7' : ''}`}>
+              <div className="secondary-font text-4xl sm:text-[2.35rem] mb-2.5 text-text-dark leading-tight break-words">
                 {word.simp}
               </div>
               {word.pinyin && (
-                <div className="text-[1.45rem] text-text-med mb-3">
+                <div className="text-[1.2rem] sm:text-[1.3rem] text-text-med mb-2.5 break-words">
                   {word.pinyin}
                 </div>
               )}
-              <div className="text-sm text-text-light italic mt-3">
+              <div className="text-[13px] text-text-light italic mt-2.5">
                 Tap to reveal meaning
               </div>
             </div>
           ) : (
             // Back side
-            <div className={`text-center w-full ${hasPoliteTag ? 'pt-7' : ''}`}>
-              <div className="mt-1 flex justify-center">
-                <div className="w-full max-w-sm text-center space-y-4">
+            <div className={`text-center w-full h-full flex items-center justify-center ${hasPoliteTag ? 'pt-7' : ''}`}>
+              <div className="mt-1 flex justify-center w-full">
+                <div className="w-full max-w-sm text-center space-y-3 max-h-full overflow-y-auto px-1">
                 {meaningList.map((def, idx) => (
                   <div
                     key={idx}
-                    className="text-base md:text-lg text-white leading-relaxed font-medium"
+                    className="text-[15px] sm:text-base md:text-[1.02rem] text-white leading-relaxed font-medium"
                   >
                     {def}
                   </div>
@@ -95,14 +95,14 @@ export default function Flashcard({
       <div className="flex gap-3 justify-center px-5 pb-4">
         <button
           onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
-          className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#186E95] hover:-translate-y-0.5 hover:shadow-lg"
+          className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-colors hover:bg-[#145B7A] active:bg-[#145B7A]"
         >
           <Volume2 className="w-5 h-5" />
           Listen
         </button>
         <button
           onClick={() => speak(word.simp, word.pinyin, true, state.selectedLanguage)}
-          className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)]"
+          className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-colors hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.08)]"
         >
           <Snail className="w-5 h-5" />
           Slow

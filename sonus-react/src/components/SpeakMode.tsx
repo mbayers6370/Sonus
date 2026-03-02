@@ -1688,6 +1688,9 @@ export default function SpeakMode({
     firstUsableDetected ||
     (isMandarinLesson && transcript && !isNoSpeech ? (rawDetectedPinyin || 'Unknown pronunciation') : '');
   const normalizedHeardJapanese = normalizeJapaneseForCompare(transcript || '');
+  const normalizedHeardRomanized = normalizeLatinForCompare(
+    isJapaneseLesson ? (romanizeJapaneseForDisplay(transcript) || transcript || '') : ''
+  );
   const heardJapaneseMatch = isJapaneseLesson && normalizedHeardJapanese
     ? [word, ...allWords].find((candidate) => {
         const simp = normalizeJapaneseForCompare(candidate.simp || '');
@@ -1695,10 +1698,20 @@ export default function SpeakMode({
         return normalizedHeardJapanese === simp || normalizedHeardJapanese === trad;
       })
     : null;
+  const heardJapaneseMatchFromRomaji =
+    isJapaneseLesson && !heardJapaneseMatch && normalizedHeardRomanized
+      ? [word, ...allWords].find((candidate) => {
+          const candidateRomaji = normalizeLatinForCompare(
+            romanizeJapaneseForDisplay(candidate.simp || '') || candidate.pinyin || ''
+          );
+          return Boolean(candidateRomaji) && candidateRomaji === normalizedHeardRomanized;
+        })
+      : null;
   const heardRomanized =
     isJapaneseLesson && transcript && !isNoSpeech
       ? (
           heardJapaneseMatch?.pinyin ||
+          heardJapaneseMatchFromRomaji?.pinyin ||
           romanizeJapaneseForDisplay(transcript) ||
           ''
         )
@@ -1724,7 +1737,13 @@ export default function SpeakMode({
       ? transcript
       : isMandarinLesson
         ? (heardHanzi || mappedMandarinHeard || transcript)
-        : transcript;
+        : isJapaneseLesson
+          ? (
+              heardJapaneseMatch?.simp ||
+              heardJapaneseMatchFromRomaji?.simp ||
+              transcript
+            )
+          : transcript;
   const recordTitle = !sttSupported
     ? 'Record'
     : isStartingRecording

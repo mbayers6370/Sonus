@@ -508,7 +508,7 @@ export default function AppRoutes() {
             onOpenProgress={() => navigate('/profile/progress')}
             onOpenAbout={() => navigate('/about')}
             onOpenLanguageSelection={() =>
-              navigate('/language', { state: { mode: 'switch', returnTo: '/home' } })
+              navigate('/language', { state: { mode: 'switch', returnTo: '/profile' } })
             }
           />
         }
