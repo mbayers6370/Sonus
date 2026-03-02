@@ -21,7 +21,6 @@ export default function CollapsibleBreadcrumbs({
 }: CollapsibleBreadcrumbsProps) {
   const [isStandalone, setIsStandalone] = useState(false);
   const [open, setOpen] = useState(false);
-  if (!items.length) return null;
   const shouldAlwaysShow = alwaysExpanded || isStandalone;
 
   useEffect(() => {
@@ -51,6 +50,8 @@ export default function CollapsibleBreadcrumbs({
   useEffect(() => {
     if (shouldAlwaysShow) setOpen(true);
   }, [shouldAlwaysShow]);
+
+  if (!items.length) return null;
 
   return (
     <div className={`inline-flex flex-col items-center ${className}`}>

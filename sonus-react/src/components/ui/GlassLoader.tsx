@@ -7,6 +7,7 @@ interface GlassLoaderProps {
 }
 
 const DOT_COUNT = 16;
+const DOT_TRAIL_OPACITY = [1, 0.7, 0.4, 0.15] as const;
 
 export default function GlassLoader({
   message = 'Loading...',
@@ -35,6 +36,8 @@ export default function GlassLoader({
               {
                 '--dot-index': idx,
                 '--dot-lift': `${Math.sin((idx / DOT_COUNT) * Math.PI * 2) * 0.24}rem`,
+                '--dot-opacity-peak': DOT_TRAIL_OPACITY[idx % DOT_TRAIL_OPACITY.length],
+                '--dot-opacity-rest': DOT_TRAIL_OPACITY[idx % DOT_TRAIL_OPACITY.length] * 0.72,
               } as CSSProperties
             }
             aria-hidden="true"
