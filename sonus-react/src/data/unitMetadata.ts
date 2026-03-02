@@ -135,7 +135,7 @@ export const band1Units: UnitMetadata[] = [
   },
   {
     id: 'b1-routine',
-    name: 'Daily Routine',
+    name: 'Daily Life & Routine',
     hanzi: '日常生活',
     description: 'Daily actions, habits, and routine life',
     order: 7,
@@ -388,7 +388,7 @@ export const band2Units: UnitMetadata[] = [
   },
   {
     id: 'b2-places',
-    name: 'Places, Directions, & Institutions',
+    name: 'Places & Nature',
     hanzi: '地点、方位与机构',
     description: 'Locations, directions, and institutional/place vocabulary in one unit',
     order: 15,

@@ -19,8 +19,16 @@ export default function CollapsibleBreadcrumbs({
   className = '',
   alwaysExpanded = false,
 }: CollapsibleBreadcrumbsProps) {
+  const MANUAL_OPEN_STORAGE_KEY = 'sonus.breadcrumbs.open';
   const [isStandalone, setIsStandalone] = useState(false);
-  const [manualOpen, setManualOpen] = useState(false);
+  const [manualOpen, setManualOpen] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    try {
+      return window.sessionStorage.getItem(MANUAL_OPEN_STORAGE_KEY) === '1';
+    } catch {
+      return false;
+    }
+  });
   const isBrowserWebApp = !isStandalone;
   const shouldAlwaysShow = alwaysExpanded || isBrowserWebApp;
   const open = shouldAlwaysShow || manualOpen;
@@ -48,6 +56,15 @@ export default function CollapsibleBreadcrumbs({
       window.removeEventListener('resize', onChange);
     };
   }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.sessionStorage.setItem(MANUAL_OPEN_STORAGE_KEY, manualOpen ? '1' : '0');
+    } catch {
+      // Ignore storage failures and keep in-memory state.
+    }
+  }, [manualOpen]);
 
   if (!items.length) return null;
 

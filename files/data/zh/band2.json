@@ -3,8 +3,8 @@
   "source": "hsk3.0",
   "bandId": "band2",
   "band": 2,
-  "wordCount": 781,
-  "availableWords": 781,
+  "wordCount": 783,
+  "availableWords": 783,
   "unallocatedWords": 0,
   "units": {
     "b2-grammar": {
@@ -402,7 +402,7 @@
           ]
         },
         {
-          "id": "L2-0028",
+          "id": "L2-0773",
           "simp": "表",
           "trad": "錶",
           "pinyin": "biǎo",
@@ -3615,7 +3615,7 @@
           ]
         },
         {
-          "id": "L2-0257",
+          "id": "L2-0774",
           "simp": "科学家",
           "trad": "科學家",
           "pinyin": "kēxuéjiā",
@@ -4819,7 +4819,7 @@
           ]
         },
         {
-          "id": "L2-0340",
+          "id": "L2-0775",
           "simp": "老王",
           "trad": "老王",
           "pinyin": "Lǎo Wáng",
@@ -5511,7 +5511,7 @@
           ]
         },
         {
-          "id": "L2-0390",
+          "id": "L2-0776",
           "simp": "那时",
           "trad": "那時",
           "pinyin": "nà shí",
@@ -6962,8 +6962,8 @@
       ]
     },
     "b2-health": {
-      "targetWords": 60,
-      "allocatedWords": 60,
+      "targetWords": 62,
+      "allocatedWords": 62,
       "words": [
         {
           "id": "L2-0497",
@@ -7018,7 +7018,7 @@
           ]
         },
         {
-          "id": "L2-0500",
+          "id": "L2-0777",
           "simp": "熟",
           "trad": "熟",
           "pinyin": "shóu",
@@ -7749,7 +7749,7 @@
           ]
         },
         {
-          "id": "L2-0550",
+          "id": "L2-0778",
           "simp": "里头",
           "trad": "裡頭",
           "pinyin": "lǐtou",
@@ -7815,6 +7815,38 @@
             "leg",
             "CL:條|条[tiao2]"
           ]
+        },
+        {
+          "id": "L1-0327",
+          "simp": "身体",
+          "trad": "身體",
+          "pinyin": "shēntǐ",
+          "pos": "N",
+          "en": "body",
+          "defs": [
+            "body; health"
+          ],
+          "example": {
+            "zh": "他身体很好。",
+            "en": "He is in good health."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0028",
+          "simp": "病",
+          "trad": "病",
+          "pinyin": "bìng",
+          "pos": "N,V",
+          "en": "illness; to be ill",
+          "defs": [
+            "illness; to be sick"
+          ],
+          "example": {
+            "zh": "他生病了。",
+            "en": "He is sick."
+          },
+          "tags": null
         }
       ]
     },
@@ -8472,7 +8504,7 @@
           ]
         },
         {
-          "id": "L2-0602",
+          "id": "L2-0779",
           "simp": "小王",
           "trad": "小王",
           "pinyin": "Xiǎo Wáng",
@@ -9595,7 +9627,7 @@
           ]
         },
         {
-          "id": "L2-0686",
+          "id": "L2-0780",
           "simp": "有一点儿",
           "trad": "有一點兒",
           "pinyin": "yǒuyīdiǎnr",
@@ -9982,7 +10014,7 @@
       ]
     },
     "b2-review": {
-      "targetWords": 50,
+      "targetWords": 59,
       "allocatedWords": 59,
       "words": [
         {
@@ -10093,7 +10125,7 @@
           "defs": []
         },
         {
-          "id": "L2-0722",
+          "id": "L2-0781",
           "simp": "这时",
           "trad": "這時",
           "pinyin": "zhè shí",

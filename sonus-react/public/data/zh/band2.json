@@ -3,14 +3,14 @@
   "source": "hsk3.0",
   "levelId": "band2",
   "level": 2,
-  "wordCount": 771,
-  "availableWords": 771,
+  "wordCount": 749,
+  "availableWords": 749,
   "unallocatedWords": 0,
   "units": [
     {
       "id": "b2-u01-grammar",
-      "targetWords": 90,
-      "allocatedWords": 90,
+      "targetWords": 74,
+      "allocatedWords": 74,
       "words": [
         {
           "id": "L2-0001",
@@ -144,23 +144,6 @@
           "tags": null
         },
         {
-          "id": "L2-0037",
-          "simp": "不久",
-          "trad": "不久",
-          "pinyin": "bùjiǔ",
-          "pos": "Adv",
-          "en": "soon",
-          "defs": [
-            "soon",
-            "soon after"
-          ],
-          "example": {
-            "zh": "他不久就会来。",
-            "en": "He'll come soon."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0039",
           "simp": "不如",
           "trad": "不如",
@@ -190,22 +173,6 @@
           "example": {
             "zh": "他不一定来。",
             "en": "He may not come."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0044",
-          "simp": "不一会儿",
-          "trad": "不一會兒",
-          "pinyin": "bùyīhuìr",
-          "pos": "Adv",
-          "en": "soon after",
-          "defs": [
-            "soon after"
-          ],
-          "example": {
-            "zh": "不一会儿他就到了。",
-            "en": "He arrived soon after."
           },
           "tags": null
         },
@@ -598,23 +565,6 @@
           "example": {
             "zh": "因为下雨，我没出门。",
             "en": "Because it rained, I didn't go out."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0699",
-          "simp": "越",
-          "trad": "越",
-          "pinyin": "yuè",
-          "pos": "Adv",
-          "en": "more and more",
-          "defs": [
-            "more and more",
-            "the more... the more"
-          ],
-          "example": {
-            "zh": "雨越下越大。",
-            "en": "The rain is getting heavier and heavier."
           },
           "tags": null
         },
@@ -1143,38 +1093,6 @@
           "tags": null
         },
         {
-          "id": "L2-0110",
-          "simp": "到处",
-          "trad": "到處",
-          "pinyin": "dàochù",
-          "pos": "Adv",
-          "en": "everywhere",
-          "defs": [
-            "everywhere"
-          ],
-          "example": {
-            "zh": "到处都找不到他。",
-            "en": "He's nowhere to be found."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0426",
-          "simp": "其他",
-          "trad": "其他",
-          "pinyin": "qítā",
-          "pos": "Pron",
-          "en": "other",
-          "defs": [
-            "other"
-          ],
-          "example": {
-            "zh": "其他人呢？",
-            "en": "Where are the others?"
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0476",
           "simp": "什么样",
           "trad": "什麼樣",
@@ -1188,103 +1106,6 @@
           "example": {
             "zh": "你想要什么样的？",
             "en": "What kind do you want?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0541",
-          "simp": "挺",
-          "trad": "挺",
-          "pinyin": "tǐng",
-          "pos": "Adv",
-          "en": "quite",
-          "defs": [
-            "quite"
-          ],
-          "example": {
-            "zh": "这个地方挺不错的。",
-            "en": "This place is quite nice."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0686",
-          "simp": "有点儿",
-          "trad": "有點兒",
-          "pinyin": "yǒudiǎnr",
-          "pos": "Adv",
-          "en": "a little",
-          "defs": [
-            "a little"
-          ],
-          "example": {
-            "zh": "我有点儿累。",
-            "en": "I'm a little tired."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0686b",
-          "simp": "有一点儿",
-          "trad": "有一點兒",
-          "pinyin": "yǒuyīdiǎnr",
-          "pos": "Adv",
-          "en": "a little",
-          "defs": [
-            "a little"
-          ],
-          "example": {
-            "zh": "他有一点儿不高兴。",
-            "en": "He's a bit unhappy."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0700",
-          "simp": "越来越",
-          "trad": "越來越",
-          "pinyin": "yuèláiyuè",
-          "pos": "Adv",
-          "en": "more and more",
-          "defs": [
-            "more and more"
-          ],
-          "example": {
-            "zh": "天气越来越热。",
-            "en": "It's getting hotter and hotter."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0703",
-          "simp": "咱",
-          "trad": "咱",
-          "pinyin": "zán",
-          "pos": "Pron",
-          "en": "we",
-          "defs": [
-            "we"
-          ],
-          "example": {
-            "zh": "咱一起去吃饭吧。",
-            "en": "Let's go eat together."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0704",
-          "simp": "咱们",
-          "trad": "咱們",
-          "pinyin": "zánmen",
-          "pos": "Pron",
-          "en": "we",
-          "defs": [
-            "we",
-            "we or us spoken to)"
-          ],
-          "example": {
-            "zh": "咱们一起吃饭吧。",
-            "en": "Let's eat together."
           },
           "tags": null
         },
@@ -1387,98 +1208,18 @@
           "tags": null
         },
         {
-          "id": "L2-0160",
-          "simp": "方面",
-          "trad": "方面",
-          "pinyin": "fāngmiàn",
+          "id": "L2-0024",
+          "simp": "边",
+          "trad": "邊",
+          "pinyin": "biān",
           "pos": "N",
-          "en": "aspect",
+          "en": "side",
           "defs": [
-            "aspect"
+            "side"
           ],
           "example": {
-            "zh": "这方面我不懂。",
-            "en": "I don't understand this aspect."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0199",
-          "simp": "故意",
-          "trad": "故意",
-          "pinyin": "gùyì",
-          "pos": "Adv",
-          "en": "on purpose",
-          "defs": [
-            "on purpose"
-          ],
-          "example": {
-            "zh": "他不是故意的。",
-            "en": "He didn't do it on purpose."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0483",
-          "simp": "十分",
-          "trad": "十分",
-          "pinyin": "shífēn",
-          "pos": "Adv",
-          "en": "very",
-          "defs": [
-            "very"
-          ],
-          "example": {
-            "zh": "十分感谢。",
-            "en": "Thank you very much."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0680",
-          "simp": "永远",
-          "trad": "永遠",
-          "pinyin": "yǒngyuǎn",
-          "pos": "Adv",
-          "en": "forever",
-          "defs": [
-            "forever"
-          ],
-          "example": {
-            "zh": "我永远爱你。",
-            "en": "I'll love you forever."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0487",
-          "simp": "实在",
-          "trad": "實在",
-          "pinyin": "shízài",
-          "pos": "Adv",
-          "en": "really",
-          "defs": [
-            "really"
-          ],
-          "example": {
-            "zh": "实在对不起。",
-            "en": "I'm really sorry."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0093",
-          "simp": "大家",
-          "trad": "大家",
-          "pinyin": "dàjiā",
-          "pos": "Pron",
-          "en": "everyone",
-          "defs": [
-            "everyone"
-          ],
-          "example": {
-            "zh": "大家都同意这个计划。",
-            "en": "Everyone agreed with this plan."
+            "zh": "河边风很大。",
+            "en": "It is very windy by the river."
           },
           "tags": null
         }
@@ -1486,8 +1227,8 @@
     },
     {
       "id": "b2-u02-verbs-1",
-      "targetWords": 56,
-      "allocatedWords": 56,
+      "targetWords": 51,
+      "allocatedWords": 51,
       "words": [
         {
           "id": "L2-0008",
@@ -1605,23 +1346,6 @@
           "example": {
             "zh": "他表示同意。",
             "en": "He expressed agreement."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0036",
-          "simp": "不好意思",
-          "trad": "不好意思",
-          "pinyin": "bùhǎoyìsi",
-          "pos": "V",
-          "en": "to feel embarrassed",
-          "defs": [
-            "to feel embarrassed",
-            "to be sorry"
-          ],
-          "example": {
-            "zh": "他不好意思说话。",
-            "en": "He was too shy to speak."
           },
           "tags": null
         },
@@ -2282,56 +2006,6 @@
           "tags": null
         },
         {
-          "id": "L2-0176",
-          "simp": "感到",
-          "trad": "感到",
-          "pinyin": "gǎndào",
-          "pos": "V",
-          "en": "to feel",
-          "defs": [
-            "to feel",
-            "to sense"
-          ],
-          "example": {
-            "zh": "我感到很高兴。",
-            "en": "I feel very happy."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0177",
-          "simp": "感动",
-          "trad": "感動",
-          "pinyin": "gǎndòng",
-          "pos": "V",
-          "en": "to be moved",
-          "defs": [
-            "to be moved",
-            "to move"
-          ],
-          "example": {
-            "zh": "他的话感动了我。",
-            "en": "His words moved me."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0179",
-          "simp": "感谢",
-          "trad": "感謝",
-          "pinyin": "gǎnxiè",
-          "pos": "V",
-          "en": "to thank",
-          "defs": [
-            "to thank"
-          ],
-          "example": {
-            "zh": "感谢你的帮助。",
-            "en": "Thanks for your help."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0180",
           "simp": "干活儿",
           "trad": "幹活兒",
@@ -2361,23 +2035,6 @@
           "example": {
             "zh": "请关机。",
             "en": "Please turn it off."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0202",
-          "simp": "关心",
-          "trad": "關心",
-          "pinyin": "guānxīn",
-          "pos": "V",
-          "en": "to care about",
-          "defs": [
-            "to care about",
-            "to be concerned about"
-          ],
-          "example": {
-            "zh": "他很关心我。",
-            "en": "He cares about me."
           },
           "tags": null
         },
@@ -3567,19 +3224,19 @@
           "tags": null
         },
         {
-          "id": "L2-0428",
-          "simp": "骑",
-          "trad": "騎",
-          "pinyin": "qí",
+          "id": "L2-0772",
+          "simp": "做饭",
+          "trad": "做飯",
+          "pinyin": "zuòfàn",
           "pos": "V",
-          "en": "to ride",
+          "en": "to cook",
           "defs": [
-            "to ride",
-            "to sit astride"
+            "to cook",
+            "to prepare a meal"
           ],
           "example": {
-            "zh": "骑自行车。",
-            "en": "Ride a bike."
+            "zh": "妈妈在做饭。",
+            "en": "Mom is cooking."
           },
           "tags": null
         }
@@ -4591,8 +4248,8 @@
     },
     {
       "id": "b2-u05-time",
-      "targetWords": 50,
-      "allocatedWords": 50,
+      "targetWords": 51,
+      "allocatedWords": 51,
       "words": [
         {
           "id": "L2-0011",
@@ -5315,22 +4972,6 @@
           "tags": null
         },
         {
-          "id": "L2-0261",
-          "simp": "假期",
-          "trad": "假期",
-          "pinyin": "jiàqī",
-          "pos": "N",
-          "en": "vacation",
-          "defs": [
-            "vacation"
-          ],
-          "example": {
-            "zh": "假期去哪儿？",
-            "en": "Where to go on vacation?"
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0298",
           "simp": "经常",
           "trad": "經常",
@@ -5359,22 +5000,6 @@
           "example": {
             "zh": "他老是迟到。",
             "en": "He's always late."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0631",
-          "simp": "学期",
-          "trad": "學期",
-          "pinyin": "xuéqī",
-          "pos": "N",
-          "en": "semester",
-          "defs": [
-            "semester"
-          ],
-          "example": {
-            "zh": "新学期开始。",
-            "en": "New semester begins."
           },
           "tags": null
         },
@@ -5409,30 +5034,63 @@
             "en": "This experience is something she will remember for the rest of her life."
           },
           "tags": null
+        },
+        {
+          "id": "L2-0044",
+          "simp": "不一会儿",
+          "trad": "不一會兒",
+          "pinyin": "bùyīhuìr",
+          "pos": "Adv",
+          "en": "soon after",
+          "defs": [
+            "soon after"
+          ],
+          "example": {
+            "zh": "不一会儿他就到了。",
+            "en": "He arrived soon after."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0037",
+          "simp": "不久",
+          "trad": "不久",
+          "pinyin": "bùjiǔ",
+          "pos": "Adv",
+          "en": "soon",
+          "defs": [
+            "soon",
+            "soon after"
+          ],
+          "example": {
+            "zh": "他不久就会来。",
+            "en": "He'll come soon."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0680",
+          "simp": "永远",
+          "trad": "永遠",
+          "pinyin": "yǒngyuǎn",
+          "pos": "Adv",
+          "en": "forever",
+          "defs": [
+            "forever"
+          ],
+          "example": {
+            "zh": "我永远爱你。",
+            "en": "I'll love you forever."
+          },
+          "tags": null
         }
       ]
     },
     {
       "id": "b2-u06-home",
-      "targetWords": 16,
-      "allocatedWords": 16,
+      "targetWords": 11,
+      "allocatedWords": 11,
       "words": [
-        {
-          "id": "L2-0010",
-          "simp": "办公室",
-          "trad": "辦公室",
-          "pinyin": "bàngōngshì",
-          "pos": "N",
-          "en": "office",
-          "defs": [
-            "office"
-          ],
-          "example": {
-            "zh": "他在办公室工作。",
-            "en": "He works in an office."
-          },
-          "tags": null
-        },
         {
           "id": "L2-0071",
           "simp": "出门",
@@ -5513,39 +5171,6 @@
           "example": {
             "zh": "今天有家长会。",
             "en": "There is a parent meeting today."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0279",
-          "simp": "教室",
-          "trad": "教室",
-          "pinyin": "jiàoshì",
-          "pos": "N",
-          "en": "classroom",
-          "defs": [
-            "classroom"
-          ],
-          "example": {
-            "zh": "教室很干净。",
-            "en": "The classroom is clean."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0326",
-          "simp": "课堂",
-          "trad": "課堂",
-          "pinyin": "kètáng",
-          "pos": "N",
-          "en": "classroom",
-          "defs": [
-            "classroom",
-            "classroom ("
-          ],
-          "example": {
-            "zh": "课堂上要安静。",
-            "en": "You should be quiet in class."
           },
           "tags": null
         },
@@ -5631,39 +5256,6 @@
           "tags": null
         },
         {
-          "id": "L2-0694",
-          "simp": "院长",
-          "trad": "院長",
-          "pinyin": "yuànzhǎng",
-          "pos": "N",
-          "en": "president",
-          "defs": [
-            "president",
-            "university president"
-          ],
-          "example": {
-            "zh": "院长讲话。",
-            "en": "The dean speaks."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0766",
-          "simp": "作业",
-          "trad": "作業",
-          "pinyin": "zuòyè",
-          "pos": "N",
-          "en": "homework",
-          "defs": [
-            "homework"
-          ],
-          "example": {
-            "zh": "我每天晚上都要做很多作业。",
-            "en": "I have to do a lot of homework every evening."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0747",
           "simp": "住房",
           "trad": "住房",
@@ -5683,26 +5275,9 @@
     },
     {
       "id": "b2-u07-food",
-      "targetWords": 23,
-      "allocatedWords": 23,
+      "targetWords": 19,
+      "allocatedWords": 19,
       "words": [
-        {
-          "id": "L2-0013",
-          "simp": "饱",
-          "trad": "飽",
-          "pinyin": "bǎo",
-          "pos": "Adj",
-          "en": "full",
-          "defs": [
-            "full",
-            "to eat till full"
-          ],
-          "example": {
-            "zh": "我吃饱了。",
-            "en": "I'm full."
-          },
-          "tags": null
-        },
         {
           "id": "L2-0047",
           "simp": "菜单",
@@ -5732,23 +5307,6 @@
           "example": {
             "zh": "这家饭馆很好。",
             "en": "This restaurant is good."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0175",
-          "simp": "干杯",
-          "trad": "乾杯",
-          "pinyin": "gānbēi",
-          "pos": "Int",
-          "en": "cheers",
-          "defs": [
-            "cheers",
-            "Cheers!"
-          ],
-          "example": {
-            "zh": "来，干杯！",
-            "en": "Come, cheers!"
           },
           "tags": null
         },
@@ -5869,23 +5427,6 @@
           "tags": null
         },
         {
-          "id": "L2-0772",
-          "simp": "做饭",
-          "trad": "做飯",
-          "pinyin": "zuòfàn",
-          "pos": "V",
-          "en": "to cook",
-          "defs": [
-            "to cook",
-            "to prepare a meal"
-          ],
-          "example": {
-            "zh": "妈妈在做饭。",
-            "en": "Mom is cooking."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0106",
           "simp": "蛋",
           "trad": "蛋",
@@ -5962,22 +5503,6 @@
           "example": {
             "zh": "他中午吃了一碗面。",
             "en": "He had a bowl of noodles for lunch."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0378",
-          "simp": "面",
-          "trad": "麵",
-          "pinyin": "miàn",
-          "pos": "N",
-          "en": "noodles",
-          "defs": [
-            "noodles"
-          ],
-          "example": {
-            "zh": "他最爱吃牛肉面。",
-            "en": "His favorite food is beef noodles."
           },
           "tags": null
         },
@@ -6067,8 +5592,8 @@
     },
     {
       "id": "b2-u08-shopping",
-      "targetWords": 15,
-      "allocatedWords": 15,
+      "targetWords": 14,
+      "allocatedWords": 14,
       "words": [
         {
           "id": "L2-0128",
@@ -6147,22 +5672,6 @@
           "example": {
             "zh": "这个重五百克。",
             "en": "This weighs 500 grams."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0346",
-          "simp": "礼物",
-          "trad": "禮物",
-          "pinyin": "lǐwù",
-          "pos": "N",
-          "en": "gift",
-          "defs": [
-            "gift"
-          ],
-          "example": {
-            "zh": "他送了我一个很好的生日礼物。",
-            "en": "He gave me a really nice birthday gift."
           },
           "tags": null
         },
@@ -6317,8 +5826,8 @@
     },
     {
       "id": "b2-u09-travel",
-      "targetWords": 26,
-      "allocatedWords": 26,
+      "targetWords": 27,
+      "allocatedWords": 27,
       "words": [
         {
           "id": "L2-0076",
@@ -6515,22 +6024,6 @@
           "tags": null
         },
         {
-          "id": "L2-0713",
-          "simp": "站",
-          "trad": "站",
-          "pinyin": "zhàn",
-          "pos": "N",
-          "en": "station",
-          "defs": [
-            "station"
-          ],
-          "example": {
-            "zh": "请问，火车站怎么走？",
-            "en": "Excuse me, how do I get to the train station?"
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0231",
           "simp": "护照",
           "trad": "護照",
@@ -6608,22 +6101,6 @@
           "example": {
             "zh": "坐地铁很快。",
             "en": "Taking the subway is fast."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0540",
-          "simp": "停车场",
-          "trad": "停車場",
-          "pinyin": "tíngchēchǎng",
-          "pos": "N",
-          "en": "parking lot",
-          "defs": [
-            "parking lot"
-          ],
-          "example": {
-            "zh": "车在停车场。",
-            "en": "The car is in the parking lot."
           },
           "tags": null
         },
@@ -6727,18 +6204,66 @@
           "tags": null
         },
         {
-          "id": "L2-0555",
-          "simp": "外地",
-          "trad": "外地",
-          "pinyin": "wàidì",
+          "id": "L2-0261",
+          "simp": "假期",
+          "trad": "假期",
+          "pinyin": "jiàqī",
           "pos": "N",
-          "en": "other places",
+          "en": "vacation",
           "defs": [
-            "other places"
+            "vacation"
           ],
           "example": {
-            "zh": "他去外地工作了。",
-            "en": "He went to work in another city."
+            "zh": "假期去哪儿？",
+            "en": "Where to go on vacation?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0112",
+          "simp": "道",
+          "trad": "道",
+          "pinyin": "dào",
+          "pos": "N",
+          "en": "road",
+          "defs": [
+            "road"
+          ],
+          "example": {
+            "zh": "这条道比较宽。",
+            "en": "This road is relatively wide."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0161",
+          "simp": "方向",
+          "trad": "方向",
+          "pinyin": "fāngxiàng",
+          "pos": "N",
+          "en": "direction",
+          "defs": [
+            "direction"
+          ],
+          "example": {
+            "zh": "你走错方向了。",
+            "en": "You went in the wrong direction."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0212",
+          "simp": "海边",
+          "trad": "海邊",
+          "pinyin": "hǎibiān",
+          "pos": "N",
+          "en": "seaside",
+          "defs": [
+            "seaside"
+          ],
+          "example": {
+            "zh": "夏天我们去海边玩。",
+            "en": "We go to the seaside in summer."
           },
           "tags": null
         }
@@ -6998,8 +6523,8 @@
     },
     {
       "id": "b2-u11-weather",
-      "targetWords": 26,
-      "allocatedWords": 26,
+      "targetWords": 15,
+      "allocatedWords": 15,
       "words": [
         {
           "id": "L2-0078",
@@ -7031,40 +6556,6 @@
           "example": {
             "zh": "今天多云。",
             "en": "It's cloudy today."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0354",
-          "simp": "凉",
-          "trad": "涼",
-          "pinyin": "liáng",
-          "pos": "Adj",
-          "en": "cool",
-          "defs": [
-            "cool",
-            "to let sth cool down"
-          ],
-          "example": {
-            "zh": "天气凉了。",
-            "en": "The weather is cool."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0355",
-          "simp": "凉快",
-          "trad": "涼快",
-          "pinyin": "liángkuai",
-          "pos": "Adj",
-          "en": "pleasantly cool",
-          "defs": [
-            "pleasantly cool",
-            "to cool off"
-          ],
-          "example": {
-            "zh": "秋天很凉快。",
-            "en": "Autumn is cool."
           },
           "tags": null
         },
@@ -7198,38 +6689,6 @@
           "tags": null
         },
         {
-          "id": "L2-0211",
-          "simp": "海",
-          "trad": "海",
-          "pinyin": "hǎi",
-          "pos": "N",
-          "en": "ocean",
-          "defs": [
-            "ocean"
-          ],
-          "example": {
-            "zh": "我们去海边看海吧。",
-            "en": "Let's go to the beach and look at the sea."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0230",
-          "simp": "湖",
-          "trad": "湖",
-          "pinyin": "hú",
-          "pos": "N",
-          "en": "lake",
-          "defs": [
-            "lake"
-          ],
-          "example": {
-            "zh": "西湖很美。",
-            "en": "West Lake is beautiful."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0359",
           "simp": "零下",
           "trad": "零下",
@@ -7242,23 +6701,6 @@
           "example": {
             "zh": "气温零下五度。",
             "en": "Temperature is minus five degrees."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0533",
-          "simp": "天上",
-          "trad": "天上",
-          "pinyin": "tiānshàng",
-          "pos": "N",
-          "en": "the sky",
-          "defs": [
-            "the sky",
-            "the heavens"
-          ],
-          "example": {
-            "zh": "天上有鸟。",
-            "en": "There are birds in the sky."
           },
           "tags": null
         },
@@ -7279,89 +6721,6 @@
           "tags": null
         },
         {
-          "id": "L2-0622",
-          "simp": "星星",
-          "trad": "星星",
-          "pinyin": "xīngxing",
-          "pos": "N",
-          "en": "star",
-          "defs": [
-            "star",
-            "a star"
-          ],
-          "example": {
-            "zh": "晚上看星星。",
-            "en": "Look at stars at night."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0698",
-          "simp": "月亮",
-          "trad": "月亮",
-          "pinyin": "yuèliang",
-          "pos": "N",
-          "en": "moon",
-          "defs": [
-            "moon",
-            "the moon"
-          ],
-          "example": {
-            "zh": "今晚月亮很圆。",
-            "en": "The moon is round tonight."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0100",
-          "simp": "大自然",
-          "trad": "大自然",
-          "pinyin": "dàzìrán",
-          "pos": "N",
-          "en": "nature",
-          "defs": [
-            "nature"
-          ],
-          "example": {
-            "zh": "他喜欢在大自然里散步。",
-            "en": "He likes to take walks in nature."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0401",
-          "simp": "鸟",
-          "trad": "鳥",
-          "pinyin": "niǎo",
-          "pos": "N",
-          "en": "bird",
-          "defs": [
-            "bird",
-            "\"bird\" radical in Chinese characters"
-          ],
-          "example": {
-            "zh": "小鸟在飞。",
-            "en": "Little birds are flying."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0050",
-          "simp": "草",
-          "trad": "草",
-          "pinyin": "cǎo",
-          "pos": "N",
-          "en": "grass",
-          "defs": [
-            "grass"
-          ],
-          "example": {
-            "zh": "草地很绿。",
-            "en": "The grass is green."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0080",
           "simp": "春天",
           "trad": "春天",
@@ -7374,22 +6733,6 @@
           "example": {
             "zh": "春天花开了。",
             "en": "Flowers bloom in spring."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0092",
-          "simp": "大海",
-          "trad": "大海",
-          "pinyin": "dàhǎi",
-          "pos": "N",
-          "en": "ocean",
-          "defs": [
-            "ocean"
-          ],
-          "example": {
-            "zh": "大海很蓝。",
-            "en": "The ocean is blue."
           },
           "tags": null
         },
@@ -7429,8 +6772,8 @@
     },
     {
       "id": "b2-u12-social",
-      "targetWords": 68,
-      "allocatedWords": 68,
+      "targetWords": 27,
+      "allocatedWords": 27,
       "words": [
         {
           "id": "L2-0079",
@@ -7445,22 +6788,6 @@
           "example": {
             "zh": "春节快乐。",
             "en": "Happy Spring Festival."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0178",
-          "simp": "感觉",
-          "trad": "感覺",
-          "pinyin": "gǎnjué",
-          "pos": "N",
-          "en": "feeling",
-          "defs": [
-            "feeling"
-          ],
-          "example": {
-            "zh": "这种感觉很好。",
-            "en": "This feeling is good."
           },
           "tags": null
         },
@@ -7548,22 +6875,6 @@
           "tags": null
         },
         {
-          "id": "L2-0397",
-          "simp": "难听",
-          "trad": "難聽",
-          "pinyin": "nántīng",
-          "pos": "Adj",
-          "en": "unpleasant to hear",
-          "defs": [
-            "unpleasant to hear"
-          ],
-          "example": {
-            "zh": "这首歌很难听。",
-            "en": "This song sounds awful."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0437",
           "simp": "青年",
           "trad": "青年",
@@ -7576,38 +6887,6 @@
           "example": {
             "zh": "他是一个青年。",
             "en": "He is a young person."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0499",
-          "simp": "舒服",
-          "trad": "舒服",
-          "pinyin": "shūfu",
-          "pos": "Adj",
-          "en": "comfortable",
-          "defs": [
-            "comfortable"
-          ],
-          "example": {
-            "zh": "这把椅子坐起来很舒服。",
-            "en": "This chair is very comfortable to sit in."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0573",
-          "simp": "味道",
-          "trad": "味道",
-          "pinyin": "wèidào",
-          "pos": "N",
-          "en": "flavor",
-          "defs": [
-            "flavor"
-          ],
-          "example": {
-            "zh": "这道菜的味道真不错。",
-            "en": "This dish tastes really good."
           },
           "tags": null
         },
@@ -7640,22 +6919,6 @@
           "example": {
             "zh": "好的行为。",
             "en": "Good behavior."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0683",
-          "simp": "友好",
-          "trad": "友好",
-          "pinyin": "yǒuhǎo",
-          "pos": "Adj",
-          "en": "friendly",
-          "defs": [
-            "friendly"
-          ],
-          "example": {
-            "zh": "他对我很友好。",
-            "en": "He's friendly to me."
           },
           "tags": null
         },
@@ -7709,71 +6972,6 @@
           "tags": null
         },
         {
-          "id": "L2-0113",
-          "simp": "道理",
-          "trad": "道理",
-          "pinyin": "dàolǐ",
-          "pos": "N",
-          "en": "reason",
-          "defs": [
-            "reason"
-          ],
-          "example": {
-            "zh": "你说的有道理。",
-            "en": "What you said makes sense."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0159",
-          "simp": "方法",
-          "trad": "方法",
-          "pinyin": "fāngfǎ",
-          "pos": "N",
-          "en": "method",
-          "defs": [
-            "method"
-          ],
-          "example": {
-            "zh": "学习方法很重要。",
-            "en": "Study methods are important."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0249",
-          "simp": "机会",
-          "trad": "機會",
-          "pinyin": "jīhuì",
-          "pos": "N",
-          "en": "opportunity",
-          "defs": [
-            "opportunity"
-          ],
-          "example": {
-            "zh": "这是一个很好的学习机会。",
-            "en": "This is a great learning opportunity."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0253",
-          "simp": "计划",
-          "trad": "計劃",
-          "pinyin": "jìhuà",
-          "pos": "N",
-          "en": "plan",
-          "defs": [
-            "plan",
-            "to plan"
-          ],
-          "example": {
-            "zh": "暑假计划。",
-            "en": "Summer vacation plan."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0256",
           "simp": "加油",
           "trad": "加油",
@@ -7787,39 +6985,6 @@
           "example": {
             "zh": "加油！你可以的。",
             "en": "Come on! You can do it."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0291",
-          "simp": "结果",
-          "trad": "結果",
-          "pinyin": "jiéguǒ",
-          "pos": "N",
-          "en": "result",
-          "defs": [
-            "result",
-            "as a result"
-          ],
-          "example": {
-            "zh": "考试结果出来了，他通过了。",
-            "en": "The exam results are out — he passed."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0313",
-          "simp": "看法",
-          "trad": "看法",
-          "pinyin": "kànfǎ",
-          "pos": "N",
-          "en": "view",
-          "defs": [
-            "view"
-          ],
-          "example": {
-            "zh": "你的看法是什么？",
-            "en": "What's your view?"
           },
           "tags": null
         },
@@ -7840,54 +7005,6 @@
           "tags": null
         },
         {
-          "id": "L2-0519",
-          "simp": "态度",
-          "trad": "態度",
-          "pinyin": "tàidù",
-          "pos": "N",
-          "en": "attitude",
-          "defs": [
-            "attitude"
-          ],
-          "example": {
-            "zh": "他对工作的态度非常认真。",
-            "en": "His attitude toward work is very serious."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0523",
-          "simp": "特点",
-          "trad": "特點",
-          "pinyin": "tèdiǎn",
-          "pos": "N",
-          "en": "characteristic",
-          "defs": [
-            "characteristic"
-          ],
-          "example": {
-            "zh": "有什么特点？",
-            "en": "What are the characteristics?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0535",
-          "simp": "条件",
-          "trad": "條件",
-          "pinyin": "tiáojiàn",
-          "pos": "N",
-          "en": "condition",
-          "defs": [
-            "condition"
-          ],
-          "example": {
-            "zh": "这份工作的条件很好。",
-            "en": "The conditions for this job are very good."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0560",
           "simp": "晚安",
           "trad": "晚安",
@@ -7901,184 +7018,6 @@
           "example": {
             "zh": "晚安，明天见。",
             "en": "Good night, see you tomorrow."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0578",
-          "simp": "问题",
-          "trad": "問題",
-          "pinyin": "wèntí",
-          "pos": "N",
-          "en": "question",
-          "defs": [
-            "question"
-          ],
-          "example": {
-            "zh": "有问题吗？",
-            "en": "Any questions?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0597",
-          "simp": "想法",
-          "trad": "想法",
-          "pinyin": "xiǎngfǎ",
-          "pos": "N",
-          "en": "idea",
-          "defs": [
-            "idea"
-          ],
-          "example": {
-            "zh": "你有什么好想法吗？",
-            "en": "Do you have any good ideas?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0665",
-          "simp": "意见",
-          "trad": "意見",
-          "pinyin": "yìjiàn",
-          "pos": "N",
-          "en": "opinion",
-          "defs": [
-            "opinion"
-          ],
-          "example": {
-            "zh": "你的意见很好。",
-            "en": "Your opinion is good."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0666",
-          "simp": "意思",
-          "trad": "意思",
-          "pinyin": "yìsi",
-          "pos": "N",
-          "en": "meaning",
-          "defs": [
-            "meaning"
-          ],
-          "example": {
-            "zh": "什么意思？",
-            "en": "What does it mean?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0692",
-          "simp": "原因",
-          "trad": "原因",
-          "pinyin": "yuányīn",
-          "pos": "N",
-          "en": "reason",
-          "defs": [
-            "reason"
-          ],
-          "example": {
-            "zh": "什么原因？",
-            "en": "What's the reason?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0771",
-          "simp": "做法",
-          "trad": "做法",
-          "pinyin": "zuòfǎ",
-          "pos": "N",
-          "en": "way of doing",
-          "defs": [
-            "way of doing",
-            "way of handling sth"
-          ],
-          "example": {
-            "zh": "这种做法不对。",
-            "en": "This way of doing it is wrong."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0009",
-          "simp": "办法",
-          "trad": "辦法",
-          "pinyin": "bànfǎ",
-          "pos": "N",
-          "en": "way",
-          "defs": [
-            "way",
-            "way of handling sth"
-          ],
-          "example": {
-            "zh": "有办法了。",
-            "en": "Found a way."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0203",
-          "simp": "观点",
-          "trad": "觀點",
-          "pinyin": "guāndiǎn",
-          "pos": "N",
-          "en": "viewpoint",
-          "defs": [
-            "viewpoint"
-          ],
-          "example": {
-            "zh": "不同的观点。",
-            "en": "Different viewpoints."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0215",
-          "simp": "好处",
-          "trad": "好處",
-          "pinyin": "hǎochù",
-          "pos": "N",
-          "en": "benefit",
-          "defs": [
-            "benefit"
-          ],
-          "example": {
-            "zh": "有什么好处？",
-            "en": "What are the benefits?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0237",
-          "simp": "坏处",
-          "trad": "壞處",
-          "pinyin": "huàichù",
-          "pos": "N",
-          "en": "harm",
-          "defs": [
-            "harm"
-          ],
-          "example": {
-            "zh": "抽烟对身体的坏处很多。",
-            "en": "Smoking has many harmful effects on the body."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0350",
-          "simp": "例子",
-          "trad": "例子",
-          "pinyin": "lìzi",
-          "pos": "N",
-          "en": "example",
-          "defs": [
-            "example"
-          ],
-          "example": {
-            "zh": "举个例子。",
-            "en": "Give an example."
           },
           "tags": null
         },
@@ -8115,22 +7054,6 @@
           "tags": null
         },
         {
-          "id": "L2-0586",
-          "simp": "习惯",
-          "trad": "習慣",
-          "pinyin": "xíguàn",
-          "pos": "N",
-          "en": "habit",
-          "defs": [
-            "habit"
-          ],
-          "example": {
-            "zh": "早睡早起是个好习惯。",
-            "en": "Going to bed early and getting up early is a good habit."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0611",
           "simp": "笑话儿",
           "trad": "笑話兒",
@@ -8147,152 +7070,6 @@
           "tags": null
         },
         {
-          "id": "L2-0615",
-          "simp": "心中",
-          "trad": "心中",
-          "pinyin": "xīnzhōng",
-          "pos": "N",
-          "en": "in the heart",
-          "defs": [
-            "in the heart",
-            "in one's thoughts"
-          ],
-          "example": {
-            "zh": "心中有你。",
-            "en": "You're in my heart."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0676",
-          "simp": "英文",
-          "trad": "英文",
-          "pinyin": "yīngwén",
-          "pos": "N",
-          "en": "English",
-          "defs": [
-            "English"
-          ],
-          "example": {
-            "zh": "这封信是用英文写的。",
-            "en": "This letter is written in English."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0677",
-          "simp": "英语",
-          "trad": "英語",
-          "pinyin": "yīngyǔ",
-          "pos": "N",
-          "en": "English",
-          "defs": [
-            "English"
-          ],
-          "example": {
-            "zh": "她的英语说得非常流利。",
-            "en": "She speaks English very fluently."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0690",
-          "simp": "语言",
-          "trad": "語言",
-          "pinyin": "yǔyán",
-          "pos": "N",
-          "en": "language",
-          "defs": [
-            "language"
-          ],
-          "example": {
-            "zh": "学习语言。",
-            "en": "Learn a language."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0740",
-          "simp": "重点",
-          "trad": "重點",
-          "pinyin": "zhòngdiǎn",
-          "pos": "N",
-          "en": "key point",
-          "defs": [
-            "key point",
-            "key"
-          ],
-          "example": {
-            "zh": "重点是学习。",
-            "en": "The focus is on studying."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0064",
-          "simp": "成绩",
-          "trad": "成績",
-          "pinyin": "chéngjì",
-          "pos": "N",
-          "en": "grade",
-          "defs": [
-            "grade"
-          ],
-          "example": {
-            "zh": "考试成绩很好。",
-            "en": "Good exam results."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0317",
-          "simp": "科学",
-          "trad": "科學",
-          "pinyin": "kēxué",
-          "pos": "N",
-          "en": "science",
-          "defs": [
-            "science"
-          ],
-          "example": {
-            "zh": "科学很重要。",
-            "en": "Science is important."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0384",
-          "simp": "目的",
-          "trad": "目的",
-          "pinyin": "mùdì",
-          "pos": "N",
-          "en": "purpose",
-          "defs": [
-            "purpose"
-          ],
-          "example": {
-            "zh": "目的是什么？",
-            "en": "What's the purpose?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0475",
-          "simp": "身边",
-          "trad": "身邊",
-          "pinyin": "shēnbiān",
-          "pos": "N",
-          "en": "at one's side",
-          "defs": [
-            "at one's side"
-          ],
-          "example": {
-            "zh": "这些是我身边的朋友。",
-            "en": "These are my friends nearby."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0484",
           "simp": "实际",
           "trad": "實際",
@@ -8305,70 +7082,6 @@
           "example": {
             "zh": "这才是实际情况。",
             "en": "This is the actual situation."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0529",
-          "simp": "题",
-          "trad": "題",
-          "pinyin": "tí",
-          "pos": "N",
-          "en": "topic",
-          "defs": [
-            "topic"
-          ],
-          "example": {
-            "zh": "这道题很难。",
-            "en": "This question is hard."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0289",
-          "simp": "节目",
-          "trad": "節目",
-          "pinyin": "jiémù",
-          "pos": "N",
-          "en": "program",
-          "defs": [
-            "program"
-          ],
-          "example": {
-            "zh": "这个节目每周六晚上播出。",
-            "en": "This program airs every Saturday evening."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0496",
-          "simp": "收入",
-          "trad": "收入",
-          "pinyin": "shōurù",
-          "pos": "N",
-          "en": "income",
-          "defs": [
-            "income"
-          ],
-          "example": {
-            "zh": "他的收入很高。",
-            "en": "His income is high."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0480",
-          "simp": "声音",
-          "trad": "聲音",
-          "pinyin": "shēngyīn",
-          "pos": "N",
-          "en": "sound",
-          "defs": [
-            "sound"
-          ],
-          "example": {
-            "zh": "这个声音很大。",
-            "en": "This sound is loud."
           },
           "tags": null
         },
@@ -8423,116 +7136,83 @@
           "tags": null
         },
         {
-          "id": "L2-0396",
-          "simp": "难题",
-          "trad": "難題",
-          "pinyin": "nántí",
-          "pos": "N",
-          "en": "difficult problem",
+          "id": "L2-0426",
+          "simp": "其他",
+          "trad": "其他",
+          "pinyin": "qítā",
+          "pos": "Pron",
+          "en": "other",
           "defs": [
-            "difficult problem"
+            "other"
           ],
           "example": {
-            "zh": "数学难题。",
-            "en": "Difficult math problem."
+            "zh": "其他人呢？",
+            "en": "Where are the others?"
           },
           "tags": null
         },
         {
-          "id": "L2-0348",
-          "simp": "理想",
-          "trad": "理想",
-          "pinyin": "lǐxiǎng",
+          "id": "L2-0160",
+          "simp": "方面",
+          "trad": "方面",
+          "pinyin": "fāngmiàn",
           "pos": "N",
-          "en": "dream",
+          "en": "aspect",
           "defs": [
-            "dream",
-            "a dream"
+            "aspect"
           ],
           "example": {
-            "zh": "我的理想是当老师。",
-            "en": "My dream is to become a teacher."
+            "zh": "这方面我不懂。",
+            "en": "I don't understand this aspect."
           },
           "tags": null
         },
         {
-          "id": "L2-0425",
-          "simp": "普通话",
-          "trad": "普通話",
-          "pinyin": "pǔtōnghuà",
-          "pos": "N",
-          "en": "Mandarin",
+          "id": "L2-0179",
+          "simp": "感谢",
+          "trad": "感謝",
+          "pinyin": "gǎnxiè",
+          "pos": "V",
+          "en": "to thank",
           "defs": [
-            "Mandarin"
+            "to thank"
           ],
           "example": {
-            "zh": "她说普通话。",
-            "en": "She speaks Mandarin."
+            "zh": "感谢你的帮助。",
+            "en": "Thanks for your help."
           },
           "tags": null
         },
         {
-          "id": "L2-0503",
-          "simp": "水平",
-          "trad": "水平",
-          "pinyin": "shuǐpíng",
-          "pos": "N",
-          "en": "level",
+          "id": "L2-0175",
+          "simp": "干杯",
+          "trad": "乾杯",
+          "pinyin": "gānbēi",
+          "pos": "Int",
+          "en": "cheers",
           "defs": [
-            "level",
-            "a level"
+            "cheers",
+            "Cheers!"
           ],
           "example": {
-            "zh": "我的汉语水平提高了。",
-            "en": "My Chinese level has improved."
+            "zh": "来，干杯！",
+            "en": "Come, cheers!"
           },
           "tags": null
         },
         {
-          "id": "L2-0614",
-          "simp": "心情",
-          "trad": "心情",
-          "pinyin": "xīnqíng",
+          "id": "L2-0346",
+          "simp": "礼物",
+          "trad": "禮物",
+          "pinyin": "lǐwù",
           "pos": "N",
-          "en": "mood",
+          "en": "gift",
           "defs": [
-            "mood"
+            "gift"
           ],
           "example": {
-            "zh": "心情很好。",
-            "en": "In a good mood."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0620",
-          "simp": "信心",
-          "trad": "信心",
-          "pinyin": "xìnxīn",
-          "pos": "N",
-          "en": "confidence",
-          "defs": [
-            "confidence"
-          ],
-          "example": {
-            "zh": "他对这次考试很有信心。",
-            "en": "He is very confident about this exam."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0613",
-          "simp": "心里",
-          "trad": "心裡",
-          "pinyin": "xīnlǐ",
-          "pos": "N",
-          "en": "heart",
-          "defs": [
-            "heart"
-          ],
-          "example": {
-            "zh": "我心里明白。",
-            "en": "I understand in my heart."
+            "zh": "他送了我一个很好的生日礼物。",
+            "en": "He gave me a really nice birthday gift."
           },
           "tags": null
         }
@@ -8540,8 +7220,8 @@
     },
     {
       "id": "b2-u13-people-social",
-      "targetWords": 39,
-      "allocatedWords": 39,
+      "targetWords": 41,
+      "allocatedWords": 41,
       "words": [
         {
           "id": "L2-0003",
@@ -9158,18 +7838,52 @@
           "tags": null
         },
         {
-          "id": "L2-0637",
-          "simp": "样子",
-          "trad": "樣子",
-          "pinyin": "yàngzi",
-          "pos": "N",
-          "en": "appearance",
+          "id": "L2-0703",
+          "simp": "咱",
+          "trad": "咱",
+          "pinyin": "zán",
+          "pos": "Pron",
+          "en": "we",
           "defs": [
-            "appearance"
+            "we"
           ],
           "example": {
-            "zh": "样子很好看。",
-            "en": "Looks very nice."
+            "zh": "咱一起去吃饭吧。",
+            "en": "Let's go eat together."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0704",
+          "simp": "咱们",
+          "trad": "咱們",
+          "pinyin": "zánmen",
+          "pos": "Pron",
+          "en": "we",
+          "defs": [
+            "we",
+            "we or us spoken to)"
+          ],
+          "example": {
+            "zh": "咱们一起吃饭吧。",
+            "en": "Let's eat together."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0694",
+          "simp": "院长",
+          "trad": "院長",
+          "pinyin": "yuànzhǎng",
+          "pos": "N",
+          "en": "president",
+          "defs": [
+            "president",
+            "university president"
+          ],
+          "example": {
+            "zh": "院长讲话。",
+            "en": "The dean speaks."
           },
           "tags": null
         }
@@ -9177,8 +7891,8 @@
     },
     {
       "id": "b2-u14-places",
-      "targetWords": 47,
-      "allocatedWords": 47,
+      "targetWords": 54,
+      "allocatedWords": 54,
       "words": [
         {
           "id": "L2-0058",
@@ -9386,54 +8100,6 @@
           "example": {
             "zh": "晚上很多人在广场跳舞。",
             "en": "Many people dance in the square at night."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0447",
-          "simp": "球场",
-          "trad": "球場",
-          "pinyin": "qiúchǎng",
-          "pos": "N",
-          "en": "stadium; sports ground",
-          "defs": [
-            "stadium"
-          ],
-          "example": {
-            "zh": "他们在球场踢足球。",
-            "en": "They are playing soccer on the field."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0531",
-          "simp": "体育场",
-          "trad": "體育場",
-          "pinyin": "tǐyùchǎng",
-          "pos": "N",
-          "en": "stadium",
-          "defs": [
-            "stadium"
-          ],
-          "example": {
-            "zh": "演唱会在体育场举行。",
-            "en": "The concert is held in the stadium."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0532",
-          "simp": "体育馆",
-          "trad": "體育館",
-          "pinyin": "tǐyùguǎn",
-          "pos": "N",
-          "en": "gym; gymnasium",
-          "defs": [
-            "gym"
-          ],
-          "example": {
-            "zh": "下雨了，我们去体育馆打球。",
-            "en": "It is raining, so we are going to play ball in the gymnasium."
           },
           "tags": null
         },
@@ -9813,22 +8479,6 @@
           "tags": null
         },
         {
-          "id": "L2-0024",
-          "simp": "边",
-          "trad": "邊",
-          "pinyin": "biān",
-          "pos": "N",
-          "en": "side",
-          "defs": [
-            "side"
-          ],
-          "example": {
-            "zh": "河边风很大。",
-            "en": "It is very windy by the river."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0583",
           "simp": "西方",
           "trad": "西方",
@@ -9842,54 +8492,6 @@
           "example": {
             "zh": "他对西方文化很感兴趣。",
             "en": "He is very interested in Western culture."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0112",
-          "simp": "道",
-          "trad": "道",
-          "pinyin": "dào",
-          "pos": "N",
-          "en": "road",
-          "defs": [
-            "road"
-          ],
-          "example": {
-            "zh": "这条道比较宽。",
-            "en": "This road is relatively wide."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0161",
-          "simp": "方向",
-          "trad": "方向",
-          "pinyin": "fāngxiàng",
-          "pos": "N",
-          "en": "direction",
-          "defs": [
-            "direction"
-          ],
-          "example": {
-            "zh": "你走错方向了。",
-            "en": "You went in the wrong direction."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0212",
-          "simp": "海边",
-          "trad": "海邊",
-          "pinyin": "hǎibiān",
-          "pos": "N",
-          "en": "seaside",
-          "defs": [
-            "seaside"
-          ],
-          "example": {
-            "zh": "夏天我们去海边玩。",
-            "en": "We go to the seaside in summer."
           },
           "tags": null
         },
@@ -9942,988 +8544,242 @@
             "en": "In front of me."
           },
           "tags": null
+        },
+        {
+          "id": "L2-0110",
+          "simp": "到处",
+          "trad": "到處",
+          "pinyin": "dàochù",
+          "pos": "Adv",
+          "en": "everywhere",
+          "defs": [
+            "everywhere"
+          ],
+          "example": {
+            "zh": "到处都找不到他。",
+            "en": "He's nowhere to be found."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0010",
+          "simp": "办公室",
+          "trad": "辦公室",
+          "pinyin": "bàngōngshì",
+          "pos": "N",
+          "en": "office",
+          "defs": [
+            "office"
+          ],
+          "example": {
+            "zh": "他在办公室工作。",
+            "en": "He works in an office."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0540",
+          "simp": "停车场",
+          "trad": "停車場",
+          "pinyin": "tíngchēchǎng",
+          "pos": "N",
+          "en": "parking lot",
+          "defs": [
+            "parking lot"
+          ],
+          "example": {
+            "zh": "车在停车场。",
+            "en": "The car is in the parking lot."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0713",
+          "simp": "站",
+          "trad": "站",
+          "pinyin": "zhàn",
+          "pos": "N",
+          "en": "station",
+          "defs": [
+            "station"
+          ],
+          "example": {
+            "zh": "请问，火车站怎么走？",
+            "en": "Excuse me, how do I get to the train station?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0555",
+          "simp": "外地",
+          "trad": "外地",
+          "pinyin": "wàidì",
+          "pos": "N",
+          "en": "other places",
+          "defs": [
+            "other places"
+          ],
+          "example": {
+            "zh": "他去外地工作了。",
+            "en": "He went to work in another city."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0211",
+          "simp": "海",
+          "trad": "海",
+          "pinyin": "hǎi",
+          "pos": "N",
+          "en": "ocean",
+          "defs": [
+            "ocean"
+          ],
+          "example": {
+            "zh": "我们去海边看海吧。",
+            "en": "Let's go to the beach and look at the sea."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0230",
+          "simp": "湖",
+          "trad": "湖",
+          "pinyin": "hú",
+          "pos": "N",
+          "en": "lake",
+          "defs": [
+            "lake"
+          ],
+          "example": {
+            "zh": "西湖很美。",
+            "en": "West Lake is beautiful."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0533",
+          "simp": "天上",
+          "trad": "天上",
+          "pinyin": "tiānshàng",
+          "pos": "N",
+          "en": "the sky",
+          "defs": [
+            "the sky",
+            "the heavens"
+          ],
+          "example": {
+            "zh": "天上有鸟。",
+            "en": "There are birds in the sky."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0622",
+          "simp": "星星",
+          "trad": "星星",
+          "pinyin": "xīngxing",
+          "pos": "N",
+          "en": "star",
+          "defs": [
+            "star",
+            "a star"
+          ],
+          "example": {
+            "zh": "晚上看星星。",
+            "en": "Look at stars at night."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0698",
+          "simp": "月亮",
+          "trad": "月亮",
+          "pinyin": "yuèliang",
+          "pos": "N",
+          "en": "moon",
+          "defs": [
+            "moon",
+            "the moon"
+          ],
+          "example": {
+            "zh": "今晚月亮很圆。",
+            "en": "The moon is round tonight."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0100",
+          "simp": "大自然",
+          "trad": "大自然",
+          "pinyin": "dàzìrán",
+          "pos": "N",
+          "en": "nature",
+          "defs": [
+            "nature"
+          ],
+          "example": {
+            "zh": "他喜欢在大自然里散步。",
+            "en": "He likes to take walks in nature."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0050",
+          "simp": "草",
+          "trad": "草",
+          "pinyin": "cǎo",
+          "pos": "N",
+          "en": "grass",
+          "defs": [
+            "grass"
+          ],
+          "example": {
+            "zh": "草地很绿。",
+            "en": "The grass is green."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0092",
+          "simp": "大海",
+          "trad": "大海",
+          "pinyin": "dàhǎi",
+          "pos": "N",
+          "en": "ocean",
+          "defs": [
+            "ocean"
+          ],
+          "example": {
+            "zh": "大海很蓝。",
+            "en": "The ocean is blue."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0475",
+          "simp": "身边",
+          "trad": "身邊",
+          "pinyin": "shēnbiān",
+          "pos": "N",
+          "en": "at one's side",
+          "defs": [
+            "at one's side"
+          ],
+          "example": {
+            "zh": "这些是我身边的朋友。",
+            "en": "These are my friends nearby."
+          },
+          "tags": null
         }
       ]
     },
     {
-      "id": "b2-u15-objects-tech",
-      "targetWords": 70,
-      "allocatedWords": 70,
+      "id": "b2-u15-media-communication",
+      "title": "Media & Communication",
+      "targetWords": 18,
+      "allocatedWords": 18,
       "words": [
-        {
-          "id": "L2-0022",
-          "simp": "笔记本",
-          "trad": "筆記本",
-          "pinyin": "bǐjìběn",
-          "pos": "N",
-          "en": "notebook",
-          "defs": [
-            "notebook",
-            "notebook ("
-          ],
-          "example": {
-            "zh": "我买了一个笔记本。",
-            "en": "I bought a notebook."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0028-2",
-          "simp": "表",
-          "trad": "錶",
-          "pinyin": "biǎo",
-          "pos": "N",
-          "en": "watch",
-          "defs": [
-            "watch"
-          ],
-          "example": {
-            "zh": "我的表快了一分钟。",
-            "en": "My watch is one minute fast."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0254",
-          "simp": "计算机",
-          "trad": "計算機",
-          "pinyin": "jìsuànjī",
-          "pos": "N",
-          "en": "computer",
-          "defs": [
-            "computer"
-          ],
-          "example": {
-            "zh": "我用计算机工作。",
-            "en": "I use a computer for work."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0422",
-          "simp": "瓶",
-          "trad": "瓶",
-          "pinyin": "píng",
-          "pos": "M",
-          "en": "bottle",
-          "defs": [
-            "bottle"
-          ],
-          "example": {
-            "zh": "一瓶水。",
-            "en": "A bottle of water."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0423",
-          "simp": "瓶子",
-          "trad": "瓶子",
-          "pinyin": "píngzi",
-          "pos": "N",
-          "en": "bottle",
-          "defs": [
-            "bottle"
-          ],
-          "example": {
-            "zh": "这个瓶子是空的。",
-            "en": "This bottle is empty."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0497",
-          "simp": "手表",
-          "trad": "手錶",
-          "pinyin": "shǒubiǎo",
-          "pos": "N",
-          "en": "wristwatch",
-          "defs": [
-            "wristwatch"
-          ],
-          "example": {
-            "zh": "他戴着一块手表。",
-            "en": "He's wearing a watch."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0564",
-          "simp": "碗",
-          "trad": "碗",
-          "pinyin": "wǎn",
-          "pos": "N",
-          "en": "bowl",
-          "defs": [
-            "bowl"
-          ],
-          "example": {
-            "zh": "一碗米饭。",
-            "en": "A bowl of rice."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0621",
-          "simp": "信用卡",
-          "trad": "信用卡",
-          "pinyin": "xìnyòngkǎ",
-          "pos": "N",
-          "en": "credit card",
-          "defs": [
-            "credit card"
-          ],
-          "example": {
-            "zh": "我用信用卡付钱。",
-            "en": "I pay with a credit card."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0641",
-          "simp": "药片",
-          "trad": "藥片",
-          "pinyin": "yàopiàn",
-          "pos": "N",
-          "en": "pill",
-          "defs": [
-            "pill",
-            "a pill or tablet"
-          ],
-          "example": {
-            "zh": "一天吃三次药片。",
-            "en": "Take the pills three times a day."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0099",
-          "simp": "大衣",
-          "trad": "大衣",
-          "pinyin": "dàyī",
-          "pos": "N",
-          "en": "overcoat",
-          "defs": [
-            "overcoat"
-          ],
-          "example": {
-            "zh": "冬天穿大衣。",
-            "en": "Wear an overcoat in winter."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0119",
-          "simp": "灯",
-          "trad": "燈",
-          "pinyin": "dēng",
-          "pos": "N",
-          "en": "lamp",
-          "defs": [
-            "lamp"
-          ],
-          "example": {
-            "zh": "请打开灯。",
-            "en": "Please turn on the light."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0124",
-          "simp": "地球",
-          "trad": "地球",
-          "pinyin": "dìqiú",
-          "pos": "N",
-          "en": "Earth",
-          "defs": [
-            "Earth",
-            "the earth"
-          ],
-          "example": {
-            "zh": "地球是圆的。",
-            "en": "The Earth is round."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0136",
-          "simp": "动物",
-          "trad": "動物",
-          "pinyin": "dòngwù",
-          "pos": "N",
-          "en": "animal",
-          "defs": [
-            "animal"
-          ],
-          "example": {
-            "zh": "我喜欢动物。",
-            "en": "I like animals."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0138",
-          "simp": "读音",
-          "trad": "讀音",
-          "pinyin": "dúyīn",
-          "pos": "N",
-          "en": "pronunciation",
-          "defs": [
-            "pronunciation"
-          ],
-          "example": {
-            "zh": "这个字的读音是什么？",
-            "en": "What's the pronunciation of this character?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0141",
-          "simp": "短信",
-          "trad": "短信",
-          "pinyin": "duǎnxìn",
-          "pos": "N",
-          "en": "text message",
-          "defs": [
-            "text message"
-          ],
-          "example": {
-            "zh": "我发了一条短信。",
-            "en": "I sent a text message."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0142",
-          "simp": "段",
-          "trad": "段",
-          "pinyin": "duàn",
-          "pos": "M",
-          "en": "paragraph",
-          "defs": [
-            "paragraph"
-          ],
-          "example": {
-            "zh": "一段文章。",
-            "en": "A paragraph of text."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0166",
-          "simp": "分数",
-          "trad": "分數",
-          "pinyin": "fēnshù",
-          "pos": "N",
-          "en": "score",
-          "defs": [
-            "score"
-          ],
-          "example": {
-            "zh": "考试成绩分数很高。",
-            "en": "The exam score is very high."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0186",
-          "simp": "个子",
-          "trad": "個子",
-          "pinyin": "gèzi",
-          "pos": "N",
-          "en": "height",
-          "defs": [
-            "height"
-          ],
-          "example": {
-            "zh": "他个子很高。",
-            "en": "He is very tall."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0196",
-          "simp": "狗",
-          "trad": "狗",
-          "pinyin": "gǒu",
-          "pos": "N",
-          "en": "dog",
-          "defs": [
-            "dog"
-          ],
-          "example": {
-            "zh": "我家有一只狗。",
-            "en": "My family has a dog."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0224",
-          "simp": "黑板",
-          "trad": "黑板",
-          "pinyin": "hēibǎn",
-          "pos": "N",
-          "en": "blackboard",
-          "defs": [
-            "blackboard"
-          ],
-          "example": {
-            "zh": "老师在黑板上写字。",
-            "en": "The teacher writes on the blackboard."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0225",
-          "simp": "黑色",
-          "trad": "黑色",
-          "pinyin": "hēisè",
-          "pos": "N",
-          "en": "black color",
-          "defs": [
-            "black color",
-            "black"
-          ],
-          "example": {
-            "zh": "他喜欢黑色。",
-            "en": "He likes black."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0227",
-          "simp": "红色",
-          "trad": "紅色",
-          "pinyin": "hóngsè",
-          "pos": "N",
-          "en": "red color",
-          "defs": [
-            "red color",
-            "red"
-          ],
-          "example": {
-            "zh": "她穿了一件红色的裙子。",
-            "en": "She was wearing a red dress."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0236",
-          "simp": "画儿",
-          "trad": "畫兒",
-          "pinyin": "huàr",
-          "pos": "N",
-          "en": "picture",
-          "defs": [
-            "picture"
-          ],
-          "example": {
-            "zh": "墙上挂着一幅画儿。",
-            "en": "A picture hangs on the wall."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0242",
-          "simp": "黄色",
-          "trad": "黃色",
-          "pinyin": "huángsè",
-          "pos": "N",
-          "en": "yellow color",
-          "defs": [
-            "yellow color",
-            "yellow"
-          ],
-          "example": {
-            "zh": "黄色的香蕉。",
-            "en": "Yellow bananas."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0307",
-          "simp": "句",
-          "trad": "句",
-          "pinyin": "jù",
-          "pos": "M",
-          "en": "sentence",
-          "defs": [
-            "sentence"
-          ],
-          "example": {
-            "zh": "他只说了一句话就走了。",
-            "en": "He said just one sentence and left."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0308",
-          "simp": "句子",
-          "trad": "句子",
-          "pinyin": "jùzi",
-          "pos": "N",
-          "en": "sentence",
-          "defs": [
-            "sentence"
-          ],
-          "example": {
-            "zh": "这个句子很长。",
-            "en": "This sentence is long."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0333",
-          "simp": "筷子",
-          "trad": "筷子",
-          "pinyin": "kuàizi",
-          "pos": "N",
-          "en": "chopsticks",
-          "defs": [
-            "chopsticks"
-          ],
-          "example": {
-            "zh": "中国人用筷子吃饭。",
-            "en": "Chinese people eat with chopsticks."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0337",
-          "simp": "蓝色",
-          "trad": "藍色",
-          "pinyin": "lánsè",
-          "pos": "N",
-          "en": "blue color",
-          "defs": [
-            "blue color",
-            "blue"
-          ],
-          "example": {
-            "zh": "他喜欢穿蓝色的衣服。",
-            "en": "He likes to wear blue clothes."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0338",
-          "simp": "篮球",
-          "trad": "籃球",
-          "pinyin": "lánqiú",
-          "pos": "N",
-          "en": "basketball",
-          "defs": [
-            "basketball"
-          ],
-          "example": {
-            "zh": "他喜欢打篮球。",
-            "en": "He likes playing basketball."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0371",
-          "simp": "绿色",
-          "trad": "綠色",
-          "pinyin": "lǜsè",
-          "pos": "N",
-          "en": "green color",
-          "defs": [
-            "green color",
-            "green"
-          ],
-          "example": {
-            "zh": "公园里有很多绿色的树。",
-            "en": "There are many green trees in the park."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0381",
-          "simp": "名称",
-          "trad": "名稱",
-          "pinyin": "míngchēng",
-          "pos": "N",
-          "en": "name",
-          "defs": [
-            "name"
-          ],
-          "example": {
-            "zh": "这个产品的名称是什么？",
-            "en": "What's the name of this product?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0382",
-          "simp": "名单",
-          "trad": "名單",
-          "pinyin": "míngdān",
-          "pos": "N",
-          "en": "name list",
-          "defs": [
-            "name list",
-            "list of names"
-          ],
-          "example": {
-            "zh": "名单上有你的名字。",
-            "en": "Your name is on the list."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0409",
-          "simp": "排球",
-          "trad": "排球",
-          "pinyin": "páiqiú",
-          "pos": "N",
-          "en": "volleyball",
-          "defs": [
-            "volleyball"
-          ],
-          "example": {
-            "zh": "她在打排球。",
-            "en": "She's playing volleyball."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0449",
-          "simp": "球鞋",
-          "trad": "球鞋",
-          "pinyin": "qiúxié",
-          "pos": "N",
-          "en": "sneakers",
-          "defs": [
-            "sneakers"
-          ],
-          "example": {
-            "zh": "他穿着球鞋跑步。",
-            "en": "He runs in sneakers."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0552",
-          "simp": "图片",
-          "trad": "圖片",
-          "pinyin": "túpiàn",
-          "pos": "N",
-          "en": "picture",
-          "defs": [
-            "picture"
-          ],
-          "example": {
-            "zh": "这张图片很漂亮。",
-            "en": "This picture is beautiful."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0566",
-          "simp": "网",
-          "trad": "網",
-          "pinyin": "wǎng",
-          "pos": "N",
-          "en": "net",
-          "defs": [
-            "net"
-          ],
-          "example": {
-            "zh": "上网查资料。",
-            "en": "Go online to check information."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0567",
-          "simp": "网球",
-          "trad": "網球",
-          "pinyin": "wǎngqiú",
-          "pos": "N",
-          "en": "tennis",
-          "defs": [
-            "tennis",
-            "tennis ball"
-          ],
-          "example": {
-            "zh": "他喜欢打网球。",
-            "en": "He likes playing tennis."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0568",
-          "simp": "网站",
-          "trad": "網站",
-          "pinyin": "wǎngzhàn",
-          "pos": "N",
-          "en": "website",
-          "defs": [
-            "website"
-          ],
-          "example": {
-            "zh": "这个网站很有用。",
-            "en": "This website is very useful."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0587",
-          "simp": "洗衣机",
-          "trad": "洗衣機",
-          "pinyin": "xǐyījī",
-          "pos": "N",
-          "en": "washing machine",
-          "defs": [
-            "washing machine"
-          ],
-          "example": {
-            "zh": "我有洗衣机。",
-            "en": "I have a washing machine."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0612",
-          "simp": "鞋",
-          "trad": "鞋",
-          "pinyin": "xié",
-          "pos": "N",
-          "en": "shoe",
-          "defs": [
-            "shoe"
-          ],
-          "example": {
-            "zh": "这双鞋很舒服。",
-            "en": "These shoes are comfortable."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0617",
-          "simp": "信",
-          "trad": "信",
-          "pinyin": "xìn",
-          "pos": "N",
-          "en": "letter",
-          "defs": [
-            "letter"
-          ],
-          "example": {
-            "zh": "我收到一封信。",
-            "en": "I received a letter."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0618",
-          "simp": "信号",
-          "trad": "信號",
-          "pinyin": "xìnhào",
-          "pos": "N",
-          "en": "signal",
-          "defs": [
-            "signal"
-          ],
-          "example": {
-            "zh": "手机信号不好。",
-            "en": "The phone signal is bad."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0670",
-          "simp": "音节",
-          "trad": "音節",
-          "pinyin": "yīnjié",
-          "pos": "N",
-          "en": "syllable",
-          "defs": [
-            "syllable"
-          ],
-          "example": {
-            "zh": "这个单词有两个音节。",
-            "en": "This word has two syllables."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0671",
-          "simp": "音乐",
-          "trad": "音樂",
-          "pinyin": "yīnyuè",
-          "pos": "N",
-          "en": "music",
-          "defs": [
-            "music"
-          ],
-          "example": {
-            "zh": "我喜欢听音乐。",
-            "en": "I like listening to music."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0672",
-          "simp": "音乐会",
-          "trad": "音樂會",
-          "pinyin": "yīnyuèhuì",
-          "pos": "N",
-          "en": "concert",
-          "defs": [
-            "concert"
-          ],
-          "example": {
-            "zh": "我们去听音乐会。",
-            "en": "We're going to a concert."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0719",
-          "simp": "照片",
-          "trad": "照片",
-          "pinyin": "zhàopiàn",
-          "pos": "N",
-          "en": "photo",
-          "defs": [
-            "photo"
-          ],
-          "example": {
-            "zh": "拍一张照片。",
-            "en": "Take a photo."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0733",
-          "simp": "纸",
-          "trad": "紙",
-          "pinyin": "zhǐ",
-          "pos": "N",
-          "en": "paper",
-          "defs": [
-            "paper",
-            "paper ("
-          ],
-          "example": {
-            "zh": "一张纸。",
-            "en": "A piece of paper."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0754",
-          "simp": "字典",
-          "trad": "字典",
-          "pinyin": "zìdiǎn",
-          "pos": "N",
-          "en": "dictionary",
-          "defs": [
-            "dictionary",
-            "Chinese character dictionary"
-          ],
-          "example": {
-            "zh": "查字典。",
-            "en": "Look it up in the dictionary."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0006",
-          "simp": "白色",
-          "trad": "白色",
-          "pinyin": "báisè",
-          "pos": "N",
-          "en": "white color",
-          "defs": [
-            "white color",
-            "white"
-          ],
-          "example": {
-            "zh": "她买了一双白色的鞋子。",
-            "en": "She bought a pair of white shoes."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0020",
-          "simp": "笔",
-          "trad": "筆",
-          "pinyin": "bǐ",
-          "pos": "N",
-          "en": "pen",
-          "defs": [
-            "pen"
-          ],
-          "example": {
-            "zh": "用笔写字。",
-            "en": "Write with a pen."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0021",
-          "simp": "笔记",
-          "trad": "筆記",
-          "pinyin": "bǐjì",
-          "pos": "N",
-          "en": "notes",
-          "defs": [
-            "notes"
-          ],
-          "example": {
-            "zh": "上课记笔记。",
-            "en": "Take notes in class."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0082",
-          "simp": "词典",
-          "trad": "詞典",
-          "pinyin": "cídiǎn",
-          "pos": "N",
-          "en": "dictionary",
-          "defs": [
-            "dictionary"
-          ],
-          "example": {
-            "zh": "查词典学新词。",
-            "en": "Look up new words in the dictionary."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0083",
-          "simp": "词语",
-          "trad": "詞語",
-          "pinyin": "cíyǔ",
-          "pos": "N",
-          "en": "word",
-          "defs": [
-            "word"
-          ],
-          "example": {
-            "zh": "学习新词语。",
-            "en": "Learn new words."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0605",
-          "simp": "小说",
-          "trad": "小說",
-          "pinyin": "xiǎoshuō",
-          "pos": "N",
-          "en": "novel",
-          "defs": [
-            "novel"
-          ],
-          "example": {
-            "zh": "她最近在看一本很有意思的小说。",
-            "en": "She has been reading a very interesting novel recently."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0678",
-          "simp": "影片",
-          "trad": "影片",
-          "pinyin": "yǐngpiàn",
-          "pos": "N",
-          "en": "film",
-          "defs": [
-            "film",
-            "a copy of a film"
-          ],
-          "example": {
-            "zh": "看一部影片。",
-            "en": "Watch a film."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0768",
-          "simp": "座",
-          "trad": "座",
-          "pinyin": "zuò",
-          "pos": "M",
-          "en": "seat",
-          "defs": [
-            "seat"
-          ],
-          "example": {
-            "zh": "一座山。",
-            "en": "A mountain."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0769",
-          "simp": "座位",
-          "trad": "座位",
-          "pinyin": "zuòwèi",
-          "pos": "N",
-          "en": "seat",
-          "defs": [
-            "seat"
-          ],
-          "example": {
-            "zh": "请找座位坐下。",
-            "en": "Please find a seat and sit down."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0052",
-          "simp": "层",
-          "trad": "層",
-          "pinyin": "céng",
-          "pos": "M",
-          "en": "floor",
-          "defs": [
-            "floor"
-          ],
-          "example": {
-            "zh": "这是第三层。",
-            "en": "This is the third floor."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0081",
-          "simp": "词",
-          "trad": "詞",
-          "pinyin": "cí",
-          "pos": "N",
-          "en": "word",
-          "defs": [
-            "word"
-          ],
-          "example": {
-            "zh": "这个词怎么用？",
-            "en": "How to use this word?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0502",
-          "simp": "数字",
-          "trad": "數字",
-          "pinyin": "shùzì",
-          "pos": "N",
-          "en": "number",
-          "defs": [
-            "number"
-          ],
-          "example": {
-            "zh": "请用数字写下你的电话号码。",
-            "en": "Please write your phone number in digits."
-          },
-          "tags": null
-        },
         {
           "id": "L2-0015",
           "simp": "报纸",
@@ -10974,56 +8830,6 @@
           "tags": null
         },
         {
-          "id": "L2-0600",
-          "simp": "相机",
-          "trad": "相機",
-          "pinyin": "xiàngjī",
-          "pos": "N",
-          "en": "camera",
-          "defs": [
-            "camera"
-          ],
-          "example": {
-            "zh": "用相机拍照。",
-            "en": "Take photos with a camera."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0407",
-          "simp": "排",
-          "trad": "排",
-          "pinyin": "pái",
-          "pos": "M",
-          "en": "row",
-          "defs": [
-            "row",
-            "a row"
-          ],
-          "example": {
-            "zh": "一排座位。",
-            "en": "A row of seats."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0478",
-          "simp": "生词",
-          "trad": "生詞",
-          "pinyin": "shēngcí",
-          "pos": "N",
-          "en": "new word",
-          "defs": [
-            "new word",
-            "word that is unfamiliar or not yet studied"
-          ],
-          "example": {
-            "zh": "学了很多生词。",
-            "en": "Learned many new words."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0616",
           "simp": "新闻",
           "trad": "新聞",
@@ -11056,34 +8862,904 @@
           "tags": null
         },
         {
-          "id": "L2-0633",
-          "simp": "颜色",
-          "trad": "顏色",
-          "pinyin": "yánsè",
+          "id": "L2-0566",
+          "simp": "网",
+          "trad": "網",
+          "pinyin": "wǎng",
           "pos": "N",
-          "en": "color",
+          "en": "net",
           "defs": [
-            "color"
+            "net"
           ],
           "example": {
-            "zh": "这是什么颜色？",
-            "en": "What color is this?"
+            "zh": "上网查资料。",
+            "en": "Go online to check information."
           },
           "tags": null
         },
         {
-          "id": "L2-0098",
-          "simp": "大小",
-          "trad": "大小",
-          "pinyin": "dàxiǎo",
+          "id": "L2-0568",
+          "simp": "网站",
+          "trad": "網站",
+          "pinyin": "wǎngzhàn",
           "pos": "N",
-          "en": "size",
+          "en": "website",
           "defs": [
-            "size"
+            "website"
           ],
           "example": {
-            "zh": "这个大小很合适。",
-            "en": "This size is just right."
+            "zh": "这个网站很有用。",
+            "en": "This website is very useful."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0618",
+          "simp": "信号",
+          "trad": "信號",
+          "pinyin": "xìnhào",
+          "pos": "N",
+          "en": "signal",
+          "defs": [
+            "signal"
+          ],
+          "example": {
+            "zh": "手机信号不好。",
+            "en": "The phone signal is bad."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0141",
+          "simp": "短信",
+          "trad": "短信",
+          "pinyin": "duǎnxìn",
+          "pos": "N",
+          "en": "text message",
+          "defs": [
+            "text message"
+          ],
+          "example": {
+            "zh": "我发了一条短信。",
+            "en": "I sent a text message."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0617",
+          "simp": "信",
+          "trad": "信",
+          "pinyin": "xìn",
+          "pos": "N",
+          "en": "letter",
+          "defs": [
+            "letter"
+          ],
+          "example": {
+            "zh": "我收到一封信。",
+            "en": "I received a letter."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0289",
+          "simp": "节目",
+          "trad": "節目",
+          "pinyin": "jiémù",
+          "pos": "N",
+          "en": "program",
+          "defs": [
+            "program"
+          ],
+          "example": {
+            "zh": "这个节目每周六晚上播出。",
+            "en": "This program airs every Saturday evening."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0678",
+          "simp": "影片",
+          "trad": "影片",
+          "pinyin": "yǐngpiàn",
+          "pos": "N",
+          "en": "film",
+          "defs": [
+            "film",
+            "a copy of a film"
+          ],
+          "example": {
+            "zh": "看一部影片。",
+            "en": "Watch a film."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0719",
+          "simp": "照片",
+          "trad": "照片",
+          "pinyin": "zhàopiàn",
+          "pos": "N",
+          "en": "photo",
+          "defs": [
+            "photo"
+          ],
+          "example": {
+            "zh": "拍一张照片。",
+            "en": "Take a photo."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0552",
+          "simp": "图片",
+          "trad": "圖片",
+          "pinyin": "túpiàn",
+          "pos": "N",
+          "en": "picture",
+          "defs": [
+            "picture"
+          ],
+          "example": {
+            "zh": "这张图片很漂亮。",
+            "en": "This picture is beautiful."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0236",
+          "simp": "画儿",
+          "trad": "畫兒",
+          "pinyin": "huàr",
+          "pos": "N",
+          "en": "picture",
+          "defs": [
+            "picture"
+          ],
+          "example": {
+            "zh": "墙上挂着一幅画儿。",
+            "en": "A picture hangs on the wall."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0600",
+          "simp": "相机",
+          "trad": "相機",
+          "pinyin": "xiàngjī",
+          "pos": "N",
+          "en": "camera",
+          "defs": [
+            "camera"
+          ],
+          "example": {
+            "zh": "用相机拍照。",
+            "en": "Take photos with a camera."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0672",
+          "simp": "音乐会",
+          "trad": "音樂會",
+          "pinyin": "yīnyuèhuì",
+          "pos": "N",
+          "en": "concert",
+          "defs": [
+            "concert"
+          ],
+          "example": {
+            "zh": "我们去听音乐会。",
+            "en": "We're going to a concert."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0671",
+          "simp": "音乐",
+          "trad": "音樂",
+          "pinyin": "yīnyuè",
+          "pos": "N",
+          "en": "music",
+          "defs": [
+            "music"
+          ],
+          "example": {
+            "zh": "我喜欢听音乐。",
+            "en": "I like listening to music."
+          },
+          "tags": null
+        }
+      ]
+    },
+    {
+      "id": "b2-u15-objects-tech",
+      "targetWords": 17,
+      "allocatedWords": 17,
+      "words": [
+        {
+          "id": "L2-0166",
+          "simp": "分数",
+          "trad": "分數",
+          "pinyin": "fēnshù",
+          "pos": "N",
+          "en": "score",
+          "defs": [
+            "score"
+          ],
+          "example": {
+            "zh": "考试成绩分数很高。",
+            "en": "The exam score is very high."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0381",
+          "simp": "名称",
+          "trad": "名稱",
+          "pinyin": "míngchēng",
+          "pos": "N",
+          "en": "name",
+          "defs": [
+            "name"
+          ],
+          "example": {
+            "zh": "这个产品的名称是什么？",
+            "en": "What's the name of this product?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0382",
+          "simp": "名单",
+          "trad": "名單",
+          "pinyin": "míngdān",
+          "pos": "N",
+          "en": "name list",
+          "defs": [
+            "name list",
+            "list of names"
+          ],
+          "example": {
+            "zh": "名单上有你的名字。",
+            "en": "Your name is on the list."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0670",
+          "simp": "音节",
+          "trad": "音節",
+          "pinyin": "yīnjié",
+          "pos": "N",
+          "en": "syllable",
+          "defs": [
+            "syllable"
+          ],
+          "example": {
+            "zh": "这个单词有两个音节。",
+            "en": "This word has two syllables."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0605",
+          "simp": "小说",
+          "trad": "小說",
+          "pinyin": "xiǎoshuō",
+          "pos": "N",
+          "en": "novel",
+          "defs": [
+            "novel"
+          ],
+          "example": {
+            "zh": "她最近在看一本很有意思的小说。",
+            "en": "She has been reading a very interesting novel recently."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0769",
+          "simp": "座位",
+          "trad": "座位",
+          "pinyin": "zuòwèi",
+          "pos": "N",
+          "en": "seat",
+          "defs": [
+            "seat"
+          ],
+          "example": {
+            "zh": "请找座位坐下。",
+            "en": "Please find a seat and sit down."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0502",
+          "simp": "数字",
+          "trad": "數字",
+          "pinyin": "shùzì",
+          "pos": "N",
+          "en": "number",
+          "defs": [
+            "number"
+          ],
+          "example": {
+            "zh": "请用数字写下你的电话号码。",
+            "en": "Please write your phone number in digits."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0631",
+          "simp": "学期",
+          "trad": "學期",
+          "pinyin": "xuéqī",
+          "pos": "N",
+          "en": "semester",
+          "defs": [
+            "semester"
+          ],
+          "example": {
+            "zh": "新学期开始。",
+            "en": "New semester begins."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0676",
+          "simp": "英文",
+          "trad": "英文",
+          "pinyin": "yīngwén",
+          "pos": "N",
+          "en": "English",
+          "defs": [
+            "English"
+          ],
+          "example": {
+            "zh": "这封信是用英文写的。",
+            "en": "This letter is written in English."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0677",
+          "simp": "英语",
+          "trad": "英語",
+          "pinyin": "yīngyǔ",
+          "pos": "N",
+          "en": "English",
+          "defs": [
+            "English"
+          ],
+          "example": {
+            "zh": "她的英语说得非常流利。",
+            "en": "She speaks English very fluently."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0690",
+          "simp": "语言",
+          "trad": "語言",
+          "pinyin": "yǔyán",
+          "pos": "N",
+          "en": "language",
+          "defs": [
+            "language"
+          ],
+          "example": {
+            "zh": "学习语言。",
+            "en": "Learn a language."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0064",
+          "simp": "成绩",
+          "trad": "成績",
+          "pinyin": "chéngjì",
+          "pos": "N",
+          "en": "grade",
+          "defs": [
+            "grade"
+          ],
+          "example": {
+            "zh": "考试成绩很好。",
+            "en": "Good exam results."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0317",
+          "simp": "科学",
+          "trad": "科學",
+          "pinyin": "kēxué",
+          "pos": "N",
+          "en": "science",
+          "defs": [
+            "science"
+          ],
+          "example": {
+            "zh": "科学很重要。",
+            "en": "Science is important."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0529",
+          "simp": "题",
+          "trad": "題",
+          "pinyin": "tí",
+          "pos": "N",
+          "en": "topic",
+          "defs": [
+            "topic"
+          ],
+          "example": {
+            "zh": "这道题很难。",
+            "en": "This question is hard."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0496",
+          "simp": "收入",
+          "trad": "收入",
+          "pinyin": "shōurù",
+          "pos": "N",
+          "en": "income",
+          "defs": [
+            "income"
+          ],
+          "example": {
+            "zh": "他的收入很高。",
+            "en": "His income is high."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0480",
+          "simp": "声音",
+          "trad": "聲音",
+          "pinyin": "shēngyīn",
+          "pos": "N",
+          "en": "sound",
+          "defs": [
+            "sound"
+          ],
+          "example": {
+            "zh": "这个声音很大。",
+            "en": "This sound is loud."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0425",
+          "simp": "普通话",
+          "trad": "普通話",
+          "pinyin": "pǔtōnghuà",
+          "pos": "N",
+          "en": "Mandarin",
+          "defs": [
+            "Mandarin"
+          ],
+          "example": {
+            "zh": "她说普通话。",
+            "en": "She speaks Mandarin."
+          },
+          "tags": null
+        }
+      ]
+    },
+    {
+      "id": "b2-u16-objects",
+      "title": "Objects",
+      "targetWords": 25,
+      "allocatedWords": 25,
+      "words": [
+        {
+          "id": "L2-0333",
+          "simp": "筷子",
+          "trad": "筷子",
+          "pinyin": "kuàizi",
+          "pos": "N",
+          "en": "chopsticks",
+          "defs": [
+            "chopsticks"
+          ],
+          "example": {
+            "zh": "中国人用筷子吃饭。",
+            "en": "Chinese people eat with chopsticks."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0564",
+          "simp": "碗",
+          "trad": "碗",
+          "pinyin": "wǎn",
+          "pos": "N",
+          "en": "bowl",
+          "defs": [
+            "bowl"
+          ],
+          "example": {
+            "zh": "一碗米饭。",
+            "en": "A bowl of rice."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0422",
+          "simp": "瓶",
+          "trad": "瓶",
+          "pinyin": "píng",
+          "pos": "M",
+          "en": "bottle",
+          "defs": [
+            "bottle"
+          ],
+          "example": {
+            "zh": "一瓶水。",
+            "en": "A bottle of water."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0423",
+          "simp": "瓶子",
+          "trad": "瓶子",
+          "pinyin": "píngzi",
+          "pos": "N",
+          "en": "bottle",
+          "defs": [
+            "bottle"
+          ],
+          "example": {
+            "zh": "这个瓶子是空的。",
+            "en": "This bottle is empty."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0119",
+          "simp": "灯",
+          "trad": "燈",
+          "pinyin": "dēng",
+          "pos": "N",
+          "en": "lamp",
+          "defs": [
+            "lamp"
+          ],
+          "example": {
+            "zh": "请打开灯。",
+            "en": "Please turn on the light."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0099",
+          "simp": "大衣",
+          "trad": "大衣",
+          "pinyin": "dàyī",
+          "pos": "N",
+          "en": "overcoat",
+          "defs": [
+            "overcoat"
+          ],
+          "example": {
+            "zh": "冬天穿大衣。",
+            "en": "Wear an overcoat in winter."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0612",
+          "simp": "鞋",
+          "trad": "鞋",
+          "pinyin": "xié",
+          "pos": "N",
+          "en": "shoe",
+          "defs": [
+            "shoe"
+          ],
+          "example": {
+            "zh": "这双鞋很舒服。",
+            "en": "These shoes are comfortable."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0449",
+          "simp": "球鞋",
+          "trad": "球鞋",
+          "pinyin": "qiúxié",
+          "pos": "N",
+          "en": "sneakers",
+          "defs": [
+            "sneakers"
+          ],
+          "example": {
+            "zh": "他穿着球鞋跑步。",
+            "en": "He runs in sneakers."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0497",
+          "simp": "手表",
+          "trad": "手錶",
+          "pinyin": "shǒubiǎo",
+          "pos": "N",
+          "en": "wristwatch",
+          "defs": [
+            "wristwatch"
+          ],
+          "example": {
+            "zh": "他戴着一块手表。",
+            "en": "He's wearing a watch."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0587",
+          "simp": "洗衣机",
+          "trad": "洗衣機",
+          "pinyin": "xǐyījī",
+          "pos": "N",
+          "en": "washing machine",
+          "defs": [
+            "washing machine"
+          ],
+          "example": {
+            "zh": "我有洗衣机。",
+            "en": "I have a washing machine."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0196",
+          "simp": "狗",
+          "trad": "狗",
+          "pinyin": "gǒu",
+          "pos": "N",
+          "en": "dog",
+          "defs": [
+            "dog"
+          ],
+          "example": {
+            "zh": "我家有一只狗。",
+            "en": "My family has a dog."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0401",
+          "simp": "鸟",
+          "trad": "鳥",
+          "pinyin": "niǎo",
+          "pos": "N",
+          "en": "bird",
+          "defs": [
+            "bird",
+            "\"bird\" radical in Chinese characters"
+          ],
+          "example": {
+            "zh": "小鸟在飞。",
+            "en": "Little birds are flying."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0124",
+          "simp": "地球",
+          "trad": "地球",
+          "pinyin": "dìqiú",
+          "pos": "N",
+          "en": "Earth",
+          "defs": [
+            "Earth",
+            "the earth"
+          ],
+          "example": {
+            "zh": "地球是圆的。",
+            "en": "The Earth is round."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0136",
+          "simp": "动物",
+          "trad": "動物",
+          "pinyin": "dòngwù",
+          "pos": "N",
+          "en": "animal",
+          "defs": [
+            "animal"
+          ],
+          "example": {
+            "zh": "我喜欢动物。",
+            "en": "I like animals."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0254",
+          "simp": "计算机",
+          "trad": "計算機",
+          "pinyin": "jìsuànjī",
+          "pos": "N",
+          "en": "computer",
+          "defs": [
+            "computer"
+          ],
+          "example": {
+            "zh": "我用计算机工作。",
+            "en": "I use a computer for work."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0621",
+          "simp": "信用卡",
+          "trad": "信用卡",
+          "pinyin": "xìnyòngkǎ",
+          "pos": "N",
+          "en": "credit card",
+          "defs": [
+            "credit card"
+          ],
+          "example": {
+            "zh": "我用信用卡付钱。",
+            "en": "I pay with a credit card."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0641",
+          "simp": "药片",
+          "trad": "藥片",
+          "pinyin": "yàopiàn",
+          "pos": "N",
+          "en": "pill",
+          "defs": [
+            "pill",
+            "a pill or tablet"
+          ],
+          "example": {
+            "zh": "一天吃三次药片。",
+            "en": "Take the pills three times a day."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0338",
+          "simp": "篮球",
+          "trad": "籃球",
+          "pinyin": "lánqiú",
+          "pos": "N",
+          "en": "basketball",
+          "defs": [
+            "basketball"
+          ],
+          "example": {
+            "zh": "他喜欢打篮球。",
+            "en": "He likes playing basketball."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0409",
+          "simp": "排球",
+          "trad": "排球",
+          "pinyin": "páiqiú",
+          "pos": "N",
+          "en": "volleyball",
+          "defs": [
+            "volleyball"
+          ],
+          "example": {
+            "zh": "她在打排球。",
+            "en": "She's playing volleyball."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0567",
+          "simp": "网球",
+          "trad": "網球",
+          "pinyin": "wǎngqiú",
+          "pos": "N",
+          "en": "tennis",
+          "defs": [
+            "tennis",
+            "tennis ball"
+          ],
+          "example": {
+            "zh": "他喜欢打网球。",
+            "en": "He likes playing tennis."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0447",
+          "simp": "球场",
+          "trad": "球場",
+          "pinyin": "qiúchǎng",
+          "pos": "N",
+          "en": "stadium; sports ground",
+          "defs": [
+            "stadium"
+          ],
+          "example": {
+            "zh": "他们在球场踢足球。",
+            "en": "They are playing soccer on the field."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0531",
+          "simp": "体育场",
+          "trad": "體育場",
+          "pinyin": "tǐyùchǎng",
+          "pos": "N",
+          "en": "stadium",
+          "defs": [
+            "stadium"
+          ],
+          "example": {
+            "zh": "演唱会在体育场举行。",
+            "en": "The concert is held in the stadium."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0532",
+          "simp": "体育馆",
+          "trad": "體育館",
+          "pinyin": "tǐyùguǎn",
+          "pos": "N",
+          "en": "gym; gymnasium",
+          "defs": [
+            "gym"
+          ],
+          "example": {
+            "zh": "下雨了，我们去体育馆打球。",
+            "en": "It is raining, so we are going to play ball in the gymnasium."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0142",
+          "simp": "段",
+          "trad": "段",
+          "pinyin": "duàn",
+          "pos": "M",
+          "en": "paragraph",
+          "defs": [
+            "paragraph"
+          ],
+          "example": {
+            "zh": "一段文章。",
+            "en": "A paragraph of text."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0733",
+          "simp": "纸",
+          "trad": "紙",
+          "pinyin": "zhǐ",
+          "pos": "N",
+          "en": "paper",
+          "defs": [
+            "paper",
+            "paper ("
+          ],
+          "example": {
+            "zh": "一张纸。",
+            "en": "A piece of paper."
           },
           "tags": null
         }
@@ -11091,8 +9767,8 @@
     },
     {
       "id": "b2-u16-adjectives-feelings",
-      "targetWords": 80,
-      "allocatedWords": 80,
+      "targetWords": 137,
+      "allocatedWords": 137,
       "words": [
         {
           "id": "L2-0004",
@@ -11805,23 +10481,6 @@
           "tags": null
         },
         {
-          "id": "L2-0500-2",
-          "simp": "熟",
-          "trad": "熟",
-          "pinyin": "shóu",
-          "pos": "Adj",
-          "en": "cooked; familiar",
-          "defs": [
-            "cooked (of food)",
-            "familiar (with a person)"
-          ],
-          "example": {
-            "zh": "我们很熟。",
-            "en": "We know each other well."
-          },
-          "tags": null
-        },
-        {
           "id": "L2-0504",
           "simp": "顺利",
           "trad": "順利",
@@ -12386,6 +11045,956 @@
             "en": "The cup is full."
           },
           "tags": null
+        },
+        {
+          "id": "L2-0225",
+          "simp": "黑色",
+          "trad": "黑色",
+          "pinyin": "hēisè",
+          "pos": "N",
+          "en": "black color",
+          "defs": [
+            "black color",
+            "black"
+          ],
+          "example": {
+            "zh": "他喜欢黑色。",
+            "en": "He likes black."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0227",
+          "simp": "红色",
+          "trad": "紅色",
+          "pinyin": "hóngsè",
+          "pos": "N",
+          "en": "red color",
+          "defs": [
+            "red color",
+            "red"
+          ],
+          "example": {
+            "zh": "她穿了一件红色的裙子。",
+            "en": "She was wearing a red dress."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0242",
+          "simp": "黄色",
+          "trad": "黃色",
+          "pinyin": "huángsè",
+          "pos": "N",
+          "en": "yellow color",
+          "defs": [
+            "yellow color",
+            "yellow"
+          ],
+          "example": {
+            "zh": "黄色的香蕉。",
+            "en": "Yellow bananas."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0337",
+          "simp": "蓝色",
+          "trad": "藍色",
+          "pinyin": "lánsè",
+          "pos": "N",
+          "en": "blue color",
+          "defs": [
+            "blue color",
+            "blue"
+          ],
+          "example": {
+            "zh": "他喜欢穿蓝色的衣服。",
+            "en": "He likes to wear blue clothes."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0371",
+          "simp": "绿色",
+          "trad": "綠色",
+          "pinyin": "lǜsè",
+          "pos": "N",
+          "en": "green color",
+          "defs": [
+            "green color",
+            "green"
+          ],
+          "example": {
+            "zh": "公园里有很多绿色的树。",
+            "en": "There are many green trees in the park."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0006",
+          "simp": "白色",
+          "trad": "白色",
+          "pinyin": "báisè",
+          "pos": "N",
+          "en": "white color",
+          "defs": [
+            "white color",
+            "white"
+          ],
+          "example": {
+            "zh": "她买了一双白色的鞋子。",
+            "en": "She bought a pair of white shoes."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0541",
+          "simp": "挺",
+          "trad": "挺",
+          "pinyin": "tǐng",
+          "pos": "Adv",
+          "en": "quite",
+          "defs": [
+            "quite"
+          ],
+          "example": {
+            "zh": "这个地方挺不错的。",
+            "en": "This place is quite nice."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0686",
+          "simp": "有点儿",
+          "trad": "有點兒",
+          "pinyin": "yǒudiǎnr",
+          "pos": "Adv",
+          "en": "a little",
+          "defs": [
+            "a little"
+          ],
+          "example": {
+            "zh": "我有点儿累。",
+            "en": "I'm a little tired."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0686b",
+          "simp": "有一点儿",
+          "trad": "有一點兒",
+          "pinyin": "yǒuyīdiǎnr",
+          "pos": "Adv",
+          "en": "a little",
+          "defs": [
+            "a little"
+          ],
+          "example": {
+            "zh": "他有一点儿不高兴。",
+            "en": "He's a bit unhappy."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0700",
+          "simp": "越来越",
+          "trad": "越來越",
+          "pinyin": "yuèláiyuè",
+          "pos": "Adv",
+          "en": "more and more",
+          "defs": [
+            "more and more"
+          ],
+          "example": {
+            "zh": "天气越来越热。",
+            "en": "It's getting hotter and hotter."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0699",
+          "simp": "越",
+          "trad": "越",
+          "pinyin": "yuè",
+          "pos": "Adv",
+          "en": "more and more",
+          "defs": [
+            "more and more",
+            "the more... the more"
+          ],
+          "example": {
+            "zh": "雨越下越大。",
+            "en": "The rain is getting heavier and heavier."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0199",
+          "simp": "故意",
+          "trad": "故意",
+          "pinyin": "gùyì",
+          "pos": "Adv",
+          "en": "on purpose",
+          "defs": [
+            "on purpose"
+          ],
+          "example": {
+            "zh": "他不是故意的。",
+            "en": "He didn't do it on purpose."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0483",
+          "simp": "十分",
+          "trad": "十分",
+          "pinyin": "shífēn",
+          "pos": "Adv",
+          "en": "very",
+          "defs": [
+            "very"
+          ],
+          "example": {
+            "zh": "十分感谢。",
+            "en": "Thank you very much."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0487",
+          "simp": "实在",
+          "trad": "實在",
+          "pinyin": "shízài",
+          "pos": "Adv",
+          "en": "really",
+          "defs": [
+            "really"
+          ],
+          "example": {
+            "zh": "实在对不起。",
+            "en": "I'm really sorry."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0036",
+          "simp": "不好意思",
+          "trad": "不好意思",
+          "pinyin": "bùhǎoyìsi",
+          "pos": "V",
+          "en": "to feel embarrassed",
+          "defs": [
+            "to feel embarrassed",
+            "to be sorry"
+          ],
+          "example": {
+            "zh": "他不好意思说话。",
+            "en": "He was too shy to speak."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0176",
+          "simp": "感到",
+          "trad": "感到",
+          "pinyin": "gǎndào",
+          "pos": "V",
+          "en": "to feel",
+          "defs": [
+            "to feel",
+            "to sense"
+          ],
+          "example": {
+            "zh": "我感到很高兴。",
+            "en": "I feel very happy."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0177",
+          "simp": "感动",
+          "trad": "感動",
+          "pinyin": "gǎndòng",
+          "pos": "V",
+          "en": "to be moved",
+          "defs": [
+            "to be moved",
+            "to move"
+          ],
+          "example": {
+            "zh": "他的话感动了我。",
+            "en": "His words moved me."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0202",
+          "simp": "关心",
+          "trad": "關心",
+          "pinyin": "guānxīn",
+          "pos": "V",
+          "en": "to care about",
+          "defs": [
+            "to care about",
+            "to be concerned about"
+          ],
+          "example": {
+            "zh": "他很关心我。",
+            "en": "He cares about me."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0013",
+          "simp": "饱",
+          "trad": "飽",
+          "pinyin": "bǎo",
+          "pos": "Adj",
+          "en": "full",
+          "defs": [
+            "full",
+            "to eat till full"
+          ],
+          "example": {
+            "zh": "我吃饱了。",
+            "en": "I'm full."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0354",
+          "simp": "凉",
+          "trad": "涼",
+          "pinyin": "liáng",
+          "pos": "Adj",
+          "en": "cool",
+          "defs": [
+            "cool",
+            "to let sth cool down"
+          ],
+          "example": {
+            "zh": "天气凉了。",
+            "en": "The weather is cool."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0355",
+          "simp": "凉快",
+          "trad": "涼快",
+          "pinyin": "liángkuai",
+          "pos": "Adj",
+          "en": "pleasantly cool",
+          "defs": [
+            "pleasantly cool",
+            "to cool off"
+          ],
+          "example": {
+            "zh": "秋天很凉快。",
+            "en": "Autumn is cool."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0178",
+          "simp": "感觉",
+          "trad": "感覺",
+          "pinyin": "gǎnjué",
+          "pos": "N",
+          "en": "feeling",
+          "defs": [
+            "feeling"
+          ],
+          "example": {
+            "zh": "这种感觉很好。",
+            "en": "This feeling is good."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0397",
+          "simp": "难听",
+          "trad": "難聽",
+          "pinyin": "nántīng",
+          "pos": "Adj",
+          "en": "unpleasant to hear",
+          "defs": [
+            "unpleasant to hear"
+          ],
+          "example": {
+            "zh": "这首歌很难听。",
+            "en": "This song sounds awful."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0499",
+          "simp": "舒服",
+          "trad": "舒服",
+          "pinyin": "shūfu",
+          "pos": "Adj",
+          "en": "comfortable",
+          "defs": [
+            "comfortable"
+          ],
+          "example": {
+            "zh": "这把椅子坐起来很舒服。",
+            "en": "This chair is very comfortable to sit in."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0573",
+          "simp": "味道",
+          "trad": "味道",
+          "pinyin": "wèidào",
+          "pos": "N",
+          "en": "flavor",
+          "defs": [
+            "flavor"
+          ],
+          "example": {
+            "zh": "这道菜的味道真不错。",
+            "en": "This dish tastes really good."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0683",
+          "simp": "友好",
+          "trad": "友好",
+          "pinyin": "yǒuhǎo",
+          "pos": "Adj",
+          "en": "friendly",
+          "defs": [
+            "friendly"
+          ],
+          "example": {
+            "zh": "他对我很友好。",
+            "en": "He's friendly to me."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0113",
+          "simp": "道理",
+          "trad": "道理",
+          "pinyin": "dàolǐ",
+          "pos": "N",
+          "en": "reason",
+          "defs": [
+            "reason"
+          ],
+          "example": {
+            "zh": "你说的有道理。",
+            "en": "What you said makes sense."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0159",
+          "simp": "方法",
+          "trad": "方法",
+          "pinyin": "fāngfǎ",
+          "pos": "N",
+          "en": "method",
+          "defs": [
+            "method"
+          ],
+          "example": {
+            "zh": "学习方法很重要。",
+            "en": "Study methods are important."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0249",
+          "simp": "机会",
+          "trad": "機會",
+          "pinyin": "jīhuì",
+          "pos": "N",
+          "en": "opportunity",
+          "defs": [
+            "opportunity"
+          ],
+          "example": {
+            "zh": "这是一个很好的学习机会。",
+            "en": "This is a great learning opportunity."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0253",
+          "simp": "计划",
+          "trad": "計劃",
+          "pinyin": "jìhuà",
+          "pos": "N",
+          "en": "plan",
+          "defs": [
+            "plan",
+            "to plan"
+          ],
+          "example": {
+            "zh": "暑假计划。",
+            "en": "Summer vacation plan."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0291",
+          "simp": "结果",
+          "trad": "結果",
+          "pinyin": "jiéguǒ",
+          "pos": "N",
+          "en": "result",
+          "defs": [
+            "result",
+            "as a result"
+          ],
+          "example": {
+            "zh": "考试结果出来了，他通过了。",
+            "en": "The exam results are out — he passed."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0313",
+          "simp": "看法",
+          "trad": "看法",
+          "pinyin": "kànfǎ",
+          "pos": "N",
+          "en": "view",
+          "defs": [
+            "view"
+          ],
+          "example": {
+            "zh": "你的看法是什么？",
+            "en": "What's your view?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0519",
+          "simp": "态度",
+          "trad": "態度",
+          "pinyin": "tàidù",
+          "pos": "N",
+          "en": "attitude",
+          "defs": [
+            "attitude"
+          ],
+          "example": {
+            "zh": "他对工作的态度非常认真。",
+            "en": "His attitude toward work is very serious."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0523",
+          "simp": "特点",
+          "trad": "特點",
+          "pinyin": "tèdiǎn",
+          "pos": "N",
+          "en": "characteristic",
+          "defs": [
+            "characteristic"
+          ],
+          "example": {
+            "zh": "有什么特点？",
+            "en": "What are the characteristics?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0535",
+          "simp": "条件",
+          "trad": "條件",
+          "pinyin": "tiáojiàn",
+          "pos": "N",
+          "en": "condition",
+          "defs": [
+            "condition"
+          ],
+          "example": {
+            "zh": "这份工作的条件很好。",
+            "en": "The conditions for this job are very good."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0597",
+          "simp": "想法",
+          "trad": "想法",
+          "pinyin": "xiǎngfǎ",
+          "pos": "N",
+          "en": "idea",
+          "defs": [
+            "idea"
+          ],
+          "example": {
+            "zh": "你有什么好想法吗？",
+            "en": "Do you have any good ideas?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0665",
+          "simp": "意见",
+          "trad": "意見",
+          "pinyin": "yìjiàn",
+          "pos": "N",
+          "en": "opinion",
+          "defs": [
+            "opinion"
+          ],
+          "example": {
+            "zh": "你的意见很好。",
+            "en": "Your opinion is good."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0692",
+          "simp": "原因",
+          "trad": "原因",
+          "pinyin": "yuányīn",
+          "pos": "N",
+          "en": "reason",
+          "defs": [
+            "reason"
+          ],
+          "example": {
+            "zh": "什么原因？",
+            "en": "What's the reason?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0771",
+          "simp": "做法",
+          "trad": "做法",
+          "pinyin": "zuòfǎ",
+          "pos": "N",
+          "en": "way of doing",
+          "defs": [
+            "way of doing",
+            "way of handling sth"
+          ],
+          "example": {
+            "zh": "这种做法不对。",
+            "en": "This way of doing it is wrong."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0009",
+          "simp": "办法",
+          "trad": "辦法",
+          "pinyin": "bànfǎ",
+          "pos": "N",
+          "en": "way",
+          "defs": [
+            "way",
+            "way of handling sth"
+          ],
+          "example": {
+            "zh": "有办法了。",
+            "en": "Found a way."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0203",
+          "simp": "观点",
+          "trad": "觀點",
+          "pinyin": "guāndiǎn",
+          "pos": "N",
+          "en": "viewpoint",
+          "defs": [
+            "viewpoint"
+          ],
+          "example": {
+            "zh": "不同的观点。",
+            "en": "Different viewpoints."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0215",
+          "simp": "好处",
+          "trad": "好處",
+          "pinyin": "hǎochù",
+          "pos": "N",
+          "en": "benefit",
+          "defs": [
+            "benefit"
+          ],
+          "example": {
+            "zh": "有什么好处？",
+            "en": "What are the benefits?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0237",
+          "simp": "坏处",
+          "trad": "壞處",
+          "pinyin": "huàichù",
+          "pos": "N",
+          "en": "harm",
+          "defs": [
+            "harm"
+          ],
+          "example": {
+            "zh": "抽烟对身体的坏处很多。",
+            "en": "Smoking has many harmful effects on the body."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0350",
+          "simp": "例子",
+          "trad": "例子",
+          "pinyin": "lìzi",
+          "pos": "N",
+          "en": "example",
+          "defs": [
+            "example"
+          ],
+          "example": {
+            "zh": "举个例子。",
+            "en": "Give an example."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0586",
+          "simp": "习惯",
+          "trad": "習慣",
+          "pinyin": "xíguàn",
+          "pos": "N",
+          "en": "habit",
+          "defs": [
+            "habit"
+          ],
+          "example": {
+            "zh": "早睡早起是个好习惯。",
+            "en": "Going to bed early and getting up early is a good habit."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0615",
+          "simp": "心中",
+          "trad": "心中",
+          "pinyin": "xīnzhōng",
+          "pos": "N",
+          "en": "in the heart",
+          "defs": [
+            "in the heart",
+            "in one's thoughts"
+          ],
+          "example": {
+            "zh": "心中有你。",
+            "en": "You're in my heart."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0740",
+          "simp": "重点",
+          "trad": "重點",
+          "pinyin": "zhòngdiǎn",
+          "pos": "N",
+          "en": "key point",
+          "defs": [
+            "key point",
+            "key"
+          ],
+          "example": {
+            "zh": "重点是学习。",
+            "en": "The focus is on studying."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0384",
+          "simp": "目的",
+          "trad": "目的",
+          "pinyin": "mùdì",
+          "pos": "N",
+          "en": "purpose",
+          "defs": [
+            "purpose"
+          ],
+          "example": {
+            "zh": "目的是什么？",
+            "en": "What's the purpose?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0396",
+          "simp": "难题",
+          "trad": "難題",
+          "pinyin": "nántí",
+          "pos": "N",
+          "en": "difficult problem",
+          "defs": [
+            "difficult problem"
+          ],
+          "example": {
+            "zh": "数学难题。",
+            "en": "Difficult math problem."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0348",
+          "simp": "理想",
+          "trad": "理想",
+          "pinyin": "lǐxiǎng",
+          "pos": "N",
+          "en": "dream",
+          "defs": [
+            "dream",
+            "a dream"
+          ],
+          "example": {
+            "zh": "我的理想是当老师。",
+            "en": "My dream is to become a teacher."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0503",
+          "simp": "水平",
+          "trad": "水平",
+          "pinyin": "shuǐpíng",
+          "pos": "N",
+          "en": "level",
+          "defs": [
+            "level",
+            "a level"
+          ],
+          "example": {
+            "zh": "我的汉语水平提高了。",
+            "en": "My Chinese level has improved."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0614",
+          "simp": "心情",
+          "trad": "心情",
+          "pinyin": "xīnqíng",
+          "pos": "N",
+          "en": "mood",
+          "defs": [
+            "mood"
+          ],
+          "example": {
+            "zh": "心情很好。",
+            "en": "In a good mood."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0620",
+          "simp": "信心",
+          "trad": "信心",
+          "pinyin": "xìnxīn",
+          "pos": "N",
+          "en": "confidence",
+          "defs": [
+            "confidence"
+          ],
+          "example": {
+            "zh": "他对这次考试很有信心。",
+            "en": "He is very confident about this exam."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0613",
+          "simp": "心里",
+          "trad": "心裡",
+          "pinyin": "xīnlǐ",
+          "pos": "N",
+          "en": "heart",
+          "defs": [
+            "heart"
+          ],
+          "example": {
+            "zh": "我心里明白。",
+            "en": "I understand in my heart."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0637",
+          "simp": "样子",
+          "trad": "樣子",
+          "pinyin": "yàngzi",
+          "pos": "N",
+          "en": "appearance",
+          "defs": [
+            "appearance"
+          ],
+          "example": {
+            "zh": "样子很好看。",
+            "en": "Looks very nice."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0098",
+          "simp": "大小",
+          "trad": "大小",
+          "pinyin": "dàxiǎo",
+          "pos": "N",
+          "en": "size",
+          "defs": [
+            "size"
+          ],
+          "example": {
+            "zh": "这个大小很合适。",
+            "en": "This size is just right."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0186",
+          "simp": "个子",
+          "trad": "個子",
+          "pinyin": "gèzi",
+          "pos": "N",
+          "en": "height",
+          "defs": [
+            "height"
+          ],
+          "example": {
+            "zh": "他个子很高。",
+            "en": "He is very tall."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0633",
+          "simp": "颜色",
+          "trad": "顏色",
+          "pinyin": "yánsè",
+          "pos": "N",
+          "en": "color",
+          "defs": [
+            "color"
+          ],
+          "example": {
+            "zh": "这是什么颜色？",
+            "en": "What color is this?"
+          },
+          "tags": null
         }
       ]
     },
@@ -12610,8 +12219,8 @@
     },
     {
       "id": "b2-u18-classifiers",
-      "targetWords": 10,
-      "allocatedWords": 10,
+      "targetWords": 13,
+      "allocatedWords": 13,
       "words": [
         {
           "id": "L2-0288",
@@ -12778,6 +12387,55 @@
           "example": {
             "zh": "来了一位客人。",
             "en": "A guest arrived."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0768",
+          "simp": "座",
+          "trad": "座",
+          "pinyin": "zuò",
+          "pos": "M",
+          "en": "seat",
+          "defs": [
+            "seat"
+          ],
+          "example": {
+            "zh": "一座山。",
+            "en": "A mountain."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0052",
+          "simp": "层",
+          "trad": "層",
+          "pinyin": "céng",
+          "pos": "M",
+          "en": "floor",
+          "defs": [
+            "floor"
+          ],
+          "example": {
+            "zh": "这是第三层。",
+            "en": "This is the third floor."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0407",
+          "simp": "排",
+          "trad": "排",
+          "pinyin": "pái",
+          "pos": "M",
+          "en": "row",
+          "defs": [
+            "row",
+            "a row"
+          ],
+          "example": {
+            "zh": "一排座位。",
+            "en": "A row of seats."
           },
           "tags": null
         }

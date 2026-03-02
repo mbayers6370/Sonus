@@ -16,29 +16,24 @@ const LESSON_BANDS = [
     units: [
       { id: 'b1-tones', icon: 'volume-2', name: 'Tones & Pronunciation', hanzi: '声调', words: 0 },
 
-      // Tier 1 – Foundations (0–150)
       { id: 'b1-pronouns', icon: 'user', name: 'Pronouns', hanzi: '代词', words: 30 },
-      { id: 'b1-verbs', icon: 'activity', name: 'Core Verbs', hanzi: '动词', words: 40 },
-      { id: 'b1-questions', icon: 'help-circle', name: 'Question Words', hanzi: '疑问词', words: 20 },
+      { id: 'b1-politeness', icon: 'smile', name: 'Politeness', hanzi: '礼貌表达', words: 20 },
       { id: 'b1-numbers', icon: 'hash', name: 'Numbers & Counting', hanzi: '数字', words: 20 },
       { id: 'b1-time', icon: 'clock', name: 'Time & Dates', hanzi: '时间', words: 20 },
       { id: 'b1-measure', icon: 'layers', name: 'Measure Words', hanzi: '量词', words: 20 },
-
-      // Tier 2 – Everyday Life (150–300)
+      { id: 'b1-questions', icon: 'help-circle', name: 'Question Words', hanzi: '疑问词', words: 20 },
+      { id: 'b1-verbs', icon: 'activity', name: 'Core Verbs', hanzi: '动词', words: 40 },
       { id: 'b1-family', icon: 'users', name: 'Family', hanzi: '家庭', words: 30 },
+      { id: 'b1-routine', icon: 'sun', name: 'Daily Life & Routine', hanzi: '日常', words: 30 },
       { id: 'b1-food', icon: 'utensils', name: 'Food & Drink', hanzi: '食物', words: 30 },
-      { id: 'b1-school', icon: 'book', name: 'Work & School', hanzi: '工作/学习', words: 30 },
+      { id: 'b1-shopping', icon: 'shopping-bag', name: 'Shopping', hanzi: '购物', words: 20 },
       { id: 'b1-locations', icon: 'map-pin', name: 'Locations', hanzi: '地点', words: 30 },
+      { id: 'b1-directions', icon: 'compass', name: 'Directions', hanzi: '方向', words: 20 },
       { id: 'b1-transport', icon: 'bus', name: 'Transport', hanzi: '交通', words: 20 },
-      { id: 'b1-routine', icon: 'sun', name: 'Daily Routine', hanzi: '日常', words: 30 },
-
-      // Tier 3 – Functional Communication (300–500)
+      { id: 'b1-school', icon: 'book', name: 'Work & School', hanzi: '工作/学习', words: 30 },
       { id: 'b1-opinions', icon: 'message-circle', name: 'Opinions', hanzi: '意见', words: 30 },
       { id: 'b1-ability', icon: 'zap', name: 'Ability', hanzi: '能力', words: 20 },
       { id: 'b1-comparison', icon: 'git-compare', name: 'Comparisons', hanzi: '比较', words: 20 },
-      { id: 'b1-directions', icon: 'compass', name: 'Directions', hanzi: '方向', words: 20 },
-      { id: 'b1-shopping', icon: 'shopping-bag', name: 'Shopping', hanzi: '购物', words: 20 },
-      { id: 'b1-politeness', icon: 'smile', name: 'Politeness', hanzi: '礼貌表达', words: 20 },
 
       // Practice Layer
       { id: 'b1-listening', icon: 'headphones', name: 'Listening Lab', hanzi: '听力练习', words: 0 },
@@ -63,7 +58,7 @@ const LESSON_BANDS = [
       { id: 'b2-food', icon: 'utensils', name: 'Food & Dining', hanzi: '饮食', words: 70 },
       { id: 'b2-shopping', icon: 'shopping-bag', name: 'Shopping & Money Basics', hanzi: '购物/钱', words: 70 },
       { id: 'b2-travel', icon: 'bus', name: 'Transport & Getting Around', hanzi: '交通出行', words: 60 },
-      { id: 'b2-health', icon: 'heart', name: 'Body & Health Basics', hanzi: '身体/健康', words: 60 },
+      { id: 'b2-health', icon: 'heart', name: 'Health & Body', hanzi: '身体/健康', words: 60 },
       { id: 'b2-weather', icon: 'cloud', name: 'Weather & Nature', hanzi: '天气/自然', words: 50 },
       { id: 'b2-social', icon: 'users', name: 'Social Talk & Etiquette', hanzi: '社交/礼貌', words: 62 },
       { id: 'b2-directions', icon: 'compass', name: 'Directions & Locations', hanzi: '方向/地点', words: 50 },
