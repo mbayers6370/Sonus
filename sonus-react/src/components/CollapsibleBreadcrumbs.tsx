@@ -65,7 +65,13 @@ export default function CollapsibleBreadcrumbs({
         </button>
       ) : null}
 
-      <div className={`w-full overflow-hidden transition-all duration-200 ${open ? 'max-h-24 opacity-100 mt-1.5' : 'max-h-0 opacity-0'}`}>
+      <div
+        className={
+          shouldAlwaysShow
+            ? 'w-full mt-1.5'
+            : `w-full overflow-hidden transition-all duration-200 ${open ? 'max-h-24 opacity-100 mt-1.5' : 'max-h-0 opacity-0'}`
+        }
+      >
         <div className="flex items-center justify-center gap-2 max-w-full overflow-x-auto pb-1 hide-scrollbar">
           {items.map((item) => {
             const isCurrent = Boolean(item.current);
