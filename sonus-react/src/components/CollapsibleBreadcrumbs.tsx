@@ -20,8 +20,9 @@ export default function CollapsibleBreadcrumbs({
   alwaysExpanded = false,
 }: CollapsibleBreadcrumbsProps) {
   const [isStandalone, setIsStandalone] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [manualOpen, setManualOpen] = useState(false);
   const shouldAlwaysShow = alwaysExpanded || isStandalone;
+  const open = shouldAlwaysShow || manualOpen;
 
   useEffect(() => {
     const checkStandalone = () => {
@@ -47,10 +48,6 @@ export default function CollapsibleBreadcrumbs({
     };
   }, []);
 
-  useEffect(() => {
-    if (shouldAlwaysShow) setOpen(true);
-  }, [shouldAlwaysShow]);
-
   if (!items.length) return null;
 
   return (
@@ -58,7 +55,7 @@ export default function CollapsibleBreadcrumbs({
       {!shouldAlwaysShow ? (
         <button
           type="button"
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => setManualOpen((v) => !v)}
           aria-expanded={open}
           aria-label={open ? 'Collapse breadcrumbs' : 'Expand breadcrumbs'}
           className="inline-flex items-center justify-center text-[#1F2A37]/72 hover:text-[#1F2A37] transition-colors"
