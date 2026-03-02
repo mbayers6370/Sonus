@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 export interface BreadcrumbItem {
@@ -11,23 +11,60 @@ export interface BreadcrumbItem {
 interface CollapsibleBreadcrumbsProps {
   items: BreadcrumbItem[];
   className?: string;
+  alwaysExpanded?: boolean;
 }
 
-export default function CollapsibleBreadcrumbs({ items, className = '' }: CollapsibleBreadcrumbsProps) {
+export default function CollapsibleBreadcrumbs({
+  items,
+  className = '',
+  alwaysExpanded = false,
+}: CollapsibleBreadcrumbsProps) {
+  const [isStandalone, setIsStandalone] = useState(false);
   const [open, setOpen] = useState(false);
   if (!items.length) return null;
+  const shouldAlwaysShow = alwaysExpanded || isStandalone;
+
+  useEffect(() => {
+    const checkStandalone = () => {
+      const nav = navigator as Navigator & { standalone?: boolean };
+      const standaloneByMedia =
+        typeof window.matchMedia === 'function' &&
+        (window.matchMedia('(display-mode: standalone)').matches ||
+          window.matchMedia('(display-mode: fullscreen)').matches);
+      setIsStandalone(Boolean(nav.standalone) || standaloneByMedia);
+    };
+
+    checkStandalone();
+    const mqStandalone = window.matchMedia ? window.matchMedia('(display-mode: standalone)') : null;
+    const mqFullscreen = window.matchMedia ? window.matchMedia('(display-mode: fullscreen)') : null;
+    const onChange = () => checkStandalone();
+    mqStandalone?.addEventListener?.('change', onChange);
+    mqFullscreen?.addEventListener?.('change', onChange);
+    window.addEventListener('resize', onChange);
+    return () => {
+      mqStandalone?.removeEventListener?.('change', onChange);
+      mqFullscreen?.removeEventListener?.('change', onChange);
+      window.removeEventListener('resize', onChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (shouldAlwaysShow) setOpen(true);
+  }, [shouldAlwaysShow]);
 
   return (
     <div className={`inline-flex flex-col items-center ${className}`}>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        aria-label={open ? 'Collapse breadcrumbs' : 'Expand breadcrumbs'}
-        className="inline-flex items-center justify-center text-[#1F2A37]/72 hover:text-[#1F2A37] transition-colors"
-      >
-        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
-      </button>
+      {!shouldAlwaysShow ? (
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-label={open ? 'Collapse breadcrumbs' : 'Expand breadcrumbs'}
+          className="inline-flex items-center justify-center text-[#1F2A37]/72 hover:text-[#1F2A37] transition-colors"
+        >
+          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+        </button>
+      ) : null}
 
       <div className={`w-full overflow-hidden transition-all duration-200 ${open ? 'max-h-24 opacity-100 mt-1.5' : 'max-h-0 opacity-0'}`}>
         <div className="flex items-center justify-center gap-2 max-w-full overflow-x-auto pb-1 hide-scrollbar">
