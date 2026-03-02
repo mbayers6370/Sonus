@@ -2099,7 +2099,7 @@ export default function SpeakMode({
             type="button"
             onClick={handlePlayTargetAudio}
             disabled={isRecording || isStartingRecording}
-            className="relative rounded-3xl border border-[#1F2A37] bg-white px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] flex flex-col items-center justify-center text-center transition-colors active:bg-[#F8FAFC]"
+            className="relative rounded-3xl border border-[#1F2A37] bg-white px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[176px] flex flex-col items-center justify-center text-center transition-colors active:bg-[#F8FAFC]"
             aria-label="Play target audio"
             title="Play target audio"
           >
@@ -2123,7 +2123,7 @@ export default function SpeakMode({
             type="button"
             onClick={handleRecord}
             disabled={isFinalizing || isStartingRecording || !sttSupported}
-            className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[200px] transition-colors ${
+            className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[176px] transition-colors ${
               !sttSupported
                 ? 'border-[#D1D5DB] bg-[#F3F4F6] opacity-75 cursor-not-allowed'
                 : (isRecording || isStartingRecording)

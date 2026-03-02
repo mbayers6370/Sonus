@@ -21,7 +21,8 @@ export default function CollapsibleBreadcrumbs({
 }: CollapsibleBreadcrumbsProps) {
   const [isStandalone, setIsStandalone] = useState(false);
   const [manualOpen, setManualOpen] = useState(false);
-  const shouldAlwaysShow = alwaysExpanded || isStandalone;
+  const isBrowserWebApp = !isStandalone;
+  const shouldAlwaysShow = alwaysExpanded || isBrowserWebApp;
   const open = shouldAlwaysShow || manualOpen;
 
   useEffect(() => {
