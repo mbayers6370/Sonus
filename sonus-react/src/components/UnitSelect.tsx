@@ -7,6 +7,7 @@ import BottomNav from './BottomNav';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import GlassHeader from './GlassHeader';
+import CollapsibleBreadcrumbs, { type BreadcrumbItem } from './CollapsibleBreadcrumbs';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import type { LessonMode } from '../types/lesson.types';
 import { tierForBand } from '../routes/lessonRouting';
@@ -404,88 +405,46 @@ export default function UnitSelect({
       activeUnit.completedLessons === activeUnit.lessonsCount &&
       activeUnit.masteredLessons === activeUnit.lessonsCount
     : false;
-  const sectionFromUnitId = (() => {
-    const unitId = activeUnit?.unitId || '';
-    const match = /^n[1-5]-(core|expansion|integration|base-i|base-ii|widen|connect)-/i.exec(unitId);
-    if (!match) return null;
-    const raw = match[1].toLowerCase();
-    if (raw === 'base-i') return 'Core';
-    if (raw === 'base-ii') return 'Expansion';
-    if (raw === 'widen' || raw === 'connect') return 'Integration';
-    return raw.charAt(0).toUpperCase() + raw.slice(1);
-  })();
-  const contextTabLabel = activeSection?.title || sectionFromUnitId || null;
-  const bandLabel = (currentLevel.name || currentLevel.id || '').trim();
   const normalizedLanguageId = (state.selectedLanguage || '').toLowerCase();
   const parentTierId = normalizedLanguageId === 'zh' ? tierForBand(currentLevel.id) : undefined;
-  const parentLabel = (() => {
-    if (normalizedLanguageId === 'zh') {
-      if (parentTierId === 'beginner') return 'Beginner';
-      if (parentTierId === 'intermediate') return 'Intermediate';
-      if (parentTierId === 'advanced') return 'Advanced';
-    }
-    return 'Levels';
-  })();
-  const sectionIdForActiveUnit = activeUnit
-    ? (orderedSections.find((section) => section.unitIds.includes(activeUnit.unitId))?.id || null)
-    : null;
-  const goToLevelContext = () => {
-    setActiveUnit(null);
-    if (showSectionStep) setActiveSection(null);
-  };
-  const subtitleLinkClass =
-    'underline underline-offset-2 decoration-[#1F2A37]/35 hover:decoration-[#1F2A37] text-text-med hover:text-[#1F2A37] font-medium hover:font-semibold transition-all';
-  const renderHeaderSubtitle = () => {
-    if (activeUnit) {
-      return (
-        <span className="inline-flex items-center gap-3 sm:gap-4 text-[11px] sm:text-xs text-text-med uppercase tracking-[0.14em]">
-          <button type="button" onClick={() => onGoLevels(parentTierId)} className={subtitleLinkClass}>
-            {parentLabel}
-          </button>
-          <button type="button" onClick={goToLevelContext} className={subtitleLinkClass}>
-            {bandLabel}
-          </button>
-          {contextTabLabel ? (
-            <>
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveUnit(null);
-                  if (showSectionStep && sectionIdForActiveUnit) {
-                    setActiveSection(sectionIdForActiveUnit);
-                  }
-                }}
-                className={subtitleLinkClass}
-              >
-                {contextTabLabel}
-              </button>
-            </>
-          ) : null}
-        </span>
-      );
-    }
-
-    if (activeSection) {
-      return (
-        <span className="inline-flex items-center gap-3 sm:gap-4 text-[11px] sm:text-xs text-text-med uppercase tracking-[0.14em]">
-          <button type="button" onClick={() => onGoLevels(parentTierId)} className={subtitleLinkClass}>
-            {parentLabel}
-          </button>
-          <button type="button" onClick={goToLevelContext} className={subtitleLinkClass}>
-            {bandLabel}
-          </button>
-        </span>
-      );
-    }
-
-    return (
-      <span className="inline-flex items-center gap-3 sm:gap-4 text-[11px] sm:text-xs text-text-med uppercase tracking-[0.14em]">
-        <button type="button" onClick={() => onGoLevels(parentTierId)} className={subtitleLinkClass}>
-          {parentLabel}
-        </button>
-      </span>
-    );
-  };
+  const isUnitsStage = (!showSectionStep && !activeUnit) || (showSectionStep && Boolean(activeSection) && !activeUnit);
+  const isLevelsStage = showSectionStep && !activeSection && !activeUnit;
+  const isLessonsStage = Boolean(activeUnit);
+  const headerBreadcrumbItems: BreadcrumbItem[] = [
+    {
+      label: 'Main',
+      onClick: () => onGoLevels(parentTierId),
+      current: false,
+    },
+    {
+      label: 'Levels',
+      onClick:
+        isUnitsStage || isLessonsStage
+          ? () => {
+              setActiveUnit(null);
+              if (showSectionStep) setActiveSection(null);
+            }
+          : undefined,
+      current: isLevelsStage,
+      disabled: !showSectionStep && !isLevelsStage,
+    },
+    {
+      label: 'Units',
+      onClick: isLessonsStage
+        ? () => {
+            setActiveUnit(null);
+            if (showSectionStep && !activeSection) return;
+          }
+        : undefined,
+      current: isUnitsStage,
+      disabled: !isUnitsStage && !isLessonsStage,
+    },
+    {
+      label: 'Lessons',
+      current: isLessonsStage,
+      disabled: !isLessonsStage,
+    },
+  ];
   const isMandarinBandLocked =
     state.selectedLanguage === 'zh' &&
     (/^band\d+$/i.test(currentLevel.id) || currentLevel.id === 'advanced') &&
@@ -495,7 +454,7 @@ export default function UnitSelect({
     <div className="min-h-screen page-shell with-bottom-nav px-6">
       <GlassHeader
         title={headerTitle}
-        subtitle={renderHeaderSubtitle()}
+        subtitle={<CollapsibleBreadcrumbs items={headerBreadcrumbItems} />}
         showLogo={false}
       />
 

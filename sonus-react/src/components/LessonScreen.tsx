@@ -192,11 +192,6 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
     : isDailyReview
       ? (activeLesson.unitName || 'Daily Review')
       : `Unit ${activeLesson.unitOrder ?? activeLesson.lessonIndex + 1}`;
-  const subtitleText = isApplyMode
-    ? 'Apply'
-    : !isPracticeUnit && !isCheckpointQuiz && !isDailyReview
-      ? `Lesson ${activeLesson.lessonIndex + 1}`
-      : null;
   const speakingPageTheme = isSpeakingPractice
     ? {
         shell: '',
@@ -257,9 +252,6 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
       <div className="px-6 pb-1">
         <GlassHeader
           title={titleText}
-          subtitle={subtitleText ? (
-            <span className={`text-sm text-text-med ${isApplyMode ? 'italic' : ''}`}>{subtitleText}</span>
-          ) : undefined}
           showLogo={false}
           hideLogoOnMobile={hideLogoOnMobile}
           className={isSpeakingPractice ? 'bg-white/75 border-[#1F2A37]/25' : ''}

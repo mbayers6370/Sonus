@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
@@ -33,8 +33,10 @@ export default function GlassHeader({
 }: GlassHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
+  const [headerHeightPx, setHeaderHeightPx] = useState<number | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const headerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -67,13 +69,26 @@ export default function GlassHeader({
     };
   }, []);
 
+  useEffect(() => {
+    if (!headerRef.current) return;
+    const node = headerRef.current;
+    const updateHeight = () => {
+      setHeaderHeightPx(node.getBoundingClientRect().height);
+    };
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(node);
+    window.addEventListener('resize', updateHeight);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateHeight);
+    };
+  }, [subtitle, isStandalone, showLogo, hideLogoOnMobile]);
+
   const showBackButton = isStandalone && location.pathname !== '/home';
   const showMobileLogo = showLogo && !isStandalone && !hideLogoOnMobile;
   const showDesktopLogo = showLogo && !isStandalone;
   const showStandaloneLogo = showLogo && isStandalone && !hideLogoOnMobile;
-  const headerHeightClass = showStandaloneLogo
-    ? 'h-[6.5rem] md:h-[6.5rem]'
-    : 'h-[5.75rem] md:h-[5.75rem]';
   const displayTitle = toTitleCase(title);
   const standaloneTitleWords = displayTitle.trim().split(/\s+/);
   const standaloneFirstWord = standaloneTitleWords[0] ?? displayTitle;
@@ -82,10 +97,12 @@ export default function GlassHeader({
   return (
     <>
       <div
-        className={`fixed top-0 left-0 right-0 z-50 ${headerHeightClass} border-b border-white/45 bg-white/62 backdrop-blur-2xl transition-colors ${className} ${isScrolled ? scrolledClassName : ''}`}
+        ref={headerRef}
+        className={`fixed top-0 left-0 right-0 z-50 border-b border-white/45 bg-white/62 backdrop-blur-2xl transition-colors ${className} ${isScrolled ? scrolledClassName : ''}`}
       >
         {showStandaloneLogo ? (
-          <div className="h-full px-4 md:px-6 flex flex-col justify-center gap-1.5">
+          <div className="px-4 md:px-6">
+            <div className="h-[6.5rem] md:h-[6.5rem] flex flex-col justify-center gap-1.5">
             <button
               type="button"
               onClick={() => navigate('/home')}
@@ -129,15 +146,20 @@ export default function GlassHeader({
                   )}
                 </h1>
                 {subtitle ? (
-                  <div className={`mt-1 ${subtitleClassName}`}>
-                    {subtitle}
-                  </div>
+                  <div className="sr-only" />
                 ) : null}
               </div>
             </div>
+            </div>
+            {subtitle ? (
+              <div className={`pb-2 -mt-1 text-center ${subtitleClassName}`}>
+                {subtitle}
+              </div>
+            ) : null}
           </div>
         ) : (
-          <div className="h-full px-4 md:px-6 flex flex-col items-center justify-center relative">
+          <div className="px-4 md:px-6">
+            <div className="h-[5.75rem] md:h-[5.75rem] flex flex-col items-center justify-center relative">
             {showBackButton ? (
               <button
                 type="button"
@@ -192,15 +214,22 @@ export default function GlassHeader({
                 {displayTitle}
               </h1>
               {subtitle ? (
-                <div className={`mt-1 ${subtitleClassName}`}>
-                  {subtitle}
-                </div>
+                <div className="sr-only" />
               ) : null}
             </div>
+            </div>
+            {subtitle ? (
+              <div className={`pb-2 -mt-1 text-center ${subtitleClassName}`}>
+                {subtitle}
+              </div>
+            ) : null}
           </div>
         )}
       </div>
-      <div className={`${headerHeightClass} mb-6 ${spacerClassName}`} />
+      <div
+        className={`mb-6 ${spacerClassName}`}
+        style={{ height: headerHeightPx ?? (showStandaloneLogo ? 104 : 92) }}
+      />
     </>
   );
 }

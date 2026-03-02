@@ -6,6 +6,7 @@ import { ChevronRight } from 'lucide-react';
 import { getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
+import CollapsibleBreadcrumbs from './CollapsibleBreadcrumbs';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT } from '../lib/passCriteria';
@@ -711,7 +712,19 @@ export default function LevelSelect({
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
-      <GlassHeader title={getLanguageName()} />
+      <GlassHeader
+        title={getLanguageName()}
+        subtitle={
+          <CollapsibleBreadcrumbs
+            items={[
+              { label: 'Main', current: true },
+              { label: 'Levels', disabled: true },
+              { label: 'Units', disabled: true },
+              { label: 'Lessons', disabled: true },
+            ]}
+          />
+        }
+      />
 
       {/* Tier or Level Cards */}
       <div className="space-y-4">
