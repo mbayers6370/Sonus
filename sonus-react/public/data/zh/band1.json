@@ -3,15 +3,48 @@
   "source": "hsk3.0",
   "levelId": "band1",
   "level": 1,
-  "wordCount": 527,
-  "availableWords": 527,
+  "wordCount": 566,
+  "availableWords": 566,
   "unallocatedWords": 0,
   "units": [
     {
       "id": "_unallocated",
-      "targetWords": 0,
-      "allocatedWords": 0,
-      "words": []
+      "targetWords": 7,
+      "allocatedWords": 2,
+      "words": [
+        {
+          "id": "L1-0489a",
+          "simp": "子",
+          "trad": "子",
+          "pinyin": "zi",
+          "pos": "Suffix",
+          "en": "noun suffix",
+          "defs": [
+            "(noun suffix)"
+          ],
+          "example": {
+            "zh": "他有一个包子。",
+            "en": "He has a steamed bun."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0241a",
+          "simp": "们",
+          "trad": "們",
+          "pinyin": "men",
+          "pos": "Suffix",
+          "en": "plural marker",
+          "defs": [
+            "(plural suffix)"
+          ],
+          "example": {
+            "zh": "我们一起去。",
+            "en": "Let's go together."
+          },
+          "tags": null
+        }
+      ]
     },
     {
       "id": "b1-getting-started",
@@ -441,8 +474,8 @@
             "they (females only)"
           ],
           "example": {
-            "zh": "她们都是医生。",
-            "en": "They are all doctors."
+            "zh": "她们都是学生。",
+            "en": "They are all students."
           },
           "tags": "gender nuance"
         },
@@ -457,8 +490,8 @@
             "we; us"
           ],
           "example": {
-            "zh": "我们是朋友。",
-            "en": "We are friends."
+            "zh": "我们很好。",
+            "en": "We are very good."
           },
           "tags": null
         },
@@ -841,8 +874,8 @@
             "no problem; it doesn't matter"
           ],
           "example": {
-            "zh": "没关系",
-            "en": "It's okay."
+            "zh": "没关系。",
+            "en": "It is okay."
           },
           "tags": null
         },
@@ -922,8 +955,8 @@
             "may I ask"
           ],
           "example": {
-            "zh": "请问，你是谁？",
-            "en": "Excuse me, who are you?"
+            "zh": "请问，你好。",
+            "en": "Excuse me, hello."
           },
           "tags": null
         },
@@ -938,8 +971,8 @@
             "have a seat"
           ],
           "example": {
-            "zh": "请坐，喝茶。",
-            "en": "Please sit, drink tea."
+            "zh": "请坐。",
+            "en": "Please sit."
           },
           "tags": null
         },
@@ -1241,740 +1274,10 @@
       ]
     },
     {
-      "id": "b1-time",
-      "targetWords": 43,
-      "allocatedWords": 43,
-      "words": [
-        {
-          "id": "L1-0007",
-          "simp": "白天",
-          "trad": "白天",
-          "pinyin": "báitiān",
-          "pos": "N",
-          "en": "daytime",
-          "defs": [
-            "daytime"
-          ],
-          "example": {
-            "zh": "我白天工作。",
-            "en": "I work during the daytime."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0011",
-          "simp": "半年",
-          "trad": "半年",
-          "pinyin": "bànnián",
-          "pos": "N",
-          "en": "half a year",
-          "defs": [
-            "half a year"
-          ],
-          "example": {
-            "zh": "我来这里半年了。",
-            "en": "I've been here for half a year."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0012",
-          "simp": "半天",
-          "trad": "半天",
-          "pinyin": "bàntiān",
-          "pos": "N",
-          "en": "half a day",
-          "defs": [
-            "half a day; a long time"
-          ],
-          "example": {
-            "zh": "我等了半天。",
-            "en": "I waited for a long time."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0039",
-          "simp": "常常",
-          "trad": "常常",
-          "pinyin": "chángcháng",
-          "pos": "Adv",
-          "en": "often",
-          "defs": [
-            "frequently; often"
-          ],
-          "example": {
-            "zh": "他常常看书。",
-            "en": "He often reads books."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0076",
-          "simp": "点",
-          "trad": "點",
-          "pinyin": "diǎn",
-          "pos": "N,M",
-          "en": "o'clock; a bit",
-          "defs": [
-            "o'clock; a little"
-          ],
-          "example": {
-            "zh": "现在三点。",
-            "en": "It's three o'clock now."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0105",
-          "simp": "放学",
-          "trad": "放學",
-          "pinyin": "fàngxué",
-          "pos": "V",
-          "en": "school ends",
-          "defs": [
-            "to finish school for the day"
-          ],
-          "example": {
-            "zh": "我们三点放学。",
-            "en": "We finish school at 3 o'clock."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0109",
-          "simp": "分",
-          "trad": "分",
-          "pinyin": "fēn",
-          "pos": "N,M",
-          "en": "minute",
-          "defs": [
-            "minute"
-          ],
-          "example": {
-            "zh": "现在三点十分。",
-            "en": "It's 3:10 now."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0131",
-          "simp": "过",
-          "trad": "過",
-          "pinyin": "guò",
-          "pos": "V,Part",
-          "en": "to pass; experience marker",
-          "defs": [
-            "to cross; -ever (done before)"
-          ],
-          "example": {
-            "zh": "我去过北京。",
-            "en": "I've been to Beijing before."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0149",
-          "simp": "后天",
-          "trad": "後天",
-          "pinyin": "hòutiān",
-          "pos": "N",
-          "en": "day after tomorrow",
-          "defs": [
-            "day after tomorrow"
-          ],
-          "example": {
-            "zh": "后天是我生日。",
-            "en": "The day after tomorrow is my birthday."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0180",
-          "simp": "今年",
-          "trad": "今年",
-          "pinyin": "jīnnián",
-          "pos": "N",
-          "en": "this year",
-          "defs": [
-            "this year"
-          ],
-          "example": {
-            "zh": "今年我二十岁。",
-            "en": "I'm twenty years old this year."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0181",
-          "simp": "今天",
-          "trad": "今天",
-          "pinyin": "jīntiān",
-          "pos": "N",
-          "en": "today",
-          "defs": [
-            "today"
-          ],
-          "example": {
-            "zh": "今天天气很好。",
-            "en": "The weather is nice today."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0226",
-          "simp": "马上",
-          "trad": "馬上",
-          "pinyin": "mǎshàng",
-          "pos": "Adv",
-          "en": "immediately",
-          "defs": [
-            "right away"
-          ],
-          "example": {
-            "zh": "我马上到。",
-            "en": "I'll be there right away."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0247",
-          "simp": "明年",
-          "trad": "明年",
-          "pinyin": "míngnián",
-          "pos": "N",
-          "en": "next year",
-          "defs": [
-            "next year"
-          ],
-          "example": {
-            "zh": "明年我去北京。",
-            "en": "I will go to Beijing next year."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0248",
-          "simp": "明天",
-          "trad": "明天",
-          "pinyin": "míngtiān",
-          "pos": "N",
-          "en": "tomorrow",
-          "defs": [
-            "tomorrow"
-          ],
-          "example": {
-            "zh": "明天见。",
-            "en": "See you tomorrow."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0273",
-          "simp": "年",
-          "trad": "年",
-          "pinyin": "nián",
-          "pos": "N",
-          "en": "year",
-          "defs": [
-            "year"
-          ],
-          "example": {
-            "zh": "我今年十八岁。",
-            "en": "I'm 18 years old this year."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0293",
-          "simp": "前天",
-          "trad": "前天",
-          "pinyin": "qiántiān",
-          "pos": "N",
-          "en": "day before yesterday",
-          "defs": [
-            "two days ago"
-          ],
-          "example": {
-            "zh": "前天我见到了他。",
-            "en": "I saw him the day before yesterday."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0303",
-          "simp": "去年",
-          "trad": "去年",
-          "pinyin": "qùnián",
-          "pos": "N",
-          "en": "last year",
-          "defs": [
-            "last year"
-          ],
-          "example": {
-            "zh": "去年我去了北京。",
-            "en": "I went to Beijing last year."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0308",
-          "simp": "日",
-          "trad": "日",
-          "pinyin": "rì",
-          "pos": "N",
-          "en": "day (date)",
-          "defs": [
-            "day (date)"
-          ],
-          "example": {
-            "zh": "今天是十月一日。",
-            "en": "Today is October 1st."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0309",
-          "simp": "日期",
-          "trad": "日期",
-          "pinyin": "rìqī",
-          "pos": "N",
-          "en": "date",
-          "defs": [
-            "calendar date"
-          ],
-          "example": {
-            "zh": "今天的日期是几号？",
-            "en": "What's today's date?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0319",
-          "simp": "上次",
-          "trad": "上次",
-          "pinyin": "shàngcì",
-          "pos": "N",
-          "en": "last time",
-          "defs": [
-            "previous time"
-          ],
-          "example": {
-            "zh": "上次我们见过面。",
-            "en": "We met last time."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0322",
-          "simp": "上午",
-          "trad": "上午",
-          "pinyin": "shàngwǔ",
-          "pos": "N",
-          "en": "morning",
-          "defs": [
-            "before noon"
-          ],
-          "example": {
-            "zh": "现在是上午九点。",
-            "en": "It's 9:00 a.m."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0333",
-          "simp": "时候",
-          "trad": "時候",
-          "pinyin": "shíhou",
-          "pos": "N",
-          "en": "time",
-          "defs": [
-            "point in time"
-          ],
-          "example": {
-            "zh": "现在几点？",
-            "en": "What time is it now?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0334",
-          "simp": "时间",
-          "trad": "時間",
-          "pinyin": "shíjiān",
-          "pos": "N",
-          "en": "time",
-          "defs": [
-            "(duration of) time"
-          ],
-          "example": {
-            "zh": "我没有时间。",
-            "en": "I don't have time."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0359",
-          "simp": "天",
-          "trad": "天",
-          "pinyin": "tiān",
-          "pos": "N",
-          "en": "day; sky",
-          "defs": [
-            "day; sky"
-          ],
-          "example": {
-            "zh": "今天天气好。",
-            "en": "The weather is good today."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0372",
-          "simp": "晚",
-          "trad": "晚",
-          "pinyin": "wǎn",
-          "pos": "Adj,N",
-          "en": "late; evening",
-          "defs": [
-            "late; evening"
-          ],
-          "example": {
-            "zh": "对不起，我来晚了。",
-            "en": "Sorry, I am late."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0374",
-          "simp": "晚上",
-          "trad": "晚上",
-          "pinyin": "wǎnshang",
-          "pos": "N",
-          "en": "evening",
-          "defs": [
-            "night; evening"
-          ],
-          "example": {
-            "zh": "晚上见。",
-            "en": "See you tonight."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0393",
-          "simp": "下次",
-          "trad": "下次",
-          "pinyin": "xiàcì",
-          "pos": "N",
-          "en": "next time",
-          "defs": [
-            "next occasion"
-          ],
-          "example": {
-            "zh": "下次再见。",
-            "en": "See you next time."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0395",
-          "simp": "下午",
-          "trad": "下午",
-          "pinyin": "xiàwǔ",
-          "pos": "N",
-          "en": "afternoon",
-          "defs": [
-            "afternoon"
-          ],
-          "example": {
-            "zh": "下午见。",
-            "en": "See you in the afternoon."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0399",
-          "simp": "现在",
-          "trad": "現在",
-          "pinyin": "xiànzài",
-          "pos": "Adv",
-          "en": "now",
-          "defs": [
-            "now",
-            "at present"
-          ],
-          "example": {
-            "zh": "现在几点？",
-            "en": "What time is it now?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0405",
-          "simp": "小时",
-          "trad": "小時",
-          "pinyin": "xiǎoshí",
-          "pos": "N",
-          "en": "hour",
-          "defs": [
-            "hour"
-          ],
-          "example": {
-            "zh": "我等了两个小时。",
-            "en": "I waited for two hours."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0412",
-          "simp": "新年",
-          "trad": "新年",
-          "pinyin": "xīnnián",
-          "pos": "N",
-          "en": "New Year",
-          "defs": [
-            "New Year"
-          ],
-          "example": {
-            "zh": "新年好！",
-            "en": "Happy New Year!"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0413",
-          "simp": "星期",
-          "trad": "星期",
-          "pinyin": "xīngqī",
-          "pos": "N",
-          "en": "week",
-          "defs": [
-            "week"
-          ],
-          "example": {
-            "zh": "这个星期你忙吗？",
-            "en": "Are you busy this week?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0415",
-          "simp": "星期天",
-          "trad": "星期天",
-          "pinyin": "xīngqītiān",
-          "pos": "N",
-          "en": "Sunday",
-          "defs": [
-            "Sunday"
-          ],
-          "example": {
-            "zh": "星期天去学校。",
-            "en": "Go to school on Sunday."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0432",
-          "simp": "一会儿",
-          "trad": "一會兒",
-          "pinyin": "yīhuìr",
-          "pos": "N",
-          "en": "a moment",
-          "defs": [
-            "a little while"
-          ],
-          "example": {
-            "zh": "等我一会儿。",
-            "en": "Wait for me a moment."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0434",
-          "simp": "一下儿",
-          "trad": "一下兒",
-          "pinyin": "yīxiàr",
-          "pos": "Phrase",
-          "en": "a bit",
-          "defs": [
-            "a short time"
-          ],
-          "example": {
-            "zh": "等一下儿。",
-            "en": "Wait a moment."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0452",
-          "simp": "月",
-          "trad": "月",
-          "pinyin": "yuè",
-          "pos": "N",
-          "en": "month; moon",
-          "defs": [
-            "month"
-          ],
-          "example": {
-            "zh": "一个月有三十天。",
-            "en": "A month has 30 days."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0457",
-          "simp": "早",
-          "trad": "早",
-          "pinyin": "zǎo",
-          "pos": "Adj",
-          "en": "early",
-          "defs": [
-            "early"
-          ],
-          "example": {
-            "zh": "老师，早。",
-            "en": "Teacher, morning."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0459",
-          "simp": "早上",
-          "trad": "早上",
-          "pinyin": "zǎoshang",
-          "pos": "N",
-          "en": "morning",
-          "defs": [
-            "early morning"
-          ],
-          "example": {
-            "zh": "早上好。",
-            "en": "Good morning."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0472",
-          "simp": "正",
-          "trad": "正",
-          "pinyin": "zhèng",
-          "pos": "Adv",
-          "en": "right now; currently",
-          "defs": [
-            "right now",
-            "currently"
-          ],
-          "example": {
-            "zh": "我正吃饭呢。",
-            "en": "I'm eating right now."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0480",
-          "simp": "中午",
-          "trad": "中午",
-          "pinyin": "zhōngwǔ",
-          "pos": "N",
-          "en": "noon",
-          "defs": [
-            "midday"
-          ],
-          "example": {
-            "zh": "中午吃午饭。",
-            "en": "Eat lunch at noon."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0494",
-          "simp": "最后",
-          "trad": "最後",
-          "pinyin": "zuìhòu",
-          "pos": "Adj/Adv",
-          "en": "last; final",
-          "defs": [
-            "last",
-            "final"
-          ],
-          "example": {
-            "zh": "他是最后一个人。",
-            "en": "He is the last person."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0495",
-          "simp": "昨天",
-          "trad": "昨天",
-          "pinyin": "zuótiān",
-          "pos": "N",
-          "en": "yesterday",
-          "defs": [
-            "yesterday"
-          ],
-          "example": {
-            "zh": "昨天我去了书店。",
-            "en": "I went to the bookstore yesterday."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0414",
-          "simp": "星期日",
-          "trad": "星期日",
-          "pinyin": "xīngqīrì",
-          "pos": "N",
-          "en": "Sunday",
-          "defs": [
-            "Sunday"
-          ],
-          "example": {
-            "zh": "星期日我休息。",
-            "en": "I rest on Sunday."
-          },
-          "tags": null
-        }
-      ]
-    },
-    {
       "id": "b1-measure",
-      "targetWords": 16,
-      "allocatedWords": 16,
+      "targetWords": 9,
+      "allocatedWords": 9,
       "words": [
-        {
-          "id": "L1-0009",
-          "simp": "班",
-          "trad": "班",
-          "pinyin": "bān",
-          "pos": "N",
-          "en": "class",
-          "defs": [
-            "class; team"
-          ],
-          "example": {
-            "zh": "我在三班。",
-            "en": "I'm in class three."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0015",
-          "simp": "包",
-          "trad": "包",
-          "pinyin": "bāo",
-          "pos": "N,V",
-          "en": "bag; to wrap",
-          "defs": [
-            "bag; to wrap"
-          ],
-          "example": {
-            "zh": "我有一个大包。",
-            "en": "I have a big bag."
-          },
-          "tags": null
-        },
         {
           "id": "L1-0017",
           "simp": "杯",
@@ -1986,8 +1289,8 @@
             "cup (measure word)"
           ],
           "example": {
-            "zh": "请给我一杯水。",
-            "en": "Please give me a cup of water."
+            "zh": "请给我一杯。",
+            "en": "Please give me a cup."
           },
           "tags": null
         },
@@ -2002,8 +1305,8 @@
             "measure word for books"
           ],
           "example": {
-            "zh": "我有一本书。",
-            "en": "I have one book."
+            "zh": "这是一本。",
+            "en": "This is one volume."
           },
           "tags": null
         },
@@ -2018,8 +1321,8 @@
             "measure word for frequency"
           ],
           "example": {
-            "zh": "我去过一次北京。",
-            "en": "I've been to Beijing once."
+            "zh": "一次就好。",
+            "en": "One time is enough."
           },
           "tags": null
         },
@@ -2056,22 +1359,6 @@
           "tags": null
         },
         {
-          "id": "L1-0166",
-          "simp": "记",
-          "trad": "記",
-          "pinyin": "jì",
-          "pos": "V",
-          "en": "to remember",
-          "defs": [
-            "to remember; to write down"
-          ],
-          "example": {
-            "zh": "我记不住这个名字。",
-            "en": "I can't remember this name."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0172",
           "simp": "间",
           "trad": "間",
@@ -2082,7 +1369,7 @@
             "measure word for rooms"
           ],
           "example": {
-            "zh": "这儿有一间房子。",
+            "zh": "这儿有一间。",
             "en": "There is one room here."
           },
           "tags": null
@@ -2098,24 +1385,8 @@
             "mouth; measure word for family members"
           ],
           "example": {
-            "zh": "我家有五口人。",
-            "en": "My family has five people."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0238",
-          "simp": "门",
-          "trad": "門",
-          "pinyin": "mén",
-          "pos": "N",
-          "en": "door",
-          "defs": [
-            "door; gate"
-          ],
-          "example": {
-            "zh": "请关门。",
-            "en": "Please close the door."
+            "zh": "家里有三口人。",
+            "en": "There are three people in the family."
           },
           "tags": null
         },
@@ -2146,60 +1417,13 @@
             "page"
           ],
           "example": {
-            "zh": "请看第三页。",
-            "en": "Please look at page three."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0437",
-          "simp": "一点儿",
-          "trad": "一點兒",
-          "pinyin": "yīdiǎnr",
-          "pos": "N",
-          "en": "a little",
-          "defs": [
-            "a bit"
-          ],
-          "example": {
-            "zh": "我知道一点儿中文。",
-            "en": "I know a little Chinese."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0489a",
-          "simp": "子",
-          "trad": "子",
-          "pinyin": "zi",
-          "pos": "Suffix",
-          "en": "noun suffix",
-          "defs": [
-            "(noun suffix)"
-          ],
-          "example": {
-            "zh": "他有一个包子。",
-            "en": "He has a steamed bun."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0241a",
-          "simp": "们",
-          "trad": "們",
-          "pinyin": "men",
-          "pos": "Suffix",
-          "en": "plural marker",
-          "defs": [
-            "(plural suffix)"
-          ],
-          "example": {
-            "zh": "我们一起去。",
-            "en": "Let's go together."
+            "zh": "看第三页。",
+            "en": "Look at page three."
           },
           "tags": null
         }
-      ]
+      ],
+      "title": "Classifiers & Counting Words"
     },
     {
       "id": "b1-questions",
@@ -2319,7 +1543,7 @@
           "tags": null
         },
         {
-          "id": "L2-0578",
+          "id": "L1-0520",
           "simp": "问题",
           "trad": "問題",
           "pinyin": "wèntí",
@@ -2335,7 +1559,7 @@
           "tags": null
         },
         {
-          "id": "L2-0666",
+          "id": "L1-0521",
           "simp": "意思",
           "trad": "意思",
           "pinyin": "yìsi",
@@ -2353,9 +1577,929 @@
       ]
     },
     {
+      "id": "b1-time",
+      "targetWords": 42,
+      "allocatedWords": 42,
+      "words": [
+        {
+          "id": "L1-0007",
+          "simp": "白天",
+          "trad": "白天",
+          "pinyin": "báitiān",
+          "pos": "N",
+          "en": "daytime",
+          "defs": [
+            "daytime"
+          ],
+          "example": {
+            "zh": "我白天工作。",
+            "en": "I work during the daytime."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0011",
+          "simp": "半年",
+          "trad": "半年",
+          "pinyin": "bànnián",
+          "pos": "N",
+          "en": "half a year",
+          "defs": [
+            "half a year"
+          ],
+          "example": {
+            "zh": "半年是六个月。",
+            "en": "Half a year is six months."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0012",
+          "simp": "半天",
+          "trad": "半天",
+          "pinyin": "bàntiān",
+          "pos": "N",
+          "en": "half a day",
+          "defs": [
+            "half a day; a long time"
+          ],
+          "example": {
+            "zh": "我等半天。",
+            "en": "I wait for half a day."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0039",
+          "simp": "常常",
+          "trad": "常常",
+          "pinyin": "chángcháng",
+          "pos": "Adv",
+          "en": "often",
+          "defs": [
+            "frequently; often"
+          ],
+          "example": {
+            "zh": "她常常在这儿。",
+            "en": "She is often here."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0076",
+          "simp": "点",
+          "trad": "點",
+          "pinyin": "diǎn",
+          "pos": "N,M",
+          "en": "o'clock; a bit",
+          "defs": [
+            "o'clock; a little"
+          ],
+          "example": {
+            "zh": "现在三点。",
+            "en": "It's three o'clock now."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0105",
+          "simp": "放学",
+          "trad": "放學",
+          "pinyin": "fàngxué",
+          "pos": "V",
+          "en": "school ends",
+          "defs": [
+            "to finish school for the day"
+          ],
+          "example": {
+            "zh": "我们三点放学。",
+            "en": "We finish school at 3 o'clock."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0109",
+          "simp": "分",
+          "trad": "分",
+          "pinyin": "fēn",
+          "pos": "N,M",
+          "en": "minute",
+          "defs": [
+            "minute"
+          ],
+          "example": {
+            "zh": "现在三点十分。",
+            "en": "It's 3:10 now."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0131",
+          "simp": "过",
+          "trad": "過",
+          "pinyin": "guò",
+          "pos": "V,Part",
+          "en": "to pass; experience marker",
+          "defs": [
+            "to cross; -ever (done before)"
+          ],
+          "example": {
+            "zh": "八点过五分。",
+            "en": "It is five past eight."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0149",
+          "simp": "后天",
+          "trad": "後天",
+          "pinyin": "hòutiān",
+          "pos": "N",
+          "en": "day after tomorrow",
+          "defs": [
+            "day after tomorrow"
+          ],
+          "example": {
+            "zh": "后天是星期天。",
+            "en": "The day after tomorrow is Sunday."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0180",
+          "simp": "今年",
+          "trad": "今年",
+          "pinyin": "jīnnián",
+          "pos": "N",
+          "en": "this year",
+          "defs": [
+            "this year"
+          ],
+          "example": {
+            "zh": "今年很好。",
+            "en": "This year is good."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0181",
+          "simp": "今天",
+          "trad": "今天",
+          "pinyin": "jīntiān",
+          "pos": "N",
+          "en": "today",
+          "defs": [
+            "today"
+          ],
+          "example": {
+            "zh": "今天很好。",
+            "en": "Today is good."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0226",
+          "simp": "马上",
+          "trad": "馬上",
+          "pinyin": "mǎshàng",
+          "pos": "Adv",
+          "en": "immediately",
+          "defs": [
+            "right away"
+          ],
+          "example": {
+            "zh": "我马上来。",
+            "en": "I will come right away."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0247",
+          "simp": "明年",
+          "trad": "明年",
+          "pinyin": "míngnián",
+          "pos": "N",
+          "en": "next year",
+          "defs": [
+            "next year"
+          ],
+          "example": {
+            "zh": "明年是新年。",
+            "en": "Next year is the New Year."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0248",
+          "simp": "明天",
+          "trad": "明天",
+          "pinyin": "míngtiān",
+          "pos": "N",
+          "en": "tomorrow",
+          "defs": [
+            "tomorrow"
+          ],
+          "example": {
+            "zh": "明天见。",
+            "en": "See you tomorrow."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0273",
+          "simp": "年",
+          "trad": "年",
+          "pinyin": "nián",
+          "pos": "N",
+          "en": "year",
+          "defs": [
+            "year"
+          ],
+          "example": {
+            "zh": "一年有十二个月。",
+            "en": "One year has twelve months."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0293",
+          "simp": "前天",
+          "trad": "前天",
+          "pinyin": "qiántiān",
+          "pos": "N",
+          "en": "day before yesterday",
+          "defs": [
+            "two days ago"
+          ],
+          "example": {
+            "zh": "前天是星期天。",
+            "en": "The day before yesterday was Sunday."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0303",
+          "simp": "去年",
+          "trad": "去年",
+          "pinyin": "qùnián",
+          "pos": "N",
+          "en": "last year",
+          "defs": [
+            "last year"
+          ],
+          "example": {
+            "zh": "去年我去北京。",
+            "en": "I went to Beijing last year."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0308",
+          "simp": "日",
+          "trad": "日",
+          "pinyin": "rì",
+          "pos": "N",
+          "en": "day (date)",
+          "defs": [
+            "day (date)"
+          ],
+          "example": {
+            "zh": "今天是一日。",
+            "en": "Today is the first."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0309",
+          "simp": "日期",
+          "trad": "日期",
+          "pinyin": "rìqī",
+          "pos": "N",
+          "en": "date",
+          "defs": [
+            "calendar date"
+          ],
+          "example": {
+            "zh": "今天的日期是几号？",
+            "en": "What's today's date?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0331",
+          "simp": "生日",
+          "trad": "生日",
+          "pinyin": "shēngrì",
+          "pos": "N",
+          "en": "birthday",
+          "defs": [
+            "birthday"
+          ],
+          "example": {
+            "zh": "今天过生日。",
+            "en": "Birthday is today."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0319",
+          "simp": "上次",
+          "trad": "上次",
+          "pinyin": "shàngcì",
+          "pos": "N",
+          "en": "last time",
+          "defs": [
+            "previous time"
+          ],
+          "example": {
+            "zh": "上次很好。",
+            "en": "Last time was good."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0322",
+          "simp": "上午",
+          "trad": "上午",
+          "pinyin": "shàngwǔ",
+          "pos": "N",
+          "en": "morning",
+          "defs": [
+            "before noon"
+          ],
+          "example": {
+            "zh": "上午九点。",
+            "en": "Nine in the morning."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0333",
+          "simp": "时候",
+          "trad": "時候",
+          "pinyin": "shíhou",
+          "pos": "N",
+          "en": "time",
+          "defs": [
+            "point in time"
+          ],
+          "example": {
+            "zh": "现在几点？",
+            "en": "What time is it now?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0334",
+          "simp": "时间",
+          "trad": "時間",
+          "pinyin": "shíjiān",
+          "pos": "N",
+          "en": "time",
+          "defs": [
+            "(duration of) time"
+          ],
+          "example": {
+            "zh": "我没有时间。",
+            "en": "I don't have time."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0359",
+          "simp": "天",
+          "trad": "天",
+          "pinyin": "tiān",
+          "pos": "N",
+          "en": "day; sky",
+          "defs": [
+            "day; sky"
+          ],
+          "example": {
+            "zh": "今天是好天。",
+            "en": "Today is a good day."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0374",
+          "simp": "晚上",
+          "trad": "晚上",
+          "pinyin": "wǎnshang",
+          "pos": "N",
+          "en": "evening",
+          "defs": [
+            "night; evening"
+          ],
+          "example": {
+            "zh": "晚上见。",
+            "en": "See you tonight."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0393",
+          "simp": "下次",
+          "trad": "下次",
+          "pinyin": "xiàcì",
+          "pos": "N",
+          "en": "next time",
+          "defs": [
+            "next occasion"
+          ],
+          "example": {
+            "zh": "下次见。",
+            "en": "See you next time."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0395",
+          "simp": "下午",
+          "trad": "下午",
+          "pinyin": "xiàwǔ",
+          "pos": "N",
+          "en": "afternoon",
+          "defs": [
+            "afternoon"
+          ],
+          "example": {
+            "zh": "下午见。",
+            "en": "See you in the afternoon."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0399",
+          "simp": "现在",
+          "trad": "現在",
+          "pinyin": "xiànzài",
+          "pos": "Adv",
+          "en": "now",
+          "defs": [
+            "now",
+            "at present"
+          ],
+          "example": {
+            "zh": "现在几点？",
+            "en": "What time is it now?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0405",
+          "simp": "小时",
+          "trad": "小時",
+          "pinyin": "xiǎoshí",
+          "pos": "N",
+          "en": "hour",
+          "defs": [
+            "hour"
+          ],
+          "example": {
+            "zh": "两个小时。",
+            "en": "Two hours."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0412",
+          "simp": "新年",
+          "trad": "新年",
+          "pinyin": "xīnnián",
+          "pos": "N",
+          "en": "New Year",
+          "defs": [
+            "New Year"
+          ],
+          "example": {
+            "zh": "新年快乐。",
+            "en": "Happy New Year."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0413",
+          "simp": "星期",
+          "trad": "星期",
+          "pinyin": "xīngqī",
+          "pos": "N",
+          "en": "week",
+          "defs": [
+            "week"
+          ],
+          "example": {
+            "zh": "这个星期很好。",
+            "en": "This week is good."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0415",
+          "simp": "星期天",
+          "trad": "星期天",
+          "pinyin": "xīngqītiān",
+          "pos": "N",
+          "en": "Sunday",
+          "defs": [
+            "Sunday"
+          ],
+          "example": {
+            "zh": "星期天休息。",
+            "en": "Rest on Sunday."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0432",
+          "simp": "一会儿",
+          "trad": "一會兒",
+          "pinyin": "yīhuìr",
+          "pos": "N",
+          "en": "a moment",
+          "defs": [
+            "a little while"
+          ],
+          "example": {
+            "zh": "等一会儿。",
+            "en": "Wait a moment."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0434",
+          "simp": "一下儿",
+          "trad": "一下兒",
+          "pinyin": "yīxiàr",
+          "pos": "Phrase",
+          "en": "a bit",
+          "defs": [
+            "a short time"
+          ],
+          "example": {
+            "zh": "等一下儿。",
+            "en": "Wait a moment."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0452",
+          "simp": "月",
+          "trad": "月",
+          "pinyin": "yuè",
+          "pos": "N",
+          "en": "month; moon",
+          "defs": [
+            "month"
+          ],
+          "example": {
+            "zh": "这个月很好。",
+            "en": "This month is good."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0459",
+          "simp": "早上",
+          "trad": "早上",
+          "pinyin": "zǎoshang",
+          "pos": "N",
+          "en": "morning",
+          "defs": [
+            "early morning"
+          ],
+          "example": {
+            "zh": "早上好。",
+            "en": "Good morning."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0472",
+          "simp": "正",
+          "trad": "正",
+          "pinyin": "zhèng",
+          "pos": "Adv",
+          "en": "right now; currently",
+          "defs": [
+            "right now",
+            "currently"
+          ],
+          "example": {
+            "zh": "现在正是上午。",
+            "en": "It is exactly morning now."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0480",
+          "simp": "中午",
+          "trad": "中午",
+          "pinyin": "zhōngwǔ",
+          "pos": "N",
+          "en": "noon",
+          "defs": [
+            "midday"
+          ],
+          "example": {
+            "zh": "中午吃饭。",
+            "en": "Eat at noon."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0494",
+          "simp": "最后",
+          "trad": "最後",
+          "pinyin": "zuìhòu",
+          "pos": "Adj/Adv",
+          "en": "last; final",
+          "defs": [
+            "last",
+            "final"
+          ],
+          "example": {
+            "zh": "最后一个。",
+            "en": "The last one."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0495",
+          "simp": "昨天",
+          "trad": "昨天",
+          "pinyin": "zuótiān",
+          "pos": "N",
+          "en": "yesterday",
+          "defs": [
+            "yesterday"
+          ],
+          "example": {
+            "zh": "昨天很好。",
+            "en": "Yesterday was good."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0437",
+          "simp": "一点儿",
+          "trad": "一點兒",
+          "pinyin": "yīdiǎnr",
+          "pos": "N",
+          "en": "a little",
+          "defs": [
+            "a bit"
+          ],
+          "example": {
+            "zh": "一点儿就好。",
+            "en": "A little is enough."
+          },
+          "tags": null
+        }
+      ]
+    },
+    {
+      "id": "b1-colors",
+      "title": "Colors",
+      "targetWords": 14,
+      "allocatedWords": 14,
+      "words": [
+        {
+          "id": "L1-0530",
+          "simp": "棕",
+          "trad": "棕",
+          "pinyin": "zōng",
+          "pos": "Adj",
+          "en": "brown",
+          "defs": [
+            "brown"
+          ],
+          "example": {
+            "zh": "这只狗是棕色的。",
+            "en": "This dog is brown."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0529",
+          "simp": "橙",
+          "trad": "橙",
+          "pinyin": "chéng",
+          "pos": "Adj",
+          "en": "orange",
+          "defs": [
+            "orange"
+          ],
+          "example": {
+            "zh": "这个包是橙色的。",
+            "en": "This bag is orange."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0006",
+          "simp": "白",
+          "trad": "白",
+          "pinyin": "bái",
+          "pos": "Adj",
+          "en": "white",
+          "defs": [
+            "white"
+          ],
+          "example": {
+            "zh": "她穿白衣服。",
+            "en": "She wears white clothes."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0548",
+          "simp": "白色",
+          "trad": "白色",
+          "pinyin": "báisè",
+          "pos": "N",
+          "en": "white color",
+          "defs": [
+            "white color",
+            "white"
+          ],
+          "example": {
+            "zh": "她买了一双白色的鞋子。",
+            "en": "She bought a pair of white shoes."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0524",
+          "simp": "红",
+          "trad": "紅",
+          "pinyin": "hóng",
+          "pos": "Adj",
+          "en": "red",
+          "defs": [
+            "red"
+          ],
+          "example": {
+            "zh": "红色的苹果。",
+            "en": "Red apple."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0544",
+          "simp": "红色",
+          "trad": "紅色",
+          "pinyin": "hóngsè",
+          "pos": "N",
+          "en": "red color",
+          "defs": [
+            "red color",
+            "red"
+          ],
+          "example": {
+            "zh": "她穿了一件红色的裙子。",
+            "en": "She was wearing a red dress."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0527",
+          "simp": "绿",
+          "trad": "綠",
+          "pinyin": "lǜ",
+          "pos": "Adj",
+          "en": "green",
+          "defs": [
+            "green"
+          ],
+          "example": {
+            "zh": "绿色的树。",
+            "en": "Green trees."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0547",
+          "simp": "绿色",
+          "trad": "綠色",
+          "pinyin": "lǜsè",
+          "pos": "N",
+          "en": "green color",
+          "defs": [
+            "green color",
+            "green"
+          ],
+          "example": {
+            "zh": "公园里有很多绿色的树。",
+            "en": "There are many green trees in the park."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0526",
+          "simp": "蓝",
+          "trad": "藍",
+          "pinyin": "lán",
+          "pos": "Adj",
+          "en": "blue",
+          "defs": [
+            "blue"
+          ],
+          "example": {
+            "zh": "蓝蓝的天空。",
+            "en": "Blue sky."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0546",
+          "simp": "蓝色",
+          "trad": "藍色",
+          "pinyin": "lánsè",
+          "pos": "N",
+          "en": "blue color",
+          "defs": [
+            "blue color",
+            "blue"
+          ],
+          "example": {
+            "zh": "他喜欢穿蓝色的衣服。",
+            "en": "He likes to wear blue clothes."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0525",
+          "simp": "黄",
+          "trad": "黃",
+          "pinyin": "huáng",
+          "pos": "Adj",
+          "en": "yellow",
+          "defs": [
+            "yellow"
+          ],
+          "example": {
+            "zh": "黄色的花。",
+            "en": "Yellow flower."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0545",
+          "simp": "黄色",
+          "trad": "黃色",
+          "pinyin": "huángsè",
+          "pos": "N",
+          "en": "yellow color",
+          "defs": [
+            "yellow color",
+            "yellow"
+          ],
+          "example": {
+            "zh": "黄色的香蕉。",
+            "en": "Yellow bananas."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0528",
+          "simp": "黑",
+          "trad": "黑",
+          "pinyin": "hēi",
+          "pos": "Adj",
+          "en": "black",
+          "defs": [
+            "black"
+          ],
+          "example": {
+            "zh": "天黑了。",
+            "en": "It's dark outside."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0543",
+          "simp": "黑色",
+          "trad": "黑色",
+          "pinyin": "hēisè",
+          "pos": "N",
+          "en": "black color",
+          "defs": [
+            "black color",
+            "black"
+          ],
+          "example": {
+            "zh": "他喜欢黑色。",
+            "en": "He likes black."
+          },
+          "tags": null
+        }
+      ]
+    },
+    {
       "id": "b1-verbs-1",
       "targetWords": 31,
-      "allocatedWords": 31,
+      "allocatedWords": 30,
       "words": [
         {
           "id": "L1-0013",
@@ -2368,8 +2512,8 @@
             "to help"
           ],
           "example": {
-            "zh": "请帮我一下。",
-            "en": "Please help me."
+            "zh": "帮我一下。",
+            "en": "Help me for a moment."
           },
           "tags": null
         },
@@ -2384,7 +2528,7 @@
             "to come inside"
           ],
           "example": {
-            "zh": "你请进来。",
+            "zh": "请进来。",
             "en": "Please come in."
           },
           "tags": null
@@ -2480,8 +2624,8 @@
             "to obtain; to receive"
           ],
           "example": {
-            "zh": "我得到了那本书。",
-            "en": "I got that book."
+            "zh": "我得到一本书。",
+            "en": "I got a book."
           },
           "tags": null
         },
@@ -2528,8 +2672,8 @@
             "to put; to place"
           ],
           "example": {
-            "zh": "把书放在桌子上。",
-            "en": "Put the book on the table."
+            "zh": "把书放这儿。",
+            "en": "Put the book here."
           },
           "tags": null
         },
@@ -2608,8 +2752,8 @@
             "to close (door, window)"
           ],
           "example": {
-            "zh": "把书关上。",
-            "en": "Close the book."
+            "zh": "请关上门。",
+            "en": "Please close the door."
           },
           "tags": null
         },
@@ -2704,7 +2848,7 @@
             "to locate"
           ],
           "example": {
-            "zh": "我找到了。",
+            "zh": "我找到它。",
             "en": "I found it."
           },
           "tags": null
@@ -2752,8 +2896,8 @@
             "to go; to walk"
           ],
           "example": {
-            "zh": "我走了。",
-            "en": "I'm leaving."
+            "zh": "我先走。",
+            "en": "I will go first."
           },
           "tags": null
         },
@@ -2784,24 +2928,8 @@
             "currently (doing)"
           ],
           "example": {
-            "zh": "我正在学习。",
-            "en": "I'm studying right now."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0038",
-          "simp": "常",
-          "trad": "常",
-          "pinyin": "cháng",
-          "pos": "Adv",
-          "en": "often",
-          "defs": [
-            "often; frequently"
-          ],
-          "example": {
-            "zh": "我常去图书馆。",
-            "en": "I often go to the library."
+            "zh": "我正在说中文。",
+            "en": "I am speaking Chinese right now."
           },
           "tags": null
         },
@@ -2816,40 +2944,416 @@
             "occasionally"
           ],
           "example": {
-            "zh": "有时候我吃米饭。",
-            "en": "Sometimes I eat rice."
+            "zh": "有时候他在家。",
+            "en": "Sometimes he is at home."
           },
           "tags": null
         },
         {
-          "id": "L1-0444b",
-          "simp": "有时",
-          "trad": "有時",
-          "pinyin": "yǒushí",
-          "pos": "Adv",
-          "en": "sometimes",
+          "id": "L1-0456",
+          "simp": "在家",
+          "trad": "在家",
+          "pinyin": "zàijiā",
+          "pos": "V",
+          "en": "to be at home",
           "defs": [
-            "at times"
+            "to be home"
           ],
           "example": {
-            "zh": "我有时很忙。",
-            "en": "I'm sometimes very busy."
+            "zh": "今天我在家。",
+            "en": "I'm at home today."
           },
           "tags": null
         },
         {
-          "id": "L1-0088",
-          "simp": "动作",
-          "trad": "動作",
-          "pinyin": "dòngzuò",
+          "id": "L1-0166",
+          "simp": "记",
+          "trad": "記",
+          "pinyin": "jì",
+          "pos": "V",
+          "en": "to remember",
+          "defs": [
+            "to remember; to write down"
+          ],
+          "example": {
+            "zh": "请记这个。",
+            "en": "Please remember this."
+          },
+          "tags": null
+        }
+      ]
+    },
+    {
+      "id": "b1-people",
+      "title": "People",
+      "targetWords": 23,
+      "allocatedWords": 23,
+      "words": [
+        {
+          "id": "L1-0209",
+          "simp": "老师",
+          "trad": "老師",
+          "pinyin": "lǎoshī",
           "pos": "N",
-          "en": "movement",
+          "en": "teacher",
           "defs": [
-            "action; movement"
+            "teacher"
           ],
           "example": {
-            "zh": "这个动作很难。",
-            "en": "This movement is very difficult."
+            "zh": "王老师很好。",
+            "en": "Teacher Wang is very nice."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0365",
+          "simp": "同学",
+          "trad": "同學",
+          "pinyin": "tóngxué",
+          "pos": "N",
+          "en": "classmate",
+          "defs": [
+            "fellow student"
+          ],
+          "example": {
+            "zh": "他是我的同学。",
+            "en": "He's my classmate."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0241b",
+          "simp": "朋友们",
+          "trad": "朋友們",
+          "pinyin": "péngyoumen",
+          "pos": "N",
+          "en": "friends",
+          "defs": [
+            "friends"
+          ],
+          "example": {
+            "zh": "我的朋友们都来了。",
+            "en": "All my friends are here."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0245",
+          "simp": "名字",
+          "trad": "名字",
+          "pinyin": "míngzi",
+          "pos": "N",
+          "en": "name",
+          "defs": [
+            "name"
+          ],
+          "example": {
+            "zh": "你叫什么名字？",
+            "en": "What's your name?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0419",
+          "simp": "学生",
+          "trad": "學生",
+          "pinyin": "xuéshēng",
+          "pos": "N",
+          "en": "student",
+          "defs": [
+            "pupil; student"
+          ],
+          "example": {
+            "zh": "我是学生。",
+            "en": "I'm a student."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0407",
+          "simp": "小学生",
+          "trad": "小學生",
+          "pinyin": "xiǎoxuéshēng",
+          "pos": "N",
+          "en": "elementary student",
+          "defs": [
+            "primary school student"
+          ],
+          "example": {
+            "zh": "他是小学生。",
+            "en": "He's an elementary student."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0482",
+          "simp": "中学生",
+          "trad": "中學生",
+          "pinyin": "zhōngxuéshēng",
+          "pos": "N",
+          "en": "middle school student",
+          "defs": [
+            "secondary school student"
+          ],
+          "example": {
+            "zh": "我是中学生。",
+            "en": "I'm a middle school student."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0063",
+          "simp": "大学生",
+          "trad": "大學生",
+          "pinyin": "dàxuéshēng",
+          "pos": "N",
+          "en": "university student",
+          "defs": [
+            "college student"
+          ],
+          "example": {
+            "zh": "他是大学生。",
+            "en": "He is a university student."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0123",
+          "simp": "工人",
+          "trad": "工人",
+          "pinyin": "gōngrén",
+          "pos": "N",
+          "en": "worker",
+          "defs": [
+            "worker"
+          ],
+          "example": {
+            "zh": "他是工人。",
+            "en": "He is a worker."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0261",
+          "simp": "男",
+          "trad": "男",
+          "pinyin": "nán",
+          "pos": "Adj",
+          "en": "male",
+          "defs": [
+            "male; man"
+          ],
+          "example": {
+            "zh": "他是我男朋友。",
+            "en": "He is my boyfriend."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0262",
+          "simp": "男孩儿",
+          "trad": "男孩兒",
+          "pinyin": "nánháir",
+          "pos": "N",
+          "en": "boy",
+          "defs": [
+            "boy"
+          ],
+          "example": {
+            "zh": "那个男孩儿是我弟弟。",
+            "en": "That boy is my younger brother."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0263",
+          "simp": "男朋友",
+          "trad": "男朋友",
+          "pinyin": "nánpéngyou",
+          "pos": "N",
+          "en": "boyfriend",
+          "defs": [
+            "boyfriend"
+          ],
+          "example": {
+            "zh": "她有男朋友了。",
+            "en": "She has a boyfriend now."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0264",
+          "simp": "男人",
+          "trad": "男人",
+          "pinyin": "nánrén",
+          "pos": "N",
+          "en": "man",
+          "defs": [
+            "adult male"
+          ],
+          "example": {
+            "zh": "那个男人是谁？",
+            "en": "Who is that man?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0265",
+          "simp": "男生",
+          "trad": "男生",
+          "pinyin": "nánshēng",
+          "pos": "N",
+          "en": "male student",
+          "defs": [
+            "boy; male student"
+          ],
+          "example": {
+            "zh": "他是我们班的男生。",
+            "en": "He's a boy in our class."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0276",
+          "simp": "女",
+          "trad": "女",
+          "pinyin": "nǚ",
+          "pos": "Adj",
+          "en": "female",
+          "defs": [
+            "female; woman"
+          ],
+          "example": {
+            "zh": "她是我女朋友。",
+            "en": "She is my girlfriend."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0278",
+          "simp": "女孩儿",
+          "trad": "女孩兒",
+          "pinyin": "nǚháir",
+          "pos": "N",
+          "en": "girl",
+          "defs": [
+            "girl"
+          ],
+          "example": {
+            "zh": "那个女孩儿是我妹妹。",
+            "en": "That girl is my younger sister."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0279",
+          "simp": "女朋友",
+          "trad": "女朋友",
+          "pinyin": "nǚpéngyou",
+          "pos": "N",
+          "en": "girlfriend",
+          "defs": [
+            "girlfriend"
+          ],
+          "example": {
+            "zh": "他有女朋友了。",
+            "en": "He has a girlfriend now."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0280",
+          "simp": "女人",
+          "trad": "女人",
+          "pinyin": "nǚrén",
+          "pos": "N",
+          "en": "woman",
+          "defs": [
+            "adult female"
+          ],
+          "example": {
+            "zh": "那个女人是我妈妈。",
+            "en": "That woman is my mother."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0376",
+          "simp": "网友",
+          "trad": "網友",
+          "pinyin": "wǎngyǒu",
+          "pos": "N",
+          "en": "online friend",
+          "defs": [
+            "internet friend"
+          ],
+          "example": {
+            "zh": "我的网友在中国。",
+            "en": "My online friend is in China."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0281",
+          "simp": "女生",
+          "trad": "女生",
+          "pinyin": "nǚshēng",
+          "pos": "N",
+          "en": "female student",
+          "defs": [
+            "girl; female student"
+          ],
+          "example": {
+            "zh": "她是新来的女生。",
+            "en": "She's a new girl student."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0284",
+          "simp": "朋友",
+          "trad": "朋友",
+          "pinyin": "péngyou",
+          "pos": "N",
+          "en": "friend",
+          "defs": [
+            "friend"
+          ],
+          "example": {
+            "zh": "我们是好朋友。",
+            "en": "We are good friends."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0305",
+          "simp": "人",
+          "trad": "人",
+          "pinyin": "rén",
+          "pos": "N",
+          "en": "person",
+          "defs": [
+            "person; people"
+          ],
+          "example": {
+            "zh": "这里有很多人。",
+            "en": "There are many people here."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0009",
+          "simp": "班",
+          "trad": "班",
+          "pinyin": "bān",
+          "pos": "N",
+          "en": "class",
+          "defs": [
+            "class; team"
+          ],
+          "example": {
+            "zh": "我在三班。",
+            "en": "I'm in class three."
           },
           "tags": null
         }
@@ -2857,8 +3361,8 @@
     },
     {
       "id": "b1-family",
-      "targetWords": 42,
-      "allocatedWords": 42,
+      "targetWords": 25,
+      "allocatedWords": 25,
       "words": [
         {
           "id": "L1-0004b",
@@ -3037,38 +3541,6 @@
           "tags": null
         },
         {
-          "id": "L1-0241b",
-          "simp": "朋友们",
-          "trad": "朋友們",
-          "pinyin": "péngyoumen",
-          "pos": "N",
-          "en": "friends",
-          "defs": [
-            "friends"
-          ],
-          "example": {
-            "zh": "我的朋友们都来了。",
-            "en": "All my friends are here."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0245",
-          "simp": "名字",
-          "trad": "名字",
-          "pinyin": "míngzi",
-          "pos": "N",
-          "en": "name",
-          "defs": [
-            "name"
-          ],
-          "example": {
-            "zh": "你叫什么名字？",
-            "en": "What's your name?"
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0260",
           "simp": "奶奶",
           "trad": "奶奶",
@@ -3085,102 +3557,6 @@
           "tags": null
         },
         {
-          "id": "L1-0261",
-          "simp": "男",
-          "trad": "男",
-          "pinyin": "nán",
-          "pos": "Adj",
-          "en": "male",
-          "defs": [
-            "male; man"
-          ],
-          "example": {
-            "zh": "他是我男朋友。",
-            "en": "He is my boyfriend."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0262",
-          "simp": "男孩儿",
-          "trad": "男孩兒",
-          "pinyin": "nánháir",
-          "pos": "N",
-          "en": "boy",
-          "defs": [
-            "boy"
-          ],
-          "example": {
-            "zh": "那个男孩儿是我弟弟。",
-            "en": "That boy is my younger brother."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0263",
-          "simp": "男朋友",
-          "trad": "男朋友",
-          "pinyin": "nánpéngyou",
-          "pos": "N",
-          "en": "boyfriend",
-          "defs": [
-            "boyfriend"
-          ],
-          "example": {
-            "zh": "她有男朋友了。",
-            "en": "She has a boyfriend now."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0264",
-          "simp": "男人",
-          "trad": "男人",
-          "pinyin": "nánrén",
-          "pos": "N",
-          "en": "man",
-          "defs": [
-            "adult male"
-          ],
-          "example": {
-            "zh": "那个男人是谁？",
-            "en": "Who is that man?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0265",
-          "simp": "男生",
-          "trad": "男生",
-          "pinyin": "nánshēng",
-          "pos": "N",
-          "en": "male student",
-          "defs": [
-            "boy; male student"
-          ],
-          "example": {
-            "zh": "他是我们班的男生。",
-            "en": "He's a boy in our class."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0276",
-          "simp": "女",
-          "trad": "女",
-          "pinyin": "nǚ",
-          "pos": "Adj",
-          "en": "female",
-          "defs": [
-            "female; woman"
-          ],
-          "example": {
-            "zh": "她是我女朋友。",
-            "en": "She is my girlfriend."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0277",
           "simp": "女儿",
           "trad": "女兒",
@@ -3193,134 +3569,6 @@
           "example": {
             "zh": "他有一个女儿。",
             "en": "He has a daughter."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0278",
-          "simp": "女孩儿",
-          "trad": "女孩兒",
-          "pinyin": "nǚháir",
-          "pos": "N",
-          "en": "girl",
-          "defs": [
-            "girl"
-          ],
-          "example": {
-            "zh": "那个女孩儿是我妹妹。",
-            "en": "That girl is my younger sister."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0279",
-          "simp": "女朋友",
-          "trad": "女朋友",
-          "pinyin": "nǚpéngyou",
-          "pos": "N",
-          "en": "girlfriend",
-          "defs": [
-            "girlfriend"
-          ],
-          "example": {
-            "zh": "他有女朋友了。",
-            "en": "He has a girlfriend now."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0280",
-          "simp": "女人",
-          "trad": "女人",
-          "pinyin": "nǚrén",
-          "pos": "N",
-          "en": "woman",
-          "defs": [
-            "adult female"
-          ],
-          "example": {
-            "zh": "那个女人是我妈妈。",
-            "en": "That woman is my mother."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0281",
-          "simp": "女生",
-          "trad": "女生",
-          "pinyin": "nǚshēng",
-          "pos": "N",
-          "en": "female student",
-          "defs": [
-            "girl; female student"
-          ],
-          "example": {
-            "zh": "她是新来的女生。",
-            "en": "She's a new girl student."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0284",
-          "simp": "朋友",
-          "trad": "朋友",
-          "pinyin": "péngyou",
-          "pos": "N",
-          "en": "friend",
-          "defs": [
-            "friend"
-          ],
-          "example": {
-            "zh": "我们是好朋友。",
-            "en": "We are good friends."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0305",
-          "simp": "人",
-          "trad": "人",
-          "pinyin": "rén",
-          "pos": "N",
-          "en": "person",
-          "defs": [
-            "person; people"
-          ],
-          "example": {
-            "zh": "这里有很多人。",
-            "en": "There are many people here."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0331",
-          "simp": "生日",
-          "trad": "生日",
-          "pinyin": "shēngrì",
-          "pos": "N",
-          "en": "birthday",
-          "defs": [
-            "birthday"
-          ],
-          "example": {
-            "zh": "今天是我生日。",
-            "en": "Today is my birthday."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0376",
-          "simp": "网友",
-          "trad": "網友",
-          "pinyin": "wǎngyǒu",
-          "pos": "N",
-          "en": "online friend",
-          "defs": [
-            "internet friend"
-          ],
-          "example": {
-            "zh": "我的网友在中国。",
-            "en": "My online friend is in China."
           },
           "tags": null
         },
@@ -3418,22 +3666,6 @@
           "example": {
             "zh": "我爸爸是医生。",
             "en": "My father is a doctor."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0456",
-          "simp": "在家",
-          "trad": "在家",
-          "pinyin": "zàijiā",
-          "pos": "V",
-          "en": "to be at home",
-          "defs": [
-            "to be home"
-          ],
-          "example": {
-            "zh": "今天我在家。",
-            "en": "I'm at home today."
           },
           "tags": null
         },
@@ -3536,9 +3768,228 @@
       ]
     },
     {
+      "id": "b1-animals-pets",
+      "title": "Animals & Pets",
+      "targetWords": 13,
+      "allocatedWords": 13,
+      "words": [
+        {
+          "id": "L1-0535",
+          "simp": "兔子",
+          "trad": "兔子",
+          "pinyin": "tùzi",
+          "pos": "N",
+          "en": "rabbit",
+          "defs": [
+            "rabbit"
+          ],
+          "example": {
+            "zh": "她有一只兔子。",
+            "en": "She has a rabbit."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0549",
+          "simp": "动物",
+          "trad": "動物",
+          "pinyin": "dòngwù",
+          "pos": "N",
+          "en": "animal",
+          "defs": [
+            "animal"
+          ],
+          "example": {
+            "zh": "我喜欢动物。",
+            "en": "I like animals."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0542",
+          "simp": "大象",
+          "trad": "大象",
+          "pinyin": "dàxiàng",
+          "pos": "N",
+          "en": "elephant",
+          "defs": [
+            "elephant"
+          ],
+          "example": {
+            "zh": "大象的鼻子很长。",
+            "en": "An elephant has a long trunk."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0539",
+          "simp": "熊猫",
+          "trad": "熊猫",
+          "pinyin": "xióngmāo",
+          "pos": "N",
+          "en": "panda",
+          "defs": [
+            "panda"
+          ],
+          "example": {
+            "zh": "熊猫很可爱。",
+            "en": "Pandas are very cute."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0537",
+          "simp": "牛",
+          "trad": "牛",
+          "pinyin": "niú",
+          "pos": "N",
+          "en": "cow",
+          "defs": [
+            "cow"
+          ],
+          "example": {
+            "zh": "那头牛在吃草。",
+            "en": "That cow is eating grass."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0532",
+          "simp": "狗",
+          "trad": "狗",
+          "pinyin": "gǒu",
+          "pos": "N",
+          "en": "dog",
+          "defs": [
+            "dog"
+          ],
+          "example": {
+            "zh": "我家有一只狗。",
+            "en": "My family has a dog."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0531",
+          "simp": "猫",
+          "trad": "貓",
+          "pinyin": "māo",
+          "pos": "N",
+          "en": "cat",
+          "defs": [
+            "cat",
+            "cat ("
+          ],
+          "example": {
+            "zh": "我家有只猫。",
+            "en": "My family has a cat."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0541",
+          "simp": "猴子",
+          "trad": "猴子",
+          "pinyin": "hóuzi",
+          "pos": "N",
+          "en": "monkey",
+          "defs": [
+            "monkey"
+          ],
+          "example": {
+            "zh": "猴子喜欢爬树。",
+            "en": "Monkeys like climbing trees."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0540",
+          "simp": "老虎",
+          "trad": "老虎",
+          "pinyin": "lǎohǔ",
+          "pos": "N",
+          "en": "tiger",
+          "defs": [
+            "tiger"
+          ],
+          "example": {
+            "zh": "老虎是很强的动物。",
+            "en": "Tigers are strong animals."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0536",
+          "simp": "马",
+          "trad": "马",
+          "pinyin": "mǎ",
+          "pos": "N",
+          "en": "horse",
+          "defs": [
+            "horse"
+          ],
+          "example": {
+            "zh": "马跑得很快。",
+            "en": "Horses run fast."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0534",
+          "simp": "鱼",
+          "trad": "魚",
+          "pinyin": "yú",
+          "pos": "N",
+          "en": "fish",
+          "defs": [
+            "fish",
+            "fish ("
+          ],
+          "example": {
+            "zh": "吃鱼健康。",
+            "en": "Eating fish is healthy."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0533",
+          "simp": "鸟",
+          "trad": "鳥",
+          "pinyin": "niǎo",
+          "pos": "N",
+          "en": "bird",
+          "defs": [
+            "bird",
+            "\"bird\" radical in Chinese characters"
+          ],
+          "example": {
+            "zh": "小鸟在飞。",
+            "en": "Little birds are flying."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0538",
+          "simp": "鸡",
+          "trad": "雞",
+          "pinyin": "jī",
+          "pos": "N",
+          "en": "chicken",
+          "defs": [
+            "chicken"
+          ],
+          "example": {
+            "zh": "鸡肉很好吃。",
+            "en": "Chicken is delicious."
+          },
+          "tags": null
+        }
+      ]
+    },
+    {
       "id": "b1-routine",
-      "targetWords": 28,
-      "allocatedWords": 28,
+      "targetWords": 26,
+      "allocatedWords": 27,
       "words": [
         {
           "id": "L1-0040",
@@ -3601,22 +4052,6 @@
           "example": {
             "zh": "他喜欢打球。",
             "en": "He likes playing ball."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0110",
-          "simp": "风",
-          "trad": "風",
-          "pinyin": "fēng",
-          "pos": "N",
-          "en": "wind",
-          "defs": [
-            "wind"
-          ],
-          "example": {
-            "zh": "今天风很大。",
-            "en": "It's very windy today."
           },
           "tags": null
         },
@@ -3973,18 +4408,18 @@
           "tags": null
         },
         {
-          "id": "L1-0240",
-          "simp": "门票",
-          "trad": "門票",
-          "pinyin": "ménpiào",
+          "id": "L1-0088",
+          "simp": "动作",
+          "trad": "動作",
+          "pinyin": "dòngzuò",
           "pos": "N",
-          "en": "entrance ticket",
+          "en": "movement",
           "defs": [
-            "admission ticket"
+            "action; movement"
           ],
           "example": {
-            "zh": "门票多少钱？",
-            "en": "How much is the entrance ticket?"
+            "zh": "这个动作很难。",
+            "en": "This movement is very difficult."
           },
           "tags": null
         }
@@ -4387,8 +4822,8 @@
     },
     {
       "id": "b1-shopping",
-      "targetWords": 12,
-      "allocatedWords": 12,
+      "targetWords": 31,
+      "allocatedWords": 31,
       "words": [
         {
           "id": "L1-0086",
@@ -4579,6 +5014,313 @@
           "example": {
             "zh": "十元钱。",
             "en": "Ten yuan."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0564",
+          "simp": "大衣",
+          "trad": "大衣",
+          "pinyin": "dàyī",
+          "pos": "N",
+          "en": "overcoat",
+          "defs": [
+            "overcoat"
+          ],
+          "example": {
+            "zh": "冬天穿大衣。",
+            "en": "Wear an overcoat in winter."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0565",
+          "simp": "鞋",
+          "trad": "鞋",
+          "pinyin": "xié",
+          "pos": "N",
+          "en": "shoe",
+          "defs": [
+            "shoe"
+          ],
+          "example": {
+            "zh": "这双鞋很舒服。",
+            "en": "These shoes are comfortable."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0566",
+          "simp": "球鞋",
+          "trad": "球鞋",
+          "pinyin": "qiúxié",
+          "pos": "N",
+          "en": "sneakers",
+          "defs": [
+            "sneakers"
+          ],
+          "example": {
+            "zh": "他穿着球鞋跑步。",
+            "en": "He runs in sneakers."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0567",
+          "simp": "手表",
+          "trad": "手錶",
+          "pinyin": "shǒubiǎo",
+          "pos": "N",
+          "en": "wristwatch",
+          "defs": [
+            "wristwatch"
+          ],
+          "example": {
+            "zh": "他戴着一块手表。",
+            "en": "He's wearing a watch."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0568",
+          "simp": "信用卡",
+          "trad": "信用卡",
+          "pinyin": "xìnyòngkǎ",
+          "pos": "N",
+          "en": "credit card",
+          "defs": [
+            "credit card"
+          ],
+          "example": {
+            "zh": "我用信用卡付钱。",
+            "en": "I pay with a credit card."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0569",
+          "simp": "店",
+          "trad": "店",
+          "pinyin": "diàn",
+          "pos": "N",
+          "en": "shop",
+          "defs": [
+            "shop"
+          ],
+          "example": {
+            "zh": "附近有一家小吃店。",
+            "en": "There's a snack shop nearby."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0570",
+          "simp": "公斤",
+          "trad": "公斤",
+          "pinyin": "gōngjīn",
+          "pos": "M",
+          "en": "kilogram",
+          "defs": [
+            "kilogram"
+          ],
+          "example": {
+            "zh": "一公斤苹果。",
+            "en": "One kilogram of apples."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0571",
+          "simp": "顾客",
+          "trad": "顧客",
+          "pinyin": "gùkè",
+          "pos": "N",
+          "en": "customer",
+          "defs": [
+            "customer"
+          ],
+          "example": {
+            "zh": "今天店里的顾客特别多。",
+            "en": "There are especially many customers in the store today."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0572",
+          "simp": "广告",
+          "trad": "廣告",
+          "pinyin": "guǎnggào",
+          "pos": "N",
+          "en": "advertisement",
+          "defs": [
+            "advertisement"
+          ],
+          "example": {
+            "zh": "看电视广告。",
+            "en": "Watch TV commercials."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0573",
+          "simp": "克",
+          "trad": "克",
+          "pinyin": "kè",
+          "pos": "M",
+          "en": "gram",
+          "defs": [
+            "gram"
+          ],
+          "example": {
+            "zh": "这个重五百克。",
+            "en": "This weighs 500 grams."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0574",
+          "simp": "卖",
+          "trad": "賣",
+          "pinyin": "mài",
+          "pos": "V",
+          "en": "to sell",
+          "defs": [
+            "to sell",
+            "to betray"
+          ],
+          "example": {
+            "zh": "这家店卖衣服。",
+            "en": "This store sells clothes."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0575",
+          "simp": "件",
+          "trad": "件",
+          "pinyin": "jiàn",
+          "pos": "M",
+          "en": "item (clothing)",
+          "defs": [
+            "item"
+          ],
+          "example": {
+            "zh": "一件衣服。",
+            "en": "One piece of clothing."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0576",
+          "simp": "斤",
+          "trad": "斤",
+          "pinyin": "jīn",
+          "pos": "M",
+          "en": "jin (500g)",
+          "defs": [
+            "jin"
+          ],
+          "example": {
+            "zh": "一斤苹果。",
+            "en": "Half kilo of apples."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0577",
+          "simp": "两",
+          "trad": "兩",
+          "pinyin": "liǎng",
+          "pos": "Num",
+          "en": "two (before measure word)",
+          "defs": [
+            "two"
+          ],
+          "example": {
+            "zh": "我买了两件衣服。",
+            "en": "I bought two pieces of clothing."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0578",
+          "simp": "千",
+          "trad": "千",
+          "pinyin": "qiān",
+          "pos": "Num",
+          "en": "thousand",
+          "defs": [
+            "thousand"
+          ],
+          "example": {
+            "zh": "一千元。",
+            "en": "One thousand yuan."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0579",
+          "simp": "条",
+          "trad": "條",
+          "pinyin": "tiáo",
+          "pos": "M",
+          "en": "for long objects",
+          "defs": [
+            "for long objects",
+            "classifier for long thin things"
+          ],
+          "example": {
+            "zh": "他买了一条裤子和一条鱼。",
+            "en": "He bought a pair of pants and a fish."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0580",
+          "simp": "万",
+          "trad": "萬",
+          "pinyin": "wàn",
+          "pos": "Num",
+          "en": "ten thousand",
+          "defs": [
+            "ten thousand"
+          ],
+          "example": {
+            "zh": "这台电脑要一万元。",
+            "en": "This computer costs ten thousand yuan."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0581",
+          "simp": "亿",
+          "trad": "億",
+          "pinyin": "yì",
+          "pos": "Num",
+          "en": "hundred million",
+          "defs": [
+            "hundred million",
+            "100 million"
+          ],
+          "example": {
+            "zh": "这个城市有一亿人口。",
+            "en": "This city has 100 million people."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0240",
+          "simp": "门票",
+          "trad": "門票",
+          "pinyin": "ménpiào",
+          "pos": "N",
+          "en": "entrance ticket",
+          "defs": [
+            "admission ticket"
+          ],
+          "example": {
+            "zh": "门票多少钱？",
+            "en": "How much is the entrance ticket?"
           },
           "tags": null
         }
@@ -5073,8 +5815,8 @@
     },
     {
       "id": "b1-directions",
-      "targetWords": 37,
-      "allocatedWords": 37,
+      "targetWords": 36,
+      "allocatedWords": 36,
       "words": [
         {
           "id": "L1-0019",
@@ -5105,22 +5847,6 @@
           "example": {
             "zh": "学校在北边。",
             "en": "The school is on the north side."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0052",
-          "simp": "床",
-          "trad": "床",
-          "pinyin": "chuáng",
-          "pos": "N",
-          "en": "bed",
-          "defs": [
-            "bed"
-          ],
-          "example": {
-            "zh": "我的床很舒服。",
-            "en": "My bed is very comfortable."
           },
           "tags": null
         },
@@ -6111,25 +6837,9 @@
     },
     {
       "id": "b1-school",
-      "targetWords": 61,
-      "allocatedWords": 61,
+      "targetWords": 54,
+      "allocatedWords": 54,
       "words": [
-        {
-          "id": "L1-0023",
-          "simp": "本子",
-          "trad": "本子",
-          "pinyin": "běnzi",
-          "pos": "N",
-          "en": "notebook",
-          "defs": [
-            "notebook"
-          ],
-          "example": {
-            "zh": "我的本子在哪里？",
-            "en": "Where is my notebook?"
-          },
-          "tags": null
-        },
         {
           "id": "L1-0062",
           "simp": "大学",
@@ -6143,38 +6853,6 @@
           "example": {
             "zh": "我上大学了。",
             "en": "I'm in university now."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0063",
-          "simp": "大学生",
-          "trad": "大學生",
-          "pinyin": "dàxuéshēng",
-          "pos": "N",
-          "en": "university student",
-          "defs": [
-            "college student"
-          ],
-          "example": {
-            "zh": "他是大学生。",
-            "en": "He is a university student."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0073",
-          "simp": "地图",
-          "trad": "地圖",
-          "pinyin": "dìtú",
-          "pos": "N",
-          "en": "map",
-          "defs": [
-            "map"
-          ],
-          "example": {
-            "zh": "我看地图找路。",
-            "en": "I look at the map to find the way."
           },
           "tags": null
         },
@@ -6207,54 +6885,6 @@
           "example": {
             "zh": "你的电话是多少？",
             "en": "What's your phone number?"
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0079",
-          "simp": "电脑",
-          "trad": "電腦",
-          "pinyin": "diànnǎo",
-          "pos": "N",
-          "en": "computer",
-          "defs": [
-            "computer"
-          ],
-          "example": {
-            "zh": "我用电脑学习。",
-            "en": "I use the computer to study."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0080",
-          "simp": "电视",
-          "trad": "電視",
-          "pinyin": "diànshì",
-          "pos": "N",
-          "en": "television",
-          "defs": [
-            "TV"
-          ],
-          "example": {
-            "zh": "晚上我看电视。",
-            "en": "I watch TV in the evening."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0081",
-          "simp": "电视机",
-          "trad": "電視機",
-          "pinyin": "diànshìjī",
-          "pos": "N",
-          "en": "television set",
-          "defs": [
-            "TV set"
-          ],
-          "example": {
-            "zh": "电视机坏了。",
-            "en": "The TV is broken."
           },
           "tags": null
         },
@@ -6303,22 +6933,6 @@
           "example": {
             "zh": "他在读书。",
             "en": "He is reading."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0123",
-          "simp": "工人",
-          "trad": "工人",
-          "pinyin": "gōngrén",
-          "pos": "N",
-          "en": "worker",
-          "defs": [
-            "worker"
-          ],
-          "example": {
-            "zh": "他是工人。",
-            "en": "He is a worker."
           },
           "tags": null
         },
@@ -6499,22 +7113,6 @@
           "tags": null
         },
         {
-          "id": "L1-0209",
-          "simp": "老师",
-          "trad": "老師",
-          "pinyin": "lǎoshī",
-          "pos": "N",
-          "en": "teacher",
-          "defs": [
-            "teacher"
-          ],
-          "example": {
-            "zh": "王老师很好。",
-            "en": "Teacher Wang is very nice."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0320",
           "simp": "上课",
           "trad": "上課",
@@ -6563,54 +7161,6 @@
           "tags": null
         },
         {
-          "id": "L1-0340",
-          "simp": "手机",
-          "trad": "手機",
-          "pinyin": "shǒujī",
-          "pos": "N",
-          "en": "cell phone",
-          "defs": [
-            "mobile phone"
-          ],
-          "example": {
-            "zh": "我的手机在桌子上。",
-            "en": "My phone is on the table."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0341",
-          "simp": "书",
-          "trad": "書",
-          "pinyin": "shū",
-          "pos": "N",
-          "en": "book",
-          "defs": [
-            "book"
-          ],
-          "example": {
-            "zh": "我爱看书。",
-            "en": "I love reading books."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0342",
-          "simp": "书包",
-          "trad": "書包",
-          "pinyin": "shūbāo",
-          "pos": "N",
-          "en": "schoolbag",
-          "defs": [
-            "backpack"
-          ],
-          "example": {
-            "zh": "我的书包很重。",
-            "en": "My schoolbag is very heavy."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0343",
           "simp": "书店",
           "trad": "書店",
@@ -6639,22 +7189,6 @@
           "example": {
             "zh": "明天有听写。",
             "en": "We have dictation tomorrow."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0365",
-          "simp": "同学",
-          "trad": "同學",
-          "pinyin": "tóngxué",
-          "pos": "N",
-          "en": "classmate",
-          "defs": [
-            "fellow student"
-          ],
-          "example": {
-            "zh": "他是我的同学。",
-            "en": "He's my classmate."
           },
           "tags": null
         },
@@ -6691,22 +7225,6 @@
           "tags": null
         },
         {
-          "id": "L1-0407",
-          "simp": "小学生",
-          "trad": "小學生",
-          "pinyin": "xiǎoxuéshēng",
-          "pos": "N",
-          "en": "elementary student",
-          "defs": [
-            "primary school student"
-          ],
-          "example": {
-            "zh": "他是小学生。",
-            "en": "He's an elementary student."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0409",
           "simp": "写",
           "trad": "寫",
@@ -6735,22 +7253,6 @@
           "example": {
             "zh": "我们一起学汉语。",
             "en": "We learn Chinese together."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0419",
-          "simp": "学生",
-          "trad": "學生",
-          "pinyin": "xuéshēng",
-          "pos": "N",
-          "en": "student",
-          "defs": [
-            "pupil; student"
-          ],
-          "example": {
-            "zh": "我是学生。",
-            "en": "I'm a student."
           },
           "tags": null
         },
@@ -6819,22 +7321,6 @@
           "tags": null
         },
         {
-          "id": "L1-0482",
-          "simp": "中学生",
-          "trad": "中學生",
-          "pinyin": "zhōngxuéshēng",
-          "pos": "N",
-          "en": "middle school student",
-          "defs": [
-            "secondary school student"
-          ],
-          "example": {
-            "zh": "我是中学生。",
-            "en": "I'm a middle school student."
-          },
-          "tags": null
-        },
-        {
           "id": "L1-0488",
           "simp": "字",
           "trad": "字",
@@ -6851,7 +7337,7 @@
           "tags": null
         },
         {
-          "id": "L2-0279",
+          "id": "L1-0515",
           "simp": "教室",
           "trad": "教室",
           "pinyin": "jiàoshì",
@@ -6867,7 +7353,7 @@
           "tags": null
         },
         {
-          "id": "L2-0326",
+          "id": "L1-0518",
           "simp": "课堂",
           "trad": "課堂",
           "pinyin": "kètáng",
@@ -6884,7 +7370,7 @@
           "tags": null
         },
         {
-          "id": "L2-0766",
+          "id": "L1-0523",
           "simp": "作业",
           "trad": "作業",
           "pinyin": "zuòyè",
@@ -6900,72 +7386,7 @@
           "tags": null
         },
         {
-          "id": "L2-0022",
-          "simp": "笔记本",
-          "trad": "筆記本",
-          "pinyin": "bǐjìběn",
-          "pos": "N",
-          "en": "notebook",
-          "defs": [
-            "notebook",
-            "notebook ("
-          ],
-          "example": {
-            "zh": "我买了一个笔记本。",
-            "en": "I bought a notebook."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0020",
-          "simp": "笔",
-          "trad": "筆",
-          "pinyin": "bǐ",
-          "pos": "N",
-          "en": "pen",
-          "defs": [
-            "pen"
-          ],
-          "example": {
-            "zh": "用笔写字。",
-            "en": "Write with a pen."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0021",
-          "simp": "笔记",
-          "trad": "筆記",
-          "pinyin": "bǐjì",
-          "pos": "N",
-          "en": "notes",
-          "defs": [
-            "notes"
-          ],
-          "example": {
-            "zh": "上课记笔记。",
-            "en": "Take notes in class."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0082",
-          "simp": "词典",
-          "trad": "詞典",
-          "pinyin": "cídiǎn",
-          "pos": "N",
-          "en": "dictionary",
-          "defs": [
-            "dictionary"
-          ],
-          "example": {
-            "zh": "查词典学新词。",
-            "en": "Look up new words in the dictionary."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0083",
+          "id": "L1-0512",
           "simp": "词语",
           "trad": "詞語",
           "pinyin": "cíyǔ",
@@ -6981,7 +7402,7 @@
           "tags": null
         },
         {
-          "id": "L2-0081",
+          "id": "L1-0510",
           "simp": "词",
           "trad": "詞",
           "pinyin": "cí",
@@ -6997,7 +7418,7 @@
           "tags": null
         },
         {
-          "id": "L2-0478",
+          "id": "L1-0519",
           "simp": "生词",
           "trad": "生詞",
           "pinyin": "shēngcí",
@@ -7014,40 +7435,7 @@
           "tags": null
         },
         {
-          "id": "L2-0754",
-          "simp": "字典",
-          "trad": "字典",
-          "pinyin": "zìdiǎn",
-          "pos": "N",
-          "en": "dictionary",
-          "defs": [
-            "dictionary",
-            "Chinese character dictionary"
-          ],
-          "example": {
-            "zh": "查字典。",
-            "en": "Look it up in the dictionary."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0224",
-          "simp": "黑板",
-          "trad": "黑板",
-          "pinyin": "hēibǎn",
-          "pos": "N",
-          "en": "blackboard",
-          "defs": [
-            "blackboard"
-          ],
-          "example": {
-            "zh": "老师在黑板上写字。",
-            "en": "The teacher writes on the blackboard."
-          },
-          "tags": null
-        },
-        {
-          "id": "L2-0138",
+          "id": "L1-0513",
           "simp": "读音",
           "trad": "讀音",
           "pinyin": "dúyīn",
@@ -7063,7 +7451,7 @@
           "tags": null
         },
         {
-          "id": "L2-0308",
+          "id": "L1-0517",
           "simp": "句子",
           "trad": "句子",
           "pinyin": "jùzi",
@@ -7079,7 +7467,7 @@
           "tags": null
         },
         {
-          "id": "L2-0307",
+          "id": "L1-0516",
           "simp": "句",
           "trad": "句",
           "pinyin": "jù",
@@ -7093,13 +7481,238 @@
             "en": "He said just one sentence and left."
           },
           "tags": null
+        },
+        {
+          "id": "L1-0550",
+          "simp": "学期",
+          "trad": "學期",
+          "pinyin": "xuéqī",
+          "pos": "N",
+          "en": "semester",
+          "defs": [
+            "semester"
+          ],
+          "example": {
+            "zh": "新学期开始。",
+            "en": "New semester begins."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0551",
+          "simp": "成绩",
+          "trad": "成績",
+          "pinyin": "chéngjì",
+          "pos": "N",
+          "en": "grade",
+          "defs": [
+            "grade"
+          ],
+          "example": {
+            "zh": "考试成绩很好。",
+            "en": "Good exam results."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0552",
+          "simp": "分数",
+          "trad": "分數",
+          "pinyin": "fēnshù",
+          "pos": "N",
+          "en": "score",
+          "defs": [
+            "score"
+          ],
+          "example": {
+            "zh": "考试成绩分数很高。",
+            "en": "The exam score is very high."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0553",
+          "simp": "名称",
+          "trad": "名稱",
+          "pinyin": "míngchēng",
+          "pos": "N",
+          "en": "name",
+          "defs": [
+            "name"
+          ],
+          "example": {
+            "zh": "这个产品的名称是什么？",
+            "en": "What's the name of this product?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0554",
+          "simp": "名单",
+          "trad": "名單",
+          "pinyin": "míngdān",
+          "pos": "N",
+          "en": "name list",
+          "defs": [
+            "name list",
+            "list of names"
+          ],
+          "example": {
+            "zh": "名单上有你的名字。",
+            "en": "Your name is on the list."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0555",
+          "simp": "音节",
+          "trad": "音節",
+          "pinyin": "yīnjié",
+          "pos": "N",
+          "en": "syllable",
+          "defs": [
+            "syllable"
+          ],
+          "example": {
+            "zh": "这个单词有两个音节。",
+            "en": "This word has two syllables."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0556",
+          "simp": "小说",
+          "trad": "小說",
+          "pinyin": "xiǎoshuō",
+          "pos": "N",
+          "en": "novel",
+          "defs": [
+            "novel"
+          ],
+          "example": {
+            "zh": "她最近在看一本很有意思的小说。",
+            "en": "She has been reading a very interesting novel recently."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0557",
+          "simp": "数字",
+          "trad": "數字",
+          "pinyin": "shùzì",
+          "pos": "N",
+          "en": "number",
+          "defs": [
+            "number"
+          ],
+          "example": {
+            "zh": "请用数字写下你的电话号码。",
+            "en": "Please write your phone number in digits."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0558",
+          "simp": "英文",
+          "trad": "英文",
+          "pinyin": "yīngwén",
+          "pos": "N",
+          "en": "English",
+          "defs": [
+            "English"
+          ],
+          "example": {
+            "zh": "这封信是用英文写的。",
+            "en": "This letter is written in English."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0559",
+          "simp": "英语",
+          "trad": "英語",
+          "pinyin": "yīngyǔ",
+          "pos": "N",
+          "en": "English",
+          "defs": [
+            "English"
+          ],
+          "example": {
+            "zh": "她的英语说得非常流利。",
+            "en": "She speaks English very fluently."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0560",
+          "simp": "语言",
+          "trad": "語言",
+          "pinyin": "yǔyán",
+          "pos": "N",
+          "en": "language",
+          "defs": [
+            "language"
+          ],
+          "example": {
+            "zh": "学习语言。",
+            "en": "Learn a language."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0561",
+          "simp": "科学",
+          "trad": "科學",
+          "pinyin": "kēxué",
+          "pos": "N",
+          "en": "science",
+          "defs": [
+            "science"
+          ],
+          "example": {
+            "zh": "科学很重要。",
+            "en": "Science is important."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0562",
+          "simp": "题",
+          "trad": "題",
+          "pinyin": "tí",
+          "pos": "N",
+          "en": "topic",
+          "defs": [
+            "topic"
+          ],
+          "example": {
+            "zh": "这道题很难。",
+            "en": "This question is hard."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0563",
+          "simp": "普通话",
+          "trad": "普通話",
+          "pinyin": "pǔtōnghuà",
+          "pos": "N",
+          "en": "Mandarin",
+          "defs": [
+            "Mandarin"
+          ],
+          "example": {
+            "zh": "她说普通话。",
+            "en": "She speaks Mandarin."
+          },
+          "tags": null
         }
       ]
     },
     {
       "id": "b1-verbs-2",
-      "targetWords": 22,
-      "allocatedWords": 22,
+      "targetWords": 23,
+      "allocatedWords": 23,
       "words": [
         {
           "id": "L1-0132",
@@ -7450,6 +8063,22 @@
           "example": {
             "zh": "请坐下。",
             "en": "Please sit down."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0583",
+          "simp": "快点儿",
+          "trad": "快點兒",
+          "pinyin": "kuàidiǎnr",
+          "pos": "Adv",
+          "en": "hurry up",
+          "defs": [
+            "hurry up"
+          ],
+          "example": {
+            "zh": "快点儿走。",
+            "en": "Walk faster."
           },
           "tags": null
         }
@@ -7848,8 +8477,8 @@
     },
     {
       "id": "b1-opinions",
-      "targetWords": 26,
-      "allocatedWords": 26,
+      "targetWords": 28,
+      "allocatedWords": 28,
       "words": [
         {
           "id": "L1-0001",
@@ -7880,22 +8509,6 @@
           "example": {
             "zh": "我的爱好是看书。",
             "en": "My hobby is reading books."
-          },
-          "tags": null
-        },
-        {
-          "id": "L1-0006",
-          "simp": "白",
-          "trad": "白",
-          "pinyin": "bái",
-          "pos": "Adj",
-          "en": "white",
-          "defs": [
-            "white"
-          ],
-          "example": {
-            "zh": "她穿白衣服。",
-            "en": "She wears white clothes."
           },
           "tags": null
         },
@@ -8264,6 +8877,54 @@
           "example": {
             "zh": "我有一点儿累。",
             "en": "I'm a little tired."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0582",
+          "simp": "有点儿",
+          "trad": "有點兒",
+          "pinyin": "yǒudiǎnr",
+          "pos": "Adv",
+          "en": "a little",
+          "defs": [
+            "a little"
+          ],
+          "example": {
+            "zh": "我有点儿累。",
+            "en": "I'm a little tired."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0584",
+          "simp": "全",
+          "trad": "全",
+          "pinyin": "quán",
+          "pos": "Quant",
+          "en": "all",
+          "defs": [
+            "all"
+          ],
+          "example": {
+            "zh": "全班同学都到了。",
+            "en": "The whole class has arrived."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0585",
+          "simp": "全部",
+          "trad": "全部",
+          "pinyin": "quánbù",
+          "pos": "Quant",
+          "en": "all",
+          "defs": [
+            "all"
+          ],
+          "example": {
+            "zh": "全部吃完。",
+            "en": "Ate it all."
           },
           "tags": null
         }
