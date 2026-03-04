@@ -78,6 +78,65 @@ function renderNoteText(text: string) {
   });
 }
 
+function condenseGuideNote(text: string, maxChars = 210) {
+  const normalized = text
+    .replace(/\s*\n+\s*/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (!normalized || normalized.length <= maxChars) return normalized;
+
+  const sentenceChunks = normalized.split(/(?<=[.!?])\s+/).filter(Boolean);
+  if (sentenceChunks.length > 1) {
+    const firstTwo = sentenceChunks.slice(0, 2).join(' ').trim();
+    if (firstTwo.length <= maxChars) return `${firstTwo}…`;
+  }
+
+  const clipped = normalized.slice(0, maxChars);
+  const safeBoundary = clipped.lastIndexOf(' ');
+  const compact = (safeBoundary > 120 ? clipped.slice(0, safeBoundary) : clipped).trim();
+  return `${compact}…`;
+}
+
+type GuideNoteBlock =
+  | { kind: 'bullet'; text: string }
+  | { kind: 'title'; title: string; bodies: string[] }
+  | { kind: 'text'; text: string };
+
+function buildGuideNoteBlocks(notes: string[]) {
+  const blocks: GuideNoteBlock[] = [];
+
+  for (const rawNote of notes) {
+    const trimmed = rawNote.trim();
+    if (!trimmed) continue;
+
+    if (trimmed.startsWith('•')) {
+      blocks.push({ kind: 'bullet', text: condenseGuideNote(trimmed.slice(1).trim()) });
+      continue;
+    }
+
+    if (trimmed.includes('::')) {
+      const [title, ...rest] = trimmed.split('::');
+      const body = condenseGuideNote(rest.join('::').trim(), 230);
+      blocks.push({
+        kind: 'title',
+        title: title.trim(),
+        bodies: body ? [body] : [],
+      });
+      continue;
+    }
+
+    const condensed = condenseGuideNote(trimmed);
+    const prev = blocks[blocks.length - 1];
+    if (prev && prev.kind === 'title') {
+      prev.bodies.push(condensed);
+      continue;
+    }
+    blocks.push({ kind: 'text', text: condensed });
+  }
+
+  return blocks;
+}
+
 export default function TravelSectionPage({ section, onGoHome, onOpenProfile, selectedLanguage }: TravelSectionPageProps) {
   const { speak } = useAudio();
   const isJapanese = normalizeLanguageId(selectedLanguage) === 'ja';
@@ -225,10 +284,10 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                   className="rounded-2xl px-4 py-4 sm:px-5 sm:py-5 mb-3.5"
                   style={{ backgroundColor: theme }}
                 >
-                  <div className="main-font text-[1.05rem] sm:text-[1.1rem] tracking-wide mb-2 text-white">
+                  <div className="font-mono text-[0.95rem] sm:text-[1rem] uppercase tracking-[0.12em] mb-2 text-white/92">
                     Local Guide
                   </div>
-                  <h2 className="text-[1.28rem] sm:text-[1.4rem] secondary-font text-white leading-snug text-pretty">
+                  <h2 className="text-[1.28rem] sm:text-[1.4rem] main-font text-white leading-snug text-pretty">
                     {section.focus}
                   </h2>
                   <p className="text-[0.74rem] text-white/90 mt-2 mb-3.5 leading-relaxed text-pretty">{section.scene}</p>
@@ -245,36 +304,37 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                   </div>
                 </div>
 
-                <div className="mx-auto max-w-3xl space-y-3 text-left text-[#1F2A37] text-pretty">
-                  {section.culturalNotes.map((note, idx) => {
-                    const trimmed = note.trim();
-                    if (trimmed.startsWith('•')) {
+                <div className="mx-auto max-w-3xl space-y-2.5 text-left text-[#1F2A37] text-pretty">
+                  {buildGuideNoteBlocks(section.culturalNotes).map((block, idx) => {
+                    if (block.kind === 'bullet') {
                       return (
-                        <p key={`${section.id}-tip-${idx}`} className="pl-5 relative text-[0.98rem] leading-7">
-                          <span className="absolute left-0 top-[0.42rem] text-[#3E5648]">•</span>
-                          {renderNoteText(trimmed.slice(1).trim())}
+                        <p key={`${section.id}-tip-${idx}`} className="pl-4 relative text-[0.9rem] leading-[1.55] text-[#334155]">
+                          <span className="absolute left-0 top-[0.38rem] text-[#3E5648]">•</span>
+                          {renderNoteText(block.text)}
                         </p>
                       );
                     }
-                    if (trimmed.includes('::')) {
-                      const [title, ...rest] = trimmed.split('::');
-                      const body = rest.join('::').trim();
+
+                    if (block.kind === 'title') {
                       return (
-                        <div key={`${section.id}-tip-${idx}`} className="pt-1">
-                          <p className="text-[0.9rem] sm:text-[0.9rem] font-semibold text-[#1F2A37] leading-tight mb-1.5">
-                            {title}
+                        <div key={`${section.id}-tip-${idx}`} className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2.5">
+                          <p className="text-[0.84rem] font-semibold text-[#1F2A37] leading-tight mb-1">
+                            {block.title}
                           </p>
-                          {body ? (
-                            <p className="text-[0.8rem] leading-7">
-                              {renderNoteText(body)}
-                            </p>
-                          ) : null}
+                          <div className="space-y-1.5">
+                            {block.bodies.map((body, bodyIdx) => (
+                              <p key={`${section.id}-tip-${idx}-body-${bodyIdx}`} className="text-[0.9rem] leading-[1.55] text-[#334155]">
+                                {renderNoteText(body)}
+                              </p>
+                            ))}
+                          </div>
                         </div>
                       );
                     }
+
                     return (
-                      <p key={`${section.id}-tip-${idx}`} className="text-[0.8rem] leading-7">
-                        {renderNoteText(trimmed)}
+                      <p key={`${section.id}-tip-${idx}`} className="text-[0.9rem] leading-[1.55] text-[#334155]">
+                        {renderNoteText(block.text)}
                       </p>
                     );
                   })}
