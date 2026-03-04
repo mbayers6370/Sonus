@@ -395,16 +395,16 @@ export async function authRoutes(app: FastifyInstance) {
       onboardingComplete: true,
     });
 
+    if (data.session?.refresh_token) {
+      setRefreshCookie(reply, data.session.refresh_token, true);
+      setRememberCookie(reply, true);
+    }
     reply.send({
       user: { id: data.user.id, email: data.user.email ?? parsed.data.email },
       profile,
       accessToken: data.session?.access_token ?? null,
       requiresEmailVerification: !data.session,
     });
-    if (data.session?.refresh_token) {
-      setRefreshCookie(reply, data.session.refresh_token, true);
-      setRememberCookie(reply, true);
-    }
   });
 
   app.post('/v1/auth/login', async (request, reply) => {
@@ -536,14 +536,14 @@ export async function authRoutes(app: FastifyInstance) {
 
     const profile = await getOrCreateProfile(data.user.id, data.user.email ?? parsed.data.email);
 
+    setRefreshCookie(reply, data.session.refresh_token, rememberMe);
+    setRememberCookie(reply, rememberMe);
     reply.send({
       user: { id: data.user.id, email: data.user.email ?? parsed.data.email },
       profile,
       accessToken: data.session.access_token,
     });
     loginThrottle.registerSuccess(identity);
-    setRefreshCookie(reply, data.session.refresh_token, rememberMe);
-    setRememberCookie(reply, rememberMe);
   });
 
   app.post('/v1/auth/debug/reset-login-throttle', async (request, reply) => {
@@ -675,11 +675,13 @@ export async function authRoutes(app: FastifyInstance) {
 
       if (!rotated.ok) {
         clearRefreshCookie(reply);
+        clearRememberCookie(reply);
         reply.code(401).send({ error: 'Unable to refresh session' });
         return;
       }
 
       setRefreshCookie(reply, rotated.refreshToken, persistentSession);
+      setRememberCookie(reply, persistentSession);
       reply.send({
         user: rotated.user,
         accessToken: createAccessToken({
@@ -707,11 +709,12 @@ export async function authRoutes(app: FastifyInstance) {
       return;
     }
 
+    setRefreshCookie(reply, data.session.refresh_token, persistentSession);
+    setRememberCookie(reply, persistentSession);
     reply.send({
       user: { id: data.user.id, email: data.user.email ?? null },
       accessToken: data.session.access_token,
     });
-    setRefreshCookie(reply, data.session.refresh_token, persistentSession);
   });
 
   app.post('/v1/auth/logout', async (request, reply) => {
