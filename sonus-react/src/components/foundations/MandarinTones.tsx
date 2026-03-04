@@ -19,10 +19,10 @@ const TONE_CARDS = [
     example: 'steady high pitch',
     englishExample: 'English analogy: saying "okay." in a flat, sustained voice.',
     accent: {
-      border: 'border-[#D2DEE7]',
-      badgeBg: 'bg-[rgba(24,110,149,0.12)]',
-      badgeText: 'text-[#186E95]',
-      shadow: 'hover:shadow-[0_20px_40px_-24px_rgba(15,23,42,0.20)]',
+      border: 'border-[#CBD5E1]',
+      chip: 'bg-[#E6F0F6] text-[#145A7D]',
+      contour: 'text-[#145A7D]',
+      tone: 'text-[#145A7D]',
     },
     contour: 'M2 10 L26 10',
   },
@@ -35,10 +35,10 @@ const TONE_CARDS = [
     example: 'rise like asking "huh?"',
     englishExample: 'English analogy: the rise at the end of "what?"',
     accent: {
-      border: 'border-[#D2DEE7]',
-      badgeBg: 'bg-[rgba(62,86,72,0.12)]',
-      badgeText: 'text-[#3E5648]',
-      shadow: 'hover:shadow-[0_20px_40px_-24px_rgba(15,23,42,0.20)]',
+      border: 'border-[#CBD5E1]',
+      chip: 'bg-[#EAF2EC] text-[#2F5A4A]',
+      contour: 'text-[#2F5A4A]',
+      tone: 'text-[#2F5A4A]',
     },
     contour: 'M2 16 L26 4',
   },
@@ -51,10 +51,10 @@ const TONE_CARDS = [
     example: 'fall low, then rise',
     englishExample: 'English analogy: uncertain "well..." (dips then lifts).',
     accent: {
-      border: 'border-[#D2DEE7]',
-      badgeBg: 'bg-[rgba(31,42,55,0.10)]',
-      badgeText: 'text-[#1F2A37]',
-      shadow: 'hover:shadow-[0_20px_40px_-24px_rgba(15,23,42,0.20)]',
+      border: 'border-[#CBD5E1]',
+      chip: 'bg-[#ECEFF3] text-[#1F2A37]',
+      contour: 'text-[#1F2A37]',
+      tone: 'text-[#1F2A37]',
     },
     contour: 'M2 6 Q10 18 16 11 T26 4',
   },
@@ -67,10 +67,10 @@ const TONE_CARDS = [
     example: 'quick, strong drop',
     englishExample: 'English analogy: a firm command like "No!"',
     accent: {
-      border: 'border-[#D2DEE7]',
-      badgeBg: 'bg-[rgba(194,65,12,0.12)]',
-      badgeText: 'text-[#C2410C]',
-      shadow: 'hover:shadow-[0_20px_40px_-24px_rgba(15,23,42,0.20)]',
+      border: 'border-[#CBD5E1]',
+      chip: 'bg-[#F8ECE6] text-[#B1461B]',
+      contour: 'text-[#B1461B]',
+      tone: 'text-[#B1461B]',
     },
     contour: 'M2 4 L26 16',
   },
@@ -83,10 +83,10 @@ const TONE_CARDS = [
     example: 'short, light, unstressed',
     englishExample: 'English analogy: the unstressed "a" in "about".',
     accent: {
-      border: 'border-[#D2DEE7]',
-      badgeBg: 'bg-gray-100/90',
-      badgeText: 'text-gray-700',
-      shadow: 'hover:shadow-[0_20px_40px_-24px_rgba(107,114,128,0.18)]',
+      border: 'border-[#CBD5E1]',
+      chip: 'bg-[#F1F5F9] text-[#475569]',
+      contour: 'text-[#475569]',
+      tone: 'text-[#475569]',
     },
     contour: 'M2 10 Q9 9 16 10 T26 10',
   },
@@ -98,14 +98,9 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
     window.speechSynthesis?.getVoices?.();
   }, []);
 
-  const handlePlay = (toneId: string, hanzi: string, pinyin: string) => {
+  const handlePlay = (hanzi: string, pinyin: string) => {
     window.speechSynthesis?.cancel?.();
     window.speechSynthesis?.resume?.();
-    if (toneId === 'tone0') {
-      // Neutral tone should play as the literal unstressed "ma".
-      speak('ma', 'ma');
-      return;
-    }
     speak(hanzi, pinyin, false, 'zh');
   };
 
@@ -134,19 +129,22 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
         {TONE_CARDS.map((tone, index) => (
           <div
             key={tone.id}
-            className={`dashboard-card-enter bg-white border ${tone.accent.border} rounded-3xl p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${tone.accent.shadow}`}
+            className={`dashboard-card-enter bg-[#FCFDFC] border ${tone.accent.border} rounded-2xl p-5 shadow-[0_10px_22px_-20px_rgba(15,23,42,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_28px_-22px_rgba(15,23,42,0.32)]`}
             style={{ animationDelay: `${index * 45 + 40}ms` }}
           >
-            <div className="flex items-start justify-between mb-4">
-              <span
-                className={`inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider font-mono ${tone.accent.badgeBg} ${tone.accent.badgeText}`}
-              >
-                {tone.label}
-              </span>
+            <div className="flex items-start justify-between gap-3 mb-4">
+              <div className="min-w-0">
+                <span
+                  className={`inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-[0.14em] font-mono ${tone.accent.chip}`}
+                >
+                  {tone.label}
+                </span>
+                <div className="mt-2 text-sm text-[#5B6776]">{tone.subtitle}</div>
+              </div>
               <button
                 type="button"
-                onClick={() => handlePlay(tone.id, tone.hanzi, tone.pinyin)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#D2DEE7] text-xs font-semibold uppercase tracking-wider font-mono text-[#1F2A37] bg-white hover:bg-[#F4F8FC] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#9CC8DE]"
+                onClick={() => handlePlay(tone.hanzi, tone.pinyin)}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[#CBD5E1] text-[11px] font-semibold uppercase tracking-[0.14em] font-mono text-[#1F2A37] bg-white hover:bg-[#F7FAFC] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#9CC8DE]"
                 aria-label={`Play ${tone.label}`}
               >
                 <AudioLines className="w-3.5 h-3.5" />
@@ -154,16 +152,19 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
               </button>
             </div>
 
-            <div className="main-font text-3xl leading-none text-text-dark mb-2">{tone.pinyin}</div>
-            <div className="secondary-font text-2xl leading-none text-text-dark mb-3">{tone.hanzi}</div>
-            <div className="text-sm text-text-med mb-3">{tone.subtitle}</div>
-            <div className="inline-flex items-center gap-2 mb-3 text-[#1F2A37]">
-              <svg viewBox="0 0 28 20" className="w-8 h-5" fill="none" aria-hidden="true">
+            <div className="flex items-end justify-between gap-3 border-t border-[#E2E8F0] pt-4">
+              <div>
+                <div className={`main-font text-[2.05rem] leading-none mb-1 ${tone.accent.tone}`}>{tone.pinyin}</div>
+                <div className="secondary-font text-[1.8rem] leading-none text-[#1F2A37]">{tone.hanzi}</div>
+              </div>
+              <div className={`inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-[#F7FAFC] ${tone.accent.contour}`}>
+                <svg viewBox="0 0 28 20" className="w-8 h-5" fill="none" aria-hidden="true">
                 <path d={tone.contour} stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
               </svg>
-              <span className="text-xs font-mono tracking-wide">{tone.example}</span>
+                <span className="text-[11px] font-mono tracking-wide">{tone.example}</span>
+              </div>
             </div>
-            <div className="text-xs text-text-med leading-relaxed">{tone.englishExample}</div>
+            <div className="mt-4 text-[12px] text-[#64748B] leading-relaxed">{tone.englishExample}</div>
           </div>
         ))}
       </div>

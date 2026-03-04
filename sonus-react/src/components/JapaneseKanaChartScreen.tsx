@@ -80,7 +80,7 @@ export default function JapaneseKanaChartScreen({
         title={`${title} Chart`}
         className="bg-white/12 border-white/25"
         scrolledClassName="bg-[#186E95]/88 border-white/35"
-        titleClassName="text-white"
+        titleClassName="text-[#1F2A37]"
         scrolledTitleClassName="text-white"
       />
 

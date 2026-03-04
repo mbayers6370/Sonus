@@ -52,7 +52,7 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
   const isJapanese = normalizedLanguage === 'ja';
   const targetLabel = isJapanese ? 'Japanese' : 'Mandarin';
   return (
-    <div className="relative min-h-screen page-shell px-6 with-bottom-nav overflow-hidden">
+    <div className="relative min-h-screen page-shell px-6 overflow-hidden pb-[calc(var(--sonus-bottom-nav-height)+env(safe-area-inset-bottom,0px)+1rem)] lg:pb-0 lg:h-[100svh]">
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -84,8 +84,8 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
         scrolledTitleClassName="text-white"
       />
 
-      <div className="relative z-10 min-h-[calc(100vh-10.75rem)] flex items-center">
-        <section className="w-full rounded-3xl text-white px-3 py-4 sm:px-4 sm:py-5 mb-3 lg:mb-0">
+      <div className="relative z-10 min-h-[calc(100vh-10.75rem)] flex items-center lg:min-h-[calc(100svh-10.75rem)] lg:justify-center lg:overflow-hidden">
+        <section className="w-full rounded-3xl text-white px-3 py-4 sm:px-4 sm:py-5 mb-3 lg:mb-0 lg:px-0 lg:py-0 lg:max-h-full">
           <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr] lg:gap-4 items-center">
             <div className="text-center flex flex-col items-center justify-center min-h-[210px]">
             <div className="inline-flex items-center gap-2 text-[11px] tracking-wide font-mono text-white/85 mb-2">
