@@ -1723,7 +1723,6 @@ export default function SpeakMode({
   const resultPinyinLabel = isJapaneseLesson
     ? (heardRomanized || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : ''))
     : (detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : ''));
-  const resultPinyinTag = isJapaneseLesson ? 'Romaji' : (isMandarinLesson ? 'Pinyin' : 'Reading');
   const mappedMandarinHeard = isMandarinLesson && transcript && !heardHanzi
     ? inferHanziFromDetectedPinyin(
         firstUsableDetected || rawDetectedPinyin || transcript,
@@ -2094,8 +2093,7 @@ export default function SpeakMode({
 
         {resultPinyinLabel ? (
           <div className="mt-2 flex justify-center">
-            <div className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1 bg-white/12 border border-white/15">
-              <span className="text-[10px] uppercase tracking-wider font-mono text-white/70">{resultPinyinTag}</span>
+            <div className="inline-flex items-center rounded-xl px-2.5 py-1 bg-white/12 border border-white/15">
               <span className="text-sm font-semibold text-white">{resultPinyinLabel}</span>
             </div>
           </div>
