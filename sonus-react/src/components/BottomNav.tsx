@@ -42,7 +42,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
             }`}
           >
             <House className="w-6 h-6" />
-            <span className="text-xs">Home</span>
+            <span className={`text-xs ${active === 'home' ? 'font-semibold' : ''}`}>Home</span>
           </button>
           <button
             onClick={handleLearn}
@@ -51,7 +51,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
             }`}
           >
             <BookOpen className="w-6 h-6" />
-            <span className="text-xs">Learn</span>
+            <span className={`text-xs ${active === 'learn' ? 'font-semibold' : ''}`}>Learn</span>
           </button>
           <button
             onClick={onProfile}
@@ -60,7 +60,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
             }`}
           >
             <User className="w-6 h-6" />
-            <span className="text-xs">Profile</span>
+            <span className={`text-xs ${active === 'profile' ? 'font-semibold' : ''}`}>Profile</span>
           </button>
         </div>
         <button

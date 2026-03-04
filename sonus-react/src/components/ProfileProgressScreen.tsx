@@ -83,28 +83,48 @@ function bandMatchesLanguage(bandId: string | null | undefined, languageId: stri
   return true;
 }
 
+function isInternalWordIdLike(value: string, wordId: string) {
+  const normalized = value.trim().toLowerCase();
+  const normalizedWordId = wordId.trim().toLowerCase();
+  if (!normalized) return false;
+  if (normalized === normalizedWordId) return true;
+  return /^(?:[ln]\d+[-_][a-z0-9]+|[a-z]+[-_]\d+[a-z0-9_-]*)$/i.test(normalized);
+}
+
+function safeDisplayValue(value: string | null | undefined, wordId: string) {
+  const normalized = (value || '').trim();
+  if (!normalized) return '';
+  if (isInternalWordIdLike(normalized, wordId)) return '';
+  return normalized;
+}
+
 function toNeedsWorkCard(
   item: NeedsWorkItem,
   fallbackLookup: WordLookup
 ) {
   if (item.lexeme) {
-    const reading =
+    const reading = safeDisplayValue(
       item.lexeme.reading ||
       item.lexeme.pronunciation ||
       item.lexeme.scripts?.secondary ||
-      '';
+      '',
+      item.wordId
+    );
+    const lexemeTerm = safeDisplayValue(item.lexeme.term, item.wordId);
+    const lexemeEn = safeDisplayValue(item.lexeme.en, item.wordId);
+    const fallback = fallbackLookup[item.wordId];
     return {
-      term: item.lexeme.term,
+      term: lexemeTerm || fallback?.simp || 'Word',
       reading,
-      en: item.lexeme.en,
+      en: lexemeEn || safeDisplayValue(fallback?.en || '', item.wordId),
     };
   }
 
   const fallback = fallbackLookup[item.wordId];
   return {
-    term: fallback?.simp || 'Word',
-    reading: fallback?.pronunciation || fallback?.reading || fallback?.pinyin || '',
-    en: fallback?.en || '',
+    term: safeDisplayValue(fallback?.simp || '', item.wordId) || 'Word',
+    reading: safeDisplayValue(fallback?.pronunciation || fallback?.reading || fallback?.pinyin || '', item.wordId),
+    en: safeDisplayValue(fallback?.en || '', item.wordId),
   };
 }
 

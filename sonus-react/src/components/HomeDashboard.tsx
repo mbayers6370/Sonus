@@ -308,12 +308,12 @@ export default function HomeDashboard({
     'dashboard-card-enter rounded-3xl border p-5 sm:p-6 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
   const needsWorkLead =
     needsWorkCount === 1
-      ? '1 word is in your practice queue.'
-      : `${needsWorkCount} words are in your practice queue.`;
+      ? '1 word ready for practice.'
+      : `${needsWorkCount} words ready for practice.`;
   const needsWorkMessage =
     needsWorkCount === 0
       ? '0 words are in your practice queue. Great work. Keep reinforcing with unit practice, click Continue Learning above to begin!'
-      : `${needsWorkLead} Let's work on those first with Practice Listening & Speaking below!`;
+      : `${needsWorkLead} Listening & Speaking recommended.`;
   const formatBandLabel = (bandId: string | null) => {
     if (!bandId) return 'Level';
     if (languageId === 'zh') {
@@ -522,7 +522,7 @@ export default function HomeDashboard({
   const glassBtnDark =
     'inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold border border-white/38 bg-white/12 text-white backdrop-blur-sm transition-all duration-200 hover:bg-black/30 hover:border-white/54';
   const glassBtnPrimary =
-    'inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold border border-white/34 bg-[linear-gradient(180deg,rgba(31,42,55,0.8)_0%,rgba(21,29,38,0.9)_100%)] text-white backdrop-blur-sm shadow-[0_14px_28px_-20px_rgba(10,14,20,0.9)] transition-all duration-200 hover:bg-[linear-gradient(180deg,rgba(22,31,42,0.92)_0%,rgba(14,20,28,0.98)_100%)]';
+    'inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold border border-[#8FA3B8]/45 bg-[#3A4B5D] text-white transition-colors duration-200 hover:bg-[#465B70]';
   const glassBtnLight =
     'inline-flex items-center justify-center gap-2 rounded-2xl px-3 py-2.5 border border-[#186E95]/30 bg-white/56 text-[#186E95] backdrop-blur-sm transition-all hover:bg-[#D9ECF7]/72 hover:border-[#186E95]/42';
   const glassPillLight =
@@ -544,7 +544,6 @@ export default function HomeDashboard({
           className={`${cardShell} md:order-1 md:col-span-2 bg-[#1F2A37] text-white border-[#1F2A37]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(31,42,55,0.42)]`}
           style={{ animationDelay: '35ms' }}
         >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white/10 to-transparent rounded-t-3xl" />
           <div className="pointer-events-none absolute inset-[8px] rounded-[1.2rem] border border-white/18" />
           <div className="text-[11px] tracking-wide font-mono uppercase text-[#C9D7E7] mb-1">
             Welcome{profileName ? `, ${profileName}` : ''}
@@ -573,7 +572,7 @@ export default function HomeDashboard({
             {hasSavedLessonPath ? (
               <button
                 onClick={openResumeCard}
-                className={`w-full ${glassBtnPrimary} sonus-btn-border-pulse`}
+                className={`w-full ${glassBtnPrimary}`}
               >
                 Continue Learning
                 <ArrowRight className="w-4 h-4" />
@@ -627,7 +626,7 @@ export default function HomeDashboard({
         </section>
 
         <section
-          className={`${cardShell} md:order-2 md:h-full bg-[#3E5648] text-white border-[#3E5648]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(62,86,72,0.36)]`}
+          className={`${cardShell} md:order-2 md:h-full bg-[#186E95] text-white border-[#186E95]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(24,110,149,0.38)]`}
           style={{ animationDelay: '85ms' }}
         >
           <div className="main-font text-2xl leading-none mb-2 text-[#D7F0E4]">Practice Focus</div>

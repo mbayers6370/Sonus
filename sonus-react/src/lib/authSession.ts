@@ -3,10 +3,9 @@ const MOCK_USER_ID_KEY = 'sonus.auth.mock_user_id';
 const MOCK_USER_EMAIL_KEY = 'sonus.auth.mock_user_email';
 const MOCK_WINDOW_ID_KEY = 'sonus.auth.mock_window_id';
 const MOCK_LAST_ACTIVE_AT_KEY = 'sonus.auth.mock_last_active_at';
+const MOCK_IDLE_TTL_MS = 60 * 60 * 1000;
 const ACCESS_TOKEN_KEY = 'sonus.auth.access_token_v2';
 const ACCESS_TOKEN_EXPIRES_AT_KEY = 'sonus.auth.access_token_expires_at_v2';
-const SESSION_TTL_MS = 8 * 60 * 60 * 1000;
-const MOCK_IDLE_TTL_MS = 60 * 60 * 1000;
 const LEGACY_ACCESS_TOKEN_KEY = 'sonus.auth.access_token';
 const LEGACY_REFRESH_TOKEN_KEY = 'sonus.auth.refresh_token';
 const LEGACY_SESSION_EXPIRES_AT_KEY = 'sonus.auth.expires_at';
@@ -30,8 +29,28 @@ export function createMockUserId() {
   return `${randomHex(8)}-${randomHex(4)}-4${randomHex(3)}-a${randomHex(3)}-${randomHex(12)}`;
 }
 
-function setSessionExpiry() {
-  accessTokenExpiresAt = Date.now() + SESSION_TTL_MS;
+function decodeJwtExpMs(token: string) {
+  try {
+    const parts = token.split('.');
+    if (parts.length < 2) return null;
+    const payloadRaw = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    const padded = payloadRaw + '='.repeat((4 - (payloadRaw.length % 4 || 4)) % 4);
+    const payload = JSON.parse(atob(padded)) as { exp?: unknown };
+    if (typeof payload.exp !== 'number' || !Number.isFinite(payload.exp)) return null;
+    return payload.exp * 1000;
+  } catch {
+    return null;
+  }
+}
+
+function setSessionExpiryFromToken(token: string) {
+  const expMs = decodeJwtExpMs(token);
+  if (expMs && expMs > Date.now()) {
+    accessTokenExpiresAt = expMs;
+    return;
+  }
+  // Fallback: short in-memory session when token expiry claim is unavailable.
+  accessTokenExpiresAt = Date.now() + 15 * 60 * 1000;
 }
 
 function clearSessionExpiry() {
@@ -50,24 +69,9 @@ export function isAuthSessionExpired() {
 }
 
 export function getAccessToken() {
-  if (!accessTokenMemory) {
-    try {
-      const stored = window.localStorage.getItem(ACCESS_TOKEN_KEY);
-      const storedExpiresAt = Number(window.localStorage.getItem(ACCESS_TOKEN_EXPIRES_AT_KEY) || '0');
-      if (
-        stored &&
-        Number.isFinite(storedExpiresAt) &&
-        storedExpiresAt > Date.now()
-      ) {
-        accessTokenMemory = stored;
-        accessTokenExpiresAt = storedExpiresAt;
-      } else if (stored || storedExpiresAt) {
-        window.localStorage.removeItem(ACCESS_TOKEN_KEY);
-        window.localStorage.removeItem(ACCESS_TOKEN_EXPIRES_AT_KEY);
-      }
-    } catch {
-      // Ignore storage read failures.
-    }
+  if (accessTokenMemory && Number.isFinite(accessTokenExpiresAt) && accessTokenExpiresAt > 0 && Date.now() >= accessTokenExpiresAt) {
+    accessTokenMemory = null;
+    clearSessionExpiry();
   }
   return accessTokenMemory;
 }
@@ -81,15 +85,14 @@ export function setAuthSession(accessToken: string | null, refreshToken?: string
   try {
     if (accessToken) {
       accessTokenMemory = accessToken;
-      setSessionExpiry();
-      window.localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-      window.localStorage.setItem(ACCESS_TOKEN_EXPIRES_AT_KEY, String(accessTokenExpiresAt));
+      setSessionExpiryFromToken(accessToken);
     } else {
       accessTokenMemory = null;
       clearSessionExpiry();
-      window.localStorage.removeItem(ACCESS_TOKEN_KEY);
-      window.localStorage.removeItem(ACCESS_TOKEN_EXPIRES_AT_KEY);
     }
+    // Remove stale persisted auth keys from older implementations.
+    window.localStorage.removeItem(ACCESS_TOKEN_KEY);
+    window.localStorage.removeItem(ACCESS_TOKEN_EXPIRES_AT_KEY);
     // Clear legacy storage keys from previous implementations.
     window.localStorage.removeItem(LEGACY_ACCESS_TOKEN_KEY);
     window.localStorage.removeItem(LEGACY_REFRESH_TOKEN_KEY);
@@ -115,7 +118,6 @@ export function setDemoMode(enabled: boolean) {
   try {
     if (enabled) {
       window.localStorage.setItem(DEMO_MODE_KEY, '1');
-      setSessionExpiry();
     } else {
       window.localStorage.removeItem(DEMO_MODE_KEY);
     }

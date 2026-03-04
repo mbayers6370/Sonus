@@ -19,6 +19,16 @@ const LANGUAGE_RUNTIMES: Record<string, LanguageRuntime> = {
   es: { id: 'es', label: 'Spanish', homeCollectionLabel: 'Levels', available: false },
 };
 
+export function getKnownLanguageLabels() {
+  return Array.from(
+    new Set(
+      Object.values(LANGUAGE_RUNTIMES)
+        .map((runtime) => runtime.label.trim())
+        .filter(Boolean)
+    )
+  );
+}
+
 const DEFAULT_JA_SECTIONS = [
   { id: 'base-i', title: 'Base I', subtitle: 'Concrete & Physical' },
   { id: 'base-ii', title: 'Base II', subtitle: 'Situational & Common Context' },

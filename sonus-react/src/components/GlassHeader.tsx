@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { toTitleCase } from '../lib/textCase';
+import { getKnownLanguageLabels } from '../lib/languageRuntime';
 
 interface GlassHeaderProps {
   title: string;
@@ -90,6 +91,11 @@ export default function GlassHeader({
   const showDesktopLogo = showLogo && !isStandalone;
   const showStandaloneLogo = showLogo && isStandalone && !hideLogoOnMobile;
   const displayTitle = toTitleCase(title);
+  const knownLanguageLabels = getKnownLanguageLabels();
+  const isLanguageHeader = knownLanguageLabels.some(
+    (label) => label.toLowerCase() === displayTitle.toLowerCase()
+  );
+  const centerDesktopLanguageBlock = showDesktopLogo && isLanguageHeader;
   const standaloneTitleWords = displayTitle.trim().split(/\s+/);
   const standaloneFirstWord = standaloneTitleWords[0] ?? displayTitle;
   const standaloneRemainingWords = standaloneTitleWords.slice(1).join(' ');
@@ -190,7 +196,7 @@ export default function GlassHeader({
                 />
               </button>
             ) : null}
-            {showDesktopLogo ? (
+            {showDesktopLogo && !centerDesktopLanguageBlock ? (
               <button
                 type="button"
                 onClick={() => navigate('/home')}
@@ -208,8 +214,33 @@ export default function GlassHeader({
               </button>
             ) : null}
             <div className="text-center">
+              {centerDesktopLanguageBlock ? (
+                <div className="hidden md:flex items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/home')}
+                    aria-label="Go to home"
+                    className="inline-flex items-center justify-center"
+                  >
+                    <img
+                      src="/branding/logo_name_solo.png"
+                      alt="Sonus"
+                      className="h-6 lg:h-7 w-auto object-contain"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  </button>
+                  <span className="text-text-light text-xl leading-none">|</span>
+                <h1
+                  className={`main-font text-[1.0rem] lg:text-[1.7rem] font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
+                >
+                  {displayTitle}
+                </h1>
+                </div>
+              ) : null}
               <h1
-                className={`main-font text-[1.85rem] md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
+                className={`main-font text-[1.85rem] md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''} ${centerDesktopLanguageBlock ? 'md:hidden' : ''}`}
               >
                 {displayTitle}
               </h1>

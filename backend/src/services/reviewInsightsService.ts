@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma.js';
 import { resolveLexemeForWordId } from '../lib/lexemeCatalog.js';
+import type { SharedLexeme } from '../types.js';
 
 type SupportedLanguage = 'zh' | 'ja';
 type ResponseShape = 'legacy' | 'lexeme';
@@ -17,6 +18,49 @@ function languageWordFilter(language: string | null | undefined) {
   if (normalized === 'ja') return { startsWith: 'N' };
   if (normalized === 'zh') return { startsWith: 'L' };
   return undefined;
+}
+
+function isLexemePlaceholderForWordId(lexeme: SharedLexeme, wordId: string) {
+  const normalize = (value: string) => value.trim().toLowerCase();
+  const normalizedWordId = normalize(wordId);
+  return (
+    normalize(lexeme.id) === normalizedWordId &&
+    normalize(lexeme.term) === normalizedWordId &&
+    normalize(lexeme.en) === normalizedWordId
+  );
+}
+
+async function pruneUnknownWordIds<T extends { wordId: string }>(
+  userId: string,
+  language: string | null | undefined,
+  items: T[]
+) {
+  if (items.length === 0) return { kept: items, lexemeByWordId: new Map<string, SharedLexeme>() };
+
+  const lexemeByWordId = new Map<string, SharedLexeme>();
+  const staleWordIds = new Set<string>();
+
+  await Promise.all(
+    items.map(async (item) => {
+      const lexeme = await resolveLexemeForWordId(item.wordId, language);
+      lexemeByWordId.set(item.wordId, lexeme);
+      if (isLexemePlaceholderForWordId(lexeme, item.wordId)) {
+        staleWordIds.add(item.wordId);
+      }
+    })
+  );
+
+  if (staleWordIds.size > 0) {
+    await prisma.wordMemoryState.deleteMany({
+      where: {
+        userId,
+        wordId: { in: Array.from(staleWordIds) },
+      },
+    });
+  }
+
+  const kept = items.filter((item) => !staleWordIds.has(item.wordId));
+  return { kept, lexemeByWordId };
 }
 
 function buildReviewPriority(input: {
@@ -102,14 +146,17 @@ export async function fetchReviewQueue(
     .sort((a, b) => b.priorityScore - a.priorityScore)
     .slice(0, limit);
 
+  const { kept: activeQueue, lexemeByWordId } = await pruneUnknownWordIds(userId, language, queue);
+
   if (shape === 'legacy') {
-    return { count: queue.length, limit, queue };
+    return { count: activeQueue.length, limit, queue: activeQueue };
   }
 
   const queueWithLexemes = await Promise.all(
-    queue.map(async (item) => ({
+    activeQueue.map(async (item) => ({
       ...item,
-      lexeme: await resolveLexemeForWordId(item.wordId, language),
+      lexeme:
+        lexemeByWordId.get(item.wordId) ?? (await resolveLexemeForWordId(item.wordId, language)),
     }))
   );
 
@@ -211,14 +258,21 @@ export async function fetchNeedsWork(
     .sort((a, b) => b.priorityScore - a.priorityScore)
     .slice(0, limit);
 
+  const { kept: activeNeedsWork, lexemeByWordId } = await pruneUnknownWordIds(
+    userId,
+    language,
+    needsWork
+  );
+
   if (shape === 'legacy') {
-    return { count: needsWork.length, limit, needsWork };
+    return { count: activeNeedsWork.length, limit, needsWork: activeNeedsWork };
   }
 
   const needsWorkWithLexemes = await Promise.all(
-    needsWork.map(async (item) => ({
+    activeNeedsWork.map(async (item) => ({
       ...item,
-      lexeme: await resolveLexemeForWordId(item.wordId, language),
+      lexeme:
+        lexemeByWordId.get(item.wordId) ?? (await resolveLexemeForWordId(item.wordId, language)),
     }))
   );
 

@@ -97,7 +97,7 @@ export default function CollapsibleBreadcrumbs({
               ? 'inline-flex items-center rounded-full border border-[#1F2A37]/22 bg-[rgba(31,42,55,0.10)] px-3 py-1 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.08em] font-mono whitespace-nowrap text-[#1F2A37]'
               : isDisabled
                 ? 'inline-flex items-center rounded-full border border-white/76 bg-white/54 px-3 py-1 text-[11px] sm:text-xs font-medium uppercase tracking-[0.08em] font-mono whitespace-nowrap text-[#94A3B8]'
-                : 'inline-flex items-center rounded-full border border-white/85 bg-white/74 px-3 py-1 text-[11px] sm:text-xs font-medium uppercase tracking-[0.08em] font-mono whitespace-nowrap text-text-med md:hover:underline underline-offset-2 md:hover:text-[#1F2A37] transition-colors';
+                : 'inline-flex items-center rounded-full border border-white/85 bg-white/74 px-3 py-1 text-[11px] sm:text-xs font-medium uppercase tracking-[0.08em] font-mono whitespace-nowrap text-text-med transition-colors md:hover:text-[#1F2A37] md:hover:bg-[#E8EEF4]/90 md:hover:border-[#CBD5E1]';
 
             if (item.onClick && !isCurrent && !isDisabled) {
               return (
