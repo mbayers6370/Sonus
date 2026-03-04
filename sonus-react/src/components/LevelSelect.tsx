@@ -23,7 +23,7 @@ const ACCENT = {
 
 type AccentKey = keyof typeof ACCENT;
 const CARD_ACCENT_ORDER: AccentKey[] = ['navy', 'sage', 'graphite', 'rust'];
-const RELEASED_MANDARIN_LEVEL_IDS = new Set(['intro', 'band1', 'band2', 'band3', 'band4']);
+const RELEASED_MANDARIN_BANDS = new Set(['band1', 'band2', 'band3', 'band4']);
 
 type BandData = {
   band: number;
@@ -560,7 +560,7 @@ export default function LevelSelect({
   const getLevelsForLanguage = () => {
     switch (normalizedLanguageId) {
       case 'zh':
-        return chineseLevels.filter((level) => RELEASED_MANDARIN_LEVEL_IDS.has(level.id));
+        return chineseLevels;
       case 'ja':
         return japaneseLevels;
       case 'kr':
@@ -619,25 +619,37 @@ export default function LevelSelect({
         {
           id: 'beginner',
           title: 'Beginner',
-          subtitle: 'Levels 1–2 · Core Foundations',
+          subtitle: 'Levels 1–3 · Core Foundations',
           style: { rail: 'bg-[#3E5648]', accent: 'green' as const },
           summary:
             'Tone control, high-frequency grammar, and everyday communication for a strong foundation.',
           isAvailable: true,
           levels: levels.filter(l =>
-            ['band1', 'band2'].includes(l.id)
+            ['band1', 'band2', 'band3'].includes(l.id)
           )
         },
         {
           id: 'intermediate',
           title: 'Intermediate',
-          subtitle: 'Levels 3–4 · Functional Fluency',
+          subtitle: 'Levels 4–6 · Functional Fluency',
           style: { rail: 'bg-[#186E95]', accent: 'blue' as const },
           summary:
             'Longer conversations, wider topics, and more flexible sentence patterns for real-world fluency.',
           isAvailable: true,
           levels: levels.filter(l =>
-            ['band3', 'band4'].includes(l.id)
+            ['band4', 'band5', 'band6'].includes(l.id)
+          )
+        },
+        {
+          id: 'advanced',
+          title: 'Advanced',
+          subtitle: 'Levels 7–9 · Mastery',
+          style: { rail: 'bg-red-500', accent: 'red' as const },
+          summary:
+            'High-register vocabulary, abstract topics, nuanced expression, and advanced comprehension/speaking precision.',
+          isAvailable: false,
+          levels: levels.filter(l =>
+            ['band7', 'band8', 'band9'].includes(l.id)
           )
         }
       ]
@@ -650,9 +662,7 @@ export default function LevelSelect({
     if (normalizedLanguageId !== 'zh') return;
     let cancelled = false;
 
-    const bandLevels = chineseLevels.filter(
-      (level) => /^band\d+$/i.test(level.id) && RELEASED_MANDARIN_LEVEL_IDS.has(level.id)
-    );
+    const bandLevels = chineseLevels.filter((level) => /^band\d+$/i.test(level.id));
     void Promise.all(
       bandLevels.map(async (level) => {
         try {
@@ -841,7 +851,9 @@ export default function LevelSelect({
         {normalizedLanguageId === 'zh' && activeTierConfig !== null && (
           <>
             {activeTierConfig.levels.map((level, index) => {
-                const isUnlocked = state.unlockedLevels.includes(level.id);
+                const isMandarinReleased =
+                  normalizedLanguageId !== 'zh' || RELEASED_MANDARIN_BANDS.has(level.id);
+                const isUnlocked = isMandarinReleased && state.unlockedLevels.includes(level.id);
                 const isQuizCompleted = Boolean(bandQuizCompleteById[level.id]);
                 const isCompleted = state.completedLevels.includes(level.id) || isQuizCompleted;
                 return (
@@ -856,13 +868,15 @@ export default function LevelSelect({
                     showBadge={activeTier !== 'advanced'}
                     headerKicker={undefined}
                     bodyText={
-                      !isUnlocked
+                      !isMandarinReleased
+                        ? 'This level is configured and visible now, and will open soon.'
+                        : !isUnlocked
                         ? 'Unlock this level by reaching at least 90% completion in the previous level.'
                         : level.description ||
                           'Core pronunciation, high‑frequency vocabulary, and functional progression within this band.'
                     }
                     showChevronWhenUnlocked={true}
-                    topRightLabel={!isUnlocked ? 'Locked' : undefined}
+                    topRightLabel={!isMandarinReleased ? 'Coming Soon' : !isUnlocked ? 'Locked' : undefined}
                     accentOverride={CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]}
                   />
                 );
