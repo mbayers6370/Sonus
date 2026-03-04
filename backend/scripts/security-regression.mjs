@@ -179,12 +179,19 @@ async function run() {
     },
   });
   assert.equal(logoutOk.statusCode, 200);
-  const clearCookie = logoutOk.headers['set-cookie'];
-  assert.equal(typeof clearCookie, 'string');
-  assert.match(clearCookie, /Max-Age=0/);
-  assert.match(clearCookie, /HttpOnly/);
-  assert.match(clearCookie, /Secure/);
-  assert.match(clearCookie, /SameSite=Lax/);
+  const clearCookieHeader = logoutOk.headers['set-cookie'];
+  const clearCookies = Array.isArray(clearCookieHeader)
+    ? clearCookieHeader
+    : typeof clearCookieHeader === 'string'
+      ? [clearCookieHeader]
+      : [];
+  assert.ok(clearCookies.length >= 1);
+  const refreshClearCookie =
+    clearCookies.find((cookie) => cookie.includes('sonus_refresh_token=')) || clearCookies[0];
+  assert.match(refreshClearCookie, /Max-Age=0/);
+  assert.match(refreshClearCookie, /HttpOnly/);
+  assert.match(refreshClearCookie, /Secure/);
+  assert.match(refreshClearCookie, /SameSite=Lax/);
 
   const corsPreflight = await app.inject({
     method: 'OPTIONS',
