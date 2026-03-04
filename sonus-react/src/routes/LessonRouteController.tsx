@@ -56,7 +56,7 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
       navigate('/learn', { replace: true });
       return;
     }
-    if (isMandarinLevel && isMandarinBandLocked(band, state.unlockedLevels)) {
+    if (isMandarinBandLocked(band, state.unlockedLevels)) {
       navigate('/learn', { replace: true });
       return;
     }

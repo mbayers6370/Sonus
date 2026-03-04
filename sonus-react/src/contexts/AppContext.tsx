@@ -27,9 +27,10 @@ import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import {
   resolveUnitIdForBand,
-  isMandarinBandId,
-  isMandarinBandLocked,
-  nextBandId,
+  isTrackProgressionLevel,
+  isTrackLevelLocked,
+  nextTrackLevelId,
+  firstTrackLevelIds,
 } from '../lib/bandIds';
 import {
   inferLanguageForBand as inferLanguageForBandRuntime,
@@ -139,8 +140,7 @@ function resolveStateStorageKey() {
 }
 
 function defaultUnlockedLevelIds() {
-  const base = ALL_LEVEL_IDS.filter((id) => !/^band\d+$/i.test(id) && id !== 'advanced');
-  return Array.from(new Set([...base, 'band1']));
+  return Array.from(new Set(['intro', ...firstTrackLevelIds()]));
 }
 
 function normalizeLanguageForState(languageId: string | null | undefined): string | null {
@@ -691,8 +691,7 @@ function loadPersistedState(storageKey = resolveStateStorageKey()): AppState {
     const parsedUnlocked = Array.isArray(parsed.unlockedLevels)
       ? parsed.unlockedLevels.filter((levelId): levelId is string => typeof levelId === 'string')
       : [];
-    const preservedNonMandarin = parsedUnlocked.filter((levelId) => !isMandarinBandId(levelId));
-    const preservedBandOne = parsedUnlocked.filter((levelId) => levelId === 'band1');
+    const preservedProgressLevels = parsedUnlocked.filter((levelId) => isTrackProgressionLevel(levelId));
     const normalizedLanguage = normalizeLanguageForState(
       typeof parsed.selectedLanguage === 'string' ? parsed.selectedLanguage : null
     );
@@ -718,7 +717,7 @@ function loadPersistedState(storageKey = resolveStateStorageKey()): AppState {
       resumeCheckpointByLanguage: checkpointMap,
       resumeCheckpoint:
         (normalizedLanguage && checkpointMap[normalizedLanguage]) || resumeCheckpoint || null,
-      unlockedLevels: Array.from(new Set([...defaultUnlockedLevelIds(), ...preservedNonMandarin, ...preservedBandOne])),
+      unlockedLevels: Array.from(new Set([...defaultUnlockedLevelIds(), ...preservedProgressLevels])),
       lessonProgress: normalizeLessonProgressKeys(parsed.lessonProgress || {}),
       wordReview: parsed.wordReview || {},
       recentMisses: parsed.recentMisses || [],
@@ -924,7 +923,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    if (state.selectedLanguage === 'zh' && isMandarinBandLocked(level.id, state.unlockedLevels)) {
+    if (isTrackLevelLocked(level.id, state.unlockedLevels)) {
       return;
     }
 
@@ -947,7 +946,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const openLessonPath = async (bandId: string, unitId: string, lessonIndex: number): Promise<boolean> => {
     try {
-      if (state.selectedLanguage === 'zh' && isMandarinBandLocked(bandId, state.unlockedLevels)) {
+      if (isTrackLevelLocked(bandId, state.unlockedLevels)) {
         return false;
       }
       const resolvedUnitId = resolveUnitIdForBand(bandId, unitId);
@@ -1874,7 +1873,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       let nextUnlockedLevels = prev.unlockedLevels;
       // Band unlocks are computed from per-lesson quiz thresholds across core units.
-      if (state.selectedLanguage === 'zh' && /^band\d+$/i.test(bandId) && prev.activeBandData) {
+      if (isTrackProgressionLevel(bandId) && prev.activeBandData) {
         const coreUnits = getUnitsForBand(bandId)
           .filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id))
           .map((unit) => resolveUnitIdForBand(bandId, unit.id));
@@ -1897,9 +1896,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
           lessonTotals.total > 0 ? Math.round((lessonTotals.passed / lessonTotals.total) * 100) : 0;
         if (bandProgressPercent >= BAND_UNLOCK_PASS_PERCENT) {
           const unlocks = new Set(prev.unlockedLevels);
-          const upcoming = nextBandId(bandId);
+          const upcoming = nextTrackLevelId(bandId);
           if (upcoming) unlocks.add(upcoming);
-          if (bandId === 'band9') unlocks.add('advanced');
           nextUnlockedLevels = Array.from(unlocks);
         }
       }

@@ -182,7 +182,7 @@ export default function AppRoutes() {
       void target.mode;
       exitLesson();
       const level = LEVEL_BY_ID[target.bandId];
-      if (!level || (isMandarinLevel(level.id) && isMandarinBandLocked(level.id, state.unlockedLevels))) {
+      if (!level || isMandarinBandLocked(level.id, state.unlockedLevels)) {
         navigate('/learn');
         return;
       }
@@ -216,7 +216,7 @@ export default function AppRoutes() {
         onOpenFoundations={() => navigate('/learn/foundations')}
         onOpenLanguageIntro={() => navigate('/learn/language-intro')}
         onSelectLevel={(level: LessonBand) => {
-          if (selectedLanguage === 'zh' && isMandarinBandLocked(level.id, state.unlockedLevels)) {
+          if (isMandarinBandLocked(level.id, state.unlockedLevels)) {
             return;
           }
           void selectLevel(level);
@@ -242,7 +242,7 @@ export default function AppRoutes() {
     if (!selectedLanguage || !levelMatchesLanguage(level.id, selectedLanguage)) {
       return <Navigate to="/learn" replace />;
     }
-    if (isMandarinLevel(level.id) && isMandarinBandLocked(level.id, state.unlockedLevels)) return <Navigate to="/learn" replace />;
+    if (isMandarinBandLocked(level.id, state.unlockedLevels)) return <Navigate to="/learn" replace />;
     if (!currentLevel || currentLevel.id !== level.id || !state.activeBandData) {
       return (
         <div className="min-h-screen page-shell flex items-center justify-center">
@@ -275,7 +275,7 @@ export default function AppRoutes() {
       ? (band as string)
       : (band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : 'band1');
     const resolvedBand = isJapaneseBand
-      ? targetBand
+      ? (isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'n5' : targetBand)
       : (isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'band1' : targetBand);
     const targetKind = kind === 'speaking' ? 'speaking' : 'listening';
     const targetUnitId = isJapaneseBand

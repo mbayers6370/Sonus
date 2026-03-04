@@ -448,10 +448,7 @@ export default function UnitSelect({
       disabled: !isLessonsStage,
     },
   ];
-  const isMandarinBandLocked =
-    state.selectedLanguage === 'zh' &&
-    (/^band\d+$/i.test(currentLevel.id) || currentLevel.id === 'advanced') &&
-    !state.unlockedLevels.includes(currentLevel.id);
+  const isMandarinBandLocked = !state.unlockedLevels.includes(currentLevel.id);
 
   return (
     <div className="min-h-screen page-shell with-bottom-nav px-6">
