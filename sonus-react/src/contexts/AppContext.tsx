@@ -31,6 +31,7 @@ import {
   isTrackLevelLocked,
   nextTrackLevelId,
   firstTrackLevelIds,
+  isReleasedTrackLevel,
 } from '../lib/bandIds';
 import {
   inferLanguageForBand as inferLanguageForBandRuntime,
@@ -923,7 +924,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    if (isTrackLevelLocked(level.id, state.unlockedLevels)) {
+    if (!isReleasedTrackLevel(level.id) || isTrackLevelLocked(level.id, state.unlockedLevels)) {
       return;
     }
 
@@ -946,7 +947,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const openLessonPath = async (bandId: string, unitId: string, lessonIndex: number): Promise<boolean> => {
     try {
-      if (isTrackLevelLocked(bandId, state.unlockedLevels)) {
+      if (!isReleasedTrackLevel(bandId) || isTrackLevelLocked(bandId, state.unlockedLevels)) {
         return false;
       }
       const resolvedUnitId = resolveUnitIdForBand(bandId, unitId);
@@ -1897,7 +1898,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         if (bandProgressPercent >= BAND_UNLOCK_PASS_PERCENT) {
           const unlocks = new Set(prev.unlockedLevels);
           const upcoming = nextTrackLevelId(bandId);
-          if (upcoming) unlocks.add(upcoming);
+          if (upcoming && isReleasedTrackLevel(upcoming)) unlocks.add(upcoming);
           nextUnlockedLevels = Array.from(unlocks);
         }
       }

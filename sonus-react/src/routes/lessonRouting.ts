@@ -1,5 +1,5 @@
 import type { LessonBand } from '../types/lesson.types';
-import { isTrackLevelLocked } from '../lib/bandIds';
+import { isReleasedTrackLevel, isTrackLevelLocked } from '../lib/bandIds';
 
 export const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
   intro: { id: 'intro', band: 0, name: 'Introduction', title: '', subtitle: '', wordCount: 0, wordRange: '', color: 'bg-gray-400', description: 'Start here', units: [] },
@@ -36,5 +36,5 @@ export function tierForBand(bandId: string) {
 }
 
 export function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
-  return isTrackLevelLocked(bandId, unlockedLevels);
+  return !isReleasedTrackLevel(bandId) || isTrackLevelLocked(bandId, unlockedLevels);
 }

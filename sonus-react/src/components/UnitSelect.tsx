@@ -11,6 +11,7 @@ import CollapsibleBreadcrumbs, { type BreadcrumbItem } from './CollapsibleBreadc
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import type { LessonMode } from '../types/lesson.types';
 import { tierForBand } from '../routes/lessonRouting';
+import { isReleasedTrackLevel } from '../lib/bandIds';
 
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
@@ -448,7 +449,8 @@ export default function UnitSelect({
       disabled: !isLessonsStage,
     },
   ];
-  const isMandarinBandLocked = !state.unlockedLevels.includes(currentLevel.id);
+  const isMandarinBandLocked =
+    !isReleasedTrackLevel(currentLevel.id) || !state.unlockedLevels.includes(currentLevel.id);
 
   return (
     <div className="min-h-screen page-shell with-bottom-nav px-6">

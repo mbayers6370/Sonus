@@ -11,6 +11,7 @@ import { getLessonRanges } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT } from '../lib/passCriteria';
 import { normalizeLanguageId } from '../lib/languageRuntime';
+import { isReleasedTrackLevel } from '../lib/bandIds';
 
 // Accent styling helpers
 const ACCENT = {
@@ -853,7 +854,8 @@ export default function LevelSelect({
             {activeTierConfig.levels.map((level, index) => {
                 const isMandarinReleased =
                   normalizedLanguageId !== 'zh' || RELEASED_MANDARIN_BANDS.has(level.id);
-                const isUnlocked = isMandarinReleased && state.unlockedLevels.includes(level.id);
+                const isReleased = isMandarinReleased && isReleasedTrackLevel(level.id);
+                const isUnlocked = isReleased && state.unlockedLevels.includes(level.id);
                 const isQuizCompleted = Boolean(bandQuizCompleteById[level.id]);
                 const isCompleted = state.completedLevels.includes(level.id) || isQuizCompleted;
                 return (
@@ -868,7 +870,7 @@ export default function LevelSelect({
                     showBadge={activeTier !== 'advanced'}
                     headerKicker={undefined}
                     bodyText={
-                      !isMandarinReleased
+                      !isReleased
                         ? 'This level is configured and visible now, and will open soon.'
                         : !isUnlocked
                         ? 'Unlock this level by reaching at least 90% completion in the previous level.'
@@ -876,7 +878,7 @@ export default function LevelSelect({
                           'Core pronunciation, high‑frequency vocabulary, and functional progression within this band.'
                     }
                     showChevronWhenUnlocked={true}
-                    topRightLabel={!isMandarinReleased ? 'Coming Soon' : !isUnlocked ? 'Locked' : undefined}
+                    topRightLabel={!isReleased ? 'Coming Soon' : !isUnlocked ? 'Locked' : undefined}
                     accentOverride={CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]}
                   />
                 );
@@ -886,7 +888,8 @@ export default function LevelSelect({
 
         {normalizedLanguageId !== 'zh' &&
           levels.map((level, index) => {
-            const isUnlocked = state.unlockedLevels.includes(level.id) || level.id === 'intro';
+            const isReleased = level.id === 'intro' || isReleasedTrackLevel(level.id);
+            const isUnlocked = isReleased && (state.unlockedLevels.includes(level.id) || level.id === 'intro');
             const isCompleted = state.completedLevels.includes(level.id);
             return (
               <LevelCard
@@ -909,7 +912,9 @@ export default function LevelSelect({
                 isDrenched={isJapaneseLanguage && level.id === 'intro'}
                 bodyText={
                   isJapaneseLanguage
-                    ? (level.id === 'intro'
+                    ? (!isReleased
+                      ? 'This level is configured and visible now, and will open soon.'
+                      : level.id === 'intro'
                       ? 'Open orientation cards before JLPT study.'
                       : level.id === 'n5'
                         ? 'Core survival Japanese'
@@ -924,7 +929,7 @@ export default function LevelSelect({
                                 : '')
                     : 'Curriculum is in production for this language. Mandarin is currently available.'
                 }
-                topRightLabel={isUnlocked ? undefined : 'Coming Soon'}
+                topRightLabel={isReleased ? (isUnlocked ? undefined : 'Locked') : 'Coming Soon'}
                 accentOverride={CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]}
               />
             );

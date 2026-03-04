@@ -19,6 +19,7 @@ const TRACK_SEQUENCES: ReadonlyArray<ReadonlyArray<string>> = [
   ['topik1-1', 'topik1-2', 'topik2-3', 'topik2-4', 'topik2-5', 'topik2-6'],
   ['a1', 'a2', 'b1', 'b2', 'c1', 'c2'],
 ] as const;
+const RELEASED_TRACK_LEVEL_IDS = new Set(['band1', 'band2', 'band3', 'band4', 'n5']);
 
 function normalizeLevelId(levelId: string) {
   return levelId.trim().toLowerCase();
@@ -31,6 +32,12 @@ function findTrackSequence(levelId: string) {
 
 export function isTrackProgressionLevel(levelId: string) {
   return Boolean(findTrackSequence(levelId));
+}
+
+export function isReleasedTrackLevel(levelId: string) {
+  const normalized = normalizeLevelId(levelId);
+  if (!isTrackProgressionLevel(normalized)) return true;
+  return RELEASED_TRACK_LEVEL_IDS.has(normalized);
 }
 
 export function isTrackLevelLocked(levelId: string, unlockedLevels: string[]) {
