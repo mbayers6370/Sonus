@@ -3,7 +3,9 @@ const MOCK_USER_ID_KEY = 'sonus.auth.mock_user_id';
 const MOCK_USER_EMAIL_KEY = 'sonus.auth.mock_user_email';
 const MOCK_WINDOW_ID_KEY = 'sonus.auth.mock_window_id';
 const MOCK_LAST_ACTIVE_AT_KEY = 'sonus.auth.mock_last_active_at';
-const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
+const ACCESS_TOKEN_KEY = 'sonus.auth.access_token_v2';
+const ACCESS_TOKEN_EXPIRES_AT_KEY = 'sonus.auth.access_token_expires_at_v2';
+const SESSION_TTL_MS = 8 * 60 * 60 * 1000;
 const MOCK_IDLE_TTL_MS = 60 * 60 * 1000;
 const LEGACY_ACCESS_TOKEN_KEY = 'sonus.auth.access_token';
 const LEGACY_REFRESH_TOKEN_KEY = 'sonus.auth.refresh_token';
@@ -38,7 +40,8 @@ function clearSessionExpiry() {
 
 export function isAuthSessionExpired() {
   try {
-    if (!accessTokenMemory) return false;
+    const token = getAccessToken();
+    if (!token) return false;
     if (!Number.isFinite(accessTokenExpiresAt) || accessTokenExpiresAt <= 0) return false;
     return Date.now() >= accessTokenExpiresAt;
   } catch {
@@ -47,6 +50,25 @@ export function isAuthSessionExpired() {
 }
 
 export function getAccessToken() {
+  if (!accessTokenMemory) {
+    try {
+      const stored = window.localStorage.getItem(ACCESS_TOKEN_KEY);
+      const storedExpiresAt = Number(window.localStorage.getItem(ACCESS_TOKEN_EXPIRES_AT_KEY) || '0');
+      if (
+        stored &&
+        Number.isFinite(storedExpiresAt) &&
+        storedExpiresAt > Date.now()
+      ) {
+        accessTokenMemory = stored;
+        accessTokenExpiresAt = storedExpiresAt;
+      } else if (stored || storedExpiresAt) {
+        window.localStorage.removeItem(ACCESS_TOKEN_KEY);
+        window.localStorage.removeItem(ACCESS_TOKEN_EXPIRES_AT_KEY);
+      }
+    } catch {
+      // Ignore storage read failures.
+    }
+  }
   return accessTokenMemory;
 }
 
@@ -60,9 +82,13 @@ export function setAuthSession(accessToken: string | null, refreshToken?: string
     if (accessToken) {
       accessTokenMemory = accessToken;
       setSessionExpiry();
+      window.localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+      window.localStorage.setItem(ACCESS_TOKEN_EXPIRES_AT_KEY, String(accessTokenExpiresAt));
     } else {
       accessTokenMemory = null;
       clearSessionExpiry();
+      window.localStorage.removeItem(ACCESS_TOKEN_KEY);
+      window.localStorage.removeItem(ACCESS_TOKEN_EXPIRES_AT_KEY);
     }
     // Clear legacy storage keys from previous implementations.
     window.localStorage.removeItem(LEGACY_ACCESS_TOKEN_KEY);
