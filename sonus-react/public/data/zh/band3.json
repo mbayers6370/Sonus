@@ -3,8 +3,8 @@
   "source": "hsk3.0",
   "levelId": "band3",
   "level": 3,
-  "wordCount": 960,
-  "availableWords": 960,
+  "wordCount": 982,
+  "availableWords": 982,
   "unallocatedWords": 0,
   "units": [
     {
@@ -81,7 +81,7 @@
             "surface"
           ],
           "example": {
-            "zh": "地球的表面約有三分之一是陸地。",
+            "zh": "地球的表面约有三分之一是陆地。",
             "en": "About one third of the earth's surface is land."
           },
           "tags": null
@@ -227,7 +227,7 @@
             "basically"
           ],
           "example": {
-            "zh": "基本上我贊同你的意見。",
+            "zh": "基本上我赞同你的意见。",
             "en": "Basically, I agree with your opinion."
           },
           "tags": null
@@ -252,7 +252,7 @@
           "id": "L3-0411",
           "simp": "看起来",
           "trad": "看起來",
-          "pinyin": "kàn qǐlái",
+          "pinyin": "kànqǐlái",
           "pos": null,
           "en": "apparently",
           "defs": [
@@ -390,8 +390,8 @@
             "by coincidence"
           ],
           "example": {
-            "zh": "一些同学看见我给了他巧克力。",
-            "en": "Some classmates saw me give him chocolate."
+            "zh": "真巧，我也在那家餐厅吃饭。",
+            "en": "What a coincidence, I was eating at that restaurant too."
           },
           "tags": null
         },
@@ -637,8 +637,8 @@
             "great"
           ],
           "example": {
-            "zh": "你也許不同意他們某些重大政策，這可能会影響你的工作關係。",
-            "en": "You may not agree with some of their major policies and this could affect your working relationship."
+            "zh": "这是一个重大的决定。",
+            "en": "This is a major decision."
           },
           "tags": null
         }
@@ -646,9 +646,9 @@
     },
     {
       "id": "b3-connecting-1",
-      "title": "Connecting Ideas 1",
-      "targetWords": 24,
-      "allocatedWords": 24,
+      "title": "Connecting Ideas",
+      "targetWords": 26,
+      "allocatedWords": 26,
       "words": [
         {
           "id": "L3-0034",
@@ -1003,7 +1003,7 @@
             "to have to"
           ],
           "example": {
-            "zh": "為了保護自己，我們只好說謊。",
+            "zh": "为了保护自己，我们只好说谎。",
             "en": "To defend ourselves, we had to tell a lie."
           },
           "tags": null
@@ -1057,6 +1057,38 @@
           "example": {
             "zh": "自从手术后，我父亲一直处于良好的状态。",
             "en": "My father has been in good shape since his operation."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0976",
+          "simp": "相反",
+          "trad": "相反",
+          "pinyin": "xiāngfǎn",
+          "pos": null,
+          "en": "opposite",
+          "defs": [
+            "opposite"
+          ],
+          "example": {
+            "zh": "然而，相反的理论往往也是真的。",
+            "en": "And yet, the contrary is always true as well."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0978",
+          "simp": "以及",
+          "trad": "以及",
+          "pinyin": "yǐjí",
+          "pos": null,
+          "en": "and; as well as",
+          "defs": [
+            "and"
+          ],
+          "example": {
+            "zh": "我会帮你买菜，打扫，以及做晚餐。",
+            "en": "I'll do your shopping, clean up the house, and cook your dinner for you."
           },
           "tags": null
         }
@@ -1587,7 +1619,7 @@
             "year-end"
           ],
           "example": {
-            "zh": "所有訂購必須在今年年底前支付款項。",
+            "zh": "所有订购必须在今年年底前支付款项。",
             "en": "All subscriptions must be paid before the end of this year."
           },
           "tags": null
@@ -1653,7 +1685,7 @@
             "still"
           ],
           "example": {
-            "zh": "這個問題仍然未解決。",
+            "zh": "这个问题仍然未解决。",
             "en": "The problem remains unsolved."
           },
           "tags": null
@@ -1958,8 +1990,8 @@
     {
       "id": "b3-quantity-1",
       "title": "Quantities, Degree & Comparison",
-      "targetWords": 77,
-      "allocatedWords": 77,
+      "targetWords": 80,
+      "allocatedWords": 80,
       "words": [
         {
           "id": "L3-0009",
@@ -2623,7 +2655,7 @@
             "each"
           ],
           "example": {
-            "zh": "以前讀高中的時候﹐我每天早上六點起床。",
+            "zh": "以前读高中的时候，我每天早上六点起床。",
             "en": "Back in high school, I got up at 6 a.m. every morning."
           },
           "tags": null
@@ -3210,6 +3242,54 @@
           "example": {
             "zh": "我会在5点左右打电话给你。",
             "en": "I'll call you around five o'clock."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0977",
+          "simp": "些",
+          "trad": "些",
+          "pinyin": "xiē",
+          "pos": null,
+          "en": "several",
+          "defs": [
+            "several"
+          ],
+          "example": {
+            "zh": "你不得不制造一些借口。",
+            "en": "You'll have to manufacture some kind of excuse."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0979",
+          "simp": "以内",
+          "trad": "以內",
+          "pinyin": "yǐnèi",
+          "pos": null,
+          "en": "within",
+          "defs": [
+            "within"
+          ],
+          "example": {
+            "zh": "在市区内，数度被限制在每小时五十公里以内。",
+            "en": "In towns, speed is limited to 50 km/h."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0980",
+          "simp": "之间",
+          "trad": "之間",
+          "pinyin": "zhījiān",
+          "pos": null,
+          "en": "amid",
+          "defs": [
+            "amid"
+          ],
+          "example": {
+            "zh": "瑞士位于法国、意大利、奥地利和德国之间。",
+            "en": "Switzerland is situated between France, Italy, Austria and Germany."
           },
           "tags": null
         }
@@ -4395,8 +4475,8 @@
     {
       "id": "b3-school-1",
       "title": "School & Study",
-      "targetWords": 24,
-      "allocatedWords": 24,
+      "targetWords": 28,
+      "allocatedWords": 28,
       "words": [
         {
           "id": "L3-0008",
@@ -4782,6 +4862,71 @@
           "example": {
             "zh": "没有爱情的生活毫无意义。",
             "en": "Life without love is just totally pointless."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0981",
+          "simp": "技巧",
+          "trad": "技巧",
+          "pinyin": "jìqiǎo",
+          "pos": null,
+          "en": "skill",
+          "defs": [
+            "skill"
+          ],
+          "example": {
+            "zh": "演说家为了征服他的听众，不惜使用他在交流课上学到的修辞技巧。",
+            "en": "To win his audience, the speaker resorted to using rhetorical techniques he learned from his communication courses."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0982",
+          "simp": "教训",
+          "trad": "教訓",
+          "pinyin": "jiàoxùn",
+          "pos": null,
+          "en": "to provide guidance; to lecture sb; to upbraid",
+          "defs": [
+            "to provide guidance",
+            "to upbraid"
+          ],
+          "example": {
+            "zh": "他告诉了我们许多经验教训。",
+            "en": "He told us many lessons."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0983",
+          "simp": "结论",
+          "trad": "結論",
+          "pinyin": "jiélùn",
+          "pos": null,
+          "en": "conclusion",
+          "defs": [
+            "conclusion"
+          ],
+          "example": {
+            "zh": "你的结论具有高度争议性。",
+            "en": "Your conclusion is highly arguable."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0984",
+          "simp": "资料",
+          "trad": "資料",
+          "pinyin": "zīliào",
+          "pos": null,
+          "en": "material",
+          "defs": [
+            "material"
+          ],
+          "example": {
+            "zh": "关于这种方言的资料很少。",
+            "en": "There is little information about this dialect."
           },
           "tags": null
         }
@@ -5351,7 +5496,7 @@
             "quarrel"
           ],
           "example": {
-            "zh": "他和老婆吵架没問題，但是動手打老婆就不應該了。",
+            "zh": "他和老婆吵架没问题，但是动手打老婆就不应该了。",
             "en": "It's not an issue if he argues with his wife, but he shouldn't hit her."
           },
           "tags": null
@@ -7816,7 +7961,7 @@
             "to generalize"
           ],
           "example": {
-            "zh": "英語已經普及全國。",
+            "zh": "英语已经普及全国。",
             "en": "English has spread all over the country."
           },
           "tags": null
@@ -11295,8 +11440,8 @@
     {
       "id": "b3-shopping-1",
       "title": "Shopping, Money & Services",
-      "targetWords": 26,
-      "allocatedWords": 26,
+      "targetWords": 36,
+      "allocatedWords": 36,
       "words": [
         {
           "id": "L3-0022",
@@ -11715,6 +11860,168 @@
           "example": {
             "zh": "只有为数不多的几个电视节目值得关注。",
             "en": "Only a few TV programs are worth watching."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0985",
+          "simp": "百货",
+          "trad": "百貨",
+          "pinyin": "bǎihuò",
+          "pos": null,
+          "en": "general merchandise",
+          "defs": [
+            "general merchandise"
+          ],
+          "example": {
+            "zh": "百货商店前有个书店。",
+            "en": "There is a bookstore in front of the department store."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0986",
+          "simp": "打折",
+          "trad": "打折",
+          "pinyin": "dǎzhé",
+          "pos": null,
+          "en": "to give a discount",
+          "defs": [
+            "to give a discount"
+          ],
+          "example": {
+            "zh": "价钱可以打折吗？",
+            "en": "Can the price be discounted?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0987",
+          "simp": "单",
+          "trad": "單",
+          "pinyin": "dān",
+          "pos": null,
+          "en": "bill",
+          "defs": [
+            "bill"
+          ],
+          "example": {
+            "zh": "我要预订一间6月3日的单人房。",
+            "en": "I'd like to reserve a single room on June 3."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0988",
+          "simp": "二手",
+          "trad": "二手",
+          "pinyin": "èrshǒu",
+          "pos": null,
+          "en": "indirectly acquired",
+          "defs": [
+            "indirectly acquired"
+          ],
+          "example": {
+            "zh": "我喜欢买二手书。",
+            "en": "I like to buy second-hand books."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0989",
+          "simp": "高价",
+          "trad": "高價",
+          "pinyin": "gāojià",
+          "pos": null,
+          "en": "high price",
+          "defs": [
+            "high price"
+          ],
+          "example": {
+            "zh": "这台电脑高价卖掉了。",
+            "en": "This computer was sold at a high price."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0990",
+          "simp": "购物",
+          "trad": "購物",
+          "pinyin": "gòuwù",
+          "pos": null,
+          "en": "shopping",
+          "defs": [
+            "shopping"
+          ],
+          "example": {
+            "zh": "她把她的小孩一个人留在那里去购物了。",
+            "en": "She went shopping, leaving her little child all alone."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0991",
+          "simp": "货",
+          "trad": "貨",
+          "pinyin": "huò",
+          "pos": null,
+          "en": "goods",
+          "defs": [
+            "goods"
+          ],
+          "example": {
+            "zh": "你们周日送货吗？",
+            "en": "Do you deliver on Sundays?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0992",
+          "simp": "降价",
+          "trad": "降價",
+          "pinyin": "jiàngjià",
+          "pos": null,
+          "en": "to cut the price",
+          "defs": [
+            "to cut the price",
+            "to get cheaper"
+          ],
+          "example": {
+            "zh": "夏天很多衣服都会降价。",
+            "en": "Many clothes go on sale in the summer."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0993",
+          "simp": "免费",
+          "trad": "免費",
+          "pinyin": "miǎnfèi",
+          "pos": null,
+          "en": "free",
+          "defs": [
+            "free"
+          ],
+          "example": {
+            "zh": "停车场是免费的。",
+            "en": "The parking lot is free of charge."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0994",
+          "simp": "名牌儿",
+          "trad": "名牌兒",
+          "pinyin": "míngpáir",
+          "pos": null,
+          "en": "famous brand; nameplate",
+          "defs": [
+            "famous brand",
+            "nameplate"
+          ],
+          "example": {
+            "zh": "他喜欢穿名牌儿。",
+            "en": "He likes to wear famous brands."
           },
           "tags": null
         }
@@ -13234,7 +13541,7 @@
           "id": "L3-0412",
           "simp": "看上去",
           "trad": "看上去",
-          "pinyin": "kàn shàngqù",
+          "pinyin": "kànshàngqù",
           "pos": null,
           "en": "to seem; to appear",
           "defs": [
@@ -15181,8 +15488,8 @@
     {
       "id": "b3-entertainment-hobbies",
       "title": "Entertainment & Hobbies",
-      "targetWords": 20,
-      "allocatedWords": 20,
+      "targetWords": 23,
+      "allocatedWords": 23,
       "words": [
         {
           "id": "L3-0039",
@@ -15506,6 +15813,54 @@
             "en": "I like this song."
           },
           "tags": null
+        },
+        {
+          "id": "L3-0995",
+          "simp": "抽奖",
+          "trad": "抽獎",
+          "pinyin": "chōujiǎng",
+          "pos": null,
+          "en": "to draw a prize",
+          "defs": [
+            "to draw a prize"
+          ],
+          "example": {
+            "zh": "购物满100元可以参加抽奖。",
+            "en": "You can enter the draw when you spend over 100 yuan."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0996",
+          "simp": "动画片",
+          "trad": "動畫片",
+          "pinyin": "dònghuàpiàn",
+          "pos": null,
+          "en": "animated film",
+          "defs": [
+            "animated film"
+          ],
+          "example": {
+            "zh": "现在的日本动画片越来越色情了！",
+            "en": "Japanese anime these days is becoming more and more like pornography."
+          },
+          "tags": null
+        },
+        {
+          "id": "L3-0997",
+          "simp": "角色",
+          "trad": "角色",
+          "pinyin": "juésè",
+          "pos": null,
+          "en": "part",
+          "defs": [
+            "part"
+          ],
+          "example": {
+            "zh": "他在劇中演了一個小角色。",
+            "en": "He played a minor part in the play."
+          },
+          "tags": null
         }
       ]
     },
@@ -15754,7 +16109,7 @@
           "id": "L3-0508",
           "simp": "能不能",
           "trad": "能不能",
-          "pinyin": "néng bu néng",
+          "pinyin": "néngbunéng",
           "pos": null,
           "en": "can or cannot; can you...?",
           "defs": [

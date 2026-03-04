@@ -2047,20 +2047,45 @@ export default function SpeakMode({
     const heardClass = compact
       ? `secondary-font font-semibold ${noSpeechResultClass} text-white leading-tight break-words text-center`
       : 'secondary-font font-semibold text-2xl text-white leading-tight break-words text-center';
+    const resultPill = (() => {
+      if (!matchResult) return null;
+      if (analysis) {
+        const passCount = [analysis.initial.pass, analysis.final.pass, analysis.tone.pass].filter(Boolean).length;
+        if (passCount === 3) {
+          return {
+            label: 'Strong',
+            className: 'bg-[#DDF5E8] text-[#255B45]',
+          };
+        }
+        if (passCount >= 1) {
+          return {
+            label: 'Keep Going',
+            className: 'bg-[rgba(24,110,149,0.16)] text-[#186E95]',
+          };
+        }
+        return {
+          label: 'Needs Work',
+          className: 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]',
+        };
+      }
+      return {
+        label: matchResult === 'match' ? 'Strong' : 'Needs Work',
+        className:
+          matchResult === 'match'
+            ? 'bg-[#DDF5E8] text-[#255B45]'
+            : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]',
+      };
+    })();
 
     return (
       <div className={`${shell} text-center`}>
         <div className="flex items-center justify-center gap-2 mb-2">
           <span className={titleClass}>Result</span>
-          {matchResult ? (
+          {resultPill ? (
             <span
-              className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
-                matchResult === 'match'
-                  ? 'bg-[#DDF5E8] text-[#255B45]'
-                  : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'
-              }`}
+              className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${resultPill.className}`}
             >
-              {matchResult === 'match' ? 'Strong' : 'Needs Work'}
+              {resultPill.label}
             </span>
           ) : null}
         </div>

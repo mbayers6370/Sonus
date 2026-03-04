@@ -3,8 +3,8 @@
   "source": "hsk3.0",
   "levelId": "band1",
   "level": 1,
-  "wordCount": 538,
-  "availableWords": 538,
+  "wordCount": 548,
+  "availableWords": 548,
   "unallocatedWords": 0,
   "units": [
     {
@@ -17,8 +17,8 @@
     {
       "id": "b1-getting-started",
       "title": "Getting Started",
-      "targetWords": 20,
-      "allocatedWords": 20,
+      "targetWords": 21,
+      "allocatedWords": 21,
       "words": [
         {
           "id": "L1-0116",
@@ -347,8 +347,8 @@
     {
       "id": "b1-pronouns",
       "title": "Pronouns",
-      "targetWords": 11,
-      "allocatedWords": 11,
+      "targetWords": 12,
+      "allocatedWords": 12,
       "words": [
         {
           "id": "L1-0241a",
@@ -525,6 +525,22 @@
           "example": {
             "zh": "大家好！",
             "en": "Hello everyone!"
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0589",
+          "simp": "别",
+          "trad": "別",
+          "pinyin": "bié",
+          "pos": null,
+          "en": "other",
+          "defs": [
+            "other"
+          ],
+          "example": {
+            "zh": "待在那儿别动。",
+            "en": "Remain there and don't move."
           },
           "tags": null
         }
@@ -1000,8 +1016,8 @@
     {
       "id": "b1-numbers",
       "title": "Numbers",
-      "targetWords": 20,
-      "allocatedWords": 20,
+      "targetWords": 23,
+      "allocatedWords": 23,
       "words": [
         {
           "id": "L1-0003",
@@ -1321,6 +1337,54 @@
           "example": {
             "zh": "这个城市有一亿人口。",
             "en": "This city has 100 million people."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0596",
+          "simp": "倍",
+          "trad": "倍",
+          "pinyin": "bèi",
+          "pos": null,
+          "en": "times",
+          "defs": [
+            "times"
+          ],
+          "example": {
+            "zh": "价钱是10年前的2倍。",
+            "en": "Prices are double what they were ten years ago."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0597",
+          "simp": "打",
+          "trad": "打",
+          "pinyin": "dá",
+          "pos": null,
+          "en": "dozen",
+          "defs": [
+            "dozen"
+          ],
+          "example": {
+            "zh": "我要买一打铅笔。",
+            "en": "I want to buy a dozen pencils."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0598",
+          "simp": "俩",
+          "trad": "倆",
+          "pinyin": "liǎ",
+          "pos": null,
+          "en": "both",
+          "defs": [
+            "both"
+          ],
+          "example": {
+            "zh": "今天你们俩很让人印象深刻。我为你们感到骄傲。",
+            "en": "You've both been very impressive today. I'm proud of you."
           },
           "tags": null
         }
@@ -2634,8 +2698,8 @@
     {
       "id": "b1-verbs-1",
       "title": "Verbs 1",
-      "targetWords": 37,
-      "allocatedWords": 37,
+      "targetWords": 39,
+      "allocatedWords": 39,
       "words": [
         {
           "id": "L1-0013",
@@ -3226,6 +3290,39 @@
           "example": {
             "zh": "请坐。",
             "en": "Please sit."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0592",
+          "simp": "关",
+          "trad": "關",
+          "pinyin": "guān",
+          "pos": null,
+          "en": "to shut",
+          "defs": [
+            "to shut",
+            "to close"
+          ],
+          "example": {
+            "zh": "这件事至关重要。",
+            "en": "This is a matter of the utmost importance."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0594",
+          "simp": "要",
+          "trad": "要",
+          "pinyin": "yào",
+          "pos": null,
+          "en": "if",
+          "defs": [
+            "if"
+          ],
+          "example": {
+            "zh": "到了最後，大家一定要靠自己學習。",
+            "en": "Everyone must learn on their own in the end."
           },
           "tags": null
         }
@@ -4019,8 +4116,8 @@
     {
       "id": "b1-animals-pets",
       "title": "Animals & Pets",
-      "targetWords": 14,
-      "allocatedWords": 14,
+      "targetWords": 15,
+      "allocatedWords": 15,
       "words": [
         {
           "id": "L1-0531",
@@ -4246,6 +4343,22 @@
           "example": {
             "zh": "亡羊补牢。",
             "en": "Better late than never."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0595",
+          "simp": "尾巴",
+          "trad": "尾巴",
+          "pinyin": "wěiba",
+          "pos": null,
+          "en": "tail",
+          "defs": [
+            "tail"
+          ],
+          "example": {
+            "zh": "小狗在摇尾巴。",
+            "en": "The little dog is wagging its tail."
           },
           "tags": null
         }
@@ -5843,8 +5956,8 @@
     {
       "id": "b1-directions",
       "title": "Directions",
-      "targetWords": 36,
-      "allocatedWords": 36,
+      "targetWords": 37,
+      "allocatedWords": 37,
       "words": [
         {
           "id": "L1-0019",
@@ -6419,6 +6532,22 @@
           "example": {
             "zh": "书店在左边。",
             "en": "The bookstore is on the left."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0591",
+          "simp": "方",
+          "trad": "方",
+          "pinyin": "fāng",
+          "pos": null,
+          "en": "side",
+          "defs": [
+            "side"
+          ],
+          "example": {
+            "zh": "沿着这条路直走，到第三个红绿灯的地方右转。",
+            "en": "Go straight down this street and turn right at the third light."
           },
           "tags": null
         }
@@ -8519,8 +8648,8 @@
     {
       "id": "b1-ability",
       "title": "Ability & Grammar Particles",
-      "targetWords": 10,
-      "allocatedWords": 10,
+      "targetWords": 11,
+      "allocatedWords": 11,
       "words": [
         {
           "id": "L1-0005",
@@ -8679,6 +8808,22 @@
           "example": {
             "zh": "我不去。",
             "en": "I'm not going."
+          },
+          "tags": null
+        },
+        {
+          "id": "L1-0590",
+          "simp": "得",
+          "trad": "得",
+          "pinyin": "děi",
+          "pos": null,
+          "en": "to need",
+          "defs": [
+            "to need"
+          ],
+          "example": {
+            "zh": "你得早点起床。",
+            "en": "You have to get up early."
           },
           "tags": null
         }

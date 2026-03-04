@@ -3,8 +3,8 @@
   "source": "hsk3.0",
   "levelId": "band2",
   "level": 2,
-  "wordCount": 746,
-  "availableWords": 746,
+  "wordCount": 769,
+  "availableWords": 769,
   "unallocatedWords": 0,
   "units": [
     {
@@ -17,8 +17,8 @@
     {
       "id": "b2-grammar",
       "title": "Grammar",
-      "targetWords": 80,
-      "allocatedWords": 80,
+      "targetWords": 96,
+      "allocatedWords": 96,
       "words": [
         {
           "id": "L2-0001",
@@ -330,7 +330,7 @@
           "id": "L2-0117",
           "simp": "的话",
           "trad": "的話",
-          "pinyin": "dehuà",
+          "pinyin": "de huà",
           "pos": null,
           "en": "if",
           "defs": [
@@ -765,7 +765,7 @@
           "id": "L2-0476",
           "simp": "什么样",
           "trad": "什麼樣",
-          "pinyin": "shénmeyàng",
+          "pinyin": "shénme yàng",
           "pos": null,
           "en": "what kind",
           "defs": [
@@ -1353,6 +1353,265 @@
           "example": {
             "zh": "我也去。",
             "en": "I'm going too."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0823",
+          "simp": "而",
+          "trad": "而",
+          "pinyin": "ér",
+          "pos": null,
+          "en": "and",
+          "defs": [
+            "and",
+            "and so"
+          ],
+          "example": {
+            "zh": "他很努力，而我也在努力。",
+            "en": "He works hard, and I am working hard too."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0824",
+          "simp": "而是",
+          "trad": "而是",
+          "pinyin": "érshì",
+          "pos": null,
+          "en": "rather",
+          "defs": [
+            "rather"
+          ],
+          "example": {
+            "zh": "这不是咖啡，而是茶。",
+            "en": "This is not coffee, but tea."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0825",
+          "simp": "假如",
+          "trad": "假如",
+          "pinyin": "jiǎrú",
+          "pos": null,
+          "en": "if",
+          "defs": [
+            "if"
+          ],
+          "example": {
+            "zh": "假如你没有这个程序，你现在就可以去下载。",
+            "en": "If you do not have this program, you can download it now."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0826",
+          "simp": "奖",
+          "trad": "獎",
+          "pinyin": "jiǎng",
+          "pos": null,
+          "en": "prize; award; bonus; reward",
+          "defs": [
+            "prize"
+          ],
+          "example": {
+            "zh": "他们在画展上授予了她一等奖。",
+            "en": "They awarded her first prize at the art exhibition."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0827",
+          "simp": "可见",
+          "trad": "可見",
+          "pinyin": "kějiàn",
+          "pos": null,
+          "en": "clear",
+          "defs": [
+            "clear",
+            "it is clear"
+          ],
+          "example": {
+            "zh": "肉眼可见。",
+            "en": "It is visible to the naked eye."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0828",
+          "simp": "哪怕",
+          "trad": "哪怕",
+          "pinyin": "nǎpà",
+          "pos": null,
+          "en": "even",
+          "defs": [
+            "even",
+            "even if"
+          ],
+          "example": {
+            "zh": "哪怕没有人陪我，我也要去看这部电影。",
+            "en": "Even if no one goes with me, I still want to see this movie."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0829",
+          "simp": "却",
+          "trad": "卻",
+          "pinyin": "què",
+          "pos": null,
+          "en": "but",
+          "defs": [
+            "but"
+          ],
+          "example": {
+            "zh": "家乐福的火腿剩料一点都不贵，然而却很好吃。",
+            "en": "Carrefour's Ham offcuts are not expensive at all, but are nonetheless delicious."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0830",
+          "simp": "然而",
+          "trad": "然而",
+          "pinyin": "rán'ér",
+          "pos": null,
+          "en": "however; but; yet",
+          "defs": [
+            "however"
+          ],
+          "example": {
+            "zh": "他想去，然而今天下雨了。",
+            "en": "He wants to go; however, it is raining today."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0831",
+          "simp": "甚至",
+          "trad": "甚至",
+          "pinyin": "shènzhì",
+          "pos": null,
+          "en": "even; so much so that",
+          "defs": [
+            "even"
+          ],
+          "example": {
+            "zh": "他甚至没说再见就离开了家。",
+            "en": "He left the house without so much as saying goodbye."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0832",
+          "simp": "似的",
+          "trad": "似的",
+          "pinyin": "shìde",
+          "pos": null,
+          "en": "seems as if",
+          "defs": [
+            "seems as if"
+          ],
+          "example": {
+            "zh": "我也听过一个类似的故事。",
+            "en": "I also heard a similar story."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0833",
+          "simp": "是否",
+          "trad": "是否",
+          "pinyin": "shìfǒu",
+          "pos": null,
+          "en": "if",
+          "defs": [
+            "if"
+          ],
+          "example": {
+            "zh": "我想知道明天是否会下雨。",
+            "en": "I wonder if it will rain tomorrow."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0834",
+          "simp": "似乎",
+          "trad": "似乎",
+          "pinyin": "sìhū",
+          "pos": null,
+          "en": "it seems; seemingly; as if",
+          "defs": [
+            "it seems"
+          ],
+          "example": {
+            "zh": "这房子里似乎在办派对。",
+            "en": "There appears to be a party in that house."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0835",
+          "simp": "万一",
+          "trad": "萬一",
+          "pinyin": "wànyī",
+          "pos": null,
+          "en": "just in case",
+          "defs": [
+            "just in case"
+          ],
+          "example": {
+            "zh": "万一你生病了，吃这个药。",
+            "en": "Take this medicine in case you get sick."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0836",
+          "simp": "无论",
+          "trad": "無論",
+          "pinyin": "wúlùn",
+          "pos": null,
+          "en": "no matter what or how",
+          "defs": [
+            "no matter what or how"
+          ],
+          "example": {
+            "zh": "无论天气好坏，我们都去跑步。",
+            "en": "No matter how the weather is, we go running."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0839",
+          "simp": "应",
+          "trad": "應",
+          "pinyin": "yīng",
+          "pos": null,
+          "en": "must",
+          "defs": [
+            "must"
+          ],
+          "example": {
+            "zh": "孩子们应该每天喝牛奶。",
+            "en": "Children should drink milk every day."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0840",
+          "simp": "于是",
+          "trad": "於是",
+          "pinyin": "yúshì",
+          "pos": null,
+          "en": "thereupon; as a result; consequently; thus; hence",
+          "defs": [
+            "thereupon"
+          ],
+          "example": {
+            "zh": "他觉得她说得很有道理，于是接受了她的建议。",
+            "en": "He thought she spoke reasonably, so he accepted her suggestion."
           },
           "tags": null
         }
@@ -2147,7 +2406,7 @@
           "id": "L2-0180",
           "simp": "干活儿",
           "trad": "幹活兒",
-          "pinyin": "gànhuór",
+          "pinyin": "gàn huór",
           "pos": null,
           "en": "to work",
           "defs": [
@@ -2236,8 +2495,8 @@
     {
       "id": "b2-time",
       "title": "Time & Frequency",
-      "targetWords": 50,
-      "allocatedWords": 50,
+      "targetWords": 57,
+      "allocatedWords": 57,
       "words": [
         {
           "id": "L2-0011",
@@ -2344,7 +2603,7 @@
           "id": "L2-0149",
           "simp": "多久",
           "trad": "多久",
-          "pinyin": "duōjiǔ",
+          "pinyin": "duō jiǔ",
           "pos": null,
           "en": "how long",
           "defs": [
@@ -2978,7 +3237,7 @@
           "id": "L2-0722",
           "simp": "这时候",
           "trad": "這時候",
-          "pinyin": "zhèshíhou",
+          "pinyin": "zhè shíhou",
           "pos": null,
           "en": "right now",
           "defs": [
@@ -2994,7 +3253,7 @@
           "id": "L2-0722-2",
           "simp": "这时",
           "trad": "這時",
-          "pinyin": "zhèshí",
+          "pinyin": "zhè shí",
           "pos": null,
           "en": "at this time",
           "defs": [
@@ -3071,6 +3330,119 @@
           "example": {
             "zh": "最近怎么样？",
             "en": "How's it going lately?"
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0837",
+          "simp": "依然",
+          "trad": "依然",
+          "pinyin": "yīrán",
+          "pos": null,
+          "en": "still; as before",
+          "defs": [
+            "still"
+          ],
+          "example": {
+            "zh": "你说尽他的坏话，但我依然喜欢他。",
+            "en": "For all you say about him, I still like him."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0838",
+          "simp": "一再",
+          "trad": "一再",
+          "pinyin": "yīzài",
+          "pos": null,
+          "en": "repeatedly",
+          "defs": [
+            "repeatedly"
+          ],
+          "example": {
+            "zh": "下週一再見。",
+            "en": "See you again next Monday."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0841",
+          "simp": "再三",
+          "trad": "再三",
+          "pinyin": "zàisān",
+          "pos": null,
+          "en": "over and over again",
+          "defs": [
+            "over and over again",
+            "again and again"
+          ],
+          "example": {
+            "zh": "我再三申明无罪，但是没人听我讲。",
+            "en": "I keep saying that I'm innocent, but no one will listen."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0842",
+          "simp": "之后",
+          "trad": "之後",
+          "pinyin": "zhīhòu",
+          "pos": null,
+          "en": "after; behind",
+          "defs": [
+            "after"
+          ],
+          "example": {
+            "zh": "布什继里根之后当上了总统。",
+            "en": "Bush followed Reagan as president."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0843",
+          "simp": "之前",
+          "trad": "之前",
+          "pinyin": "zhīqián",
+          "pos": null,
+          "en": "before",
+          "defs": [
+            "before"
+          ],
+          "example": {
+            "zh": "明天下午之前我会把它完成。",
+            "en": "I will finish it by tomorrow afternoon."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0844",
+          "simp": "逐步",
+          "trad": "逐步",
+          "pinyin": "zhúbù",
+          "pos": null,
+          "en": "progressively",
+          "defs": [
+            "progressively"
+          ],
+          "example": {
+            "zh": "总线速度逐步回升。",
+            "en": "The bus picked up the speed gradually."
+          },
+          "tags": null
+        },
+        {
+          "id": "L2-0845",
+          "simp": "逐渐",
+          "trad": "逐漸",
+          "pinyin": "zhújiàn",
+          "pos": null,
+          "en": "gradually",
+          "defs": [
+            "gradually"
+          ],
+          "example": {
+            "zh": "我父亲逐渐好转了。",
+            "en": "My father is getting better by degrees."
           },
           "tags": null
         }
@@ -7211,7 +7583,7 @@
           "id": "L2-0577",
           "simp": "问路",
           "trad": "問路",
-          "pinyin": "wènlù",
+          "pinyin": "wèn lù",
           "pos": null,
           "en": "to ask directions",
           "defs": [
@@ -7826,7 +8198,7 @@
           "id": "L2-0536",
           "simp": "听讲",
           "trad": "聽講",
-          "pinyin": "tīngjiǎng",
+          "pinyin": "tīng jiǎng",
           "pos": null,
           "en": "to listen to a lecture",
           "defs": [

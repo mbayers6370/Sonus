@@ -1,0 +1,506 @@
+status	unit	id	simp	gloss_en	defs	example_zh	example_en	key_tokens
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0002	啊	interjection of surprise	interjection of surprise | expression of recognition	啊，原来是你！	Ah, so it is you!	interjection,surprise,expression,recognition
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0021	包括	to comprise	to comprise | to include	他的薪水包括基本工資和提成。	His remuneration consists of a base salary plus commissions.	comprise,include
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0052	不要紧	unimportant	unimportant	稍微冷点儿不要紧。	I don't care if it's a bit cold.	unimportant
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0054	不管	not to be concerned	not to be concerned	不管我跟她说了多少次，她还是继续犯同样的错误。	No matter how often I tell her, she keeps making the same mistake.	not,concerned
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0055	不然	not so	not so | if not	慢慢来，不然你可能会出错的。	Take your time, or you may make some mistakes.	not
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0122	此	this; these	this	我希望如此。	I hope so.	these
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0123	此外	besides; in addition; moreover; furthermore	besides	此外，中國人喜歡睡午覺。	What's more, Chinese people like taking naps.	besides,addition,moreover,furthermore
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0127	从此	from now on	from now on	她从此就留在国外了。	She has remained abroad ever since.	now
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0167	导致	to lead to; to create; to cause; to bring about	to lead to | to cause	道路结冰导致了很多起事故。	Many accidents resulted from the icy conditions of the road.	lead,create,cause,bring
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0178	的确	really	really	我抓不到句子的确切含义。	I can't get at the exact meaning of the sentence.	really
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0193	定	to fix; to set; to make definite	to fix | to set	到了最後，大家一定要靠自己學習。	Everyone must learn on their own in the end.	fix,set,make,definite
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0208	对于	regarding	regarding	你对于现在的年轻人有什么看法？	What do you think about young people today?	regarding
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0230	反而	on the contrary; instead	on the contrary	你不但不和我一起吃饭，反而去和另一个女生吃饭！	Not only did you not eat with me, you went to have dinner with another girl!	contrary,instead
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0236	非	not	not | to not be	我觉得这个网站的概念非常好。	I really like the concept of this website.	not
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0290	关于	pertaining to	pertaining to | with regard to	我在找关于古罗马历史的书。	I'm looking for books on Roman history.	pertaining,regard
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0296	归	despite	despite	他把他的错误归咎于坏运气。	He ascribes his failure to bad luck.	despite
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0301	过分	excessive; undue	excessive	那太过分了。	That's too much.	excessive,undue
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0343	或许	perhaps; maybe	perhaps	我或许不善于社交,但这并不意味我不和别人交谈。	I may be antisocial, but it doesn't mean I don't talk to people.	perhaps,maybe
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0349	几乎	almost; nearly; practically	almost	在明天前完成报告几乎是不可能的。	Finishing the report by tomorrow is next to impossible.	almost,nearly,practically
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0356	极	extremely	extremely	这场秀棒极了，但是门票太贵了。	The show was wonderful, but the tickets were too expensive.	extremely
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0357	极其	extremely	extremely	他极其英俊。	He is tremendously handsome.	extremely
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0358	即将	about to; on the point of; soon	about to	这场谈论即将对污染问题展开讨论。	The talks will deal with the problem of pollution.	point,soon
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0368	既	already	already	我爸爸既不喝酒也不抽烟。	My father neither drinks nor smokes.	already
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0383	渐渐	gradually	gradually	墙上的纸渐渐脱落了。	The paper was beginning to peel off the walls.	gradually
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0407	尽快	as quickly as possible; as soon as possible	as quickly as possible | as soon as possible	我尽快需要。	I need it ASAP.	quickly,possible,soon
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0415	竟然	unexpectedly	unexpectedly	我太愚蠢了...我竟然试着给你解释我自己都不懂的东西。	I'm so dumb... I'm trying to explain things to you that I don't understand myself.	unexpectedly
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0418	究竟	to go to the bottom of a matter	to go to the bottom of a matter	那裡究竟發生了什麼事？	What exactly happened there?	bottom,matter
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0434	看来	apparently	apparently	在我看来很有意思！	It seems interesting to me.	apparently
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0469	离不开	inseparable	inseparable	我一天也离不开这本字典。	I cannot do without this dictionary even for a single day.	inseparable
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0472	立即	immediately	immediately	我們立即開始施工。	We'll begin work soon.	immediately
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0487	临时	as the time draws near	as the time draws near | at the last moment	因为临时有事，我很抱歉在2月27日那天不能跟你们碰面了。	I regret that I will be unable to meet you on February 27 owing to an unexpected matter.	time,draws,near,last,moment
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0492	陆续	in turn	in turn	客人陆续到达。	The guests arrived one after another.	turn
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0531	哪	sentence-final particle variant of 啊	sentence-final particle variant of 啊	谢谢你哪。	Thanks a lot.	sentence,final,particle,variant
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0534	难免	hard to avoid	hard to avoid | difficult to escape from	外交部长称战争在所难免。	The Foreign Minister said that war was inevitable.	hard,avoid,difficult,escape
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0679	说不定	can't say for sure	can't say for sure	谁能赢这场比赛还说不定。	It's still not certain who's going to win this match.	can,say,sure
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0755	未必	not necessarily	not necessarily | maybe not	這些資料未必可靠。	It is questionable whether this data can be relied on.	not,necessarily,maybe
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0840	呀	creaking	creaking	這是多古老的書本呀！	What an old book this is!	creaking
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0924	在于	to lie in	to lie in | to rest with	电视的优点在于它给体育爱好者提供了更大的方便。	Television has the advantage of providing sports fans with greater convenience.	lie,rest
+REVIEW_EN_ALIGNMENT	b4-grammar	L4-0999	作为	one's conduct	one's conduct	我向你们承诺——我们作为一个整体将会达成目标。	I promise you, we as a people will get there.	conduct
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0018	办事	to work	to work | to handle	他严格按照原则办事。	He is a stickler for principles.	work,handle
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0073	产品	goods	goods	这个国家的主要产品之一是咖啡。	One of the main products of this country is coffee.	goods
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0159	担任	to hold a governmental office or post	to hold a governmental office or post | to serve as	我很高兴我们录用了你来担任这份工作。	I'm glad we hired you for this job.	hold,governmental,office,post,serve
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0276	工程	engineering	engineering | an engineering project	工程师告诉我们如何使用机器。	The engineer told us how to use the machine.	engineering,project
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0350	机构	mechanism	mechanism	我一得到一大笔钱就捐一部分给慈善机构。	Whenever I get a large sum of money, I donate some of it to charity.	mechanism
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0388	奖金	premium	premium	他把奖金存到银行了。	He deposited the prize money in the bank.	premium
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0410	进口	to import	to import	日本的石油依靠进口。	Japan depends on other countries for oil.	import
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0569	期限	time limit	time limit | allotted time	期限近了。	The deadline is approaching.	time,limit,allotted
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0578	前途	prospects	prospects	大好的前途摆在他面前。	A brilliant future lay before him.	prospects
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0637	失业	unemployment	unemployment	Mike已经失业1年了。	Mike has been out of work for a year.	unemployment
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0729	投资	investment	investment	谁来为风险投资提供资金？	Who will provide capital for the venture?	investment
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0804	项目	item	item	公司放弃了那个项目。	The company abandoned that project.	item
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0807	销售	to sell	to sell | to market	他在做销售工作。	He is doing sales work.	sell,market
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0811	效率	efficiency	efficiency	這餐廳的服務一點效率也沒有。	The service in this restaurant is none too fast.	efficiency
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0861	业余	in one's spare time	in one's spare time	观察鸟类是个很好的业余爱好。	Bird watching is a nice hobby.	spare,time
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0887	营业	to do business	to do business | to trade	顺便问一下，餐厅晚上几点钟开始营业？	By the way, may I ask when in the evening your restaurant opens?	business,trade
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0970	主席	chairperson	chairperson	他是会议的主席。	He is the chairman of the meeting.	chairperson
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0986	资源	resources	resources	唯一比无论什么资源都珍贵的是土地。	The one resource more precious than any other was land.	resources
+REVIEW_EN_ALIGNMENT	b4-work-economy	L4-0992	总理	premier	premier	这是总理住的房子。	This is the house in which the prime minister lives.	premier
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0005	爱国	to love one's country	to love one's country	中国人的胃最爱国了。	Chinese people have the most patriotic stomachs.	love,country
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0061	财产	property	property	他留给他女儿一大笔财产。	He left his daughter a great fortune.	property
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0146	大会	general assembly	general assembly | general meeting	大家推举他到大会发言。	Everyone chose him to speak at the conference.	general,assembly,meeting
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0183	地位	position	position	这位科学家在国际上有很高的地位。	This scientist has a high status internationally.	position
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0292	官方	government	government	这是官方消息。	This news is official.	government
+FAIL_ZH_MISSING_WORD	b4-society-culture	L4-0347	获奖	to win an award	to win an award	这部电影获了奖。	This movie won an award.	win,award
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0474	利益	benefit	benefit	從國際的觀點看，應該考慮推行人口政策來平衡兩方的利益。	A population policy should be considered on the international viewpoint so as to balance the interests of both sides.	benefit
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0524	名人	personage	personage	許多名人來這裡。	Lots of famous people come here.	personage
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0592	趋势	trend; tendency	trend	世界人口有上升的趨勢。	The world's population tends to increase.	trend,tendency
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0602	人家	household	household | household business	访客通常在进入一户日本人家之前会被要求脱鞋。	Visitors are usually asked to remove their shoes before they enter a Japanese house.	household,business
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0632	神话	legend	legend	保罗的成功是一个神话。	Paul's success was a myth.	legend
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0873	遗产	heritage	heritage	他继承了他爸爸的庞大遗产。	He succeeded to his father's large property.	heritage
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0879	义务	volunteer	volunteer	你有义务还债。	You are liable for the debt.	volunteer
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0946	政府	government	government	你知道从火车站到市政府有多远？	Do you know how far it is from the station to city hall?	government
+REVIEW_EN_ALIGNMENT	b4-society-culture	L4-0947	政治	politics	politics	政治家从来不告诉我们他们的别有用心。	Politicians never tell us their inner thoughts.	politics
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0106	抽烟	to smoke	to smoke	数据表明年轻人抽烟的现象没有减少。	As is evident from the data, smoking is not decreasing among the young.	smoke
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0203	肚子	belly	belly	我的肚子有点儿疼。	My stomach hurts a bit.	belly
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0205	锻炼	to toughen	to toughen | to temper	我已经好久没有去锻炼了。	I haven't exercised in a long time.	toughen,temper
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0382	健身	to exercise	to exercise | physical exercise	你今天去不去健身房？	Are you going to the gym today?	exercise,physical
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0414	精力	energy	energy	他把全部精力放到实验中了。	All his energies were devoted to the experiment.	energy
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0464	泪	teardrops	teardrops	她的眼里涌出了泪水。	Her eyes gushed with tears.	teardrops
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0465	泪水	teardrop	teardrop	她的眼里涌出了泪水。	Her eyes gushed with tears.	teardrop
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0480	疗养	to get well	to get well | to heal	是我发现她的。她当时已经失去了意识，所以我把她送到了疗养院。	It was I who found her. She'd lost consciousness, so I carried her to the infirmary.	get,well,heal
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0535	脑袋	head	head	这几天我脑袋里的事情太多了。	I have too many things on my mind these days.	head
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0539	内科	internal medicine; general medicine	internal medicine | general medicine	他看到了一位內科醫師。	He saw a physician.	internal,medicine,general
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0576	器官	apparatus	apparatus	舌头和上颚都是味觉器官。	The tongue and the palate are the taste organs.	apparatus
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0628	身材	stature	stature	现代版旗袍因能突显女人的身材而闻名。	The modernized version of the qipao is noted for accentuating the female figure.	stature
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0657	手术	surgery	surgery	自从手术后，我父亲一直处于良好的状态。	My father has been in good shape since his operation.	surgery
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0777	吸烟	to smoke	to smoke	吸烟有害健康。	Smoking affects your health.	smoke
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0813	心理	psychology	psychology	他主要是心理的問題。	His trouble was chiefly mental.	psychology
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0837	牙	tooth	tooth	我希望将来成为一名牙医。	I wish to become a dentist in the future.	tooth
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0852	眼泪	tear; teardrop	tear	但是说真的，第21集让我笑得眼泪都要出来了。	Seriously though, episode 21 made me almost cry while laughing.	tear,teardrop
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0859	药物	medicaments	medicaments	这种药物很好。	This medicine is very good.	medicaments
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0918	运动会	sports competition	sports competition	Jane在运动会之前把头发剃短了。	Jane had her hair cut short before the athletic meet.	sports,competition
+REVIEW_EN_ALIGNMENT	b4-health-fitness	L4-0958	治疗	therapy	therapy	预防措施比真正的治疗更有效。	Preventive measures are much more effective than the actual treatment.	therapy
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0026	宝贵	valuable	valuable	时间是世界上最宝贵的东西。	Time is the most precious thing in the world.	valuable
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0082	彻底	thorough	thorough	春天，我想要彻底打扫房子。	I want to do spring cleaning.	thorough
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0102	充分	ample	ample	今晚我们有充分的时间。	We have plenty of time tonight.	ample
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0119	纯	pure	pure	那个发现纯属偶然。	That discovery was quite accidental.	pure
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0186	典型	model	model	他是典型的日本人。	He is a typical Japanese.	model
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0199	独特	unique; distinctive	unique	南非的祖魯族人有著自己獨特的語言。	The Zulu tribe in South Africa has its own language.	unique,distinctive
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0287	怪	bewildering	bewildering	难怪她表示不想再见到他了。因为他们分手了。	No wonder she doesn't want to see him again. Because they broke up.	bewildering
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0354	激烈	acute	acute	我们讨论得很激烈。	We had a heated discussion.	acute
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0376	坚固	firm	firm	这个梯子是否足够坚固以承受我的重量？	Is this ladder strong enough to bear my weight?	firm
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0413	经典	the classics	the classics	麥根沙士被視為一種經典的美式碳酸飲品。	Root beer is considered a classic American carbonated soft drink.	classics
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0441	空	empty	empty | to empty	我曾經想過當個太空物理學家。	I once wanted to be an astrophysicist.	empty
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0557	片面	unilateral	unilateral	关于这个问题，我觉得垃圾媒体只报道了很片面的信息。	Concerning this issue, I feel that the trash media only report biased information.	unilateral
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0558	品质	character	character	这些产品质量同等。	These products are of the same quality.	character
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0563	迫切	urgent; pressing	urgent	我迫切需要冷饮。	I'm dying for a cold drink.	urgent,pressing
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0587	清醒	clear-headed	clear-headed	咖啡讓我在沉悶的音樂會中保持清醒。	The coffee enabled me to stay awake during the dull concert.	clear,headed
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0635	失败	to be defeated	to be defeated | to lose	他试图游过河，但是失败了。	He failed in his attempt to swim across the river.	defeated,lose
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0642	实用	to apply in practice	to apply in practice	有一台笔记本电脑很实用。	It's practical to have a laptop.	apply,practice
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0664	舒适	cozy	cozy	当你坐在一把舒适的椅子上的时候，更容易学习。	It is easier to study when you are sitting in a comfortable chair.	cozy
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0665	熟练	practiced	practiced	熟练的士兵知道怎么以他们的环境为武器。	Skilled soldiers know how to use their environment as a weapon.	practiced
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0699	特殊	special	special	这牛奶有特殊的气味。	This milk has a peculiar smell.	special
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0700	特征	characteristic	characteristic	同事在课堂上用“特征”举了一个例子。	The colleague used "特征" in an example during class.	characteristic
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0724	统一	unified	unified	欧洲人统一有可能吗？	Is a common European identity possible?	unified
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0794	显著	outstanding	outstanding	新方法让效率显著提高。	The new method significantly improved efficiency.	outstanding
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0834	学问	learning; knowledge; scholarship	learning	翻译是一门学问。	Translation is a scholarly discipline.	learning,knowledge,scholarship
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0869	一致	consistent; unanimous; in agreement	consistent	你的言行必须一致。	Your words must correspond with your actions.	consistent,unanimous,agreement
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0892	用途	use; application	use	文字處理軟件和電腦不同的是，它只有一個用途。	Compared to a computer, a word processor has a single purpose.	use,application
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0893	优良	fine	fine	他成绩优良。	His grades are good.	fine
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0895	优秀	outstanding; excellent	outstanding	爱迪生不是个优秀的学生。	Edison was not a bright student.	outstanding,excellent
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0914	圆满	satisfactory; consummate; perfect	satisfactory	我偏好結局圓滿的小說。	I prefer novels that have a happy ending.	satisfactory,consummate,perfect
+REVIEW_EN_ALIGNMENT	b4-opinion	L4-0990	综合	comprehensive	comprehensive	所有意见是真相和错误的综合。	Every opinion is a mixture of truth and mistakes.	comprehensive
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0025	宝贝	treasured object	treasured object	妈妈亲了她的宝贝。	The mother kissed her baby.	treasured,object
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0150	大妈	father's elder brother's wife	father's elder brother's wife	楼下的大妈很热心。	The aunt downstairs is very warm-hearted.	father,elder,brother,wife
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0227	翻译	to translate	to translate | to interpret	因为我想成为翻译。	Because I want to be a translator.	translate,interpret
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0240	分手	to part company	to part company | to split up	难怪她表示不想再见到他了。因为他们分手了。	No wonder she doesn't want to see him again. Because they broke up.	part,company,split
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0250	夫妇	husband and wife	husband and wife	史密斯夫妇现在分居了。	Mr. and Mrs. Smith live apart from each other now.	husband,wife
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0252	夫人	lady	lady	王夫人正在准备早饭。	Mrs. Wang is preparing breakfast.	lady
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0272	个体	individual	individual	他是个体户。	He is a self-employed worker.	individual
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0341	伙	companion	companion	他是个无可救药的家伙。	He's a hopeless case.	companion
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0342	伙伴	partner	partner	他和他的伙伴让我跟他们一起去。	He and his companion asked me to come along with them.	partner
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0445	会计	accountant	accountant	你懂会计吗？	Do you know accounting?	accountant
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0513	秘书	secretary	secretary	她在超市做秘书。	She is a clerk in the supermarket.	secretary
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0532	男女	male-female	male-female | male and female	現在不止要男女薪金平等，而且還要平均分配家務。	It is time not only to equalize men's and women's wages, but also to equalize responsibility for housework.	male,female
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0582	亲爱	dear	dear	亲爱的，我们跳舞吧。	Let's dance, my darling.	dear
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0583	亲密	intimate	intimate	他们看起来很亲密。	They look pretty close.	intimate
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0629	身份	role	role	学生不该忽略自己的身份。	A student should not lose sight of his own identity.	role
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0639	诗人	bard	bard	那位诗人今天来学校演讲。	That poet came to the school to give a talk today.	bard
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0675	帅哥	handsome guy	handsome guy | handsome	那位帅哥是我们的老师。	That young man is our teacher.	handsome,guy
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0691	孙子	general	general	有一位奶奶带着小孙子上学。	A grandmother is sending her grandson to school.	general
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0722	童年	childhood	childhood	这张照片让我想起童年的快乐时光。	This photograph reminds me of enjoyable times when I was a child.	childhood
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0745	王	grand	grand	我長大後想當國王。	When I grow up, I want to be a king.	grand
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0809	小伙子	young man	young man | young guy	她看不起这个小伙子。	She scorned the boy.	young,man,guy
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0919	运动员	athlete	athlete	我在想哪个跑步运动员会跑第一。	I wonder which of the runners will come first.	athlete
+REVIEW_EN_ALIGNMENT	b4-people-relationships	L4-0931	战士	fighter	fighter	那位战士退役后当了老师。	That soldier became a teacher after retiring from service.	fighter
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0003	矮	low	low	我把他叫做「矮子」，他就氣得不得了。	He got mad at me for calling him Shorty.	low
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0044	表情	expression	expression	從他們的表情可以知道，他們大概是失敗了。	From the way they look, I would say that they failed.	expression
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0080	潮流	tide	tide	跟上最近潮流时尚是件非常花钱的事儿。	It is very expensive to keep up with the latest fashions.	tide
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0165	淡	insipid	insipid	我相信這條魚是淡水魚。	I believe this fish is a freshwater fish.	insipid
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0237	肥	fat	fat	我想减肥。	I want to lose weight.	fat
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0245	风格	style	style	你喜欢什么风格的音乐？	What kind of music do you like?	style
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0322	厚	thick	thick	我对你的厚颜无耻感到惊讶。	I am amazed at your audacity.	thick
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0542	浓	concentrated	concentrated	为什么喜欢喝浓咖啡？	Why do you like coffee strong?	concentrated
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0610	色	color	color	这是我见过最美的景色了。	This is the most beautiful sight that I have ever seen.	color
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0611	色彩	tint; coloring; coloration	tint	这里的色彩很漂亮。	The colors here are very beautiful.	tint,coloring,coloration
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0674	帅	cool!	cool!	他很年轻，更重要的是，他很帅。	He is young and, what is more, handsome.	cool
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0731	透明	transparent	transparent	你半透明的裙子让我高度兴奋。	I am completely agog over your diaphanous dress.	transparent
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0738	袜子	socks	socks	你的袜子上有个大洞。	You've got a big hole in your sock.	socks
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0771	五颜六色	multicolored	multicolored	房子里有很多五颜六色的花。	There are many colorful flowers in the house.	multicolored
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0784	细致	delicate	delicate	这两张图片之间有细致的差异。	There are subtle differences between the two pictures.	delicate
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0792	鲜明	distinct	distinct	广场被鲜明的灯火照亮。	The square was illuminated by bright lights.	distinct
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0851	眼镜	spectacles	spectacles	他总是带着黑色眼镜。	He always wears dark glasses.	spectacles
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0894	优美	graceful	graceful	新疆有许多风景优美的地方。	There are many scenic places in Xinjiang.	graceful
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0913	圆	circle	circle	她有张圆脸。	She has a round face.	circle
+REVIEW_EN_ALIGNMENT	b4-appearance-fashion	L4-0928	造型	to model; to shape	to model | to shape	这个雕塑的造型很独特。	The form of this sculpture is very unique.	model,shape
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0007	安	calm	calm | to calm	随着时间的推移，比赛增加了规则以使之更安全。	As time went on, rules were added to the game to make it safer.	calm
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0085	沉重	heavy	heavy	她的脚步沉重地落在木地板上。	Her footsteps fell ponderously on the wooden floor.	heavy
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0094	吃惊	to be startled	to be startled | to be amazed	我听到这个消息很吃惊。	I was surprised at the news.	startled,amazed
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0160	担心	anxious	anxious | to be anxious	他一直很担心他的女儿。	He's always worrying about his daughter.	anxious
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0171	得意	proud of oneself	proud of oneself | pleased with oneself	凡人皆有得意时。	Every dog has his day.	proud,oneself,pleased
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0213	恶心	vice	vice | nausea	我觉得很恶心。	I feel nauseous.	vice,nausea
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0228	烦	to feel vexed	to feel vexed | to bother	他的问题让我很烦。	His questions are really annoying me.	feel,vexed,bother
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0330	怀念	to cherish the memory of	to cherish the memory of | to reminisce	我很怀念我的童年。	I think fondly of my childhood.	cherish,memory,reminisce
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0353	激动	to move emotionally	to move emotionally | to excite	太空跑步是历史上激动人心的时刻。	The space race was an exciting time in history.	move,emotionally,excite
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0444	苦	bitter	bitter	失業之後他捱過了一段非常艱苦的日子。	After losing his job, he went through a very difficult time.	bitter
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0481	了不起	amazing	amazing	这个可怜的年轻人最后成为了一个了不起的艺术家。	The poor young man finally became a great artist.	amazing
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0506	没想到	didn't expect	didn't expect	我从来没想到他能做到那么残忍的事。	I never thought he was capable of doing something so cruel.	didn,expect
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0541	宁静	tranquil	tranquil	他们在高山顶上建了自己的小城镇在那里过着宁静的生活。	There on the top of a high mountain they built a small town of their own and lived in peace.	tranquil
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0560	平静	tranquil	tranquil	暴风雨后，大海恢复了平静。	After the storm, the sea was quiet again.	tranquil
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0585	轻松	light	light	我们的任务到目前为止很轻松，但从现在开始将会变得很难。	Our task has been easy so far, but it will be difficult from now on.	light
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0600	热闹	bustling with noise and excitement	bustling with noise and excitement	市场上到处都很热闹。	There isn't a place in this market that isn't lively.	bustling,noise,excitement
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0661	受不了	unbearable	unbearable	湖上的冰太薄了，承受不了你的重量。	The ice on the lake is too thin to bear your weight.	unbearable
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0725	痛快	delighted	delighted	昨天我們玩得特別痛快!	Yesterday, we had a blast!	delighted
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0766	无聊	bored	bored	这部电影很无聊，最好的部分是结局。	This film is really boring - the best bit is when it finishes.	bored
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0769	无所谓	to be indifferent	to be indifferent | not to matter	我无所谓。	I don't care.	indifferent,not,matter
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0779	喜爱	to like	to like | to love	谁是你最喜爱的电视明星？	Who is your favorite TV star?	like,love
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0818	兴奋	excited	excited	他肯定是吃了兴奋剂才会跑得那么快。	He must have been on steroids to have run that fast.	excited
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0824	兴趣	hobby	hobby	你们对外语感兴趣吗？	Are you interested in foreign languages?	hobby
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0897	有劲儿	energetic; strong	energetic | strong	他干起活来真有劲儿。	He works with a lot of energy.	energetic,strong
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0923	在乎	to lie in	to lie in | to rest with	我的物理老师不在乎我是否逃课。	My physics teacher doesn't care if I skip classes.	lie,rest
+REVIEW_EN_ALIGNMENT	b4-feelings	L4-0937	着急	to worry; to feel anxious	to worry | to feel anxious	别那么着急。	Don't be that worried.	worry,feel,anxious
+REVIEW_EN_ALIGNMENT	b4-time	L4-0567	期间	period of time	period of time | time	她休假期间花了一大笔钱。	She spent a good deal of money on her vacation.	period,time
+REVIEW_EN_ALIGNMENT	b4-time	L4-0591	秋季	autumn	autumn	這個秋季有很多颱風。	We have had lots of typhoons this fall.	autumn
+REVIEW_EN_ALIGNMENT	b4-time	L4-0649	事先	in advance	in advance	請你事先把計劃告訴我。	Please let me know the schedule beforehand.	advance
+REVIEW_EN_ALIGNMENT	b4-time	L4-0832	学时	class hour	class hour	我小孩子时，我放学时打棒球了。	When I was a little child, I used to play baseball after school.	class,hour
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0121	词汇	vocabulary	vocabulary	你应该宁可用词汇来造句，也不要试着死记硬背。	You should use words to make sentences, rather than try to learn them with rote memorisation.	vocabulary
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0264	高潮	high tide; high water	high tide | high water	电影到了高潮，全场观众都安静了下来。	When the movie reached its climax, the whole audience became quiet.	high,tide,water
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0305	含量	content	content	这个词指的是由于大气层里二氧化碳含量增多而导致全球变暖。	It is a term used to describe the warming of the earth due to increasing amounts of carbon dioxide in the atmosphere.	content
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0396	交际	communication	communication	我可以做中英双向翻译，参加跟外国人交际谈判。	I can translate between Chinese and English, and can participate in negotiations with foreigners.	communication
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0443	口语	colloquial speech	colloquial speech	虽然他考得很好，他口语的汉语不见得比你的好。	Although he did well in the exam, his spoken Chinese is not necessarily as good as yours.	colloquial,speech
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0458	来源	origin	origin	什么是您最大的灵感来源？	What is your greatest source of inspiration?	origin
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0504	没错	that's right	that's right | that's good	你完全没错。	You are not at all wrong.	right,good
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0783	细节	details; particulars	details	翻译正在试图给尽可能多的细节和消息。	The interpreter tries to give the most detail and information possible.	details,particulars
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0820	形势	circumstances	circumstances	两相比较，他那边的形势更不利一些。	The comparison between the two was to his disadvantage.	circumstances
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0875	疑问	question	question	宇宙毫无疑问是无限的。	There's no doubt that the universe is infinite.	question
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0903	语音	speech sounds	speech sounds	这个软件的语音识别功能很强。	This software has strong voice recognition capability.	speech,sounds
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0969	主题	theme	theme	演讲者不熟悉他的主题，说得又不好，总之，他很糟糕。	The speaker didn't know his subject, nor did he speak well; in short, he was disappointing.	theme
+REVIEW_EN_ALIGNMENT	b4-communication-language	L4-0989	字母	letter	letter	写下你名字的大写字母。	Write your name in capitals.	letter
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0017	败	to defeat	to defeat | to lose	他试图游过河，但是失败了。	He failed in his attempt to swim across the river.	defeat,lose
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0040	避免	to avert	to avert | to avoid	有一天我去法国是无可避免的，我只是不知道何时。	It is inevitable that I go to France someday, I just don't know when.	avert,avoid
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0041	编	to weave	to weave | to edit	她忙着编织。	She was busy with her knitting.	weave,edit
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0056	布置	to put in order	to put in order | to deploy	老师给我们布置了家庭作业。	The teacher gave us homework.	put,order,deploy
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0090	承担	to undertake	to undertake | to assume	父母承担教育子女的责任。	Parents are responsible for their children's education.	undertake,assume
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0158	担保	to guarantee	to guarantee | to vouch for	我当你的担保人.	I will be your guarantor.	guarantee,vouch
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0204	度过	to pass	to pass | to spend	我在学校度过了三年。	I spent three years at school.	pass,spend
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0243	纷纷	one after another	one after another | one by one	眾人紛紛結伴跳起了舞來。	Everyone paired off and began dancing.	after,another
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0244	奋斗	to strive; to struggle	to strive | to struggle	他们奋斗的目标是消灭天花。	They are struggling with the goal of wiping out smallpox.	strive,struggle
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0254	符合	coincidence	coincidence	你的条件不符合我们的要求。	Your conditions do not meet our requirements.	coincidence
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0255	付出	to expend	to expend | to pay	如果你想成功，必先付出努力。	You have to make efforts if you are to succeed.	expend,pay
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0269	隔	to separate	to separate | to partition	每隔四年，奥运会举行一次。	The Olympic Games take place at intervals of four years.	separate,partition
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0270	隔开	to separate	to separate	海洋不是将世界分隔开来，而是将世界连接起来	Oceans do not so much divide the world as unite it.	separate
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0293	光临	to attend	to attend | to honor with one's presence	欢迎光临。	Welcome (to a shop/event).	attend,honor,presence
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0346	获得	to obtain; to receive; to get	to obtain | to get	他获得了诺贝尔文学奖。	He won the Nobel Prize for Literature.	obtain,receive,get
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0348	获取	to gain; to get; to acquire	to gain | to get	我可以免费获取一份注册表格。	I am able to obtain a registration form for free.	gain,get,acquire
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0359	急忙	hastily	hastily	我們急忙跑向火。	We hurried in the direction of the fire.	hastily
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0409	尽力	to strive one's hardest; to spare no effort	to strive one's hardest | to spare no effort	我尽力奔跑。	I ran as fast as I could.	strive,hardest,spare,effort
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0424	具备	to possess	to possess | to have	孩子学钢琴要具备哪些条件？	What are the prerequisites for a child to learn the piano?	possess,have
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0456	来不及	it's too late	it's too late	时间来不及了，快走。	There is no time, let's go quickly.	too,late
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0505	没法儿	couldn't be	couldn't be	因為開關壞了，我沒法兒把它打開。	I can't turn it on, because the switch is broken.	couldn
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0644	使劲	to exert all one's strength	to exert all one's strength	我想, 在艰难的时候, 你想哭就使劲哭吧。	I think that, in tough times, you can cry as much as you want.	exert,all,strength
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0683	松	loose	loose	我们的任务到目前为止很轻松，但从现在开始将会变得很难。	Our task has been easy so far, but it will be difficult from now on.	loose
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0689	随手	conveniently	conveniently	當他寫字時, 他總是隨手拿著一本字典。	When he writes, he always keeps a dictionary at hand.	conveniently
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0711	挑	to carry on a shoulder pole	to carry on a shoulder pole | to pick	我挑不出他的毛病。	I cannot find fault with him.	carry,shoulder,pole,pick
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0712	挑选	to choose	to choose | to select	这将会是巨大的，如果你可以挑选一些面包，然后再回家。	It'd be great if you could pick up some bread before you come home.	choose,select
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0714	挑	to carry on a shoulder pole	to carry on a shoulder pole | to poke	我挑不出他的毛病。	I cannot find fault with him.	carry,shoulder,pole,poke
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0765	无法	unable to; incapable of	unable to	我无法想象另一个星球上的生物。	I can't imagine what creatures living on another planet are like.	unable,incapable
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0782	细	thin or slender	thin or slender | thin and soft	援救人员为了找到孩子，仔细搜索了那个区域。	The rescue worker searched the area, looking for the child.	thin,slender,soft
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0797	相处	to interact	to interact | to associate	他和他所有的同学相处融洽。	He's getting along well with all of his classmates.	interact,associate
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0865	依靠	to depend on	to depend on | to rely on sth	我没什么可依靠的了。	I have nothing to fall back on.	depend,rely,sth
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0939	折	to snap	to snap | to bend	价钱可以打折吗？	Can the price be discounted?	snap,bend
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0957	治	to rule	to rule | to treat	他们午饭吃了三明治。	They ate sandwiches for lunch.	rule,treat
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0963	中奖	to win a prize	to win a prize	我中奖了。	I won the lottery.	win,prize
+REVIEW_EN_ALIGNMENT	b4-verbs	L4-0983	追求	to woo	to woo | to seek after	有些人只追求快乐。	Some people pursue only pleasure.	woo,seek,after
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0023	宝	jewel	jewel	她给客人看了她的宝宝。	She showed the visitor her baby.	jewel
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0125	刺	thorn	thorn	如何料理黑鲷：做刺身是最好吃的。	How to prepare black porgy: It's tastiest as sashimi.	thorn
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0060	材料	data	data	她为一本书收集材料。	She is collecting material for a book.	data
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0156	袋	pouch	pouch	这几天我脑袋里的事情太多了。	I have too many things on my mind these days.	pouch
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0429	卷	to roll up	to roll up | a roll	由于产量过剩，卷心菜的价格下降了。	The price of cabbage fell because of overproduction.	roll
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0453	垃圾	trash	trash	為了避開警方的追捕，狄馬只好在垃圾箱裏過了一晚。	Hiding from the police, Dima spent the night in a dumpster.	trash
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0495	轮	wheel; disk; ring	wheel	轮胎漏气了。	The tire leaks air.	wheel,disk,ring
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0499	论文	paper	paper | to discuss a paper or thesis	我最近真忙于我的毕业论文。	I've been really busy with my graduation dissertation recently.	paper,discuss,thesis
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0547	牌	plate	plate	他曾经被授予金牌。	He's been awarded a gold medal once.	plate
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0800	箱子	suitcase	suitcase	这箱子是空的，里面什么也没有。	This box is empty. It has nothing in it.	suitcase
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0805	相片	image	image	你可以隨意把相片送給想要它的人。	You may give this picture to whoever wants it.	image
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0904	玉	jade	jade	波本威士忌是用玉米做的。	Bourbon is made from corn.	jade
+REVIEW_EN_ALIGNMENT	b4-objects	L4-0940	针	needle	needle	她放下手中的针线活，并站了起来。	She put aside the sewing and stood up.	needle
+REVIEW_EN_ALIGNMENT	b4-personality	L4-0029	保守	conservative	conservative	保守秘密。	Keep the secret.	conservative
+REVIEW_EN_ALIGNMENT	b4-personality	L4-0035	笨	stupid	stupid	我的兄弟是个笨蛋。	My brother is an idiot.	stupid
+REVIEW_EN_ALIGNMENT	b4-personality	L4-0084	沉默	taciturn	taciturn	我们保持了沉默。	We kept quiet.	taciturn
+REVIEW_EN_ALIGNMENT	b4-personality	L4-0108	出色	remarkable; outstanding	remarkable	他在学校的表现很出色。	His performance at school is excellent.	remarkable,outstanding
+REVIEW_EN_ALIGNMENT	b4-personality	L4-0128	粗	rude	rude	他们粗心大意，还没意识到危险。	They were carelessly unaware of the danger.	rude
+REVIEW_EN_ALIGNMENT	b4-personality	L4-0143	大方	Dafang	Dafang | expert	她很大方地请大家。	She generously invited everyone.	dafang,expert
+REVIEW_EN_ALIGNMENT	b4-personality	L4-0462	老实	honest; sincere	honest	老实说，我不喜欢他。	To tell the truth, I don't like him.	honest,sincere
+REVIEW_EN_ALIGNMENT	b4-personality	L4-0540	能干	capable	capable	他是个能干的男人。	He is a man of ability.	capable
+REVIEW_EN_ALIGNMENT	b4-personality	L4-0708	天真	naive	naive	我很惊讶你们竟然那么天真。	I'm surprised that you're so naïve.	naive
+REVIEW_EN_ALIGNMENT	b4-personality	L4-0713	调皮	naughty	naughty	湯姆有點調皮搗蛋。	Tom is somewhat mischievous.	naughty
+REVIEW_EN_ALIGNMENT	b4-personality	L4-0886	英勇	heroic	heroic	他英勇的行为带给了他光荣。	His acts of courage brought him glory.	heroic
+REVIEW_EN_ALIGNMENT	b4-education	L4-0037	毕业	graduation	graduation	我爸爸是哈佛大学毕业的。	My father graduated from Harvard University.	graduation
+REVIEW_EN_ALIGNMENT	b4-education	L4-0070	测试	beta	beta	Tom看上去对英语测试的结果很担心。	Tom looked worried about the result of an English test.	beta
+REVIEW_EN_ALIGNMENT	b4-education	L4-0096	尺	a ruler	a ruler	我们有你的尺寸，但是没有那个颜色。	We have your size, but not in that color.	ruler
+REVIEW_EN_ALIGNMENT	b4-education	L4-0570	期中	interim	interim	在假期中我無所事事。	I did nothing during the holidays.	interim
+REVIEW_EN_ALIGNMENT	b4-education	L4-0833	学术	learning	learning	“放射性”是一个化学术语。	'Radioactivity' is a chemistry term.	learning
+REVIEW_EN_ALIGNMENT	b4-education	L4-0848	研究生	graduate student	graduate student | research student	他研究生物學已經有差不多十年的時間了。	He has been engaged in the study of biology for nearly ten years.	graduate,student,research
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0047	冰	ice	ice	你会溜冰吗？	Can you skate?	ice
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0079	潮	tide	tide	这里的夏天很潮湿，另外，冬天很干燥。	It gets very humid here in the summer. In the winter, on the other hand, it gets very dry.	tide
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0081	潮湿	damp	damp	这里的夏天很潮湿，另外，冬天很干燥。	It gets very humid here in the summer. In the winter, on the other hand, it gets very dry.	damp
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0103	虫子	insect	insect	你找到几只虫子？	How many worms did you find?	insect
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0118	春季	springtime	springtime	春季的时候，中国北边很冷，所以在外边的花不开花。	North China is cold in spring, so flowers don't bloom outdoors.	springtime
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0246	风景	scenery; landscape	scenery	新疆有许多风景优美的地方。	There are many scenic places in Xinjiang.	scenery,landscape
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0274	根	root	root	布什继里根之后当上了总统。	Bush followed Reagan as president.	root
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0297	规律	rhythm	rhythm	我相信規律的運動。	I believe in exercising regularly.	rhythm
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0309	寒冷	frigid	frigid	有些植物无法适应寒冷。	Some plants cannot adapt themselves to the cold.	frigid
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0327	花	flower	flower	我发现他在花园里干活。	I found him working in the garden.	flower
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0340	火	hot	hot	火车站离这里不远。	The station is not far from here.	hot
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0365	季	season	season | the last month of a season	威尼斯的圣马可广场在夏季总是挤满了游客。	St Mark's Square in Venice is always swarming with tourists in the summer.	season,last,month
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0367	季节	time	time	这是我们多雨的季节。	It is our rainy season.	time
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0394	降温	to become cooler	to become cooler | to decline	明天开始降温。	It will start getting colder tomorrow.	become,cooler,decline
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0403	结构	structure	structure	经理打算改良公司的结构。	The manager wants to improve the company's structuring.	structure
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0612	森林	forest	forest	他在森林中迷了路。	He lost his way in the woods.	forest
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0615	闪电	lightning	lightning	一道闪电划破天空。	A sharp crack of thunder split the sky.	lightning
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0640	湿	moist	moist	天气又冷又湿。	The weather was not only cold, but also wet.	moist
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0791	鲜花	flower	flower	岸边开满了鲜花。	Blossoms have come out on the embankment.	flower
+REVIEW_EN_ALIGNMENT	b4-nature-environment	L4-0862	叶子	marijuana	marijuana	叶子慢慢的飘落下来。	The leaves slowly fell.	marijuana
+REVIEW_EN_ALIGNMENT	b4-places	L4-0012	巴士	motor coach	motor coach	请告诉我巴士站在哪里。	Please tell me where the bus stop is.	motor,coach
+REVIEW_EN_ALIGNMENT	b4-places	L4-0112	处	to reside	to reside | to live	我们按例处罚了他。	We punished him according to the rules.	reside,live
+REVIEW_EN_ALIGNMENT	b4-places	L4-0141	大巴	coach	coach	乘机场大巴去机场要多久？	How long does the airport bus take to the airport?	coach
+REVIEW_EN_ALIGNMENT	b4-places	L4-0149	大陆	continent	continent	他从大陆回来了。	He returned from China.	continent
+REVIEW_EN_ALIGNMENT	b4-places	L4-0169	倒车	to reverse	to reverse	他倒车入车库。	He backed his car into the garage.	reverse
+REVIEW_EN_ALIGNMENT	b4-places	L4-0180	底	base	base	Tom躲在桌子底下。	Tom hid under the table.	base
+REVIEW_EN_ALIGNMENT	b4-places	L4-0181	地方	region	region	沿着这条路直走，到第三个红绿灯的地方右转。	Go straight down this street and turn right at the third light.	region
+REVIEW_EN_ALIGNMENT	b4-places	L4-0182	地面	floor	floor	我們感覺到地面在搖晃。	We felt the ground trembling.	floor
+REVIEW_EN_ALIGNMENT	b4-places	L4-0184	地下	underground	underground	我意识到这个可怕的地下室是唯一可以救我们命的地方。	I realized then that this awful cellar was the only place that could save our lives.	underground
+REVIEW_EN_ALIGNMENT	b4-places	L4-0192	顶	apex	apex	我们终于登上了富士山山顶。	We gained the top of Mt. Fuji at last.	apex
+REVIEW_EN_ALIGNMENT	b4-places	L4-0222	法	France	France	他也会说法语。	He can also speak French.	france
+REVIEW_EN_ALIGNMENT	b4-places	L4-0257	附近	nearby; neighboring	nearby	我叔叔住在学校附近。	My uncle lives near the school.	nearby,neighboring
+REVIEW_EN_ALIGNMENT	b4-places	L4-0311	航班	sailing	sailing	请问，有去北京的航班吗？	Excuse me, is there a flight to Beijing?	sailing
+REVIEW_EN_ALIGNMENT	b4-places	L4-0312	航空	aviation	aviation	航空公司在这里。	The airline office is here.	aviation
+REVIEW_EN_ALIGNMENT	b4-places	L4-0321	后头	behind	behind	野兔被烏龜拋了在後頭。	The hare was outdistanced by the tortoise.	behind
+REVIEW_EN_ALIGNMENT	b4-places	L4-0325	户	a household	a household	请把它充入我的账户。	Please add it to my account.	household
+REVIEW_EN_ALIGNMENT	b4-places	L4-0374	家务	household duties	household duties	他主动帮他妈妈做家务。	He takes the initiative in helping his mother do the housework.	household,duties
+REVIEW_EN_ALIGNMENT	b4-places	L4-0421	居住	to reside	to reside | to dwell	我在日本居住。	I live in Japan.	reside,dwell
+REVIEW_EN_ALIGNMENT	b4-places	L4-0422	局	office	office	我们必须设法打破这个僵局。	We must try to break the deadlock.	office
+REVIEW_EN_ALIGNMENT	b4-places	L4-0460	老家	native place	native place | place of origin	他住得离老家很远。	He lives far away from his hometown.	native,place,origin
+REVIEW_EN_ALIGNMENT	b4-places	L4-0496	轮船	steamship; steamer; steamboat	steamship	他们坐轮船去旅行。	They are traveling by ship.	steamship,steamer,steamboat
+REVIEW_EN_ALIGNMENT	b4-places	L4-0538	内部	interior	interior	電腦內部計時器內的紐扣電池沒電了。	The button battery in the PC's internal timer has gone flat.	interior
+REVIEW_EN_ALIGNMENT	b4-places	L4-0544	暖气	central heating	central heating	暖气坏了。	The heater is broken.	central,heating
+REVIEW_EN_ALIGNMENT	b4-places	L4-0575	汽油	gasoline	gasoline	没汽油了。	We ran out of gas.	gasoline
+REVIEW_EN_ALIGNMENT	b4-places	L4-0625	设施	facilities	facilities	小区安全吗？夜晚有照明设施吗？	Is this community safe? Are there lighting installations for the night?	facilities
+REVIEW_EN_ALIGNMENT	b4-places	L4-0646	市区	urban district	general term	在市区内，数度被限制在每小时五十公里以内。	In towns, speed is limited to 50 km/h.	urban,district,general,term
+REVIEW_EN_ALIGNMENT	b4-places	L4-0694	台阶	steps	steps | flight of steps	小心台阶。	Mind the step.	steps,flight
+REVIEW_EN_ALIGNMENT	b4-places	L4-0733	途中	en route	en route	他在回家途中出了意外。	He had an accident on his way home.	route
+REVIEW_EN_ALIGNMENT	b4-places	L4-0757	位于	to be located at	to be located at | to lie	教堂位于山脚。	The church is at the foot of a mountain.	located,lie
+REVIEW_EN_ALIGNMENT	b4-places	L4-0758	位置	position	position	地图帮助我们知道所在的位置。	A map helps us to know where we are.	position
+REVIEW_EN_ALIGNMENT	b4-places	L4-0795	县	county	general term	我住在兵库县。	I live in Hyogo.	county,general,term
+REVIEW_EN_ALIGNMENT	b4-places	L4-0838	牙刷	toothbrush	toothbrush	把你的牙刷干净。	Brush your teeth clean.	toothbrush
+REVIEW_EN_ALIGNMENT	b4-food	L4-0300	果实	gains	gains	他们的友情酝酿成爱情的果实。	Their friendship ripened into a deep love.	gains
+REVIEW_EN_ALIGNMENT	b4-food	L4-0455	辣	pungent	pungent	这里的菜很辣。	The food here is very spicy.	pungent
+REVIEW_EN_ALIGNMENT	b4-food	L4-0478	粮食	foodstuff	foodstuff	他們想栽培新品種的米來增加糧食生產。	They want to increase food production by growing new kinds of rice.	foodstuff
+REVIEW_EN_ALIGNMENT	b4-food	L4-0549	盘子	tray	tray	塑料盘子在烤箱里会化的。	A plastic dish will melt on the stove.	tray
+REVIEW_EN_ALIGNMENT	b4-food	L4-0687	酸	sour	sour	酸雨不是自然现象。	Acid rain is not a natural phenomenon.	sour
+REVIEW_EN_ALIGNMENT	b4-food	L4-0697	套餐	set meal	set meal	我想要点当日套餐。	I'd like to buy menu of the day.	set,meal
+REVIEW_EN_ALIGNMENT	b4-food	L4-0759	味儿	taste	taste	这儿连空气都有辣味儿	Even the air's spicy here.	taste
+REVIEW_EN_ALIGNMENT	b4-food	L4-0793	咸	salted	salted	你不能喝海水，因为它太咸了。	You can't drink seawater because it is too salty.	salted
+REVIEW_EN_ALIGNMENT	b4-food	L4-0816	新鲜	novel	novel	看见新鲜龙虾，我有了食欲。	The sight of fresh lobster gave me an appetite.	novel
+REVIEW_EN_ALIGNMENT	b4-technology	L4-0076	唱片	gramophone record	gramophone record	我沒有 CD 播放機，但還是把唱片買下來了。	I don't have a CD player, but I bought the CD anyway.	gramophone,record
+REVIEW_EN_ALIGNMENT	b4-technology	L4-0093	程序	procedures	procedures	我编译这个程序有些困难。	I'm having some problems compiling this software.	procedures
+REVIEW_EN_ALIGNMENT	b4-technology	L4-0100	充电	to recharge	to recharge | to recharge one's batteries	我把充电器的型号记下了。	I've memorized the model number of the charger.	recharge,batteries
+REVIEW_EN_ALIGNMENT	b4-technology	L4-0217	耳机	headphones	headphones	保镖戴着耳机。	The bodyguard was wearing an earpiece.	headphones
+REVIEW_EN_ALIGNMENT	b4-technology	L4-0294	光盘	DVD	DVD	我有不低于一千片光盘。	I have no less than one thousand records.	dvd
+REVIEW_EN_ALIGNMENT	b4-technology	L4-0515	密码	cipher; secret code	cipher	密码是"Muiriel"。	The password is "Muiriel".	cipher,secret,code
+REVIEW_EN_ALIGNMENT	b4-technology	L4-0670	数码	number	number	我要给我自己买一个新照相机，这次要数码的。	I'm going to buy myself a new camera, digital this time.	number
+REVIEW_EN_ALIGNMENT	b4-technology	L4-0749	微信	Weixin or WeChat	Weixin or WeChat	能加你微信吗？	Can I have your number?	weixin,wechat
+REVIEW_EN_ALIGNMENT	b4-technology	L4-0822	型号	type	type	我把充电器的型号记下了。	I've memorized the model number of the charger.	type
+REVIEW_EN_ALIGNMENT	b4-technology	L4-0960	智能	intelligent	intelligent	AI 代表人工智能。	AI stands for artificial intelligence.	intelligent
+REVIEW_EN_ALIGNMENT	b4-technology	L4-0982	装置	to install	to install	装置被牢牢地固定在天花板上。	The device is attached fast to the ceiling.	install
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0097	尺寸	propriety	propriety	我们有你的尺寸，但是没有那个颜色。	We have your size, but not in that color.	propriety
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0124	次	next in sequence	next in sequence | sequence	这架飞机一次可以携带40名乘客。	This airplane is capable of carrying 40 passengers at a time.	next,sequence
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0151	大型	large	large | large-scale	这是我所见过的最大型的构造了。	This is the most massive structure I have ever seen.	large,scale
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0211	多样	diverse	diverse	实际上，网络的作用有着无数的多种多样的。	In fact, there are countless, varied uses for the Internet.	diverse
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0212	多种	many kinds of; multiple; diverse; multi-	many kinds of	实际上，网络的作用有着无数的多种多样的。	In fact, there are countless, varied uses for the Internet.	many,kinds,multiple,diverse,multi
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0242	分之	used to form fractions	used to form fractions	仅三分之一的成员出席了会议。	Only one third of the members turned up at the meeting.	used,form,fractions
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0271	个别	individually; one by one	individually	只有个别人才懂了我的意思。	Only a few people understood me.	individually
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0423	巨大	huge; immense; enormous; gigantic	huge	巨大的柱子遮住了视线，让人看不到湖。	A large pillar obstructs the view of the lake.	huge,immense,enormous,gigantic
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0425	距离	distance	distance	博物馆和这里之间距离多远 ?	How far is it from here to the museum?	distance
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0438	棵	classifier for trees, cabbages, plants etc	classifier for trees	她在一棵树下坐着。	She was sitting under a tree.	classifier,trees,cabbages,plants,etc
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0447	宽	wide	wide	我新家的客厅很宽敞。	The living room in my new house is very large.	wide
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0514	密	dense	dense	密码是"Muiriel"。	The password is "Muiriel".	dense
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0555	批	to ascertain	to ascertain | to criticize	对严格限制经济的批评蜂拥而来。	Critics are coming down hard on tightened economic restrictions.	ascertain,criticize
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0586	轻易	easy; simple	easy	不轻易发怒的，大有聪明。	He who is slow to anger has great understanding.	easy,simple
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0660	首	head	head	这首歌让我想家了。	The song reminds me of my home.	head
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0678	顺序	sequence	sequence	我们应该把学生的名字跟着字母顺序来安排。	We ought to sort the students' names alphabetically.	sequence
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0718	挺	straight	straight	天氣挺冷的。	It's pretty cold.	straight
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0730	透	thoroughly	thoroughly	今天糟糕透了，所以我准备去喝一杯就直接上床。	I had an awful experience today, so I'm going to have a beer and go straight to bed.	thoroughly
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0762	稳定	steady	steady	由于一些写得糟糕的函数，系统大多数情况下不稳定。	In consequence of some badly coded functions, the system is unstable most of the time.	steady
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0764	无	no	no | not	宇宙毫无疑问是无限的。	There's no doubt that the universe is infinite.	not
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0770	无限	unlimited	unlimited	宇宙毫无疑问是无限的。	There's no doubt that the universe is infinite.	unlimited
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0803	项	sum	sum	他以牺牲自己的健康为代价完成了这项工作。	He did it at the expense of his health.	sum
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0810	小型	small scale	small scale | small size	我想要一輛有空調的小型車。	I want a compact car with an air conditioner.	small,scale,size
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0821	型	mold	mold	这不是我喜欢的类型。	This is not my type.	mold
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0836	迅速	rapid	rapid	小偷迅速地窜入了人群。	The thief whipped out into the crowd.	rapid
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0867	一律	same; identical	same	这个节目变得千篇一律。	This program has become stereotyped.	same,identical
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0942	阵	disposition of troops	disposition of troops | short period of time	昨天我在放学回家的路上突然遇上了一阵大雨。	As I returned from school yesterday, I was caught in a sudden shower.	disposition,troops,short,period,time
+REVIEW_EN_ALIGNMENT	b4-quantity-measurement	L4-0952	支	branch	branch	我可以用支票付吗？	May I pay by check?	branch
+REVIEW_EN_ALIGNMENT	b4-narrative	L4-0588	情景	scene; spectacle	scene	咖啡师们该创造一个情景喜剧。	Baristas need to make a sitcom.	scene,spectacle
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0014	摆	to arrange	to arrange | to exhibit	大好的前途摆在他面前。	A brilliant future lay before him.	arrange,exhibit
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0016	摆脱	to break away from	to break away from | to cast off	你该摆脱你的坏习惯。	You must rid yourself of bad habits.	break,away,cast,off
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0083	沉	to submerge	to submerge | to sink	我们保持了沉默。	We kept quiet.	submerge,sink
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0099	冲	pungent	pungent	外交谈判帮助结束了冲突。	Diplomatic dialogue helped put an end to the conflict.	pungent
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0104	抽	to draw out	to draw out | to sprout or bud	数据表明年轻人抽烟的现象没有减少。	As is evident from the data, smoking is not decreasing among the young.	draw,out,sprout,bud
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0157	戴	to bear	to bear | to respect	她戴上了她的帽子。	She put on her hat.	bear,respect
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0261	盖	lid	lid	看那座被雪覆盖的山。	Look at that mountain which is covered with snow.	lid
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0295	逛	to stroll	to stroll | to visit	母親去了逛街。	Mother has gone shopping.	stroll,visit
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0370	寄	to entrust; to place in sb's care	to entrust | to mail	我請他們再寄給我一張票。	I told them to send me another ticket.	entrust,place,care,mail
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0390	降	to drop	to drop | to fall	由于产量过剩，卷心菜的价格下降了。	The price of cabbage fell because of overproduction.	drop,fall
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0428	卷	to roll up	to roll up | a roll	由于产量过剩，卷心菜的价格下降了。	The price of cabbage fell because of overproduction.	roll
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0483	列	to arrange	to arrange | to line up	跳上一列正在开的火车是很危险的。	It is dangerous to jump onto a moving train.	arrange,line
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0500	落	to leave out	to leave out | to set	一块岩石从上面落下。	A rock fell from above.	leave,out,set
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0525	摸	to feel with the hand	to feel with the hand | to copy	他在口袋里摸着找他的钱包。	He felt in his pocket for his wallet.	feel,hand,copy
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0536	闹	noisy	noisy	昨天闹钟没响，Kurt也就没醒过来。	Yesterday the alarm clock didn't go off and Kurt didn't wake up.	noisy
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0581	切	to cut; to slice; to carve	to cut | to slice	她是他的一切。	She is everything to him.	cut,slice,carve
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0593	圈	to confine	to confine | to circle	你可以骑上我的摩托车去遛一圈。	You can have a ride on my motorcycle.	confine,circle
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0609	扫	a broom	a broom	汤姆说他打扫屋子打扫了一天。	Tom said that he had been cleaning the house all day.	broom
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0613	晒	to bask in	to bask in | to shine on	他常常坐着晒太阳，什么也不做。	He would sit in the sun doing nothing.	bask,shine
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0614	闪	spark	spark	她的眼睛闪烁着喜悦的光芒。	Her eyes were shining with joy.	spark
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0623	上门	to drop in	to drop in | to visit	快递员会上门取件。	The courier will come to your door to pick up the package.	drop,visit
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0671	刷	a brush	a brush | to brush	他为一份印刷量很大的报纸工作。	He works for a newspaper with a large circulation.	brush
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0696	躺	to recline	to recline | to lie down	男孩躺着听收音机。	The boy lay listening to the radio.	recline,lie,down
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0716	贴	to stick	to stick | to post	别忘了在你的信上贴张邮票。	Don't forget to put a stamp on your letter.	stick,post
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0717	停下	to stop	to stop	他停下来抽根烟。	He paused to have a cigarette.	stop
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0737	脱	to shed	to shed | to escape	回家后先把外套脱下来。	Take off your coat first after you get home.	shed,escape
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0742	弯	to bend	to bend | a bend	当您开车的时候，应该在转弯处减速。	When you are driving, you should slow down on corners.	bend
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0774	吸	to breathe	to breathe | to absorb	你必须从失败中吸取教训。	You must learn from mistakes.	breathe,absorb
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0778	吸引	to attract; to appeal to; to fascinate	to attract | to fascinate	魔术师吸引了孩子们的注意。	The magician had the children's attention.	attract,appeal,fascinate
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0858	摇	to row	to row | to rock	建筑物在地震中摇晃。	The buildings shook in the earthquake.	row,rock
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0870	移	to move	to move | to shift	随着时间的推移，比赛增加了规则以使之更安全。	As time went on, rules were added to the game to make it safer.	move,shift
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0872	移民	to immigrate	to immigrate | to migrate	若追根溯源，绝大多数美国人都是移民。	Most Americans are descended from immigrants.	immigrate,migrate
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0964	种	to grow	to grow	农民在种田。	The farmers are farming.	grow
+REVIEW_EN_ALIGNMENT	b4-verbs-action	L4-0976	转动	to turn sth around	to turn sth around | to swivel	爱让世界转动。	Love makes the world go round.	turn,sth,around,swivel
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0011	暗示	to hint; to suggest	to hint | hint	他的话暗示着什么？	What do his words imply?	hint,suggest
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0064	参考	consultation	consultation	在英国的时候，我经常看参考书。	While in England I often consulted the guidebook.	consultation
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0068	测	to survey	to survey | to measure	我们明天有个测验。	We have a test tomorrow.	survey,measure
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0069	测量	survey	survey	三次测量，一次切除。	Measure thrice, cut once.	survey
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0126	刺激	irritant	irritant	更多投資在教育的錢將會刺激經濟成長。	More money for education will spur economic growth.	irritant
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0207	对付	to handle; to deal with; to tackle	to handle | to tackle	如果必要的话，我不反对付特别费用。	I have no objection to paying a special fee if it is necessary.	handle,deal,tackle
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0219	发挥	to display	to display | to exhibit	因为你们公司的业务能够发挥我的特长。	Because your business can play to my strengths.	display,exhibit
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0231	反映	to mirror	to mirror | to report	一个国家的风俗习惯反映了它的文化。	The manners and customs of a country reflect its culture.	mirror,report
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0331	怀疑	to suspect that	to suspect that | to doubt	这一消息证实了我的怀疑。	The news confirmed my suspicions.	suspect,doubt
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0361	记载	to write down	to write down | to record	根据圣经记载，上帝用6天创造了世界。	According to the Bible, God made the world in six days.	write,down,record
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0385	讲究	to pay particular attention to	to pay particular attention to	我们老师确实很讲究礼节，不是吗？	Our teacher really stands on ceremony, doesn't she?	pay,particular,attention
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0436	考察	to inspect	to inspect | to observe and study	我發現實地考察很有教育意義。	I found the field trip very educational.	inspect,observe,study
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0482	了解	to understand	to understand | to realize	不要相信一个你一点都不了解他过去的人。	Don't trust a man whose past you know nothing about.	understand,realize
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0518	面临	to face sth; to be confronted with	to face sth | to be confronted with	俄罗斯面临着严重的财政困难。	Russia is facing great financial difficulties.	face,sth,confronted
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0617	善于	to be good at; to be adept at	to be good at | to be adept at	我或许不善于社交,但这并不意味我不和别人交谈。	I may be antisocial, but it doesn't mean I don't talk to people.	good,adept
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0681	思考	to reflect on	to reflect on | to ponder over	女人观察，男人思考。	The woman observes and the man thinks.	reflect,ponder,over
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0819	形容	to describe	to describe	她的魅力難以用筆墨形容。	Her charm is beyond description.	describe
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0908	遇	to treat	to treat | to receive	我们去年遇到了赤字。	We went into the red last year.	treat,receive
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0909	遇到	to meet; to run into; to come across	to meet | to run into	我们去年遇到了赤字。	We went into the red last year.	meet,run,come,across
+REVIEW_EN_ALIGNMENT	b4-verbs-cognition	L4-0910	遇见	to meet	to meet	我遇见了一位老妇人。	I met an old woman.	meet
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0042	辩论	debate	debate	比尔擅长辩论。	Bill is skillful in arguing and debating.	debate
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0110	出席	to attend	to attend | to participate	仅三分之一的成员出席了会议。	Only one third of the members turned up at the meeting.	attend,participate
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0402	结	knot	knot	外交谈判帮助结束了冲突。	Diplomatic dialogue helped put an end to the conflict.	knot
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0406	解释	explanation	explanation	请让我解释一下。	Please let me explain.	explanation
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0521	描写	to describe; to depict; to portray	to describe | to depict	我打算描寫我們的公園和山。	I am going to write about our parks and mountains.	describe,depict,portray
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0556	批	to ascertain	to ascertain | to criticize	对严格限制经济的批评蜂拥而来。	Critics are coming down hard on tightened economic restrictions.	ascertain,criticize
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0620	赏	a reward	a reward	凯特受所有人欣赏。	Kate is looked up to by everybody.	reward
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0763	问候	to give one's respects	to give one's respects | to send a greeting	代我问候你妈妈。	Say hello to your mum for me.	give,respects,send,greeting
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0880	议论	to comment	to comment | to discuss	我不喜欢别人在背后议论我。	I don't like people talking about me behind my back.	comment,discuss
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0925	赞成	to approve	to approve | to assist	你赞成还是反对这个计划？	Are you for or against the plan?	approve,assist
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0945	征求	to solicit	to solicit | to seek	你应该向他征求意见。	You ought to ask him for advice.	solicit,seek
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0954	指挥	to conduct	to conduct | to direct	狮子听从驯兽师的指挥。	The lion followed the trainer's commands.	conduct,direct
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0971	祝福	blessings	blessings	所有的思念与祝福都包进了那薄薄的饺子皮里。	All of the longing and wishes for good fortune are wrapped up in the fragile skin of the dumplings.	blessings
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0973	著作	to write	to write	那位是一个著作等身的教授。	She's a professor whose works you could stack up to head height.	write
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0995	阻止	to prevent	to prevent | to block	没人能阻止我去那儿。	No one can keep me from going there.	prevent,block
+REVIEW_EN_ALIGNMENT	b4-verbs-communication	L4-0998	作出	to put out	to put out | to make	他给我的工作作出了明确指示。	He gave me precise instructions to do the job.	put,out,make
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0019	包裹	to wrap up	to wrap up | to bind up	你的包裹在这里。	Your package is here.	wrap,bind
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0065	参与	to participate	to participate	奥运会最重要的不是获胜，而是参与。	The most important thing in the Olympic Games is not winning but taking part.	participate
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0174	登	to mount	to mount | to scale	他登上了前往洛杉矶的飞机。	He boarded a plane bound for Los Angeles.	mount,scale
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0226	翻	to turn over	to turn over | to cross	因为我想成为翻译。	Because I want to be a translator.	turn,over,cross
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0289	关闭	to shut	to shut | to close	请关闭电视机。	Please turn off the TV.	shut,close
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0345	获	to get	to get | to win	没有什么是不劳而获的。	Nothing is achieved without effort.	get,win
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0364	系	to tie	to tie | to be	没关系。	It doesn't matter.	tie
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0378	减	to lower	to lower | to reduce	我想减肥。	I want to lose weight.	lower,reduce
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0435	看望	to see	to see	我刚知道你在生病，所以下了班来看望你。	I just found out that he's sick, so I'll visit him later.	see
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0626	设置	to set up; to install	to set up | to install	大部分程序员讨厌调试，设置故障比纠正它们有意思多了。	Most developers hate debugging; it's more fun to create bugs than to correct them.	set,install
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0627	申请	to apply for sth	to apply for sth	你能把我的名字加到等候批准的申请人名单上吗？	Could you put my name on the waiting list?	apply,sth
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0641	实施	to implement	to implement | to carry out	广泛的安全措施实施了。	Broad safety measures were put into effect.	implement,carry,out
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0652	收回	to regain	to regain | to retake	对不起。我收回我的话。	I'm sorry. I take back my words.	regain,retake
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0653	收获	to harvest	to harvest | harvest	一分耕耘，一分收获。	No pain, no gain.	harvest
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0655	手工	handwork	handwork	这块地毯是手工制作的。	This rug is handmade.	handwork
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0659	守	to guard	to guard | to defend	我相信他会信守诺言。	I believed that he would keep his promise.	guard,defend
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0677	睡着	to fall asleep	to fall asleep	他睡着的时候，打呼声很响。	He was snoring loudly while he slept.	fall,asleep
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0701	提供	to offer	to offer | to supply	电视的优点在于它给体育爱好者提供了更大的方便。	Television has the advantage of providing sports fans with greater convenience.	offer,supply
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0726	投	to cast	to cast | to send	谁来为风险投资提供资金？	Who will provide capital for the venture?	cast,send
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0727	投入	to throw into	to throw into | to invest in	当更多的纸币投入使用，价格就下跌了。	As more paper money came into use, the value fell.	throw,invest
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0735	推迟	to postpone	to postpone | to defer	她推迟了去墨西哥的行程。	She put off going to Mexico.	postpone,defer
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0736	推销	to market	to market | to sell	这位女士是不是推销员？	Is this lady a saleswoman?	market,sell
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0752	维护	to defend	to defend | to uphold	我们要维护世界和平。	We must safeguard world peace.	defend,uphold
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0753	维修	maintenance	maintenance	這間房子要維修了。	This house must be done up.	maintenance
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0829	选择	to select; to pick	to select | to pick	你可以选择红茶，咖啡或牛奶。	You have a choice of black tea, coffee, or milk.	select,pick
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0847	研究	research	research | to research	我們必須總體地研究這事件。	We must study the affair as a whole.	research
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0907	预订	to place an order	to place an order | to book ahead	我要预订一间6月3日的单人房。	I'd like to reserve a single room on June 3.	place,order,book,ahead
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0921	运用	to use	to use | to put to use	你要学会灵活运用所学知识。	You must learn to apply what you have learned flexibly.	use,put
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0927	赞助	to support	to support | to assist	我覺得這個贊助不太合適。	I don't think this sponsor is very suitable.	support,assist
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0935	着	to catch; to be affected by	to catch | to be affected by	他着凉了。	He caught a cold.	catch,affected
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0938	召开	to convoke	to convoke | to convene	会议将在下周日召开。	The meeting will take place next Sunday.	convoke,convene
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0974	抓紧	to keep a firm grip on	to keep a firm grip on | to lose no time in	那个溺水的男人抓紧了绳子。	The drowning man grasped at the rope.	keep,firm,grip,lose,time
+REVIEW_EN_ALIGNMENT	b4-verbs-daily-practical	L4-0981	装修	to decorate	to decorate | to renovate	太棒了！是毛坯房还是装修房？	Great! Is the apartment bought as a concrete shell, or is it ready to move into?	decorate,renovate
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0130	促进	boost	boost	它也会促进城市的经济发展。	It will also help to strengthen the city's economy.	boost
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0131	促使	to prompt; to induce; to spur	to prompt | to spur	饥饿促使他偷窃。	Hunger urged him to steal.	prompt,induce,spur
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0154	代替	to replace; to take the place of	to replace | to take the place of	你会代替我去派对吗？	Will you go to the party instead of me?	replace,take,place
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0196	动摇	to sway	to sway | to rock	到了最後的一刻，我的決心突然動搖了。	My resolution dissolved at the last moment.	sway,rock
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0239	分散	to scatter	to scatter | to disperse	我们分散开来并在树林中展开搜索。	We spread out and began to search through the woods.	scatter,disperse
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0285	固定	to fix	to fix | to fasten	專職作家沒有固定的收入。	Professional writers do not have a regular income.	fix,fasten
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0332	缓解	to bring relief	to bring relief | to dull	你吃了这药，胃痛就会缓解很多。	After you take the medicine, your stomachache will be much relieved.	bring,relief,dull
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0380	减少	to lessen; to decrease; to reduce; to lower	to lessen | to lower	数据表明年轻人抽烟的现象没有减少。	As is evident from the data, smoking is not decreasing among the young.	lessen,decrease,reduce,lower
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0401	节省	saving	saving	电脑为我们节省了很多时间，解决了很多问题。	Computers save us a lot of time and trouble.	saving
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0426	聚	poly-	poly-	我们每周在这儿聚一次。	We gather here once a week.	poly
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0489	流传	to spread	to spread | to circulate	說話就如過眼雲煙，文字卻能流傳千古。	Words fly, texts remain.	spread,circulate
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0493	录取	to hire	to hire | to admit	我希望考试能录取。	I hope to graduate at the exams.	hire,admit
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0553	培养	to cultivate	to cultivate | to breed	子女培养全社会都很关心，教育要进行改革。	The raising of children is something that concerns the entire community. There will be an education reform.	cultivate,breed
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0554	培育	to train	to train | to breed	这片土地培育了优良的作物。	This land cultivates excellent crops.	train,breed
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0608	散	scattered	scattered	你为什么说要去公园散步？	Why are you saying you want to walk in the park?	scattered
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0618	伤害	to injure; to harm	to injure | to harm	她不是伤害者。	She is not the victim.	injure,harm
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0706	替	to substitute for	to substitute for | for	你会代替我去派对吗？	Will you go to the party instead of me?	substitute
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0786	下降	to decline	to decline | to drop	由于产量过剩，卷心菜的价格下降了。	The price of cabbage fell because of overproduction.	decline,drop
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0841	延长	to prolong; to extend	to prolong | to extend	工人们抱怨他们的工作时间被延长了。	The workers are complaining that their hours have been increased.	prolong,extend
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0874	遗传	heredity	heredity	通过遗传修饰，我们可以改良农作物。	Through genetic modification, we can improve crops.	heredity
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0881	引	to pull	to pull | to draw	披头士的发型引起了轰动。	The hair style of the Beatles created a sensation.	pull,draw
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0884	引起	to give rise to; to lead to; to cause; to arouse	to give rise to | to cause	披头士的发型引起了轰动。	The hair style of the Beatles created a sensation.	give,rise,lead,cause,arouse
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0929	战斗	to fight	to fight | to engage in combat	这是战斗发生的地方。	This is the place where the battle took place.	fight,engage,combat
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0930	战胜	to prevail over	to prevail over | to defeat	刘备和诸葛亮是一支无法战胜的队伍。	Liu Bei and Zhuge Liang are an unbeatable team.	prevail,over,defeat
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0941	针对	to focus on	to focus on | to target	你在聚会中针对Lisa体重作出的评论是完全不适当的。	The remark you made at the party about Lisa's weight was totally uncalled for.	focus,target
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0944	征服	to conquer	to conquer | to subdue	他被數字征服了。	He was overcome by numbers.	conquer,subdue
+REVIEW_EN_ALIGNMENT	b4-verbs-change-process	L4-0980	转移	to shift; to relocate; to transfer	to shift | to change	这些鸟不转移。	These birds don't migrate.	shift,relocate,transfer,change
