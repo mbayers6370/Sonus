@@ -886,6 +886,12 @@ export default function SpeakMode({
   const isMandarinLesson = speakLanguageId === 'zh';
 
   const targetHanzi = normalizeHanzi(word.simp);
+  const targetJapaneseScript = normalizeJapaneseForCompare(word.simp || '');
+  const targetJapaneseRomaji = normalizeLatinForCompare(
+    romanizeJapaneseForDisplay(word.simp || '') || word.pinyin || ''
+  );
+  const isShortJapaneseTarget =
+    isJapaneseLesson && (Array.from(targetJapaneseScript).length <= 1 || targetJapaneseRomaji.length <= 2);
   const targetSyllableCount = Math.max(
     1,
     normalizeHanzi(word.simp).length || tokenizePinyin(word.pinyin || '', 1).length
@@ -1082,22 +1088,17 @@ export default function SpeakMode({
 
     if (isJapaneseLesson) {
       const heard = normalizeJapaneseForCompare(recognized);
-      const targetWord = normalizeJapaneseForCompare(word.simp || '');
-      if (heard && targetWord) {
+      if (heard && targetJapaneseScript && heard === targetJapaneseScript) {
         // Japanese scoring stays script-first and exact after normalization.
-        return { recognizedText: recognized, analysis: null, match: heard === targetWord };
+        return { recognizedText: recognized, analysis: null, match: true };
       }
 
-      const targetRomaji = normalizeLatinForCompare(romanizeJapaneseForDisplay(word.simp || '') || word.pinyin || '');
       const heardRomaji = normalizeLatinForCompare(romanizeJapaneseForDisplay(recognized) || recognized);
-      if (!targetRomaji || !heardRomaji) {
+      if (!targetJapaneseRomaji || !heardRomaji) {
         return { recognizedText: recognized, analysis: null, match: false };
       }
 
-      const targetScriptLength = Array.from(targetWord).length;
-      const isShortJapaneseTarget = targetScriptLength <= 1 || targetRomaji.length <= 2;
-
-      if (heardRomaji === targetRomaji) {
+      if (heardRomaji === targetJapaneseRomaji) {
         return { recognizedText: recognized, analysis: null, match: true };
       }
 
@@ -1106,10 +1107,19 @@ export default function SpeakMode({
       }
 
       // Only for very short targets (e.g. "o"), allow tiny slack for STT noise.
-      if (heardRomaji.includes(targetRomaji) || targetRomaji.includes(heardRomaji)) {
+      if (heard && targetJapaneseScript) {
+        if (heard.includes(targetJapaneseScript) || targetJapaneseScript.includes(heard)) {
+          return { recognizedText: recognized, analysis: null, match: true };
+        }
+        if (levenshtein(heard, targetJapaneseScript) <= 1) {
+          return { recognizedText: recognized, analysis: null, match: true };
+        }
+      }
+
+      if (heardRomaji.includes(targetJapaneseRomaji) || targetJapaneseRomaji.includes(heardRomaji)) {
         return { recognizedText: recognized, analysis: null, match: true };
       }
-      const dist = levenshtein(heardRomaji, targetRomaji);
+      const dist = levenshtein(heardRomaji, targetJapaneseRomaji);
       return { recognizedText: recognized, analysis: null, match: dist <= 1 };
     }
 
@@ -1315,12 +1325,25 @@ export default function SpeakMode({
       recognition.lang = getSpeakRecognitionLocale(speakLanguageId);
       // Single-utterance mode improves responsiveness for short words.
       recognition.continuous = false;
-      recognition.interimResults = true;
-      recognition.maxAlternatives = 3;
+      recognition.interimResults = !isShortJapaneseTarget;
+      recognition.maxAlternatives = isJapaneseLesson ? 5 : 3;
       if ('phrases' in recognition) {
+        const phraseCandidates = [
+          word.simp,
+          word.trad || '',
+          word.pinyin || '',
+          ...allWords.slice(0, 12).map((candidate) => candidate.simp),
+        ];
+        if (isJapaneseLesson) {
+          phraseCandidates.push(
+            normalizeJapaneseForCompare(word.simp || ''),
+            romanizeJapaneseForDisplay(word.simp || '') || '',
+            word.pinyin || ''
+          );
+        }
         recognition.phrases = Array.from(
           new Set(
-            [word.simp, word.trad || '', word.pinyin || '', ...allWords.slice(0, 12).map((candidate) => candidate.simp)]
+            phraseCandidates
               .map((value) => value.trim())
               .filter(Boolean)
           )

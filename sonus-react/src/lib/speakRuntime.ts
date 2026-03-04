@@ -45,12 +45,16 @@ export function resolveSpeakLanguageForSession(
   selectedLanguage: string | null | undefined,
   activeBandId: string | null | undefined
 ): AppSpeakLanguage {
+  const selectedRaw = (selectedLanguage || '').trim();
+  if (selectedRaw) {
+    const normalized = canonicalLanguageId(selectedRaw);
+    if (normalized === 'ja' || normalized === 'zh' || normalized === 'ko' || normalized === 'fr' || normalized === 'it' || normalized === 'es') {
+      return normalized;
+    }
+  }
+  // Only infer from band as a fallback when selected language is absent/unknown.
   if (activeBandId && /^n[1-5]$/i.test(activeBandId)) return 'ja';
   if (activeBandId && (/^band\d+$/i.test(activeBandId) || activeBandId === 'advanced')) return 'zh';
-  const normalized = canonicalLanguageId(selectedLanguage);
-  if (normalized === 'ja' || normalized === 'zh' || normalized === 'ko' || normalized === 'fr' || normalized === 'it' || normalized === 'es') {
-    return normalized;
-  }
   return 'zh';
 }
 

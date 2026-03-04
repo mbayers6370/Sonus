@@ -24,9 +24,11 @@ describe('speak runtime language contract', () => {
     expect(speakDimensionKeys('ja')).toEqual(['word']);
   });
 
-  it('resolves speak language from active lesson context (band-based override)', () => {
-    expect(resolveSpeakLanguageForSession('zh', 'n4')).toBe('ja');
-    expect(resolveSpeakLanguageForSession('ja', 'band2')).toBe('zh');
+  it('resolves speak language from selected language first, then band fallback', () => {
+    expect(resolveSpeakLanguageForSession('zh', 'n4')).toBe('zh');
+    expect(resolveSpeakLanguageForSession('ja', 'band2')).toBe('ja');
+    expect(resolveSpeakLanguageForSession('', 'n4')).toBe('ja');
+    expect(resolveSpeakLanguageForSession('', 'band2')).toBe('zh');
     expect(getSpeakRecognitionLocale(resolveSpeakLanguageForSession('kr', null))).toBe('ko-KR');
   });
 
