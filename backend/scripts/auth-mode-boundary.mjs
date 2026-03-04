@@ -43,11 +43,18 @@ function canReachDatabase(databaseUrl, timeoutMs = 1200) {
 }
 
 function parseCookieValue(setCookieHeader, name) {
-  if (!setCookieHeader || typeof setCookieHeader !== 'string') return null;
-  const firstPart = setCookieHeader.split(';')[0] || '';
-  const [cookieName, ...rest] = firstPart.split('=');
-  if (cookieName !== name) return null;
-  return rest.join('=') || null;
+  const values = Array.isArray(setCookieHeader)
+    ? setCookieHeader
+    : typeof setCookieHeader === 'string'
+      ? [setCookieHeader]
+      : [];
+  for (const cookieHeader of values) {
+    const firstPart = cookieHeader.split(';')[0] || '';
+    const [cookieName, ...rest] = firstPart.split('=');
+    if (cookieName !== name) continue;
+    return rest.join('=') || null;
+  }
+  return null;
 }
 
 async function withServer(envOverrides, fn) {
@@ -174,7 +181,6 @@ async function runLocalAuthChecks() {
       });
       assert.equal(signup.statusCode, 200, `local signup failed: ${signup.body}`);
       const signupCookie = signup.headers['set-cookie'];
-      assert.equal(typeof signupCookie, 'string', 'local signup should set refresh cookie');
       const refreshToken = parseCookieValue(signupCookie, cookieName);
       assert.equal(Boolean(refreshToken), true, 'refresh token missing in signup cookie');
 

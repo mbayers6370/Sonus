@@ -98,10 +98,15 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
     window.speechSynthesis?.getVoices?.();
   }, []);
 
-  const handlePlay = (hanzi: string, pinyin: string) => {
+  const handlePlay = (toneId: string, hanzi: string, pinyin: string) => {
     window.speechSynthesis?.cancel?.();
     window.speechSynthesis?.resume?.();
-    speak(hanzi, pinyin);
+    if (toneId === 'tone0') {
+      // Neutral tone should play as the literal unstressed "ma".
+      speak('ma', 'ma');
+      return;
+    }
+    speak(hanzi, pinyin, false, 'zh');
   };
 
   return (
@@ -140,7 +145,7 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
               </span>
               <button
                 type="button"
-                onClick={() => handlePlay(tone.hanzi, tone.pinyin)}
+                onClick={() => handlePlay(tone.id, tone.hanzi, tone.pinyin)}
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#D2DEE7] text-xs font-semibold uppercase tracking-wider font-mono text-[#1F2A37] bg-white hover:bg-[#F4F8FC] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#9CC8DE]"
                 aria-label={`Play ${tone.label}`}
               >
