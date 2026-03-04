@@ -35,6 +35,7 @@ const signupSchema = z.object({
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1).max(128),
+  rememberMe: z.boolean().optional(),
 });
 
 const refreshSchema = z.object({});
@@ -52,6 +53,7 @@ const throttleResetSchema = z.object({
 });
 
 const REFRESH_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
+const REMEMBER_COOKIE_NAME = 'sonus_remember_me';
 const allowedOrigins = readAllowedOrigins();
 const loginThrottle = createLoginThrottle({
   enabled: env.LOGIN_THROTTLE_ENABLED,
@@ -76,16 +78,18 @@ function requestClientInfo(request: {
   };
 }
 
-function setRefreshCookie(
-  reply: { header: (name: string, value: string) => unknown },
-  refreshToken: string
-) {
-  reply.header(
-    'Set-Cookie',
+type CookieReply = {
+  header: (name: string, value: string | string[]) => unknown;
+  getHeader?: (name: string) => unknown;
+};
+
+function setRefreshCookie(reply: CookieReply, refreshToken: string, persistent: boolean) {
+  appendSetCookie(
+    reply,
     serializeCookie(env.AUTH_COOKIE_NAME, refreshToken, {
       domain: env.AUTH_COOKIE_DOMAIN,
       path: '/',
-      maxAgeSeconds: REFRESH_COOKIE_MAX_AGE_SECONDS,
+      maxAgeSeconds: persistent ? REFRESH_COOKIE_MAX_AGE_SECONDS : undefined,
       httpOnly: true,
       secure: env.AUTH_COOKIE_SECURE,
       sameSite: env.AUTH_COOKIE_SAME_SITE,
@@ -93,9 +97,23 @@ function setRefreshCookie(
   );
 }
 
-function clearRefreshCookie(reply: { header: (name: string, value: string) => unknown }) {
-  reply.header(
-    'Set-Cookie',
+function setRememberCookie(reply: CookieReply, persistent: boolean) {
+  appendSetCookie(
+    reply,
+    serializeCookie(REMEMBER_COOKIE_NAME, persistent ? '1' : '0', {
+      domain: env.AUTH_COOKIE_DOMAIN,
+      path: '/',
+      maxAgeSeconds: persistent ? REFRESH_COOKIE_MAX_AGE_SECONDS : undefined,
+      httpOnly: true,
+      secure: env.AUTH_COOKIE_SECURE,
+      sameSite: env.AUTH_COOKIE_SAME_SITE,
+    })
+  );
+}
+
+function clearRefreshCookie(reply: CookieReply) {
+  appendSetCookie(
+    reply,
     serializeCookie(env.AUTH_COOKIE_NAME, '', {
       domain: env.AUTH_COOKIE_DOMAIN,
       path: '/',
@@ -105,6 +123,33 @@ function clearRefreshCookie(reply: { header: (name: string, value: string) => un
       sameSite: env.AUTH_COOKIE_SAME_SITE,
     })
   );
+}
+
+function clearRememberCookie(reply: CookieReply) {
+  appendSetCookie(
+    reply,
+    serializeCookie(REMEMBER_COOKIE_NAME, '', {
+      domain: env.AUTH_COOKIE_DOMAIN,
+      path: '/',
+      maxAgeSeconds: 0,
+      httpOnly: true,
+      secure: env.AUTH_COOKIE_SECURE,
+      sameSite: env.AUTH_COOKIE_SAME_SITE,
+    })
+  );
+}
+
+function appendSetCookie(reply: CookieReply, cookieValue: string) {
+  const existing = reply.getHeader?.('Set-Cookie');
+  if (!existing) {
+    reply.header('Set-Cookie', cookieValue);
+    return;
+  }
+  if (Array.isArray(existing)) {
+    reply.header('Set-Cookie', [...existing, cookieValue]);
+    return;
+  }
+  reply.header('Set-Cookie', [String(existing), cookieValue]);
 }
 
 function resolveResetUrlBase(request: { headers: Record<string, string | string[] | undefined> }) {
@@ -283,7 +328,8 @@ export async function authRoutes(app: FastifyInstance) {
       });
 
       const accessToken = createAccessToken({ userId, email });
-      setRefreshCookie(reply, sessionToken);
+      setRefreshCookie(reply, sessionToken, true);
+      setRememberCookie(reply, true);
       reply.send({
         user: { id: userId, email },
         profile,
@@ -356,7 +402,8 @@ export async function authRoutes(app: FastifyInstance) {
       requiresEmailVerification: !data.session,
     });
     if (data.session?.refresh_token) {
-      setRefreshCookie(reply, data.session.refresh_token);
+      setRefreshCookie(reply, data.session.refresh_token, true);
+      setRememberCookie(reply, true);
     }
   });
 
@@ -372,6 +419,7 @@ export async function authRoutes(app: FastifyInstance) {
       email: parsed.data.email.trim().toLowerCase(),
       ip: request.ip || 'unknown',
     };
+    const rememberMe = parsed.data.rememberMe ?? true;
     const throttleDecision = loginThrottle.check(identity);
     if (!throttleDecision.allowed) {
       reply
@@ -419,7 +467,8 @@ export async function authRoutes(app: FastifyInstance) {
         },
       });
 
-      setRefreshCookie(reply, sessionToken);
+      setRefreshCookie(reply, sessionToken, rememberMe);
+      setRememberCookie(reply, rememberMe);
       loginThrottle.registerSuccess(identity);
       reply.send({
         user: { id: account.userId, email: account.email },
@@ -493,7 +542,8 @@ export async function authRoutes(app: FastifyInstance) {
       accessToken: data.session.access_token,
     });
     loginThrottle.registerSuccess(identity);
-    setRefreshCookie(reply, data.session.refresh_token);
+    setRefreshCookie(reply, data.session.refresh_token, rememberMe);
+    setRememberCookie(reply, rememberMe);
   });
 
   app.post('/v1/auth/debug/reset-login-throttle', async (request, reply) => {
@@ -547,6 +597,8 @@ export async function authRoutes(app: FastifyInstance) {
 
     const cookies = parseCookies(request.headers.cookie);
     const refreshToken = cookies.get(env.AUTH_COOKIE_NAME) ?? null;
+    const rememberCookie = cookies.get(REMEMBER_COOKIE_NAME);
+    const persistentSession = rememberCookie === '1';
     if (!refreshToken) {
       reply.code(401).send({ error: 'Missing refresh token' });
       return;
@@ -627,7 +679,7 @@ export async function authRoutes(app: FastifyInstance) {
         return;
       }
 
-      setRefreshCookie(reply, rotated.refreshToken);
+      setRefreshCookie(reply, rotated.refreshToken, persistentSession);
       reply.send({
         user: rotated.user,
         accessToken: createAccessToken({
@@ -659,7 +711,7 @@ export async function authRoutes(app: FastifyInstance) {
       user: { id: data.user.id, email: data.user.email ?? null },
       accessToken: data.session.access_token,
     });
-    setRefreshCookie(reply, data.session.refresh_token);
+    setRefreshCookie(reply, data.session.refresh_token, persistentSession);
   });
 
   app.post('/v1/auth/logout', async (request, reply) => {
@@ -681,6 +733,7 @@ export async function authRoutes(app: FastifyInstance) {
     }
 
     clearRefreshCookie(reply);
+    clearRememberCookie(reply);
     reply.send({ ok: true });
   });
 }

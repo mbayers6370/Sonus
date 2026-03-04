@@ -334,14 +334,18 @@ export default function ProfileScreen({
         )}
 
         <SurfaceCard className="relative p-5 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)]">
-          <div className="flex flex-col items-center text-center gap-2">
+          <div className="flex flex-col items-center text-center">
             <div className="w-10 h-10 rounded-full bg-[rgba(24,110,149,0.12)] border border-[rgba(24,110,149,0.22)] flex items-center justify-center text-[#186E95]">
               <UserRound className="w-5 h-5" />
             </div>
-            <div className="text-lg font-semibold text-text-dark">
-              {displayName.trim() || 'Learner'}
+            <div className="mt-2 w-full max-w-[20rem] px-1">
+              <div className="text-lg font-semibold text-text-dark leading-tight break-words">
+                {displayName.trim() || 'Learner'}
+              </div>
+              <div className="mt-1 text-sm text-text-med leading-snug break-all">
+                {profile?.email || '—'}
+              </div>
             </div>
-            <div className="text-sm text-text-med">{profile?.email || '—'}</div>
             <div className="mt-1 flex flex-wrap items-center justify-center gap-1.5">
               <span className="inline-flex items-center rounded-full border border-border bg-[rgba(31,42,55,0.06)] px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider text-text-med">
                 {activeLanguageName ? `Target: ${activeLanguageName}` : 'Target: Not set'}

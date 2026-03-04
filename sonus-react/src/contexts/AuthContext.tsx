@@ -27,7 +27,7 @@ type AuthContextValue = {
   email: string | null;
   isDemo: boolean;
   error: string | null;
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string, rememberMe?: boolean) => Promise<void>;
   signUp: (payload: {
     email: string;
     password: string;
@@ -310,7 +310,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, [clearDemoStateOnly, clearToSignedOut]);
 
-  const signIn = useCallback(async (emailInput: string, password: string) => {
+  const signIn = useCallback(async (emailInput: string, password: string, rememberMe = true) => {
     setError(null);
     const response = await fetch(`${API_BASE_URL}/v1/auth/login`, {
       method: 'POST',
@@ -319,6 +319,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       body: JSON.stringify({
         email: emailInput.trim(),
         password,
+        rememberMe: Boolean(rememberMe),
       }),
     });
     const payload = await readAuthResponse(response);

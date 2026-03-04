@@ -52,6 +52,7 @@ export default function AuthScreen() {
   const [mode, setMode] = useState<Mode>('signin');
   const [signInEmail, setSignInEmail] = useState('');
   const [signInPassword, setSignInPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(true);
   const [signUpFirstName, setSignUpFirstName] = useState('');
   const [signUpLastName, setSignUpLastName] = useState('');
   const [signUpEmail, setSignUpEmail] = useState('');
@@ -103,7 +104,7 @@ export default function AuthScreen() {
       }
       setLoading(true);
       try {
-        await signIn(resolvedEmail, resolvedPassword);
+        await signIn(resolvedEmail, resolvedPassword, rememberMe);
         navigate('/', { replace: true });
       } catch (err) {
         setError((err as Error).message || 'Authentication failed');
@@ -153,6 +154,7 @@ export default function AuthScreen() {
     navigate,
     passwordCreationError,
     releaseFormFocus,
+    rememberMe,
     signIn,
     signInEmail,
     signInPassword,
@@ -456,6 +458,17 @@ export default function AuthScreen() {
                 </p>
               ) : null}
             </div>
+          )}
+          {mode === 'signin' && (
+            <label className="mt-2 inline-flex items-center gap-2 text-xs text-text-med">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="h-4 w-4 rounded border-border text-[#186E95] focus:ring-[#186E95]/40"
+              />
+              <span>Remember me on this device</span>
+            </label>
           )}
 
           {mode === 'reset' && (
