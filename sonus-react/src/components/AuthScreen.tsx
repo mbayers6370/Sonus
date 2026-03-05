@@ -4,6 +4,14 @@ import { useAuth } from '../contexts/AuthContext';
 import GlassLoader from './ui/GlassLoader';
 
 type Mode = 'signin' | 'signup' | 'demo' | 'forgot' | 'reset';
+type AuthScreenVariant = 'page' | 'modal';
+
+type AuthScreenProps = {
+  initialMode?: Mode;
+  variant?: AuthScreenVariant;
+  showDemoTab?: boolean;
+  showAuthTabs?: boolean;
+};
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PASSWORD_RULE_TEXT = 'Use at least 8 characters, with at least 1 letter and 1 number.';
 
@@ -46,10 +54,15 @@ function removeResetTokenFromUrl() {
   }
 }
 
-export default function AuthScreen() {
+export default function AuthScreen({
+  initialMode = 'signin',
+  variant = 'page',
+  showDemoTab = true,
+  showAuthTabs = true,
+}: AuthScreenProps) {
   const navigate = useNavigate();
   const { signIn, signUp, continueAsDemo, requestPasswordReset, resetPassword } = useAuth();
-  const [mode, setMode] = useState<Mode>('signin');
+  const [mode, setMode] = useState<Mode>(initialMode);
   const [signInEmail, setSignInEmail] = useState('');
   const [signInPassword, setSignInPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
@@ -277,12 +290,26 @@ export default function AuthScreen() {
   }, []);
 
   useEffect(() => {
+    if (initialMode !== 'reset') {
+      setMode(initialMode);
+    }
+  }, [initialMode]);
+
+  useEffect(() => {
+    if (showDemoTab) return;
+    if (mode === 'demo') {
+      setMode('signin');
+    }
+  }, [mode, showDemoTab]);
+
+  useEffect(() => {
+    if (variant !== 'page') return;
     document.body.classList.add('auth-screen-open');
     return () => {
       releaseFormFocus();
       document.body.classList.remove('auth-screen-open');
     };
-  }, [releaseFormFocus]);
+  }, [releaseFormFocus, variant]);
 
   if (loading) {
     const loadingMessage =
@@ -294,28 +321,37 @@ export default function AuthScreen() {
             ? 'Sending reset link...'
             : 'Updating your password...';
     return (
-      <div className="h-[100svh] min-h-[100svh] page-shell px-6 flex items-center justify-center overflow-hidden overscroll-none">
+      <div className={`${variant === 'modal' ? 'w-full' : 'h-[100svh] min-h-[100svh] page-shell px-6 flex items-center justify-center overflow-hidden overscroll-none'}`}>
         <GlassLoader message={loadingMessage} />
       </div>
     );
   }
 
+  const isModal = variant === 'modal';
   return (
     <div
-      className="h-[100svh] min-h-[100svh] page-shell px-6 flex items-center justify-center overflow-hidden overscroll-none"
-      style={{
-        paddingTop: 'max(1.25rem, env(safe-area-inset-top, 0px))',
-        paddingBottom: 'max(1.25rem, env(safe-area-inset-bottom, 0px))',
-      }}
+      className={
+        isModal
+          ? 'w-full'
+          : 'h-[100svh] min-h-[100svh] page-shell px-6 flex items-center justify-center overflow-hidden overscroll-none'
+      }
+      style={
+        isModal
+          ? undefined
+          : {
+              paddingTop: 'max(1.25rem, env(safe-area-inset-top, 0px))',
+              paddingBottom: 'max(1.25rem, env(safe-area-inset-bottom, 0px))',
+            }
+      }
     >
-      <div className="w-full max-w-md bg-white border border-border rounded-3xl p-5 sm:p-6 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] text-center max-h-[calc(100svh-2.5rem)] overflow-hidden">
+      <div className={`w-full max-w-md bg-white border border-border rounded-3xl p-5 sm:p-6 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] text-center overflow-hidden ${isModal ? 'max-h-[85vh] overflow-y-auto' : 'max-h-[calc(100svh-2.5rem)]'}`}>
         <img
           src="/branding/logo_name_solo.png"
           alt="Sonus"
           className="h-7 mx-auto mb-5 opacity-90"
         />
 
-        {(mode === 'signin' || mode === 'signup' || mode === 'demo') && (
+        {showAuthTabs && (mode === 'signin' || mode === 'signup' || mode === 'demo') && (
           <div className="inline-flex items-center gap-5 mb-5 border-b border-border/80 pb-1">
             <button
               type="button"
@@ -337,19 +373,21 @@ export default function AuthScreen() {
                   : 'text-text-med border-transparent hover:text-text-dark'
               }`}
             >
-              Sign Up
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode('demo')}
-              className={`pb-1 text-[11px] font-semibold uppercase tracking-wider font-mono transition-colors border-b-2 ${
-                mode === 'demo'
-                  ? 'text-[#1F2A37] border-[#1F2A37]'
-                  : 'text-text-med border-transparent hover:text-text-dark'
-              }`}
-            >
-              Demo
-            </button>
+                Sign Up
+              </button>
+            {showDemoTab && (
+              <button
+                type="button"
+                onClick={() => setMode('demo')}
+                className={`pb-1 text-[11px] font-semibold uppercase tracking-wider font-mono transition-colors border-b-2 ${
+                  mode === 'demo'
+                    ? 'text-[#1F2A37] border-[#1F2A37]'
+                    : 'text-text-med border-transparent hover:text-text-dark'
+                }`}
+              >
+                Demo
+              </button>
+            )}
           </div>
         )}
 

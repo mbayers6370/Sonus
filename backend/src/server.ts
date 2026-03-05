@@ -12,6 +12,7 @@ import { meRoutes } from './routes/me.js';
 import { attemptRoutes } from './routes/attempts.js';
 import { telemetryRoutes } from './routes/telemetry.js';
 import { characterRoutes } from './routes/characters.js';
+import { publicContactRoutes } from './routes/publicContact.js';
 
 function buildCspHeader(allowedOrigins: Set<string>) {
   const connectSrc = ["'self'", ...Array.from(allowedOrigins)];
@@ -182,6 +183,7 @@ export async function buildServer() {
   await attemptRoutes(app);
   await telemetryRoutes(app);
   await characterRoutes(app);
+  await publicContactRoutes(app);
 
   app.setErrorHandler((error, _request, reply) => {
     if (isAppError(error)) {

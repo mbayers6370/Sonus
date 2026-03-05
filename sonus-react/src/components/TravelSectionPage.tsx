@@ -8,7 +8,7 @@ import {
   type TravelSectionData,
 } from '../data/travelModeData';
 import GlassHeader from './GlassHeader';
-import { normalizeLanguageId } from '../lib/languageRuntime';
+import { getLanguageRuntime, normalizeLanguageId } from '../lib/languageRuntime';
 
 interface TravelSectionPageProps {
   section: TravelSectionData;
@@ -139,8 +139,8 @@ function buildGuideNoteBlocks(notes: string[]) {
 
 export default function TravelSectionPage({ section, onGoHome, onOpenProfile, selectedLanguage }: TravelSectionPageProps) {
   const { speak } = useAudio();
-  const isJapanese = normalizeLanguageId(selectedLanguage) === 'ja';
-  const targetLabel = isJapanese ? 'Japanese' : 'Chinese';
+  const languageRuntime = getLanguageRuntime(normalizeLanguageId(selectedLanguage));
+  const targetLabel = languageRuntime.label || 'Language';
   const [learnedBySection, setLearnedBySection] = useState<Record<string, Record<string, boolean>>>(() => {
     try {
       const raw = window.localStorage.getItem('sonus.travel.learned');
@@ -308,10 +308,12 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                   {buildGuideNoteBlocks(section.culturalNotes).map((block, idx) => {
                     if (block.kind === 'bullet') {
                       return (
-                        <p key={`${section.id}-tip-${idx}`} className="pl-4 relative text-[0.9rem] leading-[1.55] text-[#334155]">
-                          <span className="absolute left-0 top-[0.38rem] text-[#3E5648]">•</span>
-                          {renderNoteText(block.text)}
-                        </p>
+                        <div key={`${section.id}-tip-${idx}`} className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2.5">
+                          <p className="pl-4 relative text-[0.9rem] leading-[1.55] text-[#334155]">
+                            <span className="absolute left-0 top-[0.38rem] text-[#3E5648]">•</span>
+                            {renderNoteText(block.text)}
+                          </p>
+                        </div>
                       );
                     }
 
@@ -333,9 +335,11 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                     }
 
                     return (
-                      <p key={`${section.id}-tip-${idx}`} className="text-[0.9rem] leading-[1.55] text-[#334155]">
-                        {renderNoteText(block.text)}
-                      </p>
+                      <div key={`${section.id}-tip-${idx}`} className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2.5">
+                        <p className="text-[0.9rem] leading-[1.55] text-[#334155]">
+                          {renderNoteText(block.text)}
+                        </p>
+                      </div>
                     );
                   })}
                 </div>

@@ -6,6 +6,9 @@ import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting'
 import { apiFetch } from '../lib/apiClient';
 import { normalizeLanguageId } from '../lib/languageRuntime';
 import GlassLoader from '../components/ui/GlassLoader';
+import PrivacyPage from '../components/public/PrivacyPage';
+import TermsPage from '../components/public/TermsPage';
+import ContactPage from '../components/public/ContactPage';
 
 const LevelSelect = lazy(() => import('../components/LevelSelect'));
 const UnitSelect = lazy(() => import('../components/UnitSelect'));
@@ -521,6 +524,9 @@ export default function AppRoutes() {
         path="/about"
         element={<AboutSonusScreen onGoHome={goHome} onGoProfile={() => navigate('/profile')} />}
       />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/contact" element={<ContactPage />} />
       <Route path="*" element={<Navigate to={selectedLanguage ? '/home' : '/'} replace />} />
       </Routes>
     </Suspense>
