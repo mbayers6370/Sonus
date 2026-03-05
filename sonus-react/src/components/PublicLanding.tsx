@@ -150,14 +150,12 @@ export default function PublicLanding() {
           className="relative flex min-h-[75svh] max-h-[85svh] items-center overflow-hidden border-b border-[#0F172A] px-4 py-14 sm:min-h-0 sm:max-h-none sm:px-8 sm:py-14"
           style={{
             backgroundImage:
-              "linear-gradient(180deg, rgba(31,42,55,0.96) 0%, rgba(31,42,55,0.92) 100%), url('/branding/Background.png')",
+              "linear-gradient(180deg, rgba(31,42,55,0.985) 0%, rgba(31,42,55,0.965) 100%), url('/branding/Background.png')",
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
         >
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute -left-24 top-[-20%] h-72 w-72 rounded-full bg-[#9CB4CB]/15 blur-3xl sm:h-96 sm:w-96" />
-            <div className="absolute -right-20 bottom-[-22%] h-72 w-72 rounded-full bg-[#8EA6BF]/16 blur-3xl sm:h-96 sm:w-96" />
             <div className="absolute left-[4%] top-[12%] rotate-[-16deg] main-font text-[2.65rem] tracking-[0.1em] text-white/[0.045] sm:left-[9%] sm:top-[18%] sm:rotate-[-14deg] sm:text-[3.8rem] sm:tracking-[0.16em] sm:text-white/[0.03]">
               こんにちは
             </div>

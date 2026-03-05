@@ -21,6 +21,7 @@
     "tatoeba:apply": "node scripts/tatoeba-apply-candidates.mjs"
   },
   "devDependencies": {
-    "hanzi": "^2.1.5"
+    "hanzi": "^2.1.5",
+    "prisma": "^5.22.0"
   }
 }
