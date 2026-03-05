@@ -1,19 +1,23 @@
-import { useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import PublicFooter from './PublicFooter';
+import SEOHead from './SEOHead';
 
 type PublicLegalLayoutProps = {
   title: string;
   lastUpdated: string;
+  canonicalPath: '/privacy' | '/terms' | '/contact';
+  metaDescription: string;
   children: ReactNode;
 };
 
-export default function PublicLegalLayout({ title, lastUpdated, children }: PublicLegalLayoutProps) {
-  useEffect(() => {
-    document.title = `${title} | Sonus`;
-  }, [title]);
-
+export default function PublicLegalLayout({
+  title,
+  lastUpdated,
+  canonicalPath,
+  metaDescription,
+  children,
+}: PublicLegalLayoutProps) {
   return (
     <div
       className="min-h-screen font-normal text-[#1F2A37]"
@@ -27,6 +31,13 @@ export default function PublicLegalLayout({ title, lastUpdated, children }: Publ
         backgroundAttachment: 'fixed',
       }}
     >
+      <SEOHead
+        title={`${title} | Sonus`}
+        description={metaDescription}
+        canonical={`https://sonuslearning.com${canonicalPath}`}
+        ogTitle={`${title} | Sonus`}
+        ogUrl={`https://sonuslearning.com${canonicalPath}`}
+      />
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/45 bg-white/62 backdrop-blur-2xl shadow-[0_10px_26px_-22px_rgba(15,23,42,0.55)]">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-8">
           <Link to="/" aria-label="Sonus home">

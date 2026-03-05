@@ -7,7 +7,7 @@
 :root {
   --font-main: 'Tenor Sans', sans-serif;
   --font-secondary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --sonus-bottom-nav-height: 5rem;
+  --sonus-bottom-nav-height: 6.1rem;
 }
 
 * {

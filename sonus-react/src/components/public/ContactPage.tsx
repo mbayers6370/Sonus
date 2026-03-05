@@ -49,7 +49,12 @@ export default function ContactPage() {
   };
 
   return (
-    <PublicLegalLayout title="Contact" lastUpdated={LAST_UPDATED}>
+    <PublicLegalLayout
+      title="Contact"
+      lastUpdated={LAST_UPDATED}
+      canonicalPath="/contact"
+      metaDescription="Contact Sonus support for account help, privacy requests, and product feedback."
+    >
       <section>
         <h2 className="main-font text-2xl text-[#1F2A37] sm:text-3xl">Get in Touch</h2>
         <p className="mt-2">

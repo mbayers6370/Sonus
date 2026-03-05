@@ -4,7 +4,12 @@ const LAST_UPDATED = '2026-03-05';
 
 export default function PrivacyPage() {
   return (
-    <PublicLegalLayout title="Privacy Policy" lastUpdated={LAST_UPDATED}>
+    <PublicLegalLayout
+      title="Privacy Policy"
+      lastUpdated={LAST_UPDATED}
+      canonicalPath="/privacy"
+      metaDescription="Read how Sonus collects, uses, and protects account, learning, and usage data."
+    >
       <section>
         <h2 className="main-font text-xl text-[#1F2A37] sm:text-2xl">Overview</h2>
         <p className="mt-2">This policy describes how Sonus currently collects, uses, and processes data. Implementation details may evolve as the platform develops.</p>

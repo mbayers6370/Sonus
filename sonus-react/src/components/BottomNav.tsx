@@ -1,4 +1,5 @@
 import { BookOpen, House, LogOut, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 interface BottomNavProps {
@@ -27,14 +28,15 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
         right: 0,
         bottom: 0,
         width: '100vw',
-        height: 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px))',
+        height: 'calc(var(--sonus-bottom-nav-height, 6.1rem) + env(safe-area-inset-bottom, 0px))',
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         transform: 'translateZ(0)',
         WebkitTransform: 'translateZ(0)',
       }}
     >
-      <div className="h-full w-full relative flex items-center justify-center px-4">
-        <div className="flex items-center justify-center gap-4 sm:gap-6">
+      <div className="h-full w-full relative px-4">
+        <div className="flex h-[70%] items-center justify-center pt-1.5">
+          <div className="flex items-center justify-center gap-4 sm:gap-6">
           <button
             onClick={onHome}
             className={`flex flex-col items-center gap-1 px-6 py-2 transition-colors ${
@@ -62,11 +64,27 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
             <User className="w-6 h-6" />
             <span className={`text-xs ${active === 'profile' ? 'font-semibold' : ''}`}>Profile</span>
           </button>
+          </div>
+        </div>
+        <div className="flex h-[30%] items-center justify-center gap-2 text-[0.54rem] leading-none font-light text-[#7B8BA1] sm:text-[0.62rem]">
+          <Link to="/privacy" className="underline-offset-2 hover:underline">
+            Privacy
+          </Link>
+          <span aria-hidden="true">|</span>
+          <Link to="/terms" className="underline-offset-2 hover:underline">
+            Terms
+          </Link>
+          <span aria-hidden="true">|</span>
+          <Link to="/contact" className="underline-offset-2 hover:underline">
+            Contact
+          </Link>
+          <span aria-hidden="true">|</span>
+          <span>© {new Date().getFullYear()} Sonus</span>
         </div>
         <button
           type="button"
           onClick={signOut}
-          className="hidden lg:flex absolute right-4 items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-text-light transition-colors hover:text-text-dark"
+          className="hidden lg:flex absolute right-4 top-1 items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-text-light transition-colors hover:text-text-dark"
           aria-label={isDemo ? 'Exit Demo' : 'Sign Out'}
           title={isDemo ? 'Exit Demo' : 'Sign Out'}
         >

@@ -4,7 +4,12 @@ const LAST_UPDATED = '2026-03-05';
 
 export default function TermsPage() {
   return (
-    <PublicLegalLayout title="Terms of Service" lastUpdated={LAST_UPDATED}>
+    <PublicLegalLayout
+      title="Terms of Service"
+      lastUpdated={LAST_UPDATED}
+      canonicalPath="/terms"
+      metaDescription="Review the Sonus Terms of Service for account responsibilities, acceptable use, and service limitations."
+    >
       <section>
         <h2 className="main-font text-xl text-[#1F2A37] sm:text-2xl">Acceptance of Terms</h2>
         <p className="mt-2">By using Sonus, you agree to these Terms.</p>

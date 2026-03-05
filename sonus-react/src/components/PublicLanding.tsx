@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Plane, User, X } from 'lucide-react';
 import AuthScreen from './AuthScreen';
 import PublicFooter from './public/PublicFooter';
+import SEOHead from './public/SEOHead';
 
 type AuthMode = 'signin' | 'signup';
 type ModalMode = AuthMode | 'demo';
@@ -45,6 +46,11 @@ export default function PublicLanding() {
   }, [modalMode]);
 
   const authCtaLabel = useMemo(() => 'Log In / Sign Up', []);
+  const landingDescription = useMemo(
+    () =>
+      'Sonus is a language learning platform built on real fluency systems like HSK and JLPT. Practice vocabulary, speaking, and travel phrases through structured lessons.',
+    []
+  );
   const demoCards = useMemo<DemoCard[]>(
     () => [
       {
@@ -67,6 +73,34 @@ export default function PublicLanding() {
     setModalMode(mode);
   };
 
+  useEffect(() => {
+    const scriptId = 'sonus-webapp-jsonld';
+    const existing = document.getElementById(scriptId);
+    if (existing) existing.remove();
+
+    const script = document.createElement('script');
+    script.id = scriptId;
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      name: 'Sonus',
+      applicationCategory: 'EducationalApplication',
+      operatingSystem: 'Web',
+      url: 'https://sonuslearning.com/',
+      description: landingDescription,
+      publisher: {
+        '@type': 'Organization',
+        name: 'Sonus Learning',
+      },
+    });
+    document.head.appendChild(script);
+
+    return () => {
+      script.remove();
+    };
+  }, [landingDescription]);
+
   return (
     <div
       className="min-h-screen font-normal text-[#1F2A37]"
@@ -80,6 +114,13 @@ export default function PublicLanding() {
         backgroundAttachment: 'fixed',
       }}
     >
+      <SEOHead
+        title="Sonus | Language Learning Built on Real Fluency Systems"
+        description={landingDescription}
+        canonical="https://sonuslearning.com/"
+        ogTitle="Sonus | Language Learning Built on Real Fluency Systems"
+        ogUrl="https://sonuslearning.com/"
+      />
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/45 bg-white/62 backdrop-blur-2xl shadow-[0_10px_26px_-22px_rgba(15,23,42,0.55)]">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-8">
             <img src="/branding/logo_name_solo.png" alt="Sonus" className="h-7 sm:h-8" />
