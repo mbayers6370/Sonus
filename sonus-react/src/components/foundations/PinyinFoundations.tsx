@@ -102,30 +102,30 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
                 className="rounded-2xl border border-border bg-white p-4 md:p-5 shadow-[0_10px_22px_-20px_rgba(15,23,42,0.4)]"
               >
                 <div className="text-base font-bold text-text-dark text-center mb-1">{item.result.english}</div>
-                <div className="flex items-center justify-center gap-3 text-text-dark mt-3">
+                <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_minmax(0,1.15fr)] items-center gap-1.5 sm:gap-3 text-text-dark mt-3">
                   <button
                     onClick={() => speak(item.left.hanzi, item.left.pinyin)}
-                    className="text-center rounded-xl border border-border/80 px-3 py-2 min-w-[80px] hover:bg-[rgba(31,42,55,0.06)]"
+                    className="min-w-0 text-center rounded-xl border border-border/80 px-2 py-2 sm:px-3 hover:bg-[rgba(31,42,55,0.06)]"
                   >
-                    <div className="text-3xl secondary-font leading-none">{item.left.hanzi}</div>
+                    <div className="text-[2rem] sm:text-3xl secondary-font leading-none">{item.left.hanzi}</div>
                     <div className="text-xs text-text-med">{item.left.pinyin}</div>
-                    <div className="text-xs text-text-dark">{item.left.english}</div>
+                    <div className="text-xs text-text-dark leading-tight break-words">{item.left.english}</div>
                   </button>
-                  <span className="text-xl text-text-light font-semibold">+</span>
+                  <span className="text-lg sm:text-xl text-text-light font-semibold">+</span>
                   <button
                     onClick={() => speak(item.right.hanzi, item.right.pinyin)}
-                    className="text-center rounded-xl border border-border/80 px-3 py-2 min-w-[80px] hover:bg-[rgba(31,42,55,0.06)]"
+                    className="min-w-0 text-center rounded-xl border border-border/80 px-2 py-2 sm:px-3 hover:bg-[rgba(31,42,55,0.06)]"
                   >
-                    <div className="text-3xl secondary-font leading-none">{item.right.hanzi}</div>
+                    <div className="text-[2rem] sm:text-3xl secondary-font leading-none">{item.right.hanzi}</div>
                     <div className="text-xs text-text-med">{item.right.pinyin}</div>
-                    <div className="text-xs text-text-dark">{item.right.english}</div>
+                    <div className="text-xs text-text-dark leading-tight break-words">{item.right.english}</div>
                   </button>
-                  <span className="text-xl text-text-light font-semibold">=</span>
+                  <span className="text-lg sm:text-xl text-text-light font-semibold">=</span>
                   <button
                     onClick={() => speak(item.result.hanzi, item.result.pinyin)}
-                    className="text-center rounded-xl border border-[#9EC7DC] bg-[rgba(181,216,234,0.28)] px-3 py-2 min-w-[100px] hover:bg-[rgba(181,216,234,0.40)]"
+                    className="min-w-0 text-center rounded-xl border border-[#9EC7DC] bg-[rgba(181,216,234,0.28)] px-2 py-2 sm:px-3 hover:bg-[rgba(181,216,234,0.40)]"
                   >
-                    <div className="text-3xl secondary-font leading-none">{item.result.hanzi}</div>
+                    <div className="text-[2rem] sm:text-3xl secondary-font leading-none">{item.result.hanzi}</div>
                     <div className="text-xs text-[#186E95] font-medium">{item.result.pinyin}</div>
                   </button>
                 </div>

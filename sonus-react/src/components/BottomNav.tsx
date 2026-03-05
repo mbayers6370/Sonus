@@ -35,7 +35,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
       }}
     >
       <div className="h-full w-full relative px-4">
-        <div className="flex h-[70%] items-center justify-center pt-1.5">
+        <div className="flex h-[82%] items-center justify-center pt-1.5">
           <div className="flex items-center justify-center gap-4 sm:gap-6">
           <button
             onClick={onHome}
@@ -66,25 +66,27 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           </button>
           </div>
         </div>
-        <div className="flex h-[30%] items-center justify-center gap-2 text-[0.54rem] leading-none font-light text-[#7B8BA1] sm:text-[0.62rem]">
-          <Link to="/privacy" className="underline-offset-2 hover:underline">
+        <div className="absolute inset-x-0 bottom-0 h-[18%] bg-[#2B3440] border-t border-white/10">
+          <div className="flex h-full items-center justify-center gap-2 px-3 text-[0.52rem] leading-none font-light text-[#C7D0DC] sm:text-[0.58rem]">
+            <Link to="/privacy" className="underline-offset-2 hover:underline font-mono">
             Privacy
-          </Link>
-          <span aria-hidden="true">|</span>
-          <Link to="/terms" className="underline-offset-2 hover:underline">
+            </Link>
+            <span aria-hidden="true">|</span>
+            <Link to="/terms" className="underline-offset-2hover:underline font-mono">
             Terms
-          </Link>
-          <span aria-hidden="true">|</span>
-          <Link to="/contact" className="underline-offset-2 hover:underline">
+            </Link>
+            <span aria-hidden="true">|</span>
+            <Link to="/contact" className="underline-offset-2 hover:underline font-mono">
             Contact
-          </Link>
-          <span aria-hidden="true">|</span>
-          <span>© {new Date().getFullYear()} Sonus</span>
+            </Link>
+            <span aria-hidden="true">|</span>
+            <span className="font-mono">© {new Date().getFullYear()} Sonus</span>
+          </div>
         </div>
         <button
           type="button"
           onClick={signOut}
-          className="hidden lg:flex absolute right-4 top-1 items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-text-light transition-colors hover:text-text-dark"
+          className="hidden lg:flex absolute right-4 top-[35%] -translate-y-1/2 items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-text-light transition-colors hover:text-text-dark"
           aria-label={isDemo ? 'Exit Demo' : 'Sign Out'}
           title={isDemo ? 'Exit Demo' : 'Sign Out'}
         >

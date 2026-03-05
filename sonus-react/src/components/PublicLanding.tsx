@@ -197,7 +197,7 @@ export default function PublicLanding() {
                 Learn the language before you get there.
               </h1>
               <p
-                className="mx-auto mt-3 max-w-3xl text-center font-light leading-relaxed text-[#D6E2EE] sm:mt-4 sm:text-[1.4rem]"
+                className="font-mono mx-auto mt-3 max-w-3xl text-center font-light leading-relaxed text-[#D6E2EE] sm:mt-4 sm:text-[1.4rem]"
                 style={{ fontSize: '1.7em' }}
               >
                 Built on real <br className="sm:hidden" />
@@ -277,18 +277,18 @@ export default function PublicLanding() {
             <div className="mx-auto mt-6 grid max-w-5xl gap-3 sm:grid-cols-2 sm:gap-4">
               <article className="rounded-2xl border border-[#4C5A6A] bg-[#1F2A37] p-4 sm:p-5">
                 <h3 className="main-font text-2xl leading-tight text-white sm:text-3xl">Mandarin</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-[#E5EDF5] sm:text-xl">
+                <p className="mt-1.5 text-sm font-light leading-relaxed text-[#E5EDF5] sm:text-xl">
                   Curriculum and speech training in active development.
                 </p>
               </article>
               <article className="rounded-2xl border border-[#4C5A6A] bg-[#1F2A37] p-4 sm:p-5">
                 <h3 className="main-font text-2xl leading-tight text-white sm:text-3xl">Japanese</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-[#E5EDF5] sm:text-xl">
+                <p className="mt-1.5 text-sm font-light leading-relaxed text-[#E5EDF5] sm:text-xl">
                   Foundational lessons currently available.
                 </p>
               </article>
             </div>
-            <p className="mx-auto mt-5 font-light max-w-4xl text-center text-sm leading-relaxed text-[#D6E2EE] sm:mt-6 sm:text-xl">
+            <p className="mx-auto mt-5 font-light font-mono max-w-4xl text-center text-sm leading-relaxed text-[#D6E2EE] sm:mt-6 sm:text-sm">
               More languages will be introduced as the system expands.
             </p>
           </div>
@@ -365,7 +365,7 @@ function ExploreDemoCard({ card }: { card: DemoCard }) {
       </div>
       <div className="h-[104px] p-2.5 sm:h-auto sm:p-4">
         <h3 className="main-font text-xl leading-tight sm:text-2xl">{card.title}</h3>
-        <p className="mt-1.5 text-xs leading-relaxed text-[#334155] sm:mt-2 sm:text-sm">{card.body}</p>
+        <p className="secondary-font mt-1.5 text-xs leading-relaxed text-[#334155] sm:mt-2 sm:text-sm">{card.body}</p>
       </div>
     </article>
   );
