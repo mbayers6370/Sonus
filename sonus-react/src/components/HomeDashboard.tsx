@@ -16,7 +16,7 @@ import GlassLoader from './ui/GlassLoader';
 import { useApp } from '../contexts/AppContext';
 import { apiFetch } from '../lib/apiClient';
 import { getLessonRanges } from '../lib/lessonChunks';
-import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
+import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria.ts';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { inferLanguageForBand, normalizeLanguageId, resolveBandDataPath } from '../lib/languageRuntime';
 import type { LessonMode } from '../types/lesson.types';

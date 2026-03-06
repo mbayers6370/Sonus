@@ -141,7 +141,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
           <h4 className="main-font text-2xl leading-tight text-white">Creating a Language Learning Platform</h4>
           <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-white/88">
             <p>
-              Most language apps use made-up curricula.
+              Many language apps use proprietary lesson structures rather than building directly on official proficiency standards.
             </p>
             <p>
               I wanted something different: language learning built on official standards, the actual frameworks countries use to measure proficiency.
@@ -155,7 +155,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
               I intend to build those too, using preservation frameworks that respect the language and the community.
             </p>
             <p>
-              I&apos;ve learned bits of seven languages throughout my life, and am not proficient in any of them. I know what works: structured progression, 
+              I&apos;ve learned small bits of seven languages throughout my life. However, I know what works: structured progression, 
               spaced repetition, and feedback specific enough to improve from. That is what I built here.
             </p>
             <p>

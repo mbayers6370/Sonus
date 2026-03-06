@@ -61,8 +61,18 @@ const POLICY = {
   },
 } as const;
 
+const REVIEW_INTERVAL_LADDER_DAYS = [1, 3, 7, 14, 30] as const;
+
 function clampRange(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
+}
+
+function nextLadderIntervalDay(current: number) {
+  const normalizedCurrent = Math.max(0, Math.round(current));
+  for (const value of REVIEW_INTERVAL_LADDER_DAYS) {
+    if (value > normalizedCurrent) return value;
+  }
+  return REVIEW_INTERVAL_LADDER_DAYS[REVIEW_INTERVAL_LADDER_DAYS.length - 1];
 }
 
 export function computeQuizMemoryUpdate(
@@ -94,16 +104,16 @@ export function computeQuizMemoryUpdate(
   const baseInterval = existing?.quizIntervalDays ?? POLICY.baseIntervalDays;
   const nextQuizIntervalDays = isMiss
     ? clampRange(
-        Math.round(baseInterval * POLICY.missPenaltyFactor),
+        isReview
+          ? REVIEW_INTERVAL_LADDER_DAYS[0]
+          : Math.round(baseInterval * POLICY.missPenaltyFactor),
         POLICY.minIntervalDays,
         POLICY.maxIntervalDays
       )
     : clampRange(
-        Math.round(
-          baseInterval +
-            (isReview ? POLICY.quiz.reviewIntervalGain : POLICY.quiz.lessonIntervalGain) *
-              POLICY.correctGrowthFactor
-        ),
+        isReview
+          ? nextLadderIntervalDay(baseInterval)
+          : Math.round(baseInterval + POLICY.quiz.lessonIntervalGain * POLICY.correctGrowthFactor),
         POLICY.minIntervalDays,
         POLICY.maxIntervalDays
       );
@@ -112,7 +122,7 @@ export function computeQuizMemoryUpdate(
       ? POLICY.quiz.missDueDaysReview
       : POLICY.quiz.missDueDaysLesson
     : isReview
-      ? POLICY.quiz.correctDueDaysReview
+      ? nextQuizIntervalDays
       : POLICY.quiz.correctDueDaysLesson;
 
   return {
@@ -142,17 +152,18 @@ export function computeSpeakMemoryUpdate(
     : 0;
   const nextQuizIntervalDays = mispronounced
     ? clampRange(
-        Math.round(
-          (existing?.quizIntervalDays ?? POLICY.baseIntervalDays) * POLICY.missPenaltyFactor
-        ),
+        isReview
+          ? REVIEW_INTERVAL_LADDER_DAYS[0]
+          : Math.round(
+              (existing?.quizIntervalDays ?? POLICY.baseIntervalDays) * POLICY.missPenaltyFactor
+            ),
         POLICY.minIntervalDays,
         POLICY.maxIntervalDays
       )
     : clampRange(
-        Math.round(
-          (existing?.quizIntervalDays ?? POLICY.baseIntervalDays) +
-            (isReview ? POLICY.speak.reviewIntervalGain : 0) * POLICY.correctGrowthFactor
-        ),
+        isReview
+          ? nextLadderIntervalDay(existing?.quizIntervalDays ?? POLICY.baseIntervalDays)
+          : Math.round(existing?.quizIntervalDays ?? POLICY.baseIntervalDays),
         POLICY.minIntervalDays,
         POLICY.maxIntervalDays
       );
@@ -161,7 +172,7 @@ export function computeSpeakMemoryUpdate(
       ? POLICY.speak.missDueDaysReview
       : POLICY.speak.missDueDaysLesson
     : isReview
-      ? POLICY.speak.correctDueDaysReview
+      ? nextQuizIntervalDays
       : POLICY.speak.correctDueDaysLesson;
   const nextQuizEase = clampRange(
     (existing?.quizEase ?? 2.5) +

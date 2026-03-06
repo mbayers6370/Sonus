@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma.js';
 import { resolveLexemeForWordId } from '../lib/lexemeCatalog.js';
 import type { SharedLexeme } from '../types.js';
@@ -91,6 +90,85 @@ function buildReviewPriority(input: {
   };
 }
 
+type ChannelAttempt = {
+  createdAt: Date;
+  correct: boolean;
+};
+
+type ChannelEvaluation = {
+  hasMiss: boolean;
+  needsWork: boolean;
+  correctAfterLastMiss: number;
+  spanDays: number;
+  maxIntervalDays: number;
+  intervalsIncreasing: boolean;
+};
+
+function dayDiffRounded(from: Date, to: Date) {
+  return Math.max(0, Math.round((to.getTime() - from.getTime()) / 86_400_000));
+}
+
+function evaluateChannelNeedsWork(attempts: ChannelAttempt[]): ChannelEvaluation {
+  if (attempts.length === 0) {
+    return {
+      hasMiss: false,
+      needsWork: false,
+      correctAfterLastMiss: 0,
+      spanDays: 0,
+      maxIntervalDays: 0,
+      intervalsIncreasing: true,
+    };
+  }
+
+  const lastMissIdx = [...attempts].map((item) => item.correct).lastIndexOf(false);
+  if (lastMissIdx < 0) {
+    return {
+      hasMiss: false,
+      needsWork: false,
+      correctAfterLastMiss: 0,
+      spanDays: 0,
+      maxIntervalDays: 0,
+      intervalsIncreasing: true,
+    };
+  }
+
+  const correctAfterLastMiss = attempts
+    .slice(lastMissIdx + 1)
+    .filter((item) => item.correct)
+    .map((item) => item.createdAt);
+
+  const intervals: number[] = [];
+  for (let idx = 1; idx < correctAfterLastMiss.length; idx += 1) {
+    intervals.push(dayDiffRounded(correctAfterLastMiss[idx - 1], correctAfterLastMiss[idx]));
+  }
+
+  const intervalsIncreasing = intervals.every(
+    (interval, idx) => idx === 0 || interval >= intervals[idx - 1]
+  );
+  const spanDays =
+    correctAfterLastMiss.length >= 2
+      ? dayDiffRounded(
+          correctAfterLastMiss[0],
+          correctAfterLastMiss[correctAfterLastMiss.length - 1]
+        )
+      : 0;
+  const maxIntervalDays = intervals.length ? Math.max(...intervals) : 0;
+  const graduated =
+    correctAfterLastMiss.length >= 3 &&
+    intervalsIncreasing &&
+    maxIntervalDays >= 7 &&
+    spanDays >= 7;
+
+  return {
+    hasMiss: true,
+    needsWork: !graduated,
+    correctAfterLastMiss: correctAfterLastMiss.length,
+    spanDays,
+    maxIntervalDays,
+    intervalsIncreasing,
+  };
+}
+
 export async function fetchReviewQueue(
   userId: string,
   limit: number,
@@ -175,9 +253,13 @@ export async function fetchNeedsWork(
     where: {
       userId,
       ...(wordFilter ? { wordId: wordFilter } : {}),
-      OR: [{ missedQuizCount: { gt: 0 } }, { mispronounceCount: { gt: 0 } }],
+      OR: [
+        { missedQuizCount: { gt: 0 } },
+        { mispronounceCount: { gt: 0 } },
+        { pronunciationRisk: { gt: 0 } },
+      ],
     },
-    take: Math.max(limit * 3, 80),
+    take: Math.max(limit * 6, 150),
     orderBy: [
       { pronunciationRisk: 'desc' },
       { missedQuizCount: 'desc' },
@@ -186,62 +268,131 @@ export async function fetchNeedsWork(
     ],
   });
 
-  const candidateWordIds = rows.map((row) => row.wordId);
-  const recentCorrectStreakClearRows =
-    candidateWordIds.length === 0
-      ? []
-      : await prisma.$queryRaw<Array<{ word_id: string }>>`
-          WITH combined_attempts AS (
-            SELECT
-              word_id,
-              created_at,
-              is_correct AS is_correct
-            FROM quiz_attempts
-            WHERE user_id = ${userId}::uuid
-              AND word_id IN (${Prisma.join(candidateWordIds)})
+  const memoryByWordId = new Map(rows.map((row) => [row.wordId, row]));
 
-            UNION ALL
+  const [quizMissGroups, speakMissGroups] = await Promise.all([
+    prisma.quizAttempt.groupBy({
+      by: ['wordId'],
+      where: {
+        userId,
+        isCorrect: false,
+        ...(wordFilter ? { wordId: wordFilter } : {}),
+      },
+      _count: { _all: true },
+      _max: { createdAt: true },
+    }),
+    prisma.speakAttempt.groupBy({
+      by: ['wordId'],
+      where: {
+        userId,
+        ...(wordFilter ? { wordId: wordFilter } : {}),
+        OR: [{ initialOk: false }, { finalOk: false }, { toneOk: false }],
+      },
+      _count: { _all: true },
+      _max: { createdAt: true },
+    }),
+  ]);
 
-            SELECT
-              word_id,
-              created_at,
-              (initial_ok AND final_ok AND tone_ok) AS is_correct
-            FROM speak_attempts
-            WHERE user_id = ${userId}::uuid
-              AND word_id IN (${Prisma.join(candidateWordIds)})
-          ),
-          ranked_attempts AS (
-            SELECT
-              word_id,
-              is_correct,
-              created_at,
-              ROW_NUMBER() OVER (PARTITION BY word_id ORDER BY created_at DESC) AS rn
-            FROM combined_attempts
-          )
-          SELECT word_id
-          FROM ranked_attempts
-          GROUP BY word_id
-          HAVING COUNT(*) FILTER (WHERE rn <= 2) = 2
-            AND BOOL_AND(is_correct) FILTER (WHERE rn <= 2)
-        `;
-  const clearedByRecentCorrectSet = new Set(recentCorrectStreakClearRows.map((row) => row.word_id));
+  const missStatsByWordId = new Map<
+    string,
+    { quizMisses: number; speakMisses: number; lastWrongAt: Date | null }
+  >();
 
-  const needsWork = rows
-    .map((row) => {
+  for (const row of quizMissGroups) {
+    missStatsByWordId.set(row.wordId, {
+      quizMisses: row._count._all,
+      speakMisses: 0,
+      lastWrongAt: row._max.createdAt ?? null,
+    });
+  }
+  for (const row of speakMissGroups) {
+    const current = missStatsByWordId.get(row.wordId);
+    const currentLast = current?.lastWrongAt?.getTime() ?? 0;
+    const nextLast = row._max.createdAt?.getTime() ?? 0;
+    missStatsByWordId.set(row.wordId, {
+      quizMisses: current?.quizMisses ?? 0,
+      speakMisses: row._count._all,
+      lastWrongAt:
+        currentLast >= nextLast ? (current?.lastWrongAt ?? null) : (row._max.createdAt ?? null),
+    });
+  }
+
+  const candidateWordIds = Array.from(
+    new Set([...rows.map((row) => row.wordId), ...Array.from(missStatsByWordId.keys())])
+  );
+
+  const [quizAttempts, speakAttempts] = await Promise.all([
+    candidateWordIds.length
+      ? prisma.quizAttempt.findMany({
+          where: {
+            userId,
+            wordId: { in: candidateWordIds },
+          },
+          select: { wordId: true, createdAt: true, isCorrect: true },
+          orderBy: [{ wordId: 'asc' }, { createdAt: 'asc' }],
+        })
+      : Promise.resolve([]),
+    candidateWordIds.length
+      ? prisma.speakAttempt.findMany({
+          where: {
+            userId,
+            wordId: { in: candidateWordIds },
+          },
+          select: { wordId: true, createdAt: true, initialOk: true, finalOk: true, toneOk: true },
+          orderBy: [{ wordId: 'asc' }, { createdAt: 'asc' }],
+        })
+      : Promise.resolve([]),
+  ]);
+
+  const quizAttemptsByWordId = new Map<string, ChannelAttempt[]>();
+  for (const row of quizAttempts) {
+    const existing = quizAttemptsByWordId.get(row.wordId) ?? [];
+    existing.push({ createdAt: row.createdAt, correct: row.isCorrect });
+    quizAttemptsByWordId.set(row.wordId, existing);
+  }
+
+  const speakAttemptsByWordId = new Map<string, ChannelAttempt[]>();
+  for (const row of speakAttempts) {
+    const existing = speakAttemptsByWordId.get(row.wordId) ?? [];
+    existing.push({
+      createdAt: row.createdAt,
+      correct: row.initialOk && row.finalOk && row.toneOk,
+    });
+    speakAttemptsByWordId.set(row.wordId, existing);
+  }
+
+  const needsWork = candidateWordIds
+    .map((wordId) => {
+      const row = memoryByWordId.get(wordId);
+      if (!row) return null;
       const priority = buildReviewPriority({
         quizDueAt: row.quizDueAt,
         pronunciationRisk: row.pronunciationRisk,
         missedQuizCount: row.missedQuizCount,
         mispronounceCount: row.mispronounceCount,
       });
-      const totalMisses = row.missedQuizCount + row.mispronounceCount;
+      const missStats = missStatsByWordId.get(wordId);
+      const totalMisses =
+        (missStats?.quizMisses ?? row.missedQuizCount) +
+        (missStats?.speakMisses ?? row.mispronounceCount);
+
+      const quizEval = evaluateChannelNeedsWork(quizAttemptsByWordId.get(wordId) ?? []);
+      const speakEval = evaluateChannelNeedsWork(speakAttemptsByWordId.get(wordId) ?? []);
+      const stillNeedsPractice = quizEval.needsWork || speakEval.needsWork;
+      const channelPenalty = (quizEval.needsWork ? 1 : 0) + (speakEval.needsWork ? 1 : 0);
+      const reasons = [
+        ...priority.reasons,
+        ...(quizEval.needsWork ? ['quiz_needs_practice'] : []),
+        ...(speakEval.needsWork ? ['speak_needs_practice'] : []),
+      ];
+      const uniqueReasons = Array.from(new Set(reasons));
 
       return {
         wordId: row.wordId,
-        priorityScore: priority.score,
+        priorityScore: Number((priority.score + channelPenalty * 1.25).toFixed(3)),
         totalMisses,
         overdueDays: priority.overdueDays,
-        reasons: priority.reasons,
+        reasons: uniqueReasons,
         quizDueAt: row.quizDueAt,
         quizIntervalDays: row.quizIntervalDays,
         quizEase: row.quizEase,
@@ -251,9 +402,25 @@ export async function fetchNeedsWork(
         lastSeenAt: row.lastSeenAt,
         lastCorrectAt: row.lastCorrectAt,
         updatedAt: row.updatedAt,
+        stillNeedsPractice,
+        quizProgress: {
+          needsPractice: quizEval.needsWork,
+          correctAfterLastMiss: quizEval.correctAfterLastMiss,
+          spanDays: quizEval.spanDays,
+          maxIntervalDays: quizEval.maxIntervalDays,
+          intervalsIncreasing: quizEval.intervalsIncreasing,
+        },
+        speakProgress: {
+          needsPractice: speakEval.needsWork,
+          correctAfterLastMiss: speakEval.correctAfterLastMiss,
+          spanDays: speakEval.spanDays,
+          maxIntervalDays: speakEval.maxIntervalDays,
+          intervalsIncreasing: speakEval.intervalsIncreasing,
+        },
       };
     })
-    .filter((row) => !clearedByRecentCorrectSet.has(row.wordId))
+    .filter((row): row is NonNullable<typeof row> => row !== null)
+    .filter((row) => row.stillNeedsPractice)
     .filter((row) => row.totalMisses >= minTotalMisses)
     .sort((a, b) => b.priorityScore - a.priorityScore)
     .slice(0, limit);
