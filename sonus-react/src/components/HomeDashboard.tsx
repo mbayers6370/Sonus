@@ -537,7 +537,7 @@ export default function HomeDashboard({
       <div className="absolute inset-x-0 top-0 h-72 bg-gradient-to-br from-[#186E95]/18 via-[#3E5648]/10 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-white/45 via-white/15 to-transparent pointer-events-none" />
 
-      <GlassHeader title={`${languageLabel}`} />
+      <GlassHeader title={`${languageLabel}`} spacerClassName="mb-0" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
         <section

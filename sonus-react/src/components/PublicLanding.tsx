@@ -146,153 +146,141 @@ export default function PublicLanding() {
       </header>
 
       <main className="bg-white pt-16">
-        <section
-          className="relative flex min-h-[75svh] max-h-[85svh] items-center overflow-hidden border-b border-[#0F172A] px-4 py-14 sm:min-h-0 sm:max-h-none sm:px-8 sm:py-14"
-          style={{
-            backgroundImage:
-              "linear-gradient(180deg, rgba(31,42,55,0.985) 0%, rgba(31,42,55,0.965) 100%), url('/branding/Background.png')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        >
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute left-[4%] top-[12%] rotate-[-16deg] main-font text-[2.65rem] tracking-[0.1em] text-white/[0.045] sm:left-[9%] sm:top-[18%] sm:rotate-[-14deg] sm:text-[3.8rem] sm:tracking-[0.16em] sm:text-white/[0.03]">
-              こんにちは
-            </div>
-            <div className="absolute right-[2%] top-[18%] rotate-[14deg] main-font text-[2.1rem] tracking-[0.04em] text-white/[0.045] sm:right-[9%] sm:top-[20%] sm:rotate-[11deg] sm:text-[3.25rem] sm:tracking-[0.1em] sm:text-white/[0.03]">
-              안녕하세요
-            </div>
-            <div className="absolute left-[18%] top-[53%] hidden rotate-[-8deg] font-mono text-[1.15rem] uppercase tracking-[0.34em] text-white/[0.03] sm:block sm:text-[1.75rem]">
-              hola
-            </div>
-            <div className="absolute right-[18%] top-[56%] hidden rotate-[9deg] font-mono text-[1.08rem] uppercase tracking-[0.3em] text-white/[0.03] sm:block sm:text-[1.65rem]">
-              bonjour
-            </div>
-            <div className="absolute left-[8%] top-[74%] hidden rotate-[-6deg] font-mono text-[0.9rem] uppercase tracking-[0.4em] text-white/[0.03] sm:left-[11%] sm:block sm:text-[1.3rem]">
-              hello
-            </div>
-            <div className="absolute right-[8%] top-[74%] hidden rotate-[7deg] font-mono text-[1rem] tracking-[0.2em] text-white/[0.03] sm:right-[11%] sm:block sm:text-[1.45rem]">
-              你好
-            </div>
-            <div className="absolute right-[18%] top-[34%] hidden rotate-[10deg] font-mono text-[0.88rem] uppercase tracking-[0.18em] text-white/[0.03] sm:right-[20%] sm:block sm:text-[1.2rem]">
-              kumusta
-            </div>
-            <div className="absolute left-[6%] top-[62%] rotate-[-9deg] font-mono text-[1.35rem] uppercase tracking-[0.22em] text-white/[0.04] sm:hidden">
-              hola
-            </div>
-            <div className="absolute right-[6%] top-[58%] rotate-[11deg] font-mono text-[1.25rem] uppercase tracking-[0.18em] text-white/[0.04] sm:hidden">
-              bonjour
-            </div>
-            <div className="absolute left-[10%] top-[76%] rotate-[-8deg] font-mono text-[1.05rem] uppercase tracking-[0.25em] text-white/[0.04] sm:hidden">
-              hello
-            </div>
-            <div className="absolute right-[10%] top-[73%] rotate-[8deg] font-mono text-[1.15rem] tracking-[0.15em] text-white/[0.04] sm:hidden">
-              你好
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#1F2A37]/36" />
-          </div>
-          <div className="mx-auto flex w-full max-w-5xl min-h-[clamp(260px,48vh,480px)] flex-col items-center justify-center pb-0 pt-0 sm:min-h-[clamp(240px,40vh,420px)]">
-            <div className="w-full">
-              <h1 className="main-font mx-auto max-w-4xl text-center text-[2.5rem] leading-tight text-white sm:mt-4 sm:text-[2.5rem]">
-                Learn the language before you get there.
-              </h1>
-              <p
-                className="font-mono mx-auto mt-3 max-w-3xl text-center font-light leading-relaxed text-[#D6E2EE] sm:mt-4 sm:text-[1.4rem]"
-                style={{ fontSize: '1.7em' }}
-              >
-                Built on real <br className="sm:hidden" />
-                fluency&nbsp;systems.
-              </p>
-            </div>
-            <div className="mb-1 mt-6 flex flex-wrap items-center justify-center gap-2.5 sm:mt-7 sm:mb-0 sm:gap-3">
-              <button
-                type="button"
-                onClick={() => openAuth('demo')}
-                className="rounded-xl border border-[#4C5A6A] bg-[#3B4756] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#465466] sm:px-7 sm:text-base"
-              >
-                Demo
-              </button>
-              <button
-                type="button"
-                onClick={() => openAuth('signup')}
-                className="rounded-xl border border-[#4C5A6A] bg-[#3B4755] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#465466] sm:px-7 sm:text-base"
-              >
-                Sign Up
-              </button>
-            </div>
-          </div>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#1F2A37]/55 to-transparent sm:h-24"
-          />
-        </section>
+        <div className="relative" style={{ backgroundColor: '#1F2A37' }}>
+          <article className="relative w-full overflow-hidden border-y border-[#93A4B7] bg-[#1F2A37] px-5 py-8 shadow-[0_20px_40px_-32px_rgba(15,23,42,0.9)] sm:px-10 sm:py-10">
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+                  <div className="absolute left-[4%] top-[12%] rotate-[-16deg] main-font text-[2.65rem] tracking-[0.1em] text-white/[0.045] sm:left-[9%] sm:top-[18%] sm:rotate-[-14deg] sm:text-[3.8rem] sm:tracking-[0.16em] sm:text-white/[0.03]">
+                    こんにちは
+                  </div>
+                  <div className="absolute right-[2%] top-[18%] rotate-[14deg] main-font text-[2.1rem] tracking-[0.04em] text-white/[0.045] sm:right-[9%] sm:top-[20%] sm:rotate-[11deg] sm:text-[3.25rem] sm:tracking-[0.1em] sm:text-white/[0.03]">
+                    안녕하세요
+                  </div>
+                  <div className="absolute left-[18%] top-[53%] hidden rotate-[-8deg] font-mono text-[1.15rem] uppercase tracking-[0.34em] text-white/[0.03] sm:block sm:text-[1.75rem]">
+                    hola
+                  </div>
+                  <div className="absolute right-[18%] top-[56%] hidden rotate-[9deg] font-mono text-[1.08rem] uppercase tracking-[0.3em] text-white/[0.03] sm:block sm:text-[1.65rem]">
+                    bonjour
+                  </div>
+                  <div className="absolute left-[8%] top-[74%] hidden rotate-[-6deg] font-mono text-[0.9rem] uppercase tracking-[0.4em] text-white/[0.03] sm:left-[11%] sm:block sm:text-[1.3rem]">
+                    hello
+                  </div>
+                  <div className="absolute right-[8%] top-[74%] hidden rotate-[7deg] font-mono text-[1rem] tracking-[0.2em] text-white/[0.03] sm:right-[11%] sm:block sm:text-[1.45rem]">
+                    你好
+                  </div>
+                  <div className="absolute right-[18%] top-[34%] hidden rotate-[10deg] font-mono text-[0.88rem] uppercase tracking-[0.18em] text-white/[0.03] sm:right-[20%] sm:block sm:text-[1.2rem]">
+                    kumusta
+                  </div>
+                  <div className="absolute left-[6%] top-[62%] rotate-[-9deg] font-mono text-[1.35rem] uppercase tracking-[0.22em] text-white/[0.04] sm:hidden">
+                    hola
+                  </div>
+                  <div className="absolute right-[6%] top-[58%] rotate-[11deg] font-mono text-[1.25rem] uppercase tracking-[0.18em] text-white/[0.04] sm:hidden">
+                    bonjour
+                  </div>
+                  <div className="absolute left-[10%] top-[76%] rotate-[-8deg] font-mono text-[1.05rem] uppercase tracking-[0.25em] text-white/[0.04] sm:hidden">
+                    hello
+                  </div>
+                  <div className="absolute right-[10%] top-[73%] rotate-[8deg] font-mono text-[1.15rem] tracking-[0.15em] text-white/[0.04] sm:hidden">
+                    你好
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#1F2A37]/36" />
+                </div>
+                <div className="relative z-10 text-center">
+                  <h1 className="main-font mx-auto max-w-4xl text-[2.5rem] leading-tight text-white sm:mt-4 sm:text-[2.5rem]">
+                    Learn the language before you get there.
+                  </h1>
+                  <p
+                    className="font-mono mx-auto mt-3 max-w-3xl font-light leading-relaxed text-[#D6E2EE] sm:mt-4 sm:text-[1.4rem]"
+                    style={{ fontSize: '1.7em' }}
+                  >
+                    Built on real <br className="sm:hidden" />
+                    fluency&nbsp;systems.
+                  </p>
+                  <div className="mb-1 mt-6 flex flex-wrap items-center justify-center gap-2.5 sm:mt-7 sm:mb-0 sm:gap-3">
+                    <button
+                      type="button"
+                      onClick={() => openAuth('demo')}
+                      className="rounded-xl border border-[#4C5A6A] bg-[#3B4756] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#465466] sm:px-7 sm:text-base"
+                    >
+                      Try Demo
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => openAuth('signup')}
+                      className="rounded-xl border border-[#4C5A6A] bg-[#3B4755] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#465466] sm:px-7 sm:text-base"
+                    >
+                      Start Learning
+                    </button>
+                  </div>
+                </div>
+          </article>
 
-        <section
-          className="relative overflow-hidden px-4 py-8 sm:px-8 sm:py-10 lg:pt-8 lg:pb-4"
-          style={{ backgroundColor: 'rgba(31,42,55,0.94)' }}
-        >
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-0"
-            style={{
-              backgroundImage: "url('/branding/Transparent_Background.png')",
-              backgroundSize: '980px auto',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'repeat',
-              opacity: 0.18,
-            }}
-          />
-          <div className="relative z-10 mx-auto w-full max-w-6xl">
-            <h2 className="main-font mt-2 text-center text-2xl text-white sm:text-5xl">Explore the Platform</h2>
-            <div className="mx-auto mt-6 max-w-5xl">
-              <div className="md:hidden">
-                <MobileExploreStepper cards={demoCards} />
-              </div>
-              <div className="hidden md:grid md:grid-cols-3 md:gap-5">
-                {demoCards.map((card) => (
-                  <ExploreDemoCard key={card.title} card={card} />
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          className="relative overflow-hidden border-b border-[#1F2A37]/10 px-4 py-8 sm:px-8 sm:py-10 lg:pt-4 lg:pb-10"
-          style={{ backgroundColor: 'rgba(31,42,55,0.94)' }}
-        >
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-0"
-            style={{
-              backgroundImage: "url('/branding/Transparent_Background.png')",
-              backgroundSize: '980px auto',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'repeat',
-              opacity: 0.18,
-            }}
-          />
-          <div className="relative z-10 mx-auto w-full max-w-6xl">
-            <h2 className="main-font mt-2 text-center text-2xl text-white sm:text-5xl">Languages</h2>
-            <div className="mx-auto mt-6 grid max-w-5xl gap-3 sm:grid-cols-2 sm:gap-4">
-              <article className="rounded-2xl border border-[#4C5A6A] bg-[#1F2A37] p-4 sm:p-5">
-                <h3 className="main-font text-2xl leading-tight text-white sm:text-3xl">Mandarin</h3>
-                <p className="mt-1.5 text-sm font-light leading-relaxed text-[#E5EDF5] sm:text-xl">
-                  Curriculum and speech training in active development.
-                </p>
+          <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
+            <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 sm:gap-7">
+              <article className="rounded-3xl border border-[#C7D3E2] bg-[#F8FBFF] p-4 shadow-[0_20px_40px_-32px_rgba(15,23,42,0.55)] sm:p-6">
+                <h2 className="main-font mt-2 text-center text-2xl text-[#1F2A37] sm:text-5xl">Explore the Platform</h2>
+                <div className="mx-auto mt-6 max-w-5xl">
+                  <div className="md:hidden">
+                    <MobileExploreStepper cards={demoCards} />
+                  </div>
+                  <div className="hidden md:grid md:grid-cols-3 md:gap-5">
+                    {demoCards.map((card) => (
+                      <ExploreDemoCard key={card.title} card={card} />
+                    ))}
+                  </div>
+                </div>
               </article>
-              <article className="rounded-2xl border border-[#4C5A6A] bg-[#1F2A37] p-4 sm:p-5">
-                <h3 className="main-font text-2xl leading-tight text-white sm:text-3xl">Japanese</h3>
-                <p className="mt-1.5 text-sm font-light leading-relaxed text-[#E5EDF5] sm:text-xl">
-                  Foundational lessons currently available.
+
+              <article className="rounded-3xl border border-[#C7D3E2] bg-white p-4 shadow-[0_20px_40px_-32px_rgba(15,23,42,0.55)] sm:p-6">
+                <h2 className="main-font mt-2 text-center text-2xl text-[#1F2A37] sm:text-5xl">Languages</h2>
+                <p className="mx-auto mt-3 max-w-3xl text-center secondary-font text-sm leading-relaxed text-[#475569] sm:text-base">
+                  Structured paths with pronunciation, recall, and travel-ready practice.
+                </p>
+                <div className="mx-auto mt-6 grid max-w-5xl gap-4 sm:grid-cols-2 sm:gap-5">
+                  <article className="rounded-2xl border border-[#D7E7EE] bg-[#1F2A37] p-4 text-white shadow-[0_14px_24px_-20px_rgba(15,23,42,0.62)] sm:p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <h3 className="main-font text-2xl leading-tight text-white sm:text-3xl">Mandarin</h3>
+                        <p className="mt-1 secondary-font text-sm text-[#C9D8E7] sm:text-base">普通话 · 汉语</p>
+                      </div>
+                      <span className="rounded-full border border-[#186E95] bg-[#186E95] px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white">
+                        Active
+                      </span>
+                    </div>
+                    <p className="secondary-font mt-3 text-sm font-light leading-relaxed text-[#E3EDF6] sm:text-base">
+                      Curriculum and speech training in active development.
+                    </p>
+                    <div className="mt-3 rounded-xl border border-[#186E95] bg-[#145B7A] px-3 py-2">
+                      <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#D7E7EE]">Focus</p>
+                      <p className="mt-1 secondary-font text-sm text-white">HSK-aligned progression, speaking feedback, and practical dialog.</p>
+                    </div>
+                  </article>
+
+                  <article className="rounded-2xl border border-[#B4C7BE] bg-[#3E5648] p-4 text-white shadow-[0_14px_24px_-20px_rgba(31,42,55,0.55)] sm:p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <h3 className="main-font text-2xl leading-tight text-white sm:text-3xl">Japanese</h3>
+                        <p className="mt-1 secondary-font text-sm text-[#DCE7E1] sm:text-base">日本語</p>
+                      </div>
+                      <span className="rounded-full border border-[#3E5648] bg-[#3E5648] px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white">
+                        Available
+                      </span>
+                    </div>
+                    <p className="secondary-font mt-3 text-sm font-light leading-relaxed text-[#E8EFEA] sm:text-base">
+                      Foundational lessons currently available.
+                    </p>
+                    <div className="mt-3 rounded-xl border border-[#B4C7BE] bg-[#2F4439] px-3 py-2">
+                      <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#DCE7E1]">Focus</p>
+                      <p className="mt-1 secondary-font text-sm text-white">JLPT-style foundations with kana, core vocabulary, and speaking reps.</p>
+                    </div>
+                  </article>
+                </div>
+                <p className="mx-auto mt-5 max-w-4xl text-center font-mono text-sm font-light leading-relaxed text-[#475569] sm:mt-6 sm:text-sm">
+                  More languages will be introduced as the system expands.
                 </p>
               </article>
             </div>
-            <p className="mx-auto mt-5 font-light font-mono max-w-4xl text-center text-sm leading-relaxed text-[#D6E2EE] sm:mt-6 sm:text-sm">
-              More languages will be introduced as the system expands.
-            </p>
           </div>
-        </section>
+        </div>
 
         <PublicFooter />
       </main>
@@ -360,7 +348,7 @@ function ExploreCardPreview({ title }: { title: string }) {
 function ExploreDemoCard({ card }: { card: DemoCard }) {
   return (
     <article className="h-[306px] overflow-hidden rounded-2xl border border-[#94A3B8] bg-white shadow-[0_10px_24px_-20px_rgba(15,23,42,0.35)] sm:min-h-[290px] sm:h-auto">
-      <div className="h-[202px] border-b border-[#CBD5E1] bg-[#C7D3E2] p-3 sm:h-[198px]">
+      <div className="h-[202px] border-b border-[#CBD5E1] bg-[#1F2A37] p-3 sm:h-[198px]">
         <ExploreCardPreview title={card.title} />
       </div>
       <div className="h-[104px] p-2.5 sm:h-auto sm:p-4">
