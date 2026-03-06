@@ -361,6 +361,22 @@ export default function UnitSelect({
       hasLessonPassedThreshold(unitId, lessonIndex)
     );
   };
+  const hasAnyUnitProgress = (unitId: string) => {
+    const metric = unitMetricById.get(unitId);
+    if (!metric || metric.lessonsCount === 0) return false;
+    return Array.from({ length: metric.lessonsCount }).some((_, lessonIndex) => {
+      const key = makeLessonKey(currentLevel.id, unitId, lessonIndex);
+      const status = lessonProgress[key];
+      if (!status) return false;
+      return Boolean(
+        status.completed ||
+        status.mastered ||
+        status.introViewed ||
+        status.quizScore != null ||
+        status.speakScore != null
+      );
+    });
+  };
   const hasCheckpointPassedThreshold = (checkpointUnitId: string) =>
     hasLessonPassedThreshold(checkpointUnitId, 0);
   const sectionOrder = ['core', 'expansion', 'integration'];
@@ -430,7 +446,7 @@ export default function UnitSelect({
       unlocked = hasCheckpointPassedThreshold(gateCheckpointId);
     }
 
-    unlockedByUnitId.set(coreUnitIds[coreIndex], unlocked);
+    unlockedByUnitId.set(coreUnitIds[coreIndex], unlocked || hasAnyUnitProgress(coreUnitIds[coreIndex]));
   }
 
   for (const checkpointUnitId of checkpointUnitIds) {

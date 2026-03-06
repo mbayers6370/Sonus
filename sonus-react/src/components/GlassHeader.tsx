@@ -169,21 +169,23 @@ export default function GlassHeader({
                   </div>
                 ) : (
                   <>
-                    <button
-                      type="button"
-                      onClick={() => navigate('/home')}
-                      aria-label="Go to home"
-                      className={`self-center inline-flex items-center justify-center ${compactStandaloneTitle ? 'mb-0.5 md:mb-0' : ''}`}
-                    >
-                      <img
-                        src="/branding/logo_name_solo.png"
-                        alt="Sonus"
-                        className="h-[18px] max-h-[18px] md:h-6 md:max-h-none w-auto object-contain"
-                        onError={(e) => {
-                          (e.currentTarget as HTMLImageElement).style.display = 'none';
-                        }}
-                      />
-                    </button>
+                    {!compactStandaloneTitle ? (
+                      <button
+                        type="button"
+                        onClick={() => navigate('/home')}
+                        aria-label="Go to home"
+                        className="self-center inline-flex items-center justify-center"
+                      >
+                        <img
+                          src="/branding/logo_name_solo.png"
+                          alt="Sonus"
+                          className="h-[18px] max-h-[18px] md:h-6 md:max-h-none w-auto object-contain"
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      </button>
+                    ) : null}
                     <div className={`text-center ${compactStandaloneTitle ? 'mx-auto max-w-[calc(100%-4.5rem)] md:max-w-none' : ''}`}>
                       <h1
                         className={`main-font ${compactStandaloneTitle ? 'text-[1.4rem] md:text-4xl whitespace-nowrap overflow-hidden text-ellipsis' : 'text-[1.85rem] md:text-4xl'} font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}

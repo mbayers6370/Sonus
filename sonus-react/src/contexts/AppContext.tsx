@@ -997,6 +997,25 @@ export function AppProvider({ children }: { children: ReactNode }) {
         }
         return true;
       };
+      const hasAnyUnitProgress = (targetUnitId: string) => {
+        const lessons = unitLessonCount(targetUnitId);
+        if (lessons === 0) return false;
+        for (let lessonIdx = 0; lessonIdx < lessons; lessonIdx += 1) {
+          const key = makeLessonKey(bandId, targetUnitId, lessonIdx);
+          const status = state.lessonProgress[key];
+          if (!status) continue;
+          if (
+            status.completed ||
+            status.mastered ||
+            status.introViewed ||
+            status.quizScore != null ||
+            status.speakScore != null
+          ) {
+            return true;
+          }
+        }
+        return false;
+      };
       const hasUnitMastered = (targetUnitId: string) => {
         const lessons = unitLessonCount(targetUnitId);
         if (lessons === 0) return false;
@@ -1016,7 +1035,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         if (unlocked && coreIdx % 4 === 0) {
           unlocked = hasCheckpointPassedThreshold(`checkpoint-${coreIdx / 4}`);
         }
-        unlockedByUnitId.set(coreUnitIds[coreIdx], unlocked);
+        unlockedByUnitId.set(coreUnitIds[coreIdx], unlocked || hasAnyUnitProgress(coreUnitIds[coreIdx]));
       }
       for (const checkpointMeta of configuredUnits.filter((meta) => isCheckpointUnitId(meta.id))) {
         const idx = parseCheckpointIndex(checkpointMeta.id);
@@ -1041,6 +1060,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const sourceUnitId = getPracticeSourceUnitId(resolvedUnitId);
         if (sourceUnitId && coreUnitIds.includes(sourceUnitId)) {
           unlockedByUnitId.set(resolvedUnitId, hasUnitMastered(sourceUnitId));
+        } else {
+          // Global practice routes (e.g. n5-listening) stay available once the band has core units.
+          unlockedByUnitId.set(resolvedUnitId, coreUnitIds.length > 0);
         }
       }
       if (!(unlockedByUnitId.get(resolvedUnitId) ?? false)) {
