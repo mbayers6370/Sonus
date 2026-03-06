@@ -691,11 +691,11 @@ export default function HomeDashboard({
           <div className="mt-2 grid grid-cols-2 gap-2 w-full">
             <div className={glassStatPill}>
               <div className="text-sm font-semibold text-center leading-none text-white">70%</div>
-              <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-center font-mono text-white/80">Weak Words</div>
+              <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-center font-mono text-white/80">Learning</div>
             </div>
             <div className={glassStatPill}>
               <div className="text-sm font-semibold text-center leading-none text-white">30%</div>
-              <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-center font-mono text-white/80">Reinforce</div>
+              <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-center font-mono text-white/80">Reinforcing</div>
             </div>
           </div>
           {selectedLanguage === 'zh' || isJapaneseLanguage ? (

@@ -214,6 +214,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
   };
 
   const theme = section.themeColor;
+  const isCharcoalTheme = theme.toLowerCase() === '#1f2a37';
   const learned = learnedBySection[section.id] || {};
 
   useEffect(() => {
@@ -284,7 +285,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                   className="rounded-2xl px-4 py-4 sm:px-5 sm:py-5 mb-3.5"
                   style={{ backgroundColor: theme }}
                 >
-                  <div className="font-mono text-[0.95rem] sm:text-[1rem] uppercase tracking-[0.12em] mb-2 text-white/92">
+                  <div className="font-mono text-[0.95rem] sm:text-[1rem] uppercase tracking-[0.12em] mb-2 text-white">
                     Local Guide
                   </div>
                   <h2 className="text-[1.28rem] sm:text-[1.4rem] main-font text-white leading-snug text-pretty">
@@ -460,13 +461,17 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
 
                     <div className={`h-full flex flex-col ${isLearned ? 'opacity-55' : ''}`}>
                       <div className="flex-1 flex flex-col items-center justify-center gap-1.5 pt-5">
-                        <div className="secondary-font text-white leading-tight text-[1.2rem] lg:text-[1.2rem] xl:text-2xl">
+                      <div className="secondary-font text-white leading-tight text-[1.2rem] lg:text-[1.2rem] xl:text-2xl">
                           {getPhraseScriptText(phrase)}
                         </div>
-                        <div className="max-w-[90%] text-white/40 leading-snug text-[0.7rem] lg:text-[0.7rem] xl:text-sm">
+                        <div
+                          className={`max-w-[90%] leading-snug text-[0.7rem] lg:text-[0.7rem] xl:text-sm ${
+                            isCharcoalTheme ? 'text-white/78' : 'text-white/50'
+                          }`}
+                        >
                           {getPhrasePronunciationText(phrase)}
                         </div>
-                        <div className="max-w-[90%] text-white leading-snug text-[0.9rem] lg:text-[0.9rem] xl:text-sm">
+                        <div className={`max-w-[90%] leading-snug text-[0.9rem] lg:text-[0.9rem] xl:text-sm ${isCharcoalTheme ? 'text-white' : 'text-white/95'}`}>
                           {phrase.english}
                         </div>
                       </div>

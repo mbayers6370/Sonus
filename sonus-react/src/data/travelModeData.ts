@@ -95,7 +95,7 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
   s(
     'hotel',
     'Hotel & Accommodation',
-    '#C2410C',
+    '#3E5648',
     'Polite, calm',
     'Check-In & Problem Handling',
     'You are at reception and need to check in quickly with clear details.',
@@ -225,7 +225,7 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
   s(
     'digital',
     'Tech & Digital China',
-    '#C2410C',
+    '#1F2A37',
     'Modern',
     'QR Ecosystem Survival',
     'You need your phone to work for payment, transport, and check-ins.',
@@ -319,7 +319,7 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
   s(
     'hotel',
     'Hotel & Accommodation',
-    '#C2410C',
+    '#3E5648',
     'Polite, calm',
     'Check-In, Room Issues, & Front Desk Requests',
     'You are at reception and need efficient language for check-in and room support.',
@@ -482,7 +482,7 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
   s(
     'digital',
     'Tech & Digital Japan',
-    '#C2410C',
+    '#1F2A37',
     'Modern',
     'Phone Battery, QR, & App Access',
     'Your phone is central for transit, payments, and reservations across Japan.',
