@@ -109,6 +109,7 @@ export async function buildServer() {
       callback(null, allowedOrigins.has(origin));
     },
     credentials: true,
+    exposedHeaders: ['X-Request-Id', 'X-Auth-Refresh-Result', 'X-Auth-Refresh-Reason'],
   });
 
   app.addHook('onRequest', async (request, reply) => {
@@ -130,6 +131,7 @@ export async function buildServer() {
 
   app.addHook('onSend', async (request, reply, payload) => {
     // Set security headers consistently for every response.
+    reply.header('X-Request-Id', request.id);
     reply.header('X-Content-Type-Options', 'nosniff');
     reply.header('X-Frame-Options', 'DENY');
     reply.header('Referrer-Policy', 'strict-origin-when-cross-origin');

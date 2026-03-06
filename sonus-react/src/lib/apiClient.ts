@@ -15,6 +15,8 @@ type RefreshPayload = {
     email?: string | null;
   };
   accessToken?: string | null;
+  error?: string;
+  message?: string;
 };
 
 let refreshPromise: Promise<boolean> | null = null;
@@ -27,6 +29,7 @@ const USER_CACHE_CLEAR_PATH_PREFIXES = [
   '/v1/me/review-queue',
   '/v1/me/needs-work',
 ];
+const AUTH_DEBUG_STORAGE_KEY = 'sonus.debug.auth';
 
 type SwrPolicy = {
   freshMs: number;
@@ -43,6 +46,25 @@ type SwrCacheEntry = {
 };
 
 const swrResponseCache = new Map<string, SwrCacheEntry>();
+
+function isAuthDebugEnabled() {
+  const envFlag = String(import.meta.env.VITE_AUTH_DEBUG || '').toLowerCase();
+  if (envFlag === '1' || envFlag === 'true') return true;
+  try {
+    if (typeof window !== 'undefined' && window.localStorage.getItem(AUTH_DEBUG_STORAGE_KEY) === '1') {
+      return true;
+    }
+  } catch {
+    // Ignore localStorage failures.
+  }
+  return false;
+}
+
+function authDebugLog(level: 'info' | 'warn' | 'error', message: string, details?: Record<string, unknown>) {
+  if (!isAuthDebugEnabled() || typeof console === 'undefined') return;
+  const log = level === 'info' ? console.info : level === 'warn' ? console.warn : console.error;
+  log(`[sonus][auth] ${message}`, details || {});
+}
 
 function normalizePathname(path: string) {
   try {
@@ -160,13 +182,27 @@ async function readJson(response: Response): Promise<RefreshPayload> {
 async function refreshAccessToken() {
   if (refreshPromise) return refreshPromise;
   refreshPromise = (async () => {
+    authDebugLog('info', 'refresh request started', {
+      endpoint: `${API_BASE_URL}/v1/auth/refresh`,
+    });
     try {
       const response = await fetch(`${API_BASE_URL}/v1/auth/refresh`, {
         method: 'POST',
         credentials: 'include',
       });
       const payload = await readJson(response);
+      const refreshResultHeader = response.headers.get('x-auth-refresh-result');
+      const refreshReasonHeader = response.headers.get('x-auth-refresh-reason');
+      const requestIdHeader = response.headers.get('x-request-id');
       if (!response.ok || !payload.accessToken) {
+        authDebugLog('warn', 'refresh request failed', {
+          status: response.status,
+          reason: payload?.error || payload?.message || (!payload.accessToken ? 'missing_access_token' : 'unknown'),
+          refreshResultHeader,
+          refreshReasonHeader,
+          requestId: requestIdHeader,
+          hardSignOut: response.status === 401 || response.status === 403,
+        });
         // Only hard-sign-out on explicit auth invalidation.
         if (response.status === 401 || response.status === 403) {
           clearAuthSession();
@@ -174,10 +210,20 @@ async function refreshAccessToken() {
         }
         return false;
       }
+      authDebugLog('info', 'refresh request succeeded', {
+        status: response.status,
+        hasUser: Boolean(payload.user?.id || payload.user?.email),
+        refreshResultHeader,
+        refreshReasonHeader,
+        requestId: requestIdHeader,
+      });
       setAuthSession(payload.accessToken);
       setMockIdentity(payload.user?.id ?? null, payload.user?.email ?? null);
       return true;
-    } catch {
+    } catch (error) {
+      authDebugLog('warn', 'refresh request errored', {
+        error: error instanceof Error ? error.message : 'unknown_error',
+      });
       // Transient backend/network failures (e.g. Render cold start) should not force logout.
       return false;
     } finally {

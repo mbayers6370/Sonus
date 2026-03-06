@@ -55,6 +55,26 @@ type AuthApiResponse = {
   error?: string;
   message?: string;
 };
+const AUTH_DEBUG_STORAGE_KEY = 'sonus.debug.auth';
+
+function isAuthDebugEnabled() {
+  const envFlag = String(import.meta.env.VITE_AUTH_DEBUG || '').toLowerCase();
+  if (envFlag === '1' || envFlag === 'true') return true;
+  try {
+    if (typeof window !== 'undefined' && window.localStorage.getItem(AUTH_DEBUG_STORAGE_KEY) === '1') {
+      return true;
+    }
+  } catch {
+    // Ignore localStorage failures.
+  }
+  return false;
+}
+
+function authDebugLog(level: 'info' | 'warn' | 'error', message: string, details?: Record<string, unknown>) {
+  if (!isAuthDebugEnabled() || typeof console === 'undefined') return;
+  const log = level === 'info' ? console.info : level === 'warn' ? console.warn : console.error;
+  log(`[sonus][auth] ${message}`, details || {});
+}
 
 function resolveScopedAppStateKeyForIdentity(identity: { userId: string | null; email: string | null }) {
   const scope = (identity.userId || identity.email || 'anon')
@@ -93,19 +113,42 @@ async function readAuthResponse(response: Response): Promise<AuthApiResponse> {
 
 async function attemptRefreshAuthSession() {
   try {
+    authDebugLog('info', 'init refresh attempt started', {
+      endpoint: `${API_BASE_URL}/v1/auth/refresh`,
+    });
     const response = await fetch(`${API_BASE_URL}/v1/auth/refresh`, {
       method: 'POST',
       credentials: 'include',
     });
     const payload = await readAuthResponse(response);
+    const refreshResultHeader = response.headers.get('x-auth-refresh-result');
+    const refreshReasonHeader = response.headers.get('x-auth-refresh-reason');
+    const requestIdHeader = response.headers.get('x-request-id');
     if (!response.ok || !payload.accessToken) {
+      authDebugLog('warn', 'init refresh attempt failed', {
+        status: response.status,
+        reason: payload?.error || payload?.message || (!payload.accessToken ? 'missing_access_token' : 'unknown'),
+        refreshResultHeader,
+        refreshReasonHeader,
+        requestId: requestIdHeader,
+      });
       return { ok: false, email: null as string | null };
     }
 
+    authDebugLog('info', 'init refresh attempt succeeded', {
+      status: response.status,
+      hasUser: Boolean(payload.user?.id || payload.user?.email),
+      refreshResultHeader,
+      refreshReasonHeader,
+      requestId: requestIdHeader,
+    });
     setAuthSession(payload.accessToken);
     setMockIdentity(payload.user?.id ?? null, payload.user?.email ?? null);
     return { ok: true, email: payload.user?.email ?? null };
-  } catch {
+  } catch (error) {
+    authDebugLog('warn', 'init refresh attempt errored', {
+      error: error instanceof Error ? error.message : 'unknown_error',
+    });
     return { ok: false, email: null as string | null };
   }
 }

@@ -83,6 +83,18 @@ type CookieReply = {
   header: (name: string, value: string | string[]) => unknown;
   getHeader?: (name: string) => unknown;
 };
+type RefreshDebugResult = 'ok' | 'error';
+type RefreshDebugReason =
+  | 'invalid_payload'
+  | 'missing_refresh_cookie'
+  | 'local_no_session'
+  | 'local_reuse_detected'
+  | 'local_invalid_session_state'
+  | 'local_account_missing'
+  | 'local_rotated'
+  | 'supabase_refresh_failed'
+  | 'supabase_rotated'
+  | 'refresh_not_supported';
 
 function setRefreshCookie(reply: CookieReply, refreshToken: string, persistent: boolean) {
   // Store refresh token as an HttpOnly cookie; persistence is controlled by remember-me.
@@ -152,6 +164,21 @@ function appendSetCookie(reply: CookieReply, cookieValue: string) {
     return;
   }
   reply.header('Set-Cookie', [String(existing), cookieValue]);
+}
+
+function setRefreshDebugHeaders(
+  reply: CookieReply,
+  params: {
+    result: RefreshDebugResult;
+    reason: RefreshDebugReason;
+    requestId?: string;
+  }
+) {
+  reply.header('X-Auth-Refresh-Result', params.result);
+  reply.header('X-Auth-Refresh-Reason', params.reason);
+  if (params.requestId) {
+    reply.header('X-Request-Id', params.requestId);
+  }
 }
 
 function resolveResetUrlBase(request: { headers: Record<string, string | string[] | undefined> }) {
@@ -600,6 +627,11 @@ export async function authRoutes(app: FastifyInstance) {
 
     const parsed = refreshSchema.safeParse(request.body ?? {});
     if (!parsed.success) {
+      setRefreshDebugHeaders(reply, {
+        result: 'error',
+        reason: 'invalid_payload',
+        requestId: request.id,
+      });
       reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
       return;
     }
@@ -609,6 +641,11 @@ export async function authRoutes(app: FastifyInstance) {
     const rememberCookie = cookies.get(REMEMBER_COOKIE_NAME);
     const persistentSession = rememberCookie === '1';
     if (!refreshToken) {
+      setRefreshDebugHeaders(reply, {
+        result: 'error',
+        reason: 'missing_refresh_cookie',
+        requestId: request.id,
+      });
       reply.code(401).send({ error: 'Missing refresh token' });
       return;
     }
@@ -623,7 +660,10 @@ export async function authRoutes(app: FastifyInstance) {
           where: { tokenHash },
         });
         if (!existing) {
-          return { ok: false as const };
+          return {
+            ok: false as const,
+            reason: 'local_no_session' as const,
+          };
         }
 
         const state = evaluateRefreshRotationState(existing, now);
@@ -632,11 +672,17 @@ export async function authRoutes(app: FastifyInstance) {
             where: { familyId: existing.familyId, revokedAt: null },
             data: { revokedAt: now, revokedReason: 'reuse_detected' },
           });
-          return { ok: false as const };
+          return {
+            ok: false as const,
+            reason: 'local_reuse_detected' as const,
+          };
         }
 
         if (state !== 'rotate') {
-          return { ok: false as const };
+          return {
+            ok: false as const,
+            reason: 'local_invalid_session_state' as const,
+          };
         }
 
         const account = await tx.localAuthCredential.findUnique({
@@ -647,7 +693,10 @@ export async function authRoutes(app: FastifyInstance) {
             where: { id: existing.id },
             data: { revokedAt: now, revokedReason: 'account_missing' },
           });
-          return { ok: false as const };
+          return {
+            ok: false as const,
+            reason: 'local_account_missing' as const,
+          };
         }
 
         const nextToken = createRefreshToken();
@@ -674,6 +723,7 @@ export async function authRoutes(app: FastifyInstance) {
         });
         return {
           ok: true as const,
+          reason: 'local_rotated' as const,
           user: {
             id: existing.userId,
             email: account.email,
@@ -683,12 +733,22 @@ export async function authRoutes(app: FastifyInstance) {
       });
 
       if (!rotated.ok) {
+        setRefreshDebugHeaders(reply, {
+          result: 'error',
+          reason: rotated.reason,
+          requestId: request.id,
+        });
         clearRefreshCookie(reply);
         clearRememberCookie(reply);
         reply.code(401).send({ error: 'Unable to refresh session' });
         return;
       }
 
+      setRefreshDebugHeaders(reply, {
+        result: 'ok',
+        reason: rotated.reason,
+        requestId: request.id,
+      });
       setRefreshCookie(reply, rotated.refreshToken, persistentSession);
       setRememberCookie(reply, persistentSession);
       reply.send({
@@ -702,6 +762,11 @@ export async function authRoutes(app: FastifyInstance) {
     }
 
     if (env.AUTH_MODE !== 'supabase') {
+      setRefreshDebugHeaders(reply, {
+        result: 'error',
+        reason: 'refresh_not_supported',
+        requestId: request.id,
+      });
       reply
         .code(400)
         .send({ error: 'Refresh endpoint is only available in supabase/local auth mode.' });
@@ -714,10 +779,20 @@ export async function authRoutes(app: FastifyInstance) {
     });
 
     if (error || !data.session || !data.user) {
+      setRefreshDebugHeaders(reply, {
+        result: 'error',
+        reason: 'supabase_refresh_failed',
+        requestId: request.id,
+      });
       reply.code(401).send({ error: error?.message || 'Unable to refresh session' });
       return;
     }
 
+    setRefreshDebugHeaders(reply, {
+      result: 'ok',
+      reason: 'supabase_rotated',
+      requestId: request.id,
+    });
     setRefreshCookie(reply, data.session.refresh_token, persistentSession);
     setRememberCookie(reply, persistentSession);
     reply.send({

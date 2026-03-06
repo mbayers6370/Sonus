@@ -45,6 +45,11 @@ Refresh tokens are stored in an `HttpOnly` cookie set by the API.
 Subsequent authenticated requests should include:
 - `Authorization: Bearer <accessToken>`
 
+`POST /v1/auth/refresh` now includes diagnostic headers for safe troubleshooting:
+- `X-Auth-Refresh-Result`: `ok` or `error`
+- `X-Auth-Refresh-Reason`: stable reason code (for example `missing_refresh_cookie`, `local_rotated`, `supabase_refresh_failed`)
+- `X-Request-Id`: request correlation id for backend log tracing
+
 ## API Runtime Controls
 - Rate limiter mode is controlled by `RATE_LIMIT_MODE` (`memory`, `redis`, `edge`).
 - CORS policy is controlled by `CORS_ORIGINS`.
