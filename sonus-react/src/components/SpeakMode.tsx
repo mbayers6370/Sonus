@@ -884,6 +884,8 @@ export default function SpeakMode({
   const speakLanguageId = resolveSpeakLanguageForSession(state.selectedLanguage, state.activeBandId);
   const isJapaneseLesson = speakLanguageId === 'ja';
   const isMandarinLesson = speakLanguageId === 'zh';
+  const ttsTargetText = isJapaneseLesson ? (word.hiragana || word.reading || word.simp) : word.simp;
+  const ttsTargetReading = isJapaneseLesson ? (word.reading || word.pinyin) : word.pinyin;
 
   const targetHanzi = normalizeHanzi(word.simp);
   const targetJapaneseScript = normalizeJapaneseForCompare(word.simp || '');
@@ -1510,7 +1512,7 @@ export default function SpeakMode({
 
   const handlePlayTargetAudio = () => {
     if (isRecording || isStartingRecording) return;
-    speak(word.simp, word.pinyin, false, state.selectedLanguage || speakLanguageId);
+    speak(ttsTargetText, ttsTargetReading, false, state.selectedLanguage || speakLanguageId);
 
     // Safari/Web Speech can occasionally swallow the first call right after navigation.
     // If that happens, retry once shortly after the tap gesture.
@@ -1521,7 +1523,7 @@ export default function SpeakMode({
       listenRetryTimerRef.current = window.setTimeout(() => {
         const synth = window.speechSynthesis;
         if (!synth.speaking && !synth.pending) {
-          speak(word.simp, word.pinyin, false, state.selectedLanguage || speakLanguageId);
+          speak(ttsTargetText, ttsTargetReading, false, state.selectedLanguage || speakLanguageId);
         }
         listenRetryTimerRef.current = null;
       }, 120);

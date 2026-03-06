@@ -84,8 +84,8 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
         scrolledTitleClassName="text-white"
       />
 
-      <div className="relative z-10 min-h-[calc(100vh-10.75rem)] flex items-center lg:min-h-[calc(100svh-10.75rem)] lg:justify-center lg:overflow-hidden">
-        <section className="w-full rounded-3xl text-white px-3 py-4 sm:px-4 sm:py-5 mb-3 lg:mb-0 lg:px-0 lg:py-0 lg:max-h-full">
+      <div className="relative z-10 flex items-center min-h-[calc(100vh-10.75rem)] lg:min-h-0 lg:h-[calc(100svh-var(--sonus-bottom-nav-height,6.1rem)-8.25rem)] lg:justify-center lg:overflow-hidden">
+        <section className="w-full rounded-3xl text-white px-3 py-4 sm:px-4 sm:py-5 lg:px-0 lg:py-0 lg:max-h-full">
           <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr] lg:gap-4 items-center">
             <div className="text-center flex flex-col items-center justify-center min-h-[210px]">
             <div className="inline-flex items-center gap-2 text-[11px] tracking-wide font-mono text-white/85 mb-2">

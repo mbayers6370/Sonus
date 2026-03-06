@@ -37,6 +37,75 @@ const DEFAULT_JA_SECTIONS = [
 ] as const;
 const JA_SEQUENTIAL_UNIT_SIZE = 80;
 
+function toPinyinHomophoneKey(value: string): string {
+  return value.trim().toLowerCase().replace(/[\s-]+/g, '');
+}
+
+function augmentMandarinHomophoneGroups(bandData: BandData, languageId: string): BandData {
+  if (normalizeLanguageId(languageId) !== 'zh') return bandData;
+
+  const unitRows = Array.isArray(bandData.units)
+    ? bandData.units
+    : Object.values(bandData.units || {});
+
+  const membersByKey = new Map<string, Map<string, { id: string; simp?: string; en?: string }>>();
+
+  for (const unit of unitRows) {
+    const words = Array.isArray((unit as { words?: Word[] }).words)
+      ? ((unit as { words?: Word[] }).words as Word[])
+      : [];
+    for (const word of words) {
+      const pinyinRaw = typeof word.pinyin === 'string' ? word.pinyin : '';
+      const key = toPinyinHomophoneKey(pinyinRaw);
+      if (!key) continue;
+      const groupedMembers = membersByKey.get(key) || new Map<string, { id: string; simp?: string; en?: string }>();
+      if (!groupedMembers.has(word.id)) {
+        const member: { id: string; simp?: string; en?: string } = { id: word.id };
+        if (typeof word.simp === 'string' && word.simp.trim()) member.simp = word.simp;
+        if (typeof word.en === 'string' && word.en.trim()) member.en = word.en;
+        groupedMembers.set(word.id, member);
+      }
+      membersByKey.set(key, groupedMembers);
+    }
+  }
+
+  const homophoneGroups = new Map<
+    string,
+    {
+      key: string;
+      members: Array<{ id: string; simp?: string; en?: string }>;
+      count: number;
+    }
+  >();
+  for (const [key, groupedMembers] of membersByKey.entries()) {
+    if (groupedMembers.size < 2) continue;
+    const members = Array.from(groupedMembers.values());
+    homophoneGroups.set(key, {
+      key,
+      members,
+      count: members.length,
+    });
+  }
+
+  for (const unit of unitRows) {
+    const words = Array.isArray((unit as { words?: Word[] }).words)
+      ? ((unit as { words?: Word[] }).words as Word[])
+      : [];
+    for (const word of words) {
+      const pinyinRaw = typeof word.pinyin === 'string' ? word.pinyin : '';
+      const key = toPinyinHomophoneKey(pinyinRaw);
+      const group = key ? homophoneGroups.get(key) : undefined;
+      if (group) {
+        word.homophoneGroup = group;
+      } else if ('homophoneGroup' in word) {
+        delete word.homophoneGroup;
+      }
+    }
+  }
+
+  return bandData;
+}
+
 export function normalizeLanguageId(languageId: string | null | undefined): string {
   const normalized = (languageId || '').trim().toLowerCase();
   if (!normalized) return 'zh';
@@ -118,11 +187,13 @@ function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null 
 
   return {
     id: rawWord.id,
+    kanji: kanji || undefined,
+    hiragana: hiragana || undefined,
     simp: kanji || hiragana,
     trad: kanji || hiragana,
     pinyin: romaji,
-    reading: romaji,
-    pronunciation: romaji,
+    reading: hiragana || romaji,
+    pronunciation: hiragana || romaji,
     tags,
     pos: typeof rawWord.pos === 'string' ? rawWord.pos : '',
     en: typeof rawWord.en === 'string' ? rawWord.en : '',
@@ -413,7 +484,7 @@ export function normalizeBandDataPayload(
           };
         })
         .filter(Boolean);
-      return {
+      return augmentMandarinHomophoneGroups({
         language: (typeof raw.language === 'string' && raw.language) || languageId,
         source: typeof raw.source === 'string' ? raw.source : '',
         bandId:
@@ -440,7 +511,7 @@ export function normalizeBandDataPayload(
               ),
         unallocatedWords: typeof raw.unallocatedWords === 'number' ? raw.unallocatedWords : 0,
         units: units as BandData['units'],
-      };
+      }, normalizedLanguageId);
     }
 
     if (unitsRaw && typeof unitsRaw === 'object') {
@@ -458,7 +529,7 @@ export function normalizeBandDataPayload(
         (n, unit) => n + (unit.words?.length || 0),
         0
       );
-      return {
+      return augmentMandarinHomophoneGroups({
         language: (typeof raw.language === 'string' && raw.language) || languageId,
         source: typeof raw.source === 'string' ? raw.source : '',
         bandId:
@@ -473,7 +544,7 @@ export function normalizeBandDataPayload(
         availableWords: typeof raw.availableWords === 'number' ? raw.availableWords : count,
         unallocatedWords: typeof raw.unallocatedWords === 'number' ? raw.unallocatedWords : 0,
         units: normalizedUnits as BandData['units'],
-      };
+      }, normalizedLanguageId);
     }
   }
 
@@ -483,7 +554,7 @@ export function normalizeBandDataPayload(
     .filter((word): word is Word => Boolean(word));
   if (!words.length) return null;
   const coreUnitId = `${bandId}-core`;
-  return {
+  return augmentMandarinHomophoneGroups({
     language: (typeof raw.language === 'string' && raw.language) || languageId,
     source: typeof raw.source === 'string' ? raw.source : '',
     bandId:
@@ -506,5 +577,5 @@ export function normalizeBandDataPayload(
         words,
       },
     ],
-  };
+  }, normalizedLanguageId);
 }

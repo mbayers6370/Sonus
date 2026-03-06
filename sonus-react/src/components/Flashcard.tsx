@@ -26,6 +26,22 @@ export default function Flashcard({
   const meaningList = (word.defs && word.defs.length > 0 ? word.defs : [word.en]).slice(0, 3);
   const hasPoliteTag = [...(word.tags || []), ...(word.meta?.grammarTags || [])]
     .some((tag) => tag.trim().toLowerCase() === 'polite');
+  const homophoneCount = word.homophoneGroup?.count || 0;
+  const homophoneChars = homophoneCount > 1
+    ? Array.from(
+        new Set(
+          (word.homophoneGroup?.members || [])
+            .map((member) => (typeof member.simp === 'string' ? member.simp.trim() : ''))
+            .filter(Boolean)
+        )
+      )
+    : [];
+  const homophoneLabel = homophoneChars.length > 0
+    ? `Homophones: ${homophoneChars.join(' / ')}`
+    : '';
+  const isJapanese = (state.selectedLanguage || '').trim().toLowerCase() === 'ja';
+  const ttsText = isJapanese ? (word.hiragana || word.reading || word.simp) : word.simp;
+  const ttsReading = isJapanese ? (word.reading || word.pinyin) : word.pinyin;
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
@@ -56,6 +72,23 @@ export default function Flashcard({
               Polite
             </div>
           ) : null}
+          {homophoneCount > 1 ? (
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                setIsFlipped(true);
+              }}
+              className={`absolute top-3 right-3 rounded-full px-2.5 py-1 text-[11px] tracking-[0.02em] border ${
+                isFlipped
+                  ? 'bg-[#C56A3D]/18 text-[#FDE7D8] border-[#C56A3D]/45'
+                  : 'bg-[#C56A3D]/12 text-[#9A4520] border-[#C56A3D]/40 hover:bg-[#C56A3D]/18'
+              }`}
+              title={homophoneLabel}
+            >
+              {homophoneLabel}
+            </button>
+          ) : null}
           {!isFlipped ? (
             // Front side
             <div className={`text-center w-full h-full flex flex-col items-center justify-center ${hasPoliteTag ? 'pt-7' : ''}`}>
@@ -73,19 +106,24 @@ export default function Flashcard({
             </div>
           ) : (
             // Back side
-            <div className={`text-center w-full h-full flex items-center justify-center ${hasPoliteTag ? 'pt-7' : ''}`}>
-              <div className="mt-1 flex justify-center w-full">
+            <div className={`text-center w-full h-full flex flex-col ${hasPoliteTag ? 'pt-7' : ''}`}>
+              <div className="flex-1 flex items-center justify-center w-full">
                 <div className="w-full max-w-sm text-center space-y-3 max-h-full overflow-y-auto px-1">
-                {meaningList.map((def, idx) => (
-                  <div
-                    key={idx}
-                    className="text-[15px] sm:text-base md:text-[1.02rem] text-white leading-relaxed font-medium"
-                  >
-                    {def}
-                  </div>
-                ))}
+                  {meaningList.map((def, idx) => (
+                    <div
+                      key={idx}
+                      className="text-[15px] sm:text-base md:text-[1.02rem] text-white leading-relaxed font-medium"
+                    >
+                      {def}
+                    </div>
+                  ))}
                 </div>
               </div>
+              {homophoneCount > 1 ? (
+                <div className="pt-1 text-[10px] leading-relaxed text-[#C56A3D]">
+                  Pay close attention to the character form with homophones to identify the intended word correctly.
+                </div>
+              ) : null}
             </div>
           )}
         </div>
@@ -94,14 +132,14 @@ export default function Flashcard({
       {/* Audio Controls */}
       <div className="flex gap-3 justify-center px-5 pb-4 mb-[5.75rem] sm:mb-[6.25rem] md:mb-[6.75rem]">
         <button
-          onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
+          onClick={() => speak(ttsText, ttsReading, false, state.selectedLanguage)}
           className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-colors hover:bg-[#145B7A] active:bg-[#145B7A]"
         >
           <Volume2 className="w-5 h-5" />
           Listen
         </button>
         <button
-          onClick={() => speak(word.simp, word.pinyin, true, state.selectedLanguage)}
+          onClick={() => speak(ttsText, ttsReading, true, state.selectedLanguage)}
           className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-colors hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.08)]"
         >
           <Snail className="w-5 h-5" />

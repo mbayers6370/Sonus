@@ -415,7 +415,7 @@ export default function ProfileScreen({
             <div className="pointer-events-none absolute -right-14 -top-14 h-32 w-32 rounded-full bg-[rgba(24,110,149,0.13)] blur-2xl" />
             <div className="pointer-events-none absolute -left-10 -bottom-14 h-28 w-28 rounded-full bg-[rgba(62,86,72,0.12)] blur-2xl" />
 
-            <div className="relative flex h-full flex-col justify-between">
+            <div className="relative flex h-full flex-col">
               <div>
                 <div className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(24,110,149,0.28)] bg-[rgba(24,110,149,0.10)] px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.16em] text-[#186E95]">
                   <Languages className="h-3.5 w-3.5" />
@@ -427,7 +427,7 @@ export default function ProfileScreen({
                 </p>
               </div>
 
-              <div className="mt-4 rounded-2xl border border-[rgba(24,110,149,0.18)] bg-white/85 p-3">
+              <div className="mt-auto pt-3 rounded-2xl border border-[rgba(24,110,149,0.18)] bg-white/85 p-3">
                 <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-text-light">Current</div>
                 <div className="mt-1.5 inline-flex items-center rounded-full border border-[#186E95]/25 bg-[rgba(24,110,149,0.08)] px-3 py-1 text-xs font-semibold text-[#186E95]">
                   {activeLanguageName || 'Not set'}
@@ -442,10 +442,24 @@ export default function ProfileScreen({
                   </button>
                 </div>
               </div>
+
+              <div className="mt-3 rounded-xl border border-[rgba(24,110,149,0.14)] bg-[rgba(24,110,149,0.04)] px-3 py-2.5 text-[11px] leading-relaxed text-[#4D6075]">
+                Your lessons, streak, and progress stay tied to your account.
+              </div>
             </div>
           </SurfaceCard>
 
           <div className="space-y-2.5 lg:col-span-1 lg:h-full lg:flex lg:flex-col">
+            <SurfaceButtonCard
+              onClick={onOpenAbout}
+              className="w-full min-h-[150px] lg:flex-1 !bg-[#1F2A37] !border-transparent p-4 text-left !text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(31,42,55,0.45)] active:translate-y-0"
+            >
+              <div>
+                <div className="font-semibold text-white">About Sonus</div>
+                <div className="text-sm text-white/80">Why the system uses national proficiency frameworks</div>
+              </div>
+              <ChevronRight className="w-5 h-5 text-white/80" />
+            </SurfaceButtonCard>
             {!isDemo && (
               <SurfaceButtonCard
                 onClick={() => void deleteAccount()}
@@ -458,16 +472,6 @@ export default function ProfileScreen({
                 <div className="text-sm text-white/85">Permanently remove account and learning data.</div>
               </SurfaceButtonCard>
             )}
-            <SurfaceButtonCard
-              onClick={onOpenAbout}
-              className="w-full min-h-[150px] lg:flex-1 !bg-[#1F2A37] !border-transparent p-4 text-left !text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(31,42,55,0.45)] active:translate-y-0"
-            >
-              <div>
-                <div className="font-semibold text-white">About Sonus</div>
-                <div className="text-sm text-white/80">Why the system uses national proficiency frameworks</div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-white/80" />
-            </SurfaceButtonCard>
           </div>
         </div>
       </div>

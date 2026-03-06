@@ -10,7 +10,21 @@ export interface WordMetadata {
   dependencies?: string[]; // word ids that should be introduced first
 }
 
+export interface HomophoneGroupMember {
+  id: string;
+  simp?: string;
+  en?: string;
+}
+
+export interface HomophoneGroup {
+  key: string;
+  members: HomophoneGroupMember[];
+  count: number;
+}
+
 export interface Word extends SharedWord {
+  kanji?: string;
+  hiragana?: string;
   tags?: string[] | null;
   pinyinNum?: string; // canonical storage: syllables with tone numbers, e.g. "bei3 jing1"
   variants?: string[]; // alternative real-world forms, e.g. ["星期日"] for preferred "星期天"
@@ -27,6 +41,7 @@ export interface Word extends SharedWord {
   isReattempt?: boolean;
   reattemptOfWordId?: string;
   reattemptQueued?: boolean;
+  homophoneGroup?: HomophoneGroup;
   example?: {
     zh?: string;
     en?: string;

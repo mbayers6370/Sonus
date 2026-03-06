@@ -72,8 +72,8 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
             Privacy
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/terms" className="underline-offset-2hover:underline font-mono">
-            Terms
+            <Link to="/terms" className="underline-offset-2 hover:underline font-mono">
+              Terms
             </Link>
             <span aria-hidden="true">|</span>
             <Link to="/contact" className="underline-offset-2 hover:underline font-mono">

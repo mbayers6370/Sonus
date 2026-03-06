@@ -122,6 +122,9 @@ export default function Quiz({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [allChoices, setAllChoices] = useState<string[]>(() => buildChoices(word, allWords));
   const { speak } = useAudio();
+  const isJapanese = (state.selectedLanguage || '').trim().toLowerCase() === 'ja';
+  const ttsText = isJapanese ? (word.hiragana || word.reading || word.simp) : word.simp;
+  const ttsReading = isJapanese ? (word.reading || word.pinyin) : word.pinyin;
   const hasPoliteTag = [...(word.tags || []), ...(word.meta?.grammarTags || [])]
     .some((tag) => tag.trim().toLowerCase() === 'polite');
 
@@ -240,7 +243,7 @@ export default function Quiz({
                   {!selectedAnswer ? (
                     <div className="mt-2">
                       <button
-                        onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
+                        onClick={() => speak(ttsText, ttsReading, false, state.selectedLanguage)}
                         className="mx-auto w-12 h-12 rounded-full border border-white/35 bg-transparent text-white flex items-center justify-center hover:bg-white/10 transition-all"
                         aria-label="Play audio"
                       >
@@ -252,7 +255,7 @@ export default function Quiz({
               ) : (
                 <div className={hasPoliteTag ? 'mt-7' : 'mt-1'}>
                   <button
-                    onClick={() => speak(word.simp, word.pinyin, false, state.selectedLanguage)}
+                    onClick={() => speak(ttsText, ttsReading, false, state.selectedLanguage)}
                     className="mx-auto w-12 h-12 rounded-full bg-[#1F2A37] text-white flex items-center justify-center hover:bg-[#253242] transition-all"
                     aria-label="Play audio"
                   >
@@ -292,7 +295,7 @@ export default function Quiz({
               }
             } else {
               // Before answering
-              buttonClass += 'border-border hover:border-[#186E95] hover:bg-[rgba(24,110,149,0.08)] cursor-pointer';
+              buttonClass += 'border-border hover:border-[#7FA9C0] hover:bg-[#E6EDF3] hover:text-text-dark cursor-pointer';
             }
 
             return (

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import {
   ArrowRight,
+  BedDouble,
   Bolt,
-  BriefcaseConveyorBelt,
   Headphones,
   ListChecks,
   Mic,
+  Plane,
+  Stethoscope,
 } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { formatUnitNameForDisplay, getUnitMetadata, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
@@ -312,7 +314,7 @@ export default function HomeDashboard({
       : `${needsWorkCount} words ready for practice.`;
   const needsWorkMessage =
     needsWorkCount === 0
-      ? '0 words are in your practice queue. Great work. Keep reinforcing with unit practice, click Continue Learning above to begin!'
+      ? '0 words are in your practice queue!'
       : `${needsWorkLead} Listening & Speaking recommended.`;
   const formatBandLabel = (bandId: string | null) => {
     if (!bandId) return 'Level';
@@ -523,11 +525,9 @@ export default function HomeDashboard({
     'inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold border border-white/38 bg-white/12 text-white backdrop-blur-sm transition-all duration-200 hover:bg-black/30 hover:border-white/54';
   const glassBtnPrimary =
     'inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold border border-[#8FA3B8]/45 bg-[#3A4B5D] text-white transition-colors duration-200 hover:bg-[#465B70]';
-  const glassBtnLight =
-    'inline-flex items-center justify-center gap-2 rounded-2xl px-3 py-2.5 border border-[#186E95]/30 bg-white/56 text-[#186E95] backdrop-blur-sm transition-all hover:bg-[#D9ECF7]/72 hover:border-[#186E95]/42';
   const glassPillLight =
     'rounded-xl text-xs border border-[#186E95]/25 bg-white/58 text-[#186E95] backdrop-blur-sm transition-all hover:bg-[#D9ECF7]/78 hover:border-[#186E95]/42';
-  const glassBarShell = 'mt-2 h-2.5 w-full rounded-full overflow-hidden border border-white/28 bg-white/10 backdrop-blur-sm flex';
+  const glassBarShell = 'mt-2 h-2.5 w-full rounded-full overflow-hidden border border-white/34 bg-[rgba(255,255,255,0.14)] backdrop-blur-sm relative';
   const glassStatPill = 'rounded-xl border border-white/26 bg-white/12 backdrop-blur-sm px-2.5 py-2 text-left';
   const glassRowBtn =
     'w-full flex items-center justify-between px-3 py-3 rounded-2xl border border-[rgba(31,42,55,0.15)] bg-white/56 backdrop-blur-sm hover:bg-[#E8EEF4]/78 hover:border-[rgba(31,42,55,0.25)] transition-colors';
@@ -541,51 +541,74 @@ export default function HomeDashboard({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
         <section
-          className={`${cardShell} md:order-1 md:col-span-2 bg-[#1F2A37] text-white border-[#1F2A37]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(31,42,55,0.42)]`}
+          className={`${cardShell} md:order-1 md:col-span-2 bg-[#1F2A37] text-white border-[#1F2A37]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(31,42,55,0.42)] relative overflow-hidden`}
           style={{ animationDelay: '35ms' }}
         >
           <div className="pointer-events-none absolute inset-[8px] rounded-[1.2rem] border border-white/18" />
-          <div className="text-[11px] tracking-wide font-mono uppercase text-[#C9D7E7] mb-1">
-            Welcome{profileName ? `, ${profileName}` : ''}
-          </div>
-          <div className="main-font text-2xl leading-none mb-3 text-[#E8F1FF]">{resumeCardTitle}</div>
-          {hasSavedLessonPath ? (
-            <>
-              <div className="text-sm text-white font-medium mb-1">{formatBandLabel(resolvedResumeTarget?.bandId || null)}</div>
-              <div className="text-sm text-white/85 mb-3">
-                {isCheckpointUnitId(resolvedResumeTarget?.unitId || '')
-                  ? `${formatUnitLabel(resolvedResumeTarget?.unitId || null, resolvedResumeTarget?.bandId || null)} · Unit review quiz`
-                  : `${formatUnitLabel(resolvedResumeTarget?.unitId || null, resolvedResumeTarget?.bandId || null)} · Lesson ${lessonNumber}`}
-              </div>
-              {!isCheckpointUnitId(resolvedResumeTarget?.unitId || '') && unitCompletionPercent !== null && (
-                <div className="inline-flex items-center rounded-full px-3 py-1 border border-white/25 bg-white/10 text-[11px] font-mono uppercase tracking-wider text-white/90 mb-4 mx-auto">
-                  Unit {unitCompletionPercent}% complete
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="text-sm text-white/85 mb-4">
-              Choose a level to begin. After your first lesson, this card will switch to Continue Learning.
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="absolute left-[9%] top-[22%] rotate-[-12deg] font-mono text-[1.15rem] uppercase tracking-[0.22em] text-white/[0.05]">
+              hello
             </div>
-          )}
-          <div className="max-w-md mx-auto w-full">
+            <div className="absolute right-[10%] top-[18%] rotate-[8deg] font-mono text-[1.1rem] tracking-[0.2em] text-white/[0.05]">
+              你好
+            </div>
+            <div className="absolute left-[14%] top-[58%] rotate-[-8deg] font-mono text-[1.05rem] uppercase tracking-[0.2em] text-white/[0.045]">
+              bonjour
+            </div>
+            <div className="absolute right-[16%] top-[60%] rotate-[10deg] font-mono text-[1.08rem] tracking-[0.18em] text-white/[0.045]">
+              日本語
+            </div>
+            <div className="absolute left-[42%] top-[36%] rotate-[-6deg] font-mono text-[0.95rem] uppercase tracking-[0.22em] text-white/[0.04]">
+              hola
+            </div>
+            <div className="absolute right-[37%] top-[42%] rotate-[7deg] font-mono text-[0.9rem] uppercase tracking-[0.18em] text-white/[0.04]">
+              안녕하세요
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1F2A37]/22 to-[#1F2A37]/34" />
+          </div>
+          <div className="relative z-10">
+            <div className="text-[11px] tracking-wide font-mono uppercase text-white/50 mb-1.5">
+              Welcome{profileName ? `, ${profileName}` : ''}
+            </div>
+            <div className="main-font text-2xl leading-none mb-3.5 text-[#E8F1FF]">{resumeCardTitle}</div>
             {hasSavedLessonPath ? (
-              <button
-                onClick={openResumeCard}
-                className={`w-full ${glassBtnPrimary}`}
-              >
-                Continue Learning
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              <>
+                <div className="text-sm text-white/95 font-medium mb-1">{formatBandLabel(resolvedResumeTarget?.bandId || null)}</div>
+                <div className="text-sm text-white/82 mb-3.5">
+                  {isCheckpointUnitId(resolvedResumeTarget?.unitId || '')
+                    ? `Unit: ${formatUnitLabel(resolvedResumeTarget?.unitId || null, resolvedResumeTarget?.bandId || null)} · Unit review quiz`
+                    : `Unit: ${formatUnitLabel(resolvedResumeTarget?.unitId || null, resolvedResumeTarget?.bandId || null)} · Lesson ${lessonNumber}`}
+                </div>
+                {!isCheckpointUnitId(resolvedResumeTarget?.unitId || '') && unitCompletionPercent !== null && (
+                  <div className="inline-flex items-center rounded-full px-3 py-1 border border-white/25 bg-white/10 text-[11px] font-mono uppercase tracking-wider text-white/88 mb-4 mx-auto">
+                    Unit {unitCompletionPercent}% complete
+                  </div>
+                )}
+              </>
             ) : (
-              <button
-                onClick={openResumeCard}
-                className={`w-full ${glassBtnDark}`}
-              >
-                Levels
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              <div className="text-sm text-white/82 mb-4">
+                Choose a level to begin. After your first lesson, this card will switch to Continue Learning.
+              </div>
             )}
+            <div className="max-w-md mx-auto w-full">
+              {hasSavedLessonPath ? (
+                <button
+                  onClick={openResumeCard}
+                  className={`w-full ${glassBtnPrimary}`}
+                >
+                  Continue Learning
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              ) : (
+                <button
+                  onClick={openResumeCard}
+                  className={`w-full ${glassBtnDark}`}
+                >
+                  Levels
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              )}
+            </div>
           </div>
         </section>
 
@@ -599,24 +622,26 @@ export default function HomeDashboard({
               <span className="font-bold">Short on time?</span> Practice essential travel phrases before you go.
             </p>
             <div className="grid grid-cols-3 gap-2 mb-4 max-w-md mx-auto">
-              <button onClick={() => onOpenTravelMode('airport-arrival')} className={`px-2 py-2 ${glassPillLight}`}>
+              <button onClick={() => onOpenTravelMode('airport-arrival')} className={`inline-flex items-center justify-center gap-1.5 px-2 py-2 ${glassPillLight}`}>
+                <Plane className="w-3.5 h-3.5" />
                 Airport
               </button>
-              <button onClick={() => onOpenTravelMode('hotel')} className={`px-2 py-2 ${glassPillLight}`}>
+              <button onClick={() => onOpenTravelMode('hotel')} className={`inline-flex items-center justify-center gap-1.5 px-2 py-2 ${glassPillLight}`}>
+                <BedDouble className="w-3.5 h-3.5" />
                 Hotel
               </button>
-              <button onClick={() => onOpenTravelMode('emergency')} className={`px-2 py-2 ${glassPillLight}`}>
+              <button onClick={() => onOpenTravelMode('emergency')} className={`inline-flex items-center justify-center gap-1.5 px-2 py-2 ${glassPillLight}`}>
+                <Stethoscope className="w-3.5 h-3.5" />
                 Emergency
               </button>
             </div>
             <div className="max-w-md mx-auto">
               <button
                 onClick={() => onOpenTravelMode()}
-                className={`w-full ${glassBtnLight}`}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-2xl px-3 py-2.5 border border-[#186E95] bg-[#186E95] text-white transition-colors hover:bg-[#145B7A] hover:border-[#145B7A]"
               >
-                <BriefcaseConveyorBelt className="w-4 h-4 text-[#186E95]" />
                 Explore Travel Content
-                <ArrowRight className="w-4 h-4 text-[#186E95]" />
+                <ArrowRight className="w-4 h-4 text-white" />
               </button>
             </div>
             <p className="text-[11px] leading-relaxed text-text-light mt-4 max-w-md mx-auto">
@@ -626,55 +651,68 @@ export default function HomeDashboard({
         </section>
 
         <section
-          className={`${cardShell} md:order-2 md:h-full bg-[#186E95] text-white border-[#186E95]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(24,110,149,0.38)]`}
+          className={`${cardShell} md:order-2 md:h-full bg-[#186E95] text-white border-[#186E95]/90 min-h-[210px] text-center flex flex-col justify-between py-4 shadow-[0_20px_40px_-28px_rgba(24,110,149,0.38)]`}
           style={{ animationDelay: '85ms' }}
         >
           <div className="main-font text-2xl leading-none mb-2 text-[#D7F0E4]">Practice Focus</div>
-          <div className="w-full mb-3">
-            <div className="inline-flex items-center rounded-full px-3 py-1 bg-white/14 border border-white/30 text-[10px] uppercase tracking-[0.22em] font-mono text-white/90 backdrop-blur-sm animate-[pulse_6.2s_ease-in-out_infinite]">
-              Adaptive Mix
-            </div>
-            <div className={glassBarShell}>
-              <div className="h-full w-[70%] bg-gradient-to-r from-white/70 via-white/62 to-white/56" />
-              <div className="h-full w-[30%] bg-gradient-to-r from-white/38 via-white/30 to-white/24" />
-            </div>
-            <div className="mt-2 grid grid-cols-2 gap-2">
-              <div className={glassStatPill}>
-                <div className="text-sm font-semibold text-center leading-none text-white">70%</div>
-                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-center font-mono text-white/80">Weak Words</div>
-              </div>
-              <div className={glassStatPill}>
-                <div className="text-sm font-semibold text-center leading-none text-white">30%</div>
-                <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-center font-mono text-white/80">Reinforce</div>
-              </div>
-            </div>
-          </div>
-          <p className="text-sm leading-relaxed text-white/86 mb-4 max-w-md mx-auto">
+          <p className="text-sm leading-relaxed text-white/86 mt-3 mb-3 max-w-md mx-auto">
             {selectedLanguage === 'zh' || isJapaneseLanguage
               ? needsWorkMessage
               : `Practice labs are currently available for ${languageLabel}.`}
           </p>
+          <div className={glassBarShell}>
+            <div className="absolute inset-y-0 left-0 w-[70%]">
+              <div className="absolute inset-y-0 left-0 right-[6px] rounded-l-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.28)]" />
+              <div className="absolute inset-y-[1px] left-[2px] right-[10px] rounded-l-full bg-white/55" />
+              <div className="absolute right-[1px] top-0 h-full w-[10px] bg-white -skew-x-[24deg] origin-left shadow-[0_0_12px_rgba(255,255,255,0.62)]" />
+            </div>
+            <div className="absolute inset-y-0 left-0 right-1">
+              {[70.4, 71.2, 72.2, 73.5, 75.0, 76.8, 79.0, 81.6, 84.6, 88.0, 91.8, 95.6].map((leftPercent, idx) => (
+                <span
+                  // Trailing slanted markers keep full opacity and widen spacing toward the end.
+                  key={leftPercent}
+                  className="absolute top-1/2 h-[8px] w-[1.5px] -translate-y-1/2 bg-white rotate-[24deg] origin-center shadow-[0_0_6px_rgba(255,255,255,0.55)] animate-[pulse_2.8s_ease-in-out_infinite]"
+                  style={{
+                    left: `${leftPercent}%`,
+                    animationDelay: `${idx * 140}ms`,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="mt-2 grid grid-cols-2 gap-2 w-full">
+            <div className={glassStatPill}>
+              <div className="text-sm font-semibold text-center leading-none text-white">70%</div>
+              <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-center font-mono text-white/80">Weak Words</div>
+            </div>
+            <div className={glassStatPill}>
+              <div className="text-sm font-semibold text-center leading-none text-white">30%</div>
+              <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-center font-mono text-white/80">Reinforce</div>
+            </div>
+          </div>
           {selectedLanguage === 'zh' || isJapaneseLanguage ? (
-            <div className="flex items-center justify-center gap-3 max-w-md mx-auto">
+            <div className="flex items-center justify-center gap-3 max-w-md mx-auto mt-4">
               <button
                 onClick={() => onOpenPractice('listening', practiceBandId)}
-                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/14 border border-white/30 backdrop-blur-sm hover:bg-black/30 hover:border-white/52 transition-colors duration-200"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-white/70 bg-white text-[#186E95] px-3 py-1.5 text-sm font-semibold hover:bg-[#EAF4FA] transition-colors duration-200"
                 aria-label="Listening practice"
                 title="Listening practice"
               >
-                <Headphones className="w-5 h-5 text-white" />
+                <Headphones className="w-4 h-4 text-[#186E95]" />
+                Listening
               </button>
               <button
                 onClick={() => onOpenPractice('speaking', practiceBandId)}
-                className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/14 border border-white/30 backdrop-blur-sm hover:bg-black/30 hover:border-white/52 transition-colors duration-200"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-white/70 bg-white text-[#186E95] px-3 py-1.5 text-sm font-semibold hover:bg-[#EAF4FA] transition-colors duration-200"
                 aria-label="Speaking practice"
                 title="Speaking practice"
               >
-                <Mic className="w-5 h-5 text-white" />
+                <Mic className="w-4 h-4 text-[#186E95]" />
+                Speaking
               </button>
             </div>
           ) : (
-            <div className="max-w-md mx-auto">
+            <div className="max-w-md mx-auto mt-4">
               <button
                 onClick={onOpenLevels}
                 className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white/14 text-white border border-white/30 backdrop-blur-sm hover:bg-black/30 hover:border-white/52 transition-colors duration-200"

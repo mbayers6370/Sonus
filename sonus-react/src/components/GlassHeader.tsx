@@ -5,6 +5,15 @@ import { ChevronLeft } from 'lucide-react';
 import { toTitleCase } from '../lib/textCase';
 import { getKnownLanguageLabels } from '../lib/languageRuntime';
 
+const NATIVE_LANGUAGE_LABEL_BY_ENGLISH: Record<string, string> = {
+  mandarin: '普通话',
+  japanese: '日本語',
+  korean: '한국어',
+  french: 'Français',
+  italian: 'Italiano',
+  spanish: 'Español',
+};
+
 interface GlassHeaderProps {
   title: string;
   subtitle?: ReactNode;
@@ -95,6 +104,7 @@ export default function GlassHeader({
   const isLanguageHeader = knownLanguageLabels.some(
     (label) => label.toLowerCase() === displayTitle.toLowerCase()
   );
+  const nativeLanguageLabel = NATIVE_LANGUAGE_LABEL_BY_ENGLISH[displayTitle.toLowerCase()] || '';
   const centerDesktopLanguageBlock = showDesktopLogo && isLanguageHeader;
   const standaloneTitleWords = displayTitle.trim().split(/\s+/);
   const standaloneFirstWord = standaloneTitleWords[0] ?? displayTitle;
@@ -108,7 +118,7 @@ export default function GlassHeader({
       >
         {showStandaloneLogo ? (
           <div className="px-4 md:px-6">
-            <div className="h-[6.5rem] md:h-[6.5rem] flex flex-col justify-center gap-1.5">
+            <div className="h-[5rem] md:h-[6.1rem] flex flex-col justify-center gap-1">
             <button
               type="button"
               onClick={() => navigate('/home')}
@@ -148,7 +158,9 @@ export default function GlassHeader({
                       <span className="block md:inline md:ml-2">{standaloneRemainingWords}</span>
                     </>
                   ) : (
-                    displayTitle
+                    isLanguageHeader && nativeLanguageLabel
+                      ? `${displayTitle} | ${nativeLanguageLabel}`
+                      : displayTitle
                   )}
                 </h1>
                 {subtitle ? (
@@ -165,7 +177,7 @@ export default function GlassHeader({
           </div>
         ) : (
           <div className="px-4 md:px-6">
-            <div className="h-[5.75rem] md:h-[5.75rem] flex flex-col items-center justify-center relative">
+            <div className="h-[4.2rem] md:h-[5.15rem] flex flex-col items-center justify-center relative">
             {showBackButton ? (
               <button
                 type="button"
@@ -179,7 +191,7 @@ export default function GlassHeader({
                 <ChevronLeft className="w-5 h-5" />
               </button>
             ) : null}
-            {showMobileLogo ? (
+            {showMobileLogo && !isLanguageHeader ? (
               <button
                 type="button"
                 onClick={() => navigate('/home')}
@@ -189,7 +201,7 @@ export default function GlassHeader({
                 <img
                   src="/branding/logo_name_solo.png"
                   alt="Sonus"
-                  className="h-5 w-auto object-contain"
+                  className="h-[18px] max-h-[18px] w-auto object-contain"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = 'none';
                   }}
@@ -214,6 +226,33 @@ export default function GlassHeader({
               </button>
             ) : null}
             <div className="text-center">
+              {isLanguageHeader && nativeLanguageLabel ? (
+                <div className="md:hidden inline-flex items-center justify-center gap-1.5 whitespace-nowrap absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/home')}
+                    aria-label="Go to home"
+                    className="inline-flex items-center justify-center shrink-0"
+                  >
+                    <img
+                      src="/branding/logo_name_solo.png"
+                      alt="Sonus"
+                      className="h-[18px] max-h-[18px] w-auto object-contain"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  </button>
+                  <span className="text-text-light text-base leading-none">|</span>
+                  <span className={`main-font text-[1.12rem] font-medium leading-none ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}>
+                    {displayTitle}
+                  </span>
+                  <span className="text-text-light text-base leading-none">|</span>
+                  <span className={`secondary-font text-[0.94rem] leading-none ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}>
+                    {nativeLanguageLabel}
+                  </span>
+                </div>
+              ) : null}
               {centerDesktopLanguageBlock ? (
                 <div className="hidden md:flex items-center justify-center gap-3">
                   <button
@@ -233,16 +272,24 @@ export default function GlassHeader({
                   </button>
                   <span className="text-text-light text-xl leading-none">|</span>
                 <h1
-                  className={`main-font text-[1.0rem] lg:text-[1.7rem] font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
+                  className={`main-font text-[0.92rem] lg:text-[1.45rem] font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
                 >
-                  {displayTitle}
+                  <span className="text-[1.02rem] lg:text-[1.55rem] font-medium">{displayTitle}</span>
+                  {nativeLanguageLabel ? (
+                    <>
+                      <span className="mx-2 text-text-light">|</span>
+                      <span className="secondary-font text-[0.84rem] lg:text-[1.2rem]">{nativeLanguageLabel}</span>
+                    </>
+                  ) : null}
                 </h1>
                 </div>
               ) : null}
               <h1
-                className={`main-font text-[1.85rem] md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''} ${centerDesktopLanguageBlock ? 'md:hidden' : ''}`}
+                className={`main-font text-[1.85rem] md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''} ${centerDesktopLanguageBlock ? 'md:hidden' : ''} ${isLanguageHeader ? 'hidden' : ''}`}
               >
-                {displayTitle}
+                {isLanguageHeader && nativeLanguageLabel
+                  ? `${displayTitle} | ${nativeLanguageLabel}`
+                  : displayTitle}
               </h1>
               {subtitle ? (
                 <div className="sr-only" />
@@ -259,7 +306,7 @@ export default function GlassHeader({
       </div>
       <div
         className={`mb-6 ${spacerClassName}`}
-        style={{ height: headerHeightPx ?? (showStandaloneLogo ? 104 : 92) }}
+        style={{ height: headerHeightPx ?? (showStandaloneLogo ? 80 : 68) }}
       />
     </>
   );
