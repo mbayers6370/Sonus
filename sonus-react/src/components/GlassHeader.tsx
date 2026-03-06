@@ -26,6 +26,7 @@ interface GlassHeaderProps {
   scrollThreshold?: number;
   showLogo?: boolean;
   hideLogoOnMobile?: boolean;
+  compactMobile?: boolean;
 }
 
 export default function GlassHeader({
@@ -40,6 +41,7 @@ export default function GlassHeader({
   scrollThreshold = 8,
   showLogo = true,
   hideLogoOnMobile = false,
+  compactMobile = false,
 }: GlassHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
@@ -112,6 +114,7 @@ export default function GlassHeader({
   const standaloneTitleWords = displayTitle.trim().split(/\s+/);
   const standaloneFirstWord = standaloneTitleWords[0] ?? displayTitle;
   const standaloneRemainingWords = standaloneTitleWords.slice(1).join(' ');
+  const mobileHeightClass = compactMobile ? 'h-[3.4rem]' : 'h-[4.2rem]';
 
   return (
     <>
@@ -121,56 +124,84 @@ export default function GlassHeader({
       >
         {showStandaloneLogo ? (
           <div className="px-4 md:px-6">
-            <div className="h-[4.2rem] md:h-[5.15rem] flex flex-col justify-center gap-1">
-            <button
-              type="button"
-              onClick={() => navigate('/home')}
-              aria-label="Go to home"
-              className="self-center inline-flex items-center justify-center"
-            >
-              <img
-                src="/branding/logo_name_solo.png"
-                alt="Sonus"
-                className="h-[18px] max-h-[18px] md:h-6 md:max-h-none w-auto object-contain"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.display = 'none';
-                }}
-              />
-            </button>
-            <div className="relative flex items-center justify-center">
-              {showBackButton ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (window.history.length > 1) navigate(-1);
-                    else navigate('/home');
-                  }}
-                  aria-label="Go back"
-                  className="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 rounded-full border border-[rgba(31,42,55,0.22)] bg-white/72 text-text-dark inline-flex items-center justify-center"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-              ) : null}
-              <div className="text-center">
-                <h1
-                  className={`main-font text-[1.85rem] md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
-                >
-                  {showBackButton && standaloneRemainingWords ? (
-                    <>
-                      <span className="block md:inline">{standaloneFirstWord}</span>
-                      <span className="block md:inline md:ml-2">{standaloneRemainingWords}</span>
-                    </>
-                  ) : (
-                    isLanguageHeader && nativeLanguageLabel
-                      ? `${displayTitle} | ${nativeLanguageLabel}`
-                      : displayTitle
-                  )}
-                </h1>
-                {subtitle ? (
-                  <div className="sr-only" />
+            <div className={`${mobileHeightClass} md:h-[5.15rem] flex flex-col justify-center gap-1`}>
+              <div className="relative flex items-center justify-center">
+                {showBackButton ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (window.history.length > 1) navigate(-1);
+                      else navigate('/home');
+                    }}
+                    aria-label="Go back"
+                    className="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 rounded-full border border-[rgba(31,42,55,0.22)] bg-white/72 text-text-dark inline-flex items-center justify-center"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
                 ) : null}
+                {isLanguageHeader && nativeLanguageLabel ? (
+                  <div className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
+                    <button
+                      type="button"
+                      onClick={() => navigate('/home')}
+                      aria-label="Go to home"
+                      className="inline-flex items-center justify-center shrink-0"
+                    >
+                      <img
+                        src="/branding/logo_name_solo.png"
+                        alt="Sonus"
+                        className="h-[18px] max-h-[18px] md:h-6 md:max-h-none w-auto object-contain"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                    </button>
+                    <span className="text-text-light text-base leading-none">|</span>
+                    <span className={`main-font text-[1.12rem] md:text-[1.45rem] font-medium leading-none ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}>
+                      {displayTitle}
+                    </span>
+                    <span className="text-text-light text-base leading-none">|</span>
+                    <span className={`secondary-font text-[0.94rem] md:text-[1.2rem] leading-none ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}>
+                      {nativeLanguageLabel}
+                    </span>
+                  </div>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => navigate('/home')}
+                      aria-label="Go to home"
+                      className="self-center inline-flex items-center justify-center"
+                    >
+                      <img
+                        src="/branding/logo_name_solo.png"
+                        alt="Sonus"
+                        className="h-[18px] max-h-[18px] md:h-6 md:max-h-none w-auto object-contain"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                    </button>
+                    <div className="text-center">
+                      <h1
+                        className={`main-font text-[1.85rem] md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
+                      >
+                        {showBackButton && standaloneRemainingWords ? (
+                          <>
+                            <span className="block md:inline">{standaloneFirstWord}</span>
+                            <span className="block md:inline md:ml-2">{standaloneRemainingWords}</span>
+                          </>
+                        ) : (
+                          displayTitle
+                        )}
+                      </h1>
+                      {subtitle ? (
+                        <div className="sr-only" />
+                      ) : null}
+                    </div>
+                  </>
+                )}
               </div>
-            </div>
             </div>
             {subtitle ? (
               <div className={`pb-2 -mt-1 text-center ${subtitleClassName}`}>
@@ -180,7 +211,7 @@ export default function GlassHeader({
           </div>
         ) : (
           <div className="px-4 md:px-6">
-            <div className="h-[4.2rem] md:h-[5.15rem] flex flex-col items-center justify-center relative">
+            <div className={`${mobileHeightClass} md:h-[5.15rem] flex flex-col items-center justify-center relative`}>
             {showBackButton ? (
               <button
                 type="button"
