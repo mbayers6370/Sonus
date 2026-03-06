@@ -11,7 +11,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
     {
       language: 'Mandarin',
       system: 'HSK 3.0',
-      range: 'Levels 1-9',
+      range: 'Bands 1-9',
       accent: 'border-[#3E5648]/26 bg-[rgba(62,86,72,0.08)] text-[#3E5648]',
     },
     {
@@ -77,9 +77,9 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
       <GlassHeader title="About Sonus" />
 
       <div className="space-y-4">
-        <section className="dashboard-card-enter bg-white border border-border rounded-3xl overflow-hidden shadow-[0_22px_48px_-36px_rgba(31,42,55,0.35)]">
-          <div className="px-6 py-7 bg-gradient-to-r from-[#2F4338] via-[#3E5648] to-[#4A6154] text-white">
-            <div className="text-[11px] uppercase tracking-[0.18em] font-mono mb-2 text-white/75">Method</div>
+        <section className="dashboard-card-enter border border-[#1F2A37]/90 rounded-3xl overflow-hidden shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#1F2A37_0%,#2B3440_45%,#24303A_100%)] text-white">
+          <div className="px-6 py-7">
+            <div className="text-[11px] uppercase tracking-[0.18em] font-mono mb-2 text-white/70">Method</div>
             <h3 className="main-font text-4xl leading-tight">Built on Real Frameworks</h3>
             <p className="text-sm text-white/92 mt-2 max-w-2xl">
               Sonus follows the official proficiency systems used by each language so progress is structured, comparable, and practical.
@@ -137,18 +137,30 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
         </section>
 
         <section className="dashboard-card-enter border border-[#1F2A37]/90 rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#1F2A37_0%,#2B3440_45%,#24303A_100%)] text-white">
-          <div className="text-[11px] uppercase tracking-[0.16em] font-mono text-white/70 mb-2">Why I Started This</div>
-          <h4 className="main-font text-3xl leading-tight text-white">Learning tools should be accessible.</h4>
+          <div className="text-[11px] uppercase tracking-[0.16em] font-mono text-white/70 mb-2">Why I Built This</div>
+          <h4 className="main-font text-2xl leading-tight text-white">Creating a Language Learning Platform</h4>
           <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-white/88">
             <p>
-              I started Sonus because too many language apps are expensive, fragmented, or locked down before people even build momentum.
+              Most language apps use made-up curricula.
             </p>
             <p>
-              The goal was to build something serious but affordable: clear progression, structured practice, and useful repetition without forcing a heavy subscription just to keep learning.
+              I wanted something different: language learning built on official standards, the actual frameworks countries use to measure proficiency.
             </p>
             <p>
-              This is about lowering the barrier so more people can train consistently, even on a tight budget, and still get tools that actually help them improve.
-              If that sounds good to you, welcome to Sonus. I hope it helps you reach your goals and enjoy the process along the way.
+              For Mandarin, that is HSK 3.0 (China&apos;s government-backed certification system). For Japanese, it is JLPT. For Korean, TOPIK.
+              Real standards, implemented properly, with pronunciation feedback that actually tells you what you are doing wrong.
+            </p>
+            <p>
+              I also care about languages that get ignored. Iu Mien, Hmong, Hawaiian: languages with heritage speakers but no good learning tools.
+              I intend to build those too, using preservation frameworks that respect the language and the community.
+            </p>
+            <p>
+              I&apos;ve learned bits of seven languages throughout my life, and am not proficient in any of them. I know what works: structured progression, 
+              spaced repetition, and feedback specific enough to improve from. That is what I built here.
+            </p>
+            <p>
+              If you want to learn a language seriously, whether for fun, heritage connection, or real fluency, this is for you.
+              Welcome to Sonus.
             </p>
           </div>
         </section>
