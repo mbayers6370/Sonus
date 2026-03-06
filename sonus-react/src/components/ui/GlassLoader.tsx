@@ -16,6 +16,7 @@ const CHEEKY_LOADER_LINES = [
 ] as const;
 
 export default function GlassLoader({
+  message,
   className = '',
   compact = false,
 }: GlassLoaderProps) {
@@ -35,10 +36,11 @@ export default function GlassLoader({
     return Math.abs(hash) % CHEEKY_LOADER_LINES.length;
   }, [loaderId]);
 
-  const resolvedMessage = useMemo(
-    () => CHEEKY_LOADER_LINES[lineIdx] || CHEEKY_LOADER_LINES[0],
-    [lineIdx]
-  );
+  const resolvedMessage = useMemo(() => {
+    const explicit = (message || '').trim();
+    if (explicit) return explicit;
+    return CHEEKY_LOADER_LINES[lineIdx] || CHEEKY_LOADER_LINES[0];
+  }, [lineIdx, message]);
 
   return (
     <div className={`sonus-loader-wrap ${compact ? 'sonus-loader-wrap--compact' : ''} ${className}`}>

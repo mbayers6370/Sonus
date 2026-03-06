@@ -1,4 +1,4 @@
-import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import type { LessonBand, LessonMode } from '../types/lesson.types';
@@ -420,10 +420,26 @@ export default function AppRoutes() {
             : `b${resolvedBand.match(/^band(\d+)$/i)?.[1] ?? '1'}-${targetKind}`
         );
     const targetMode: LessonMode = targetKind === 'listening' ? 'quiz' : 'speak';
+    const startedRef = useRef(false);
 
     useEffect(() => {
+      if (startedRef.current) return;
+      startedRef.current = true;
+      let cancelled = false;
+      const startedAt = Date.now();
+      const MIN_LOADER_MS = 650;
+      const waitForMinimumLoader = async () => {
+        const elapsed = Date.now() - startedAt;
+        const remaining = MIN_LOADER_MS - elapsed;
+        if (remaining > 0) {
+          await new Promise<void>((resolve) => window.setTimeout(resolve, remaining));
+        }
+      };
+
       // Try requested band first, then fall back to Band 1 practice routes.
-      void openLessonPath(resolvedBand, targetUnitId, 0).then((opened) => {
+      void openLessonPath(resolvedBand, targetUnitId, 0).then(async (opened) => {
+        await waitForMinimumLoader();
+        if (cancelled) return;
         if (opened) {
           navigate(
             `/learn/${tierForBand(resolvedBand)}/${resolvedBand}/unit/${targetUnitId}/lesson/0/${targetMode}`,
@@ -432,7 +448,9 @@ export default function AppRoutes() {
           return;
         }
         if (isJapaneseBand) {
-          void openLessonPath('n5', `n5-${targetKind}`, 0).then((fallbackOpened) => {
+          void openLessonPath('n5', `n5-${targetKind}`, 0).then(async (fallbackOpened) => {
+            await waitForMinimumLoader();
+            if (cancelled) return;
             if (fallbackOpened) {
               navigate(`/learn/jlpt/n5/unit/n5-${targetKind}/lesson/0/${targetMode}`, {
                 replace: true,
@@ -443,7 +461,9 @@ export default function AppRoutes() {
           });
           return;
         }
-        void openLessonPath('band1', `b1-${targetKind}`, 0).then((fallbackOpened) => {
+        void openLessonPath('band1', `b1-${targetKind}`, 0).then(async (fallbackOpened) => {
+          await waitForMinimumLoader();
+          if (cancelled) return;
           if (fallbackOpened) {
             navigate(`/learn/beginner/band1/unit/b1-${targetKind}/lesson/0/${targetMode}`, {
               replace: true,
@@ -453,6 +473,10 @@ export default function AppRoutes() {
           navigate('/learn', { replace: true });
         });
       });
+
+      return () => {
+        cancelled = true;
+      };
     }, [isJapaneseBand, resolvedBand, targetKind, targetMode, targetUnitId]);
 
     return (
