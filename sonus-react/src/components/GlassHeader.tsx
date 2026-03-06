@@ -111,9 +111,6 @@ export default function GlassHeader({
   );
   const nativeLanguageLabel = NATIVE_LANGUAGE_LABEL_BY_ENGLISH[displayTitle.toLowerCase()] || '';
   const centerDesktopLanguageBlock = showDesktopLogo && isLanguageHeader;
-  const standaloneTitleWords = displayTitle.trim().split(/\s+/);
-  const standaloneFirstWord = standaloneTitleWords[0] ?? displayTitle;
-  const standaloneRemainingWords = standaloneTitleWords.slice(1).join(' ');
   const mobileHeightClass = compactMobile ? 'h-[3.4rem]' : 'h-[4.2rem]';
 
   return (
@@ -171,7 +168,7 @@ export default function GlassHeader({
                       type="button"
                       onClick={() => navigate('/home')}
                       aria-label="Go to home"
-                      className="self-center inline-flex items-center justify-center"
+                      className="self-center inline-flex items-center justify-center mb-0.5 md:mb-0"
                     >
                       <img
                         src="/branding/logo_name_solo.png"
@@ -182,18 +179,11 @@ export default function GlassHeader({
                         }}
                       />
                     </button>
-                    <div className="text-center">
+                    <div className="text-center mx-auto max-w-[calc(100%-4.5rem)] md:max-w-none">
                       <h1
-                        className={`main-font text-[1.85rem] md:text-4xl font-normal leading-tight transition-colors ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
+                        className={`main-font text-[1.4rem] md:text-4xl font-normal leading-tight transition-colors whitespace-nowrap overflow-hidden text-ellipsis ${titleClassName} ${isScrolled ? scrolledTitleClassName : ''}`}
                       >
-                        {showBackButton && standaloneRemainingWords ? (
-                          <>
-                            <span className="block md:inline">{standaloneFirstWord}</span>
-                            <span className="block md:inline md:ml-2">{standaloneRemainingWords}</span>
-                          </>
-                        ) : (
-                          displayTitle
-                        )}
+                        {displayTitle}
                       </h1>
                       {subtitle ? (
                         <div className="sr-only" />
