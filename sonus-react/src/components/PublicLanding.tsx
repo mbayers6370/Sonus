@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Plane, User, X } from 'lucide-react';
+import { Menu, Plane, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import AuthScreen from './AuthScreen';
 import PublicFooter from './public/PublicFooter';
 import SEOHead from './public/SEOHead';
+import { useAuth } from '../contexts/AuthContext';
 
 type AuthMode = 'signin' | 'signup';
 type ModalMode = AuthMode | 'demo';
@@ -12,10 +14,18 @@ type DemoCard = {
 };
 
 export default function PublicLanding() {
+  const navigate = useNavigate();
+  const { signIn } = useAuth();
   const [isDesktop, setIsDesktop] = useState(() =>
     typeof window !== 'undefined' ? window.matchMedia('(min-width: 1024px)').matches : true
   );
   const [modalMode, setModalMode] = useState<ModalMode | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileEmail, setMobileEmail] = useState('');
+  const [mobilePassword, setMobilePassword] = useState('');
+  const [mobileRememberMe, setMobileRememberMe] = useState(true);
+  const [mobileLoginError, setMobileLoginError] = useState<string | null>(null);
+  const [mobileLoginLoading, setMobileLoginLoading] = useState(false);
 
   useEffect(() => {
     // Keep desktop/mobile CTA behavior in sync with runtime viewport changes.
@@ -28,27 +38,33 @@ export default function PublicLanding() {
 
   useEffect(() => {
     // Support Esc-to-close for all modal modes.
-    if (!modalMode) return;
+    if (!modalMode && !mobileMenuOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setModalMode(null);
+        setMobileMenuOpen(false);
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [modalMode]);
+  }, [modalMode, mobileMenuOpen]);
 
   useEffect(() => {
     // Prevent background scroll while auth/demo modal is open.
     if (typeof document === 'undefined') return;
     const previous = document.body.style.overflow;
-    if (modalMode) document.body.style.overflow = 'hidden';
+    if (modalMode || mobileMenuOpen) document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = previous;
     };
-  }, [modalMode]);
+  }, [modalMode, mobileMenuOpen]);
 
-  const authCtaLabel = useMemo(() => 'Log In / Sign Up', []);
+  useEffect(() => {
+    if (!isDesktop) return;
+    setMobileMenuOpen(false);
+  }, [isDesktop]);
+
+  const authCtaLabel = useMemo(() => 'Login', []);
   const landingDescription = useMemo(
     () =>
       'Sonus is a language learning platform built on real fluency frameworks like HSK and JLPT. Practice vocabulary, speaking, and travel phrases through structured lessons.',
@@ -86,7 +102,36 @@ export default function PublicLanding() {
   const [heroLineVariantIdx, setHeroLineVariantIdx] = useState(0);
 
   const openAuth = (mode: ModalMode) => {
+    setMobileMenuOpen(false);
+    setMobileLoginError(null);
     setModalMode(mode);
+  };
+
+  const submitMobileLogin = async () => {
+    if (mobileLoginLoading) return;
+    setMobileLoginError(null);
+    const email = mobileEmail.trim();
+    const password = mobilePassword;
+    if (!email || !password) {
+      setMobileLoginError('Enter your email and password.');
+      return;
+    }
+
+    setMobileLoginLoading(true);
+    try {
+      await signIn(email, password, mobileRememberMe);
+      setMobileMenuOpen(false);
+      navigate('/', { replace: true });
+    } catch (error) {
+      const source = (error as Error).message || 'Unable to sign in.';
+      if (/too many/i.test(source)) {
+        setMobileLoginError(source);
+      } else {
+        setMobileLoginError('Invalid email or password.');
+      }
+    } finally {
+      setMobileLoginLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -131,15 +176,6 @@ export default function PublicLanding() {
   return (
     <div
       className="min-h-screen font-normal text-[#1F2A37]"
-      style={{
-        backgroundColor: '#1F2A37',
-        backgroundImage:
-          "linear-gradient(rgba(31,42,55,0.9), rgba(31,42,55,0.9)), url('/branding/Transparent_Background.png')",
-        backgroundSize: 'cover, cover',
-        backgroundPosition: 'center, center',
-        backgroundRepeat: 'no-repeat, no-repeat',
-        backgroundAttachment: 'fixed, fixed',
-      }}
     >
       <SEOHead
         title="Sonus | Language Learning Built on Real Fluency Frameworks"
@@ -148,69 +184,147 @@ export default function PublicLanding() {
         ogTitle="Sonus | Language Learning Built on Real Fluency Frameworks"
         ogUrl="https://sonuslearning.com/"
       />
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/45 bg-white/62 backdrop-blur-2xl shadow-[0_10px_26px_-22px_rgba(15,23,42,0.55)]">
-        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-8">
-            <img src="/branding/logo_name_solo.png" alt="Sonus" className="h-7 sm:h-8" />
-            {isDesktop ? (
-              <button
-                type="button"
-                onClick={() => openAuth('signin')}
-                className="text-sm text-[#1F2A37] underline-offset-4 transition-colors hover:underline hover:text-[#111827] sm:text-base"
-              >
-                {authCtaLabel}
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => openAuth('signin')}
-                aria-label="Log in"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#1F2A37] transition-colors hover:bg-[#1F2A37]/10 active:bg-[#1F2A37]/15"
-              >
-                <User className="h-5 w-5" />
-              </button>
-            )}
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/20 bg-[#1F2A37]/88 backdrop-blur-2xl shadow-[0_10px_26px_-22px_rgba(15,23,42,0.7)]">
+        <div className="mx-auto grid h-16 w-full max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-8">
+            <div className="justify-self-start" />
+            <img src="/branding/Sonus-White-Transparent.png" alt="Sonus" className="h-7 justify-self-center sm:h-8" />
+            <div className="justify-self-end">
+              {isDesktop ? (
+                <button
+                  type="button"
+                  onClick={() => openAuth('signin')}
+                  className="text-sm text-white underline-offset-4 transition-colors hover:underline hover:text-white/90 sm:text-base"
+                >
+                  {authCtaLabel}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen((open) => !open)}
+                  aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 active:bg-white/15"
+                >
+                  {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                </button>
+              )}
+            </div>
         </div>
+        {!isDesktop && mobileMenuOpen && (
+          <div className="border-t border-white/15 px-4 pb-4 pt-3 sm:px-8">
+            <div className="mx-auto w-full max-w-6xl">
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  void submitMobileLogin();
+                }}
+                className="rounded-xl border border-white/45 bg-white/8 p-2.5"
+              >
+                <div className="grid grid-cols-1 gap-1.5">
+                  <label className="sr-only" htmlFor="mobile-header-email">Email</label>
+                  <input
+                    id="mobile-header-email"
+                    type="email"
+                    value={mobileEmail}
+                    onChange={(event) => setMobileEmail(event.target.value)}
+                    autoComplete="email"
+                    placeholder="Email"
+                    className="h-9 rounded-lg border border-white/30 bg-[#1F2A37]/90 px-2.5 text-xs text-white placeholder:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                  />
+                  <label className="sr-only" htmlFor="mobile-header-password">Password</label>
+                  <input
+                    id="mobile-header-password"
+                    type="password"
+                    value={mobilePassword}
+                    onChange={(event) => setMobilePassword(event.target.value)}
+                    autoComplete="current-password"
+                    placeholder="Password"
+                    className="h-9 rounded-lg border border-white/30 bg-[#1F2A37]/90 px-2.5 text-xs text-white placeholder:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                  />
+                  <button
+                    type="submit"
+                    disabled={mobileLoginLoading}
+                    className="h-9 rounded-lg border border-white/45 bg-white/12 px-3 text-xs font-semibold text-white transition-colors hover:bg-white/18 disabled:opacity-60"
+                  >
+                    {mobileLoginLoading ? '...' : 'Login'}
+                  </button>
+                </div>
+                <div className="mt-2 flex items-center justify-between">
+                  <label className="inline-flex items-center gap-1.5 text-[11px] text-white/85">
+                    <input
+                      type="checkbox"
+                      checked={mobileRememberMe}
+                      onChange={(event) => setMobileRememberMe(event.target.checked)}
+                      className="h-3.5 w-3.5 rounded border-white/45 bg-transparent text-white focus:ring-white/40"
+                    />
+                    <span>Remember me</span>
+                  </label>
+                  {mobileLoginError && (
+                    <p className="text-[11px] text-[#FECACA]" role="status" aria-live="polite">
+                      {mobileLoginError}
+                    </p>
+                  )}
+                </div>
+              </form>
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => openAuth('demo')}
+                  className="rounded-xl border border-white/35 bg-transparent px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10"
+                >
+                  Demo
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openAuth('signup')}
+                  className="rounded-xl border border-white/35 bg-transparent px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10"
+                >
+                  Sign Up
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="pt-16">
-        <div aria-hidden="true" className="-mt-16 h-16 bg-[#145B7A]" />
+        <div aria-hidden="true" className="-mt-16 h-16 bg-[#1F2A37]" />
         <div className="relative">
-          <article className="relative w-full overflow-hidden bg-[#145B7A] px-5 py-8 shadow-[0_20px_40px_-32px_rgba(20,91,122,0.72)] sm:px-10 sm:py-10">
+          <article className="relative w-full overflow-hidden bg-[#1F2A37] px-5 py-8 shadow-[0_20px_40px_-32px_rgba(15,23,42,0.72)] sm:px-10 sm:py-10">
                 <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-                  <div className="absolute left-[4%] top-[12%] rotate-[-16deg] main-font text-[2.65rem] tracking-[0.1em] text-white/[0.045] sm:left-[9%] sm:top-[18%] sm:rotate-[-14deg] sm:text-[3.8rem] sm:tracking-[0.16em] sm:text-white/[0.03]">
+                  <div className="absolute left-[4%] top-[12%] rotate-[-16deg] main-font text-[2.65rem] tracking-[0.1em] text-[#C26A4A]/[0.08] sm:left-[9%] sm:top-[18%] sm:rotate-[-14deg] sm:text-[3.8rem] sm:tracking-[0.16em] sm:text-[#C26A4A]/[0.06]">
                     こんにちは
                   </div>
-                  <div className="absolute right-[2%] top-[18%] rotate-[14deg] main-font text-[2.1rem] tracking-[0.04em] text-white/[0.045] sm:right-[9%] sm:top-[20%] sm:rotate-[11deg] sm:text-[3.25rem] sm:tracking-[0.1em] sm:text-white/[0.03]">
+                  <div className="absolute right-[2%] top-[18%] rotate-[14deg] main-font text-[2.1rem] tracking-[0.04em] text-[#C26A4A]/[0.08] sm:right-[9%] sm:top-[20%] sm:rotate-[11deg] sm:text-[3.25rem] sm:tracking-[0.1em] sm:text-[#C26A4A]/[0.06]">
                     안녕하세요
                   </div>
-                  <div className="absolute left-[18%] top-[53%] hidden rotate-[-8deg] font-mono text-[1.15rem] uppercase tracking-[0.34em] text-white/[0.03] sm:block sm:text-[1.75rem]">
+                  <div className="absolute left-[18%] top-[53%] hidden rotate-[-8deg] font-mono text-[1.15rem] uppercase tracking-[0.34em] text-[#C26A4A]/[0.055] sm:block sm:text-[1.75rem]">
                     hola
                   </div>
-                  <div className="absolute right-[18%] top-[56%] hidden rotate-[9deg] font-mono text-[1.08rem] uppercase tracking-[0.3em] text-white/[0.03] sm:block sm:text-[1.65rem]">
+                  <div className="absolute right-[18%] top-[56%] hidden rotate-[9deg] font-mono text-[1.08rem] uppercase tracking-[0.3em] text-[#C26A4A]/[0.055] sm:block sm:text-[1.65rem]">
                     bonjour
                   </div>
-                  <div className="absolute left-[8%] top-[74%] hidden rotate-[-6deg] font-mono text-[0.9rem] uppercase tracking-[0.4em] text-white/[0.03] sm:left-[11%] sm:block sm:text-[1.3rem]">
+                  <div className="absolute left-[8%] top-[74%] hidden rotate-[-6deg] font-mono text-[0.9rem] uppercase tracking-[0.4em] text-[#C26A4A]/[0.055] sm:left-[11%] sm:block sm:text-[1.3rem]">
                     hello
                   </div>
-                  <div className="absolute right-[8%] top-[74%] hidden rotate-[7deg] font-mono text-[1rem] tracking-[0.2em] text-white/[0.03] sm:right-[11%] sm:block sm:text-[1.45rem]">
+                  <div className="absolute right-[8%] top-[74%] hidden rotate-[7deg] font-mono text-[1rem] tracking-[0.2em] text-[#C26A4A]/[0.055] sm:right-[11%] sm:block sm:text-[1.45rem]">
                     你好
                   </div>
-                  <div className="absolute right-[18%] top-[34%] hidden rotate-[10deg] font-mono text-[0.88rem] uppercase tracking-[0.18em] text-white/[0.03] sm:right-[20%] sm:block sm:text-[1.2rem]">
+                  <div className="absolute right-[18%] top-[34%] hidden rotate-[10deg] font-mono text-[0.88rem] uppercase tracking-[0.18em] text-[#C26A4A]/[0.055] sm:right-[20%] sm:block sm:text-[1.2rem]">
                     kumusta
                   </div>
-                  <div className="absolute left-[6%] top-[62%] rotate-[-9deg] font-mono text-[1.35rem] uppercase tracking-[0.22em] text-white/[0.04] sm:hidden">
+                  <div className="absolute left-[6%] top-[62%] rotate-[-9deg] font-mono text-[1.35rem] uppercase tracking-[0.22em] text-[#C26A4A]/[0.08] sm:hidden">
                     hola
                   </div>
-                  <div className="absolute right-[6%] top-[58%] rotate-[11deg] font-mono text-[1.25rem] uppercase tracking-[0.18em] text-white/[0.04] sm:hidden">
+                  <div className="absolute right-[6%] top-[58%] rotate-[11deg] font-mono text-[1.25rem] uppercase tracking-[0.18em] text-[#C26A4A]/[0.08] sm:hidden">
                     bonjour
                   </div>
-                  <div className="absolute left-[10%] top-[76%] rotate-[-8deg] font-mono text-[1.05rem] uppercase tracking-[0.25em] text-white/[0.04] sm:hidden">
+                  <div className="absolute left-[10%] top-[76%] rotate-[-8deg] font-mono text-[1.05rem] uppercase tracking-[0.25em] text-[#C26A4A]/[0.08] sm:hidden">
                     hello
                   </div>
-                  <div className="absolute right-[10%] top-[73%] rotate-[8deg] font-mono text-[1.15rem] tracking-[0.15em] text-white/[0.04] sm:hidden">
+                  <div className="absolute right-[10%] top-[73%] rotate-[8deg] font-mono text-[1.15rem] tracking-[0.15em] text-[#C26A4A]/[0.08] sm:hidden">
                     你好
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#104A64]/34" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#111827]/36" />
                 </div>
                 <div className="relative z-10 text-center">
                   <h1 className="main-font mx-auto max-w-6xl text-[2.95rem] leading-tight text-white sm:mt-4 sm:text-[3.15rem]">
@@ -232,14 +346,14 @@ export default function PublicLanding() {
                     <button
                       type="button"
                       onClick={() => openAuth('demo')}
-                      className="rounded-xl border border-white bg-[#145B7A] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#104A64] sm:px-7 sm:text-base"
+                      className="rounded-xl border border-white bg-[#1F2A37] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#111827] sm:px-7 sm:text-base"
                     >
                       Try Demo
                     </button>
                     <button
                       type="button"
                       onClick={() => openAuth('signup')}
-                      className="rounded-xl border border-white bg-[#145B7A] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#104A64] sm:px-7 sm:text-base"
+                      className="rounded-xl border border-white bg-[#1F2A37] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#111827] sm:px-7 sm:text-base"
                     >
                       Start Learning
                     </button>
@@ -249,7 +363,7 @@ export default function PublicLanding() {
 
           <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-8 sm:py-10">
             <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 sm:gap-7">
-              <article className="rounded-3xl bg-[#F8FBFF] p-4 shadow-[0_20px_40px_-32px_rgba(15,23,42,0.55)] sm:p-6">
+              <article className="rounded-3xl border border-border bg-white p-4 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] sm:p-6">
                 <h2 className="main-font mt-2 text-center text-2xl text-[#1F2A37] sm:text-5xl">Explore the Platform</h2>
                 <div className="mx-auto mt-6 max-w-5xl">
                   <div className="md:hidden">
@@ -263,7 +377,7 @@ export default function PublicLanding() {
                 </div>
               </article>
 
-              <article className="rounded-3xl bg-white p-4 shadow-[0_20px_40px_-32px_rgba(15,23,42,0.55)] sm:p-6">
+              <article className="rounded-3xl border border-border bg-white p-4 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] sm:p-6">
                 <h2 className="main-font mt-2 text-center text-2xl text-[#1F2A37] sm:text-5xl">Languages</h2>
                 <p className="mx-auto mt-3 max-w-3xl text-center secondary-font text-sm leading-relaxed text-[#475569] sm:text-base">
                   Structured paths with pronunciation, recall, and travel-ready practice.
@@ -380,7 +494,7 @@ function ExploreCardPreview({ title }: { title: string }) {
 
 function ExploreDemoCard({ card }: { card: DemoCard }) {
   return (
-    <article className="h-[306px] overflow-hidden rounded-2xl bg-white shadow-[0_10px_24px_-20px_rgba(15,23,42,0.35)] sm:min-h-[290px] sm:h-auto">
+    <article className="h-[306px] overflow-hidden rounded-2xl border border-border bg-white shadow-[0_10px_24px_-20px_rgba(15,23,42,0.35)] sm:min-h-[290px] sm:h-auto">
       <div className="h-[202px] bg-[#1F2A37] p-3 sm:h-[198px]">
         <ExploreCardPreview title={card.title} />
       </div>

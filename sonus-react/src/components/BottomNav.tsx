@@ -1,5 +1,6 @@
-import { BookOpen, House, LogOut, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Book, BookOpen, FolderKanban, House, Layers3, ListChecks, LogOut, User } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface BottomNavProps {
@@ -11,7 +12,34 @@ interface BottomNavProps {
 
 export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' }: BottomNavProps) {
   const { signOut, isDemo } = useAuth();
+  const location = useLocation();
+  const [mobileLearnMenuOpen, setMobileLearnMenuOpen] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 1023px)').matches : false
+  );
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const media = window.matchMedia('(max-width: 1023px)');
+    const onChange = (event: MediaQueryListEvent) => setIsMobileViewport(event.matches);
+    media.addEventListener('change', onChange);
+    return () => media.removeEventListener('change', onChange);
+  }, []);
+
+  useEffect(() => {
+    setMobileLearnMenuOpen(false);
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
+    if (isMobileViewport) return;
+    setMobileLearnMenuOpen(false);
+  }, [isMobileViewport]);
+
   const handleLearn = () => {
+    if (isMobileViewport) {
+      setMobileLearnMenuOpen((open) => !open);
+      return;
+    }
     if (onLearn) {
       onLearn();
       return;
@@ -19,21 +47,115 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
     window.dispatchEvent(new CustomEvent('sonus:learn'));
   };
 
+  const runLearnAction = (target: 'main' | 'levels' | 'units' | 'lessons') => {
+    setMobileLearnMenuOpen(false);
+    if (target === 'main') {
+      window.dispatchEvent(new CustomEvent('sonus:learn:main'));
+      return;
+    }
+    if (target === 'levels') {
+      window.dispatchEvent(new CustomEvent('sonus:learn:levels'));
+      return;
+    }
+    if (target === 'units') {
+      window.dispatchEvent(new CustomEvent('sonus:learn:units'));
+      return;
+    }
+    window.dispatchEvent(new CustomEvent('sonus:learn:lessons'));
+  };
+
+  const learnActive = active === 'learn' || mobileLearnMenuOpen;
+  const onLearnRoute = location.pathname.startsWith('/learn');
+  const onUnitRoute = /^\/learn\/[^/]+\/[^/]+$/i.test(location.pathname);
+  const onLessonRoute = /^\/learn\/[^/]+\/[^/]+\/unit\/[^/]+\/lesson\/\d+\/[^/]+$/i.test(location.pathname);
+  const hasUnitQuery = new URLSearchParams(location.search).has('unit');
+  const hasTierQuery = new URLSearchParams(location.search).has('tier');
+  const quickActive = {
+    main: onLearnRoute && !onUnitRoute && !onLessonRoute && !hasTierQuery,
+    levels: onLearnRoute && !onUnitRoute && !onLessonRoute && hasTierQuery,
+    units: onUnitRoute && !hasUnitQuery,
+    lessons: onLessonRoute || (onUnitRoute && hasUnitQuery),
+  } as const;
+  const quickButtonClass = (isCurrent: boolean) =>
+    `flex flex-col items-center justify-center gap-1 rounded-xl border px-3 py-3 text-text-dark transition-colors ${
+      isCurrent
+        ? 'border-[#C2410C]/45 bg-[rgba(194,65,12,0.10)] text-[#C2410C] shadow-[inset_0_0_0_1px_rgba(194,65,12,0.22)]'
+        : 'border-[#E2E8F0] bg-white hover:bg-[#F8F8F6]'
+    }`;
+  const bottomNavHeight = 'calc(var(--sonus-bottom-nav-height, 6.1rem) + env(safe-area-inset-bottom, 0px))';
+
   return (
-    <div
-      className="fixed bottom-0 left-0 right-0 bg-bg-warm/95 backdrop-blur-xl border-t border-border z-50"
-      style={{
-        position: 'fixed',
-        left: 0,
-        right: 0,
-        bottom: 0,
-        width: '100vw',
-        height: 'calc(var(--sonus-bottom-nav-height, 6.1rem) + env(safe-area-inset-bottom, 0px))',
-        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
-        transform: 'translateZ(0)',
-        WebkitTransform: 'translateZ(0)',
-      }}
-    >
+    <>
+      {mobileLearnMenuOpen && (
+        <button
+          type="button"
+          aria-label="Close learn quick menu"
+          onClick={() => setMobileLearnMenuOpen(false)}
+          className="fixed left-0 right-0 top-0 z-[58] bg-[#1F2A37]/24 backdrop-blur-[1.5px]"
+          style={{
+            bottom: bottomNavHeight,
+          }}
+        />
+      )}
+      {mobileLearnMenuOpen && (
+        <div
+          className="fixed left-1/2 z-[59] w-[min(92vw,420px)] -translate-x-1/2 rounded-2xl border border-[#E4E9EF] bg-[#FBFBF9] p-3 backdrop-blur-sm shadow-[0_20px_40px_-24px_rgba(15,23,42,0.40)]"
+          style={{
+            bottom: `calc(${bottomNavHeight} + 0.6rem)`,
+          }}
+        >
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => runLearnAction('main')}
+              className={quickButtonClass(quickActive.main)}
+              aria-current={quickActive.main ? 'page' : undefined}
+            >
+              <House className="h-4 w-4" />
+              <span className="text-xs font-medium">Main</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => runLearnAction('levels')}
+              className={quickButtonClass(quickActive.levels)}
+              aria-current={quickActive.levels ? 'page' : undefined}
+            >
+              <Layers3 className="h-4 w-4" />
+              <span className="text-xs font-medium">Levels</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => runLearnAction('units')}
+              className={quickButtonClass(quickActive.units)}
+              aria-current={quickActive.units ? 'page' : undefined}
+            >
+              <FolderKanban className="h-4 w-4" />
+              <span className="text-xs font-medium">Units</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => runLearnAction('lessons')}
+              className={quickButtonClass(quickActive.lessons)}
+              aria-current={quickActive.lessons ? 'page' : undefined}
+            >
+              <ListChecks className="h-4 w-4" />
+              <span className="text-xs font-medium">Lessons</span>
+            </button>
+          </div>
+        </div>
+      )}
+      <div
+        className="fixed bottom-0 left-0 right-0 bg-bg-warm/95 backdrop-blur-xl border-t border-border z-[60]"
+        style={{
+          position: 'fixed',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: bottomNavHeight,
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        }}
+      >
       <div className="h-full w-full relative px-4">
         <div className="flex h-[82%] items-center justify-center pt-1.5">
           <div className="flex items-center justify-center gap-4 sm:gap-6">
@@ -49,11 +171,11 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           <button
             onClick={handleLearn}
             className={`flex flex-col items-center gap-1 px-6 py-2 transition-colors ${
-              active === 'learn' ? 'text-[#186E95] font-semibold' : 'text-text-light hover:text-text-dark'
+              learnActive ? 'text-[#186E95] font-semibold' : 'text-text-light hover:text-text-dark'
             }`}
           >
-            <BookOpen className="w-6 h-6" />
-            <span className={`text-xs ${active === 'learn' ? 'font-semibold' : ''}`}>Learn</span>
+            {mobileLearnMenuOpen ? <BookOpen className="w-6 h-6" /> : <Book className="w-6 h-6" />}
+            <span className={`text-xs ${learnActive ? 'font-semibold' : ''}`}>Learn</span>
           </button>
           <button
             onClick={onProfile}
@@ -94,6 +216,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           <span>{isDemo ? 'Exit Demo' : 'Sign Out'}</span>
         </button>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

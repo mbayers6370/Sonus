@@ -70,7 +70,7 @@ type ProfileRouteProps = {
   onGoHome: () => void;
   onOpenProgress: () => void;
   onOpenAbout: () => void;
-  onOpenLanguageSelection: () => void;
+  onSwitchLanguage: (languageId: string) => void | Promise<void>;
 };
 
 export function ProfileRoute(props: ProfileRouteProps) {
@@ -80,7 +80,7 @@ export function ProfileRoute(props: ProfileRouteProps) {
     onGoHome,
     onOpenProgress,
     onOpenAbout,
-    onOpenLanguageSelection,
+    onSwitchLanguage,
   } = props;
 
   if (!selectedLanguage) {
@@ -98,7 +98,7 @@ export function ProfileRoute(props: ProfileRouteProps) {
     <ProfileScreen
       onGoHome={onGoHome}
       currentLearningLanguage={selectedLanguage}
-      onOpenLanguageSelection={onOpenLanguageSelection}
+      onSwitchLanguage={onSwitchLanguage}
       onOpenProgress={onOpenProgress}
       onOpenAbout={onOpenAbout}
     />

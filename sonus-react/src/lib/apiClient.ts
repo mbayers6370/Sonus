@@ -168,7 +168,13 @@ function shouldRetryStatus(response: Response, path: string, method: string) {
 
 function dispatchAuthExpired() {
   if (typeof window === 'undefined') return;
-  window.dispatchEvent(new Event('sonus:auth-expired'));
+  window.dispatchEvent(
+    new CustomEvent('sonus:auth-expired', {
+      detail: {
+        reason: 'refresh_rejected',
+      },
+    })
+  );
 }
 
 async function readJson(response: Response): Promise<RefreshPayload> {

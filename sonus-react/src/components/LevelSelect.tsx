@@ -714,23 +714,25 @@ export default function LevelSelect({
       <GlassHeader
         title={getLanguageName()}
         subtitle={
-          <CollapsibleBreadcrumbs
-            items={
-              normalizedLanguageId === 'zh' && activeTierConfig !== null
-                ? [
-                    { label: 'Main', onClick: () => setTier(null) },
-                    { label: 'Levels', current: true },
-                    { label: 'Units', disabled: true },
-                    { label: 'Lessons', disabled: true },
-                  ]
-                : [
-                    { label: 'Main', current: true },
-                    { label: 'Levels', disabled: true },
-                    { label: 'Units', disabled: true },
-                    { label: 'Lessons', disabled: true },
-                  ]
-            }
-          />
+          <div className="hidden lg:block">
+            <CollapsibleBreadcrumbs
+              items={
+                normalizedLanguageId === 'zh' && activeTierConfig !== null
+                  ? [
+                      { label: 'Main', onClick: () => setTier(null) },
+                      { label: 'Levels', current: true },
+                      { label: 'Units', disabled: true },
+                      { label: 'Lessons', disabled: true },
+                    ]
+                  : [
+                      { label: 'Main', current: true },
+                      { label: 'Levels', disabled: true },
+                      { label: 'Units', disabled: true },
+                      { label: 'Lessons', disabled: true },
+                    ]
+              }
+            />
+          </div>
         }
       />
 

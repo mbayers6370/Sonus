@@ -111,6 +111,16 @@ async function readAuthResponse(response: Response): Promise<AuthApiResponse> {
   }
 }
 
+function parseRetryAfterSeconds(response: Response) {
+  const header = response.headers.get('retry-after');
+  if (!header) return null;
+  const seconds = Number(header);
+  if (Number.isFinite(seconds) && seconds >= 0) return Math.ceil(seconds);
+  const retryAt = Date.parse(header);
+  if (!Number.isFinite(retryAt)) return null;
+  return Math.max(0, Math.ceil((retryAt - Date.now()) / 1000));
+}
+
 async function attemptRefreshAuthSession() {
   try {
     authDebugLog('info', 'init refresh attempt started', {
@@ -160,7 +170,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isDemo, setIsDemo] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const clearToSignedOut = useCallback(() => {
+  const clearToSignedOut = useCallback((nextError: string | null = null) => {
     const identity = getMockIdentity();
     const scopedAppStateKey = resolveScopedAppStateKeyForIdentity(identity);
     if (getDemoMode() || identity.email === 'dev@local.test') {
@@ -177,6 +187,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     clearLearningState();
     setIsDemo(false);
     setEmail(null);
+    setError(nextError);
     setStatus('signed_out');
   }, []);
 
@@ -192,7 +203,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setStatus('loading');
       setError(null);
       if (isAuthSessionExpired()) {
-        clearToSignedOut();
+        clearToSignedOut('Session expired. Please sign in again.');
         return;
       }
 
@@ -367,6 +378,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     const payload = await readAuthResponse(response);
     if (!response.ok) {
+      if (response.status === 429) {
+        const retryAfterSeconds = parseRetryAfterSeconds(response);
+        if (retryAfterSeconds && retryAfterSeconds > 0) {
+          const retryMinutes = Math.max(1, Math.ceil(retryAfterSeconds / 60));
+          throw new Error(`Too many sign-in attempts. Try again in about ${retryMinutes} minute${retryMinutes === 1 ? '' : 's'}.`);
+        }
+        throw new Error('Too many sign-in attempts. Please try again shortly.');
+      }
       if (response.status === 404) {
         throw new Error(`Auth endpoint not found at ${API_BASE_URL}/v1/auth/login. Restart backend so /v1/auth routes are loaded.`);
       }
@@ -461,14 +480,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       method: 'POST',
       credentials: 'include',
     }).catch(() => {});
-    clearToSignedOut();
+    clearToSignedOut(null);
   }, [clearToSignedOut]);
 
   useEffect(() => {
     if (status !== 'signed_in') return;
     const timer = window.setInterval(() => {
       if (!isAuthSessionExpired()) return;
-      clearToSignedOut();
+      clearToSignedOut('Session expired. Please sign in again.');
     }, 60_000);
 
     return () => {
@@ -478,7 +497,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const onAuthExpired = () => {
-      clearToSignedOut();
+      clearToSignedOut('Session expired. Please sign in again.');
     };
     window.addEventListener('sonus:auth-expired', onAuthExpired);
     return () => {

@@ -79,6 +79,7 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
     return (
       <Routes>
         <Route path="/" element={<PublicEntryRoute />} />
+        <Route path="/landing" element={<PublicLanding />} />
         <Route path="/login" element={<AuthScreen initialMode="signin" />} />
         <Route path="/signup" element={<AuthScreen initialMode="signup" />} />
         <Route path="/demo" element={<AuthScreen initialMode="demo" />} />
@@ -93,9 +94,17 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
   }
 
   return (
-    <AppProvider>
-      <AppRoutes />
-    </AppProvider>
+    <Routes>
+      <Route path="/landing" element={<PublicLanding />} />
+      <Route
+        path="*"
+        element={(
+          <AppProvider>
+            <AppRoutes />
+          </AppProvider>
+        )}
+      />
+    </Routes>
   );
 }
 

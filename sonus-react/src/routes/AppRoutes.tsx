@@ -160,6 +160,117 @@ export default function AppRoutes() {
     navigate('/learn');
   }, [exitLesson, navigate, selectedLanguage]);
 
+  const resolveLearnContextBandId = useCallback(() => {
+    const candidateBandId =
+      state.resumeCheckpoint?.bandId ||
+      state.activeBandId ||
+      currentLevel?.id ||
+      state.currentLevel?.id ||
+      null;
+    if (!candidateBandId) return null;
+    const level = LEVEL_BY_ID[candidateBandId];
+    if (!level) return null;
+    if (isMandarinBandLocked(level.id, state.unlockedLevels)) return null;
+    if (!levelMatchesLanguage(level.id, selectedLanguage)) return null;
+    return level.id;
+  }, [
+    currentLevel?.id,
+    selectedLanguage,
+    state.activeBandId,
+    state.currentLevel?.id,
+    state.resumeCheckpoint?.bandId,
+    state.unlockedLevels,
+  ]);
+
+  const resolveFallbackBandId = useCallback(() => {
+    const normalizedLanguage = normalizeLanguageId(selectedLanguage);
+    if (normalizedLanguage === 'ja') return 'n5';
+    if (normalizedLanguage === 'zh') return 'band1';
+    return null;
+  }, [selectedLanguage]);
+
+  const resolveLearnContextUnitId = useCallback(() => {
+    const searchUnitId = new URLSearchParams(location.search).get('unit');
+    if (searchUnitId) return searchUnitId;
+
+    const lessonRouteMatch = location.pathname.match(/^\/learn\/[^/]+\/[^/]+\/unit\/([^/]+)/i);
+    if (lessonRouteMatch?.[1]) return decodeURIComponent(lessonRouteMatch[1]);
+
+    return (
+      state.activeUnitId ||
+      state.activeLesson?.unitId ||
+      state.resumeCheckpoint?.unitId ||
+      null
+    );
+  }, [
+    location.pathname,
+    location.search,
+    state.activeLesson?.unitId,
+    state.activeUnitId,
+    state.resumeCheckpoint?.unitId,
+  ]);
+
+  const goLearnMain = useCallback(() => {
+    exitLesson();
+    if (!selectedLanguage) {
+      navigate('/');
+      return;
+    }
+    navigate('/learn');
+  }, [exitLesson, navigate, selectedLanguage]);
+
+  const goLearnLevels = useCallback(() => {
+    exitLesson();
+    if (!selectedLanguage) {
+      navigate('/');
+      return;
+    }
+    const bandId = resolveLearnContextBandId();
+    if (!bandId) {
+      navigate('/learn');
+      return;
+    }
+    const tier = tierForBand(bandId);
+    navigate(tier ? `/learn?tier=${encodeURIComponent(tier)}` : '/learn');
+  }, [exitLesson, navigate, resolveLearnContextBandId, selectedLanguage]);
+
+  const goLearnUnits = useCallback(() => {
+    exitLesson();
+    if (!selectedLanguage) {
+      navigate('/');
+      return;
+    }
+    const bandId = resolveLearnContextBandId() || resolveFallbackBandId();
+    if (!bandId) {
+      navigate('/learn');
+      return;
+    }
+    navigate(`/learn/${tierForBand(bandId)}/${bandId}`);
+  }, [exitLesson, navigate, resolveFallbackBandId, resolveLearnContextBandId, selectedLanguage]);
+
+  const goLearnLessons = useCallback(() => {
+    exitLesson();
+    if (!selectedLanguage) {
+      navigate('/');
+      return;
+    }
+    const bandId = resolveLearnContextBandId() || resolveFallbackBandId();
+    if (!bandId) {
+      navigate('/learn');
+      return;
+    }
+    const basePath = `/learn/${tierForBand(bandId)}/${bandId}`;
+    const unitId = resolveLearnContextUnitId();
+    navigate(unitId ? `${basePath}?unit=${encodeURIComponent(unitId)}` : basePath);
+  }, [
+    resolveFallbackBandId,
+    resolveLearnContextBandId,
+    resolveLearnContextUnitId,
+    exitLesson,
+    navigate,
+    selectedLanguage,
+  ]);
+
   const openPracticeFromHome = useCallback(
     (kind: 'listening' | 'speaking', bandId?: string | null) => {
       const normalizedLanguage = normalizeLanguageId(selectedLanguage);
@@ -205,11 +316,31 @@ export default function AppRoutes() {
     const handler = () => {
       void goLearn();
     };
+    const mainHandler = () => {
+      void goLearnMain();
+    };
+    const levelsHandler = () => {
+      void goLearnLevels();
+    };
+    const unitsHandler = () => {
+      void goLearnUnits();
+    };
+    const lessonsHandler = () => {
+      void goLearnLessons();
+    };
     window.addEventListener('sonus:learn', handler);
+    window.addEventListener('sonus:learn:main', mainHandler);
+    window.addEventListener('sonus:learn:levels', levelsHandler);
+    window.addEventListener('sonus:learn:units', unitsHandler);
+    window.addEventListener('sonus:learn:lessons', lessonsHandler);
     return () => {
       window.removeEventListener('sonus:learn', handler);
+      window.removeEventListener('sonus:learn:main', mainHandler);
+      window.removeEventListener('sonus:learn:levels', levelsHandler);
+      window.removeEventListener('sonus:learn:units', unitsHandler);
+      window.removeEventListener('sonus:learn:lessons', lessonsHandler);
     };
-  }, [goLearn]);
+  }, [goLearn, goLearnMain, goLearnLevels, goLearnUnits, goLearnLessons]);
 
   function LearnRoute() {
     return (
@@ -511,9 +642,10 @@ export default function AppRoutes() {
             onGoHome={goHome}
             onOpenProgress={() => navigate('/profile/progress')}
             onOpenAbout={() => navigate('/about')}
-            onOpenLanguageSelection={() =>
-              navigate('/language', { state: { mode: 'switch', returnTo: '/profile' } })
-            }
+            onSwitchLanguage={(langId) => {
+              writeLastLanguage(langId);
+              selectLanguage(langId);
+            }}
           />
         }
       />

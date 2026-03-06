@@ -145,7 +145,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
               Many language apps use proprietary lesson structures rather than building directly on official proficiency standards.
             </p>
             <p>
-              I wanted something different: language learning built on official standards, the actual frameworks countries use to measure proficiency.
+              I wanted something different: learning built directly on the frameworks countries use to measure proficiency.
             </p>
             <p>
               For Mandarin, that is HSK 3.0 (China&apos;s government-backed certification system). For Japanese, it is JLPT. For Korean, TOPIK.

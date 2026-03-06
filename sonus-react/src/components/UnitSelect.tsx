@@ -456,7 +456,11 @@ export default function UnitSelect({
     <div className="min-h-screen page-shell with-bottom-nav px-6">
       <GlassHeader
         title={headerTitle}
-        subtitle={<CollapsibleBreadcrumbs items={headerBreadcrumbItems} />}
+        subtitle={
+          <div className="hidden lg:block">
+            <CollapsibleBreadcrumbs items={headerBreadcrumbItems} />
+          </div>
+        }
         showLogo={false}
       />
 

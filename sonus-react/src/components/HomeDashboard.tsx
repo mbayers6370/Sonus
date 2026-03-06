@@ -547,7 +547,7 @@ export default function HomeDashboard({
 
       <GlassHeader title={`${languageLabel}`} spacerClassName="mb-0" />
 
-      <div className="-mt-2 grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
         <section
           className={`${cardShell} md:order-1 md:col-span-2 bg-[#1F2A37] text-white border-[#1F2A37]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(31,42,55,0.42)] relative overflow-hidden`}
           style={{ animationDelay: '35ms' }}

@@ -308,7 +308,7 @@ export default function GlassHeader({
         )}
       </div>
       <div
-        className={`mb-6 ${spacerClassName}`}
+        className={`${spacerClassName || 'mb-2'}`}
         style={{ height: headerHeightPx ?? 68 }}
       />
     </>
