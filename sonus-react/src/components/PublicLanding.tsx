@@ -48,7 +48,7 @@ export default function PublicLanding() {
   const authCtaLabel = useMemo(() => 'Log In / Sign Up', []);
   const landingDescription = useMemo(
     () =>
-      'Sonus is a language learning platform built on real fluency systems like HSK and JLPT. Practice vocabulary, speaking, and travel phrases through structured lessons.',
+      'Sonus is a language learning platform built on real fluency frameworks like HSK and JLPT. Practice vocabulary, speaking, and travel phrases through structured lessons.',
     []
   );
   const demoCards = useMemo<DemoCard[]>(
@@ -115,10 +115,10 @@ export default function PublicLanding() {
       }}
     >
       <SEOHead
-        title="Sonus | Language Learning Built on Real Fluency Systems"
+        title="Sonus | Language Learning Built on Real Fluency Frameworks"
         description={landingDescription}
         canonical="https://sonuslearning.com/"
-        ogTitle="Sonus | Language Learning Built on Real Fluency Systems"
+        ogTitle="Sonus | Language Learning Built on Real Fluency Frameworks"
         ogUrl="https://sonuslearning.com/"
       />
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/45 bg-white/62 backdrop-blur-2xl shadow-[0_10px_26px_-22px_rgba(15,23,42,0.55)]">
@@ -186,15 +186,15 @@ export default function PublicLanding() {
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#104A64]/34" />
                 </div>
                 <div className="relative z-10 text-center">
-                  <h1 className="main-font mx-auto max-w-4xl text-[2.5rem] leading-tight text-white sm:mt-4 sm:text-[2.5rem]">
-                    Learn the language before you get there.
+                  <h1 className="main-font mx-auto max-w-4xl text-[3.5rem] leading-tight text-white sm:mt-4 sm:text-[3.5rem]">
+                    Language learning built to last.
                   </h1>
                   <p
-                    className="font-mono mx-auto mt-3 max-w-3xl font-light leading-relaxed text-[#D6E2EE] sm:mt-4 sm:text-[1.4rem]"
-                    style={{ fontSize: '1.7em' }}
+                    className="font-mono mx-auto mt-3 max-w-3xl font-light leading-relaxed text-[#D6E2EE] sm:mt-4 sm:text-[1.2rem]"
+                    style={{ fontSize: '1.35em' }}
                   >
                     Built on real <br className="sm:hidden" />
-                    fluency&nbsp;systems.
+                    fluency&nbsp;frameworks.
                   </p>
                   <div className="mb-1 mt-6 flex flex-wrap items-center justify-center gap-2.5 sm:mt-7 sm:mb-0 sm:gap-3">
                     <button
