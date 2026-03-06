@@ -282,7 +282,7 @@ export default function Quiz({
             const isSelected = selectedAnswer === choice;
             const isCorrectAnswer = choice === word.en;
 
-            let buttonClass = 'w-full min-h-[56px] p-3 rounded-2xl text-sm sm:text-[13px] font-medium text-center transition-all border-2 bg-white ';
+            let buttonClass = 'w-full min-h-[48px] sm:min-h-[56px] p-2.5 sm:p-3 rounded-2xl text-[12px] sm:text-[13px] font-medium text-center transition-all border-2 bg-white ';
 
             if (selectedAnswer) {
               // After answering
@@ -318,10 +318,10 @@ export default function Quiz({
         <div className="grid grid-cols-1 gap-2">
           <button
             onClick={handleNext}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#1F2A37] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2A37] hover:-translate-y-0.5 hover:shadow-lg"
+            className="w-full flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-3 sm:py-3.5 bg-[#1F2A37] text-white rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-all hover:bg-[#1F2A37] hover:-translate-y-0.5 hover:shadow-lg"
           >
             Next
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
       </div>

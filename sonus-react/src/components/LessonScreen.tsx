@@ -262,7 +262,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
       </div>
       {/* Mode Tabs */}
       {modeTabs.length > 1 ? (
-        <div className="bg-bg-warm/90 backdrop-blur-sm border-b border-border px-4 py-2.5 mt-1 md:-mt-8 relative z-40">
+        <div className="bg-bg-warm/90 backdrop-blur-sm border-b border-border px-4 pb-2.5 pt-0 relative z-40">
           <div
             className={`mx-auto grid gap-2 rounded-2xl bg-[rgba(31,42,55,0.06)] p-1 ${
               modeTabs.length === 1 ? 'max-w-xl grid-cols-1' : modeTabs.length === 2 ? 'max-w-2xl grid-cols-2' : 'max-w-5xl grid-cols-3'
