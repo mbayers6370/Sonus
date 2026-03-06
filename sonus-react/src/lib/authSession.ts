@@ -14,7 +14,6 @@ const LEGACY_SESSION_EXPIRES_AT_KEY = 'sonus.auth.expires_at';
 
 let accessTokenMemory: string | null = null;
 let accessTokenExpiresAt = 0;
-let hydratedFromSessionStorage = false;
 
 function randomHex(length: number) {
   let out = '';
@@ -72,30 +71,9 @@ export function isAuthSessionExpired() {
 }
 
 export function getAccessToken() {
-  if (!hydratedFromSessionStorage) {
-    hydratedFromSessionStorage = true;
-    try {
-      const storedToken = window.sessionStorage.getItem(SESSION_ACCESS_TOKEN_KEY);
-      const storedExpiresAtRaw = window.sessionStorage.getItem(SESSION_ACCESS_TOKEN_EXPIRES_AT_KEY);
-      const storedExpiresAt = storedExpiresAtRaw ? Number(storedExpiresAtRaw) : 0;
-      if (storedToken) {
-        accessTokenMemory = storedToken;
-        accessTokenExpiresAt = Number.isFinite(storedExpiresAt) ? storedExpiresAt : 0;
-      }
-    } catch {
-      // Ignore sessionStorage failures.
-    }
-  }
-
   if (accessTokenMemory && Number.isFinite(accessTokenExpiresAt) && accessTokenExpiresAt > 0 && Date.now() >= accessTokenExpiresAt) {
     accessTokenMemory = null;
     clearSessionExpiry();
-    try {
-      window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_KEY);
-      window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_EXPIRES_AT_KEY);
-    } catch {
-      // Ignore sessionStorage failures.
-    }
   }
   return accessTokenMemory;
 }
@@ -110,15 +88,13 @@ export function setAuthSession(accessToken: string | null, refreshToken?: string
     if (accessToken) {
       accessTokenMemory = accessToken;
       setSessionExpiryFromToken(accessToken);
-      window.sessionStorage.setItem(SESSION_ACCESS_TOKEN_KEY, accessTokenMemory);
-      window.sessionStorage.setItem(SESSION_ACCESS_TOKEN_EXPIRES_AT_KEY, String(accessTokenExpiresAt));
     } else {
       accessTokenMemory = null;
       clearSessionExpiry();
-      window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_KEY);
-      window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_EXPIRES_AT_KEY);
     }
     // Remove stale persisted auth keys from older implementations.
+    window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_KEY);
+    window.sessionStorage.removeItem(SESSION_ACCESS_TOKEN_EXPIRES_AT_KEY);
     window.localStorage.removeItem(ACCESS_TOKEN_KEY);
     window.localStorage.removeItem(ACCESS_TOKEN_EXPIRES_AT_KEY);
     // Clear legacy storage keys from previous implementations.
