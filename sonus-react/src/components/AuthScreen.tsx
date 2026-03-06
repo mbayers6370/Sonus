@@ -312,17 +312,9 @@ export default function AuthScreen({
   }, [releaseFormFocus, variant]);
 
   if (loading) {
-    const loadingMessage =
-      mode === 'signin'
-        ? 'Signing you in...'
-        : mode === 'signup'
-          ? 'Creating your account...'
-          : mode === 'forgot'
-            ? 'Sending reset link...'
-            : 'Updating your password...';
     return (
       <div className={`${variant === 'modal' ? 'w-full' : 'h-[100svh] min-h-[100svh] page-shell px-6 flex items-center justify-center overflow-hidden overscroll-none'}`}>
-        <GlassLoader message={loadingMessage} />
+        <GlassLoader />
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Plane, User } from 'lucide-react';
+import { Plane, User, X } from 'lucide-react';
 import AuthScreen from './AuthScreen';
 import PublicFooter from './public/PublicFooter';
 import SEOHead from './public/SEOHead';
@@ -321,6 +321,14 @@ export default function PublicLanding() {
           onClick={() => setModalMode(null)}
         >
           <div className="relative w-full max-w-lg" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              onClick={() => setModalMode(null)}
+              aria-label="Close"
+              className="absolute right-2 top-2 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#1F2A37] shadow-sm transition-colors hover:bg-white"
+            >
+              <X className="h-4 w-4" />
+            </button>
             <AuthScreen
               initialMode={modalMode}
               variant="modal"

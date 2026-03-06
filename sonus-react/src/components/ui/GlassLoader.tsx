@@ -15,26 +15,30 @@ const CHEEKY_LOADER_LINES = [
   'Calibrating your language instincts',
 ] as const;
 
-function hashString(input: string) {
-  let hash = 0;
-  for (let idx = 0; idx < input.length; idx += 1) {
-    hash = (hash << 5) - hash + input.charCodeAt(idx);
-    hash |= 0;
-  }
-  return Math.abs(hash);
-}
-
 export default function GlassLoader({
-  message,
   className = '',
   compact = false,
 }: GlassLoaderProps) {
   const loaderId = useId();
-  const fallbackMessage = useMemo(
-    () => CHEEKY_LOADER_LINES[hashString(loaderId) % CHEEKY_LOADER_LINES.length],
-    [loaderId]
+  const lineIdx = useMemo(() => {
+    if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+      const bytes = new Uint32Array(1);
+      crypto.getRandomValues(bytes);
+      return bytes[0] % CHEEKY_LOADER_LINES.length;
+    }
+    // Deterministic fallback for environments without crypto.
+    let hash = 0;
+    for (let idx = 0; idx < loaderId.length; idx += 1) {
+      hash = (hash << 5) - hash + loaderId.charCodeAt(idx);
+      hash |= 0;
+    }
+    return Math.abs(hash) % CHEEKY_LOADER_LINES.length;
+  }, [loaderId]);
+
+  const resolvedMessage = useMemo(
+    () => CHEEKY_LOADER_LINES[lineIdx] || CHEEKY_LOADER_LINES[0],
+    [lineIdx]
   );
-  const resolvedMessage = (message || '').trim() || fallbackMessage;
 
   return (
     <div className={`sonus-loader-wrap ${compact ? 'sonus-loader-wrap--compact' : ''} ${className}`}>
