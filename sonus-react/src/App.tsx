@@ -16,7 +16,7 @@ function AppShell() {
   if (status === 'loading') {
     return (
       <div className="min-h-screen page-shell flex items-center justify-center">
-        <GlassLoader message="Preparing Sonus..." />
+        <GlassLoader />
       </div>
     );
   }

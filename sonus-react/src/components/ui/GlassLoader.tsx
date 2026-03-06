@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useMemo } from 'react';
 
 interface GlassLoaderProps {
   message?: string;
@@ -6,45 +6,35 @@ interface GlassLoaderProps {
   compact?: boolean;
 }
 
-const DOT_COUNT = 16;
-const DOT_TRAIL_OPACITY = [1, 0.7, 0.4, 0.15] as const;
+const CHEEKY_LOADER_LINES = [
+  'Loading language learning',
+  'Polishing your fluency runway',
+  'Packing your next phrasebook',
+  'Tuning your pronunciation engine',
+  'Warming up your travel vocabulary',
+  'Calibrating your language instincts',
+] as const;
 
 export default function GlassLoader({
-  message = 'Loading...',
+  message,
   className = '',
   compact = false,
 }: GlassLoaderProps) {
+  const fallbackMessage = useMemo(
+    () => CHEEKY_LOADER_LINES[Math.floor(Math.random() * CHEEKY_LOADER_LINES.length)],
+    []
+  );
+  const resolvedMessage = (message || '').trim() || fallbackMessage;
+
   return (
     <div className={`sonus-loader-wrap ${compact ? 'sonus-loader-wrap--compact' : ''} ${className}`}>
-      <div
-        className="sonus-loader"
-        role="status"
-        aria-live="polite"
-        aria-label={message}
-        style={{ '--dot-total': DOT_COUNT } as CSSProperties}
-      >
-        <div className="sonus-loader__core" aria-hidden="true">
-          <span className="sonus-loader__wordmark">SONUS</span>
-        </div>
-        <div className="sonus-loader__ring" aria-hidden="true" />
-        {Array.from({ length: DOT_COUNT }, (_, idx) => (
-          <span
-            // Varying lift makes the ring read as a wave even before animation starts.
-            key={idx}
-            className="sonus-loader__dot"
-            style={
-              {
-                '--dot-index': idx,
-                '--dot-lift': `${Math.sin((idx / DOT_COUNT) * Math.PI * 2) * 0.24}rem`,
-                '--dot-opacity-peak': DOT_TRAIL_OPACITY[idx % DOT_TRAIL_OPACITY.length],
-                '--dot-opacity-rest': DOT_TRAIL_OPACITY[idx % DOT_TRAIL_OPACITY.length] * 0.72,
-              } as CSSProperties
-            }
-            aria-hidden="true"
-          />
-        ))}
+      <div className="sonus-loader" role="status" aria-live="polite" aria-label={`${resolvedMessage}...`}>
+        <span className="sonus-loader__wordmark">SONUS</span>
+        <p className="sonus-loader__message">
+          {resolvedMessage}
+          <span className="sonus-loader__dots" aria-hidden="true" />
+        </p>
       </div>
-      <p className="sonus-loader__message">{message}</p>
     </div>
   );
 }
