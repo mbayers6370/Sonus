@@ -201,7 +201,7 @@ export default function LanguageSelect({
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
-      <GlassHeader title={title} />
+      <GlassHeader title={title} compactStandaloneTitle={false} />
 
       {/* Language Cards */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4">

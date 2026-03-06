@@ -713,6 +713,7 @@ export default function LevelSelect({
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
       <GlassHeader
         title={getLanguageName()}
+        compactStandaloneTitle={false}
         subtitle={
           <div className="hidden lg:block">
             <CollapsibleBreadcrumbs
