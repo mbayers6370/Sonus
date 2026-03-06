@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 
 interface GlassLoaderProps {
   message?: string;
@@ -15,14 +15,24 @@ const CHEEKY_LOADER_LINES = [
   'Calibrating your language instincts',
 ] as const;
 
+function hashString(input: string) {
+  let hash = 0;
+  for (let idx = 0; idx < input.length; idx += 1) {
+    hash = (hash << 5) - hash + input.charCodeAt(idx);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
 export default function GlassLoader({
   message,
   className = '',
   compact = false,
 }: GlassLoaderProps) {
+  const loaderId = useId();
   const fallbackMessage = useMemo(
-    () => CHEEKY_LOADER_LINES[Math.floor(Math.random() * CHEEKY_LOADER_LINES.length)],
-    []
+    () => CHEEKY_LOADER_LINES[hashString(loaderId) % CHEEKY_LOADER_LINES.length],
+    [loaderId]
   );
   const resolvedMessage = (message || '').trim() || fallbackMessage;
 
