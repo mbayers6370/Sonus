@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import GlassLoader from './ui/GlassLoader';
 import PublicFooter from './public/PublicFooter';
@@ -12,6 +13,7 @@ type AuthScreenProps = {
   variant?: AuthScreenVariant;
   showDemoTab?: boolean;
   showAuthTabs?: boolean;
+  onClose?: () => void;
 };
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PASSWORD_RULE_TEXT = 'Use at least 8 characters, with at least 1 letter and 1 number.';
@@ -60,6 +62,7 @@ export default function AuthScreen({
   variant = 'page',
   showDemoTab = true,
   showAuthTabs = true,
+  onClose,
 }: AuthScreenProps) {
   const navigate = useNavigate();
   const { signIn, signUp, continueAsDemo, requestPasswordReset, resetPassword, error: authError } = useAuth();
@@ -360,7 +363,17 @@ export default function AuthScreen({
   const hasAuthTabs = showAuthTabs && (mode === 'signin' || mode === 'signup' || mode === 'demo');
   const activeTabId = mode === 'signin' ? 'auth-tab-signin' : mode === 'signup' ? 'auth-tab-signup' : 'auth-tab-demo';
   const formCard = (
-    <div className={`w-full max-w-md bg-white border border-border rounded-3xl p-5 sm:p-6 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] text-center overflow-hidden ${isModal ? 'max-h-[85vh] overflow-y-auto' : 'max-h-[calc(100svh-2.5rem)]'}`}>
+    <div className={`relative w-full max-w-md bg-white border border-border rounded-3xl p-5 sm:p-6 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] text-center overflow-hidden ${isModal ? 'max-h-[85vh] overflow-y-auto' : 'max-h-[calc(100svh-2.5rem)]'}`}>
+      {isModal && onClose ? (
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-3 top-3 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white text-[#1F2A37] transition-colors hover:bg-[#F8F8F6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/40"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      ) : null}
       <img
         src="/branding/logo_name_solo.png"
         alt="Sonus"
