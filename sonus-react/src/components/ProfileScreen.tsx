@@ -166,7 +166,8 @@ interface ProfileScreenProps {
 
 function inferUnitFromLessonProgress(
   bandId: string | null,
-  lessonProgress: Record<string, unknown>
+  lessonProgress: Record<string, unknown>,
+  bandData?: { units?: Array<{ id?: string }> | Record<string, { id?: string }> } | null
 ) {
   if (!bandId) return null;
   const unitIds = new Set<string>();
@@ -176,7 +177,7 @@ function inferUnitFromLessonProgress(
       unitIds.add(keyUnitId);
     }
   }
-  const orderedCoreUnits = getUnitsForBand(bandId)
+  const orderedCoreUnits = getUnitsForBand(bandId, bandData)
     .filter((unit) => !isCheckpointUnitId(unit.id) && !isPracticeUnitId(unit.id))
     .map((unit) => unit.id);
   const latestStarted = orderedCoreUnits.filter((unitId) => unitIds.has(unitId)).at(-1);
@@ -274,7 +275,13 @@ export default function ProfileScreen({
     languageScopedActiveBandId ??
     languageScopedCurrentLevelBandId ??
     null;
-  const inferredUnitId = inferUnitFromLessonProgress(effectiveBandId, state.lessonProgress || {});
+  const activeBandDataForProgress =
+    effectiveBandId && state.activeBandId === effectiveBandId ? state.activeBandData : null;
+  const inferredUnitId = inferUnitFromLessonProgress(
+    effectiveBandId,
+    state.lessonProgress || {},
+    activeBandDataForProgress
+  );
   const effectiveUnitId =
     languageScopedProgressUnitId ??
     state.resumeCheckpoint?.unitId ??
@@ -300,7 +307,7 @@ export default function ProfileScreen({
     }).length;
   const currentUnitMeta =
     effectiveBandId && effectiveUnitId
-      ? getUnitMetadata(effectiveBandId, effectiveUnitId)
+      ? getUnitMetadata(effectiveBandId, effectiveUnitId, activeBandDataForProgress)
       : null;
   const currentLessonNumber =
     typeof effectiveLessonIdx === 'number' && effectiveLessonIdx >= 0

@@ -175,7 +175,95 @@ export default function UnitSelect({
   }
 
   // Get unit metadata for proper ordering and display
-  const configuredUnits = getUnitsForBand(currentLevel.id);
+  const configuredUnits = getUnitsForBand(currentLevel.id, activeBandData);
+  const dataUnits = getDataUnits(
+    activeBandData.units as Record<string, { words?: unknown[]; title?: string; description?: string }>
+      | Array<{ id?: string; words?: unknown[]; title?: string; description?: string }>
+  ).filter((unit) => unit.id !== '_unallocated');
+  const configuredCoreUnits = configuredUnits.filter(
+    (unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id)
+  );
+  const configuredCoreUnitsWithData = configuredCoreUnits.filter((unit) => {
+    const matched = getUnitDataById(
+      activeBandData.units as Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }>,
+      unit.id
+    );
+    return Boolean(matched && (matched.words || []).length > 0);
+  });
+  const shouldUseConfiguredCoreUnits = configuredCoreUnitsWithData.length > 0;
+
+  const buildDataDrivenOrderedUnits = () => {
+    const coreUnits = dataUnits
+      .filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id))
+      .map((unit, index) => {
+        const meta = configuredUnits.find((configured) => configured.id === unit.id);
+        const fallbackName = unit.id
+          .replace(/^[a-z]\d+-/i, '')
+          .replace(/^u\d+-/i, '')
+          .replace(/[-_]+/g, ' ')
+          .replace(/\b\w/g, (char) => char.toUpperCase())
+          .trim();
+        return {
+          id: unit.id,
+          name: (unit.title || meta?.name || fallbackName).trim(),
+          hanzi: meta?.hanzi || '',
+          description: (unit.description || meta?.description || 'Core vocabulary.').trim(),
+          microUnits: meta?.microUnits,
+          order: index + 1,
+          icon: meta?.icon || BookOpen,
+        };
+      });
+
+    const checkpointTemplates = configuredUnits
+      .filter((unit) => isCheckpointUnitId(unit.id))
+      .sort((a, b) => a.order - b.order);
+    const checkpointCount = Math.ceil(coreUnits.length / 4);
+    const checkpoints = Array.from({ length: checkpointCount }, (_, idx) => {
+      const index = idx + 1;
+      const template = checkpointTemplates[idx];
+      return {
+        id: `checkpoint-${index}`,
+        name: template?.name || `Checkpoint Quiz ${index}`,
+        hanzi: template?.hanzi || `阶段测验 ${index}`,
+        description: template?.description || `Quiz review covering Units ${Math.max(1, (index - 1) * 4 + 1)} - ${Math.min(coreUnits.length, index * 4)}.`,
+        microUnits: undefined,
+        order: coreUnits.length + index,
+        icon: template?.icon || BookOpen,
+      };
+    });
+
+    const interleaved: Array<{
+      id: string;
+      name: string;
+      hanzi: string;
+      description: string;
+      microUnits?: string[];
+      order: number;
+      icon: typeof BookOpen;
+    }> = [];
+    for (let idx = 0; idx < coreUnits.length; idx += 1) {
+      interleaved.push(coreUnits[idx]);
+      if ((idx + 1) % 4 === 0) {
+        const checkpointIdx = Math.floor((idx + 1) / 4) - 1;
+        if (checkpoints[checkpointIdx]) interleaved.push(checkpoints[checkpointIdx]);
+      }
+    }
+    if (coreUnits.length % 4 !== 0 && checkpoints.length > Math.floor(coreUnits.length / 4)) {
+      const finalCheckpoint = checkpoints[checkpoints.length - 1];
+      if (finalCheckpoint) interleaved.push(finalCheckpoint);
+    }
+
+    const practiceUnits = configuredUnits
+      .filter((unit) => isPracticeUnitId(unit.id))
+      .sort((a, b) => a.order - b.order)
+      .map((unit, index) => ({
+        ...unit,
+        order: interleaved.length + index + 1,
+      }));
+
+    return [...interleaved, ...practiceUnits];
+  };
+
   const isJapaneseLevel = (state.selectedLanguage || '').toLowerCase() === 'ja';
   const availableSections = isJapaneseLevel && Array.isArray(activeBandData.sections)
     ? activeBandData.sections
@@ -184,25 +272,9 @@ export default function UnitSelect({
   const activeSectionRaw = showSectionStep
     ? availableSections.find((section) => section.id === activeSectionId) || null
     : null;
-  const orderedUnits = configuredUnits.length > 0
+  const orderedUnits = configuredUnits.length > 0 && shouldUseConfiguredCoreUnits
     ? configuredUnits
-    : getDataUnits(
-      activeBandData.units as Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }>
-    )
-      .filter((unit) => unit.id !== '_unallocated')
-      .map((unit, index) => ({
-        id: unit.id,
-        name: (unit.title || unit.id
-          .replace(/^[a-z]\d+-/i, '')
-          .replace(/^u\d+-/i, '')
-          .replace(/[-_]+/g, ' ')
-          .replace(/\b\w/g, (char) => char.toUpperCase())).trim(),
-        hanzi: '',
-        description: (unit.description || 'Core vocabulary.').trim(),
-        microUnits: undefined,
-        order: index + 1,
-        icon: BookOpen,
-      }));
+    : buildDataDrivenOrderedUnits();
 
   // Map units with their data and metrics
   const unitMetrics = orderedUnits
@@ -394,8 +466,8 @@ export default function UnitSelect({
     (metric) => metric.practiceType !== 'listening' && metric.practiceType !== 'speaking'
   );
   const unitCardHeightClass = isJapaneseLevel
-    ? 'h-[252px] sm:h-[236px]'
-    : 'h-[236px] sm:h-[220px]';
+    ? 'h-[272px] sm:h-[252px]'
+    : 'h-[256px] sm:h-[236px]';
   const headerTitle = activeUnit
     ? `Unit ${activeUnit.metadata.order}`
     : activeSection

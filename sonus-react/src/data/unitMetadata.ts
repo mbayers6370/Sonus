@@ -38,6 +38,7 @@ export interface UnitMetadata {
 }
 
 const CHECKPOINT_EVERY_UNITS = 4;
+type RuntimeBandLike = { units?: unknown } | null | undefined;
 
 export function isPracticeUnitId(unitId: string) {
   return /listening$/i.test(unitId) || /speaking$/i.test(unitId);
@@ -81,6 +82,126 @@ function withCheckpointQuizzes(units: UnitMetadata[]): UnitMetadata[] {
   }
 
   return [...coreUnits, ...checkpoints, ...practiceUnits].sort((a, b) => a.order - b.order);
+}
+
+function displayNameFromUnitId(unitId: string) {
+  return unitId
+    .replace(/^[a-z]\d+-/i, '')
+    .replace(/^u\d+-/i, '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase())
+    .trim();
+}
+
+function normalizeRuntimeUnits(bandData: RuntimeBandLike) {
+  const units = bandData?.units;
+  if (!units) return [] as Array<{ id: string; title?: string; description?: string }>;
+  if (Array.isArray(units)) {
+    return units
+      .filter(
+        (unit): unit is { id: string; title?: string; description?: string } =>
+          Boolean((unit as { id?: unknown } | null)?.id && typeof (unit as { id?: unknown }).id === 'string')
+      )
+      .map((unit) => ({ id: unit.id, title: unit.title, description: unit.description }));
+  }
+  if (!units || typeof units !== 'object') return [];
+  return Object.entries(units as Record<string, unknown>).map(([id, unit]) => ({
+    id,
+    title: typeof (unit as { title?: unknown } | null)?.title === 'string' ? (unit as { title?: string }).title : undefined,
+    description:
+      typeof (unit as { description?: unknown } | null)?.description === 'string'
+        ? (unit as { description?: string }).description
+        : undefined,
+  }));
+}
+
+function getStaticUnitsForBand(bandId: string): UnitMetadata[] {
+  if (bandId === 'band1') return withCheckpointQuizzes(band1Units);
+  if (bandId === 'band2') return withCheckpointQuizzes(band2Units);
+  if (bandId === 'band3') return withCheckpointQuizzes(band3Units);
+  if (bandId === 'band4') return withCheckpointQuizzes(band4Units);
+  if (bandId === 'band5') return withCheckpointQuizzes(band5Units);
+  if (bandId === 'band6') return withCheckpointQuizzes(band6Units);
+  if (bandId === 'band7' || bandId === 'band8' || bandId === 'band9' || bandId === 'advanced') {
+    return withCheckpointQuizzes(band79Units);
+  }
+  return [];
+}
+
+function buildRuntimeUnitsForBand(bandId: string, bandData: RuntimeBandLike) {
+  const staticUnits = getStaticUnitsForBand(bandId);
+  const runtimeUnits = normalizeRuntimeUnits(bandData).filter((unit) => unit.id !== '_unallocated');
+  if (!runtimeUnits.length) return staticUnits;
+
+  const staticById = new Map(staticUnits.map((unit) => [unit.id, unit]));
+  const runtimeCore = runtimeUnits.filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id));
+  if (!runtimeCore.length) return staticUnits;
+
+  const coreUnits: UnitMetadata[] = runtimeCore.map((unit, index) => {
+    const staticMatch = staticById.get(unit.id);
+    return {
+      id: unit.id,
+      name: (unit.title || staticMatch?.name || displayNameFromUnitId(unit.id)).trim(),
+      hanzi: staticMatch?.hanzi || '',
+      description: (unit.description || staticMatch?.description || 'Core vocabulary.').trim(),
+      microUnits: staticMatch?.microUnits,
+      order: index + 1,
+      icon: staticMatch?.icon || BookOpen,
+    };
+  });
+
+  const checkpointTemplates = staticUnits
+    .filter((unit) => isCheckpointUnitId(unit.id))
+    .sort((a, b) => a.order - b.order);
+  const checkpointCount = Math.ceil(coreUnits.length / CHECKPOINT_EVERY_UNITS);
+  const checkpoints: UnitMetadata[] = Array.from({ length: checkpointCount }, (_, idx) => {
+    const checkpointIndex = idx + 1;
+    const template = checkpointTemplates[idx];
+    return {
+      id: `checkpoint-${checkpointIndex}`,
+      name: template?.name || `Checkpoint Quiz ${checkpointIndex}`,
+      hanzi: template?.hanzi || `阶段测验 ${checkpointIndex}`,
+      description:
+        template?.description ||
+        `Quiz review covering Units ${Math.max(1, idx * CHECKPOINT_EVERY_UNITS + 1)} - ${Math.min(coreUnits.length, checkpointIndex * CHECKPOINT_EVERY_UNITS)}.`,
+      order: coreUnits.length + checkpointIndex,
+      icon: template?.icon || BookOpenCheck,
+    };
+  });
+
+  const interleaved: UnitMetadata[] = [];
+  for (let idx = 0; idx < coreUnits.length; idx += 1) {
+    interleaved.push(coreUnits[idx]);
+    if ((idx + 1) % CHECKPOINT_EVERY_UNITS === 0) {
+      const checkpointIdx = Math.floor((idx + 1) / CHECKPOINT_EVERY_UNITS) - 1;
+      if (checkpoints[checkpointIdx]) interleaved.push(checkpoints[checkpointIdx]);
+    }
+  }
+  if (coreUnits.length % CHECKPOINT_EVERY_UNITS !== 0 && checkpoints.length > Math.floor(coreUnits.length / CHECKPOINT_EVERY_UNITS)) {
+    const finalCheckpoint = checkpoints[checkpoints.length - 1];
+    if (finalCheckpoint) interleaved.push(finalCheckpoint);
+  }
+
+  const runtimePractice = runtimeUnits
+    .filter((unit) => isPracticeUnitId(unit.id))
+    .map((unit, index) => {
+      const staticMatch = staticById.get(unit.id);
+      return {
+        id: unit.id,
+        name: (unit.title || staticMatch?.name || displayNameFromUnitId(unit.id)).trim(),
+        hanzi: staticMatch?.hanzi || '',
+        description: (unit.description || staticMatch?.description || 'Skill practice.').trim(),
+        order: interleaved.length + index + 1,
+        icon: staticMatch?.icon || BookOpen,
+      } as UnitMetadata;
+    });
+  const runtimePracticeIds = new Set(runtimePractice.map((unit) => unit.id));
+  const staticPractice = staticUnits
+    .filter((unit) => isPracticeUnitId(unit.id))
+    .filter((unit) => !runtimePracticeIds.has(unit.id))
+    .map((unit, index) => ({ ...unit, order: interleaved.length + runtimePractice.length + index + 1 }));
+
+  return [...interleaved, ...runtimePractice, ...staticPractice];
 }
 
 // Elementary I (Band 1) - HSK 3.0 Aligned Units
@@ -826,32 +947,14 @@ export const band79Units: UnitMetadata[] = [
 ];
 
 // Helper function to get unit metadata by ID
-export function getUnitMetadata(bandId: string, unitId: string): UnitMetadata | undefined {
-  return getUnitsForBand(bandId).find((u) => u.id === unitId);
+export function getUnitMetadata(bandId: string, unitId: string, bandData?: RuntimeBandLike): UnitMetadata | undefined {
+  return getUnitsForBand(bandId, bandData).find((u) => u.id === unitId);
 }
 
 // Helper function to get all units for a band, sorted by order
-export function getUnitsForBand(bandId: string): UnitMetadata[] {
-  if (bandId === 'band1') {
-    return withCheckpointQuizzes(band1Units);
+export function getUnitsForBand(bandId: string, bandData?: RuntimeBandLike): UnitMetadata[] {
+  if (bandData) {
+    return buildRuntimeUnitsForBand(bandId, bandData);
   }
-  if (bandId === 'band2') {
-    return withCheckpointQuizzes(band2Units);
-  }
-  if (bandId === 'band3') {
-    return withCheckpointQuizzes(band3Units);
-  }
-  if (bandId === 'band4') {
-    return withCheckpointQuizzes(band4Units);
-  }
-  if (bandId === 'band5') {
-    return withCheckpointQuizzes(band5Units);
-  }
-  if (bandId === 'band6') {
-    return withCheckpointQuizzes(band6Units);
-  }
-  if (bandId === 'band7' || bandId === 'band8' || bandId === 'band9' || bandId === 'advanced') {
-    return withCheckpointQuizzes(band79Units);
-  }
-  return [];
+  return getStaticUnitsForBand(bandId);
 }

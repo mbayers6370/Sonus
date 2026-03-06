@@ -972,7 +972,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const key = makeLessonKey(bandId, targetUnitId, targetLessonIndex);
         return hasLessonUnlockCredit(state.lessonProgress[key]);
       };
-      const configuredUnits = getUnitsForBand(bandId);
+      const configuredUnits = getUnitsForBand(bandId, bandData);
       const metadataCoreUnitIds = configuredUnits
         .filter((meta) => !isPracticeUnitId(meta.id) && !isCheckpointUnitId(meta.id))
         .map((meta) => resolveUnitIdForBand(bandId, meta.id))
@@ -1611,7 +1611,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const { map: wordById, sourceUnitByWordId } = getBandWordMap(bandData);
       const nowMs = Date.now();
       const today = todayKey();
-      const configuredUnits = getUnitsForBand(targetBandId);
+      const configuredUnits = getUnitsForBand(targetBandId, bandData);
       const metadataCoreUnitIds = configuredUnits
         .filter((meta) => !isPracticeUnitId(meta.id) && !isCheckpointUnitId(meta.id))
         .map((meta) => resolveUnitIdForBand(targetBandId, meta.id))
@@ -1873,7 +1873,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       let nextUnlockedLevels = prev.unlockedLevels;
       // Band unlocks are computed from per-lesson quiz thresholds across core units.
       if (isTrackProgressionLevel(bandId) && prev.activeBandData) {
-        const coreUnits = getUnitsForBand(bandId)
+        const coreUnits = getUnitsForBand(bandId, prev.activeBandData)
           .filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id))
           .map((unit) => resolveUnitIdForBand(bandId, unit.id));
         const lessonTotals = coreUnits.reduce(

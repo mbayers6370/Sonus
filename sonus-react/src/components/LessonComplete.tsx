@@ -1,5 +1,4 @@
 import { useApp } from '../contexts/AppContext';
-import { BookOpen } from 'lucide-react';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
 import { SPEAK_PASS_PERCENT } from '../lib/passCriteria';
@@ -13,6 +12,14 @@ interface LessonCompleteProps {
   onReviewMissed: () => void;
   onGoHome: () => void;
   onOpenProfile: () => void;
+}
+
+function WordsIcon() {
+  return (
+    <div className="w-6 h-6 text-[#3E5648] font-semibold text-[13px] leading-none flex items-center justify-center" aria-hidden="true">
+      Aa
+    </div>
+  );
 }
 
 export default function LessonComplete({
@@ -60,6 +67,7 @@ export default function LessonComplete({
   const quizMissedTotalCount = Math.max(0, totalQuizItems - quizCorrectCount);
   const isSpeakCompletion = lessonMode === 'speak';
   const isLearnCompletion = !isQuizCompletion && !isSpeakCompletion && !isApplyCompletion;
+  const centerWordsPracticedCard = isQuizCompletion || isLearnCompletion;
   const isJapaneseSpeak = /^n[1-5]$/i.test(activeBandId || '');
   const speakCorrectCoreCount = coreIndexes.filter((index) => Boolean(speakResultsByIndex[index])).length;
   const speakCorrectCount = activeLesson.words.filter((_, index) => Boolean(speakResultsByIndex[index])).length;
@@ -74,6 +82,7 @@ export default function LessonComplete({
       activeLesson.words.flatMap((word) => Array.from(word.simp || '')).filter((char) => /[\u3400-\u9FFF]/.test(char))
     )
   ).length;
+  const normalizeHanzi = (value: string) => (value || '').replace(/[^\u3400-\u9FFF]/g, '');
 
   const getSpeakSuggestions = (index: number) => {
     const breakdown = speakBreakdownByIndex[index];
@@ -91,6 +100,39 @@ export default function LessonComplete({
     }
     return suggestions;
   };
+
+  const speakingRows = activeLesson.words.map((word, index) => {
+    const breakdown = speakBreakdownByIndex[index];
+    const hasSpeakResult = Object.prototype.hasOwnProperty.call(speakResultsByIndex, index);
+    const isSpeakCorrect = Boolean(speakResultsByIndex[index]);
+    const missing = !hasSpeakResult;
+    const heardHanzi = normalizeHanzi(breakdown?.heardText || '');
+    const targetHanzi = normalizeHanzi(word.simp || '');
+    const homophoneChars = new Set<string>(
+      (word.homophoneGroup?.members || [])
+        .map((member) => normalizeHanzi(member.simp || ''))
+        .filter(Boolean)
+    );
+    homophoneChars.add(targetHanzi);
+    const acceptedHomophone =
+      Boolean(heardHanzi) &&
+      Boolean(targetHanzi) &&
+      heardHanzi !== targetHanzi &&
+      homophoneChars.has(heardHanzi);
+    return {
+      word,
+      index,
+      breakdown,
+      hasSpeakResult,
+      isSpeakCorrect,
+      missing,
+      acceptedHomophone,
+      suggestions: getSpeakSuggestions(index),
+    };
+  });
+  const speakingIssueRows = speakingRows.filter((row) => row.missing || !row.isSpeakCorrect);
+  const acceptedHomophoneRows = speakingRows.filter((row) => row.isSpeakCorrect && row.acceptedHomophone);
+  const surfaceCardClass = 'bg-white border border-border rounded-2xl shadow-[0_12px_28px_-22px_rgba(15,23,42,0.38)]';
 
   return (
     <div className="flex flex-col h-[100svh] min-h-[100svh] overflow-hidden page-shell">
@@ -114,9 +156,10 @@ export default function LessonComplete({
 
       <div
         className={`flex-1 flex flex-col items-center justify-start px-6 pt-2 overflow-y-auto ${
-          isSpeakCompletion ? 'pb-[18rem] sm:pb-[14rem]' : 'pb-[12.5rem] sm:pb-10'
+          isSpeakCompletion ? 'pb-[18rem] sm:pb-[14rem] lg:pb-8' : 'pb-[12.5rem] sm:pb-10 lg:pb-8'
         }`}
       >
+        <div className={`w-full max-w-md lg:max-w-6xl ${isSpeakCompletion ? 'lg:grid lg:grid-cols-12 lg:gap-4 lg:items-start' : ''}`}>
         {isQuizCompletion && !quizReadyForSpeak ? (
           <div className="mb-5 text-center">
             <p className="text-lg text-text-med"><b>Close!</b></p>
@@ -124,11 +167,9 @@ export default function LessonComplete({
               {`${quizMissedTotalCount} ${quizMissedTotalCount === 1 ? 'word needs' : 'words need'} refinement.`}
             </p>
           </div>
-        ) : (
+        ) : !isSpeakCompletion ? (
           <p className="text-lg text-text-med mb-5 text-center">
-            {isSpeakCompletion
-              ? `Speak score: ${speakScorePercent}% (${speakCorrectCount}/${totalQuizItems}) · Core: ${speakScorePercentCore}%`
-              : isQuizCompletion
+            {isQuizCompletion
                 ? `Quiz score: ${quizScorePercent}% (${quizCorrectCount}/${totalQuizItems}) · Core: ${quizScorePercentCore}%`
                 : isApplyCompletion
                   ? applyCompletionVariant === 'characters'
@@ -136,7 +177,7 @@ export default function LessonComplete({
                     : `${totalCoreItems} sentence prompts completed.`
                 : `${totalCoreItems} words introduced.`}
           </p>
-        )}
+        ) : null}
         {isSpeakCompletion && speakNeedsFullLessonRetry && (
           <p className="mb-5 text-center text-[#C2410C]">
             Score below {SPEAK_FULL_RETRY_PERCENT}%: return to Learn, then retake Quiz and Speak.
@@ -144,15 +185,17 @@ export default function LessonComplete({
         )}
 
         {isSpeakCompletion && (
-          <div className="bg-white border border-border rounded-2xl p-4 mb-5 w-full max-w-md">
+          <div className={`${surfaceCardClass} p-4 mb-5 w-full lg:col-span-7 lg:mb-4`}>
             <div className="text-sm font-semibold text-text-dark mb-3">Speaking Breakdown</div>
-            <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
-              {activeLesson.words.map((word, index) => {
-                const breakdown = speakBreakdownByIndex[index];
-                const hasSpeakResult = Object.prototype.hasOwnProperty.call(speakResultsByIndex, index);
-                const isSpeakCorrect = Boolean(speakResultsByIndex[index]);
-                const missing = !hasSpeakResult;
-                const suggestions = getSpeakSuggestions(index);
+            <div className="text-sm text-text-med mb-3">
+              {`Speak score: ${speakScorePercent}% (${speakCorrectCount}/${totalQuizItems}) · Core: ${speakScorePercentCore}%`}
+            </div>
+            <div className="space-y-3 max-h-64 lg:max-h-[44svh] overflow-y-auto pr-1">
+              {speakingIssueRows.length === 0 ? (
+                <div className="rounded-xl border border-border p-3 text-xs text-text-med">
+                  No speaking issues in this lesson.
+                </div>
+              ) : speakingIssueRows.map(({ word, index, breakdown, missing, isSpeakCorrect, suggestions }) => {
                 return (
                   <div key={`${word.id}-${index}`} className="rounded-xl border border-border p-3">
                     <div className="flex items-center justify-between gap-3">
@@ -218,16 +261,31 @@ export default function LessonComplete({
                 );
               })}
             </div>
+            {acceptedHomophoneRows.length > 0 && (
+              <div className="mt-3 rounded-xl border border-border p-3 bg-[#F3F7F5]">
+                <div className="text-[11px] font-mono uppercase tracking-wider text-[#3E5648] mb-1.5">Accepted Homophone Matches</div>
+                <div className="space-y-1">
+                  {acceptedHomophoneRows.map(({ word, index, breakdown }) => (
+                    <div key={`homophone-${word.id}-${index}`} className="text-xs text-text-med">
+                      <span className="text-text-dark font-semibold">{breakdown?.heardText || '...'}</span>
+                      {' matched '}
+                      <span className="text-text-dark font-semibold">{word.simp}</span>
+                      {' by pronunciation.'}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
         {/* Stats Card */}
-        <div className="bg-white rounded-2xl shadow-2xl p-6 mb-5 w-full max-w-md">
+        <div className={`${surfaceCardClass} p-6 mb-5 w-full ${isSpeakCompletion ? 'lg:col-span-5 lg:mb-4' : ''}`}>
           <div className="space-y-6">
             {/* Lesson summary */}
-            <div className="flex items-center gap-3">
+            <div className={`flex ${centerWordsPracticedCard ? 'flex-col items-center justify-center text-center gap-2' : 'items-center gap-3'}`}>
               <div className="w-12 h-12 rounded-full bg-[rgba(62,86,72,0.16)] flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-[#3E5648]" />
+                <WordsIcon />
               </div>
               <div>
                 <p className="text-sm text-text-med">
@@ -240,15 +298,16 @@ export default function LessonComplete({
             </div>
           </div>
         </div>
+        </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col gap-3 w-full max-w-md">
+        <div className="flex flex-col gap-3 w-full max-w-md lg:max-w-6xl">
           {isQuizCompletion && !quizReadyForSpeak && (
             <>
               {quizMissedTotalCount > 0 && (
                 <button
                   onClick={onReviewMissed}
-                  className="w-full py-4 px-6 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.12)]"
+                  className="w-full py-4 px-6 bg-white text-[#1F2A37] border-2 border-[#94A3B8] rounded-xl font-medium transition-all hover:bg-[#EEF2F6] active:bg-[#E2E8F0]"
                 >
                   Review Missed Words
                 </button>
@@ -272,7 +331,7 @@ export default function LessonComplete({
               {quizMissedTotalCount > 0 && (
                 <button
                   onClick={onReviewMissed}
-                  className="w-full py-4 px-6 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.12)]"
+                  className="w-full py-4 px-6 bg-white text-[#1F2A37] border-2 border-[#94A3B8] rounded-xl font-medium transition-all hover:bg-[#EEF2F6] active:bg-[#E2E8F0]"
                 >
                   Review Missed Words
                 </button>
@@ -295,7 +354,7 @@ export default function LessonComplete({
               </button>
               <button
                 onClick={onStartSpeak}
-                className="w-full py-4 px-6 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.12)]"
+                className="w-full py-4 px-6 bg-white text-[#1F2A37] border-2 border-[#94A3B8] rounded-xl font-medium transition-all hover:bg-[#EEF2F6] active:bg-[#E2E8F0]"
               >
                 Start Speak
               </button>
@@ -356,7 +415,7 @@ export default function LessonComplete({
             </>
           )}
         </div>
-        <div className={isSpeakCompletion ? 'h-36 sm:h-24' : 'h-24 sm:h-0'} />
+        <div className={isSpeakCompletion ? 'h-36 sm:h-24 lg:h-0' : 'h-24 sm:h-0 lg:h-0'} />
       </div>
 
       <BottomNav active="learn" onHome={onGoHome} onProfile={onOpenProfile} />

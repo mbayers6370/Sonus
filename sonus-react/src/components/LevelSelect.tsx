@@ -672,7 +672,7 @@ export default function LevelSelect({
           const bandData = (await response.json()) as BandData;
           const unitWordsById = getBandUnitsMap(bandData);
           const quizKeys: string[] = [];
-          for (const unit of getUnitsForBand(level.id)) {
+          for (const unit of getUnitsForBand(level.id, bandData)) {
             if (isPracticeUnitId(unit.id)) continue;
             if (isCheckpointUnitId(unit.id)) {
               quizKeys.push(makeLessonKey(level.id, unit.id, 0));

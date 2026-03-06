@@ -30,7 +30,8 @@ interface ProfileProgressScreenProps {
 
 function inferUnitFromLessonProgress(
   bandId: string | null,
-  lessonProgress: Record<string, unknown>
+  lessonProgress: Record<string, unknown>,
+  bandData?: { units?: Array<{ id?: string }> | Record<string, { id?: string }> } | null
 ) {
   if (!bandId) return null;
   const unitIds = new Set<string>();
@@ -40,7 +41,7 @@ function inferUnitFromLessonProgress(
       unitIds.add(keyUnitId);
     }
   }
-  const orderedCoreUnits = getUnitsForBand(bandId)
+  const orderedCoreUnits = getUnitsForBand(bandId, bandData)
     .filter((unit) => !isCheckpointUnitId(unit.id) && !isPracticeUnitId(unit.id))
     .map((unit) => unit.id);
   const latestStarted = orderedCoreUnits.filter((unitId) => unitIds.has(unitId)).at(-1);
@@ -225,14 +226,18 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     languageScopedActiveBandId ??
     languageScopedCurrentLevelBandId ??
     null;
-  const inferredUnitId = inferUnitFromLessonProgress(effectiveBandId, state.lessonProgress || {});
+  const activeBandDataForMetrics =
+    effectiveBandId && state.activeBandId === effectiveBandId ? state.activeBandData : null;
+  const inferredUnitId = inferUnitFromLessonProgress(
+    effectiveBandId,
+    state.lessonProgress || {},
+    activeBandDataForMetrics
+  );
   const coreUnits = effectiveBandId
-    ? getUnitsForBand(effectiveBandId).filter(
+    ? getUnitsForBand(effectiveBandId, activeBandDataForMetrics).filter(
       (unit) => !isCheckpointUnitId(unit.id) && !isPracticeUnitId(unit.id)
     )
     : [];
-  const activeBandDataForMetrics =
-    effectiveBandId && state.activeBandId === effectiveBandId ? state.activeBandData : null;
   const unitLessonCount = (unitId: string) => {
     if (activeBandDataForMetrics) {
       const words = Array.isArray(activeBandDataForMetrics.units)
@@ -279,7 +284,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
   const lessonsCompletedDisplay = completedLessons;
   const currentUnitMeta =
     effectiveBandId && currentPath.unitId
-      ? getUnitMetadata(effectiveBandId, currentPath.unitId)
+      ? getUnitMetadata(effectiveBandId, currentPath.unitId, activeBandDataForMetrics)
       : null;
   const currentLessonNumber =
     typeof currentPath.lessonIdx === 'number' && currentPath.lessonIdx >= 0

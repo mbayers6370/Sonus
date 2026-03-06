@@ -239,7 +239,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
     ];
   })();
   const isIntroMode = lessonMode === 'intro';
-  const lockViewportScroll = lessonMode === 'quiz' || lessonMode === 'speak' || isIntroMode;
+  const lockViewportScroll = lessonMode === 'quiz' || isIntroMode;
   const lessonContentClass = isApplyMode
     ? 'overflow-y-auto md:overflow-y-hidden pb-0'
     : lockViewportScroll
@@ -249,7 +249,9 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
     ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 5.25rem)'
     : lockViewportScroll
       ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 1rem)'
-      : 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 9rem)';
+      : lessonMode === 'speak'
+        ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 1.5rem)'
+        : 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 9rem)';
 
   return (
     <div className={`flex flex-col h-[100svh] min-h-[100svh] overflow-hidden page-shell ${speakingPageTheme.shell}`}>
@@ -338,6 +340,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             totalWords={totalWords}
             practiceMode={isSpeakingPractice}
             hideReadingAndMeaning={shouldHideReadingAndMeaning}
+            disableTargetAudio={isMasterySession}
             onNext={nextWord}
           />
         )}
