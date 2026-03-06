@@ -417,6 +417,7 @@ export default function AppRoutes() {
             onOpenPractice={(kind, bandId) => openPracticeFromHome(kind, bandId)}
             onOpenWeakWords={() => navigate('/profile/progress')}
             onOpenProfile={() => navigate('/profile')}
+            onOpenAbout={() => navigate('/about')}
             onOpenTravelMode={(sectionId) => navigate(sectionId ? `/travel/${sectionId}` : '/travel')}
           />
         }

@@ -60,6 +60,7 @@ interface HomeDashboardProps {
   onOpenPractice: (kind: 'listening' | 'speaking', bandId?: string | null) => void;
   onOpenWeakWords: () => void;
   onOpenProfile: () => void;
+  onOpenAbout: () => void;
   onOpenTravelMode: (sectionId?: string) => void;
 }
 
@@ -239,6 +240,7 @@ export default function HomeDashboard({
   onOpenPractice,
   onOpenWeakWords,
   onOpenProfile,
+  onOpenAbout,
   onOpenTravelMode,
 }: HomeDashboardProps) {
   const { state } = useApp();
@@ -741,12 +743,12 @@ export default function HomeDashboard({
               <ArrowRight className="w-4 h-4 text-text-light" />
             </button>
             <button
-              onClick={onOpenProfile}
+              onClick={onOpenAbout}
               className={glassRowBtn}
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
                 <Bolt className="w-4 h-4 text-[#1F2A37]" />
-                Profile Settings
+                About Sonus
               </span>
               <ArrowRight className="w-4 h-4 text-text-light" />
             </button>

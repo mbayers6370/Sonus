@@ -62,6 +62,7 @@ type HomeRouteProps = {
   onOpenPractice: (kind: 'listening' | 'speaking', bandId?: string | null) => void;
   onOpenWeakWords: () => void;
   onOpenProfile: () => void;
+  onOpenAbout: () => void;
   onOpenTravelMode: (sectionId?: string) => void;
 };
 
@@ -73,6 +74,7 @@ export function HomeRoute(props: HomeRouteProps) {
     onOpenPractice,
     onOpenWeakWords,
     onOpenProfile,
+    onOpenAbout,
     onOpenTravelMode,
   } = props;
 
@@ -85,6 +87,7 @@ export function HomeRoute(props: HomeRouteProps) {
       onOpenPractice={onOpenPractice}
       onOpenWeakWords={onOpenWeakWords}
       onOpenProfile={onOpenProfile}
+      onOpenAbout={onOpenAbout}
       onOpenTravelMode={onOpenTravelMode}
     />
   );
