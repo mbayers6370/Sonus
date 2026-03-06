@@ -13,31 +13,29 @@ interface BottomNavProps {
 export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' }: BottomNavProps) {
   const { signOut, isDemo } = useAuth();
   const location = useLocation();
-  const [mobileLearnMenuOpen, setMobileLearnMenuOpen] = useState(false);
+  const routeKey = `${location.pathname}${location.search}`;
+  const [learnMenuOpenRouteKey, setLearnMenuOpenRouteKey] = useState<string | null>(null);
   const [isMobileViewport, setIsMobileViewport] = useState(() =>
     typeof window !== 'undefined' ? window.matchMedia('(max-width: 1023px)').matches : false
   );
+  const mobileLearnMenuOpen = isMobileViewport && learnMenuOpenRouteKey === routeKey;
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const media = window.matchMedia('(max-width: 1023px)');
-    const onChange = (event: MediaQueryListEvent) => setIsMobileViewport(event.matches);
+    const onChange = (event: MediaQueryListEvent) => {
+      setIsMobileViewport(event.matches);
+      if (!event.matches) {
+        setLearnMenuOpenRouteKey(null);
+      }
+    };
     media.addEventListener('change', onChange);
     return () => media.removeEventListener('change', onChange);
   }, []);
 
-  useEffect(() => {
-    setMobileLearnMenuOpen(false);
-  }, [location.pathname, location.search]);
-
-  useEffect(() => {
-    if (isMobileViewport) return;
-    setMobileLearnMenuOpen(false);
-  }, [isMobileViewport]);
-
   const handleLearn = () => {
     if (isMobileViewport) {
-      setMobileLearnMenuOpen((open) => !open);
+      setLearnMenuOpenRouteKey((openKey) => (openKey === routeKey ? null : routeKey));
       return;
     }
     if (onLearn) {
@@ -48,7 +46,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
   };
 
   const runLearnAction = (target: 'main' | 'levels' | 'units' | 'lessons') => {
-    setMobileLearnMenuOpen(false);
+    setLearnMenuOpenRouteKey(null);
     if (target === 'main') {
       window.dispatchEvent(new CustomEvent('sonus:learn:main'));
       return;
@@ -90,7 +88,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
         <button
           type="button"
           aria-label="Close learn quick menu"
-          onClick={() => setMobileLearnMenuOpen(false)}
+          onClick={() => setLearnMenuOpenRouteKey(null)}
           className="fixed left-0 right-0 top-0 z-[58] bg-[#1F2A37]/24 backdrop-blur-[1.5px]"
           style={{
             bottom: bottomNavHeight,
