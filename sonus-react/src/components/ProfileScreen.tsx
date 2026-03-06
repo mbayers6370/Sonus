@@ -333,12 +333,12 @@ export default function ProfileScreen({
           </div>
         )}
 
-        <SurfaceCard className="relative p-5 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)]">
-          <div className="flex flex-col items-center text-center">
-            <div className="w-10 h-10 rounded-full bg-[rgba(24,110,149,0.12)] border border-[rgba(24,110,149,0.22)] flex items-center justify-center text-[#186E95]">
+        <SurfaceCard className="relative p-6 sm:p-7 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)]">
+          <div className="flex flex-col items-center gap-2.5 text-center sm:gap-3">
+            <div className="w-11 h-11 rounded-full bg-[rgba(24,110,149,0.12)] border border-[rgba(24,110,149,0.22)] flex items-center justify-center text-[#186E95]">
               <UserRound className="w-5 h-5" />
             </div>
-            <div className="mt-2 w-full max-w-[20rem] px-1">
+            <div className="w-full max-w-[20rem] px-1">
               <div className="text-lg font-semibold text-text-dark leading-tight break-words">
                 {displayName.trim() || 'Learner'}
               </div>
@@ -346,14 +346,14 @@ export default function ProfileScreen({
                 {profile?.email || '—'}
               </div>
             </div>
-            <div className="mt-1 flex flex-wrap items-center justify-center gap-1.5">
+            <div className="flex flex-wrap items-center justify-center gap-1.5">
               <span className="inline-flex items-center rounded-full border border-border bg-[rgba(31,42,55,0.06)] px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider text-text-med">
                 {activeLanguageName ? `Target: ${activeLanguageName}` : 'Target: Not set'}
               </span>
             </div>
             <button
               onClick={signOut}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-text-light hover:text-text-dark transition-colors"
+              className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-text-light hover:text-text-dark transition-colors"
             >
               <LogOut className="w-4 h-4" />
               {isDemo ? 'Exit Demo' : 'Sign Out'}
@@ -363,7 +363,7 @@ export default function ProfileScreen({
             onClick={() => setProfileEditorOpen(true)}
             aria-label="Edit profile"
             title="Edit profile"
-            className="absolute bottom-6 right-8 inline-flex items-center justify-center text-text-light hover:text-text-dark transition-colors"
+            className="absolute bottom-7 right-8 inline-flex items-center justify-center text-text-light hover:text-text-dark transition-colors"
           >
             <PencilLine className="w-3.5 h-3.5" />
           </button>

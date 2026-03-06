@@ -13,6 +13,7 @@ import {
   fetchWrongWords,
 } from '../services/reviewInsightsService.js';
 import { getOrCreateProfile, upsertProfile } from '../services/profileService.js';
+import { sendAccountDeletionConfirmationEmail } from '../services/accountDeletionEmailService.js';
 import {
   getProgressSnapshot,
   recordProgressEvent,
@@ -108,13 +109,15 @@ export async function meRoutes(app: FastifyInstance) {
   app.delete('/v1/me/account', { preHandler: [requireAuth] }, async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 
-    const { id } = request.user;
+    const { id, email } = request.user;
+    const deletedAtIso = new Date().toISOString();
 
     await prisma.$transaction(async (tx) => {
       if (env.AUTH_MODE === 'local') {
         await tx.refreshSession.deleteMany({ where: { userId: id } });
         await tx.localAuthCredential.deleteMany({ where: { userId: id } });
       }
+      await tx.passwordResetToken.deleteMany({ where: { userId: id } });
       await tx.quizAttempt.deleteMany({ where: { userId: id } });
       await tx.speakAttempt.deleteMany({ where: { userId: id } });
       await tx.wordMemoryState.deleteMany({ where: { userId: id } });
@@ -143,6 +146,15 @@ export async function meRoutes(app: FastifyInstance) {
         sameSite: env.AUTH_COOKIE_SAME_SITE,
       })
     );
+
+    if (email) {
+      void sendAccountDeletionConfirmationEmail({
+        to: email,
+        deletedAtIso,
+      }).catch((error) => {
+        console.error('[auth] Unexpected account deletion email error', error);
+      });
+    }
 
     return { ok: true };
   });

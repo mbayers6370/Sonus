@@ -68,10 +68,32 @@ export default function PublicLanding() {
     ],
     []
   );
+  const heroLineVariants = useMemo(
+    () => [
+      'Language learning built to last.',
+      '続く語学学習を。',
+      '持久有效的语言学习。',
+      '오래 가는 언어 학습.',
+      "Apprentissage des langues concu pour durer.",
+      'Aprendizaje de idiomas pensado para durar.',
+      'Language learning built to last.',
+    ],
+    []
+  );
+  const [heroLineVariantIdx, setHeroLineVariantIdx] = useState(0);
 
   const openAuth = (mode: ModalMode) => {
     setModalMode(mode);
   };
+
+  useEffect(() => {
+    if (heroLineVariants.length <= 1) return;
+    if (heroLineVariantIdx >= heroLineVariants.length - 1) return;
+    const timer = window.setTimeout(() => {
+      setHeroLineVariantIdx((prev) => prev + 1);
+    }, 700);
+    return () => window.clearTimeout(timer);
+  }, [heroLineVariantIdx, heroLineVariants.length]);
 
   useEffect(() => {
     const scriptId = 'sonus-webapp-jsonld';
@@ -186,8 +208,13 @@ export default function PublicLanding() {
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#104A64]/34" />
                 </div>
                 <div className="relative z-10 text-center">
-                  <h1 className="main-font mx-auto max-w-4xl text-[3.5rem] leading-tight text-white sm:mt-4 sm:text-[3.5rem]">
-                    Language learning built to last.
+                  <h1 className="main-font mx-auto max-w-6xl text-[2.95rem] leading-tight text-white sm:mt-4 sm:text-[3.15rem]">
+                    <span
+                      key={`${heroLineVariants[heroLineVariantIdx]}-${heroLineVariantIdx}`}
+                      className="dashboard-card-enter inline-block"
+                    >
+                      {heroLineVariants[heroLineVariantIdx]}
+                    </span>
                   </h1>
                   <p
                     className="font-mono mx-auto mt-3 max-w-3xl font-light leading-relaxed text-[#D6E2EE] sm:mt-4 sm:text-[1.2rem]"

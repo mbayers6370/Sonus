@@ -69,7 +69,7 @@ export default function PrivacyPage() {
         <p className="mt-2">Sonus may use the following infrastructure providers to operate the service:</p>
         <p className="mt-2">
           Render (hosting/deployment), PostgreSQL hosting, Supabase (authentication when enabled), Resend (password
-          reset email when enabled), and Upstash Redis (rate limiting when enabled).
+          reset and account deletion confirmation email when enabled), and Upstash Redis (rate limiting when enabled).
         </p>
       </section>
 
@@ -77,7 +77,8 @@ export default function PrivacyPage() {
         <h2 className="main-font text-xl text-[#1F2A37] sm:text-2xl">Data Retention and Deletion</h2>
         <p className="mt-2">
           We retain account and learning records while your account is active and as needed for security and operations.
-          You can request account deletion by contacting support.
+          You can permanently delete your account from the Profile screen. When email delivery is enabled, we also send
+          a deletion confirmation email.
         </p>
       </section>
 

@@ -57,7 +57,7 @@ function ScrollToTop() {
 
 export default function App() {
   const routerMode = (import.meta.env.VITE_ROUTER_MODE || '').toLowerCase();
-  const useBrowserRouter = routerMode !== 'hash';
+  const useBrowserRouter = routerMode ? routerMode !== 'hash' : !import.meta.env.PROD;
   const Router = useBrowserRouter ? BrowserRouter : HashRouter;
   return (
     <AuthProvider>
