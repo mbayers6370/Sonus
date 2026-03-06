@@ -118,7 +118,7 @@ export default function GlassHeader({
       >
         {showStandaloneLogo ? (
           <div className="px-4 md:px-6">
-            <div className="h-[5rem] md:h-[6.1rem] flex flex-col justify-center gap-1">
+            <div className="h-[4.2rem] md:h-[5.15rem] flex flex-col justify-center gap-1">
             <button
               type="button"
               onClick={() => navigate('/home')}
@@ -128,7 +128,7 @@ export default function GlassHeader({
               <img
                 src="/branding/logo_name_solo.png"
                 alt="Sonus"
-                className="h-5 md:h-6 w-auto object-contain"
+                className="h-[18px] max-h-[18px] md:h-6 md:max-h-none w-auto object-contain"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).style.display = 'none';
                 }}
@@ -306,7 +306,7 @@ export default function GlassHeader({
       </div>
       <div
         className={`mb-6 ${spacerClassName}`}
-        style={{ height: headerHeightPx ?? (showStandaloneLogo ? 80 : 68) }}
+        style={{ height: headerHeightPx ?? 68 }}
       />
     </>
   );
