@@ -1834,9 +1834,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const isMasteryAttempt = existing.completed && !existing.mastered;
       if (lessonMode === 'apply') {
         nextMastered = true;
-      } else if (computedCompleted) {
-        // Mastery is achieved once both instructional thresholds are met.
-        nextMastered = true;
       } else if (
         isMasteryAttempt &&
         lessonMode === 'speak' &&
@@ -1844,6 +1841,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT &&
         (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT
       ) {
+        // Mastery is earned on a subsequent mastery attempt, not on initial completion.
         nextMastered = true;
       }
       const nextCompleted = completed;

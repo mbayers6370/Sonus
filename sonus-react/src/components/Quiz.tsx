@@ -14,6 +14,7 @@ interface QuizProps {
   currentIndex: number;
   totalWords: number;
   listeningMode?: boolean;
+  hideReadingAndMeaning?: boolean;
   onNext: () => void;
 }
 
@@ -115,6 +116,7 @@ export default function Quiz({
   currentIndex,
   totalWords,
   listeningMode = false,
+  hideReadingAndMeaning = false,
   onNext,
 }: QuizProps) {
   const { state, recordQuizResult, recordWordOutcome } = useApp();
@@ -218,10 +220,10 @@ export default function Quiz({
                   <div className={`secondary-font text-4xl mb-1 text-white leading-tight ${hasPoliteTag ? 'mt-7' : ''}`}>
                     {word.simp}
                   </div>
-                  {word.pinyin && (
+                  {!hideReadingAndMeaning && word.pinyin && (
                     <div className="text-[1.2rem] text-white/80">{word.pinyin}</div>
                   )}
-                  {(clozeZh || clozeEn || fullEn) && (
+                  {!hideReadingAndMeaning && (clozeZh || clozeEn || fullEn) && (
                     <div className="mt-2 text-center space-y-1">
                       {selectedAnswer && fullZh ? (
                         <div className="text-sm text-white/80 leading-relaxed">{zhFilled}</div>
@@ -264,7 +266,7 @@ export default function Quiz({
                   {selectedAnswer ? (
                     <div className="mt-2 text-center">
                       <div className="secondary-font text-3xl text-[#1F2A37] leading-tight">{word.simp}</div>
-                      {word.pinyin ? (
+                      {!hideReadingAndMeaning && word.pinyin ? (
                         <div className="text-sm text-[#475569] mt-0.5">{word.pinyin}</div>
                       ) : null}
                     </div>

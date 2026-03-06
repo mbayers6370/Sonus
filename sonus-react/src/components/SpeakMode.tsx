@@ -21,6 +21,7 @@ interface SpeakModeProps {
   currentIndex: number;
   totalWords: number;
   practiceMode?: boolean;
+  hideReadingAndMeaning?: boolean;
   onNext: () => void;
 }
 
@@ -832,6 +833,7 @@ export default function SpeakMode({
   currentIndex,
   totalWords,
   practiceMode = false,
+  hideReadingAndMeaning = false,
   onNext,
 }: SpeakModeProps) {
   const renderAnimatedEllipsis = () => (
@@ -1748,6 +1750,7 @@ export default function SpeakMode({
   const resultPinyinLabel = isJapaneseLesson
     ? (heardRomanized || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : ''))
     : (detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : ''));
+  const displayResultReading = hideReadingAndMeaning ? '' : resultPinyinLabel;
   const mappedMandarinHeard = isMandarinLesson && transcript && !heardHanzi
     ? inferHanziFromDetectedPinyin(
         firstUsableDetected || rawDetectedPinyin || transcript,
@@ -2116,10 +2119,10 @@ export default function SpeakMode({
 
         <div className={heardClass}>{displayHeardText || '...'}</div>
 
-        {resultPinyinLabel ? (
+        {displayResultReading ? (
           <div className="mt-2 flex justify-center">
             <div className="inline-flex items-center rounded-xl px-2.5 py-1 bg-white/12 border border-white/15">
-              <span className="text-sm font-semibold text-white">{resultPinyinLabel}</span>
+              <span className="text-sm font-semibold text-white">{displayResultReading}</span>
             </div>
           </div>
         ) : null}
@@ -2156,13 +2159,15 @@ export default function SpeakMode({
               <>
                 <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight">{displayMeaning}</div>
                 <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
-                {word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
+                {!hideReadingAndMeaning && word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
               </>
             ) : (
               <>
                 <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
-                {word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
-                <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1">{displayMeaning}</div>
+                {!hideReadingAndMeaning && word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
+                {!hideReadingAndMeaning ? (
+                  <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1">{displayMeaning}</div>
+                ) : null}
               </>
             )}
           </button>

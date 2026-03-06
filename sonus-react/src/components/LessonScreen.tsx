@@ -12,6 +12,7 @@ import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { Check } from 'lucide-react';
 import { isCheckpointUnitId } from '../data/unitMetadata';
 import type { BandData, Word } from '../types/lesson.types';
+import { normalizeLanguageId } from '../lib/languageRuntime';
 
 interface LessonScreenProps {
   onGoHome: () => void;
@@ -207,6 +208,9 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
     activeLesson && activeBandId ? makeLessonKey(activeBandId, activeLesson.unitId, activeLesson.lessonIndex) : null;
   const lessonStatus = lessonKey ? lessonProgress[lessonKey] : undefined;
   const isMasterySession = !!lessonStatus?.completed && !lessonStatus?.mastered;
+  const normalizedLanguageId = normalizeLanguageId(state.selectedLanguage);
+  const shouldHideReadingAndMeaning =
+    isMasterySession && !['es', 'fr', 'it'].includes(normalizedLanguageId);
   const learnDone = Boolean(lessonStatus?.introViewed);
   const quizDone = !isMasterySession && (lessonStatus?.quizScore ?? 0) >= QUIZ_PASS_PERCENT;
   const speakDone = !isMasterySession && (lessonStatus?.speakScore ?? 0) >= SPEAK_PASS_PERCENT;
@@ -322,6 +326,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             currentIndex={lessonWordIndex}
             totalWords={totalWords}
             listeningMode={isListeningPractice}
+            hideReadingAndMeaning={shouldHideReadingAndMeaning}
             onNext={nextWord}
           />
         )}
@@ -332,6 +337,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             currentIndex={lessonWordIndex}
             totalWords={totalWords}
             practiceMode={isSpeakingPractice}
+            hideReadingAndMeaning={shouldHideReadingAndMeaning}
             onNext={nextWord}
           />
         )}
