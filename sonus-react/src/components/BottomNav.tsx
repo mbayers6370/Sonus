@@ -86,7 +86,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
         <button
           type="button"
           onClick={signOut}
-          className="hidden lg:flex absolute right-4 top-[35%] -translate-y-1/2 items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium text-text-light transition-colors hover:text-text-dark"
+          className="hidden lg:flex absolute right-4 top-[41%] -translate-y-1/2 items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium leading-none text-text-light transition-colors hover:text-text-dark"
           aria-label={isDemo ? 'Exit Demo' : 'Sign Out'}
           title={isDemo ? 'Exit Demo' : 'Sign Out'}
         >
