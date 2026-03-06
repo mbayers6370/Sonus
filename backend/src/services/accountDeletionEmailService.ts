@@ -1,6 +1,7 @@
 import { env } from '../env.js';
 
 function escapeHtml(input: string) {
+  // Escape user/runtime values before HTML interpolation.
   return input
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
@@ -15,6 +16,7 @@ type AccountDeletionEmailInput = {
 };
 
 function buildAccountDeletionEmailHtml(input: AccountDeletionEmailInput) {
+  // Build formal deletion confirmation email with UTC timestamp for audit clarity.
   const logoUrl =
     env.RESET_EMAIL_LOGO_URL ||
     (env.RESET_URL_BASE
@@ -55,6 +57,7 @@ function buildAccountDeletionEmailHtml(input: AccountDeletionEmailInput) {
 }
 
 export async function sendAccountDeletionConfirmationEmail(input: AccountDeletionEmailInput) {
+  // Best-effort confirmation email; returns false only on provider delivery failure.
   if (!env.RESEND_API_KEY) {
     console.info('[auth] Account deletion email skipped (RESEND_API_KEY not configured):', {
       to: input.to,

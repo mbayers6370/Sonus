@@ -71,6 +71,7 @@ const state = {
 const WARN_COOLDOWN_MS = 5 * 60 * 1000;
 
 function createLatencySeries(): LatencySeries {
+  // Initialize fixed histogram buckets used by in-memory metrics snapshots.
   const buckets: Record<string, number> = {};
   for (const bucket of BUCKETS) buckets[`le_${bucket}`] = 0;
   buckets.le_inf = 0;
@@ -83,6 +84,7 @@ function createLatencySeries(): LatencySeries {
 }
 
 function addLatency(series: LatencySeries, durationMs: number) {
+  // Record a duration sample into histogram + aggregate counters.
   const safeDuration = Math.max(0, Math.round(durationMs));
   series.count += 1;
   series.sumMs += safeDuration;
@@ -99,6 +101,7 @@ function addLatency(series: LatencySeries, durationMs: number) {
 }
 
 export function recordAttemptTelemetry(sample: AttemptSample) {
+  // Ingest per-attempt metrics from quiz/speak endpoints.
   addLatency(state.attempts[sample.kind], sample.durationMs);
 
   if (sample.kind === 'quiz') {
@@ -148,6 +151,7 @@ export function recordAttemptTelemetry(sample: AttemptSample) {
 }
 
 export function recordClientTelemetry(sample: ClientTelemetrySample) {
+  // Ingest client-side capability/error pings from the frontend.
   if (sample.name === 'speak_stt_unavailable') {
     state.counters.speakSttUnavailable += 1;
     return;
@@ -160,21 +164,25 @@ export function recordClientTelemetry(sample: ClientTelemetrySample) {
 }
 
 function rate(numerator: number, denominator: number) {
+  // Percent helper with bounded precision for operator-facing output.
   if (denominator <= 0) return 0;
   return Math.round((numerator / denominator) * 10000) / 100;
 }
 
 function avgMs(series: LatencySeries) {
+  // Mean latency helper for histogram series.
   if (series.count <= 0) return 0;
   return Math.round((series.sumMs / series.count) * 100) / 100;
 }
 
 function avg(sum: number, count: number) {
+  // Generic average helper for scheduling aggregates.
   if (count <= 0) return 0;
   return Math.round((sum / count) * 100) / 100;
 }
 
 function maybeLogThresholdWarnings() {
+  // Emits rate/growth warnings with cooldown to avoid noisy logs.
   const now = Date.now();
   const minSamples = env.TELEMETRY_WARN_MIN_SAMPLES;
   const quizMissPct = rate(state.counters.quizMissTotal, state.counters.quizTotal);
@@ -222,6 +230,7 @@ function maybeLogThresholdWarnings() {
 }
 
 export function getLearningMetricsSnapshot() {
+  // Returns a structured metrics snapshot for JSON API consumers.
   return {
     startedAt: state.startedAt,
     generatedAt: new Date().toISOString(),
@@ -279,6 +288,7 @@ export function getLearningMetricsSnapshot() {
 }
 
 export function assertMetricsReadTokenOrThrow(headerToken: string | undefined) {
+  // Guards metrics endpoint with an explicit read token.
   if (!env.METRICS_READ_TOKEN) {
     const error = new Error('Metrics endpoint disabled');
     (error as Error & { statusCode?: number }).statusCode = 404;
@@ -292,6 +302,7 @@ export function assertMetricsReadTokenOrThrow(headerToken: string | undefined) {
 }
 
 export function toPrometheusText() {
+  // Export selected metrics in Prometheus exposition format.
   const snapshot = getLearningMetricsSnapshot();
   const lines: string[] = [];
   lines.push('# TYPE sonus_learning_quiz_attempts_total counter');

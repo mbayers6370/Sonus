@@ -6,6 +6,7 @@ type SupportedLanguage = 'zh' | 'ja';
 type ResponseShape = 'legacy' | 'lexeme';
 
 function normalizeLanguage(language: string | null | undefined): SupportedLanguage | null {
+  // Collapse incoming language labels to supported internal IDs.
   const value = (language || '').trim().toLowerCase();
   if (value === 'ja' || value === 'jp') return 'ja';
   if (value === 'zh') return 'zh';
@@ -13,6 +14,7 @@ function normalizeLanguage(language: string | null | undefined): SupportedLangua
 }
 
 function languageWordFilter(language: string | null | undefined) {
+  // Map active language to legacy word-id prefixes used in persisted datasets.
   const normalized = normalizeLanguage(language);
   if (normalized === 'ja') return { startsWith: 'N' };
   if (normalized === 'zh') return { startsWith: 'L' };
@@ -20,6 +22,7 @@ function languageWordFilter(language: string | null | undefined) {
 }
 
 function isLexemePlaceholderForWordId(lexeme: SharedLexeme, wordId: string) {
+  // Detect unresolved lexeme placeholders (id/term/en all echoing wordId).
   const normalize = (value: string) => value.trim().toLowerCase();
   const normalizedWordId = normalize(wordId);
   return (
@@ -34,6 +37,7 @@ async function pruneUnknownWordIds<T extends { wordId: string }>(
   language: string | null | undefined,
   items: T[]
 ) {
+  // Drop stale memory rows whose lexeme cannot be resolved from current catalogs.
   if (items.length === 0) return { kept: items, lexemeByWordId: new Map<string, SharedLexeme>() };
 
   const lexemeByWordId = new Map<string, SharedLexeme>();
@@ -68,6 +72,7 @@ function buildReviewPriority(input: {
   missedQuizCount: number;
   mispronounceCount: number;
 }) {
+  // Composite priority emphasizing overdue review + pronunciation risk.
   const now = Date.now();
   const overdueMs = Math.max(0, now - input.quizDueAt.getTime());
   const overdueDays = overdueMs / 86_400_000;
@@ -105,10 +110,12 @@ type ChannelEvaluation = {
 };
 
 function dayDiffRounded(from: Date, to: Date) {
+  // Day-level delta used for interval progression checks.
   return Math.max(0, Math.round((to.getTime() - from.getTime()) / 86_400_000));
 }
 
 function evaluateChannelNeedsWork(attempts: ChannelAttempt[]): ChannelEvaluation {
+  // Graduation rule: 3+ correct reps with non-decreasing intervals and a >=7 day interval/span.
   if (attempts.length === 0) {
     return {
       hasMiss: false,
@@ -175,6 +182,7 @@ export async function fetchReviewQueue(
   language?: string | null,
   shape: ResponseShape = 'legacy'
 ) {
+  // Build a prioritized review queue from SRS state with optional lexeme enrichment.
   const now = new Date();
   const wordFilter = languageWordFilter(language);
   const rows = await prisma.wordMemoryState.findMany({
@@ -248,6 +256,7 @@ export async function fetchNeedsWork(
   language?: string | null,
   shape: ResponseShape = 'legacy'
 ) {
+  // Surface words still failing channel-specific graduation criteria after misses.
   const wordFilter = languageWordFilter(language);
   const rows = await prisma.wordMemoryState.findMany({
     where: {
@@ -447,6 +456,7 @@ export async function fetchNeedsWork(
 }
 
 export async function fetchWeakLogs(userId: string, limit: number, language?: string | null) {
+  // Returns merged chronological miss logs from quiz + speak channels.
   const wordFilter = languageWordFilter(language);
   const [quizMisses, speakMisses] = await Promise.all([
     prisma.quizAttempt.findMany({
@@ -505,6 +515,7 @@ export async function fetchWrongWords(
   minTotalMisses: number,
   language?: string | null
 ) {
+  // Legacy wrong-words summary aggregated from historical miss counts.
   const wordFilter = languageWordFilter(language);
   const [quizMissGroups, speakMissGroups] = await Promise.all([
     prisma.quizAttempt.groupBy({

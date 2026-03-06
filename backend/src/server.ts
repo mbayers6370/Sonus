@@ -15,6 +15,7 @@ import { characterRoutes } from './routes/characters.js';
 import { publicContactRoutes } from './routes/publicContact.js';
 
 function buildCspHeader(allowedOrigins: Set<string>) {
+  // Generate a strict CSP while allowing configured API origins for client fetch calls.
   const connectSrc = ["'self'", ...Array.from(allowedOrigins)];
   return [
     "default-src 'self'",
@@ -37,6 +38,7 @@ function sanitizeErrorPayload(
   contentTypeHeader: unknown,
   requestId: string
 ) {
+  // In production, strip non-essential error fields to avoid leaking internal details.
   if (env.NODE_ENV !== 'production') return payload;
   if (statusCode < 400) return payload;
   const contentType = typeof contentTypeHeader === 'string' ? contentTypeHeader.toLowerCase() : '';
@@ -77,6 +79,7 @@ function sanitizeErrorPayload(
 }
 
 export async function buildServer() {
+  // Central server composition: transport, security headers, auth routes, and error policy.
   const app = Fastify({
     logger: true,
     bodyLimit: env.BODY_LIMIT_BYTES,
@@ -109,6 +112,7 @@ export async function buildServer() {
   });
 
   app.addHook('onRequest', async (request, reply) => {
+    // Apply API rate limiting before route handlers execute.
     if (!request.url.startsWith('/v1/')) return;
     const identity = resolveRateLimitIdentity(request.headers, request.ip, env.AUTH_MODE);
     const decision = await limiter.check(identity);
@@ -125,6 +129,7 @@ export async function buildServer() {
   });
 
   app.addHook('onSend', async (request, reply, payload) => {
+    // Set security headers consistently for every response.
     reply.header('X-Content-Type-Options', 'nosniff');
     reply.header('X-Frame-Options', 'DENY');
     reply.header('Referrer-Policy', 'strict-origin-when-cross-origin');
@@ -144,6 +149,7 @@ export async function buildServer() {
   });
 
   app.addHook('onResponse', async (request, reply) => {
+    // Record slow-request and audit telemetry after the response is finalized.
     if (!request.url.startsWith('/v1/')) return;
     const durationMs = reply.elapsedTime;
     if (durationMs >= env.SLOW_REQUEST_MS) {
@@ -253,6 +259,7 @@ export async function buildServer() {
 }
 
 async function start() {
+  // Runtime entrypoint for direct execution (not imported server factories).
   const app = await buildServer();
 
   const close = async () => {

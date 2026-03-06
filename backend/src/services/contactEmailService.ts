@@ -1,6 +1,7 @@
 import { env } from '../env.js';
 
 function escapeHtml(input: string) {
+  // Escape user-provided values before injecting into HTML email templates.
   return input
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
@@ -19,6 +20,7 @@ const CONTACT_TO = 'support@sonuslearning.com';
 const CONTACT_FROM = 'Sonus Support <support@sonuslearning.com>';
 
 function buildContactEmailHtml(input: ContactEmailInput) {
+  // Render support-friendly contact payload with explicit sender metadata.
   return `<!doctype html>
 <html>
   <body style="margin:0;padding:24px;background:#f3f5f7;font-family:Arial,sans-serif;color:#1f2a37;">
@@ -38,6 +40,7 @@ function buildContactEmailHtml(input: ContactEmailInput) {
 }
 
 export async function sendContactEmail(input: ContactEmailInput) {
+  // Sends contact submissions via Resend and returns a boolean delivery outcome.
   if (!env.RESEND_API_KEY) {
     console.error('[contact] RESEND_API_KEY is not configured; cannot send contact email.');
     return false;

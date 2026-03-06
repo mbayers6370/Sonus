@@ -31,6 +31,7 @@ function normalizeRedisBaseUrl(url: string) {
 }
 
 function cleanupMemoryBuckets(now: number, windowMs: number) {
+  // Keep memory limiter bounded by evicting expired windows on each check.
   for (const [key, bucket] of memoryBuckets.entries()) {
     if (now - bucket.startedAt > windowMs) {
       memoryBuckets.delete(key);
@@ -39,6 +40,7 @@ function cleanupMemoryBuckets(now: number, windowMs: number) {
 }
 
 function createMemoryLimiter(windowMs: number, max: number): RateLimiter {
+  // Process-local limiter used in development and single-instance deployments.
   return {
     async check(identity: string) {
       const now = Date.now();
@@ -68,6 +70,7 @@ function createMemoryLimiter(windowMs: number, max: number): RateLimiter {
 }
 
 function createEdgeLimiter(max: number): RateLimiter {
+  // Placeholder mode when an upstream gateway/CDN enforces throttling.
   return {
     async check() {
       // Edge mode delegates enforcement to a gateway/CDN layer.
@@ -90,6 +93,7 @@ function createRedisLimiter(
   redisRestToken: string,
   failOpen: boolean
 ): RateLimiter {
+  // Distributed limiter using Redis REST pipeline (`INCR` + `PEXPIRE`) per time window.
   const baseUrl = normalizeRedisBaseUrl(redisRestUrl);
 
   return {
@@ -149,6 +153,7 @@ function createRedisLimiter(
 }
 
 export function createRateLimiter(input: CreateRateLimiterInput): RateLimiter {
+  // Factory entrypoint that selects limiter backend from config.
   if (input.mode === 'edge') {
     return createEdgeLimiter(input.max);
   }

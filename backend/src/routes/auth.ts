@@ -72,6 +72,7 @@ function requestClientInfo(request: {
   ip: string;
   headers: Record<string, string | string[] | undefined>;
 }) {
+  // Snapshot lightweight client metadata for security audit/session records.
   return {
     ip: request.ip || null,
     userAgent: readHeader(request.headers['user-agent']),
@@ -84,6 +85,7 @@ type CookieReply = {
 };
 
 function setRefreshCookie(reply: CookieReply, refreshToken: string, persistent: boolean) {
+  // Store refresh token as an HttpOnly cookie; persistence is controlled by remember-me.
   appendSetCookie(
     reply,
     serializeCookie(env.AUTH_COOKIE_NAME, refreshToken, {
@@ -153,6 +155,7 @@ function appendSetCookie(reply: CookieReply, cookieValue: string) {
 }
 
 function resolveResetUrlBase(request: { headers: Record<string, string | string[] | undefined> }) {
+  // Resolve reset URL in priority order: explicit env -> request origin -> first allowlisted origin.
   const configured = env.RESET_URL_BASE?.trim();
   if (configured) return configured.replace(/\/$/, '');
   const fromOrigin = readHeader(request.headers.origin)?.trim();
@@ -163,6 +166,7 @@ function resolveResetUrlBase(request: { headers: Record<string, string | string[
 }
 
 export async function authRoutes(app: FastifyInstance) {
+  // Public endpoint. Accepts email and always returns a generic response to avoid account enumeration.
   app.post('/v1/auth/forgot-password', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 
@@ -225,6 +229,7 @@ export async function authRoutes(app: FastifyInstance) {
     reply.send(genericResponse);
   });
 
+  // Public endpoint. Consumes password reset token and revokes existing refresh sessions on success.
   app.post('/v1/auth/reset-password', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 
@@ -268,6 +273,7 @@ export async function authRoutes(app: FastifyInstance) {
     reply.send({ ok: true });
   });
 
+  // Public endpoint. Creates account/profile and returns auth session material for configured auth mode.
   app.post('/v1/auth/signup', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 
@@ -407,6 +413,7 @@ export async function authRoutes(app: FastifyInstance) {
     });
   });
 
+  // Public endpoint. Authenticates credentials, applies login throttling, and establishes session cookies.
   app.post('/v1/auth/login', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 
@@ -546,6 +553,7 @@ export async function authRoutes(app: FastifyInstance) {
     loginThrottle.registerSuccess(identity);
   });
 
+  // Admin-only debug endpoint. Clears login-throttle buckets for support and local QA scenarios.
   app.post('/v1/auth/debug/reset-login-throttle', async (request, reply) => {
     if (!env.LOGIN_THROTTLE_ADMIN_TOKEN) {
       reply.code(404).send({ error: 'Not found' });
@@ -586,6 +594,7 @@ export async function authRoutes(app: FastifyInstance) {
     });
   });
 
+  // Public endpoint. Rotates refresh token and issues a fresh access token.
   app.post('/v1/auth/refresh', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 
@@ -717,6 +726,7 @@ export async function authRoutes(app: FastifyInstance) {
     });
   });
 
+  // Public endpoint. Revokes local refresh token (when present) and clears auth cookies.
   app.post('/v1/auth/logout', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 

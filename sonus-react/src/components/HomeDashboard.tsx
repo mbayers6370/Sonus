@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import {
+  AudioWaveform,
   ArrowRight,
   BedDouble,
-  Bolt,
   Headphones,
   ListChecks,
   Mic,
@@ -41,6 +41,7 @@ type ResumeTarget = {
 };
 
 function getFirstNameFromIdentity(displayName?: string | null, email?: string | null) {
+  // Prefer explicit profile naming, then fall back to a readable email local-part token.
   const trimmedDisplay = (displayName || '').trim();
   if (trimmedDisplay) {
     const firstToken = trimmedDisplay.split(/\s+/)[0] || '';
@@ -108,6 +109,7 @@ function deriveResumeFromLessonProgress(
   lessonProgress: Record<string, unknown>,
   languageId: string
 ) {
+  // Pick the furthest touched lesson per unit to restore continuity after refresh.
   const byUnit = new Map<string, ResumeTarget>();
   for (const key of Object.keys(lessonProgress || {})) {
     const [bandId, unitId, lessonIndexRaw] = key.split(':');
@@ -143,6 +145,7 @@ function deriveLatestUnlockedFromLessonProgress(
   lessonProgress: Record<string, unknown>,
   languageId: string
 ) {
+  // "Unlocked" includes pass-level quiz credit even before full lesson completion.
   const byUnit = new Map<string, ResumeTarget>();
   for (const key of Object.keys(lessonProgress || {})) {
     const [bandId, unitId, lessonIndexRaw] = key.split(':');
@@ -185,6 +188,7 @@ function deriveMasteryResumeFromLessonProgress(
   lessonProgress: Record<string, unknown>,
   languageId: string
 ) {
+  // If the learner has completed-but-not-mastered lessons, route them back to mastery.
   const candidates: Array<ResumeTarget> = [];
   for (const key of Object.keys(lessonProgress || {})) {
     const [bandId, unitId, lessonIndexRaw] = key.split(':');
@@ -214,6 +218,7 @@ function resolveHomeLanguageId(input: {
   resumeBandId: string | null | undefined;
   progressBandId: string | null | undefined;
 }) {
+  // Resolve language in priority order: explicit state -> selected UI value -> band inference.
   const explicit =
     (input.stateSelectedLanguage ? normalizeLanguageId(input.stateSelectedLanguage) : null) ||
     (input.selectedLanguage ? normalizeLanguageId(input.selectedLanguage) : null);
@@ -301,6 +306,7 @@ export default function HomeDashboard({
   const resumeFromLocalProgress: ResumeTarget | null =
     resumeFromLatestUnlockedLocalProgress || deriveResumeFromLessonProgress(state.lessonProgress || {}, languageId);
   const resolvedResumeTarget: ResumeTarget | null =
+    // Prefer local lesson progress first so resume reflects the latest client-tracked state.
     resumeFromLocalProgress || resumeFromMasteryLocalProgress || resumeFromCheckpoint || resumeFromProgress;
   const practiceBandId = bandMatchesLanguage(progress.currentBandId, languageId)
     ? progress.currentBandId
@@ -747,7 +753,7 @@ export default function HomeDashboard({
               className={glassRowBtn}
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
-                <Bolt className="w-4 h-4 text-[#1F2A37]" />
+                <AudioWaveform className="w-4 h-4 text-[#1F2A37]" />
                 About Sonus
               </span>
               <ArrowRight className="w-4 h-4 text-text-light" />

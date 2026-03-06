@@ -26,12 +26,14 @@ const speakAttemptSchema = z.object({
 });
 
 function nextDueDate(days: number) {
+  // Convert interval days to an absolute due timestamp.
   const due = new Date();
   due.setDate(due.getDate() + days);
   return due;
 }
 
 export async function attemptRoutes(app: FastifyInstance) {
+  // Auth required. Records quiz attempt and updates SRS memory state atomically.
   app.post('/v1/attempts/quiz', { preHandler: [requireAuth] }, async (request, reply) => {
     const startedAt = Date.now();
     const parsed = quizAttemptSchema.safeParse(request.body);
@@ -132,6 +134,7 @@ export async function attemptRoutes(app: FastifyInstance) {
     return result;
   });
 
+  // Auth required. Records speaking attempt and updates pronunciation-sensitive SRS state.
   app.post('/v1/attempts/speak', { preHandler: [requireAuth] }, async (request, reply) => {
     const startedAt = Date.now();
     const parsed = speakAttemptSchema.safeParse(request.body);

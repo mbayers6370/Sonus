@@ -49,6 +49,7 @@ export default function GlassHeader({
   const headerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    // Keep header treatment responsive to scroll depth for readability and contrast.
     const onScroll = () => {
       setIsScrolled(window.scrollY > scrollThreshold);
     };
@@ -58,6 +59,7 @@ export default function GlassHeader({
   }, [scrollThreshold]);
 
   useEffect(() => {
+    // Detect PWA standalone mode on both iOS and standards-based display-mode media queries.
     const checkStandalone = () => {
       const nav = navigator as Navigator & { standalone?: boolean };
       const standaloneByMedia =
@@ -80,6 +82,7 @@ export default function GlassHeader({
   }, []);
 
   useEffect(() => {
+    // Measure live header height so page spacer stays accurate when layout wraps.
     if (!headerRef.current) return;
     const node = headerRef.current;
     const updateHeight = () => {

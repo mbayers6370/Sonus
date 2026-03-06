@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 dotenv.config();
 
+// Parse, normalize, and validate all runtime config up front so startup fails fast.
 const envSchema = z
   .object({
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
@@ -117,6 +118,7 @@ const envSchema = z
     JA_ROMAJI_API_URL: z.string().trim().url().optional(),
   })
   .superRefine((value, ctx) => {
+    // Cross-field constraints that cannot be expressed as single-key schema rules.
     const isProduction = value.NODE_ENV === 'production';
 
     if (isProduction && value.AUTH_MODE === 'mock') {
@@ -255,6 +257,7 @@ if (!parsed.success) {
 }
 
 export const env = {
+  // Resolve derived defaults after validation (for example cookie secure behavior).
   ...parsed.data,
   AUTH_COOKIE_SECURE: parsed.data.AUTH_COOKIE_SECURE ?? parsed.data.NODE_ENV === 'production',
 };

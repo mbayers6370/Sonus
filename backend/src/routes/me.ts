@@ -73,6 +73,7 @@ const progressCurrentPatchSchema = z.object({
 export async function meRoutes(app: FastifyInstance) {
   const allowedOrigins = readAllowedOrigins();
 
+  // Auth required. Returns current profile, creating it lazily when missing.
   app.get('/v1/me/profile', { preHandler: [requireAuth] }, async (request) => {
     const { id, email, displayName } = request.user;
     let profile = await getOrCreateProfile(id, email);
@@ -86,6 +87,7 @@ export async function meRoutes(app: FastifyInstance) {
     return { profile };
   });
 
+  // Auth required. Partial profile update endpoint.
   app.patch('/v1/me/profile', { preHandler: [requireAuth] }, async (request, reply) => {
     const parsed = profilePatchSchema.safeParse(request.body);
     if (!parsed.success) {
@@ -106,6 +108,7 @@ export async function meRoutes(app: FastifyInstance) {
     return { profile };
   });
 
+  // Auth required + trusted origin. Permanently deletes user data across app tables.
   app.delete('/v1/me/account', { preHandler: [requireAuth] }, async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 
@@ -159,12 +162,14 @@ export async function meRoutes(app: FastifyInstance) {
     return { ok: true };
   });
 
+  // Auth required. Returns denormalized progress snapshot for dashboard/profile consumers.
   app.get('/v1/me/progress', { preHandler: [requireAuth] }, async (request) => {
     const { id } = request.user;
     const { progress, recentEvents, lessonProgress } = await getProgressSnapshot(id);
     return { progress, recentEvents, lessonProgress };
   });
 
+  // Auth required. Updates current resume pointer (band/unit/lesson index).
   app.patch('/v1/me/progress/current', { preHandler: [requireAuth] }, async (request, reply) => {
     const parsed = progressCurrentPatchSchema.safeParse(request.body);
     if (!parsed.success) {
@@ -177,6 +182,7 @@ export async function meRoutes(app: FastifyInstance) {
     return { progress };
   });
 
+  // Auth required. Returns prioritized review queue; optional lexeme response shape.
   app.get('/v1/me/review-queue', { preHandler: [requireAuth] }, async (request, reply) => {
     const parsed = reviewQueueQuerySchema.safeParse(request.query ?? {});
     if (!parsed.success) {
@@ -188,6 +194,7 @@ export async function meRoutes(app: FastifyInstance) {
     return fetchReviewQueue(id, parsed.data.limit, parsed.data.language, parsed.data.shape);
   });
 
+  // Auth required. Returns words still in needs-work according to graduation criteria.
   app.get('/v1/me/needs-work', { preHandler: [requireAuth] }, async (request, reply) => {
     const parsed = needsWorkQuerySchema.safeParse(request.query ?? {});
     if (!parsed.success) {
@@ -205,6 +212,7 @@ export async function meRoutes(app: FastifyInstance) {
     );
   });
 
+  // Auth required. Returns recent weak-word miss logs for analytics/debug surfaces.
   app.get('/v1/me/logs/weak', { preHandler: [requireAuth] }, async (request, reply) => {
     const parsed = weakLogsQuerySchema.safeParse(request.query ?? {});
     if (!parsed.success) {
@@ -216,6 +224,7 @@ export async function meRoutes(app: FastifyInstance) {
     return fetchWeakLogs(id, parsed.data.limit, parsed.data.language);
   });
 
+  // Auth required. Legacy wrong-words endpoint used by older clients.
   app.get('/v1/me/wrong-words', { preHandler: [requireAuth] }, async (request, reply) => {
     const parsed = wrongWordsQuerySchema.safeParse(request.query ?? {});
     if (!parsed.success) {
@@ -227,6 +236,7 @@ export async function meRoutes(app: FastifyInstance) {
     return fetchWrongWords(id, parsed.data.limit, parsed.data.minTotalMisses, parsed.data.language);
   });
 
+  // Auth required. Appends a progress event to the event stream.
   app.post('/v1/me/progress/events', { preHandler: [requireAuth] }, async (request, reply) => {
     const parsed = progressEventSchema.safeParse(request.body);
     if (!parsed.success) {

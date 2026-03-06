@@ -12,6 +12,7 @@ const contactSchema = z.object({
 export async function publicContactRoutes(app: FastifyInstance) {
   const allowedOrigins = readAllowedOrigins();
 
+  // Public endpoint. Accepts site contact form submissions from trusted origins.
   app.post('/v1/public/contact', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 

@@ -18,6 +18,7 @@ export default function PublicLanding() {
   const [modalMode, setModalMode] = useState<ModalMode | null>(null);
 
   useEffect(() => {
+    // Keep desktop/mobile CTA behavior in sync with runtime viewport changes.
     if (typeof window === 'undefined') return;
     const media = window.matchMedia('(min-width: 1024px)');
     const onChange = (event: MediaQueryListEvent) => setIsDesktop(event.matches);
@@ -26,6 +27,7 @@ export default function PublicLanding() {
   }, []);
 
   useEffect(() => {
+    // Support Esc-to-close for all modal modes.
     if (!modalMode) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -37,6 +39,7 @@ export default function PublicLanding() {
   }, [modalMode]);
 
   useEffect(() => {
+    // Prevent background scroll while auth/demo modal is open.
     if (typeof document === 'undefined') return;
     const previous = document.body.style.overflow;
     if (modalMode) document.body.style.overflow = 'hidden';
@@ -87,6 +90,7 @@ export default function PublicLanding() {
   };
 
   useEffect(() => {
+    // One-time line shuffle to add motion without an infinite ticker.
     if (heroLineVariants.length <= 1) return;
     if (heroLineVariantIdx >= heroLineVariants.length - 1) return;
     const timer = window.setTimeout(() => {
@@ -96,6 +100,7 @@ export default function PublicLanding() {
   }, [heroLineVariantIdx, heroLineVariants.length]);
 
   useEffect(() => {
+    // Keep structured metadata aligned with current landing copy.
     const scriptId = 'sonus-webapp-jsonld';
     const existing = document.getElementById(scriptId);
     if (existing) existing.remove();

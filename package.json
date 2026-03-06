@@ -1,13 +1,23 @@
 {
   "name": "language-app-project",
   "private": true,
+  "workspaces": [
+    "backend",
+    "sonus-react"
+  ],
   "scripts": {
     "hooks:install": "git config core.hooksPath .githooks && chmod +x .githooks/pre-commit .githooks/pre-push",
-    "dev:frontend": "npm --prefix sonus-react run dev",
-    "dev:backend": "npm --prefix backend run dev",
-    "dev:all": "bash -lc 'trap \"kill 0\" EXIT; npm --prefix backend run dev & npm --prefix sonus-react run dev & wait'",
+    "dev": "npm run dev:all",
+    "dev:frontend": "npm run -w sonus-react dev",
+    "dev:backend": "npm run -w sonus-backend dev",
+    "dev:all": "bash -lc 'trap \"kill 0\" EXIT; npm run -w sonus-backend dev & npm run -w sonus-react dev & wait'",
     "checklist": "node scripts/regression-checklist.mjs",
-    "test:core": "npm --prefix backend run test:core",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "npm run -w sonus-backend test:core:local",
+    "test:frontend": "npm run -w sonus-react test:unit",
+    "test:core": "npm run -w sonus-backend test:core",
+    "lint": "npm run -w sonus-react lint && npm run -w sonus-backend lint",
+    "build": "npm run -w sonus-react build && npm run -w sonus-backend build",
     "characters:generate": "node scripts/generate-character-insights.mjs",
     "band1:normalize": "node scripts/band1-normalize-validate.mjs --fix",
     "band1:validate": "node scripts/band1-normalize-validate.mjs",

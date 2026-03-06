@@ -13,6 +13,7 @@
     "format:check": "prettier --check \"src/**/*.ts\" \"scripts/**/*.mjs\"",
     "build": "tsc -p tsconfig.json",
     "test:core": "node scripts/core-regression.mjs",
+    "test:core:local": "node scripts/test-core-local.mjs",
     "test:srs": "tsx src/lib/learningPolicy.test.ts",
     "test:security": "node scripts/security-regression.mjs",
     "test:auth-modes": "node scripts/auth-mode-boundary.mjs",

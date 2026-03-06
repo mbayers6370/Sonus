@@ -7,6 +7,7 @@ interface AboutSonusScreenProps {
 }
 
 export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusScreenProps) {
+  // Content collections are data-driven so copy and ordering can be edited without touching layout.
   const frameworks = [
     {
       language: 'Mandarin',

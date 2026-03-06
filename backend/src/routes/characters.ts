@@ -795,6 +795,7 @@ function expandNumberedPinyinToken(value: string) {
 }
 
 export async function characterRoutes(app: FastifyInstance) {
+  // Public endpoint. Batch lookup for single Han characters with pinyin + gloss candidates.
   app.get('/v1/zh/characters/lookup', async (request, reply) => {
     const charsParam = (request.query as { chars?: string }).chars || '';
     const chars = Array.from(
@@ -843,6 +844,7 @@ export async function characterRoutes(app: FastifyInstance) {
     return reply.send({ characters });
   });
 
+  // Public endpoint. Sentence-level Mandarin pinyin derivation with dictionary-first token matching.
   app.get('/v1/zh/pinyin/sentence', async (request, reply) => {
     const text = ((request.query as { text?: string }).text || '').trim();
     if (!text) return reply.send({ pinyin: '' });
@@ -907,6 +909,7 @@ export async function characterRoutes(app: FastifyInstance) {
     return reply.send({ pinyin: normalizeSentencePinyin(tokens) });
   });
 
+  // Public endpoint. Japanese romaji derivation with provider/kuromoji/local fallback chain.
   app.get('/v1/ja/romaji/sentence', async (request, reply) => {
     const text = ((request.query as { text?: string }).text || '').trim();
     if (!text) return reply.send({ romaji: '' });

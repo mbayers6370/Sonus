@@ -4,6 +4,7 @@ import { getSupabaseAdmin } from './supabase.js';
 import { verifyAccessToken } from './localAuth.js';
 
 function extractBearerToken(authHeader: string | undefined) {
+  // Accept only canonical `Bearer <token>` authorization format.
   if (!authHeader) return null;
   const [scheme, token] = authHeader.split(' ');
   if (scheme?.toLowerCase() !== 'bearer' || !token) return null;
@@ -26,6 +27,7 @@ function asNonEmptyString(value: unknown) {
 }
 
 function resolveDisplayNameFromMetadata(metadata: unknown) {
+  // Normalize identity provider metadata into a single display name field.
   if (!metadata || typeof metadata !== 'object') return null;
   const map = metadata as Record<string, unknown>;
   const explicit = asNonEmptyString(map.display_name);
@@ -38,6 +40,7 @@ function resolveDisplayNameFromMetadata(metadata: unknown) {
 }
 
 export async function requireAuth(request: FastifyRequest, reply: FastifyReply) {
+  // Attach `request.user` for all authenticated requests across mock/local/supabase modes.
   if (env.AUTH_MODE === 'mock') {
     const headerUserId = headerValue(request.headers['x-dev-user-id']);
     const headerEmail = headerValue(request.headers['x-dev-user-email']);

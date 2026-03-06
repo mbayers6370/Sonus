@@ -1,6 +1,7 @@
 import { env } from '../env.js';
 
 function escapeHtml(input: string) {
+  // Escape values embedded in reset-email HTML.
   return input
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
@@ -10,6 +11,7 @@ function escapeHtml(input: string) {
 }
 
 function buildResetEmailHtml(resetUrl: string) {
+  // Render password reset email with branded CTA and token expiry guidance.
   const logoUrl =
     env.RESET_EMAIL_LOGO_URL ||
     (env.RESET_URL_BASE
@@ -58,6 +60,7 @@ type ResetEmailInput = {
 };
 
 export async function sendPasswordResetEmail(input: ResetEmailInput) {
+  // Sends reset email through Resend; in no-email environments logs and succeeds.
   const html = buildResetEmailHtml(input.resetUrl);
 
   if (!env.RESEND_API_KEY) {

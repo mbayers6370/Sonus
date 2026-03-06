@@ -28,12 +28,14 @@ type LessonProgressState = {
 };
 
 function isCompletedByScores(quizScore: number | null, speakScore: number | null) {
+  // Canonical pass gate for lesson completion across event ingestion paths.
   return (quizScore ?? 0) >= 85 && (speakScore ?? 0) >= 85;
 }
 
 function isCompletedLessonPayload(
   payloadJson: Prisma.JsonValue | Prisma.JsonObject | undefined | null
 ) {
+  // Accept explicit completion flag or score-based completion as equivalent signals.
   if (!payloadJson || typeof payloadJson !== 'object' || Array.isArray(payloadJson)) return false;
   const payload = payloadJson as Record<string, unknown>;
   if (payload.completed) return true;
@@ -45,6 +47,7 @@ function isCompletedLessonPayload(
 function lessonKeyFromPayload(
   payloadJson: Prisma.JsonValue | Prisma.JsonObject | undefined | null
 ) {
+  // Build canonical lesson key (`band:unit:index`) from event payload.
   if (!payloadJson || typeof payloadJson !== 'object' || Array.isArray(payloadJson)) return null;
   const payload = payloadJson as Record<string, unknown>;
   const bandId = typeof payload.bandId === 'string' ? payload.bandId.trim() : '';
@@ -58,6 +61,7 @@ function lessonKeyFromPayload(
 }
 
 function toOptionalScore(value: unknown) {
+  // Normalize any numeric score to bounded integer [0, 100].
   if (typeof value !== 'number' || !Number.isFinite(value)) return null;
   const rounded = Math.round(value);
   if (rounded < 0) return 0;
@@ -69,6 +73,7 @@ function mergeLessonState(
   existing: LessonProgressState | undefined,
   incoming: LessonProgressState
 ) {
+  // Progress is monotonic: preserve best scores and never downgrade completion/mastery flags.
   if (!existing) return incoming;
   const mergedQuiz =
     existing.quizScore === null
@@ -97,6 +102,7 @@ function mergeLessonState(
 function buildLessonProgressFromEvents(
   events: Array<{ payloadJson: Prisma.JsonValue | null }>
 ): Record<string, LessonProgressState> {
+  // Rehydrate lesson snapshots from append-only progress events.
   const lessonProgress: Record<string, LessonProgressState> = {};
 
   for (const event of events) {
@@ -133,6 +139,7 @@ function buildLessonProgressFromEvents(
 }
 
 function resolveTimezone(timezone: string | null | undefined) {
+  // Fallback to UTC when profile timezone is missing/invalid.
   if (!timezone) return 'UTC';
   try {
     new Intl.DateTimeFormat('en-US', { timeZone: timezone }).format(new Date());
@@ -143,6 +150,7 @@ function resolveTimezone(timezone: string | null | undefined) {
 }
 
 function dayKeyAt(date: Date, timezone: string) {
+  // Produce stable YYYY-MM-DD key in learner timezone.
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone: timezone,
     year: 'numeric',
@@ -156,6 +164,7 @@ function dayKeyAt(date: Date, timezone: string) {
 }
 
 function dayDiff(fromDayKey: string, toDayKey: string) {
+  // Whole-day difference between normalized day keys.
   const from = Date.parse(`${fromDayKey}T00:00:00.000Z`);
   const to = Date.parse(`${toDayKey}T00:00:00.000Z`);
   if (Number.isNaN(from) || Number.isNaN(to)) return 0;
@@ -163,6 +172,7 @@ function dayDiff(fromDayKey: string, toDayKey: string) {
 }
 
 function resolveStreakForToday(streak: number, lastActiveDate: Date | null, timezone: string) {
+  // Keep streak if active today/yesterday; otherwise treat as broken.
   if (!lastActiveDate) return streak;
   const todayKey = dayKeyAt(new Date(), timezone);
   const lastKey = dayKeyAt(lastActiveDate, timezone);
@@ -173,6 +183,7 @@ function resolveStreakForToday(streak: number, lastActiveDate: Date | null, time
 }
 
 async function readUserTimezone(userId: string) {
+  // Resolve profile timezone once for streak/day-key calculations.
   const profile = await prisma.profile.findUnique({
     where: { userId },
     select: { timezone: true },
@@ -185,6 +196,7 @@ function resolveCompletionStreak(
   timezone: string,
   now = new Date()
 ) {
+  // Compute consecutive completion days anchored at today or yesterday.
   const today = dayKeyAt(now, timezone);
   const yesterday = dayKeyAt(new Date(now.getTime() - 86_400_000), timezone);
   const anchor = completionDayKeys.has(today)
@@ -206,6 +218,7 @@ function resolveCompletionStreak(
 }
 
 export async function touchUserActivity(userId: string) {
+  // Update streak and last-active timestamp as a lightweight activity heartbeat.
   return prisma.$transaction(async (tx) => {
     await tx.profile.upsert({
       where: { userId },
@@ -257,6 +270,7 @@ export async function touchUserActivity(userId: string) {
 }
 
 export async function getProgressSnapshot(userId: string) {
+  // Return a denormalized progress view consumed by the home/profile surfaces.
   await prisma.profile.upsert({
     where: { userId },
     update: {},
@@ -335,6 +349,7 @@ export async function getProgressSnapshot(userId: string) {
 }
 
 export async function updateProgressCurrent(userId: string, input: UpdateProgressCurrentInput) {
+  // Persist lightweight resume cursor (current band/unit/lesson) for dashboard routing.
   await prisma.profile.upsert({
     where: { userId },
     update: {},
@@ -358,6 +373,7 @@ export async function updateProgressCurrent(userId: string, input: UpdateProgres
 }
 
 export async function recordProgressEvent(userId: string, event: ProgressEventInput) {
+  // Append progress event and atomically recalculate streak/last-active fields.
   return prisma.$transaction(async (tx) => {
     await tx.profile.upsert({
       where: { userId },
