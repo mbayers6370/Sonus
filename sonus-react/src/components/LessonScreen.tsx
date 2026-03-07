@@ -283,7 +283,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
                     onModeChange?.(tab.mode);
                     setLessonMode(tab.mode);
                   }}
-                  className={`relative rounded-xl py-2.5 px-4 text-[1.03rem] font-semibold tracking-wide transition-all ${
+                  className={`relative rounded-xl py-2 px-3 sm:py-2.5 sm:px-4 text-[0.9rem] sm:text-[1.03rem] font-semibold tracking-wide transition-all ${
                     isActive
                       ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
                       : 'text-[#1F2A37] hover:bg-white'
@@ -292,7 +292,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
                   <span className="inline-flex w-full items-center justify-center">{tab.label}</span>
                   {tab.done ? (
                     <Check
-                      className={`absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 ${
+                      className={`absolute right-2.5 sm:right-3.5 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-3.5 sm:h-3.5 ${
                         isActive ? 'text-white/90' : 'text-[#9CA3AF]'
                       }`}
                     />
