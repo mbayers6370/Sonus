@@ -125,6 +125,17 @@ function getPracticeType(unitId: string): 'listening' | 'speaking' | 'checkpoint
   return null;
 }
 
+function deriveHanziPreviewFromWords(words: unknown[]) {
+  for (const rawWord of words || []) {
+    const word = rawWord as { simp?: string; trad?: string; kanji?: string };
+    const scriptSource = (word.simp || word.trad || word.kanji || '').trim();
+    if (!scriptSource) continue;
+    const hanzi = scriptSource.replace(/[^\p{Script=Han}]/gu, '');
+    if (hanzi) return Array.from(hanzi).slice(0, 8).join('');
+  }
+  return '';
+}
+
 export default function UnitSelect({
   onSelectLesson,
   onOpenPractice,
@@ -138,6 +149,7 @@ export default function UnitSelect({
   const [viewportWidth, setViewportWidth] = useState(
     typeof window === 'undefined' ? 1280 : window.innerWidth
   );
+  const [animateProgressBars, setAnimateProgressBars] = useState(false);
   const activeUnitId = searchParams.get('unit');
   const activeSectionId = searchParams.get('section');
 
@@ -176,6 +188,13 @@ export default function UnitSelect({
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
+
+  useEffect(() => {
+    if (!currentLevel) return;
+    setAnimateProgressBars(false);
+    const timer = window.setTimeout(() => setAnimateProgressBars(true), 40);
+    return () => window.clearTimeout(timer);
+  }, [currentLevel?.id, activeSectionId]);
 
   if (!currentLevel || !activeBandData) {
     return (
@@ -275,7 +294,9 @@ export default function UnitSelect({
     return [...interleaved, ...practiceUnits];
   };
 
-  const isJapaneseLevel = (state.selectedLanguage || '').toLowerCase() === 'ja';
+  const selectedLanguageId = (state.selectedLanguage || '').toLowerCase();
+  const isJapaneseLevel = selectedLanguageId === 'ja';
+  const isMandarinLevel = selectedLanguageId === 'zh';
   const availableSections = isJapaneseLevel && Array.isArray(activeBandData.sections)
     ? activeBandData.sections
     : [];
@@ -286,9 +307,20 @@ export default function UnitSelect({
   const orderedUnits = configuredUnits.length > 0 && shouldUseConfiguredCoreUnits
     ? configuredUnits
     : buildDataDrivenOrderedUnits();
+  const orderedUnitsWithDisplayHanzi = orderedUnits.map((metadata) => {
+    if ((metadata.hanzi || '').trim()) return metadata;
+    const unitData = getUnitDataById(
+      activeBandData.units as Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }>,
+      metadata.id
+    );
+    const fallbackHanzi = deriveHanziPreviewFromWords(unitData?.words || []);
+    return fallbackHanzi
+      ? { ...metadata, hanzi: fallbackHanzi }
+      : metadata;
+  });
 
   // Map units with their data and metrics
-  const unitMetrics = orderedUnits
+  const unitMetrics = orderedUnitsWithDisplayHanzi
     .map((metadata) => {
       const practiceType = getPracticeType(metadata.id);
       if (practiceType) {
@@ -493,9 +525,9 @@ export default function UnitSelect({
   const standardUnitMetrics = filteredUnitMetrics.filter(
     (metric) => metric.practiceType !== 'listening' && metric.practiceType !== 'speaking'
   );
-  const unitCardHeightClass = isJapaneseLevel
-    ? 'h-[272px] sm:h-[252px]'
-    : 'h-[256px] sm:h-[236px]';
+  const unitCardHeightClass = (isMandarinLevel || isJapaneseLevel)
+    ? 'h-[220px] sm:h-[220px]'
+    : 'h-[296px] sm:h-[250px]';
   const headerTitle = activeUnit
     ? `Unit ${activeUnit.metadata.order}`
     : activeSection
@@ -506,7 +538,7 @@ export default function UnitSelect({
       activeUnit.completedLessons === activeUnit.lessonsCount &&
       activeUnit.masteredLessons === activeUnit.lessonsCount
     : false;
-  const normalizedLanguageId = (state.selectedLanguage || '').toLowerCase();
+  const normalizedLanguageId = selectedLanguageId;
   const parentTierId = normalizedLanguageId === 'zh' ? tierForBand(currentLevel.id) : undefined;
   const isUnitsStage = !activeUnit && !(showSectionStep && !activeSection);
   const isLevelsStage = showSectionStep && !activeSection && !activeUnit;
@@ -641,7 +673,7 @@ export default function UnitSelect({
       {!activeUnit && (!showSectionStep || Boolean(activeSection)) && !isMandarinBandLocked && (
       <div className="pt-2 space-y-4">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-          {standardUnitMetrics.map(({ unitId, metadata, totalWords, lessonsCount, completedLessons, masteredLessons, completionPercent, practiceType, isBlueprint }, index) => {
+          {standardUnitMetrics.map(({ unitId, metadata, lessonsCount, completedLessons, masteredLessons, completionPercent, practiceType, isBlueprint }, index) => {
             const row = Math.floor(index / columns);
             const col = index % columns;
             const accent = CARD_ACCENTS[(col + row) % CARD_ACCENTS.length];
@@ -660,24 +692,20 @@ export default function UnitSelect({
                     onSelectLesson(unitId, 0, 'quiz');
                   }}
                   disabled={!isUnitUnlocked}
-                  className={`${isUnitUnlocked ? `${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isUnitUnlocked ? `${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-4 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
-                  <div className="flex items-start justify-between gap-2 mb-3">
-                    <div className={`inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitUnlocked ? 'bg-white/20 text-white' : 'bg-white text-[#6B7280] border border-[#D1D5DB]'}`}>
+                  <div className="flex items-center justify-center gap-2 mb-3">
+                    <div className={`inline-flex w-full items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitUnlocked ? 'bg-white/20 text-white' : 'bg-white text-[#6B7280] border border-[#D1D5DB]'}`}>
                       <Icon className={`w-3.5 h-3.5 ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`} />
-                      <span className={`text-[10px] font-semibold uppercase tracking-wider font-mono whitespace-nowrap overflow-hidden text-ellipsis ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
+                      <span className={`text-[10px] font-semibold uppercase tracking-wider font-mono text-center whitespace-nowrap overflow-hidden text-ellipsis ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
                         Checkpoint
                       </span>
                     </div>
-                    <span className={`text-[10px] font-mono ${isUnitUnlocked ? 'text-white' : 'text-[#9CA3AF]'}`}>Practice</span>
-                  </div>
+                </div>
 
                   <div className="space-y-0.5">
-                    <div className={`text-[10px] tracking-wide font-mono ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
+                    <div className={`text-[10px] tracking-wide font-semibold text-center ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
                       {metadata.name.replace(/^Checkpoint Quiz\s+/i, 'Unit Review ')}
-                    </div>
-                    <div className={`main-font text-[1.3rem] font-normal leading-tight ${isUnitUnlocked ? 'text-white' : 'text-[#4B5563]'}`}>
-                      {metadata.hanzi}
                     </div>
                   </div>
 
@@ -688,7 +716,7 @@ export default function UnitSelect({
                     {metadata.description}
                   </div>
 
-                  <div className={`font-mono mt-auto pt-4 text-xs font-semibold tracking-wide ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
+                  <div className={`font-mono mt-auto pt-4 text-[11px] font-semibold tracking-wide text-center ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
                     {!isUnitUnlocked
                       ? (
                         <span className="inline-flex items-center gap-1.5">
@@ -713,16 +741,6 @@ export default function UnitSelect({
             const isUnitMastered = lessonsCount > 0 && masteredLessons === lessonsCount && isUnitCompleted;
             const safeCompletionPercent = completionPercent ?? 0;
             const depth = isBlueprint ? 0 : isUnitMastered ? 100 : Math.max(4, safeCompletionPercent);
-            const currentLessonInUnit = (() => {
-              if (lessonsCount <= 0) return null;
-              for (let lessonIdx = 0; lessonIdx < lessonsCount; lessonIdx += 1) {
-                if (!hasLessonPassedThreshold(unitId, lessonIdx)) {
-                  return lessonIdx + 1;
-                }
-              }
-              return lessonsCount;
-            })();
-
             return (
               <button
                 key={unitId}
@@ -731,59 +749,36 @@ export default function UnitSelect({
                   setActiveUnit(unitId);
                 }}
                 disabled={isBlueprint || !isUnitUnlocked}
-                className={`${isUnitMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#3E5648]' : accent.badgeText === 'text-[#1F2A37]' ? 'bg-[#1F2A37]' : 'bg-[#C2410C]'} text-white` : !isUnitUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-4 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                className={`${isUnitMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#145B7A]' : accent.badgeText === 'text-[#3E5648]' ? 'bg-[#2F463A]' : accent.badgeText === 'text-[#1F2A37]' ? 'bg-[#1F2A37]' : 'bg-[#C2410C]'} text-white` : !isUnitUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[#3E5648]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-4 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
               >
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  <div className={`inline-flex min-w-0 max-w-[72%] items-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitMastered ? 'bg-white/20 text-white' : !isUnitUnlocked ? 'bg-white text-[#6B7280] border border-[#D1D5DB]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <div className={`inline-flex w-full items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitMastered ? 'bg-white/20 text-white' : !isUnitUnlocked ? 'bg-white text-[#6B7280] border border-[#D1D5DB]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
                     <Icon className={`w-3.5 h-3.5 ${isUnitMastered ? 'text-white' : !isUnitUnlocked ? 'text-[#6B7280]' : accent.badgeText}`} />
-                    <span className={`text-[10px] font-semibold uppercase tracking-wider font-mono whitespace-nowrap overflow-hidden text-ellipsis ${isUnitMastered ? 'text-white' : !isUnitUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
+                    <span className={`text-[10px] font-semibold uppercase tracking-wider font-mono text-center whitespace-nowrap overflow-hidden text-ellipsis ${isUnitMastered ? 'text-white' : !isUnitUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
                       Unit {metadata.order}
                     </span>
                   </div>
-                  <span className={`text-[10px] font-mono ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
-                    {totalWords} words
-                  </span>
                 </div>
 
                 <div className="space-y-0.5">
-                  <div className={`text-[10px] tracking-wide font-mono ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
+                  <div className={`text-[10px] tracking-wide font-semibold text-center ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
                     {metadata.name}
-                  </div>
-                  {!isBlueprint && currentLessonInUnit && (
-                    <div className={`text-[10px] tracking-wide font-mono ${isUnitMastered ? 'text-white/80' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
-                      Current lesson: {currentLessonInUnit}
-                    </div>
-                  )}
-                  <div className={`main-font text-[1.3rem] font-normal leading-tight ${isUnitMastered ? 'text-white' : !isUnitUnlocked ? 'text-[#4B5563]' : 'text-text-dark'}`}>
-                    {metadata.hanzi}
                   </div>
                 </div>
 
                 <div
-                  className={`mt-2 text-[11px] leading-4 ${isUnitMastered ? 'text-white/90' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'} overflow-hidden`}
+                  className={`mt-2 text-[11px] leading-4 text-center ${isUnitMastered ? 'text-white/90' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'} overflow-hidden`}
                   style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
                 >
                   {metadata.description}
                 </div>
                 {isBlueprint && metadata.microUnits && metadata.microUnits.length > 0 && (
-                  <div className={`mt-1 text-[11px] leading-relaxed ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'} overflow-hidden max-h-9`}>
+                  <div className={`mt-1 text-[11px] leading-relaxed text-center ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'} overflow-hidden max-h-9`}>
                     Focus: {metadata.microUnits.slice(0, 3).join(' · ')}
                   </div>
                 )}
 
-                <div className="mt-3">
-                  <div className="h-2 w-full rounded-full bg-border/75 overflow-hidden">
-                    <div
-                      className={`h-full rounded-full ${isUnitMastered ? 'bg-white/90' : accent.progressFill}`}
-                      style={{ width: `${depth}%` }}
-                    />
-                  </div>
-                  <div className={`mt-1 text-[10px] font-mono tracking-wide ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
-                    {safeCompletionPercent}% complete
-                  </div>
-                </div>
-
-                <div className={`font-mono mt-auto pt-3 text-xs font-semibold tracking-wide ${isUnitMastered ? 'text-white' : accent.badgeText}`}>
+                <div className={`font-mono mt-auto pt-2 text-[11px] font-semibold tracking-wide text-center ${isUnitMastered ? 'text-white' : accent.badgeText}`}>
                   {isBlueprint
                     ? 'Planned'
                     : !isUnitUnlocked
@@ -797,7 +792,7 @@ export default function UnitSelect({
                     ? (
                       <span>
                         <span className="font-bold">Mastered</span>
-                        <span className="font-normal"> - (Practice Available)</span>
+                        <span className="font-normal"> (Practice Available)</span>
                       </span>
                     )
                     : isUnitCompleted
@@ -805,6 +800,17 @@ export default function UnitSelect({
                     : lessonsCount > 1
                       ? `Continue (${lessonsCount} Lessons) →`
                       : 'Start Lesson →'}
+                </div>
+                <div className="mt-2">
+                  <div className="h-2 w-full rounded-full bg-border/75 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-[width] duration-700 ease-out ${isUnitMastered ? 'bg-white/90' : accent.progressFill}`}
+                      style={{ width: animateProgressBars ? `${depth}%` : '0%' }}
+                    />
+                  </div>
+                  <div className={`mt-1 text-[10px] font-mono tracking-wide ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
+                    {safeCompletionPercent}% complete
+                  </div>
                 </div>
                 {!isUnitUnlocked && (
                   <div className="absolute inset-0 z-20 rounded-3xl bg-white/45 backdrop-blur-[2px] border border-white/50 flex items-center justify-center pointer-events-none">

@@ -1944,7 +1944,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
         nextMastered = true;
       } else if (
         isMasteryAttempt &&
-        lessonMode === 'speak' &&
         !isCheckpointQuizUnit &&
         (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT &&
         (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT
