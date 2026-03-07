@@ -185,12 +185,12 @@ export default function LessonComplete({
         )}
 
         {isSpeakCompletion && (
-          <div className={`${surfaceCardClass} p-4 mb-5 w-full lg:col-span-7 lg:mb-4`}>
+          <div className={`${surfaceCardClass} p-3 mb-4 w-full lg:col-span-7 lg:mb-3`}>
             <div className="text-sm font-semibold text-text-dark mb-3">Speaking Breakdown</div>
             <div className="text-sm text-text-med mb-3">
               {`Speak score: ${speakScorePercent}% (${speakCorrectCount}/${totalQuizItems}) · Core: ${speakScorePercentCore}%`}
             </div>
-            <div className="space-y-3 max-h-64 lg:max-h-[44svh] overflow-y-auto pr-1">
+            <div className="space-y-2.5 max-h-44 lg:max-h-[30svh] overflow-y-auto pr-1">
               {speakingIssueRows.length === 0 ? (
                 <div className="rounded-xl border border-border p-3 text-xs text-text-med">
                   No speaking issues in this lesson.
@@ -399,20 +399,12 @@ export default function LessonComplete({
             </button>
           )}
           {isSpeakCompletion && !speakNeedsFullLessonRetry && (
-            <>
-              <button
-                onClick={onContinue}
-                className="w-full py-4 px-6 bg-[#3E5648] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
-              >
-                Continue Learning
-              </button>
-              <button
-                onClick={onRestart}
-                className="self-center text-sm font-medium text-[#1F2A37] underline underline-offset-4 hover:text-[#0F172A]"
-              >
-                Practice Again
-              </button>
-            </>
+            <button
+              onClick={onContinue}
+              className="w-full py-4 px-6 bg-[#3E5648] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+            >
+              Continue Learning
+            </button>
           )}
         </div>
         <div className={isSpeakCompletion ? 'h-36 sm:h-24 lg:h-0' : 'h-24 sm:h-0 lg:h-0'} />

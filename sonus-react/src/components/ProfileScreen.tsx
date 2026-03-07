@@ -195,6 +195,14 @@ function bandMatchesLanguage(bandId: string | null | undefined, languageId: stri
   return true;
 }
 
+function formatUnitFallbackLabel(unitId: string | null | undefined) {
+  const value = (unitId || '').trim();
+  if (!value) return 'Unit #';
+  const match = value.match(/(\d+)(?!.*\d)/);
+  if (match) return `Unit ${match[1]}`;
+  return 'Unit #';
+}
+
 export default function ProfileScreen({
   onOpenProgress,
   onOpenAbout,
@@ -314,7 +322,7 @@ export default function ProfileScreen({
       ? effectiveLessonIdx + 1
       : null;
   const currentUnitAndLesson = effectiveUnitId
-    ? `${formatUnitNameForDisplay(currentUnitMeta?.name) || 'Current Unit'}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
+    ? `${formatUnitNameForDisplay(currentUnitMeta?.name) || formatUnitFallbackLabel(effectiveUnitId)}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
     : 'Not started';
   const isLastActiveToday = (() => {
     if (!progress?.lastActiveDate) return false;

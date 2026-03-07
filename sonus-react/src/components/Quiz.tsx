@@ -198,7 +198,7 @@ export default function Quiz({
         <div
           className={`rounded-3xl p-3.5 mb-3 border relative ${
             listeningMode
-              ? 'bg-white border-[#D1D5DB]'
+              ? 'bg-[#1F2A37] border-[#1F2A37]'
               : 'bg-[#1F2A37] border-[#1F2A37]'
           }`}
         >
@@ -206,7 +206,7 @@ export default function Quiz({
             <div
               className={`absolute top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.14em] ${
                 listeningMode
-                  ? 'bg-[#1F2A37]/8 text-[#1F2A37] border border-[#1F2A37]/20'
+                  ? 'bg-white/12 text-white border border-white/25'
                   : 'bg-white/15 text-white/90 border border-white/20'
               }`}
             >
@@ -258,16 +258,16 @@ export default function Quiz({
                 <div className={hasPoliteTag ? 'mt-7' : 'mt-1'}>
                   <button
                     onClick={() => speak(ttsText, ttsReading, false, state.selectedLanguage)}
-                    className="mx-auto w-12 h-12 rounded-full bg-[#1F2A37] text-white flex items-center justify-center hover:bg-[#253242] transition-all"
+                    className="mx-auto w-12 h-12 rounded-full bg-white text-[#1F2A37] flex items-center justify-center hover:bg-[#E5E7EB] transition-all"
                     aria-label="Play audio"
                   >
                     <Volume2 className="w-5 h-5" />
                   </button>
                   {selectedAnswer ? (
                     <div className="mt-2 text-center">
-                      <div className="secondary-font text-3xl text-[#1F2A37] leading-tight">{word.simp}</div>
+                      <div className="secondary-font text-3xl text-white leading-tight">{word.simp}</div>
                       {!hideReadingAndMeaning && word.pinyin ? (
-                        <div className="text-sm text-[#475569] mt-0.5">{word.pinyin}</div>
+                        <div className="text-sm text-white/80 mt-0.5">{word.pinyin}</div>
                       ) : null}
                     </div>
                   ) : null}

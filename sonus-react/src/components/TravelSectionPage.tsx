@@ -269,8 +269,9 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
         title={section.title}
         className="bg-white/14 border-white/28"
         scrolledClassName="bg-white/22 border-white/36"
-        titleClassName="text-white"
+        titleClassName="text-white !text-[1.18rem] md:!text-[1.55rem]"
         scrolledTitleClassName="text-white"
+        compactMobile
       />
 
       <div className="min-h-[calc(100vh-10.75rem)] lg:min-h-0">

@@ -80,7 +80,7 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
         title="Travel Sprint"
         className="bg-white/12 border-white/25"
         scrolledClassName="bg-[#186E95]/88 border-white/35"
-        titleClassName="text-white"
+        titleClassName="text-white !text-[1.5rem] md:!text-[2rem]"
         scrolledTitleClassName="text-white"
       />
 

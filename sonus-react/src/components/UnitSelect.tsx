@@ -190,8 +190,7 @@ export default function UnitSelect({
   }, []);
 
   useEffect(() => {
-    if (!currentLevel) return;
-    setAnimateProgressBars(false);
+    if (!currentLevel?.id) return;
     const timer = window.setTimeout(() => setAnimateProgressBars(true), 40);
     return () => window.clearTimeout(timer);
   }, [currentLevel?.id, activeSectionId]);
@@ -703,17 +702,16 @@ export default function UnitSelect({
                     </div>
                 </div>
 
-                  <div className="space-y-0.5">
-                    <div className={`text-[10px] tracking-wide font-semibold text-center ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
+                  <div className="flex-1 flex flex-col justify-center">
+                    <div className={`text-[10px] tracking-wide font-extrabold text-center ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
                       {metadata.name.replace(/^Checkpoint Quiz\s+/i, 'Unit Review ')}
                     </div>
-                  </div>
-
-                  <div
-                    className={`mt-2 text-[11px] leading-4 overflow-hidden ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}
-                    style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
-                  >
-                    {metadata.description}
+                    <div
+                      className={`mt-1 text-[11px] leading-4 overflow-hidden ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}
+                      style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
+                    >
+                      {metadata.description}
+                    </div>
                   </div>
 
                   <div className={`font-mono mt-auto pt-4 text-[11px] font-semibold tracking-wide text-center ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}>
@@ -760,23 +758,22 @@ export default function UnitSelect({
                   </div>
                 </div>
 
-                <div className="space-y-0.5">
-                  <div className={`text-[10px] tracking-wide font-semibold text-center ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
+                <div className="flex-1 flex flex-col justify-center">
+                  <div className={`text-[10px] tracking-wide font-extrabold text-center ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
                     {metadata.name}
                   </div>
-                </div>
-
-                <div
-                  className={`mt-2 text-[11px] leading-4 text-center ${isUnitMastered ? 'text-white/90' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'} overflow-hidden`}
-                  style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
-                >
-                  {metadata.description}
-                </div>
-                {isBlueprint && metadata.microUnits && metadata.microUnits.length > 0 && (
-                  <div className={`mt-1 text-[11px] leading-relaxed text-center ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'} overflow-hidden max-h-9`}>
-                    Focus: {metadata.microUnits.slice(0, 3).join(' · ')}
+                  <div
+                    className={`mt-1 text-[11px] leading-4 text-center ${isUnitMastered ? 'text-white/90' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'} overflow-hidden`}
+                    style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
+                  >
+                    {metadata.description}
                   </div>
-                )}
+                  {isBlueprint && metadata.microUnits && metadata.microUnits.length > 0 && (
+                    <div className={`mt-1 text-[11px] leading-relaxed text-center ${isUnitMastered ? 'text-white/85' : !isUnitUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'} overflow-hidden max-h-9`}>
+                      Focus: {metadata.microUnits.slice(0, 3).join(' · ')}
+                    </div>
+                  )}
+                </div>
 
                 <div className={`font-mono mt-auto pt-2 text-[11px] font-semibold tracking-wide text-center ${isUnitMastered ? 'text-white' : accent.badgeText}`}>
                   {isBlueprint

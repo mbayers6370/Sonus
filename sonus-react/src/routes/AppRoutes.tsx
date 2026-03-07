@@ -280,6 +280,8 @@ export default function AppRoutes() {
     resolveFallbackBandId,
     resolveContinueLearnTarget,
     selectedLanguage,
+    state.activeBandData?.sections,
+    state.currentLevel?.id,
   ]);
 
   const goLearnMain = useCallback(() => {

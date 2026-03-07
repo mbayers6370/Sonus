@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import type { BandData, Word, SpeakBreakdown } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, Mic, ChevronRight, Check } from 'lucide-react';
@@ -15,6 +16,10 @@ import {
   resolveSpeakLanguageForSession,
   romanizeJapaneseForDisplay,
 } from '../lib/speakRuntime';
+import { getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
+import { getLessonRanges } from '../lib/lessonChunks';
+import { makeLessonKey } from '../lib/lessonProgress';
+import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 
 interface SpeakModeProps {
   word: Word;
@@ -65,10 +70,13 @@ const EMPTY_SCORE: SpeakBreakdown['initial'] = {
 const FINALIZE_DELAY_MS = 480;
 const STOP_FINALIZE_WATCHDOG_MS = 1800;
 const NO_INPUT_AUTO_STOP_MS = 3800;
+const SENTENCE_MODE_NO_INPUT_AUTO_STOP_MS = 12000;
+const SENTENCE_MODE_SILENCE_STOP_MS = 1400;
 const MANDARIN_CONFIDENCE_FLOOR_INTERIM = 0.18;
 const MANDARIN_CONFIDENCE_FLOOR_FINAL = 0.28;
 const NO_SPEECH_RESULT_TEXT = 'No speech detected';
 const LOW_CONFIDENCE_RESULT_TEXT = 'Couldn’t confidently detect that. Try once more.';
+const LESSON_UNLOCK_PASS_PERCENT = 85;
 
 type SpeakCandidate = {
   recognizedText: string;
@@ -1008,6 +1016,102 @@ function analysisCompositeScore(analysis: PronunciationAnalysis | null, match: b
   return Math.round((analysis.initial.percent + analysis.final.percent + analysis.tone.percent) / 3);
 }
 
+function isInstructionalComplete(quizScore: number | null | undefined, speakScore: number | null | undefined) {
+  return (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
+}
+
+function hasLessonUnlockCredit(
+  status: { completed?: boolean; quizScore?: number | null; speakScore?: number | null } | undefined
+) {
+  return Boolean(
+    status?.completed ||
+    isInstructionalComplete(status?.quizScore, status?.speakScore) ||
+    (status?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT
+  );
+}
+
+function canonicalUnitKey(id: string) {
+  return id
+    .replace(/^[a-z]\d+-u\d+-/i, '')
+    .replace(/^[a-z]\d+-/i, '');
+}
+
+function getUnitWordsById(
+  units: BandData['units'] | undefined,
+  unitId: string
+): Word[] {
+  if (!units) return [];
+  if (Array.isArray(units)) {
+    const direct = units.find((unit) => unit?.id === unitId);
+    if (direct?.words?.length) return direct.words;
+    const key = canonicalUnitKey(unitId);
+    return units
+      .filter((unit) => canonicalUnitKey(unit?.id || '') === key)
+      .flatMap((unit) => unit?.words || []);
+  }
+  if (units[unitId]?.words?.length) return units[unitId].words;
+  const key = canonicalUnitKey(unitId);
+  return Object.entries(units)
+    .filter(([id]) => canonicalUnitKey(id) === key)
+    .flatMap(([, unit]) => unit?.words || []);
+}
+
+function normalizeTerm(value: string | null | undefined) {
+  return (value || '').trim();
+}
+
+function highlightPracticeSentence(
+  text: string,
+  targetTerms: string[],
+  knownTerms: string[]
+): ReactNode {
+  const source = text.trim();
+  if (!source) return source;
+
+  const uniqueTarget = Array.from(new Set(targetTerms.map((term) => normalizeTerm(term)).filter(Boolean)))
+    .sort((a, b) => b.length - a.length);
+  const uniqueKnown = Array.from(
+    new Set(
+      knownTerms
+        .map((term) => normalizeTerm(term))
+        .filter((term) => Boolean(term) && !uniqueTarget.includes(term))
+    )
+  ).sort((a, b) => b.length - a.length);
+
+  const chunks: Array<{ text: string; className?: string }> = [];
+  let index = 0;
+  while (index < source.length) {
+    const targetMatch = uniqueTarget.find((candidate) => source.startsWith(candidate, index));
+    if (targetMatch) {
+      chunks.push({ text: targetMatch, className: 'font-semibold text-[#186E95]' });
+      index += targetMatch.length;
+      continue;
+    }
+    const knownMatch = uniqueKnown.find((candidate) => source.startsWith(candidate, index));
+    if (knownMatch) {
+      chunks.push({ text: knownMatch, className: 'font-semibold text-[#8DD3AE]' });
+      index += knownMatch.length;
+      continue;
+    }
+    chunks.push({ text: source[index] });
+    index += 1;
+  }
+
+  return (
+    <>
+      {chunks.map((chunk, idx) =>
+        chunk.className ? (
+          <span key={`${chunk.text}-${idx}`} className={chunk.className}>
+            {chunk.text}
+          </span>
+        ) : (
+          <span key={`${chunk.text}-${idx}`}>{chunk.text}</span>
+        )
+      )}
+    </>
+  );
+}
+
 function pickBetterCandidate(current: SpeakCandidate | null, next: SpeakCandidate): SpeakCandidate {
   if (!current) return next;
   if (current.isFinal !== next.isFinal) return next.isFinal ? next : current;
@@ -1064,6 +1168,7 @@ export default function SpeakMode({
   const recognitionStopTimerRef = useRef<number | null>(null);
   const listenRetryTimerRef = useRef<number | null>(null);
   const noInputAutoStopTimerRef = useRef<number | null>(null);
+  const silenceStopTimerRef = useRef<number | null>(null);
   const sttUnavailableTrackedRef = useRef(false);
   const lookupTelemetryKeysRef = useRef<Set<string>>(new Set());
   const recordingSessionRef = useRef(0);
@@ -1086,8 +1191,62 @@ export default function SpeakMode({
     : resolveSpeakLanguageForSession(state.selectedLanguage, state.activeBandId);
   const isJapaneseLesson = speakLanguageId === 'ja';
   const isMandarinLesson = speakLanguageId === 'zh';
-  const ttsTargetText = isJapaneseLesson ? (word.hiragana || word.reading || word.simp) : word.simp;
-  const ttsTargetReading = isJapaneseLesson ? (word.reading || word.pinyin) : word.pinyin;
+  const isPracticeFocusSpeakSession =
+    practiceMode && /^(?:b\d+|b79|n[1-5])-speaking$/i.test((state.activeLesson?.unitId || '').trim());
+  const practiceSentence = (word.example?.zh || '').trim();
+  const practiceSentenceEnglish = (word.example?.en || '').trim();
+  const useSentenceTargetInPractice = isPracticeFocusSpeakSession && Boolean(practiceSentence);
+  const ttsTargetText = useSentenceTargetInPractice
+    ? practiceSentence
+    : (isJapaneseLesson ? (word.hiragana || word.reading || word.simp) : word.simp);
+  const ttsTargetReading = useSentenceTargetInPractice
+    ? (word.example?.reading || word.example?.pinyin || (isJapaneseLesson ? word.reading : word.pinyin) || '')
+    : ((isJapaneseLesson ? (word.reading || word.pinyin) : word.pinyin) || '');
+  const completedUnitSeenTerms = useMemo(() => {
+    if (!state.activeBandId || !state.activeBandData) return [] as string[];
+    const terms = new Set<string>();
+    const units = getUnitsForBand(state.activeBandId, state.activeBandData)
+      .filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id));
+
+    units.forEach((unit) => {
+      const unitWords = getUnitWordsById(state.activeBandData?.units, unit.id);
+      const lessonCount = getLessonRanges(unitWords.length, 10).length;
+      if (lessonCount <= 0) return;
+      const isCompleted = Array.from({ length: lessonCount }).every((_, lessonIndex) =>
+        hasLessonUnlockCredit(state.lessonProgress[makeLessonKey(state.activeBandId!, unit.id, lessonIndex)])
+      );
+      if (!isCompleted) return;
+      unitWords.forEach((entry) => {
+        const simp = normalizeTerm(entry.simp);
+        const trad = normalizeTerm(entry.trad);
+        if (simp) terms.add(simp);
+        if (trad) terms.add(trad);
+      });
+    });
+
+    return Array.from(terms);
+  }, [state.activeBandData, state.activeBandId, state.lessonProgress]);
+  const practiceSentenceTargetTerms = useMemo(
+    () => [word.simp, word.trad || '', ...(word.variants || [])].map((value) => normalizeTerm(value)).filter(Boolean),
+    [word.simp, word.trad, word.variants]
+  );
+  const practiceSentenceTargetHanziTerms = useMemo(
+    () => practiceSentenceTargetTerms.map((value) => normalizeHanzi(value)).filter(Boolean),
+    [practiceSentenceTargetTerms]
+  );
+  const practiceSentenceTargetJapaneseTerms = useMemo(
+    () => practiceSentenceTargetTerms.map((value) => normalizeJapaneseLookupKey(value)).filter(Boolean),
+    [practiceSentenceTargetTerms]
+  );
+  const practiceSentenceHighlighted = useMemo(
+    () =>
+      highlightPracticeSentence(
+        practiceSentence || word.simp || '',
+        practiceSentenceTargetTerms,
+        completedUnitSeenTerms
+      ),
+    [completedUnitSeenTerms, practiceSentence, practiceSentenceTargetTerms, word.simp]
+  );
 
   const targetHanzi = normalizeHanzi(word.simp);
   const targetHomophoneSet = useMemo(() => {
@@ -1312,7 +1471,7 @@ export default function SpeakMode({
 
   const evaluateTranscript = (recognizedRaw: string) => {
     const recognized = normalizeSpeechCandidate(speakLanguageId, recognizedRaw);
-    const nextAnalysis = analyzePronunciation(recognized);
+    const nextAnalysis = useSentenceTargetInPractice ? null : analyzePronunciation(recognized);
     if (nextAnalysis) {
       const strictAnalysisMatch = nextAnalysis.initial.pass && nextAnalysis.final.pass && nextAnalysis.tone.pass;
       let shortTargetAssistMatch = false;
@@ -1339,6 +1498,35 @@ export default function SpeakMode({
     const cleanedRecognized = normalize(recognized);
     if (!cleanedRecognized) {
       return { recognizedText: recognized, analysis: null, match: false };
+    }
+
+    if (useSentenceTargetInPractice) {
+      if (isJapaneseLesson) {
+        const heardLookup = normalizeJapaneseLookupKey(recognized);
+        const heardReading = normalizeJapaneseReadingForCompare(recognized);
+        const heardRomaji = japaneseRomajiKeyFromScriptOrFallback(recognized, recognized);
+        const hasScriptTarget =
+          heardLookup &&
+          practiceSentenceTargetJapaneseTerms.some((term) => heardLookup.includes(term));
+        const hasReadingTarget =
+          Boolean(heardReading && targetJapaneseReading && heardReading.includes(targetJapaneseReading));
+        const hasRomajiTarget =
+          Boolean(heardRomaji && targetJapaneseRomaji && heardRomaji.includes(targetJapaneseRomaji));
+        return { recognizedText: recognized, analysis: null, match: Boolean(hasScriptTarget || hasReadingTarget || hasRomajiTarget) };
+      }
+
+      if (isMandarinLesson) {
+        const recognizedHanzi = normalizeHanzi(recognized);
+        if (recognizedHanzi) {
+          const hasTargetTerm = practiceSentenceTargetHanziTerms.some((term) => recognizedHanzi.includes(term));
+          const hasHomophoneTerm = Array.from(targetHomophoneSet).some((term) => term && recognizedHanzi.includes(term));
+          return { recognizedText: recognized, analysis: null, match: Boolean(hasTargetTerm || hasHomophoneTerm) };
+        }
+
+        const targetPinyin = normalize(word.pinyin || '');
+        const pinyinLikeMatch = Boolean(targetPinyin && cleanedRecognized.includes(targetPinyin));
+        return { recognizedText: recognized, analysis: null, match: pinyinLikeMatch };
+      }
     }
 
     if (isJapaneseLesson) {
@@ -1494,6 +1682,10 @@ export default function SpeakMode({
       window.clearTimeout(noInputAutoStopTimerRef.current);
       noInputAutoStopTimerRef.current = null;
     }
+    if (silenceStopTimerRef.current) {
+      window.clearTimeout(silenceStopTimerRef.current);
+      silenceStopTimerRef.current = null;
+    }
     if (postedSpeakSessionRef.current === sessionId) {
       setIsFinalizing(false);
       recognitionStateRef.current = 'idle';
@@ -1594,6 +1786,19 @@ export default function SpeakMode({
     }, delayMs);
   };
 
+  const scheduleSilenceStop = (sessionId: number, delayMs = SENTENCE_MODE_SILENCE_STOP_MS) => {
+    if (silenceStopTimerRef.current) {
+      window.clearTimeout(silenceStopTimerRef.current);
+    }
+    silenceStopTimerRef.current = window.setTimeout(() => {
+      if (sessionId !== recordingSessionRef.current) return;
+      if (!isRecordingRef.current) return;
+      if (recognitionStateRef.current !== 'recording') return;
+      stopMediaRecorder();
+      silenceStopTimerRef.current = null;
+    }, delayMs);
+  };
+
   const stopRecognition = () => {
     try {
       recognitionRef.current?.stop?.();
@@ -1633,6 +1838,10 @@ export default function SpeakMode({
     if (noInputAutoStopTimerRef.current) {
       window.clearTimeout(noInputAutoStopTimerRef.current);
       noInputAutoStopTimerRef.current = null;
+    }
+    if (silenceStopTimerRef.current) {
+      window.clearTimeout(silenceStopTimerRef.current);
+      silenceStopTimerRef.current = null;
     }
     if (stopWatchdogTimerRef.current) {
       window.clearTimeout(stopWatchdogTimerRef.current);
@@ -1780,14 +1989,15 @@ export default function SpeakMode({
           setAnalysis(chosen.analysis);
           setMatchResult(chosen.match ? 'match' : 'retry');
 
-          // Auto-stop when a final transcript or strong interim match is available.
-          if (
-            isRecordingRef.current &&
-            recognitionStateRef.current === 'recording' &&
-            (Boolean(latestFinal) || chosen.match)
-          ) {
-            stopMediaRecorder();
-            return;
+          if (isRecordingRef.current && recognitionStateRef.current === 'recording') {
+            if (useSentenceTargetInPractice) {
+              // For sentence prompts, wait for a short silence window to avoid clipping the tail.
+              scheduleSilenceStop(sessionId);
+            } else if (Boolean(latestFinal) || chosen.match) {
+              // Word mode stays snappy with immediate stop on a solid result.
+              stopMediaRecorder();
+              return;
+            }
           }
         }
         if (recognitionStateRef.current === 'finalizing') {
@@ -1816,11 +2026,19 @@ export default function SpeakMode({
         // In one-utterance mode, finalize immediately when a candidate exists.
         // Otherwise, restart recognition while media recording remains active.
         if (sessionId !== recordingSessionRef.current) return;
-        if (isRecordingRef.current && recognitionStateRef.current === 'recording' && pendingSpeakAttemptRef.current) {
+        if (
+          !useSentenceTargetInPractice &&
+          isRecordingRef.current &&
+          recognitionStateRef.current === 'recording' &&
+          pendingSpeakAttemptRef.current
+        ) {
           stopMediaRecorder();
           return;
         }
         if (isRecordingRef.current && recognitionStateRef.current === 'recording') {
+          if (useSentenceTargetInPractice && pendingSpeakAttemptRef.current) {
+            scheduleSilenceStop(sessionId);
+          }
           try {
             recognition.start();
           } catch {
@@ -1881,6 +2099,10 @@ export default function SpeakMode({
     if (noInputAutoStopTimerRef.current) {
       window.clearTimeout(noInputAutoStopTimerRef.current);
       noInputAutoStopTimerRef.current = null;
+    }
+    if (silenceStopTimerRef.current) {
+      window.clearTimeout(silenceStopTimerRef.current);
+      silenceStopTimerRef.current = null;
     }
     stopRecognition();
   };
@@ -2023,9 +2245,9 @@ export default function SpeakMode({
 
       setIsRecording(true);
       setIsStartingRecording(false);
-      const noInputTimeoutMs = (isJapaneseLesson && isShortJapaneseTarget)
-        ? 6500
-        : NO_INPUT_AUTO_STOP_MS;
+      const noInputTimeoutMs = useSentenceTargetInPractice
+        ? SENTENCE_MODE_NO_INPUT_AUTO_STOP_MS
+        : ((isJapaneseLesson && isShortJapaneseTarget) ? 6500 : NO_INPUT_AUTO_STOP_MS);
       if (noInputAutoStopTimerRef.current) {
         window.clearTimeout(noInputAutoStopTimerRef.current);
       }
@@ -2064,6 +2286,10 @@ export default function SpeakMode({
         window.clearTimeout(recognitionStopTimerRef.current);
         recognitionStopTimerRef.current = null;
       }
+      if (silenceStopTimerRef.current) {
+        window.clearTimeout(silenceStopTimerRef.current);
+        silenceStopTimerRef.current = null;
+      }
       if (stopWatchdogTimerRef.current) {
         window.clearTimeout(stopWatchdogTimerRef.current);
         stopWatchdogTimerRef.current = null;
@@ -2091,6 +2317,10 @@ export default function SpeakMode({
     if (recognitionStopTimerRef.current) {
       window.clearTimeout(recognitionStopTimerRef.current);
       recognitionStopTimerRef.current = null;
+    }
+    if (silenceStopTimerRef.current) {
+      window.clearTimeout(silenceStopTimerRef.current);
+      silenceStopTimerRef.current = null;
     }
     if (noInputAutoStopTimerRef.current) {
       window.clearTimeout(noInputAutoStopTimerRef.current);
@@ -2259,13 +2489,16 @@ export default function SpeakMode({
         ? 'Results Below'
         : 'Tap To Start';
   const displayMeaning = useMemo(() => getPrimaryMeaning(word), [word]);
+  const sentenceModeRecordTextClass = useSentenceTargetInPractice
+    ? 'text-[clamp(0.84rem,3.6vw,0.98rem)] sm:text-[0.98rem]'
+    : 'text-[clamp(0.92rem,4vw,1.08rem)] sm:text-[1.08rem]';
   const navLocked = isRecording || isFinalizing;
   const canAdvance = !navLocked && hasAttempt && matchResult !== null;
   const listenDisabled = disableTargetAudio || isRecording || isStartingRecording;
   const recordLockedAfterMatch = isFullyCorrect;
 
   const renderScoreChips = (compact: boolean) => {
-    if (isJapaneseLesson) return null;
+    if (isJapaneseLesson || useSentenceTargetInPractice) return null;
 
     if (isMandarinLesson && analysis && !disableTargetAudio) {
       const targetTokens = parsePinyin(word.pinyin || '', targetSyllableCount);
@@ -2515,6 +2748,39 @@ export default function SpeakMode({
 
   const renderDesktopResultPanels = () => {
     if (!showDesktopResult) return null;
+    if (useSentenceTargetInPractice) {
+      return (
+        <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              {(() => {
+                if (!matchResult) return null;
+                return (
+                  <span
+                    className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
+                      isFullyCorrect ? 'bg-[#8DD3AE] text-white' : 'bg-[#C2410C] text-white'
+                    }`}
+                  >
+                    {isFullyCorrect ? 'Correct' : 'Needs Work'}
+                  </span>
+                );
+              })()}
+            </div>
+            <div className="secondary-font font-semibold text-2xl text-white leading-tight break-words text-center">
+              {displayHeardText || '...'}
+            </div>
+            {displayResultReading ? (
+              <div className="mt-2 flex justify-center">
+                <div className="inline-flex items-center rounded-xl px-2.5 py-1 bg-white/12 border border-white/15">
+                  <span className="text-sm font-semibold text-white">{displayResultReading}</span>
+                </div>
+              </div>
+            ) : null}
+            {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
+          </div>
+        </div>
+      );
+    }
     if (isJapaneseLesson) {
       return (
         <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
@@ -2624,7 +2890,11 @@ export default function SpeakMode({
 
       {/* Word Display */}
       <div className="px-3 sm:px-5 pb-[0.7rem] sm:pb-[0.5rem]">
-        <div className="grid grid-cols-2 gap-2 mb-2 items-stretch">
+        <div
+          className={`grid gap-2 mb-2 items-stretch ${
+            useSentenceTargetInPractice ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-2'
+          }`}
+        >
           <button
             type="button"
             onClick={handlePlayTargetAudio}
@@ -2646,11 +2916,26 @@ export default function SpeakMode({
               </>
             ) : (
               <>
-                <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
-                {!hideReadingAndMeaning && word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
-                {!hideReadingAndMeaning ? (
-                  <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1">{displayMeaning}</div>
-                ) : null}
+                {isPracticeFocusSpeakSession ? (
+                  <div className="w-full max-w-[32rem] mx-auto px-2 sm:px-4">
+                    <div className="secondary-font text-base sm:text-lg text-[#1F2A37] leading-relaxed break-words whitespace-normal">
+                      {practiceSentenceHighlighted}
+                    </div>
+                    {practiceSentenceEnglish ? (
+                      <div className="text-xs sm:text-[13px] text-[#475569] leading-relaxed mt-1.5 break-words whitespace-normal">
+                        {practiceSentenceEnglish}
+                      </div>
+                    ) : null}
+                  </div>
+                ) : (
+                  <>
+                    <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
+                    {!hideReadingAndMeaning && word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
+                    {!hideReadingAndMeaning ? (
+                      <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1">{displayMeaning}</div>
+                    ) : null}
+                  </>
+                )}
               </>
             )}
           </button>
@@ -2676,12 +2961,12 @@ export default function SpeakMode({
 
             <div className="h-full flex flex-col justify-center text-center">
               {recordTitle ? (
-                <div className="text-[clamp(0.92rem,4vw,1.08rem)] sm:text-[1.08rem] font-semibold text-white leading-tight">
+                <div className={`${sentenceModeRecordTextClass} font-semibold text-white leading-tight`}>
                   {recordTitle}
                   {(isStartingRecording || isRecording || isFinalizing) ? renderAnimatedEllipsis() : null}
                 </div>
               ) : null}
-              <div className="text-[clamp(0.92rem,4vw,1.08rem)] sm:text-[1.08rem] font-semibold text-white leading-tight break-words mt-1 px-1">
+              <div className={`${sentenceModeRecordTextClass} font-semibold text-white leading-tight break-words mt-1 px-1`}>
                 {recordSubtitle}
               </div>
               {!sttSupported ? null : (isFinalizing || isStartingRecording) ? (
@@ -2693,7 +2978,7 @@ export default function SpeakMode({
           </button>
 
           {showMobileResult && (
-            <div className="col-span-2">
+            <div className={useSentenceTargetInPractice ? 'col-span-1 sm:col-span-2' : 'col-span-2'}>
               <div className="md:hidden">{renderResultCard(true)}</div>
               {renderDesktopResultPanels()}
             </div>

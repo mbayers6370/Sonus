@@ -64,6 +64,14 @@ function inferLessonCountFromProgress(
   return maxSeen + 1;
 }
 
+function formatUnitFallbackLabel(unitId: string | null | undefined) {
+  const value = (unitId || '').trim();
+  if (!value) return 'Unit #';
+  const match = value.match(/(\d+)(?!.*\d)/);
+  if (match) return `Unit ${match[1]}`;
+  return 'Unit #';
+}
+
 const ROWS_PER_PAGE = 2;
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
@@ -291,7 +299,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       ? currentPath.lessonIdx + 1
       : null;
   const currentUnitAndLesson = currentPath.unitId
-    ? `${formatUnitNameForDisplay(currentUnitMeta?.name) || 'Current Unit'}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
+    ? `${formatUnitNameForDisplay(currentUnitMeta?.name) || formatUnitFallbackLabel(currentPath.unitId)}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
     : 'Not started';
   const streakDisplay = Math.max(progress?.streak ?? 0, 1);
 

@@ -178,8 +178,14 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
         }}
         onRestart={() => {
           restartLesson();
+          const restartMode: LessonMode =
+            state.lessonMode === 'apply'
+              ? 'apply'
+              : state.lessonMode === 'speak'
+                ? 'speak'
+                : 'intro';
           navigate(
-            `/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/${state.lessonMode === 'apply' ? 'apply' : 'intro'}`
+            `/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/${restartMode}`
           );
         }}
         onReviewMissed={() => {

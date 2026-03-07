@@ -39,7 +39,6 @@ test('reports modal learn destinations', async ({ page }) => {
   await page.goto('/home');
   await clickLearnAction('Lessons');
 
-  // eslint-disable-next-line no-console
   console.log(`MODAL_LEARN_DESTINATIONS ${JSON.stringify(destinations)}`);
 });
 
@@ -95,7 +94,6 @@ test('reports modal learn destinations with latest unlocked target', async ({ pa
   await page.goto('/home');
   await clickLearnAction('Lessons');
 
-  // eslint-disable-next-line no-console
   console.log(`MODAL_LEARN_DESTINATIONS_TARGET ${JSON.stringify(destinations)}`);
 });
 
