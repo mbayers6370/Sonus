@@ -785,6 +785,9 @@ export default function HomeDashboard({
               </button>
             </div>
           )}
+          <p className="text-[11px] leading-relaxed text-white/72 mt-4 max-w-md mx-auto">
+            Practice Focus is separate from your structured lesson path. Practice only, not graded.
+          </p>
         </section>
 
         <section

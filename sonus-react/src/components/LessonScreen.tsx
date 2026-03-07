@@ -181,6 +181,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const isCheckpointQuiz = isCheckpointUnitId(activeLesson.unitId);
   const isDailyReview = activeLesson.unitId === 'daily-review';
   const isPracticeUnit = isListeningPractice || isSpeakingPractice;
+  const lessonSubtitle = isPracticeUnit ? '(Not Graded)' : undefined;
   const isApplyMode = lessonMode === 'apply';
   const hideLogoOnMobile =
     isPracticeUnit || isApplyMode || /^band\d+$/i.test(activeBandId || '') || activeBandId === 'advanced';
@@ -259,11 +260,12 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
       <div className="px-6 pb-1">
         <GlassHeader
           title={titleText}
+          subtitle={lessonSubtitle}
           showLogo={false}
           hideLogoOnMobile={hideLogoOnMobile}
           className={isSpeakingPractice ? 'bg-white/75 border-[#1F2A37]/25' : ''}
           titleClassName={speakingPageTheme.title}
-          subtitleClassName="text-text-med"
+          subtitleClassName="text-text-light"
         />
       </div>
       {/* Mode Tabs */}
