@@ -3,7 +3,7 @@ import type { BandData, Word, SpeakBreakdown } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, Mic, ChevronRight, Check } from 'lucide-react';
 import { pinyin as toPinyin } from 'pinyin-pro';
-import { sendClientTelemetrySafe, sendSpeakAttemptSafe } from '../lib/backendApi';
+import { fetchJapaneseRomajiFromBackend, sendClientTelemetrySafe, sendSpeakAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
 import WordProgressRail from './WordProgressRail';
@@ -64,7 +64,7 @@ const EMPTY_SCORE: SpeakBreakdown['initial'] = {
 };
 const FINALIZE_DELAY_MS = 480;
 const STOP_FINALIZE_WATCHDOG_MS = 1800;
-const NO_INPUT_AUTO_STOP_MS = 3800;
+const NO_INPUT_AUTO_STOP_MS = 6500;
 const MANDARIN_CONFIDENCE_FLOOR_INTERIM = 0.18;
 const MANDARIN_CONFIDENCE_FLOOR_FINAL = 0.28;
 const NO_SPEECH_RESULT_TEXT = 'No speech detected';
@@ -325,15 +325,10 @@ function isLikelyMandarinTranscript(raw: string, expectedSyllables: number) {
   return tokens.length > 0;
 }
 
-function isLikelyJapaneseTranscript(raw: string, targetRomaji = '') {
+function isLikelyJapaneseTranscript(raw: string) {
   const value = (raw || '').trim();
   if (!value) return false;
-  if (normalizeJapaneseForCompare(value)) return true;
-  const latin = normalizeLatinForCompare(romanizeJapaneseForDisplay(value) || value);
-  if (!latin) return false;
-  if (latin.length >= 2) return true;
-  if (!targetRomaji) return false;
-  return latin === targetRomaji || targetRomaji.startsWith(latin) || latin.startsWith(targetRomaji);
+  return Boolean(normalizeJapaneseForCompare(value));
 }
 
 function inferHanziFromDetectedPinyin(
@@ -586,8 +581,9 @@ function normalizeJapaneseForCompare(value: string) {
 
 function normalizeJapaneseLookupKey(value: string) {
   // Canonicalize common orthographic variants so dictionary-style lookup is resilient.
-  return normalizeJapaneseForCompare(value || '')
-    .replace(/[ヶヵ]/g, 'か')
+  const preNormalized = (value || '').replace(/[ヶヵ]/g, 'か');
+  return normalizeJapaneseForCompare(preNormalized)
+    .replace(/[ゖゕ]/g, 'か')
     .replace(/け(?=月)/g, 'か');
 }
 
@@ -604,6 +600,18 @@ function normalizeJapaneseReadingForCompare(value: string) {
   return katakanaToHiragana((value || '').toLowerCase())
     .replace(/[^\p{Script=Hiragana}ー]/gu, '')
     .trim();
+}
+
+function japaneseResultRomajiFromEntry(input: {
+  reading?: string | null;
+  hiragana?: string | null;
+  pinyin?: string | null;
+}) {
+  const fromReading = normalizeLatinForCompare(
+    romanizeJapaneseForDisplay(input.reading || input.hiragana || '')
+  );
+  if (fromReading) return fromReading;
+  return normalizeLatinForCompare(input.pinyin || '');
 }
 
 function japanesePronunciationKey(input: {
@@ -624,21 +632,9 @@ function japanesePronunciationKey(input: {
   return fromScriptRomaji;
 }
 
-function japaneseRomajiFromEntry(input: {
-  reading?: string | null;
-  hiragana?: string | null;
-  pinyin?: string | null;
-  simp?: string | null;
-}) {
-  const fromReading = normalizeLatinForCompare(
-    romanizeJapaneseForDisplay(input.reading || input.hiragana || '')
-  );
-  if (fromReading) return fromReading;
-
-  const fromPinyin = normalizeLatinForCompare(input.pinyin || '');
-  if (fromPinyin) return fromPinyin;
-
-  return normalizeLatinForCompare(romanizeJapaneseForDisplay(input.simp || ''));
+function matchesJapaneseKey(target: string, heard: string, isAffix: boolean) {
+  if (!target || !heard) return false;
+  return isAffix ? heard.includes(target) : heard === target;
 }
 
 function normalizeLatinForCompare(value: string) {
@@ -992,6 +988,7 @@ function analysisCompositeScore(analysis: PronunciationAnalysis | null, match: b
 function pickBetterCandidate(current: SpeakCandidate | null, next: SpeakCandidate): SpeakCandidate {
   if (!current) return next;
   if (current.isFinal !== next.isFinal) return next.isFinal ? next : current;
+  if (current.match !== next.match) return next.match ? next : current;
   if (current.confidence !== next.confidence) {
     return next.confidence > current.confidence ? next : current;
   }
@@ -1034,6 +1031,7 @@ export default function SpeakMode({
   const [matchResult, setMatchResult] = useState<MatchResult>(null);
   const [audioError, setAudioError] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<PronunciationAnalysis | null>(null);
+  const [resolvedJapaneseResultRomaji, setResolvedJapaneseResultRomaji] = useState('');
   // Forces a rerender once async lookup tables finish loading.
   const [, setLookupVersion] = useState(0);
 
@@ -1098,11 +1096,10 @@ export default function SpeakMode({
     pinyin: word.pinyin,
     simp: word.simp,
   });
-  const targetJapaneseRomaji = normalizeLatinForCompare(
-    romanizeJapaneseForDisplay(word.simp || '') || word.pinyin || ''
-  );
   const isShortJapaneseTarget =
-    isJapaneseLesson && (Array.from(targetJapaneseScript).length <= 1 || targetJapaneseRomaji.length <= 2);
+    isJapaneseLesson && (Array.from(targetJapaneseScript).length <= 1 || targetJapaneseReading.length <= 2);
+  const isJapaneseAffix = isJapaneseLesson && /^(suf|pref)$/i.test((word.pos || '').trim());
+  const targetJapaneseHasKana = /[\p{Script=Hiragana}\p{Script=Katakana}]/u.test(targetJapaneseScript);
   const targetSyllableCount = Math.max(
     1,
     normalizeHanzi(word.simp).length || tokenizePinyin(word.pinyin || '', 1).length
@@ -1314,24 +1311,31 @@ export default function SpeakMode({
     }
 
     if (isJapaneseLesson) {
-      const heard = normalizeJapaneseForCompare(recognized);
-      const heardLookup = normalizeJapaneseLookupKey(recognized);
-      const targetLookup = normalizeJapaneseLookupKey(word.simp || '');
-      if (
-        (heard && targetJapaneseScript && heard === targetJapaneseScript) ||
-        (heardLookup && targetLookup && heardLookup === targetLookup)
-      ) {
-        // Japanese scoring stays script-first and exact after normalization.
+      const heardScript = normalizeJapaneseLookupKey(recognized);
+      const targetScript = normalizeJapaneseLookupKey(word.simp || word.trad || '');
+      const heardReading = normalizeJapaneseReadingForCompare(recognized);
+      if (!isJapaneseAffix && matchesJapaneseKey(targetScript, heardScript, false)) {
         return { recognizedText: word.simp || recognized, analysis: null, match: true };
       }
 
-      // If STT returns a different script form (e.g. kanji instead of kana),
-      // accept it when the recognized token maps to the same hiragana reading as target.
-      if (heard) {
+      // For affix targets, do not accept script-only equality (e.g. 時) because kanji can have multiple readings.
+      if (isJapaneseAffix) {
+        // For affixes with kana in the target script (e.g. か月), exact script capture is specific enough.
+        if (targetJapaneseHasKana && matchesJapaneseKey(targetScript, heardScript, false)) {
+          return { recognizedText: word.simp || recognized, analysis: null, match: true };
+        }
+        if (matchesJapaneseKey(targetJapaneseReading, heardReading, true)) {
+          return { recognizedText: word.simp || recognized, analysis: null, match: true };
+        }
+        return { recognizedText: recognized, analysis: null, match: false };
+      }
+
+      // For non-affix Japanese entries, allow script->entry lookup + pronunciation key validation.
+      if (heardScript) {
         const heardScriptCandidate = [word, ...allWords].find((candidate) => {
           const simp = normalizeJapaneseLookupKey(candidate.simp || '');
           const trad = normalizeJapaneseLookupKey(candidate.trad || '');
-          return heardLookup === simp || heardLookup === trad;
+          return matchesJapaneseKey(simp, heardScript, false) || matchesJapaneseKey(trad, heardScript, false);
         });
         if (heardScriptCandidate) {
           const heardCandidateReading = japanesePronunciationKey({
@@ -1340,33 +1344,16 @@ export default function SpeakMode({
             pinyin: heardScriptCandidate.pinyin,
             simp: heardScriptCandidate.simp,
           });
-          if (heardCandidateReading && targetJapaneseReading && heardCandidateReading === targetJapaneseReading) {
+          if (matchesJapaneseKey(targetJapaneseReading, heardCandidateReading, false)) {
             return { recognizedText: heardScriptCandidate.simp || recognized, analysis: null, match: true };
           }
         }
       }
 
-      // When STT returns kana directly, compare normalized hiragana readings.
-      const heardReading = normalizeJapaneseReadingForCompare(recognized);
-      if (heardReading && targetJapaneseReading && heardReading === targetJapaneseReading) {
-        return { recognizedText: recognized, analysis: null, match: true };
-      }
-
-      const heardRomaji = normalizeLatinForCompare(romanizeJapaneseForDisplay(recognized) || recognized);
-      if (!targetJapaneseRomaji || !heardRomaji) {
-        return { recognizedText: recognized, analysis: null, match: false };
-      }
-
-      if (heardRomaji === targetJapaneseRomaji) {
+      if (matchesJapaneseKey(targetJapaneseReading, heardReading, false)) {
         return { recognizedText: word.simp || recognized, analysis: null, match: true };
       }
 
-      if (!isShortJapaneseTarget) {
-        return { recognizedText: recognized, analysis: null, match: false };
-      }
-
-      // For very short targets, require exact reading/script equality only.
-      // (No substring/near-match tolerance like はい -> は)
       return { recognizedText: recognized, analysis: null, match: false };
     }
 
@@ -1620,22 +1607,23 @@ export default function SpeakMode({
       recognition.lang = isMandarinLesson ? 'zh-CN' : getSpeakRecognitionLocale(speakLanguageId);
       // Single-utterance mode improves responsiveness for short words.
       recognition.continuous = false;
-      recognition.interimResults = !isShortJapaneseTarget;
+      recognition.interimResults = isJapaneseLesson ? true : !isShortJapaneseTarget;
       recognition.maxAlternatives = isJapaneseLesson ? 5 : (isMandarinLesson ? 1 : 3);
       if ('phrases' in recognition) {
-        const phraseCandidates = [
-          word.simp,
-          word.trad || '',
-          word.pinyin || '',
-          ...allWords.slice(0, 12).map((candidate) => candidate.simp),
-        ];
-        if (isJapaneseLesson) {
-          phraseCandidates.push(
-            normalizeJapaneseForCompare(word.simp || ''),
-            romanizeJapaneseForDisplay(word.simp || '') || '',
-            word.pinyin || ''
-          );
-        }
+        const phraseCandidates = isJapaneseLesson
+          ? [
+              word.simp,
+              word.trad || '',
+              word.reading || '',
+              word.hiragana || '',
+              ...allWords.slice(0, 12).flatMap((candidate) => [candidate.simp, candidate.trad || '', candidate.hiragana || '']),
+            ]
+          : [
+              word.simp,
+              word.trad || '',
+              word.pinyin || '',
+              ...allWords.slice(0, 12).map((candidate) => candidate.simp),
+            ];
         recognition.phrases = Array.from(
           new Set(
             phraseCandidates
@@ -1661,7 +1649,7 @@ export default function SpeakMode({
             if (isMandarinLesson && !isLikelyMandarinTranscript(text, targetSyllableCount)) {
               continue;
             }
-            if (isJapaneseLesson && !isLikelyJapaneseTranscript(text, targetJapaneseRomaji)) {
+            if (isJapaneseLesson && !isLikelyJapaneseTranscript(text)) {
               continue;
             }
             const rawConfidence = result?.[altIdx]?.confidence;
@@ -1920,7 +1908,7 @@ export default function SpeakMode({
       setTranscript('');
       setMatchResult(null);
       setAnalysis(null);
-      let recorder: MediaRecorder | null = null;
+        let recorder: MediaRecorder | null = null;
       if (!useRecognitionOnlyCapture && stream) {
         try {
           recorder = new MediaRecorder(stream);
@@ -1956,13 +1944,14 @@ export default function SpeakMode({
       if (noInputAutoStopTimerRef.current) {
         window.clearTimeout(noInputAutoStopTimerRef.current);
       }
+      const autoStopMs = isJapaneseLesson ? Math.max(NO_INPUT_AUTO_STOP_MS, 9000) : NO_INPUT_AUTO_STOP_MS;
       noInputAutoStopTimerRef.current = window.setTimeout(() => {
         if (sessionId !== recordingSessionRef.current) return;
         if (!isRecordingRef.current) return;
         if (recognitionStateRef.current !== 'recording') return;
         if (pendingSpeakAttemptRef.current) return;
         stopMediaRecorder();
-      }, NO_INPUT_AUTO_STOP_MS);
+      }, autoStopMs);
       if (recorder) {
         recorder.start();
       }
@@ -2009,6 +1998,7 @@ export default function SpeakMode({
     setTranscript('');
     setMatchResult(null);
     setAnalysis(null);
+    setResolvedJapaneseResultRomaji('');
     setIsStartingRecording(false);
     setIsFinalizing(false);
     if (finalizeTimerRef.current) {
@@ -2044,8 +2034,43 @@ export default function SpeakMode({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
 
+  useEffect(() => {
+    let cancelled = false;
+    const text = (transcript || '').trim();
+    const lower = text.toLowerCase();
+    const isFallbackMessage =
+      lower === NO_SPEECH_RESULT_TEXT.toLowerCase() ||
+      lower === LOW_CONFIDENCE_RESULT_TEXT.toLowerCase();
+
+    if (!isJapaneseLesson || !text || isFallbackMessage || isRecording || isFinalizing) {
+      setResolvedJapaneseResultRomaji('');
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    void fetchJapaneseRomajiFromBackend(text)
+      .then(({ romaji, source }) => {
+        if (cancelled) return;
+        // Enforce external derivation only; do not surface backend local-fallback dictionary output.
+        if (!romaji || source === 'local_fallback') {
+          setResolvedJapaneseResultRomaji('');
+          return;
+        }
+        setResolvedJapaneseResultRomaji(normalizeLatinForCompare(romaji));
+      })
+      .catch(() => {
+        if (!cancelled) setResolvedJapaneseResultRomaji('');
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isFinalizing, isJapaneseLesson, isRecording, transcript]);
+
   const heardHanzi = normalizeHanzi(transcript);
   const isNoSpeech = transcript.toLowerCase() === NO_SPEECH_RESULT_TEXT.toLowerCase();
+  const isLowConfidenceFallback = transcript.toLowerCase() === LOW_CONFIDENCE_RESULT_TEXT.toLowerCase();
   const noSpeechResultClass = isNoSpeech ? 'text-base' : 'text-lg';
   const hasAttempt =
     Boolean(transcript.trim()) || Boolean(analysis) || Boolean(matchResult) || Boolean(audioError);
@@ -2072,63 +2097,27 @@ export default function SpeakMode({
     firstUsableDetected ||
     (isMandarinLesson && transcript && !isNoSpeech ? (rawDetectedPinyin || 'Unknown pronunciation') : '');
   const normalizedHeardJapaneseLookup = normalizeJapaneseLookupKey(transcript || '');
-  const normalizedHeardRomanized = normalizeLatinForCompare(
-    isJapaneseLesson ? (romanizeJapaneseForDisplay(transcript) || transcript || '') : ''
-  );
   const heardJapaneseMatch = isJapaneseLesson && normalizedHeardJapaneseLookup
     ? [word, ...allWords].find((candidate) => {
         const simp = normalizeJapaneseLookupKey(candidate.simp || '');
         const trad = normalizeJapaneseLookupKey(candidate.trad || '');
-        return normalizedHeardJapaneseLookup === simp || normalizedHeardJapaneseLookup === trad;
+        return (
+          matchesJapaneseKey(simp, normalizedHeardJapaneseLookup, isJapaneseAffix) ||
+          matchesJapaneseKey(trad, normalizedHeardJapaneseLookup, isJapaneseAffix)
+        );
       })
     : null;
-  const heardJapaneseMatchFromRomaji =
-    isJapaneseLesson && !heardJapaneseMatch && normalizedHeardRomanized
-      ? [word, ...allWords].find((candidate) => {
-          const candidateRomaji = normalizeLatinForCompare(
-            romanizeJapaneseForDisplay(candidate.simp || '') || candidate.pinyin || ''
-          );
-          return Boolean(candidateRomaji) && candidateRomaji === normalizedHeardRomanized;
-        })
-      : null;
-  const closestHeardJapaneseMatch = isJapaneseLesson && normalizedHeardJapaneseLookup && !heardJapaneseMatch
-    ? (() => {
-        const candidates = [word, ...allWords]
-          .map((candidate) => {
-            const simp = normalizeJapaneseLookupKey(candidate.simp || '');
-            const trad = normalizeJapaneseLookupKey(candidate.trad || '');
-            const keys = [simp, trad].filter(Boolean);
-            if (!keys.length) return null;
-            const bestDistance = keys.reduce((minDistance, key) => {
-              const distance = levenshtein(normalizedHeardJapaneseLookup, key);
-              return Math.min(minDistance, distance);
-            }, Number.POSITIVE_INFINITY);
-            return { candidate, bestDistance, keyLength: Math.min(...keys.map((key) => key.length)) };
-          })
-          .filter((entry): entry is { candidate: Word; bestDistance: number; keyLength: number } => Boolean(entry))
-          .sort((a, b) => a.bestDistance - b.bestDistance);
-        const best = candidates[0];
-        if (!best) return null;
-        const threshold = Math.max(1, Math.floor(best.keyLength * 0.34));
-        return best.bestDistance <= threshold ? best.candidate : null;
-      })()
-    : null;
-  const fallbackJapaneseReading = isJapaneseLesson
-    ? (
-        (closestHeardJapaneseMatch
-          ? japaneseRomajiFromEntry(closestHeardJapaneseMatch)
-          : '') ||
-        ''
-      )
-    : '';
-  const heardRomanized =
-    isJapaneseLesson && transcript && !isNoSpeech
+  const heardJapaneseReadingLabel =
+    isJapaneseLesson && transcript && !isNoSpeech && !isLowConfidenceFallback
       ? (
-          japaneseRomajiFromEntry(heardJapaneseMatch || {}) ||
-          japaneseRomajiFromEntry(heardJapaneseMatchFromRomaji || {}) ||
-          (normalizedHeardRomanized.length >= 2 ? normalizedHeardRomanized : '') ||
-          fallbackJapaneseReading ||
-          ''
+          (heardJapaneseMatch
+            ? japaneseResultRomajiFromEntry({
+                reading: heardJapaneseMatch.reading,
+                hiragana: heardJapaneseMatch.hiragana,
+                pinyin: heardJapaneseMatch.pinyin,
+              })
+            : '') ||
+          resolvedJapaneseResultRomaji
         )
       : '';
   const shouldShowTargetPinyin =
@@ -2136,7 +2125,7 @@ export default function SpeakMode({
       ? false
       : (!detectedPinyinLabel && (!heardHanzi || isNoSpeech));
   const resultPinyinLabel = isJapaneseLesson
-    ? (isNoSpeech || !transcript.trim() ? 'Try again.' : (heardRomanized || fallbackJapaneseReading))
+    ? heardJapaneseReadingLabel
     : (detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : ''));
   const displayResultReading = hideReadingAndMeaning ? '' : resultPinyinLabel;
   const mappedMandarinHeard = isMandarinLesson && transcript && !heardHanzi
@@ -2159,8 +2148,6 @@ export default function SpeakMode({
         : isJapaneseLesson
           ? (
               heardJapaneseMatch?.simp ||
-              heardJapaneseMatchFromRomaji?.simp ||
-              closestHeardJapaneseMatch?.simp ||
               transcript
             )
           : transcript;

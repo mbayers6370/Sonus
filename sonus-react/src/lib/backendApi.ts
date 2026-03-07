@@ -96,3 +96,23 @@ export function saveOnboardingSelectionSafe(targetLanguage: string) {
     console.warn('[API] Failed to save onboarding selection', error);
   });
 }
+
+
+type JaRomajiPayload = {
+  romaji?: string;
+  reading?: string;
+  source?: string;
+};
+
+export async function fetchJapaneseRomajiFromBackend(text: string) {
+  const response = await apiFetch(`/v1/ja/romaji/sentence?text=${encodeURIComponent(text)}`);
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`GET /v1/ja/romaji/sentence failed (${response.status}): ${body}`);
+  }
+  const payload = (await response.json()) as JaRomajiPayload;
+  return {
+    romaji: (payload.romaji || payload.reading || '').trim(),
+    source: (payload.source || '').trim(),
+  };
+}
