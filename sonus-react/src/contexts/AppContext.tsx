@@ -58,6 +58,7 @@ import type { ProgressEventEnvelope } from '../lib/lessonProgressState';
 import { apiFetch } from '../lib/apiClient';
 import { cachePolicy } from '../config/cachePolicy';
 import { getMockIdentity } from '../lib/authSession';
+import { writeCachedCurrentPath } from '../lib/currentPathStore';
 import { useAuth } from './AuthContext';
 
 interface AppContextType {
@@ -122,6 +123,9 @@ const LESSON_UNLOCK_PASS_PERCENT = 85;
 const BAND_UNLOCK_PASS_PERCENT = 90;
 const APPLY_PROMPT_COUNT = 12;
 const DAILY_REVIEW_WORD_COUNT = 5;
+const PRACTICE_SESSION_WORD_COUNT = 10;
+const PRACTICE_REVIEW_TARGET = 3;
+const PRACTICE_REVIEW_MAX = 5;
 const QA_UNLOCK_ALL_EMAILS = new Set(['qa-admin-f8n2x7r1@sonus.test']);
 const hasLessonUnlockCredit = (
   status: { completed?: boolean; quizScore?: number | null; speakScore?: number | null } | undefined
@@ -286,6 +290,10 @@ function getPracticeSourceUnitId(unitId: string): string | null {
 
 function isPracticeDataUnit(unitId: string) {
   return getPracticeModeFromUnit(unitId) !== null;
+}
+
+function dedupeWordsById(words: Word[]) {
+  return Array.from(new Map(words.map((word) => [word.id, word])).values());
 }
 
 function buildPracticeWordPool(bandData: BandData, count: number): Word[] {
@@ -468,6 +476,11 @@ async function saveCurrentLessonPath(
   currentUnitId: string,
   currentLessonIdx: number
 ) {
+  writeCachedCurrentPath({
+    bandId: currentBandId,
+    unitId: currentUnitId,
+    lessonIndex: currentLessonIdx,
+  });
   try {
     await apiFetch('/v1/me/progress/current', {
       method: 'PATCH',
@@ -848,6 +861,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
         };
         if (cancelled) return;
 
+        const currentBandId = payload.progress?.currentBandId;
+        const currentUnitId = payload.progress?.currentUnitId;
+        const currentLessonIdx = payload.progress?.currentLessonIdx;
+        if (
+          currentBandId &&
+          currentUnitId &&
+          !isPracticeUnitId(currentUnitId) &&
+          !isCheckpointUnitId(currentUnitId) &&
+          currentUnitId !== 'daily-review'
+        ) {
+          writeCachedCurrentPath({
+            bandId: currentBandId,
+            unitId: currentUnitId,
+            lessonIndex: Math.max(0, currentLessonIdx ?? 0),
+          });
+        }
+
         setState((prev) => {
           const snapshotProgress = normalizeLessonProgressKeys(payload.lessonProgress || {});
           const eventProgress = normalizeLessonProgressKeys(
@@ -1061,7 +1091,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         if (sourceUnitId && coreUnitIds.includes(sourceUnitId)) {
           unlockedByUnitId.set(resolvedUnitId, hasUnitMastered(sourceUnitId));
         } else {
-          // Global practice routes (e.g. n5-listening) stay available once the band has core units.
+          // Global practice routes stay available when a band has core content.
           unlockedByUnitId.set(resolvedUnitId, coreUnitIds.length > 0);
         }
       }
@@ -1180,9 +1210,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
             sliceWordsForLesson(sourceWords, idx, 10)
           );
           const uniqueById = Array.from(new Map(pool.map((word) => [word.id, word])).values());
-          if (!uniqueById.length) return buildPracticeWordPool(bandData, 10);
+          if (!uniqueById.length) return buildPracticeWordPool(bandData, PRACTICE_SESSION_WORD_COUNT);
           return shuffleWords(uniqueById)
-            .slice(0, 10)
+            .slice(0, PRACTICE_SESSION_WORD_COUNT)
             .map((word) => ({ ...word, sourceUnitId, isReview: false }));
         };
         const explicitPracticeSourceUnitId = practiceMode ? getPracticeSourceUnitId(resolvedUnitId) : null;
@@ -1192,7 +1222,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           const uniqueById = Array.from(new Map(sourceWords.map((word) => [word.id, word])).values());
           if (!uniqueById.length) return [] as Word[];
           return shuffleWords(uniqueById)
-            .slice(0, 10)
+            .slice(0, PRACTICE_SESSION_WORD_COUNT)
             .map((word) => ({ ...word, sourceUnitId, isReview: false }));
         };
         const isSpecificPracticeRequest =
@@ -1202,6 +1232,62 @@ export function AppProvider({ children }: { children: ReactNode }) {
           ? buildPracticePoolFromSpecificUnit(explicitPracticeSourceUnitId as string)
           : [];
 
+        const buildAdaptivePracticePool = async () => {
+          const basePool = specificPracticePool.length > 0
+            ? specificPracticePool
+            : buildPracticePoolFromCurrentUnit();
+          const dedupedBasePool = dedupeWordsById(basePool);
+          if (!dedupedBasePool.length) return dedupedBasePool;
+
+          const reviewWordIds = await fetchReviewWordIds(60);
+          const { map: allWordById, sourceUnitByWordId } = getBandWordMap(bandData);
+          const baseWordIds = new Set(dedupedBasePool.map((word) => word.id));
+          const weakCandidates = dedupeWordsById(
+            reviewWordIds
+              .map((wordId) => {
+                if (baseWordIds.has(wordId)) return null;
+                const base = allWordById.get(wordId);
+                if (!base) return null;
+                const sourceUnitId = sourceUnitByWordId.get(wordId) || undefined;
+                return {
+                  ...base,
+                  sourceUnitId,
+                  isReview: true,
+                  reviewReason: 'Needs reinforcement from weak queue',
+                } as Word;
+              })
+              .filter((word): word is Word => Boolean(word))
+          );
+
+          const weakTarget =
+            weakCandidates.length > PRACTICE_REVIEW_MAX
+              ? PRACTICE_REVIEW_MAX
+              : PRACTICE_REVIEW_TARGET;
+          const weakCount = Math.min(weakTarget, weakCandidates.length, PRACTICE_SESSION_WORD_COUNT);
+          const baseCount = Math.max(0, PRACTICE_SESSION_WORD_COUNT - weakCount);
+          const weakPicks = shuffleWords(weakCandidates).slice(0, weakCount);
+          const basePicks = shuffleWords(dedupedBasePool)
+            .slice(0, Math.min(baseCount, dedupedBasePool.length))
+            .map((word) => ({ ...word, isReview: false, reviewReason: undefined }));
+
+          const usedIds = new Set<string>([...weakPicks, ...basePicks].map((word) => word.id));
+          const topUpFromBase = shuffleWords(dedupedBasePool)
+            .filter((word) => !usedIds.has(word.id))
+            .slice(0, PRACTICE_SESSION_WORD_COUNT - (weakPicks.length + basePicks.length))
+            .map((word) => ({ ...word, isReview: false, reviewReason: undefined }));
+          const merged = [...basePicks, ...weakPicks, ...topUpFromBase];
+
+          if (merged.length >= PRACTICE_SESSION_WORD_COUNT) {
+            return shuffleWords(merged).slice(0, PRACTICE_SESSION_WORD_COUNT);
+          }
+
+          const bandTopUp = buildPracticeWordPool(
+            bandData,
+            PRACTICE_SESSION_WORD_COUNT - merged.length
+          ).filter((word) => !usedIds.has(word.id));
+          return shuffleWords([...merged, ...bandTopUp]).slice(0, PRACTICE_SESSION_WORD_COUNT);
+        };
+
         lessonChunk =
           isApplyLesson
             ? shuffleWords(
@@ -1210,7 +1296,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
                 applyWordsResolved.length > 0 ? applyWordsResolved : applyFallbackByWord
               ).slice(0, APPLY_PROMPT_COUNT)
           : practiceMode
-            ? (specificPracticePool.length > 0 ? specificPracticePool : buildPracticePoolFromCurrentUnit())
+            ? await buildAdaptivePracticePool()
             : sliceWordsForLesson(words, lessonIndex);
       }
       if (!lessonChunk.length) return false;

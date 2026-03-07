@@ -5,10 +5,13 @@ import type { LessonBand, LessonMode } from '../types/lesson.types';
 import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
 import { apiFetch } from '../lib/apiClient';
 import { normalizeLanguageId } from '../lib/languageRuntime';
+import { readCachedCurrentPath, writeCachedCurrentPath } from '../lib/currentPathStore';
+import { deriveJapaneseSectionIdFromUnitId } from '../lib/learnPath';
 import GlassLoader from '../components/ui/GlassLoader';
 import PrivacyPage from '../components/public/PrivacyPage';
 import TermsPage from '../components/public/TermsPage';
 import ContactPage from '../components/public/ContactPage';
+import { isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 
 const LevelSelect = lazy(() => import('../components/LevelSelect'));
 const UnitSelect = lazy(() => import('../components/UnitSelect'));
@@ -150,38 +153,6 @@ export default function AppRoutes() {
     navigate('/profile');
   }, [exitLesson, navigate]);
 
-  const goLearn = useCallback(() => {
-    exitLesson();
-    if (!selectedLanguage) {
-      navigate('/');
-      return;
-    }
-    // Learn tab should always land on levels (N5-N1, Band list, etc.).
-    navigate('/learn');
-  }, [exitLesson, navigate, selectedLanguage]);
-
-  const resolveLearnContextBandId = useCallback(() => {
-    const candidateBandId =
-      state.resumeCheckpoint?.bandId ||
-      state.activeBandId ||
-      currentLevel?.id ||
-      state.currentLevel?.id ||
-      null;
-    if (!candidateBandId) return null;
-    const level = LEVEL_BY_ID[candidateBandId];
-    if (!level) return null;
-    if (isMandarinBandLocked(level.id, state.unlockedLevels)) return null;
-    if (!levelMatchesLanguage(level.id, selectedLanguage)) return null;
-    return level.id;
-  }, [
-    currentLevel?.id,
-    selectedLanguage,
-    state.activeBandId,
-    state.currentLevel?.id,
-    state.resumeCheckpoint?.bandId,
-    state.unlockedLevels,
-  ]);
-
   const resolveFallbackBandId = useCallback(() => {
     const normalizedLanguage = normalizeLanguageId(selectedLanguage);
     if (normalizedLanguage === 'ja') return 'n5';
@@ -189,87 +160,143 @@ export default function AppRoutes() {
     return null;
   }, [selectedLanguage]);
 
-  const resolveLearnContextUnitId = useCallback(() => {
-    const searchUnitId = new URLSearchParams(location.search).get('unit');
-    if (searchUnitId) return searchUnitId;
+  const resolveContinueLearnTarget = useCallback(async () => {
+    const normalizedLanguage = normalizeLanguageId(selectedLanguage);
+    try {
+      const response = await apiFetch('/v1/me/progress');
+      if (!response.ok) return null;
+      const payload = (await response.json()) as {
+        progress?: {
+          currentBandId?: string | null;
+          currentUnitId?: string | null;
+          currentLessonIdx?: number | null;
+        };
+      };
+      const bandId = payload.progress?.currentBandId || null;
+      const unitId = payload.progress?.currentUnitId || null;
+      const lessonIdx = payload.progress?.currentLessonIdx ?? 0;
+      if (!bandId || !unitId) return null;
+      if (!levelMatchesLanguage(bandId, normalizedLanguage)) return null;
+      const level = LEVEL_BY_ID[bandId];
+      if (!level || isMandarinBandLocked(level.id, state.unlockedLevels)) return null;
+      if (isPracticeUnitId(unitId) || isCheckpointUnitId(unitId) || unitId === 'daily-review') return null;
+      writeCachedCurrentPath({ bandId, unitId, lessonIndex: Math.max(0, lessonIdx) });
+      return {
+        bandId,
+        unitId,
+        lessonIdx: Math.max(0, lessonIdx),
+      };
+    } catch {
+      const fallback = readCachedCurrentPath(selectedLanguage);
+      if (!fallback) return null;
+      if (!levelMatchesLanguage(fallback.bandId, normalizedLanguage)) return null;
+      const level = LEVEL_BY_ID[fallback.bandId];
+      if (!level || isMandarinBandLocked(level.id, state.unlockedLevels)) return null;
+      if (
+        isPracticeUnitId(fallback.unitId) ||
+        isCheckpointUnitId(fallback.unitId) ||
+        fallback.unitId === 'daily-review'
+      ) {
+        return null;
+      }
+      return {
+        bandId: fallback.bandId,
+        unitId: fallback.unitId,
+        lessonIdx: fallback.lessonIndex,
+      };
+    }
+  }, [selectedLanguage, state.unlockedLevels]);
 
-    const lessonRouteMatch = location.pathname.match(/^\/learn\/[^/]+\/[^/]+\/unit\/([^/]+)/i);
-    if (lessonRouteMatch?.[1]) return decodeURIComponent(lessonRouteMatch[1]);
+  const navigateLearnStage = useCallback(async (stage: 'main' | 'levels' | 'units' | 'lessons') => {
+    exitLesson();
+    if (!selectedLanguage) {
+      navigate('/');
+      return;
+    }
+    const normalizedLanguage = normalizeLanguageId(selectedLanguage);
+    if (stage === 'main') {
+      navigate('/learn');
+      return;
+    }
 
-    return (
-      state.activeUnitId ||
-      state.activeLesson?.unitId ||
-      state.resumeCheckpoint?.unitId ||
-      null
-    );
+    const continueTarget = await resolveContinueLearnTarget();
+    const fallbackBandId = resolveFallbackBandId();
+    const bandId = continueTarget?.bandId || fallbackBandId;
+    if (!bandId) {
+      navigate('/learn');
+      return;
+    }
+
+    // Japanese has a 4-step hierarchy: Main -> Levels(N5..N1) -> Units(Section) -> Lessons(Unit)
+    if (normalizedLanguage === 'ja' && /^n[1-5]$/i.test(bandId)) {
+      const basePath = `/learn/jlpt/${bandId}`;
+      const currentBandSections =
+        state.currentLevel?.id === bandId && Array.isArray(state.activeBandData?.sections)
+          ? state.activeBandData.sections
+          : [];
+      const primarySection =
+        currentBandSections.find((section) => section.id === 'core') ||
+        currentBandSections[0] ||
+        null;
+      const fallbackUnitId =
+        (Array.isArray(primarySection?.unitIds) ? primarySection?.unitIds?.[0] : null) ||
+        `${bandId}-core-01`;
+      const unitId = continueTarget?.unitId || fallbackUnitId;
+      const sectionId = deriveJapaneseSectionIdFromUnitId(bandId, unitId) || 'core';
+
+      if (stage === 'levels') {
+        navigate(basePath);
+        return;
+      }
+      if (stage === 'units') {
+        navigate(sectionId ? `${basePath}?section=${encodeURIComponent(sectionId)}` : basePath);
+        return;
+      }
+      const params = new URLSearchParams();
+      if (sectionId) params.set('section', sectionId);
+      if (unitId) params.set('unit', unitId);
+      const query = params.toString();
+      navigate(query ? `${basePath}?${query}` : basePath);
+      return;
+    }
+
+    if (stage === 'levels') {
+      const tier = tierForBand(bandId);
+      navigate(tier ? `/learn?tier=${encodeURIComponent(tier)}` : '/learn');
+      return;
+    }
+
+    const basePath = `/learn/${tierForBand(bandId)}/${bandId}`;
+    if (stage === 'units') {
+      navigate(basePath);
+      return;
+    }
+
+    const unitId = continueTarget?.unitId || null;
+    navigate(unitId ? `${basePath}?unit=${encodeURIComponent(unitId)}` : basePath);
   }, [
-    location.pathname,
-    location.search,
-    state.activeLesson?.unitId,
-    state.activeUnitId,
-    state.resumeCheckpoint?.unitId,
+    exitLesson,
+    navigate,
+    resolveFallbackBandId,
+    resolveContinueLearnTarget,
+    selectedLanguage,
   ]);
 
   const goLearnMain = useCallback(() => {
-    exitLesson();
-    if (!selectedLanguage) {
-      navigate('/');
-      return;
-    }
-    navigate('/learn');
-  }, [exitLesson, navigate, selectedLanguage]);
+    void navigateLearnStage('main');
+  }, [navigateLearnStage]);
 
   const goLearnLevels = useCallback(() => {
-    exitLesson();
-    if (!selectedLanguage) {
-      navigate('/');
-      return;
-    }
-    const bandId = resolveLearnContextBandId();
-    if (!bandId) {
-      navigate('/learn');
-      return;
-    }
-    const tier = tierForBand(bandId);
-    navigate(tier ? `/learn?tier=${encodeURIComponent(tier)}` : '/learn');
-  }, [exitLesson, navigate, resolveLearnContextBandId, selectedLanguage]);
+    void navigateLearnStage('levels');
+  }, [navigateLearnStage]);
 
   const goLearnUnits = useCallback(() => {
-    exitLesson();
-    if (!selectedLanguage) {
-      navigate('/');
-      return;
-    }
-    const bandId = resolveLearnContextBandId() || resolveFallbackBandId();
-    if (!bandId) {
-      navigate('/learn');
-      return;
-    }
-    navigate(`/learn/${tierForBand(bandId)}/${bandId}`);
-  }, [exitLesson, navigate, resolveFallbackBandId, resolveLearnContextBandId, selectedLanguage]);
+    void navigateLearnStage('units');
+  }, [navigateLearnStage]);
 
   const goLearnLessons = useCallback(() => {
-    exitLesson();
-    if (!selectedLanguage) {
-      navigate('/');
-      return;
-    }
-    const bandId = resolveLearnContextBandId() || resolveFallbackBandId();
-    if (!bandId) {
-      navigate('/learn');
-      return;
-    }
-    const basePath = `/learn/${tierForBand(bandId)}/${bandId}`;
-    const unitId = resolveLearnContextUnitId();
-    navigate(unitId ? `${basePath}?unit=${encodeURIComponent(unitId)}` : basePath);
-  }, [
-    resolveFallbackBandId,
-    resolveLearnContextBandId,
-    resolveLearnContextUnitId,
-    exitLesson,
-    navigate,
-    selectedLanguage,
-  ]);
+    void navigateLearnStage('lessons');
+  }, [navigateLearnStage]);
 
   const openPracticeFromHome = useCallback(
     (kind: 'listening' | 'speaking', bandId?: string | null) => {
@@ -284,13 +311,24 @@ export default function AppRoutes() {
         : (
             bandId && (/^band\d+$/i.test(bandId) || bandId === 'advanced') ? bandId : 'band1'
           );
-      navigate(`/practice/${kind}/${requestedBandId}`);
+      const resolvedBand = isMandarinBandLocked(requestedBandId, state.unlockedLevels)
+        ? (isJapanese ? 'n5' : 'band1')
+        : requestedBandId;
+      const targetUnitId = isJapanese
+        ? `${resolvedBand}-${kind}`
+        : (
+            resolvedBand === 'advanced'
+              ? `b79-${kind}`
+              : `b${resolvedBand.match(/^band(\d+)$/i)?.[1] ?? '1'}-${kind}`
+          );
+      const targetMode: LessonMode = kind === 'listening' ? 'quiz' : 'speak';
+      navigate(`/learn/${tierForBand(resolvedBand)}/${resolvedBand}/unit/${targetUnitId}/lesson/0/${targetMode}`);
     },
-    [currentLevel, navigate, selectedLanguage]
+    [currentLevel, navigate, selectedLanguage, state.unlockedLevels]
   );
 
   const openResumeFromHome = useCallback(
-    async (target: { bandId: string; unitId: string; lessonIndex: number; isCheckpoint: boolean; mode?: LessonMode }) => {
+    (target: { bandId: string; unitId: string; lessonIndex: number; isCheckpoint: boolean; mode?: LessonMode }) => {
       void target.lessonIndex;
       void target.isCheckpoint;
       void target.mode;
@@ -304,17 +342,16 @@ export default function AppRoutes() {
         navigate('/learn');
         return;
       }
-      await selectLevel(level);
       const basePath = `/learn/${tierForBand(level.id)}/${level.id}`;
-      // Resume card should open the unit/lessons page context, not jump directly into a mode.
+      // Navigate directly to the unit context; UnitsRoute will ensure level data is loaded.
       navigate(`${basePath}?unit=${encodeURIComponent(target.unitId)}`);
     },
-    [exitLesson, navigate, selectLevel, selectedLanguage, state.unlockedLevels]
+    [exitLesson, navigate, selectedLanguage, state.unlockedLevels]
   );
 
   useEffect(() => {
     const handler = () => {
-      void goLearn();
+      void goLearnUnits();
     };
     const mainHandler = () => {
       void goLearnMain();
@@ -340,7 +377,7 @@ export default function AppRoutes() {
       window.removeEventListener('sonus:learn:units', unitsHandler);
       window.removeEventListener('sonus:learn:lessons', lessonsHandler);
     };
-  }, [goLearn, goLearnMain, goLearnLevels, goLearnUnits, goLearnLessons]);
+  }, [goLearnMain, goLearnLevels, goLearnUnits, goLearnLessons]);
 
   function LearnRoute() {
     return (

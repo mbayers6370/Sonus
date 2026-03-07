@@ -2,6 +2,7 @@ import { Book, BookOpen, FolderKanban, House, Layers3, ListChecks, LogOut, User 
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { resolveLearnQuickStage } from '../lib/learnPath';
 
 interface BottomNavProps {
   onHome: () => void;
@@ -63,16 +64,12 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
   };
 
   const learnActive = active === 'learn' || mobileLearnMenuOpen;
-  const onLearnRoute = location.pathname.startsWith('/learn');
-  const onUnitRoute = /^\/learn\/[^/]+\/[^/]+$/i.test(location.pathname);
-  const onLessonRoute = /^\/learn\/[^/]+\/[^/]+\/unit\/[^/]+\/lesson\/\d+\/[^/]+$/i.test(location.pathname);
-  const hasUnitQuery = new URLSearchParams(location.search).has('unit');
-  const hasTierQuery = new URLSearchParams(location.search).has('tier');
+  const quickStage = resolveLearnQuickStage(location.pathname, location.search);
   const quickActive = {
-    main: onLearnRoute && !onUnitRoute && !onLessonRoute && !hasTierQuery,
-    levels: onLearnRoute && !onUnitRoute && !onLessonRoute && hasTierQuery,
-    units: onUnitRoute && !hasUnitQuery,
-    lessons: onLessonRoute || (onUnitRoute && hasUnitQuery),
+    main: quickStage === 'main',
+    levels: quickStage === 'levels',
+    units: quickStage === 'units',
+    lessons: quickStage === 'lessons',
   } as const;
   const quickButtonClass = (isCurrent: boolean) =>
     `flex flex-col items-center justify-center gap-1 rounded-xl border px-3 py-3 text-text-dark transition-colors ${

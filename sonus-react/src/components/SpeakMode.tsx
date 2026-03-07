@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { BandData, Word, SpeakBreakdown } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
-import { Volume2, Mic, ChevronRight } from 'lucide-react';
+import { Volume2, Mic, ChevronRight, Check } from 'lucide-react';
+import { pinyin as toPinyin } from 'pinyin-pro';
 import { sendClientTelemetrySafe, sendSpeakAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
@@ -63,8 +64,11 @@ const EMPTY_SCORE: SpeakBreakdown['initial'] = {
 };
 const FINALIZE_DELAY_MS = 480;
 const STOP_FINALIZE_WATCHDOG_MS = 1800;
+const NO_INPUT_AUTO_STOP_MS = 3800;
 const MANDARIN_CONFIDENCE_FLOOR_INTERIM = 0.18;
 const MANDARIN_CONFIDENCE_FLOOR_FINAL = 0.28;
+const NO_SPEECH_RESULT_TEXT = 'No speech detected';
+const LOW_CONFIDENCE_RESULT_TEXT = 'Couldn’t confidently detect that. Try once more.';
 
 type SpeakCandidate = {
   recognizedText: string;
@@ -196,6 +200,10 @@ const hanziLookupPromises = new Map<string, Promise<void>>();
 const hanziToPinyinWord = new Map<string, string>();
 const hanziToPinyinChar = new Map<string, string>();
 const pinyinToHanziChar = new Map<string, string>();
+const HANZI_PINYIN_OVERRIDES: Record<string, string> = {
+  // In conversational learner context, 嗨 is generally intended as the greeting "hāi".
+  嗨: 'hāi',
+};
 
 function firstPinyinSyllable(pinyin: string) {
   return pinyin.trim().split(/\s+/)[0] || '';
@@ -422,6 +430,24 @@ async function ensureHanziLookupLoaded(
   hanziLookupPromises.delete(bandId);
 }
 
+function convertHanziToPinyin(hanziRaw: string): string {
+  const hanzi = normalizeHanzi(hanziRaw);
+  if (!hanzi) return '';
+  try {
+    const chars = Array.from(hanzi);
+    const result = chars.map((char) => {
+      const overridden = HANZI_PINYIN_OVERRIDES[char];
+      if (overridden) return overridden;
+      const value = toPinyin(char, { type: 'array', toneType: 'symbol' });
+      if (!Array.isArray(value)) return '';
+      return (value[0] || '').trim();
+    }).filter(Boolean);
+    return result.join(' ');
+  } catch {
+    return '';
+  }
+}
+
 function mapHanziToPinyin(hanziRaw: string): string {
   const hanzi = normalizeHanzi(hanziRaw);
   if (!hanzi) return '';
@@ -430,7 +456,7 @@ function mapHanziToPinyin(hanziRaw: string): string {
   if (direct) return direct;
 
   if (hanzi.length === 1) {
-    return hanziToPinyinChar.get(hanzi) || '';
+    return hanziToPinyinChar.get(hanzi) || convertHanziToPinyin(hanzi);
   }
 
   const syllables: string[] = [];
@@ -444,8 +470,10 @@ function mapHanziToPinyin(hanziRaw: string): string {
     mappedCount += 1;
     syllables.push(mapped);
   }
-  if (mappedCount === 0) return '';
-  return syllables.join(' ');
+  if (mappedCount === 0) return convertHanziToPinyin(hanzi);
+  const joined = syllables.join(' ');
+  const cleaned = stripUnknownPinyinTokens(joined);
+  return cleaned || convertHanziToPinyin(hanzi);
 }
 
 function stripUnknownPinyinTokens(value: string) {
@@ -496,21 +524,21 @@ function inferSingleCharPinyinFromLessonWords(charRaw: string, words: Word[]) {
   return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || '';
 }
 
-function ordinalPositionName(position: number) {
-  if (position === 1) return 'first';
-  if (position === 2) return 'second';
-  if (position === 3) return 'third';
-  if (position === 4) return 'fourth';
-  if (position === 5) return 'fifth';
-  return `${position}th`;
-}
-
 function normalize(value: string) {
   return value
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .replace(/[^\p{L}\p{N}]/gu, '');
+}
+
+function syllableOrdinalLabel(position: number) {
+  if (position === 1) return 'first';
+  if (position === 2) return 'second';
+  if (position === 3) return 'third';
+  if (position === 4) return 'fourth';
+  if (position === 5) return 'fifth';
+  return `${position}th`;
 }
 
 function normalizeJapaneseForCompare(value: string) {
@@ -997,6 +1025,7 @@ export default function SpeakMode({
   const stopWatchdogTimerRef = useRef<number | null>(null);
   const recognitionStopTimerRef = useRef<number | null>(null);
   const listenRetryTimerRef = useRef<number | null>(null);
+  const noInputAutoStopTimerRef = useRef<number | null>(null);
   const sttUnavailableTrackedRef = useRef(false);
   const lookupTelemetryKeysRef = useRef<Set<string>>(new Set());
   const recordingSessionRef = useRef(0);
@@ -1006,6 +1035,7 @@ export default function SpeakMode({
   const postedSpeakSessionRef = useRef<number | null>(null);
   const pendingSpeakAttemptRef = useRef<SpeakCandidate | null>(null);
   const recentFinalCandidatesRef = useRef<SpeakCandidate[]>([]);
+  const lastHeardRawRef = useRef('');
 
   const { speak } = useAudio();
   const { state, recordSpeakResult, recordWordOutcome } = useApp();
@@ -1378,6 +1408,10 @@ export default function SpeakMode({
       window.clearTimeout(stopWatchdogTimerRef.current);
       stopWatchdogTimerRef.current = null;
     }
+    if (noInputAutoStopTimerRef.current) {
+      window.clearTimeout(noInputAutoStopTimerRef.current);
+      noInputAutoStopTimerRef.current = null;
+    }
     if (postedSpeakSessionRef.current === sessionId) {
       setIsFinalizing(false);
       recognitionStateRef.current = 'idle';
@@ -1444,21 +1478,24 @@ export default function SpeakMode({
       }
       pendingSpeakAttemptRef.current = null;
       recentFinalCandidatesRef.current = [];
+      lastHeardRawRef.current = '';
     } else {
-      setTranscript((prev) => prev || 'No speech detected');
+      const fallbackMessage = lastHeardRawRef.current ? LOW_CONFIDENCE_RESULT_TEXT : NO_SPEECH_RESULT_TEXT;
+      setTranscript((prev) => prev || fallbackMessage);
       setMatchResult((prev) => prev ?? 'retry');
-      postSpeakAttempt(sessionId, 'No speech detected', null, false);
+      postSpeakAttempt(sessionId, fallbackMessage, null, false);
       recordSpeakResult(
         currentIndex,
         false,
-        buildSpeakBreakdown('No speech detected', word.pinyin || '', null, speakLanguageId, false)
+        buildSpeakBreakdown(fallbackMessage, word.pinyin || '', null, speakLanguageId, false)
       );
       recordWordOutcome(word, false, 'unsure', 'speak');
       trackEvent('speak_retry', {
         wordId: word.id,
         isReview: Boolean(word.isReview),
-        source: 'no-speech',
+        source: lastHeardRawRef.current ? 'low-confidence' : 'no-speech',
       });
+      lastHeardRawRef.current = '';
     }
 
     setIsFinalizing(false);
@@ -1511,6 +1548,10 @@ export default function SpeakMode({
       window.clearTimeout(recognitionStopTimerRef.current);
       recognitionStopTimerRef.current = null;
     }
+    if (noInputAutoStopTimerRef.current) {
+      window.clearTimeout(noInputAutoStopTimerRef.current);
+      noInputAutoStopTimerRef.current = null;
+    }
     if (stopWatchdogTimerRef.current) {
       window.clearTimeout(stopWatchdogTimerRef.current);
       stopWatchdogTimerRef.current = null;
@@ -1520,6 +1561,7 @@ export default function SpeakMode({
     }
     pendingSpeakAttemptRef.current = null;
     recentFinalCandidatesRef.current = [];
+    lastHeardRawRef.current = '';
     setIsStartingRecording(false);
     setIsRecording(false);
     setIsFinalizing(false);
@@ -1591,6 +1633,7 @@ export default function SpeakMode({
           for (let altIdx = 0; altIdx < altCount; altIdx += 1) {
             const text = result?.[altIdx]?.transcript?.trim?.() || '';
             if (!text) continue;
+            if (!lastHeardRawRef.current) lastHeardRawRef.current = text;
             if (isMandarinLesson && !isLikelyMandarinTranscript(text, targetSyllableCount)) {
               continue;
             }
@@ -1633,6 +1676,10 @@ export default function SpeakMode({
         }
         const bestCandidate = smoothedFinal || latestInterim;
         if (bestCandidate) {
+          if (noInputAutoStopTimerRef.current) {
+            window.clearTimeout(noInputAutoStopTimerRef.current);
+            noInputAutoStopTimerRef.current = null;
+          }
           const chosen = pickBetterCandidate(pendingSpeakAttemptRef.current, bestCandidate);
           pendingSpeakAttemptRef.current = chosen;
           setTranscript(chosen.recognizedText);
@@ -1737,6 +1784,10 @@ export default function SpeakMode({
       window.clearTimeout(recognitionStopTimerRef.current);
       recognitionStopTimerRef.current = null;
     }
+    if (noInputAutoStopTimerRef.current) {
+      window.clearTimeout(noInputAutoStopTimerRef.current);
+      noInputAutoStopTimerRef.current = null;
+    }
     stopRecognition();
   };
 
@@ -1756,6 +1807,19 @@ export default function SpeakMode({
       // Fallback for stricter mobile/browser stacks (including some Bluetooth routes).
       return navigator.mediaDevices.getUserMedia({ audio: true });
     }
+  };
+
+  const computeIsFullyCorrect = (candidateAnalysis: PronunciationAnalysis | null, candidateMatch: MatchResult): boolean => {
+    if (candidateAnalysis) {
+      return (
+        candidateAnalysis.missingSyllables === 0 &&
+        candidateAnalysis.extraSyllables === 0 &&
+        candidateAnalysis.initial.matched === candidateAnalysis.initial.total &&
+        candidateAnalysis.final.matched === candidateAnalysis.final.total &&
+        candidateAnalysis.tone.matched === candidateAnalysis.tone.total
+      );
+    }
+    return candidateMatch === 'match';
   };
 
   const handlePlayTargetAudio = () => {
@@ -1781,6 +1845,7 @@ export default function SpeakMode({
 
   const handleRecord = async () => {
     setAudioError(null);
+    if (computeIsFullyCorrect(analysis, matchResult)) return;
 
     if (isRecording) {
       stopMediaRecorder();
@@ -1812,6 +1877,7 @@ export default function SpeakMode({
       postedSpeakSessionRef.current = null;
       pendingSpeakAttemptRef.current = null;
       recentFinalCandidatesRef.current = [];
+      lastHeardRawRef.current = '';
       recognitionStateRef.current = 'recording';
       setIsFinalizing(false);
       const sessionId = recordingSessionRef.current;
@@ -1860,6 +1926,16 @@ export default function SpeakMode({
 
       setIsRecording(true);
       setIsStartingRecording(false);
+      if (noInputAutoStopTimerRef.current) {
+        window.clearTimeout(noInputAutoStopTimerRef.current);
+      }
+      noInputAutoStopTimerRef.current = window.setTimeout(() => {
+        if (sessionId !== recordingSessionRef.current) return;
+        if (!isRecordingRef.current) return;
+        if (recognitionStateRef.current !== 'recording') return;
+        if (pendingSpeakAttemptRef.current) return;
+        stopMediaRecorder();
+      }, NO_INPUT_AUTO_STOP_MS);
       if (recorder) {
         recorder.start();
       }
@@ -1916,6 +1992,10 @@ export default function SpeakMode({
       window.clearTimeout(recognitionStopTimerRef.current);
       recognitionStopTimerRef.current = null;
     }
+    if (noInputAutoStopTimerRef.current) {
+      window.clearTimeout(noInputAutoStopTimerRef.current);
+      noInputAutoStopTimerRef.current = null;
+    }
     if (stopWatchdogTimerRef.current) {
       window.clearTimeout(stopWatchdogTimerRef.current);
       stopWatchdogTimerRef.current = null;
@@ -1933,11 +2013,12 @@ export default function SpeakMode({
     recognitionStateRef.current = 'idle';
     pendingSpeakAttemptRef.current = null;
     recentFinalCandidatesRef.current = [];
+    lastHeardRawRef.current = '';
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
 
   const heardHanzi = normalizeHanzi(transcript);
-  const isNoSpeech = transcript.toLowerCase() === 'no speech detected';
+  const isNoSpeech = transcript.toLowerCase() === NO_SPEECH_RESULT_TEXT.toLowerCase();
   const noSpeechResultClass = isNoSpeech ? 'text-base' : 'text-lg';
   const hasAttempt =
     Boolean(transcript.trim()) || Boolean(analysis) || Boolean(matchResult) || Boolean(audioError);
@@ -2027,78 +2108,80 @@ export default function SpeakMode({
   const recordTitle = !sttSupported
     ? 'Record'
     : isStartingRecording
-      ? 'Listening Now'
+      ? 'Listening'
       : isRecording
-        ? 'Listening Now'
+        ? 'Listening'
         : isFinalizing
           ? 'Scoring'
           : hasAttempt
             ? ''
             : 'Record';
+  const isFullyCorrect = computeIsFullyCorrect(analysis, matchResult);
   const recordSubtitle = !sttSupported
     ? 'Speech Unavailable'
-    : isStartingRecording
-      ? 'Starting mic'
-      : isRecording
-      ? 'Tap To Finish'
-      : isFinalizing || hasAttempt
+    : isStartingRecording || isRecording || isFinalizing
+      ? ''
+      : isFullyCorrect
+        ? 'Perfect. Tap Next.'
+      : hasAttempt
         ? 'Results Below'
         : 'Tap To Start';
   const displayMeaning = useMemo(() => getPrimaryMeaning(word), [word]);
   const navLocked = isRecording || isFinalizing;
   const canAdvance = !navLocked && hasAttempt && matchResult !== null;
   const listenDisabled = disableTargetAudio || isRecording || isStartingRecording;
+  const recordLockedAfterMatch = isFullyCorrect;
 
   const renderScoreChips = (compact: boolean) => {
-    if (isMandarinLesson && analysis) {
+    if (isMandarinLesson && analysis && !disableTargetAudio) {
       const targetTokens = parsePinyin(word.pinyin || '', targetSyllableCount);
       if (targetTokens.length) {
         const heardTokens = analysis.alignedHeard.length
           ? analysis.alignedHeard
           : parsePinyin(analysis.detectedPinyin || '', targetTokens.length || targetSyllableCount);
+        const successToneClass = 'text-[#8DD3AE]';
+        const errorToneClass = 'text-[#C2410C]';
+        const toneMarkedCharIndex = (syllable: string): number => {
+          const chars = Array.from(syllable || '');
+          return chars.findIndex((char) => Boolean(TONE_CHAR_MAP[char.toLowerCase()]));
+        };
         const toneAction = (tone: number) => {
-          if (tone === 1) return 'keep it flat and steady';
-          if (tone === 2) return 'let it rise';
-          if (tone === 3) return 'dip then rise';
-          if (tone === 4) return 'start high and drop';
-          return 'keep it light and neutral';
+          if (tone === 1) return 'Keep it flat and steady.';
+          if (tone === 2) return 'Let it rise.';
+          if (tone === 3) return 'Dip then rise.';
+          if (tone === 4) return 'Start high and drop.';
+          return 'Keep it light and neutral.';
         };
         const tokenGridClass = compact ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-2';
-        const heardRawTokens = parsePinyin(analysis.detectedPinyin || '', targetTokens.length || targetSyllableCount);
-        const toneMisses = targetTokens
-          .map((token, index) => {
-            const heard = heardTokens[index];
-            const shapeOk = Boolean(heard && matchesInitial(token.initial, heard.initial) && matchesFinal(token.final, heard.final));
-            if (!shapeOk || !heard) return null;
-            if (heard.tone !== token.tone) return index + 1;
-            return null;
-          })
-          .filter((entry): entry is number => entry !== null);
-        const shapeMissCount = targetTokens.reduce((count, token, index) => {
-          const heard = heardTokens[index];
-          const shapeOk = Boolean(heard && matchesInitial(token.initial, heard.initial) && matchesFinal(token.final, heard.final));
-          return shapeOk ? count : count + 1;
-        }, 0);
         const syllableCountFeedback =
           analysis.missingSyllables > 0 || analysis.extraSyllables > 0
             ? `Syllable count mismatch: ${analysis.missingSyllables > 0 ? `${analysis.missingSyllables} missing` : ''}${analysis.missingSyllables > 0 && analysis.extraSyllables > 0 ? ', ' : ''}${analysis.extraSyllables > 0 ? `${analysis.extraSyllables} extra` : ''}.`
             : '';
         const toneFeedback = (() => {
           if (syllableCountFeedback) return syllableCountFeedback;
-          if (shapeMissCount > 0) {
-            return 'Fix opening and ending first. Then refine tones.';
+          for (let index = 0; index < targetTokens.length; index += 1) {
+            const token = targetTokens[index];
+            const heard = heardTokens[index];
+            if (!heard) {
+              return `Start with syllable ${index + 1}: say "${token.raw}" clearly.`;
+            }
+            const initialOk = matchesInitial(token.initial, heard.initial);
+            const finalOk = matchesFinal(token.final, heard.final);
+            if (!initialOk && !finalOk) {
+              return `Fix syllable ${index + 1}: opening and ending are both off.`;
+            }
+            if (!initialOk) {
+              return `Fix syllable ${index + 1}: opening should be "${token.initial || '∅'}".`;
+            }
+            if (!finalOk) {
+              return `Fix syllable ${index + 1}: ending should be "${token.final || '∅'}".`;
+            }
+            if (heard.tone !== token.tone) {
+              return `Fix the ${syllableOrdinalLabel(index + 1)} syllable's tone: ${toneAction(token.tone)}`;
+            }
           }
-          if (!toneMisses.length) return 'All tones are accurate.';
-          if (toneMisses.length === 1) {
-            return `Please refine the ${ordinalPositionName(toneMisses[0])} syllable tone.`;
-          }
-          const names = toneMisses.map((idx) => ordinalPositionName(idx));
-          if (toneMisses.length === 2) {
-            return `Please refine the ${names[0]} and ${names[1]} syllable tones.`;
-          }
-          return `Please refine these syllable tones: ${names.join(', ')}.`;
+          return 'All syllables and tones are accurate.';
         })();
-
         return (
           <div className={`mt-2 ${compact ? 'space-y-1.5' : 'space-y-2'} w-full max-w-[40rem] mx-auto`}>
             <div className={`grid gap-1.5 ${tokenGridClass}`}>
@@ -2109,57 +2192,85 @@ export default function SpeakMode({
                   index === targetTokens.length - 1;
                 const isSingleSyllable = targetTokens.length === 1;
                 const heard = heardTokens[index];
-                const heardRaw = (heardRawTokens[index]?.raw || '').trim();
                 const initialOk = Boolean(heard && matchesInitial(token.initial, heard.initial));
                 const finalOk = Boolean(heard && matchesFinal(token.final, heard.final));
                 const toneEligible = initialOk && finalOk;
                 const toneOk = Boolean(heard && heard.tone === token.tone && toneEligible);
-                let status = '';
+                const syllableOk = initialOk && finalOk && toneOk;
+                const isolateToneError = toneEligible && !toneOk;
                 let coaching = '';
                 if (!heard) {
-                  status = heardRaw ? `"${heardRaw}": Retry` : 'Retry';
                   coaching = `Try saying "${token.raw}" by itself first.`;
                 } else if (!initialOk && !finalOk) {
-                  status = compact ? `"${token.raw}": Opening + Ending` : `"${token.raw}": Opening + Ending Off`;
                   coaching = compact ? 'Reset start and ending.' : 'Reset the opening consonant and ending sound.';
                 } else if (!initialOk) {
-                  status = `"${token.raw}": Opening Off`;
                   coaching = compact ? 'Focus the opening.' : 'Focus the opening consonant.';
                 } else if (!finalOk) {
-                  status = `"${token.raw}": Ending Off`;
                   coaching = compact
                     ? `Use ending "${token.final}".`
                     : `Switch to ending "${token.final}" (not "${heard?.final || '?'}").`;
                 } else if (!toneOk) {
-                  status = `"${token.raw}": Tone Off`;
-                  coaching = compact ? toneAction(token.tone) : `Tone target: ${toneAction(token.tone)}.`;
+                  coaching = "Let's work on the tone.";
                 } else {
-                  status = `"${token.raw}": Good`;
                   coaching = compact ? 'Keep it steady.' : 'Keep this syllable steady.';
                 }
                 return (
                   <div
                     key={`coach-${token.raw}-${index}`}
-                    className={`rounded-xl border border-white/20 bg-white/10 text-center flex items-center justify-center ${
+                    className={`relative rounded-xl border border-white/20 bg-[#1F2A37] text-center flex items-center justify-center ${
                       compact ? 'min-h-[56px] px-2 py-1.5' : 'min-h-[82px] px-2 py-1.5'
                     } ${isOddDesktopTail || isSingleSyllable ? 'md:col-span-2' : ''}`}
                   >
                     <div className="space-y-0.5">
-                      <div className={`${compact ? 'text-[11px]' : 'text-[12px]'} leading-[1.3] text-white/95`}>
-                        {status}
+                      <div className="flex flex-wrap items-center justify-center gap-1 pb-0.5">
+                        {(() => {
+                          if (syllableOk) {
+                            return (
+                              <span className={`font-semibold leading-none ${compact ? 'text-[16px]' : 'text-[17px]'} ${successToneClass}`}>
+                                {token.raw}
+                              </span>
+                            );
+                          }
+                          if (isolateToneError) {
+                            const chars = Array.from(token.raw || '');
+                            const toneIdx = toneMarkedCharIndex(token.raw);
+                            if (toneIdx >= 0) {
+                              return (
+                                <span className={`font-semibold leading-none ${compact ? 'text-[16px]' : 'text-[17px]'}`}>
+                                  {chars.map((char, charIdx) => (
+                                    <span key={`${token.raw}-${index}-${charIdx}`} className={charIdx === toneIdx ? errorToneClass : successToneClass}>
+                                      {char}
+                                    </span>
+                                  ))}
+                                </span>
+                              );
+                            }
+                          }
+                          return (
+                            <span className={`font-semibold leading-none ${compact ? 'text-[16px]' : 'text-[17px]'} ${errorToneClass}`}>
+                              {token.raw}
+                            </span>
+                          );
+                        })()}
                       </div>
                       <div className={`${compact ? 'text-[10px]' : 'text-[11px]'} leading-[1.25] text-white/80`}>
                         {coaching}
                       </div>
                     </div>
+                    {isFullyCorrect ? (
+                      <Check className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white" />
+                    ) : null}
                   </div>
                 );
               })}
             </div>
-            <div className={`rounded-xl border border-white/20 bg-white/10 px-2.5 py-2 text-center ${compact ? '' : 'min-h-[66px]'} flex items-center justify-center`}>
+            <div className={`relative rounded-xl border border-white/20 bg-[#1F2A37] px-2.5 py-2 text-center ${compact ? '' : 'min-h-[66px]'} flex items-center justify-center`}>
               <div className={`${compact ? 'text-[11px]' : 'text-[12px]'} leading-[1.35] text-white/95`}>
                 {toneFeedback}
               </div>
+              {isFullyCorrect ? (
+                <Check className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white" />
+              ) : null}
             </div>
           </div>
         );
@@ -2177,7 +2288,7 @@ export default function SpeakMode({
           hasAttempt && !isNoSpeech
             ? buildSpeakDimensionScores({
                 languageId: speakLanguageId,
-                word: matchResult === 'match'
+                word: isFullyCorrect
                   ? { matched: 1, total: 1, percent: 100, pass: true }
                   : EMPTY_SCORE,
               })
@@ -2189,8 +2300,8 @@ export default function SpeakMode({
       : 'px-2.5 py-1 rounded-lg text-[11px] font-mono uppercase tracking-wider';
     const toneFor = (pass: boolean) =>
       pass
-        ? 'bg-[#DDF5E8] text-[#255B45]'
-        : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]';
+        ? 'bg-[#8DD3AE] text-white'
+        : 'bg-[#C2410C] text-white';
 
     return (
       <div className="mt-2 flex flex-wrap justify-center gap-1.5">
@@ -2215,10 +2326,10 @@ export default function SpeakMode({
       if (!matchResult) return null;
       if (analysis) {
         const passCount = [analysis.initial.pass, analysis.final.pass, analysis.tone.pass].filter(Boolean).length;
-        if (passCount === 3) {
+        if (isFullyCorrect) {
           return {
-            label: 'Strong',
-            className: 'bg-[#DDF5E8] text-[#255B45]',
+            label: 'Correct',
+            className: 'bg-[#8DD3AE] text-white',
           };
         }
         if (passCount >= 1) {
@@ -2229,15 +2340,15 @@ export default function SpeakMode({
         }
         return {
           label: 'Needs Work',
-          className: 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]',
+          className: 'bg-[#C2410C] text-white',
         };
       }
       return {
-        label: matchResult === 'match' ? 'Strong' : 'Needs Work',
+        label: isFullyCorrect ? 'Correct' : 'Needs Work',
         className:
-          matchResult === 'match'
-            ? 'bg-[#DDF5E8] text-[#255B45]'
-            : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]',
+          isFullyCorrect
+            ? 'bg-[#8DD3AE] text-white'
+            : 'bg-[#C2410C] text-white',
       };
     })();
 
@@ -2252,7 +2363,6 @@ export default function SpeakMode({
             </span>
           ) : null}
         </div>
-
         <div className={heardClass}>{displayHeardText || '...'}</div>
 
         {displayResultReading ? (
@@ -2280,10 +2390,10 @@ export default function SpeakMode({
                 if (!matchResult) return null;
                 if (analysis) {
                   const passCount = [analysis.initial.pass, analysis.final.pass, analysis.tone.pass].filter(Boolean).length;
-                  if (passCount === 3) {
+                  if (isFullyCorrect) {
                     return (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#DDF5E8] text-[#255B45]">
-                        Strong
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#8DD3AE] text-white">
+                        Correct
                       </span>
                     );
                   }
@@ -2295,7 +2405,7 @@ export default function SpeakMode({
                     );
                   }
                   return (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[rgba(194,65,12,0.14)] text-[#C2410C]">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#C2410C] text-white">
                       Needs Work
                     </span>
                   );
@@ -2303,12 +2413,12 @@ export default function SpeakMode({
                 return (
                   <span
                     className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
-                      matchResult === 'match'
-                        ? 'bg-[#DDF5E8] text-[#255B45]'
-                        : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'
+                      isFullyCorrect
+                        ? 'bg-[#8DD3AE] text-white'
+                        : 'bg-[#C2410C] text-white'
                     }`}
                   >
-                    {matchResult === 'match' ? 'Strong' : 'Needs Work'}
+                    {isFullyCorrect ? 'Correct' : 'Needs Work'}
                   </span>
                 );
               })()}
@@ -2381,16 +2491,17 @@ export default function SpeakMode({
           <button
             type="button"
             onClick={handleRecord}
-            disabled={isFinalizing || isStartingRecording || !sttSupported}
+            disabled={recordLockedAfterMatch || isFinalizing || isStartingRecording || !sttSupported}
             className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[176px] transition-colors ${
               !sttSupported
                 ? 'border-[#D1D5DB] bg-[#F3F4F6] opacity-75 cursor-not-allowed'
+                : recordLockedAfterMatch
+                  ? 'border-[#2B3440] bg-[#2B3440] opacity-75 cursor-not-allowed'
                 : (isRecording || isStartingRecording)
                   ? 'border-[#2B3440] bg-[#2B3440] shadow-[0_0_0_1px_rgba(255,255,255,0.06)] active:bg-[#344253]'
                 : 'border-[#1F2A37] bg-[#1F2A37] active:bg-[#273243]'
             }`}
             aria-label={isRecording ? 'Stop recording' : 'Start recording'}
-            title={isRecording ? 'Stop recording' : 'Start recording'}
           >
             <Mic
               className={`absolute top-3 right-3 w-5 h-5 text-white ${(isRecording || isStartingRecording) ? 'animate-pulse' : ''}`}
@@ -2406,9 +2517,9 @@ export default function SpeakMode({
               <div className="text-[clamp(0.92rem,4vw,1.08rem)] sm:text-[1.08rem] font-semibold text-white leading-tight break-words mt-1 px-1">
                 {recordSubtitle}
               </div>
-              {!sttSupported ? null : (isFinalizing || isRecording || isStartingRecording) ? (
+              {!sttSupported ? null : (isFinalizing || isStartingRecording) ? (
                 <div className="text-[11px] sm:text-xs text-[#E7EDF6] mt-1 px-1">
-                  {isStartingRecording ? 'Connecting audio' : isRecording ? 'Listening now' : 'Scoring now'}
+                  {isStartingRecording ? 'Connecting audio' : 'Scoring now'}
                 </div>
               ) : null}
             </div>

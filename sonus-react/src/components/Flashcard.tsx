@@ -140,7 +140,7 @@ export default function Flashcard({
         </button>
         <button
           onClick={() => speak(ttsText, ttsReading, true, state.selectedLanguage)}
-          className="flex items-center gap-1.5 px-5 py-2.5 sm:px-6 sm:py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[#1F2A37] rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-colors hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.08)]"
+          className="flex items-center gap-1.5 px-5 py-2.5 sm:px-6 sm:py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[#1F2A37] rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-colors hover:bg-white active:bg-white"
         >
           <Snail className="w-4 h-4 sm:w-5 sm:h-5" />
           Slow

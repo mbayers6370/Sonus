@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   AudioWaveform,
   ArrowRight,
@@ -10,7 +10,12 @@ import {
   Stethoscope,
 } from 'lucide-react';
 import BottomNav from './BottomNav';
-import { formatUnitNameForDisplay, getUnitMetadata, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
+import {
+  formatUnitNameForDisplay,
+  getUnitMetadata,
+  isCheckpointUnitId,
+  isPracticeUnitId,
+} from '../data/unitMetadata';
 import GlassHeader from './GlassHeader';
 import GlassLoader from './ui/GlassLoader';
 import { useApp } from '../contexts/AppContext';
@@ -19,6 +24,9 @@ import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria.ts';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { inferLanguageForBand, normalizeLanguageId, resolveBandDataPath } from '../lib/languageRuntime';
+import { readCachedCurrentPath, writeCachedCurrentPath } from '../lib/currentPathStore';
+import { deriveJapaneseSectionIdFromUnitId, extractUnitNumber } from '../lib/learnPath';
+import { getStarterBandIdForLanguage, isStarterUnitCompleted } from '../lib/practiceFocus';
 import type { LessonMode } from '../types/lesson.types';
 import type { SharedUserProgress } from '../../../shared/contracts';
 
@@ -71,9 +79,6 @@ const LANGUAGE_LABELS: Record<string, string> = {
   kr: 'Korean',
   fr: 'French',
 };
-const ZH_BAND_ORDER = ['band1', 'band2', 'band3', 'band4', 'band5', 'band6', 'band7', 'band8', 'band9', 'advanced'];
-const JA_BAND_ORDER = ['n5', 'n4', 'n3', 'n2', 'n1'];
-const LESSON_UNLOCK_PASS_PERCENT = 85;
 
 function isJapaneseBandId(value: string | null | undefined) {
   return Boolean(value && /^n[1-5]$/i.test(value));
@@ -99,115 +104,92 @@ function bandMatchesLanguage(bandId: string | null | undefined, languageId: stri
   return true;
 }
 
-function rankBandForLanguage(bandId: string, languageId: string) {
-  const order = languageId === 'ja' ? JA_BAND_ORDER : ZH_BAND_ORDER;
-  const index = order.indexOf((bandId || '').toLowerCase());
-  return index >= 0 ? index : -1;
-}
-
-function deriveResumeFromLessonProgress(
-  lessonProgress: Record<string, unknown>,
-  languageId: string
-) {
-  // Pick the furthest touched lesson per unit to restore continuity after refresh.
-  const byUnit = new Map<string, ResumeTarget>();
-  for (const key of Object.keys(lessonProgress || {})) {
-    const [bandId, unitId, lessonIndexRaw] = key.split(':');
-    if (!bandMatchesLanguage(bandId, languageId)) continue;
-    if (!unitId || isPracticeUnitId(unitId) || isCheckpointUnitId(unitId) || unitId === 'daily-review') continue;
-    const lessonIndex = Number(lessonIndexRaw);
-    if (!Number.isFinite(lessonIndex)) continue;
-    const mapKey = `${bandId}:${unitId}`;
-    const existing = byUnit.get(mapKey);
-    if (!existing || lessonIndex > existing.lessonIndex) {
-      byUnit.set(mapKey, { bandId, unitId, lessonIndex });
-    }
+function resolveResumeTarget(input: {
+  progress: Progress;
+  cachedPath: { bandId: string; unitId: string; lessonIndex: number } | null;
+  checkpoint: {
+    bandId: string;
+    unitId: string;
+    lessonIndex: number;
+    lessonMode?: LessonMode;
+  } | null;
+  languageId: string;
+  progressPathIsApply: boolean;
+}): ResumeTarget | null {
+  const { progress, cachedPath, checkpoint, languageId, progressPathIsApply } = input;
+  const hasValidProgressTarget =
+    Boolean(progress.currentBandId) &&
+    bandMatchesLanguage(progress.currentBandId, languageId) &&
+    Boolean(progress.currentUnitId) &&
+    !isPracticeUnitId(progress.currentUnitId || '') &&
+    progress.currentUnitId !== 'daily-review' &&
+    !progressPathIsApply;
+  if (hasValidProgressTarget) {
+    return {
+      bandId: progress.currentBandId as string,
+      unitId: progress.currentUnitId as string,
+      lessonIndex: Math.max(0, progress.currentLessonIdx ?? 0),
+    };
   }
-  if (!byUnit.size) return null;
-  return Array.from(byUnit.values()).sort((a, b) => {
-    const bandDelta = rankBandForLanguage(b.bandId, languageId) - rankBandForLanguage(a.bandId, languageId);
-    if (bandDelta !== 0) return bandDelta;
-    const unitDelta = (getUnitMetadata(b.bandId, b.unitId)?.order || 0) - (getUnitMetadata(a.bandId, a.unitId)?.order || 0);
-    if (unitDelta !== 0) return unitDelta;
-    return b.lessonIndex - a.lessonIndex;
-  })[0];
+
+  if (
+    cachedPath &&
+    bandMatchesLanguage(cachedPath.bandId, languageId) &&
+    !isPracticeUnitId(cachedPath.unitId) &&
+    cachedPath.unitId !== 'daily-review'
+  ) {
+    return {
+      bandId: cachedPath.bandId,
+      unitId: cachedPath.unitId,
+      lessonIndex: Math.max(0, cachedPath.lessonIndex),
+    };
+  }
+
+  if (
+    checkpoint &&
+    bandMatchesLanguage(checkpoint.bandId, languageId) &&
+    !isPracticeUnitId(checkpoint.unitId) &&
+    checkpoint.unitId !== 'daily-review' &&
+    checkpoint.lessonMode !== 'apply'
+  ) {
+    return {
+      bandId: checkpoint.bandId,
+      unitId: checkpoint.unitId,
+      lessonIndex: checkpoint.lessonIndex,
+      mode: checkpoint.lessonMode,
+    };
+  }
+
+  return null;
 }
 
-function hasLessonUnlockCredit(status: { completed?: boolean; quizScore?: number | null; speakScore?: number | null } | undefined) {
-  return Boolean(
-    status?.completed ||
-    isInstructionalComplete(status?.quizScore, status?.speakScore) ||
-    (status?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT
-  );
-}
-
-function deriveLatestUnlockedFromLessonProgress(
+function hasAnyCoreProgressForLanguage(
   lessonProgress: Record<string, unknown>,
   languageId: string
 ) {
-  // "Unlocked" includes pass-level quiz credit even before full lesson completion.
-  const byUnit = new Map<string, ResumeTarget>();
   for (const key of Object.keys(lessonProgress || {})) {
-    const [bandId, unitId, lessonIndexRaw] = key.split(':');
+    const [bandId, unitId] = key.split(':');
     if (!bandMatchesLanguage(bandId, languageId)) continue;
     if (!unitId || isPracticeUnitId(unitId) || isCheckpointUnitId(unitId) || unitId === 'daily-review') continue;
-    const lessonIndex = Number(lessonIndexRaw);
-    if (!Number.isFinite(lessonIndex)) continue;
     const status = lessonProgress[key] as {
       completed?: boolean;
       mastered?: boolean;
+      introViewed?: boolean;
       quizScore?: number | null;
       speakScore?: number | null;
     } | undefined;
-    if (!hasLessonUnlockCredit(status)) continue;
-
-    const target: ResumeTarget = {
-      bandId,
-      unitId,
-      lessonIndex,
-      mode: status?.completed && !status?.mastered ? 'quiz' : undefined,
-    };
-    const mapKey = `${bandId}:${unitId}`;
-    const existing = byUnit.get(mapKey);
-    if (!existing || lessonIndex > existing.lessonIndex) {
-      byUnit.set(mapKey, target);
+    if (!status) continue;
+    if (
+      status.completed ||
+      status.mastered ||
+      status.introViewed ||
+      status.quizScore != null ||
+      status.speakScore != null
+    ) {
+      return true;
     }
   }
-
-  if (!byUnit.size) return null;
-  return Array.from(byUnit.values()).sort((a, b) => {
-    const bandDelta = rankBandForLanguage(b.bandId, languageId) - rankBandForLanguage(a.bandId, languageId);
-    if (bandDelta !== 0) return bandDelta;
-    const unitDelta = (getUnitMetadata(b.bandId, b.unitId)?.order || 0) - (getUnitMetadata(a.bandId, a.unitId)?.order || 0);
-    if (unitDelta !== 0) return unitDelta;
-    return b.lessonIndex - a.lessonIndex;
-  })[0];
-}
-
-function deriveMasteryResumeFromLessonProgress(
-  lessonProgress: Record<string, unknown>,
-  languageId: string
-) {
-  // If the learner has completed-but-not-mastered lessons, route them back to mastery.
-  const candidates: Array<ResumeTarget> = [];
-  for (const key of Object.keys(lessonProgress || {})) {
-    const [bandId, unitId, lessonIndexRaw] = key.split(':');
-    if (!bandMatchesLanguage(bandId, languageId)) continue;
-    if (!unitId || isPracticeUnitId(unitId) || isCheckpointUnitId(unitId) || unitId === 'daily-review') continue;
-    const lessonIndex = Number(lessonIndexRaw);
-    if (!Number.isFinite(lessonIndex)) continue;
-    const status = lessonProgress[key] as { completed?: boolean; mastered?: boolean } | undefined;
-    if (!status?.completed || status?.mastered) continue;
-    candidates.push({ bandId, unitId, lessonIndex, mode: 'quiz' });
-  }
-  if (!candidates.length) return null;
-  return candidates.sort((a, b) => {
-    const bandDelta = rankBandForLanguage(b.bandId, languageId) - rankBandForLanguage(a.bandId, languageId);
-    if (bandDelta !== 0) return bandDelta;
-    const unitDelta = (getUnitMetadata(b.bandId, b.unitId)?.order || 0) - (getUnitMetadata(a.bandId, a.unitId)?.order || 0);
-    if (unitDelta !== 0) return unitDelta;
-    return b.lessonIndex - a.lessonIndex;
-  })[0];
+  return false;
 }
 
 function resolveHomeLanguageId(input: {
@@ -261,6 +243,7 @@ export default function HomeDashboard({
   const [progressPathIsApply, setProgressPathIsApply] = useState(false);
   const [profileName, setProfileName] = useState<string | null>(null);
   const [unitCompletionPercent, setUnitCompletionPercent] = useState<number | null>(null);
+  const [practiceUnlocked, setPracticeUnlocked] = useState(true);
 
   const languageId = resolveHomeLanguageId({
     selectedLanguage,
@@ -272,48 +255,49 @@ export default function HomeDashboard({
   });
   const languageLabel = LANGUAGE_LABELS[languageId] || 'Language';
   const isJapaneseLanguage = languageId === 'ja';
-  const resumeFromCheckpoint: ResumeTarget | null =
-    state.resumeCheckpoint &&
-    bandMatchesLanguage(state.resumeCheckpoint.bandId, languageId) &&
-    !isPracticeUnitId(state.resumeCheckpoint.unitId) &&
-    state.resumeCheckpoint.unitId !== 'daily-review' &&
-    state.resumeCheckpoint.lessonMode !== 'apply'
+  const cachedPath = readCachedCurrentPath(languageId);
+  const continueTarget: ResumeTarget | null = resolveResumeTarget({
+    progress,
+    cachedPath,
+    checkpoint: state.resumeCheckpoint
       ? {
-          bandId: state.resumeCheckpoint.bandId,
+        bandId: state.resumeCheckpoint.bandId,
           unitId: state.resumeCheckpoint.unitId,
           lessonIndex: state.resumeCheckpoint.lessonIndex,
-          mode: state.resumeCheckpoint.lessonMode,
+          lessonMode: state.resumeCheckpoint.lessonMode,
         }
-      : null;
-  const resumeFromProgress: ResumeTarget | null =
-    progress.currentBandId &&
-    bandMatchesLanguage(progress.currentBandId, languageId) &&
-    progress.currentUnitId &&
-    progress.currentLessonIdx !== null &&
-    !isPracticeUnitId(progress.currentUnitId) &&
-    progress.currentUnitId !== 'daily-review' &&
-    !progressPathIsApply
-      ? {
-          bandId: progress.currentBandId,
-          unitId: progress.currentUnitId,
-          lessonIndex: progress.currentLessonIdx,
-        }
-      : null;
-  const resumeFromMasteryLocalProgress: ResumeTarget | null =
-    deriveMasteryResumeFromLessonProgress(state.lessonProgress || {}, languageId);
-  const resumeFromLatestUnlockedLocalProgress: ResumeTarget | null =
-    deriveLatestUnlockedFromLessonProgress(state.lessonProgress || {}, languageId);
-  const resumeFromLocalProgress: ResumeTarget | null =
-    resumeFromLatestUnlockedLocalProgress || deriveResumeFromLessonProgress(state.lessonProgress || {}, languageId);
-  const resolvedResumeTarget: ResumeTarget | null =
-    // Prefer local lesson progress first so resume reflects the latest client-tracked state.
-    resumeFromLocalProgress || resumeFromMasteryLocalProgress || resumeFromCheckpoint || resumeFromProgress;
+      : null,
+    languageId,
+    progressPathIsApply,
+  });
+  const hasAnyCoreProgress = useMemo(() => {
+    if (continueTarget && !isPracticeUnitId(continueTarget.unitId) && continueTarget.unitId !== 'daily-review') {
+      return true;
+    }
+    if (progress.currentBandId && bandMatchesLanguage(progress.currentBandId, languageId)) {
+      return true;
+    }
+    if (progress.currentUnitId && !isPracticeUnitId(progress.currentUnitId) && progress.currentUnitId !== 'daily-review') {
+      return true;
+    }
+    if (needsWorkCount > 0) {
+      return true;
+    }
+    return hasAnyCoreProgressForLanguage(state.lessonProgress || {}, languageId);
+  }, [
+    languageId,
+    needsWorkCount,
+    progress.currentBandId,
+    progress.currentUnitId,
+    continueTarget,
+    state.lessonProgress,
+  ]);
   const practiceBandId = bandMatchesLanguage(progress.currentBandId, languageId)
     ? progress.currentBandId
-    : (resumeFromLocalProgress?.bandId || null);
-  const hasSavedLessonPath = Boolean(resolvedResumeTarget);
+    : (continueTarget?.bandId || null);
+  const hasSavedLessonPath = Boolean(continueTarget);
   const resumeCardTitle = hasSavedLessonPath ? 'Resume' : 'Start';
-  const lessonNumber = resolvedResumeTarget ? resolvedResumeTarget.lessonIndex + 1 : null;
+  const lessonNumber = continueTarget ? continueTarget.lessonIndex + 1 : null;
   const cardShell =
     'dashboard-card-enter rounded-3xl border p-5 sm:p-6 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
   const needsWorkLead =
@@ -324,6 +308,8 @@ export default function HomeDashboard({
     needsWorkCount === 0
       ? '0 words are in your practice queue!'
       : `${needsWorkLead} Listening & Speaking recommended.`;
+  const canUsePractice = hasAnyCoreProgress && practiceUnlocked;
+  const practiceLockMessage = 'Practice Focus unlocks after you complete your first unit.';
   const formatBandLabel = (bandId: string | null) => {
     if (!bandId) return 'Level';
     if (languageId === 'zh') {
@@ -342,10 +328,10 @@ export default function HomeDashboard({
   const formatUnitLabel = (unitId: string | null, bandId: string | null) => {
     if (!unitId) return 'Unit';
     if (isJapaneseLanguage && bandId && isJapaneseBandId(bandId)) {
-      const sectionMatch = new RegExp(`^${bandId}-(core|expansion|integration|base-i|base-ii|widen|connect)-u(\\d+)$`, 'i').exec(unitId);
-      if (sectionMatch) {
-        const sectionTitle = toJapaneseSectionTitle(sectionMatch[1]);
-        const sectionUnitNumber = String(Number(sectionMatch[2]));
+      const sectionId = deriveJapaneseSectionIdFromUnitId(bandId, unitId);
+      const sectionUnitNumber = extractUnitNumber(unitId);
+      if (sectionId && sectionUnitNumber !== null) {
+        const sectionTitle = toJapaneseSectionTitle(sectionId);
         return `${sectionTitle} · Unit ${sectionUnitNumber}`;
       }
       const fallbackMatch = /(?:base\s*i{1,2}|core|expansion|integration|widen|connect)\s*u?(\d+)/i.exec(unitId);
@@ -371,6 +357,17 @@ export default function HomeDashboard({
         .replace(/[-_]+/g, ' ')
     )
       .replace(/\b\w/g, (c) => c.toUpperCase());
+  };
+  const formatResumeUnitLabel = (unitId: string | null, bandId: string | null) => {
+    if (!unitId) return 'Unit';
+    const unitNumber = extractUnitNumber(unitId);
+    if (unitNumber !== null) return `Unit ${unitNumber}`;
+    const fromName = bandId ? getUnitMetadata(bandId, unitId)?.name : undefined;
+    const fromNameMatch = /(?:^|\s)u(?:nit)?\s*(\d+)(?:$|\s)/i.exec(fromName || '');
+    if (fromNameMatch?.[1]) return `Unit ${String(Number(fromNameMatch[1]))}`;
+    const fromCoreStyleName = /(?:core|expansion|integration|base\s*i{1,2}|widen|connect)\s*0*(\d+)(?:$|\s)/i.exec(fromName || '');
+    if (fromCoreStyleName?.[1]) return `Unit ${String(Number(fromCoreStyleName[1]))}`;
+    return formatUnitLabel(unitId, bandId);
   };
 
   useEffect(() => {
@@ -404,6 +401,11 @@ export default function HomeDashboard({
               !isCheckpointUnitId(unitId) &&
               unitId !== 'daily-review'
             ) {
+              writeCachedCurrentPath({
+                bandId,
+                unitId,
+                lessonIndex: Math.max(0, lessonIdx),
+              });
               try {
                 const bandLanguage = inferLanguageForBand(bandId, languageId);
                 const bandRes = await fetch(resolveBandDataPath(bandLanguage, bandId), { cache: 'no-store' });
@@ -456,17 +458,17 @@ export default function HomeDashboard({
     let mounted = true;
     void (async () => {
       if (
-        !resolvedResumeTarget ||
-        isPracticeUnitId(resolvedResumeTarget.unitId) ||
-        isCheckpointUnitId(resolvedResumeTarget.unitId) ||
-        resolvedResumeTarget.unitId === 'daily-review'
+        !continueTarget ||
+        isPracticeUnitId(continueTarget.unitId) ||
+        isCheckpointUnitId(continueTarget.unitId) ||
+        continueTarget.unitId === 'daily-review'
       ) {
         if (mounted) setUnitCompletionPercent(null);
         return;
       }
       try {
-        const bandLanguage = inferLanguageForBand(resolvedResumeTarget.bandId, languageId);
-        const bandRes = await fetch(resolveBandDataPath(bandLanguage, resolvedResumeTarget.bandId), { cache: 'no-store' });
+        const bandLanguage = inferLanguageForBand(continueTarget.bandId, languageId);
+        const bandRes = await fetch(resolveBandDataPath(bandLanguage, continueTarget.bandId), { cache: 'no-store' });
         if (!bandRes.ok) {
           if (mounted) setUnitCompletionPercent(null);
           return;
@@ -477,9 +479,9 @@ export default function HomeDashboard({
         const units = bandData.units;
         let words: Array<{ id?: string }> = [];
         if (Array.isArray(units)) {
-          words = (units.find((unit) => unit?.id === resolvedResumeTarget.unitId)?.words || []) as typeof words;
+          words = (units.find((unit) => unit?.id === continueTarget.unitId)?.words || []) as typeof words;
         } else if (units && typeof units === 'object') {
-          words = (units[resolvedResumeTarget.unitId]?.words || []) as typeof words;
+          words = (units[continueTarget.unitId]?.words || []) as typeof words;
         }
         const coreLessonCount = getLessonRanges(words.length, 10).length;
         if (!mounted || coreLessonCount <= 0) {
@@ -487,12 +489,12 @@ export default function HomeDashboard({
           return;
         }
         const completedLessons = Array.from({ length: coreLessonCount }).reduce<number>((count, _, idx) => {
-          const lessonKey = makeLessonKey(resolvedResumeTarget.bandId, resolvedResumeTarget.unitId, idx);
+          const lessonKey = makeLessonKey(continueTarget.bandId, continueTarget.unitId, idx);
           const status = state.lessonProgress[lessonKey];
           return count + Number(Boolean(status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore)));
         }, 0);
         const masteredLessons = Array.from({ length: coreLessonCount }).reduce<number>((count, _, idx) => {
-          const lessonKey = makeLessonKey(resolvedResumeTarget.bandId, resolvedResumeTarget.unitId, idx);
+          const lessonKey = makeLessonKey(continueTarget.bandId, continueTarget.unitId, idx);
           const status = state.lessonProgress[lessonKey];
           return count + Number(Boolean(status?.mastered));
         }, 0);
@@ -510,22 +512,57 @@ export default function HomeDashboard({
     };
   }, [
     languageId,
-    resolvedResumeTarget,
+    continueTarget,
     state.lessonProgress,
   ]);
 
+  useEffect(() => {
+    let mounted = true;
+    void (async () => {
+      const starterBandId = getStarterBandIdForLanguage(languageId);
+      if (progress.currentBandId && progress.currentBandId !== starterBandId) {
+        if (mounted) setPracticeUnlocked(true);
+        return;
+      }
+      try {
+        const bandLanguage = inferLanguageForBand(starterBandId, languageId);
+        const bandRes = await fetch(resolveBandDataPath(bandLanguage, starterBandId), { cache: 'no-store' });
+        if (!bandRes.ok) {
+          if (mounted) setPracticeUnlocked(true);
+          return;
+        }
+        const bandData = (await bandRes.json()) as {
+          units?: Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }>;
+        };
+        const unlocked = isStarterUnitCompleted({
+          starterBandId,
+          bandData,
+          lessonProgress: state.lessonProgress,
+          isInstructionalComplete,
+        });
+        if (mounted) setPracticeUnlocked(unlocked);
+      } catch {
+        if (mounted) setPracticeUnlocked(true);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [languageId, progress.currentBandId, state.lessonProgress]);
+
   const openResumeCard = () => {
-    if (!resolvedResumeTarget) {
+    if (!continueTarget) {
       onOpenLevels();
       return;
     }
 
     onResumeToUnit({
-      bandId: resolvedResumeTarget.bandId,
-      unitId: resolvedResumeTarget.unitId,
-      lessonIndex: resolvedResumeTarget.lessonIndex,
-      isCheckpoint: isCheckpointUnitId(resolvedResumeTarget.unitId),
-      mode: resolvedResumeTarget.mode,
+      bandId: continueTarget.bandId,
+      unitId: continueTarget.unitId,
+      lessonIndex: continueTarget.lessonIndex,
+      isCheckpoint: isCheckpointUnitId(continueTarget.unitId),
+      mode: continueTarget.mode,
     });
   };
 
@@ -581,13 +618,13 @@ export default function HomeDashboard({
             <div className="main-font text-2xl leading-none mb-3.5 text-[#E8F1FF]">{resumeCardTitle}</div>
             {hasSavedLessonPath ? (
               <>
-                <div className="text-sm text-white/95 font-medium mb-1">{formatBandLabel(resolvedResumeTarget?.bandId || null)}</div>
+                <div className="text-sm text-white/95 font-medium mb-1">{formatBandLabel(continueTarget?.bandId || null)}</div>
                 <div className="text-sm text-white/82 mb-3.5">
-                  {isCheckpointUnitId(resolvedResumeTarget?.unitId || '')
-                    ? `Unit: ${formatUnitLabel(resolvedResumeTarget?.unitId || null, resolvedResumeTarget?.bandId || null)} · Unit review quiz`
-                    : `Unit: ${formatUnitLabel(resolvedResumeTarget?.unitId || null, resolvedResumeTarget?.bandId || null)} · Lesson ${lessonNumber}`}
+                  {isCheckpointUnitId(continueTarget?.unitId || '')
+                    ? `${formatResumeUnitLabel(continueTarget?.unitId || null, continueTarget?.bandId || null)} · Unit review quiz`
+                    : `${formatResumeUnitLabel(continueTarget?.unitId || null, continueTarget?.bandId || null)} · Lesson ${lessonNumber}`}
                 </div>
-                {!isCheckpointUnitId(resolvedResumeTarget?.unitId || '') && unitCompletionPercent !== null && (
+                {!isCheckpointUnitId(continueTarget?.unitId || '') && unitCompletionPercent !== null && (
                   <div className="inline-flex items-center rounded-full px-3 py-1 border border-white/25 bg-white/10 text-[11px] font-mono uppercase tracking-wider text-white/88 mb-4 mx-auto">
                     Unit {unitCompletionPercent}% complete
                   </div>
@@ -664,7 +701,9 @@ export default function HomeDashboard({
         >
           <div className="main-font text-2xl leading-none mb-2 text-[#D7F0E4]">Practice Focus</div>
           <p className="text-sm leading-relaxed text-white/86 mt-3 mb-3 max-w-md mx-auto">
-            {selectedLanguage === 'zh' || isJapaneseLanguage
+            {!practiceUnlocked
+              ? practiceLockMessage
+              : selectedLanguage === 'zh' || isJapaneseLanguage
               ? needsWorkMessage
               : `Practice labs are currently available for ${languageLabel}.`}
           </p>
@@ -701,21 +740,37 @@ export default function HomeDashboard({
           {selectedLanguage === 'zh' || isJapaneseLanguage ? (
             <div className="flex items-center justify-center gap-3 max-w-md mx-auto mt-4">
               <button
-                onClick={() => onOpenPractice('listening', practiceBandId)}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-white/70 bg-white text-[#186E95] px-3 py-1.5 text-sm font-semibold hover:bg-[#EAF4FA] transition-colors duration-200"
+                onClick={() => {
+                  if (!canUsePractice) return;
+                  onOpenPractice('listening', practiceBandId);
+                }}
+                disabled={!canUsePractice}
+                className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-sm font-semibold transition-colors duration-200 ${
+                  canUsePractice
+                    ? 'border-white/70 bg-white text-[#186E95] hover:bg-[#EAF4FA]'
+                    : 'border-white/35 bg-white/20 text-white/65 hover:bg-white/25'
+                }`}
                 aria-label="Listening practice"
                 title="Listening practice"
               >
-                <Headphones className="w-4 h-4 text-[#186E95]" />
+                <Headphones className={`w-4 h-4 ${canUsePractice ? 'text-[#186E95]' : 'text-white/70'}`} />
                 Listening
               </button>
               <button
-                onClick={() => onOpenPractice('speaking', practiceBandId)}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-white/70 bg-white text-[#186E95] px-3 py-1.5 text-sm font-semibold hover:bg-[#EAF4FA] transition-colors duration-200"
+                onClick={() => {
+                  if (!canUsePractice) return;
+                  onOpenPractice('speaking', practiceBandId);
+                }}
+                disabled={!canUsePractice}
+                className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-sm font-semibold transition-colors duration-200 ${
+                  canUsePractice
+                    ? 'border-white/70 bg-white text-[#186E95] hover:bg-[#EAF4FA]'
+                    : 'border-white/35 bg-white/20 text-white/65 hover:bg-white/25'
+                }`}
                 aria-label="Speaking practice"
                 title="Speaking practice"
               >
-                <Mic className="w-4 h-4 text-[#186E95]" />
+                <Mic className={`w-4 h-4 ${canUsePractice ? 'text-[#186E95]' : 'text-white/70'}`} />
                 Speaking
               </button>
             </div>

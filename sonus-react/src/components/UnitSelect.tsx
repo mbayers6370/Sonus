@@ -12,6 +12,7 @@ import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import type { LessonMode } from '../types/lesson.types';
 import { tierForBand } from '../routes/lessonRouting';
 import { isReleasedTrackLevel } from '../lib/bandIds';
+import { deriveJapaneseSectionIdFromUnitId } from '../lib/learnPath';
 
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
@@ -150,6 +151,16 @@ export default function UnitSelect({
     setSearchParams(next);
   };
   const setActiveSection = (sectionId: string | null) => {
+    const next = new URLSearchParams(searchParams);
+    if (sectionId) {
+      next.set('section', sectionId);
+    } else {
+      next.delete('section');
+    }
+    next.delete('unit');
+    setSearchParams(next);
+  };
+  const goToUnitsStage = (sectionId: string | null) => {
     const next = new URLSearchParams(searchParams);
     if (sectionId) {
       next.set('section', sectionId);
@@ -465,8 +476,9 @@ export default function UnitSelect({
     unlockedByUnitId.set(checkpointUnitId, unlocked);
   }
 
+  const hasStartedCorePath = coreUnitIds.some((unitId) => hasAnyUnitProgress(unitId));
   for (const practiceUnitId of practiceUnitIds) {
-    unlockedByUnitId.set(practiceUnitId, coreUnitIds.length > 0);
+    unlockedByUnitId.set(practiceUnitId, hasStartedCorePath);
   }
   const filteredUnitMetrics = showSectionStep && activeSection
     ? unitMetrics.filter((metric) => activeSection.unitIds.includes(metric.unitId))
@@ -524,8 +536,13 @@ export default function UnitSelect({
       label: 'Units',
       onClick: isLessonsStage
         ? () => {
-            setActiveUnit(null);
-            if (showSectionStep && !activeSection) return;
+            const targetSectionId = showSectionStep
+              ? (
+                  activeSection?.id ||
+                  deriveJapaneseSectionIdFromUnitId(currentLevel.id, activeUnit?.unitId || activeUnitId)
+                )
+              : null;
+            goToUnitsStage(targetSectionId);
           }
         : undefined,
       current: isUnitsStage,

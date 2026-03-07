@@ -890,7 +890,7 @@ export default function ApplyMode({
         </button>
         <button
           onClick={() => speak(speakText, speakPinyin, true, state.selectedLanguage)}
-          className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)]"
+          className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-white"
         >
           <Snail className="w-5 h-5" />
           Slow
