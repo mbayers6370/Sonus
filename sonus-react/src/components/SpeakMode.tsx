@@ -653,7 +653,7 @@ function japaneseRomajiFromEntry(input: {
 
 function japaneseRomajiKeyFromScriptOrFallback(scriptValue: string, fallbackValue = '') {
   const rawRomanized = romanizeJapaneseForDisplay(scriptValue || '');
-  const hasNonLatinRemainder = /[^\x00-\x7F]/.test(rawRomanized);
+  const hasNonLatinRemainder = /[^\p{ASCII}]/u.test(rawRomanized);
   const fromFallback = normalizeLatinForCompare(fallbackValue || '');
   if (hasNonLatinRemainder && fromFallback) return fromFallback;
   const fromScript = normalizeLatinForCompare(rawRomanized);
