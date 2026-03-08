@@ -78,6 +78,13 @@ const envSchema = z
       .default(60),
     RESET_URL_BASE: z.string().url().optional(),
     RESET_EMAIL_FROM: z.string().trim().min(3).max(255).default('Sonus Team <no-reply@sonus.app>'),
+    ACCOUNT_DELETION_EMAIL_FROM: z
+      .string()
+      .trim()
+      .min(3)
+      .max(255)
+      .default('Sonus Support <support@sonuslearning.com>'),
+    ACCOUNT_DELETION_HOLD_DAYS: z.coerce.number().int().min(1).max(90).default(14),
     RESET_EMAIL_LOGO_URL: z.string().url().optional(),
     RESEND_API_KEY: z.string().min(1).optional(),
     LOGIN_THROTTLE_ENABLED: z

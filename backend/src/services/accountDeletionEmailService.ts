@@ -13,6 +13,8 @@ function escapeHtml(input: string) {
 type AccountDeletionEmailInput = {
   to: string;
   deletedAtIso: string;
+  holdDays?: number | null;
+  scheduledForIso?: string | null;
 };
 
 function buildAccountDeletionEmailHtml(input: AccountDeletionEmailInput) {
@@ -28,6 +30,7 @@ function buildAccountDeletionEmailHtml(input: AccountDeletionEmailInput) {
        </div>`
     : `<h2 style="margin:0 0 16px;text-align:center;font-family:Arial,sans-serif;color:#1f2a37;letter-spacing:0.2em;">SONUS</h2>`;
 
+  const isScheduled = Boolean(input.holdDays && input.holdDays > 0 && input.scheduledForIso);
   return `<!doctype html>
 <html>
   <body style="margin:0;padding:24px;background:#f3f5f7;font-family:Arial,sans-serif;color:#1f2a37;">
@@ -35,14 +38,33 @@ function buildAccountDeletionEmailHtml(input: AccountDeletionEmailInput) {
       <tr>
         <td>
           ${logoHtml}
-          <h1 style="font-size:24px;line-height:1.2;margin:0 0 12px;color:#1f2a37;">Account permanently deleted</h1>
+          <h1 style="font-size:24px;line-height:1.2;margin:0 0 12px;color:#1f2a37;">
+            ${isScheduled ? 'Account deletion scheduled' : 'Account permanently deleted'}
+          </h1>
           <p style="font-size:15px;line-height:1.6;color:#475569;margin:0 0 16px;">
-            This is a confirmation that your Sonus account and associated learning records were permanently deleted.
+            ${
+              isScheduled
+                ? 'This is a confirmation that your Sonus account is scheduled for permanent deletion.'
+                : 'This is a confirmation that your Sonus account and associated learning records were permanently deleted.'
+            }
           </p>
+          ${
+            isScheduled
+              ? `<p style="font-size:14px;line-height:1.6;color:#334155;margin:0 0 8px;">
+            <strong>Retention window:</strong> ${input.holdDays} day(s)
+          </p>
+          <p style="font-size:14px;line-height:1.6;color:#334155;margin:0 0 8px;">
+            <strong>Scheduled permanent deletion (UTC):</strong> ${escapeHtml(input.scheduledForIso || '')}
+          </p>`
+              : ''
+          }
           <p style="font-size:14px;line-height:1.6;color:#334155;margin:0 0 8px;">
             <strong>Deletion timestamp (UTC):</strong> ${escapeHtml(input.deletedAtIso)}
           </p>
           <p style="font-size:13px;line-height:1.6;color:#64748b;margin:14px 0 0;">
+            This is an automated no-reply confirmation message.
+          </p>
+          <p style="font-size:13px;line-height:1.6;color:#64748b;margin:10px 0 0;">
             If you did not request this deletion, contact support immediately at
             <a href="mailto:support@sonuslearning.com" style="color:#0f172a;">support@sonuslearning.com</a>.
           </p>
@@ -73,9 +95,12 @@ export async function sendAccountDeletionConfirmationEmail(input: AccountDeletio
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: env.RESET_EMAIL_FROM,
+      from: env.ACCOUNT_DELETION_EMAIL_FROM,
       to: [input.to],
-      subject: 'Your Sonus account has been permanently deleted',
+      subject:
+        input.holdDays && input.holdDays > 0
+          ? 'Your Sonus account deletion is scheduled'
+          : 'Your Sonus account has been permanently deleted',
       html: buildAccountDeletionEmailHtml(input),
     }),
   });

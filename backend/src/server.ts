@@ -7,13 +7,14 @@ import { prisma } from './lib/prisma.js';
 import { createRateLimiter, resolveRateLimitIdentity } from './lib/rateLimiter.js';
 import { readAllowedOrigins } from './lib/originPolicy.js';
 import { isAppError } from './lib/errors.js';
+import { ensureProfileEmailUniqueness } from './lib/profileEmailUniqueness.js';
 import { authRoutes } from './routes/auth.js';
 import { meRoutes } from './routes/me.js';
 import { attemptRoutes } from './routes/attempts.js';
 import { telemetryRoutes } from './routes/telemetry.js';
 import { characterRoutes } from './routes/characters.js';
 import { publicContactRoutes } from './routes/publicContact.js';
-import { adminRoutes } from './routes/admin.js';
+import { adminRoutes, processScheduledAccountDeletions } from './routes/admin.js';
 
 function buildCspHeader(allowedOrigins: Set<string>) {
   // Generate a strict CSP while allowing configured API origins for client fetch calls.
@@ -96,6 +97,13 @@ export async function buildServer() {
     redisRestToken: env.REDIS_REST_TOKEN,
     failOpen: env.RATE_LIMIT_FAIL_OPEN,
   });
+
+  await ensureProfileEmailUniqueness(app.log);
+  await processScheduledAccountDeletions();
+  const scheduledDeletionTicker = setInterval(() => {
+    void processScheduledAccountDeletions();
+  }, 60_000);
+  scheduledDeletionTicker.unref();
 
   await app.register(cors, {
     origin: (origin, callback) => {

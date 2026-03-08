@@ -407,8 +407,9 @@ export async function authRoutes(app: FastifyInstance) {
     }
 
     if (env.AUTH_MODE === 'mock') {
+      const email = normalizeEmail(parsed.data.email);
       const existing = await prisma.profile.findFirst({
-        where: { email: parsed.data.email },
+        where: { email },
         orderBy: { createdAt: 'asc' },
       });
       if (existing) {
@@ -419,14 +420,14 @@ export async function authRoutes(app: FastifyInstance) {
       const displayName = `${parsed.data.firstName} ${parsed.data.lastName}`.trim();
       const profile = await upsertProfile({
         userId,
-        email: parsed.data.email,
+        email,
         displayName,
         targetLanguage: parsed.data.targetLanguage,
         timezone: parsed.data.timezone,
         onboardingComplete: false,
       });
       reply.send({
-        user: { id: userId, email: parsed.data.email },
+        user: { id: userId, email },
         profile,
         accessToken: null,
         requiresEmailVerification: false,

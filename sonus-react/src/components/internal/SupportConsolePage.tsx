@@ -48,6 +48,50 @@ type TimelineEntry = {
   detail: string | null;
 };
 
+type SupportNoteEntry = {
+  id: string;
+  createdAt: string;
+  note: string;
+  actorEmail: string | null;
+};
+
+type OpenDeletionRequest = {
+  id: string;
+  targetUserId: string;
+  targetEmail: string | null;
+  targetDisplayName: string | null;
+  requestReason: string;
+  requestChannel: string | null;
+  createdAt: string;
+};
+
+type DeletionCaseEntry = {
+  sourceType: string;
+  status: string;
+  targetUserId: string;
+  targetEmail: string | null;
+  targetDisplayName: string | null;
+  reason: string;
+  channel: string | null;
+  eventAt: string;
+  detail: string | null;
+};
+
+type RecentDeletionItem = {
+  id: string;
+  targetUserId: string;
+  targetEmail: string | null;
+  targetDisplayName: string | null;
+  reason: string;
+  status: 'scheduled' | 'cancelled' | 'completed';
+  holdDays: number;
+  scheduledFor: string;
+  createdAt: string;
+  completedAt: string | null;
+  cancelledAt: string | null;
+  daysRemaining: number;
+};
+
 type SupportMetrics = {
   windowDays: number;
   support: {
@@ -161,12 +205,13 @@ export default function SupportConsolePage() {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [overview, setOverview] = useState<UserOverview | null>(null);
   const [timeline, setTimeline] = useState<TimelineEntry[]>([]);
+  const [savedNotes, setSavedNotes] = useState<SupportNoteEntry[]>([]);
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState<string | null>(null);
   const [note, setNote] = useState('');
   const [noteReason, setNoteReason] = useState('');
   const [actionReason, setActionReason] = useState('');
-  const [actionChannel, setActionChannel] = useState('support-email');
+  const [actionChannel, setActionChannel] = useState('email');
   const [busyAction, setBusyAction] = useState<string | null>(null);
   const [supportMetrics, setSupportMetrics] = useState<SupportMetrics | null>(null);
   const [learningMetrics, setLearningMetrics] = useState<LearningMetrics | null>(null);
@@ -174,22 +219,59 @@ export default function SupportConsolePage() {
   const [weakSpeakWordsByLanguage, setWeakSpeakWordsByLanguage] = useState<WeakWordsByLanguage | null>(null);
   const [metricsLoading, setMetricsLoading] = useState(false);
   const [metricsError, setMetricsError] = useState<string | null>(null);
+  const [dashboardLoading, setDashboardLoading] = useState(false);
+  const [dashboardError, setDashboardError] = useState<string | null>(null);
+  const [adminTimeline, setAdminTimeline] = useState<TimelineEntry[]>([]);
+  const [adminTimelineLoading, setAdminTimelineLoading] = useState(false);
+  const [adminTimelineError, setAdminTimelineError] = useState<string | null>(null);
+  const [recentDeletions, setRecentDeletions] = useState<RecentDeletionItem[]>([]);
+  const [recentDeletionsLoading, setRecentDeletionsLoading] = useState(false);
+  const [recentDeletionsError, setRecentDeletionsError] = useState<string | null>(null);
+  const [openDeletionRequests, setOpenDeletionRequests] = useState<OpenDeletionRequest[]>([]);
+  const [openDeletionRequestsLoading, setOpenDeletionRequestsLoading] = useState(false);
+  const [openDeletionRequestsError, setOpenDeletionRequestsError] = useState<string | null>(null);
+  const [requestModal, setRequestModal] = useState<OpenDeletionRequest | null>(null);
+  const [requestDecisionReason, setRequestDecisionReason] = useState('');
+  const [requestDecisionBusy, setRequestDecisionBusy] = useState(false);
+  const [deletionCaseSearch, setDeletionCaseSearch] = useState('');
+  const [deletionCases, setDeletionCases] = useState<DeletionCaseEntry[]>([]);
+  const [deletionCasesLoading, setDeletionCasesLoading] = useState(false);
+  const [deletionCasesError, setDeletionCasesError] = useState<string | null>(null);
+  const [undoBusyUserId, setUndoBusyUserId] = useState<string | null>(null);
+  const [undoDeletionReason, setUndoDeletionReason] = useState('');
+  const [deletingNoteId, setDeletingNoteId] = useState<string | null>(null);
   const [deleteCandidate, setDeleteCandidate] = useState<SearchResult | null>(null);
   const [deleteReason, setDeleteReason] = useState('');
-  const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [deleteAcknowledge, setDeleteAcknowledge] = useState(false);
   const [deleteBusy, setDeleteBusy] = useState(false);
+  const [deleteSuccessOpen, setDeleteSuccessOpen] = useState(false);
 
-  const viewMode = useMemo<'ops' | 'metrics-support' | 'metrics-learning'>(() => {
+  const viewMode = useMemo<'dashboard' | 'ops' | 'metrics-support' | 'metrics-learning'>(() => {
+    if (location.pathname.endsWith('/users')) return 'ops';
     if (location.pathname.endsWith('/metrics/support')) return 'metrics-support';
     if (location.pathname.endsWith('/metrics/learning')) return 'metrics-learning';
-    return 'ops';
+    return 'dashboard';
   }, [location.pathname]);
 
   const selectedUser = useMemo(
     () => searchResults.find((entry) => entry.userId === selectedUserId) || null,
     [searchResults, selectedUserId]
   );
+  const selectedTargetLabel = useMemo(() => {
+    if (!selectedUserId) return 'No user selected';
+    const name = (selectedUser?.displayName || '').trim();
+    const email = (selectedUser?.email || '').trim();
+    if (name && email) return `${name} (${email})`;
+    if (name) return name;
+    if (email) return email;
+    return selectedUserId;
+  }, [selectedUserId, selectedUser]);
+  const deletionWorkflowReason = useMemo(() => {
+    const primary = actionReason.trim();
+    if (primary.length >= 8) return primary;
+    const fallback = actionChannel.trim();
+    return fallback.length >= 8 ? fallback : '';
+  }, [actionReason, actionChannel]);
 
   const verifySupportAdminSession = async () => {
     try {
@@ -245,18 +327,23 @@ export default function SupportConsolePage() {
     setDetailLoading(true);
     setDetailError(null);
     try {
-      const [overviewPayload, timelinePayload] = await Promise.all([
+      const [overviewPayload, timelinePayload, notesPayload] = await Promise.all([
         parseJsonOrThrow<UserOverview>(await apiFetch(`/v1/admin/users/${targetUserId}`, { cache: 'no-store' })),
         parseJsonOrThrow<{ timeline?: TimelineEntry[] }>(
           await apiFetch(`/v1/admin/users/${targetUserId}/timeline?limit=120`, { cache: 'no-store' })
         ),
+        parseJsonOrThrow<{ notes?: SupportNoteEntry[] }>(
+          await apiFetch(`/v1/admin/users/${targetUserId}/notes?limit=80`, { cache: 'no-store' })
+        ),
       ]);
       setOverview(overviewPayload);
       setTimeline(timelinePayload.timeline || []);
+      setSavedNotes(notesPayload.notes || []);
     } catch (error) {
       setDetailError(error instanceof Error ? error.message : 'Failed to load user details');
       setOverview(null);
       setTimeline([]);
+      setSavedNotes([]);
     } finally {
       setDetailLoading(false);
     }
@@ -306,6 +393,106 @@ export default function SupportConsolePage() {
     }
   };
 
+  const loadDashboardMetrics = async () => {
+    setDashboardLoading(true);
+    setDashboardError(null);
+    try {
+      const [supportPayload, learningPayload] = await Promise.all([
+        parseJsonOrThrow<SupportMetrics>(
+          await apiFetch('/v1/admin/metrics/support/overview?windowDays=30', { cache: 'no-store' })
+        ),
+        parseJsonOrThrow<LearningMetrics>(
+          await apiFetch('/v1/admin/metrics/learning/overview?windowDays=30', { cache: 'no-store' })
+        ),
+      ]);
+      setSupportMetrics(supportPayload);
+      setLearningMetrics(learningPayload);
+    } catch (error) {
+      setDashboardError(error instanceof Error ? error.message : 'Failed to load dashboard metrics');
+    } finally {
+      setDashboardLoading(false);
+    }
+  };
+
+  const loadAdminTimeline = async () => {
+    setAdminTimelineLoading(true);
+    setAdminTimelineError(null);
+    try {
+      let timelinePayload: { timeline?: TimelineEntry[] } | null = null;
+      try {
+        timelinePayload = await parseJsonOrThrow<{ timeline?: TimelineEntry[] }>(
+          await apiFetch('/v1/admin/me/timeline?windowHours=24&limit=80', { cache: 'no-store' })
+        );
+      } catch (error) {
+        const message = error instanceof Error ? error.message.toLowerCase() : '';
+        if (!message.includes('not found')) throw error;
+        timelinePayload = await parseJsonOrThrow<{ timeline?: TimelineEntry[] }>(
+          await apiFetch('/v1/admin/timeline?windowHours=24&limit=80', { cache: 'no-store' })
+        );
+      }
+      setAdminTimeline(timelinePayload?.timeline || []);
+    } catch (error) {
+      setAdminTimelineError(error instanceof Error ? error.message : 'Failed to load admin timeline');
+      setAdminTimeline([]);
+    } finally {
+      setAdminTimelineLoading(false);
+    }
+  };
+
+  const loadRecentDeletions = async () => {
+    setRecentDeletionsLoading(true);
+    setRecentDeletionsError(null);
+    try {
+      const payload = await parseJsonOrThrow<{ items?: RecentDeletionItem[] }>(
+        await apiFetch('/v1/admin/users/deletions/recent?limit=12', { cache: 'no-store' })
+      );
+      setRecentDeletions(payload.items || []);
+    } catch (error) {
+      setRecentDeletionsError(error instanceof Error ? error.message : 'Failed to load recent deletions');
+      setRecentDeletions([]);
+    } finally {
+      setRecentDeletionsLoading(false);
+    }
+  };
+
+  const loadOpenDeletionRequests = async () => {
+    setOpenDeletionRequestsLoading(true);
+    setOpenDeletionRequestsError(null);
+    try {
+      const payload = await parseJsonOrThrow<{ requests?: OpenDeletionRequest[] }>(
+        await apiFetch('/v1/admin/deletion-requests/open?limit=20', { cache: 'no-store' })
+      );
+      setOpenDeletionRequests(payload.requests || []);
+    } catch (error) {
+      setOpenDeletionRequestsError(
+        error instanceof Error ? error.message : 'Failed to load deletion requests'
+      );
+      setOpenDeletionRequests([]);
+    } finally {
+      setOpenDeletionRequestsLoading(false);
+    }
+  };
+
+  const loadDeletionCases = async (query?: string) => {
+    setDeletionCasesLoading(true);
+    setDeletionCasesError(null);
+    try {
+      const params = new URLSearchParams();
+      params.set('limit', '40');
+      const q = (query ?? deletionCaseSearch).trim();
+      if (q) params.set('q', q);
+      const payload = await parseJsonOrThrow<{ cases?: DeletionCaseEntry[] }>(
+        await apiFetch(`/v1/admin/metrics/support/deletion-cases?${params.toString()}`, { cache: 'no-store' })
+      );
+      setDeletionCases(payload.cases || []);
+    } catch (error) {
+      setDeletionCasesError(error instanceof Error ? error.message : 'Failed to load deletion cases');
+      setDeletionCases([]);
+    } finally {
+      setDeletionCasesLoading(false);
+    }
+  };
+
   useEffect(() => {
     let cancelled = false;
     void (async () => {
@@ -313,8 +500,12 @@ export default function SupportConsolePage() {
       const ok = await verifySupportAdminSession();
       if (!cancelled) {
         setBootLoading(false);
-        if (ok && viewMode === 'ops') {
-          void runSearch();
+        if (ok) {
+          if (viewMode === 'ops') void runSearch();
+          if (viewMode === 'dashboard') {
+            void loadDashboardMetrics();
+            void loadAdminTimeline();
+          }
         }
       }
     })();
@@ -329,8 +520,14 @@ export default function SupportConsolePage() {
 
   useEffect(() => {
     if (!authenticated) return;
+    if (viewMode === 'dashboard') {
+      void loadDashboardMetrics();
+      void loadAdminTimeline();
+      return;
+    }
     if (viewMode === 'metrics-support') {
       void loadSupportMetrics();
+      void loadDeletionCases('');
       return;
     }
     if (viewMode === 'metrics-learning') {
@@ -342,6 +539,7 @@ export default function SupportConsolePage() {
     if (!selectedUserId || !authenticated || viewMode !== 'ops') {
       setOverview(null);
       setTimeline([]);
+      setSavedNotes([]);
       return;
     }
     void refreshSelectedUser(selectedUserId);
@@ -351,6 +549,8 @@ export default function SupportConsolePage() {
     if (!authenticated || viewMode !== 'ops') return;
     // Ensure User Operations repopulates whenever the view is entered.
     void runSearch();
+    void loadRecentDeletions();
+    void loadOpenDeletionRequests();
   }, [authenticated, viewMode]);
 
   const runMutation = async (action: string, path: string, body: Record<string, unknown>) => {
@@ -366,6 +566,10 @@ export default function SupportConsolePage() {
         })
       );
       await refreshSelectedUser(selectedUserId);
+      if (action.includes('deletion') || action === 'request-deletion') {
+        await loadOpenDeletionRequests();
+        await loadDeletionCases();
+      }
       setActionReason('');
       if (action === 'add-note') {
         setNote('');
@@ -453,25 +657,103 @@ export default function SupportConsolePage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             reason: deleteReason.trim(),
-            confirmText: deleteConfirmText.trim(),
           }),
         })
       );
       const removedUserId = deleteCandidate.userId;
       setDeleteCandidate(null);
       setDeleteReason('');
-      setDeleteConfirmText('');
       setDeleteAcknowledge(false);
+      setDeleteSuccessOpen(true);
       if (selectedUserId === removedUserId) {
         setSelectedUserId(null);
         setOverview(null);
         setTimeline([]);
       }
       await runSearch();
+      await loadRecentDeletions();
     } catch (error) {
       setDetailError(error instanceof Error ? error.message : 'Permanent deletion failed');
     } finally {
       setDeleteBusy(false);
+    }
+  };
+
+  const handleUndoScheduledDeletion = async (targetUserId: string) => {
+    const reason =
+      undoDeletionReason.trim().length >= 8
+        ? undoDeletionReason.trim()
+        : 'Admin undo: restore scheduled deletion target before permanent purge.';
+    setUndoBusyUserId(targetUserId);
+    setDetailError(null);
+    try {
+      await parseJsonOrThrow(
+        await apiFetch(`/v1/admin/users/${targetUserId}/actions/undo-delete`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reason }),
+        })
+      );
+      setUndoDeletionReason('');
+      await loadRecentDeletions();
+      await runSearch();
+      if (selectedUserId === targetUserId) {
+        await refreshSelectedUser(targetUserId);
+      }
+    } catch (error) {
+      setDetailError(error instanceof Error ? error.message : 'Undo deletion failed');
+    } finally {
+      setUndoBusyUserId(null);
+    }
+  };
+
+  const handleDeleteSupportNote = async (noteId: string) => {
+    if (!selectedUserId) return;
+    const reason =
+      noteReason.trim().length >= 8
+        ? noteReason.trim()
+        : 'Admin deleted support note from support console.';
+    setDeletingNoteId(noteId);
+    setDetailError(null);
+    try {
+      await parseJsonOrThrow(
+        await apiFetch(`/v1/admin/users/${selectedUserId}/notes/${noteId}/delete`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reason }),
+        })
+      );
+      setSavedNotes((prev) => prev.filter((entry) => entry.id !== noteId));
+      void refreshSelectedUser(selectedUserId);
+    } catch (error) {
+      setDetailError(error instanceof Error ? error.message : 'Failed to delete note');
+    } finally {
+      setDeletingNoteId(null);
+    }
+  };
+
+  const handleDeletionRequestDecision = async (status: 'resolved' | 'rejected') => {
+    if (!requestModal) return;
+    const reason = requestDecisionReason.trim();
+    if (reason.length < 8) return;
+    setRequestDecisionBusy(true);
+    setDetailError(null);
+    try {
+      await parseJsonOrThrow(
+        await apiFetch(`/v1/admin/users/${requestModal.targetUserId}/actions/resolve-deletion`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reason, status }),
+        })
+      );
+      setRequestModal(null);
+      setRequestDecisionReason('');
+      await loadOpenDeletionRequests();
+      await loadDeletionCases();
+    } catch (error) {
+      setDetailError(error instanceof Error ? error.message : 'Failed to update deletion request');
+    } finally {
+      setRequestDecisionBusy(false);
     }
   };
 
@@ -514,22 +796,118 @@ export default function SupportConsolePage() {
   return (
     <div className="min-h-screen page-shell p-4 md:p-6">
       <div className="mx-auto max-w-7xl">
-        <section className="mb-4 rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
-          <div className="flex flex-wrap items-center gap-3">
-            <div>
-              <h1 className="text-xl font-semibold text-[#0f172a]">Support Console Dashboard</h1>
-              <p className="text-sm text-[#475569]">Separate views for support operations, support metrics, and learning metrics.</p>
-            </div>
-            <div className="flex gap-2">
-              <button type="button" className={baseButton} onClick={() => navigate('/internal/support')}>User Operations</button>
-              <button type="button" className={baseButton} onClick={() => navigate('/internal/support/metrics/support')}>Support Metrics</button>
-              <button type="button" className={baseButton} onClick={() => navigate('/internal/support/metrics/learning')}>Learning Metrics</button>
-            </div>
-            <div className="ml-auto">
-              <button type="button" className={baseButton} onClick={() => void handleSupportLogout()}>Log Out</button>
+        <section className="mb-4 rounded-2xl border border-white/40 bg-[#1f2937] p-4">
+          <div className="flex justify-end">
+            <button
+              type="button"
+              className="text-sm font-medium text-white underline underline-offset-4 transition hover:text-white/80"
+              onClick={() => void handleSupportLogout()}
+            >
+              Log Out
+            </button>
+          </div>
+          <div className="mt-3 min-w-0 text-center">
+            <h1 className="text-xl font-semibold text-white">Support Console Dashboard</h1>
+            <p className="text-sm text-white/80">Main analytics dashboard with focused drill-down pages.</p>
+          </div>
+          <div className="mt-3">
+            <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-center">
+              <button
+                type="button"
+                className="h-11 w-full rounded-xl border border-white bg-white/5 px-3 text-sm font-semibold text-white transition hover:bg-white/10 md:w-40"
+                onClick={() => navigate('/internal/support')}
+              >
+                Home
+              </button>
+              <button
+                type="button"
+                className="h-11 w-full rounded-xl border border-white bg-white/5 px-3 text-sm font-semibold text-white transition hover:bg-white/10 md:w-40"
+                onClick={() => navigate('/internal/support/users')}
+              >
+                User Operations
+              </button>
+              <button
+                type="button"
+                className="h-11 w-full rounded-xl border border-white bg-white/5 px-3 text-sm font-semibold text-white transition hover:bg-white/10 md:w-40"
+                onClick={() => navigate('/internal/support/metrics/support')}
+              >
+                Support Metrics
+              </button>
+              <button
+                type="button"
+                className="h-11 w-full rounded-xl border border-white bg-white/5 px-3 text-sm font-semibold text-white transition hover:bg-white/10 md:w-40"
+                onClick={() => navigate('/internal/support/metrics/learning')}
+              >
+                Learning Metrics
+              </button>
             </div>
           </div>
         </section>
+
+        {viewMode === 'dashboard' && (
+          <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-lg font-semibold text-[#0f172a]">Analytics (Last 30 Days)</h2>
+              <button type="button" className={baseButton} onClick={() => void loadDashboardMetrics()}>Refresh</button>
+            </div>
+            {dashboardLoading && <p className="mt-3 text-sm text-[#475569]">Loading dashboard analytics…</p>}
+            {dashboardError && <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{dashboardError}</p>}
+            <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-2 xl:grid-cols-4 [&>*:last-child:nth-child(odd)]:col-span-2 [&>*:last-child:nth-child(odd)]:mx-auto [&>*:last-child:nth-child(odd)]:w-full [&>*:last-child:nth-child(odd)]:max-w-md md:[&>*:last-child:nth-child(odd)]:col-span-1 md:[&>*:last-child:nth-child(odd)]:mx-0 md:[&>*:last-child:nth-child(odd)]:max-w-none">
+              <article className={metricCard}>
+                <div className="text-xs text-[#64748b]">End-User Failed Logins</div>
+                <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.endUserFailedLogins ?? 0}</div>
+              </article>
+              <article className={metricCard}>
+                <div className="text-xs text-[#64748b]">Unauthorized Admin Attempts</div>
+                <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.unauthorizedAdminAttempts ?? 0}</div>
+              </article>
+              <article className={metricCard}>
+                <div className="text-xs text-[#64748b]">Quiz Accuracy</div>
+                <div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics?.learning.quizAccuracyPct ?? 0}%</div>
+              </article>
+              <article className={metricCard}>
+                <div className="text-xs text-[#64748b]">Speak Pass Rate</div>
+                <div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics?.learning.speakPassPct ?? 0}%</div>
+              </article>
+              <article className={metricCard}>
+                <div className="text-xs text-[#64748b]">Lesson Completion</div>
+                <div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics?.learning.lessonCompletionPct ?? 0}%</div>
+              </article>
+              <article className={metricCard}>
+                <div className="text-xs text-[#64748b]">Lesson Abandons</div>
+                <div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics?.learning.lessonAbandons ?? 0}</div>
+              </article>
+              <article className={metricCard}>
+                <div className="text-xs text-[#64748b]">Support Notes Created</div>
+                <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.supportNotesCreated ?? 0}</div>
+              </article>
+              <article className={metricCard}>
+                <div className="text-xs text-[#64748b]">Password Reset Requests</div>
+                <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.resetRequests ?? 0}</div>
+              </article>
+            </div>
+            <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
+              <h3 className="text-sm font-semibold text-[#0f172a]">Your Admin Timeline</h3>
+              <p className="mt-1 text-xs text-[#64748b]">Admin tasks only. Last 24 hours.</p>
+              {adminTimelineLoading && <p className="mt-2 text-sm text-[#475569]">Loading timeline…</p>}
+              {adminTimelineError && <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{adminTimelineError}</p>}
+              {!adminTimelineLoading && !adminTimelineError && adminTimeline.length === 0 && (
+                <p className="mt-2 text-sm text-[#64748b]">No timeline events yet.</p>
+              )}
+              {!adminTimelineLoading && !adminTimelineError && adminTimeline.length > 0 && (
+                <div className="mt-3 max-h-[36vh] space-y-2 overflow-auto pr-1">
+                  {adminTimeline.map((entry, index) => (
+                    <article key={`${entry.createdAt}-${entry.source}-${index}`} className="rounded-lg border border-[#e2e8f0] p-2">
+                      <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">{entry.source} | {toLocale(entry.createdAt)}</div>
+                      <div className="text-sm font-semibold text-[#0f172a]">{entry.title}</div>
+                      {entry.detail && <div className="text-sm text-[#334155]">{entry.detail}</div>}
+                    </article>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
 
         {viewMode === 'metrics-support' && (
           <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
@@ -538,7 +916,7 @@ export default function SupportConsolePage() {
             {metricsLoading && <p className="mt-3 text-sm text-[#475569]">Loading metrics…</p>}
             {metricsError && <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{metricsError}</p>}
             {supportMetrics && (
-              <div className="mt-4 grid gap-3 md:grid-cols-3">
+              <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3 [&>*:last-child:nth-child(odd)]:col-span-2 [&>*:last-child:nth-child(odd)]:mx-auto [&>*:last-child:nth-child(odd)]:w-full [&>*:last-child:nth-child(odd)]:max-w-md md:[&>*:last-child:nth-child(odd)]:col-span-1 md:[&>*:last-child:nth-child(odd)]:mx-0 md:[&>*:last-child:nth-child(odd)]:max-w-none">
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Failed Logins</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.failedLogins}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">End-User Failed Logins</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.endUserFailedLogins}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Password Resets</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.resetRequests}</div></div>
@@ -579,6 +957,37 @@ export default function SupportConsolePage() {
                 </article>
               </div>
             )}
+            <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+              <h3 className="text-sm font-semibold text-[#0f172a]">Deletion Cases</h3>
+              <div className="mt-2 flex gap-2">
+                <input
+                  className={baseInput}
+                  value={deletionCaseSearch}
+                  onChange={(event) => setDeletionCaseSearch(event.target.value)}
+                  placeholder="Search by email, name, or user id"
+                />
+                <button type="button" className={baseButton} onClick={() => void loadDeletionCases()} disabled={deletionCasesLoading}>
+                  {deletionCasesLoading ? '...' : 'Find'}
+                </button>
+              </div>
+              {deletionCasesError && <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{deletionCasesError}</p>}
+              {!deletionCasesError && deletionCases.length === 0 && !deletionCasesLoading && (
+                <p className="mt-2 text-sm text-[#64748b]">No deletion cases found.</p>
+              )}
+              <div className="mt-2 max-h-[26vh] space-y-2 overflow-auto pr-1">
+                {deletionCases.map((entry, index) => (
+                  <article key={`${entry.sourceType}-${entry.targetUserId}-${entry.eventAt}-${index}`} className="rounded-lg border border-[#e2e8f0] p-2">
+                    <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
+                      {entry.sourceType} | {entry.status} | {toLocale(entry.eventAt)}
+                    </div>
+                    <div className="text-sm font-semibold text-[#0f172a]">{entry.targetDisplayName || entry.targetEmail || entry.targetUserId}</div>
+                    <div className="text-xs text-[#64748b]">{entry.targetEmail || 'No email'}</div>
+                    <div className="mt-1 text-xs text-[#334155]">{entry.reason}</div>
+                    {entry.detail && <div className="text-xs text-[#64748b]">Detail: {entry.detail}</div>}
+                  </article>
+                ))}
+              </div>
+            </div>
           </section>
         )}
 
@@ -589,7 +998,7 @@ export default function SupportConsolePage() {
             {metricsLoading && <p className="mt-3 text-sm text-[#475569]">Loading metrics…</p>}
             {metricsError && <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{metricsError}</p>}
             {learningMetrics && (
-              <div className="mt-4 grid gap-3 md:grid-cols-3">
+              <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3 [&>*:last-child:nth-child(odd)]:col-span-2 [&>*:last-child:nth-child(odd)]:mx-auto [&>*:last-child:nth-child(odd)]:w-full [&>*:last-child:nth-child(odd)]:max-w-md md:[&>*:last-child:nth-child(odd)]:col-span-1 md:[&>*:last-child:nth-child(odd)]:mx-0 md:[&>*:last-child:nth-child(odd)]:max-w-none">
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Quiz Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.quizAttempts}</div><div className="text-xs text-[#64748b]">Accuracy {learningMetrics.learning.quizAccuracyPct}%</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.speakAttempts}</div><div className="text-xs text-[#64748b]">Pass {learningMetrics.learning.speakPassPct}%</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Starts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStarts}</div></div>
@@ -710,6 +1119,71 @@ export default function SupportConsolePage() {
                 <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by email or name" className={baseInput} />
                 <button type="button" onClick={() => void runSearch()} disabled={searchLoading} className={baseButton}>{searchLoading ? '...' : 'Find'}</button>
               </div>
+              <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                <h3 className="text-sm font-semibold text-[#0f172a]">Recently Scheduled/Deleted Accounts</h3>
+                <p className="mt-1 text-xs text-[#64748b]">Use Undo before the timer reaches 0 days.</p>
+                <input
+                  className={`${baseInput} mt-2`}
+                  value={undoDeletionReason}
+                  onChange={(event) => setUndoDeletionReason(event.target.value)}
+                  placeholder="Reason for undo (optional)"
+                />
+                {recentDeletionsLoading && <p className="mt-2 text-sm text-[#475569]">Loading recent deletions…</p>}
+                {recentDeletionsError && <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{recentDeletionsError}</p>}
+                {!recentDeletionsLoading && !recentDeletionsError && recentDeletions.length === 0 && (
+                  <p className="mt-2 text-sm text-[#64748b]">No recent deletion activity.</p>
+                )}
+                {!recentDeletionsLoading && !recentDeletionsError && recentDeletions.length > 0 && (
+                  <div className="mt-2 max-h-[28vh] space-y-2 overflow-auto pr-1">
+                    {recentDeletions.map((entry) => (
+                      <article key={entry.id} className="rounded-lg border border-[#e2e8f0] bg-white p-2">
+                        <div className="text-sm font-semibold text-[#0f172a]">{entry.targetDisplayName || entry.targetEmail || entry.targetUserId}</div>
+                        <div className="text-xs text-[#64748b]">{entry.targetEmail || 'No email'}</div>
+                        <div className="mt-1 text-xs text-[#475569]">
+                          {entry.status === 'scheduled' && `Scheduled | ${entry.daysRemaining} day(s) left`}
+                          {entry.status === 'completed' && 'Deleted permanently'}
+                          {entry.status === 'cancelled' && 'Deletion cancelled'}
+                        </div>
+                        {entry.status === 'scheduled' && (
+                          <button
+                            type="button"
+                            className="mt-2 w-full rounded-lg border border-[#1f2937] bg-white px-2 py-1 text-xs font-semibold text-[#1f2937] disabled:opacity-50"
+                            disabled={undoBusyUserId !== null}
+                            onClick={() => void handleUndoScheduledDeletion(entry.targetUserId)}
+                          >
+                            {undoBusyUserId === entry.targetUserId ? 'Undoing…' : 'Undo Deletion'}
+                          </button>
+                        )}
+                      </article>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                <h3 className="text-sm font-semibold text-[#0f172a]">Open Deletion Requests</h3>
+                <p className="mt-1 text-xs text-[#64748b]">Click a request to resolve or reject it.</p>
+                {openDeletionRequestsLoading && <p className="mt-2 text-sm text-[#475569]">Loading requests…</p>}
+                {openDeletionRequestsError && <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{openDeletionRequestsError}</p>}
+                {!openDeletionRequestsLoading && !openDeletionRequestsError && openDeletionRequests.length === 0 && (
+                  <p className="mt-2 text-sm text-[#64748b]">No open deletion requests.</p>
+                )}
+                {!openDeletionRequestsLoading && !openDeletionRequestsError && openDeletionRequests.length > 0 && (
+                  <div className="mt-2 max-h-[22vh] space-y-2 overflow-auto pr-1">
+                    {openDeletionRequests.map((request) => (
+                      <button
+                        key={request.id}
+                        type="button"
+                        className="w-full rounded-lg border border-[#e2e8f0] bg-white p-2 text-left hover:border-[#1f2937]"
+                        onClick={() => setRequestModal(request)}
+                      >
+                        <div className="text-sm font-semibold text-[#0f172a]">{request.targetDisplayName || request.targetEmail || request.targetUserId}</div>
+                        <div className="text-xs text-[#64748b]">{request.targetEmail || 'No email'}{request.requestChannel ? ` | ${request.requestChannel}` : ''}</div>
+                        <div className="mt-1 line-clamp-2 text-xs text-[#475569]">{request.requestReason}</div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </section>
 
             <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
@@ -719,7 +1193,7 @@ export default function SupportConsolePage() {
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <h2 className="text-xl font-semibold text-[#0f172a]">{selectedUser?.displayName || selectedUser?.email || selectedUserId}</h2>
-                      <p className="text-sm text-[#475569]">{selectedUserId}</p>
+                      <p className="text-sm text-[#475569]">{selectedUser?.email || ''}</p>
                     </div>
                     <button type="button" onClick={() => void refreshSelectedUser(selectedUserId)} className={baseButton}>Refresh</button>
                   </div>
@@ -735,6 +1209,47 @@ export default function SupportConsolePage() {
                         <div className={metricCard}><div className="text-xs text-[#64748b]">Quiz Attempts</div><div className="text-sm font-semibold text-[#0f172a]">{overview.counts.quizCount}</div></div>
                         <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-sm font-semibold text-[#0f172a]">{overview.counts.speakCount}</div></div>
                       </div>
+                      <details className="mt-3 rounded-xl border border-[#e2e8f0] bg-white p-3">
+                        <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
+                          Saved Operational Notes ({savedNotes.length})
+                        </summary>
+                        <p className="mt-1 text-xs text-[#64748b]">Saved notes tied to this user.</p>
+                        {savedNotes.length === 0 && <p className="mt-2 text-sm text-[#64748b]">No notes saved yet.</p>}
+                        {savedNotes.length > 0 && (
+                          <div className="mt-2 max-h-[24vh] space-y-2 overflow-auto pr-1">
+                            {savedNotes.map((noteEntry) => (
+                              <article key={noteEntry.id} className="flex items-start gap-2 rounded-lg border border-[#e2e8f0] p-2">
+                                <button
+                                  type="button"
+                                  className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-md border border-red-300 bg-red-50 text-red-700 transition hover:bg-red-100 disabled:opacity-50"
+                                  onClick={() => void handleDeleteSupportNote(noteEntry.id)}
+                                  disabled={deletingNoteId !== null}
+                                  aria-label="Delete note permanently"
+                                  title="Delete note permanently"
+                                >
+                                  {deletingNoteId === noteEntry.id ? (
+                                    <span className="text-[10px] font-semibold">...</span>
+                                  ) : (
+                                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                                      <path d="M3 6h18" />
+                                      <path d="M8 6V4h8v2" />
+                                      <path d="M19 6l-1 14H6L5 6" />
+                                      <path d="M10 11v6" />
+                                      <path d="M14 11v6" />
+                                    </svg>
+                                  )}
+                                </button>
+                                <div className="min-w-0 flex-1">
+                                  <div className="text-xs uppercase tracking-[0.12em] text-[#64748b]">
+                                    {toLocale(noteEntry.createdAt)}{noteEntry.actorEmail ? ` | ${noteEntry.actorEmail}` : ''}
+                                  </div>
+                                  <div className="mt-1 whitespace-pre-wrap text-sm text-[#334155]">{noteEntry.note}</div>
+                                </div>
+                              </article>
+                            ))}
+                          </div>
+                        )}
+                      </details>
 
                       <div className="mt-4 grid gap-4 xl:grid-cols-2">
                         <div className="rounded-xl border border-[#e2e8f0] p-3">
@@ -752,19 +1267,25 @@ export default function SupportConsolePage() {
                         </div>
 
                         <div className="rounded-xl border border-[#e2e8f0] p-3">
-                          <h3 className="text-sm font-semibold text-[#0f172a]">Admin Actions</h3>
-                          <input className={`${baseInput} mt-2`} value={actionReason} onChange={(event) => setActionReason(event.target.value)} placeholder="Reason for action (required)" />
-                          <div className="mt-2 grid gap-2">
-                            <button type="button" className={baseButton} disabled={busyAction !== null || actionReason.trim().length < 8} onClick={() => void runMutation('reset-walkthrough', `/v1/admin/users/${selectedUserId}/actions/reset-walkthrough`, { reason: actionReason.trim() })}>Reset Walkthrough</button>
-                            <button type="button" className={baseButton} disabled={busyAction !== null || actionReason.trim().length < 8} onClick={() => void runMutation('revoke-sessions', `/v1/admin/users/${selectedUserId}/actions/revoke-sessions`, { reason: actionReason.trim() })}>Revoke Sessions</button>
+                          <h3 className="text-sm font-semibold text-[#0f172a]">Admin Actions (Audited)</h3>
+                          <p className="mt-1 text-xs text-[#64748b]">Use these controls for account support. Every action is logged with your reason.</p>
+                          <div className="mt-2 rounded-lg border border-[#dbe3ef] bg-[#f8fafc] px-2 py-1.5 text-xs text-[#334155]">
+                            Target user: <span className="font-semibold text-[#0f172a]">{selectedTargetLabel}</span>
                           </div>
+                          <p className="mt-2 text-xs text-[#64748b]">Show Walkthrough Again only resets onboarding guidance visibility. It does not delete lesson progress, attempts, streak, or mastery data.</p>
+                          <input className={`${baseInput} mt-2`} value={actionReason} onChange={(event) => setActionReason(event.target.value)} placeholder="Why are you taking this action? (required)" />
+                          <div className="mt-2 grid gap-2">
+                            <button type="button" className={baseButton} disabled={busyAction !== null || actionReason.trim().length < 8} onClick={() => void runMutation('reset-walkthrough', `/v1/admin/users/${selectedUserId}/actions/reset-walkthrough`, { reason: actionReason.trim() })}>Show Walkthrough Again</button>
+                            <button type="button" className={baseButton} disabled={busyAction !== null || actionReason.trim().length < 8} onClick={() => void runMutation('revoke-sessions', `/v1/admin/users/${selectedUserId}/actions/revoke-sessions`, { reason: actionReason.trim() })}>Force Sign Out (All Devices)</button>
+                          </div>
+                          <p className="mt-2 text-xs text-[#64748b]">Force Sign Out revokes all active refresh sessions for this user. They must sign in again on every device.</p>
                           <div className="mt-3 border-t border-[#e2e8f0] pt-3">
                             <div className="text-xs font-semibold uppercase tracking-[0.16em] text-[#64748b]">Deletion Workflow</div>
-                            <input className={`${baseInput} mt-2`} value={actionChannel} onChange={(event) => setActionChannel(event.target.value)} placeholder="Channel (support-email, in-app, etc.)" />
-                            <div className="mt-2 grid gap-2 md:grid-cols-3">
-                              <button type="button" className={baseButton} disabled={busyAction !== null || actionReason.trim().length < 8} onClick={() => void runMutation('request-deletion', `/v1/admin/users/${selectedUserId}/actions/request-deletion`, { reason: actionReason.trim(), channel: actionChannel.trim() || 'support-email' })}>Request Deletion</button>
-                              <button type="button" className={baseButton} disabled={busyAction !== null || actionReason.trim().length < 8} onClick={() => void runMutation('resolve-deletion', `/v1/admin/users/${selectedUserId}/actions/resolve-deletion`, { reason: actionReason.trim(), status: 'resolved' })}>Resolve Request</button>
-                              <button type="button" className={baseButton} disabled={busyAction !== null || actionReason.trim().length < 8} onClick={() => void runMutation('reject-deletion', `/v1/admin/users/${selectedUserId}/actions/resolve-deletion`, { reason: actionReason.trim(), status: 'rejected' })}>Reject Request</button>
+                            <p className="mt-1 text-xs text-[#64748b]">Workflow target: <span className="font-semibold text-[#334155]">{selectedTargetLabel}</span></p>
+                            <p className="mt-1 text-xs text-[#64748b]">Channel = where the request came from (for audit context), for example: email, in-app, admin-review.</p>
+                            <input className={`${baseInput} mt-2`} value={actionChannel} onChange={(event) => setActionChannel(event.target.value)} placeholder="Request channel (email, in-app, admin-review)" />
+                            <div className="mt-2 grid gap-2">
+                              <button type="button" className={baseButton} disabled={busyAction !== null || deletionWorkflowReason.length < 8} onClick={() => void runMutation('request-deletion', `/v1/admin/users/${selectedUserId}/actions/request-deletion`, { reason: deletionWorkflowReason, channel: actionChannel.trim() || 'email' })}>Open Deletion Request</button>
                             </div>
                           </div>
                         </div>
@@ -793,15 +1314,14 @@ export default function SupportConsolePage() {
       {deleteCandidate && (
         <div className="fixed inset-0 z-[140] flex items-center justify-center bg-black/45 p-4">
           <div className="w-full max-w-lg rounded-2xl border border-[#1f2937]/20 bg-white p-5">
-            <h3 className="text-lg font-semibold text-[#0f172a]">Confirm Permanent Deletion</h3>
+            <h3 className="text-lg font-semibold text-[#0f172a]">Schedule Permanent Deletion</h3>
             <p className="mt-2 text-sm text-[#475569]">
-              You are about to permanently delete this account from the database.
-              Double-check the user and make sure deletion is required.
+              This account will be queued for permanent deletion after the retention window.
+              You can undo it before the timer reaches zero.
             </p>
             <div className="mt-3 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm">
-              <div className="font-semibold text-[#0f172a]">{deleteCandidate.displayName || deleteCandidate.email || deleteCandidate.userId}</div>
+              <div className="font-semibold text-[#0f172a]">{deleteCandidate.displayName || 'Unknown User'}</div>
               <div className="text-[#475569]">{deleteCandidate.email || 'No email'}</div>
-              <div className="text-[#64748b]">{deleteCandidate.userId}</div>
             </div>
             <input
               className={`${baseInput} mt-3`}
@@ -809,20 +1329,13 @@ export default function SupportConsolePage() {
               onChange={(event) => setDeleteReason(event.target.value)}
               placeholder="Reason for permanent deletion (required)"
             />
-            <input
-              className={`${baseInput} mt-2`}
-              value={deleteConfirmText}
-              onChange={(event) => setDeleteConfirmText(event.target.value)}
-              placeholder="Type DELETE to confirm"
-            />
             <div className="mt-4 flex justify-between gap-2">
               <button
                 type="button"
-                className="rounded-xl border border-red-700 bg-red-700 px-3 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-red-300 disabled:border-red-300"
+                className="rounded-xl border border-red-700 bg-red-200 px-3 py-2 text-sm font-semibold text-[#1f2937] disabled:cursor-not-allowed disabled:border-[#cbd5e1] disabled:bg-[#e2e8f0] disabled:text-[#1f2937]"
                 disabled={
                   deleteBusy ||
                   deleteReason.trim().length < 8 ||
-                  deleteConfirmText.trim() !== 'DELETE' ||
                   !deleteAcknowledge
                 }
                 onClick={() => void handlePermanentDeleteUser()}
@@ -836,7 +1349,6 @@ export default function SupportConsolePage() {
                   if (deleteBusy) return;
                   setDeleteCandidate(null);
                   setDeleteReason('');
-                  setDeleteConfirmText('');
                   setDeleteAcknowledge(false);
                 }}
               >
@@ -851,6 +1363,68 @@ export default function SupportConsolePage() {
               />
               I understand this deletion is permanent and cannot be undone.
             </label>
+          </div>
+        </div>
+      )}
+      {deleteSuccessOpen && (
+        <div className="fixed inset-0 z-[145] flex items-center justify-center bg-black/35 p-4">
+          <div className="w-full max-w-sm rounded-2xl border border-[#1f2937]/20 bg-white p-5 text-center">
+            <h3 className="text-lg font-semibold text-[#0f172a]">Deletion Scheduled</h3>
+            <p className="mt-2 text-sm text-[#475569]">Deletion was scheduled. The account can be restored until the countdown ends.</p>
+            <button
+              type="button"
+              className={`${baseButton} mt-4 w-full`}
+              onClick={() => setDeleteSuccessOpen(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+      {requestModal && (
+        <div className="fixed inset-0 z-[146] flex items-center justify-center bg-black/45 p-4">
+          <div className="w-full max-w-lg rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+            <h3 className="text-lg font-semibold text-[#0f172a]">Review Deletion Request</h3>
+            <p className="mt-1 text-sm text-[#475569]">{requestModal.targetDisplayName || requestModal.targetEmail || requestModal.targetUserId}</p>
+            <p className="text-xs text-[#64748b]">{requestModal.targetEmail || 'No email'}{requestModal.requestChannel ? ` | ${requestModal.requestChannel}` : ''}</p>
+            <div className="mt-3 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm text-[#334155]">
+              {requestModal.requestReason}
+            </div>
+            <input
+              className={`${baseInput} mt-3`}
+              value={requestDecisionReason}
+              onChange={(event) => setRequestDecisionReason(event.target.value)}
+              placeholder="Decision reason (required)"
+            />
+            <div className="mt-3 grid gap-2 md:grid-cols-2">
+              <button
+                type="button"
+                className={baseButton}
+                disabled={requestDecisionBusy || requestDecisionReason.trim().length < 8}
+                onClick={() => void handleDeletionRequestDecision('resolved')}
+              >
+                {requestDecisionBusy ? 'Saving...' : 'Mark Request Resolved'}
+              </button>
+              <button
+                type="button"
+                className="rounded-xl border border-red-500 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700 disabled:opacity-50"
+                disabled={requestDecisionBusy || requestDecisionReason.trim().length < 8}
+                onClick={() => void handleDeletionRequestDecision('rejected')}
+              >
+                {requestDecisionBusy ? 'Saving...' : 'Reject Deletion Request'}
+              </button>
+            </div>
+            <button
+              type="button"
+              className="mt-2 rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]"
+              onClick={() => {
+                if (requestDecisionBusy) return;
+                setRequestModal(null);
+                setRequestDecisionReason('');
+              }}
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}

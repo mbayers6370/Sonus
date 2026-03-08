@@ -1,4 +1,4 @@
-import type { FastifyInstance } from 'fastify';
+import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 import { env } from '../env.js';
@@ -7,6 +7,7 @@ import { prisma } from '../lib/prisma.js';
 import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js';
 import { getSupabaseAdmin } from '../lib/supabase.js';
 import { resolveLexemeForWordId } from '../lib/lexemeCatalog.js';
+import { sendAccountDeletionConfirmationEmail } from '../services/accountDeletionEmailService.js';
 import {
   createSupportAdminSessionToken,
   hashSupportAdminSessionToken,
@@ -29,6 +30,13 @@ const userSearchQuerySchema = z.object({
 const timelineQuerySchema = z.object({
   limit: z.coerce.number().int().min(10).max(200).default(80),
 });
+const notesQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(200).default(60),
+});
+const noteDeleteParamsSchema = z.object({
+  userId: z.string().uuid(),
+  noteId: z.string().uuid(),
+});
 
 const mutationReasonSchema = z.object({
   reason: z.string().trim().min(8).max(500),
@@ -45,8 +53,9 @@ const deletionRequestSchema = mutationReasonSchema.extend({
 const deletionResolveSchema = mutationReasonSchema.extend({
   status: z.enum(['resolved', 'rejected']),
 });
-const permanentDeleteSchema = mutationReasonSchema.extend({
-  confirmText: z.literal('DELETE'),
+const permanentDeleteSchema = mutationReasonSchema;
+const recentDeletionQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(50).default(12),
 });
 
 const supportAdminSetPasswordSchema = z.object({
@@ -64,6 +73,17 @@ const supportAdminSetupStatusSchema = z.object({
 });
 const metricsOverviewQuerySchema = z.object({
   windowDays: z.coerce.number().int().min(1).max(180).default(30),
+});
+const adminTimelineQuerySchema = z.object({
+  windowHours: z.coerce.number().int().min(1).max(168).default(24),
+  limit: z.coerce.number().int().min(1).max(200).default(80),
+});
+const openDeletionRequestsQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(100).default(20),
+});
+const deletionCasesQuerySchema = z.object({
+  q: z.string().trim().min(1).max(120).optional(),
+  limit: z.coerce.number().int().min(1).max(100).default(30),
 });
 const weakWordsQuerySchema = z.object({
   limit: z.coerce.number().int().min(5).max(100).default(20),
@@ -199,6 +219,68 @@ async function ensureAdminConsoleTables() {
     CREATE INDEX IF NOT EXISTS idx_account_security_events_target_created_at
     ON account_security_events (target_user_id, created_at DESC);
   `);
+
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE IF NOT EXISTS scheduled_account_deletions (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+      target_user_id uuid NOT NULL,
+      target_email text NULL,
+      target_display_name text NULL,
+      requested_by_user_id uuid NOT NULL,
+      requested_by_email text NULL,
+      reason text NOT NULL,
+      hold_days int NOT NULL,
+      scheduled_for timestamptz NOT NULL,
+      status text NOT NULL DEFAULT 'scheduled',
+      cancelled_at timestamptz NULL,
+      cancelled_by_user_id uuid NULL,
+      cancelled_by_email text NULL,
+      cancel_reason text NULL,
+      completed_at timestamptz NULL,
+      created_at timestamptz NOT NULL DEFAULT now(),
+      updated_at timestamptz NOT NULL DEFAULT now()
+    );
+  `);
+  await prisma.$executeRawUnsafe(`
+    CREATE INDEX IF NOT EXISTS idx_scheduled_account_deletions_status_scheduled_for
+    ON scheduled_account_deletions (status, scheduled_for ASC);
+  `);
+  await prisma.$executeRawUnsafe(`
+    CREATE INDEX IF NOT EXISTS idx_scheduled_account_deletions_target_created_at
+    ON scheduled_account_deletions (target_user_id, created_at DESC);
+  `);
+  await prisma.$executeRawUnsafe(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_scheduled_account_deletions_target_open
+    ON scheduled_account_deletions (target_user_id)
+    WHERE status = 'scheduled';
+  `);
+
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE IF NOT EXISTS deletion_case_history (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+      target_user_id uuid NOT NULL,
+      target_email text NULL,
+      target_display_name text NULL,
+      outcome text NOT NULL,
+      request_reason text NOT NULL,
+      request_channel text NULL,
+      request_created_at timestamptz NOT NULL,
+      resolved_reason text NOT NULL,
+      resolved_by_user_id uuid NULL,
+      resolved_by_email text NULL,
+      resolved_at timestamptz NOT NULL,
+      retention_until timestamptz NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT now()
+    );
+  `);
+  await prisma.$executeRawUnsafe(`
+    CREATE INDEX IF NOT EXISTS idx_deletion_case_history_target_resolved
+    ON deletion_case_history (target_user_id, resolved_at DESC);
+  `);
+  await prisma.$executeRawUnsafe(`
+    CREATE INDEX IF NOT EXISTS idx_deletion_case_history_retention
+    ON deletion_case_history (retention_until ASC);
+  `);
 }
 
 function supportAdminSessionExpiry() {
@@ -240,6 +322,98 @@ async function logAccountSecurityEvent(params: {
     VALUES
       (gen_random_uuid(), ${params.targetUserId}::uuid, ${params.actor.actorUserId}::uuid, ${params.actor.actorEmail}, ${params.eventType}, ${params.detail || null}, ${params.metadata ? JSON.stringify(params.metadata) : null}::jsonb, now())
   `;
+}
+
+async function hardDeleteUserData(targetUserId: string) {
+  await prisma.$transaction(async (tx) => {
+    if (env.AUTH_MODE === 'local') {
+      await tx.refreshSession.deleteMany({ where: { userId: targetUserId } });
+      await tx.localAuthCredential.deleteMany({ where: { userId: targetUserId } });
+    }
+
+    await tx.passwordResetToken.deleteMany({ where: { userId: targetUserId } });
+    await tx.quizAttempt.deleteMany({ where: { userId: targetUserId } });
+    await tx.speakAttempt.deleteMany({ where: { userId: targetUserId } });
+    await tx.wordMemoryState.deleteMany({ where: { userId: targetUserId } });
+    await tx.progressEvent.deleteMany({ where: { userId: targetUserId } });
+    await tx.userProgress.deleteMany({ where: { userId: targetUserId } });
+    await tx.profile.deleteMany({ where: { userId: targetUserId } });
+
+    await tx.$executeRaw`
+      DELETE FROM support_notes WHERE target_user_id = ${targetUserId}::uuid
+    `;
+    await tx.$executeRaw`
+      DELETE FROM support_notes WHERE actor_user_id = ${targetUserId}::uuid
+    `;
+    await tx.$executeRaw`
+      DELETE FROM deletion_requests WHERE target_user_id = ${targetUserId}::uuid
+    `;
+    await tx.$executeRaw`
+      DELETE FROM deletion_requests
+      WHERE requested_by_user_id = ${targetUserId}::uuid OR resolved_by_user_id = ${targetUserId}::uuid
+    `;
+    await tx.$executeRaw`
+      DELETE FROM account_security_events WHERE target_user_id = ${targetUserId}::uuid
+    `;
+    await tx.$executeRaw`
+      DELETE FROM account_security_events WHERE actor_user_id = ${targetUserId}::uuid
+    `;
+    await tx.$executeRaw`
+      DELETE FROM admin_audit_logs
+      WHERE target_user_id = ${targetUserId}::uuid OR actor_user_id = ${targetUserId}::uuid
+    `;
+  });
+
+  if (env.AUTH_MODE === 'supabase') {
+    try {
+      const supabaseAdmin = getSupabaseAdmin();
+      await supabaseAdmin.auth.admin.deleteUser(targetUserId);
+    } catch {
+      // App-side deletion already finished.
+    }
+  }
+}
+
+export async function processScheduledAccountDeletions() {
+  await ensureAdminConsoleTables();
+  await prisma.$executeRaw`
+    DELETE FROM deletion_case_history
+    WHERE retention_until < now()
+  `;
+  const due = await prisma.$queryRaw<
+    Array<{
+      id: string;
+      targetUserId: string;
+      targetEmail: string | null;
+      targetDisplayName: string | null;
+      reason: string;
+    }>
+  >`
+    SELECT
+      sad.id,
+      sad.target_user_id AS "targetUserId",
+      sad.target_email AS "targetEmail",
+      sad.target_display_name AS "targetDisplayName",
+      sad.reason
+    FROM scheduled_account_deletions sad
+    WHERE sad.status = 'scheduled'
+      AND sad.scheduled_for <= now()
+    ORDER BY sad.scheduled_for ASC
+    LIMIT 25
+  `;
+
+  for (const row of due) {
+    try {
+      await hardDeleteUserData(row.targetUserId);
+      await prisma.$executeRaw`
+        UPDATE scheduled_account_deletions
+        SET status = 'completed', completed_at = now(), updated_at = now()
+        WHERE id = ${row.id}::uuid
+      `;
+    } catch {
+      // Keep row scheduled and retry on next processor pass.
+    }
+  }
 }
 
 export async function adminRoutes(app: FastifyInstance) {
@@ -429,6 +603,35 @@ export async function adminRoutes(app: FastifyInstance) {
     };
   });
 
+  const adminTimelineHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+    const parsed = adminTimelineQuerySchema.safeParse(request.query ?? {});
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+      return;
+    }
+
+    const timeline = await prisma.$queryRaw<
+      Array<{ createdAt: Date; source: string; title: string; detail: string | null }>
+    >`
+      SELECT
+        aal.created_at AS "createdAt",
+        'admin_task'::text AS source,
+        aal.action::text AS title,
+        CONCAT('result=', aal.result, '; reason=', aal.reason)::text AS detail
+      FROM admin_audit_logs aal
+      WHERE aal.actor_user_id = ${request.user.id}::uuid
+        AND aal.created_at >= now() - make_interval(hours => ${parsed.data.windowHours})
+      ORDER BY aal.created_at DESC
+      LIMIT ${parsed.data.limit}
+    `;
+
+    return { windowHours: parsed.data.windowHours, timeline };
+  };
+
+  app.get('/v1/admin/me/timeline', { preHandler: [requireAdmin] }, adminTimelineHandler);
+  // Backward-compatible alias in case clients still call the older path.
+  app.get('/v1/admin/timeline', { preHandler: [requireAdmin] }, adminTimelineHandler);
+
   app.post('/v1/admin/auth/logout', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
     const identity = await resolveSupportAdminFromRequest(request);
@@ -548,6 +751,88 @@ export async function adminRoutes(app: FastifyInstance) {
           })),
         },
       };
+    }
+  );
+
+  app.get(
+    '/v1/admin/metrics/support/deletion-cases',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = deletionCasesQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+
+      const searchTerm = parsed.data.q?.trim();
+      const likeSearch = searchTerm ? `%${searchTerm}%` : null;
+
+      const cases = await prisma.$queryRaw<
+        Array<{
+          sourceType: string;
+          status: string;
+          targetUserId: string;
+          targetEmail: string | null;
+          targetDisplayName: string | null;
+          reason: string;
+          channel: string | null;
+          eventAt: Date;
+          detail: string | null;
+        }>
+      >`
+      SELECT *
+      FROM (
+        SELECT
+          'request'::text AS "sourceType",
+          dr.status::text AS status,
+          dr.target_user_id AS "targetUserId",
+          p.email AS "targetEmail",
+          p.display_name AS "targetDisplayName",
+          dr.request_reason AS reason,
+          dr.request_channel AS channel,
+          dr.created_at AS "eventAt",
+          NULL::text AS detail
+        FROM deletion_requests dr
+        LEFT JOIN profiles p ON p.user_id = dr.target_user_id
+
+        UNION ALL
+
+        SELECT
+          'scheduled'::text AS "sourceType",
+          sad.status::text AS status,
+          sad.target_user_id AS "targetUserId",
+          sad.target_email AS "targetEmail",
+          sad.target_display_name AS "targetDisplayName",
+          sad.reason::text AS reason,
+          NULL::text AS channel,
+          sad.updated_at AS "eventAt",
+          CONCAT('days=', sad.hold_days)::text AS detail
+        FROM scheduled_account_deletions sad
+
+        UNION ALL
+
+        SELECT
+          'decision'::text AS "sourceType",
+          dch.outcome::text AS status,
+          dch.target_user_id AS "targetUserId",
+          dch.target_email AS "targetEmail",
+          dch.target_display_name AS "targetDisplayName",
+          dch.request_reason::text AS reason,
+          dch.request_channel AS channel,
+          dch.resolved_at AS "eventAt",
+          dch.resolved_reason::text AS detail
+        FROM deletion_case_history dch
+      ) t
+      WHERE
+        ${likeSearch}::text IS NULL
+        OR COALESCE(t."targetEmail", '') ILIKE ${likeSearch}
+        OR COALESCE(t."targetDisplayName", '') ILIKE ${likeSearch}
+        OR t."targetUserId"::text ILIKE ${likeSearch}
+      ORDER BY t."eventAt" DESC
+      LIMIT ${parsed.data.limit}
+    `;
+
+      return { cases };
     }
   );
 
@@ -930,15 +1215,122 @@ export async function adminRoutes(app: FastifyInstance) {
         p.updated_at AS "updatedAt"
       FROM profiles p
       WHERE
-        ${likeSearch}::text IS NULL
-        OR p.email ILIKE ${likeSearch}
-        OR p.display_name ILIKE ${likeSearch}
+        NOT EXISTS (
+          SELECT 1
+          FROM scheduled_account_deletions sad
+          WHERE sad.target_user_id = p.user_id
+            AND sad.status = 'scheduled'
+        )
+        AND (
+          ${likeSearch}::text IS NULL
+          OR p.email ILIKE ${likeSearch}
+          OR p.display_name ILIKE ${likeSearch}
+        )
       ORDER BY p.updated_at DESC
       LIMIT ${parsed.data.limit}
     `;
 
     return { users };
   });
+
+  app.get(
+    '/v1/admin/deletion-requests/open',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = openDeletionRequestsQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+
+      const requests = await prisma.$queryRaw<
+        Array<{
+          id: string;
+          targetUserId: string;
+          targetEmail: string | null;
+          targetDisplayName: string | null;
+          requestReason: string;
+          requestChannel: string | null;
+          createdAt: Date;
+        }>
+      >`
+      SELECT
+        dr.id,
+        dr.target_user_id AS "targetUserId",
+        p.email AS "targetEmail",
+        p.display_name AS "targetDisplayName",
+        dr.request_reason AS "requestReason",
+        dr.request_channel AS "requestChannel",
+        dr.created_at AS "createdAt"
+      FROM deletion_requests dr
+      LEFT JOIN profiles p ON p.user_id = dr.target_user_id
+      WHERE dr.status = 'open'
+      ORDER BY dr.created_at DESC
+      LIMIT ${parsed.data.limit}
+    `;
+
+      return { requests };
+    }
+  );
+
+  app.get(
+    '/v1/admin/users/deletions/recent',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = recentDeletionQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+
+      const rows = await prisma.$queryRaw<
+        Array<{
+          id: string;
+          targetUserId: string;
+          targetEmail: string | null;
+          targetDisplayName: string | null;
+          reason: string;
+          status: string;
+          holdDays: number;
+          scheduledFor: Date;
+          createdAt: Date;
+          completedAt: Date | null;
+          cancelledAt: Date | null;
+        }>
+      >`
+      SELECT
+        sad.id,
+        sad.target_user_id AS "targetUserId",
+        sad.target_email AS "targetEmail",
+        sad.target_display_name AS "targetDisplayName",
+        sad.reason,
+        sad.status,
+        sad.hold_days AS "holdDays",
+        sad.scheduled_for AS "scheduledFor",
+        sad.created_at AS "createdAt",
+        sad.completed_at AS "completedAt",
+        sad.cancelled_at AS "cancelledAt"
+      FROM scheduled_account_deletions sad
+      WHERE sad.status <> 'cancelled'
+      ORDER BY sad.updated_at DESC
+      LIMIT ${parsed.data.limit}
+    `;
+
+      const nowMs = Date.now();
+      return {
+        items: rows.map((row) => {
+          const remainingDays = Math.max(
+            0,
+            Math.ceil((new Date(row.scheduledFor).getTime() - nowMs) / (24 * 60 * 60 * 1000))
+          );
+          return {
+            ...row,
+            daysRemaining: row.status === 'scheduled' ? remainingDays : 0,
+          };
+        }),
+      };
+    }
+  );
 
   app.get('/v1/admin/users/:userId', { preHandler: [requireAdmin] }, async (request, reply) => {
     const parsedParams = userIdParamsSchema.safeParse(request.params ?? {});
@@ -1063,6 +1455,41 @@ export async function adminRoutes(app: FastifyInstance) {
     }
   );
 
+  app.get(
+    '/v1/admin/users/:userId/notes',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsedParams = userIdParamsSchema.safeParse(request.params ?? {});
+      if (!parsedParams.success) {
+        reply.code(400).send({ error: 'Invalid user id', issues: parsedParams.error.issues });
+        return;
+      }
+      const parsedQuery = notesQuerySchema.safeParse(request.query ?? {});
+      if (!parsedQuery.success) {
+        reply
+          .code(400)
+          .send({ error: 'Invalid query parameters', issues: parsedQuery.error.issues });
+        return;
+      }
+
+      const notes = await prisma.$queryRaw<
+        Array<{ id: string; createdAt: Date; note: string; actorEmail: string | null }>
+      >`
+      SELECT
+        sn.id,
+        sn.created_at AS "createdAt",
+        sn.note,
+        sn.actor_email AS "actorEmail"
+      FROM support_notes sn
+      WHERE sn.target_user_id = ${parsedParams.data.userId}::uuid
+      ORDER BY sn.created_at DESC
+      LIMIT ${parsedQuery.data.limit}
+    `;
+
+      return { notes };
+    }
+  );
+
   app.post(
     '/v1/admin/users/:userId/notes',
     { preHandler: [requireAdmin] },
@@ -1144,6 +1571,60 @@ export async function adminRoutes(app: FastifyInstance) {
         });
         throw error;
       }
+
+      return { ok: true };
+    }
+  );
+
+  app.post(
+    '/v1/admin/users/:userId/notes/:noteId/delete',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+
+      const parsedParams = noteDeleteParamsSchema.safeParse(request.params ?? {});
+      if (!parsedParams.success) {
+        reply.code(400).send({ error: 'Invalid params', issues: parsedParams.error.issues });
+        return;
+      }
+      const parsedBody = mutationReasonSchema.safeParse(request.body);
+      if (!parsedBody.success) {
+        reply.code(400).send({ error: 'Invalid payload', issues: parsedBody.error.issues });
+        return;
+      }
+
+      const actor: MutationActor = {
+        actorUserId: request.user.id,
+        actorEmail: request.user.email,
+      };
+      const { userId: targetUserId, noteId } = parsedParams.data;
+
+      const deletedRows = await prisma.$queryRaw<Array<{ id: string }>>`
+        DELETE FROM support_notes
+        WHERE id = ${noteId}::uuid
+          AND target_user_id = ${targetUserId}::uuid
+        RETURNING id
+      `;
+      if (!deletedRows[0]?.id) {
+        reply.code(404).send({ error: 'Note not found for this user.' });
+        return;
+      }
+
+      await logAdminAudit({
+        actor,
+        action: 'support_note.deleted',
+        targetUserId,
+        reason: parsedBody.data.reason,
+        result: 'ok',
+        metadata: { noteId },
+      });
+      await logAccountSecurityEvent({
+        actor,
+        eventType: 'support_note_deleted',
+        targetUserId,
+        detail: 'Support note deleted',
+        metadata: { noteId },
+      }).catch(() => undefined);
 
       return { ok: true };
     }
@@ -1306,27 +1787,136 @@ export async function adminRoutes(app: FastifyInstance) {
         actorEmail: request.user.email,
       };
       const targetUserId = parsedParams.data.userId;
-
-      await prisma.$executeRaw`
-        UPDATE deletion_requests
-        SET
-          status = ${parsedBody.data.status},
-          resolved_by_user_id = ${actor.actorUserId}::uuid,
-          resolved_by_email = ${actor.actorEmail},
-          resolve_reason = ${parsedBody.data.reason},
-          resolved_at = now(),
-          updated_at = now()
-        WHERE id = (
-          SELECT id
-          FROM deletion_requests
-          WHERE target_user_id = ${targetUserId}::uuid
-          ORDER BY created_at DESC
-          LIMIT 1
-        )
+      const openRequest = await prisma.$queryRaw<
+        Array<{
+          id: string;
+          requestReason: string;
+          requestChannel: string | null;
+          createdAt: Date;
+          targetEmail: string | null;
+          targetDisplayName: string | null;
+        }>
+      >`
+        SELECT
+          dr.id,
+          dr.request_reason AS "requestReason",
+          dr.request_channel AS "requestChannel",
+          dr.created_at AS "createdAt",
+          p.email AS "targetEmail",
+          p.display_name AS "targetDisplayName"
+        FROM deletion_requests dr
+        LEFT JOIN profiles p ON p.user_id = dr.target_user_id
+        WHERE dr.target_user_id = ${targetUserId}::uuid
+          AND dr.status = 'open'
+        ORDER BY dr.created_at DESC
+        LIMIT 1
       `;
+
+      const requestRow = openRequest[0];
+      if (!requestRow) {
+        reply.code(404).send({ error: 'No open deletion request found for this user.' });
+        return;
+      }
+
+      await prisma.$transaction(async (tx) => {
+        await tx.$executeRaw`
+          INSERT INTO deletion_case_history
+            (
+              id,
+              target_user_id,
+              target_email,
+              target_display_name,
+              outcome,
+              request_reason,
+              request_channel,
+              request_created_at,
+              resolved_reason,
+              resolved_by_user_id,
+              resolved_by_email,
+              resolved_at,
+              retention_until,
+              created_at
+            )
+          VALUES
+            (
+              gen_random_uuid(),
+              ${targetUserId}::uuid,
+              ${requestRow.targetEmail},
+              ${requestRow.targetDisplayName},
+              ${parsedBody.data.status},
+              ${requestRow.requestReason},
+              ${requestRow.requestChannel},
+              ${requestRow.createdAt},
+              ${parsedBody.data.reason},
+              ${actor.actorUserId}::uuid,
+              ${actor.actorEmail},
+              now(),
+              now() + interval '365 days',
+              now()
+            )
+        `;
+
+        await tx.$executeRaw`
+          DELETE FROM deletion_requests
+          WHERE id = ${requestRow.id}::uuid
+        `;
+      });
       await logAdminAudit({
         actor,
         action: `deletion.${parsedBody.data.status}`,
+        targetUserId,
+        reason: parsedBody.data.reason,
+        result: 'ok',
+      });
+
+      return { ok: true };
+    }
+  );
+
+  app.post(
+    '/v1/admin/users/:userId/actions/undo-delete',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+
+      const parsedParams = userIdParamsSchema.safeParse(request.params ?? {});
+      if (!parsedParams.success) {
+        reply.code(400).send({ error: 'Invalid user id', issues: parsedParams.error.issues });
+        return;
+      }
+      const parsedBody = mutationReasonSchema.safeParse(request.body);
+      if (!parsedBody.success) {
+        reply.code(400).send({ error: 'Invalid payload', issues: parsedBody.error.issues });
+        return;
+      }
+
+      const actor: MutationActor = {
+        actorUserId: request.user.id,
+        actorEmail: request.user.email,
+      };
+      const targetUserId = parsedParams.data.userId;
+
+      const deletedRows = await prisma.$queryRaw<Array<{ id: string }>>`
+        DELETE FROM scheduled_account_deletions
+        WHERE id = (
+          SELECT id
+          FROM scheduled_account_deletions
+          WHERE target_user_id = ${targetUserId}::uuid
+            AND status = 'scheduled'
+          ORDER BY created_at DESC
+          LIMIT 1
+        )
+        RETURNING id
+      `;
+
+      if (!deletedRows[0]?.id) {
+        reply.code(404).send({ error: 'No scheduled deletion found for this user.' });
+        return;
+      }
+
+      await logAdminAudit({
+        actor,
+        action: 'deletion.undo',
         targetUserId,
         reason: parsedBody.data.reason,
         result: 'ok',
@@ -1358,58 +1948,102 @@ export async function adminRoutes(app: FastifyInstance) {
         actorEmail: request.user.email,
       };
       const targetUserId = parsedParams.data.userId;
+      const targetProfileSnapshot = await prisma.profile.findUnique({
+        where: { userId: targetUserId },
+        select: { displayName: true, email: true },
+      });
+      if (!targetProfileSnapshot) {
+        reply.code(404).send({ error: 'User not found' });
+        return;
+      }
 
       try {
-        await prisma.$transaction(async (tx) => {
-          if (env.AUTH_MODE === 'local') {
-            await tx.refreshSession.deleteMany({ where: { userId: targetUserId } });
-            await tx.localAuthCredential.deleteMany({ where: { userId: targetUserId } });
-          }
+        const holdDays = env.ACCOUNT_DELETION_HOLD_DAYS;
+        const scheduledFor = new Date(Date.now() + holdDays * 24 * 60 * 60 * 1000);
+        await prisma.$executeRaw`
+          INSERT INTO scheduled_account_deletions
+            (
+              id,
+              target_user_id,
+              target_email,
+              target_display_name,
+              requested_by_user_id,
+              requested_by_email,
+              reason,
+              hold_days,
+              scheduled_for,
+              status,
+              created_at,
+              updated_at
+            )
+          VALUES
+            (
+              gen_random_uuid(),
+              ${targetUserId}::uuid,
+              ${targetProfileSnapshot.email},
+              ${targetProfileSnapshot.displayName},
+              ${actor.actorUserId}::uuid,
+              ${actor.actorEmail},
+              ${parsedBody.data.reason},
+              ${holdDays},
+              ${scheduledFor},
+              'scheduled',
+              now(),
+              now()
+            )
+          ON CONFLICT (target_user_id)
+          WHERE (status = 'scheduled')
+          DO UPDATE SET
+            target_email = EXCLUDED.target_email,
+            target_display_name = EXCLUDED.target_display_name,
+            requested_by_user_id = EXCLUDED.requested_by_user_id,
+            requested_by_email = EXCLUDED.requested_by_email,
+            reason = EXCLUDED.reason,
+            hold_days = EXCLUDED.hold_days,
+            scheduled_for = EXCLUDED.scheduled_for,
+            updated_at = now()
+        `;
 
-          await tx.passwordResetToken.deleteMany({ where: { userId: targetUserId } });
-          await tx.quizAttempt.deleteMany({ where: { userId: targetUserId } });
-          await tx.speakAttempt.deleteMany({ where: { userId: targetUserId } });
-          await tx.wordMemoryState.deleteMany({ where: { userId: targetUserId } });
-          await tx.progressEvent.deleteMany({ where: { userId: targetUserId } });
-          await tx.userProgress.deleteMany({ where: { userId: targetUserId } });
-          await tx.profile.deleteMany({ where: { userId: targetUserId } });
-
-          await tx.$executeRaw`
-            DELETE FROM support_notes WHERE target_user_id = ${targetUserId}::uuid
-          `;
-          await tx.$executeRaw`
-            DELETE FROM deletion_requests WHERE target_user_id = ${targetUserId}::uuid
-          `;
-          await tx.$executeRaw`
-            DELETE FROM account_security_events WHERE target_user_id = ${targetUserId}::uuid
-          `;
-        });
-
-        if (env.AUTH_MODE === 'supabase') {
-          try {
-            const supabaseAdmin = getSupabaseAdmin();
-            await supabaseAdmin.auth.admin.deleteUser(targetUserId);
-          } catch {
-            // App-side data deletion is already complete.
-          }
+        if (targetProfileSnapshot?.email) {
+          void sendAccountDeletionConfirmationEmail({
+            to: targetProfileSnapshot.email,
+            deletedAtIso: new Date().toISOString(),
+            holdDays,
+            scheduledForIso: scheduledFor.toISOString(),
+          }).catch((error) => {
+            request.log.error(
+              { error, targetUserId, email: targetProfileSnapshot.email },
+              'admin_permanent_delete_email_failed'
+            );
+          });
         }
 
         await logAdminAudit({
           actor,
-          action: 'user.permanent_delete',
+          action: 'user.permanent_delete_scheduled',
           targetUserId,
           reason: parsedBody.data.reason,
           result: 'ok',
+          metadata: {
+            targetDisplayName: targetProfileSnapshot?.displayName || null,
+            targetEmail: targetProfileSnapshot?.email || null,
+            holdDays,
+            scheduledForIso: scheduledFor.toISOString(),
+          },
         });
 
-        return { ok: true };
+        return { ok: true, scheduledFor: scheduledFor.toISOString(), holdDays };
       } catch (error) {
         await logAdminAudit({
           actor,
-          action: 'user.permanent_delete',
+          action: 'user.permanent_delete_scheduled',
           targetUserId,
           reason: parsedBody.data.reason,
           result: 'error',
+          metadata: {
+            targetDisplayName: targetProfileSnapshot?.displayName || null,
+            targetEmail: targetProfileSnapshot?.email || null,
+          },
         }).catch(() => undefined);
         throw error;
       }
