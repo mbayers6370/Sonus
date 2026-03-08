@@ -286,9 +286,11 @@ export default function SupportConsolePage() {
   const [recoveryEmailOpen, setRecoveryEmailOpen] = useState(false);
   const [recoveryEmailBusy, setRecoveryEmailBusy] = useState(false);
   const [recoveryEmailValue, setRecoveryEmailValue] = useState('');
+  const [adminActionError, setAdminActionError] = useState<string | null>(null);
+  const [adminActionSuccess, setAdminActionSuccess] = useState<string | null>(null);
   const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const [forgotPasswordBusy, setForgotPasswordBusy] = useState(false);
-  const [forgotPasswordUsername, setForgotPasswordUsername] = useState('qa-admin-f8n2x7r1@sonus.test');
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('qa-admin-f8n2x7r1@sonus.test');
   const [forgotPasswordMessage, setForgotPasswordMessage] = useState<string | null>(null);
   const [resetTokenValue, setResetTokenValue] = useState('');
   const [resetTokenPasswordValue, setResetTokenPasswordValue] = useState('');
@@ -673,6 +675,7 @@ export default function SupportConsolePage() {
   const handleCreateSupportAdmin = async () => {
     if (!canCreateAdmins) return;
     setCreateAdminBusy(true);
+    setAdminActionError(null);
     setAuthError(null);
     try {
       await parseJsonOrThrow(
@@ -690,9 +693,9 @@ export default function SupportConsolePage() {
       setCreateAdminUsername('');
       setCreateAdminPassword('');
       setCreateAdminRecoveryEmail('');
-      setAuthError('New admin created.');
+      setAdminActionSuccess('New admin created successfully.');
     } catch (error) {
-      setAuthError(error instanceof Error ? error.message : 'Failed to create admin');
+      setAdminActionError(error instanceof Error ? error.message : 'Failed to create admin');
     } finally {
       setCreateAdminBusy(false);
     }
@@ -700,6 +703,7 @@ export default function SupportConsolePage() {
 
   const handleResetSupportAdminPassword = async () => {
     setResetPasswordBusy(true);
+    setAdminActionError(null);
     setAuthError(null);
     try {
       await parseJsonOrThrow(
@@ -715,9 +719,9 @@ export default function SupportConsolePage() {
       setResetPasswordOpen(false);
       setResetPasswordCurrentValue('');
       setResetPasswordNewValue('');
-      setAuthError('Password updated.');
+      setAdminActionSuccess('Password updated successfully.');
     } catch (error) {
-      setAuthError(error instanceof Error ? error.message : 'Failed to reset password');
+      setAdminActionError(error instanceof Error ? error.message : 'Failed to reset password');
     } finally {
       setResetPasswordBusy(false);
     }
@@ -725,6 +729,7 @@ export default function SupportConsolePage() {
 
   const handleSaveRecoveryEmail = async () => {
     setRecoveryEmailBusy(true);
+    setAdminActionError(null);
     setAuthError(null);
     try {
       await parseJsonOrThrow(
@@ -735,9 +740,9 @@ export default function SupportConsolePage() {
         })
       );
       setRecoveryEmailOpen(false);
-      setAuthError('Recovery email saved.');
+      setAdminActionSuccess('Recovery email saved successfully.');
     } catch (error) {
-      setAuthError(error instanceof Error ? error.message : 'Failed to save recovery email');
+      setAdminActionError(error instanceof Error ? error.message : 'Failed to save recovery email');
     } finally {
       setRecoveryEmailBusy(false);
     }
@@ -752,10 +757,10 @@ export default function SupportConsolePage() {
         await apiFetch('/v1/admin/auth/forgot-password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: forgotPasswordUsername.trim() }),
+          body: JSON.stringify({ email: forgotPasswordEmail.trim() }),
         })
       );
-      setForgotPasswordMessage('If recovery email is configured, a reset email was sent.');
+      setForgotPasswordMessage('If an admin account is found, a reset email was sent.');
     } catch (error) {
       setForgotPasswordMessage(error instanceof Error ? error.message : 'Failed to request reset');
     } finally {
@@ -920,7 +925,7 @@ export default function SupportConsolePage() {
               type="button"
               className="mt-2 w-full text-xs font-medium text-[#1f2937] underline underline-offset-4"
               onClick={() => {
-                setForgotPasswordUsername(adminUsername.trim() || 'qa-admin-f8n2x7r1@sonus.test');
+                setForgotPasswordEmail(adminUsername.trim() || 'qa-admin-f8n2x7r1@sonus.test');
                 setForgotPasswordOpen(true);
               }}
             >
@@ -964,11 +969,11 @@ export default function SupportConsolePage() {
             <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/45 p-4">
               <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
                 <h3 className="text-lg font-semibold text-[#0f172a]">Forgot Admin Password</h3>
-                <p className="mt-1 text-sm text-[#475569]">Enter admin username. If recovery email is configured, we will send a reset link.</p>
-                <input className={`${baseInput} mt-3`} value={forgotPasswordUsername} onChange={(event) => setForgotPasswordUsername(event.target.value)} placeholder="admin username" />
+                <p className="mt-1 text-sm text-[#475569]">Enter admin email. If an account is found, we will send a reset link.</p>
+                <input className={`${baseInput} mt-3`} value={forgotPasswordEmail} onChange={(event) => setForgotPasswordEmail(event.target.value)} placeholder="admin email" />
                 {forgotPasswordMessage && <p className="mt-2 text-xs text-[#334155]">{forgotPasswordMessage}</p>}
                 <div className="mt-3 flex gap-2">
-                  <button type="button" className={baseButton} disabled={forgotPasswordBusy || forgotPasswordUsername.trim().length < 3} onClick={() => void handleForgotSupportAdminPassword()}>
+                  <button type="button" className={baseButton} disabled={forgotPasswordBusy || forgotPasswordEmail.trim().length < 5} onClick={() => void handleForgotSupportAdminPassword()}>
                     {forgotPasswordBusy ? 'Sending…' : 'Send Reset Link'}
                   </button>
                   <button type="button" className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]" disabled={forgotPasswordBusy} onClick={() => setForgotPasswordOpen(false)}>
@@ -1647,7 +1652,10 @@ export default function SupportConsolePage() {
               <button
                 type="button"
                 className={`${iconButtonBase} ${createAdminOpen ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
-                onClick={() => setCreateAdminOpen(true)}
+                onClick={() => {
+                  setAdminActionError(null);
+                  setCreateAdminOpen(true);
+                }}
                 aria-label="Create Admin"
                 title="Create Admin"
               >
@@ -1659,7 +1667,10 @@ export default function SupportConsolePage() {
             <button
               type="button"
               className={`${iconButtonBase} ${resetPasswordOpen ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
-              onClick={() => setResetPasswordOpen(true)}
+              onClick={() => {
+                setAdminActionError(null);
+                setResetPasswordOpen(true);
+              }}
               aria-label="Reset Password"
               title="Reset Password"
             >
@@ -1670,7 +1681,10 @@ export default function SupportConsolePage() {
             <button
               type="button"
               className={`${iconButtonBase} ${recoveryEmailOpen ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
-              onClick={() => setRecoveryEmailOpen(true)}
+              onClick={() => {
+                setAdminActionError(null);
+                setRecoveryEmailOpen(true);
+              }}
               aria-label="Recovery Email"
               title="Recovery Email"
             >
@@ -1686,6 +1700,7 @@ export default function SupportConsolePage() {
             <input className={`${baseInput} mt-3`} value={createAdminUsername} onChange={(event) => setCreateAdminUsername(event.target.value)} placeholder="admin username" />
             <input className={`${baseInput} mt-2`} value={createAdminRecoveryEmail} onChange={(event) => setCreateAdminRecoveryEmail(event.target.value)} placeholder="recovery email (optional)" />
             <input type="password" className={`${baseInput} mt-2`} value={createAdminPassword} onChange={(event) => setCreateAdminPassword(event.target.value)} placeholder="initial password (min 12 chars, upper/lower/number/symbol)" />
+            {adminActionError && <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{adminActionError}</p>}
             <div className="mt-3 flex gap-2">
               <button type="button" className={baseButton} disabled={createAdminBusy || createAdminUsername.trim().length < 3 || createAdminPassword.length < 12} onClick={() => void handleCreateSupportAdmin()}>
                 {createAdminBusy ? 'Creating…' : 'Create'}
@@ -1703,6 +1718,7 @@ export default function SupportConsolePage() {
             <h3 className="text-lg font-semibold text-[#0f172a]">Reset Admin Password</h3>
             <input type="password" className={`${baseInput} mt-3`} value={resetPasswordCurrentValue} onChange={(event) => setResetPasswordCurrentValue(event.target.value)} placeholder="current password" />
             <input type="password" className={`${baseInput} mt-2`} value={resetPasswordNewValue} onChange={(event) => setResetPasswordNewValue(event.target.value)} placeholder="new password (min 12 chars, upper/lower/number/symbol)" />
+            {adminActionError && <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{adminActionError}</p>}
             <div className="mt-3 flex gap-2">
               <button type="button" className={baseButton} disabled={resetPasswordBusy || resetPasswordCurrentValue.length < 1 || resetPasswordNewValue.length < 12} onClick={() => void handleResetSupportAdminPassword()}>
                 {resetPasswordBusy ? 'Saving…' : 'Reset'}
@@ -1719,12 +1735,30 @@ export default function SupportConsolePage() {
           <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
             <h3 className="text-lg font-semibold text-[#0f172a]">Set Recovery Email</h3>
             <input className={`${baseInput} mt-3`} value={recoveryEmailValue} onChange={(event) => setRecoveryEmailValue(event.target.value)} placeholder="outside recovery email" />
+            {adminActionError && <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{adminActionError}</p>}
             <div className="mt-3 flex gap-2">
               <button type="button" className={baseButton} disabled={recoveryEmailBusy || recoveryEmailValue.trim().length < 5} onClick={() => void handleSaveRecoveryEmail()}>
                 {recoveryEmailBusy ? 'Saving…' : 'Save'}
               </button>
               <button type="button" className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]" disabled={recoveryEmailBusy} onClick={() => setRecoveryEmailOpen(false)}>
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {adminActionSuccess && (
+        <div className="fixed inset-0 z-[145] flex items-center justify-center bg-black/45 p-4">
+          <div className="w-full max-w-sm rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+            <h3 className="text-lg font-semibold text-[#0f172a]">Success</h3>
+            <p className="mt-2 text-sm text-[#334155]">{adminActionSuccess}</p>
+            <div className="mt-4 flex justify-end">
+              <button
+                type="button"
+                className={baseButton}
+                onClick={() => setAdminActionSuccess(null)}
+              >
+                OK
               </button>
             </div>
           </div>

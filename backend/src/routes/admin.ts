@@ -10,6 +10,7 @@ import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js
 import { getSupabaseAdmin } from '../lib/supabase.js';
 import { resolveLexemeForWordId } from '../lib/lexemeCatalog.js';
 import { sendAccountDeletionConfirmationEmail } from '../services/accountDeletionEmailService.js';
+import { sendPasswordResetEmail } from '../services/passwordResetEmailService.js';
 import {
   createSupportAdminSessionToken,
   hashSupportAdminSessionToken,
@@ -99,7 +100,7 @@ const supportAdminRecoveryEmailSchema = z.object({
   recoveryEmail: z.string().trim().email().max(255),
 });
 const supportAdminForgotPasswordSchema = z.object({
-  username: z.string().trim().min(3).max(160),
+  email: z.string().trim().email().max(255),
 });
 const supportAdminResetWithTokenSchema = z.object({
   token: z.string().trim().min(24).max(512),
@@ -396,33 +397,6 @@ function resolveSupportAdminResetUrlBase(request: FastifyRequest) {
   if (origin && origin.trim()) return origin.trim().replace(/\/$/, '');
   const firstAllowed = Array.from(allowedOrigins)[0]?.trim();
   return firstAllowed ? firstAllowed.replace(/\/$/, '') : null;
-}
-
-async function sendSupportAdminPasswordResetEmail(params: {
-  to: string;
-  username: string;
-  resetUrl: string;
-}) {
-  if (!env.RESEND_API_KEY) return true;
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: env.RESET_EMAIL_FROM,
-      to: [params.to],
-      subject: 'Support Admin Password Reset',
-      html: `<!doctype html><html><body style="font-family:Arial,sans-serif;color:#1f2937;padding:18px;">
-        <h2>Support Admin Password Reset</h2>
-        <p>A password reset was requested for support admin account: <strong>${params.username}</strong>.</p>
-        <p><a href="${params.resetUrl}">Reset support admin password</a></p>
-        <p>If you did not request this, contact support@sonuslearning.com.</p>
-      </body></html>`,
-    }),
-  });
-  return response.ok;
 }
 
 async function requireSupportAdminSession(request: FastifyRequest, reply: FastifyReply) {
@@ -793,17 +767,19 @@ export async function adminRoutes(app: FastifyInstance) {
       reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
       return;
     }
-    const username = normalizeSupportAdminUsername(parsed.data.username);
+    const email = parsed.data.email.trim().toLowerCase();
     const rows = await prisma.$queryRaw<Array<{ username: string; recovery_email: string | null }>>`
       SELECT username, recovery_email
       FROM support_admin_credentials
-      WHERE username = ${username}
+      WHERE recovery_email = ${email} OR username = ${email}
       LIMIT 1
     `;
     const row = rows[0];
-    if (!row?.recovery_email) {
+    if (!row) {
       return { ok: true };
     }
+    const destinationEmail = row.recovery_email?.trim().toLowerCase() || row.username;
+    if (!destinationEmail) return { ok: true };
     const rawToken = createSupportAdminResetToken();
     const tokenHash = hashSupportAdminResetToken(rawToken);
     const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
@@ -811,13 +787,12 @@ export async function adminRoutes(app: FastifyInstance) {
       INSERT INTO support_admin_password_reset_tokens
         (id, username, token_hash, expires_at, used_at, created_at)
       VALUES
-        (gen_random_uuid(), ${username}, ${tokenHash}, ${expiresAt}, null, now())
+        (gen_random_uuid(), ${row.username}, ${tokenHash}, ${expiresAt}, null, now())
     `;
     const resetBase = resolveSupportAdminResetUrlBase(request);
     const resetUrl = `${resetBase || ''}/internal/support?adminResetToken=${encodeURIComponent(rawToken)}`;
-    await sendSupportAdminPasswordResetEmail({
-      to: row.recovery_email,
-      username,
+    await sendPasswordResetEmail({
+      to: destinationEmail,
       resetUrl,
     });
     return { ok: true };
