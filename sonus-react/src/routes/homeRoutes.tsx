@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 import LanguageSelect from '../components/LanguageSelect';
 import HomeDashboard from '../components/HomeDashboard';
 import GlassLoader from '../components/ui/GlassLoader';
-import { saveOnboardingSelectionSafe } from '../lib/backendApi';
+import { saveOnboardingLanguageSelectionSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import type { LessonMode } from '../types/lesson.types';
 
@@ -48,7 +48,7 @@ export function LanguageRoute(props: LanguageRouteProps) {
         onSelectLanguage(langId);
         if (isFirstSelection) {
           trackEvent('onboarding_language_selected', { languageId: langId });
-          saveOnboardingSelectionSafe(langId);
+          saveOnboardingLanguageSelectionSafe(langId);
         }
       }}
     />

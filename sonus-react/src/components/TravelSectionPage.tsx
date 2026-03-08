@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Square, SquareCheckBig, Volume2 } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { useAudio } from '../hooks/useAudio';
@@ -216,6 +216,9 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
   const theme = section.themeColor;
   const isCharcoalTheme = theme.toLowerCase() === '#1f2a37';
   const learned = learnedBySection[section.id] || {};
+  const orderedPhrases = useMemo(() => {
+    return [...section.phrases].sort((a, b) => Number(Boolean(learned[a.id])) - Number(Boolean(learned[b.id])));
+  }, [section.phrases, learned]);
 
   useEffect(() => {
     try {
@@ -426,11 +429,11 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
             <div className="mb-4 text-center">
               <div className="text-1.0em tracking-wide main-font text-white/75">Essential Phrases ({section.phrases.length})</div>
               <div className="text-xs font-mono text-white/85 mt-1">
-                Checked cards are dimmed and locked until unchecked.
+                Check the box to lock it in when you have learned the phrase.
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {section.phrases.map((phrase) => {
+              {orderedPhrases.map((phrase) => {
                 const isLearned = Boolean(learned[phrase.id]);
                 return (
                   <div
@@ -467,7 +470,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                         </div>
                         <div
                           className={`max-w-[90%] leading-snug text-[0.7rem] lg:text-[0.7rem] xl:text-sm ${
-                            isCharcoalTheme ? 'text-white/78' : 'text-white/50'
+                            isCharcoalTheme ? 'text-[#D7EAF6]' : 'text-white/88'
                           }`}
                         >
                           {getPhrasePronunciationText(phrase)}

@@ -344,7 +344,7 @@ export async function authRoutes(app: FastifyInstance) {
             displayName,
             targetLanguage: parsed.data.targetLanguage,
             timezone: parsed.data.timezone,
-            onboardingComplete: true,
+            onboardingComplete: false,
           },
         });
       });
@@ -389,7 +389,7 @@ export async function authRoutes(app: FastifyInstance) {
         displayName,
         targetLanguage: parsed.data.targetLanguage,
         timezone: parsed.data.timezone,
-        onboardingComplete: true,
+        onboardingComplete: false,
       });
       reply.send({
         user: { id: userId, email: parsed.data.email },
@@ -425,7 +425,7 @@ export async function authRoutes(app: FastifyInstance) {
       displayName,
       targetLanguage: parsed.data.targetLanguage,
       timezone: parsed.data.timezone,
-      onboardingComplete: true,
+      onboardingComplete: false,
     });
 
     if (data.session?.refresh_token) {

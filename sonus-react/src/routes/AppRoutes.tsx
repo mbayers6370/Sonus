@@ -1,13 +1,21 @@
-import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
+import { useAuth } from '../contexts/AuthContext';
 import type { LessonBand, LessonMode } from '../types/lesson.types';
 import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
 import { apiFetch } from '../lib/apiClient';
-import { normalizeLanguageId } from '../lib/languageRuntime';
+import {
+  getLanguageRuntime,
+  normalizeBandDataPayload,
+  normalizeLanguageId,
+  resolveBandDataPath,
+} from '../lib/languageRuntime';
 import { readCachedCurrentPath, writeCachedCurrentPath } from '../lib/currentPathStore';
 import { deriveJapaneseSectionIdFromUnitId } from '../lib/learnPath';
+import { completeOnboardingWalkthrough } from '../lib/backendApi';
 import GlassLoader from '../components/ui/GlassLoader';
+import FirstTimeWalkthrough from '../components/FirstTimeWalkthrough';
 import PrivacyPage from '../components/public/PrivacyPage';
 import TermsPage from '../components/public/TermsPage';
 import ContactPage from '../components/public/ContactPage';
@@ -31,6 +39,15 @@ const TravelRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ de
 const TravelSectionRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelSectionRoute })));
 
 const LAST_LANGUAGE_KEY = 'sonus.last_language';
+const WALKTHROUGH_DONE_PREFIX = 'sonus.walkthrough.done:';
+const STARTER_BAND_BY_LANGUAGE: Record<string, string> = {
+  zh: 'band1',
+  ja: 'n5',
+  kr: 'topik1-1',
+  fr: 'a1',
+  it: 'a1',
+  es: 'a1',
+};
 
 const isMandarinLevel = (levelId: string) => /^band\d+$/i.test(levelId) || levelId === 'advanced';
 const isJapaneseLevel = (levelId: string) => /^n[1-5]$/i.test(levelId);
@@ -59,10 +76,66 @@ function writeLastLanguage(languageId: string) {
   }
 }
 
+function walkthroughStorageKey(email: string | null) {
+  const scope = (email || 'anon').trim().toLowerCase().replace(/[^a-z0-9._-]/g, '_');
+  return `${WALKTHROUGH_DONE_PREFIX}${scope}`;
+}
+
+function readWalkthroughComplete(email: string | null) {
+  try {
+    return window.localStorage.getItem(walkthroughStorageKey(email)) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function writeWalkthroughComplete(email: string | null) {
+  try {
+    window.localStorage.setItem(walkthroughStorageKey(email), '1');
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
 export default function AppRoutes() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { email, isDemo } = useAuth();
   const [languageResolved, setLanguageResolved] = useState(false);
+  const [onboardingStatus, setOnboardingStatus] = useState<'loading' | 'complete' | 'incomplete'>('loading');
+  const [walkthroughVisible, setWalkthroughVisible] = useState(false);
+  const [walkthroughStep, setWalkthroughStep] = useState(0);
+  const [walkthroughSaving, setWalkthroughSaving] = useState(false);
+  const [walkthroughHighlightRect, setWalkthroughHighlightRect] = useState<{
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+    borderRadius: string;
+  } | null>(null);
+  const walkthroughHighlightRectRef = useRef<{
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+    borderRadius: string;
+  } | null>(null);
+  const walkthroughStartedRef = useRef(false);
+  const [tourRoutes, setTourRoutes] = useState<{
+    mainPath: string;
+    levelsPath: string;
+    unitsPath: string;
+    lessonsPath: string;
+    hasStructuredTour: boolean;
+    languageLabel: string;
+  }>({
+    mainPath: '/learn',
+    levelsPath: '/learn',
+    unitsPath: '/learn',
+    lessonsPath: '/learn',
+    hasStructuredTour: false,
+    languageLabel: 'Language',
+  });
   const {
     state,
     selectLanguage,
@@ -72,6 +145,38 @@ export default function AppRoutes() {
     generateDailyReviewSet,
   } = useApp();
   const { selectedLanguage, currentLevel } = state;
+
+  useEffect(() => {
+    if (isDemo) {
+      // Demo users always see the walkthrough at session start.
+      setOnboardingStatus('incomplete');
+      return;
+    }
+    if (readWalkthroughComplete(email)) {
+      setOnboardingStatus('complete');
+      return;
+    }
+
+    let cancelled = false;
+    void (async () => {
+      try {
+        const response = await apiFetch('/v1/me/profile');
+        if (!response.ok) {
+          if (!cancelled) setOnboardingStatus('complete');
+          return;
+        }
+        const payload = (await response.json()) as { profile?: { onboardingComplete?: boolean } };
+        if (cancelled) return;
+        setOnboardingStatus(payload.profile?.onboardingComplete ? 'complete' : 'incomplete');
+      } catch {
+        if (!cancelled) setOnboardingStatus('complete');
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [email, isDemo]);
 
   useEffect(() => {
     let cancelled = false;
@@ -300,6 +405,152 @@ export default function AppRoutes() {
     void navigateLearnStage('lessons');
   }, [navigateLearnStage]);
 
+  const walkthroughSteps = useMemo(() => {
+    const normalizedLanguage = normalizeLanguageId(selectedLanguage);
+    const isJapanese = normalizedLanguage === 'ja';
+    const isMandarin = normalizedLanguage === 'zh';
+    const isKorean = normalizedLanguage === 'kr';
+    const isScriptFocusedLanguage = isMandarin || isJapanese || isKorean;
+    const runtime = getLanguageRuntime(normalizedLanguage);
+    const languageLabel = runtime.label || 'this language';
+    const effectiveLabel = tourRoutes.languageLabel || languageLabel;
+    const hasStructuredTour = tourRoutes.hasStructuredTour;
+
+    return [
+      {
+        title: 'Home',
+        body: 'Welcome to Sonus. This Home screen is your control center for starting lessons, resuming progress, and accessing core learning paths.',
+        path: '/home',
+      },
+      {
+        title: 'Main',
+        body: isJapanese
+          ? 'This is your Japanese roadmap. Choose a JLPT level (N5 to N1) to match your current proficiency and goals.'
+          : 'This is your Mandarin roadmap. Start in the right tier (Beginner, Intermediate, Advanced) and progress step by step.',
+        path: tourRoutes.mainPath,
+      },
+      {
+        title: 'Levels',
+        body: isJapanese
+          ? 'Within each JLPT level, sections are structured by learning purpose: Core, Expansion, and Integration.'
+          : isMandarin
+            ? 'Each tier contains guided levels (for example Elementary I, Elementary II, and Pre-Intermediate) designed for steady progression.'
+            : `Structured level pathways for ${effectiveLabel} are prepared and will activate automatically as content is published.`,
+        path: tourRoutes.levelsPath,
+      },
+      {
+        title: 'Unit',
+        body: hasStructuredTour
+          ? 'Units break each level into practical themes, helping you focus on one meaningful topic at a time.'
+          : `Unit navigation for ${effectiveLabel} is ready and will route here once units are available.`,
+        path: tourRoutes.unitsPath,
+      },
+      {
+        title: 'Lessons',
+        body: hasStructuredTour
+          ? (
+              <>
+                Each lesson has Learn (flashcards), Quiz, and Speak modes. To pass, reach 90% Quiz and 75% Speak;
+                mastery is earned on a later mastery attempt after the lesson is already completed.
+                {isScriptFocusedLanguage && (
+                  <>
+                    <br />
+                    <br />
+                    <span className="font-semibold text-[#C2410C]">
+                      Pay close attention to native script (characters/kana/hangul): mastery emphasizes script recall,
+                      not romanized aids like pinyin or romaji.
+                    </span>
+                  </>
+                )}
+              </>
+            )
+          : `Lesson routing for ${effectiveLabel} is ready and will route here once lesson content is enabled.`,
+        path: tourRoutes.lessonsPath,
+      },
+      {
+        title: 'Travel Sprint',
+        body: 'Travel Sprint is for quick, practical phrase prep when you need useful language fast and do not have time for a full lesson flow.',
+        path: '/home',
+      },
+      {
+        title: 'Practice Focus',
+        body: 'Practice Focus uses a 70/30 balance: 70% learning and 30% reinforcing. Use it to sharpen weak areas and build retention between structured lessons.',
+        path: '/home',
+      },
+      {
+        title: 'Profile',
+        body: 'Use Profile to manage your account, review progress, and change your active learning language at any time while keeping your saved streak and lesson history.',
+        path: '/profile',
+      },
+    ];
+  }, [selectedLanguage, tourRoutes]);
+
+  useEffect(() => {
+    const normalizedLanguage = normalizeLanguageId(selectedLanguage);
+    const runtime = getLanguageRuntime(normalizedLanguage);
+    const starterBandId = STARTER_BAND_BY_LANGUAGE[normalizedLanguage] || 'band1';
+    const starterTier = tierForBand(starterBandId);
+    const defaultLevelsPath = normalizedLanguage === 'zh'
+      ? '/learn?tier=beginner'
+      : (normalizedLanguage === 'ja' ? '/learn/jlpt/n5' : '/learn');
+    const defaultState = {
+      mainPath: '/learn',
+      levelsPath: defaultLevelsPath,
+      unitsPath: '/learn',
+      lessonsPath: '/learn',
+      hasStructuredTour: false,
+      languageLabel: runtime.label || 'Language',
+    };
+    setTourRoutes(defaultState);
+
+    let cancelled = false;
+    void (async () => {
+      try {
+        const response = await fetch(resolveBandDataPath(normalizedLanguage, starterBandId), { cache: 'no-store' });
+        if (!response.ok) return;
+        const raw = (await response.json()) as unknown;
+        const bandData = normalizeBandDataPayload(raw, starterBandId, normalizedLanguage);
+        if (!bandData) return;
+
+        const units = Array.isArray(bandData.units)
+          ? bandData.units.map((unit) => unit?.id || '').filter(Boolean)
+          : Object.keys(bandData.units || {});
+        const firstCoreUnitId = units.find((unitId) =>
+          unitId !== '_unallocated' && !isPracticeUnitId(unitId) && !isCheckpointUnitId(unitId)
+        );
+        if (!firstCoreUnitId) return;
+
+        const basePath = `/learn/${starterTier}/${starterBandId}`;
+        const sectionId = normalizedLanguage === 'ja'
+          ? (deriveJapaneseSectionIdFromUnitId(starterBandId, firstCoreUnitId) || 'core')
+          : null;
+        const unitsPath = sectionId
+          ? `${basePath}?section=${encodeURIComponent(sectionId)}`
+          : basePath;
+        const lessonsPath = sectionId
+          ? `${basePath}?section=${encodeURIComponent(sectionId)}&unit=${encodeURIComponent(firstCoreUnitId)}`
+          : `${basePath}?unit=${encodeURIComponent(firstCoreUnitId)}`;
+
+        if (!cancelled) {
+          setTourRoutes({
+            mainPath: '/learn',
+            levelsPath: defaultLevelsPath,
+            unitsPath,
+            lessonsPath,
+            hasStructuredTour: true,
+            languageLabel: runtime.label || 'Language',
+          });
+        }
+      } catch {
+        // Keep defaults when starter content is not yet available.
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedLanguage]);
+
   const openPracticeFromHome = useCallback(
     (kind: 'listening' | 'speaking', bandId?: string | null) => {
       const normalizedLanguage = normalizeLanguageId(selectedLanguage);
@@ -381,9 +632,172 @@ export default function AppRoutes() {
     };
   }, [goLearnMain, goLearnLevels, goLearnUnits, goLearnLessons]);
 
+  useEffect(() => {
+    if (onboardingStatus !== 'incomplete' || !selectedLanguage) {
+      setWalkthroughVisible(false);
+      walkthroughStartedRef.current = false;
+      return;
+    }
+    if (walkthroughStartedRef.current) return;
+    walkthroughStartedRef.current = true;
+    setWalkthroughVisible(true);
+    setWalkthroughStep(0);
+    navigate(walkthroughSteps[0]?.path || '/home', { replace: true });
+  }, [navigate, onboardingStatus, selectedLanguage, walkthroughSteps]);
+
+  const completeWalkthrough = useCallback(async () => {
+    setWalkthroughSaving(true);
+    try {
+      if (!isDemo) {
+        await completeOnboardingWalkthrough();
+      }
+    } catch {
+      // Do not block completion on transient write failures.
+    } finally {
+      if (!isDemo) {
+        writeWalkthroughComplete(email);
+      }
+      setOnboardingStatus('complete');
+      setWalkthroughVisible(false);
+      setWalkthroughStep(0);
+      setWalkthroughSaving(false);
+      navigate('/home', { replace: true });
+    }
+  }, [email, isDemo, navigate]);
+
+  const handleWalkthroughBack = useCallback(() => {
+    setWalkthroughStep((prev) => {
+      const nextStep = Math.max(0, prev - 1);
+      const targetPath = walkthroughSteps[nextStep]?.path;
+      if (targetPath) navigate(targetPath);
+      return nextStep;
+    });
+  }, [navigate, walkthroughSteps]);
+
+  const handleWalkthroughNext = useCallback(() => {
+    if (walkthroughStep >= walkthroughSteps.length - 1) {
+      void completeWalkthrough();
+      return;
+    }
+    setWalkthroughStep((prev) => {
+      const nextStep = Math.min(walkthroughSteps.length - 1, prev + 1);
+      const targetPath = walkthroughSteps[nextStep]?.path;
+      if (targetPath) navigate(targetPath);
+      return nextStep;
+    });
+  }, [completeWalkthrough, navigate, walkthroughStep, walkthroughSteps]);
+
+  useEffect(() => {
+    const targetId = walkthroughVisible
+      ? (
+          walkthroughStep === 0
+            ? 'tour-begin-here-button'
+            : walkthroughStep === 1
+              ? 'tour-main-first-path-card'
+              : walkthroughStep === 2
+                ? 'tour-levels-first-card'
+                : walkthroughStep === 3
+                  ? 'tour-units-first-card'
+              : walkthroughStep === 4
+                ? 'tour-lessons-first-card'
+                : walkthroughStep === 5
+                  ? 'tour-travel-sprint-card'
+                  : walkthroughStep === 6
+                    ? 'tour-practice-focus-card'
+                    : walkthroughStep === 7
+                      ? 'tour-profile-language-card'
+                : null
+        )
+      : null;
+    if (!targetId) {
+      walkthroughHighlightRectRef.current = null;
+      setWalkthroughHighlightRect(null);
+      return;
+    }
+
+    let frameId = 0;
+    let timeoutId = 0;
+    let intervalId = 0;
+    let observedTarget: HTMLElement | null = null;
+    let observer: ResizeObserver | null = null;
+    const updateRect = () => {
+      const target = document.getElementById(targetId);
+      if (!target) {
+        walkthroughHighlightRectRef.current = null;
+        setWalkthroughHighlightRect(null);
+        return;
+      }
+      const rect = target.getBoundingClientRect();
+      const computed = window.getComputedStyle(target);
+      const nextRect = {
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height,
+        borderRadius: computed.borderRadius || '1rem',
+      };
+      const prevRect = walkthroughHighlightRectRef.current;
+      const hasMeaningfulChange =
+        !prevRect ||
+        Math.abs(prevRect.top - nextRect.top) > 0.5 ||
+        Math.abs(prevRect.left - nextRect.left) > 0.5 ||
+        Math.abs(prevRect.width - nextRect.width) > 0.5 ||
+        Math.abs(prevRect.height - nextRect.height) > 0.5 ||
+        prevRect.borderRadius !== nextRect.borderRadius;
+      if (!hasMeaningfulChange) return;
+      walkthroughHighlightRectRef.current = nextRect;
+      setWalkthroughHighlightRect(nextRect);
+    };
+
+    const queueUpdate = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(updateRect);
+    };
+
+    const resolveAndObserveTarget = () => {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      if (
+        targetId === 'tour-travel-sprint-card' ||
+        targetId === 'tour-practice-focus-card' ||
+        targetId === 'tour-profile-language-card'
+      ) {
+        target.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' });
+      }
+      if (observedTarget === target) {
+        queueUpdate();
+        return;
+      }
+      if (observer) observer.disconnect();
+      observedTarget = target;
+      observer = new ResizeObserver(() => {
+        queueUpdate();
+      });
+      observer.observe(target);
+      queueUpdate();
+    };
+
+    resolveAndObserveTarget();
+    timeoutId = window.setTimeout(resolveAndObserveTarget, 120);
+    intervalId = window.setInterval(resolveAndObserveTarget, 250);
+    window.addEventListener('resize', resolveAndObserveTarget);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.clearTimeout(timeoutId);
+      window.clearInterval(intervalId);
+      window.removeEventListener('resize', resolveAndObserveTarget);
+      if (observer) observer.disconnect();
+      observer = null;
+      observedTarget = null;
+    };
+  }, [walkthroughStep, walkthroughVisible, location.pathname]);
+
   function LearnRoute() {
     return (
       <LevelSelect
+        walkthroughHighlightMainPath={walkthroughVisible && walkthroughStep === 1}
+        walkthroughHighlightLevels={walkthroughVisible && walkthroughStep === 2}
         onGoHome={goHome}
         onOpenProfile={goProfile}
         onOpenFoundations={() => navigate('/learn/foundations')}
@@ -427,6 +841,9 @@ export default function AppRoutes() {
     const tier = tierForBand(level.id);
     return (
       <UnitSelect
+        walkthroughHighlightLevels={walkthroughVisible && walkthroughStep === 2}
+        walkthroughHighlightUnits={walkthroughVisible && walkthroughStep === 3}
+        walkthroughHighlightLessons={walkthroughVisible && walkthroughStep === 4}
         onGoHome={goHome}
         onOpenProfile={goProfile}
         onGoLevels={(tierId) => navigate(tierId ? `/learn?tier=${encodeURIComponent(tierId)}` : '/learn')}
@@ -725,6 +1142,23 @@ export default function AppRoutes() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="*" element={<Navigate to={selectedLanguage ? '/home' : '/'} replace />} />
       </Routes>
+      {walkthroughVisible && walkthroughSteps[walkthroughStep] && (
+        <FirstTimeWalkthrough
+          title={walkthroughSteps[walkthroughStep].title}
+          body={walkthroughSteps[walkthroughStep].body}
+          stepIndex={walkthroughStep}
+          stepCount={walkthroughSteps.length}
+          highlightRect={walkthroughHighlightRect}
+          canGoBack={walkthroughStep > 0}
+          canGoNext={!walkthroughSaving}
+          saving={walkthroughSaving}
+          onBack={handleWalkthroughBack}
+          onNext={handleWalkthroughNext}
+          onSkip={() => {
+            void completeWalkthrough();
+          }}
+        />
+      )}
     </Suspense>
   );
 }

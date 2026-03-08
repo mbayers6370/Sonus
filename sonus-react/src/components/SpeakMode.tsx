@@ -2690,6 +2690,7 @@ export default function SpeakMode({
       ? `secondary-font font-semibold ${noSpeechResultClass} text-white leading-tight break-words text-center`
       : 'secondary-font font-semibold text-2xl text-white leading-tight break-words text-center';
     const resultPill = (() => {
+      if (isNoSpeech) return null;
       if (!matchResult) return null;
       if (analysis) {
         const passCount = [analysis.initial.pass, analysis.final.pass, analysis.tone.pass].filter(Boolean).length;
@@ -2809,6 +2810,18 @@ export default function SpeakMode({
                 </div>
               </div>
             ) : null}
+            {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
+          </div>
+        </div>
+      );
+    }
+    if (isNoSpeech) {
+      return (
+        <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
+          <div className="text-center">
+            <div className={`secondary-font font-semibold ${noSpeechResultClass} text-white leading-tight break-words text-center`}>
+              {displayHeardText || '...'}
+            </div>
             {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
           </div>
         </div>

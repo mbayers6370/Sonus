@@ -1503,10 +1503,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const setLessonMode = (mode: LessonMode) => {
     let snapshot: LessonCompletionSnapshot | null = null;
     setState((prev) => {
+      const shouldShuffleForMode =
+        mode === 'intro' || mode === 'quiz' || mode === 'speak';
+      const nextLesson =
+        prev.activeLesson && shouldShuffleForMode
+          ? {
+              ...prev.activeLesson,
+              // Give each instructional mode a fresh order for the same lesson word set.
+              words: shuffleWords(prev.activeLesson.words),
+            }
+          : prev.activeLesson;
       const next = {
         ...prev,
         lessonMode: mode,
-        activeLesson: prev.activeLesson,
+        activeLesson: nextLesson,
         lessonWordIndex: 0,
         quizResultsByIndex: mode === 'quiz' ? {} : prev.quizResultsByIndex,
         speakResultsByIndex: mode === 'speak' ? {} : prev.speakResultsByIndex,

@@ -384,6 +384,7 @@ interface LevelCardProps {
   isUnlocked: boolean;
   isCompleted: boolean;
   isDrenched?: boolean;
+  elementId?: string;
   onSelect: (level: LessonBand) => void;
   // Optional overrides to support the Mandarin (band) view
   badgeLabel?: string;
@@ -403,6 +404,7 @@ function LevelCard({
   isUnlocked,
   isCompleted,
   isDrenched = false,
+  elementId,
   onSelect,
   badgeLabel,
   topRightLabel,
@@ -439,6 +441,7 @@ function LevelCard({
 
   return (
     <button
+      id={elementId}
       onClick={() => isUnlocked && onSelect(level)}
       disabled={!isUnlocked}
       className={`w-full border rounded-3xl min-h-[170px] p-5 ${centerContent ? 'text-center' : 'text-left'} shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
@@ -544,6 +547,8 @@ interface LevelSelectProps {
   onOpenLanguageIntro?: () => void;
   onGoHome: () => void;
   onOpenProfile: () => void;
+  walkthroughHighlightMainPath?: boolean;
+  walkthroughHighlightLevels?: boolean;
 }
 
 export default function LevelSelect({
@@ -552,6 +557,8 @@ export default function LevelSelect({
   onOpenLanguageIntro,
   onGoHome,
   onOpenProfile,
+  walkthroughHighlightMainPath = false,
+  walkthroughHighlightLevels = false,
 }: LevelSelectProps) {
   const { state } = useApp();
   const normalizedLanguageId = normalizeLanguageId(state.selectedLanguage);
@@ -658,6 +665,15 @@ export default function LevelSelect({
   const activeTierConfig = normalizedLanguageId === 'zh' && activeTier
     ? tiers.find((tier) => tier.id === activeTier) ?? null
     : null;
+  const firstNonIntroLevelId = levels.find((level) => level.id !== 'intro')?.id || levels[0]?.id || null;
+  const mainPathStarterLevelId =
+    normalizedLanguageId === 'ja'
+      ? 'n5'
+      : normalizedLanguageId === 'kr'
+        ? 'topik1-1'
+        : normalizedLanguageId === 'fr'
+          ? 'a1'
+          : firstNonIntroLevelId;
 
   useEffect(() => {
     if (normalizedLanguageId !== 'zh') return;
@@ -775,6 +791,7 @@ export default function LevelSelect({
               return (
               <button
                 key={tier.id}
+                id={walkthroughHighlightMainPath && index === 0 ? 'tour-main-first-path-card' : undefined}
                 onClick={() => {
                   if (isLocked) return;
                   if (tier.id === 'advanced') {
@@ -883,6 +900,7 @@ export default function LevelSelect({
                     showChevronWhenUnlocked={true}
                     topRightLabel={!isReleased ? 'Coming Soon' : !isUnlocked ? 'Locked' : undefined}
                     accentOverride={CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]}
+                    elementId={walkthroughHighlightLevels && index === 0 ? 'tour-levels-first-card' : undefined}
                   />
                 );
               })}
@@ -897,6 +915,17 @@ export default function LevelSelect({
             return (
               <LevelCard
                 key={level.id}
+                elementId={
+                  mainPathStarterLevelId && level.id === mainPathStarterLevelId
+                    ? (
+                        walkthroughHighlightLevels
+                          ? 'tour-levels-first-card'
+                          : walkthroughHighlightMainPath
+                            ? 'tour-main-first-path-card'
+                            : undefined
+                      )
+                    : undefined
+                }
                 level={level}
                 isUnlocked={isUnlocked}
                 isCompleted={isCompleted}

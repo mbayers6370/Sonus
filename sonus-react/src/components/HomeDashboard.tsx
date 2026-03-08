@@ -646,10 +646,11 @@ export default function HomeDashboard({
                 </button>
               ) : (
                 <button
+                  id="tour-begin-here-button"
                   onClick={openResumeCard}
                   className={`w-full ${glassBtnDark}`}
                 >
-                  Levels
+                  Begin Here
                   <ArrowRight className="w-4 h-4" />
                 </button>
               )}
@@ -658,6 +659,7 @@ export default function HomeDashboard({
         </section>
 
         <section
+          id="tour-travel-sprint-card"
           className={`${cardShell} md:order-3 md:h-full bg-white text-text-dark border-[#1F2A37]/18 min-h-[260px] text-center flex flex-col justify-center relative overflow-hidden`}
           style={{ animationDelay: '135ms' }}
         >
@@ -696,6 +698,7 @@ export default function HomeDashboard({
         </section>
 
         <section
+          id="tour-practice-focus-card"
           className={`${cardShell} md:order-2 md:h-full bg-[#186E95] text-white border-[#186E95]/90 min-h-[210px] text-center flex flex-col justify-between py-4 shadow-[0_20px_40px_-28px_rgba(24,110,149,0.38)]`}
           style={{ animationDelay: '85ms' }}
         >

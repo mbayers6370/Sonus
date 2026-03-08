@@ -72,7 +72,7 @@ export function sendClientTelemetrySafe(payload: ClientTelemetryPayload) {
   });
 }
 
-export async function saveOnboardingSelection(targetLanguage: string) {
+export async function saveOnboardingLanguageSelection(targetLanguage: string) {
   const response = await apiFetch('/v1/me/profile', {
     method: 'PATCH',
     headers: {
@@ -80,6 +80,29 @@ export async function saveOnboardingSelection(targetLanguage: string) {
     },
     body: JSON.stringify({
       targetLanguage,
+    }),
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`PATCH /v1/me/profile failed (${response.status}): ${text}`);
+  }
+}
+
+export function saveOnboardingLanguageSelectionSafe(targetLanguage: string) {
+  // Do not block onboarding flow on telemetry/profile write failures.
+  void saveOnboardingLanguageSelection(targetLanguage).catch((error) => {
+    console.warn('[API] Failed to save onboarding selection', error);
+  });
+}
+
+export async function completeOnboardingWalkthrough() {
+  const response = await apiFetch('/v1/me/profile', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
       onboardingComplete: true,
     }),
   });
@@ -90,10 +113,9 @@ export async function saveOnboardingSelection(targetLanguage: string) {
   }
 }
 
-export function saveOnboardingSelectionSafe(targetLanguage: string) {
-  // Do not block onboarding flow on telemetry/profile write failures.
-  void saveOnboardingSelection(targetLanguage).catch((error) => {
-    console.warn('[API] Failed to save onboarding selection', error);
+export function completeOnboardingWalkthroughSafe() {
+  void completeOnboardingWalkthrough().catch((error) => {
+    console.warn('[API] Failed to complete onboarding walkthrough', error);
   });
 }
 

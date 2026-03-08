@@ -40,8 +40,8 @@ function renderTileTitle(title: string) {
 
   return (
     <h3 className="text-center leading-[1.12] flex flex-col items-center gap-0.5 text-white px-1 max-w-full break-words">
-      <span className="secondary-font font-semibold text-[0.92rem] sm:text-[0.98rem] tracking-tight break-words">{first}</span>
-      {restText ? <span className="main-font text-[0.96rem] sm:text-[1.02rem] break-words">{restText}</span> : null}
+      <span className="secondary-font font-semibold text-[0.92rem] sm:text-[0.98rem] lg:text-[0.88rem] xl:text-[0.98rem] tracking-tight break-words">{first}</span>
+      {restText ? <span className="main-font text-[0.96rem] sm:text-[1.02rem] lg:text-[0.9rem] xl:text-[1.02rem] break-words">{restText}</span> : null}
     </h3>
   );
 }
@@ -108,7 +108,7 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
           </div>
 
             <div className="bg-white/8 backdrop-blur-sm p-2.5 rounded-2xl flex items-center">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 w-full">
+              <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-2.5 w-full">
               {sections.map((section, index) => {
                 const SectionIcon = travelSectionIcons[section.id] || Plane;
                 return (
@@ -116,7 +116,7 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
                     key={section.id}
                     type="button"
                     onClick={() => onOpenSection(section.id)}
-                    className="dashboard-card-enter relative w-full min-w-0 text-left rounded-2xl border-2 border-white/65 p-2.5 sm:p-3 transition-all duration-200 h-[158px] sm:h-[166px] lg:h-[172px] flex flex-col hover:-translate-y-1 active:translate-y-0 bg-white/[0.06] shadow-[0_14px_30px_-24px_rgba(255,255,255,0.28)] hover:shadow-[0_20px_34px_-20px_rgba(255,255,255,0.45)] overflow-hidden"
+                    className="dashboard-card-enter relative w-full min-w-0 text-left rounded-2xl border-2 border-white/65 p-2.5 sm:p-3 lg:p-2.5 xl:p-3 transition-all duration-200 h-[158px] sm:h-[166px] lg:h-[164px] xl:h-[172px] flex flex-col hover:-translate-y-1 active:translate-y-0 bg-white/[0.06] shadow-[0_14px_30px_-24px_rgba(255,255,255,0.28)] hover:shadow-[0_20px_34px_-20px_rgba(255,255,255,0.45)] overflow-hidden"
                     aria-label={section.title}
                     style={{
                       animationDelay: `${index * 40 + 30}ms`,

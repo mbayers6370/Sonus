@@ -604,7 +604,7 @@ export default function ProfileScreen({
             </div>
           </SurfaceButtonCard>
 
-          <SurfaceCard className="relative h-full min-h-[150px] overflow-hidden p-4 sm:p-5 lg:col-span-1">
+          <SurfaceCard id="tour-profile-language-card" className="relative h-full min-h-[150px] overflow-hidden p-4 sm:p-5 lg:col-span-1">
             <div className="pointer-events-none absolute -right-14 -top-14 h-32 w-32 rounded-full bg-[rgba(24,110,149,0.13)] blur-2xl" />
             <div className="pointer-events-none absolute -left-10 -bottom-14 h-28 w-28 rounded-full bg-[rgba(62,86,72,0.12)] blur-2xl" />
 

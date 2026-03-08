@@ -57,6 +57,9 @@ interface UnitSelectProps {
   onGoLevels: (tierId?: string) => void;
   onGoHome: () => void;
   onOpenProfile: () => void;
+  walkthroughHighlightLevels?: boolean;
+  walkthroughHighlightUnits?: boolean;
+  walkthroughHighlightLessons?: boolean;
 }
 
 function getUnitDataById(
@@ -142,6 +145,9 @@ export default function UnitSelect({
   onGoLevels,
   onGoHome,
   onOpenProfile,
+  walkthroughHighlightLevels = false,
+  walkthroughHighlightUnits = false,
+  walkthroughHighlightLessons = false,
 }: UnitSelectProps) {
   const { state } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -630,6 +636,7 @@ export default function UnitSelect({
               return (
                 <button
                   key={section.id}
+                  id={walkthroughHighlightLevels && index === 0 ? 'tour-levels-first-card' : undefined}
                   onClick={() => {
                     if (!isSectionUnlocked) return;
                     setActiveSection(section.id);
@@ -742,6 +749,7 @@ export default function UnitSelect({
             return (
               <button
                 key={unitId}
+                id={walkthroughHighlightUnits && index === 0 ? 'tour-units-first-card' : undefined}
                 onClick={() => {
                   if (isBlueprint || !isUnitUnlocked) return;
                   setActiveUnit(unitId);
@@ -874,6 +882,7 @@ export default function UnitSelect({
               return (
                 <button
                   key={`${activeUnit.unitId}-${lessonIndex}`}
+                  id={walkthroughHighlightLessons && lessonIndex === 0 ? 'tour-lessons-first-card' : undefined}
                   onClick={() => {
                     if (!isLessonUnlocked) return;
                     onSelectLesson(
