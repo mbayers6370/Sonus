@@ -114,6 +114,32 @@ const envSchema = z
     METRICS_READ_TOKEN: z.string().trim().min(16).optional(),
     SUPPORT_ADMIN_EMAILS: z.string().default(''),
     SUPPORT_ADMIN_USER_IDS: z.string().default(''),
+    SUPPORT_ADMIN_LOGIN_THROTTLE_THRESHOLD: z.coerce.number().int().positive().max(20).default(5),
+    SUPPORT_ADMIN_LOGIN_THROTTLE_WINDOW_MS: z.coerce
+      .number()
+      .int()
+      .positive()
+      .max(24 * 60 * 60 * 1000)
+      .default(900000),
+    SUPPORT_ADMIN_IDLE_TIMEOUT_MINUTES: z.coerce.number().int().positive().max(240).default(10),
+    PASSWORD_RESET_THROTTLE_ENABLED: z
+      .string()
+      .optional()
+      .transform((value) => value !== 'false'),
+    PASSWORD_RESET_REQUEST_THRESHOLD: z.coerce.number().int().positive().max(30).default(5),
+    PASSWORD_RESET_REQUEST_WINDOW_MS: z.coerce
+      .number()
+      .int()
+      .positive()
+      .max(24 * 60 * 60 * 1000)
+      .default(900000),
+    PASSWORD_RESET_CONSUME_THRESHOLD: z.coerce.number().int().positive().max(30).default(5),
+    PASSWORD_RESET_CONSUME_WINDOW_MS: z.coerce
+      .number()
+      .int()
+      .positive()
+      .max(24 * 60 * 60 * 1000)
+      .default(900000),
     SRS_BASE_INTERVAL_DAYS: z.coerce.number().min(0).default(1),
     SRS_CORRECT_GROWTH_FACTOR: z.coerce.number().positive().default(1),
     SRS_MISS_PENALTY_FACTOR: z.coerce.number().min(0).default(0),

@@ -18,6 +18,7 @@ import {
   hashPasswordResetToken,
   hashPassword,
   hashRefreshToken,
+  needsPasswordRehash,
   normalizeEmail,
   refreshExpiryDate,
   verifyPassword,
@@ -61,6 +62,20 @@ const loginThrottle = createLoginThrottle({
   baseDelayMs: env.LOGIN_THROTTLE_BASE_MS,
   maxDelayMs: env.LOGIN_THROTTLE_MAX_MS,
   resetAfterMs: env.LOGIN_THROTTLE_RESET_MS,
+});
+const forgotPasswordThrottle = createLoginThrottle({
+  enabled: env.PASSWORD_RESET_THROTTLE_ENABLED,
+  threshold: env.PASSWORD_RESET_REQUEST_THRESHOLD,
+  baseDelayMs: env.PASSWORD_RESET_REQUEST_WINDOW_MS,
+  maxDelayMs: env.PASSWORD_RESET_REQUEST_WINDOW_MS,
+  resetAfterMs: env.PASSWORD_RESET_REQUEST_WINDOW_MS,
+});
+const resetPasswordThrottle = createLoginThrottle({
+  enabled: env.PASSWORD_RESET_THROTTLE_ENABLED,
+  threshold: env.PASSWORD_RESET_CONSUME_THRESHOLD,
+  baseDelayMs: env.PASSWORD_RESET_CONSUME_WINDOW_MS,
+  maxDelayMs: env.PASSWORD_RESET_CONSUME_WINDOW_MS,
+  resetAfterMs: env.PASSWORD_RESET_CONSUME_WINDOW_MS,
 });
 
 function readHeader(value: string | string[] | undefined) {
@@ -241,13 +256,33 @@ export async function authRoutes(app: FastifyInstance) {
       ok: true,
       message: 'If an account exists for that email, a reset link has been sent.',
     };
+    const identity = {
+      email: normalizeEmail(parsed.data.email),
+      ip: request.ip || 'unknown',
+    };
+    const throttleDecision = forgotPasswordThrottle.check(identity);
+    if (!throttleDecision.allowed) {
+      await logAuthSecurityEvent({
+        eventType: 'auth_error_forgot_password_throttled',
+        actorEmail: identity.email,
+        detail: 'Forgot-password request throttled due to too many attempts.',
+        endpoint: '/v1/auth/forgot-password',
+        ip: request.ip || null,
+      });
+      reply
+        .code(429)
+        .header('Retry-After', throttleDecision.retryAfterSeconds.toString())
+        .send({ error: 'Too many reset requests. Try again later.' });
+      return;
+    }
 
     if (env.AUTH_MODE === 'local') {
-      const email = normalizeEmail(parsed.data.email);
+      const email = identity.email;
       const account = await prisma.localAuthCredential.findUnique({
         where: { email },
       });
       if (!account) {
+        forgotPasswordThrottle.registerFailure(identity);
         reply.send(genericResponse);
         return;
       }
@@ -255,6 +290,7 @@ export async function authRoutes(app: FastifyInstance) {
       const resetBase = resolveResetUrlBase(request);
       if (!resetBase) {
         console.error('[auth] RESET_URL_BASE is not configured; cannot send password reset email.');
+        forgotPasswordThrottle.registerFailure(identity);
         reply.send(genericResponse);
         return;
       }
@@ -276,6 +312,7 @@ export async function authRoutes(app: FastifyInstance) {
         to: email,
         resetUrl,
       });
+      forgotPasswordThrottle.registerFailure(identity);
       reply.send(genericResponse);
       return;
     }
@@ -287,6 +324,7 @@ export async function authRoutes(app: FastifyInstance) {
       });
     }
 
+    forgotPasswordThrottle.registerFailure(identity);
     reply.send(genericResponse);
   });
 
@@ -306,12 +344,31 @@ export async function authRoutes(app: FastifyInstance) {
     }
 
     const tokenHash = hashPasswordResetToken(parsed.data.token);
+    const identity = {
+      email: `pw-reset:${tokenHash.slice(0, 24)}`,
+      ip: request.ip || 'unknown',
+    };
+    const throttleDecision = resetPasswordThrottle.check(identity);
+    if (!throttleDecision.allowed) {
+      await logAuthSecurityEvent({
+        eventType: 'auth_error_reset_password_throttled',
+        detail: 'Reset-password request throttled due to too many attempts.',
+        endpoint: '/v1/auth/reset-password',
+        ip: request.ip || null,
+      });
+      reply
+        .code(429)
+        .header('Retry-After', throttleDecision.retryAfterSeconds.toString())
+        .send({ error: 'Too many reset attempts. Try again later.' });
+      return;
+    }
     const tokenRows = await prisma.$queryRaw<
       Array<{ id: string; user_id: string; expires_at: Date; used_at: Date | null }>
     >`SELECT id, user_id, expires_at, used_at FROM password_reset_tokens WHERE token_hash = ${tokenHash} LIMIT 1`;
     const tokenRow = tokenRows[0] ?? null;
     const now = new Date();
     if (!tokenRow || tokenRow.used_at || tokenRow.expires_at <= now) {
+      resetPasswordThrottle.registerFailure(identity);
       reply.code(400).send({ error: 'Reset link is invalid or expired.' });
       return;
     }
@@ -331,6 +388,7 @@ export async function authRoutes(app: FastifyInstance) {
     });
 
     clearRefreshCookie(reply);
+    resetPasswordThrottle.registerSuccess(identity);
     reply.send({ ok: true });
   });
 
@@ -557,6 +615,15 @@ export async function authRoutes(app: FastifyInstance) {
         await rejectInvalidCredentials('invalid_password');
         return;
       }
+      if (needsPasswordRehash(account.passwordHash)) {
+        const upgradedPasswordHash = await hashPassword(parsed.data.password);
+        await prisma.localAuthCredential
+          .update({
+            where: { userId: account.userId },
+            data: { passwordHash: upgradedPasswordHash },
+          })
+          .catch(() => null);
+      }
 
       const profile = await getOrCreateProfile(account.userId, account.email);
       const sessionToken = createRefreshToken();
@@ -683,6 +750,15 @@ export async function authRoutes(app: FastifyInstance) {
       if (!passwordValid) {
         await rejectInvalidCredentials('invalid_password');
         return;
+      }
+      if (needsPasswordRehash(account.passwordHash)) {
+        const upgradedPasswordHash = await hashPassword(parsed.data.password);
+        await prisma.localAuthCredential
+          .update({
+            where: { userId: account.userId },
+            data: { passwordHash: upgradedPasswordHash },
+          })
+          .catch(() => null);
       }
 
       const profile = await getOrCreateProfile(account.userId, email);

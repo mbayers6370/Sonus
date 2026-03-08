@@ -4,6 +4,7 @@ import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 import { env } from '../env.js';
 import { requireAdmin } from '../lib/auth.js';
+import { createLoginThrottle } from '../lib/loginThrottle.js';
 import { prisma } from '../lib/prisma.js';
 import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js';
 import { getSupabaseAdmin } from '../lib/supabase.js';
@@ -15,7 +16,7 @@ import {
   normalizeSupportAdminUsername,
   resolveSupportAdminFromRequest,
 } from '../lib/supportAdminAuth.js';
-import { hashPassword, verifyPassword } from '../lib/localAuth.js';
+import { hashPrivilegedPassword, verifyPassword } from '../lib/localAuth.js';
 
 const allowedOrigins = readAllowedOrigins();
 
@@ -59,24 +60,40 @@ const recentDeletionQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(50).default(12),
 });
 
-const supportAdminSetPasswordSchema = z.object({
-  username: z.string().trim().min(3).max(160),
-  password: z.string().min(10).max(128),
-  currentPassword: z.string().min(1).max(128).optional(),
-});
-
 const supportAdminLoginSchema = z.object({
   username: z.string().trim().min(3).max(160),
   password: z.string().min(1).max(128),
 });
 const supportAdminCreateSchema = z.object({
   username: z.string().trim().min(3).max(160),
-  password: z.string().min(8).max(128).default('password'),
+  password: z
+    .string()
+    .min(12)
+    .max(128)
+    .refine(
+      (value) =>
+        /[a-z]/.test(value) &&
+        /[A-Z]/.test(value) &&
+        /\d/.test(value) &&
+        /[^A-Za-z0-9]/.test(value),
+      'Password must include uppercase, lowercase, number, and symbol.'
+    ),
   recoveryEmail: z.string().trim().email().max(255).optional(),
 });
 const supportAdminResetPasswordSchema = z.object({
   currentPassword: z.string().min(1).max(128),
-  newPassword: z.string().min(8).max(128),
+  newPassword: z
+    .string()
+    .min(12)
+    .max(128)
+    .refine(
+      (value) =>
+        /[a-z]/.test(value) &&
+        /[A-Z]/.test(value) &&
+        /\d/.test(value) &&
+        /[^A-Za-z0-9]/.test(value),
+      'Password must include uppercase, lowercase, number, and symbol.'
+    ),
 });
 const supportAdminRecoveryEmailSchema = z.object({
   recoveryEmail: z.string().trim().email().max(255),
@@ -86,10 +103,18 @@ const supportAdminForgotPasswordSchema = z.object({
 });
 const supportAdminResetWithTokenSchema = z.object({
   token: z.string().trim().min(24).max(512),
-  password: z.string().min(8).max(128),
-});
-const supportAdminSetupStatusSchema = z.object({
-  username: z.string().trim().min(3).max(160).optional(),
+  password: z
+    .string()
+    .min(12)
+    .max(128)
+    .refine(
+      (value) =>
+        /[a-z]/.test(value) &&
+        /[A-Z]/.test(value) &&
+        /\d/.test(value) &&
+        /[^A-Za-z0-9]/.test(value),
+      'Password must include uppercase, lowercase, number, and symbol.'
+    ),
 });
 const metricsOverviewQuerySchema = z.object({
   windowDays: z.coerce.number().int().min(1).max(180).default(30),
@@ -120,6 +145,15 @@ type MutationActor = {
 };
 
 const SUPPORT_ROOT_ADMIN_USERNAME = 'qa-admin-f8n2x7r1@sonus.test';
+const SUPPORT_ADMIN_DUMMY_PASSWORD_HASH =
+  'scrypt$131072$8$1$aXGrsBSWzTCAKoc4ZTMS1A$H9xcRZKFNm-b3I231Uyj7vAJ1chWXI2Btvp0_xKzESg';
+const supportAdminLoginThrottle = createLoginThrottle({
+  enabled: env.LOGIN_THROTTLE_ENABLED,
+  threshold: env.SUPPORT_ADMIN_LOGIN_THROTTLE_THRESHOLD,
+  baseDelayMs: env.SUPPORT_ADMIN_LOGIN_THROTTLE_WINDOW_MS,
+  maxDelayMs: env.SUPPORT_ADMIN_LOGIN_THROTTLE_WINDOW_MS,
+  resetAfterMs: env.SUPPORT_ADMIN_LOGIN_THROTTLE_WINDOW_MS,
+});
 
 function createSupportAdminResetToken() {
   return randomBytes(32).toString('base64url');
@@ -349,6 +383,7 @@ function canUseSupportAdminUsername(username: string) {
   // Support console usernames can be any non-empty identifier.
   // If an allowlist is configured, enforce it; otherwise allow all.
   if (!username.trim()) return false;
+  if (env.NODE_ENV === 'production' && env.SUPPORT_ADMIN_EMAILS_SET.size === 0) return false;
   if (env.SUPPORT_ADMIN_EMAILS_SET.size === 0) return true;
   return env.SUPPORT_ADMIN_EMAILS_SET.has(username);
 }
@@ -525,105 +560,6 @@ export async function processScheduledAccountDeletions() {
 export async function adminRoutes(app: FastifyInstance) {
   await ensureAdminConsoleTables();
 
-  app.get('/v1/admin/auth/setup-status', async (request, reply) => {
-    const parsed = supportAdminSetupStatusSchema.safeParse(request.query ?? {});
-    if (!parsed.success) {
-      reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
-      return;
-    }
-
-    const username = parsed.data.username
-      ? normalizeSupportAdminUsername(parsed.data.username)
-      : null;
-    const totalRows = await prisma.$queryRaw<Array<{ count: bigint }>>`
-      SELECT COUNT(*)::bigint AS count
-      FROM support_admin_credentials
-    `;
-    const configuredCount = Number(totalRows[0]?.count || 0);
-    const globallyConfigured = configuredCount > 0;
-
-    if (!username) {
-      return {
-        setupRequired: !globallyConfigured,
-        configured: globallyConfigured,
-      };
-    }
-
-    const usernameRows = await prisma.$queryRaw<Array<{ username: string }>>`
-      SELECT username
-      FROM support_admin_credentials
-      WHERE username = ${username}
-      LIMIT 1
-    `;
-
-    return {
-      setupRequired: usernameRows.length === 0,
-      configured: globallyConfigured,
-      usernameConfigured: usernameRows.length > 0,
-    };
-  });
-
-  app.post('/v1/admin/auth/set-password', async (request, reply) => {
-    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
-
-    const parsed = supportAdminSetPasswordSchema.safeParse(request.body);
-    if (!parsed.success) {
-      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
-      return;
-    }
-    const username = normalizeSupportAdminUsername(parsed.data.username);
-    if (!canUseSupportAdminUsername(username)) {
-      reply.code(403).send({
-        error:
-          'Support admin username is not allowlisted. Add it to SUPPORT_ADMIN_EMAILS on the backend service.',
-      });
-      return;
-    }
-
-    const existing = await prisma.$queryRaw<Array<{ username: string; password_hash: string }>>`
-      SELECT username, password_hash
-      FROM support_admin_credentials
-      WHERE username = ${username}
-      LIMIT 1
-    `;
-    const row = existing[0] ?? null;
-
-    if (row) {
-      reply
-        .code(403)
-        .send({ error: 'Password for this support admin username is already configured.' });
-      return;
-    }
-
-    const passwordHash = await hashPassword(parsed.data.password);
-    await prisma.$executeRaw`
-      INSERT INTO support_admin_credentials (username, password_hash, created_at, updated_at)
-      VALUES (${username}, ${passwordHash}, now(), now())
-      ON CONFLICT (username)
-      DO UPDATE SET
-        password_hash = EXCLUDED.password_hash,
-        updated_at = now()
-    `;
-
-    await prisma.$executeRaw`
-      INSERT INTO account_security_events
-        (id, target_user_id, actor_user_id, actor_email, event_type, detail, metadata_json, created_at)
-      VALUES
-        (
-          gen_random_uuid(),
-          ${request.user?.id || env.DEV_USER_ID}::uuid,
-          null,
-          ${username},
-          'support_admin_password_set',
-          'Support admin password set/rotated',
-          ${JSON.stringify({ username })}::jsonb,
-          now()
-        )
-    `;
-
-    return { ok: true };
-  });
-
   app.post('/v1/admin/auth/login', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 
@@ -633,21 +569,40 @@ export async function adminRoutes(app: FastifyInstance) {
       return;
     }
     const username = normalizeSupportAdminUsername(parsed.data.username);
-    const rows = await prisma.$queryRaw<Array<{ username: string; password_hash: string }>>`
-      SELECT username, password_hash
-      FROM support_admin_credentials
-      WHERE username = ${username}
-      LIMIT 1
-    `;
-    const row = rows[0] ?? null;
-    if (!row) {
-      reply.code(401).send({ error: 'Invalid username or password' });
+    const throttleIdentity = {
+      email: username,
+      ip: request.ip || 'unknown',
+    };
+    const throttleDecision = supportAdminLoginThrottle.check(throttleIdentity);
+    if (!throttleDecision.allowed) {
+      await prisma.$executeRaw`
+        INSERT INTO account_security_events
+          (id, target_user_id, actor_user_id, actor_email, event_type, detail, metadata_json, created_at)
+        VALUES
+          (
+            gen_random_uuid(),
+            ${env.DEV_USER_ID}::uuid,
+            null,
+            ${username},
+            'support_admin_login_throttled',
+            'Support admin login throttled due to too many attempts',
+            ${JSON.stringify({
+              username,
+              endpoint: '/v1/admin/auth/login',
+              ip: request.ip || null,
+            })}::jsonb,
+            now()
+          )
+      `;
+      reply
+        .code(429)
+        .header('Retry-After', throttleDecision.retryAfterSeconds.toString())
+        .send({ error: 'Too many login attempts. Try again later.' });
       return;
     }
-    const passwordOk = await verifyPassword(parsed.data.password, row.password_hash).catch(
-      () => false
-    );
-    if (!passwordOk) {
+
+    const rejectInvalidSupportAdminCredentials = async (reason: string) => {
+      supportAdminLoginThrottle.registerFailure(throttleIdentity);
       await prisma.$executeRaw`
         INSERT INTO account_security_events
           (id, target_user_id, actor_user_id, actor_email, event_type, detail, metadata_json, created_at)
@@ -659,11 +614,37 @@ export async function adminRoutes(app: FastifyInstance) {
             ${username},
             'support_admin_login_failed',
             'Invalid support admin credentials',
-            ${JSON.stringify({ username })}::jsonb,
+            ${JSON.stringify({
+              username,
+              reason,
+              endpoint: '/v1/admin/auth/login',
+              ip: request.ip || null,
+            })}::jsonb,
             now()
           )
       `;
       reply.code(401).send({ error: 'Invalid username or password' });
+    };
+
+    const rows = await prisma.$queryRaw<Array<{ username: string; password_hash: string }>>`
+      SELECT username, password_hash
+      FROM support_admin_credentials
+      WHERE username = ${username}
+      LIMIT 1
+    `;
+    const row = rows[0] ?? null;
+    if (!row) {
+      await verifyPassword(parsed.data.password, SUPPORT_ADMIN_DUMMY_PASSWORD_HASH).catch(
+        () => false
+      );
+      await rejectInvalidSupportAdminCredentials('account_not_found');
+      return;
+    }
+    const passwordOk = await verifyPassword(parsed.data.password, row.password_hash).catch(
+      () => false
+    );
+    if (!passwordOk) {
+      await rejectInvalidSupportAdminCredentials('invalid_password');
       return;
     }
 
@@ -690,6 +671,7 @@ export async function adminRoutes(app: FastifyInstance) {
           now()
         )
     `;
+    supportAdminLoginThrottle.registerSuccess(throttleIdentity);
 
     return {
       ok: true,
@@ -737,7 +719,7 @@ export async function adminRoutes(app: FastifyInstance) {
       reply.code(409).send({ error: 'Support admin already exists.' });
       return;
     }
-    const passwordHash = await hashPassword(parsed.data.password);
+    const passwordHash = await hashPrivilegedPassword(parsed.data.password);
     const recoveryEmail = parsed.data.recoveryEmail?.trim().toLowerCase() || null;
     await prisma.$executeRaw`
       INSERT INTO support_admin_credentials
@@ -772,7 +754,7 @@ export async function adminRoutes(app: FastifyInstance) {
       reply.code(401).send({ error: 'Current password is incorrect.' });
       return;
     }
-    const newPasswordHash = await hashPassword(parsed.data.newPassword);
+    const newPasswordHash = await hashPrivilegedPassword(parsed.data.newPassword);
     await prisma.$executeRaw`
       UPDATE support_admin_credentials
       SET password_hash = ${newPasswordHash}, updated_at = now()
@@ -862,7 +844,7 @@ export async function adminRoutes(app: FastifyInstance) {
       reply.code(400).send({ error: 'Reset token is invalid or expired.' });
       return;
     }
-    const passwordHash = await hashPassword(parsed.data.password);
+    const passwordHash = await hashPrivilegedPassword(parsed.data.password);
     await prisma.$executeRaw`
       UPDATE support_admin_credentials
       SET password_hash = ${passwordHash}, updated_at = now()

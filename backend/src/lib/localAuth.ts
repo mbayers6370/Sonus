@@ -1,7 +1,8 @@
 import { createHmac, randomBytes, scrypt, timingSafeEqual, randomUUID } from 'node:crypto';
 import { env } from '../env.js';
 
-const SCRYPT_N = 1 << 15;
+const SCRYPT_N = 1 << 16;
+const SCRYPT_PRIVILEGED_N = 1 << 17;
 const SCRYPT_R = 8;
 const SCRYPT_P = 1;
 const SCRYPT_KEYLEN = 32;
@@ -20,7 +21,7 @@ function scryptAsync(
       keyLen,
       {
         ...opts,
-        maxmem: 128 * 1024 * 1024,
+        maxmem: 256 * 1024 * 1024,
       },
       (error, derivedKey) => {
         if (error) {
@@ -81,6 +82,18 @@ export async function hashPassword(password: string) {
   return ['scrypt', SCRYPT_N, SCRYPT_R, SCRYPT_P, b64url(salt), b64url(derived)].join('$');
 }
 
+export async function hashPrivilegedPassword(password: string) {
+  const salt = randomBytes(16);
+  const derived = await scryptAsync(password, salt, SCRYPT_KEYLEN, {
+    N: SCRYPT_PRIVILEGED_N,
+    r: SCRYPT_R,
+    p: SCRYPT_P,
+  });
+  return ['scrypt', SCRYPT_PRIVILEGED_N, SCRYPT_R, SCRYPT_P, b64url(salt), b64url(derived)].join(
+    '$'
+  );
+}
+
 export async function verifyPassword(password: string, encoded: string) {
   const parts = encoded.split('$');
   if (parts.length !== 6 || parts[0] !== 'scrypt') return false;
@@ -99,6 +112,13 @@ export async function verifyPassword(password: string, encoded: string) {
   });
   if (derived.length !== digest.length) return false;
   return timingSafeEqual(derived, digest);
+}
+
+export function needsPasswordRehash(encoded: string, minN = SCRYPT_N) {
+  const parts = encoded.split('$');
+  if (parts.length !== 6 || parts[0] !== 'scrypt') return false;
+  const n = Number(parts[1]);
+  return Number.isFinite(n) && n < minN;
 }
 
 function signTokenInput(encodedHeader: string, encodedPayload: string) {

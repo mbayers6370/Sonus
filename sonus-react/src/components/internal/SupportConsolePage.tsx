@@ -224,11 +224,8 @@ export default function SupportConsolePage() {
   const [authenticated, setAuthenticated] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authBusy, setAuthBusy] = useState(false);
-  const [setupRequired, setSetupRequired] = useState<boolean | null>(null);
   const [adminUsername, setAdminUsername] = useState('qa-admin-f8n2x7r1@sonus.test');
   const [adminPassword, setAdminPassword] = useState('');
-  const [setPasswordValue, setSetPasswordValue] = useState('');
-  const [setPasswordCurrent, setSetPasswordCurrent] = useState('');
   const [query, setQuery] = useState('');
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -280,7 +277,7 @@ export default function SupportConsolePage() {
   const [createAdminOpen, setCreateAdminOpen] = useState(false);
   const [createAdminBusy, setCreateAdminBusy] = useState(false);
   const [createAdminUsername, setCreateAdminUsername] = useState('');
-  const [createAdminPassword, setCreateAdminPassword] = useState('password');
+  const [createAdminPassword, setCreateAdminPassword] = useState('');
   const [createAdminRecoveryEmail, setCreateAdminRecoveryEmail] = useState('');
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
   const [resetPasswordBusy, setResetPasswordBusy] = useState(false);
@@ -342,23 +339,6 @@ export default function SupportConsolePage() {
       setAuthenticated(false);
       setSupportAdminUsername(null);
       return false;
-    }
-  };
-
-  const refreshSetupStatus = async (username: string) => {
-    try {
-      const params = new URLSearchParams();
-      if (username.trim()) params.set('username', username.trim());
-      const payload = await parseJsonOrThrow<{ setupRequired?: boolean; usernameConfigured?: boolean }>(
-        await apiFetch(`/v1/admin/auth/setup-status?${params.toString()}`, { cache: 'no-store' })
-      );
-      if (typeof payload.usernameConfigured === 'boolean') {
-        setSetupRequired(!payload.usernameConfigured);
-        return;
-      }
-      setSetupRequired(Boolean(payload.setupRequired));
-    } catch {
-      setSetupRequired(true);
     }
   };
 
@@ -570,7 +550,6 @@ export default function SupportConsolePage() {
   useEffect(() => {
     let cancelled = false;
     void (async () => {
-      await refreshSetupStatus(adminUsername);
       const ok = await verifySupportAdminSession();
       if (!cancelled) {
         setBootLoading(false);
@@ -587,10 +566,6 @@ export default function SupportConsolePage() {
       cancelled = true;
     };
   }, []);
-
-  useEffect(() => {
-    void refreshSetupStatus(adminUsername);
-  }, [adminUsername]);
 
   useEffect(() => {
     if (!authenticated) return;
@@ -680,32 +655,6 @@ export default function SupportConsolePage() {
     }
   };
 
-  const handleSetPassword = async () => {
-    setAuthBusy(true);
-    setAuthError(null);
-    try {
-      await parseJsonOrThrow(
-        await apiFetch('/v1/admin/auth/set-password', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            username: adminUsername.trim(),
-            password: setPasswordValue,
-            currentPassword: setPasswordCurrent || undefined,
-          }),
-        })
-      );
-      setAuthError('Password set successfully. Now sign in with it.');
-      setSetupRequired(false);
-      setSetPasswordCurrent('');
-      setSetPasswordValue('');
-    } catch (error) {
-      setAuthError(error instanceof Error ? error.message : 'Unable to set password');
-    } finally {
-      setAuthBusy(false);
-    }
-  };
-
   const handleSupportLogout = async () => {
     try {
       await apiFetch('/v1/admin/auth/logout', { method: 'POST' });
@@ -739,7 +688,7 @@ export default function SupportConsolePage() {
       );
       setCreateAdminOpen(false);
       setCreateAdminUsername('');
-      setCreateAdminPassword('password');
+      setCreateAdminPassword('');
       setCreateAdminRecoveryEmail('');
       setAuthError('New admin created.');
     } catch (error) {
@@ -958,7 +907,7 @@ export default function SupportConsolePage() {
     return (
       <div className="min-h-screen page-shell px-4 py-6 text-[#1f2937] flex items-center justify-center">
         <div className="w-full">
-          <div className={`mx-auto grid gap-4 ${setupRequired ? 'max-w-5xl md:grid-cols-2' : 'max-w-md'}`}>
+          <div className="mx-auto max-w-md">
             <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-5">
             <h1 className="text-lg font-semibold text-[#0f172a]">Support Admin Login</h1>
             <p className="mt-1 text-sm text-[#475569]">Sign in to access `/internal/support`.</p>
@@ -978,19 +927,6 @@ export default function SupportConsolePage() {
               Forgot admin password?
             </button>
             </section>
-
-            {setupRequired && (
-              <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-5">
-                <h2 className="text-lg font-semibold text-[#0f172a]">Set Password (One Time)</h2>
-                <p className="mt-1 text-sm text-[#475569]">This appears only until the first successful setup.</p>
-                <input className={`${baseInput} mt-3`} value={adminUsername} onChange={(event) => setAdminUsername(event.target.value)} placeholder="admin username (email)" />
-                <input type="password" className={`${baseInput} mt-2`} value={setPasswordValue} onChange={(event) => setSetPasswordValue(event.target.value)} placeholder="new password (min 10 chars)" />
-                <input type="password" className={`${baseInput} mt-2`} value={setPasswordCurrent} onChange={(event) => setSetPasswordCurrent(event.target.value)} placeholder="current password (leave blank for first setup)" />
-                <button type="button" className={`${baseButton} mt-3 w-full`} disabled={authBusy || adminUsername.trim().length < 3 || setPasswordValue.length < 10} onClick={() => void handleSetPassword()}>
-                  Save Password
-                </button>
-              </section>
-            )}
           </div>
           {(resetTokenFromQuery || resetTokenValue.trim()) && (
             <div className="mx-auto mt-4 max-w-md rounded-2xl border border-[#1f2937]/20 bg-white/95 p-5">
@@ -1007,7 +943,7 @@ export default function SupportConsolePage() {
                 className={`${baseInput} mt-2`}
                 value={resetTokenPasswordValue}
                 onChange={(event) => setResetTokenPasswordValue(event.target.value)}
-                placeholder="new password (min 8 chars)"
+                placeholder="new password (min 12 chars, upper/lower/number/symbol)"
               />
               <button
                 type="button"
@@ -1015,7 +951,7 @@ export default function SupportConsolePage() {
                 disabled={
                   resetTokenBusy ||
                   (resetTokenValue.trim().length < 24 && resetTokenFromQuery.length < 24) ||
-                  resetTokenPasswordValue.length < 8
+                  resetTokenPasswordValue.length < 12
                 }
                 onClick={() => void handleResetWithEmailToken()}
               >
@@ -1048,8 +984,8 @@ export default function SupportConsolePage() {
   }
 
   return (
-    <div className="min-h-screen pb-24">
-      <section className="fixed inset-x-0 top-0 z-[110] w-screen border-b border-white/20 bg-[#1f2937] px-4 py-4 shadow-[0_10px_24px_-18px_rgba(15,23,42,0.65)] md:px-6">
+    <div className="min-h-screen overflow-x-hidden pb-[calc(7.5rem+env(safe-area-inset-bottom))]">
+      <section className="fixed inset-x-0 top-0 z-[110] w-full border-b border-white/20 bg-[#1f2937] px-4 py-4 shadow-[0_10px_24px_-18px_rgba(15,23,42,0.65)] md:px-6">
         <div className="mx-auto max-w-7xl">
           <div className="relative flex items-center justify-center gap-3">
             <div className="flex min-w-0 items-center gap-3">
@@ -1433,8 +1369,8 @@ export default function SupportConsolePage() {
         )}
 
         {viewMode === 'ops' && (
-          <div className="grid gap-4 lg:grid-cols-[360px_minmax(0,1fr)]">
-            <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
+          <div className="grid min-w-0 gap-4 lg:grid-cols-[360px_minmax(0,1fr)]">
+            <section className="min-w-0 rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
               <h2 className="text-lg font-semibold text-[#0f172a]">User Operations</h2>
               <p className="mt-1 text-xs text-[#334155]">Internal use only. All write actions require a reason and are audited.</p>
               <div className="mt-4 max-h-[68vh] space-y-2 overflow-auto pr-1">
@@ -1443,15 +1379,15 @@ export default function SupportConsolePage() {
                   return (
                     <article
                       key={entry.userId}
-                      className={`w-full rounded-xl border p-3 ${active ? 'border-[#1f2937] bg-[#f8fafc]' : 'border-[#e2e8f0] bg-white'}`}
+                      className={`w-full min-w-0 rounded-xl border p-3 ${active ? 'border-[#1f2937] bg-[#f8fafc]' : 'border-[#e2e8f0] bg-white'}`}
                     >
                       <button
                         type="button"
                         onClick={() => setSelectedUserId(entry.userId)}
                         className="w-full text-left"
                       >
-                        <div className="text-sm font-semibold text-[#0f172a]">{entry.displayName || entry.email || entry.userId}</div>
-                        <div className="text-xs text-[#475569]">{entry.email || 'No email'}</div>
+                        <div className="break-words text-sm font-semibold text-[#0f172a]">{entry.displayName || entry.email || entry.userId}</div>
+                        <div className="break-all text-xs text-[#475569]">{entry.email || 'No email'}</div>
                         <div className="mt-1 text-xs text-[#64748b]">{entry.targetLanguage || 'no language'} | onboarding {entry.onboardingComplete ? 'done' : 'pending'}</div>
                       </button>
                       <button
@@ -1536,15 +1472,15 @@ export default function SupportConsolePage() {
               </div>
             </section>
 
-            <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
+            <section className="min-w-0 rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
               {!selectedUserId && <p className="text-sm text-[#475569]">Select a user to view details.</p>}
               {selectedUserId && (
                 <>
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                      <h2 className="text-xl font-semibold text-[#0f172a]">{selectedUser?.displayName || selectedUser?.email || selectedUserId}</h2>
-                      <p className="text-sm text-[#475569]">{selectedUser?.email || ''}</p>
-                    </div>
+                      <div className="min-w-0">
+                        <h2 className="break-words text-xl font-semibold text-[#0f172a]">{selectedUser?.displayName || selectedUser?.email || selectedUserId}</h2>
+                        <p className="break-all text-sm text-[#475569]">{selectedUser?.email || ''}</p>
+                      </div>
                     <button type="button" onClick={() => void refreshSelectedUser(selectedUserId)} className={baseButton}>Refresh</button>
                   </div>
 
@@ -1704,8 +1640,8 @@ export default function SupportConsolePage() {
           </div>
         )}
       </div>
-      <footer className="fixed inset-x-0 bottom-0 z-[120] border-t border-white/10 bg-[#1f2937]">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-center gap-6 px-4">
+      <footer className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] z-[120] border-t border-white/10 bg-[#1f2937]">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-center gap-6 px-4 md:h-16">
           {canCreateAdmins && (
             <div className="relative">
               <button
@@ -1749,9 +1685,9 @@ export default function SupportConsolePage() {
             <h3 className="text-lg font-semibold text-[#0f172a]">Create New Admin</h3>
             <input className={`${baseInput} mt-3`} value={createAdminUsername} onChange={(event) => setCreateAdminUsername(event.target.value)} placeholder="admin username" />
             <input className={`${baseInput} mt-2`} value={createAdminRecoveryEmail} onChange={(event) => setCreateAdminRecoveryEmail(event.target.value)} placeholder="recovery email (optional)" />
-            <input type="password" className={`${baseInput} mt-2`} value={createAdminPassword} onChange={(event) => setCreateAdminPassword(event.target.value)} placeholder="initial password" />
+            <input type="password" className={`${baseInput} mt-2`} value={createAdminPassword} onChange={(event) => setCreateAdminPassword(event.target.value)} placeholder="initial password (min 12 chars, upper/lower/number/symbol)" />
             <div className="mt-3 flex gap-2">
-              <button type="button" className={baseButton} disabled={createAdminBusy || createAdminUsername.trim().length < 3 || createAdminPassword.length < 8} onClick={() => void handleCreateSupportAdmin()}>
+              <button type="button" className={baseButton} disabled={createAdminBusy || createAdminUsername.trim().length < 3 || createAdminPassword.length < 12} onClick={() => void handleCreateSupportAdmin()}>
                 {createAdminBusy ? 'Creating…' : 'Create'}
               </button>
               <button type="button" className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]" disabled={createAdminBusy} onClick={() => setCreateAdminOpen(false)}>
@@ -1766,9 +1702,9 @@ export default function SupportConsolePage() {
           <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
             <h3 className="text-lg font-semibold text-[#0f172a]">Reset Admin Password</h3>
             <input type="password" className={`${baseInput} mt-3`} value={resetPasswordCurrentValue} onChange={(event) => setResetPasswordCurrentValue(event.target.value)} placeholder="current password" />
-            <input type="password" className={`${baseInput} mt-2`} value={resetPasswordNewValue} onChange={(event) => setResetPasswordNewValue(event.target.value)} placeholder="new password" />
+            <input type="password" className={`${baseInput} mt-2`} value={resetPasswordNewValue} onChange={(event) => setResetPasswordNewValue(event.target.value)} placeholder="new password (min 12 chars, upper/lower/number/symbol)" />
             <div className="mt-3 flex gap-2">
-              <button type="button" className={baseButton} disabled={resetPasswordBusy || resetPasswordCurrentValue.length < 1 || resetPasswordNewValue.length < 8} onClick={() => void handleResetSupportAdminPassword()}>
+              <button type="button" className={baseButton} disabled={resetPasswordBusy || resetPasswordCurrentValue.length < 1 || resetPasswordNewValue.length < 12} onClick={() => void handleResetSupportAdminPassword()}>
                 {resetPasswordBusy ? 'Saving…' : 'Reset'}
               </button>
               <button type="button" className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]" disabled={resetPasswordBusy} onClick={() => setResetPasswordOpen(false)}>
