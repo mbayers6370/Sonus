@@ -6,7 +6,7 @@ import SEOHead from './SEOHead';
 type PublicLegalLayoutProps = {
   title: string;
   lastUpdated: string;
-  canonicalPath: '/privacy' | '/terms' | '/contact';
+  canonicalPath: '/privacy' | '/terms' | '/contact' | '/attributions';
   metaDescription: string;
   children: ReactNode;
 };
@@ -52,6 +52,9 @@ export default function PublicLegalLayout({
             </Link>
             <Link to="/contact" className="hidden underline-offset-4 hover:underline sm:inline">
               Contact
+            </Link>
+            <Link to="/attributions" className="hidden underline-offset-4 hover:underline sm:inline">
+              Attributions
             </Link>
             <Link to="/login" className="underline-offset-4 hover:underline">
               Log In

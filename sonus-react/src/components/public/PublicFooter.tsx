@@ -20,6 +20,10 @@ export default function PublicFooter() {
             Contact
           </Link>
           <span aria-hidden="true">|</span>
+          <Link className="underline-offset-2 hover:underline" to="/attributions">
+            Attributions
+          </Link>
+          <span aria-hidden="true">|</span>
           <span>© {new Date().getFullYear()} Sonus</span>
         </nav>
       </div>

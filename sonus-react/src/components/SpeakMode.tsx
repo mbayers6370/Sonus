@@ -2644,41 +2644,7 @@ export default function SpeakMode({
       }
     }
 
-    const dimensions = analysis
-      ? buildSpeakDimensionScores({
-          languageId: speakLanguageId,
-          initial: analysis.initial,
-          final: analysis.final,
-          tone: analysis.tone,
-        })
-      : (
-          hasAttempt && !isNoSpeech
-            ? buildSpeakDimensionScores({
-                languageId: speakLanguageId,
-                word: isFullyCorrect
-                  ? { matched: 1, total: 1, percent: 100, pass: true }
-                  : EMPTY_SCORE,
-              })
-            : []
-        );
-    if (!dimensions.length) return null;
-    const chipBase = compact
-      ? 'px-2 py-1 rounded-lg text-[10px] font-mono uppercase tracking-wider'
-      : 'px-2.5 py-1 rounded-lg text-[11px] font-mono uppercase tracking-wider';
-    const toneFor = (pass: boolean) =>
-      pass
-        ? 'bg-[#8DD3AE] text-white'
-        : 'bg-[#C2410C] text-white';
-
-    return (
-      <div className="mt-2 flex flex-wrap justify-center gap-1.5">
-        {dimensions.map((dimension) => (
-          <span key={dimension.key} className={`${chipBase} ${toneFor(dimension.pass)}`}>
-            {dimension.label} {dimension.percent}%
-          </span>
-        ))}
-      </div>
-    );
+    return null;
   };
 
   const renderResultCard = (compact: boolean) => {
@@ -2719,30 +2685,35 @@ export default function SpeakMode({
             : 'bg-[#C2410C] text-white',
       };
     })();
+    const scoreChips = renderScoreChips(compact);
+    const hasExtraContent = Boolean(displayResultReading || audioError || scoreChips);
+    const centerSimpleResult = Boolean(resultPill) && !hasExtraContent;
 
     return (
       <div className={`${shell} text-center`}>
-        <div className="flex items-center justify-center gap-2 mb-2">
-          {resultPill ? (
-            <span
-              className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${resultPill.className}`}
-            >
-              {resultPill.label}
-            </span>
-          ) : null}
-        </div>
-        <div className={heardClass}>{displayHeardText || '...'}</div>
-
-        {displayResultReading ? (
-          <div className="mt-2 flex justify-center">
-            <div className="inline-flex items-center rounded-xl px-2.5 py-1 bg-white/12 border border-white/15">
-              <span className="text-sm font-semibold text-white">{displayResultReading}</span>
-            </div>
+        <div className={centerSimpleResult ? (compact ? 'w-full min-h-[92px] flex flex-col items-center justify-center text-center' : 'w-full min-h-[118px] flex flex-col items-center justify-center text-center') : ''}>
+          <div className="flex items-center justify-center gap-2 mb-2">
+            {resultPill ? (
+              <span
+                className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${resultPill.className}`}
+              >
+                {resultPill.label}
+              </span>
+            ) : null}
           </div>
-        ) : null}
+          <div className={heardClass}>{displayHeardText || '...'}</div>
 
-        {renderScoreChips(compact)}
-        {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
+          {displayResultReading ? (
+            <div className="mt-2 flex justify-center">
+              <div className="inline-flex items-center rounded-xl px-2.5 py-1 bg-white/12 border border-white/15">
+                <span className="text-sm font-semibold text-white">{displayResultReading}</span>
+              </div>
+            </div>
+          ) : null}
+
+          {scoreChips}
+          {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
+        </div>
       </div>
     );
   };
@@ -2750,9 +2721,11 @@ export default function SpeakMode({
   const renderDesktopResultPanels = () => {
     if (!showDesktopResult) return null;
     if (useSentenceTargetInPractice) {
+      const hasExtraContent = Boolean(displayResultReading || audioError);
+      const centerSimpleResult = Boolean(matchResult) && !hasExtraContent;
       return (
         <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
-          <div className="text-center">
+          <div className={`text-center ${centerSimpleResult ? 'w-full min-h-[118px] flex flex-col items-center justify-center text-center' : ''}`}>
             <div className="flex items-center justify-center gap-2 mb-2">
               {(() => {
                 if (!matchResult) return null;
@@ -2783,9 +2756,11 @@ export default function SpeakMode({
       );
     }
     if (isJapaneseLesson) {
+      const hasExtraContent = Boolean(displayResultReading || audioError);
+      const centerSimpleResult = Boolean(matchResult) && !hasExtraContent;
       return (
         <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
-          <div className="text-center">
+          <div className={`text-center ${centerSimpleResult ? 'w-full min-h-[118px] flex flex-col items-center justify-center text-center' : ''}`}>
             <div className="flex items-center justify-center gap-2 mb-2">
               {(() => {
                 if (!matchResult) return null;

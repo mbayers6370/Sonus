@@ -197,6 +197,10 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
             Contact
             </Link>
             <span aria-hidden="true">|</span>
+            <Link to="/attributions" className="underline-offset-2 hover:underline font-mono">
+              Attributions
+            </Link>
+            <span aria-hidden="true">|</span>
             <span className="font-mono">© {new Date().getFullYear()} Sonus</span>
           </div>
         </div>

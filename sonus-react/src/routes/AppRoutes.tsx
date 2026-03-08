@@ -19,6 +19,7 @@ import FirstTimeWalkthrough from '../components/FirstTimeWalkthrough';
 import PrivacyPage from '../components/public/PrivacyPage';
 import TermsPage from '../components/public/TermsPage';
 import ContactPage from '../components/public/ContactPage';
+import AttributionsPage from '../components/public/AttributionsPage';
 import { isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 
 const LevelSelect = lazy(() => import('../components/LevelSelect'));
@@ -1145,6 +1146,7 @@ export default function AppRoutes() {
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/terms" element={<TermsPage />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/attributions" element={<AttributionsPage />} />
       <Route path="/internal/support/*" element={<SupportConsolePage />} />
       <Route path="*" element={<Navigate to={selectedLanguage ? '/home' : '/'} replace />} />
       </Routes>

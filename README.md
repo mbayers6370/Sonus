@@ -138,4 +138,6 @@ Mandarin vocabulary/enrichment sources include:
 - CC-CEDICT
 - Tatoeba (CC-BY) examples
 
+Japanese vocabulary informed by publicly available JLPT study datasets originally compiled by TANOS (tanos.co.uk).
+
 Respect upstream licenses for all dataset sources.
