@@ -112,7 +112,6 @@ type SupportMetrics = {
     unauthorizedAdminAttempts: number;
     currentUsers: number;
     activeUsers: number;
-    activeWindowMinutes: number;
     supportNotesCreated: number;
     supportNoteCreateFailures: number;
     authErrorBreakdown?: Array<{ eventType: string; count: number }>;
@@ -912,12 +911,7 @@ export default function SupportConsolePage() {
                 <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.currentUsers ?? 0}</div>
               </article>
               <article className={metricCard}>
-                <div className="text-xs text-[#64748b]">
-                  Active Users
-                  <span className="ml-1 text-[11px] text-[#94a3b8]">
-                    ({supportMetrics?.support.activeWindowMinutes ?? 15}m)
-                  </span>
-                </div>
+                <div className="text-xs text-[#64748b]">Active Users (Signed In)</div>
                 <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.activeUsers ?? 0}</div>
               </article>
               <article className={metricCard}>

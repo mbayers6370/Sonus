@@ -292,8 +292,10 @@ function supportAdminSessionExpiry() {
 }
 
 function canUseSupportAdminUsername(username: string) {
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username)) return false;
-  if (env.SUPPORT_ADMIN_EMAILS_SET.size === 0) return env.NODE_ENV !== 'production';
+  // Support console usernames can be any non-empty identifier.
+  // If an allowlist is configured, enforce it; otherwise allow all.
+  if (!username.trim()) return false;
+  if (env.SUPPORT_ADMIN_EMAILS_SET.size === 0) return true;
   return env.SUPPORT_ADMIN_EMAILS_SET.has(username);
 }
 
@@ -471,7 +473,10 @@ export async function adminRoutes(app: FastifyInstance) {
     }
     const username = normalizeSupportAdminUsername(parsed.data.username);
     if (!canUseSupportAdminUsername(username)) {
-      reply.code(400).send({ error: 'Username must be an email.' });
+      reply.code(403).send({
+        error:
+          'Support admin username is not allowlisted. Add it to SUPPORT_ADMIN_EMAILS on the backend service.',
+      });
       return;
     }
 
@@ -673,9 +678,6 @@ export async function adminRoutes(app: FastifyInstance) {
       }
       const windowDays = parsed.data.windowDays;
       const windowInterval = `${windowDays} days`;
-      const activeWindowMinutes = 15;
-      const activeWindowInterval = `${activeWindowMinutes} minutes`;
-
       const [
         failedLogins,
         resetRequests,
@@ -727,7 +729,6 @@ export async function adminRoutes(app: FastifyInstance) {
             FROM refresh_sessions rs
             WHERE rs.revoked_at IS NULL
               AND rs.expires_at > now()
-              AND COALESCE(rs.last_used_at, rs.created_at) >= now() - ${activeWindowInterval}::interval
           `
         ),
       ]);
@@ -771,7 +772,6 @@ export async function adminRoutes(app: FastifyInstance) {
           unauthorizedAdminAttempts,
           currentUsers,
           activeUsers,
-          activeWindowMinutes,
           supportNotesCreated: noteCount,
           supportNoteCreateFailures: noteFailureCount,
           authErrorBreakdown: authErrorBreakdown.map((row) => ({
