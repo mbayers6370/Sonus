@@ -105,6 +105,8 @@ const envSchema = z
       .default(900000),
     LOGIN_THROTTLE_ADMIN_TOKEN: z.string().trim().min(16).optional(),
     METRICS_READ_TOKEN: z.string().trim().min(16).optional(),
+    SUPPORT_ADMIN_EMAILS: z.string().default(''),
+    SUPPORT_ADMIN_USER_IDS: z.string().default(''),
     SRS_BASE_INTERVAL_DAYS: z.coerce.number().min(0).default(1),
     SRS_CORRECT_GROWTH_FACTOR: z.coerce.number().positive().default(1),
     SRS_MISS_PENALTY_FACTOR: z.coerce.number().min(0).default(0),
@@ -260,4 +262,14 @@ export const env = {
   // Resolve derived defaults after validation (for example cookie secure behavior).
   ...parsed.data,
   AUTH_COOKIE_SECURE: parsed.data.AUTH_COOKIE_SECURE ?? parsed.data.NODE_ENV === 'production',
+  SUPPORT_ADMIN_EMAILS_SET: new Set(
+    parsed.data.SUPPORT_ADMIN_EMAILS.split(',')
+      .map((entry) => entry.trim().toLowerCase())
+      .filter(Boolean)
+  ),
+  SUPPORT_ADMIN_USER_IDS_SET: new Set(
+    parsed.data.SUPPORT_ADMIN_USER_IDS.split(',')
+      .map((entry) => entry.trim().toLowerCase())
+      .filter(Boolean)
+  ),
 };

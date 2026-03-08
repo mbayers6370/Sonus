@@ -192,6 +192,40 @@ function resolveResetUrlBase(request: { headers: Record<string, string | string[
   return null;
 }
 
+async function logAuthSecurityEvent(params: {
+  eventType: string;
+  targetUserId?: string | null;
+  actorEmail?: string | null;
+  detail?: string;
+  endpoint?: string;
+  ip?: string | null;
+  metadata?: Record<string, unknown>;
+}) {
+  try {
+    await prisma.$executeRaw`
+      INSERT INTO account_security_events
+        (id, target_user_id, actor_user_id, actor_email, event_type, detail, metadata_json, created_at)
+      VALUES
+        (
+          gen_random_uuid(),
+          ${params.targetUserId || env.DEV_USER_ID}::uuid,
+          null,
+          ${params.actorEmail || null},
+          ${params.eventType},
+          ${params.detail || null},
+          ${JSON.stringify({
+            endpoint: params.endpoint || null,
+            ip: params.ip || null,
+            ...(params.metadata || {}),
+          })}::jsonb,
+          now()
+        )
+    `;
+  } catch {
+    // Best-effort signal only; auth flow must not fail if telemetry insert fails.
+  }
+}
+
 export async function authRoutes(app: FastifyInstance) {
   // Public endpoint. Accepts email and always returns a generic response to avoid account enumeration.
   app.post('/v1/auth/forgot-password', async (request, reply) => {
@@ -438,6 +472,16 @@ export async function authRoutes(app: FastifyInstance) {
       accessToken: data.session?.access_token ?? null,
       requiresEmailVerification: !data.session,
     });
+    if (!data.session) {
+      await logAuthSecurityEvent({
+        eventType: 'email_verification_required',
+        targetUserId: data.user.id,
+        actorEmail: data.user.email ?? parsed.data.email,
+        detail: 'Signup completed but email verification is required before first session.',
+        endpoint: '/v1/auth/signup',
+        ip: request.ip || null,
+      });
+    }
   });
 
   // Public endpoint. Authenticates credentials, applies login throttling, and establishes session cookies.
@@ -446,6 +490,13 @@ export async function authRoutes(app: FastifyInstance) {
 
     const parsed = loginSchema.safeParse(request.body);
     if (!parsed.success) {
+      await logAuthSecurityEvent({
+        eventType: 'auth_error_invalid_payload',
+        actorEmail: null,
+        detail: 'Login request payload validation failed.',
+        endpoint: '/v1/auth/login',
+        ip: request.ip || null,
+      });
       reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
       return;
     }
@@ -456,6 +507,13 @@ export async function authRoutes(app: FastifyInstance) {
     const rememberMe = parsed.data.rememberMe ?? true;
     const throttleDecision = loginThrottle.check(identity);
     if (!throttleDecision.allowed) {
+      await logAuthSecurityEvent({
+        eventType: 'auth_error_throttled',
+        actorEmail: identity.email,
+        detail: 'Login throttled due to too many attempts.',
+        endpoint: '/v1/auth/login',
+        ip: request.ip || null,
+      });
       reply
         .code(429)
         .header('Retry-After', throttleDecision.retryAfterSeconds.toString())
@@ -463,8 +521,24 @@ export async function authRoutes(app: FastifyInstance) {
       return;
     }
 
-    const rejectInvalidCredentials = () => {
+    const rejectInvalidCredentials = async (reason: string) => {
       loginThrottle.registerFailure(identity);
+      await logAuthSecurityEvent({
+        eventType: 'auth_login_failed',
+        actorEmail: identity.email,
+        detail: `Login failed: ${reason}`,
+        endpoint: '/v1/auth/login',
+        ip: request.ip || null,
+        metadata: { reason },
+      });
+      await logAuthSecurityEvent({
+        eventType: 'auth_error_login_invalid_credentials',
+        actorEmail: identity.email,
+        detail: `Auth error: ${reason}`,
+        endpoint: '/v1/auth/login',
+        ip: request.ip || null,
+        metadata: { reason },
+      });
       reply.code(401).send({ error: 'Invalid email or password' });
     };
 
@@ -474,12 +548,12 @@ export async function authRoutes(app: FastifyInstance) {
         where: { email },
       });
       if (!account) {
-        rejectInvalidCredentials();
+        await rejectInvalidCredentials('account_not_found');
         return;
       }
       const passwordValid = await verifyPassword(parsed.data.password, account.passwordHash);
       if (!passwordValid) {
-        rejectInvalidCredentials();
+        await rejectInvalidCredentials('invalid_password');
         return;
       }
 
@@ -489,6 +563,26 @@ export async function authRoutes(app: FastifyInstance) {
       const familyId = createRefreshFamilyId();
       const expiresAt = refreshExpiryDate();
       const client = requestClientInfo(request);
+      const [knownIpSession, knownDeviceSession] = await Promise.all([
+        client.ip
+          ? prisma.refreshSession.findFirst({
+              where: {
+                userId: account.userId,
+                createdIp: client.ip,
+              },
+              select: { id: true },
+            })
+          : null,
+        client.userAgent
+          ? prisma.refreshSession.findFirst({
+              where: {
+                userId: account.userId,
+                createdUserAgent: client.userAgent,
+              },
+              select: { id: true },
+            })
+          : null,
+      ]);
 
       await prisma.refreshSession.create({
         data: {
@@ -504,6 +598,34 @@ export async function authRoutes(app: FastifyInstance) {
       setRefreshCookie(reply, sessionToken, rememberMe);
       setRememberCookie(reply, rememberMe);
       loginThrottle.registerSuccess(identity);
+      await logAuthSecurityEvent({
+        eventType: 'auth_login_succeeded',
+        targetUserId: account.userId,
+        actorEmail: account.email,
+        detail: 'User login succeeded.',
+        endpoint: '/v1/auth/login',
+        ip: request.ip || null,
+      });
+      if (client.ip && !knownIpSession) {
+        await logAuthSecurityEvent({
+          eventType: 'auth_login_new_ip',
+          targetUserId: account.userId,
+          actorEmail: account.email,
+          detail: 'First observed login from this IP for user.',
+          endpoint: '/v1/auth/login',
+          ip: client.ip,
+        });
+      }
+      if (client.userAgent && !knownDeviceSession) {
+        await logAuthSecurityEvent({
+          eventType: 'auth_login_new_device',
+          targetUserId: account.userId,
+          actorEmail: account.email,
+          detail: 'First observed login from this user-agent for user.',
+          endpoint: '/v1/auth/login',
+          ip: client.ip,
+        });
+      }
       reply.send({
         user: { id: account.userId, email: account.email },
         profile,
@@ -521,6 +643,14 @@ export async function authRoutes(app: FastifyInstance) {
       if (existing) {
         const profile = await getOrCreateProfile(existing.userId, email);
         loginThrottle.registerSuccess(identity);
+        await logAuthSecurityEvent({
+          eventType: 'auth_login_succeeded',
+          targetUserId: existing.userId,
+          actorEmail: email,
+          detail: 'Mock login succeeded.',
+          endpoint: '/v1/auth/login',
+          ip: request.ip || null,
+        });
         reply.send({
           user: { id: existing.userId, email },
           profile,
@@ -536,18 +666,34 @@ export async function authRoutes(app: FastifyInstance) {
       });
       if (!account) {
         loginThrottle.registerFailure(identity);
+        await logAuthSecurityEvent({
+          eventType: 'auth_login_failed',
+          actorEmail: email,
+          detail: 'Mock login failed: account_not_found',
+          endpoint: '/v1/auth/login',
+          ip: request.ip || null,
+          metadata: { reason: 'account_not_found' },
+        });
         reply.code(401).send({ error: 'No account found for this email. Sign up first.' });
         return;
       }
 
       const passwordValid = await verifyPassword(parsed.data.password, account.passwordHash);
       if (!passwordValid) {
-        rejectInvalidCredentials();
+        await rejectInvalidCredentials('invalid_password');
         return;
       }
 
       const profile = await getOrCreateProfile(account.userId, email);
       loginThrottle.registerSuccess(identity);
+      await logAuthSecurityEvent({
+        eventType: 'auth_login_succeeded',
+        targetUserId: account.userId,
+        actorEmail: email,
+        detail: 'Mock login via local credential succeeded.',
+        endpoint: '/v1/auth/login',
+        ip: request.ip || null,
+      });
       reply.send({
         user: { id: account.userId, email },
         profile,
@@ -564,6 +710,14 @@ export async function authRoutes(app: FastifyInstance) {
 
     if (error || !data.user || !data.session) {
       loginThrottle.registerFailure(identity);
+      await logAuthSecurityEvent({
+        eventType: 'auth_login_failed',
+        actorEmail: identity.email,
+        detail: `Supabase login failed: ${error?.message || 'invalid_credentials'}`,
+        endpoint: '/v1/auth/login',
+        ip: request.ip || null,
+        metadata: { reason: 'supabase_sign_in_failed' },
+      });
       reply.code(401).send({ error: error?.message || 'Invalid email or password' });
       return;
     }
@@ -578,6 +732,14 @@ export async function authRoutes(app: FastifyInstance) {
       accessToken: data.session.access_token,
     });
     loginThrottle.registerSuccess(identity);
+    await logAuthSecurityEvent({
+      eventType: 'auth_login_succeeded',
+      targetUserId: data.user.id,
+      actorEmail: data.user.email ?? parsed.data.email,
+      detail: 'Supabase login succeeded.',
+      endpoint: '/v1/auth/login',
+      ip: request.ip || null,
+    });
   });
 
   // Admin-only debug endpoint. Clears login-throttle buckets for support and local QA scenarios.
@@ -627,6 +789,12 @@ export async function authRoutes(app: FastifyInstance) {
 
     const parsed = refreshSchema.safeParse(request.body ?? {});
     if (!parsed.success) {
+      await logAuthSecurityEvent({
+        eventType: 'auth_error_invalid_payload',
+        detail: 'Refresh payload validation failed.',
+        endpoint: '/v1/auth/refresh',
+        ip: request.ip || null,
+      });
       setRefreshDebugHeaders(reply, {
         result: 'error',
         reason: 'invalid_payload',
@@ -641,6 +809,12 @@ export async function authRoutes(app: FastifyInstance) {
     const rememberCookie = cookies.get(REMEMBER_COOKIE_NAME);
     const persistentSession = rememberCookie === '1';
     if (!refreshToken) {
+      await logAuthSecurityEvent({
+        eventType: 'auth_error_refresh_missing_cookie',
+        detail: 'Refresh token cookie missing on refresh attempt.',
+        endpoint: '/v1/auth/refresh',
+        ip: request.ip || null,
+      });
       setRefreshDebugHeaders(reply, {
         result: 'error',
         reason: 'missing_refresh_cookie',
@@ -733,6 +907,14 @@ export async function authRoutes(app: FastifyInstance) {
       });
 
       if (!rotated.ok) {
+        await logAuthSecurityEvent({
+          eventType: 'auth_error_refresh_failed',
+          targetUserId: env.DEV_USER_ID,
+          detail: `Local refresh failed: ${rotated.reason}`,
+          endpoint: '/v1/auth/refresh',
+          ip: request.ip || null,
+          metadata: { reason: rotated.reason },
+        });
         setRefreshDebugHeaders(reply, {
           result: 'error',
           reason: rotated.reason,
@@ -779,6 +961,13 @@ export async function authRoutes(app: FastifyInstance) {
     });
 
     if (error || !data.session || !data.user) {
+      await logAuthSecurityEvent({
+        eventType: 'auth_error_refresh_failed',
+        detail: `Supabase refresh failed: ${error?.message || 'unknown_error'}`,
+        endpoint: '/v1/auth/refresh',
+        ip: request.ip || null,
+        metadata: { reason: 'supabase_refresh_failed' },
+      });
       setRefreshDebugHeaders(reply, {
         result: 'error',
         reason: 'supabase_refresh_failed',

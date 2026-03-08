@@ -13,6 +13,7 @@ import { attemptRoutes } from './routes/attempts.js';
 import { telemetryRoutes } from './routes/telemetry.js';
 import { characterRoutes } from './routes/characters.js';
 import { publicContactRoutes } from './routes/publicContact.js';
+import { adminRoutes } from './routes/admin.js';
 
 function buildCspHeader(allowedOrigins: Set<string>) {
   // Generate a strict CSP while allowing configured API origins for client fetch calls.
@@ -192,6 +193,7 @@ export async function buildServer() {
   await telemetryRoutes(app);
   await characterRoutes(app);
   await publicContactRoutes(app);
+  await adminRoutes(app);
 
   app.setErrorHandler((error, _request, reply) => {
     if (isAppError(error)) {

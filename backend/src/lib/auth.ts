@@ -2,6 +2,8 @@ import type { FastifyReply, FastifyRequest } from 'fastify';
 import { env } from '../env.js';
 import { getSupabaseAdmin } from './supabase.js';
 import { verifyAccessToken } from './localAuth.js';
+import { prisma } from './prisma.js';
+import { resolveSupportAdminFromRequest } from './supportAdminAuth.js';
 
 function extractBearerToken(authHeader: string | undefined) {
   // Accept only canonical `Bearer <token>` authorization format.
@@ -87,4 +89,91 @@ export async function requireAuth(request: FastifyRequest, reply: FastifyReply) 
     email: data.user.email ?? null,
     displayName: resolveDisplayNameFromMetadata(data.user.user_metadata),
   };
+}
+
+function userIsSupportAdmin(user: { id: string; email: string | null }) {
+  const userId = user.id.trim().toLowerCase();
+  const email = (user.email || '').trim().toLowerCase();
+  if (env.SUPPORT_ADMIN_USER_IDS_SET.has(userId)) return true;
+  if (email && env.SUPPORT_ADMIN_EMAILS_SET.has(email)) return true;
+  const isDevBypass =
+    env.NODE_ENV !== 'production' && (user.id === env.DEV_USER_ID || email === env.DEV_USER_EMAIL);
+  return isDevBypass;
+}
+
+export async function requireAdmin(request: FastifyRequest, reply: FastifyReply) {
+  const supportAdminIdentity = await resolveSupportAdminFromRequest(request);
+  if (supportAdminIdentity) {
+    request.user = {
+      id: env.DEV_USER_ID,
+      email: supportAdminIdentity.username,
+      displayName: 'Support Admin',
+    };
+    return;
+  }
+
+  await requireAuth(request, reply);
+  if (reply.sent) {
+    try {
+      await prisma.$executeRaw`
+        INSERT INTO account_security_events
+          (id, target_user_id, actor_user_id, actor_email, event_type, detail, metadata_json, created_at)
+        VALUES
+          (
+            gen_random_uuid(),
+            ${env.DEV_USER_ID}::uuid,
+            null,
+            null,
+            'admin_route_access_denied',
+            'Admin route access denied: unauthenticated request',
+            ${JSON.stringify({
+              method: request.method,
+              route: request.routeOptions.url ?? request.url,
+              path: request.url,
+              ip: request.ip,
+            })}::jsonb,
+            now()
+          )
+      `;
+    } catch {
+      // Best-effort security logging only.
+    }
+    return;
+  }
+
+  if (!userIsSupportAdmin(request.user)) {
+    // Best-effort security signal for denied admin access attempts.
+    try {
+      await prisma.$executeRaw`
+        INSERT INTO account_security_events
+          (id, target_user_id, actor_user_id, actor_email, event_type, detail, metadata_json, created_at)
+        VALUES
+          (
+            gen_random_uuid(),
+            ${request.user.id}::uuid,
+            ${request.user.id}::uuid,
+            ${request.user.email},
+            'admin_route_access_denied',
+            'Admin route access denied by allowlist policy',
+            ${JSON.stringify({
+              method: request.method,
+              route: request.routeOptions.url ?? request.url,
+              path: request.url,
+              ip: request.ip,
+            })}::jsonb,
+            now()
+          )
+      `;
+    } catch {
+      request.log.warn(
+        {
+          security: true,
+          userId: request.user.id,
+          route: request.routeOptions.url ?? request.url,
+        },
+        'admin_access_denied_log_failed'
+      );
+    }
+    reply.code(403).send({ error: 'Admin access required' });
+  }
 }

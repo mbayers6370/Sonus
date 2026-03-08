@@ -9,6 +9,7 @@ import GlassLoader from './components/ui/GlassLoader';
 import PrivacyPage from './components/public/PrivacyPage';
 import TermsPage from './components/public/TermsPage';
 import ContactPage from './components/public/ContactPage';
+import SupportConsolePage from './components/internal/SupportConsolePage';
 
 type RouterKind = 'browser' | 'hash';
 const HAS_VISITED_KEY = 'sonus.has_visited';
@@ -88,6 +89,7 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/internal/support/*" element={<SupportConsolePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );

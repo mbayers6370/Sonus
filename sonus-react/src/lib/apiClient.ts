@@ -30,6 +30,7 @@ const USER_CACHE_CLEAR_PATH_PREFIXES = [
   '/v1/me/needs-work',
 ];
 const AUTH_DEBUG_STORAGE_KEY = 'sonus.debug.auth';
+const SUPPORT_ADMIN_TOKEN_STORAGE_KEY = 'sonus.support_admin.token';
 
 type SwrPolicy = {
   freshMs: number;
@@ -125,6 +126,14 @@ function invalidateSwrCacheByPrefixes(prefixes: string[]) {
 
 function isAuthRoute(path: string) {
   return path.startsWith('/v1/auth/');
+}
+
+function readSupportAdminToken() {
+  try {
+    return window.localStorage.getItem(SUPPORT_ADMIN_TOKEN_STORAGE_KEY) || null;
+  } catch {
+    return null;
+  }
 }
 
 function normalizedMethod(init: RequestInit) {
@@ -322,6 +331,10 @@ export async function apiFetch(path: string, init: RequestInit = {}) {
   }
   if (mockIdentity.email && !headers.has('x-dev-user-email')) {
     headers.set('x-dev-user-email', mockIdentity.email);
+  }
+  if (path.startsWith('/v1/admin/') && !headers.has('x-support-admin-token')) {
+    const supportToken = readSupportAdminToken();
+    if (supportToken) headers.set('x-support-admin-token', supportToken);
   }
 
   const method = normalizedMethod(init);

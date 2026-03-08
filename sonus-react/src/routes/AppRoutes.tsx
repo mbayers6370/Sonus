@@ -37,6 +37,7 @@ const TonesRoute = lazy(() => import('./foundationRoutes').then((m) => ({ defaul
 const ProfileRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.ProfileRoute })));
 const TravelRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelRoute })));
 const TravelSectionRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelSectionRoute })));
+const SupportConsolePage = lazy(() => import('../components/internal/SupportConsolePage'));
 
 const LAST_LANGUAGE_KEY = 'sonus.last_language';
 const WALKTHROUGH_DONE_PREFIX = 'sonus.walkthrough.done:';
@@ -1144,6 +1145,7 @@ export default function AppRoutes() {
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/terms" element={<TermsPage />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/internal/support/*" element={<SupportConsolePage />} />
       <Route path="*" element={<Navigate to={selectedLanguage ? '/home' : '/'} replace />} />
       </Routes>
       {walkthroughVisible && walkthroughSteps[walkthroughStep] && (
