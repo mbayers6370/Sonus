@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { env } from '../env.js';
 import { requireAuth } from '../lib/auth.js';
 import { prisma } from '../lib/prisma.js';
-import { getSupabaseAdmin } from '../lib/supabase.js';
 import { serializeCookie } from '../lib/cookies.js';
 import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js';
 import {
@@ -69,6 +68,9 @@ const progressCurrentPatchSchema = z.object({
   currentUnitId: z.string().trim().min(1).max(128).nullable().optional(),
   currentLessonIdx: z.number().int().min(0).max(500).nullable().optional(),
 });
+const accountDeletionRequestSchema = z.object({
+  reason: z.string().trim().min(8).max(500).optional(),
+});
 
 export async function meRoutes(app: FastifyInstance) {
   const allowedOrigins = readAllowedOrigins();
@@ -108,34 +110,78 @@ export async function meRoutes(app: FastifyInstance) {
     return { profile };
   });
 
-  // Auth required + trusted origin. Permanently deletes user data across app tables.
+  // Auth required + trusted origin. Schedules account deletion and signs the user out immediately.
   app.delete('/v1/me/account', { preHandler: [requireAuth] }, async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+    const parsedBody = accountDeletionRequestSchema.safeParse(request.body ?? {});
+    if (!parsedBody.success) {
+      reply.code(400).send({ error: 'Invalid payload', issues: parsedBody.error.issues });
+      return;
+    }
 
     const { id, email } = request.user;
-    const deletedAtIso = new Date().toISOString();
+    const holdDays = env.ACCOUNT_DELETION_HOLD_DAYS;
+    const scheduledFor = new Date(Date.now() + holdDays * 24 * 60 * 60 * 1000);
+    const reason =
+      parsedBody.data.reason?.trim() || 'User requested account deletion from profile settings.';
 
-    await prisma.$transaction(async (tx) => {
-      if (env.AUTH_MODE === 'local') {
-        await tx.refreshSession.deleteMany({ where: { userId: id } });
-        await tx.localAuthCredential.deleteMany({ where: { userId: id } });
-      }
-      await tx.passwordResetToken.deleteMany({ where: { userId: id } });
-      await tx.quizAttempt.deleteMany({ where: { userId: id } });
-      await tx.speakAttempt.deleteMany({ where: { userId: id } });
-      await tx.wordMemoryState.deleteMany({ where: { userId: id } });
-      await tx.progressEvent.deleteMany({ where: { userId: id } });
-      await tx.userProgress.deleteMany({ where: { userId: id } });
-      await tx.profile.deleteMany({ where: { userId: id } });
+    const profileSnapshot = await prisma.profile.findUnique({
+      where: { userId: id },
+      select: { displayName: true, email: true },
     });
 
-    if (env.AUTH_MODE === 'supabase') {
-      try {
-        const supabaseAdmin = getSupabaseAdmin();
-        await supabaseAdmin.auth.admin.deleteUser(id);
-      } catch {
-        // Account data is already removed from app tables; do not fail deletion on auth cleanup.
-      }
+    await prisma.$executeRaw`
+      INSERT INTO scheduled_account_deletions
+        (
+          id,
+          target_user_id,
+          target_email,
+          target_display_name,
+          requested_by_user_id,
+          requested_by_email,
+          reason,
+          hold_days,
+          scheduled_for,
+          status,
+          created_at,
+          updated_at
+        )
+      VALUES
+        (
+          gen_random_uuid(),
+          ${id}::uuid,
+          ${profileSnapshot?.email || email},
+          ${profileSnapshot?.displayName || null},
+          ${id}::uuid,
+          ${email},
+          ${reason},
+          ${holdDays},
+          ${scheduledFor},
+          'scheduled',
+          now(),
+          now()
+        )
+      ON CONFLICT (target_user_id)
+      WHERE (status = 'scheduled')
+      DO UPDATE SET
+        target_email = EXCLUDED.target_email,
+        target_display_name = EXCLUDED.target_display_name,
+        requested_by_user_id = EXCLUDED.requested_by_user_id,
+        requested_by_email = EXCLUDED.requested_by_email,
+        reason = EXCLUDED.reason,
+        hold_days = EXCLUDED.hold_days,
+        scheduled_for = EXCLUDED.scheduled_for,
+        updated_at = now()
+    `;
+
+    if (env.AUTH_MODE === 'local') {
+      await prisma.refreshSession.updateMany({
+        where: { userId: id, revokedAt: null },
+        data: {
+          revokedAt: new Date(),
+          revokedReason: 'account_deletion_scheduled',
+        },
+      });
     }
 
     reply.header(
@@ -150,16 +196,23 @@ export async function meRoutes(app: FastifyInstance) {
       })
     );
 
-    if (email) {
+    if (profileSnapshot?.email || email) {
       void sendAccountDeletionConfirmationEmail({
-        to: email,
-        deletedAtIso,
+        to: profileSnapshot?.email || email || '',
+        deletedAtIso: new Date().toISOString(),
+        holdDays,
+        scheduledForIso: scheduledFor.toISOString(),
       }).catch((error) => {
         console.error('[auth] Unexpected account deletion email error', error);
       });
     }
 
-    return { ok: true };
+    return {
+      ok: true,
+      scheduled: true,
+      holdDays,
+      scheduledFor: scheduledFor.toISOString(),
+    };
   });
 
   // Auth required. Returns denormalized progress snapshot for dashboard/profile consumers.

@@ -506,6 +506,7 @@ type LessonCompletionSnapshot = {
   speakAllCorrect: boolean;
   completed: boolean;
   mastered: boolean;
+  reachedCompleteScreen?: boolean;
 };
 
 type ProgressCompletionEventType = 'lesson_completed' | 'apply_completed';
@@ -644,6 +645,7 @@ async function flushQueuedLessonSnapshots() {
           speakAllCorrect: snapshot.speakAllCorrect,
           completed: snapshot.completed,
           mastered: snapshot.mastered,
+          reachedCompleteScreen: Boolean(snapshot.reachedCompleteScreen),
         },
       });
     try {
@@ -792,6 +794,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       speakAllCorrect: nextSpeakAllCorrect,
       completed: existing.completed || completedByScores,
       mastered: existing.mastered,
+      reachedCompleteScreen: false,
     };
   };
 
@@ -1985,6 +1988,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         speakAllCorrect: nextSpeakAllCorrect,
         completed: nextCompleted,
         mastered: nextMastered,
+        reachedCompleteScreen: true,
       };
 
       let nextUnlockedLevels = prev.unlockedLevels;

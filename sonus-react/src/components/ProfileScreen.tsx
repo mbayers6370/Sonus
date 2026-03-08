@@ -226,6 +226,7 @@ export default function ProfileScreen({
   const [targetLanguage, setTargetLanguage] = useState('');
   const [timezone, setTimezone] = useState('');
   const [deletingAccount, setDeletingAccount] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [languagePickerOpen, setLanguagePickerOpen] = useState(false);
   const [switchingLanguage, setSwitchingLanguage] = useState(false);
 
@@ -454,20 +455,22 @@ export default function ProfileScreen({
 
   const deleteAccount = async () => {
     if (deletingAccount) return;
-    const confirmed = window.confirm(
-      'Delete account permanently? This removes profile, progress, attempts, and review history.'
-    );
-    if (!confirmed) return;
-
     setDeletingAccount(true);
     setError(null);
     setSaveMessage(null);
     try {
-      const response = await apiFetch('/v1/me/account', { method: 'DELETE' });
+      const response = await apiFetch('/v1/me/account', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reason: 'User requested account deletion from profile settings.',
+        }),
+      });
       if (!response.ok) {
         const text = await response.text();
         throw new Error(text || 'Failed to delete account');
       }
+      setDeleteModalOpen(false);
       signOut();
     } catch (err) {
       setError((err as Error).message || 'Failed to delete account');
@@ -655,12 +658,12 @@ export default function ProfileScreen({
             </SurfaceButtonCard>
             {!isDemo && (
               <SurfaceButtonCard
-                onClick={() => void deleteAccount()}
+                onClick={() => setDeleteModalOpen(true)}
                 disabled={deletingAccount}
                 className="w-full min-h-[150px] lg:flex-1 !bg-[#C2410C] !border-transparent p-4 text-left !text-white flex flex-col justify-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.45)] active:translate-y-0 disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
               >
                 <div className="font-semibold text-white">
-                  {deletingAccount ? 'Deleting Account…' : 'Delete Account'}
+                  {deletingAccount ? 'Scheduling Deletion…' : 'Delete Account'}
                 </div>
                 <div className="text-sm text-white/85">Permanently remove account and learning data.</div>
               </SurfaceButtonCard>
@@ -785,6 +788,44 @@ export default function ProfileScreen({
                 className="flex-1 px-3 py-2 rounded-lg border border-border text-sm text-text-dark disabled:opacity-60"
               >
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteModalOpen && (
+        <div className="fixed inset-0 bg-black/45 z-[80] flex items-center justify-center px-6">
+          <div className="w-full max-w-md bg-white border border-[#7F1D1D]/20 rounded-2xl p-5">
+            <h3 className="font-semibold text-[#7F1D1D] text-lg">Delete Account?</h3>
+            <p className="mt-2 text-sm text-text-med">
+              Your account is scheduled for permanent deletion in 14 days.
+            </p>
+            <p className="mt-2 text-sm text-text-med">
+              If you would like to keep your account, contact
+              {' '}
+              <a href="mailto:support@sonuslearning.com" className="underline underline-offset-2 text-[#9A3412]">
+                support@sonuslearning.com
+              </a>
+              {' '}
+              before the deletion date.
+            </p>
+            <div className="mt-4 flex gap-2">
+              <button
+                type="button"
+                onClick={() => setDeleteModalOpen(false)}
+                disabled={deletingAccount}
+                className="flex-1 px-3 py-2 rounded-lg border border-border text-sm text-text-dark disabled:opacity-60"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => void deleteAccount()}
+                disabled={deletingAccount}
+                className="flex-1 px-3 py-2 rounded-lg bg-[#B45309] text-white text-sm font-semibold disabled:opacity-60"
+              >
+                {deletingAccount ? 'Scheduling…' : 'Delete Account'}
               </button>
             </div>
           </div>

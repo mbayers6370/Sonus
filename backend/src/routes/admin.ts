@@ -678,6 +678,8 @@ export async function adminRoutes(app: FastifyInstance) {
       }
       const windowDays = parsed.data.windowDays;
       const windowInterval = `${windowDays} days`;
+      const activeWindowMinutes = 15;
+      const activeWindowInterval = `${activeWindowMinutes} minutes`;
       const [
         failedLogins,
         resetRequests,
@@ -729,6 +731,7 @@ export async function adminRoutes(app: FastifyInstance) {
             FROM refresh_sessions rs
             WHERE rs.revoked_at IS NULL
               AND rs.expires_at > now()
+              AND COALESCE(rs.last_used_at, rs.created_at) >= now() - ${activeWindowInterval}::interval
           `
         ),
       ]);
@@ -772,6 +775,7 @@ export async function adminRoutes(app: FastifyInstance) {
           unauthorizedAdminAttempts,
           currentUsers,
           activeUsers,
+          activeWindowMinutes,
           supportNotesCreated: noteCount,
           supportNoteCreateFailures: noteFailureCount,
           authErrorBreakdown: authErrorBreakdown.map((row) => ({
@@ -888,7 +892,6 @@ export async function adminRoutes(app: FastifyInstance) {
           speakAttempts: bigint;
           speakPassed: bigint;
           lessonStarts: bigint;
-          lessonCompletedAsStartFallback: bigint;
           lessonCompleted: bigint;
           applyCompleted: bigint;
         }>
@@ -899,9 +902,8 @@ export async function adminRoutes(app: FastifyInstance) {
         (SELECT COUNT(*)::bigint FROM speak_attempts sa WHERE sa.created_at >= now() - ${windowInterval}::interval) AS "speakAttempts",
         (SELECT COUNT(*)::bigint FROM speak_attempts sa WHERE sa.initial_ok = true AND sa.final_ok = true AND sa.tone_ok = true AND sa.created_at >= now() - ${windowInterval}::interval) AS "speakPassed",
         (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'lesson_started' AND pe.created_at >= now() - ${windowInterval}::interval) AS "lessonStarts",
-        (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'lesson_completed' AND pe.created_at >= now() - ${windowInterval}::interval) AS "lessonCompletedAsStartFallback",
-        (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'lesson_completed' AND pe.created_at >= now() - ${windowInterval}::interval) AS "lessonCompleted",
-        (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'apply_completed' AND pe.created_at >= now() - ${windowInterval}::interval) AS "applyCompleted"
+        (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'lesson_completed' AND COALESCE(pe.payload_json->>'reachedCompleteScreen', 'false') = 'true' AND pe.created_at >= now() - ${windowInterval}::interval) AS "lessonCompleted",
+        (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'apply_completed' AND COALESCE(pe.payload_json->>'reachedCompleteScreen', 'false') = 'true' AND pe.created_at >= now() - ${windowInterval}::interval) AS "applyCompleted"
     `;
 
       const [summary] = rows;
@@ -909,10 +911,7 @@ export async function adminRoutes(app: FastifyInstance) {
       const quizCorrect = toInt(summary?.quizCorrect);
       const speakAttempts = toInt(summary?.speakAttempts);
       const speakPassed = toInt(summary?.speakPassed);
-      const lessonStartsRaw = toInt(summary?.lessonStarts);
-      const lessonCompletedAsStartFallback = toInt(summary?.lessonCompletedAsStartFallback);
-      // If lesson_started instrumentation is sparse in older data, use completed as a conservative floor.
-      const lessonStarts = Math.max(lessonStartsRaw, lessonCompletedAsStartFallback);
+      const lessonStarts = toInt(summary?.lessonStarts);
       const lessonCompleted = toInt(summary?.lessonCompleted);
       const lessonAbandons = Math.max(0, lessonStarts - lessonCompleted);
 
@@ -927,7 +926,7 @@ export async function adminRoutes(app: FastifyInstance) {
           speakAttempts,
           speakPassPct: pct(speakPassed, speakAttempts),
           lessonStarts,
-          lessonStartsTracked: lessonStartsRaw,
+          lessonStartsTracked: lessonStarts,
           lessonCompleted,
           lessonCompletionPct: pct(lessonCompleted, lessonStarts),
           lessonAbandons,

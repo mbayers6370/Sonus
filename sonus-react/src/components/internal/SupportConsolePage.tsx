@@ -112,6 +112,7 @@ type SupportMetrics = {
     unauthorizedAdminAttempts: number;
     currentUsers: number;
     activeUsers: number;
+    activeWindowMinutes: number;
     supportNotesCreated: number;
     supportNoteCreateFailures: number;
     authErrorBreakdown?: Array<{ eventType: string; count: number }>;
@@ -911,7 +912,12 @@ export default function SupportConsolePage() {
                 <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.currentUsers ?? 0}</div>
               </article>
               <article className={metricCard}>
-                <div className="text-xs text-[#64748b]">Active Users (Signed In)</div>
+                <div className="text-xs text-[#64748b]">
+                  Active Users
+                  <span className="ml-1 text-[11px] text-[#94a3b8]">
+                    ({supportMetrics?.support.activeWindowMinutes ?? 15}m)
+                  </span>
+                </div>
                 <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.activeUsers ?? 0}</div>
               </article>
               <article className={metricCard}>
@@ -931,11 +937,11 @@ export default function SupportConsolePage() {
                 <div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics?.learning.speakPassPct ?? 0}%</div>
               </article>
               <article className={metricCard}>
-                <div className="text-xs text-[#64748b]">Lesson Completion</div>
+                <div className="text-xs text-[#64748b]">Lessons Finished</div>
                 <div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics?.learning.lessonCompletionPct ?? 0}%</div>
               </article>
               <article className={metricCard}>
-                <div className="text-xs text-[#64748b]">Lesson Abandons</div>
+                <div className="text-xs text-[#64748b]">Lessons Abandoned</div>
                 <div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics?.learning.lessonAbandons ?? 0}</div>
               </article>
               <article className={metricCard}>
@@ -1079,7 +1085,7 @@ export default function SupportConsolePage() {
           <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
             <h2 className="text-lg font-semibold text-[#0f172a]">Learning Metrics (Last {metricsWindowDays} Days)</h2>
             <p className="mt-1 text-sm text-[#475569]">Broad overview of learning performance and progression quality.</p>
-            <p className="mt-1 text-xs text-[#64748b]">Metric definitions should stay fixed (lesson opens, entry events, completion, and abandons) so trends remain reliable.</p>
+            <p className="mt-1 text-xs text-[#64748b]">Definitions: finished = reached the Lesson Complete screen. abandoned = started but never reached Lesson Complete.</p>
             <div className="mt-3 inline-flex rounded-xl border border-[#d1d5db] bg-white p-1">
               {[7, 30, 90].map((days) => (
                 <button
@@ -1102,8 +1108,8 @@ export default function SupportConsolePage() {
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.speakAttempts}</div><div className="text-xs text-[#64748b]">Speak Pass Rate {learningMetrics.learning.speakPassPct}%</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Opens</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStarts}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Entry Events</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsTracked ?? 0}</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Completed</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonCompleted}</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Abandons</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonAbandons}</div></div>
+                <div className={metricCard}><div className="text-xs text-[#64748b]">Lessons Finished (Complete Screen)</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonCompleted}</div></div>
+                <div className={metricCard}><div className="text-xs text-[#64748b]">Lessons Abandoned</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonAbandons}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Apply Completed</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.applyCompleted}</div></div>
               </div>
             )}
