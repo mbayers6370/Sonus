@@ -1,5 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  BookUser,
+  Home,
+  LogOut,
+  MailPlus,
+  RotateCcwKey,
+  TextSearch,
+  UserRoundPlus,
+  UserRoundSearch,
+} from 'lucide-react';
 import { apiFetch } from '../../lib/apiClient';
 
 type SearchResult = {
@@ -154,6 +164,7 @@ type WeakWordsByLanguage = {
 };
 
 const SUPPORT_ADMIN_TOKEN_STORAGE_KEY = 'sonus.support_admin.token';
+const ROOT_QA_ADMIN_USERNAME = 'qa-admin-f8n2x7r1@sonus.test';
 
 const baseInput =
   'w-full rounded-xl border border-[#1f2937]/20 bg-white px-3 py-2 text-sm text-[#0f172a] outline-none focus:border-[#1f2937]';
@@ -263,6 +274,26 @@ export default function SupportConsolePage() {
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [deleteSuccessOpen, setDeleteSuccessOpen] = useState(false);
   const [metricsWindowDays, setMetricsWindowDays] = useState<7 | 30 | 90>(30);
+  const [supportAdminUsername, setSupportAdminUsername] = useState<string | null>(null);
+  const [createAdminOpen, setCreateAdminOpen] = useState(false);
+  const [createAdminBusy, setCreateAdminBusy] = useState(false);
+  const [createAdminUsername, setCreateAdminUsername] = useState('');
+  const [createAdminPassword, setCreateAdminPassword] = useState('password');
+  const [createAdminRecoveryEmail, setCreateAdminRecoveryEmail] = useState('');
+  const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
+  const [resetPasswordBusy, setResetPasswordBusy] = useState(false);
+  const [resetPasswordCurrentValue, setResetPasswordCurrentValue] = useState('');
+  const [resetPasswordNewValue, setResetPasswordNewValue] = useState('');
+  const [recoveryEmailOpen, setRecoveryEmailOpen] = useState(false);
+  const [recoveryEmailBusy, setRecoveryEmailBusy] = useState(false);
+  const [recoveryEmailValue, setRecoveryEmailValue] = useState('');
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
+  const [forgotPasswordBusy, setForgotPasswordBusy] = useState(false);
+  const [forgotPasswordUsername, setForgotPasswordUsername] = useState('qa-admin-f8n2x7r1@sonus.test');
+  const [forgotPasswordMessage, setForgotPasswordMessage] = useState<string | null>(null);
+  const [resetTokenValue, setResetTokenValue] = useState('');
+  const [resetTokenPasswordValue, setResetTokenPasswordValue] = useState('');
+  const [resetTokenBusy, setResetTokenBusy] = useState(false);
 
   const viewMode = useMemo<'dashboard' | 'ops' | 'metrics-support' | 'metrics-learning'>(() => {
     if (location.pathname.endsWith('/users')) return 'ops';
@@ -290,15 +321,24 @@ export default function SupportConsolePage() {
     const fallback = actionChannel.trim();
     return fallback.length >= 8 ? fallback : '';
   }, [actionReason, actionChannel]);
+  const resetTokenFromQuery = useMemo(() => {
+    const params = new URLSearchParams(location.search || '');
+    return (params.get('adminResetToken') || '').trim();
+  }, [location.search]);
+  const canCreateAdmins = supportAdminUsername === ROOT_QA_ADMIN_USERNAME;
 
   const verifySupportAdminSession = async () => {
     try {
-      await parseJsonOrThrow(await apiFetch('/v1/admin/auth/me', { cache: 'no-store' }));
+      const payload = await parseJsonOrThrow<{ username?: string }>(
+        await apiFetch('/v1/admin/auth/me', { cache: 'no-store' })
+      );
       setAuthenticated(true);
+      setSupportAdminUsername(payload.username || null);
       setAuthError(null);
       return true;
     } catch {
       setAuthenticated(false);
+      setSupportAdminUsername(null);
       return false;
     }
   };
@@ -676,6 +716,125 @@ export default function SupportConsolePage() {
     setSelectedUserId(null);
     setOverview(null);
     setTimeline([]);
+    setSupportAdminUsername(null);
+  };
+
+  const handleCreateSupportAdmin = async () => {
+    if (!canCreateAdmins) return;
+    setCreateAdminBusy(true);
+    setAuthError(null);
+    try {
+      await parseJsonOrThrow(
+        await apiFetch('/v1/admin/auth/create-admin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: createAdminUsername.trim(),
+            password: createAdminPassword,
+            recoveryEmail: createAdminRecoveryEmail.trim() || undefined,
+          }),
+        })
+      );
+      setCreateAdminOpen(false);
+      setCreateAdminUsername('');
+      setCreateAdminPassword('password');
+      setCreateAdminRecoveryEmail('');
+      setAuthError('New admin created.');
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : 'Failed to create admin');
+    } finally {
+      setCreateAdminBusy(false);
+    }
+  };
+
+  const handleResetSupportAdminPassword = async () => {
+    setResetPasswordBusy(true);
+    setAuthError(null);
+    try {
+      await parseJsonOrThrow(
+        await apiFetch('/v1/admin/auth/reset-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            currentPassword: resetPasswordCurrentValue,
+            newPassword: resetPasswordNewValue,
+          }),
+        })
+      );
+      setResetPasswordOpen(false);
+      setResetPasswordCurrentValue('');
+      setResetPasswordNewValue('');
+      setAuthError('Password updated.');
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : 'Failed to reset password');
+    } finally {
+      setResetPasswordBusy(false);
+    }
+  };
+
+  const handleSaveRecoveryEmail = async () => {
+    setRecoveryEmailBusy(true);
+    setAuthError(null);
+    try {
+      await parseJsonOrThrow(
+        await apiFetch('/v1/admin/auth/recovery-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ recoveryEmail: recoveryEmailValue.trim() }),
+        })
+      );
+      setRecoveryEmailOpen(false);
+      setAuthError('Recovery email saved.');
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : 'Failed to save recovery email');
+    } finally {
+      setRecoveryEmailBusy(false);
+    }
+  };
+
+  const handleForgotSupportAdminPassword = async () => {
+    setForgotPasswordBusy(true);
+    setForgotPasswordMessage(null);
+    setAuthError(null);
+    try {
+      await parseJsonOrThrow(
+        await apiFetch('/v1/admin/auth/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: forgotPasswordUsername.trim() }),
+        })
+      );
+      setForgotPasswordMessage('If recovery email is configured, a reset email was sent.');
+    } catch (error) {
+      setForgotPasswordMessage(error instanceof Error ? error.message : 'Failed to request reset');
+    } finally {
+      setForgotPasswordBusy(false);
+    }
+  };
+
+  const handleResetWithEmailToken = async () => {
+    setResetTokenBusy(true);
+    setAuthError(null);
+    try {
+      await parseJsonOrThrow(
+        await apiFetch('/v1/admin/auth/reset-password-with-token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token: resetTokenValue.trim() || resetTokenFromQuery,
+            password: resetTokenPasswordValue,
+          }),
+        })
+      );
+      setResetTokenPasswordValue('');
+      setResetTokenValue('');
+      setAuthError('Password reset successful. Sign in with your new password.');
+      navigate('/internal/support', { replace: true });
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : 'Failed to reset password with token');
+    } finally {
+      setResetTokenBusy(false);
+    }
   };
 
   const handlePermanentDeleteUser = async () => {
@@ -806,6 +965,16 @@ export default function SupportConsolePage() {
             <button type="button" className={`${baseButton} mt-3 w-full`} disabled={authBusy || adminUsername.trim().length < 3 || adminPassword.length < 1} onClick={() => void handleSupportLogin()}>
               Sign In
             </button>
+            <button
+              type="button"
+              className="mt-2 w-full text-xs font-medium text-[#1f2937] underline underline-offset-4"
+              onClick={() => {
+                setForgotPasswordUsername(adminUsername.trim() || 'qa-admin-f8n2x7r1@sonus.test');
+                setForgotPasswordOpen(true);
+              }}
+            >
+              Forgot admin password?
+            </button>
             </section>
 
             {setupRequired && (
@@ -821,68 +990,126 @@ export default function SupportConsolePage() {
               </section>
             )}
           </div>
+          {(resetTokenFromQuery || resetTokenValue.trim()) && (
+            <div className="mx-auto mt-4 max-w-md rounded-2xl border border-[#1f2937]/20 bg-white/95 p-5">
+              <h2 className="text-lg font-semibold text-[#0f172a]">Reset Admin Password</h2>
+              <p className="mt-1 text-sm text-[#475569]">Use the token from your recovery email.</p>
+              <input
+                className={`${baseInput} mt-3`}
+                value={resetTokenValue}
+                onChange={(event) => setResetTokenValue(event.target.value)}
+                placeholder={resetTokenFromQuery ? 'Token from URL detected' : 'reset token'}
+              />
+              <input
+                type="password"
+                className={`${baseInput} mt-2`}
+                value={resetTokenPasswordValue}
+                onChange={(event) => setResetTokenPasswordValue(event.target.value)}
+                placeholder="new password (min 8 chars)"
+              />
+              <button
+                type="button"
+                className={`${baseButton} mt-3 w-full`}
+                disabled={
+                  resetTokenBusy ||
+                  (resetTokenValue.trim().length < 24 && resetTokenFromQuery.length < 24) ||
+                  resetTokenPasswordValue.length < 8
+                }
+                onClick={() => void handleResetWithEmailToken()}
+              >
+                {resetTokenBusy ? 'Resetting…' : 'Reset Password'}
+              </button>
+            </div>
+          )}
           {authError && <div className="mx-auto mt-4 max-w-5xl rounded-xl border border-[#1f2937]/20 bg-white/95 p-3 text-sm text-[#1f2937]">{authError}</div>}
+          {forgotPasswordOpen && (
+            <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/45 p-4">
+              <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+                <h3 className="text-lg font-semibold text-[#0f172a]">Forgot Admin Password</h3>
+                <p className="mt-1 text-sm text-[#475569]">Enter admin username. If recovery email is configured, we will send a reset link.</p>
+                <input className={`${baseInput} mt-3`} value={forgotPasswordUsername} onChange={(event) => setForgotPasswordUsername(event.target.value)} placeholder="admin username" />
+                {forgotPasswordMessage && <p className="mt-2 text-xs text-[#334155]">{forgotPasswordMessage}</p>}
+                <div className="mt-3 flex gap-2">
+                  <button type="button" className={baseButton} disabled={forgotPasswordBusy || forgotPasswordUsername.trim().length < 3} onClick={() => void handleForgotSupportAdminPassword()}>
+                    {forgotPasswordBusy ? 'Sending…' : 'Send Reset Link'}
+                  </button>
+                  <button type="button" className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]" disabled={forgotPasswordBusy} onClick={() => setForgotPasswordOpen(false)}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen page-shell p-4 md:p-6">
-      <div className="mx-auto max-w-7xl">
-        <section className="mb-4 rounded-2xl border border-white/40 bg-[#1f2937] p-4">
-          <div className="relative flex items-center justify-end">
-            <img
-              src="/branding/Logo_White.png"
-              alt="Sonus"
-              className="absolute left-1/2 h-6 w-auto -translate-x-1/2 opacity-95 md:h-7"
-              loading="eager"
-            />
+    <div className="min-h-screen pb-24">
+      <section className="fixed inset-x-0 top-0 z-[110] w-screen border-b border-white/20 bg-[#1f2937] px-4 py-4 shadow-[0_10px_24px_-18px_rgba(15,23,42,0.65)] md:px-6">
+        <div className="mx-auto max-w-7xl">
+          <div className="relative flex items-center justify-center gap-3">
+            <div className="flex min-w-0 items-center gap-3">
+              <img src="/branding/Logo_White.png" alt="Sonus" className="h-6 w-auto opacity-95 md:h-7" loading="eager" />
+              <span aria-hidden="true" className="text-white/45">|</span>
+              <h1 className="main-font truncate text-base font-normal text-white md:text-lg">Support Dashboard</h1>
+            </div>
             <button
               type="button"
-              className="text-sm font-medium text-white underline underline-offset-4 transition hover:text-white/80"
+              className="absolute right-0 inline-flex h-9 w-9 items-center justify-center text-white transition hover:text-white/80"
               onClick={() => void handleSupportLogout()}
+              aria-label="Log Out"
+              title="Log Out"
             >
-              Log Out
+              <LogOut className="h-5 w-5" />
             </button>
           </div>
-          <div className="mt-3 min-w-0 text-center">
-            <h1 className="text-xl font-semibold text-white">Support Console Dashboard</h1>
-            <p className="text-sm text-white/80">Main analytics dashboard with focused drill-down pages.</p>
-          </div>
           <div className="mt-3">
-            <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-center">
+            <div className="flex items-center justify-center gap-4">
               <button
                 type="button"
-                className="h-11 w-full rounded-xl border border-white bg-white/5 px-3 text-sm font-semibold text-white transition hover:bg-white/10 md:w-40"
+                className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
                 onClick={() => navigate('/internal/support')}
+                aria-label="Home"
+                title="Home"
               >
-                Home
+                <Home className="h-5 w-5" />
               </button>
               <button
                 type="button"
-                className="h-11 w-full rounded-xl border border-white bg-white/5 px-3 text-sm font-semibold text-white transition hover:bg-white/10 md:w-40"
+                className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
                 onClick={() => navigate('/internal/support/users')}
+                aria-label="User Operations"
+                title="User Operations"
               >
-                User Operations
+                <UserRoundSearch className="h-5 w-5" />
               </button>
               <button
                 type="button"
-                className="h-11 w-full rounded-xl border border-white bg-white/5 px-3 text-sm font-semibold text-white transition hover:bg-white/10 md:w-40"
+                className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
                 onClick={() => navigate('/internal/support/metrics/support')}
+                aria-label="Support Metrics"
+                title="Support Metrics"
               >
-                Support Metrics
+                <TextSearch className="h-5 w-5" />
               </button>
               <button
                 type="button"
-                className="h-11 w-full rounded-xl border border-white bg-white/5 px-3 text-sm font-semibold text-white transition hover:bg-white/10 md:w-40"
+                className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
                 onClick={() => navigate('/internal/support/metrics/learning')}
+                aria-label="Learning Metrics"
+                title="Learning Metrics"
               >
-                Learning Metrics
+                <BookUser className="h-5 w-5" />
               </button>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
+      <div aria-hidden="true" className="h-[100px] md:h-[95px]" />
+
+      <div className="mx-auto max-w-7xl p-4 md:p-6">
 
         {viewMode === 'dashboard' && (
           <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
@@ -1461,6 +1688,90 @@ export default function SupportConsolePage() {
           </div>
         )}
       </div>
+      <footer className="fixed inset-x-0 bottom-0 z-[120] border-t border-white/10 bg-[#1f2937]">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-center gap-6 px-4">
+          {canCreateAdmins && (
+            <button
+              type="button"
+              className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
+              onClick={() => setCreateAdminOpen(true)}
+              aria-label="Create Admin"
+              title="Create Admin"
+            >
+              <UserRoundPlus className="h-6 w-6 stroke-[2.6]" />
+            </button>
+          )}
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
+            onClick={() => setResetPasswordOpen(true)}
+            aria-label="Reset Password"
+            title="Reset Password"
+          >
+            <RotateCcwKey className="h-6 w-6 stroke-[2.6]" />
+          </button>
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
+            onClick={() => setRecoveryEmailOpen(true)}
+            aria-label="Recovery Email"
+            title="Recovery Email"
+          >
+            <MailPlus className="h-6 w-6 stroke-[2.6]" />
+          </button>
+        </div>
+      </footer>
+      {createAdminOpen && (
+        <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/45 p-4">
+          <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+            <h3 className="text-lg font-semibold text-[#0f172a]">Create New Admin</h3>
+            <input className={`${baseInput} mt-3`} value={createAdminUsername} onChange={(event) => setCreateAdminUsername(event.target.value)} placeholder="admin username" />
+            <input className={`${baseInput} mt-2`} value={createAdminRecoveryEmail} onChange={(event) => setCreateAdminRecoveryEmail(event.target.value)} placeholder="recovery email (optional)" />
+            <input type="password" className={`${baseInput} mt-2`} value={createAdminPassword} onChange={(event) => setCreateAdminPassword(event.target.value)} placeholder="initial password" />
+            <div className="mt-3 flex gap-2">
+              <button type="button" className={baseButton} disabled={createAdminBusy || createAdminUsername.trim().length < 3 || createAdminPassword.length < 8} onClick={() => void handleCreateSupportAdmin()}>
+                {createAdminBusy ? 'Creating…' : 'Create'}
+              </button>
+              <button type="button" className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]" disabled={createAdminBusy} onClick={() => setCreateAdminOpen(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {resetPasswordOpen && (
+        <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/45 p-4">
+          <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+            <h3 className="text-lg font-semibold text-[#0f172a]">Reset Admin Password</h3>
+            <input type="password" className={`${baseInput} mt-3`} value={resetPasswordCurrentValue} onChange={(event) => setResetPasswordCurrentValue(event.target.value)} placeholder="current password" />
+            <input type="password" className={`${baseInput} mt-2`} value={resetPasswordNewValue} onChange={(event) => setResetPasswordNewValue(event.target.value)} placeholder="new password" />
+            <div className="mt-3 flex gap-2">
+              <button type="button" className={baseButton} disabled={resetPasswordBusy || resetPasswordCurrentValue.length < 1 || resetPasswordNewValue.length < 8} onClick={() => void handleResetSupportAdminPassword()}>
+                {resetPasswordBusy ? 'Saving…' : 'Reset'}
+              </button>
+              <button type="button" className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]" disabled={resetPasswordBusy} onClick={() => setResetPasswordOpen(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {recoveryEmailOpen && (
+        <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/45 p-4">
+          <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+            <h3 className="text-lg font-semibold text-[#0f172a]">Set Recovery Email</h3>
+            <input className={`${baseInput} mt-3`} value={recoveryEmailValue} onChange={(event) => setRecoveryEmailValue(event.target.value)} placeholder="outside recovery email" />
+            <div className="mt-3 flex gap-2">
+              <button type="button" className={baseButton} disabled={recoveryEmailBusy || recoveryEmailValue.trim().length < 5} onClick={() => void handleSaveRecoveryEmail()}>
+                {recoveryEmailBusy ? 'Saving…' : 'Save'}
+              </button>
+              <button type="button" className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]" disabled={recoveryEmailBusy} onClick={() => setRecoveryEmailOpen(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {deleteCandidate && (
         <div className="fixed inset-0 z-[140] flex items-center justify-center bg-black/45 p-4">
           <div className="w-full max-w-lg rounded-2xl border border-red-300 bg-white p-5">

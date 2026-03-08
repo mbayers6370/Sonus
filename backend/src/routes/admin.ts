@@ -1,4 +1,5 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { createHash, randomBytes } from 'node:crypto';
 import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 import { env } from '../env.js';
@@ -68,6 +69,25 @@ const supportAdminLoginSchema = z.object({
   username: z.string().trim().min(3).max(160),
   password: z.string().min(1).max(128),
 });
+const supportAdminCreateSchema = z.object({
+  username: z.string().trim().min(3).max(160),
+  password: z.string().min(8).max(128).default('password'),
+  recoveryEmail: z.string().trim().email().max(255).optional(),
+});
+const supportAdminResetPasswordSchema = z.object({
+  currentPassword: z.string().min(1).max(128),
+  newPassword: z.string().min(8).max(128),
+});
+const supportAdminRecoveryEmailSchema = z.object({
+  recoveryEmail: z.string().trim().email().max(255),
+});
+const supportAdminForgotPasswordSchema = z.object({
+  username: z.string().trim().min(3).max(160),
+});
+const supportAdminResetWithTokenSchema = z.object({
+  token: z.string().trim().min(24).max(512),
+  password: z.string().min(8).max(128),
+});
 const supportAdminSetupStatusSchema = z.object({
   username: z.string().trim().min(3).max(160).optional(),
 });
@@ -99,6 +119,16 @@ type MutationActor = {
   actorEmail: string | null;
 };
 
+const SUPPORT_ROOT_ADMIN_USERNAME = 'qa-admin-f8n2x7r1@sonus.test';
+
+function createSupportAdminResetToken() {
+  return randomBytes(32).toString('base64url');
+}
+
+function hashSupportAdminResetToken(token: string) {
+  return createHash('sha256').update(token).digest('hex');
+}
+
 function toInt(value: unknown) {
   if (typeof value === 'number') return value;
   if (typeof value === 'bigint') return Number(value);
@@ -123,9 +153,19 @@ async function ensureAdminConsoleTables() {
     CREATE TABLE IF NOT EXISTS support_admin_credentials (
       username text PRIMARY KEY,
       password_hash text NOT NULL,
+      recovery_email text NULL,
+      created_by_username text NULL,
       created_at timestamptz NOT NULL DEFAULT now(),
       updated_at timestamptz NOT NULL DEFAULT now()
     );
+  `;
+  await prisma.$executeRaw`
+    ALTER TABLE support_admin_credentials
+    ADD COLUMN IF NOT EXISTS recovery_email text NULL;
+  `;
+  await prisma.$executeRaw`
+    ALTER TABLE support_admin_credentials
+    ADD COLUMN IF NOT EXISTS created_by_username text NULL;
   `;
   await prisma.$executeRaw`
     CREATE TABLE IF NOT EXISTS support_admin_sessions (
@@ -141,6 +181,20 @@ async function ensureAdminConsoleTables() {
   await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_support_admin_sessions_username_created_at
     ON support_admin_sessions (username, created_at DESC);
+  `;
+  await prisma.$executeRaw`
+    CREATE TABLE IF NOT EXISTS support_admin_password_reset_tokens (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+      username text NOT NULL,
+      token_hash text NOT NULL UNIQUE,
+      expires_at timestamptz NOT NULL,
+      used_at timestamptz NULL,
+      created_at timestamptz NOT NULL DEFAULT now()
+    );
+  `;
+  await prisma.$executeRaw`
+    CREATE INDEX IF NOT EXISTS idx_support_admin_password_reset_tokens_username_created_at
+    ON support_admin_password_reset_tokens (username, created_at DESC);
   `;
   await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_refresh_sessions_active_lookup
@@ -297,6 +351,52 @@ function canUseSupportAdminUsername(username: string) {
   if (!username.trim()) return false;
   if (env.SUPPORT_ADMIN_EMAILS_SET.size === 0) return true;
   return env.SUPPORT_ADMIN_EMAILS_SET.has(username);
+}
+
+function resolveSupportAdminResetUrlBase(request: FastifyRequest) {
+  const configured = env.RESET_URL_BASE?.trim();
+  if (configured) return configured.replace(/\/$/, '');
+  const originHeader = request.headers.origin;
+  const origin = Array.isArray(originHeader) ? originHeader[0] : originHeader;
+  if (origin && origin.trim()) return origin.trim().replace(/\/$/, '');
+  const firstAllowed = Array.from(allowedOrigins)[0]?.trim();
+  return firstAllowed ? firstAllowed.replace(/\/$/, '') : null;
+}
+
+async function sendSupportAdminPasswordResetEmail(params: {
+  to: string;
+  username: string;
+  resetUrl: string;
+}) {
+  if (!env.RESEND_API_KEY) return true;
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: env.RESET_EMAIL_FROM,
+      to: [params.to],
+      subject: 'Support Admin Password Reset',
+      html: `<!doctype html><html><body style="font-family:Arial,sans-serif;color:#1f2937;padding:18px;">
+        <h2>Support Admin Password Reset</h2>
+        <p>A password reset was requested for support admin account: <strong>${params.username}</strong>.</p>
+        <p><a href="${params.resetUrl}">Reset support admin password</a></p>
+        <p>If you did not request this, contact support@sonuslearning.com.</p>
+      </body></html>`,
+    }),
+  });
+  return response.ok;
+}
+
+async function requireSupportAdminSession(request: FastifyRequest, reply: FastifyReply) {
+  const identity = await resolveSupportAdminFromRequest(request);
+  if (!identity) {
+    reply.code(401).send({ error: 'Not signed in to support admin' });
+    return null;
+  }
+  return identity;
 }
 
 async function logAdminAudit(params: {
@@ -610,6 +710,175 @@ export async function adminRoutes(app: FastifyInstance) {
       username: identity.username,
       expiresAt: identity.expiresAt.toISOString(),
     };
+  });
+
+  app.post('/v1/admin/auth/create-admin', async (request, reply) => {
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+    const identity = await requireSupportAdminSession(request, reply);
+    if (!identity) return;
+    if (identity.username !== SUPPORT_ROOT_ADMIN_USERNAME) {
+      reply.code(403).send({ error: 'Only the QA root admin can create new admin accounts.' });
+      return;
+    }
+    const parsed = supportAdminCreateSchema.safeParse(request.body);
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+    const username = normalizeSupportAdminUsername(parsed.data.username);
+    if (!canUseSupportAdminUsername(username)) {
+      reply.code(403).send({ error: 'Support admin username is not allowlisted.' });
+      return;
+    }
+    const existing = await prisma.$queryRaw<Array<{ username: string }>>`
+      SELECT username FROM support_admin_credentials WHERE username = ${username} LIMIT 1
+    `;
+    if (existing.length > 0) {
+      reply.code(409).send({ error: 'Support admin already exists.' });
+      return;
+    }
+    const passwordHash = await hashPassword(parsed.data.password);
+    const recoveryEmail = parsed.data.recoveryEmail?.trim().toLowerCase() || null;
+    await prisma.$executeRaw`
+      INSERT INTO support_admin_credentials
+        (username, password_hash, recovery_email, created_by_username, created_at, updated_at)
+      VALUES
+        (${username}, ${passwordHash}, ${recoveryEmail}, ${identity.username}, now(), now())
+    `;
+    return { ok: true, username, recoveryEmail };
+  });
+
+  app.post('/v1/admin/auth/reset-password', async (request, reply) => {
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+    const identity = await requireSupportAdminSession(request, reply);
+    if (!identity) return;
+    const parsed = supportAdminResetPasswordSchema.safeParse(request.body);
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+    const rows = await prisma.$queryRaw<Array<{ password_hash: string }>>`
+      SELECT password_hash FROM support_admin_credentials WHERE username = ${identity.username} LIMIT 1
+    `;
+    const row = rows[0];
+    if (!row) {
+      reply.code(404).send({ error: 'Support admin account not found.' });
+      return;
+    }
+    const validCurrent = await verifyPassword(parsed.data.currentPassword, row.password_hash).catch(
+      () => false
+    );
+    if (!validCurrent) {
+      reply.code(401).send({ error: 'Current password is incorrect.' });
+      return;
+    }
+    const newPasswordHash = await hashPassword(parsed.data.newPassword);
+    await prisma.$executeRaw`
+      UPDATE support_admin_credentials
+      SET password_hash = ${newPasswordHash}, updated_at = now()
+      WHERE username = ${identity.username}
+    `;
+    await prisma.$executeRaw`
+      UPDATE support_admin_sessions
+      SET revoked_at = now()
+      WHERE username = ${identity.username} AND revoked_at IS NULL AND id <> ${identity.sessionId}::uuid
+    `;
+    return { ok: true };
+  });
+
+  app.post('/v1/admin/auth/recovery-email', async (request, reply) => {
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+    const identity = await requireSupportAdminSession(request, reply);
+    if (!identity) return;
+    const parsed = supportAdminRecoveryEmailSchema.safeParse(request.body);
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+    const recoveryEmail = parsed.data.recoveryEmail.trim().toLowerCase();
+    await prisma.$executeRaw`
+      UPDATE support_admin_credentials
+      SET recovery_email = ${recoveryEmail}, updated_at = now()
+      WHERE username = ${identity.username}
+    `;
+    return { ok: true, recoveryEmail };
+  });
+
+  app.post('/v1/admin/auth/forgot-password', async (request, reply) => {
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+    const parsed = supportAdminForgotPasswordSchema.safeParse(request.body);
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+    const username = normalizeSupportAdminUsername(parsed.data.username);
+    const rows = await prisma.$queryRaw<Array<{ username: string; recovery_email: string | null }>>`
+      SELECT username, recovery_email
+      FROM support_admin_credentials
+      WHERE username = ${username}
+      LIMIT 1
+    `;
+    const row = rows[0];
+    if (!row?.recovery_email) {
+      return { ok: true };
+    }
+    const rawToken = createSupportAdminResetToken();
+    const tokenHash = hashSupportAdminResetToken(rawToken);
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+    await prisma.$executeRaw`
+      INSERT INTO support_admin_password_reset_tokens
+        (id, username, token_hash, expires_at, used_at, created_at)
+      VALUES
+        (gen_random_uuid(), ${username}, ${tokenHash}, ${expiresAt}, null, now())
+    `;
+    const resetBase = resolveSupportAdminResetUrlBase(request);
+    const resetUrl = `${resetBase || ''}/internal/support?adminResetToken=${encodeURIComponent(rawToken)}`;
+    await sendSupportAdminPasswordResetEmail({
+      to: row.recovery_email,
+      username,
+      resetUrl,
+    });
+    return { ok: true };
+  });
+
+  app.post('/v1/admin/auth/reset-password-with-token', async (request, reply) => {
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+    const parsed = supportAdminResetWithTokenSchema.safeParse(request.body);
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+    const tokenHash = hashSupportAdminResetToken(parsed.data.token);
+    const rows = await prisma.$queryRaw<
+      Array<{ id: string; username: string; expires_at: Date; used_at: Date | null }>
+    >`
+      SELECT id, username, expires_at, used_at
+      FROM support_admin_password_reset_tokens
+      WHERE token_hash = ${tokenHash}
+      LIMIT 1
+    `;
+    const row = rows[0];
+    if (!row || row.used_at || row.expires_at <= new Date()) {
+      reply.code(400).send({ error: 'Reset token is invalid or expired.' });
+      return;
+    }
+    const passwordHash = await hashPassword(parsed.data.password);
+    await prisma.$executeRaw`
+      UPDATE support_admin_credentials
+      SET password_hash = ${passwordHash}, updated_at = now()
+      WHERE username = ${row.username}
+    `;
+    await prisma.$executeRaw`
+      UPDATE support_admin_password_reset_tokens
+      SET used_at = now()
+      WHERE id = ${row.id}::uuid
+    `;
+    await prisma.$executeRaw`
+      UPDATE support_admin_sessions
+      SET revoked_at = now()
+      WHERE username = ${row.username} AND revoked_at IS NULL
+    `;
+    return { ok: true };
   });
 
   const adminTimelineHandler = async (request: FastifyRequest, reply: FastifyReply) => {
