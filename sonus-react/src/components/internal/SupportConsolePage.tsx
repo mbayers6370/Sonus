@@ -82,17 +82,6 @@ type LearningMetrics = {
   };
 };
 
-type WeakWords = {
-  windowDays: number;
-  count: number;
-  words: Array<{
-    wordId: string;
-    misses: number;
-    attempts: number;
-    missRatePct: number;
-  }>;
-};
-
 type WeakWordsByLanguage = {
   windowDays: number;
   limitPerLanguage: number;
@@ -104,6 +93,8 @@ type WeakWordsByLanguage = {
       misses: number;
       attempts: number;
       missRatePct: number;
+      nativeText: string;
+      englishText: string;
     }>;
   }>;
 };
@@ -179,8 +170,8 @@ export default function SupportConsolePage() {
   const [busyAction, setBusyAction] = useState<string | null>(null);
   const [supportMetrics, setSupportMetrics] = useState<SupportMetrics | null>(null);
   const [learningMetrics, setLearningMetrics] = useState<LearningMetrics | null>(null);
-  const [weakWords, setWeakWords] = useState<WeakWords | null>(null);
   const [weakWordsByLanguage, setWeakWordsByLanguage] = useState<WeakWordsByLanguage | null>(null);
+  const [weakSpeakWordsByLanguage, setWeakSpeakWordsByLanguage] = useState<WeakWordsByLanguage | null>(null);
   const [metricsLoading, setMetricsLoading] = useState(false);
   const [metricsError, setMetricsError] = useState<string | null>(null);
   const [deleteCandidate, setDeleteCandidate] = useState<SearchResult | null>(null);
@@ -290,24 +281,24 @@ export default function SupportConsolePage() {
     setMetricsLoading(true);
     setMetricsError(null);
     try {
-      const [overviewPayload, weakWordsPayload, weakWordsByLanguagePayload] = await Promise.all([
+      const [overviewPayload, weakWordsByLanguagePayload, weakSpeakWordsByLanguagePayload] = await Promise.all([
         parseJsonOrThrow<LearningMetrics>(
           await apiFetch('/v1/admin/metrics/learning/overview?windowDays=30', { cache: 'no-store' })
-        ),
-        parseJsonOrThrow<WeakWords>(
-          await apiFetch('/v1/admin/metrics/learning/weak-words?windowDays=30&limit=20', {
-            cache: 'no-store',
-          })
         ),
         parseJsonOrThrow<WeakWordsByLanguage>(
           await apiFetch('/v1/admin/metrics/learning/weak-words-by-language?windowDays=30&limitPerLanguage=5', {
             cache: 'no-store',
           })
         ),
+        parseJsonOrThrow<WeakWordsByLanguage>(
+          await apiFetch('/v1/admin/metrics/learning/weak-speak-words-by-language?windowDays=30&limitPerLanguage=5', {
+            cache: 'no-store',
+          })
+        ),
       ]);
       setLearningMetrics(overviewPayload);
-      setWeakWords(weakWordsPayload);
       setWeakWordsByLanguage(weakWordsByLanguagePayload);
+      setWeakSpeakWordsByLanguage(weakSpeakWordsByLanguagePayload);
     } catch (error) {
       setMetricsError(error instanceof Error ? error.message : 'Failed to load learning metrics');
     } finally {
@@ -355,6 +346,12 @@ export default function SupportConsolePage() {
     }
     void refreshSelectedUser(selectedUserId);
   }, [selectedUserId, authenticated, viewMode]);
+
+  useEffect(() => {
+    if (!authenticated || viewMode !== 'ops') return;
+    // Ensure User Operations repopulates whenever the view is entered.
+    void runSearch();
+  }, [authenticated, viewMode]);
 
   const runMutation = async (action: string, path: string, body: Record<string, unknown>) => {
     if (!selectedUserId) return;
@@ -595,7 +592,7 @@ export default function SupportConsolePage() {
               <div className="mt-4 grid gap-3 md:grid-cols-3">
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Quiz Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.quizAttempts}</div><div className="text-xs text-[#64748b]">Accuracy {learningMetrics.learning.quizAccuracyPct}%</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.speakAttempts}</div><div className="text-xs text-[#64748b]">Pass {learningMetrics.learning.speakPassPct}%</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Starts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStarts}</div><div className="text-xs text-[#64748b]">Completion {learningMetrics.learning.lessonCompletionPct}%</div></div>
+                <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Starts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStarts}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Starts (Tracked Event)</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsTracked ?? 0}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Completed</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonCompleted}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Abandons</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonAbandons}</div></div>
@@ -603,22 +600,9 @@ export default function SupportConsolePage() {
               </div>
             )}
 
-            {weakWords && (
-              <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
-                <h3 className="text-sm font-semibold text-[#0f172a]">Most Missed Quiz Words</h3>
-                <div className="mt-2 grid gap-2">
-                  {weakWords.words.map((word) => (
-                    <article key={word.wordId} className="rounded-lg border border-[#e2e8f0] p-2 text-sm">
-                      <div className="font-semibold text-[#0f172a]">{word.wordId}</div>
-                      <div className="text-[#475569]">Misses {word.misses} / Attempts {word.attempts} ({word.missRatePct}%)</div>
-                    </article>
-                  ))}
-                </div>
-              </div>
-            )}
             {weakWordsByLanguage && (
               <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
-                <h3 className="text-sm font-semibold text-[#0f172a]">Most Missed Words By Language</h3>
+                <h3 className="text-sm font-semibold text-[#0f172a]">Most Missed Quiz Words By Language</h3>
                 <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                   {weakWordsByLanguage.languages.map((bucket) => (
                     <article
@@ -637,7 +621,45 @@ export default function SupportConsolePage() {
                         <div className="mt-2 space-y-1 text-sm">
                           {bucket.words.map((word) => (
                             <div key={`${bucket.languageId}-${word.wordId}`} className="flex items-center justify-between gap-2">
-                              <span className="truncate">{word.wordId}</span>
+                              <div className="min-w-0">
+                                <div className="truncate font-semibold text-[#0f172a]">{word.nativeText}</div>
+                                <div className="truncate text-[#475569]">{word.englishText}</div>
+                              </div>
+                              <span className="font-semibold">{word.misses}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </div>
+            )}
+            {weakSpeakWordsByLanguage && (
+              <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
+                <h3 className="text-sm font-semibold text-[#0f172a]">Most Missed Speak Words By Language</h3>
+                <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                  {weakSpeakWordsByLanguage.languages.map((bucket) => (
+                    <article
+                      key={`speak-${bucket.languageId}`}
+                      className={`rounded-lg border p-3 ${
+                        bucket.hasData
+                          ? 'border-[#dbe7ff] bg-[#f8fbff]'
+                          : 'border-[#e2e8f0] bg-[#f1f5f9] text-[#94a3b8]'
+                      }`}
+                    >
+                      <div className="text-xs uppercase tracking-[0.16em]">
+                        {bucket.languageId}
+                      </div>
+                      {!bucket.hasData && <div className="mt-2 text-sm">No data yet</div>}
+                      {bucket.hasData && (
+                        <div className="mt-2 space-y-1 text-sm">
+                          {bucket.words.map((word) => (
+                            <div key={`speak-${bucket.languageId}-${word.wordId}`} className="flex items-center justify-between gap-2">
+                              <div className="min-w-0">
+                                <div className="truncate font-semibold text-[#0f172a]">{word.nativeText}</div>
+                                <div className="truncate text-[#475569]">{word.englishText}</div>
+                              </div>
                               <span className="font-semibold">{word.misses}</span>
                             </div>
                           ))}

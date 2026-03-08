@@ -6,6 +6,7 @@ import { requireAdmin } from '../lib/auth.js';
 import { prisma } from '../lib/prisma.js';
 import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js';
 import { getSupabaseAdmin } from '../lib/supabase.js';
+import { resolveLexemeForWordId } from '../lib/lexemeCatalog.js';
 import {
   createSupportAdminSessionToken,
   hashSupportAdminSessionToken,
@@ -689,28 +690,24 @@ export async function adminRoutes(app: FastifyInstance) {
           missRatePct: number;
         }>
       >`
-      WITH scoped AS (
+      WITH agg AS (
         SELECT
-          COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') AS language,
-          qa.word_id,
-          qa.is_correct
-        FROM quiz_attempts qa
-        LEFT JOIN profiles p ON p.user_id = qa.user_id
-        WHERE qa.created_at >= now() - ${windowInterval}::interval
-      ),
-      agg AS (
-        SELECT
-          language,
-          word_id AS "wordId",
-          COUNT(*) FILTER (WHERE is_correct = false)::bigint AS misses,
+          CASE
+            WHEN qa.word_id LIKE 'L%' THEN 'zh'
+            WHEN qa.word_id LIKE 'N%' THEN 'ja'
+            ELSE 'unknown'
+          END AS language,
+          qa.word_id AS "wordId",
+          COUNT(*) FILTER (WHERE qa.is_correct = false)::bigint AS misses,
           COUNT(*)::bigint AS attempts,
           ROUND(
-            (COUNT(*) FILTER (WHERE is_correct = false)::numeric / NULLIF(COUNT(*)::numeric, 0)) * 100,
+            (COUNT(*) FILTER (WHERE qa.is_correct = false)::numeric / NULLIF(COUNT(*)::numeric, 0)) * 100,
             2
           ) AS "missRatePct"
-        FROM scoped
-        GROUP BY language, word_id
-        HAVING COUNT(*) FILTER (WHERE is_correct = false) > 0
+        FROM quiz_attempts qa
+        WHERE qa.created_at >= now() - ${windowInterval}::interval
+        GROUP BY language, qa.word_id
+        HAVING COUNT(*) FILTER (WHERE qa.is_correct = false) > 0
       ),
       ranked AS (
         SELECT
@@ -731,21 +728,155 @@ export async function adminRoutes(app: FastifyInstance) {
       const byLanguage = Object.fromEntries(
         languages.map((languageId) => [
           languageId,
-          [] as Array<{ wordId: string; misses: number; attempts: number; missRatePct: number }>,
+          [] as Array<{
+            wordId: string;
+            misses: number;
+            attempts: number;
+            missRatePct: number;
+            nativeText: string;
+            englishText: string;
+          }>,
         ])
       ) as Record<
         string,
-        Array<{ wordId: string; misses: number; attempts: number; missRatePct: number }>
+        Array<{
+          wordId: string;
+          misses: number;
+          attempts: number;
+          missRatePct: number;
+          nativeText: string;
+          englishText: string;
+        }>
       >;
 
       for (const row of rows) {
         const language = languages.includes(row.language) ? row.language : null;
         if (!language) continue;
+        const lexeme = await resolveLexemeForWordId(row.wordId, language).catch(() => null);
         byLanguage[language].push({
           wordId: row.wordId,
           misses: toInt(row.misses),
           attempts: toInt(row.attempts),
           missRatePct: Number(row.missRatePct || 0),
+          nativeText: lexeme?.term || row.wordId,
+          englishText: lexeme?.en || row.wordId,
+        });
+      }
+
+      return {
+        windowDays: parsed.data.windowDays,
+        limitPerLanguage,
+        languages: languages.map((languageId) => ({
+          languageId,
+          hasData: byLanguage[languageId].length > 0,
+          words: byLanguage[languageId],
+        })),
+      };
+    }
+  );
+
+  app.get(
+    '/v1/admin/metrics/learning/weak-speak-words-by-language',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = weakWordsByLanguageQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+
+      const windowInterval = `${parsed.data.windowDays} days`;
+      const limitPerLanguage = parsed.data.limitPerLanguage;
+      const languages = ['zh', 'ja', 'kr', 'fr', 'it', 'es'];
+
+      const rows = await prisma.$queryRaw<
+        Array<{
+          language: string;
+          wordId: string;
+          misses: bigint;
+          attempts: bigint;
+          missRatePct: number;
+        }>
+      >`
+      WITH scoped AS (
+        SELECT
+          COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') AS language,
+          sa.word_id,
+          sa.initial_ok,
+          sa.final_ok,
+          sa.tone_ok
+        FROM speak_attempts sa
+        LEFT JOIN profiles p ON p.user_id = sa.user_id
+        WHERE sa.created_at >= now() - ${windowInterval}::interval
+      ),
+      agg AS (
+        SELECT
+          language,
+          word_id AS "wordId",
+          COUNT(*) FILTER (WHERE initial_ok = false OR final_ok = false OR tone_ok = false)::bigint AS misses,
+          COUNT(*)::bigint AS attempts,
+          ROUND(
+            (
+              COUNT(*) FILTER (WHERE initial_ok = false OR final_ok = false OR tone_ok = false)::numeric /
+              NULLIF(COUNT(*)::numeric, 0)
+            ) * 100,
+            2
+          ) AS "missRatePct"
+        FROM scoped
+        GROUP BY language, word_id
+        HAVING COUNT(*) FILTER (WHERE initial_ok = false OR final_ok = false OR tone_ok = false) > 0
+      ),
+      ranked AS (
+        SELECT
+          language,
+          "wordId",
+          misses,
+          attempts,
+          "missRatePct",
+          ROW_NUMBER() OVER (PARTITION BY language ORDER BY misses DESC, "missRatePct" DESC) AS rn
+        FROM agg
+      )
+      SELECT language, "wordId", misses, attempts, "missRatePct"
+      FROM ranked
+      WHERE rn <= ${limitPerLanguage}
+      ORDER BY language, misses DESC, "missRatePct" DESC
+    `.catch(() => []);
+
+      const byLanguage = Object.fromEntries(
+        languages.map((languageId) => [
+          languageId,
+          [] as Array<{
+            wordId: string;
+            misses: number;
+            attempts: number;
+            missRatePct: number;
+            nativeText: string;
+            englishText: string;
+          }>,
+        ])
+      ) as Record<
+        string,
+        Array<{
+          wordId: string;
+          misses: number;
+          attempts: number;
+          missRatePct: number;
+          nativeText: string;
+          englishText: string;
+        }>
+      >;
+
+      for (const row of rows) {
+        const language = languages.includes(row.language) ? row.language : null;
+        if (!language) continue;
+        const lexeme = await resolveLexemeForWordId(row.wordId, language).catch(() => null);
+        byLanguage[language].push({
+          wordId: row.wordId,
+          misses: toInt(row.misses),
+          attempts: toInt(row.attempts),
+          missRatePct: Number(row.missRatePct || 0),
+          nativeText: lexeme?.term || row.wordId,
+          englishText: lexeme?.en || row.wordId,
         });
       }
 
