@@ -33,6 +33,13 @@ type UserOverview = {
     speakCount: number;
     progressEventCount: number;
   };
+  security: {
+    activeSessionCount: number;
+    recentIps: Array<{ ip: string; lastSeenAt: string }>;
+    recentDevices: Array<{ device: string; lastSeenAt: string }>;
+    lastPasswordResetAt: string | null;
+    lastForcedLogoutAt: string | null;
+  };
   deletionRequest: {
     id: string;
     status: string;
@@ -158,6 +165,13 @@ function toLocale(value: string | null | undefined) {
   return date.toLocaleString();
 }
 
+function timelineSourceLabel(entry: TimelineEntry) {
+  if (entry.source === 'security_event' && entry.title.startsWith('support_note_')) {
+    return 'note_event';
+  }
+  return entry.source;
+}
+
 function setSupportAdminToken(token: string | null) {
   try {
     if (!token) {
@@ -245,6 +259,7 @@ export default function SupportConsolePage() {
   const [deleteAcknowledge, setDeleteAcknowledge] = useState(false);
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [deleteSuccessOpen, setDeleteSuccessOpen] = useState(false);
+  const [metricsWindowDays, setMetricsWindowDays] = useState<7 | 30 | 90>(30);
 
   const viewMode = useMemo<'dashboard' | 'ops' | 'metrics-support' | 'metrics-learning'>(() => {
     if (location.pathname.endsWith('/users')) return 'ops';
@@ -349,12 +364,14 @@ export default function SupportConsolePage() {
     }
   };
 
-  const loadSupportMetrics = async () => {
+  const loadSupportMetrics = async (windowDays = metricsWindowDays) => {
     setMetricsLoading(true);
     setMetricsError(null);
     try {
       const payload = await parseJsonOrThrow<SupportMetrics>(
-        await apiFetch('/v1/admin/metrics/support/overview?windowDays=30', { cache: 'no-store' })
+        await apiFetch(`/v1/admin/metrics/support/overview?windowDays=${windowDays}`, {
+          cache: 'no-store',
+        })
       );
       setSupportMetrics(payload);
     } catch (error) {
@@ -364,23 +381,31 @@ export default function SupportConsolePage() {
     }
   };
 
-  const loadLearningMetrics = async () => {
+  const loadLearningMetrics = async (windowDays = metricsWindowDays) => {
     setMetricsLoading(true);
     setMetricsError(null);
     try {
       const [overviewPayload, weakWordsByLanguagePayload, weakSpeakWordsByLanguagePayload] = await Promise.all([
         parseJsonOrThrow<LearningMetrics>(
-          await apiFetch('/v1/admin/metrics/learning/overview?windowDays=30', { cache: 'no-store' })
-        ),
-        parseJsonOrThrow<WeakWordsByLanguage>(
-          await apiFetch('/v1/admin/metrics/learning/weak-words-by-language?windowDays=30&limitPerLanguage=5', {
+          await apiFetch(`/v1/admin/metrics/learning/overview?windowDays=${windowDays}`, {
             cache: 'no-store',
           })
         ),
         parseJsonOrThrow<WeakWordsByLanguage>(
-          await apiFetch('/v1/admin/metrics/learning/weak-speak-words-by-language?windowDays=30&limitPerLanguage=5', {
-            cache: 'no-store',
-          })
+          await apiFetch(
+            `/v1/admin/metrics/learning/weak-words-by-language?windowDays=${windowDays}&limitPerLanguage=5`,
+            {
+              cache: 'no-store',
+            }
+          )
+        ),
+        parseJsonOrThrow<WeakWordsByLanguage>(
+          await apiFetch(
+            `/v1/admin/metrics/learning/weak-speak-words-by-language?windowDays=${windowDays}&limitPerLanguage=5`,
+            {
+              cache: 'no-store',
+            }
+          )
         ),
       ]);
       setLearningMetrics(overviewPayload);
@@ -393,16 +418,20 @@ export default function SupportConsolePage() {
     }
   };
 
-  const loadDashboardMetrics = async () => {
+  const loadDashboardMetrics = async (windowDays = metricsWindowDays) => {
     setDashboardLoading(true);
     setDashboardError(null);
     try {
       const [supportPayload, learningPayload] = await Promise.all([
         parseJsonOrThrow<SupportMetrics>(
-          await apiFetch('/v1/admin/metrics/support/overview?windowDays=30', { cache: 'no-store' })
+          await apiFetch(`/v1/admin/metrics/support/overview?windowDays=${windowDays}`, {
+            cache: 'no-store',
+          })
         ),
         parseJsonOrThrow<LearningMetrics>(
-          await apiFetch('/v1/admin/metrics/learning/overview?windowDays=30', { cache: 'no-store' })
+          await apiFetch(`/v1/admin/metrics/learning/overview?windowDays=${windowDays}`, {
+            cache: 'no-store',
+          })
         ),
       ]);
       setSupportMetrics(supportPayload);
@@ -503,7 +532,7 @@ export default function SupportConsolePage() {
         if (ok) {
           if (viewMode === 'ops') void runSearch();
           if (viewMode === 'dashboard') {
-            void loadDashboardMetrics();
+            void loadDashboardMetrics(metricsWindowDays);
             void loadAdminTimeline();
           }
         }
@@ -521,19 +550,19 @@ export default function SupportConsolePage() {
   useEffect(() => {
     if (!authenticated) return;
     if (viewMode === 'dashboard') {
-      void loadDashboardMetrics();
+      void loadDashboardMetrics(metricsWindowDays);
       void loadAdminTimeline();
       return;
     }
     if (viewMode === 'metrics-support') {
-      void loadSupportMetrics();
+      void loadSupportMetrics(metricsWindowDays);
       void loadDeletionCases('');
       return;
     }
     if (viewMode === 'metrics-learning') {
-      void loadLearningMetrics();
+      void loadLearningMetrics(metricsWindowDays);
     }
-  }, [authenticated, viewMode]);
+  }, [authenticated, viewMode, metricsWindowDays]);
 
   useEffect(() => {
     if (!selectedUserId || !authenticated || viewMode !== 'ops') {
@@ -797,7 +826,13 @@ export default function SupportConsolePage() {
     <div className="min-h-screen page-shell p-4 md:p-6">
       <div className="mx-auto max-w-7xl">
         <section className="mb-4 rounded-2xl border border-white/40 bg-[#1f2937] p-4">
-          <div className="flex justify-end">
+          <div className="relative flex items-center justify-end">
+            <img
+              src="/branding/Logo_White.png"
+              alt="Sonus"
+              className="absolute left-1/2 h-6 w-auto -translate-x-1/2 opacity-95 md:h-7"
+              loading="eager"
+            />
             <button
               type="button"
               className="text-sm font-medium text-white underline underline-offset-4 transition hover:text-white/80"
@@ -847,8 +882,24 @@ export default function SupportConsolePage() {
         {viewMode === 'dashboard' && (
           <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
             <div className="flex items-center justify-between gap-3">
-              <h2 className="text-lg font-semibold text-[#0f172a]">Analytics (Last 30 Days)</h2>
-              <button type="button" className={baseButton} onClick={() => void loadDashboardMetrics()}>Refresh</button>
+              <h2 className="text-lg font-semibold text-[#0f172a]">Analytics (Last {metricsWindowDays} Days)</h2>
+              <div className="flex items-center gap-2">
+                <div className="flex rounded-xl border border-[#d1d5db] bg-white p-1">
+                  {[7, 30, 90].map((days) => (
+                    <button
+                      key={`home-window-${days}`}
+                      type="button"
+                      onClick={() => setMetricsWindowDays(days as 7 | 30 | 90)}
+                      className={`rounded-lg px-2 py-1 text-xs font-semibold ${
+                        metricsWindowDays === days ? 'bg-[#1f2937] text-white' : 'text-[#334155]'
+                      }`}
+                    >
+                      {days}d
+                    </button>
+                  ))}
+                </div>
+                <button type="button" className={baseButton} onClick={() => void loadDashboardMetrics(metricsWindowDays)}>Refresh</button>
+              </div>
             </div>
             {dashboardLoading && <p className="mt-3 text-sm text-[#475569]">Loading dashboard analytics…</p>}
             {dashboardError && <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{dashboardError}</p>}
@@ -886,6 +937,14 @@ export default function SupportConsolePage() {
                 <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.resetRequests ?? 0}</div>
               </article>
             </div>
+            <div className="mt-4 rounded-xl border border-[#f59e0b]/40 bg-[#fff7ed] p-3">
+              <h3 className="text-sm font-semibold text-[#9a3412]">Watchlist</h3>
+              <div className="mt-2 grid gap-2 text-sm text-[#7c2d12] md:grid-cols-3">
+                <div>Unauthorized admin attempts: <span className="font-semibold">{supportMetrics?.support.unauthorizedAdminAttempts ?? 0}</span></div>
+                <div>End-user failed logins: <span className="font-semibold">{supportMetrics?.support.endUserFailedLogins ?? 0}</span></div>
+                <div>Lesson abandons: <span className="font-semibold">{learningMetrics?.learning.lessonAbandons ?? 0}</span></div>
+              </div>
+            </div>
             <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
               <h3 className="text-sm font-semibold text-[#0f172a]">Your Admin Timeline</h3>
               <p className="mt-1 text-xs text-[#64748b]">Admin tasks only. Last 24 hours.</p>
@@ -911,8 +970,23 @@ export default function SupportConsolePage() {
 
         {viewMode === 'metrics-support' && (
           <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
-            <h2 className="text-lg font-semibold text-[#0f172a]">Support Metrics (Last 30 Days)</h2>
+            <h2 className="text-lg font-semibold text-[#0f172a]">Support Metrics (Last {metricsWindowDays} Days)</h2>
             <p className="mt-1 text-sm text-[#475569]">Broad overview of account access, security, and support workload.</p>
+            <p className="mt-1 text-xs text-[#64748b]">Use the same time window across pages for consistent metric interpretation.</p>
+            <div className="mt-3 inline-flex rounded-xl border border-[#d1d5db] bg-white p-1">
+              {[7, 30, 90].map((days) => (
+                <button
+                  key={`support-window-${days}`}
+                  type="button"
+                  onClick={() => setMetricsWindowDays(days as 7 | 30 | 90)}
+                  className={`rounded-lg px-2 py-1 text-xs font-semibold ${
+                    metricsWindowDays === days ? 'bg-[#1f2937] text-white' : 'text-[#334155]'
+                  }`}
+                >
+                  {days}d
+                </button>
+              ))}
+            </div>
             {metricsLoading && <p className="mt-3 text-sm text-[#475569]">Loading metrics…</p>}
             {metricsError && <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{metricsError}</p>}
             {supportMetrics && (
@@ -993,16 +1067,31 @@ export default function SupportConsolePage() {
 
         {viewMode === 'metrics-learning' && (
           <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
-            <h2 className="text-lg font-semibold text-[#0f172a]">Learning Metrics (Last 30 Days)</h2>
+            <h2 className="text-lg font-semibold text-[#0f172a]">Learning Metrics (Last {metricsWindowDays} Days)</h2>
             <p className="mt-1 text-sm text-[#475569]">Broad overview of learning performance and progression quality.</p>
+            <p className="mt-1 text-xs text-[#64748b]">Metric definitions should stay fixed (lesson opens, entry events, completion, and abandons) so trends remain reliable.</p>
+            <div className="mt-3 inline-flex rounded-xl border border-[#d1d5db] bg-white p-1">
+              {[7, 30, 90].map((days) => (
+                <button
+                  key={`learning-window-${days}`}
+                  type="button"
+                  onClick={() => setMetricsWindowDays(days as 7 | 30 | 90)}
+                  className={`rounded-lg px-2 py-1 text-xs font-semibold ${
+                    metricsWindowDays === days ? 'bg-[#1f2937] text-white' : 'text-[#334155]'
+                  }`}
+                >
+                  {days}d
+                </button>
+              ))}
+            </div>
             {metricsLoading && <p className="mt-3 text-sm text-[#475569]">Loading metrics…</p>}
             {metricsError && <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{metricsError}</p>}
             {learningMetrics && (
               <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3 [&>*:last-child:nth-child(odd)]:col-span-2 [&>*:last-child:nth-child(odd)]:mx-auto [&>*:last-child:nth-child(odd)]:w-full [&>*:last-child:nth-child(odd)]:max-w-md md:[&>*:last-child:nth-child(odd)]:col-span-1 md:[&>*:last-child:nth-child(odd)]:mx-0 md:[&>*:last-child:nth-child(odd)]:max-w-none">
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Quiz Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.quizAttempts}</div><div className="text-xs text-[#64748b]">Accuracy {learningMetrics.learning.quizAccuracyPct}%</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.speakAttempts}</div><div className="text-xs text-[#64748b]">Pass {learningMetrics.learning.speakPassPct}%</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Starts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStarts}</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Starts (Tracked Event)</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsTracked ?? 0}</div></div>
+                <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.speakAttempts}</div><div className="text-xs text-[#64748b]">Speak Pass Rate {learningMetrics.learning.speakPassPct}%</div></div>
+                <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Opens</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStarts}</div></div>
+                <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Entry Events</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsTracked ?? 0}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Completed</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonCompleted}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Abandons</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonAbandons}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Apply Completed</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.applyCompleted}</div></div>
@@ -1209,6 +1298,49 @@ export default function SupportConsolePage() {
                         <div className={metricCard}><div className="text-xs text-[#64748b]">Quiz Attempts</div><div className="text-sm font-semibold text-[#0f172a]">{overview.counts.quizCount}</div></div>
                         <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-sm font-semibold text-[#0f172a]">{overview.counts.speakCount}</div></div>
                       </div>
+                      <div className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
+                        <h3 className="text-sm font-semibold text-[#0f172a]">Security Context</h3>
+                        <div className="mt-2 grid gap-3 md:grid-cols-3">
+                          <div className={metricCard}>
+                            <div className="text-xs text-[#64748b]">Active Sessions</div>
+                            <div className="text-sm font-semibold text-[#0f172a]">{overview.security?.activeSessionCount ?? 0}</div>
+                          </div>
+                          <div className={metricCard}>
+                            <div className="text-xs text-[#64748b]">Last Password Reset</div>
+                            <div className="text-sm font-semibold text-[#0f172a]">{toLocale(overview.security?.lastPasswordResetAt)}</div>
+                          </div>
+                          <div className={metricCard}>
+                            <div className="text-xs text-[#64748b]">Last Forced Logout</div>
+                            <div className="text-sm font-semibold text-[#0f172a]">{toLocale(overview.security?.lastForcedLogoutAt)}</div>
+                          </div>
+                        </div>
+                        <div className="mt-3 grid gap-3 md:grid-cols-2">
+                          <article className="rounded-lg border border-[#e2e8f0] p-2">
+                            <div className="text-xs font-semibold uppercase tracking-[0.12em] text-[#64748b]">Recent IPs</div>
+                            <div className="mt-1 space-y-1 text-xs text-[#334155]">
+                              {(overview.security?.recentIps || []).length === 0 && <div>No recent IP data.</div>}
+                              {(overview.security?.recentIps || []).map((row) => (
+                                <div key={`ip-${row.ip}-${row.lastSeenAt}`} className="flex items-center justify-between gap-2">
+                                  <span className="truncate">{row.ip}</span>
+                                  <span className="text-[#64748b]">{toLocale(row.lastSeenAt)}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </article>
+                          <article className="rounded-lg border border-[#e2e8f0] p-2">
+                            <div className="text-xs font-semibold uppercase tracking-[0.12em] text-[#64748b]">Recent Devices</div>
+                            <div className="mt-1 space-y-1 text-xs text-[#334155]">
+                              {(overview.security?.recentDevices || []).length === 0 && <div>No recent device data.</div>}
+                              {(overview.security?.recentDevices || []).map((row) => (
+                                <div key={`device-${row.device}-${row.lastSeenAt}`} className="flex items-center justify-between gap-2">
+                                  <span className="truncate">{row.device}</span>
+                                  <span className="text-[#64748b]">{toLocale(row.lastSeenAt)}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </article>
+                        </div>
+                      </div>
                       <details className="mt-3 rounded-xl border border-[#e2e8f0] bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
                           Saved Operational Notes ({savedNotes.length})
@@ -1279,7 +1411,7 @@ export default function SupportConsolePage() {
                             <button type="button" className={baseButton} disabled={busyAction !== null || actionReason.trim().length < 8} onClick={() => void runMutation('revoke-sessions', `/v1/admin/users/${selectedUserId}/actions/revoke-sessions`, { reason: actionReason.trim() })}>Force Sign Out (All Devices)</button>
                           </div>
                           <p className="mt-2 text-xs text-[#64748b]">Force Sign Out revokes all active refresh sessions for this user. They must sign in again on every device.</p>
-                          <div className="mt-3 border-t border-[#e2e8f0] pt-3">
+                          <div className="mt-3 rounded-xl border border-red-300 bg-red-50/60 p-3">
                             <div className="text-xs font-semibold uppercase tracking-[0.16em] text-[#64748b]">Deletion Workflow</div>
                             <p className="mt-1 text-xs text-[#64748b]">Workflow target: <span className="font-semibold text-[#334155]">{selectedTargetLabel}</span></p>
                             <p className="mt-1 text-xs text-[#64748b]">Channel = where the request came from (for audit context), for example: email, in-app, admin-review.</p>
@@ -1296,7 +1428,7 @@ export default function SupportConsolePage() {
                         <div className="mt-2 max-h-[38vh] space-y-2 overflow-auto pr-1">
                           {timeline.map((entry, index) => (
                             <article key={`${entry.createdAt}-${entry.source}-${index}`} className="rounded-lg border border-[#e2e8f0] p-2">
-                              <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">{entry.source} | {toLocale(entry.createdAt)}</div>
+                              <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">{timelineSourceLabel(entry)} | {toLocale(entry.createdAt)}</div>
                               <div className="text-sm font-semibold text-[#0f172a]">{entry.title}</div>
                               {entry.detail && <div className="text-sm text-[#334155]">{entry.detail}</div>}
                             </article>
@@ -1313,12 +1445,13 @@ export default function SupportConsolePage() {
       </div>
       {deleteCandidate && (
         <div className="fixed inset-0 z-[140] flex items-center justify-center bg-black/45 p-4">
-          <div className="w-full max-w-lg rounded-2xl border border-[#1f2937]/20 bg-white p-5">
-            <h3 className="text-lg font-semibold text-[#0f172a]">Schedule Permanent Deletion</h3>
+          <div className="w-full max-w-lg rounded-2xl border border-red-300 bg-white p-5">
+            <h3 className="text-lg font-semibold text-[#7f1d1d]">Schedule Permanent Deletion</h3>
             <p className="mt-2 text-sm text-[#475569]">
               This account will be queued for permanent deletion after the retention window.
               You can undo it before the timer reaches zero.
             </p>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#b91c1c]">High-impact action</p>
             <div className="mt-3 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm">
               <div className="font-semibold text-[#0f172a]">{deleteCandidate.displayName || 'Unknown User'}</div>
               <div className="text-[#475569]">{deleteCandidate.email || 'No email'}</div>
@@ -1332,7 +1465,7 @@ export default function SupportConsolePage() {
             <div className="mt-4 flex justify-between gap-2">
               <button
                 type="button"
-                className="rounded-xl border border-red-700 bg-red-200 px-3 py-2 text-sm font-semibold text-[#1f2937] disabled:cursor-not-allowed disabled:border-[#cbd5e1] disabled:bg-[#e2e8f0] disabled:text-[#1f2937]"
+                className="rounded-xl border border-red-700 bg-red-600 px-3 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:border-[#cbd5e1] disabled:bg-[#e2e8f0] disabled:text-[#1f2937]"
                 disabled={
                   deleteBusy ||
                   deleteReason.trim().length < 8 ||

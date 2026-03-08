@@ -119,15 +119,15 @@ async function safeCount(query: Prisma.Sql) {
 }
 
 async function ensureAdminConsoleTables() {
-  await prisma.$executeRawUnsafe(`
+  await prisma.$executeRaw`
     CREATE TABLE IF NOT EXISTS support_admin_credentials (
       username text PRIMARY KEY,
       password_hash text NOT NULL,
       created_at timestamptz NOT NULL DEFAULT now(),
       updated_at timestamptz NOT NULL DEFAULT now()
     );
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE TABLE IF NOT EXISTS support_admin_sessions (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
       username text NOT NULL,
@@ -137,13 +137,13 @@ async function ensureAdminConsoleTables() {
       created_at timestamptz NOT NULL DEFAULT now(),
       last_used_at timestamptz NULL
     );
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_support_admin_sessions_username_created_at
     ON support_admin_sessions (username, created_at DESC);
-  `);
+  `;
 
-  await prisma.$executeRawUnsafe(`
+  await prisma.$executeRaw`
     CREATE TABLE IF NOT EXISTS admin_audit_logs (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
       actor_user_id uuid NOT NULL,
@@ -155,17 +155,17 @@ async function ensureAdminConsoleTables() {
       metadata_json jsonb NULL,
       created_at timestamptz NOT NULL DEFAULT now()
     );
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_admin_audit_logs_target_created_at
     ON admin_audit_logs (target_user_id, created_at DESC);
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_admin_audit_logs_actor_created_at
     ON admin_audit_logs (actor_user_id, created_at DESC);
-  `);
+  `;
 
-  await prisma.$executeRawUnsafe(`
+  await prisma.$executeRaw`
     CREATE TABLE IF NOT EXISTS support_notes (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
       target_user_id uuid NOT NULL,
@@ -175,13 +175,13 @@ async function ensureAdminConsoleTables() {
       created_at timestamptz NOT NULL DEFAULT now(),
       updated_at timestamptz NOT NULL DEFAULT now()
     );
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_support_notes_target_created_at
     ON support_notes (target_user_id, created_at DESC);
-  `);
+  `;
 
-  await prisma.$executeRawUnsafe(`
+  await prisma.$executeRaw`
     CREATE TABLE IF NOT EXISTS deletion_requests (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
       target_user_id uuid NOT NULL,
@@ -197,13 +197,13 @@ async function ensureAdminConsoleTables() {
       created_at timestamptz NOT NULL DEFAULT now(),
       updated_at timestamptz NOT NULL DEFAULT now()
     );
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_deletion_requests_target_created_at
     ON deletion_requests (target_user_id, created_at DESC);
-  `);
+  `;
 
-  await prisma.$executeRawUnsafe(`
+  await prisma.$executeRaw`
     CREATE TABLE IF NOT EXISTS account_security_events (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
       target_user_id uuid NOT NULL,
@@ -214,13 +214,13 @@ async function ensureAdminConsoleTables() {
       metadata_json jsonb NULL,
       created_at timestamptz NOT NULL DEFAULT now()
     );
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_account_security_events_target_created_at
     ON account_security_events (target_user_id, created_at DESC);
-  `);
+  `;
 
-  await prisma.$executeRawUnsafe(`
+  await prisma.$executeRaw`
     CREATE TABLE IF NOT EXISTS scheduled_account_deletions (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
       target_user_id uuid NOT NULL,
@@ -240,22 +240,22 @@ async function ensureAdminConsoleTables() {
       created_at timestamptz NOT NULL DEFAULT now(),
       updated_at timestamptz NOT NULL DEFAULT now()
     );
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_scheduled_account_deletions_status_scheduled_for
     ON scheduled_account_deletions (status, scheduled_for ASC);
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_scheduled_account_deletions_target_created_at
     ON scheduled_account_deletions (target_user_id, created_at DESC);
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE UNIQUE INDEX IF NOT EXISTS idx_scheduled_account_deletions_target_open
     ON scheduled_account_deletions (target_user_id)
     WHERE status = 'scheduled';
-  `);
+  `;
 
-  await prisma.$executeRawUnsafe(`
+  await prisma.$executeRaw`
     CREATE TABLE IF NOT EXISTS deletion_case_history (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
       target_user_id uuid NOT NULL,
@@ -272,15 +272,15 @@ async function ensureAdminConsoleTables() {
       retention_until timestamptz NOT NULL,
       created_at timestamptz NOT NULL DEFAULT now()
     );
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_deletion_case_history_target_resolved
     ON deletion_case_history (target_user_id, resolved_at DESC);
-  `);
-  await prisma.$executeRawUnsafe(`
+  `;
+  await prisma.$executeRaw`
     CREATE INDEX IF NOT EXISTS idx_deletion_case_history_retention
     ON deletion_case_history (retention_until ASC);
-  `);
+  `;
 }
 
 function supportAdminSessionExpiry() {
@@ -451,9 +451,9 @@ export async function adminRoutes(app: FastifyInstance) {
     `;
 
     return {
-      setupRequired: !Boolean(usernameRows[0]),
+      setupRequired: usernameRows.length === 0,
       configured: globallyConfigured,
-      usernameConfigured: Boolean(usernameRows[0]),
+      usernameConfigured: usernameRows.length > 0,
     };
   });
 
@@ -609,23 +609,35 @@ export async function adminRoutes(app: FastifyInstance) {
       reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
       return;
     }
-
-    const timeline = await prisma.$queryRaw<
-      Array<{ createdAt: Date; source: string; title: string; detail: string | null }>
-    >`
-      SELECT
-        aal.created_at AS "createdAt",
-        'admin_task'::text AS source,
-        aal.action::text AS title,
-        CONCAT('result=', aal.result, '; reason=', aal.reason)::text AS detail
-      FROM admin_audit_logs aal
-      WHERE aal.actor_user_id = ${request.user.id}::uuid
-        AND aal.created_at >= now() - make_interval(hours => ${parsed.data.windowHours})
-      ORDER BY aal.created_at DESC
-      LIMIT ${parsed.data.limit}
-    `;
-
-    return { windowHours: parsed.data.windowHours, timeline };
+    try {
+      const timeline = await prisma.$queryRaw<
+        Array<{ createdAt: Date; source: string; title: string; detail: string | null }>
+      >`
+        SELECT
+          aal.created_at AS "createdAt",
+          'admin_task'::text AS source,
+          aal.action::text AS title,
+          CONCAT('result=', aal.result, '; reason=', aal.reason)::text AS detail
+        FROM admin_audit_logs aal
+        WHERE aal.actor_user_id::text = ${request.user.id}
+          AND aal.created_at >= now() - (${parsed.data.windowHours} * interval '1 hour')
+        ORDER BY aal.created_at DESC
+        LIMIT ${parsed.data.limit}
+      `;
+      return { windowHours: parsed.data.windowHours, timeline };
+    } catch (error) {
+      request.log.error(
+        {
+          adminTimeline: true,
+          actorUserId: request.user.id,
+          windowHours: parsed.data.windowHours,
+          limit: parsed.data.limit,
+          error,
+        },
+        'admin_timeline_query_failed'
+      );
+      return { windowHours: parsed.data.windowHours, timeline: [] };
+    }
   };
 
   app.get('/v1/admin/me/timeline', { preHandler: [requireAdmin] }, adminTimelineHandler);
@@ -1374,6 +1386,80 @@ export async function adminRoutes(app: FastifyInstance) {
       LIMIT 1
     `;
 
+    let activeSessionCountRows: Array<{ count: bigint }> = [];
+    let recentIps: Array<{ ip: string; lastSeenAt: Date }> = [];
+    let recentDevices: Array<{ device: string; lastSeenAt: Date }> = [];
+    let lastPasswordResetRows: Array<{ usedAt: Date | null; createdAt: Date }> = [];
+    let lastForcedLogoutRows: Array<{ createdAt: Date }> = [];
+    try {
+      [
+        activeSessionCountRows,
+        recentIps,
+        recentDevices,
+        lastPasswordResetRows,
+        lastForcedLogoutRows,
+      ] = await Promise.all([
+        prisma.$queryRaw<Array<{ count: bigint }>>`
+            SELECT COUNT(*)::bigint AS count
+            FROM refresh_sessions rs
+            WHERE rs.user_id = ${userId}::uuid
+              AND rs.revoked_at IS NULL
+              AND rs.expires_at > now()
+          `,
+        prisma.$queryRaw<Array<{ ip: string; lastSeenAt: Date }>>`
+            SELECT
+              rs.created_ip AS ip,
+              MAX(rs.created_at) AS "lastSeenAt"
+            FROM refresh_sessions rs
+            WHERE rs.user_id = ${userId}::uuid
+              AND rs.created_ip IS NOT NULL
+              AND LENGTH(TRIM(rs.created_ip)) > 0
+            GROUP BY rs.created_ip
+            ORDER BY MAX(rs.created_at) DESC
+            LIMIT 5
+          `,
+        prisma.$queryRaw<Array<{ device: string; lastSeenAt: Date }>>`
+            SELECT
+              rs.created_user_agent AS device,
+              MAX(rs.created_at) AS "lastSeenAt"
+            FROM refresh_sessions rs
+            WHERE rs.user_id = ${userId}::uuid
+              AND rs.created_user_agent IS NOT NULL
+              AND LENGTH(TRIM(rs.created_user_agent)) > 0
+            GROUP BY rs.created_user_agent
+            ORDER BY MAX(rs.created_at) DESC
+            LIMIT 5
+          `,
+        prisma.$queryRaw<Array<{ usedAt: Date | null; createdAt: Date }>>`
+            SELECT
+              prt.used_at AS "usedAt",
+              prt.created_at AS "createdAt"
+            FROM password_reset_tokens prt
+            WHERE prt.user_id = ${userId}::uuid
+            ORDER BY COALESCE(prt.used_at, prt.created_at) DESC
+            LIMIT 1
+          `,
+        prisma.$queryRaw<Array<{ createdAt: Date }>>`
+            SELECT aal.created_at AS "createdAt"
+            FROM admin_audit_logs aal
+            WHERE aal.target_user_id = ${userId}::uuid
+              AND aal.action = 'sessions.revoked'
+            ORDER BY aal.created_at DESC
+            LIMIT 1
+          `,
+      ]);
+    } catch (error) {
+      request.log.error(
+        {
+          supportConsole: true,
+          route: '/v1/admin/users/:userId',
+          userId,
+          error,
+        },
+        'support_console_security_context_failed'
+      );
+    }
+
     return {
       profile,
       progress,
@@ -1381,6 +1467,18 @@ export async function adminRoutes(app: FastifyInstance) {
         quizCount: toInt(counts[0]?.quizCount),
         speakCount: toInt(counts[0]?.speakCount),
         progressEventCount: toInt(counts[0]?.progressEventCount),
+      },
+      security: {
+        activeSessionCount: toInt(activeSessionCountRows[0]?.count),
+        recentIps: recentIps.map((row) => ({ ip: row.ip, lastSeenAt: row.lastSeenAt })),
+        recentDevices: recentDevices.map((row) => ({
+          device: row.device,
+          lastSeenAt: row.lastSeenAt,
+        })),
+        lastPasswordResetAt: (lastPasswordResetRows[0]?.usedAt ||
+          lastPasswordResetRows[0]?.createdAt ||
+          null) as Date | null,
+        lastForcedLogoutAt: (lastForcedLogoutRows[0]?.createdAt || null) as Date | null,
       },
       deletionRequest: openDeletionRequest[0] || null,
     };

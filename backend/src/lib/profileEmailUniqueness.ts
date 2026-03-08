@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { prisma } from './prisma.js';
 
 type LoggerLike = {
@@ -25,6 +26,13 @@ function asNumber(value: bigint | number) {
   return typeof value === 'bigint' ? Number(value) : value;
 }
 
+function assertSafeIdentifier(value: string) {
+  if (!/^[a-z_][a-z0-9_]*$/i.test(value)) {
+    throw new Error(`Unsafe SQL identifier: ${value}`);
+  }
+  return value;
+}
+
 async function tableExists(tableName: string) {
   const rows = await prisma.$queryRaw<Array<{ exists: boolean }>>`
     SELECT to_regclass(${`public.${tableName}`}) IS NOT NULL AS exists
@@ -39,10 +47,12 @@ async function updateUserIdColumnIfPresent(
   loserUserId: string
 ) {
   if (!(await tableExists(tableName))) return;
-  await prisma.$executeRawUnsafe(
-    `UPDATE "${tableName}" SET "${columnName}" = $1::uuid WHERE "${columnName}" = $2::uuid`,
-    winnerUserId,
-    loserUserId
+  const safeTableName = assertSafeIdentifier(tableName);
+  const safeColumnName = assertSafeIdentifier(columnName);
+  await prisma.$executeRaw(
+    Prisma.sql`UPDATE ${Prisma.raw(`"${safeTableName}"`)}
+               SET ${Prisma.raw(`"${safeColumnName}"`)} = ${winnerUserId}::uuid
+               WHERE ${Prisma.raw(`"${safeColumnName}"`)} = ${loserUserId}::uuid`
   );
 }
 
@@ -297,9 +307,11 @@ export async function ensureProfileEmailUniqueness(logger: LoggerLike) {
     await mergeSingleDuplicateEmailGroup(row.emailKey, logger);
   }
 
-  await prisma.$executeRawUnsafe(
-    'CREATE UNIQUE INDEX IF NOT EXISTS profiles_email_unique_idx ON profiles (lower(email)) WHERE email IS NOT NULL'
-  );
+  await prisma.$executeRaw`
+    CREATE UNIQUE INDEX IF NOT EXISTS profiles_email_unique_idx
+    ON profiles (lower(email))
+    WHERE email IS NOT NULL
+  `;
 
   if (duplicates.length > 0) {
     const mergedRows = duplicates.reduce((acc, row) => acc + asNumber(row.count) - 1, 0);
