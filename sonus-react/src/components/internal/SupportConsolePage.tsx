@@ -110,6 +110,9 @@ type SupportMetrics = {
     newDeviceLogins: number;
     sessionRevocations: number;
     unauthorizedAdminAttempts: number;
+    currentUsers: number;
+    activeUsers: number;
+    activeWindowMinutes: number;
     supportNotesCreated: number;
     supportNoteCreateFailures: number;
     authErrorBreakdown?: Array<{ eventType: string; count: number }>;
@@ -904,6 +907,19 @@ export default function SupportConsolePage() {
             {dashboardLoading && <p className="mt-3 text-sm text-[#475569]">Loading dashboard analytics…</p>}
             {dashboardError && <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{dashboardError}</p>}
             <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-2 xl:grid-cols-4 [&>*:last-child:nth-child(odd)]:col-span-2 [&>*:last-child:nth-child(odd)]:mx-auto [&>*:last-child:nth-child(odd)]:w-full [&>*:last-child:nth-child(odd)]:max-w-md md:[&>*:last-child:nth-child(odd)]:col-span-1 md:[&>*:last-child:nth-child(odd)]:mx-0 md:[&>*:last-child:nth-child(odd)]:max-w-none">
+              <article className={metricCard}>
+                <div className="text-xs text-[#64748b]">Current Users</div>
+                <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.currentUsers ?? 0}</div>
+              </article>
+              <article className={metricCard}>
+                <div className="text-xs text-[#64748b]">
+                  Active Users
+                  <span className="ml-1 text-[11px] text-[#94a3b8]">
+                    ({supportMetrics?.support.activeWindowMinutes ?? 15}m)
+                  </span>
+                </div>
+                <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.activeUsers ?? 0}</div>
+              </article>
               <article className={metricCard}>
                 <div className="text-xs text-[#64748b]">End-User Failed Logins</div>
                 <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.endUserFailedLogins ?? 0}</div>

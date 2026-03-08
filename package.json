@@ -32,6 +32,6 @@
   },
   "devDependencies": {
     "hanzi": "^2.1.5",
-    "prisma": "^5.22.0"
+    "prisma": "^6.19.2"
   }
 }

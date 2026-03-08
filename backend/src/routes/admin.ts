@@ -142,6 +142,10 @@ async function ensureAdminConsoleTables() {
     CREATE INDEX IF NOT EXISTS idx_support_admin_sessions_username_created_at
     ON support_admin_sessions (username, created_at DESC);
   `;
+  await prisma.$executeRaw`
+    CREATE INDEX IF NOT EXISTS idx_refresh_sessions_active_lookup
+    ON refresh_sessions (revoked_at, expires_at, last_used_at, created_at, user_id);
+  `;
 
   await prisma.$executeRaw`
     CREATE TABLE IF NOT EXISTS admin_audit_logs (
@@ -669,6 +673,8 @@ export async function adminRoutes(app: FastifyInstance) {
       }
       const windowDays = parsed.data.windowDays;
       const windowInterval = `${windowDays} days`;
+      const activeWindowMinutes = 15;
+      const activeWindowInterval = `${activeWindowMinutes} minutes`;
 
       const [
         failedLogins,
@@ -681,6 +687,8 @@ export async function adminRoutes(app: FastifyInstance) {
         emailVerificationRequired,
         newIpLogins,
         newDeviceLogins,
+        currentUsers,
+        activeUsers,
       ] = await Promise.all([
         safeCount(
           Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type = 'support_admin_login_failed' AND ase.created_at >= now() - ${windowInterval}::interval`
@@ -711,6 +719,16 @@ export async function adminRoutes(app: FastifyInstance) {
         ),
         safeCount(
           Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type = 'auth_login_new_device' AND ase.created_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(Prisma.sql`SELECT COUNT(*)::bigint AS count FROM profiles p`),
+        safeCount(
+          Prisma.sql`
+            SELECT COUNT(DISTINCT rs.user_id)::bigint AS count
+            FROM refresh_sessions rs
+            WHERE rs.revoked_at IS NULL
+              AND rs.expires_at > now()
+              AND COALESCE(rs.last_used_at, rs.created_at) >= now() - ${activeWindowInterval}::interval
+          `
         ),
       ]);
 
@@ -751,6 +769,9 @@ export async function adminRoutes(app: FastifyInstance) {
           newDeviceLogins,
           sessionRevocations,
           unauthorizedAdminAttempts,
+          currentUsers,
+          activeUsers,
+          activeWindowMinutes,
           supportNotesCreated: noteCount,
           supportNoteCreateFailures: noteFailureCount,
           authErrorBreakdown: authErrorBreakdown.map((row) => ({

@@ -154,3 +154,132 @@ model PasswordResetToken {
   @@index([expiresAt])
   @@map("password_reset_tokens")
 }
+
+model SupportAdminCredential {
+  username     String   @id @db.Text
+  passwordHash String   @map("password_hash") @db.Text
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @map("updated_at") @db.Timestamptz(6)
+
+  @@map("support_admin_credentials")
+}
+
+model SupportAdminSession {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username   String    @db.Text
+  tokenHash  String    @unique @map("token_hash") @db.Text
+  expiresAt  DateTime  @map("expires_at") @db.Timestamptz(6)
+  revokedAt  DateTime? @map("revoked_at") @db.Timestamptz(6)
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  lastUsedAt DateTime? @map("last_used_at") @db.Timestamptz(6)
+
+  @@index([username, createdAt])
+  @@map("support_admin_sessions")
+}
+
+model AdminAuditLog {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actorUserId String   @map("actor_user_id") @db.Uuid
+  actorEmail  String?  @map("actor_email") @db.Text
+  action      String   @db.Text
+  targetUserId String? @map("target_user_id") @db.Uuid
+  reason      String   @db.Text
+  result      String   @db.Text
+  metadataJson Json?   @map("metadata_json")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([targetUserId, createdAt])
+  @@index([actorUserId, createdAt])
+  @@map("admin_audit_logs")
+}
+
+model SupportNote {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  targetUserId String  @map("target_user_id") @db.Uuid
+  actorUserId String   @map("actor_user_id") @db.Uuid
+  actorEmail  String?  @map("actor_email") @db.Text
+  note        String   @db.Text
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @map("updated_at") @db.Timestamptz(6)
+
+  @@index([targetUserId, createdAt])
+  @@map("support_notes")
+}
+
+model DeletionRequest {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  targetUserId      String    @map("target_user_id") @db.Uuid
+  status            String    @default("open") @db.Text
+  requestedByUserId String    @map("requested_by_user_id") @db.Uuid
+  requestedByEmail  String?   @map("requested_by_email") @db.Text
+  requestReason     String    @map("request_reason") @db.Text
+  requestChannel    String?   @map("request_channel") @db.Text
+  resolvedByUserId  String?   @map("resolved_by_user_id") @db.Uuid
+  resolvedByEmail   String?   @map("resolved_by_email") @db.Text
+  resolveReason     String?   @map("resolve_reason") @db.Text
+  resolvedAt        DateTime? @map("resolved_at") @db.Timestamptz(6)
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime  @map("updated_at") @db.Timestamptz(6)
+
+  @@index([targetUserId, createdAt])
+  @@map("deletion_requests")
+}
+
+model AccountSecurityEvent {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  targetUserId String  @map("target_user_id") @db.Uuid
+  actorUserId String?  @map("actor_user_id") @db.Uuid
+  actorEmail  String?  @map("actor_email") @db.Text
+  eventType   String   @map("event_type") @db.Text
+  detail      String?  @db.Text
+  metadataJson Json?   @map("metadata_json")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([targetUserId, createdAt])
+  @@map("account_security_events")
+}
+
+model ScheduledAccountDeletion {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  targetUserId      String    @map("target_user_id") @db.Uuid
+  targetEmail       String?   @map("target_email") @db.Text
+  targetDisplayName String?   @map("target_display_name") @db.Text
+  requestedByUserId String    @map("requested_by_user_id") @db.Uuid
+  requestedByEmail  String?   @map("requested_by_email") @db.Text
+  reason            String    @db.Text
+  holdDays          Int       @map("hold_days")
+  scheduledFor      DateTime  @map("scheduled_for") @db.Timestamptz(6)
+  status            String    @default("scheduled") @db.Text
+  cancelledAt       DateTime? @map("cancelled_at") @db.Timestamptz(6)
+  cancelledByUserId String?   @map("cancelled_by_user_id") @db.Uuid
+  cancelledByEmail  String?   @map("cancelled_by_email") @db.Text
+  cancelReason      String?   @map("cancel_reason") @db.Text
+  completedAt       DateTime? @map("completed_at") @db.Timestamptz(6)
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime  @map("updated_at") @db.Timestamptz(6)
+
+  @@index([status, scheduledFor])
+  @@index([targetUserId, createdAt])
+  @@map("scheduled_account_deletions")
+}
+
+model DeletionCaseHistory {
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  targetUserId      String   @map("target_user_id") @db.Uuid
+  targetEmail       String?  @map("target_email") @db.Text
+  targetDisplayName String?  @map("target_display_name") @db.Text
+  outcome           String   @db.Text
+  requestReason     String   @map("request_reason") @db.Text
+  requestChannel    String?  @map("request_channel") @db.Text
+  requestCreatedAt  DateTime @map("request_created_at") @db.Timestamptz(6)
+  resolvedReason    String   @map("resolved_reason") @db.Text
+  resolvedByUserId  String?  @map("resolved_by_user_id") @db.Uuid
+  resolvedByEmail   String?  @map("resolved_by_email") @db.Text
+  resolvedAt        DateTime @map("resolved_at") @db.Timestamptz(6)
+  retentionUntil    DateTime @map("retention_until") @db.Timestamptz(6)
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([targetUserId, resolvedAt])
+  @@index([retentionUntil])
+  @@map("deletion_case_history")
+}
