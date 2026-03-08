@@ -638,6 +638,7 @@ export default function HomeDashboard({
             <div className="max-w-md mx-auto w-full">
               {hasSavedLessonPath ? (
                 <button
+                  id="tour-begin-here-button"
                   onClick={openResumeCard}
                   className={`w-full ${glassBtnPrimary}`}
                 >

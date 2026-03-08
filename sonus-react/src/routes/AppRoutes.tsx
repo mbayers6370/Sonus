@@ -756,7 +756,11 @@ export default function AppRoutes() {
 
     const resolveAndObserveTarget = () => {
       const target = document.getElementById(targetId);
-      if (!target) return;
+      if (!target) {
+        walkthroughHighlightRectRef.current = null;
+        setWalkthroughHighlightRect(null);
+        return;
+      }
       if (
         targetId === 'tour-travel-sprint-card' ||
         targetId === 'tour-practice-focus-card' ||
