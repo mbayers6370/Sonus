@@ -171,6 +171,7 @@ const baseInput =
 const baseButton =
   'rounded-xl bg-[#1f2937] px-3 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-50';
 const metricCard = 'rounded-xl border border-[#e2e8f0] bg-white p-4';
+const iconButtonBase = 'inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors duration-150';
 
 function toLocale(value: string | null | undefined) {
   if (!value) return 'n/a';
@@ -1055,54 +1056,64 @@ export default function SupportConsolePage() {
               <span aria-hidden="true" className="text-white/45">|</span>
               <h1 className="main-font truncate text-base font-normal text-white md:text-lg">Support Dashboard</h1>
             </div>
-            <button
-              type="button"
-              className="absolute right-0 inline-flex h-9 w-9 items-center justify-center text-white transition hover:text-white/80"
-              onClick={() => void handleSupportLogout()}
-              aria-label="Log Out"
-              title="Log Out"
-            >
-              <LogOut className="h-5 w-5" />
-            </button>
+            <div className="absolute right-0">
+              <button
+                type="button"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-white/85 transition hover:bg-white/10 hover:text-white"
+                onClick={() => void handleSupportLogout()}
+                aria-label="Log Out"
+                title="Log Out"
+              >
+                <LogOut className="h-5 w-5" />
+              </button>
+            </div>
           </div>
           <div className="mt-3">
             <div className="flex items-center justify-center gap-4">
-              <button
-                type="button"
-                className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
-                onClick={() => navigate('/internal/support')}
-                aria-label="Home"
-                title="Home"
-              >
-                <Home className="h-5 w-5" />
-              </button>
-              <button
-                type="button"
-                className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
-                onClick={() => navigate('/internal/support/users')}
-                aria-label="User Operations"
-                title="User Operations"
-              >
-                <UserRoundSearch className="h-5 w-5" />
-              </button>
-              <button
-                type="button"
-                className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
-                onClick={() => navigate('/internal/support/metrics/support')}
-                aria-label="Support Metrics"
-                title="Support Metrics"
-              >
-                <TextSearch className="h-5 w-5" />
-              </button>
-              <button
-                type="button"
-                className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
-                onClick={() => navigate('/internal/support/metrics/learning')}
-                aria-label="Learning Metrics"
-                title="Learning Metrics"
-              >
-                <BookUser className="h-5 w-5" />
-              </button>
+              <div className="relative">
+                <button
+                  type="button"
+                  className={`${iconButtonBase} ${viewMode === 'dashboard' ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                  onClick={() => navigate('/internal/support')}
+                  aria-label="Home"
+                  title="Home"
+                >
+                  <Home className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="relative">
+                <button
+                  type="button"
+                  className={`${iconButtonBase} ${viewMode === 'ops' ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                  onClick={() => navigate('/internal/support/users')}
+                  aria-label="User Operations"
+                  title="User Operations"
+                >
+                  <UserRoundSearch className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="relative">
+                <button
+                  type="button"
+                  className={`${iconButtonBase} ${viewMode === 'metrics-support' ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                  onClick={() => navigate('/internal/support/metrics/support')}
+                  aria-label="Support Metrics"
+                  title="Support Metrics"
+                >
+                  <TextSearch className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="relative">
+                <button
+                  type="button"
+                  className={`${iconButtonBase} ${viewMode === 'metrics-learning' ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                  onClick={() => navigate('/internal/support/metrics/learning')}
+                  aria-label="Learning Metrics"
+                  title="Learning Metrics"
+                >
+                  <BookUser className="h-5 w-5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1691,34 +1702,40 @@ export default function SupportConsolePage() {
       <footer className="fixed inset-x-0 bottom-0 z-[120] border-t border-white/10 bg-[#1f2937]">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-center gap-6 px-4">
           {canCreateAdmins && (
+            <div className="relative">
+              <button
+                type="button"
+                className={`${iconButtonBase} ${createAdminOpen ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                onClick={() => setCreateAdminOpen(true)}
+                aria-label="Create Admin"
+                title="Create Admin"
+              >
+                <UserRoundPlus className="h-6 w-6 stroke-[2.6]" />
+              </button>
+            </div>
+          )}
+          <div className="relative">
             <button
               type="button"
-              className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
-              onClick={() => setCreateAdminOpen(true)}
-              aria-label="Create Admin"
-              title="Create Admin"
+              className={`${iconButtonBase} ${resetPasswordOpen ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+              onClick={() => setResetPasswordOpen(true)}
+              aria-label="Reset Password"
+              title="Reset Password"
             >
-              <UserRoundPlus className="h-6 w-6 stroke-[2.6]" />
+              <RotateCcwKey className="h-6 w-6 stroke-[2.6]" />
             </button>
-          )}
-          <button
-            type="button"
-            className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
-            onClick={() => setResetPasswordOpen(true)}
-            aria-label="Reset Password"
-            title="Reset Password"
-          >
-            <RotateCcwKey className="h-6 w-6 stroke-[2.6]" />
-          </button>
-          <button
-            type="button"
-            className="inline-flex h-10 w-10 items-center justify-center text-white transition hover:text-white/80"
-            onClick={() => setRecoveryEmailOpen(true)}
-            aria-label="Recovery Email"
-            title="Recovery Email"
-          >
-            <MailPlus className="h-6 w-6 stroke-[2.6]" />
-          </button>
+          </div>
+          <div className="relative">
+            <button
+              type="button"
+              className={`${iconButtonBase} ${recoveryEmailOpen ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+              onClick={() => setRecoveryEmailOpen(true)}
+              aria-label="Recovery Email"
+              title="Recovery Email"
+            >
+              <MailPlus className="h-6 w-6 stroke-[2.6]" />
+            </button>
+          </div>
         </div>
       </footer>
       {createAdminOpen && (
