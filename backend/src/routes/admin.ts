@@ -961,6 +961,7 @@ export async function adminRoutes(app: FastifyInstance) {
         newIpLogins,
         newDeviceLogins,
         currentUsers,
+        newUsers,
         activeUsers,
       ] = await Promise.all([
         safeCount(
@@ -994,6 +995,9 @@ export async function adminRoutes(app: FastifyInstance) {
           Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type = 'auth_login_new_device' AND ase.created_at >= now() - ${windowInterval}::interval`
         ),
         safeCount(Prisma.sql`SELECT COUNT(*)::bigint AS count FROM profiles p`),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM profiles p WHERE p.created_at >= now() - ${windowInterval}::interval`
+        ),
         safeCount(
           Prisma.sql`
             SELECT COUNT(DISTINCT rs.user_id)::bigint AS count
@@ -1043,6 +1047,7 @@ export async function adminRoutes(app: FastifyInstance) {
           sessionRevocations,
           unauthorizedAdminAttempts,
           currentUsers,
+          newUsers,
           activeUsers,
           activeWindowMinutes,
           supportNotesCreated: noteCount,

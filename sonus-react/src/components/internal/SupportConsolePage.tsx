@@ -121,6 +121,7 @@ type SupportMetrics = {
     sessionRevocations: number;
     unauthorizedAdminAttempts: number;
     currentUsers: number;
+    newUsers: number;
     activeUsers: number;
     activeWindowMinutes: number;
     supportNotesCreated: number;
@@ -1150,6 +1151,10 @@ export default function SupportConsolePage() {
               <article className={metricCard}>
                 <div className="text-xs text-[#64748b]">Current Users</div>
                 <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.currentUsers ?? 0}</div>
+              </article>
+              <article className={metricCard}>
+                <div className="text-xs text-[#64748b]">New Users</div>
+                <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.newUsers ?? 0}</div>
               </article>
               <article className={metricCard}>
                 <div className="text-xs text-[#64748b]">
