@@ -795,9 +795,10 @@ export default function SupportConsolePage() {
 
   if (!authenticated) {
     return (
-      <div className="min-h-screen page-shell p-6 text-[#1f2937]">
-        <div className="mx-auto grid max-w-4xl gap-4 lg:grid-cols-2">
-          <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-5">
+      <div className="min-h-screen page-shell px-4 py-6 text-[#1f2937] flex items-center justify-center">
+        <div className="w-full">
+          <div className={`mx-auto grid gap-4 ${setupRequired ? 'max-w-5xl md:grid-cols-2' : 'max-w-md'}`}>
+            <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-5">
             <h1 className="text-lg font-semibold text-[#0f172a]">Support Admin Login</h1>
             <p className="mt-1 text-sm text-[#475569]">Sign in to access `/internal/support`.</p>
             <input className={`${baseInput} mt-3`} value={adminUsername} onChange={(event) => setAdminUsername(event.target.value)} placeholder="admin username (email)" />
@@ -805,22 +806,23 @@ export default function SupportConsolePage() {
             <button type="button" className={`${baseButton} mt-3 w-full`} disabled={authBusy || adminUsername.trim().length < 3 || adminPassword.length < 1} onClick={() => void handleSupportLogin()}>
               Sign In
             </button>
-          </section>
-
-          {setupRequired && (
-            <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-5">
-              <h2 className="text-lg font-semibold text-[#0f172a]">Set Password (One Time)</h2>
-              <p className="mt-1 text-sm text-[#475569]">This appears only until the first successful setup.</p>
-              <input className={`${baseInput} mt-3`} value={adminUsername} onChange={(event) => setAdminUsername(event.target.value)} placeholder="admin username (email)" />
-              <input type="password" className={`${baseInput} mt-2`} value={setPasswordValue} onChange={(event) => setSetPasswordValue(event.target.value)} placeholder="new password (min 10 chars)" />
-              <input type="password" className={`${baseInput} mt-2`} value={setPasswordCurrent} onChange={(event) => setSetPasswordCurrent(event.target.value)} placeholder="current password (leave blank for first setup)" />
-              <button type="button" className={`${baseButton} mt-3 w-full`} disabled={authBusy || adminUsername.trim().length < 3 || setPasswordValue.length < 10} onClick={() => void handleSetPassword()}>
-                Save Password
-              </button>
             </section>
-          )}
+
+            {setupRequired && (
+              <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-5">
+                <h2 className="text-lg font-semibold text-[#0f172a]">Set Password (One Time)</h2>
+                <p className="mt-1 text-sm text-[#475569]">This appears only until the first successful setup.</p>
+                <input className={`${baseInput} mt-3`} value={adminUsername} onChange={(event) => setAdminUsername(event.target.value)} placeholder="admin username (email)" />
+                <input type="password" className={`${baseInput} mt-2`} value={setPasswordValue} onChange={(event) => setSetPasswordValue(event.target.value)} placeholder="new password (min 10 chars)" />
+                <input type="password" className={`${baseInput} mt-2`} value={setPasswordCurrent} onChange={(event) => setSetPasswordCurrent(event.target.value)} placeholder="current password (leave blank for first setup)" />
+                <button type="button" className={`${baseButton} mt-3 w-full`} disabled={authBusy || adminUsername.trim().length < 3 || setPasswordValue.length < 10} onClick={() => void handleSetPassword()}>
+                  Save Password
+                </button>
+              </section>
+            )}
+          </div>
+          {authError && <div className="mx-auto mt-4 max-w-5xl rounded-xl border border-[#1f2937]/20 bg-white/95 p-3 text-sm text-[#1f2937]">{authError}</div>}
         </div>
-        {authError && <div className="mx-auto mt-4 max-w-4xl rounded-xl border border-[#1f2937]/20 bg-white/95 p-3 text-sm text-[#1f2937]">{authError}</div>}
       </div>
     );
   }
