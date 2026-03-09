@@ -188,7 +188,8 @@ export default function AuthScreen({
           setMessage('Account created. Please verify your email, then sign in.');
           setMode('signin');
         } else {
-          navigate('/');
+          onClose?.();
+          navigate('/', { replace: true });
         }
       } catch (err) {
         setError((err as Error).message || 'Authentication failed');
@@ -213,6 +214,7 @@ export default function AuthScreen({
     signUpLastName,
     signUpPassword,
     timezone,
+    onClose,
   ]);
 
   const handleForgotSubmit = async () => {
@@ -657,7 +659,11 @@ export default function AuthScreen({
           </p>
           <button
             type="button"
-            onClick={continueAsDemo}
+            onClick={() => {
+              continueAsDemo();
+              onClose?.();
+              navigate('/', { replace: true });
+            }}
             disabled={loading}
             className="w-full mt-3 inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-[#1F2A37] text-white font-semibold hover:bg-[#111827] transition-colors disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/50"
           >
