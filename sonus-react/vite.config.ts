@@ -1,9 +1,32 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 
+function prioritizeEntryStylesheet() {
+  return {
+    name: 'prioritize-entry-stylesheet',
+    transformIndexHtml: {
+      order: 'post' as const,
+      handler(html: string) {
+        const scriptRe = /<script type="module"[^>]*src="\/assets\/index-[^"]+\.js"[^>]*><\/script>/;
+        const styleRe = /<link rel="stylesheet"[^>]*href="\/assets\/index-[^"]+\.css"[^>]*>/;
+        const scriptMatch = html.match(scriptRe);
+        const styleMatch = html.match(styleRe);
+        if (!scriptMatch || !styleMatch) return html;
+
+        const scriptTag = scriptMatch[0];
+        const styleTag = styleMatch[0];
+        if (html.indexOf(styleTag) < html.indexOf(scriptTag)) return html;
+
+        const withoutStyle = html.replace(styleTag, '');
+        return withoutStyle.replace(scriptTag, `${styleTag}\n    ${scriptTag}`);
+      },
+    },
+  };
+}
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), prioritizeEntryStylesheet()],
   build: {
     rollupOptions: {
       output: {
