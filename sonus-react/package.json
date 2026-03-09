@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:prerender": "npm run build && node scripts/prerender-public-seo.mjs",
+    "seo:validate": "node scripts/validate-prerender-seo.mjs",
+    "build:prerender:validate": "npm run build:prerender && npm run seo:validate",
     "check:budgets": "node scripts/check-bundle-budget.mjs",
     "ci:perf": "npm run build && npm run check:budgets",
     "lint": "eslint .",

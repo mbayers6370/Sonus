@@ -107,7 +107,7 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
               <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">Emergency-ready phrases</span>
             </div>
             <div className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] font-mono uppercase tracking-[0.12em] text-white/85">
-              <Link to="/travel-mandarin-phrases" className="underline underline-offset-4 hover:text-white">Guide</Link>
+              <Link to="/essential-mandarin-travel-phrases" className="underline underline-offset-4 hover:text-white">Guide</Link>
               <Link to="/mandarin-airport-phrases" className="underline underline-offset-4 hover:text-white">Airport</Link>
               <Link to="/mandarin-taxi-phrases" className="underline underline-offset-4 hover:text-white">Taxi</Link>
               <Link to="/how-to-order-food-in-chinese" className="underline underline-offset-4 hover:text-white">Food</Link>

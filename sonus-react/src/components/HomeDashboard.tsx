@@ -694,7 +694,7 @@ export default function HomeDashboard({
               </button>
             </div>
             <div className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] font-mono uppercase tracking-[0.12em] text-[#145B7A]">
-              <Link to="/travel-mandarin-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Guide</Link>
+              <Link to="/essential-mandarin-travel-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Guide</Link>
               <Link to="/mandarin-airport-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Airport</Link>
               <Link to="/mandarin-taxi-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Taxi</Link>
               <Link to="/how-to-order-food-in-chinese" className="underline underline-offset-4 hover:text-[#0E4A66]">Food</Link>
