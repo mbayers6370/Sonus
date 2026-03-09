@@ -22,8 +22,8 @@ export default function PrivacyPage() {
       <section>
         <h2 className="main-font text-xl text-[#1F2A37] sm:text-2xl">1. Who We Are</h2>
         <p className="mt-2">
-          Sonus Learning is the controller of personal data processed through the Sonus platform, except where a third
-          party independently determines the purposes and means of processing for its own services.
+          Matthew Bayers, operating Sonus Learning, is the controller of personal data processed through 
+          the Sonus platform, except where a third party independently determines the purposes and means of processing for its own services.
         </p>
         <p className="mt-2">
           If you have questions about this Privacy Policy or want to make a privacy request, you can contact us at{' '}

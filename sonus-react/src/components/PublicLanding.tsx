@@ -341,7 +341,7 @@ export default function PublicLanding() {
                       Guided Walkthrough
                     </button>
                   </div>
-                  <p className="mt-3 text-xs text-[#475569] sm:text-sm">No credit card required.</p>
+                  <p className="mt-3 text-xs text-[#475569] sm:text-sm">Free, no account needed to explore.</p>
                 </div>
 
                 <aside className="grid gap-4 pt-1">
