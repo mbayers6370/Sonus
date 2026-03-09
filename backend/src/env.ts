@@ -151,6 +151,22 @@ const envSchema = z
     TELEMETRY_WARN_MIN_SAMPLES: z.coerce.number().int().positive().default(50),
     JA_ROMAJI_MODE: z.enum(['auto', 'provider', 'kuromoji', 'local']).default('auto'),
     JA_ROMAJI_API_URL: z.string().trim().url().optional(),
+    STORAGE_BUDGET_MB: z.coerce
+      .number()
+      .positive()
+      .max(1024 * 1024)
+      .default(1024),
+    STAGING_APP_URL: z.string().trim().url().optional(),
+    BACKUP_LAST_SUCCESS_AT: z.string().trim().min(10).optional(),
+    RELEASE_CURRENT_TAG: z.string().trim().min(1).max(80).optional(),
+    RELEASE_PREVIOUS_TAG: z.string().trim().min(1).max(80).optional(),
+    PROTECTED_MAIN_BRANCH_ENABLED: z
+      .string()
+      .optional()
+      .transform((value) => {
+        if (value == null || value.trim() === '') return null;
+        return value.trim().toLowerCase() === 'true';
+      }),
   })
   .superRefine((value, ctx) => {
     // Cross-field constraints that cannot be expressed as single-key schema rules.

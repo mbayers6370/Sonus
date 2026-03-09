@@ -86,6 +86,7 @@ Local endpoints:
 - `npm run quality:report:soft` same as above, but does not fail shell on check failures
 - `npm run quality:report:prod-safe` run production-safe (read-only) checks only: npm audits + `/health` load check
 - `npm run quality:report:prod-safe:soft` same as above, but does not fail shell on check failures
+- `npm run -w sonus-backend db:ops:nightly` run nightly DB ops bundle (`db:health` + `db:compact:safe`) and write summary report to `reports/db-ops-nightly-*`
 
 ## Quality Gates
 ```bash
@@ -132,6 +133,7 @@ npm run -w sonus-react test:e2e
 - `docs/API.md`
 - `docs/ENV.md`
 - `docs/PERFORMANCE.md`
+- `docs/OPERATIONS.md`
 - `docs/PRODUCT_SETTINGS.md`
 - `backend/README.md`
 - `sonus-react/README.md`

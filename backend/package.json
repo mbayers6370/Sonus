@@ -28,6 +28,7 @@
     "db:reset": "docker compose down -v && docker compose up -d",
     "db:health": "node scripts/db-health-audit.mjs",
     "db:compact:safe": "node scripts/db-compact-safe.mjs",
+    "db:ops:nightly": "node scripts/db-ops-nightly.mjs",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "prisma:migrate": "prisma migrate dev",

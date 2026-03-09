@@ -49,6 +49,12 @@ Defined/validated in `backend/src/env.ts`.
 - `LOGIN_THROTTLE_BASE_MS` (initial cooldown in ms)
 - `LOGIN_THROTTLE_MAX_MS` (max cooldown in ms)
 - `LOGIN_THROTTLE_RESET_MS` (idle window before failures reset)
+- `STORAGE_BUDGET_MB` (admin storage-budget report target in MB)
+- `STAGING_APP_URL` (optional staging URL for readiness checks)
+- `BACKUP_LAST_SUCCESS_AT` (optional ISO timestamp for backup freshness signal)
+- `RELEASE_CURRENT_TAG` (optional release tag displayed in readiness)
+- `RELEASE_PREVIOUS_TAG` (optional rollback tag displayed in readiness)
+- `PROTECTED_MAIN_BRANCH_ENABLED` (optional explicit branch-protection signal)
 
 ### Setup
 ```bash

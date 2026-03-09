@@ -1525,6 +1525,285 @@ export async function adminRoutes(app: FastifyInstance) {
   );
 
   app.get(
+    '/v1/admin/reports/activation-funnel',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = reportWindowQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+      const windowDays = parsed.data.windowDays;
+      const windowInterval = `${windowDays} days`;
+      const [signups, firstLessonUsers, firstSpeakUsers, day7ReturnUsers] = await Promise.all([
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM profiles p WHERE p.created_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`
+          SELECT COUNT(DISTINCT pe.user_id)::bigint AS count
+          FROM progress_events pe
+          WHERE pe.event_type IN ('lesson_started', 'lesson_completed', 'apply_completed')
+            AND pe.created_at >= now() - ${windowInterval}::interval
+        `
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(DISTINCT sa.user_id)::bigint AS count FROM speak_attempts sa WHERE sa.created_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`
+          WITH cohort AS (
+            SELECT p.user_id, p.created_at
+            FROM profiles p
+            WHERE p.created_at >= now() - (${windowInterval}::interval + interval '7 days')
+              AND p.created_at < now() - interval '7 days'
+          ),
+          activity AS (
+            SELECT qa.user_id, qa.created_at FROM quiz_attempts qa
+            UNION ALL
+            SELECT sa.user_id, sa.created_at FROM speak_attempts sa
+            UNION ALL
+            SELECT pe.user_id, pe.created_at FROM progress_events pe
+          )
+          SELECT COUNT(*)::bigint AS count
+          FROM cohort c
+          WHERE EXISTS (
+            SELECT 1
+            FROM activity a
+            WHERE a.user_id = c.user_id
+              AND a.created_at >= c.created_at + interval '7 days'
+              AND a.created_at < c.created_at + interval '8 days'
+          )
+        `
+        ),
+      ]);
+
+      const pct = (value: number, total: number) =>
+        total > 0 ? Number(((value / total) * 100).toFixed(2)) : 0;
+
+      return {
+        generatedAt: new Date().toISOString(),
+        windowDays,
+        funnel: {
+          signups,
+          firstLessonUsers,
+          firstSpeakUsers,
+          day7ReturnUsers,
+        },
+        conversionPct: {
+          signupToFirstLesson: pct(firstLessonUsers, signups),
+          signupToFirstSpeak: pct(firstSpeakUsers, signups),
+          signupToDay7Return: pct(day7ReturnUsers, signups),
+        },
+      };
+    }
+  );
+
+  app.get('/v1/admin/reports/storage-budget', { preHandler: [requireAdmin] }, async () => {
+    const budgetMb = env.STORAGE_BUDGET_MB;
+    const budgetBytes = Math.round(budgetMb * 1024 * 1024);
+    const [dbSizeRows, tableRows] = await Promise.all([
+      prisma.$queryRaw<Array<{ bytes: bigint }>>`
+          SELECT pg_database_size(current_database())::bigint AS bytes
+        `.catch(() => []),
+      prisma.$queryRaw<Array<{ tableName: string; bytes: bigint; liveRows: bigint }>>`
+          SELECT
+            st.relname AS "tableName",
+            pg_total_relation_size(st.relid)::bigint AS bytes,
+            st.n_live_tup::bigint AS "liveRows"
+          FROM pg_stat_user_tables st
+          WHERE st.schemaname = 'public'
+          ORDER BY pg_total_relation_size(st.relid) DESC
+          LIMIT 15
+        `.catch(() => []),
+    ]);
+
+    const totalBytes = toInt(dbSizeRows[0]?.bytes);
+    const usedPct = budgetBytes > 0 ? Number(((totalBytes / budgetBytes) * 100).toFixed(2)) : 0;
+    const status = usedPct >= 90 ? 'critical' : usedPct >= 75 ? 'warning' : 'healthy';
+
+    return {
+      generatedAt: new Date().toISOString(),
+      budget: {
+        storageBudgetMb: budgetMb,
+        storageBudgetBytes: budgetBytes,
+        databaseSizeBytes: totalBytes,
+        databaseSizeMb: Number((totalBytes / (1024 * 1024)).toFixed(2)),
+        usedPct,
+        status,
+      },
+      largestTables: tableRows.map((row) => ({
+        tableName: row.tableName,
+        bytes: toInt(row.bytes),
+        mb: Number((toInt(row.bytes) / (1024 * 1024)).toFixed(2)),
+        liveRows: toInt(row.liveRows),
+      })),
+    };
+  });
+
+  app.get(
+    '/v1/admin/reports/db-guardrails',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = reportWindowQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+      const windowDays = parsed.data.windowDays;
+      const windowInterval = `${windowDays} days`;
+
+      const [indexRows, tableHealthRows, growthRows, reportRuns] = await Promise.all([
+        prisma.$queryRaw<Array<{ tableName: string; indexName: string; indexDef: string }>>`
+          SELECT
+            pi.tablename AS "tableName",
+            pi.indexname AS "indexName",
+            pi.indexdef AS "indexDef"
+          FROM pg_indexes pi
+          WHERE pi.schemaname = 'public'
+            AND pi.tablename IN ('quiz_attempts', 'speak_attempts', 'progress_events', 'user_progress', 'account_security_events')
+        `.catch(() => []),
+        prisma.$queryRaw<
+          Array<{ tableName: string; liveRows: bigint; deadRows: bigint; deadPct: number }>
+        >`
+          SELECT
+            st.relname AS "tableName",
+            st.n_live_tup::bigint AS "liveRows",
+            st.n_dead_tup::bigint AS "deadRows",
+            CASE
+              WHEN st.n_live_tup > 0
+                THEN ROUND((st.n_dead_tup::numeric * 100.0) / st.n_live_tup::numeric, 2)
+              ELSE 0
+            END AS "deadPct"
+          FROM pg_stat_user_tables st
+          WHERE st.schemaname = 'public'
+            AND st.relname IN ('quiz_attempts', 'speak_attempts', 'progress_events', 'word_memory_state', 'account_security_events')
+          ORDER BY st.n_dead_tup DESC
+        `.catch(() => []),
+        prisma.$queryRaw<
+          Array<{ quizAttempts: bigint; speakAttempts: bigint; progressEvents: bigint }>
+        >`
+          SELECT
+            (SELECT COUNT(*)::bigint FROM quiz_attempts qa WHERE qa.created_at >= now() - ${windowInterval}::interval) AS "quizAttempts",
+            (SELECT COUNT(*)::bigint FROM speak_attempts sa WHERE sa.created_at >= now() - ${windowInterval}::interval) AS "speakAttempts",
+            (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.created_at >= now() - ${windowInterval}::interval) AS "progressEvents"
+        `.catch(() => []),
+        readQualityReportList(200).catch(() => [] as QualityReportListEntry[]),
+      ]);
+
+      const hasIndex = (tableName: string, pattern: RegExp) =>
+        indexRows.some((row) => row.tableName === tableName && pattern.test(row.indexDef));
+
+      const indexChecks = [
+        {
+          key: 'quiz_attempts_user_created_at',
+          passed: hasIndex('quiz_attempts', /\(user_id,\s*created_at\)/i),
+        },
+        {
+          key: 'speak_attempts_user_created_at',
+          passed: hasIndex('speak_attempts', /\(user_id,\s*created_at\)/i),
+        },
+        {
+          key: 'progress_events_user_created_at',
+          passed: hasIndex('progress_events', /\(user_id,\s*created_at\)/i),
+        },
+      ];
+
+      const growth = growthRows[0] || {
+        quizAttempts: BigInt(0),
+        speakAttempts: BigInt(0),
+        progressEvents: BigInt(0),
+      };
+
+      return {
+        generatedAt: new Date().toISOString(),
+        windowDays,
+        indexChecks,
+        tableHealth: tableHealthRows.map((row) => ({
+          tableName: row.tableName,
+          liveRows: toInt(row.liveRows),
+          deadRows: toInt(row.deadRows),
+          deadPct: Number(row.deadPct || 0),
+        })),
+        growth: {
+          quizAttempts: toInt(growth.quizAttempts),
+          speakAttempts: toInt(growth.speakAttempts),
+          progressEvents: toInt(growth.progressEvents),
+        },
+        retention: {
+          qualityReportsCount: reportRuns.length,
+          latestQualityRunId: reportRuns[0]?.runId || null,
+        },
+      };
+    }
+  );
+
+  app.get('/v1/admin/reports/prod-readiness', { preHandler: [requireAdmin] }, async () => {
+    const repoRoot = await resolveRepoRootForQualityReports();
+    const [hasCiWorkflow, hasLighthouseWorkflow, latestReport] = await Promise.all([
+      pathExists(path.join(repoRoot, '.github', 'workflows', 'ci.yml')),
+      pathExists(path.join(repoRoot, '.github', 'workflows', 'lighthouse.yml')),
+      readQualityReportList(1)
+        .then((rows) => rows[0] || null)
+        .catch(() => null),
+    ]);
+
+    const backupDate = env.BACKUP_LAST_SUCCESS_AT ? new Date(env.BACKUP_LAST_SUCCESS_AT) : null;
+    const backupAgeHours =
+      backupDate && Number.isFinite(backupDate.getTime())
+        ? Number(((Date.now() - backupDate.getTime()) / (1000 * 60 * 60)).toFixed(2))
+        : null;
+    const backupFresh = typeof backupAgeHours === 'number' ? backupAgeHours <= 36 : false;
+    const protectedMainEnabled = env.PROTECTED_MAIN_BRANCH_ENABLED;
+    const stagingConfigured = Boolean(env.STAGING_APP_URL);
+
+    const checks = {
+      ciWorkflowPresent: hasCiWorkflow,
+      lighthouseWorkflowPresent: hasLighthouseWorkflow,
+      protectedMainBranchEnabled: protectedMainEnabled,
+      stagingConfigured,
+      backupLastSuccessAt: env.BACKUP_LAST_SUCCESS_AT || null,
+      backupFresh,
+      releaseCurrentTag: env.RELEASE_CURRENT_TAG || null,
+      releasePreviousTag: env.RELEASE_PREVIOUS_TAG || null,
+      latestQualityRun: latestReport
+        ? {
+            runId: latestReport.runId,
+            generatedAt: latestReport.generatedAt,
+            risk: latestReport.risk,
+            failedChecks: latestReport.summary.failed,
+          }
+        : null,
+    };
+
+    const recommendedActions: string[] = [];
+    if (!hasCiWorkflow)
+      recommendedActions.push(
+        'Add/restore .github/workflows/ci.yml and require it on protected main.'
+      );
+    if (!hasLighthouseWorkflow)
+      recommendedActions.push('Add/restore Lighthouse workflow and require it on pull requests.');
+    if (protectedMainEnabled !== true)
+      recommendedActions.push('Enable protected main branch with required PR + status checks.');
+    if (!stagingConfigured)
+      recommendedActions.push('Configure STAGING_APP_URL and deploy every PR to staging.');
+    if (!backupFresh)
+      recommendedActions.push(
+        'Set BACKUP_LAST_SUCCESS_AT from nightly backup job and verify restore monthly.'
+      );
+    if (!env.RELEASE_CURRENT_TAG || !env.RELEASE_PREVIOUS_TAG)
+      recommendedActions.push(
+        'Set RELEASE_CURRENT_TAG and RELEASE_PREVIOUS_TAG for rollback readiness.'
+      );
+
+    return {
+      generatedAt: new Date().toISOString(),
+      checks,
+      recommendedActions,
+    };
+  });
+
+  app.get(
     '/v1/admin/metrics/support/overview',
     { preHandler: [requireAdmin] },
     async (request, reply) => {

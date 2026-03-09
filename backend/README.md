@@ -75,6 +75,20 @@ Server: `http://127.0.0.1:4000`
 npm run build
 ```
 
+## DB Ops (Production-Safe)
+- DB health audit:
+```bash
+npm run db:health
+```
+- Safe compact pass (only vacuums high-dead-row candidates):
+```bash
+npm run db:compact:safe
+```
+- Nightly bundle (runs both and writes `reports/db-ops-nightly-*/`):
+```bash
+npm run db:ops:nightly
+```
+
 ## Lint
 ```bash
 npm run lint

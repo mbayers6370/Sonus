@@ -257,6 +257,77 @@ type LearningMomentumReport = {
   }>;
 };
 
+type ActivationFunnelReport = {
+  generatedAt: string;
+  windowDays: number;
+  funnel: {
+    signups: number;
+    firstLessonUsers: number;
+    firstSpeakUsers: number;
+    day7ReturnUsers: number;
+  };
+  conversionPct: {
+    signupToFirstLesson: number;
+    signupToFirstSpeak: number;
+    signupToDay7Return: number;
+  };
+};
+
+type StorageBudgetReport = {
+  generatedAt: string;
+  budget: {
+    storageBudgetMb: number;
+    storageBudgetBytes: number;
+    databaseSizeBytes: number;
+    databaseSizeMb: number;
+    usedPct: number;
+    status: 'healthy' | 'warning' | 'critical' | string;
+  };
+  largestTables: Array<{
+    tableName: string;
+    bytes: number;
+    mb: number;
+    liveRows: number;
+  }>;
+};
+
+type DbGuardrailsReport = {
+  generatedAt: string;
+  windowDays: number;
+  indexChecks: Array<{ key: string; passed: boolean }>;
+  tableHealth: Array<{ tableName: string; liveRows: number; deadRows: number; deadPct: number }>;
+  growth: {
+    quizAttempts: number;
+    speakAttempts: number;
+    progressEvents: number;
+  };
+  retention: {
+    qualityReportsCount: number;
+    latestQualityRunId: string | null;
+  };
+};
+
+type ProdReadinessReport = {
+  generatedAt: string;
+  checks: {
+    ciWorkflowPresent: boolean;
+    lighthouseWorkflowPresent: boolean;
+    protectedMainBranchEnabled: boolean | null;
+    stagingConfigured: boolean;
+    backupLastSuccessAt: string | null;
+    backupFresh: boolean;
+    releaseCurrentTag: string | null;
+    releasePreviousTag: string | null;
+    latestQualityRun: {
+      runId: string;
+      generatedAt: string | null;
+      risk: string;
+      failedChecks: number;
+    } | null;
+  };
+  recommendedActions: string[];
+};
+
 const SUPPORT_ADMIN_TOKEN_STORAGE_KEY = 'sonus.support_admin.token';
 const ROOT_QA_ADMIN_USERNAME = 'qa-admin-f8n2x7r1@sonus.test';
 
@@ -591,6 +662,10 @@ export default function SupportConsolePage() {
   const [deletionLifecycleReport, setDeletionLifecycleReport] = useState<DeletionLifecycleReport | null>(null);
   const [securityIncidentReport, setSecurityIncidentReport] = useState<SecurityIncidentReport | null>(null);
   const [learningMomentumReport, setLearningMomentumReport] = useState<LearningMomentumReport | null>(null);
+  const [activationFunnelReport, setActivationFunnelReport] = useState<ActivationFunnelReport | null>(null);
+  const [storageBudgetReport, setStorageBudgetReport] = useState<StorageBudgetReport | null>(null);
+  const [dbGuardrailsReport, setDbGuardrailsReport] = useState<DbGuardrailsReport | null>(null);
+  const [prodReadinessReport, setProdReadinessReport] = useState<ProdReadinessReport | null>(null);
   const [dashboardGeneratedAt, setDashboardGeneratedAt] = useState<string | null>(null);
 
   const viewMode = useMemo<
@@ -756,6 +831,10 @@ export default function SupportConsolePage() {
         deletionPayload,
         securityPayload,
         momentumPayload,
+        funnelPayload,
+        storagePayload,
+        guardrailsPayload,
+        readinessPayload,
       ] = await Promise.all([
         parseJsonOrThrow<SupportMetrics>(
           await apiFetch(`/v1/admin/metrics/support/overview?windowDays=${windowDays}`, {
@@ -787,6 +866,26 @@ export default function SupportConsolePage() {
             cache: 'no-store',
           })
         ),
+        parseJsonOrThrow<ActivationFunnelReport>(
+          await apiFetch(`/v1/admin/reports/activation-funnel?windowDays=${windowDays}`, {
+            cache: 'no-store',
+          })
+        ),
+        parseJsonOrThrow<StorageBudgetReport>(
+          await apiFetch('/v1/admin/reports/storage-budget', {
+            cache: 'no-store',
+          })
+        ),
+        parseJsonOrThrow<DbGuardrailsReport>(
+          await apiFetch(`/v1/admin/reports/db-guardrails?windowDays=${windowDays}`, {
+            cache: 'no-store',
+          })
+        ),
+        parseJsonOrThrow<ProdReadinessReport>(
+          await apiFetch('/v1/admin/reports/prod-readiness', {
+            cache: 'no-store',
+          })
+        ),
       ]);
       setSupportMetrics(supportPayload);
       setLearningMetrics(learningPayload);
@@ -794,6 +893,10 @@ export default function SupportConsolePage() {
       setDeletionLifecycleReport(deletionPayload);
       setSecurityIncidentReport(securityPayload);
       setLearningMomentumReport(momentumPayload);
+      setActivationFunnelReport(funnelPayload);
+      setStorageBudgetReport(storagePayload);
+      setDbGuardrailsReport(guardrailsPayload);
+      setProdReadinessReport(readinessPayload);
       setDashboardGeneratedAt(new Date().toISOString());
     } catch (error) {
       setDashboardError(error instanceof Error ? error.message : 'Failed to load dashboard metrics');
@@ -1268,6 +1371,116 @@ export default function SupportConsolePage() {
     );
   };
 
+  const downloadActivationFunnelJson = () => {
+    downloadTextFile(
+      `admin-activation-funnel-${metricsWindowDays}d.json`,
+      JSON.stringify(activationFunnelReport || {}, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const downloadActivationFunnelCsv = () => {
+    const report = activationFunnelReport;
+    const csv = toCsv(
+      ['metric', 'value', 'windowDays'],
+      [
+        ['signups', report?.funnel.signups ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['firstLessonUsers', report?.funnel.firstLessonUsers ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['firstSpeakUsers', report?.funnel.firstSpeakUsers ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['day7ReturnUsers', report?.funnel.day7ReturnUsers ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['signupToFirstLessonPct', report?.conversionPct.signupToFirstLesson ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['signupToFirstSpeakPct', report?.conversionPct.signupToFirstSpeak ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['signupToDay7ReturnPct', report?.conversionPct.signupToDay7Return ?? 0, report?.windowDays ?? metricsWindowDays],
+      ]
+    );
+    downloadTextFile(
+      `admin-activation-funnel-${metricsWindowDays}d.csv`,
+      csv,
+      'text/csv;charset=utf-8'
+    );
+  };
+
+  const downloadStorageBudgetJson = () => {
+    downloadTextFile(
+      'admin-storage-budget.json',
+      JSON.stringify(storageBudgetReport || {}, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const downloadStorageBudgetCsv = () => {
+    const report = storageBudgetReport;
+    const rows: Array<Array<unknown>> = [
+      ['storageBudgetMb', report?.budget.storageBudgetMb ?? 0],
+      ['databaseSizeMb', report?.budget.databaseSizeMb ?? 0],
+      ['usedPct', report?.budget.usedPct ?? 0],
+      ['status', report?.budget.status ?? 'unknown'],
+    ];
+    for (const table of report?.largestTables || []) {
+      rows.push([`table:${table.tableName}:mb`, table.mb]);
+      rows.push([`table:${table.tableName}:liveRows`, table.liveRows]);
+    }
+    const csv = toCsv(['metric', 'value'], rows);
+    downloadTextFile('admin-storage-budget.csv', csv, 'text/csv;charset=utf-8');
+  };
+
+  const downloadDbGuardrailsJson = () => {
+    downloadTextFile(
+      `admin-db-guardrails-${metricsWindowDays}d.json`,
+      JSON.stringify(dbGuardrailsReport || {}, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const downloadDbGuardrailsCsv = () => {
+    const report = dbGuardrailsReport;
+    const rows: Array<Array<unknown>> = [
+      ['quizAttempts', report?.growth.quizAttempts ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['speakAttempts', report?.growth.speakAttempts ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['progressEvents', report?.growth.progressEvents ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['qualityReportsCount', report?.retention.qualityReportsCount ?? 0, report?.windowDays ?? metricsWindowDays],
+    ];
+    for (const check of report?.indexChecks || []) {
+      rows.push([`index:${check.key}`, check.passed ? 'pass' : 'fail', report?.windowDays ?? metricsWindowDays]);
+    }
+    for (const table of report?.tableHealth || []) {
+      rows.push([`table:${table.tableName}:deadPct`, table.deadPct, report?.windowDays ?? metricsWindowDays]);
+      rows.push([`table:${table.tableName}:deadRows`, table.deadRows, report?.windowDays ?? metricsWindowDays]);
+    }
+    const csv = toCsv(['metric', 'value', 'windowDays'], rows);
+    downloadTextFile(`admin-db-guardrails-${metricsWindowDays}d.csv`, csv, 'text/csv;charset=utf-8');
+  };
+
+  const downloadProdReadinessJson = () => {
+    downloadTextFile(
+      'admin-prod-readiness.json',
+      JSON.stringify(prodReadinessReport || {}, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const downloadProdReadinessCsv = () => {
+    const report = prodReadinessReport;
+    const checks = report?.checks;
+    const rows: Array<Array<unknown>> = [
+      ['ciWorkflowPresent', checks?.ciWorkflowPresent ?? false],
+      ['lighthouseWorkflowPresent', checks?.lighthouseWorkflowPresent ?? false],
+      ['protectedMainBranchEnabled', checks?.protectedMainBranchEnabled ?? false],
+      ['stagingConfigured', checks?.stagingConfigured ?? false],
+      ['backupFresh', checks?.backupFresh ?? false],
+      ['releaseCurrentTag', checks?.releaseCurrentTag ?? ''],
+      ['releasePreviousTag', checks?.releasePreviousTag ?? ''],
+      ['latestQualityRunId', checks?.latestQualityRun?.runId ?? ''],
+      ['latestQualityRunRisk', checks?.latestQualityRun?.risk ?? ''],
+      ['latestQualityRunFailedChecks', checks?.latestQualityRun?.failedChecks ?? 0],
+    ];
+    for (const [idx, action] of (report?.recommendedActions || []).entries()) {
+      rows.push([`recommendedAction_${idx + 1}`, action]);
+    }
+    const csv = toCsv(['metric', 'value'], rows);
+    downloadTextFile('admin-prod-readiness.csv', csv, 'text/csv;charset=utf-8');
+  };
+
   const downloadAllReportsZip = () => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const generatedAt = new Date().toISOString();
@@ -1279,6 +1492,10 @@ export default function SupportConsolePage() {
     const deletionPayload = deletionLifecycleReport || {};
     const securityPayload = securityIncidentReport || {};
     const momentumPayload = learningMomentumReport || {};
+    const funnelPayload = activationFunnelReport || {};
+    const storagePayload = storageBudgetReport || {};
+    const guardrailsPayload = dbGuardrailsReport || {};
+    const readinessPayload = prodReadinessReport || {};
 
     const support = supportMetrics?.support;
     const learning = learningMetrics?.learning;
@@ -1286,6 +1503,10 @@ export default function SupportConsolePage() {
     const deletion = deletionLifecycleReport;
     const security = securityIncidentReport;
     const momentum = learningMomentumReport;
+    const funnel = activationFunnelReport;
+    const storage = storageBudgetReport;
+    const guardrails = dbGuardrailsReport;
+    const readiness = prodReadinessReport;
 
     const supportCsv = toCsv(
       ['metric', 'value', 'windowDays'],
@@ -1390,6 +1611,63 @@ export default function SupportConsolePage() {
     }
     const momentumCsv = toCsv(['metric', 'value', 'windowDays'], momentumRows);
 
+    const funnelCsv = toCsv(
+      ['metric', 'value', 'windowDays'],
+      [
+        ['signups', funnel?.funnel.signups ?? 0, funnel?.windowDays ?? metricsWindowDays],
+        ['firstLessonUsers', funnel?.funnel.firstLessonUsers ?? 0, funnel?.windowDays ?? metricsWindowDays],
+        ['firstSpeakUsers', funnel?.funnel.firstSpeakUsers ?? 0, funnel?.windowDays ?? metricsWindowDays],
+        ['day7ReturnUsers', funnel?.funnel.day7ReturnUsers ?? 0, funnel?.windowDays ?? metricsWindowDays],
+        ['signupToFirstLessonPct', funnel?.conversionPct.signupToFirstLesson ?? 0, funnel?.windowDays ?? metricsWindowDays],
+        ['signupToFirstSpeakPct', funnel?.conversionPct.signupToFirstSpeak ?? 0, funnel?.windowDays ?? metricsWindowDays],
+        ['signupToDay7ReturnPct', funnel?.conversionPct.signupToDay7Return ?? 0, funnel?.windowDays ?? metricsWindowDays],
+      ]
+    );
+
+    const storageRows: Array<Array<unknown>> = [
+      ['storageBudgetMb', storage?.budget.storageBudgetMb ?? 0],
+      ['databaseSizeMb', storage?.budget.databaseSizeMb ?? 0],
+      ['usedPct', storage?.budget.usedPct ?? 0],
+      ['status', storage?.budget.status ?? 'unknown'],
+    ];
+    for (const table of storage?.largestTables || []) {
+      storageRows.push([`table:${table.tableName}:mb`, table.mb]);
+      storageRows.push([`table:${table.tableName}:liveRows`, table.liveRows]);
+    }
+    const storageCsv = toCsv(['metric', 'value'], storageRows);
+
+    const guardrailRows: Array<Array<unknown>> = [
+      ['quizAttempts', guardrails?.growth.quizAttempts ?? 0, guardrails?.windowDays ?? metricsWindowDays],
+      ['speakAttempts', guardrails?.growth.speakAttempts ?? 0, guardrails?.windowDays ?? metricsWindowDays],
+      ['progressEvents', guardrails?.growth.progressEvents ?? 0, guardrails?.windowDays ?? metricsWindowDays],
+      ['qualityReportsCount', guardrails?.retention.qualityReportsCount ?? 0, guardrails?.windowDays ?? metricsWindowDays],
+    ];
+    for (const check of guardrails?.indexChecks || []) {
+      guardrailRows.push([`index:${check.key}`, check.passed ? 'pass' : 'fail', guardrails?.windowDays ?? metricsWindowDays]);
+    }
+    for (const table of guardrails?.tableHealth || []) {
+      guardrailRows.push([`table:${table.tableName}:deadPct`, table.deadPct, guardrails?.windowDays ?? metricsWindowDays]);
+      guardrailRows.push([`table:${table.tableName}:deadRows`, table.deadRows, guardrails?.windowDays ?? metricsWindowDays]);
+    }
+    const guardrailsCsv = toCsv(['metric', 'value', 'windowDays'], guardrailRows);
+
+    const readinessRows: Array<Array<unknown>> = [
+      ['ciWorkflowPresent', readiness?.checks.ciWorkflowPresent ?? false],
+      ['lighthouseWorkflowPresent', readiness?.checks.lighthouseWorkflowPresent ?? false],
+      ['protectedMainBranchEnabled', readiness?.checks.protectedMainBranchEnabled ?? false],
+      ['stagingConfigured', readiness?.checks.stagingConfigured ?? false],
+      ['backupFresh', readiness?.checks.backupFresh ?? false],
+      ['releaseCurrentTag', readiness?.checks.releaseCurrentTag ?? ''],
+      ['releasePreviousTag', readiness?.checks.releasePreviousTag ?? ''],
+      ['latestQualityRunId', readiness?.checks.latestQualityRun?.runId ?? ''],
+      ['latestQualityRunRisk', readiness?.checks.latestQualityRun?.risk ?? ''],
+      ['latestQualityRunFailedChecks', readiness?.checks.latestQualityRun?.failedChecks ?? 0],
+    ];
+    for (const [idx, action] of (readiness?.recommendedActions || []).entries()) {
+      readinessRows.push([`recommendedAction_${idx + 1}`, action]);
+    }
+    const readinessCsv = toCsv(['metric', 'value'], readinessRows);
+
     const files = [
       { name: `admin-executive-summary-${metricsWindowDays}d.json`, content: JSON.stringify(executivePayload, null, 2) },
       { name: `admin-support-operations-${metricsWindowDays}d.json`, content: JSON.stringify(supportPayload, null, 2) },
@@ -1404,6 +1682,14 @@ export default function SupportConsolePage() {
       { name: `admin-security-incidents-${metricsWindowDays}d.csv`, content: securityCsv },
       { name: `admin-learning-momentum-${metricsWindowDays}d.json`, content: JSON.stringify(momentumPayload, null, 2) },
       { name: `admin-learning-momentum-${metricsWindowDays}d.csv`, content: momentumCsv },
+      { name: `admin-activation-funnel-${metricsWindowDays}d.json`, content: JSON.stringify(funnelPayload, null, 2) },
+      { name: `admin-activation-funnel-${metricsWindowDays}d.csv`, content: funnelCsv },
+      { name: 'admin-storage-budget.json', content: JSON.stringify(storagePayload, null, 2) },
+      { name: 'admin-storage-budget.csv', content: storageCsv },
+      { name: `admin-db-guardrails-${metricsWindowDays}d.json`, content: JSON.stringify(guardrailsPayload, null, 2) },
+      { name: `admin-db-guardrails-${metricsWindowDays}d.csv`, content: guardrailsCsv },
+      { name: 'admin-prod-readiness.json', content: JSON.stringify(readinessPayload, null, 2) },
+      { name: 'admin-prod-readiness.csv', content: readinessCsv },
     ];
     const manifest = {
       schemaVersion: 1,
@@ -2216,6 +2502,98 @@ export default function SupportConsolePage() {
                       type="button"
                       className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
                       onClick={downloadLearningMomentumCsv}
+                    >
+                      CSV
+                    </button>
+                  </div>
+                </article>
+
+                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">Activation Funnel</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0f172a]">Signup to first value and day-7 return</div>
+                  <div className="mt-1 text-[11px] text-[#94a3b8]">Last generated: {toLocale(activationFunnelReport?.generatedAt || dashboardGeneratedAt)}</div>
+                  <div className="mt-2 space-y-1 text-xs text-[#334155]">
+                    <div>Signups: <span className="font-semibold">{activationFunnelReport?.funnel.signups ?? 0}</span></div>
+                    <div>First lesson: <span className="font-semibold">{activationFunnelReport?.conversionPct.signupToFirstLesson ?? 0}%</span></div>
+                    <div>Day-7 return: <span className="font-semibold">{activationFunnelReport?.conversionPct.signupToDay7Return ?? 0}%</span></div>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button type="button" className={baseButton} onClick={downloadActivationFunnelJson}>
+                      <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                      onClick={downloadActivationFunnelCsv}
+                    >
+                      CSV
+                    </button>
+                  </div>
+                </article>
+
+                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">Storage Budget</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0f172a]">Database capacity tracking</div>
+                  <div className="mt-1 text-[11px] text-[#94a3b8]">Last generated: {toLocale(storageBudgetReport?.generatedAt || dashboardGeneratedAt)}</div>
+                  <div className="mt-2 space-y-1 text-xs text-[#334155]">
+                    <div>Used: <span className="font-semibold">{storageBudgetReport?.budget.usedPct ?? 0}%</span></div>
+                    <div>DB size: <span className="font-semibold">{storageBudgetReport?.budget.databaseSizeMb ?? 0} MB</span></div>
+                    <div>Status: <span className="font-semibold">{storageBudgetReport?.budget.status ?? 'unknown'}</span></div>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button type="button" className={baseButton} onClick={downloadStorageBudgetJson}>
+                      <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                      onClick={downloadStorageBudgetCsv}
+                    >
+                      CSV
+                    </button>
+                  </div>
+                </article>
+
+                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">DB Guardrails</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0f172a]">Index + growth + dead-row health</div>
+                  <div className="mt-1 text-[11px] text-[#94a3b8]">Last generated: {toLocale(dbGuardrailsReport?.generatedAt || dashboardGeneratedAt)}</div>
+                  <div className="mt-2 space-y-1 text-xs text-[#334155]">
+                    <div>Index checks passing: <span className="font-semibold">{(dbGuardrailsReport?.indexChecks || []).filter((item) => item.passed).length}/{dbGuardrailsReport?.indexChecks.length ?? 0}</span></div>
+                    <div>Quiz attempts ({metricsWindowDays}d): <span className="font-semibold">{dbGuardrailsReport?.growth.quizAttempts ?? 0}</span></div>
+                    <div>Speak attempts ({metricsWindowDays}d): <span className="font-semibold">{dbGuardrailsReport?.growth.speakAttempts ?? 0}</span></div>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button type="button" className={baseButton} onClick={downloadDbGuardrailsJson}>
+                      <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                      onClick={downloadDbGuardrailsCsv}
+                    >
+                      CSV
+                    </button>
+                  </div>
+                </article>
+
+                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">Production Readiness</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0f172a]">Release, staging, backup, rollback posture</div>
+                  <div className="mt-1 text-[11px] text-[#94a3b8]">Last generated: {toLocale(prodReadinessReport?.generatedAt || dashboardGeneratedAt)}</div>
+                  <div className="mt-2 space-y-1 text-xs text-[#334155]">
+                    <div>CI workflow: <span className="font-semibold">{prodReadinessReport?.checks.ciWorkflowPresent ? 'yes' : 'no'}</span></div>
+                    <div>Staging configured: <span className="font-semibold">{prodReadinessReport?.checks.stagingConfigured ? 'yes' : 'no'}</span></div>
+                    <div>Backup fresh: <span className="font-semibold">{prodReadinessReport?.checks.backupFresh ? 'yes' : 'no'}</span></div>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button type="button" className={baseButton} onClick={downloadProdReadinessJson}>
+                      <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                      onClick={downloadProdReadinessCsv}
                     >
                       CSV
                     </button>
@@ -3076,6 +3454,10 @@ export default function SupportConsolePage() {
           </div>
         )}
       </div>
+      <div
+        className="pointer-events-none fixed inset-x-0 bottom-0 z-[119] bg-[#1f2937]"
+        style={{ height: 'calc(env(safe-area-inset-bottom, 0px) + 0.5rem)' }}
+      />
       <footer className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] z-[120] border-t border-white/10 bg-[#1f2937]">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-center gap-6 px-4 md:h-16">
           {canCreateAdmins && (
