@@ -58,7 +58,7 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundColor: '#186E95',
-          backgroundImage: 'linear-gradient(145deg, #186E95 0%, #1b6f96 42%, #205f83 100%)',
+          backgroundImage: 'linear-gradient(145deg, #186E95 0%, #186E95 42%, #145B7A 100%)',
         }}
       />
       <div className="pointer-events-none absolute inset-0 bg-[#186E95]/72" />

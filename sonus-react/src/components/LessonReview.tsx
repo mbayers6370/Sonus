@@ -121,7 +121,7 @@ export default function LessonReview({
               </button>
               <button
                 onClick={onContinueToSpeak}
-                className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
+                className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145B7A]"
               >
                 Continue to Speak
               </button>
@@ -130,7 +130,7 @@ export default function LessonReview({
           {!reviewDone && (
             <button
               onClick={onBackToResults}
-              className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145775]"
+              className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145B7A]"
             >
               Back to Results
             </button>
