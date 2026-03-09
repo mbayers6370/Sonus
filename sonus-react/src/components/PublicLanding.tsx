@@ -100,6 +100,8 @@ export default function PublicLanding() {
     []
   );
   const [heroLineVariantIdx, setHeroLineVariantIdx] = useState(0);
+  const activeHeroLine = heroLineVariants[heroLineVariantIdx] || '';
+  const useCompactHeroLine = activeHeroLine.length > 32;
 
   const openAuth = (mode: ModalMode) => {
     setMobileMenuOpen(false);
@@ -335,14 +337,16 @@ export default function PublicLanding() {
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#111827]/36" />
                 </div>
                 <div className="relative z-10 text-center">
-                  <h1 className="main-font mx-auto max-w-6xl text-[2.95rem] leading-tight text-white sm:mt-4 sm:text-[3.15rem]">
-                    <span
-                      key={`${heroLineVariants[heroLineVariantIdx]}-${heroLineVariantIdx}`}
-                      className="dashboard-card-enter inline-block"
-                    >
-                      {heroLineVariants[heroLineVariantIdx]}
-                    </span>
-                  </h1>
+                  <div className="mx-auto flex h-[5.6rem] w-full max-w-6xl items-center justify-center overflow-hidden px-1 sm:mt-4 sm:h-[7rem]">
+                    <h1 className={`main-font w-full leading-[1.04] text-white sm:text-[3.15rem] ${useCompactHeroLine ? 'text-[2.02rem]' : 'text-[2.35rem]'}`}>
+                      <span
+                        key={`${heroLineVariants[heroLineVariantIdx]}-${heroLineVariantIdx}`}
+                        className="dashboard-card-enter block min-h-[1.1em] w-full text-center [text-wrap:balance]"
+                      >
+                        {heroLineVariants[heroLineVariantIdx]}
+                      </span>
+                    </h1>
+                  </div>
                   <p
                     className="font-mono mx-auto mt-3 max-w-3xl font-light leading-relaxed text-[#D6E2EE] sm:mt-4 sm:text-[1.2rem]"
                     style={{ fontSize: '1.35em' }}
