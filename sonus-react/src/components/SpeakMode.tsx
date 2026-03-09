@@ -72,6 +72,7 @@ const STOP_FINALIZE_WATCHDOG_MS = 1800;
 const NO_INPUT_AUTO_STOP_MS = 3800;
 const SENTENCE_MODE_NO_INPUT_AUTO_STOP_MS = 12000;
 const SENTENCE_MODE_SILENCE_STOP_MS = 1400;
+const SHORT_UTTERANCE_SILENCE_STOP_MS = 260;
 const MANDARIN_CONFIDENCE_FLOOR_INTERIM = 0.18;
 const MANDARIN_CONFIDENCE_FLOOR_FINAL = 0.28;
 const NO_SPEECH_RESULT_TEXT = 'No speech detected';
@@ -1118,9 +1119,27 @@ function highlightPracticeSentence(
   );
 }
 
-function pickBetterCandidate(current: SpeakCandidate | null, next: SpeakCandidate): SpeakCandidate {
+function pickBetterCandidate(
+  current: SpeakCandidate | null,
+  next: SpeakCandidate,
+  languageId: string
+): SpeakCandidate {
   if (!current) return next;
   if (current.isFinal !== next.isFinal) return next.isFinal ? next : current;
+
+  // Language-aware ranking: for target-language learning (Mandarin/Japanese),
+  // prefer correctness/pronunciation fit before raw confidence.
+  if (languageId === 'zh' || languageId === 'ja') {
+    if (current.match !== next.match) return next.match ? next : current;
+    if (current.compositeScore !== next.compositeScore) {
+      return next.compositeScore > current.compositeScore ? next : current;
+    }
+    if (current.confidence !== next.confidence) {
+      return next.confidence > current.confidence ? next : current;
+    }
+    return next.updatedAt >= current.updatedAt ? next : current;
+  }
+
   if (current.confidence !== next.confidence) {
     return next.confidence > current.confidence ? next : current;
   }
@@ -1970,9 +1989,9 @@ export default function SpeakMode({
               updatedAt: Date.now(),
             };
             if (result.isFinal) {
-              latestFinal = pickBetterCandidate(latestFinal, candidate);
+              latestFinal = pickBetterCandidate(latestFinal, candidate, speakLanguageId);
             } else {
-              latestInterim = pickBetterCandidate(latestInterim, candidate);
+              latestInterim = pickBetterCandidate(latestInterim, candidate, speakLanguageId);
             }
           }
         }
@@ -1982,7 +2001,7 @@ export default function SpeakMode({
           const history = [...recentFinalCandidatesRef.current, latestFinal].slice(-2);
           recentFinalCandidatesRef.current = history;
           smoothedFinal = history.reduce<SpeakCandidate | null>(
-            (best, candidate) => pickBetterCandidate(best, candidate),
+            (best, candidate) => pickBetterCandidate(best, candidate, speakLanguageId),
             null
           );
         }
@@ -1992,7 +2011,7 @@ export default function SpeakMode({
             window.clearTimeout(noInputAutoStopTimerRef.current);
             noInputAutoStopTimerRef.current = null;
           }
-          const chosen = pickBetterCandidate(pendingSpeakAttemptRef.current, bestCandidate);
+          const chosen = pickBetterCandidate(pendingSpeakAttemptRef.current, bestCandidate, speakLanguageId);
           pendingSpeakAttemptRef.current = chosen;
           setTranscript(chosen.recognizedText);
           setAnalysis(chosen.analysis);
@@ -2003,9 +2022,14 @@ export default function SpeakMode({
               // For sentence prompts, wait for a short silence window to avoid clipping the tail.
               scheduleSilenceStop(sessionId);
             } else if (Boolean(latestFinal) || chosen.match) {
-              // Word mode stays snappy with immediate stop on a solid result.
-              stopMediaRecorder();
-              return;
+              if (shouldUseAdaptiveShortDelay(chosen, Boolean(latestFinal))) {
+                // For uncertain short utterances, hold briefly to let final alternatives settle.
+                scheduleSilenceStop(sessionId, SHORT_UTTERANCE_SILENCE_STOP_MS);
+              } else {
+                // Word mode stays snappy with immediate stop on a strong result.
+                stopMediaRecorder();
+                return;
+              }
             }
           }
         }
@@ -2505,6 +2529,16 @@ export default function SpeakMode({
   const canAdvance = !navLocked && hasAttempt && matchResult !== null;
   const listenDisabled = disableTargetAudio || isRecording || isStartingRecording;
   const recordLockedAfterMatch = isFullyCorrect;
+  const isShortMandarinTarget = isMandarinLesson && targetSyllableCount <= 1;
+  const shouldUseAdaptiveShortDelay = (candidate: SpeakCandidate, hasNewFinal: boolean) => {
+    if (useSentenceTargetInPractice) return true;
+    const shortTarget = isShortMandarinTarget || isShortJapaneseTarget;
+    if (!shortTarget) return false;
+    if (!candidate.match) return true;
+    if (!hasNewFinal) return true;
+    if (candidate.confidence > 0 && candidate.confidence < 0.55) return true;
+    return false;
+  };
 
   const renderScoreChips = (compact: boolean) => {
     if (isJapaneseLesson || useSentenceTargetInPractice) return null;
