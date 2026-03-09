@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo } from 'react';
 import { BrowserRouter, HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import GlassLoader from './components/ui/GlassLoader';
@@ -134,7 +134,6 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
   const { status, error } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [showReauthModal, setShowReauthModal] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -146,17 +145,10 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
     });
   }, [routerKind, status]);
 
-  useEffect(() => {
-    if (status !== 'signed_out') {
-      setShowReauthModal(false);
-      return;
-    }
-    if (location.pathname.startsWith('/internal/support')) {
-      setShowReauthModal(false);
-      return;
-    }
-    const requiresReauth = typeof error === 'string' && /please sign in again/i.test(error);
-    if (requiresReauth) setShowReauthModal(true);
+  const showReauthModal = useMemo(() => {
+    if (status !== 'signed_out') return false;
+    if (location.pathname.startsWith('/internal/support')) return false;
+    return typeof error === 'string' && /please sign in again/i.test(error);
   }, [error, location.pathname, status]);
 
   if (status === 'loading') {
@@ -235,7 +227,6 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
                 <button
                   type="button"
                   onClick={() => {
-                    setShowReauthModal(false);
                     navigate('/login');
                   }}
                   className="font-mono rounded-lg bg-[#1F2A37] px-4 py-2 text-sm font-semibold text-white"

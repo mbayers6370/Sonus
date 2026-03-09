@@ -967,7 +967,10 @@ export default function SupportConsolePage() {
     () => accessBandOptions.find((band) => band.id === targetBandInput) || null,
     [accessBandOptions, targetBandInput]
   );
-  const targetUnitOptions = targetBandOption?.units || [];
+  const targetUnitOptions = useMemo(
+    () => targetBandOption?.units || [],
+    [targetBandOption]
+  );
   const targetUnitOption = useMemo(
     () => targetUnitOptions.find((unit) => unit.id === targetUnitInput) || null,
     [targetUnitOptions, targetUnitInput]
@@ -985,7 +988,10 @@ export default function SupportConsolePage() {
     () => accessBandOptions.find((band) => band.id === accessLessonBandId) || null,
     [accessBandOptions, accessLessonBandId]
   );
-  const lessonOverrideUnitOptions = lessonOverrideBandOption?.units || [];
+  const lessonOverrideUnitOptions = useMemo(
+    () => lessonOverrideBandOption?.units || [],
+    [lessonOverrideBandOption]
+  );
   const lessonOverrideUnitOption = useMemo(
     () => lessonOverrideUnitOptions.find((unit) => unit.id === accessLessonUnitId) || null,
     [lessonOverrideUnitOptions, accessLessonUnitId]
