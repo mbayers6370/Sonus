@@ -39,7 +39,7 @@ export default function PublicLegalLayout({
         ogUrl={`https://sonuslearning.com${canonicalPath}`}
       />
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/45 bg-white/62 backdrop-blur-2xl shadow-[0_10px_26px_-22px_rgba(15,23,42,0.55)]">
-        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-8">
+        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-center px-4 sm:px-8">
           <Link to="/" aria-label="Sonus home">
             <img
               src="/branding/logo_name_solo.png"
@@ -51,23 +51,6 @@ export default function PublicLegalLayout({
               className="h-7 w-auto object-contain sm:h-8"
             />
           </Link>
-          <nav className="flex items-center gap-4 text-sm text-[#1F2A37] sm:text-base">
-            <Link to="/privacy" className="hidden underline-offset-4 hover:underline sm:inline">
-              Privacy
-            </Link>
-            <Link to="/terms" className="hidden underline-offset-4 hover:underline sm:inline">
-              Terms
-            </Link>
-            <Link to="/contact" className="hidden underline-offset-4 hover:underline sm:inline">
-              Contact
-            </Link>
-            <Link to="/attributions" className="hidden underline-offset-4 hover:underline sm:inline">
-              Attributions
-            </Link>
-            <Link to="/login" className="underline-offset-4 hover:underline">
-              Log In
-            </Link>
-          </nav>
         </div>
       </header>
 

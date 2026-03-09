@@ -246,6 +246,9 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
     : lockViewportScroll
       ? 'overflow-y-hidden pb-0'
       : 'overflow-y-auto pb-8';
+  const effectiveLessonContentClass = lessonMode === 'speak'
+    ? 'overflow-y-hidden pb-0 md:overflow-y-auto md:pb-8'
+    : lessonContentClass;
   const lessonContentPaddingBottom = isApplyMode
     ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 5.25rem)'
     : lockViewportScroll
@@ -308,7 +311,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
 
       {/* Lesson Content */}
       <div
-        className={`flex-1 ${lessonContentClass} ${speakingPageTheme.content}`}
+        className={`flex-1 ${effectiveLessonContentClass} ${speakingPageTheme.content}`}
         style={{
           paddingBottom: lessonContentPaddingBottom,
         }}

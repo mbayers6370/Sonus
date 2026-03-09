@@ -3104,7 +3104,7 @@ export default function SpeakMode({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden">
       {/* Progress Bar */}
       <WordProgressRail
         total={totalWords}
@@ -3113,7 +3113,7 @@ export default function SpeakMode({
       />
 
       {/* Word Display */}
-      <div className="px-3 sm:px-5 pb-[0.7rem] sm:pb-[0.5rem]">
+      <div className="min-h-0 flex-1 overflow-hidden px-3 sm:px-5 pb-[0.7rem] sm:pb-[0.5rem]">
         <div
           className={`grid gap-2 mb-2 items-stretch ${
             useSentenceTargetInPractice ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-2'
@@ -3203,7 +3203,11 @@ export default function SpeakMode({
 
           {showMobileResult && (
             <div className={useSentenceTargetInPractice ? 'col-span-1 sm:col-span-2' : 'col-span-2'}>
-              <div className="md:hidden">{renderResultCard(true)}</div>
+              <div className="md:hidden">
+                <div className="max-h-[min(33svh,19rem)] overflow-y-auto overscroll-contain pr-1">
+                  {renderResultCard(true)}
+                </div>
+              </div>
               {renderDesktopResultPanels()}
             </div>
           )}
