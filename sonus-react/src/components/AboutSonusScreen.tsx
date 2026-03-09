@@ -139,29 +139,22 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
 
         <section className="dashboard-card-enter border border-[#1F2A37]/90 rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#1F2A37_0%,#2B3440_45%,#24303A_100%)] text-white">
           <div className="text-[11px] uppercase tracking-[0.16em] font-mono text-white/70 mb-2">Why I Built This</div>
-          <h4 className="main-font text-2xl leading-tight text-white">Creating a Language Learning Platform</h4>
+          <h4 className="main-font text-2xl leading-tight text-white">Some apps teach you a language. Sonus lets you meet one.</h4>
           <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-white/88">
             <p>
-              Many language apps use proprietary lesson structures rather than building directly on official proficiency standards.
+              Built directly on the standards that matter: HSK 3.0 for Mandarin, JLPT for Japanese, TOPIK for Korean. Not proprietary systems designed to keep you subscribed. Real frameworks, implemented properly, with pronunciation feedback specific enough to actually improve from.
             </p>
             <p>
-              I wanted something different: learning built directly on the frameworks countries use to measure proficiency.
+              I&apos;ve picked up pieces of seven languages throughout my life. I know what works: structured progression, real scripts, and feedback that tells you something true.
             </p>
             <p>
-              For Mandarin, that is HSK 3.0 (China&apos;s government-backed certification system). For Japanese, it is JLPT. For Korean, TOPIK.
-              Real standards, implemented properly, with pronunciation feedback that actually tells you what you are doing wrong.
+              I also care about languages that get left behind. Languages with living communities and almost no good tools. Those are coming too as we continue to grow, and can acquire more resources.
             </p>
             <p>
-              I also care about languages that get ignored. Iu Mien, Hmong, Hawaiian: languages with heritage speakers but no good learning tools.
-              I intend to build those too, using preservation frameworks that respect the language and the community.
+              Sonus is a quiet place to meet a language as it is truly written, spoken, and lived.
             </p>
             <p>
-              I&apos;ve learned small bits of seven languages throughout my life. However, I know what works: structured progression, 
-              spaced repetition, and feedback specific enough to improve from. That is what I built here.
-            </p>
-            <p>
-              If you want to learn a language seriously, whether for fun, heritage connection, or real fluency, this is for you.
-              Welcome to Sonus.
+              Welcome.
             </p>
           </div>
         </section>
