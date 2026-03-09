@@ -1,5 +1,5 @@
-import { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter, HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Suspense, lazy, useEffect, useState } from 'react';
+import { BrowserRouter, HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import GlassLoader from './components/ui/GlassLoader';
 const AuthScreen = lazy(() => import('./components/AuthScreen'));
@@ -131,7 +131,10 @@ function normalizeHashDeepLinkIfNeeded(routerKind: RouterKind) {
 }
 
 function AppShell({ routerKind }: { routerKind: RouterKind }) {
-  const { status } = useAuth();
+  const { status, error } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [showReauthModal, setShowReauthModal] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -142,6 +145,19 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
       hash: window.location.hash,
     });
   }, [routerKind, status]);
+
+  useEffect(() => {
+    if (status !== 'signed_out') {
+      setShowReauthModal(false);
+      return;
+    }
+    if (location.pathname.startsWith('/internal/support')) {
+      setShowReauthModal(false);
+      return;
+    }
+    const requiresReauth = typeof error === 'string' && /please sign in again/i.test(error);
+    if (requiresReauth) setShowReauthModal(true);
+  }, [error, location.pathname, status]);
 
   if (status === 'loading') {
     return (
@@ -203,6 +219,33 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        {showReauthModal && (
+          <div className="fixed inset-0 z-[260] flex items-center justify-center bg-black/45 px-4">
+            <section
+              role="dialog"
+              aria-modal="true"
+              aria-label="Session expired"
+              className="w-full max-w-md rounded-2xl border border-white/30 bg-white p-5 shadow-2xl"
+            >
+              <h2 className="main-font text-center text-xl font-semibold text-[#1F2A37]">Please Sign In Again</h2>
+              <p className="font-secondary mt-2 text-sm leading-6 text-[#334155]">
+                Your session has ended. Please continue to sign in and resume where you left off.
+              </p>
+              <div className="mt-5 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowReauthModal(false);
+                    navigate('/login');
+                  }}
+                  className="font-mono rounded-lg bg-[#1F2A37] px-4 py-2 text-sm font-semibold text-white"
+                >
+                  Continue
+                </button>
+              </div>
+            </section>
+          </div>
+        )}
       </Suspense>
     );
   }

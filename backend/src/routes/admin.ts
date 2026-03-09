@@ -1397,7 +1397,13 @@ export async function adminRoutes(app: FastifyInstance) {
           Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type = 'auth_login_new_device' AND ase.created_at >= now() - ${windowInterval}::interval`
         ),
         safeCount(
-          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM refresh_sessions rs WHERE rs.revoked_at IS NOT NULL AND rs.revoked_at >= now() - ${windowInterval}::interval`
+          Prisma.sql`
+            SELECT COUNT(*)::bigint AS count
+            FROM refresh_sessions rs
+            WHERE rs.revoked_at IS NOT NULL
+              AND rs.revoked_at >= now() - ${windowInterval}::interval
+              AND COALESCE(rs.revoked_reason, '') <> 'rotated'
+          `
         ),
         safeCount(
           Prisma.sql`SELECT COUNT(*)::bigint AS count FROM admin_audit_logs aal WHERE aal.created_at >= now() - ${windowInterval}::interval`
@@ -1871,7 +1877,13 @@ export async function adminRoutes(app: FastifyInstance) {
           Prisma.sql`SELECT COUNT(*)::bigint AS count FROM password_reset_tokens prt WHERE prt.created_at >= now() - ${windowInterval}::interval`
         ),
         safeCount(
-          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM refresh_sessions rs WHERE rs.revoked_at IS NOT NULL AND rs.revoked_at >= now() - ${windowInterval}::interval`
+          Prisma.sql`
+            SELECT COUNT(*)::bigint AS count
+            FROM refresh_sessions rs
+            WHERE rs.revoked_at IS NOT NULL
+              AND rs.revoked_at >= now() - ${windowInterval}::interval
+              AND COALESCE(rs.revoked_reason, '') <> 'rotated'
+          `
         ),
         safeCount(
           Prisma.sql`

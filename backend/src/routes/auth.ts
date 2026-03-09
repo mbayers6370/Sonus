@@ -887,7 +887,9 @@ export async function authRoutes(app: FastifyInstance) {
     const persistentSession = rememberCookie === '1';
     if (!refreshToken) {
       await logAuthSecurityEvent({
-        eventType: 'auth_error_refresh_missing_cookie',
+        // Missing refresh cookie is expected when the browser no longer has a session cookie.
+        // Track it, but do not classify as auth_error_* noise.
+        eventType: 'auth_refresh_missing_cookie',
         detail: 'Refresh token cookie missing on refresh attempt.',
         endpoint: '/v1/auth/refresh',
         ip: request.ip || null,

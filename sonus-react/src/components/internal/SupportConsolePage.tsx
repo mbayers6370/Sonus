@@ -126,6 +126,7 @@ type LearningAccessApplySummary = {
 type AccessCatalogUnitOption = {
   id: string;
   label: string;
+  displayLabel: string;
   lessonCount: number;
   wordCount: number;
 };
@@ -574,7 +575,7 @@ async function loadAccessCatalog(languageId: string): Promise<AccessCatalogBandO
       if (!response.ok) continue;
       const rawPayload = (await response.json()) as unknown;
       const unitWordCount = extractCatalogUnits(rawPayload);
-      const units: AccessCatalogUnitOption[] = Array.from(unitWordCount.entries())
+      const baseUnits = Array.from(unitWordCount.entries())
         .map(([unitId, unit]) => {
           if (isPracticeUnitId(unitId) || isCheckpointUnitId(unitId)) return null;
           const wordCount = unit.wordCount;
@@ -582,11 +583,17 @@ async function loadAccessCatalog(languageId: string): Promise<AccessCatalogBandO
           return {
             id: unitId,
             label: unit.title || unitId,
-            lessonCount,
+            lessonCount, 
             wordCount,
           };
         })
-        .filter((unit): unit is AccessCatalogUnitOption => Boolean(unit && unit.lessonCount > 0));
+        .filter((unit): unit is { id: string; label: string; lessonCount: number; wordCount: number } =>
+          Boolean(unit && unit.lessonCount > 0)
+        );
+      const units: AccessCatalogUnitOption[] = baseUnits.map((unit, index) => ({
+        ...unit,
+        displayLabel: `Unit ${index + 1}: ${unit.label}`,
+      }));
 
       if (!units.length) continue;
       bands.push({
@@ -905,6 +912,10 @@ export default function SupportConsolePage() {
   const [dbGuardrailsReport, setDbGuardrailsReport] = useState<DbGuardrailsReport | null>(null);
   const [prodReadinessReport, setProdReadinessReport] = useState<ProdReadinessReport | null>(null);
   const [dashboardGeneratedAt, setDashboardGeneratedAt] = useState<string | null>(null);
+  const canConfirmPermanentDelete =
+    !deleteBusy &&
+    deleteReason.trim().length >= 8 &&
+    deleteAcknowledge;
 
   const viewMode = useMemo<
     'dashboard' | 'ops' | 'metrics-support' | 'metrics-learning' | 'quality-reports'
@@ -3891,7 +3902,7 @@ export default function SupportConsolePage() {
                               {accessBandOptions.length === 0 && <option value="">No levels available</option>}
                               {accessBandOptions.map((band) => (
                                 <option key={band.id} value={band.id}>
-                                  {band.label} ({band.id})
+                                  {band.label}
                                 </option>
                               ))}
                             </select>
@@ -3899,7 +3910,7 @@ export default function SupportConsolePage() {
                               {targetUnitOptions.length === 0 && <option value="">No units available</option>}
                               {targetUnitOptions.map((unit) => (
                                 <option key={unit.id} value={unit.id}>
-                                  {unit.label} ({unit.id})
+                                  {unit.displayLabel}
                                 </option>
                               ))}
                             </select>
@@ -3907,7 +3918,7 @@ export default function SupportConsolePage() {
                               {targetLessonOptions.length === 0 && <option value="0">No lessons available</option>}
                               {targetLessonOptions.map((lessonIndex) => (
                                 <option key={lessonIndex} value={lessonIndex}>
-                                  Lesson {Number(lessonIndex) + 1} (index {lessonIndex})
+                                  Lesson {Number(lessonIndex) + 1}
                                 </option>
                               ))}
                             </select>
@@ -3993,7 +4004,7 @@ export default function SupportConsolePage() {
                                 {accessBandOptions.length === 0 && <option value="">No levels available</option>}
                                 {accessBandOptions.map((band) => (
                                   <option key={band.id} value={band.id}>
-                                    {band.label} ({band.id})
+                                    {band.label}
                                   </option>
                                 ))}
                               </select>
@@ -4036,7 +4047,7 @@ export default function SupportConsolePage() {
                                 {accessBandOptions.length === 0 && <option value="">No levels available</option>}
                                 {accessBandOptions.map((band) => (
                                   <option key={band.id} value={band.id}>
-                                    {band.label} ({band.id})
+                                    {band.label}
                                   </option>
                                 ))}
                               </select>
@@ -4044,7 +4055,7 @@ export default function SupportConsolePage() {
                                 {unitOverrideUnitOptions.length === 0 && <option value="">No units available</option>}
                                 {unitOverrideUnitOptions.map((unit) => (
                                   <option key={unit.id} value={unit.id}>
-                                    {unit.label} ({unit.id})
+                                    {unit.displayLabel}
                                   </option>
                                 ))}
                               </select>
@@ -4087,7 +4098,7 @@ export default function SupportConsolePage() {
                                 {accessBandOptions.length === 0 && <option value="">No levels available</option>}
                                 {accessBandOptions.map((band) => (
                                   <option key={band.id} value={band.id}>
-                                    {band.label} ({band.id})
+                                    {band.label}
                                   </option>
                                 ))}
                               </select>
@@ -4095,7 +4106,7 @@ export default function SupportConsolePage() {
                                 {lessonOverrideUnitOptions.length === 0 && <option value="">No units available</option>}
                                 {lessonOverrideUnitOptions.map((unit) => (
                                   <option key={unit.id} value={unit.id}>
-                                    {unit.label} ({unit.id})
+                                    {unit.displayLabel}
                                   </option>
                                 ))}
                               </select>
@@ -4103,7 +4114,7 @@ export default function SupportConsolePage() {
                                 {lessonOverrideIndexOptions.length === 0 && <option value="0">No lessons available</option>}
                                 {lessonOverrideIndexOptions.map((lessonIndex) => (
                                   <option key={lessonIndex} value={lessonIndex}>
-                                    Lesson {Number(lessonIndex) + 1} (index {lessonIndex})
+                                    Lesson {Number(lessonIndex) + 1}
                                   </option>
                                 ))}
                               </select>
@@ -4525,13 +4536,14 @@ export default function SupportConsolePage() {
             <div className="mt-4 flex justify-between gap-2">
               <button
                 type="button"
-                className="rounded-xl border border-red-700 bg-red-600 px-3 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:border-[#cbd5e1] disabled:bg-[#e2e8f0] disabled:text-[#1f2937]"
-                disabled={
-                  deleteBusy ||
-                  deleteReason.trim().length < 8 ||
-                  !deleteAcknowledge
-                }
+                className={`min-w-[132px] rounded-xl border px-3 py-2 text-sm font-semibold ${
+                  canConfirmPermanentDelete
+                    ? 'border-red-700 bg-red-600 text-white'
+                    : 'cursor-not-allowed border-[#cbd5e1] bg-[#e2e8f0] text-[#1f2937]'
+                }`}
+                disabled={!canConfirmPermanentDelete}
                 onClick={() => void handlePermanentDeleteUser()}
+                style={{ color: canConfirmPermanentDelete ? '#ffffff' : '#1f2937' }}
               >
                 {deleteBusy ? 'Deleting...' : 'Confirm Delete'}
               </button>
