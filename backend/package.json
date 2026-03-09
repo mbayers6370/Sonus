@@ -12,6 +12,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"scripts/**/*.mjs\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"scripts/**/*.mjs\"",
     "build": "tsc -p tsconfig.json",
+    "build:render": "prisma generate && prisma migrate deploy && npm run build",
     "test:core": "node scripts/core-regression.mjs",
     "test:core:local": "node scripts/test-core-local.mjs",
     "test:srs": "node --import tsx src/lib/learningPolicy.test.ts",

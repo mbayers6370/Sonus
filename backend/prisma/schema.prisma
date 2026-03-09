@@ -207,6 +207,32 @@ model AdminAuditLog {
   @@map("admin_audit_logs")
 }
 
+model UserLearningAccessControl {
+  userId      String   @id @map("user_id") @db.Uuid
+  globalAccess Boolean @default(true) @map("global_access")
+  cursorJson  Json?    @map("cursor_json")
+  overridesJson Json   @default("{}") @map("overrides_json")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  @@map("user_learning_access_controls")
+}
+
+model UserLearningAccessAudit {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  actorUserId String   @map("actor_user_id") @db.Uuid
+  actorEmail  String?  @map("actor_email") @db.Text
+  changeType  String   @map("change_type") @db.Text
+  reason      String   @db.Text
+  beforeJson  Json?    @map("before_json")
+  afterJson   Json?    @map("after_json")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([userId, createdAt(sort: Desc)], map: "idx_user_learning_access_audits_user_created_at")
+  @@map("user_learning_access_audits")
+}
+
 model SupportNote {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   targetUserId String  @map("target_user_id") @db.Uuid

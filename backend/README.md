@@ -59,6 +59,14 @@ npm run prisma:push
 ```bash
 npm run prisma:migrate:deploy
 ```
+- One-time baseline for an existing production database (already has tables, no Prisma migration history yet):
+```bash
+npx prisma migrate resolve --applied 20260309101500_baseline_init
+```
+After this one-time step, keep using:
+```bash
+npm run prisma:migrate:deploy
+```
 - Check migration state:
 ```bash
 npm run prisma:migrate:status
