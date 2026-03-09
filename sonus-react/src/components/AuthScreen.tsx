@@ -692,7 +692,7 @@ export default function AuthScreen({
 
   return (
     <div
-      className="min-h-[100svh] page-shell px-6 flex flex-col"
+      className="min-h-[100svh] page-shell px-6 flex flex-col pb-[calc(6.25rem+env(safe-area-inset-bottom,0px))] sm:pb-0"
       style={{
         paddingTop: 'max(1.25rem, env(safe-area-inset-top, 0px))',
       }}
@@ -700,8 +700,10 @@ export default function AuthScreen({
       <div className="flex-1 flex items-center justify-center overflow-hidden overscroll-none">
         {formCard}
       </div>
-      <div className="-mx-6 sm:-mx-8">
-        <PublicFooter />
+      <div className="fixed inset-x-0 bottom-0 z-40 sm:static sm:z-auto">
+        <div className="sm:-mx-6">
+          <PublicFooter />
+        </div>
       </div>
     </div>
   );

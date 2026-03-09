@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { Menu, Plane, X } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PublicFooter from './public/PublicFooter';
 import SEOHead from './public/SEOHead';
 import { useAuth } from '../contexts/AuthContext';
@@ -500,6 +500,8 @@ function ExploreCardPreview({ title }: { title: string }) {
 }
 
 function ExploreDemoCard({ card }: { card: DemoCard }) {
+  const isTravelCard = card.title === 'Travel Sprint';
+
   return (
     <article className="h-[306px] overflow-hidden rounded-2xl border border-border bg-white shadow-[0_10px_24px_-20px_rgba(15,23,42,0.35)] sm:min-h-[290px] sm:h-auto">
       <div className="h-[202px] bg-[#1F2A37] p-3 sm:h-[198px]">
@@ -508,6 +510,14 @@ function ExploreDemoCard({ card }: { card: DemoCard }) {
       <div className="h-[104px] p-2.5 sm:h-auto sm:p-4">
         <h3 className="main-font text-xl leading-tight sm:text-2xl">{card.title}</h3>
         <p className="secondary-font mt-1.5 text-xs leading-relaxed text-[#334155] sm:mt-2 sm:text-sm">{card.body}</p>
+        {isTravelCard ? (
+          <div className="mt-2.5 flex flex-wrap gap-x-3 gap-y-1 text-[10px] font-mono uppercase tracking-[0.12em] text-[#145B7A] sm:text-[11px]">
+            <Link to="/travel-mandarin-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Guide</Link>
+            <Link to="/mandarin-airport-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Airport</Link>
+            <Link to="/mandarin-taxi-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Taxi</Link>
+            <Link to="/how-to-order-food-in-chinese" className="underline underline-offset-4 hover:text-[#0E4A66]">Food</Link>
+          </div>
+        ) : null}
       </div>
     </article>
   );

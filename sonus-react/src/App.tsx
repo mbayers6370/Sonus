@@ -8,6 +8,18 @@ const PrivacyPage = lazy(() => import('./components/public/PrivacyPage'));
 const TermsPage = lazy(() => import('./components/public/TermsPage'));
 const ContactPage = lazy(() => import('./components/public/ContactPage'));
 const AttributionsPage = lazy(() => import('./components/public/AttributionsPage'));
+const TravelMandarinPhrasesPage = lazy(() =>
+  import('./components/public/TravelSeoPages').then((module) => ({ default: module.TravelMandarinPhrasesPage }))
+);
+const MandarinAirportPhrasesPage = lazy(() =>
+  import('./components/public/TravelSeoPages').then((module) => ({ default: module.MandarinAirportPhrasesPage }))
+);
+const MandarinTaxiPhrasesPage = lazy(() =>
+  import('./components/public/TravelSeoPages').then((module) => ({ default: module.MandarinTaxiPhrasesPage }))
+);
+const OrderFoodInChinesePage = lazy(() =>
+  import('./components/public/TravelSeoPages').then((module) => ({ default: module.OrderFoodInChinesePage }))
+);
 const SignedInApp = lazy(() => import('./components/internal/SignedInApp'));
 const SupportConsolePage = lazy(() => import('./components/internal/SupportConsolePage'));
 
@@ -97,6 +109,10 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/attributions" element={<AttributionsPage />} />
+          <Route path="/travel-mandarin-phrases" element={<TravelMandarinPhrasesPage />} />
+          <Route path="/mandarin-airport-phrases" element={<MandarinAirportPhrasesPage />} />
+          <Route path="/mandarin-taxi-phrases" element={<MandarinTaxiPhrasesPage />} />
+          <Route path="/how-to-order-food-in-chinese" element={<OrderFoodInChinesePage />} />
           <Route
             path="/internal/support/*"
             element={(
@@ -120,6 +136,10 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
   return (
     <Routes>
       <Route path="/landing" element={<PublicLanding />} />
+      <Route path="/travel-mandarin-phrases" element={<TravelMandarinPhrasesPage />} />
+      <Route path="/mandarin-airport-phrases" element={<MandarinAirportPhrasesPage />} />
+      <Route path="/mandarin-taxi-phrases" element={<MandarinTaxiPhrasesPage />} />
+      <Route path="/how-to-order-food-in-chinese" element={<OrderFoodInChinesePage />} />
       <Route
         path="*"
         element={(

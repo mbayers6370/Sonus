@@ -9,6 +9,7 @@ import {
   Plane,
   Stethoscope,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import BottomNav from './BottomNav';
 import {
   formatUnitNameForDisplay,
@@ -691,6 +692,12 @@ export default function HomeDashboard({
                 Explore Travel Content
                 <ArrowRight className="w-4 h-4 text-white" />
               </button>
+            </div>
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] font-mono uppercase tracking-[0.12em] text-[#145B7A]">
+              <Link to="/travel-mandarin-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Guide</Link>
+              <Link to="/mandarin-airport-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Airport</Link>
+              <Link to="/mandarin-taxi-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Taxi</Link>
+              <Link to="/how-to-order-food-in-chinese" className="underline underline-offset-4 hover:text-[#0E4A66]">Food</Link>
             </div>
             <p className="text-[11px] leading-relaxed text-text-light mt-4 max-w-md mx-auto">
               Travel Sprint is separate from your structured lesson path.
