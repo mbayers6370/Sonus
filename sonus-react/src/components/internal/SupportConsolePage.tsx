@@ -356,6 +356,15 @@ function toCsv(headers: string[], rows: Array<Array<unknown>>) {
   return [headerLine, ...rowLines].join('\n');
 }
 
+function normalizeFullSuiteConfirmText(value: string) {
+  return value.trim().toUpperCase().replace(/[\s-]+/g, '_');
+}
+
+function isValidFullSuiteConfirmText(value: string) {
+  const normalized = normalizeFullSuiteConfirmText(value);
+  return normalized === 'RUN_FULL_SUITE' || normalized === 'RUN_FULL_SITE';
+}
+
 function crc32(input: string) {
   let crc = 0 ^ -1;
   for (let i = 0; i < input.length; i += 1) {
@@ -945,6 +954,7 @@ export default function SupportConsolePage() {
   };
 
   const runFullQualityReport = async () => {
+    const normalizedConfirmText = normalizeFullSuiteConfirmText(qualityRunFullConfirmText);
     setQualityRunBusy(true);
     setQualityRunMessage(null);
     setQualityCleanupMessage(null);
@@ -954,7 +964,7 @@ export default function SupportConsolePage() {
         await apiFetch('/v1/admin/quality-reports/run-full', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ confirmText: 'RUN_FULL_SUITE' }),
+          body: JSON.stringify({ confirmText: normalizedConfirmText }),
         })
       );
       const message = payload.ok
@@ -1877,6 +1887,8 @@ export default function SupportConsolePage() {
                 src="/branding/Logo_White.png"
                 srcSet="/branding/Logo_White-500.png 500w, /branding/Logo_White.png 2000w"
                 sizes="(max-width: 768px) 180px, 260px"
+                width={2000}
+                height={500}
                 alt="Sonus"
                 className="h-6 w-auto opacity-95 md:h-7"
                 loading="eager"
@@ -2592,7 +2604,7 @@ export default function SupportConsolePage() {
               <div className="mt-3 rounded-xl border border-amber-300 bg-amber-50 p-3">
                 <h3 className="text-sm font-semibold text-[#0f172a]">Confirm Full Suite Run</h3>
                 <p className="mt-1 text-xs text-[#7c2d12]">
-                  Full suite can include mutating checks. Type <span className="font-semibold">RUN_FULL_SUITE</span> to confirm.
+                  Full suite can include mutating checks. Type <span className="font-semibold">RUN_FULL_SUITE</span> (or <span className="font-semibold">RUN_FULL_SITE</span>) to confirm.
                 </p>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
                   <input
@@ -2605,7 +2617,7 @@ export default function SupportConsolePage() {
                     type="button"
                     className={baseButton}
                     onClick={() => void runFullQualityReport()}
-                    disabled={qualityRunBusy || qualityRunFullConfirmText.trim() !== 'RUN_FULL_SUITE'}
+                    disabled={qualityRunBusy || !isValidFullSuiteConfirmText(qualityRunFullConfirmText)}
                   >
                     {qualityRunBusy ? 'Running…' : 'Confirm & Run Full Suite'}
                   </button>

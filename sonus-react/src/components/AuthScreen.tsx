@@ -378,8 +378,10 @@ export default function AuthScreen({
         src="/branding/logo_name_solo.png"
         srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w"
         sizes="(max-width: 768px) 160px, 240px"
+        width={2000}
+        height={500}
         alt="Sonus"
-        className="h-7 mx-auto mb-5 opacity-90"
+        className="h-7 w-auto object-contain mx-auto mb-5 opacity-90"
       />
 
       {hasAuthTabs && (

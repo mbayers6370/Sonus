@@ -1,8 +1,6 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { AppProvider } from './contexts/AppContext';
-import AppRoutes from './routes/AppRoutes';
 import AuthScreen from './components/AuthScreen';
 import PublicLanding from './components/PublicLanding';
 import GlassLoader from './components/ui/GlassLoader';
@@ -10,6 +8,7 @@ import PrivacyPage from './components/public/PrivacyPage';
 import TermsPage from './components/public/TermsPage';
 import ContactPage from './components/public/ContactPage';
 import AttributionsPage from './components/public/AttributionsPage';
+const SignedInApp = lazy(() => import('./components/internal/SignedInApp'));
 const SupportConsolePage = lazy(() => import('./components/internal/SupportConsolePage'));
 
 type RouterKind = 'browser' | 'hash';
@@ -116,9 +115,15 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
       <Route
         path="*"
         element={(
-          <AppProvider>
-            <AppRoutes />
-          </AppProvider>
+          <Suspense
+            fallback={(
+              <div className="min-h-screen page-shell flex items-center justify-center">
+                <GlassLoader compact message="Loading app..." />
+              </div>
+            )}
+          >
+            <SignedInApp />
+          </Suspense>
         )}
       />
     </Routes>

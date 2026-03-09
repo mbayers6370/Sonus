@@ -24,6 +24,9 @@
     }
   },
   "ignore": [
+    ".dependency-cruiser.cjs",
+    "files/**",
+    "scripts/**",
     "reports/**",
     "docs/**",
     "**/*.test.ts",

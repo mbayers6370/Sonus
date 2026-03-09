@@ -333,6 +333,7 @@ async function main() {
       command: 'npm',
       args: ['run', '-w', 'sonus-backend', 'perf:load'],
       env: {
+        LOAD_API_BASE_URL: process.env.LOAD_API_BASE_URL || 'https://sonuslearning.com',
         LOAD_PATH: '/health',
         LOAD_CONCURRENCY: process.env.LOAD_CONCURRENCY || '5',
         LOAD_DURATION_SECONDS: process.env.LOAD_DURATION_SECONDS || '10',

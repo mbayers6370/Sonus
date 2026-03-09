@@ -1124,7 +1124,11 @@ export async function adminRoutes(app: FastifyInstance) {
         reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
         return;
       }
-      if (parsed.data.confirmText !== 'RUN_FULL_SUITE') {
+      const normalizedConfirmText = parsed.data.confirmText
+        .trim()
+        .toUpperCase()
+        .replace(/[\s-]+/g, '_');
+      if (normalizedConfirmText !== 'RUN_FULL_SUITE' && normalizedConfirmText !== 'RUN_FULL_SITE') {
         reply.code(400).send({ error: 'Confirmation text mismatch. Use RUN_FULL_SUITE.' });
         return;
       }

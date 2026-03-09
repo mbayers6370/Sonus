@@ -191,8 +191,10 @@ export default function PublicLanding() {
               src="/branding/Sonus-White-Transparent.png"
               srcSet="/branding/Sonus-White-Transparent-500.png 500w, /branding/Sonus-White-Transparent.png 1000w"
               sizes="(max-width: 768px) 180px, 260px"
+              width={1000}
+              height={200}
               alt="Sonus"
-              className="h-7 justify-self-center sm:h-8"
+              className="h-7 w-auto object-contain justify-self-center sm:h-8"
             />
             <div className="justify-self-end">
               {isDesktop ? (

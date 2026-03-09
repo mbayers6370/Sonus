@@ -45,8 +45,10 @@ export default function PublicLegalLayout({
               src="/branding/logo_name_solo.png"
               srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w"
               sizes="(max-width: 768px) 160px, 240px"
+              width={2000}
+              height={500}
               alt="Sonus"
-              className="h-7 sm:h-8"
+              className="h-7 w-auto object-contain sm:h-8"
             />
           </Link>
           <nav className="flex items-center gap-4 text-sm text-[#1F2A37] sm:text-base">

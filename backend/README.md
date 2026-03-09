@@ -112,6 +112,12 @@ Runs a short concurrency run against a key review endpoint.
 npm run perf:load
 ```
 
+Run directly against production:
+
+```bash
+npm run perf:load:prod
+```
+
 Optional env controls:
 - `LOAD_API_BASE_URL`
 - `LOAD_CONCURRENCY`

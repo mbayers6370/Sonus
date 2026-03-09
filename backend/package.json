@@ -20,6 +20,7 @@
     "seed:test-admin": "node scripts/seed-test-admin.mjs",
     "perf:smoke": "node scripts/perf-smoke.mjs",
     "perf:load": "node scripts/load-check.mjs",
+    "perf:load:prod": "LOAD_API_BASE_URL=https://sonuslearning.com node scripts/load-check.mjs",
     "start": "node dist/server.js",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",

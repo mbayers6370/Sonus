@@ -345,6 +345,12 @@ function isLikelyJapaneseTranscript(raw: string, targetRomaji = '') {
   return latin === targetRomaji || targetRomaji.startsWith(latin) || latin.startsWith(targetRomaji);
 }
 
+function isSiriArtifactTranscript(raw: string) {
+  const value = (raw || '').trim().toLowerCase();
+  if (!value) return false;
+  return /\bsiri\b/.test(value);
+}
+
 function inferHanziFromDetectedPinyin(
   detectedPinyinRaw: string,
   targetHanziRaw: string,
@@ -1888,7 +1894,7 @@ export default function SpeakMode({
       // Single-utterance mode improves responsiveness for short words.
       recognition.continuous = false;
       recognition.interimResults = isJapaneseLesson ? true : !isShortJapaneseTarget;
-      recognition.maxAlternatives = isJapaneseLesson ? 5 : (isMandarinLesson ? 1 : 3);
+      recognition.maxAlternatives = isJapaneseLesson ? 5 : (isMandarinLesson ? 3 : 3);
       if ('phrases' in recognition) {
         const phraseCandidates = isJapaneseLesson && isShortJapaneseTarget
           ? [
@@ -1933,6 +1939,9 @@ export default function SpeakMode({
           for (let altIdx = 0; altIdx < altCount; altIdx += 1) {
             const text = result?.[altIdx]?.transcript?.trim?.() || '';
             if (!text) continue;
+            if ((isMandarinLesson || isJapaneseLesson) && isSiriArtifactTranscript(text)) {
+              continue;
+            }
             if (!lastHeardRawRef.current) lastHeardRawRef.current = text;
             if (isMandarinLesson && !isLikelyMandarinTranscript(text, targetSyllableCount)) {
               continue;
@@ -2649,6 +2658,72 @@ export default function SpeakMode({
 
   const renderResultCard = (compact: boolean) => {
     if (!showMobileResult && !showDesktopResult) return null;
+    if (isMandarinLesson && !useSentenceTargetInPractice) {
+      const mandarinScoreChips = renderScoreChips(compact);
+      return (
+        <div className="rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-3 py-3.5 sm:px-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 items-stretch">
+            <div className="h-full text-center sm:pr-2 flex flex-col justify-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                {(() => {
+                  if (!matchResult) return null;
+                  if (analysis) {
+                    const passCount = [analysis.initial.pass, analysis.final.pass, analysis.tone.pass].filter(Boolean).length;
+                    if (isFullyCorrect) {
+                      return (
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#8DD3AE] text-white">
+                          Correct
+                        </span>
+                      );
+                    }
+                    if (passCount >= 1) {
+                      return (
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[rgba(24,110,149,0.16)] text-[#186E95]">
+                          Keep Going
+                        </span>
+                      );
+                    }
+                    return (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#C2410C] text-white">
+                        Needs Work
+                      </span>
+                    );
+                  }
+                  return (
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
+                        isFullyCorrect
+                          ? 'bg-[#8DD3AE] text-white'
+                          : 'bg-[#C2410C] text-white'
+                      }`}
+                    >
+                      {isFullyCorrect ? 'Correct' : 'Needs Work'}
+                    </span>
+                  );
+                })()}
+              </div>
+
+              <div className={`secondary-font font-semibold ${compact ? noSpeechResultClass : 'text-2xl'} text-white leading-tight break-words text-center`}>
+                {displayHeardText || '...'}
+              </div>
+
+              {displayResultReading ? (
+                <div className="mt-2 flex justify-center">
+                  <div className="inline-flex items-center rounded-xl px-2.5 py-1 bg-white/12 border border-white/15">
+                    <span className="text-sm font-semibold text-white">{displayResultReading}</span>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="text-center sm:pl-2">
+              {mandarinScoreChips || renderMandarinFallbackCoaching(compact)}
+              {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
+            </div>
+          </div>
+        </div>
+      );
+    }
     const shell = compact
       ? 'rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-3 py-3.5'
       : 'rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5';
@@ -2713,6 +2788,67 @@ export default function SpeakMode({
 
           {scoreChips}
           {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
+        </div>
+      </div>
+    );
+  };
+
+  const renderMandarinFallbackCoaching = (compact: boolean) => {
+    if (!isMandarinLesson) return null;
+    const rowClass = `relative rounded-xl border border-white/20 bg-[#1F2A37] ${
+      compact ? 'min-h-[56px] px-2 py-1.5' : 'min-h-[82px] px-2 py-1.5'
+    } flex items-center justify-center text-center`;
+    const summaryClass = `relative rounded-xl border border-white/20 bg-[#1F2A37] px-2.5 py-2 text-center ${
+      compact ? '' : 'min-h-[66px]'
+    } flex items-center justify-center`;
+    const titleClass = `font-semibold leading-none ${compact ? 'text-[16px]' : 'text-[17px]'}`;
+    const detailClass = `${compact ? 'text-[10px]' : 'text-[11px]'} leading-[1.25] text-white/80`;
+    const summaryTextClass = `${compact ? 'text-[11px]' : 'text-[12px]'} leading-[1.35] text-white/95`;
+
+    if (isNoSpeech) {
+      return (
+        <div className={`mt-2 ${compact ? 'space-y-1.5' : 'space-y-2'} w-full max-w-[40rem] mx-auto`}>
+          <div className={rowClass}>
+            <div className="space-y-0.5">
+              <div className={`${titleClass} text-[#C2410C]`}>No speech detected</div>
+              <div className={detailClass}>Tap the mic and speak clearly.</div>
+            </div>
+          </div>
+          <div className={summaryClass}>
+            <div className={summaryTextClass}>Try one clear repetition, then tap Next.</div>
+          </div>
+        </div>
+      );
+    }
+
+    if (isFullyCorrect) {
+      return (
+        <div className={`mt-2 ${compact ? 'space-y-1.5' : 'space-y-2'} w-full max-w-[40rem] mx-auto`}>
+          <div className={rowClass}>
+            <div className="space-y-0.5">
+              <div className={`${titleClass} text-[#8DD3AE]`}>Accurate</div>
+              <div className={detailClass}>Nice pronunciation.</div>
+            </div>
+            <Check className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white" />
+          </div>
+          <div className={summaryClass}>
+            <div className={summaryTextClass}>All checks passed. Keep it steady.</div>
+            <Check className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white" />
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className={`mt-2 ${compact ? 'space-y-1.5' : 'space-y-2'} w-full max-w-[40rem] mx-auto`}>
+        <div className={rowClass}>
+          <div className="space-y-0.5">
+            <div className={`${titleClass} text-[#C2410C]`}>Needs work</div>
+            <div className={detailClass}>Try another clear repetition.</div>
+          </div>
+        </div>
+        <div className={summaryClass}>
+          <div className={summaryTextClass}>Focus on steady pronunciation and rhythm.</div>
         </div>
       </div>
     );
@@ -2786,6 +2922,72 @@ export default function SpeakMode({
               </div>
             ) : null}
             {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
+          </div>
+        </div>
+      );
+    }
+    if (isMandarinLesson) {
+      const scoreChips = renderScoreChips(true);
+      return (
+        <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
+          <div className="grid grid-cols-2 gap-3 items-stretch">
+            <div className="h-full pr-2 text-center flex flex-col justify-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                {(() => {
+                  if (!matchResult) return null;
+                  if (analysis) {
+                    const passCount = [analysis.initial.pass, analysis.final.pass, analysis.tone.pass].filter(Boolean).length;
+                    if (isFullyCorrect) {
+                      return (
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#8DD3AE] text-white">
+                          Correct
+                        </span>
+                      );
+                    }
+                    if (passCount >= 1) {
+                      return (
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[rgba(24,110,149,0.16)] text-[#186E95]">
+                          Keep Going
+                        </span>
+                      );
+                    }
+                    return (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#C2410C] text-white">
+                        Needs Work
+                      </span>
+                    );
+                  }
+                  return (
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
+                        isFullyCorrect
+                          ? 'bg-[#8DD3AE] text-white'
+                          : 'bg-[#C2410C] text-white'
+                      }`}
+                    >
+                      {isFullyCorrect ? 'Correct' : 'Needs Work'}
+                    </span>
+                  );
+                })()}
+              </div>
+
+              <div className="secondary-font font-semibold text-2xl text-white leading-tight break-words text-center">
+                {displayHeardText || '...'}
+              </div>
+
+              {displayResultReading ? (
+                <div className="mt-2 flex justify-center">
+                  <div className="inline-flex items-center rounded-xl px-2.5 py-1 bg-white/12 border border-white/15">
+                    <span className="text-sm font-semibold text-white">{displayResultReading}</span>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="pl-2 text-center">
+              {scoreChips || renderMandarinFallbackCoaching(true)}
+              {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
+            </div>
           </div>
         </div>
       );
