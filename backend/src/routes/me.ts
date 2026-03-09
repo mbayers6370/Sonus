@@ -4,6 +4,11 @@ import { env } from '../env.js';
 import { requireAuth } from '../lib/auth.js';
 import { prisma } from '../lib/prisma.js';
 import { serializeCookie } from '../lib/cookies.js';
+import {
+  ensureLearningAccessTables,
+  getLearningAccessState,
+  isLessonPointerBlocked,
+} from '../lib/learningAccess.js';
 import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js';
 import {
   fetchNeedsWork,
@@ -74,6 +79,7 @@ const accountDeletionRequestSchema = z.object({
 
 export async function meRoutes(app: FastifyInstance) {
   const allowedOrigins = readAllowedOrigins();
+  await ensureLearningAccessTables(prisma);
 
   // Auth required. Returns current profile, creating it lazily when missing.
   app.get('/v1/me/profile', { preHandler: [requireAuth] }, async (request) => {
@@ -231,6 +237,34 @@ export async function meRoutes(app: FastifyInstance) {
     }
 
     const { id } = request.user;
+    const existing = await prisma.userProgress.findUnique({
+      where: { userId: id },
+      select: {
+        currentBandId: true,
+        currentUnitId: true,
+        currentLessonIdx: true,
+      },
+    });
+    const accessState = await getLearningAccessState(prisma, id);
+    const pointer = {
+      bandId:
+        parsed.data.currentBandId !== undefined
+          ? parsed.data.currentBandId
+          : existing?.currentBandId || null,
+      unitId:
+        parsed.data.currentUnitId !== undefined
+          ? parsed.data.currentUnitId
+          : existing?.currentUnitId || null,
+      lessonIndex:
+        parsed.data.currentLessonIdx !== undefined
+          ? parsed.data.currentLessonIdx
+          : (existing?.currentLessonIdx ?? null),
+    };
+    if (isLessonPointerBlocked(accessState, pointer)) {
+      reply.code(403).send({ error: 'Learning access is locked for this lesson pointer.' });
+      return;
+    }
+
     const progress = await updateProgressCurrent(id, parsed.data);
     return { progress };
   });

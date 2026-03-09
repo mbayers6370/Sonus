@@ -21,6 +21,13 @@ import {
   resolveSupportAdminFromRequest,
 } from '../lib/supportAdminAuth.js';
 import { hashPrivilegedPassword, verifyPassword } from '../lib/localAuth.js';
+import {
+  appendLearningAccessAudit,
+  ensureLearningAccessTables,
+  getLearningAccessState,
+  lessonOverrideKey,
+  saveLearningAccessState,
+} from '../lib/learningAccess.js';
 
 const allowedOrigins = readAllowedOrigins();
 
@@ -46,6 +53,29 @@ const noteDeleteParamsSchema = z.object({
 
 const mutationReasonSchema = z.object({
   reason: z.string().trim().min(8).max(500),
+});
+
+const accessStatusSchema = z.enum(['locked', 'unlocked']);
+const learningAccessPatchSchema = z.object({
+  reason: z.string().trim().min(8).max(500),
+  globalAccess: z.boolean().optional(),
+  overrides: z
+    .object({
+      levels: z.record(accessStatusSchema).optional(),
+      units: z.record(accessStatusSchema).optional(),
+      lessons: z.record(accessStatusSchema).optional(),
+    })
+    .optional(),
+  progressTarget: z
+    .object({
+      language: z.string().trim().min(2).max(12).optional(),
+      bandId: z.string().trim().min(1).max(64),
+      unitId: z.string().trim().min(1).max(128),
+      lessonIndex: z.number().int().min(0).max(500),
+      unlockUpToTarget: z.boolean().default(true),
+      lockAboveTarget: z.boolean().default(false),
+    })
+    .optional(),
 });
 
 const noteMutationSchema = mutationReasonSchema.extend({
@@ -526,6 +556,7 @@ async function ensureAdminConsoleTables() {
     CREATE INDEX IF NOT EXISTS idx_deletion_case_history_retention
     ON deletion_case_history (retention_until ASC);
   `;
+  await ensureLearningAccessTables(prisma);
 }
 
 function supportAdminSessionExpiry() {
@@ -2707,6 +2738,257 @@ export async function adminRoutes(app: FastifyInstance) {
       deletionRequest: openDeletionRequest[0] || null,
     };
   });
+
+  app.get(
+    '/v1/admin/users/:userId/progress',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsedParams = userIdParamsSchema.safeParse(request.params ?? {});
+      if (!parsedParams.success) {
+        reply.code(400).send({ error: 'Invalid user id', issues: parsedParams.error.issues });
+        return;
+      }
+
+      const userId = parsedParams.data.userId;
+      const profile = await prisma.profile.findUnique({
+        where: { userId },
+        select: {
+          userId: true,
+          targetLanguage: true,
+        },
+      });
+      if (!profile) {
+        reply.code(404).send({ error: 'User not found' });
+        return;
+      }
+
+      const progress = await prisma.userProgress.findUnique({
+        where: { userId },
+        select: {
+          currentBandId: true,
+          currentUnitId: true,
+          currentLessonIdx: true,
+          updatedAt: true,
+          lastActiveDate: true,
+        },
+      });
+      const lastActivityRows = await prisma.$queryRaw<Array<{ lastActivityAt: Date | null }>>`
+      SELECT MAX(pe.created_at) AS "lastActivityAt"
+      FROM progress_events pe
+      WHERE pe.user_id = ${userId}::uuid
+    `;
+
+      const lastActivityAt =
+        lastActivityRows[0]?.lastActivityAt ||
+        progress?.lastActiveDate ||
+        progress?.updatedAt ||
+        null;
+
+      return {
+        userId: profile.userId,
+        language: profile.targetLanguage || null,
+        currentBandId: progress?.currentBandId || null,
+        currentUnitId: progress?.currentUnitId || null,
+        currentLessonIdx: progress?.currentLessonIdx ?? null,
+        lastActivityAt,
+      };
+    }
+  );
+
+  app.get(
+    '/v1/admin/users/:userId/access',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsedParams = userIdParamsSchema.safeParse(request.params ?? {});
+      if (!parsedParams.success) {
+        reply.code(400).send({ error: 'Invalid user id', issues: parsedParams.error.issues });
+        return;
+      }
+
+      const userId = parsedParams.data.userId;
+      const profile = await prisma.profile.findUnique({
+        where: { userId },
+        select: { userId: true },
+      });
+      if (!profile) {
+        reply.code(404).send({ error: 'User not found' });
+        return;
+      }
+
+      const state = await getLearningAccessState(prisma, userId);
+      const recentAuditRows = await prisma.$queryRaw<
+        Array<{
+          id: string;
+          actorEmail: string | null;
+          reason: string;
+          changeType: string;
+          createdAt: Date;
+        }>
+      >`
+      SELECT
+        ulaa.id,
+        ulaa.actor_email AS "actorEmail",
+        ulaa.reason,
+        ulaa.change_type AS "changeType",
+        ulaa.created_at AS "createdAt"
+      FROM user_learning_access_audits ulaa
+      WHERE ulaa.user_id = ${userId}::uuid
+      ORDER BY ulaa.created_at DESC
+      LIMIT 40
+    `;
+
+      return {
+        state,
+        recentAudit: recentAuditRows,
+      };
+    }
+  );
+
+  app.patch(
+    '/v1/admin/users/:userId/access',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+
+      const parsedParams = userIdParamsSchema.safeParse(request.params ?? {});
+      if (!parsedParams.success) {
+        reply.code(400).send({ error: 'Invalid user id', issues: parsedParams.error.issues });
+        return;
+      }
+      const parsedBody = learningAccessPatchSchema.safeParse(request.body ?? {});
+      if (!parsedBody.success) {
+        reply.code(400).send({ error: 'Invalid payload', issues: parsedBody.error.issues });
+        return;
+      }
+
+      const targetUserId = parsedParams.data.userId;
+      const actor: MutationActor = {
+        actorUserId: request.user.id,
+        actorEmail: request.user.email || null,
+      };
+
+      const profile = await prisma.profile.findUnique({
+        where: { userId: targetUserId },
+        select: { userId: true },
+      });
+      if (!profile) {
+        reply.code(404).send({ error: 'User not found' });
+        return;
+      }
+
+      const beforeState = await getLearningAccessState(prisma, targetUserId);
+      const nextState = {
+        globalAccess: beforeState.globalAccess,
+        lockAboveTarget: beforeState.lockAboveTarget,
+        cursor: beforeState.cursor,
+        overrides: {
+          levels: { ...beforeState.overrides.levels },
+          units: { ...beforeState.overrides.units },
+          lessons: { ...beforeState.overrides.lessons },
+        },
+      };
+
+      if (typeof parsedBody.data.globalAccess === 'boolean') {
+        nextState.globalAccess = parsedBody.data.globalAccess;
+      }
+
+      const overrides = parsedBody.data.overrides;
+      if (overrides?.levels) {
+        for (const [key, status] of Object.entries(overrides.levels)) {
+          const normalizedKey = key.trim();
+          if (!normalizedKey) continue;
+          nextState.overrides.levels[normalizedKey] = status;
+        }
+      }
+      if (overrides?.units) {
+        for (const [key, status] of Object.entries(overrides.units)) {
+          const normalizedKey = key.trim();
+          if (!normalizedKey) continue;
+          nextState.overrides.units[normalizedKey] = status;
+        }
+      }
+      if (overrides?.lessons) {
+        for (const [key, status] of Object.entries(overrides.lessons)) {
+          const normalizedKey = key.trim();
+          if (!normalizedKey) continue;
+          nextState.overrides.lessons[normalizedKey] = status;
+        }
+      }
+
+      if (parsedBody.data.progressTarget) {
+        const target = parsedBody.data.progressTarget;
+        const normalizedLanguage = target.language?.trim() || null;
+        const nextCursorLanguage = normalizedLanguage || beforeState.cursor?.language || null;
+
+        if (normalizedLanguage) {
+          await prisma.profile.update({
+            where: { userId: targetUserId },
+            data: {
+              targetLanguage: normalizedLanguage,
+            },
+          });
+        }
+
+        await prisma.userProgress.upsert({
+          where: { userId: targetUserId },
+          update: {
+            currentBandId: target.bandId,
+            currentUnitId: target.unitId,
+            currentLessonIdx: target.lessonIndex,
+          },
+          create: {
+            userId: targetUserId,
+            currentBandId: target.bandId,
+            currentUnitId: target.unitId,
+            currentLessonIdx: target.lessonIndex,
+          },
+        });
+
+        nextState.cursor = {
+          language: nextCursorLanguage,
+          bandId: target.bandId,
+          unitId: target.unitId,
+          lessonIndex: target.lessonIndex,
+        };
+
+        if (target.unlockUpToTarget) {
+          nextState.overrides.levels[target.bandId] = 'unlocked';
+          nextState.overrides.units[target.unitId] = 'unlocked';
+          nextState.overrides.lessons[lessonOverrideKey(target.unitId, target.lessonIndex)] =
+            'unlocked';
+        }
+        nextState.lockAboveTarget = target.lockAboveTarget;
+      }
+
+      await saveLearningAccessState(prisma, targetUserId, nextState);
+      const afterState = await getLearningAccessState(prisma, targetUserId);
+
+      await logAdminAudit({
+        actor,
+        action: 'learning_access.updated',
+        targetUserId,
+        reason: parsedBody.data.reason,
+        result: 'ok',
+        metadata: {
+          before: beforeState,
+          after: afterState,
+        },
+      });
+
+      await appendLearningAccessAudit({
+        prisma,
+        userId: targetUserId,
+        actorUserId: actor.actorUserId,
+        actorEmail: actor.actorEmail,
+        changeType: 'learning_access.updated',
+        reason: parsedBody.data.reason,
+        beforeState,
+        afterState,
+      });
+
+      return { ok: true, state: afterState };
+    }
+  );
 
   app.get(
     '/v1/admin/users/:userId/timeline',

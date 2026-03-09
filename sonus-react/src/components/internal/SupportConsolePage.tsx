@@ -64,6 +64,53 @@ type UserOverview = {
   } | null;
 };
 
+type UserProgressDetail = {
+  userId: string;
+  language: string | null;
+  currentBandId: string | null;
+  currentUnitId: string | null;
+  currentLessonIdx: number | null;
+  lastActivityAt: string | null;
+};
+
+type LearningAccessState = {
+  globalAccess: boolean;
+  lockAboveTarget: boolean;
+  cursor: {
+    language: string | null;
+    bandId: string | null;
+    unitId: string | null;
+    lessonIndex: number | null;
+  } | null;
+  overrides: {
+    levels: Record<string, 'locked' | 'unlocked'>;
+    units: Record<string, 'locked' | 'unlocked'>;
+    lessons: Record<string, 'locked' | 'unlocked'>;
+  };
+  updatedAt: string | null;
+};
+
+type LearningAccessAuditEntry = {
+  id: string;
+  actorEmail: string | null;
+  reason: string;
+  changeType: string;
+  createdAt: string;
+};
+
+type AccessCatalogUnitOption = {
+  id: string;
+  label: string;
+  lessonCount: number;
+  wordCount: number;
+};
+
+type AccessCatalogBandOption = {
+  id: string;
+  label: string;
+  units: AccessCatalogUnitOption[];
+};
+
 type TimelineEntry = {
   createdAt: string;
   source: string;
@@ -330,6 +377,14 @@ type ProdReadinessReport = {
 
 const SUPPORT_ADMIN_TOKEN_STORAGE_KEY = 'sonus.support_admin.token';
 const ROOT_QA_ADMIN_USERNAME = 'qa-admin-f8n2x7r1@sonus.test';
+const ACCESS_LANGUAGE_OPTIONS = [
+  { id: 'zh', label: 'Mandarin' },
+  { id: 'ja', label: 'Japanese' },
+] as const;
+const ACCESS_BANDS_BY_LANGUAGE: Record<string, string[]> = {
+  zh: ['band1', 'band2', 'band3', 'band4', 'band5', 'band6', 'band7', 'band8', 'band9'],
+  ja: ['n5', 'n4', 'n3', 'n2', 'n1'],
+};
 
 const baseInput =
   'w-full rounded-xl border border-[#1f2937]/20 bg-white px-3 py-2 text-sm text-[#0f172a] outline-none focus:border-[#1f2937]';
@@ -387,6 +442,139 @@ function timelineSourceLabel(entry: TimelineEntry) {
     return 'note_event';
   }
   return entry.source;
+}
+
+function normalizeLanguageId(languageId: string | null | undefined) {
+  const normalized = (languageId || '').trim().toLowerCase();
+  if (!normalized) return 'zh';
+  if (normalized === 'jp') return 'ja';
+  return normalized;
+}
+
+function resolveBandDataPath(languageId: string, bandId: string) {
+  const normalizedLanguage = normalizeLanguageId(languageId);
+  if (normalizedLanguage === 'zh') {
+    const resolvedBandId =
+      bandId === 'band7' || bandId === 'band8' || bandId === 'band9' ? 'band7-9' : bandId;
+    return `/data/zh/${resolvedBandId}.json`;
+  }
+  return `/data/${normalizedLanguage}/${bandId}.json`;
+}
+
+function isPracticeUnitId(unitId: string) {
+  return /listening$/i.test(unitId) || /speaking$/i.test(unitId);
+}
+
+function isCheckpointUnitId(unitId: string) {
+  return /^checkpoint-\d+$/i.test(unitId);
+}
+
+function lessonCountFromWordCount(wordCount: number, maxWordsPerLesson = 10) {
+  if (!Number.isFinite(wordCount) || wordCount <= 0) return 0;
+  return Math.ceil(wordCount / maxWordsPerLesson);
+}
+
+function bandLabelFromId(bandId: string) {
+  const normalized = bandId.trim().toLowerCase();
+  if (/^band\d+$/i.test(normalized)) {
+    const num = Number(normalized.replace('band', ''));
+    if (Number.isFinite(num) && num > 0) return `Band ${num}`;
+  }
+  if (/^n[1-5]$/i.test(normalized)) return normalized.toUpperCase();
+  return bandId.toUpperCase();
+}
+
+function extractCatalogUnits(rawPayload: unknown) {
+  const record = (rawPayload || {}) as Record<string, unknown>;
+  const directUnits = record.units;
+  const byId = new Map<string, { title: string; wordCount: number }>();
+
+  const upsertUnit = (id: string | null | undefined, title: string | null | undefined, words: unknown) => {
+    const normalizedId = (id || '').trim();
+    if (!normalizedId) return;
+    const wordCount = Array.isArray(words) ? words.length : 0;
+    byId.set(normalizedId, {
+      title: (title || '').trim(),
+      wordCount,
+    });
+  };
+
+  if (Array.isArray(directUnits)) {
+    for (const unit of directUnits) {
+      const row = (unit || {}) as Record<string, unknown>;
+      upsertUnit(
+        typeof row.id === 'string' ? row.id : null,
+        typeof row.title === 'string' ? row.title : null,
+        row.words
+      );
+    }
+  } else if (directUnits && typeof directUnits === 'object') {
+    for (const [unitId, value] of Object.entries(directUnits as Record<string, unknown>)) {
+      const row = (value || {}) as Record<string, unknown>;
+      upsertUnit(
+        unitId,
+        typeof row.title === 'string' ? row.title : null,
+        row.words
+      );
+    }
+  }
+
+  const sections = Array.isArray(record.sections) ? record.sections : [];
+  for (const section of sections) {
+    const sectionRecord = (section || {}) as Record<string, unknown>;
+    const sectionUnits = Array.isArray(sectionRecord.units) ? sectionRecord.units : [];
+    for (const unit of sectionUnits) {
+      const row = (unit || {}) as Record<string, unknown>;
+      upsertUnit(
+        typeof row.id === 'string' ? row.id : null,
+        typeof row.title === 'string' ? row.title : null,
+        row.words
+      );
+    }
+  }
+
+  return byId;
+}
+
+async function loadAccessCatalog(languageId: string): Promise<AccessCatalogBandOption[]> {
+  const normalizedLanguage = normalizeLanguageId(languageId);
+  const bandIds = ACCESS_BANDS_BY_LANGUAGE[normalizedLanguage] || [];
+  const bands: AccessCatalogBandOption[] = [];
+
+  for (const bandId of bandIds) {
+    try {
+      const response = await fetch(resolveBandDataPath(normalizedLanguage, bandId), {
+        cache: 'no-store',
+      });
+      if (!response.ok) continue;
+      const rawPayload = (await response.json()) as unknown;
+      const unitWordCount = extractCatalogUnits(rawPayload);
+      const units: AccessCatalogUnitOption[] = Array.from(unitWordCount.entries())
+        .map(([unitId, unit]) => {
+          if (isPracticeUnitId(unitId) || isCheckpointUnitId(unitId)) return null;
+          const wordCount = unit.wordCount;
+          const lessonCount = lessonCountFromWordCount(wordCount);
+          return {
+            id: unitId,
+            label: unit.title || unitId,
+            lessonCount,
+            wordCount,
+          };
+        })
+        .filter((unit): unit is AccessCatalogUnitOption => Boolean(unit && unit.lessonCount > 0));
+
+      if (!units.length) continue;
+      bands.push({
+        id: bandId,
+        label: bandLabelFromId(bandId),
+        units,
+      });
+    } catch {
+      // Ignore missing curriculum payloads for disabled languages.
+    }
+  }
+
+  return bands;
 }
 
 function setSupportAdminToken(token: string | null) {
@@ -580,6 +768,9 @@ export default function SupportConsolePage() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [overview, setOverview] = useState<UserOverview | null>(null);
+  const [progressDetail, setProgressDetail] = useState<UserProgressDetail | null>(null);
+  const [learningAccess, setLearningAccess] = useState<LearningAccessState | null>(null);
+  const [learningAccessAudit, setLearningAccessAudit] = useState<LearningAccessAuditEntry[]>([]);
   const [timeline, setTimeline] = useState<TimelineEntry[]>([]);
   const [savedNotes, setSavedNotes] = useState<SupportNoteEntry[]>([]);
   const [detailLoading, setDetailLoading] = useState(false);
@@ -589,6 +780,26 @@ export default function SupportConsolePage() {
   const [actionReason, setActionReason] = useState('');
   const [actionChannel, setActionChannel] = useState('email');
   const [busyAction, setBusyAction] = useState<string | null>(null);
+  const [accessReason, setAccessReason] = useState('');
+  const [accessFilter, setAccessFilter] = useState('');
+  const [accessLanguageId, setAccessLanguageId] = useState<'zh' | 'ja'>('zh');
+  const [accessCatalogBands, setAccessCatalogBands] = useState<AccessCatalogBandOption[]>([]);
+  const [accessCatalogLoading, setAccessCatalogLoading] = useState(false);
+  const [accessCatalogError, setAccessCatalogError] = useState<string | null>(null);
+  const [accessLevelId, setAccessLevelId] = useState('');
+  const [accessLevelStatus, setAccessLevelStatus] = useState<'locked' | 'unlocked'>('locked');
+  const [accessUnitBandId, setAccessUnitBandId] = useState('');
+  const [accessUnitId, setAccessUnitId] = useState('');
+  const [accessUnitStatus, setAccessUnitStatus] = useState<'locked' | 'unlocked'>('locked');
+  const [accessLessonBandId, setAccessLessonBandId] = useState('');
+  const [accessLessonUnitId, setAccessLessonUnitId] = useState('');
+  const [accessLessonIndex, setAccessLessonIndex] = useState('0');
+  const [accessLessonStatus, setAccessLessonStatus] = useState<'locked' | 'unlocked'>('locked');
+  const [targetBandInput, setTargetBandInput] = useState('');
+  const [targetUnitInput, setTargetUnitInput] = useState('');
+  const [targetLessonInput, setTargetLessonInput] = useState('0');
+  const [accessConfirmOpen, setAccessConfirmOpen] = useState(false);
+  const [pendingAccessPayload, setPendingAccessPayload] = useState<Record<string, unknown> | null>(null);
   const [supportMetrics, setSupportMetrics] = useState<SupportMetrics | null>(null);
   const [learningMetrics, setLearningMetrics] = useState<LearningMetrics | null>(null);
   const [weakWordsByLanguage, setWeakWordsByLanguage] = useState<WeakWordsByLanguage | null>(null);
@@ -697,6 +908,54 @@ export default function SupportConsolePage() {
     const fallback = actionChannel.trim();
     return fallback.length >= 8 ? fallback : '';
   }, [actionReason, actionChannel]);
+  const normalizedAccessFilter = accessFilter.trim().toLowerCase();
+  const filteredLevelOverrides = useMemo(() => {
+    const entries = Object.entries(learningAccess?.overrides.levels || {});
+    if (!normalizedAccessFilter) return entries;
+    return entries.filter(([key]) => key.toLowerCase().includes(normalizedAccessFilter));
+  }, [learningAccess?.overrides.levels, normalizedAccessFilter]);
+  const filteredUnitOverrides = useMemo(() => {
+    const entries = Object.entries(learningAccess?.overrides.units || {});
+    if (!normalizedAccessFilter) return entries;
+    return entries.filter(([key]) => key.toLowerCase().includes(normalizedAccessFilter));
+  }, [learningAccess?.overrides.units, normalizedAccessFilter]);
+  const filteredLessonOverrides = useMemo(() => {
+    const entries = Object.entries(learningAccess?.overrides.lessons || {});
+    if (!normalizedAccessFilter) return entries;
+    return entries.filter(([key]) => key.toLowerCase().includes(normalizedAccessFilter));
+  }, [learningAccess?.overrides.lessons, normalizedAccessFilter]);
+  const accessBandOptions = accessCatalogBands;
+  const targetBandOption = useMemo(
+    () => accessBandOptions.find((band) => band.id === targetBandInput) || null,
+    [accessBandOptions, targetBandInput]
+  );
+  const targetUnitOptions = targetBandOption?.units || [];
+  const targetUnitOption = useMemo(
+    () => targetUnitOptions.find((unit) => unit.id === targetUnitInput) || null,
+    [targetUnitOptions, targetUnitInput]
+  );
+  const targetLessonOptions = useMemo(
+    () => Array.from({ length: targetUnitOption?.lessonCount || 0 }, (_, idx) => String(idx)),
+    [targetUnitOption?.lessonCount]
+  );
+  const unitOverrideBandOption = useMemo(
+    () => accessBandOptions.find((band) => band.id === accessUnitBandId) || null,
+    [accessBandOptions, accessUnitBandId]
+  );
+  const unitOverrideUnitOptions = unitOverrideBandOption?.units || [];
+  const lessonOverrideBandOption = useMemo(
+    () => accessBandOptions.find((band) => band.id === accessLessonBandId) || null,
+    [accessBandOptions, accessLessonBandId]
+  );
+  const lessonOverrideUnitOptions = lessonOverrideBandOption?.units || [];
+  const lessonOverrideUnitOption = useMemo(
+    () => lessonOverrideUnitOptions.find((unit) => unit.id === accessLessonUnitId) || null,
+    [lessonOverrideUnitOptions, accessLessonUnitId]
+  );
+  const lessonOverrideIndexOptions = useMemo(
+    () => Array.from({ length: lessonOverrideUnitOption?.lessonCount || 0 }, (_, idx) => String(idx)),
+    [lessonOverrideUnitOption?.lessonCount]
+  );
   const resetTokenFromQuery = useMemo(() => {
     const params = new URLSearchParams(location.search || '');
     return (params.get('adminResetToken') || '').trim();
@@ -744,8 +1003,28 @@ export default function SupportConsolePage() {
     setDetailLoading(true);
     setDetailError(null);
     try {
-      const [overviewPayload, timelinePayload, notesPayload] = await Promise.all([
-        parseJsonOrThrow<UserOverview>(await apiFetch(`/v1/admin/users/${targetUserId}`, { cache: 'no-store' })),
+      const overviewPayload = await parseJsonOrThrow<UserOverview>(
+        await apiFetch(`/v1/admin/users/${targetUserId}`, { cache: 'no-store' })
+      );
+      const [progressResult, accessResult, timelinePayload, notesPayload] = await Promise.all([
+        (async () => {
+          try {
+            return await parseJsonOrThrow<UserProgressDetail>(
+              await apiFetch(`/v1/admin/users/${targetUserId}/progress`, { cache: 'no-store' })
+            );
+          } catch {
+            return null;
+          }
+        })(),
+        (async () => {
+          try {
+            return await parseJsonOrThrow<{ state: LearningAccessState; recentAudit?: LearningAccessAuditEntry[] }>(
+              await apiFetch(`/v1/admin/users/${targetUserId}/access`, { cache: 'no-store' })
+            );
+          } catch {
+            return null;
+          }
+        })(),
         parseJsonOrThrow<{ timeline?: TimelineEntry[] }>(
           await apiFetch(`/v1/admin/users/${targetUserId}/timeline?limit=120`, { cache: 'no-store' })
         ),
@@ -754,11 +1033,44 @@ export default function SupportConsolePage() {
         ),
       ]);
       setOverview(overviewPayload);
+      const fallbackProgress: UserProgressDetail = {
+        userId: overviewPayload.profile.userId,
+        language: overviewPayload.profile.targetLanguage || null,
+        currentBandId: overviewPayload.progress?.currentBandId || null,
+        currentUnitId: overviewPayload.progress?.currentUnitId || null,
+        currentLessonIdx: overviewPayload.progress?.currentLessonIdx ?? null,
+        lastActivityAt: overviewPayload.progress?.lastActiveDate || null,
+      };
+      const resolvedProgress = progressResult || fallbackProgress;
+      setProgressDetail(resolvedProgress);
+      if (accessResult) {
+        setLearningAccess(accessResult.state);
+        setLearningAccessAudit(accessResult.recentAudit || []);
+      } else {
+        setLearningAccess({
+          globalAccess: true,
+          lockAboveTarget: false,
+          cursor: null,
+          overrides: { levels: {}, units: {}, lessons: {} },
+          updatedAt: null,
+        });
+        setLearningAccessAudit([]);
+      }
+      const normalizedProgressLanguage = normalizeLanguageId(
+        resolvedProgress.language || overviewPayload.profile.targetLanguage || 'zh'
+      );
+      setAccessLanguageId(normalizedProgressLanguage === 'ja' ? 'ja' : 'zh');
+      setTargetBandInput(resolvedProgress.currentBandId || '');
+      setTargetUnitInput(resolvedProgress.currentUnitId || '');
+      setTargetLessonInput(String(resolvedProgress.currentLessonIdx ?? 0));
       setTimeline(timelinePayload.timeline || []);
       setSavedNotes(notesPayload.notes || []);
     } catch (error) {
       setDetailError(error instanceof Error ? error.message : 'Failed to load user details');
       setOverview(null);
+      setProgressDetail(null);
+      setLearningAccess(null);
+      setLearningAccessAudit([]);
       setTimeline([]);
       setSavedNotes([]);
     } finally {
@@ -1755,6 +2067,9 @@ export default function SupportConsolePage() {
   useEffect(() => {
     if (!selectedUserId || !authenticated || viewMode !== 'ops') {
       setOverview(null);
+      setProgressDetail(null);
+      setLearningAccess(null);
+      setLearningAccessAudit([]);
       setTimeline([]);
       setSavedNotes([]);
       return;
@@ -1769,6 +2084,107 @@ export default function SupportConsolePage() {
     void loadRecentDeletions();
     void loadOpenDeletionRequests();
   }, [authenticated, viewMode]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!authenticated || viewMode !== 'ops') return () => void 0;
+    setAccessCatalogLoading(true);
+    setAccessCatalogError(null);
+    (async () => {
+      try {
+        const bands = await loadAccessCatalog(accessLanguageId);
+        if (cancelled) return;
+        setAccessCatalogBands(bands);
+      } catch {
+        if (cancelled) return;
+        setAccessCatalogBands([]);
+        setAccessCatalogError('Failed to load language curriculum for access controls.');
+      } finally {
+        if (!cancelled) setAccessCatalogLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [accessLanguageId, authenticated, viewMode]);
+
+  useEffect(() => {
+    if (!accessBandOptions.length) {
+      setTargetBandInput('');
+      setTargetUnitInput('');
+      setTargetLessonInput('0');
+      setAccessLevelId('');
+      setAccessUnitBandId('');
+      setAccessUnitId('');
+      setAccessLessonBandId('');
+      setAccessLessonUnitId('');
+      setAccessLessonIndex('0');
+      return;
+    }
+
+    const firstBandId = accessBandOptions[0].id;
+    const resolvedTargetBand = accessBandOptions.some((band) => band.id === targetBandInput)
+      ? targetBandInput
+      : firstBandId;
+    if (resolvedTargetBand !== targetBandInput) setTargetBandInput(resolvedTargetBand);
+    if (!accessBandOptions.some((band) => band.id === accessLevelId)) setAccessLevelId(firstBandId);
+
+    const targetBand = accessBandOptions.find((band) => band.id === resolvedTargetBand) || null;
+    const targetUnits = targetBand?.units || [];
+    const firstTargetUnitId = targetUnits[0]?.id || '';
+    const resolvedTargetUnit = targetUnits.some((unit) => unit.id === targetUnitInput)
+      ? targetUnitInput
+      : firstTargetUnitId;
+    if (resolvedTargetUnit !== targetUnitInput) setTargetUnitInput(resolvedTargetUnit);
+    const resolvedTargetUnitMeta = targetUnits.find((unit) => unit.id === resolvedTargetUnit) || null;
+    const targetLessonCount = resolvedTargetUnitMeta?.lessonCount || 0;
+    const targetLesson = Number(targetLessonInput);
+    const nextTargetLesson =
+      Number.isFinite(targetLesson) && targetLesson >= 0 && targetLesson < targetLessonCount
+        ? String(targetLesson)
+        : '0';
+    if (nextTargetLesson !== targetLessonInput) setTargetLessonInput(nextTargetLesson);
+
+    const resolvedUnitBand = accessBandOptions.some((band) => band.id === accessUnitBandId)
+      ? accessUnitBandId
+      : resolvedTargetBand;
+    if (resolvedUnitBand !== accessUnitBandId) setAccessUnitBandId(resolvedUnitBand);
+    const unitBand = accessBandOptions.find((band) => band.id === resolvedUnitBand) || null;
+    const unitOptions = unitBand?.units || [];
+    const firstUnitId = unitOptions[0]?.id || '';
+    if (!unitOptions.some((unit) => unit.id === accessUnitId)) setAccessUnitId(firstUnitId);
+
+    const resolvedLessonBand = accessBandOptions.some((band) => band.id === accessLessonBandId)
+      ? accessLessonBandId
+      : resolvedTargetBand;
+    if (resolvedLessonBand !== accessLessonBandId) setAccessLessonBandId(resolvedLessonBand);
+    const lessonBand = accessBandOptions.find((band) => band.id === resolvedLessonBand) || null;
+    const lessonUnits = lessonBand?.units || [];
+    const firstLessonUnitId = lessonUnits[0]?.id || '';
+    const resolvedLessonUnit = lessonUnits.some((unit) => unit.id === accessLessonUnitId)
+      ? accessLessonUnitId
+      : firstLessonUnitId;
+    if (resolvedLessonUnit !== accessLessonUnitId) setAccessLessonUnitId(resolvedLessonUnit);
+    const lessonUnitMeta = lessonUnits.find((unit) => unit.id === resolvedLessonUnit) || null;
+    const lessonCount = lessonUnitMeta?.lessonCount || 0;
+    const lessonIndex = Number(accessLessonIndex);
+    const nextLessonIndex =
+      Number.isFinite(lessonIndex) && lessonIndex >= 0 && lessonIndex < lessonCount
+        ? String(lessonIndex)
+        : '0';
+    if (nextLessonIndex !== accessLessonIndex) setAccessLessonIndex(nextLessonIndex);
+  }, [
+    accessBandOptions,
+    accessLessonBandId,
+    accessLessonIndex,
+    accessLessonUnitId,
+    accessLevelId,
+    accessUnitBandId,
+    accessUnitId,
+    targetBandInput,
+    targetLessonInput,
+    targetUnitInput,
+  ]);
 
   useEffect(() => {
     if (!authenticated || viewMode !== 'quality-reports' || !selectedQualityRunId) {
@@ -1806,6 +2222,54 @@ export default function SupportConsolePage() {
     } finally {
       setBusyAction(null);
     }
+  };
+
+  const runAccessMutation = async (payload: Record<string, unknown>) => {
+    if (!selectedUserId) return;
+    setBusyAction('learning-access');
+    setDetailError(null);
+    try {
+      await parseJsonOrThrow(
+        await apiFetch(`/v1/admin/users/${selectedUserId}/access`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+      );
+      await refreshSelectedUser(selectedUserId);
+      setAccessReason('');
+      setAccessConfirmOpen(false);
+      setPendingAccessPayload(null);
+    } catch (error) {
+      setDetailError(error instanceof Error ? error.message : 'Failed to update learning access');
+    } finally {
+      setBusyAction(null);
+    }
+  };
+
+  const submitAccessPayload = async (payload: Record<string, unknown>) => {
+    const overrideCount = (() => {
+      const overrides = payload.overrides as
+        | {
+            levels?: Record<string, unknown>;
+            units?: Record<string, unknown>;
+            lessons?: Record<string, unknown>;
+          }
+        | undefined;
+      if (!overrides) return 0;
+      return (
+        Object.keys(overrides.levels || {}).length +
+        Object.keys(overrides.units || {}).length +
+        Object.keys(overrides.lessons || {}).length
+      );
+    })();
+
+    if (overrideCount >= 8 || (payload.progressTarget && overrideCount >= 4)) {
+      setPendingAccessPayload(payload);
+      setAccessConfirmOpen(true);
+      return;
+    }
+    await runAccessMutation(payload);
   };
 
   const handleSupportLogin = async () => {
@@ -3309,6 +3773,321 @@ export default function SupportConsolePage() {
                         <div className={metricCard}><div className="text-xs text-[#64748b]">Quiz Attempts</div><div className="text-sm font-semibold text-[#0f172a]">{overview.counts.quizCount}</div></div>
                         <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-sm font-semibold text-[#0f172a]">{overview.counts.speakCount}</div></div>
                       </div>
+
+                      <div className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
+                        <h3 className="text-sm font-semibold text-[#0f172a]">Current Progress (Read-only)</h3>
+                        <div className="mt-2 grid gap-3 md:grid-cols-5">
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Current Language</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.language || overview.profile.targetLanguage || 'n/a'}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Current Level</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentBandId || overview.progress?.currentBandId || 'n/a'}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Current Unit</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentUnitId || overview.progress?.currentUnitId || 'n/a'}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Index</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentLessonIdx ?? overview.progress?.currentLessonIdx ?? 'n/a'}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Last Activity</div><div className="text-sm font-semibold text-[#0f172a]">{toLocale(progressDetail?.lastActivityAt)}</div></div>
+                        </div>
+                      </div>
+
+                      <div className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
+                        <h3 className="text-sm font-semibold text-[#0f172a]">Learning Access Controls</h3>
+                        <p className="mt-1 text-xs text-[#64748b]">Every change requires a reason and is audit logged. Explicit locks win over unlocks.</p>
+                        <div className="mt-2 grid gap-2 md:grid-cols-4">
+                          <input className={baseInput} value={accessReason} onChange={(event) => setAccessReason(event.target.value)} placeholder="Reason for learning access change (required)" />
+                          <input className={baseInput} value={accessFilter} onChange={(event) => setAccessFilter(event.target.value)} placeholder="Search/filter overrides" />
+                          <select
+                            className={baseInput}
+                            value={accessLanguageId}
+                            onChange={(event) => setAccessLanguageId(event.target.value === 'ja' ? 'ja' : 'zh')}
+                          >
+                            {ACCESS_LANGUAGE_OPTIONS.map((option) => (
+                              <option key={option.id} value={option.id}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                          <button
+                            type="button"
+                            className={baseButton}
+                            disabled={busyAction !== null || accessReason.trim().length < 8 || !learningAccess}
+                            onClick={() => {
+                              if (!learningAccess) return;
+                              void submitAccessPayload({
+                                reason: accessReason.trim(),
+                                globalAccess: !learningAccess.globalAccess,
+                              });
+                            }}
+                          >
+                            Global Access: {learningAccess?.globalAccess ? 'Unlocked' : 'Locked'}
+                          </button>
+                        </div>
+                        {(accessCatalogLoading || accessCatalogError) && (
+                          <div className="mt-2 text-xs text-[#64748b]">
+                            {accessCatalogLoading ? 'Loading language curriculum options…' : accessCatalogError}
+                          </div>
+                        )}
+
+                        <details className="mt-3 rounded-lg border border-[#e2e8f0] p-2" open>
+                          <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">Set Progress Target and Unlock Up To</summary>
+                          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                            <span className="text-[#64748b]">Lock Above Target:</span>
+                            <span
+                              className={`rounded px-2 py-0.5 font-semibold ${
+                                learningAccess?.lockAboveTarget ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'
+                              }`}
+                            >
+                              {learningAccess?.lockAboveTarget ? 'Enabled' : 'Disabled'}
+                            </span>
+                          </div>
+                          <div className="mt-2 grid gap-2 md:grid-cols-4">
+                            <select className={baseInput} value={targetBandInput} onChange={(event) => setTargetBandInput(event.target.value)} disabled={accessCatalogLoading || accessBandOptions.length === 0}>
+                              {accessBandOptions.length === 0 && <option value="">No levels available</option>}
+                              {accessBandOptions.map((band) => (
+                                <option key={band.id} value={band.id}>
+                                  {band.label} ({band.id})
+                                </option>
+                              ))}
+                            </select>
+                            <select className={baseInput} value={targetUnitInput} onChange={(event) => setTargetUnitInput(event.target.value)} disabled={targetUnitOptions.length === 0}>
+                              {targetUnitOptions.length === 0 && <option value="">No units available</option>}
+                              {targetUnitOptions.map((unit) => (
+                                <option key={unit.id} value={unit.id}>
+                                  {unit.label} ({unit.id})
+                                </option>
+                              ))}
+                            </select>
+                            <select className={baseInput} value={targetLessonInput} onChange={(event) => setTargetLessonInput(event.target.value)} disabled={targetLessonOptions.length === 0}>
+                              {targetLessonOptions.length === 0 && <option value="0">No lessons available</option>}
+                              {targetLessonOptions.map((lessonIndex) => (
+                                <option key={lessonIndex} value={lessonIndex}>
+                                  Lesson {Number(lessonIndex) + 1} (index {lessonIndex})
+                                </option>
+                              ))}
+                            </select>
+                            <div className="flex items-center rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-xs text-[#475569]">
+                              {targetUnitOption ? `${targetUnitOption.wordCount} words · ${targetUnitOption.lessonCount} lessons` : 'Select a unit'}
+                            </div>
+                          </div>
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            <button
+                              type="button"
+                              className={baseButton}
+                              disabled={
+                                busyAction !== null ||
+                                accessReason.trim().length < 8 ||
+                                !targetBandInput ||
+                                !targetUnitInput ||
+                                targetLessonOptions.length === 0
+                              }
+                              onClick={() =>
+                                void submitAccessPayload({
+                                  reason: accessReason.trim(),
+                                  progressTarget: {
+                                    language: accessLanguageId,
+                                    bandId: targetBandInput,
+                                    unitId: targetUnitInput,
+                                    lessonIndex: Number(targetLessonInput),
+                                    unlockUpToTarget: true,
+                                    lockAboveTarget: false,
+                                  },
+                                })
+                              }
+                            >
+                              Unlock Through Target
+                            </button>
+                            <button
+                              type="button"
+                              className={baseButton}
+                              disabled={
+                                busyAction !== null ||
+                                accessReason.trim().length < 8 ||
+                                !targetBandInput ||
+                                !targetUnitInput ||
+                                targetLessonOptions.length === 0
+                              }
+                              onClick={() =>
+                                void submitAccessPayload({
+                                  reason: accessReason.trim(),
+                                  progressTarget: {
+                                    language: accessLanguageId,
+                                    bandId: targetBandInput,
+                                    unitId: targetUnitInput,
+                                    lessonIndex: Number(targetLessonInput),
+                                    unlockUpToTarget: true,
+                                    lockAboveTarget: true,
+                                  },
+                                })
+                              }
+                            >
+                              Unlock Through Target + Lock Above Target
+                            </button>
+                          </div>
+                        </details>
+
+                        <div className="mt-3 grid gap-3 md:grid-cols-3">
+                          <details className="rounded-lg border border-[#e2e8f0] p-2" open>
+                            <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">Level Overrides ({filteredLevelOverrides.length})</summary>
+                            <div className="mt-2 space-y-1 max-h-36 overflow-auto">
+                              {filteredLevelOverrides.length === 0 && <div className="text-xs text-[#64748b]">No level overrides.</div>}
+                              {filteredLevelOverrides.map(([key, status]) => (
+                                <div key={`level-${key}`} className="flex items-center justify-between gap-2 rounded border border-[#e2e8f0] px-2 py-1 text-xs">
+                                  <span className="truncate">{key}</span>
+                                  <span className={`rounded px-2 py-0.5 font-semibold ${status === 'locked' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>{status === 'locked' ? 'Locked' : 'Unlocked'}</span>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="mt-2 grid gap-1">
+                              <select className={baseInput} value={accessLevelId} onChange={(event) => setAccessLevelId(event.target.value)} disabled={accessBandOptions.length === 0}>
+                                {accessBandOptions.length === 0 && <option value="">No levels available</option>}
+                                {accessBandOptions.map((band) => (
+                                  <option key={band.id} value={band.id}>
+                                    {band.label} ({band.id})
+                                  </option>
+                                ))}
+                              </select>
+                              <select className={baseInput} value={accessLevelStatus} onChange={(event) => setAccessLevelStatus(event.target.value as 'locked' | 'unlocked')}>
+                                <option value="locked">Locked</option>
+                                <option value="unlocked">Unlocked</option>
+                              </select>
+                              <button
+                                type="button"
+                                className={baseButton}
+                                disabled={busyAction !== null || accessReason.trim().length < 8 || !accessLevelId}
+                                onClick={() =>
+                                  void submitAccessPayload({
+                                    reason: accessReason.trim(),
+                                    overrides: { levels: { [accessLevelId]: accessLevelStatus } },
+                                  })
+                                }
+                              >
+                                Apply Level Override
+                              </button>
+                            </div>
+                          </details>
+
+                          <details className="rounded-lg border border-[#e2e8f0] p-2" open>
+                            <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">Unit Overrides ({filteredUnitOverrides.length})</summary>
+                            <div className="mt-2 space-y-1 max-h-36 overflow-auto">
+                              {filteredUnitOverrides.length === 0 && <div className="text-xs text-[#64748b]">No unit overrides.</div>}
+                              {filteredUnitOverrides.map(([key, status]) => (
+                                <div key={`unit-${key}`} className="flex items-center justify-between gap-2 rounded border border-[#e2e8f0] px-2 py-1 text-xs">
+                                  <span className="truncate">{key}</span>
+                                  <span className={`rounded px-2 py-0.5 font-semibold ${status === 'locked' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>{status === 'locked' ? 'Locked' : 'Unlocked'}</span>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="mt-2 grid gap-1">
+                              <select className={baseInput} value={accessUnitBandId} onChange={(event) => setAccessUnitBandId(event.target.value)} disabled={accessBandOptions.length === 0}>
+                                {accessBandOptions.length === 0 && <option value="">No levels available</option>}
+                                {accessBandOptions.map((band) => (
+                                  <option key={band.id} value={band.id}>
+                                    {band.label} ({band.id})
+                                  </option>
+                                ))}
+                              </select>
+                              <select className={baseInput} value={accessUnitId} onChange={(event) => setAccessUnitId(event.target.value)} disabled={unitOverrideUnitOptions.length === 0}>
+                                {unitOverrideUnitOptions.length === 0 && <option value="">No units available</option>}
+                                {unitOverrideUnitOptions.map((unit) => (
+                                  <option key={unit.id} value={unit.id}>
+                                    {unit.label} ({unit.id})
+                                  </option>
+                                ))}
+                              </select>
+                              <select className={baseInput} value={accessUnitStatus} onChange={(event) => setAccessUnitStatus(event.target.value as 'locked' | 'unlocked')}>
+                                <option value="locked">Locked</option>
+                                <option value="unlocked">Unlocked</option>
+                              </select>
+                              <button
+                                type="button"
+                                className={baseButton}
+                                disabled={busyAction !== null || accessReason.trim().length < 8 || !accessUnitId}
+                                onClick={() =>
+                                  void submitAccessPayload({
+                                    reason: accessReason.trim(),
+                                    overrides: { units: { [accessUnitId]: accessUnitStatus } },
+                                  })
+                                }
+                              >
+                                Apply Unit Override
+                              </button>
+                            </div>
+                          </details>
+
+                          <details className="rounded-lg border border-[#e2e8f0] p-2" open>
+                            <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">Lesson Overrides ({filteredLessonOverrides.length})</summary>
+                            <div className="mt-2 space-y-1 max-h-36 overflow-auto">
+                              {filteredLessonOverrides.length === 0 && <div className="text-xs text-[#64748b]">No lesson overrides.</div>}
+                              {filteredLessonOverrides.map(([key, status]) => (
+                                <div key={`lesson-${key}`} className="flex items-center justify-between gap-2 rounded border border-[#e2e8f0] px-2 py-1 text-xs">
+                                  <span className="truncate">{key}</span>
+                                  <span className={`rounded px-2 py-0.5 font-semibold ${status === 'locked' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>{status === 'locked' ? 'Locked' : 'Unlocked'}</span>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="mt-2 grid gap-1">
+                              <select className={baseInput} value={accessLessonBandId} onChange={(event) => setAccessLessonBandId(event.target.value)} disabled={accessBandOptions.length === 0}>
+                                {accessBandOptions.length === 0 && <option value="">No levels available</option>}
+                                {accessBandOptions.map((band) => (
+                                  <option key={band.id} value={band.id}>
+                                    {band.label} ({band.id})
+                                  </option>
+                                ))}
+                              </select>
+                              <select className={baseInput} value={accessLessonUnitId} onChange={(event) => setAccessLessonUnitId(event.target.value)} disabled={lessonOverrideUnitOptions.length === 0}>
+                                {lessonOverrideUnitOptions.length === 0 && <option value="">No units available</option>}
+                                {lessonOverrideUnitOptions.map((unit) => (
+                                  <option key={unit.id} value={unit.id}>
+                                    {unit.label} ({unit.id})
+                                  </option>
+                                ))}
+                              </select>
+                              <select className={baseInput} value={accessLessonIndex} onChange={(event) => setAccessLessonIndex(event.target.value)} disabled={lessonOverrideIndexOptions.length === 0}>
+                                {lessonOverrideIndexOptions.length === 0 && <option value="0">No lessons available</option>}
+                                {lessonOverrideIndexOptions.map((lessonIndex) => (
+                                  <option key={lessonIndex} value={lessonIndex}>
+                                    Lesson {Number(lessonIndex) + 1} (index {lessonIndex})
+                                  </option>
+                                ))}
+                              </select>
+                              <select className={baseInput} value={accessLessonStatus} onChange={(event) => setAccessLessonStatus(event.target.value as 'locked' | 'unlocked')}>
+                                <option value="locked">Locked</option>
+                                <option value="unlocked">Unlocked</option>
+                              </select>
+                              <button
+                                type="button"
+                                className={baseButton}
+                                disabled={
+                                  busyAction !== null ||
+                                  accessReason.trim().length < 8 ||
+                                  !accessLessonUnitId ||
+                                  lessonOverrideIndexOptions.length === 0
+                                }
+                                onClick={() =>
+                                  void submitAccessPayload({
+                                    reason: accessReason.trim(),
+                                    overrides: {
+                                      lessons: { [`${accessLessonUnitId}::${Number(accessLessonIndex)}`]: accessLessonStatus },
+                                    },
+                                  })
+                                }
+                              >
+                                Apply Lesson Override
+                              </button>
+                            </div>
+                          </details>
+                        </div>
+
+                        <details className="mt-3 rounded-lg border border-[#e2e8f0] p-2">
+                          <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">Learning Access Audit ({learningAccessAudit.length})</summary>
+                          <div className="mt-2 max-h-36 space-y-1 overflow-auto">
+                            {learningAccessAudit.length === 0 && <div className="text-xs text-[#64748b]">No learning access changes yet.</div>}
+                            {learningAccessAudit.map((entry) => (
+                              <article key={entry.id} className="rounded border border-[#e2e8f0] p-2 text-xs">
+                                <div className="font-semibold text-[#0f172a]">{entry.changeType}</div>
+                                <div className="text-[#475569]">{entry.reason}</div>
+                                <div className="text-[#64748b]">{toLocale(entry.createdAt)}{entry.actorEmail ? ` | ${entry.actorEmail}` : ''}</div>
+                              </article>
+                            ))}
+                          </div>
+                        </details>
+                      </div>
+
                       <div className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
                         <h3 className="text-sm font-semibold text-[#0f172a]">Security Context</h3>
                         <div className="mt-2 grid gap-3 md:grid-cols-3">
@@ -3572,6 +4351,40 @@ export default function SupportConsolePage() {
                 onClick={() => setAdminActionSuccess(null)}
               >
                 OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {accessConfirmOpen && pendingAccessPayload && (
+        <div className="fixed inset-0 z-[146] flex items-center justify-center bg-black/45 p-4">
+          <div className="w-full max-w-lg rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+            <h3 className="text-lg font-semibold text-[#0f172a]">Confirm High-impact Learning Access Change</h3>
+            <p className="mt-2 text-sm text-[#475569]">
+              This change affects multiple levels, units, or lessons. Confirm to apply and write an audit entry.
+            </p>
+            <div className="mt-3 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-3 text-xs text-[#334155]">
+              <pre className="whitespace-pre-wrap break-all">{JSON.stringify(pendingAccessPayload, null, 2)}</pre>
+            </div>
+            <div className="mt-3 flex gap-2">
+              <button
+                type="button"
+                className={baseButton}
+                disabled={busyAction !== null}
+                onClick={() => void runAccessMutation(pendingAccessPayload)}
+              >
+                {busyAction === 'learning-access' ? 'Applying...' : 'Confirm and Apply'}
+              </button>
+              <button
+                type="button"
+                className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]"
+                onClick={() => {
+                  if (busyAction !== null) return;
+                  setAccessConfirmOpen(false);
+                  setPendingAccessPayload(null);
+                }}
+              >
+                Cancel
               </button>
             </div>
           </div>

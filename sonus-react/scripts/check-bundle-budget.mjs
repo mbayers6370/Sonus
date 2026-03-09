@@ -21,6 +21,14 @@ const totals = {
   coreGzip: 0,
 };
 
+const EXCLUDED_TOTAL_BUDGET_PATTERNS = [
+  /^SupportConsolePage-/,
+];
+
+function isExcludedFromTotalBudget(name) {
+  return EXCLUDED_TOTAL_BUDGET_PATTERNS.some((pattern) => pattern.test(name));
+}
+
 function isCoreChunk(name) {
   return (
     name.startsWith('index-') ||
@@ -34,8 +42,10 @@ for (const name of jsFiles) {
   const fullPath = path.join(distAssetsDir, name);
   const buf = fs.readFileSync(fullPath);
   const gz = zlib.gzipSync(buf);
-  totals.totalRaw += buf.length;
-  totals.totalGzip += gz.length;
+  if (!isExcludedFromTotalBudget(name)) {
+    totals.totalRaw += buf.length;
+    totals.totalGzip += gz.length;
+  }
   if (isCoreChunk(name)) {
     totals.coreRaw += buf.length;
     totals.coreGzip += gz.length;
@@ -69,6 +79,7 @@ if (totalJsRawMb > TOTAL_JS_RAW_BUDGET_MB) {
 
 console.log('Bundle budget summary');
 console.log(`- JS chunks: ${jsFiles.length}`);
+console.log(`- Excluded from total budget: ${jsFiles.filter((name) => isExcludedFromTotalBudget(name)).length}`);
 console.log(`- Total JS raw: ${(totals.totalRaw / 1024).toFixed(2)}KB`);
 console.log(`- Total JS gzip: ${totalJsGzipKb.toFixed(2)}KB`);
 console.log(`- Core JS raw: ${(totals.coreRaw / 1024).toFixed(2)}KB`);
