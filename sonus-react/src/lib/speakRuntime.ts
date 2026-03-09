@@ -89,7 +89,7 @@ export function normalizeSpeechCandidate(languageId: string | null | undefined, 
   return input;
 }
 
-export function isShortSpeakTarget(
+function isShortSpeakTarget(
   languageId: string | null | undefined,
   targetScript: string,
   targetReading: string

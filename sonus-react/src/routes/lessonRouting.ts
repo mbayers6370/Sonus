@@ -1,7 +1,7 @@
 import type { LessonBand } from '../types/lesson.types';
 import { isReleasedTrackLevel, isTrackLevelLocked } from '../lib/bandIds';
 
-export const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
+const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
   intro: { id: 'intro', band: 0, name: 'Introduction', title: '', subtitle: '', wordCount: 0, wordRange: '', color: 'bg-gray-400', description: 'Start here', units: [] },
   band1: { id: 'band1', band: 1, name: 'Elementary I', title: 'Elementary I', subtitle: 'Foundations · Everyday Use', wordCount: 500, wordRange: '0–500', color: 'bg-[#3E5648]', description: 'Foundations · Everyday Use', units: [] },
   band2: { id: 'band2', band: 2, name: 'Elementary II', title: 'Elementary II', subtitle: 'Expanded Daily Life', wordCount: 1272, wordRange: '500–1272', color: 'bg-[#3E5648]', description: 'Expanded Daily Life', units: [] },
@@ -15,7 +15,7 @@ export const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
   advanced: { id: 'advanced', band: 7, name: 'Advanced', title: 'Advanced', subtitle: 'Levels 7–9 · Mastery', wordCount: 0, wordRange: 'Levels 7–9', color: 'bg-red-500', description: 'Macro-unit track for Levels 7-9', units: [] },
 };
 
-export const JAPANESE_LEVEL_BY_ID: Record<string, LessonBand> = {
+const JAPANESE_LEVEL_BY_ID: Record<string, LessonBand> = {
   n5: { id: 'n5', band: 0, name: 'N5', title: 'N5', subtitle: 'Basic', wordCount: 0, wordRange: '', color: 'bg-[#3E5648]', description: 'Basic', units: [] },
   n4: { id: 'n4', band: 0, name: 'N4', title: 'N4', subtitle: 'Elementary', wordCount: 0, wordRange: '', color: 'bg-[#186E95]', description: 'Elementary', units: [] },
   n3: { id: 'n3', band: 0, name: 'N3', title: 'N3', subtitle: 'Intermediate', wordCount: 0, wordRange: '', color: 'bg-yellow-500', description: 'Intermediate', units: [] },

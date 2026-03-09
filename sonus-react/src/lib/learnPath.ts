@@ -10,7 +10,7 @@ const JAPANESE_SECTION_ALIASES: Record<string, 'core' | 'expansion' | 'integrati
   connect: 'integration',
 };
 
-export function mapJapaneseSectionId(
+function mapJapaneseSectionId(
   sectionId: string | null | undefined
 ): 'core' | 'expansion' | 'integration' | null {
   if (!sectionId) return null;

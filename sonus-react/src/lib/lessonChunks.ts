@@ -4,7 +4,7 @@ export type LessonRange = {
   count: number;
 };
 
-export function getBalancedLessonSizes(totalWords: number, maxChunkSize = 10): number[] {
+function getBalancedLessonSizes(totalWords: number, maxChunkSize = 10): number[] {
   if (totalWords <= 0) return [];
   if (totalWords <= maxChunkSize) return [totalWords];
 

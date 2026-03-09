@@ -3,7 +3,7 @@ import type { FastifyRequest } from 'fastify';
 import { env } from '../env.js';
 import { prisma } from './prisma.js';
 
-export const SUPPORT_ADMIN_TOKEN_HEADER = 'x-support-admin-token';
+const SUPPORT_ADMIN_TOKEN_HEADER = 'x-support-admin-token';
 
 export type SupportAdminIdentity = {
   username: string;

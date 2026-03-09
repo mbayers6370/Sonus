@@ -37,14 +37,12 @@
     "@supabase/supabase-js": "^2.49.1",
     "dotenv": "^16.4.7",
     "fastify": "^5.2.1",
-    "kuromoji": "^0.1.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.13.4",
     "eslint": "^10.0.1",
-    "eslint-config-prettier": "^10.1.8",
     "globals": "^17.3.0",
     "prettier": "^3.8.1",
     "prisma": "^6.4.1",

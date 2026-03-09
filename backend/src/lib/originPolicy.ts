@@ -24,10 +24,7 @@ export function readAllowedOrigins() {
   );
 }
 
-export function isAllowedOrigin(
-  origin: string | null | undefined,
-  allowedOrigins = readAllowedOrigins()
-) {
+function isAllowedOrigin(origin: string | null | undefined, allowedOrigins = readAllowedOrigins()) {
   if (!origin) return false;
   return allowedOrigins.has(origin);
 }

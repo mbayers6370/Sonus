@@ -1,0 +1,32 @@
+{
+  "$schema": "https://unpkg.com/knip/schema.json",
+  "workspaces": {
+    "backend": {
+      "entry": [
+        "src/server.ts",
+        "scripts/**/*.mjs"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "scripts/**/*.mjs"
+      ]
+    },
+    "sonus-react": {
+      "entry": [
+        "src/main.tsx",
+        "src/App.tsx",
+        "scripts/**/*.mjs"
+      ],
+      "project": [
+        "src/**/*.{ts,tsx}",
+        "scripts/**/*.mjs"
+      ]
+    }
+  },
+  "ignore": [
+    "reports/**",
+    "docs/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
+}
