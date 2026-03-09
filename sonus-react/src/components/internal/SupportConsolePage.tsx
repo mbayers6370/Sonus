@@ -1,14 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
+  ArrowDownRight,
+  ArrowUpRight,
+  FileText,
   BookUser,
+  Download,
   Home,
   LogOut,
   MailPlus,
+  Play,
   RotateCcwKey,
   TextSearch,
   UserRoundPlus,
   UserRoundSearch,
+  Minus,
 } from 'lucide-react';
 import { apiFetch } from '../../lib/apiClient';
 
@@ -126,6 +132,8 @@ type SupportMetrics = {
     activeWindowMinutes: number;
     supportNotesCreated: number;
     supportNoteCreateFailures: number;
+    totalSecurityEvents?: number;
+    totalAuthErrorEvents?: number;
     authErrorBreakdown?: Array<{ eventType: string; count: number }>;
     authFailureByEndpoint?: Array<{ endpoint: string; count: number }>;
   };
@@ -140,6 +148,7 @@ type LearningMetrics = {
     speakPassPct: number;
     lessonStarts: number;
     lessonStartsTracked?: number;
+    lessonStartsInferred?: number;
     lessonCompleted: number;
     lessonCompletionPct: number;
     lessonAbandons: number;
@@ -164,6 +173,90 @@ type WeakWordsByLanguage = {
   }>;
 };
 
+type QualityReportListItem = {
+  runId: string;
+  generatedAt: string | null;
+  startedAt: string | null;
+  profile: string;
+  risk: string;
+  summary: { passed: number; failed: number; skipped: number };
+  checksTotal: number;
+};
+
+type QualityReportDetail = {
+  runId: string;
+  markdown: string;
+  json: {
+    profile?: string;
+    risk?: string;
+    summary?: { passed?: number; failed?: number; skipped?: number };
+    results?: Array<{
+      id?: string;
+      title?: string;
+      status?: string;
+      durationMs?: number;
+      parsed?: { summary?: string };
+    }>;
+  } | null;
+};
+
+type ExecutiveWeeklyReport = {
+  generatedAt: string;
+  windowDays: number;
+  currentUsers: number;
+  comparisons: {
+    newUsers: { current: number; previous: number; deltaPct: number };
+    lessonsCompleted: { current: number; previous: number; deltaPct: number };
+    quizAttempts: { current: number; previous: number; deltaPct: number };
+  };
+};
+
+type DeletionLifecycleReport = {
+  generatedAt: string;
+  windowDays: number;
+  openRequests: number;
+  agedOpenRequestsOver7d: number;
+  resolvedCases: number;
+  rejectedCases: number;
+  scheduledPending: number;
+  scheduledCompleted: number;
+  scheduledCancelled: number;
+  avgResolutionHours: number;
+};
+
+type SecurityIncidentReport = {
+  generatedAt: string;
+  windowDays: number;
+  summary: {
+    unauthorizedAdminAttempts: number;
+    supportAdminLoginFailed: number;
+    endUserFailedLogins: number;
+    authErrors: number;
+    newIpLogins: number;
+    newDeviceLogins: number;
+    sessionRevocations: number;
+    adminActions: number;
+  };
+  topEventTypes: Array<{ eventType: string; count: number }>;
+};
+
+type LearningMomentumReport = {
+  generatedAt: string;
+  windowDays: number;
+  summary: {
+    averageDailyPracticeMinutes: number;
+    activeLearnersToday: number;
+    lessonsStartedToday: number;
+  };
+  practiceStreakDistribution: Array<{ bucket: string; count: number }>;
+  dailySeries: Array<{
+    day: string;
+    practiceMinutes: number;
+    lessonsStarted: number;
+    activeLearners: number;
+  }>;
+};
+
 const SUPPORT_ADMIN_TOKEN_STORAGE_KEY = 'sonus.support_admin.token';
 const ROOT_QA_ADMIN_USERNAME = 'qa-admin-f8n2x7r1@sonus.test';
 
@@ -179,6 +272,43 @@ function toLocale(value: string | null | undefined) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
   return date.toLocaleString();
+}
+
+function TrendDelta({ deltaPct }: { deltaPct: number }) {
+  const safeDelta = Number.isFinite(deltaPct) ? deltaPct : 0;
+  const rounded = Math.round(safeDelta * 10) / 10;
+  if (rounded > 0) {
+    return (
+      <span className="inline-flex items-center gap-1 font-semibold text-emerald-700">
+        <ArrowUpRight className="h-3.5 w-3.5" />
+        +{rounded}%
+      </span>
+    );
+  }
+  if (rounded < 0) {
+    return (
+      <span className="inline-flex items-center gap-1 font-semibold text-rose-700">
+        <ArrowDownRight className="h-3.5 w-3.5" />
+        {rounded}%
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1 font-semibold text-slate-600">
+      <Minus className="h-3.5 w-3.5" />
+      0%
+    </span>
+  );
+}
+
+function riskStyles(ratio: number) {
+  if (ratio >= 1) {
+    return { label: 'high', tone: 'text-red-700', bar: 'bg-red-600' };
+  }
+  if (ratio >= 0.65) {
+    return { label: 'elevated', tone: 'text-amber-700', bar: 'bg-amber-500' };
+  }
+  return { label: 'normal', tone: 'text-emerald-700', bar: 'bg-emerald-600' };
 }
 
 function timelineSourceLabel(entry: TimelineEntry) {
@@ -198,6 +328,145 @@ function setSupportAdminToken(token: string | null) {
   } catch {
     // Ignore localStorage errors.
   }
+}
+
+function downloadTextFile(filename: string, content: string, contentType: string) {
+  const blob = new Blob([content], { type: contentType });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+function escapeCsvCell(value: unknown) {
+  const text = String(value ?? '');
+  if (/[",\n]/.test(text)) {
+    return `"${text.replace(/"/g, '""')}"`;
+  }
+  return text;
+}
+
+function toCsv(headers: string[], rows: Array<Array<unknown>>) {
+  const headerLine = headers.map((cell) => escapeCsvCell(cell)).join(',');
+  const rowLines = rows.map((row) => row.map((cell) => escapeCsvCell(cell)).join(','));
+  return [headerLine, ...rowLines].join('\n');
+}
+
+function crc32(input: string) {
+  let crc = 0 ^ -1;
+  for (let i = 0; i < input.length; i += 1) {
+    let byte = input.charCodeAt(i) & 0xff;
+    crc ^= byte;
+    for (let j = 0; j < 8; j += 1) {
+      const mask = -(crc & 1);
+      crc = (crc >>> 1) ^ (0xedb88320 & mask);
+    }
+  }
+  return (crc ^ -1) >>> 0;
+}
+
+function createSimpleZip(files: Array<{ name: string; content: string }>) {
+  const encoder = new TextEncoder();
+  const localParts: Uint8Array[] = [];
+  const centralParts: Uint8Array[] = [];
+  let offset = 0;
+
+  const pushU16 = (value: number, out: number[]) => {
+    out.push(value & 0xff, (value >>> 8) & 0xff);
+  };
+  const pushU32 = (value: number, out: number[]) => {
+    out.push(value & 0xff, (value >>> 8) & 0xff, (value >>> 16) & 0xff, (value >>> 24) & 0xff);
+  };
+
+  for (const file of files) {
+    const nameBytes = encoder.encode(file.name);
+    const contentBytes = encoder.encode(file.content);
+    const crc = crc32(file.content);
+
+    const localHeader: number[] = [];
+    pushU32(0x04034b50, localHeader);
+    pushU16(20, localHeader);
+    pushU16(0, localHeader);
+    pushU16(0, localHeader);
+    pushU16(0, localHeader);
+    pushU16(0, localHeader);
+    pushU32(crc, localHeader);
+    pushU32(contentBytes.length, localHeader);
+    pushU32(contentBytes.length, localHeader);
+    pushU16(nameBytes.length, localHeader);
+    pushU16(0, localHeader);
+
+    const localChunk = new Uint8Array(localHeader.length + nameBytes.length + contentBytes.length);
+    localChunk.set(localHeader, 0);
+    localChunk.set(nameBytes, localHeader.length);
+    localChunk.set(contentBytes, localHeader.length + nameBytes.length);
+    localParts.push(localChunk);
+
+    const centralHeader: number[] = [];
+    pushU32(0x02014b50, centralHeader);
+    pushU16(20, centralHeader);
+    pushU16(20, centralHeader);
+    pushU16(0, centralHeader);
+    pushU16(0, centralHeader);
+    pushU16(0, centralHeader);
+    pushU16(0, centralHeader);
+    pushU32(crc, centralHeader);
+    pushU32(contentBytes.length, centralHeader);
+    pushU32(contentBytes.length, centralHeader);
+    pushU16(nameBytes.length, centralHeader);
+    pushU16(0, centralHeader);
+    pushU16(0, centralHeader);
+    pushU16(0, centralHeader);
+    pushU16(0, centralHeader);
+    pushU32(0, centralHeader);
+    pushU32(offset, centralHeader);
+
+    const centralChunk = new Uint8Array(centralHeader.length + nameBytes.length);
+    centralChunk.set(centralHeader, 0);
+    centralChunk.set(nameBytes, centralHeader.length);
+    centralParts.push(centralChunk);
+
+    offset += localChunk.length;
+  }
+
+  const centralSize = centralParts.reduce((sum, part) => sum + part.length, 0);
+  const centralOffset = localParts.reduce((sum, part) => sum + part.length, 0);
+
+  const endHeader: number[] = [];
+  pushU32(0x06054b50, endHeader);
+  pushU16(0, endHeader);
+  pushU16(0, endHeader);
+  pushU16(files.length, endHeader);
+  pushU16(files.length, endHeader);
+  pushU32(centralSize, endHeader);
+  pushU32(centralOffset, endHeader);
+  pushU16(0, endHeader);
+  const endChunk = new Uint8Array(endHeader);
+
+  const toArrayBuffer = (chunk: Uint8Array): ArrayBuffer => {
+    const copied = new Uint8Array(chunk.byteLength);
+    copied.set(chunk);
+    return copied.buffer;
+  };
+  return new Blob([...localParts, ...centralParts, endChunk].map((chunk) => toArrayBuffer(chunk)), {
+    type: 'application/zip',
+  });
+}
+
+function downloadZipFile(filename: string, files: Array<{ name: string; content: string }>) {
+  const blob = createSimpleZip(files);
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 async function parseJsonOrThrow<T>(response: Response) {
@@ -295,11 +564,33 @@ export default function SupportConsolePage() {
   const [resetTokenValue, setResetTokenValue] = useState('');
   const [resetTokenPasswordValue, setResetTokenPasswordValue] = useState('');
   const [resetTokenBusy, setResetTokenBusy] = useState(false);
+  const [qualityReports, setQualityReports] = useState<QualityReportListItem[]>([]);
+  const [qualityReportsLoading, setQualityReportsLoading] = useState(false);
+  const [qualityReportsError, setQualityReportsError] = useState<string | null>(null);
+  const [selectedQualityRunId, setSelectedQualityRunId] = useState<string | null>(null);
+  const [qualityDetail, setQualityDetail] = useState<QualityReportDetail | null>(null);
+  const [qualityDetailLoading, setQualityDetailLoading] = useState(false);
+  const [qualityDetailError, setQualityDetailError] = useState<string | null>(null);
+  const [qualityRunBusy, setQualityRunBusy] = useState(false);
+  const [qualityRunMessage, setQualityRunMessage] = useState<string | null>(null);
+  const [qualityCleanupKeepLatest, setQualityCleanupKeepLatest] = useState(30);
+  const [qualityCleanupBusy, setQualityCleanupBusy] = useState(false);
+  const [qualityCleanupMessage, setQualityCleanupMessage] = useState<string | null>(null);
+  const [qualityRunFullConfirmOpen, setQualityRunFullConfirmOpen] = useState(false);
+  const [qualityRunFullConfirmText, setQualityRunFullConfirmText] = useState('');
+  const [executiveWeeklyReport, setExecutiveWeeklyReport] = useState<ExecutiveWeeklyReport | null>(null);
+  const [deletionLifecycleReport, setDeletionLifecycleReport] = useState<DeletionLifecycleReport | null>(null);
+  const [securityIncidentReport, setSecurityIncidentReport] = useState<SecurityIncidentReport | null>(null);
+  const [learningMomentumReport, setLearningMomentumReport] = useState<LearningMomentumReport | null>(null);
+  const [dashboardGeneratedAt, setDashboardGeneratedAt] = useState<string | null>(null);
 
-  const viewMode = useMemo<'dashboard' | 'ops' | 'metrics-support' | 'metrics-learning'>(() => {
+  const viewMode = useMemo<
+    'dashboard' | 'ops' | 'metrics-support' | 'metrics-learning' | 'quality-reports'
+  >(() => {
     if (location.pathname.endsWith('/users')) return 'ops';
     if (location.pathname.endsWith('/metrics/support')) return 'metrics-support';
     if (location.pathname.endsWith('/metrics/learning')) return 'metrics-learning';
+    if (location.pathname.endsWith('/quality-reports')) return 'quality-reports';
     return 'dashboard';
   }, [location.pathname]);
 
@@ -449,7 +740,14 @@ export default function SupportConsolePage() {
     setDashboardLoading(true);
     setDashboardError(null);
     try {
-      const [supportPayload, learningPayload] = await Promise.all([
+      const [
+        supportPayload,
+        learningPayload,
+        executivePayload,
+        deletionPayload,
+        securityPayload,
+        momentumPayload,
+      ] = await Promise.all([
         parseJsonOrThrow<SupportMetrics>(
           await apiFetch(`/v1/admin/metrics/support/overview?windowDays=${windowDays}`, {
             cache: 'no-store',
@@ -460,9 +758,34 @@ export default function SupportConsolePage() {
             cache: 'no-store',
           })
         ),
+        parseJsonOrThrow<ExecutiveWeeklyReport>(
+          await apiFetch(`/v1/admin/reports/executive-weekly?windowDays=${windowDays}`, {
+            cache: 'no-store',
+          })
+        ),
+        parseJsonOrThrow<DeletionLifecycleReport>(
+          await apiFetch(`/v1/admin/reports/deletion-lifecycle?windowDays=${windowDays}`, {
+            cache: 'no-store',
+          })
+        ),
+        parseJsonOrThrow<SecurityIncidentReport>(
+          await apiFetch(`/v1/admin/reports/security-incidents?windowDays=${windowDays}`, {
+            cache: 'no-store',
+          })
+        ),
+        parseJsonOrThrow<LearningMomentumReport>(
+          await apiFetch(`/v1/admin/reports/learning-momentum?windowDays=${windowDays}`, {
+            cache: 'no-store',
+          })
+        ),
       ]);
       setSupportMetrics(supportPayload);
       setLearningMetrics(learningPayload);
+      setExecutiveWeeklyReport(executivePayload);
+      setDeletionLifecycleReport(deletionPayload);
+      setSecurityIncidentReport(securityPayload);
+      setLearningMomentumReport(momentumPayload);
+      setDashboardGeneratedAt(new Date().toISOString());
     } catch (error) {
       setDashboardError(error instanceof Error ? error.message : 'Failed to load dashboard metrics');
     } finally {
@@ -549,6 +872,543 @@ export default function SupportConsolePage() {
     }
   };
 
+  const loadQualityReports = async () => {
+    setQualityReportsLoading(true);
+    setQualityReportsError(null);
+    try {
+      const payload = await parseJsonOrThrow<{ reports?: QualityReportListItem[] }>(
+        await apiFetch('/v1/admin/quality-reports?limit=40', { cache: 'no-store' })
+      );
+      const reports = payload.reports || [];
+      setQualityReports(reports);
+      const hasSelected = selectedQualityRunId
+        ? reports.some((entry) => entry.runId === selectedQualityRunId)
+        : false;
+      if (!hasSelected) {
+        setSelectedQualityRunId(reports[0]?.runId || null);
+      }
+    } catch (error) {
+      setQualityReportsError(error instanceof Error ? error.message : 'Failed to load quality reports');
+      setQualityReports([]);
+    } finally {
+      setQualityReportsLoading(false);
+    }
+  };
+
+  const loadQualityReportDetail = async (runId: string) => {
+    setQualityDetailLoading(true);
+    setQualityDetailError(null);
+    try {
+      const payload = await parseJsonOrThrow<QualityReportDetail>(
+        await apiFetch(`/v1/admin/quality-reports/${encodeURIComponent(runId)}`, {
+          cache: 'no-store',
+        })
+      );
+      setQualityDetail(payload);
+    } catch (error) {
+      setQualityDetailError(error instanceof Error ? error.message : 'Failed to load report detail');
+      setQualityDetail(null);
+    } finally {
+      setQualityDetailLoading(false);
+    }
+  };
+
+  const runProdSafeQualityReport = async () => {
+    setQualityRunBusy(true);
+    setQualityRunMessage(null);
+    setQualityCleanupMessage(null);
+    setQualityReportsError(null);
+    try {
+      const payload = await parseJsonOrThrow<{ ok?: boolean; latestRunId?: string | null }>(
+        await apiFetch('/v1/admin/quality-reports/run-prod-safe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({}),
+        })
+      );
+      const message = payload.ok
+        ? 'Production-safe quality report completed.'
+        : 'Report command completed with failures. Inspect the latest run.';
+      setQualityRunMessage(message);
+      await loadQualityReports();
+      const nextRunId = payload.latestRunId || selectedQualityRunId;
+      if (nextRunId) {
+        setSelectedQualityRunId(nextRunId);
+        await loadQualityReportDetail(nextRunId);
+      }
+    } catch (error) {
+      setQualityRunMessage(null);
+      setQualityReportsError(error instanceof Error ? error.message : 'Failed to run prod-safe report');
+    } finally {
+      setQualityRunBusy(false);
+    }
+  };
+
+  const runFullQualityReport = async () => {
+    setQualityRunBusy(true);
+    setQualityRunMessage(null);
+    setQualityCleanupMessage(null);
+    setQualityReportsError(null);
+    try {
+      const payload = await parseJsonOrThrow<{ ok?: boolean; latestRunId?: string | null }>(
+        await apiFetch('/v1/admin/quality-reports/run-full', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ confirmText: 'RUN_FULL_SUITE' }),
+        })
+      );
+      const message = payload.ok
+        ? 'Full quality report completed.'
+        : 'Full report command completed with failures. Inspect the latest run.';
+      setQualityRunMessage(message);
+      setQualityRunFullConfirmOpen(false);
+      setQualityRunFullConfirmText('');
+      await loadQualityReports();
+      const nextRunId = payload.latestRunId || selectedQualityRunId;
+      if (nextRunId) {
+        setSelectedQualityRunId(nextRunId);
+        await loadQualityReportDetail(nextRunId);
+      }
+    } catch (error) {
+      setQualityRunMessage(null);
+      setQualityReportsError(error instanceof Error ? error.message : 'Failed to run full report');
+    } finally {
+      setQualityRunBusy(false);
+    }
+  };
+
+  const cleanupQualityReports = async () => {
+    setQualityCleanupBusy(true);
+    setQualityCleanupMessage(null);
+    setQualityRunMessage(null);
+    setQualityReportsError(null);
+    try {
+      const payload = await parseJsonOrThrow<{
+        deletedCount?: number;
+        latestRunId?: string | null;
+      }>(
+        await apiFetch('/v1/admin/quality-reports/cleanup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ keepLatest: qualityCleanupKeepLatest }),
+        })
+      );
+      setQualityCleanupMessage(
+        `Retention cleanup complete. Deleted ${payload.deletedCount || 0} report run(s).`
+      );
+      await loadQualityReports();
+      const nextRunId = payload.latestRunId || null;
+      if (nextRunId) {
+        setSelectedQualityRunId(nextRunId);
+        await loadQualityReportDetail(nextRunId);
+      } else {
+        setSelectedQualityRunId(null);
+        setQualityDetail(null);
+      }
+    } catch (error) {
+      setQualityCleanupMessage(null);
+      setQualityReportsError(
+        error instanceof Error ? error.message : 'Failed to clean up old quality reports'
+      );
+    } finally {
+      setQualityCleanupBusy(false);
+    }
+  };
+
+  const buildExecutiveSummaryPayload = () => ({
+    generatedAt: new Date().toISOString(),
+    windowDays: metricsWindowDays,
+    summary: {
+      currentUsers: supportMetrics?.support.currentUsers ?? 0,
+      newUsers: supportMetrics?.support.newUsers ?? 0,
+      activeUsers: supportMetrics?.support.activeUsers ?? 0,
+      activeWindowMinutes: supportMetrics?.support.activeWindowMinutes ?? 15,
+      unauthorizedAdminAttempts: supportMetrics?.support.unauthorizedAdminAttempts ?? 0,
+      endUserFailedLogins: supportMetrics?.support.endUserFailedLogins ?? 0,
+      quizAccuracyPct: learningMetrics?.learning.quizAccuracyPct ?? 0,
+      speakPassPct: learningMetrics?.learning.speakPassPct ?? 0,
+      lessonCompletionPct: learningMetrics?.learning.lessonCompletionPct ?? 0,
+      lessonAbandons: learningMetrics?.learning.lessonAbandons ?? 0,
+    },
+  });
+
+  const buildSupportOperationsPayload = () => ({
+    generatedAt: new Date().toISOString(),
+    windowDays: metricsWindowDays,
+    support: supportMetrics?.support || null,
+  });
+
+  const buildLearningHealthPayload = () => ({
+    generatedAt: new Date().toISOString(),
+    windowDays: metricsWindowDays,
+    learning: learningMetrics?.learning || null,
+  });
+
+  const downloadExecutiveSummaryJson = () => {
+    const payload = buildExecutiveSummaryPayload();
+    downloadTextFile(
+      `admin-executive-summary-${metricsWindowDays}d.json`,
+      JSON.stringify(payload, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const downloadSupportOperationsJson = () => {
+    const payload = buildSupportOperationsPayload();
+    downloadTextFile(
+      `admin-support-operations-${metricsWindowDays}d.json`,
+      JSON.stringify(payload, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const downloadSupportOperationsCsv = () => {
+    const support = supportMetrics?.support;
+    const csv = toCsv(
+      ['metric', 'value', 'windowDays'],
+      [
+        ['failedLogins', support?.failedLogins ?? 0, metricsWindowDays],
+        ['endUserFailedLogins', support?.endUserFailedLogins ?? 0, metricsWindowDays],
+        ['resetRequests', support?.resetRequests ?? 0, metricsWindowDays],
+        ['emailVerificationRequired', support?.emailVerificationRequired ?? 0, metricsWindowDays],
+        ['newIpLogins', support?.newIpLogins ?? 0, metricsWindowDays],
+        ['newDeviceLogins', support?.newDeviceLogins ?? 0, metricsWindowDays],
+        ['sessionRevocations', support?.sessionRevocations ?? 0, metricsWindowDays],
+        ['unauthorizedAdminAttempts', support?.unauthorizedAdminAttempts ?? 0, metricsWindowDays],
+        ['currentUsers', support?.currentUsers ?? 0, metricsWindowDays],
+        ['newUsers', support?.newUsers ?? 0, metricsWindowDays],
+        ['activeUsers', support?.activeUsers ?? 0, metricsWindowDays],
+        ['supportNotesCreated', support?.supportNotesCreated ?? 0, metricsWindowDays],
+        ['supportNoteCreateFailures', support?.supportNoteCreateFailures ?? 0, metricsWindowDays],
+      ]
+    );
+    downloadTextFile(
+      `admin-support-operations-${metricsWindowDays}d.csv`,
+      csv,
+      'text/csv;charset=utf-8'
+    );
+  };
+
+  const downloadLearningHealthJson = () => {
+    const payload = buildLearningHealthPayload();
+    downloadTextFile(
+      `admin-learning-health-${metricsWindowDays}d.json`,
+      JSON.stringify(payload, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const downloadLearningHealthCsv = () => {
+    const learning = learningMetrics?.learning;
+    const csv = toCsv(
+      ['metric', 'value', 'windowDays'],
+      [
+        ['quizAttempts', learning?.quizAttempts ?? 0, metricsWindowDays],
+        ['quizAccuracyPct', learning?.quizAccuracyPct ?? 0, metricsWindowDays],
+        ['speakAttempts', learning?.speakAttempts ?? 0, metricsWindowDays],
+        ['speakPassPct', learning?.speakPassPct ?? 0, metricsWindowDays],
+        ['lessonStarts', learning?.lessonStarts ?? 0, metricsWindowDays],
+        ['lessonStartsTracked', learning?.lessonStartsTracked ?? 0, metricsWindowDays],
+        ['lessonStartsInferred', learning?.lessonStartsInferred ?? 0, metricsWindowDays],
+        ['lessonCompleted', learning?.lessonCompleted ?? 0, metricsWindowDays],
+        ['lessonCompletionPct', learning?.lessonCompletionPct ?? 0, metricsWindowDays],
+        ['lessonAbandons', learning?.lessonAbandons ?? 0, metricsWindowDays],
+        ['applyCompleted', learning?.applyCompleted ?? 0, metricsWindowDays],
+      ]
+    );
+    downloadTextFile(
+      `admin-learning-health-${metricsWindowDays}d.csv`,
+      csv,
+      'text/csv;charset=utf-8'
+    );
+  };
+
+  const downloadWeeklyExecutiveJson = () => {
+    downloadTextFile(
+      `admin-weekly-executive-${metricsWindowDays}d.json`,
+      JSON.stringify(executiveWeeklyReport || {}, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const downloadWeeklyExecutiveCsv = () => {
+    const report = executiveWeeklyReport;
+    const csv = toCsv(
+      ['metric', 'current', 'previous', 'deltaPct', 'windowDays'],
+      [
+        [
+          'newUsers',
+          report?.comparisons.newUsers.current ?? 0,
+          report?.comparisons.newUsers.previous ?? 0,
+          report?.comparisons.newUsers.deltaPct ?? 0,
+          report?.windowDays ?? metricsWindowDays,
+        ],
+        [
+          'lessonsCompleted',
+          report?.comparisons.lessonsCompleted.current ?? 0,
+          report?.comparisons.lessonsCompleted.previous ?? 0,
+          report?.comparisons.lessonsCompleted.deltaPct ?? 0,
+          report?.windowDays ?? metricsWindowDays,
+        ],
+        [
+          'quizAttempts',
+          report?.comparisons.quizAttempts.current ?? 0,
+          report?.comparisons.quizAttempts.previous ?? 0,
+          report?.comparisons.quizAttempts.deltaPct ?? 0,
+          report?.windowDays ?? metricsWindowDays,
+        ],
+      ]
+    );
+    downloadTextFile(
+      `admin-weekly-executive-${metricsWindowDays}d.csv`,
+      csv,
+      'text/csv;charset=utf-8'
+    );
+  };
+
+  const downloadDeletionLifecycleJson = () => {
+    downloadTextFile(
+      `admin-deletion-lifecycle-${metricsWindowDays}d.json`,
+      JSON.stringify(deletionLifecycleReport || {}, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const downloadDeletionLifecycleCsv = () => {
+    const report = deletionLifecycleReport;
+    const csv = toCsv(
+      ['metric', 'value', 'windowDays'],
+      [
+        ['openRequests', report?.openRequests ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['agedOpenRequestsOver7d', report?.agedOpenRequestsOver7d ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['resolvedCases', report?.resolvedCases ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['rejectedCases', report?.rejectedCases ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['scheduledPending', report?.scheduledPending ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['scheduledCompleted', report?.scheduledCompleted ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['scheduledCancelled', report?.scheduledCancelled ?? 0, report?.windowDays ?? metricsWindowDays],
+        ['avgResolutionHours', report?.avgResolutionHours ?? 0, report?.windowDays ?? metricsWindowDays],
+      ]
+    );
+    downloadTextFile(
+      `admin-deletion-lifecycle-${metricsWindowDays}d.csv`,
+      csv,
+      'text/csv;charset=utf-8'
+    );
+  };
+
+  const downloadSecurityIncidentJson = () => {
+    downloadTextFile(
+      `admin-security-incidents-${metricsWindowDays}d.json`,
+      JSON.stringify(securityIncidentReport || {}, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const downloadSecurityIncidentCsv = () => {
+    const report = securityIncidentReport;
+    const rows: Array<Array<unknown>> = [
+      ['unauthorizedAdminAttempts', report?.summary.unauthorizedAdminAttempts ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['supportAdminLoginFailed', report?.summary.supportAdminLoginFailed ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['endUserFailedLogins', report?.summary.endUserFailedLogins ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['authErrors', report?.summary.authErrors ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['newIpLogins', report?.summary.newIpLogins ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['newDeviceLogins', report?.summary.newDeviceLogins ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['sessionRevocations', report?.summary.sessionRevocations ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['adminActions', report?.summary.adminActions ?? 0, report?.windowDays ?? metricsWindowDays],
+    ];
+    for (const event of report?.topEventTypes || []) {
+      rows.push([`topEvent:${event.eventType}`, event.count, report?.windowDays ?? metricsWindowDays]);
+    }
+    const csv = toCsv(['metric', 'value', 'windowDays'], rows);
+    downloadTextFile(
+      `admin-security-incidents-${metricsWindowDays}d.csv`,
+      csv,
+      'text/csv;charset=utf-8'
+    );
+  };
+
+  const downloadLearningMomentumJson = () => {
+    downloadTextFile(
+      `admin-learning-momentum-${metricsWindowDays}d.json`,
+      JSON.stringify(learningMomentumReport || {}, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const downloadLearningMomentumCsv = () => {
+    const report = learningMomentumReport;
+    const rows: Array<Array<unknown>> = [
+      ['averageDailyPracticeMinutes', report?.summary.averageDailyPracticeMinutes ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['activeLearnersToday', report?.summary.activeLearnersToday ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['lessonsStartedToday', report?.summary.lessonsStartedToday ?? 0, report?.windowDays ?? metricsWindowDays],
+    ];
+    for (const bucket of report?.practiceStreakDistribution || []) {
+      rows.push([`streakBucket:${bucket.bucket}`, bucket.count, report?.windowDays ?? metricsWindowDays]);
+    }
+    for (const day of report?.dailySeries || []) {
+      rows.push([`daily:${day.day}:practiceMinutes`, day.practiceMinutes, report?.windowDays ?? metricsWindowDays]);
+      rows.push([`daily:${day.day}:lessonsStarted`, day.lessonsStarted, report?.windowDays ?? metricsWindowDays]);
+      rows.push([`daily:${day.day}:activeLearners`, day.activeLearners, report?.windowDays ?? metricsWindowDays]);
+    }
+    const csv = toCsv(['metric', 'value', 'windowDays'], rows);
+    downloadTextFile(
+      `admin-learning-momentum-${metricsWindowDays}d.csv`,
+      csv,
+      'text/csv;charset=utf-8'
+    );
+  };
+
+  const downloadAllReportsZip = () => {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const generatedAt = new Date().toISOString();
+    const appVersion = (import.meta.env.VITE_APP_VERSION as string | undefined) || 'dev';
+    const executivePayload = buildExecutiveSummaryPayload();
+    const supportPayload = buildSupportOperationsPayload();
+    const learningPayload = buildLearningHealthPayload();
+    const weeklyPayload = executiveWeeklyReport || {};
+    const deletionPayload = deletionLifecycleReport || {};
+    const securityPayload = securityIncidentReport || {};
+    const momentumPayload = learningMomentumReport || {};
+
+    const support = supportMetrics?.support;
+    const learning = learningMetrics?.learning;
+    const weekly = executiveWeeklyReport;
+    const deletion = deletionLifecycleReport;
+    const security = securityIncidentReport;
+    const momentum = learningMomentumReport;
+
+    const supportCsv = toCsv(
+      ['metric', 'value', 'windowDays'],
+      [
+        ['failedLogins', support?.failedLogins ?? 0, metricsWindowDays],
+        ['endUserFailedLogins', support?.endUserFailedLogins ?? 0, metricsWindowDays],
+        ['resetRequests', support?.resetRequests ?? 0, metricsWindowDays],
+        ['emailVerificationRequired', support?.emailVerificationRequired ?? 0, metricsWindowDays],
+        ['newIpLogins', support?.newIpLogins ?? 0, metricsWindowDays],
+        ['newDeviceLogins', support?.newDeviceLogins ?? 0, metricsWindowDays],
+        ['sessionRevocations', support?.sessionRevocations ?? 0, metricsWindowDays],
+        ['unauthorizedAdminAttempts', support?.unauthorizedAdminAttempts ?? 0, metricsWindowDays],
+        ['currentUsers', support?.currentUsers ?? 0, metricsWindowDays],
+        ['newUsers', support?.newUsers ?? 0, metricsWindowDays],
+        ['activeUsers', support?.activeUsers ?? 0, metricsWindowDays],
+        ['supportNotesCreated', support?.supportNotesCreated ?? 0, metricsWindowDays],
+        ['supportNoteCreateFailures', support?.supportNoteCreateFailures ?? 0, metricsWindowDays],
+      ]
+    );
+    const learningCsv = toCsv(
+      ['metric', 'value', 'windowDays'],
+      [
+        ['quizAttempts', learning?.quizAttempts ?? 0, metricsWindowDays],
+        ['quizAccuracyPct', learning?.quizAccuracyPct ?? 0, metricsWindowDays],
+        ['speakAttempts', learning?.speakAttempts ?? 0, metricsWindowDays],
+        ['speakPassPct', learning?.speakPassPct ?? 0, metricsWindowDays],
+        ['lessonStarts', learning?.lessonStarts ?? 0, metricsWindowDays],
+        ['lessonStartsTracked', learning?.lessonStartsTracked ?? 0, metricsWindowDays],
+        ['lessonStartsInferred', learning?.lessonStartsInferred ?? 0, metricsWindowDays],
+        ['lessonCompleted', learning?.lessonCompleted ?? 0, metricsWindowDays],
+        ['lessonCompletionPct', learning?.lessonCompletionPct ?? 0, metricsWindowDays],
+        ['lessonAbandons', learning?.lessonAbandons ?? 0, metricsWindowDays],
+        ['applyCompleted', learning?.applyCompleted ?? 0, metricsWindowDays],
+      ]
+    );
+    const weeklyCsv = toCsv(
+      ['metric', 'current', 'previous', 'deltaPct', 'windowDays'],
+      [
+        [
+          'newUsers',
+          weekly?.comparisons.newUsers.current ?? 0,
+          weekly?.comparisons.newUsers.previous ?? 0,
+          weekly?.comparisons.newUsers.deltaPct ?? 0,
+          weekly?.windowDays ?? metricsWindowDays,
+        ],
+        [
+          'lessonsCompleted',
+          weekly?.comparisons.lessonsCompleted.current ?? 0,
+          weekly?.comparisons.lessonsCompleted.previous ?? 0,
+          weekly?.comparisons.lessonsCompleted.deltaPct ?? 0,
+          weekly?.windowDays ?? metricsWindowDays,
+        ],
+        [
+          'quizAttempts',
+          weekly?.comparisons.quizAttempts.current ?? 0,
+          weekly?.comparisons.quizAttempts.previous ?? 0,
+          weekly?.comparisons.quizAttempts.deltaPct ?? 0,
+          weekly?.windowDays ?? metricsWindowDays,
+        ],
+      ]
+    );
+    const deletionCsv = toCsv(
+      ['metric', 'value', 'windowDays'],
+      [
+        ['openRequests', deletion?.openRequests ?? 0, deletion?.windowDays ?? metricsWindowDays],
+        ['agedOpenRequestsOver7d', deletion?.agedOpenRequestsOver7d ?? 0, deletion?.windowDays ?? metricsWindowDays],
+        ['resolvedCases', deletion?.resolvedCases ?? 0, deletion?.windowDays ?? metricsWindowDays],
+        ['rejectedCases', deletion?.rejectedCases ?? 0, deletion?.windowDays ?? metricsWindowDays],
+        ['scheduledPending', deletion?.scheduledPending ?? 0, deletion?.windowDays ?? metricsWindowDays],
+        ['scheduledCompleted', deletion?.scheduledCompleted ?? 0, deletion?.windowDays ?? metricsWindowDays],
+        ['scheduledCancelled', deletion?.scheduledCancelled ?? 0, deletion?.windowDays ?? metricsWindowDays],
+        ['avgResolutionHours', deletion?.avgResolutionHours ?? 0, deletion?.windowDays ?? metricsWindowDays],
+      ]
+    );
+    const securityRows: Array<Array<unknown>> = [
+      ['unauthorizedAdminAttempts', security?.summary.unauthorizedAdminAttempts ?? 0, security?.windowDays ?? metricsWindowDays],
+      ['supportAdminLoginFailed', security?.summary.supportAdminLoginFailed ?? 0, security?.windowDays ?? metricsWindowDays],
+      ['endUserFailedLogins', security?.summary.endUserFailedLogins ?? 0, security?.windowDays ?? metricsWindowDays],
+      ['authErrors', security?.summary.authErrors ?? 0, security?.windowDays ?? metricsWindowDays],
+      ['newIpLogins', security?.summary.newIpLogins ?? 0, security?.windowDays ?? metricsWindowDays],
+      ['newDeviceLogins', security?.summary.newDeviceLogins ?? 0, security?.windowDays ?? metricsWindowDays],
+      ['sessionRevocations', security?.summary.sessionRevocations ?? 0, security?.windowDays ?? metricsWindowDays],
+      ['adminActions', security?.summary.adminActions ?? 0, security?.windowDays ?? metricsWindowDays],
+    ];
+    for (const event of security?.topEventTypes || []) {
+      securityRows.push([`topEvent:${event.eventType}`, event.count, security?.windowDays ?? metricsWindowDays]);
+    }
+    const securityCsv = toCsv(['metric', 'value', 'windowDays'], securityRows);
+
+    const momentumRows: Array<Array<unknown>> = [
+      ['averageDailyPracticeMinutes', momentum?.summary.averageDailyPracticeMinutes ?? 0, momentum?.windowDays ?? metricsWindowDays],
+      ['activeLearnersToday', momentum?.summary.activeLearnersToday ?? 0, momentum?.windowDays ?? metricsWindowDays],
+      ['lessonsStartedToday', momentum?.summary.lessonsStartedToday ?? 0, momentum?.windowDays ?? metricsWindowDays],
+    ];
+    for (const bucket of momentum?.practiceStreakDistribution || []) {
+      momentumRows.push([`streakBucket:${bucket.bucket}`, bucket.count, momentum?.windowDays ?? metricsWindowDays]);
+    }
+    for (const day of momentum?.dailySeries || []) {
+      momentumRows.push([`daily:${day.day}:practiceMinutes`, day.practiceMinutes, momentum?.windowDays ?? metricsWindowDays]);
+      momentumRows.push([`daily:${day.day}:lessonsStarted`, day.lessonsStarted, momentum?.windowDays ?? metricsWindowDays]);
+      momentumRows.push([`daily:${day.day}:activeLearners`, day.activeLearners, momentum?.windowDays ?? metricsWindowDays]);
+    }
+    const momentumCsv = toCsv(['metric', 'value', 'windowDays'], momentumRows);
+
+    const files = [
+      { name: `admin-executive-summary-${metricsWindowDays}d.json`, content: JSON.stringify(executivePayload, null, 2) },
+      { name: `admin-support-operations-${metricsWindowDays}d.json`, content: JSON.stringify(supportPayload, null, 2) },
+      { name: `admin-support-operations-${metricsWindowDays}d.csv`, content: supportCsv },
+      { name: `admin-learning-health-${metricsWindowDays}d.json`, content: JSON.stringify(learningPayload, null, 2) },
+      { name: `admin-learning-health-${metricsWindowDays}d.csv`, content: learningCsv },
+      { name: `admin-weekly-executive-${metricsWindowDays}d.json`, content: JSON.stringify(weeklyPayload, null, 2) },
+      { name: `admin-weekly-executive-${metricsWindowDays}d.csv`, content: weeklyCsv },
+      { name: `admin-deletion-lifecycle-${metricsWindowDays}d.json`, content: JSON.stringify(deletionPayload, null, 2) },
+      { name: `admin-deletion-lifecycle-${metricsWindowDays}d.csv`, content: deletionCsv },
+      { name: `admin-security-incidents-${metricsWindowDays}d.json`, content: JSON.stringify(securityPayload, null, 2) },
+      { name: `admin-security-incidents-${metricsWindowDays}d.csv`, content: securityCsv },
+      { name: `admin-learning-momentum-${metricsWindowDays}d.json`, content: JSON.stringify(momentumPayload, null, 2) },
+      { name: `admin-learning-momentum-${metricsWindowDays}d.csv`, content: momentumCsv },
+    ];
+    const manifest = {
+      schemaVersion: 1,
+      generatedAt,
+      windowDays: metricsWindowDays,
+      appVersion,
+      fileCount: files.length,
+      files: files.map((file) => file.name),
+    };
+    downloadZipFile(`admin-reports-${metricsWindowDays}d-${timestamp}.zip`, [
+      { name: 'manifest.json', content: JSON.stringify(manifest, null, 2) },
+      ...files,
+    ]);
+  };
+
   useEffect(() => {
     let cancelled = false;
     void (async () => {
@@ -560,6 +1420,9 @@ export default function SupportConsolePage() {
           if (viewMode === 'dashboard') {
             void loadDashboardMetrics(metricsWindowDays);
             void loadAdminTimeline();
+          }
+          if (viewMode === 'quality-reports') {
+            void loadQualityReports();
           }
         }
       }
@@ -583,6 +1446,10 @@ export default function SupportConsolePage() {
     }
     if (viewMode === 'metrics-learning') {
       void loadLearningMetrics(metricsWindowDays);
+      return;
+    }
+    if (viewMode === 'quality-reports') {
+      void loadQualityReports();
     }
   }, [authenticated, viewMode, metricsWindowDays]);
 
@@ -603,6 +1470,15 @@ export default function SupportConsolePage() {
     void loadRecentDeletions();
     void loadOpenDeletionRequests();
   }, [authenticated, viewMode]);
+
+  useEffect(() => {
+    if (!authenticated || viewMode !== 'quality-reports' || !selectedQualityRunId) {
+      setQualityDetail(null);
+      setQualityDetailError(null);
+      return;
+    }
+    void loadQualityReportDetail(selectedQualityRunId);
+  }, [authenticated, viewMode, selectedQualityRunId]);
 
   const runMutation = async (action: string, path: string, body: Record<string, unknown>) => {
     if (!selectedUserId) return;
@@ -994,7 +1870,14 @@ export default function SupportConsolePage() {
         <div className="mx-auto max-w-7xl">
           <div className="relative flex items-center justify-center gap-3">
             <div className="flex min-w-0 items-center gap-3">
-              <img src="/branding/Logo_White.png" alt="Sonus" className="h-6 w-auto opacity-95 md:h-7" loading="eager" />
+              <img
+                src="/branding/Logo_White.png"
+                srcSet="/branding/Logo_White-500.png 500w, /branding/Logo_White.png 2000w"
+                sizes="(max-width: 768px) 180px, 260px"
+                alt="Sonus"
+                className="h-6 w-auto opacity-95 md:h-7"
+                loading="eager"
+              />
               <span aria-hidden="true" className="text-white/45">|</span>
               <h1 className="main-font truncate text-base font-normal text-white md:text-lg">Support Dashboard</h1>
             </div>
@@ -1056,6 +1939,17 @@ export default function SupportConsolePage() {
                   <BookUser className="h-5 w-5" />
                 </button>
               </div>
+              <div className="relative">
+                <button
+                  type="button"
+                  className={`${iconButtonBase} ${viewMode === 'quality-reports' ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                  onClick={() => navigate('/internal/support/quality-reports')}
+                  aria-label="Quality Reports"
+                  title="Quality Reports"
+                >
+                  <FileText className="h-5 w-5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1111,7 +2005,7 @@ export default function SupportConsolePage() {
                 <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.endUserFailedLogins ?? 0}</div>
               </article>
               <article className={metricCard}>
-                <div className="text-xs text-[#64748b]">Unauthorized Admin Attempts</div>
+                <div className="text-xs text-[#64748b]">Unauthorized Admin Attempts (Route + Login)</div>
                 <div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics?.support.unauthorizedAdminAttempts ?? 0}</div>
               </article>
               <article className={metricCard}>
@@ -1142,9 +2036,176 @@ export default function SupportConsolePage() {
             <div className="mt-4 rounded-xl border border-[#f59e0b]/40 bg-[#fff7ed] p-3">
               <h3 className="text-sm font-semibold text-[#9a3412]">Watchlist</h3>
               <div className="mt-2 grid gap-2 text-sm text-[#7c2d12] md:grid-cols-3">
-                <div>Unauthorized admin attempts: <span className="font-semibold">{supportMetrics?.support.unauthorizedAdminAttempts ?? 0}</span></div>
+                <div>Unauthorized admin attempts (route + login): <span className="font-semibold">{supportMetrics?.support.unauthorizedAdminAttempts ?? 0}</span></div>
                 <div>End-user failed logins: <span className="font-semibold">{supportMetrics?.support.endUserFailedLogins ?? 0}</span></div>
                 <div>Lesson abandons: <span className="font-semibold">{learningMetrics?.learning.lessonAbandons ?? 0}</span></div>
+              </div>
+            </div>
+            <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="text-sm font-semibold text-[#0f172a]">Downloadable Reports</h3>
+                <button type="button" className={baseButton} onClick={downloadAllReportsZip}>
+                  <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> Download All (ZIP)</span>
+                </button>
+              </div>
+              <p className="mt-1 text-xs text-[#64748b]">
+                Export snapshots for operations reviews, debugging notes, and leadership updates.
+              </p>
+              <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">Executive Summary</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0f172a]">Company health snapshot</div>
+                  <div className="mt-1 text-[11px] text-[#94a3b8]">Last generated: {toLocale(dashboardGeneratedAt)}</div>
+                  <div className="mt-2 space-y-1 text-xs text-[#334155]">
+                    <div>Current users: <span className="font-semibold">{supportMetrics?.support.currentUsers ?? 0}</span></div>
+                    <div>New users: <span className="font-semibold">{supportMetrics?.support.newUsers ?? 0}</span></div>
+                    <div>Lesson completion: <span className="font-semibold">{learningMetrics?.learning.lessonCompletionPct ?? 0}%</span></div>
+                  </div>
+                  <div className="mt-3">
+                    <button type="button" className={baseButton} onClick={downloadExecutiveSummaryJson}>
+                      <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                    </button>
+                  </div>
+                </article>
+
+                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">Support Operations</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0f172a]">Security and support workload</div>
+                  <div className="mt-1 text-[11px] text-[#94a3b8]">Last generated: {toLocale(dashboardGeneratedAt)}</div>
+                  <div className="mt-2 space-y-1 text-xs text-[#334155]">
+                    <div>Failed logins: <span className="font-semibold">{supportMetrics?.support.failedLogins ?? 0}</span></div>
+                    <div>Unauthorized admin attempts (route + login): <span className="font-semibold">{supportMetrics?.support.unauthorizedAdminAttempts ?? 0}</span></div>
+                    <div>Support notes: <span className="font-semibold">{supportMetrics?.support.supportNotesCreated ?? 0}</span></div>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button type="button" className={baseButton} onClick={downloadSupportOperationsJson}>
+                      <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                      onClick={downloadSupportOperationsCsv}
+                    >
+                      CSV
+                    </button>
+                  </div>
+                </article>
+
+                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">Learning Health</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0f172a]">Learning quality and outcomes</div>
+                  <div className="mt-1 text-[11px] text-[#94a3b8]">Last generated: {toLocale(dashboardGeneratedAt)}</div>
+                  <div className="mt-2 space-y-1 text-xs text-[#334155]">
+                    <div>Quiz accuracy: <span className="font-semibold">{learningMetrics?.learning.quizAccuracyPct ?? 0}%</span></div>
+                    <div>Speak pass rate: <span className="font-semibold">{learningMetrics?.learning.speakPassPct ?? 0}%</span></div>
+                    <div>Lesson abandons: <span className="font-semibold">{learningMetrics?.learning.lessonAbandons ?? 0}</span></div>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button type="button" className={baseButton} onClick={downloadLearningHealthJson}>
+                      <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                      onClick={downloadLearningHealthCsv}
+                    >
+                      CSV
+                    </button>
+                  </div>
+                </article>
+
+                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">Weekly Executive</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0f172a]">Current vs previous window deltas</div>
+                  <div className="mt-1 text-[11px] text-[#94a3b8]">Last generated: {toLocale(executiveWeeklyReport?.generatedAt || dashboardGeneratedAt)}</div>
+                  <div className="mt-2 space-y-1 text-xs text-[#334155]">
+                    <div>Current users: <span className="font-semibold">{executiveWeeklyReport?.currentUsers ?? 0}</span></div>
+                    <div className="flex items-center justify-between gap-2"><span>New users delta</span><TrendDelta deltaPct={executiveWeeklyReport?.comparisons.newUsers.deltaPct ?? 0} /></div>
+                    <div className="flex items-center justify-between gap-2"><span>Lessons completed delta</span><TrendDelta deltaPct={executiveWeeklyReport?.comparisons.lessonsCompleted.deltaPct ?? 0} /></div>
+                    <div className="flex items-center justify-between gap-2"><span>Quiz attempts delta</span><TrendDelta deltaPct={executiveWeeklyReport?.comparisons.quizAttempts.deltaPct ?? 0} /></div>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button type="button" className={baseButton} onClick={downloadWeeklyExecutiveJson}>
+                      <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                      onClick={downloadWeeklyExecutiveCsv}
+                    >
+                      CSV
+                    </button>
+                  </div>
+                </article>
+
+                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">Deletion Lifecycle</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0f172a]">Deletion pipeline health</div>
+                  <div className="mt-1 text-[11px] text-[#94a3b8]">Last generated: {toLocale(deletionLifecycleReport?.generatedAt || dashboardGeneratedAt)}</div>
+                  <div className="mt-2 space-y-1 text-xs text-[#334155]">
+                    <div>Open requests: <span className="font-semibold">{deletionLifecycleReport?.openRequests ?? 0}</span></div>
+                    <div>Aged open (&gt;7d): <span className="font-semibold">{deletionLifecycleReport?.agedOpenRequestsOver7d ?? 0}</span></div>
+                    <div>Avg resolution: <span className="font-semibold">{deletionLifecycleReport?.avgResolutionHours ?? 0}h</span></div>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button type="button" className={baseButton} onClick={downloadDeletionLifecycleJson}>
+                      <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                      onClick={downloadDeletionLifecycleCsv}
+                    >
+                      CSV
+                    </button>
+                  </div>
+                </article>
+
+                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">Security Incidents</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0f172a]">Security event trend digest</div>
+                  <div className="mt-1 text-[11px] text-[#94a3b8]">Last generated: {toLocale(securityIncidentReport?.generatedAt || dashboardGeneratedAt)}</div>
+                  <div className="mt-2 space-y-1 text-xs text-[#334155]">
+                    <div>Unauthorized admin attempts (route + login): <span className="font-semibold">{securityIncidentReport?.summary.unauthorizedAdminAttempts ?? 0}</span></div>
+                    <div>Auth errors: <span className="font-semibold">{securityIncidentReport?.summary.authErrors ?? 0}</span></div>
+                    <div>Session revocations: <span className="font-semibold">{securityIncidentReport?.summary.sessionRevocations ?? 0}</span></div>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button type="button" className={baseButton} onClick={downloadSecurityIncidentJson}>
+                      <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                      onClick={downloadSecurityIncidentCsv}
+                    >
+                      CSV
+                    </button>
+                  </div>
+                </article>
+
+                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">Learning Momentum</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0f172a]">Daily activity and streak momentum</div>
+                  <div className="mt-1 text-[11px] text-[#94a3b8]">Last generated: {toLocale(learningMomentumReport?.generatedAt || dashboardGeneratedAt)}</div>
+                  <div className="mt-2 space-y-1 text-xs text-[#334155]">
+                    <div>Avg daily practice: <span className="font-semibold">{learningMomentumReport?.summary.averageDailyPracticeMinutes ?? 0} min</span></div>
+                    <div>Active learners today: <span className="font-semibold">{learningMomentumReport?.summary.activeLearnersToday ?? 0}</span></div>
+                    <div>Lessons started today: <span className="font-semibold">{learningMomentumReport?.summary.lessonsStartedToday ?? 0}</span></div>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button type="button" className={baseButton} onClick={downloadLearningMomentumJson}>
+                      <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                      onClick={downloadLearningMomentumCsv}
+                    >
+                      CSV
+                    </button>
+                  </div>
+                </article>
               </div>
             </div>
             <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
@@ -1193,42 +2254,111 @@ export default function SupportConsolePage() {
             {metricsError && <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{metricsError}</p>}
             {supportMetrics && (
               <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3 [&>*:last-child:nth-child(odd)]:col-span-2 [&>*:last-child:nth-child(odd)]:mx-auto [&>*:last-child:nth-child(odd)]:w-full [&>*:last-child:nth-child(odd)]:max-w-md md:[&>*:last-child:nth-child(odd)]:col-span-1 md:[&>*:last-child:nth-child(odd)]:mx-0 md:[&>*:last-child:nth-child(odd)]:max-w-none">
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Failed Logins</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.failedLogins}</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">End-User Failed Logins</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.endUserFailedLogins}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Password Resets</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.resetRequests}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Email Verification Required</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.emailVerificationRequired}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">New IP Logins</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.newIpLogins}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">New Device Logins</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.newDeviceLogins}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Session Revocations</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.sessionRevocations}</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Unauthorized Admin Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.unauthorizedAdminAttempts}</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Support Notes Created</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.supportNotesCreated}</div></div>
                 <div className={metricCard}><div className="text-xs text-[#64748b]">Note Creation Failures</div><div className="text-2xl font-semibold text-[#0f172a]">{supportMetrics.support.supportNoteCreateFailures}</div></div>
+              </div>
+            )}
+            {supportMetrics && (
+              <div className="mt-4 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3">
+                <h3 className="text-sm font-semibold text-[#0f172a]">Incident Risk Snapshot</h3>
+                <p className="mt-1 text-xs text-[#64748b]">Each bar is normalized to a practical threshold for this selected window.</p>
+                <div className="mt-3 grid gap-2 md:grid-cols-2">
+                  {[
+                    { label: 'Unauthorized Admin Attempts (Route + Login)', value: supportMetrics.support.unauthorizedAdminAttempts, thresholdPer7d: 2 },
+                    { label: 'Failed Logins', value: supportMetrics.support.failedLogins, thresholdPer7d: 30 },
+                    { label: 'New IP Logins', value: supportMetrics.support.newIpLogins, thresholdPer7d: 40 },
+                    { label: 'Session Revocations', value: supportMetrics.support.sessionRevocations, thresholdPer7d: 20 },
+                  ].map((item) => {
+                    const scaledThreshold = Math.max(
+                      1,
+                      Math.round(item.thresholdPer7d * (metricsWindowDays / 7))
+                    );
+                    const ratio = item.value / scaledThreshold;
+                    const widthPct = Math.min(100, Math.round(ratio * 100));
+                    const styles = riskStyles(ratio);
+                    return (
+                      <div key={item.label} className="rounded-lg border border-[#e2e8f0] bg-white p-2">
+                        <div className="flex items-center justify-between gap-2 text-xs text-[#334155]">
+                          <span>{item.label}</span>
+                          <span className={`font-semibold ${styles.tone}`}>
+                            {item.value} / {scaledThreshold} ({styles.label})
+                          </span>
+                        </div>
+                        <div className="mt-2 h-2 rounded-full bg-[#e2e8f0]">
+                          <div className={`h-2 rounded-full ${styles.bar}`} style={{ width: `${widthPct}%` }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
             {supportMetrics && (
               <div className="mt-4 grid gap-3 md:grid-cols-2">
                 <article className="rounded-xl border border-[#e2e8f0] p-3">
                   <h3 className="text-sm font-semibold text-[#0f172a]">Auth Error Frequency By Type</h3>
-                  <div className="mt-2 space-y-1 text-sm text-[#334155]">
-                    {(supportMetrics.support.authErrorBreakdown || []).length === 0 && <div>No auth errors recorded.</div>}
-                    {(supportMetrics.support.authErrorBreakdown || []).map((item) => (
-                      <div key={item.eventType} className="flex items-center justify-between gap-2">
-                        <span>{item.eventType}</span>
-                        <span className="font-semibold">{item.count}</span>
-                      </div>
-                    ))}
+                  <p className="mt-1 text-xs text-[#64748b]">
+                    Total auth errors: <span className="font-semibold text-[#0f172a]">{supportMetrics.support.totalAuthErrorEvents ?? 0}</span>
+                    {' '}| Active users: <span className="font-semibold text-[#0f172a]">{supportMetrics.support.activeUsers}</span>
+                  </p>
+                  <div className="mt-2 space-y-2">
+                    {(supportMetrics.support.authErrorBreakdown || []).length === 0 && (
+                      <div className="text-sm text-[#64748b]">No auth errors recorded.</div>
+                    )}
+                    {(supportMetrics.support.authErrorBreakdown || []).map((item) => {
+                      const totalAuthErrors = Math.max(0, supportMetrics.support.totalAuthErrorEvents ?? 0);
+                      const sharePct = totalAuthErrors > 0 ? Number(((item.count / totalAuthErrors) * 100).toFixed(1)) : 0;
+                      const perDay = Number((item.count / Math.max(1, metricsWindowDays)).toFixed(2));
+                      const ratePer100Active =
+                        supportMetrics.support.activeUsers > 0
+                          ? Number(((item.count / supportMetrics.support.activeUsers) * 100).toFixed(2))
+                          : 0;
+                      return (
+                        <div key={item.eventType} className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2">
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="min-w-0 text-sm font-medium text-[#0f172a] truncate">{item.eventType}</div>
+                            <div className="text-sm font-semibold text-[#0f172a]">{item.count}</div>
+                          </div>
+                          <div className="mt-1 text-xs text-[#64748b]">
+                            {sharePct}% of auth errors | {perDay}/day | {ratePer100Active} per 100 active users
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </article>
                 <article className="rounded-xl border border-[#e2e8f0] p-3">
                   <h3 className="text-sm font-semibold text-[#0f172a]">Auth/API Failures By Endpoint</h3>
-                  <div className="mt-2 space-y-1 text-sm text-[#334155]">
-                    {(supportMetrics.support.authFailureByEndpoint || []).length === 0 && <div>No endpoint failures recorded.</div>}
-                    {(supportMetrics.support.authFailureByEndpoint || []).map((item) => (
-                      <div key={item.endpoint} className="flex items-center justify-between gap-2">
-                        <span>{item.endpoint}</span>
-                        <span className="font-semibold">{item.count}</span>
-                      </div>
-                    ))}
+                  <p className="mt-1 text-xs text-[#64748b]">
+                    Total auth errors: <span className="font-semibold text-[#0f172a]">{supportMetrics.support.totalAuthErrorEvents ?? 0}</span>
+                    {' '}| Total security events: <span className="font-semibold text-[#0f172a]">{supportMetrics.support.totalSecurityEvents ?? 0}</span>
+                  </p>
+                  <div className="mt-2 space-y-2">
+                    {(supportMetrics.support.authFailureByEndpoint || []).length === 0 && (
+                      <div className="text-sm text-[#64748b]">No endpoint failures recorded.</div>
+                    )}
+                    {(supportMetrics.support.authFailureByEndpoint || []).map((item) => {
+                      const totalAuthErrors = Math.max(0, supportMetrics.support.totalAuthErrorEvents ?? 0);
+                      const totalSecurityEvents = Math.max(0, supportMetrics.support.totalSecurityEvents ?? 0);
+                      const shareOfAuthPct = totalAuthErrors > 0 ? Number(((item.count / totalAuthErrors) * 100).toFixed(1)) : 0;
+                      const shareOfSecurityPct = totalSecurityEvents > 0 ? Number(((item.count / totalSecurityEvents) * 100).toFixed(1)) : 0;
+                      const perDay = Number((item.count / Math.max(1, metricsWindowDays)).toFixed(2));
+                      return (
+                        <div key={item.endpoint} className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2">
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="min-w-0 text-sm font-medium text-[#0f172a] truncate">{item.endpoint}</div>
+                            <div className="text-sm font-semibold text-[#0f172a]">{item.count}</div>
+                          </div>
+                          <div className="mt-1 text-xs text-[#64748b]">
+                            {shareOfAuthPct}% of auth errors | {shareOfSecurityPct}% of security events | {perDay}/day
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </article>
               </div>
@@ -1289,15 +2419,39 @@ export default function SupportConsolePage() {
             {metricsLoading && <p className="mt-3 text-sm text-[#475569]">Loading metrics…</p>}
             {metricsError && <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{metricsError}</p>}
             {learningMetrics && (
-              <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3 [&>*:last-child:nth-child(odd)]:col-span-2 [&>*:last-child:nth-child(odd)]:mx-auto [&>*:last-child:nth-child(odd)]:w-full [&>*:last-child:nth-child(odd)]:max-w-md md:[&>*:last-child:nth-child(odd)]:col-span-1 md:[&>*:last-child:nth-child(odd)]:mx-0 md:[&>*:last-child:nth-child(odd)]:max-w-none">
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Quiz Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.quizAttempts}</div><div className="text-xs text-[#64748b]">Accuracy {learningMetrics.learning.quizAccuracyPct}%</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.speakAttempts}</div><div className="text-xs text-[#64748b]">Speak Pass Rate {learningMetrics.learning.speakPassPct}%</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Opens</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStarts}</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Entry Events</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsTracked ?? 0}</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Lessons Finished (Complete Screen)</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonCompleted}</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Lessons Abandoned</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonAbandons}</div></div>
-                <div className={metricCard}><div className="text-xs text-[#64748b]">Apply Completed</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.applyCompleted}</div></div>
-              </div>
+              <>
+                <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3 [&>*:last-child:nth-child(odd)]:col-span-2 [&>*:last-child:nth-child(odd)]:mx-auto [&>*:last-child:nth-child(odd)]:w-full [&>*:last-child:nth-child(odd)]:max-w-md md:[&>*:last-child:nth-child(odd)]:col-span-1 md:[&>*:last-child:nth-child(odd)]:mx-0 md:[&>*:last-child:nth-child(odd)]:max-w-none">
+                  <div className={metricCard}><div className="text-xs text-[#64748b]">Quiz Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.quizAttempts}</div><div className="text-xs text-[#64748b]">Accuracy {learningMetrics.learning.quizAccuracyPct}%</div></div>
+                  <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.speakAttempts}</div><div className="text-xs text-[#64748b]">Speak Pass Rate {learningMetrics.learning.speakPassPct}%</div></div>
+                  <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Opens</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStarts}</div></div>
+                  <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Entry Events</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsTracked ?? 0}</div></div>
+                  <div className={metricCard}><div className="text-xs text-[#64748b]">Lessons Finished (Complete Screen)</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonCompleted}</div></div>
+                  <div className={metricCard}><div className="text-xs text-[#64748b]">Lessons Abandoned</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonAbandons}</div></div>
+                  <div className={metricCard}><div className="text-xs text-[#64748b]">Apply Completed</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.applyCompleted}</div></div>
+                </div>
+                <div className="mt-4 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3">
+                  <h3 className="text-sm font-semibold text-[#0f172a]">Raw Pipeline Check</h3>
+                  <p className="mt-1 text-xs text-[#64748b]">Use these counters to verify data ingestion in production.</p>
+                  <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
+                      <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">tracked_starts</div>
+                      <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsTracked ?? 0}</div>
+                    </div>
+                    <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
+                      <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">inferred_starts</div>
+                      <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsInferred ?? 0}</div>
+                    </div>
+                    <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
+                      <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">completed</div>
+                      <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonCompleted}</div>
+                    </div>
+                    <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
+                      <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">effective_starts</div>
+                      <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStarts}</div>
+                    </div>
+                  </div>
+                </div>
+              </>
             )}
 
             {weakWordsByLanguage && (
@@ -1370,6 +2524,268 @@ export default function SupportConsolePage() {
                 </div>
               </div>
             )}
+          </section>
+        )}
+
+        {viewMode === 'quality-reports' && (
+          <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-semibold text-[#0f172a]">Quality Reports</h2>
+                <p className="mt-1 text-sm text-[#475569]">
+                  Read-only reports generated from security, stability, and latency checks.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className={baseButton}
+                  onClick={() => void loadQualityReports()}
+                  disabled={qualityReportsLoading || qualityRunBusy || qualityCleanupBusy}
+                >
+                  {qualityReportsLoading ? 'Loading…' : 'Refresh'}
+                </button>
+                <button
+                  type="button"
+                  className={baseButton}
+                  onClick={() => void runProdSafeQualityReport()}
+                  disabled={qualityRunBusy}
+                >
+                  <span className="inline-flex items-center gap-1">
+                    <Play className="h-4 w-4" />
+                    {qualityRunBusy ? 'Running…' : 'Run Prod-Safe Report'}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  className="rounded-xl border border-[#1f2937] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc] disabled:opacity-50"
+                  onClick={() => {
+                    setQualityRunFullConfirmOpen((open) => !open);
+                    setQualityRunFullConfirmText('');
+                  }}
+                  disabled={qualityRunBusy}
+                >
+                  Run Full Suite
+                </button>
+              </div>
+            </div>
+
+            {qualityRunMessage && (
+              <p className="mt-3 rounded-lg border border-emerald-300 bg-emerald-50 p-2 text-sm text-emerald-700">
+                {qualityRunMessage}
+              </p>
+            )}
+            {qualityCleanupMessage && (
+              <p className="mt-3 rounded-lg border border-cyan-300 bg-cyan-50 p-2 text-sm text-cyan-700">
+                {qualityCleanupMessage}
+              </p>
+            )}
+            {qualityReportsError && (
+              <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                {qualityReportsError}
+              </p>
+            )}
+            {qualityRunFullConfirmOpen && (
+              <div className="mt-3 rounded-xl border border-amber-300 bg-amber-50 p-3">
+                <h3 className="text-sm font-semibold text-[#0f172a]">Confirm Full Suite Run</h3>
+                <p className="mt-1 text-xs text-[#7c2d12]">
+                  Full suite can include mutating checks. Type <span className="font-semibold">RUN_FULL_SUITE</span> to confirm.
+                </p>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <input
+                    className={baseInput}
+                    value={qualityRunFullConfirmText}
+                    onChange={(event) => setQualityRunFullConfirmText(event.target.value)}
+                    placeholder="RUN_FULL_SUITE"
+                  />
+                  <button
+                    type="button"
+                    className={baseButton}
+                    onClick={() => void runFullQualityReport()}
+                    disabled={qualityRunBusy || qualityRunFullConfirmText.trim() !== 'RUN_FULL_SUITE'}
+                  >
+                    {qualityRunBusy ? 'Running…' : 'Confirm & Run Full Suite'}
+                  </button>
+                  <button
+                    type="button"
+                    className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]"
+                    onClick={() => {
+                      setQualityRunFullConfirmOpen(false);
+                      setQualityRunFullConfirmText('');
+                    }}
+                    disabled={qualityRunBusy}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div className="mt-3 rounded-xl border border-[#e2e8f0] bg-white p-3">
+              <h3 className="text-sm font-semibold text-[#0f172a]">Report Retention</h3>
+              <p className="mt-1 text-xs text-[#64748b]">Delete older report folders and keep only the most recent runs.</p>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <label className="text-xs text-[#475569]" htmlFor="quality-keep-latest">Keep latest</label>
+                <input
+                  id="quality-keep-latest"
+                  type="number"
+                  min={1}
+                  max={200}
+                  className="w-28 rounded-xl border border-[#1f2937]/20 bg-white px-3 py-2 text-sm text-[#0f172a] outline-none focus:border-[#1f2937]"
+                  value={qualityCleanupKeepLatest}
+                  onChange={(event) =>
+                    setQualityCleanupKeepLatest(
+                      Math.min(200, Math.max(1, Number.parseInt(event.target.value || '30', 10) || 30))
+                    )
+                  }
+                />
+                <button
+                  type="button"
+                  className="rounded-xl border border-[#1f2937] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937] transition hover:bg-[#f8fafc] disabled:opacity-50"
+                  onClick={() => void cleanupQualityReports()}
+                  disabled={qualityCleanupBusy || qualityRunBusy}
+                >
+                  {qualityCleanupBusy ? 'Cleaning…' : 'Cleanup Old Reports'}
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-4 grid min-w-0 gap-4 lg:grid-cols-[360px_minmax(0,1fr)]">
+              <aside className="min-w-0 rounded-xl border border-[#e2e8f0] bg-white p-3">
+                <h3 className="text-sm font-semibold text-[#0f172a]">Runs</h3>
+                <div className="mt-2 max-h-[62vh] space-y-2 overflow-auto pr-1">
+                  {!qualityReportsLoading && qualityReports.length === 0 && (
+                    <p className="text-sm text-[#64748b]">No reports found yet.</p>
+                  )}
+                  {qualityReports.map((report) => {
+                    const isActive = selectedQualityRunId === report.runId;
+                    return (
+                      <button
+                        key={report.runId}
+                        type="button"
+                        className={`w-full rounded-lg border p-2 text-left ${
+                          isActive
+                            ? 'border-[#1f2937] bg-[#f8fafc]'
+                            : 'border-[#e2e8f0] bg-white hover:border-[#cbd5e1]'
+                        }`}
+                        onClick={() => setSelectedQualityRunId(report.runId)}
+                      >
+                        <div className="text-xs uppercase tracking-[0.12em] text-[#64748b]">
+                          {report.profile} | {report.risk}
+                        </div>
+                        <div className="mt-1 break-all text-sm font-semibold text-[#0f172a]">
+                          {report.runId}
+                        </div>
+                        <div className="mt-1 text-xs text-[#64748b]">
+                          {toLocale(report.generatedAt || report.startedAt)}
+                        </div>
+                        <div className="mt-1 text-xs text-[#334155]">
+                          {report.summary.passed} passed / {report.summary.failed} failed /{' '}
+                          {report.summary.skipped} skipped
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </aside>
+
+              <article className="min-w-0 rounded-xl border border-[#e2e8f0] bg-white p-3">
+                {!selectedQualityRunId && (
+                  <p className="text-sm text-[#64748b]">Select a report run to view details.</p>
+                )}
+                {qualityDetailLoading && (
+                  <p className="text-sm text-[#475569]">Loading report details…</p>
+                )}
+                {qualityDetailError && (
+                  <p className="rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                    {qualityDetailError}
+                  </p>
+                )}
+                {!qualityDetailLoading && !qualityDetailError && qualityDetail && (
+                  <div className="space-y-3">
+                    <header>
+                      <h3 className="text-sm font-semibold text-[#0f172a]">{qualityDetail.runId}</h3>
+                      <p className="mt-1 text-xs text-[#64748b]">
+                        Profile: {qualityDetail.json?.profile || 'n/a'} | Risk:{' '}
+                        {(qualityDetail.json?.risk || 'unknown').toUpperCase()}
+                      </p>
+                      <div className="mt-2 flex flex-wrap items-center gap-2">
+                        <button
+                          type="button"
+                          className="rounded-lg border border-[#cbd5e1] bg-white px-2 py-1 text-xs font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                          onClick={() =>
+                            downloadTextFile(
+                              `${qualityDetail.runId}-QUALITY_REPORT.md`,
+                              qualityDetail.markdown || '',
+                              'text/markdown;charset=utf-8'
+                            )
+                          }
+                        >
+                          Download Markdown
+                        </button>
+                        <button
+                          type="button"
+                          className="rounded-lg border border-[#cbd5e1] bg-white px-2 py-1 text-xs font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                          onClick={() =>
+                            downloadTextFile(
+                              `${qualityDetail.runId}-quality-report.json`,
+                              JSON.stringify(qualityDetail.json || {}, null, 2),
+                              'application/json;charset=utf-8'
+                            )
+                          }
+                        >
+                          Download JSON
+                        </button>
+                      </div>
+                    </header>
+
+                    <section className="rounded-lg border border-[#e2e8f0] p-2">
+                      <h4 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#64748b]">
+                        Check Status
+                      </h4>
+                      <div className="mt-2 max-h-[20vh] space-y-2 overflow-auto pr-1">
+                        {(qualityDetail.json?.results || []).map((item, index) => (
+                          <div
+                            key={`${item.id || item.title || 'check'}-${index}`}
+                            className="rounded-md border border-[#e2e8f0] p-2"
+                          >
+                            <div className="flex items-center justify-between gap-2 text-sm">
+                              <span className="font-semibold text-[#0f172a]">
+                                {item.title || item.id || 'Check'}
+                              </span>
+                              <span
+                                className={`rounded px-2 py-0.5 text-xs font-semibold ${
+                                  String(item.status || '').toLowerCase() === 'passed'
+                                    ? 'bg-emerald-100 text-emerald-700'
+                                    : 'bg-red-100 text-red-700'
+                                }`}
+                              >
+                                {String(item.status || 'unknown').toUpperCase()}
+                              </span>
+                            </div>
+                            <div className="mt-1 text-xs text-[#64748b]">
+                              Duration: {item.durationMs ?? 0} ms
+                            </div>
+                            {item.parsed?.summary && (
+                              <div className="mt-1 text-xs text-[#334155]">{item.parsed.summary}</div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+
+                    <section className="rounded-lg border border-[#e2e8f0] p-2">
+                      <h4 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#64748b]">
+                        Markdown Report
+                      </h4>
+                      <pre className="mt-2 max-h-[38vh] overflow-auto whitespace-pre-wrap rounded-md bg-[#f8fafc] p-2 text-xs text-[#334155]">
+                        {qualityDetail.markdown}
+                      </pre>
+                    </section>
+                  </div>
+                )}
+              </article>
+            </div>
           </section>
         )}
 

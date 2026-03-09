@@ -1,0 +1,59 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: sonus-react/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci --prefix sonus-react
+
+      - name: Build frontend
+        run: npm --prefix sonus-react run build
+
+      - name: Start frontend preview
+        run: |
+          npm --prefix sonus-react run preview -- --host 127.0.0.1 --port 4173 > /tmp/sonus-preview.log 2>&1 &
+          echo $! > /tmp/sonus-preview.pid
+
+      - name: Wait for preview server
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173 > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Preview server failed to start"
+          cat /tmp/sonus-preview.log || true
+          exit 1
+
+      - name: Run Lighthouse CI
+        run: npx --yes @lhci/cli@0.14.x autorun --config=sonus-react/.lighthouserc.json
+
+      - name: Upload Lighthouse artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: .lighthouseci
+
+      - name: Stop preview server
+        if: always()
+        run: |
+          if [ -f /tmp/sonus-preview.pid ]; then
+            kill "$(cat /tmp/sonus-preview.pid)" || true
+          fi

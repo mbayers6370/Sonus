@@ -41,7 +41,13 @@ export default function PublicLegalLayout({
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/45 bg-white/62 backdrop-blur-2xl shadow-[0_10px_26px_-22px_rgba(15,23,42,0.55)]">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-8">
           <Link to="/" aria-label="Sonus home">
-            <img src="/branding/logo_name_solo.png" alt="Sonus" className="h-7 sm:h-8" />
+            <img
+              src="/branding/logo_name_solo.png"
+              srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w"
+              sizes="(max-width: 768px) 160px, 240px"
+              alt="Sonus"
+              className="h-7 sm:h-8"
+            />
           </Link>
           <nav className="flex items-center gap-4 text-sm text-[#1F2A37] sm:text-base">
             <Link to="/privacy" className="hidden underline-offset-4 hover:underline sm:inline">

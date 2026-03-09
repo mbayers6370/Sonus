@@ -1,0 +1,155 @@
+{
+  "startedAt": "2026-03-09T03:46:49.074Z",
+  "finishedAt": "2026-03-09T03:48:05.302Z",
+  "outDir": "/Users/matt/Documents/Language App Project/reports/quality-2026-03-09T03-46-49-074Z",
+  "markdownPath": "/Users/matt/Documents/Language App Project/reports/quality-2026-03-09T03-46-49-074Z/QUALITY_REPORT.md",
+  "results": [
+    {
+      "id": "audit-root",
+      "title": "Security: npm audit (root)",
+      "command": "npm audit --json",
+      "startedAt": "2026-03-09T03:46:49.075Z",
+      "finishedAt": "2026-03-09T03:46:49.481Z",
+      "durationMs": 406,
+      "status": "failed",
+      "exitCode": 1,
+      "stdout": "{\n  \"message\": \"request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\",\n  \"error\": {\n    \"summary\": \"\",\n    \"detail\": \"\"\n  }\n}\n",
+      "stderr": "npm warn audit request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\nnpm error audit endpoint returned an error\nnpm error Log files were not written due to an error writing to the directory: /Users/matt/.npm/_logs\nnpm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal\n",
+      "parsed": {
+        "summary": "Audit unavailable: request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org",
+        "error": {
+          "summary": "",
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "audit-backend",
+      "title": "Security: npm audit (backend)",
+      "command": "npm --prefix backend audit --json",
+      "startedAt": "2026-03-09T03:46:49.481Z",
+      "finishedAt": "2026-03-09T03:46:49.712Z",
+      "durationMs": 231,
+      "status": "failed",
+      "exitCode": 1,
+      "stdout": "{\n  \"message\": \"request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\",\n  \"error\": {\n    \"summary\": \"\",\n    \"detail\": \"\"\n  }\n}\n",
+      "stderr": "npm warn audit request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\nnpm error audit endpoint returned an error\nnpm error Log files were not written due to an error writing to the directory: /Users/matt/.npm/_logs\nnpm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal\n",
+      "parsed": {
+        "summary": "Audit unavailable: request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org",
+        "error": {
+          "summary": "",
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "audit-frontend",
+      "title": "Security: npm audit (frontend)",
+      "command": "npm --prefix sonus-react audit --json",
+      "startedAt": "2026-03-09T03:46:49.712Z",
+      "finishedAt": "2026-03-09T03:46:49.981Z",
+      "durationMs": 269,
+      "status": "failed",
+      "exitCode": 1,
+      "stdout": "{\n  \"message\": \"request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\",\n  \"error\": {\n    \"summary\": \"\",\n    \"detail\": \"\"\n  }\n}\n",
+      "stderr": "npm warn audit request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\nnpm error audit endpoint returned an error\nnpm error Log files were not written due to an error writing to the directory: /Users/matt/.npm/_logs\nnpm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal\n",
+      "parsed": {
+        "summary": "Audit unavailable: request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org",
+        "error": {
+          "summary": "",
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "security-regression",
+      "title": "Security: backend regression suite",
+      "command": "npm run -w sonus-backend test:security",
+      "startedAt": "2026-03-09T03:46:49.981Z",
+      "finishedAt": "2026-03-09T03:46:51.018Z",
+      "durationMs": 1037,
+      "status": "failed",
+      "exitCode": 1,
+      "stdout": "\n> sonus-backend@0.1.0 test:security\n> node scripts/security-regression.mjs\n\nHanzi is compiling data...\nDone compiling\nHanzi is compiling dictionary...\nStarting to read frequency data\nFrequency data loaded\n",
+      "stderr": "PrismaClientInitializationError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nCan't reach database server at `localhost:5432`\n\nPlease make sure your database server is running at `localhost:5432`.\n    at ei.handleRequestError (/Users/matt/Documents/Language App Project/backend/node_modules/@prisma/client/runtime/library.js:121:7568)\n    at ei.handleAndLogRequestError (/Users/matt/Documents/Language App Project/backend/node_modules/@prisma/client/runtime/library.js:121:6593)\n    at ei.request (/Users/matt/Documents/Language App Project/backend/node_modules/@prisma/client/runtime/library.js:121:6300)\n    at async a (/Users/matt/Documents/Language App Project/backend/node_modules/@prisma/client/runtime/library.js:130:9551)\n    at async tableExists (file:///Users/matt/Documents/Language%20App%20Project/backend/dist/lib/profileEmailUniqueness.js:13:18)\n    at async ensureProfileEmailUniqueness (file:///Users/matt/Documents/Language%20App%20Project/backend/dist/lib/profileEmailUniqueness.js:243:28)\n    at async buildServer (file:///Users/matt/Documents/Language%20App%20Project/backend/dist/server.js:96:5)\n    at async run (file:///Users/matt/Documents/Language%20App%20Project/backend/scripts/security-regression.mjs:29:15) {\n  clientVersion: '6.19.2',\n  errorCode: undefined,\n  retryable: undefined\n}\nnpm error Lifecycle script `test:security` failed with error:\nnpm error code 1\nnpm error path /Users/matt/Documents/Language App Project/backend\nnpm error workspace sonus-backend@0.1.0\nnpm error location /Users/matt/Documents/Language App Project/backend\nnpm error command failed\nnpm error command sh -c node scripts/security-regression.mjs\n",
+      "parsed": null
+    },
+    {
+      "id": "stability-backend-core",
+      "title": "Stability: backend core regression",
+      "command": "npm run -w sonus-backend test:core:local",
+      "startedAt": "2026-03-09T03:46:51.018Z",
+      "finishedAt": "2026-03-09T03:47:43.121Z",
+      "durationMs": 52103,
+      "status": "failed",
+      "exitCode": 1,
+      "stdout": "\n> sonus-backend@0.1.0 test:core:local\n> node scripts/test-core-local.mjs\n\n\n> sonus-backend@0.1.0 build\n> tsc -p tsconfig.json\n\nHanzi is compiling data...\nDone compiling\nHanzi is compiling dictionary...\nStarting to read frequency data\nFrequency data loaded\n",
+      "stderr": "PrismaClientInitializationError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nCan't reach database server at `localhost:5432`\n\nPlease make sure your database server is running at `localhost:5432`.\n    at ei.handleRequestError (/Users/matt/Documents/Language App Project/backend/node_modules/@prisma/client/runtime/library.js:121:7568)\n    at ei.handleAndLogRequestError (/Users/matt/Documents/Language App Project/backend/node_modules/@prisma/client/runtime/library.js:121:6593)\n    at ei.request (/Users/matt/Documents/Language App Project/backend/node_modules/@prisma/client/runtime/library.js:121:6300)\n    at async a (/Users/matt/Documents/Language App Project/backend/node_modules/@prisma/client/runtime/library.js:130:9551)\n    at async tableExists (file:///Users/matt/Documents/Language%20App%20Project/backend/dist/lib/profileEmailUniqueness.js:13:18)\n    at async ensureProfileEmailUniqueness (file:///Users/matt/Documents/Language%20App%20Project/backend/dist/lib/profileEmailUniqueness.js:243:28)\n    at async buildServer (file:///Users/matt/Documents/Language%20App%20Project/backend/dist/server.js:96:5)\n    at async start (file:///Users/matt/Documents/Language%20App%20Project/backend/dist/server.js:238:17) {\n  clientVersion: '6.19.2',\n  errorCode: undefined,\n  retryable: undefined\n}\nTimed out waiting for http://127.0.0.1:4000/health\nnpm error Lifecycle script `test:core:local` failed with error:\nnpm error code 1\nnpm error path /Users/matt/Documents/Language App Project/backend\nnpm error workspace sonus-backend@0.1.0\nnpm error location /Users/matt/Documents/Language App Project/backend\nnpm error command failed\nnpm error command sh -c node scripts/test-core-local.mjs\n",
+      "parsed": null
+    },
+    {
+      "id": "stability-frontend-unit",
+      "title": "Stability: frontend unit tests",
+      "command": "npm run -w sonus-react test:unit",
+      "startedAt": "2026-03-09T03:47:43.121Z",
+      "finishedAt": "2026-03-09T03:47:44.743Z",
+      "durationMs": 1622,
+      "status": "passed",
+      "exitCode": 0,
+      "stdout": "\n> sonus-react@0.0.0 test:unit\n> vitest run --coverage\n\n\n RUN  v4.0.18 /Users/matt/Documents/Language App Project/sonus-react\n      Coverage enabled with v8\n\n ✓ src/lib/bandIds.test.ts (6 tests) 2ms\n ✓ src/lib/reviewScheduler.test.ts (5 tests) 2ms\n ✓ src/lib/speakRuntime.contract.test.ts (8 tests) 3ms\n ✓ src/lib/practiceFocus.test.ts (3 tests) 2ms\n\n Test Files  4 passed (4)\n      Tests  22 passed (22)\n   Start at  20:47:43\n   Duration  899ms (transform 209ms, setup 263ms, import 247ms, tests 9ms, environment 1.93s)\n\n % Coverage report from v8\n-------------------|---------|----------|---------|---------|-------------------\nFile               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s \n-------------------|---------|----------|---------|---------|-------------------\nAll files          |   14.76 |    12.47 |    14.2 |   15.05 |                   \n lib               |   25.64 |    19.49 |   25.64 |   26.14 |                   \n  analytics.ts     |       0 |        0 |       0 |       0 | 21-59             \n  apiBase.ts       |       0 |        0 |       0 |       0 | 1-18              \n  apiClient.ts     |       0 |        0 |       0 |       0 | 22-400            \n  authSession.ts   |       0 |        0 |       0 |       0 | 1-194             \n  backendApi.ts    |       0 |        0 |       0 |       0 | 29-136            \n  bandIds.ts       |   57.57 |    29.16 |   64.28 |   59.25 | 3-13,38-40,62,70  \n  ...tPathStore.ts |       0 |        0 |       0 |       0 | 11-68             \n  ...ageRuntime.ts |   31.06 |    20.65 |    15.9 |   32.44 | ...53-554,556-557 \n  learnPath.ts     |       0 |        0 |       0 |       0 | 3-61              \n  lessonChunks.ts  |   44.44 |       40 |      50 |   53.33 | 19,25-34,53-62    \n  ...onProgress.ts |     100 |      100 |     100 |     100 |                   \n  ...gressState.ts |       0 |        0 |       0 |       0 | 12-114            \n  passCriteria.ts  |     100 |      100 |     100 |     100 |                   \n  practiceFocus.ts |   77.41 |    65.38 |      75 |   86.95 | 22,29,37          \n  ...wInjection.ts |       0 |        0 |       0 |       0 | 5-38              \n  ...wScheduler.ts |   88.23 |    84.21 |   81.81 |    87.5 | 4,11-15           \n  speakRuntime.ts  |    80.7 |    62.06 |     100 |   88.54 | ...03,233,238-240 \n  textCase.ts      |       0 |      100 |       0 |       0 | 2-5               \n  wordLookup.ts    |       0 |        0 |       0 |       0 | 6-53              \n  wordMeaning.ts   |       0 |        0 |       0 |       0 | 4-20              \n routes            |       0 |        0 |       0 |       0 |                   \n  AppRoutes.tsx    |       0 |        0 |       0 |       0 | 25-1182           \n  ...ontroller.tsx |       0 |        0 |       0 |       0 | 18-224            \n  ...ionRoutes.tsx |       0 |        0 |       0 |       0 | 14-52             \n  homeRoutes.tsx   |       0 |        0 |       0 |       0 | 28-82             \n  lessonRouting.ts |       0 |        0 |       0 |       0 | 4-39              \n  ...velRoutes.tsx |       0 |        0 |       0 |       0 | 17-97             \n-------------------|---------|----------|---------|---------|-------------------\n",
+      "stderr": "",
+      "parsed": null
+    },
+    {
+      "id": "latency-smoke",
+      "title": "Latency: backend perf smoke",
+      "command": "npm run -w sonus-backend perf:smoke",
+      "startedAt": "2026-03-09T03:47:44.743Z",
+      "finishedAt": "2026-03-09T03:47:45.038Z",
+      "durationMs": 295,
+      "status": "failed",
+      "exitCode": 1,
+      "stdout": "\n> sonus-backend@0.1.0 perf:smoke\n> node scripts/perf-smoke.mjs\n\nRunning backend perf smoke against http://127.0.0.1:4000 (20 runs per endpoint)\n",
+      "stderr": "perf-smoke failed: fetch failed\nnpm error Lifecycle script `perf:smoke` failed with error:\nnpm error code 1\nnpm error path /Users/matt/Documents/Language App Project/backend\nnpm error workspace sonus-backend@0.1.0\nnpm error location /Users/matt/Documents/Language App Project/backend\nnpm error command failed\nnpm error command sh -c node scripts/perf-smoke.mjs\n",
+      "parsed": {
+        "summary": "Perf command failed before JSON summary."
+      }
+    },
+    {
+      "id": "latency-load",
+      "title": "Latency: backend load check",
+      "command": "npm run -w sonus-backend perf:load",
+      "startedAt": "2026-03-09T03:47:45.038Z",
+      "finishedAt": "2026-03-09T03:48:05.302Z",
+      "durationMs": 20264,
+      "status": "failed",
+      "exitCode": 1,
+      "stdout": "\n> sonus-backend@0.1.0 perf:load\n> node scripts/load-check.mjs\n\nRunning load check against http://127.0.0.1:4000/v1/me/review-queue?limit=20 with concurrency=10, duration=20s\n{\n  \"apiBase\": \"http://127.0.0.1:4000\",\n  \"path\": \"/v1/me/review-queue?limit=20\",\n  \"concurrency\": 10,\n  \"durationSeconds\": 20,\n  \"totalRequests\": 504630,\n  \"successes\": 0,\n  \"failures\": 504630,\n  \"errorRate\": 100,\n  \"requestsPerSecond\": 25231.5,\n  \"p50Ms\": 0,\n  \"p95Ms\": 0,\n  \"p99Ms\": 0,\n  \"maxMs\": 0\n}\n",
+      "stderr": "load-check failed: error rate 100% exceeded 1% threshold\nnpm error Lifecycle script `perf:load` failed with error:\nnpm error code 1\nnpm error path /Users/matt/Documents/Language App Project/backend\nnpm error workspace sonus-backend@0.1.0\nnpm error location /Users/matt/Documents/Language App Project/backend\nnpm error command failed\nnpm error command sh -c node scripts/load-check.mjs\n",
+      "parsed": {
+        "summary": "requests=504630, errorRate=100%, p95Ms=0",
+        "metrics": {
+          "apiBase": "http://127.0.0.1:4000",
+          "path": "/v1/me/review-queue?limit=20",
+          "concurrency": 10,
+          "durationSeconds": 20,
+          "totalRequests": 504630,
+          "successes": 0,
+          "failures": 504630,
+          "errorRate": 100,
+          "requestsPerSecond": 25231.5,
+          "p50Ms": 0,
+          "p95Ms": 0,
+          "p99Ms": 0,
+          "maxMs": 0
+        }
+      }
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 7,
+    "skipped": 0
+  },
+  "risk": "high"
+}

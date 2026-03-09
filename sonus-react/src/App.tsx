@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AppProvider } from './contexts/AppContext';
@@ -10,7 +10,7 @@ import PrivacyPage from './components/public/PrivacyPage';
 import TermsPage from './components/public/TermsPage';
 import ContactPage from './components/public/ContactPage';
 import AttributionsPage from './components/public/AttributionsPage';
-import SupportConsolePage from './components/internal/SupportConsolePage';
+const SupportConsolePage = lazy(() => import('./components/internal/SupportConsolePage'));
 
 type RouterKind = 'browser' | 'hash';
 const HAS_VISITED_KEY = 'sonus.has_visited';
@@ -91,7 +91,20 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/attributions" element={<AttributionsPage />} />
-        <Route path="/internal/support/*" element={<SupportConsolePage />} />
+        <Route
+          path="/internal/support/*"
+          element={(
+            <Suspense
+              fallback={(
+                <div className="min-h-screen page-shell flex items-center justify-center">
+                  <GlassLoader compact message="Loading support console..." />
+                </div>
+              )}
+            >
+              <SupportConsolePage />
+            </Suspense>
+          )}
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );

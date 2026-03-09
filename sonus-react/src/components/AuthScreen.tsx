@@ -376,6 +376,8 @@ export default function AuthScreen({
       ) : null}
       <img
         src="/branding/logo_name_solo.png"
+        srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w"
+        sizes="(max-width: 768px) 160px, 240px"
         alt="Sonus"
         className="h-7 mx-auto mb-5 opacity-90"
       />

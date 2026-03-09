@@ -1,0 +1,144 @@
+{
+  "startedAt": "2026-03-09T04:13:17.200Z",
+  "finishedAt": "2026-03-09T04:13:29.127Z",
+  "profile": "prod-safe",
+  "outDir": "/Users/matt/Documents/Language App Project/reports/quality-2026-03-09T04-13-17-199Z",
+  "markdownPath": "/Users/matt/Documents/Language App Project/reports/quality-2026-03-09T04-13-17-199Z/QUALITY_REPORT.md",
+  "results": [
+    {
+      "id": "audit-root",
+      "title": "Security: npm audit (root)",
+      "command": "npm audit --json",
+      "startedAt": "2026-03-09T04:13:17.201Z",
+      "finishedAt": "2026-03-09T04:13:17.794Z",
+      "durationMs": 593,
+      "status": "passed",
+      "exitCode": 0,
+      "stdout": "{\n  \"auditReportVersion\": 2,\n  \"vulnerabilities\": {},\n  \"metadata\": {\n    \"vulnerabilities\": {\n      \"info\": 0,\n      \"low\": 0,\n      \"moderate\": 0,\n      \"high\": 0,\n      \"critical\": 0,\n      \"total\": 0\n    },\n    \"dependencies\": {\n      \"prod\": 122,\n      \"dev\": 403,\n      \"optional\": 53,\n      \"peer\": 8,\n      \"peerOptional\": 0,\n      \"total\": 524\n    }\n  }\n}\n",
+      "stderr": "",
+      "parsed": {
+        "summary": "total=0, critical=0, high=0, moderate=0, low=0",
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        },
+        "dependencies": {
+          "prod": 122,
+          "dev": 403,
+          "optional": 53,
+          "peer": 8,
+          "peerOptional": 0,
+          "total": 524
+        },
+        "advisoryCount": null,
+        "fixActionCount": null
+      }
+    },
+    {
+      "id": "audit-backend",
+      "title": "Security: npm audit (backend)",
+      "command": "npm --prefix backend audit --json",
+      "startedAt": "2026-03-09T04:13:17.794Z",
+      "finishedAt": "2026-03-09T04:13:18.208Z",
+      "durationMs": 414,
+      "status": "passed",
+      "exitCode": 0,
+      "stdout": "{\n  \"auditReportVersion\": 2,\n  \"vulnerabilities\": {},\n  \"metadata\": {\n    \"vulnerabilities\": {\n      \"info\": 0,\n      \"low\": 0,\n      \"moderate\": 0,\n      \"high\": 0,\n      \"critical\": 0,\n      \"total\": 0\n    },\n    \"dependencies\": {\n      \"prod\": 107,\n      \"dev\": 118,\n      \"optional\": 27,\n      \"peer\": 0,\n      \"peerOptional\": 0,\n      \"total\": 224\n    }\n  }\n}\n",
+      "stderr": "",
+      "parsed": {
+        "summary": "total=0, critical=0, high=0, moderate=0, low=0",
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        },
+        "dependencies": {
+          "prod": 107,
+          "dev": 118,
+          "optional": 27,
+          "peer": 0,
+          "peerOptional": 0,
+          "total": 224
+        },
+        "advisoryCount": null,
+        "fixActionCount": null
+      }
+    },
+    {
+      "id": "audit-frontend",
+      "title": "Security: npm audit (frontend)",
+      "command": "npm --prefix sonus-react audit --json",
+      "startedAt": "2026-03-09T04:13:18.208Z",
+      "finishedAt": "2026-03-09T04:13:18.628Z",
+      "durationMs": 420,
+      "status": "passed",
+      "exitCode": 0,
+      "stdout": "{\n  \"auditReportVersion\": 2,\n  \"vulnerabilities\": {},\n  \"metadata\": {\n    \"vulnerabilities\": {\n      \"info\": 0,\n      \"low\": 0,\n      \"moderate\": 0,\n      \"high\": 0,\n      \"critical\": 0,\n      \"total\": 0\n    },\n    \"dependencies\": {\n      \"prod\": 10,\n      \"dev\": 387,\n      \"optional\": 53,\n      \"peer\": 8,\n      \"peerOptional\": 0,\n      \"total\": 396\n    }\n  }\n}\n",
+      "stderr": "",
+      "parsed": {
+        "summary": "total=0, critical=0, high=0, moderate=0, low=0",
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        },
+        "dependencies": {
+          "prod": 10,
+          "dev": 387,
+          "optional": 53,
+          "peer": 8,
+          "peerOptional": 0,
+          "total": 396
+        },
+        "advisoryCount": null,
+        "fixActionCount": null
+      }
+    },
+    {
+      "id": "latency-load-health",
+      "title": "Latency: health load check (prod-safe)",
+      "command": "npm run -w sonus-backend perf:load",
+      "startedAt": "2026-03-09T04:13:18.628Z",
+      "finishedAt": "2026-03-09T04:13:29.127Z",
+      "durationMs": 10499,
+      "status": "passed",
+      "exitCode": 0,
+      "stdout": "\n> sonus-backend@0.1.0 perf:load\n> node scripts/load-check.mjs\n\nRunning load check against http://127.0.0.1:4000/health with concurrency=5, duration=10s\n{\n  \"apiBase\": \"http://127.0.0.1:4000\",\n  \"path\": \"/health\",\n  \"concurrency\": 5,\n  \"durationSeconds\": 10,\n  \"totalRequests\": 231125,\n  \"successes\": 231125,\n  \"failures\": 0,\n  \"errorRate\": 0,\n  \"requestsPerSecond\": 23112.5,\n  \"p50Ms\": 0.13,\n  \"p95Ms\": 0.49,\n  \"p99Ms\": 1.62,\n  \"maxMs\": 35.03\n}\n",
+      "stderr": "",
+      "parsed": {
+        "summary": "requests=231125, errorRate=0%, p95Ms=0.49",
+        "metrics": {
+          "apiBase": "http://127.0.0.1:4000",
+          "path": "/health",
+          "concurrency": 5,
+          "durationSeconds": 10,
+          "totalRequests": 231125,
+          "successes": 231125,
+          "failures": 0,
+          "errorRate": 0,
+          "requestsPerSecond": 23112.5,
+          "p50Ms": 0.13,
+          "p95Ms": 0.49,
+          "p99Ms": 1.62,
+          "maxMs": 35.03
+        }
+      }
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0
+  },
+  "risk": "low"
+}

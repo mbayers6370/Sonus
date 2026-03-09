@@ -82,6 +82,10 @@ Local endpoints:
 - `npm run test:frontend` run frontend unit tests
 - `npm run checklist` run regression checklist
 - `npm run test:core` run backend core regression scenario
+- `npm run quality:report` run security + stability + latency checks and write a report to `reports/quality-*/QUALITY_REPORT.md`
+- `npm run quality:report:soft` same as above, but does not fail shell on check failures
+- `npm run quality:report:prod-safe` run production-safe (read-only) checks only: npm audits + `/health` load check
+- `npm run quality:report:prod-safe:soft` same as above, but does not fail shell on check failures
 
 ## Quality Gates
 ```bash

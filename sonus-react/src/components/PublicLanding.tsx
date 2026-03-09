@@ -187,7 +187,13 @@ export default function PublicLanding() {
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/20 bg-[#1F2A37]/88 backdrop-blur-2xl shadow-[0_10px_26px_-22px_rgba(15,23,42,0.7)]">
         <div className="mx-auto grid h-16 w-full max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-8">
             <div className="justify-self-start" />
-            <img src="/branding/Sonus-White-Transparent.png" alt="Sonus" className="h-7 justify-self-center sm:h-8" />
+            <img
+              src="/branding/Sonus-White-Transparent.png"
+              srcSet="/branding/Sonus-White-Transparent-500.png 500w, /branding/Sonus-White-Transparent.png 1000w"
+              sizes="(max-width: 768px) 180px, 260px"
+              alt="Sonus"
+              className="h-7 justify-self-center sm:h-8"
+            />
             <div className="justify-self-end">
               {isDesktop ? (
                 <button

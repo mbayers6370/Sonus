@@ -150,7 +150,7 @@ export default function GlassHeader({
                       className="inline-flex items-center justify-center shrink-0"
                     >
                       <img
-                        src="/branding/logo_name_solo.png"
+                        src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px"
                         alt="Sonus"
                         className="h-[18px] max-h-[18px] md:h-6 md:max-h-none w-auto object-contain"
                         onError={(e) => {
@@ -177,7 +177,7 @@ export default function GlassHeader({
                         className="self-center inline-flex items-center justify-center"
                       >
                         <img
-                          src="/branding/logo_name_solo.png"
+                          src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px"
                           alt="Sonus"
                           className="h-[18px] max-h-[18px] md:h-6 md:max-h-none w-auto object-contain"
                           onError={(e) => {
@@ -237,7 +237,7 @@ export default function GlassHeader({
                 className="md:hidden inline-flex items-center justify-center mb-1"
               >
                 <img
-                  src="/branding/logo_name_solo.png"
+                  src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px"
                   alt="Sonus"
                   className="h-[18px] max-h-[18px] w-auto object-contain"
                   onError={(e) => {
@@ -254,7 +254,7 @@ export default function GlassHeader({
                 className="hidden md:inline-flex absolute left-6 items-center justify-center"
               >
                 <img
-                  src="/branding/logo_name_solo.png"
+                  src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px"
                   alt="Sonus"
                   className="h-6 md:h-7 w-auto object-contain"
                   onError={(e) => {
@@ -273,7 +273,7 @@ export default function GlassHeader({
                     className="inline-flex items-center justify-center shrink-0"
                   >
                     <img
-                      src="/branding/logo_name_solo.png"
+                      src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px"
                       alt="Sonus"
                       className="h-[18px] max-h-[18px] w-auto object-contain"
                       onError={(e) => {
@@ -300,7 +300,7 @@ export default function GlassHeader({
                     className="inline-flex items-center justify-center"
                   >
                     <img
-                      src="/branding/logo_name_solo.png"
+                      src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px"
                       alt="Sonus"
                       className="h-6 lg:h-7 w-auto object-contain"
                       onError={(e) => {

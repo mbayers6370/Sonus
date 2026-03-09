@@ -56,6 +56,8 @@ type AuthApiResponse = {
   message?: string;
 };
 const AUTH_DEBUG_STORAGE_KEY = 'sonus.debug.auth';
+const DEFER_INIT_REFRESH =
+  String(import.meta.env.VITE_DEFER_INIT_REFRESH || 'true').toLowerCase() !== 'false';
 
 function isAuthDebugEnabled() {
   const envFlag = String(import.meta.env.VITE_AUTH_DEBUG || '').toLowerCase();
@@ -259,16 +261,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           return;
         }
 
-        let token = getAccessToken();
-        let refreshedEmail: string | null = null;
-        if (!token) {
-          const refreshed = await attemptRefreshAuthSession();
-          if (refreshed.ok) {
-            token = getAccessToken();
-            refreshedEmail = refreshed.email;
-          }
-        }
-
         const demoEnabled = getDemoMode();
         const mockIdentity = getMockIdentity();
         const canResumeDemo =
@@ -276,6 +268,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           !demoExpired &&
           mockIdentity.email === 'dev@local.test' &&
           Boolean(mockIdentity.userId);
+
+        let token = getAccessToken();
+        let refreshedEmail: string | null = null;
+        if (!token && !canResumeDemo) {
+          if (DEFER_INIT_REFRESH) {
+            // Do not block first render on refresh; try to recover session in background.
+            setStatus('signed_out');
+            setIsDemo(false);
+            setEmail(null);
+            void (async () => {
+              const refreshed = await attemptRefreshAuthSession();
+              if (!refreshed.ok || cancelled) return;
+              const nextToken = getAccessToken();
+              if (!nextToken) return;
+              try {
+                const profileResponse = await apiFetch('/v1/me/profile');
+                if (!profileResponse.ok) return;
+                const profileJson = (await profileResponse.json()) as { profile?: { email?: string | null } };
+                if (cancelled) return;
+                setEmail(profileJson.profile?.email ?? refreshed.email ?? null);
+                setIsDemo(false);
+                setStatus('signed_in');
+              } catch {
+                if (cancelled) return;
+                setEmail(refreshed.email ?? null);
+                setIsDemo(false);
+                setStatus('signed_in');
+              }
+            })();
+            return;
+          }
+
+          const refreshed = await attemptRefreshAuthSession();
+          if (refreshed.ok) {
+            token = getAccessToken();
+            refreshedEmail = refreshed.email;
+          }
+        }
 
         if (token) {
           if (demoEnabled) setDemoMode(false);

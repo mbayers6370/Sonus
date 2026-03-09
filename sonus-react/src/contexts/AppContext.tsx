@@ -609,6 +609,25 @@ async function saveLessonCompletionSnapshot(
   }
 }
 
+async function saveProgressEvent(
+  eventType: 'lesson_started',
+  payloadJson: Record<string, unknown>
+) {
+  try {
+    await apiFetch('/v1/me/progress/events', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        eventType,
+        streakDelta: 0,
+        payloadJson,
+      }),
+    });
+  } catch {
+    // Analytics events should not block lesson flow.
+  }
+}
+
 async function flushQueuedLessonSnapshots() {
   const queued = readQueuedLessonSnapshots();
   if (!queued.length) return;
@@ -1479,6 +1498,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
         void saveCurrentLessonPath(bandId, resolvedUnitId, lessonIndex);
       }
       trackEvent('lesson_started', {
+        bandId,
+        unitId: resolvedUnitId,
+        lessonIndex,
+        totalWords: lessonWords.length,
+        reviewWords: lessonWords.filter((w) => Boolean(w.isReview)).length,
+      });
+      void saveProgressEvent('lesson_started', {
         bandId,
         unitId: resolvedUnitId,
         lessonIndex,

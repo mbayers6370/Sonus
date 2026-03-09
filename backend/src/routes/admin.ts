@@ -1,5 +1,8 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { spawn } from 'node:child_process';
 import { createHash, randomBytes } from 'node:crypto';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 import { env } from '../env.js';
@@ -139,6 +142,26 @@ const weakWordsByLanguageQuerySchema = z.object({
   limitPerLanguage: z.coerce.number().int().min(1).max(20).default(5),
   windowDays: z.coerce.number().int().min(1).max(365).default(30),
 });
+const reportWindowQuerySchema = z.object({
+  windowDays: z.coerce.number().int().min(1).max(180).default(30),
+});
+const qualityReportsQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(100).default(20),
+});
+const qualityCleanupBodySchema = z.object({
+  keepLatest: z.coerce.number().int().min(1).max(200).default(30),
+});
+const qualityRunFullBodySchema = z.object({
+  confirmText: z.string().trim().min(1).max(80),
+});
+const qualityRunParamsSchema = z.object({
+  runId: z
+    .string()
+    .trim()
+    .min(1)
+    .max(120)
+    .regex(/^quality-[0-9TZ.\-]+$/i),
+});
 
 type MutationActor = {
   actorUserId: string;
@@ -172,6 +195,135 @@ function toInt(value: unknown) {
     return Number.isFinite(parsed) ? parsed : 0;
   }
   return 0;
+}
+
+async function pathExists(filePath: string) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function resolveRepoRootForQualityReports() {
+  const candidates = [process.cwd(), path.resolve(process.cwd(), '..')];
+  for (const candidate of candidates) {
+    if (await pathExists(path.join(candidate, 'scripts', 'quality-report.mjs'))) {
+      return candidate;
+    }
+  }
+  return process.cwd();
+}
+
+async function resolveQualityReportsDir() {
+  const root = await resolveRepoRootForQualityReports();
+  return path.join(root, 'reports');
+}
+
+type QualityReportListEntry = {
+  runId: string;
+  generatedAt: string | null;
+  startedAt: string | null;
+  profile: string;
+  risk: string;
+  summary: { passed: number; failed: number; skipped: number };
+  checksTotal: number;
+};
+
+async function readQualityReportList(limit: number) {
+  const reportsDir = await resolveQualityReportsDir();
+  const entries = await fs.readdir(reportsDir, { withFileTypes: true }).catch(() => []);
+  const runDirs = entries
+    .filter((entry) => entry.isDirectory() && /^quality-[0-9TZ.\-]+$/i.test(entry.name))
+    .map((entry) => entry.name)
+    .sort((a, b) => b.localeCompare(a))
+    .slice(0, limit);
+
+  const results: QualityReportListEntry[] = [];
+  for (const runId of runDirs) {
+    const reportPath = path.join(reportsDir, runId, 'quality-report.json');
+    try {
+      const raw = await fs.readFile(reportPath, 'utf8');
+      const payload = JSON.parse(raw) as {
+        startedAt?: string;
+        finishedAt?: string;
+        profile?: string;
+        risk?: string;
+        summary?: { passed?: number; failed?: number; skipped?: number };
+        results?: Array<unknown>;
+      };
+
+      results.push({
+        runId,
+        generatedAt: payload.finishedAt || null,
+        startedAt: payload.startedAt || null,
+        profile: payload.profile || 'full',
+        risk: payload.risk || 'unknown',
+        summary: {
+          passed: toInt(payload.summary?.passed),
+          failed: toInt(payload.summary?.failed),
+          skipped: toInt(payload.summary?.skipped),
+        },
+        checksTotal: Array.isArray(payload.results) ? payload.results.length : 0,
+      });
+    } catch {
+      // Skip malformed report entries.
+    }
+  }
+
+  return results;
+}
+
+function tailText(text: string, maxChars = 3000) {
+  if (text.length <= maxChars) return text;
+  return text.slice(text.length - maxChars);
+}
+
+async function runQualityCommand(options: {
+  scriptName: string;
+  qualityProfile: 'full' | 'prod-safe';
+}) {
+  const repoRoot = await resolveRepoRootForQualityReports();
+  const result = await new Promise<{
+    exitCode: number;
+    stdout: string;
+    stderr: string;
+  }>((resolve) => {
+    const child = spawn('npm', ['run', options.scriptName], {
+      cwd: repoRoot,
+      env: { ...process.env, QUALITY_PROFILE: options.qualityProfile },
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    let stdout = '';
+    let stderr = '';
+    child.stdout.on('data', (chunk) => {
+      stdout += chunk.toString();
+    });
+    child.stderr.on('data', (chunk) => {
+      stderr += chunk.toString();
+    });
+    child.on('error', (error) => {
+      stderr += `\n${String(error)}`;
+    });
+    child.on('close', (code) => {
+      resolve({
+        exitCode: code ?? 1,
+        stdout,
+        stderr,
+      });
+    });
+  });
+
+  const [latest] = await readQualityReportList(1);
+  return {
+    ok: result.exitCode === 0,
+    exitCode: result.exitCode,
+    latestRunId: latest?.runId || null,
+    latestReport: latest || null,
+    stdoutTail: tailText(result.stdout, 3000),
+    stderrTail: tailText(result.stderr, 3000),
+  };
 }
 
 async function safeCount(query: Prisma.Sql) {
@@ -893,6 +1045,480 @@ export async function adminRoutes(app: FastifyInstance) {
     return { ok: true };
   });
 
+  app.get('/v1/admin/quality-reports', { preHandler: [requireAdmin] }, async (request, reply) => {
+    const parsed = qualityReportsQuerySchema.safeParse(request.query ?? {});
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+      return;
+    }
+    const reports = await readQualityReportList(parsed.data.limit);
+    return { reports };
+  });
+
+  app.get(
+    '/v1/admin/quality-reports/:runId',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = qualityRunParamsSchema.safeParse(request.params ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid run id', issues: parsed.error.issues });
+        return;
+      }
+
+      const reportsDir = await resolveQualityReportsDir();
+      const runDir = path.join(reportsDir, parsed.data.runId);
+      const normalizedReportsDir = path.resolve(reportsDir);
+      const normalizedRunDir = path.resolve(runDir);
+      if (!normalizedRunDir.startsWith(`${normalizedReportsDir}${path.sep}`)) {
+        reply.code(400).send({ error: 'Invalid run id path.' });
+        return;
+      }
+
+      const jsonPath = path.join(normalizedRunDir, 'quality-report.json');
+      const markdownPath = path.join(normalizedRunDir, 'QUALITY_REPORT.md');
+      const [jsonRaw, markdownRaw] = await Promise.all([
+        fs.readFile(jsonPath, 'utf8').catch(() => null),
+        fs.readFile(markdownPath, 'utf8').catch(() => null),
+      ]);
+
+      if (!jsonRaw || !markdownRaw) {
+        reply.code(404).send({ error: 'Quality report run not found.' });
+        return;
+      }
+
+      let parsedJson: unknown = null;
+      try {
+        parsedJson = JSON.parse(jsonRaw);
+      } catch {
+        parsedJson = null;
+      }
+
+      return {
+        runId: parsed.data.runId,
+        markdown: markdownRaw,
+        json: parsedJson,
+      };
+    }
+  );
+
+  app.post(
+    '/v1/admin/quality-reports/run-prod-safe',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+      return runQualityCommand({
+        scriptName: 'quality:report:prod-safe:soft',
+        qualityProfile: 'prod-safe',
+      });
+    }
+  );
+
+  app.post(
+    '/v1/admin/quality-reports/run-full',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+      const parsed = qualityRunFullBodySchema.safeParse(request.body ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+        return;
+      }
+      if (parsed.data.confirmText !== 'RUN_FULL_SUITE') {
+        reply.code(400).send({ error: 'Confirmation text mismatch. Use RUN_FULL_SUITE.' });
+        return;
+      }
+      return runQualityCommand({
+        scriptName: 'quality:report:soft',
+        qualityProfile: 'full',
+      });
+    }
+  );
+
+  app.post(
+    '/v1/admin/quality-reports/cleanup',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+      const parsed = qualityCleanupBodySchema.safeParse(request.body ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+        return;
+      }
+
+      const keepLatest = parsed.data.keepLatest;
+      const reportsDir = await resolveQualityReportsDir();
+      const entries = await fs.readdir(reportsDir, { withFileTypes: true }).catch(() => []);
+      const runIds = entries
+        .filter((entry) => entry.isDirectory() && /^quality-[0-9TZ.\-]+$/i.test(entry.name))
+        .map((entry) => entry.name)
+        .sort((a, b) => b.localeCompare(a));
+
+      const deleted: string[] = [];
+      const toDelete = runIds.slice(keepLatest);
+      for (const runId of toDelete) {
+        const runDir = path.join(reportsDir, runId);
+        const normalizedReportsDir = path.resolve(reportsDir);
+        const normalizedRunDir = path.resolve(runDir);
+        if (!normalizedRunDir.startsWith(`${normalizedReportsDir}${path.sep}`)) {
+          continue;
+        }
+        await fs.rm(normalizedRunDir, { recursive: true, force: true }).catch(() => {});
+        deleted.push(runId);
+      }
+
+      const [latest] = await readQualityReportList(1);
+      return {
+        ok: true,
+        keepLatest,
+        deletedCount: deleted.length,
+        deletedRunIds: deleted,
+        latestRunId: latest?.runId || null,
+      };
+    }
+  );
+
+  app.get(
+    '/v1/admin/reports/executive-weekly',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = reportWindowQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+      const windowDays = parsed.data.windowDays;
+      const currentInterval = `${windowDays} days`;
+      const previousIntervalStart = `${windowDays * 2} days`;
+
+      const [
+        newUsersCurrent,
+        newUsersPrevious,
+        lessonsCurrent,
+        lessonsPrevious,
+        quizCurrent,
+        quizPrevious,
+      ] = await Promise.all([
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM profiles p WHERE p.created_at >= now() - ${currentInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM profiles p WHERE p.created_at >= now() - ${previousIntervalStart}::interval AND p.created_at < now() - ${currentInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM progress_events pe WHERE pe.event_type = 'lesson_completed' AND pe.created_at >= now() - ${currentInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM progress_events pe WHERE pe.event_type = 'lesson_completed' AND pe.created_at >= now() - ${previousIntervalStart}::interval AND pe.created_at < now() - ${currentInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM quiz_attempts qa WHERE qa.created_at >= now() - ${currentInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM quiz_attempts qa WHERE qa.created_at >= now() - ${previousIntervalStart}::interval AND qa.created_at < now() - ${currentInterval}::interval`
+        ),
+      ]);
+
+      const currentUsers = await safeCount(
+        Prisma.sql`SELECT COUNT(*)::bigint AS count FROM profiles`
+      );
+
+      const deltaPct = (current: number, previous: number) => {
+        if (previous <= 0) return current > 0 ? 100 : 0;
+        return Number((((current - previous) / previous) * 100).toFixed(2));
+      };
+
+      return {
+        generatedAt: new Date().toISOString(),
+        windowDays,
+        currentUsers,
+        comparisons: {
+          newUsers: {
+            current: newUsersCurrent,
+            previous: newUsersPrevious,
+            deltaPct: deltaPct(newUsersCurrent, newUsersPrevious),
+          },
+          lessonsCompleted: {
+            current: lessonsCurrent,
+            previous: lessonsPrevious,
+            deltaPct: deltaPct(lessonsCurrent, lessonsPrevious),
+          },
+          quizAttempts: {
+            current: quizCurrent,
+            previous: quizPrevious,
+            deltaPct: deltaPct(quizCurrent, quizPrevious),
+          },
+        },
+      };
+    }
+  );
+
+  app.get(
+    '/v1/admin/reports/deletion-lifecycle',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = reportWindowQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+      const windowDays = parsed.data.windowDays;
+      const windowInterval = `${windowDays} days`;
+      const [
+        openRequests,
+        agedOpenRequests,
+        resolvedCases,
+        rejectedCases,
+        scheduledPending,
+        scheduledCompleted,
+        scheduledCancelled,
+      ] = await Promise.all([
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM deletion_requests dr WHERE dr.status = 'open'`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM deletion_requests dr WHERE dr.status = 'open' AND dr.created_at < now() - interval '7 days'`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM deletion_case_history dch WHERE dch.outcome = 'resolved' AND dch.resolved_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM deletion_case_history dch WHERE dch.outcome = 'rejected' AND dch.resolved_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM scheduled_account_deletions sad WHERE sad.status = 'scheduled'`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM scheduled_account_deletions sad WHERE sad.status = 'completed' AND sad.completed_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM scheduled_account_deletions sad WHERE sad.status = 'cancelled' AND sad.cancelled_at >= now() - ${windowInterval}::interval`
+        ),
+      ]);
+
+      const avgResolutionRows = await prisma.$queryRaw<Array<{ avgHours: number | null }>>`
+      SELECT AVG(EXTRACT(EPOCH FROM (dch.resolved_at - dch.request_created_at)) / 3600.0) AS "avgHours"
+      FROM deletion_case_history dch
+      WHERE dch.resolved_at >= now() - ${windowInterval}::interval
+    `.catch(() => []);
+
+      return {
+        generatedAt: new Date().toISOString(),
+        windowDays,
+        openRequests,
+        agedOpenRequestsOver7d: agedOpenRequests,
+        resolvedCases,
+        rejectedCases,
+        scheduledPending,
+        scheduledCompleted,
+        scheduledCancelled,
+        avgResolutionHours: Number((avgResolutionRows[0]?.avgHours || 0).toFixed(2)),
+      };
+    }
+  );
+
+  app.get(
+    '/v1/admin/reports/security-incidents',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = reportWindowQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+      const windowDays = parsed.data.windowDays;
+      const windowInterval = `${windowDays} days`;
+      const [
+        unauthorizedAdminAttempts,
+        supportAdminLoginFailed,
+        endUserFailedLogins,
+        authErrors,
+        newIpLogins,
+        newDeviceLogins,
+        sessionRevocations,
+        adminActions,
+      ] = await Promise.all([
+        safeCount(
+          Prisma.sql`
+          SELECT COUNT(*)::bigint AS count
+          FROM account_security_events ase
+          WHERE ase.event_type IN ('admin_route_access_denied', 'support_admin_login_failed', 'support_admin_login_throttled')
+            AND ase.created_at >= now() - ${windowInterval}::interval
+        `
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type = 'support_admin_login_failed' AND ase.created_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type = 'auth_login_failed' AND ase.created_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type LIKE 'auth_error_%' AND ase.created_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type = 'auth_login_new_ip' AND ase.created_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type = 'auth_login_new_device' AND ase.created_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM refresh_sessions rs WHERE rs.revoked_at IS NOT NULL AND rs.revoked_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM admin_audit_logs aal WHERE aal.created_at >= now() - ${windowInterval}::interval`
+        ),
+      ]);
+
+      const topEventRows = await prisma.$queryRaw<Array<{ eventType: string; count: bigint }>>`
+      SELECT ase.event_type AS "eventType", COUNT(*)::bigint AS count
+      FROM account_security_events ase
+      WHERE ase.created_at >= now() - ${windowInterval}::interval
+      GROUP BY ase.event_type
+      ORDER BY count DESC
+      LIMIT 10
+    `.catch(() => []);
+
+      return {
+        generatedAt: new Date().toISOString(),
+        windowDays,
+        summary: {
+          unauthorizedAdminAttempts,
+          supportAdminLoginFailed,
+          endUserFailedLogins,
+          authErrors,
+          newIpLogins,
+          newDeviceLogins,
+          sessionRevocations,
+          adminActions,
+        },
+        topEventTypes: topEventRows.map((row) => ({
+          eventType: row.eventType,
+          count: toInt(row.count),
+        })),
+      };
+    }
+  );
+
+  app.get(
+    '/v1/admin/reports/learning-momentum',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = reportWindowQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+      const windowDays = parsed.data.windowDays;
+      const windowInterval = `${windowDays} days`;
+
+      const [activeLearnersTodayRows, lessonsStartedToday, practiceMsRows, streakRows, dailyRows] =
+        await Promise.all([
+          prisma.$queryRaw<Array<{ count: bigint }>>`
+        SELECT COUNT(DISTINCT user_id)::bigint AS count
+        FROM (
+          SELECT qa.user_id FROM quiz_attempts qa WHERE qa.created_at >= date_trunc('day', now())
+          UNION
+          SELECT sa.user_id FROM speak_attempts sa WHERE sa.created_at >= date_trunc('day', now())
+          UNION
+          SELECT pe.user_id FROM progress_events pe WHERE pe.created_at >= date_trunc('day', now())
+        ) users
+      `.catch(() => []),
+          safeCount(
+            Prisma.sql`SELECT COUNT(*)::bigint AS count FROM progress_events pe WHERE pe.event_type = 'lesson_started' AND pe.created_at >= date_trunc('day', now())`
+          ),
+          prisma.$queryRaw<Array<{ totalMs: bigint | null }>>`
+        SELECT COALESCE(SUM(qa.response_ms), 0)::bigint AS "totalMs"
+        FROM quiz_attempts qa
+        WHERE qa.created_at >= now() - ${windowInterval}::interval
+          AND qa.response_ms IS NOT NULL
+      `.catch(() => []),
+          prisma.$queryRaw<Array<{ bucket: string; count: bigint }>>`
+        SELECT
+          CASE
+            WHEN up.streak <= 0 THEN '0'
+            WHEN up.streak BETWEEN 1 AND 3 THEN '1-3'
+            WHEN up.streak BETWEEN 4 AND 7 THEN '4-7'
+            WHEN up.streak BETWEEN 8 AND 14 THEN '8-14'
+            ELSE '15+'
+          END AS bucket,
+          COUNT(*)::bigint AS count
+        FROM user_progress up
+        GROUP BY bucket
+        ORDER BY bucket
+      `.catch(() => []),
+          prisma.$queryRaw<
+            Array<{ day: Date; practiceMs: bigint; lessonsStarted: bigint; activeLearners: bigint }>
+          >`
+        WITH days AS (
+          SELECT generate_series(
+            date_trunc('day', now() - ${windowInterval}::interval),
+            date_trunc('day', now()),
+            interval '1 day'
+          ) AS day
+        ),
+        practice AS (
+          SELECT date_trunc('day', qa.created_at) AS day, COALESCE(SUM(qa.response_ms), 0)::bigint AS practice_ms
+          FROM quiz_attempts qa
+          WHERE qa.created_at >= now() - ${windowInterval}::interval
+            AND qa.response_ms IS NOT NULL
+          GROUP BY 1
+        ),
+        lessons AS (
+          SELECT date_trunc('day', pe.created_at) AS day, COUNT(*)::bigint AS lessons_started
+          FROM progress_events pe
+          WHERE pe.event_type = 'lesson_started'
+            AND pe.created_at >= now() - ${windowInterval}::interval
+          GROUP BY 1
+        ),
+        active AS (
+          SELECT date_trunc('day', x.created_at) AS day, COUNT(DISTINCT x.user_id)::bigint AS active_learners
+          FROM (
+            SELECT qa.user_id, qa.created_at FROM quiz_attempts qa WHERE qa.created_at >= now() - ${windowInterval}::interval
+            UNION ALL
+            SELECT sa.user_id, sa.created_at FROM speak_attempts sa WHERE sa.created_at >= now() - ${windowInterval}::interval
+            UNION ALL
+            SELECT pe.user_id, pe.created_at FROM progress_events pe WHERE pe.created_at >= now() - ${windowInterval}::interval
+          ) x
+          GROUP BY 1
+        )
+        SELECT
+          d.day AS day,
+          COALESCE(p.practice_ms, 0)::bigint AS "practiceMs",
+          COALESCE(l.lessons_started, 0)::bigint AS "lessonsStarted",
+          COALESCE(a.active_learners, 0)::bigint AS "activeLearners"
+        FROM days d
+        LEFT JOIN practice p ON p.day = d.day
+        LEFT JOIN lessons l ON l.day = d.day
+        LEFT JOIN active a ON a.day = d.day
+        ORDER BY d.day ASC
+      `.catch(() => []),
+        ]);
+
+      const totalPracticeMs = toInt(practiceMsRows[0]?.totalMs);
+      const avgDailyPracticeMinutes = Number((totalPracticeMs / windowDays / 60000).toFixed(2));
+      const activeLearnersToday = toInt(activeLearnersTodayRows[0]?.count);
+
+      return {
+        generatedAt: new Date().toISOString(),
+        windowDays,
+        summary: {
+          averageDailyPracticeMinutes: avgDailyPracticeMinutes,
+          activeLearnersToday,
+          lessonsStartedToday,
+        },
+        practiceStreakDistribution: streakRows.map((row) => ({
+          bucket: row.bucket,
+          count: toInt(row.count),
+        })),
+        dailySeries: dailyRows.map((row) => ({
+          day: row.day.toISOString().slice(0, 10),
+          practiceMinutes: Number((toInt(row.practiceMs) / 60000).toFixed(2)),
+          lessonsStarted: toInt(row.lessonsStarted),
+          activeLearners: toInt(row.activeLearners),
+        })),
+      };
+    }
+  );
+
   app.get(
     '/v1/admin/metrics/support/overview',
     { preHandler: [requireAdmin] },
@@ -920,6 +1546,8 @@ export async function adminRoutes(app: FastifyInstance) {
         currentUsers,
         newUsers,
         activeUsers,
+        totalSecurityEvents,
+        totalAuthErrorEvents,
       ] = await Promise.all([
         safeCount(
           Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type = 'support_admin_login_failed' AND ase.created_at >= now() - ${windowInterval}::interval`
@@ -931,7 +1559,12 @@ export async function adminRoutes(app: FastifyInstance) {
           Prisma.sql`SELECT COUNT(*)::bigint AS count FROM refresh_sessions rs WHERE rs.revoked_at IS NOT NULL AND rs.revoked_at >= now() - ${windowInterval}::interval`
         ),
         safeCount(
-          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type = 'admin_route_access_denied' AND ase.created_at >= now() - ${windowInterval}::interval`
+          Prisma.sql`
+            SELECT COUNT(*)::bigint AS count
+            FROM account_security_events ase
+            WHERE ase.event_type IN ('admin_route_access_denied', 'support_admin_login_failed', 'support_admin_login_throttled')
+              AND ase.created_at >= now() - ${windowInterval}::interval
+          `
         ),
         safeCount(
           Prisma.sql`SELECT COUNT(*)::bigint AS count FROM support_notes sn WHERE sn.created_at >= now() - ${windowInterval}::interval`
@@ -963,6 +1596,12 @@ export async function adminRoutes(app: FastifyInstance) {
               AND rs.expires_at > now()
               AND COALESCE(rs.last_used_at, rs.created_at) >= now() - ${activeWindowInterval}::interval
           `
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.created_at >= now() - ${windowInterval}::interval`
+        ),
+        safeCount(
+          Prisma.sql`SELECT COUNT(*)::bigint AS count FROM account_security_events ase WHERE ase.event_type LIKE 'auth_error_%' AND ase.created_at >= now() - ${windowInterval}::interval`
         ),
       ]);
 
@@ -1009,6 +1648,8 @@ export async function adminRoutes(app: FastifyInstance) {
           activeWindowMinutes,
           supportNotesCreated: noteCount,
           supportNoteCreateFailures: noteFailureCount,
+          totalSecurityEvents,
+          totalAuthErrorEvents,
           authErrorBreakdown: authErrorBreakdown.map((row) => ({
             eventType: row.eventType,
             count: toInt(row.count),
@@ -1122,19 +1763,64 @@ export async function adminRoutes(app: FastifyInstance) {
           quizCorrect: bigint;
           speakAttempts: bigint;
           speakPassed: bigint;
+          lessonStartsTracked: bigint;
+          lessonStartsInferred: bigint;
           lessonStarts: bigint;
           lessonCompleted: bigint;
           applyCompleted: bigint;
         }>
       >`
+      WITH completion_events AS (
+        SELECT
+          pe.event_type,
+          pe.user_id::text AS user_id,
+          COALESCE(pe.payload_json->>'bandId', '') AS band_id,
+          COALESCE(pe.payload_json->>'unitId', '') AS unit_id,
+          COALESCE(pe.payload_json->>'lessonIndex', '') AS lesson_idx,
+          COALESCE(pe.payload_json->>'reachedCompleteScreen', '') AS reached_complete_screen,
+          COALESCE(pe.payload_json->>'completed', '') AS completed_flag
+        FROM progress_events pe
+        WHERE pe.event_type IN ('lesson_completed', 'apply_completed')
+          AND pe.created_at >= now() - ${windowInterval}::interval
+      ),
+      completion_keys AS (
+        SELECT DISTINCT
+          ce.event_type,
+          ce.user_id,
+          ce.band_id,
+          ce.unit_id,
+          ce.lesson_idx,
+          ce.reached_complete_screen,
+          ce.completed_flag
+        FROM completion_events ce
+        WHERE ce.band_id <> '' AND ce.unit_id <> '' AND ce.lesson_idx <> ''
+      )
       SELECT
         (SELECT COUNT(*)::bigint FROM quiz_attempts qa WHERE qa.created_at >= now() - ${windowInterval}::interval) AS "quizAttempts",
         (SELECT COUNT(*)::bigint FROM quiz_attempts qa WHERE qa.is_correct = true AND qa.created_at >= now() - ${windowInterval}::interval) AS "quizCorrect",
         (SELECT COUNT(*)::bigint FROM speak_attempts sa WHERE sa.created_at >= now() - ${windowInterval}::interval) AS "speakAttempts",
         (SELECT COUNT(*)::bigint FROM speak_attempts sa WHERE sa.initial_ok = true AND sa.final_ok = true AND sa.tone_ok = true AND sa.created_at >= now() - ${windowInterval}::interval) AS "speakPassed",
-        (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'lesson_started' AND pe.created_at >= now() - ${windowInterval}::interval) AS "lessonStarts",
-        (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'lesson_completed' AND COALESCE(pe.payload_json->>'reachedCompleteScreen', 'false') = 'true' AND pe.created_at >= now() - ${windowInterval}::interval) AS "lessonCompleted",
-        (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'apply_completed' AND COALESCE(pe.payload_json->>'reachedCompleteScreen', 'false') = 'true' AND pe.created_at >= now() - ${windowInterval}::interval) AS "applyCompleted"
+        (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'lesson_started' AND pe.created_at >= now() - ${windowInterval}::interval) AS "lessonStartsTracked",
+        (SELECT COUNT(*)::bigint FROM completion_keys) AS "lessonStartsInferred",
+        GREATEST(
+          (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'lesson_started' AND pe.created_at >= now() - ${windowInterval}::interval),
+          (SELECT COUNT(*)::bigint FROM completion_keys)
+        ) AS "lessonStarts",
+        (
+          SELECT COUNT(*)::bigint
+          FROM completion_keys ck
+          WHERE ck.reached_complete_screen = 'true'
+             OR (ck.reached_complete_screen = '' AND ck.completed_flag = 'true')
+        ) AS "lessonCompleted",
+        (
+          SELECT COUNT(*)::bigint
+          FROM completion_keys ck
+          WHERE ck.event_type = 'apply_completed'
+            AND (
+              ck.reached_complete_screen = 'true'
+              OR (ck.reached_complete_screen = '' AND ck.completed_flag = 'true')
+            )
+        ) AS "applyCompleted"
     `;
 
       const [summary] = rows;
@@ -1142,6 +1828,8 @@ export async function adminRoutes(app: FastifyInstance) {
       const quizCorrect = toInt(summary?.quizCorrect);
       const speakAttempts = toInt(summary?.speakAttempts);
       const speakPassed = toInt(summary?.speakPassed);
+      const lessonStartsTracked = toInt(summary?.lessonStartsTracked);
+      const lessonStartsInferred = toInt(summary?.lessonStartsInferred);
       const lessonStarts = toInt(summary?.lessonStarts);
       const lessonCompleted = toInt(summary?.lessonCompleted);
       const lessonAbandons = Math.max(0, lessonStarts - lessonCompleted);
@@ -1157,7 +1845,8 @@ export async function adminRoutes(app: FastifyInstance) {
           speakAttempts,
           speakPassPct: pct(speakPassed, speakAttempts),
           lessonStarts,
-          lessonStartsTracked: lessonStarts,
+          lessonStartsTracked,
+          lessonStartsInferred,
           lessonCompleted,
           lessonCompletionPct: pct(lessonCompleted, lessonStarts),
           lessonAbandons,

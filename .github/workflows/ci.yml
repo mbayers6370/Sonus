@@ -82,6 +82,9 @@ jobs:
       - name: Build frontend
         run: npm --prefix sonus-react run build
 
+      - name: Enforce frontend bundle budgets
+        run: npm --prefix sonus-react run check:budgets
+
   backend:
     name: Backend Build + Core Regression
     runs-on: ubuntu-latest
