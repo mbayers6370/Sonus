@@ -58,6 +58,34 @@ type AuthApiResponse = {
 const AUTH_DEBUG_STORAGE_KEY = 'sonus.debug.auth';
 const DEFER_INIT_REFRESH =
   String(import.meta.env.VITE_DEFER_INIT_REFRESH || 'true').toLowerCase() !== 'false';
+const PUBLIC_AUTH_BOOT_PATHS = new Set([
+  '/',
+  '/landing',
+  '/login',
+  '/signup',
+  '/demo',
+  '/forgot-password',
+  '/reset-password',
+  '/privacy',
+  '/terms',
+  '/contact',
+  '/attributions',
+]);
+
+function readCurrentClientPathname() {
+  if (typeof window === 'undefined') return '/';
+  const hash = window.location.hash || '';
+  if (hash.startsWith('#/')) {
+    const cleanHash = hash.slice(1);
+    const queryIdx = cleanHash.indexOf('?');
+    return (queryIdx >= 0 ? cleanHash.slice(0, queryIdx) : cleanHash) || '/';
+  }
+  return window.location.pathname || '/';
+}
+
+function isPublicAuthBootPath(pathname: string) {
+  return PUBLIC_AUTH_BOOT_PATHS.has(pathname);
+}
 
 function isAuthDebugEnabled() {
   const envFlag = String(import.meta.env.VITE_AUTH_DEBUG || '').toLowerCase();
@@ -216,6 +244,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (demoExpired) {
         clearDemoStateOnly();
         setMockIdentity(null, null);
+      }
+      const initialPathname = readCurrentClientPathname();
+      const hasTokenAtBoot = Boolean(getAccessToken());
+      const mockIdentityAtBoot = getMockIdentity();
+      const canResumeDemoAtBoot =
+        demoEnabledAtInit &&
+        !demoExpired &&
+        mockIdentityAtBoot.email === 'dev@local.test' &&
+        Boolean(mockIdentityAtBoot.userId);
+      if (isPublicAuthBootPath(initialPathname) && !hasTokenAtBoot && !canResumeDemoAtBoot) {
+        // Keep unauthenticated public pages backend-free on first paint.
+        setStatus('signed_out');
+        setIsDemo(false);
+        setEmail(null);
+        return;
       }
 
       try {
