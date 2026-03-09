@@ -23,7 +23,7 @@ function cruise(target, tsConfig, files) {
       '--yes',
       'dependency-cruiser',
       '--config',
-      '.dependency-cruiser.cjs',
+      'config/dependency-cruiser.cjs',
       '--ts-config',
       tsConfig,
       '--output-type',

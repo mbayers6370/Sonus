@@ -3132,36 +3132,38 @@ export default function SpeakMode({
             title={disableTargetAudio ? '' : 'Play target audio'}
           >
             {!disableTargetAudio ? <Volume2 className="absolute top-3 right-3 w-5 h-5 text-[#1F2A37]" /> : null}
-            {!practiceMode ? (
-              <>
-                <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight">{displayMeaning}</div>
-                <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
-                {!hideReadingAndMeaning && word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
-              </>
-            ) : (
-              <>
-                {isPracticeFocusSpeakSession ? (
-                  <div className="w-full max-w-[32rem] mx-auto px-2 sm:px-4">
-                    <div className="secondary-font text-base sm:text-lg text-[#1F2A37] leading-relaxed break-words whitespace-normal">
-                      {practiceSentenceHighlighted}
-                    </div>
-                    {practiceSentenceEnglish ? (
-                      <div className="text-xs sm:text-[13px] text-[#475569] leading-relaxed mt-1.5 break-words whitespace-normal">
-                        {practiceSentenceEnglish}
+            <div className={`w-full mx-auto ${disableTargetAudio ? 'max-w-[94%]' : 'max-w-[calc(100%-2.25rem)] pr-7 sm:max-w-[94%] sm:pr-0'}`}>
+              {!practiceMode ? (
+                <>
+                  <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight break-words">{displayMeaning}</div>
+                  <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
+                  {!hideReadingAndMeaning && word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
+                </>
+              ) : (
+                <>
+                  {isPracticeFocusSpeakSession ? (
+                    <div className="w-full max-w-[32rem] mx-auto px-2 sm:px-4">
+                      <div className="secondary-font text-base sm:text-lg text-[#1F2A37] leading-relaxed break-words whitespace-normal">
+                        {practiceSentenceHighlighted}
                       </div>
-                    ) : null}
-                  </div>
-                ) : (
-                  <>
-                    <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
-                    {!hideReadingAndMeaning && word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
-                    {!hideReadingAndMeaning ? (
-                      <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1">{displayMeaning}</div>
-                    ) : null}
-                  </>
-                )}
-              </>
-            )}
+                      {practiceSentenceEnglish ? (
+                        <div className="text-xs sm:text-[13px] text-[#475569] leading-relaxed mt-1.5 break-words whitespace-normal">
+                          {practiceSentenceEnglish}
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : (
+                    <>
+                      <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
+                      {!hideReadingAndMeaning && word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
+                      {!hideReadingAndMeaning ? (
+                        <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1 break-words">{displayMeaning}</div>
+                      ) : null}
+                    </>
+                  )}
+                </>
+              )}
+            </div>
           </button>
 
           <button

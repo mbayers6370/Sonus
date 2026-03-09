@@ -34,7 +34,7 @@
     "quality:report:prod-safe": "QUALITY_PROFILE=prod-safe node scripts/quality-report.mjs",
     "quality:report:prod-safe:soft": "QUALITY_PROFILE=prod-safe node scripts/quality-report.mjs || true",
     "a11y:check": "bash -lc 'set -e; npm --prefix sonus-react run build; npm --prefix sonus-react run preview -- --host 127.0.0.1 --port 4173 > /tmp/sonus-preview.log 2>&1 & PREVIEW_PID=$!; trap \"kill $PREVIEW_PID\" EXIT; npx --yes @lhci/cli@0.14.x autorun --config=sonus-react/.lighthouserc.json'",
-    "codehealth:dead": "npx --yes knip --config knip.json",
+    "codehealth:dead": "npx --yes knip --config config/knip.json",
     "codehealth:deps": "node scripts/codehealth-deps.mjs",
     "codehealth:cycles": "bash -lc 'npx --yes madge --circular --extensions ts,tsx backend/src && npx --yes madge --circular --extensions ts,tsx sonus-react/src'",
     "codehealth:scan": "node scripts/codehealth-scan.mjs",

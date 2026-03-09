@@ -15,6 +15,9 @@ dist/
 **/dist/
 coverage/
 **/coverage/
+.cache/
+**/.cache/
+.eslintcache
 playwright-report/
 **/playwright-report/
 test-results/
@@ -42,3 +45,13 @@ scripts/ted-data/
 scripts/wit3-data/
 scripts/tatoeba-api-cache.json
 scripts/tatoeba-api-cache-diverse.json
+
+# Lighthouse / perf artifacts
+.lighthouseci/*.html
+.lighthouseci/*.json
+.lighthouseci/manifest.json
+.lighthouseci/assertion-results.json
+
+# Generated run reports (keep reports/README.md and reports/reference/)
+reports/quality-*/
+reports/db-health-*/
