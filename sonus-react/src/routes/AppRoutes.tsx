@@ -719,9 +719,29 @@ export default function AppRoutes() {
 
     let frameId = 0;
     let timeoutId = 0;
-    let intervalId = 0;
     let observedTarget: HTMLElement | null = null;
     let observer: ResizeObserver | null = null;
+    let layoutObserver: ResizeObserver | null = null;
+    const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+    const isDesktopViewport = !isMobileViewport;
+    const shouldPinTargetNearTop =
+      isMobileViewport && targetId !== 'tour-begin-here-button';
+    const shouldPinProfileCardHigherOnDesktop =
+      isDesktopViewport && targetId === 'tour-profile-language-card';
+
+    const alignTargetForMobileWalkthrough = (target: HTMLElement) => {
+      if (!shouldPinTargetNearTop && !shouldPinProfileCardHigherOnDesktop) return;
+      const rect = target.getBoundingClientRect();
+      // Keep highlighted cards consistently visible above the tour sheet.
+      const desiredTop = shouldPinProfileCardHigherOnDesktop ? 92 : 106;
+      const delta = rect.top - desiredTop;
+      if (Math.abs(delta) < 2) return;
+      window.scrollTo({
+        top: Math.max(0, window.scrollY + delta),
+        behavior: 'auto',
+      });
+    };
+
     const updateRect = () => {
       const target = document.getElementById(targetId);
       if (!target) {
@@ -763,13 +783,7 @@ export default function AppRoutes() {
         setWalkthroughHighlightRect(null);
         return;
       }
-      if (
-        targetId === 'tour-travel-sprint-card' ||
-        targetId === 'tour-practice-focus-card' ||
-        targetId === 'tour-profile-language-card'
-      ) {
-        target.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' });
-      }
+      alignTargetForMobileWalkthrough(target);
       if (observedTarget === target) {
         queueUpdate();
         return;
@@ -785,15 +799,23 @@ export default function AppRoutes() {
 
     resolveAndObserveTarget();
     timeoutId = window.setTimeout(resolveAndObserveTarget, 120);
-    intervalId = window.setInterval(resolveAndObserveTarget, 250);
-    window.addEventListener('resize', resolveAndObserveTarget);
+    // Fonts/images/layout shifts can move the target without resizing it directly.
+    // Watch document-level layout and re-sync the glow rect when that happens.
+    layoutObserver = new ResizeObserver(() => {
+      queueUpdate();
+    });
+    layoutObserver.observe(document.documentElement);
+    window.addEventListener('resize', queueUpdate);
+    window.addEventListener('scroll', queueUpdate, { passive: true });
 
     return () => {
       window.cancelAnimationFrame(frameId);
       window.clearTimeout(timeoutId);
-      window.clearInterval(intervalId);
-      window.removeEventListener('resize', resolveAndObserveTarget);
+      window.removeEventListener('resize', queueUpdate);
+      window.removeEventListener('scroll', queueUpdate);
       if (observer) observer.disconnect();
+      if (layoutObserver) layoutObserver.disconnect();
+      layoutObserver = null;
       observer = null;
       observedTarget = null;
     };

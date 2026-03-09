@@ -55,7 +55,8 @@ export default function FirstTimeWalkthrough({
     <div
       className="fixed inset-0 z-[220] flex items-end justify-center bg-black/45 px-4 pt-4"
       style={{
-        paddingBottom: 'calc(var(--sonus-bottom-nav-height, 6.1rem) + env(safe-area-inset-bottom, 0px))',
+        // Keep the tour sheet anchored low on mobile so it can cover bottom nav/legal bars.
+        paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 0.25rem)',
       }}
     >
       {highlightRect && (
