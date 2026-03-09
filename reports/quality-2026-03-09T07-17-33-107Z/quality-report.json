@@ -1,0 +1,145 @@
+{
+  "startedAt": "2026-03-09T07:17:33.108Z",
+  "finishedAt": "2026-03-09T07:17:34.976Z",
+  "profile": "full",
+  "outDir": "/Users/matt/Documents/Language App Project/reports/quality-2026-03-09T07-17-33-107Z",
+  "markdownPath": "/Users/matt/Documents/Language App Project/reports/quality-2026-03-09T07-17-33-107Z/QUALITY_REPORT.md",
+  "results": [
+    {
+      "id": "audit-root",
+      "title": "Security: npm audit (root)",
+      "command": "npm audit --json",
+      "startedAt": "2026-03-09T07:17:33.109Z",
+      "finishedAt": "2026-03-09T07:17:33.544Z",
+      "durationMs": 435,
+      "status": "failed",
+      "exitCode": 1,
+      "stdout": "{\n  \"message\": \"request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\",\n  \"error\": {\n    \"summary\": \"\",\n    \"detail\": \"\"\n  }\n}\n",
+      "stderr": "npm warn audit request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\nnpm error audit endpoint returned an error\nnpm error Log files were not written due to an error writing to the directory: /Users/matt/.npm/_logs\nnpm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal\n",
+      "parsed": {
+        "summary": "Audit unavailable: request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org",
+        "error": {
+          "summary": "",
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "audit-backend",
+      "title": "Security: npm audit (backend)",
+      "command": "npm --prefix backend audit --json",
+      "startedAt": "2026-03-09T07:17:33.544Z",
+      "finishedAt": "2026-03-09T07:17:33.742Z",
+      "durationMs": 198,
+      "status": "failed",
+      "exitCode": 1,
+      "stdout": "{\n  \"message\": \"request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\",\n  \"error\": {\n    \"summary\": \"\",\n    \"detail\": \"\"\n  }\n}\n",
+      "stderr": "npm warn audit request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\nnpm error audit endpoint returned an error\nnpm error Log files were not written due to an error writing to the directory: /Users/matt/.npm/_logs\nnpm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal\n",
+      "parsed": {
+        "summary": "Audit unavailable: request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org",
+        "error": {
+          "summary": "",
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "audit-frontend",
+      "title": "Security: npm audit (frontend)",
+      "command": "npm --prefix sonus-react audit --json",
+      "startedAt": "2026-03-09T07:17:33.742Z",
+      "finishedAt": "2026-03-09T07:17:33.966Z",
+      "durationMs": 224,
+      "status": "failed",
+      "exitCode": 1,
+      "stdout": "{\n  \"message\": \"request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\",\n  \"error\": {\n    \"summary\": \"\",\n    \"detail\": \"\"\n  }\n}\n",
+      "stderr": "npm warn audit request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org\nnpm error audit endpoint returned an error\nnpm error Log files were not written due to an error writing to the directory: /Users/matt/.npm/_logs\nnpm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal\n",
+      "parsed": {
+        "summary": "Audit unavailable: request to https://registry.npmjs.org/-/npm/v1/security/audits/quick failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org",
+        "error": {
+          "summary": "",
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "security-regression",
+      "title": "Security: backend regression suite",
+      "command": "npm run -w sonus-backend test:security",
+      "startedAt": "2026-03-09T07:17:33.966Z",
+      "finishedAt": "2026-03-09T07:17:34.975Z",
+      "durationMs": 1009,
+      "status": "failed",
+      "exitCode": 1,
+      "stdout": "\n> sonus-backend@0.1.0 test:security\n> node scripts/security-regression.mjs\n\nHanzi is compiling data...\nDone compiling\nHanzi is compiling dictionary...\nStarting to read frequency data\nFrequency data loaded\n",
+      "stderr": "PrismaClientInitializationError: \nInvalid `prisma.$queryRaw()` invocation:\n\n\nCan't reach database server at `localhost:5432`\n\nPlease make sure your database server is running at `localhost:5432`.\n    at ei.handleRequestError (/Users/matt/Documents/Language App Project/node_modules/@prisma/client/runtime/library.js:121:7568)\n    at ei.handleAndLogRequestError (/Users/matt/Documents/Language App Project/node_modules/@prisma/client/runtime/library.js:121:6593)\n    at ei.request (/Users/matt/Documents/Language App Project/node_modules/@prisma/client/runtime/library.js:121:6300)\n    at async a (/Users/matt/Documents/Language App Project/node_modules/@prisma/client/runtime/library.js:130:9551)\n    at async tableExists (file:///Users/matt/Documents/Language%20App%20Project/backend/dist/lib/profileEmailUniqueness.js:13:18)\n    at async ensureProfileEmailUniqueness (file:///Users/matt/Documents/Language%20App%20Project/backend/dist/lib/profileEmailUniqueness.js:243:28)\n    at async buildServer (file:///Users/matt/Documents/Language%20App%20Project/backend/dist/server.js:96:5)\n    at async run (file:///Users/matt/Documents/Language%20App%20Project/backend/scripts/security-regression.mjs:29:15) {\n  clientVersion: '6.19.2',\n  errorCode: undefined,\n  retryable: undefined\n}\nnpm error Lifecycle script `test:security` failed with error:\nnpm error code 1\nnpm error path /Users/matt/Documents/Language App Project/backend\nnpm error workspace sonus-backend@0.1.0\nnpm error location /Users/matt/Documents/Language App Project/backend\nnpm error command failed\nnpm error command sh -c node scripts/security-regression.mjs\n",
+      "parsed": null
+    },
+    {
+      "id": "stability-backend-core",
+      "title": "Stability: backend core regression",
+      "command": "npm run -w sonus-backend test:core:local",
+      "startedAt": "2026-03-09T07:17:34.976Z",
+      "finishedAt": "2026-03-09T07:17:34.976Z",
+      "durationMs": 0,
+      "status": "skipped",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "Skipped in Render runtime: local core regression spins up localhost test server and is not production-safe. Run this in CI/dev or set QUALITY_ALLOW_LOCAL_HOST_CHECKS=1.",
+      "parsed": {
+        "summary": "Skipped in Render runtime: local core regression spins up localhost test server and is not production-safe. Run this in CI/dev or set QUALITY_ALLOW_LOCAL_HOST_CHECKS=1."
+      }
+    },
+    {
+      "id": "stability-frontend-unit",
+      "title": "Stability: frontend unit tests",
+      "command": "npm run -w sonus-react test:unit",
+      "startedAt": "2026-03-09T07:17:34.976Z",
+      "finishedAt": "2026-03-09T07:17:34.976Z",
+      "durationMs": 0,
+      "status": "skipped",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "Skipped: frontend dev test tooling is unavailable in this runtime (vitest not installed). Run in CI/dev where sonus-react devDependencies are installed.",
+      "parsed": {
+        "summary": "Skipped: frontend dev test tooling is unavailable in this runtime (vitest not installed). Run in CI/dev where sonus-react devDependencies are installed."
+      }
+    },
+    {
+      "id": "latency-smoke",
+      "title": "Latency: backend perf smoke",
+      "command": "npm run -w sonus-backend perf:smoke",
+      "startedAt": "2026-03-09T07:17:34.976Z",
+      "finishedAt": "2026-03-09T07:17:34.976Z",
+      "durationMs": 0,
+      "status": "skipped",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "Skipped in Render runtime: perf smoke defaults to localhost-only authenticated endpoints. Run from CI/dev or set QUALITY_ALLOW_LOCAL_HOST_CHECKS=1 with a local test server.",
+      "parsed": {
+        "summary": "Skipped in Render runtime: perf smoke defaults to localhost-only authenticated endpoints. Run from CI/dev or set QUALITY_ALLOW_LOCAL_HOST_CHECKS=1 with a local test server."
+      }
+    },
+    {
+      "id": "latency-load",
+      "title": "Latency: backend load check",
+      "command": "npm run -w sonus-backend perf:load",
+      "startedAt": "2026-03-09T07:17:34.976Z",
+      "finishedAt": "2026-03-09T07:17:34.976Z",
+      "durationMs": 0,
+      "status": "skipped",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "Skipped in Render runtime: full load-check targets localhost test routes. Use prod-safe profile for live health checks.",
+      "parsed": {
+        "summary": "Skipped in Render runtime: full load-check targets localhost test routes. Use prod-safe profile for live health checks."
+      }
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 4,
+    "skipped": 4
+  },
+  "risk": "high"
+}

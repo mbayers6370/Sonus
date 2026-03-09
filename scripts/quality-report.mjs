@@ -12,6 +12,13 @@ const outDir = path.join(reportsRoot, `quality-${stamp}`);
 const markdownPath = path.join(outDir, 'QUALITY_REPORT.md');
 const jsonPath = path.join(outDir, 'quality-report.json');
 const profile = String(process.env.QUALITY_PROFILE || 'full').trim().toLowerCase();
+const isRenderRuntime = Boolean(
+  process.env.RENDER ||
+  process.env.RENDER_SERVICE_ID ||
+  process.env.RENDER_EXTERNAL_URL ||
+  cwd.startsWith('/opt/render/')
+);
+const allowLocalHostChecks = String(process.env.QUALITY_ALLOW_LOCAL_HOST_CHECKS || '').trim() === '1';
 
 function nowIso() {
   return new Date().toISOString();
@@ -102,6 +109,22 @@ async function runCommand({ id, title, command, args, env = {}, parser }) {
       resolve(result);
     });
   });
+}
+
+function buildSkippedResult({ id, title, command, args, reason }) {
+  return {
+    id,
+    title,
+    command: commandLine(command, args),
+    startedAt: nowIso(),
+    finishedAt: nowIso(),
+    durationMs: 0,
+    status: 'skipped',
+    exitCode: 0,
+    stdout: '',
+    stderr: reason,
+    parsed: { summary: reason },
+  };
 }
 
 function parseNpmAudit(stdout, stderr) {
@@ -244,11 +267,24 @@ function toMarkdown({ startedAt, finishedAt, results }) {
 
 async function main() {
   await fs.mkdir(outDir, { recursive: true });
+  let hasFrontendVitest = false;
+  try {
+    await fs.access(path.join(cwd, 'sonus-react', 'node_modules', '.bin', 'vitest'));
+    hasFrontendVitest = true;
+  } catch {
+    hasFrontendVitest = false;
+  }
 
   const startedAt = nowIso();
   if (!['full', 'prod-safe'].includes(profile)) {
     throw new Error(`Invalid QUALITY_PROFILE="${profile}". Expected "full" or "prod-safe".`);
   }
+  const context = {
+    profile,
+    isRenderRuntime,
+    allowLocalHostChecks,
+    hasFrontendVitest,
+  };
 
   const fullChecks = [
     {
@@ -283,12 +319,20 @@ async function main() {
       title: 'Stability: backend core regression',
       command: 'npm',
       args: ['run', '-w', 'sonus-backend', 'test:core:local'],
+      skipWhen: ({ isRenderRuntime: onRender, allowLocalHostChecks: allowLocal }) =>
+        onRender && !allowLocal
+          ? 'Skipped in Render runtime: local core regression spins up localhost test server and is not production-safe. Run this in CI/dev or set QUALITY_ALLOW_LOCAL_HOST_CHECKS=1.'
+          : null,
     },
     {
       id: 'stability-frontend-unit',
       title: 'Stability: frontend unit tests',
       command: 'npm',
       args: ['run', '-w', 'sonus-react', 'test:unit'],
+      skipWhen: ({ hasFrontendVitest: hasVitest }) =>
+        hasVitest
+          ? null
+          : 'Skipped: frontend dev test tooling is unavailable in this runtime (vitest not installed). Run in CI/dev where sonus-react devDependencies are installed.',
     },
     {
       id: 'latency-smoke',
@@ -296,6 +340,10 @@ async function main() {
       command: 'npm',
       args: ['run', '-w', 'sonus-backend', 'perf:smoke'],
       parser: parsePerf,
+      skipWhen: ({ isRenderRuntime: onRender, allowLocalHostChecks: allowLocal }) =>
+        onRender && !allowLocal
+          ? 'Skipped in Render runtime: perf smoke defaults to localhost-only authenticated endpoints. Run from CI/dev or set QUALITY_ALLOW_LOCAL_HOST_CHECKS=1 with a local test server.'
+          : null,
     },
     {
       id: 'latency-load',
@@ -303,6 +351,10 @@ async function main() {
       command: 'npm',
       args: ['run', '-w', 'sonus-backend', 'perf:load'],
       parser: parsePerf,
+      skipWhen: ({ isRenderRuntime: onRender, allowLocalHostChecks: allowLocal }) =>
+        onRender && !allowLocal
+          ? 'Skipped in Render runtime: full load-check targets localhost test routes. Use prod-safe profile for live health checks.'
+          : null,
     },
   ];
   const prodSafeChecks = [
@@ -345,6 +397,15 @@ async function main() {
 
   const results = [];
   for (const check of checks) {
+    if (typeof check.skipWhen === 'function') {
+      const reason = check.skipWhen(context);
+      if (reason) {
+        // eslint-disable-next-line no-console
+        console.log(`Skipping: ${check.title} (${reason})`);
+        results.push(buildSkippedResult({ ...check, reason }));
+        continue;
+      }
+    }
     // eslint-disable-next-line no-console
     console.log(`Running: ${check.title}`);
     const result = await runCommand(check);
