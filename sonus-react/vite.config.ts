@@ -5,7 +5,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    modulePreload: false,
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -14,14 +13,6 @@ export default defineConfig({
             if (id.includes('react') || id.includes('scheduler')) return 'vendor-react';
             if (id.includes('lucide-react')) return 'vendor-icons';
             return 'vendor';
-          }
-
-          if (id.includes('/src/components/internal/SupportConsolePage')) return 'support-console';
-          if (id.includes('/src/routes/LessonRouteController') || id.includes('/src/components/Lesson')) {
-            return 'lesson-flow';
-          }
-          if (id.includes('/src/components/Travel') || id.includes('/src/routes/profileTravelRoutes')) {
-            return 'travel-mode';
           }
 
           return undefined;

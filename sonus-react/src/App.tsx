@@ -1,13 +1,13 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import AuthScreen from './components/AuthScreen';
-import PublicLanding from './components/PublicLanding';
 import GlassLoader from './components/ui/GlassLoader';
-import PrivacyPage from './components/public/PrivacyPage';
-import TermsPage from './components/public/TermsPage';
-import ContactPage from './components/public/ContactPage';
-import AttributionsPage from './components/public/AttributionsPage';
+const AuthScreen = lazy(() => import('./components/AuthScreen'));
+const PublicLanding = lazy(() => import('./components/PublicLanding'));
+const PrivacyPage = lazy(() => import('./components/public/PrivacyPage'));
+const TermsPage = lazy(() => import('./components/public/TermsPage'));
+const ContactPage = lazy(() => import('./components/public/ContactPage'));
+const AttributionsPage = lazy(() => import('./components/public/AttributionsPage'));
 const SignedInApp = lazy(() => import('./components/internal/SignedInApp'));
 const SupportConsolePage = lazy(() => import('./components/internal/SupportConsolePage'));
 
@@ -78,34 +78,42 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
 
   if (status === 'signed_out') {
     return (
-      <Routes>
-        <Route path="/" element={<PublicEntryRoute />} />
-        <Route path="/landing" element={<PublicLanding />} />
-        <Route path="/login" element={<AuthScreen initialMode="signin" />} />
-        <Route path="/signup" element={<AuthScreen initialMode="signup" />} />
-        <Route path="/demo" element={<AuthScreen initialMode="demo" />} />
-        <Route path="/forgot-password" element={<AuthScreen initialMode="forgot" />} />
-        <Route path="/reset-password" element={<AuthScreen initialMode="reset" />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/attributions" element={<AttributionsPage />} />
-        <Route
-          path="/internal/support/*"
-          element={(
-            <Suspense
-              fallback={(
-                <div className="min-h-screen page-shell flex items-center justify-center">
-                  <GlassLoader compact message="Loading support console..." />
-                </div>
-              )}
-            >
-              <SupportConsolePage />
-            </Suspense>
-          )}
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <Suspense
+        fallback={(
+          <div className="min-h-screen page-shell flex items-center justify-center">
+            <GlassLoader compact message="Loading page..." />
+          </div>
+        )}
+      >
+        <Routes>
+          <Route path="/" element={<PublicEntryRoute />} />
+          <Route path="/landing" element={<PublicLanding />} />
+          <Route path="/login" element={<AuthScreen initialMode="signin" />} />
+          <Route path="/signup" element={<AuthScreen initialMode="signup" />} />
+          <Route path="/demo" element={<AuthScreen initialMode="demo" />} />
+          <Route path="/forgot-password" element={<AuthScreen initialMode="forgot" />} />
+          <Route path="/reset-password" element={<AuthScreen initialMode="reset" />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/attributions" element={<AttributionsPage />} />
+          <Route
+            path="/internal/support/*"
+            element={(
+              <Suspense
+                fallback={(
+                  <div className="min-h-screen page-shell flex items-center justify-center">
+                    <GlassLoader compact message="Loading support console..." />
+                  </div>
+                )}
+              >
+                <SupportConsolePage />
+              </Suspense>
+            )}
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     );
   }
 

@@ -29,8 +29,6 @@ body {
   color: #1F2A37;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(148, 163, 184, 0.62) rgba(255, 255, 255, 0.42);
 }
 
 .text-black {
@@ -47,56 +45,6 @@ body::before {
   background-repeat: no-repeat;
   pointer-events: none;
   z-index: -1;
-}
-
-body.auth-screen-open {
-  overflow: hidden;
-  overscroll-behavior: none;
-  touch-action: manipulation;
-}
-
-body.auth-screen-open #root {
-  height: 100svh;
-  overflow: hidden;
-}
-
-body.lesson-screen-open {
-  overflow: hidden;
-  overscroll-behavior: none;
-}
-
-body.lesson-screen-open #root {
-  height: 100svh;
-  overflow: hidden;
-}
-
-*::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-*::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.42);
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  border-radius: 999px;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    180deg,
-    rgba(100, 116, 139, 0.7) 0%,
-    rgba(100, 116, 139, 0.52) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  border-radius: 999px;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    180deg,
-    rgba(71, 85, 105, 0.78) 0%,
-    rgba(71, 85, 105, 0.58) 100%
-  );
 }
 
 #root {
@@ -142,21 +90,6 @@ body.lesson-screen-open #root {
   padding-left: 24px !important;
   padding-right: 24px !important;
   background: transparent;
-}
-
-.with-bottom-nav {
-  padding-bottom: calc(var(--sonus-bottom-nav-height) + env(safe-area-inset-bottom, 0px) + 1rem) !important;
-}
-
-.travel-scroll-hidden {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.travel-scroll-hidden::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
 }
 
 @media (max-width: 640px) {

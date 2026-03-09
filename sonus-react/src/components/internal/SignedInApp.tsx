@@ -1,3 +1,4 @@
+import '../../app-shell.css';
 import { AppProvider } from '../../contexts/AppContext';
 import AppRoutes from '../../routes/AppRoutes';
 

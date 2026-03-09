@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { Menu, Plane, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import AuthScreen from './AuthScreen';
 import PublicFooter from './public/PublicFooter';
 import SEOHead from './public/SEOHead';
 import { useAuth } from '../contexts/AuthContext';
+const AuthScreen = lazy(() => import('./AuthScreen'));
 
 type AuthMode = 'signin' | 'signup';
 type ModalMode = AuthMode | 'demo';
@@ -452,13 +452,15 @@ export default function PublicLanding() {
           onClick={() => setModalMode(null)}
         >
           <div className="relative w-full max-w-lg" onClick={(event) => event.stopPropagation()}>
-            <AuthScreen
-              initialMode={modalMode}
-              variant="modal"
-              showDemoTab={modalMode === 'demo'}
-              showAuthTabs={modalMode !== 'demo'}
-              onClose={() => setModalMode(null)}
-            />
+            <Suspense fallback={null}>
+              <AuthScreen
+                initialMode={modalMode}
+                variant="modal"
+                showDemoTab={modalMode === 'demo'}
+                showAuthTabs={modalMode !== 'demo'}
+                onClose={() => setModalMode(null)}
+              />
+            </Suspense>
           </div>
         </div>
       )}

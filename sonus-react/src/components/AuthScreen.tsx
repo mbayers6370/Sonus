@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
+import '../app-shell.css';
 import { useAuth } from '../contexts/AuthContext';
 import GlassLoader from './ui/GlassLoader';
 import PublicFooter from './public/PublicFooter';
