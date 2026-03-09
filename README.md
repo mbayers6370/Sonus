@@ -135,6 +135,14 @@ npm run -w sonus-react test:e2e
 - `docs/PRODUCT_SETTINGS.md`
 - `backend/README.md`
 - `sonus-react/README.md`
+- `CONTRIBUTING.md`
+- `SECURITY.md`
+- `reports/README.md`
+
+## Repository Standards
+- Git normalization is defined in `.gitattributes` (LF by default).
+- Generated quality and DB-health run folders are intentionally ignored via `.gitignore`.
+- Static analysis configs are centralized in `config/` (with root compatibility for dependency-cruiser).
 
 ## Data Attribution
 Mandarin vocabulary/enrichment sources include:
