@@ -160,7 +160,7 @@ const qualityRunParamsSchema = z.object({
     .trim()
     .min(1)
     .max(120)
-    .regex(/^quality-[0-9TZ.\-]+$/i),
+    .regex(/^quality-[0-9TZ.-]+$/i),
 });
 
 type MutationActor = {
@@ -235,7 +235,7 @@ async function readQualityReportList(limit: number) {
   const reportsDir = await resolveQualityReportsDir();
   const entries = await fs.readdir(reportsDir, { withFileTypes: true }).catch(() => []);
   const runDirs = entries
-    .filter((entry) => entry.isDirectory() && /^quality-[0-9TZ.\-]+$/i.test(entry.name))
+    .filter((entry) => entry.isDirectory() && /^quality-[0-9TZ.-]+$/i.test(entry.name))
     .map((entry) => entry.name)
     .sort((a, b) => b.localeCompare(a))
     .slice(0, limit);
@@ -1086,12 +1086,13 @@ export async function adminRoutes(app: FastifyInstance) {
         return;
       }
 
-      let parsedJson: unknown = null;
-      try {
-        parsedJson = JSON.parse(jsonRaw);
-      } catch {
-        parsedJson = null;
-      }
+      const parsedJson: unknown = (() => {
+        try {
+          return JSON.parse(jsonRaw);
+        } catch {
+          return null;
+        }
+      })();
 
       return {
         runId: parsed.data.runId,
@@ -1149,7 +1150,7 @@ export async function adminRoutes(app: FastifyInstance) {
       const reportsDir = await resolveQualityReportsDir();
       const entries = await fs.readdir(reportsDir, { withFileTypes: true }).catch(() => []);
       const runIds = entries
-        .filter((entry) => entry.isDirectory() && /^quality-[0-9TZ.\-]+$/i.test(entry.name))
+        .filter((entry) => entry.isDirectory() && /^quality-[0-9TZ.-]+$/i.test(entry.name))
         .map((entry) => entry.name)
         .sort((a, b) => b.localeCompare(a));
 

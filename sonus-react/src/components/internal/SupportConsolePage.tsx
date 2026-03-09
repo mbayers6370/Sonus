@@ -359,7 +359,7 @@ function toCsv(headers: string[], rows: Array<Array<unknown>>) {
 function crc32(input: string) {
   let crc = 0 ^ -1;
   for (let i = 0; i < input.length; i += 1) {
-    let byte = input.charCodeAt(i) & 0xff;
+    const byte = input.charCodeAt(i) & 0xff;
     crc ^= byte;
     for (let j = 0; j < 8; j += 1) {
       const mask = -(crc & 1);
@@ -1409,6 +1409,7 @@ export default function SupportConsolePage() {
     ]);
   };
 
+  // Intentionally run only once at mount to bootstrap session and initial view data.
   useEffect(() => {
     let cancelled = false;
     void (async () => {
@@ -1430,8 +1431,9 @@ export default function SupportConsolePage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Intentionally re-run on auth/view/window only; loaders are stable enough for this scope.
   useEffect(() => {
     if (!authenticated) return;
     if (viewMode === 'dashboard') {
@@ -1451,8 +1453,9 @@ export default function SupportConsolePage() {
     if (viewMode === 'quality-reports') {
       void loadQualityReports();
     }
-  }, [authenticated, viewMode, metricsWindowDays]);
+  }, [authenticated, viewMode, metricsWindowDays]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Intentionally tied to auth/view transitions to repopulate operations state.
   useEffect(() => {
     if (!selectedUserId || !authenticated || viewMode !== 'ops') {
       setOverview(null);
@@ -1469,7 +1472,7 @@ export default function SupportConsolePage() {
     void runSearch();
     void loadRecentDeletions();
     void loadOpenDeletionRequests();
-  }, [authenticated, viewMode]);
+  }, [authenticated, viewMode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!authenticated || viewMode !== 'quality-reports' || !selectedQualityRunId) {

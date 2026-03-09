@@ -1,0 +1,26 @@
+[
+  {
+    "url": "http://127.0.0.1:4173/",
+    "isRepresentativeRun": false,
+    "htmlPath": "/Users/matt/Documents/Language App Project/.lighthouseci/127_0_0_1-_-2026_03_09_05_07_55.report.html",
+    "jsonPath": "/Users/matt/Documents/Language App Project/.lighthouseci/127_0_0_1-_-2026_03_09_05_07_55.report.json",
+    "summary": {
+      "performance": 0.98,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://127.0.0.1:4173/",
+    "isRepresentativeRun": true,
+    "htmlPath": "/Users/matt/Documents/Language App Project/.lighthouseci/127_0_0_1-_-2026_03_09_05_07_44.report.html",
+    "jsonPath": "/Users/matt/Documents/Language App Project/.lighthouseci/127_0_0_1-_-2026_03_09_05_07_44.report.json",
+    "summary": {
+      "performance": 0.94,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    }
+  }
+]

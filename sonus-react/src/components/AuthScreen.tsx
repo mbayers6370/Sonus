@@ -441,7 +441,7 @@ export default function AuthScreen({
         {mode === 'forgot' && 'Reset Password'}
         {mode === 'reset' && 'Set New Password'}
       </h1>
-      <p className="text-[13px] font-light text-[#94A3B8] mt-1 mb-4">
+      <p className="text-[13px] font-light text-[#64748B] mt-1 mb-4">
         {mode === 'signin' && 'Sign in with your email and password.'}
         {mode === 'signup' && 'Use your name, email, and password to create your profile.'}
         {mode === 'demo' && 'Explore real lesson flow in under two minutes.'}
@@ -468,10 +468,12 @@ export default function AuthScreen({
         </div>
       )}
 
-      <form
+      <div
         id="auth-form-panel"
         role={hasAuthTabs ? 'tabpanel' : undefined}
         aria-labelledby={hasAuthTabs ? activeTabId : undefined}
+      >
+      <form
         onSubmit={(e) => {
           e.preventDefault();
           if (mode === 'signin' || mode === 'signup') {
@@ -571,7 +573,7 @@ export default function AuthScreen({
               />
               <span>Remember me on this device</span>
             </label>
-            <p className="mt-1 text-[11px] text-text-light">
+            <p className="mt-1 text-[11px] text-[#64748B]">
               Keeps you signed in on this device. Avoid on shared computers.
             </p>
           </div>
@@ -628,6 +630,7 @@ export default function AuthScreen({
           </button>
         )}
       </form>
+      </div>
 
       {mode === 'signin' && (
         <div className="mt-3 text-center">

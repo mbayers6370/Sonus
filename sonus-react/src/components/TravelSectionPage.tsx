@@ -215,7 +215,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
 
   const theme = section.themeColor;
   const isCharcoalTheme = theme.toLowerCase() === '#1f2a37';
-  const learned = learnedBySection[section.id] || {};
+  const learned = useMemo(() => learnedBySection[section.id] || {}, [learnedBySection, section.id]);
   const orderedPhrases = useMemo(() => {
     return [...section.phrases].sort((a, b) => Number(Boolean(learned[a.id])) - Number(Boolean(learned[b.id])));
   }, [section.phrases, learned]);
