@@ -71,6 +71,22 @@ type UserProgressDetail = {
   currentUnitId: string | null;
   currentLessonIdx: number | null;
   lastActivityAt: string | null;
+  completionSummary?: {
+    lessonsStarted: number;
+    lessonsFinished: number;
+    lessonsAbandoned: number;
+    lessonsMastered: number;
+    lessonsMasteryReady: number;
+  };
+  currentLessonStatus?: {
+    introViewed: boolean;
+    quizScore: number | null;
+    speakScore: number | null;
+    completed: boolean;
+    mastered: boolean;
+    masteryReady: boolean;
+    completionCount: number;
+  } | null;
 };
 
 type LearningAccessState = {
@@ -96,6 +112,15 @@ type LearningAccessAuditEntry = {
   reason: string;
   changeType: string;
   createdAt: string;
+};
+
+type LearningAccessApplySummary = {
+  language: string | null;
+  bandId: string | null;
+  unitId: string | null;
+  lessonIndex: number | null;
+  globalAccess: boolean;
+  lockAboveTarget: boolean;
 };
 
 type AccessCatalogUnitOption = {
@@ -800,6 +825,8 @@ export default function SupportConsolePage() {
   const [targetLessonInput, setTargetLessonInput] = useState('0');
   const [accessConfirmOpen, setAccessConfirmOpen] = useState(false);
   const [pendingAccessPayload, setPendingAccessPayload] = useState<Record<string, unknown> | null>(null);
+  const [accessApplySummary, setAccessApplySummary] = useState<LearningAccessApplySummary | null>(null);
+  const [accessApplyModalOpen, setAccessApplyModalOpen] = useState(false);
   const [supportMetrics, setSupportMetrics] = useState<SupportMetrics | null>(null);
   const [learningMetrics, setLearningMetrics] = useState<LearningMetrics | null>(null);
   const [weakWordsByLanguage, setWeakWordsByLanguage] = useState<WeakWordsByLanguage | null>(null);
@@ -2229,7 +2256,7 @@ export default function SupportConsolePage() {
     setBusyAction('learning-access');
     setDetailError(null);
     try {
-      await parseJsonOrThrow(
+      const responsePayload = await parseJsonOrThrow<{ state?: LearningAccessState }>(
         await apiFetch(`/v1/admin/users/${selectedUserId}/access`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -2237,6 +2264,17 @@ export default function SupportConsolePage() {
         })
       );
       await refreshSelectedUser(selectedUserId);
+      const cursor = responsePayload.state?.cursor || null;
+      setAccessApplySummary({
+        language: cursor?.language || null,
+        bandId: cursor?.bandId || null,
+        unitId: cursor?.unitId || null,
+        lessonIndex:
+          typeof cursor?.lessonIndex === 'number' ? cursor.lessonIndex : null,
+        globalAccess: responsePayload.state?.globalAccess ?? true,
+        lockAboveTarget: responsePayload.state?.lockAboveTarget ?? false,
+      });
+      setAccessApplyModalOpen(true);
       setAccessReason('');
       setAccessConfirmOpen(false);
       setPendingAccessPayload(null);
@@ -3783,6 +3821,19 @@ export default function SupportConsolePage() {
                           <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Index</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentLessonIdx ?? overview.progress?.currentLessonIdx ?? 'n/a'}</div></div>
                           <div className={metricCard}><div className="text-xs text-[#64748b]">Last Activity</div><div className="text-sm font-semibold text-[#0f172a]">{toLocale(progressDetail?.lastActivityAt)}</div></div>
                         </div>
+                        <div className="mt-3 grid gap-3 md:grid-cols-5">
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Lessons Started</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.completionSummary?.lessonsStarted ?? 0}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Lessons Finished</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.completionSummary?.lessonsFinished ?? 0}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Lessons Abandoned</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.completionSummary?.lessonsAbandoned ?? 0}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Mastered Lessons</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.completionSummary?.lessonsMastered ?? 0}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Mastery Ready</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.completionSummary?.lessonsMasteryReady ?? 0}</div></div>
+                        </div>
+                        <div className="mt-3 grid gap-3 md:grid-cols-4">
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Current Lesson Quiz</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentLessonStatus?.quizScore ?? 'n/a'}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Current Lesson Speak</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentLessonStatus?.speakScore ?? 'n/a'}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Current Lesson State</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentLessonStatus?.masteryReady ? 'Finished (Mastery Ready)' : progressDetail?.currentLessonStatus?.mastered ? 'Mastered' : progressDetail?.currentLessonStatus?.completed ? 'Finished' : 'In Progress'}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Current Lesson Finish Count</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentLessonStatus?.completionCount ?? 0}</div></div>
+                        </div>
                       </div>
 
                       <div className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
@@ -3918,6 +3969,11 @@ export default function SupportConsolePage() {
                               Unlock Through Target + Lock Above Target
                             </button>
                           </div>
+                          <p className="mt-3 text-xs text-[#64748b]">
+                            Sets the user&apos;s current language, level, unit, and lesson pointer. Required: reason, level, unit, lesson.
+                            <span className="font-semibold text-[#475569]"> Unlock Through Target</span> moves them to the target and unlocks up to that point.
+                            <span className="font-semibold text-[#475569]"> Unlock Through Target + Lock Above Target</span> does the same and blocks progress beyond that target.
+                          </p>
                         </details>
 
                         <div className="mt-3 grid gap-3 md:grid-cols-3">
@@ -3959,6 +4015,9 @@ export default function SupportConsolePage() {
                                 Apply Level Override
                               </button>
                             </div>
+                            <p className="mt-3 text-xs text-[#64748b]">
+                              Apply an explicit lock or unlock to a single level for this user. Required: reason, level, status.
+                            </p>
                           </details>
 
                           <details className="rounded-lg border border-[#e2e8f0] p-2" open>
@@ -4007,6 +4066,9 @@ export default function SupportConsolePage() {
                                 Apply Unit Override
                               </button>
                             </div>
+                            <p className="mt-3 text-xs text-[#64748b]">
+                              Apply an explicit lock or unlock to one unit. Required: reason, level, unit, status.
+                            </p>
                           </details>
 
                           <details className="rounded-lg border border-[#e2e8f0] p-2" open>
@@ -4070,6 +4132,9 @@ export default function SupportConsolePage() {
                                 Apply Lesson Override
                               </button>
                             </div>
+                            <p className="mt-3 text-xs text-[#64748b]">
+                              Apply an explicit lock or unlock to one lesson index inside a unit. Required: reason, level, unit, lesson, status.
+                            </p>
                           </details>
                         </div>
 
@@ -4385,6 +4450,54 @@ export default function SupportConsolePage() {
                 }}
               >
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {accessApplyModalOpen && accessApplySummary && (
+        <div className="fixed inset-0 z-[147] flex items-center justify-center bg-black/45 p-4">
+          <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+            <h3 className="text-lg font-semibold text-[#0f172a]">Learning Access Updated</h3>
+            <p className="mt-2 text-sm text-[#334155]">
+              Change applied for <span className="font-semibold text-[#0f172a]">{selectedTargetLabel}</span>.
+            </p>
+            <div className="mt-3 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm text-[#334155]">
+              <div>
+                <span className="font-semibold text-[#0f172a]">Language:</span>{' '}
+                {accessApplySummary.language || 'n/a'}
+              </div>
+              <div>
+                <span className="font-semibold text-[#0f172a]">Effective Level:</span>{' '}
+                {accessApplySummary.bandId || 'n/a'}
+              </div>
+              <div>
+                <span className="font-semibold text-[#0f172a]">Effective Unit:</span>{' '}
+                {accessApplySummary.unitId || 'n/a'}
+              </div>
+              <div>
+                <span className="font-semibold text-[#0f172a]">Effective Lesson Index:</span>{' '}
+                {accessApplySummary.lessonIndex ?? 'n/a'}
+              </div>
+              <div>
+                <span className="font-semibold text-[#0f172a]">Global Access:</span>{' '}
+                {accessApplySummary.globalAccess ? 'Unlocked' : 'Locked'}
+              </div>
+              <div>
+                <span className="font-semibold text-[#0f172a]">Lock Above Target:</span>{' '}
+                {accessApplySummary.lockAboveTarget ? 'Enabled' : 'Disabled'}
+              </div>
+            </div>
+            <div className="mt-4 flex justify-end">
+              <button
+                type="button"
+                className={baseButton}
+                onClick={() => {
+                  setAccessApplyModalOpen(false);
+                  setAccessApplySummary(null);
+                }}
+              >
+                OK
               </button>
             </div>
           </div>

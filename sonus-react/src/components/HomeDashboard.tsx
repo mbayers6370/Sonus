@@ -693,12 +693,12 @@ export default function HomeDashboard({
                 <ArrowRight className="w-4 h-4 text-white" />
               </button>
             </div>
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] font-mono uppercase tracking-[0.12em] text-[#145B7A]">
-              <Link to="/essential-mandarin-travel-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Guide</Link>
-              <Link to="/mandarin-airport-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Airport</Link>
-              <Link to="/mandarin-taxi-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Taxi</Link>
-              <Link to="/how-to-order-food-in-chinese" className="underline underline-offset-4 hover:text-[#0E4A66]">Food</Link>
-            </div>
+            <nav className="sr-only" aria-label="Travel Sprint guides">
+              <Link to="/essential-mandarin-travel-phrases">Essential Mandarin Travel Phrases</Link>
+              <Link to="/mandarin-airport-phrases">Mandarin Airport Phrases</Link>
+              <Link to="/mandarin-taxi-phrases">Mandarin Taxi Phrases</Link>
+              <Link to="/how-to-order-food-in-chinese">How to Order Food in Chinese</Link>
+            </nav>
             <p className="text-[11px] leading-relaxed text-text-light mt-4 max-w-md mx-auto">
               Travel Sprint is separate from your structured lesson path.
             </p>

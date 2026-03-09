@@ -511,12 +511,12 @@ function ExploreDemoCard({ card }: { card: DemoCard }) {
         <h3 className="main-font text-xl leading-tight sm:text-2xl">{card.title}</h3>
         <p className="secondary-font mt-1.5 text-xs leading-relaxed text-[#334155] sm:mt-2 sm:text-sm">{card.body}</p>
         {isTravelCard ? (
-          <div className="mt-2.5 flex flex-wrap gap-x-3 gap-y-1 text-[10px] font-mono uppercase tracking-[0.12em] text-[#145B7A] sm:text-[11px]">
-            <Link to="/essential-mandarin-travel-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Guide</Link>
-            <Link to="/mandarin-airport-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Airport</Link>
-            <Link to="/mandarin-taxi-phrases" className="underline underline-offset-4 hover:text-[#0E4A66]">Taxi</Link>
-            <Link to="/how-to-order-food-in-chinese" className="underline underline-offset-4 hover:text-[#0E4A66]">Food</Link>
-          </div>
+          <nav className="sr-only" aria-label="Travel Sprint guides">
+            <Link to="/essential-mandarin-travel-phrases">Essential Mandarin Travel Phrases</Link>
+            <Link to="/mandarin-airport-phrases">Mandarin Airport Phrases</Link>
+            <Link to="/mandarin-taxi-phrases">Mandarin Taxi Phrases</Link>
+            <Link to="/how-to-order-food-in-chinese">How to Order Food in Chinese</Link>
+          </nav>
         ) : null}
       </div>
     </article>

@@ -224,8 +224,20 @@ export async function meRoutes(app: FastifyInstance) {
   // Auth required. Returns denormalized progress snapshot for dashboard/profile consumers.
   app.get('/v1/me/progress', { preHandler: [requireAuth] }, async (request) => {
     const { id } = request.user;
-    const { progress, recentEvents, lessonProgress } = await getProgressSnapshot(id);
-    return { progress, recentEvents, lessonProgress };
+    const [{ progress, recentEvents, lessonProgress }, learningAccess] = await Promise.all([
+      getProgressSnapshot(id),
+      getLearningAccessState(prisma, id),
+    ]);
+    return {
+      progress,
+      recentEvents,
+      lessonProgress,
+      learningAccess: {
+        globalAccess: learningAccess.globalAccess,
+        lockAboveTarget: learningAccess.lockAboveTarget,
+        cursor: learningAccess.cursor,
+      },
+    };
   });
 
   // Auth required. Updates current resume pointer (band/unit/lesson index).

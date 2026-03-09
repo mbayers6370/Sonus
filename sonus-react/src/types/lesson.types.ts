@@ -212,6 +212,14 @@ export interface AppState {
   };
   completedLevels: string[];
   unlockedLevels: string[];
+  adminUnlockCursor: {
+    language: string | null;
+    bandId: string | null;
+    unitId: string | null;
+    lessonIndex: number | null;
+    globalAccess: boolean;
+    lockAboveTarget: boolean;
+  } | null;
 
   // Lesson state
   activeLesson: ActiveLesson | null;

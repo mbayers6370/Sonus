@@ -106,12 +106,12 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
               <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">Audio + Rapid Recall</span>
               <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">Emergency-ready phrases</span>
             </div>
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] font-mono uppercase tracking-[0.12em] text-white/85">
-              <Link to="/essential-mandarin-travel-phrases" className="underline underline-offset-4 hover:text-white">Guide</Link>
-              <Link to="/mandarin-airport-phrases" className="underline underline-offset-4 hover:text-white">Airport</Link>
-              <Link to="/mandarin-taxi-phrases" className="underline underline-offset-4 hover:text-white">Taxi</Link>
-              <Link to="/how-to-order-food-in-chinese" className="underline underline-offset-4 hover:text-white">Food</Link>
-            </div>
+            <nav className="sr-only" aria-label="Travel Sprint guides">
+              <Link to="/essential-mandarin-travel-phrases">Essential Mandarin Travel Phrases</Link>
+              <Link to="/mandarin-airport-phrases">Mandarin Airport Phrases</Link>
+              <Link to="/mandarin-taxi-phrases">Mandarin Taxi Phrases</Link>
+              <Link to="/how-to-order-food-in-chinese">How to Order Food in Chinese</Link>
+            </nav>
           </div>
 
             <div className="bg-white/8 backdrop-blur-sm p-2.5 rounded-2xl flex items-center">

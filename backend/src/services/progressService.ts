@@ -27,9 +27,12 @@ type LessonProgressState = {
   mastered: boolean;
 };
 
+const QUIZ_PASS_PERCENT = 90;
+const SPEAK_PASS_PERCENT = 75;
+
 function isCompletedByScores(quizScore: number | null, speakScore: number | null) {
   // Canonical pass gate for lesson completion across event ingestion paths.
-  return (quizScore ?? 0) >= 85 && (speakScore ?? 0) >= 85;
+  return (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
 }
 
 function isCompletedLessonPayload(

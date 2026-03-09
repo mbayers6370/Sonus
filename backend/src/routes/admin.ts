@@ -2772,6 +2772,16 @@ export async function adminRoutes(app: FastifyInstance) {
           lastActiveDate: true,
         },
       });
+      const progressEvents = await prisma.progressEvent.findMany({
+        where: {
+          userId,
+          eventType: { in: ['lesson_started', 'lesson_completed', 'apply_completed'] },
+        },
+        select: {
+          eventType: true,
+          payloadJson: true,
+        },
+      });
       const lastActivityRows = await prisma.$queryRaw<Array<{ lastActivityAt: Date | null }>>`
       SELECT MAX(pe.created_at) AS "lastActivityAt"
       FROM progress_events pe
@@ -2784,6 +2794,88 @@ export async function adminRoutes(app: FastifyInstance) {
         progress?.updatedAt ||
         null;
 
+      const toOptionalScore = (value: unknown) => {
+        if (typeof value !== 'number' || !Number.isFinite(value)) return null;
+        return Math.max(0, Math.min(100, Math.round(value)));
+      };
+      const completionByLesson = new Map<
+        string,
+        {
+          introViewed: boolean;
+          quizScore: number | null;
+          speakScore: number | null;
+          completed: boolean;
+          mastered: boolean;
+          completionCount: number;
+        }
+      >();
+      const startedLessonKeys = new Set<string>();
+
+      for (const event of progressEvents) {
+        const payload = event.payloadJson;
+        if (!payload || typeof payload !== 'object' || Array.isArray(payload)) continue;
+        const record = payload as Record<string, unknown>;
+        const bandId = typeof record.bandId === 'string' ? record.bandId.trim() : '';
+        const unitId = typeof record.unitId === 'string' ? record.unitId.trim() : '';
+        const lessonIndex =
+          typeof record.lessonIndex === 'number' && Number.isInteger(record.lessonIndex)
+            ? record.lessonIndex
+            : null;
+        if (!bandId || !unitId || lessonIndex === null || lessonIndex < 0) continue;
+
+        const lessonKey = `${bandId}:${unitId}:${lessonIndex}`;
+        if (event.eventType === 'lesson_started') {
+          startedLessonKeys.add(lessonKey);
+          continue;
+        }
+
+        const quizScore = toOptionalScore(record.quizScore);
+        const speakScore = toOptionalScore(record.speakScore);
+        const completedByScores = (quizScore ?? 0) >= 90 && (speakScore ?? 0) >= 75;
+        const completed = Boolean(record.completed) || completedByScores;
+        const mastered = Boolean(record.mastered);
+
+        const existing = completionByLesson.get(lessonKey);
+        completionByLesson.set(lessonKey, {
+          introViewed: Boolean(record.introViewed) || Boolean(existing?.introViewed),
+          quizScore:
+            existing?.quizScore === null || existing?.quizScore === undefined
+              ? quizScore
+              : quizScore === null
+                ? existing.quizScore
+                : Math.max(existing.quizScore, quizScore),
+          speakScore:
+            existing?.speakScore === null || existing?.speakScore === undefined
+              ? speakScore
+              : speakScore === null
+                ? existing.speakScore
+                : Math.max(existing.speakScore, speakScore),
+          completed: Boolean(existing?.completed) || completed,
+          mastered: Boolean(existing?.mastered) || mastered,
+          completionCount: (existing?.completionCount ?? 0) + (completed ? 1 : 0),
+        });
+      }
+
+      const lessonsStarted = startedLessonKeys.size;
+      const lessonsFinished = Array.from(completionByLesson.values()).filter(
+        (item) => item.completed
+      ).length;
+      const lessonsMastered = Array.from(completionByLesson.values()).filter(
+        (item) => item.mastered
+      ).length;
+      const lessonsMasteryReady = Array.from(completionByLesson.values()).filter(
+        (item) => item.completed && !item.mastered
+      ).length;
+      const lessonsAbandoned = Math.max(0, lessonsStarted - lessonsFinished);
+
+      const currentKey =
+        progress?.currentBandId &&
+        progress?.currentUnitId &&
+        typeof progress.currentLessonIdx === 'number'
+          ? `${progress.currentBandId}:${progress.currentUnitId}:${progress.currentLessonIdx}`
+          : null;
+      const currentLessonStatus = currentKey ? completionByLesson.get(currentKey) || null : null;
+
       return {
         userId: profile.userId,
         language: profile.targetLanguage || null,
@@ -2791,6 +2883,24 @@ export async function adminRoutes(app: FastifyInstance) {
         currentUnitId: progress?.currentUnitId || null,
         currentLessonIdx: progress?.currentLessonIdx ?? null,
         lastActivityAt,
+        completionSummary: {
+          lessonsStarted,
+          lessonsFinished,
+          lessonsAbandoned,
+          lessonsMastered,
+          lessonsMasteryReady,
+        },
+        currentLessonStatus: currentLessonStatus
+          ? {
+              introViewed: currentLessonStatus.introViewed,
+              quizScore: currentLessonStatus.quizScore,
+              speakScore: currentLessonStatus.speakScore,
+              completed: currentLessonStatus.completed,
+              mastered: currentLessonStatus.mastered,
+              masteryReady: currentLessonStatus.completed && !currentLessonStatus.mastered,
+              completionCount: currentLessonStatus.completionCount,
+            }
+          : null,
       };
     }
   );

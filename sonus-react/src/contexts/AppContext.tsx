@@ -148,6 +148,40 @@ function defaultUnlockedLevelIds() {
   return Array.from(new Set(['intro', ...firstTrackLevelIds()]));
 }
 
+function trackLevelIdsThrough(targetLevelId: string | null | undefined) {
+  const target = (targetLevelId || '').trim().toLowerCase();
+  if (!target || !isTrackProgressionLevel(target)) return [] as string[];
+
+  for (const firstLevelId of firstTrackLevelIds()) {
+    const chain: string[] = [];
+    let cursor: string | null = firstLevelId;
+    while (cursor) {
+      chain.push(cursor);
+      if (cursor === target) return chain;
+      cursor = nextTrackLevelId(cursor);
+    }
+  }
+  return [] as string[];
+}
+
+function compareTrackLevelOrder(levelId: string | null | undefined, targetLevelId: string | null | undefined) {
+  const level = (levelId || '').trim().toLowerCase();
+  const target = (targetLevelId || '').trim().toLowerCase();
+  if (!level || !target) return null as number | null;
+  for (const firstLevelId of firstTrackLevelIds()) {
+    const chain: string[] = [];
+    let cursor: string | null = firstLevelId;
+    while (cursor) {
+      chain.push(cursor);
+      cursor = nextTrackLevelId(cursor);
+    }
+    const levelIdx = chain.indexOf(level);
+    const targetIdx = chain.indexOf(target);
+    if (levelIdx >= 0 && targetIdx >= 0) return levelIdx - targetIdx;
+  }
+  return null as number | null;
+}
+
 function normalizeLanguageForState(languageId: string | null | undefined): string | null {
   if (!languageId) return null;
   const trimmed = languageId.trim();
@@ -699,6 +733,7 @@ const initialState: AppState = {
   lessonProgress: {},
   completedLevels: [],
   unlockedLevels: defaultUnlockedLevelIds(),
+  adminUnlockCursor: null,
   activeLesson: null,
   lessonMode: 'intro',
   lessonWordIndex: 0,
@@ -878,6 +913,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
             currentUnitId?: string | null;
             currentLessonIdx?: number | null;
           };
+          learningAccess?: {
+            globalAccess?: boolean;
+            lockAboveTarget?: boolean;
+            cursor?: {
+              language?: string | null;
+              bandId?: string | null;
+              unitId?: string | null;
+              lessonIndex?: number | null;
+            } | null;
+          };
           lessonProgress?: AppState['lessonProgress'];
           recentEvents?: ProgressEventEnvelope[];
         };
@@ -907,12 +952,33 @@ export function AppProvider({ children }: { children: ReactNode }) {
           );
           const serverProgress = mergeLessonProgress(snapshotProgress, eventProgress);
           const nextLessonProgress = mergeLessonProgress(prev.lessonProgress, serverProgress);
+          const unlockedFromServerCursor = trackLevelIdsThrough(currentBandId);
+          const nextUnlockedLevels = Array.from(
+            new Set([...prev.unlockedLevels, ...unlockedFromServerCursor])
+          );
+          const accessCursor = payload.learningAccess?.cursor || null;
+          const nextAdminUnlockCursor =
+            accessCursor && typeof accessCursor === 'object'
+              ? {
+                  language: typeof accessCursor.language === 'string' ? accessCursor.language : null,
+                  bandId: typeof accessCursor.bandId === 'string' ? accessCursor.bandId : null,
+                  unitId: typeof accessCursor.unitId === 'string' ? accessCursor.unitId : null,
+                  lessonIndex:
+                    typeof accessCursor.lessonIndex === 'number'
+                      ? Math.max(0, Math.floor(accessCursor.lessonIndex))
+                      : null,
+                  globalAccess: payload.learningAccess?.globalAccess !== false,
+                  lockAboveTarget: payload.learningAccess?.lockAboveTarget === true,
+                }
+              : null;
 
           return {
             ...prev,
             streak: Math.max(prev.streak, payload.progress?.streak ?? 0),
             lastActiveDate: payload.progress?.lastActiveDate ?? prev.lastActiveDate,
             lessonProgress: nextLessonProgress,
+            unlockedLevels: nextUnlockedLevels,
+            adminUnlockCursor: nextAdminUnlockCursor,
           };
         });
       } catch {
@@ -1037,6 +1103,26 @@ export function AppProvider({ children }: { children: ReactNode }) {
         .filter((unitIdValue, idx, arr) => arr.indexOf(unitIdValue) === idx)
         .filter((unitIdValue) => Boolean(getBandUnitById(bandData, unitIdValue)?.words?.length));
       const coreUnitIds = metadataCoreUnitIds.length > 0 ? metadataCoreUnitIds : dataCoreUnitIds;
+      const resolveAdminBackfillLessonLimitForUnit = (targetUnitId: string) => {
+        const cursor = state.adminUnlockCursor;
+        if (!cursor?.bandId || !cursor?.unitId || cursor.lessonIndex == null) return -1;
+        const bandCompare = compareTrackLevelOrder(bandId, cursor.bandId);
+        if (bandCompare == null) return -1;
+        if (bandCompare < 0) return Number.MAX_SAFE_INTEGER;
+        if (bandCompare > 0) return -1;
+
+        const normalizedCursorUnitId = resolveUnitIdForBand(bandId, cursor.unitId);
+        const cursorUnitIndex = coreUnitIds.indexOf(normalizedCursorUnitId);
+        const targetUnitIndex = coreUnitIds.indexOf(targetUnitId);
+        if (targetUnitIndex < 0 || cursorUnitIndex < 0) return -1;
+        if (targetUnitIndex < cursorUnitIndex) return Number.MAX_SAFE_INTEGER;
+        if (targetUnitIndex > cursorUnitIndex) return -1;
+        return Math.max(0, Math.floor(cursor.lessonIndex));
+      };
+      const hasAdminBackfillUnitAccess = (targetUnitId: string) =>
+        resolveAdminBackfillLessonLimitForUnit(targetUnitId) >= 0;
+      const hasAdminBackfillLessonAccess = (targetUnitId: string, targetLessonIndex: number) =>
+        resolveAdminBackfillLessonLimitForUnit(targetUnitId) >= targetLessonIndex;
       const unitLessonCount = (targetUnitId: string) => {
         const targetUnit = getBandUnitById(bandData, targetUnitId);
         return getLessonRanges((targetUnit?.words || []).length, 10).length;
@@ -1087,7 +1173,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         if (unlocked && coreIdx % 4 === 0) {
           unlocked = hasCheckpointPassedThreshold(`checkpoint-${coreIdx / 4}`);
         }
-        unlockedByUnitId.set(coreUnitIds[coreIdx], unlocked || hasAnyUnitProgress(coreUnitIds[coreIdx]));
+        unlockedByUnitId.set(
+          coreUnitIds[coreIdx],
+          unlocked ||
+            hasAnyUnitProgress(coreUnitIds[coreIdx]) ||
+            hasAdminBackfillUnitAccess(coreUnitIds[coreIdx])
+        );
       }
       for (const checkpointMeta of configuredUnits.filter((meta) => isCheckpointUnitId(meta.id))) {
         const idx = parseCheckpointIndex(checkpointMeta.id);
@@ -1098,13 +1189,24 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const start = (idx - 1) * 4;
         const end = Math.min(coreUnitIds.length, idx * 4);
         const covered = coreUnitIds.slice(start, end);
-        unlockedByUnitId.set(checkpointMeta.id, covered.length > 0 && covered.every((unitIdValue) => hasUnitPassedThreshold(unitIdValue)));
+        const unlockedByProgress =
+          covered.length > 0 && covered.every((unitIdValue) => hasUnitPassedThreshold(unitIdValue));
+        const unlockedByAdminBackfill =
+          covered.length > 0 &&
+          covered.every(
+            (unitIdValue) =>
+              resolveAdminBackfillLessonLimitForUnit(unitIdValue) === Number.MAX_SAFE_INTEGER
+          );
+        unlockedByUnitId.set(checkpointMeta.id, unlockedByProgress || unlockedByAdminBackfill);
       }
+      const hasStartedCorePath =
+        coreUnitIds.some((unitIdValue) => hasAnyUnitProgress(unitIdValue)) ||
+        coreUnitIds.some((unitIdValue) => hasAdminBackfillUnitAccess(unitIdValue));
       for (const practiceMeta of configuredUnits.filter((meta) => isPracticeUnitId(meta.id))) {
-        unlockedByUnitId.set(practiceMeta.id, coreUnitIds.length > 0);
+        unlockedByUnitId.set(practiceMeta.id, hasStartedCorePath);
       }
       if (configuredUnits.length === 0 && practiceMode) {
-        unlockedByUnitId.set(resolvedUnitId, coreUnitIds.length > 0);
+        unlockedByUnitId.set(resolvedUnitId, coreUnitIds.length > 0 || hasAdminBackfillUnitAccess(resolvedUnitId));
       }
       // Unit-scoped practice cards (e.g. b1-pronouns-listening) unlock only
       // after the source unit is fully mastered.
@@ -1121,7 +1223,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         return false;
       }
       if (!practiceMode && !isCheckpointQuiz) {
-        if (lessonIndex > 0 && !isApplyLesson && !hasLessonPassedThreshold(resolvedUnitId, lessonIndex - 1)) {
+        if (
+          lessonIndex > 0 &&
+          !isApplyLesson &&
+          !hasAdminBackfillLessonAccess(resolvedUnitId, lessonIndex) &&
+          !hasLessonPassedThreshold(resolvedUnitId, lessonIndex - 1)
+        ) {
           return false;
         }
       } else if (lessonIndex !== 0) {

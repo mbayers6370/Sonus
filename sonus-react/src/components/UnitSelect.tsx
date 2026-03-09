@@ -11,7 +11,7 @@ import CollapsibleBreadcrumbs, { type BreadcrumbItem } from './CollapsibleBreadc
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import type { LessonMode } from '../types/lesson.types';
 import { tierForBand } from '../routes/lessonRouting';
-import { isReleasedTrackLevel } from '../lib/bandIds';
+import { firstTrackLevelIds, isReleasedTrackLevel, nextTrackLevelId } from '../lib/bandIds';
 import { deriveJapaneseSectionIdFromUnitId } from '../lib/learnPath';
 
 const LESSON_UNLOCK_PASS_PERCENT = 85;
@@ -19,6 +19,24 @@ const isInstructionalComplete = (quizScore: number | null | undefined, speakScor
   (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
 const hasLessonUnlockCredit = (status: { completed?: boolean; quizScore?: number | null; speakScore?: number | null } | undefined) =>
   Boolean(status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore) || (status?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT);
+
+function compareTrackLevelOrder(levelId: string | null | undefined, targetLevelId: string | null | undefined) {
+  const level = (levelId || '').trim().toLowerCase();
+  const target = (targetLevelId || '').trim().toLowerCase();
+  if (!level || !target) return null as number | null;
+  for (const firstLevelId of firstTrackLevelIds()) {
+    const chain: string[] = [];
+    let cursor: string | null = firstLevelId;
+    while (cursor) {
+      chain.push(cursor);
+      cursor = nextTrackLevelId(cursor);
+    }
+    const levelIdx = chain.indexOf(level);
+    const targetIdx = chain.indexOf(target);
+    if (levelIdx >= 0 && targetIdx >= 0) return levelIdx - targetIdx;
+  }
+  return null as number | null;
+}
 
 const CARD_ACCENTS = [
   {
@@ -398,6 +416,29 @@ export default function UnitSelect({
     })
     .filter((item): item is NonNullable<typeof item> => item !== null);
   const unitMetricById = new Map(unitMetrics.map((metric) => [metric.unitId, metric]));
+  const coreUnitIds = orderedUnits
+    .filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id))
+    .filter((unit) => !showSectionStep || !activeSectionRaw || activeSectionRaw.unitIds.includes(unit.id))
+    .map((unit) => unit.id)
+    .filter((unitId) => unitMetricById.has(unitId));
+  const resolveAdminBackfillLessonLimitForUnit = (unitId: string) => {
+    const cursor = state.adminUnlockCursor;
+    if (!cursor?.bandId || !cursor?.unitId || cursor.lessonIndex == null) return -1;
+    const bandCompare = compareTrackLevelOrder(currentLevel.id, cursor.bandId);
+    if (bandCompare == null) return -1;
+    if (bandCompare < 0) return Number.MAX_SAFE_INTEGER;
+    if (bandCompare > 0) return -1;
+    const cursorUnitIndex = coreUnitIds.indexOf(cursor.unitId);
+    const unitIndex = coreUnitIds.indexOf(unitId);
+    if (cursorUnitIndex < 0 || unitIndex < 0) return -1;
+    if (unitIndex < cursorUnitIndex) return Number.MAX_SAFE_INTEGER;
+    if (unitIndex > cursorUnitIndex) return -1;
+    return Math.max(0, Math.floor(cursor.lessonIndex));
+  };
+  const hasAdminBackfillUnitAccess = (unitId: string) =>
+    resolveAdminBackfillLessonLimitForUnit(unitId) >= 0;
+  const hasAdminBackfillLessonAccess = (unitId: string, lessonIndex: number) =>
+    resolveAdminBackfillLessonLimitForUnit(unitId) >= lessonIndex;
   const hasLessonPassedThreshold = (unitId: string, lessonIndex: number) => {
     const key = makeLessonKey(currentLevel.id, unitId, lessonIndex);
     return hasLessonUnlockCredit(lessonProgress[key]);
@@ -461,11 +502,6 @@ export default function UnitSelect({
     ? activeSectionRaw
     : null;
   const unlockedByUnitId = new Map<string, boolean>();
-  const coreUnitIds = orderedUnits
-    .filter((unit) => !isPracticeUnitId(unit.id) && !isCheckpointUnitId(unit.id))
-    .filter((unit) => !showSectionStep || !activeSection || activeSection.unitIds.includes(unit.id))
-    .map((unit) => unit.id)
-    .filter((unitId) => unitMetricById.has(unitId));
   const checkpointUnitIds = orderedUnits
     .filter((unit) => isCheckpointUnitId(unit.id))
     .filter((unit) => !showSectionStep || !activeSection || activeSection.unitIds.includes(unit.id))
@@ -494,7 +530,10 @@ export default function UnitSelect({
       unlocked = hasCheckpointPassedThreshold(gateCheckpointId);
     }
 
-    unlockedByUnitId.set(coreUnitIds[coreIndex], unlocked || hasAnyUnitProgress(coreUnitIds[coreIndex]));
+    unlockedByUnitId.set(
+      coreUnitIds[coreIndex],
+      unlocked || hasAnyUnitProgress(coreUnitIds[coreIndex]) || hasAdminBackfillUnitAccess(coreUnitIds[coreIndex])
+    );
   }
 
   for (const checkpointUnitId of checkpointUnitIds) {
@@ -507,13 +546,20 @@ export default function UnitSelect({
     const end = Math.min(coreUnitIds.length, checkpointIndex * 4);
     const coveredCoreUnits = coreUnitIds.slice(start, end);
     // A checkpoint unlocks only when all covered core units passed threshold.
-    const unlocked =
+    const unlockedByProgress =
       coveredCoreUnits.length > 0 &&
       coveredCoreUnits.every((unitId) => hasUnitPassedThreshold(unitId));
-    unlockedByUnitId.set(checkpointUnitId, unlocked);
+    const unlockedByAdminBackfill =
+      coveredCoreUnits.length > 0 &&
+      coveredCoreUnits.every(
+        (unitId) => resolveAdminBackfillLessonLimitForUnit(unitId) === Number.MAX_SAFE_INTEGER
+      );
+    unlockedByUnitId.set(checkpointUnitId, unlockedByProgress || unlockedByAdminBackfill);
   }
 
-  const hasStartedCorePath = coreUnitIds.some((unitId) => hasAnyUnitProgress(unitId));
+  const hasStartedCorePath =
+    coreUnitIds.some((unitId) => hasAnyUnitProgress(unitId)) ||
+    coreUnitIds.some((unitId) => hasAdminBackfillUnitAccess(unitId));
   for (const practiceUnitId of practiceUnitIds) {
     unlockedByUnitId.set(practiceUnitId, hasStartedCorePath);
   }
@@ -868,7 +914,11 @@ export default function UnitSelect({
               const isUnitUnlocked = Boolean(unlockedByUnitId.get(activeUnit.unitId));
               const isLessonUnlocked =
                 isUnitUnlocked &&
-                (lessonIndex === 0 || hasLessonPassedThreshold(activeUnit.unitId, lessonIndex - 1));
+                (
+                  lessonIndex === 0 ||
+                  hasAdminBackfillLessonAccess(activeUnit.unitId, lessonIndex) ||
+                  hasLessonPassedThreshold(activeUnit.unitId, lessonIndex - 1)
+                );
               const lessonStatus = lessonProgress[lessonKey];
               const isResumeCandidate =
                 resumeCheckpoint?.bandId === currentLevel.id &&
