@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^10.0.2",
-    "@prisma/client": "^6.4.1",
+    "@prisma/client": "^6.19.2",
     "@supabase/supabase-js": "^2.49.1",
     "dotenv": "^16.4.7",
     "fastify": "^5.2.1",
@@ -50,7 +50,7 @@
     "eslint": "^10.0.1",
     "globals": "^17.3.0",
     "prettier": "^3.8.1",
-    "prisma": "^6.4.1",
+    "prisma": "^6.19.2",
     "tsx": "^4.19.3",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.56.0"
