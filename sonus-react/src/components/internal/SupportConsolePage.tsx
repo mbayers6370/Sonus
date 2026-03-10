@@ -769,6 +769,38 @@ function downloadZipFile(filename: string, files: Array<{ name: string; content:
   URL.revokeObjectURL(url);
 }
 
+function fileNameFromContentDisposition(headerValue: string | null, fallback: string) {
+  if (!headerValue) return fallback;
+  const utf8Match = /filename\*=UTF-8''([^;]+)/i.exec(headerValue);
+  if (utf8Match?.[1]) {
+    try {
+      return decodeURIComponent(utf8Match[1]);
+    } catch {
+      return utf8Match[1];
+    }
+  }
+  const quotedMatch = /filename="([^"]+)"/i.exec(headerValue);
+  if (quotedMatch?.[1]) return quotedMatch[1];
+  const plainMatch = /filename=([^;]+)/i.exec(headerValue);
+  return plainMatch?.[1]?.trim() || fallback;
+}
+
+async function downloadResponseAsFile(response: Response, fallbackName: string) {
+  const blob = await response.blob();
+  const fileName = fileNameFromContentDisposition(
+    response.headers.get('content-disposition'),
+    fallbackName
+  );
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
 async function parseJsonOrThrow<T>(response: Response) {
   let payload: unknown = null;
   try {
@@ -805,6 +837,7 @@ export default function SupportConsolePage() {
   const [learningAccessAudit, setLearningAccessAudit] = useState<LearningAccessAuditEntry[]>([]);
   const [timeline, setTimeline] = useState<TimelineEntry[]>([]);
   const [savedNotes, setSavedNotes] = useState<SupportNoteEntry[]>([]);
+  const [exportBusy, setExportBusy] = useState<'json' | 'csv' | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState<string | null>(null);
   const [note, setNote] = useState('');
@@ -1119,6 +1152,33 @@ export default function SupportConsolePage() {
       setSavedNotes([]);
     } finally {
       setDetailLoading(false);
+    }
+  };
+
+  const downloadUserExport = async (format: 'json' | 'csv') => {
+    if (!selectedUserId) return;
+    setExportBusy(format);
+    setDetailError(null);
+    try {
+      const response = await apiFetch(
+        `/v1/admin/users/${selectedUserId}/export?format=${format}`,
+        { cache: 'no-store' }
+      );
+      if (!response.ok) {
+        let errorText = 'Failed to export user data';
+        try {
+          const payload = (await response.json()) as { error?: string };
+          if (payload?.error) errorText = payload.error;
+        } catch {
+          // no-op
+        }
+        throw new Error(errorText);
+      }
+      await downloadResponseAsFile(response, `user-data-export.${format}`);
+    } catch (error) {
+      setDetailError(error instanceof Error ? error.message : 'Failed to export user data');
+    } finally {
+      setExportBusy(null);
     }
   };
 
@@ -3814,7 +3874,25 @@ export default function SupportConsolePage() {
                         <h2 className="break-words text-xl font-semibold text-[#0f172a]">{selectedUser?.displayName || selectedUser?.email || selectedUserId}</h2>
                         <p className="break-all text-sm text-[#475569]">{selectedUser?.email || ''}</p>
                       </div>
-                    <button type="button" onClick={() => void refreshSelectedUser(selectedUserId)} className={baseButton}>Refresh</button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => void downloadUserExport('json')}
+                        className={baseButton}
+                        disabled={exportBusy !== null}
+                      >
+                        {exportBusy === 'json' ? 'Exporting JSON…' : 'Download JSON'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => void downloadUserExport('csv')}
+                        className={baseButton}
+                        disabled={exportBusy !== null}
+                      >
+                        {exportBusy === 'csv' ? 'Exporting CSV…' : 'Download CSV'}
+                      </button>
+                      <button type="button" onClick={() => void refreshSelectedUser(selectedUserId)} className={baseButton}>Refresh</button>
+                    </div>
                   </div>
 
                   {detailLoading && <p className="mt-3 text-sm text-[#475569]">Loading user details…</p>}

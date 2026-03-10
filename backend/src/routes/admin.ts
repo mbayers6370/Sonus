@@ -39,6 +39,9 @@ const userSearchQuerySchema = z.object({
   q: z.string().trim().min(1).max(120).optional(),
   limit: z.coerce.number().int().min(1).max(50).default(20),
 });
+const userExportQuerySchema = z.object({
+  format: z.enum(['json', 'csv']).default('json'),
+});
 
 const timelineQuerySchema = z.object({
   limit: z.coerce.number().int().min(10).max(200).default(80),
@@ -225,6 +228,47 @@ function toInt(value: unknown) {
     return Number.isFinite(parsed) ? parsed : 0;
   }
   return 0;
+}
+
+function toExportRows(value: unknown): Array<Record<string, unknown>> {
+  if (Array.isArray(value)) return value.filter((row) => Boolean(row) && typeof row === 'object') as Array<Record<string, unknown>>;
+  if (value && typeof value === 'object') return [value as Record<string, unknown>];
+  return [];
+}
+
+function csvCell(value: unknown) {
+  const raw = value === null || value === undefined ? '' : String(value);
+  if (/[",\n\r]/.test(raw)) return `"${raw.replace(/"/g, '""')}"`;
+  return raw;
+}
+
+function buildUserExportCsv(payload: Record<string, unknown>) {
+  const rows: string[] = ['section,record_index,field,value'];
+  for (const [section, value] of Object.entries(payload)) {
+    const records = toExportRows(value);
+    if (!records.length) {
+      rows.push(`${csvCell(section)},0,${csvCell('__empty')},${csvCell('true')}`);
+      continue;
+    }
+    records.forEach((record, index) => {
+      for (const [field, fieldValue] of Object.entries(record)) {
+        const serialized =
+          fieldValue === null || typeof fieldValue === 'string' || typeof fieldValue === 'number' || typeof fieldValue === 'boolean'
+            ? fieldValue
+            : JSON.stringify(fieldValue);
+        rows.push(
+          `${csvCell(section)},${csvCell(index)},${csvCell(field)},${csvCell(serialized)}`
+        );
+      }
+    });
+  }
+  return rows.join('\n');
+}
+
+function buildExportFilename(userId: string, format: 'json' | 'csv') {
+  const safeUserId = userId.replace(/[^a-zA-Z0-9_-]/g, '_');
+  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+  return `user-data-export-${safeUserId}-${stamp}.${format}`;
 }
 
 async function pathExists(filePath: string) {
@@ -2750,6 +2794,168 @@ export async function adminRoutes(app: FastifyInstance) {
       deletionRequest: openDeletionRequest[0] || null,
     };
   });
+
+  app.get(
+    '/v1/admin/users/:userId/export',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsedParams = userIdParamsSchema.safeParse(request.params ?? {});
+      if (!parsedParams.success) {
+        reply.code(400).send({ error: 'Invalid user id', issues: parsedParams.error.issues });
+        return;
+      }
+      const parsedQuery = userExportQuerySchema.safeParse(request.query ?? {});
+      if (!parsedQuery.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsedQuery.error.issues });
+        return;
+      }
+
+      const userId = parsedParams.data.userId;
+      const format = parsedQuery.data.format;
+      const profile = await prisma.profile.findUnique({
+        where: { userId },
+      });
+      if (!profile) {
+        reply.code(404).send({ error: 'User not found' });
+        return;
+      }
+
+      const [
+        legalDocumentAcceptances,
+        userProgress,
+        quizAttempts,
+        speakAttempts,
+        wordMemoryState,
+        progressEvents,
+        localAuthCredentials,
+        refreshSessions,
+        passwordResetTokens,
+        learningAccessControls,
+        learningAccessAudits,
+        supportNotesAsTarget,
+        supportNotesAsActor,
+        deletionRequestsAsTarget,
+        deletionRequestsAsRequester,
+        deletionRequestsAsResolver,
+        accountSecurityEventsAsTarget,
+        accountSecurityEventsAsActor,
+        scheduledAccountDeletions,
+        deletionCaseHistoryAsTarget,
+        deletionCaseHistoryAsActor,
+        adminAuditLogsAsTarget,
+        adminAuditLogsAsActor,
+      ] = await Promise.all([
+        prisma.legalDocumentAcceptance.findMany({ where: { userId }, orderBy: { acceptedAt: 'asc' } }),
+        prisma.userProgress.findUnique({ where: { userId } }),
+        prisma.quizAttempt.findMany({ where: { userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.speakAttempt.findMany({ where: { userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.wordMemoryState.findMany({ where: { userId }, orderBy: { updatedAt: 'asc' } }),
+        prisma.progressEvent.findMany({ where: { userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.localAuthCredential.findMany({
+          where: { userId },
+          select: {
+            id: true,
+            userId: true,
+            email: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.refreshSession.findMany({
+          where: { userId },
+          select: {
+            id: true,
+            userId: true,
+            familyId: true,
+            createdIp: true,
+            createdUserAgent: true,
+            revokedReason: true,
+            lastUsedAt: true,
+            expiresAt: true,
+            revokedAt: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.passwordResetToken.findMany({
+          where: { userId },
+          select: {
+            id: true,
+            userId: true,
+            expiresAt: true,
+            usedAt: true,
+            createdIp: true,
+            userAgent: true,
+            createdAt: true,
+          },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.userLearningAccessControl.findMany({ where: { userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.userLearningAccessAudit.findMany({ where: { userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.supportNote.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.supportNote.findMany({ where: { actorUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.deletionRequest.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.deletionRequest.findMany({ where: { requestedByUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.deletionRequest.findMany({ where: { resolvedByUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.accountSecurityEvent.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.accountSecurityEvent.findMany({ where: { actorUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.scheduledAccountDeletion.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.deletionCaseHistory.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.deletionCaseHistory.findMany({ where: { actorUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.adminAuditLog.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.adminAuditLog.findMany({ where: { actorUserId: userId }, orderBy: { createdAt: 'asc' } }),
+      ]);
+
+      const exportedAt = new Date().toISOString();
+      const exportPayload = {
+        exportMeta: {
+          exportedAt,
+          exportedByAdminUserId: request.user.id,
+          exportedByAdminEmail: request.user.email || null,
+          userId,
+        },
+        profile,
+        legalDocumentAcceptances,
+        userProgress: userProgress ? [userProgress] : [],
+        quizAttempts,
+        speakAttempts,
+        wordMemoryState,
+        progressEvents,
+        localAuthCredentials,
+        refreshSessions,
+        passwordResetTokens,
+        learningAccessControls,
+        learningAccessAudits,
+        supportNotesAsTarget,
+        supportNotesAsActor,
+        deletionRequestsAsTarget,
+        deletionRequestsAsRequester,
+        deletionRequestsAsResolver,
+        accountSecurityEventsAsTarget,
+        accountSecurityEventsAsActor,
+        scheduledAccountDeletions,
+        deletionCaseHistoryAsTarget,
+        deletionCaseHistoryAsActor,
+        adminAuditLogsAsTarget,
+        adminAuditLogsAsActor,
+      };
+
+      const filename = buildExportFilename(userId, format);
+      if (format === 'csv') {
+        const csv = buildUserExportCsv(exportPayload as unknown as Record<string, unknown>);
+        reply.header('Content-Type', 'text/csv; charset=utf-8');
+        reply.header('Content-Disposition', `attachment; filename="${filename}"`);
+        reply.send(csv);
+        return;
+      }
+
+      reply.header('Content-Type', 'application/json; charset=utf-8');
+      reply.header('Content-Disposition', `attachment; filename="${filename}"`);
+      reply.send(exportPayload);
+    }
+  );
 
   app.get(
     '/v1/admin/users/:userId/progress',
