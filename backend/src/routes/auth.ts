@@ -171,6 +171,38 @@ async function recordSignupLegalAcceptance(
   });
 }
 
+function readPrismaErrorCode(error: unknown): string | null {
+  if (!error || typeof error !== 'object') return null;
+  const candidate = error as { code?: unknown };
+  return typeof candidate.code === 'string' ? candidate.code : null;
+}
+
+async function recordSignupLegalAcceptanceSafe(
+  db: Pick<typeof prisma, 'legalDocumentAcceptance'>,
+  input: Parameters<typeof recordSignupLegalAcceptance>[1],
+  request: { log: { warn: (meta: Record<string, unknown>, msg: string) => void } }
+) {
+  try {
+    await recordSignupLegalAcceptance(db, input);
+  } catch (error) {
+    const code = readPrismaErrorCode(error);
+    // Keep signup available if legal-acceptance table/index migrations lag behind deploy.
+    if (code === 'P2021' || code === 'P2022' || code === 'P2002') {
+      request.log.warn(
+        {
+          err: error,
+          prismaCode: code,
+          userId: input.userId,
+          endpoint: '/v1/auth/signup',
+        },
+        'non_blocking_signup_legal_acceptance_write_failed'
+      );
+      return;
+    }
+    throw error;
+  }
+}
+
 type CookieReply = {
   header: (name: string, value: string | string[]) => unknown;
   getHeader?: (name: string) => unknown;
@@ -548,11 +580,15 @@ export async function authRoutes(app: FastifyInstance) {
             onboardingComplete: false,
           },
         });
-        await recordSignupLegalAcceptance(tx, {
-          userId,
-          client,
-          legalAcceptance: parsed.data.legalAcceptance,
-        });
+        await recordSignupLegalAcceptanceSafe(
+          tx,
+          {
+            userId,
+            client,
+            legalAcceptance: parsed.data.legalAcceptance,
+          },
+          request
+        );
         return createdProfile;
       });
 
@@ -599,11 +635,15 @@ export async function authRoutes(app: FastifyInstance) {
         timezone: parsed.data.timezone,
         onboardingComplete: false,
       });
-      await recordSignupLegalAcceptance(prisma, {
-        userId,
-        client: requestClientInfo(request),
-        legalAcceptance: parsed.data.legalAcceptance,
-      });
+      await recordSignupLegalAcceptanceSafe(
+        prisma,
+        {
+          userId,
+          client: requestClientInfo(request),
+          legalAcceptance: parsed.data.legalAcceptance,
+        },
+        request
+      );
       reply.send({
         user: { id: userId, email },
         profile,
@@ -640,11 +680,15 @@ export async function authRoutes(app: FastifyInstance) {
       timezone: parsed.data.timezone,
       onboardingComplete: false,
     });
-    await recordSignupLegalAcceptance(prisma, {
-      userId: data.user.id,
-      client: requestClientInfo(request),
-      legalAcceptance: parsed.data.legalAcceptance,
-    });
+    await recordSignupLegalAcceptanceSafe(
+      prisma,
+      {
+        userId: data.user.id,
+        client: requestClientInfo(request),
+        legalAcceptance: parsed.data.legalAcceptance,
+      },
+      request
+    );
 
     if (data.session?.refresh_token) {
       setRefreshCookie(reply, data.session.refresh_token, true);
