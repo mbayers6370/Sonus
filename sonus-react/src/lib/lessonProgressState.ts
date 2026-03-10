@@ -52,6 +52,8 @@ export function mergeLessonProgress(
         ...incoming,
         completed,
         mastered: incoming.mastered,
+        masteryQuizPassed: incoming.masteryQuizPassed,
+        masterySpeakPassed: incoming.masterySpeakPassed,
       };
       continue;
     }
@@ -79,6 +81,12 @@ export function mergeLessonProgress(
       speakAllCorrect: existing.speakAllCorrect || incoming.speakAllCorrect,
       completed,
       mastered: existing.mastered || incoming.mastered,
+      masteryQuizPassed:
+        Boolean(existing.mastered || incoming.mastered) ||
+        Boolean(existing.masteryQuizPassed || incoming.masteryQuizPassed),
+      masterySpeakPassed:
+        Boolean(existing.mastered || incoming.mastered) ||
+        Boolean(existing.masterySpeakPassed || incoming.masterySpeakPassed),
     };
   }
   return merged;
@@ -109,6 +117,8 @@ export function buildLessonProgressFromRecentEvents(events: ProgressEventEnvelop
       speakAllCorrect: Boolean(payload.speakAllCorrect),
       completed,
       mastered: Boolean(payload.mastered),
+      masteryQuizPassed: Boolean(payload.mastered) || Boolean(payload.masteryQuizPassed),
+      masterySpeakPassed: Boolean(payload.mastered) || Boolean(payload.masterySpeakPassed),
     };
   }
   return next;

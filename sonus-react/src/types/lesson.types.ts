@@ -208,6 +208,8 @@ export interface AppState {
       speakAllCorrect: boolean; // legacy compatibility flag
       completed: boolean; // instructional pass complete
       mastered: boolean; // retrieval mastery pass complete
+      masteryQuizPassed?: boolean; // quiz passed during mastery session
+      masterySpeakPassed?: boolean; // speak passed during mastery session
     };
   };
   completedLevels: string[];

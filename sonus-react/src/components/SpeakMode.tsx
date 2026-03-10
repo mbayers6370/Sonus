@@ -1719,6 +1719,10 @@ export default function SpeakMode({
 
     const pending = pendingSpeakAttemptRef.current;
     if (pending) {
+      const pendingFullyCorrect = computeIsFullyCorrect(
+        pending.analysis,
+        pending.match ? 'match' : 'retry'
+      );
       if (isMandarinLesson && pending.analysis) {
         const targetTokens = parsePinyin(word.pinyin || '', targetSyllableCount);
         const heardTokens = pending.analysis.alignedHeard.length
@@ -1750,20 +1754,25 @@ export default function SpeakMode({
           });
         }
       }
-      postSpeakAttempt(sessionId, pending.recognizedText, pending.analysis, pending.match);
+      postSpeakAttempt(sessionId, pending.recognizedText, pending.analysis, pendingFullyCorrect);
       recordSpeakResult(
         currentIndex,
-        pending.match,
+        pendingFullyCorrect,
         buildSpeakBreakdown(
           pending.recognizedText,
           word.pinyin || '',
           pending.analysis,
           speakLanguageId,
-          pending.match
+          pendingFullyCorrect
         )
       );
-      recordWordOutcome(word, pending.match, pending.match ? 'sure' : 'unsure', 'speak');
-      if (!pending.match) {
+      recordWordOutcome(
+        word,
+        pendingFullyCorrect,
+        pendingFullyCorrect ? 'sure' : 'unsure',
+        'speak'
+      );
+      if (!pendingFullyCorrect) {
         trackEvent('speak_retry', {
           wordId: word.id,
           isReview: Boolean(word.isReview),

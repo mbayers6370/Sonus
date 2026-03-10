@@ -540,6 +540,8 @@ type LessonCompletionSnapshot = {
   speakAllCorrect: boolean;
   completed: boolean;
   mastered: boolean;
+  masteryQuizPassed?: boolean;
+  masterySpeakPassed?: boolean;
   reachedCompleteScreen?: boolean;
 };
 
@@ -698,6 +700,8 @@ async function flushQueuedLessonSnapshots() {
           speakAllCorrect: snapshot.speakAllCorrect,
           completed: snapshot.completed,
           mastered: snapshot.mastered,
+          masteryQuizPassed: snapshot.masteryQuizPassed,
+          masterySpeakPassed: snapshot.masterySpeakPassed,
           reachedCompleteScreen: Boolean(snapshot.reachedCompleteScreen),
         },
       });
@@ -822,6 +826,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       speakAllCorrect: false,
       completed: false,
       mastered: false,
+      masteryQuizPassed: false,
+      masterySpeakPassed: false,
     };
 
     const quizStats = getCoreWordStats(activeLesson.words, nextQuizResultsByIndex);
@@ -848,6 +854,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       speakAllCorrect: nextSpeakAllCorrect,
       completed: existing.completed || completedByScores,
       mastered: existing.mastered,
+      masteryQuizPassed: Boolean(existing.mastered || existing.masteryQuizPassed),
+      masterySpeakPassed: Boolean(existing.mastered || existing.masterySpeakPassed),
       reachedCompleteScreen: false,
     };
   };
@@ -2054,6 +2062,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         speakAllCorrect: false,
         completed: false,
         mastered: false,
+        masteryQuizPassed: false,
+        masterySpeakPassed: false,
       };
 
       let nextIntroViewed = existing.introViewed;
@@ -2061,6 +2071,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       let nextSpeakScore = existing.speakScore ?? null;
       let nextSpeakAllCorrect = existing.speakAllCorrect;
       let nextMastered = existing.mastered;
+      let nextMasteryQuizPassed = Boolean(existing.mastered || existing.masteryQuizPassed);
+      let nextMasterySpeakPassed = Boolean(existing.mastered || existing.masterySpeakPassed);
 
       if (lessonMode === 'intro') {
         nextIntroViewed = true;
@@ -2070,6 +2082,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         nextSpeakScore = 100;
         nextSpeakAllCorrect = true;
         nextMastered = true;
+        nextMasteryQuizPassed = true;
+        nextMasterySpeakPassed = true;
       } else if (lessonMode === 'quiz') {
         const { total, correct } = getCoreWordStats(activeLesson.words, prev.quizResultsByIndex);
         nextQuizScore = total > 0 ? Math.round((correct / total) * 100) : 0;
@@ -2088,14 +2102,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const isMasteryAttempt = existing.completed && !existing.mastered;
       if (lessonMode === 'apply') {
         nextMastered = true;
-      } else if (
-        isMasteryAttempt &&
-        !isCheckpointQuizUnit &&
-        (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT &&
-        (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT
-      ) {
-        // Mastery is earned on a subsequent mastery attempt, not on initial completion.
-        nextMastered = true;
+      } else if (isMasteryAttempt && !isCheckpointQuizUnit) {
+        if (lessonMode === 'quiz' && (nextQuizScore ?? 0) >= QUIZ_PASS_PERCENT) {
+          nextMasteryQuizPassed = true;
+        }
+        if (lessonMode === 'speak' && (nextSpeakScore ?? 0) >= SPEAK_PASS_PERCENT) {
+          nextMasterySpeakPassed = true;
+        }
+        // Mastery is earned only after both quiz and speak are passed during mastery mode.
+        if (nextMasteryQuizPassed && nextMasterySpeakPassed) {
+          nextMastered = true;
+        }
       }
       const nextCompleted = completed;
       const masteryJustAchieved = !existing.mastered && nextMastered;
@@ -2109,6 +2126,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
           speakAllCorrect: nextSpeakAllCorrect,
           completed: nextCompleted,
           mastered: nextMastered,
+          masteryQuizPassed: nextMasteryQuizPassed,
+          masterySpeakPassed: nextMasterySpeakPassed,
         },
       };
       completionSnapshotRef.current = {
@@ -2121,6 +2140,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         speakAllCorrect: nextSpeakAllCorrect,
         completed: nextCompleted,
         mastered: nextMastered,
+        masteryQuizPassed: nextMasteryQuizPassed,
+        masterySpeakPassed: nextMasterySpeakPassed,
         reachedCompleteScreen: true,
       };
 

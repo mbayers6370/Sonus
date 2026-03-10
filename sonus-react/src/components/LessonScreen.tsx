@@ -213,8 +213,12 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const shouldHideReadingAndMeaning =
     isMasterySession && !['es', 'fr', 'it'].includes(normalizedLanguageId);
   const learnDone = Boolean(lessonStatus?.introViewed);
-  const quizDone = (lessonStatus?.quizScore ?? 0) >= QUIZ_PASS_PERCENT;
-  const speakDone = (lessonStatus?.speakScore ?? 0) >= SPEAK_PASS_PERCENT;
+  const instructionalQuizDone = (lessonStatus?.quizScore ?? 0) >= QUIZ_PASS_PERCENT;
+  const instructionalSpeakDone = (lessonStatus?.speakScore ?? 0) >= SPEAK_PASS_PERCENT;
+  const masteryQuizDone = Boolean(lessonStatus?.mastered || lessonStatus?.masteryQuizPassed);
+  const masterySpeakDone = Boolean(lessonStatus?.mastered || lessonStatus?.masterySpeakPassed);
+  const quizDone = isMasterySession ? masteryQuizDone : instructionalQuizDone;
+  const speakDone = isMasterySession ? masterySpeakDone : instructionalSpeakDone;
   const modeTabs: Array<{
     mode: LessonMode;
     label: string;
