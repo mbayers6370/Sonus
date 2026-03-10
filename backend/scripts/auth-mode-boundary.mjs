@@ -5,6 +5,14 @@ import { fileURLToPath } from 'node:url';
 
 const DATABASE_URL =
   process.env.DATABASE_URL || 'postgresql://sonus:sonus_dev_password@localhost:5432/sonus';
+const SIGNUP_PASSWORD = 'ExamplePass!123';
+const LEGAL_ACCEPTANCE = {
+  termsVersion: '2026-03-08',
+  privacyVersion: '2026-03-07',
+  termsAccepted: true,
+  privacyAccepted: true,
+  ageConfirmed: true,
+};
 
 function resolveDatabaseAddress(databaseUrl) {
   try {
@@ -105,9 +113,10 @@ async function runMockAuthChecks() {
         },
         payload: JSON.stringify({
           email,
-          password: 'example-password-123',
+          password: SIGNUP_PASSWORD,
           firstName: 'Mock',
           lastName: 'User',
+          legalAcceptance: LEGAL_ACCEPTANCE,
         }),
       });
       assert.equal(signup.statusCode, 200, `mock signup failed: ${signup.body}`);
@@ -174,9 +183,10 @@ async function runLocalAuthChecks() {
         },
         payload: JSON.stringify({
           email,
-          password: 'example-password-123',
+          password: SIGNUP_PASSWORD,
           firstName: 'Local',
           lastName: 'User',
+          legalAcceptance: LEGAL_ACCEPTANCE,
         }),
       });
       assert.equal(signup.statusCode, 200, `local signup failed: ${signup.body}`);
@@ -193,7 +203,7 @@ async function runLocalAuthChecks() {
         },
         payload: JSON.stringify({
           email,
-          password: 'example-password-123',
+          password: SIGNUP_PASSWORD,
         }),
       });
       assert.equal(login.statusCode, 200, `local login failed: ${login.body}`);
