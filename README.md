@@ -134,6 +134,7 @@ npm run -w sonus-react test:e2e
 - `docs/ENV.md`
 - `docs/PERFORMANCE.md`
 - `docs/OPERATIONS.md`
+- `docs/NPM_COMMANDS.md`
 - `docs/PRODUCT_SETTINGS.md`
 - `backend/README.md`
 - `sonus-react/README.md`

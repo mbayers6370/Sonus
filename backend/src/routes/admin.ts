@@ -231,7 +231,10 @@ function toInt(value: unknown) {
 }
 
 function toExportRows(value: unknown): Array<Record<string, unknown>> {
-  if (Array.isArray(value)) return value.filter((row) => Boolean(row) && typeof row === 'object') as Array<Record<string, unknown>>;
+  if (Array.isArray(value))
+    return value.filter((row) => Boolean(row) && typeof row === 'object') as Array<
+      Record<string, unknown>
+    >;
   if (value && typeof value === 'object') return [value as Record<string, unknown>];
   return [];
 }
@@ -253,12 +256,13 @@ function buildUserExportCsv(payload: Record<string, unknown>) {
     records.forEach((record, index) => {
       for (const [field, fieldValue] of Object.entries(record)) {
         const serialized =
-          fieldValue === null || typeof fieldValue === 'string' || typeof fieldValue === 'number' || typeof fieldValue === 'boolean'
+          fieldValue === null ||
+          typeof fieldValue === 'string' ||
+          typeof fieldValue === 'number' ||
+          typeof fieldValue === 'boolean'
             ? fieldValue
             : JSON.stringify(fieldValue);
-        rows.push(
-          `${csvCell(section)},${csvCell(index)},${csvCell(field)},${csvCell(serialized)}`
-        );
+        rows.push(`${csvCell(section)},${csvCell(index)},${csvCell(field)},${csvCell(serialized)}`);
       }
     });
   }
@@ -2806,7 +2810,9 @@ export async function adminRoutes(app: FastifyInstance) {
       }
       const parsedQuery = userExportQuerySchema.safeParse(request.query ?? {});
       if (!parsedQuery.success) {
-        reply.code(400).send({ error: 'Invalid query parameters', issues: parsedQuery.error.issues });
+        reply
+          .code(400)
+          .send({ error: 'Invalid query parameters', issues: parsedQuery.error.issues });
         return;
       }
 
@@ -2845,7 +2851,10 @@ export async function adminRoutes(app: FastifyInstance) {
         adminAuditLogsAsTarget,
         adminAuditLogsAsActor,
       ] = await Promise.all([
-        prisma.legalDocumentAcceptance.findMany({ where: { userId }, orderBy: { acceptedAt: 'asc' } }),
+        prisma.legalDocumentAcceptance.findMany({
+          where: { userId },
+          orderBy: { acceptedAt: 'asc' },
+        }),
         prisma.userProgress.findUnique({ where: { userId } }),
         prisma.quizAttempt.findMany({ where: { userId }, orderBy: { createdAt: 'asc' } }),
         prisma.speakAttempt.findMany({ where: { userId }, orderBy: { createdAt: 'asc' } }),
@@ -2892,20 +2901,62 @@ export async function adminRoutes(app: FastifyInstance) {
           },
           orderBy: { createdAt: 'asc' },
         }),
-        prisma.userLearningAccessControl.findMany({ where: { userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.userLearningAccessAudit.findMany({ where: { userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.supportNote.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.supportNote.findMany({ where: { actorUserId: userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.deletionRequest.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.deletionRequest.findMany({ where: { requestedByUserId: userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.deletionRequest.findMany({ where: { resolvedByUserId: userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.accountSecurityEvent.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.accountSecurityEvent.findMany({ where: { actorUserId: userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.scheduledAccountDeletion.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.deletionCaseHistory.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.deletionCaseHistory.findMany({ where: { actorUserId: userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.adminAuditLog.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
-        prisma.adminAuditLog.findMany({ where: { actorUserId: userId }, orderBy: { createdAt: 'asc' } }),
+        prisma.userLearningAccessControl.findMany({
+          where: { userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.userLearningAccessAudit.findMany({
+          where: { userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.supportNote.findMany({
+          where: { targetUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.supportNote.findMany({
+          where: { actorUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.deletionRequest.findMany({
+          where: { targetUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.deletionRequest.findMany({
+          where: { requestedByUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.deletionRequest.findMany({
+          where: { resolvedByUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.accountSecurityEvent.findMany({
+          where: { targetUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.accountSecurityEvent.findMany({
+          where: { actorUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.scheduledAccountDeletion.findMany({
+          where: { targetUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.deletionCaseHistory.findMany({
+          where: { targetUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.deletionCaseHistory.findMany({
+          where: { resolvedByUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.adminAuditLog.findMany({
+          where: { targetUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
+        prisma.adminAuditLog.findMany({
+          where: { actorUserId: userId },
+          orderBy: { createdAt: 'asc' },
+        }),
       ]);
 
       const exportedAt = new Date().toISOString();
