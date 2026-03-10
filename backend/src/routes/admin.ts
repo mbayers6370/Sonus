@@ -12,9 +12,7 @@ import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js
 import { getSupabaseAdmin } from '../lib/supabase.js';
 import { resolveLexemeForWordId } from '../lib/lexemeCatalog.js';
 import { sendAccountDeletionConfirmationEmail } from '../services/accountDeletionEmailService.js';
-import {
-  resolveSupportAdminFromRequest,
-} from '../lib/supportAdminAuth.js';
+import { resolveSupportAdminFromRequest } from '../lib/supportAdminAuth.js';
 import {
   appendLearningAccessAudit,
   ensureLearningAccessTables,

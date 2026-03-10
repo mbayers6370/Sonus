@@ -26,7 +26,10 @@ type RegisterAdminAuthRoutesDeps = {
   SUPPORT_ADMIN_DUMMY_PASSWORD_HASH: string;
   SUPPORT_ROOT_ADMIN_USERNAME: string;
   supportAdminLoginThrottle: {
-    check: (identity: { email: string; ip: string }) => { allowed: boolean; retryAfterSeconds: number };
+    check: (identity: { email: string; ip: string }) => {
+      allowed: boolean;
+      retryAfterSeconds: number;
+    };
     registerFailure: (identity: { email: string; ip: string }) => void;
     registerSuccess: (identity: { email: string; ip: string }) => void;
   };
@@ -35,7 +38,10 @@ type RegisterAdminAuthRoutesDeps = {
   supportAdminSessionExpiry: () => Date;
   canUseSupportAdminUsername: (username: string) => boolean;
   resolveSupportAdminResetUrlBase: (request: any) => string | null;
-  requireSupportAdminSession: (request: any, reply: any) => Promise<{
+  requireSupportAdminSession: (
+    request: any,
+    reply: any
+  ) => Promise<{
     username: string;
     sessionId: string;
     expiresAt: Date;
@@ -277,7 +283,9 @@ export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdmi
       return;
     }
     const email = parsed.data.email.trim().toLowerCase();
-    const rows = await deps.prisma.$queryRaw<Array<{ username: string; recovery_email: string | null }>>`
+    const rows = await deps.prisma.$queryRaw<
+      Array<{ username: string; recovery_email: string | null }>
+    >`
       SELECT username, recovery_email
       FROM support_admin_credentials
       WHERE recovery_email = ${email} OR username = ${email}
