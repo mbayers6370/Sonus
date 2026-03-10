@@ -480,19 +480,16 @@ export async function authRoutes(app: FastifyInstance) {
     }
 
     const email = normalizeEmail(parsed.data.email);
-    let exists = false;
-
-    if (env.AUTH_MODE === 'local') {
-      const record = await prisma.localAuthCredential.findUnique({ where: { email } });
-      exists = Boolean(record);
-    } else {
-      const record = await prisma.profile.findFirst({
-        where: { email },
-        orderBy: { createdAt: 'asc' },
-        select: { userId: true },
-      });
-      exists = Boolean(record);
-    }
+    const exists =
+      env.AUTH_MODE === 'local'
+        ? Boolean(await prisma.localAuthCredential.findUnique({ where: { email } }))
+        : Boolean(
+            await prisma.profile.findFirst({
+              where: { email },
+              orderBy: { createdAt: 'asc' },
+              select: { userId: true },
+            })
+          );
 
     reply.send({ available: !exists });
   });

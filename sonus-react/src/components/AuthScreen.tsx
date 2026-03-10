@@ -273,7 +273,7 @@ export default function AuthScreen({
         if (!cancelled) {
           setSignUpEmailAvailable(payload.available === true);
         }
-      } catch (err) {
+      } catch {
         if (controller.signal.aborted) return;
         if (!cancelled) setSignUpEmailAvailable(null);
       } finally {
@@ -470,10 +470,8 @@ export default function AuthScreen({
     signUpEmailCheckLoading,
     signUpConfirmedAge,
     signUpEmail,
-    signUpEmailFormatValid,
     signUpFirstName,
     signUpLastName,
-    signUpPasswordStrength.score,
     signUpPassword,
     timezone,
     onClose,
