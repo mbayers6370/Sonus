@@ -352,7 +352,7 @@ export default function PublicLanding() {
                   <HeroMethodCard
                     kicker="03"
                     title="Practice Modes"
-                    subtitle="3 Core"
+                    subtitle="3 Core Modes"
                     body="Speak, Focus, and Travel."
                     accent="#C56A3D"
                     motif="route"
