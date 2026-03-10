@@ -47,7 +47,7 @@ export default function LessonReview({
   return (
     <div className="flex flex-col h-[100svh] min-h-[100svh] overflow-hidden page-shell">
       <div className="px-6">
-        <GlassHeader title="Lesson Review" showLogo={false} hideLogoOnMobile={hideLogoOnMobile} />
+        <GlassHeader title="Lesson Review" hideLogoOnMobile={hideLogoOnMobile} />
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-start px-6 pt-2 pb-28 sm:pb-10 overflow-y-auto">

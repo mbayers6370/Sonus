@@ -268,7 +268,6 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
         <GlassHeader
           title={titleText}
           subtitle={lessonSubtitle}
-          showLogo={false}
           hideLogoOnMobile={hideLogoOnMobile}
           className={isSpeakingPractice ? 'bg-white/75 border-[#1F2A37]/25' : ''}
           titleClassName={speakingPageTheme.title}

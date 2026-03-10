@@ -4,7 +4,6 @@ import { createHash, randomBytes } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Prisma } from '@prisma/client';
-import { z } from 'zod';
 import { env } from '../env.js';
 import { requireAdmin } from '../lib/auth.js';
 import { createLoginThrottle } from '../lib/loginThrottle.js';
@@ -13,14 +12,9 @@ import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js
 import { getSupabaseAdmin } from '../lib/supabase.js';
 import { resolveLexemeForWordId } from '../lib/lexemeCatalog.js';
 import { sendAccountDeletionConfirmationEmail } from '../services/accountDeletionEmailService.js';
-import { sendPasswordResetEmail } from '../services/passwordResetEmailService.js';
 import {
-  createSupportAdminSessionToken,
-  hashSupportAdminSessionToken,
-  normalizeSupportAdminUsername,
   resolveSupportAdminFromRequest,
 } from '../lib/supportAdminAuth.js';
-import { hashPrivilegedPassword, verifyPassword } from '../lib/localAuth.js';
 import {
   appendLearningAccessAudit,
   ensureLearningAccessTables,
@@ -28,178 +22,36 @@ import {
   lessonOverrideKey,
   saveLearningAccessState,
 } from '../lib/learningAccess.js';
+import { registerAdminAuthRoutes } from './adminAuthRoutes.js';
+import {
+  adminTimelineQuerySchema,
+  deletionCasesQuerySchema,
+  deletionRequestSchema,
+  deletionResolveSchema,
+  learningAccessPatchSchema,
+  metricsOverviewQuerySchema,
+  MutationActor,
+  mutationReasonSchema,
+  noteDeleteParamsSchema,
+  notesQuerySchema,
+  noteMutationSchema,
+  openDeletionRequestsQuerySchema,
+  permanentDeleteSchema,
+  qualityCleanupBodySchema,
+  qualityReportsQuerySchema,
+  qualityRunFullBodySchema,
+  qualityRunParamsSchema,
+  recentDeletionQuerySchema,
+  reportWindowQuerySchema,
+  timelineQuerySchema,
+  userExportQuerySchema,
+  userIdParamsSchema,
+  userSearchQuerySchema,
+  weakWordsByLanguageQuerySchema,
+  weakWordsQuerySchema,
+} from './adminSchemas.js';
 
 const allowedOrigins = readAllowedOrigins();
-
-const userIdParamsSchema = z.object({
-  userId: z.string().uuid(),
-});
-
-const userSearchQuerySchema = z.object({
-  q: z.string().trim().min(1).max(120).optional(),
-  limit: z.coerce.number().int().min(1).max(50).default(20),
-});
-const userExportQuerySchema = z.object({
-  format: z.enum(['json', 'csv']).default('json'),
-});
-
-const timelineQuerySchema = z.object({
-  limit: z.coerce.number().int().min(10).max(200).default(80),
-});
-const notesQuerySchema = z.object({
-  limit: z.coerce.number().int().min(1).max(200).default(60),
-});
-const noteDeleteParamsSchema = z.object({
-  userId: z.string().uuid(),
-  noteId: z.string().uuid(),
-});
-
-const mutationReasonSchema = z.object({
-  reason: z.string().trim().min(8).max(500),
-});
-
-const accessStatusSchema = z.enum(['locked', 'unlocked']);
-const learningAccessPatchSchema = z.object({
-  reason: z.string().trim().min(8).max(500),
-  globalAccess: z.boolean().optional(),
-  overrides: z
-    .object({
-      levels: z.record(accessStatusSchema).optional(),
-      units: z.record(accessStatusSchema).optional(),
-      lessons: z.record(accessStatusSchema).optional(),
-    })
-    .optional(),
-  progressTarget: z
-    .object({
-      language: z.string().trim().min(2).max(12).optional(),
-      bandId: z.string().trim().min(1).max(64),
-      unitId: z.string().trim().min(1).max(128),
-      lessonIndex: z.number().int().min(0).max(500),
-      unlockUpToTarget: z.boolean().default(true),
-      lockAboveTarget: z.boolean().default(false),
-    })
-    .optional(),
-});
-
-const noteMutationSchema = mutationReasonSchema.extend({
-  note: z.string().trim().min(3).max(4000),
-});
-
-const deletionRequestSchema = mutationReasonSchema.extend({
-  channel: z.string().trim().min(2).max(80).optional(),
-});
-
-const deletionResolveSchema = mutationReasonSchema.extend({
-  status: z.enum(['resolved', 'rejected']),
-});
-const permanentDeleteSchema = mutationReasonSchema;
-const recentDeletionQuerySchema = z.object({
-  limit: z.coerce.number().int().min(1).max(50).default(12),
-});
-
-const supportAdminLoginSchema = z.object({
-  username: z.string().trim().min(3).max(160),
-  password: z.string().min(1).max(128),
-});
-const supportAdminCreateSchema = z.object({
-  username: z.string().trim().min(3).max(160),
-  password: z
-    .string()
-    .min(12)
-    .max(128)
-    .refine(
-      (value) =>
-        /[a-z]/.test(value) &&
-        /[A-Z]/.test(value) &&
-        /\d/.test(value) &&
-        /[^A-Za-z0-9]/.test(value),
-      'Password must include uppercase, lowercase, number, and symbol.'
-    ),
-  recoveryEmail: z.string().trim().email().max(255).optional(),
-});
-const supportAdminResetPasswordSchema = z.object({
-  currentPassword: z.string().min(1).max(128),
-  newPassword: z
-    .string()
-    .min(12)
-    .max(128)
-    .refine(
-      (value) =>
-        /[a-z]/.test(value) &&
-        /[A-Z]/.test(value) &&
-        /\d/.test(value) &&
-        /[^A-Za-z0-9]/.test(value),
-      'Password must include uppercase, lowercase, number, and symbol.'
-    ),
-});
-const supportAdminRecoveryEmailSchema = z.object({
-  recoveryEmail: z.string().trim().email().max(255),
-});
-const supportAdminForgotPasswordSchema = z.object({
-  email: z.string().trim().email().max(255),
-});
-const supportAdminResetWithTokenSchema = z.object({
-  token: z.string().trim().min(24).max(512),
-  password: z
-    .string()
-    .min(12)
-    .max(128)
-    .refine(
-      (value) =>
-        /[a-z]/.test(value) &&
-        /[A-Z]/.test(value) &&
-        /\d/.test(value) &&
-        /[^A-Za-z0-9]/.test(value),
-      'Password must include uppercase, lowercase, number, and symbol.'
-    ),
-});
-const metricsOverviewQuerySchema = z.object({
-  windowDays: z.coerce.number().int().min(1).max(180).default(30),
-});
-const adminTimelineQuerySchema = z.object({
-  windowHours: z.coerce.number().int().min(1).max(168).default(24),
-  limit: z.coerce.number().int().min(1).max(200).default(80),
-});
-const openDeletionRequestsQuerySchema = z.object({
-  limit: z.coerce.number().int().min(1).max(100).default(20),
-});
-const deletionCasesQuerySchema = z.object({
-  q: z.string().trim().min(1).max(120).optional(),
-  limit: z.coerce.number().int().min(1).max(100).default(30),
-});
-const weakWordsQuerySchema = z.object({
-  limit: z.coerce.number().int().min(5).max(100).default(20),
-  windowDays: z.coerce.number().int().min(1).max(365).default(30),
-});
-const weakWordsByLanguageQuerySchema = z.object({
-  limitPerLanguage: z.coerce.number().int().min(1).max(20).default(5),
-  windowDays: z.coerce.number().int().min(1).max(365).default(30),
-});
-const reportWindowQuerySchema = z.object({
-  windowDays: z.coerce.number().int().min(1).max(180).default(30),
-});
-const qualityReportsQuerySchema = z.object({
-  limit: z.coerce.number().int().min(1).max(100).default(20),
-});
-const qualityCleanupBodySchema = z.object({
-  keepLatest: z.coerce.number().int().min(1).max(200).default(30),
-});
-const qualityRunFullBodySchema = z.object({
-  confirmText: z.string().trim().min(1).max(80),
-});
-const qualityRunParamsSchema = z.object({
-  runId: z
-    .string()
-    .trim()
-    .min(1)
-    .max(120)
-    .regex(/^quality-[0-9TZ.-]+$/i),
-});
-
-type MutationActor = {
-  actorUserId: string;
-  actorEmail: string | null;
-};
 
 const SUPPORT_ROOT_ADMIN_USERNAME = 'qa-admin-f8n2x7r1@sonus.test';
 const SUPPORT_ADMIN_DUMMY_PASSWORD_HASH =
@@ -239,34 +91,115 @@ function toExportRows(value: unknown): Array<Record<string, unknown>> {
   return [];
 }
 
+function normalizeExportValue(value: unknown): string {
+  if (value === null || value === undefined) return '';
+  if (value instanceof Date) return value.toISOString();
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint') {
+    return String(value);
+  }
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return String(value);
+  }
+}
+
 function csvCell(value: unknown) {
-  const raw = value === null || value === undefined ? '' : String(value);
+  const raw = normalizeExportValue(value);
   if (/[",\n\r]/.test(raw)) return `"${raw.replace(/"/g, '""')}"`;
   return raw;
 }
 
+function flattenExportRecord(
+  value: unknown,
+  fieldPrefix = ''
+): Array<{ fieldPath: string; value: unknown }> {
+  if (value === null || value === undefined) {
+    return [{ fieldPath: fieldPrefix || '__value', value: '' }];
+  }
+  if (Array.isArray(value)) {
+    if (!value.length) return [{ fieldPath: fieldPrefix || '__value', value: '[]' }];
+    return value.flatMap((item, idx) =>
+      flattenExportRecord(item, fieldPrefix ? `${fieldPrefix}[${idx}]` : `[${idx}]`)
+    );
+  }
+  if (value instanceof Date) {
+    return [{ fieldPath: fieldPrefix || '__value', value: value.toISOString() }];
+  }
+  if (typeof value === 'object') {
+    const entries = Object.entries(value as Record<string, unknown>);
+    if (!entries.length) return [{ fieldPath: fieldPrefix || '__value', value: '{}' }];
+    return entries.flatMap(([key, nested]) =>
+      flattenExportRecord(nested, fieldPrefix ? `${fieldPrefix}.${key}` : key)
+    );
+  }
+  return [{ fieldPath: fieldPrefix || '__value', value }];
+}
+
 function buildUserExportCsv(payload: Record<string, unknown>) {
-  const rows: string[] = ['section,record_index,field,value'];
-  for (const [section, value] of Object.entries(payload)) {
+  const rows: string[] = [
+    'section,record_index,record_count,record_id,record_created_at,field_path,value',
+  ];
+  const preferredSectionOrder = [
+    'exportMeta',
+    'profile',
+    'legalDocumentAcceptances',
+    'userProgress',
+    'quizAttempts',
+    'speakAttempts',
+    'wordMemoryState',
+    'progressEvents',
+    'localAuthCredentials',
+    'refreshSessions',
+    'passwordResetTokens',
+    'learningAccessControls',
+    'learningAccessAudits',
+    'supportNotesAsTarget',
+    'supportNotesAsActor',
+    'deletionRequestsAsTarget',
+    'deletionRequestsAsRequester',
+    'deletionRequestsAsResolver',
+    'accountSecurityEventsAsTarget',
+    'accountSecurityEventsAsActor',
+    'scheduledAccountDeletions',
+    'deletionCaseHistoryAsTarget',
+    'deletionCaseHistoryAsActor',
+    'adminAuditLogsAsTarget',
+    'adminAuditLogsAsActor',
+  ];
+  const sectionEntries = Object.entries(payload).sort((a, b) => {
+    const left = preferredSectionOrder.indexOf(a[0]);
+    const right = preferredSectionOrder.indexOf(b[0]);
+    const leftRank = left === -1 ? Number.MAX_SAFE_INTEGER : left;
+    const rightRank = right === -1 ? Number.MAX_SAFE_INTEGER : right;
+    if (leftRank !== rightRank) return leftRank - rightRank;
+    return a[0].localeCompare(b[0]);
+  });
+
+  for (const [section, value] of sectionEntries) {
     const records = toExportRows(value);
     if (!records.length) {
-      rows.push(`${csvCell(section)},0,${csvCell('__empty')},${csvCell('true')}`);
+      rows.push(
+        `${csvCell(section)},0,0,${csvCell('')},${csvCell('')},${csvCell('__empty')},${csvCell('true')}`
+      );
       continue;
     }
+    const recordCount = records.length;
     records.forEach((record, index) => {
-      for (const [field, fieldValue] of Object.entries(record)) {
-        const serialized =
-          fieldValue === null ||
-          typeof fieldValue === 'string' ||
-          typeof fieldValue === 'number' ||
-          typeof fieldValue === 'boolean'
-            ? fieldValue
-            : JSON.stringify(fieldValue);
-        rows.push(`${csvCell(section)},${csvCell(index)},${csvCell(field)},${csvCell(serialized)}`);
-      }
+      const recordId = normalizeExportValue(record.id ?? record.userId ?? '');
+      const recordCreatedAt = normalizeExportValue(
+        record.createdAt ?? record.acceptedAt ?? record.updatedAt ?? ''
+      );
+      const flattened = flattenExportRecord(record);
+      flattened.forEach(({ fieldPath, value: fieldValue }) => {
+        rows.push(
+          `${csvCell(section)},${csvCell(index)},${csvCell(recordCount)},${csvCell(recordId)},${csvCell(recordCreatedAt)},${csvCell(fieldPath)},${csvCell(fieldValue)}`
+        );
+      });
     });
   }
-  return rows.join('\n');
+  return `\ufeff${rows.join('\n')}`;
 }
 
 function buildExportFilename(userId: string, format: 'json' | 'csv') {
@@ -764,309 +697,19 @@ export async function processScheduledAccountDeletions() {
 
 export async function adminRoutes(app: FastifyInstance) {
   await ensureAdminConsoleTables();
-
-  app.post('/v1/admin/auth/login', async (request, reply) => {
-    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
-
-    const parsed = supportAdminLoginSchema.safeParse(request.body);
-    if (!parsed.success) {
-      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
-      return;
-    }
-    const username = normalizeSupportAdminUsername(parsed.data.username);
-    const throttleIdentity = {
-      email: username,
-      ip: request.ip || 'unknown',
-    };
-    const throttleDecision = supportAdminLoginThrottle.check(throttleIdentity);
-    if (!throttleDecision.allowed) {
-      await prisma.$executeRaw`
-        INSERT INTO account_security_events
-          (id, target_user_id, actor_user_id, actor_email, event_type, detail, metadata_json, created_at)
-        VALUES
-          (
-            gen_random_uuid(),
-            ${env.DEV_USER_ID}::uuid,
-            null,
-            ${username},
-            'support_admin_login_throttled',
-            'Support admin login throttled due to too many attempts',
-            ${JSON.stringify({
-              username,
-              endpoint: '/v1/admin/auth/login',
-              ip: request.ip || null,
-            })}::jsonb,
-            now()
-          )
-      `;
-      reply
-        .code(429)
-        .header('Retry-After', throttleDecision.retryAfterSeconds.toString())
-        .send({ error: 'Too many login attempts. Try again later.' });
-      return;
-    }
-
-    const rejectInvalidSupportAdminCredentials = async (reason: string) => {
-      supportAdminLoginThrottle.registerFailure(throttleIdentity);
-      await prisma.$executeRaw`
-        INSERT INTO account_security_events
-          (id, target_user_id, actor_user_id, actor_email, event_type, detail, metadata_json, created_at)
-        VALUES
-          (
-            gen_random_uuid(),
-            ${env.DEV_USER_ID}::uuid,
-            null,
-            ${username},
-            'support_admin_login_failed',
-            'Invalid support admin credentials',
-            ${JSON.stringify({
-              username,
-              reason,
-              endpoint: '/v1/admin/auth/login',
-              ip: request.ip || null,
-            })}::jsonb,
-            now()
-          )
-      `;
-      reply.code(401).send({ error: 'Invalid username or password' });
-    };
-
-    const rows = await prisma.$queryRaw<Array<{ username: string; password_hash: string }>>`
-      SELECT username, password_hash
-      FROM support_admin_credentials
-      WHERE username = ${username}
-      LIMIT 1
-    `;
-    const row = rows[0] ?? null;
-    if (!row) {
-      await verifyPassword(parsed.data.password, SUPPORT_ADMIN_DUMMY_PASSWORD_HASH).catch(
-        () => false
-      );
-      await rejectInvalidSupportAdminCredentials('account_not_found');
-      return;
-    }
-    const passwordOk = await verifyPassword(parsed.data.password, row.password_hash).catch(
-      () => false
-    );
-    if (!passwordOk) {
-      await rejectInvalidSupportAdminCredentials('invalid_password');
-      return;
-    }
-
-    const rawToken = createSupportAdminSessionToken();
-    const tokenHash = hashSupportAdminSessionToken(rawToken);
-    const expiresAt = supportAdminSessionExpiry();
-    await prisma.$executeRaw`
-      INSERT INTO support_admin_sessions (id, username, token_hash, expires_at, revoked_at, created_at, last_used_at)
-      VALUES (gen_random_uuid(), ${username}, ${tokenHash}, ${expiresAt}, null, now(), now())
-    `;
-
-    await prisma.$executeRaw`
-      INSERT INTO account_security_events
-        (id, target_user_id, actor_user_id, actor_email, event_type, detail, metadata_json, created_at)
-      VALUES
-        (
-          gen_random_uuid(),
-          ${env.DEV_USER_ID}::uuid,
-          null,
-          ${username},
-          'support_admin_login_succeeded',
-          'Support admin login succeeded',
-          ${JSON.stringify({ username })}::jsonb,
-          now()
-        )
-    `;
-    supportAdminLoginThrottle.registerSuccess(throttleIdentity);
-
-    return {
-      ok: true,
-      token: rawToken,
-      username,
-      expiresAt: expiresAt.toISOString(),
-    };
-  });
-
-  app.get('/v1/admin/auth/me', async (request, reply) => {
-    const identity = await resolveSupportAdminFromRequest(request);
-    if (!identity) {
-      reply.code(401).send({ error: 'Not signed in to support admin' });
-      return;
-    }
-    return {
-      ok: true,
-      username: identity.username,
-      expiresAt: identity.expiresAt.toISOString(),
-    };
-  });
-
-  app.post('/v1/admin/auth/create-admin', async (request, reply) => {
-    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
-    const identity = await requireSupportAdminSession(request, reply);
-    if (!identity) return;
-    if (identity.username !== SUPPORT_ROOT_ADMIN_USERNAME) {
-      reply.code(403).send({ error: 'Only the QA root admin can create new admin accounts.' });
-      return;
-    }
-    const parsed = supportAdminCreateSchema.safeParse(request.body);
-    if (!parsed.success) {
-      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
-      return;
-    }
-    const username = normalizeSupportAdminUsername(parsed.data.username);
-    if (!canUseSupportAdminUsername(username)) {
-      reply.code(403).send({ error: 'Support admin username is not allowlisted.' });
-      return;
-    }
-    const existing = await prisma.$queryRaw<Array<{ username: string }>>`
-      SELECT username FROM support_admin_credentials WHERE username = ${username} LIMIT 1
-    `;
-    if (existing.length > 0) {
-      reply.code(409).send({ error: 'Support admin already exists.' });
-      return;
-    }
-    const passwordHash = await hashPrivilegedPassword(parsed.data.password);
-    const recoveryEmail = parsed.data.recoveryEmail?.trim().toLowerCase() || null;
-    await prisma.$executeRaw`
-      INSERT INTO support_admin_credentials
-        (username, password_hash, recovery_email, created_by_username, created_at, updated_at)
-      VALUES
-        (${username}, ${passwordHash}, ${recoveryEmail}, ${identity.username}, now(), now())
-    `;
-    return { ok: true, username, recoveryEmail };
-  });
-
-  app.post('/v1/admin/auth/reset-password', async (request, reply) => {
-    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
-    const identity = await requireSupportAdminSession(request, reply);
-    if (!identity) return;
-    const parsed = supportAdminResetPasswordSchema.safeParse(request.body);
-    if (!parsed.success) {
-      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
-      return;
-    }
-    const rows = await prisma.$queryRaw<Array<{ password_hash: string }>>`
-      SELECT password_hash FROM support_admin_credentials WHERE username = ${identity.username} LIMIT 1
-    `;
-    const row = rows[0];
-    if (!row) {
-      reply.code(404).send({ error: 'Support admin account not found.' });
-      return;
-    }
-    const validCurrent = await verifyPassword(parsed.data.currentPassword, row.password_hash).catch(
-      () => false
-    );
-    if (!validCurrent) {
-      reply.code(401).send({ error: 'Current password is incorrect.' });
-      return;
-    }
-    const newPasswordHash = await hashPrivilegedPassword(parsed.data.newPassword);
-    await prisma.$executeRaw`
-      UPDATE support_admin_credentials
-      SET password_hash = ${newPasswordHash}, updated_at = now()
-      WHERE username = ${identity.username}
-    `;
-    await prisma.$executeRaw`
-      UPDATE support_admin_sessions
-      SET revoked_at = now()
-      WHERE username = ${identity.username} AND revoked_at IS NULL AND id <> ${identity.sessionId}::uuid
-    `;
-    return { ok: true };
-  });
-
-  app.post('/v1/admin/auth/recovery-email', async (request, reply) => {
-    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
-    const identity = await requireSupportAdminSession(request, reply);
-    if (!identity) return;
-    const parsed = supportAdminRecoveryEmailSchema.safeParse(request.body);
-    if (!parsed.success) {
-      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
-      return;
-    }
-    const recoveryEmail = parsed.data.recoveryEmail.trim().toLowerCase();
-    await prisma.$executeRaw`
-      UPDATE support_admin_credentials
-      SET recovery_email = ${recoveryEmail}, updated_at = now()
-      WHERE username = ${identity.username}
-    `;
-    return { ok: true, recoveryEmail };
-  });
-
-  app.post('/v1/admin/auth/forgot-password', async (request, reply) => {
-    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
-    const parsed = supportAdminForgotPasswordSchema.safeParse(request.body);
-    if (!parsed.success) {
-      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
-      return;
-    }
-    const email = parsed.data.email.trim().toLowerCase();
-    const rows = await prisma.$queryRaw<Array<{ username: string; recovery_email: string | null }>>`
-      SELECT username, recovery_email
-      FROM support_admin_credentials
-      WHERE recovery_email = ${email} OR username = ${email}
-      LIMIT 1
-    `;
-    const row = rows[0];
-    if (!row) {
-      return { ok: true };
-    }
-    const destinationEmail = row.recovery_email?.trim().toLowerCase() || row.username;
-    if (!destinationEmail) return { ok: true };
-    const rawToken = createSupportAdminResetToken();
-    const tokenHash = hashSupportAdminResetToken(rawToken);
-    const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
-    await prisma.$executeRaw`
-      INSERT INTO support_admin_password_reset_tokens
-        (id, username, token_hash, expires_at, used_at, created_at)
-      VALUES
-        (gen_random_uuid(), ${row.username}, ${tokenHash}, ${expiresAt}, null, now())
-    `;
-    const resetBase = resolveSupportAdminResetUrlBase(request);
-    const resetUrl = `${resetBase || ''}/internal/support?adminResetToken=${encodeURIComponent(rawToken)}`;
-    await sendPasswordResetEmail({
-      to: destinationEmail,
-      resetUrl,
-    });
-    return { ok: true };
-  });
-
-  app.post('/v1/admin/auth/reset-password-with-token', async (request, reply) => {
-    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
-    const parsed = supportAdminResetWithTokenSchema.safeParse(request.body);
-    if (!parsed.success) {
-      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
-      return;
-    }
-    const tokenHash = hashSupportAdminResetToken(parsed.data.token);
-    const rows = await prisma.$queryRaw<
-      Array<{ id: string; username: string; expires_at: Date; used_at: Date | null }>
-    >`
-      SELECT id, username, expires_at, used_at
-      FROM support_admin_password_reset_tokens
-      WHERE token_hash = ${tokenHash}
-      LIMIT 1
-    `;
-    const row = rows[0];
-    if (!row || row.used_at || row.expires_at <= new Date()) {
-      reply.code(400).send({ error: 'Reset token is invalid or expired.' });
-      return;
-    }
-    const passwordHash = await hashPrivilegedPassword(parsed.data.password);
-    await prisma.$executeRaw`
-      UPDATE support_admin_credentials
-      SET password_hash = ${passwordHash}, updated_at = now()
-      WHERE username = ${row.username}
-    `;
-    await prisma.$executeRaw`
-      UPDATE support_admin_password_reset_tokens
-      SET used_at = now()
-      WHERE id = ${row.id}::uuid
-    `;
-    await prisma.$executeRaw`
-      UPDATE support_admin_sessions
-      SET revoked_at = now()
-      WHERE username = ${row.username} AND revoked_at IS NULL
-    `;
-    return { ok: true };
+  registerAdminAuthRoutes(app, {
+    allowedOrigins,
+    prisma,
+    env,
+    SUPPORT_ADMIN_DUMMY_PASSWORD_HASH,
+    SUPPORT_ROOT_ADMIN_USERNAME,
+    supportAdminLoginThrottle,
+    createSupportAdminResetToken,
+    hashSupportAdminResetToken,
+    supportAdminSessionExpiry,
+    canUseSupportAdminUsername,
+    resolveSupportAdminResetUrlBase,
+    requireSupportAdminSession,
   });
 
   const adminTimelineHandler = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -1109,20 +752,6 @@ export async function adminRoutes(app: FastifyInstance) {
   app.get('/v1/admin/me/timeline', { preHandler: [requireAdmin] }, adminTimelineHandler);
   // Backward-compatible alias in case clients still call the older path.
   app.get('/v1/admin/timeline', { preHandler: [requireAdmin] }, adminTimelineHandler);
-
-  app.post('/v1/admin/auth/logout', async (request, reply) => {
-    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
-    const identity = await resolveSupportAdminFromRequest(request);
-    if (!identity) {
-      return { ok: true };
-    }
-    await prisma.$executeRaw`
-      UPDATE support_admin_sessions
-      SET revoked_at = now()
-      WHERE id = ${identity.sessionId}::uuid
-    `;
-    return { ok: true };
-  });
 
   app.get('/v1/admin/quality-reports', { preHandler: [requireAdmin] }, async (request, reply) => {
     const parsed = qualityReportsQuerySchema.safeParse(request.query ?? {});
@@ -3004,7 +2633,7 @@ export async function adminRoutes(app: FastifyInstance) {
 
       reply.header('Content-Type', 'application/json; charset=utf-8');
       reply.header('Content-Disposition', `attachment; filename="${filename}"`);
-      reply.send(exportPayload);
+      reply.send(JSON.stringify(exportPayload, null, 2));
     }
   );
 

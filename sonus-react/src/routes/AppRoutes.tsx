@@ -874,7 +874,6 @@ export default function AppRoutes() {
         walkthroughHighlightLessons={walkthroughVisible && walkthroughStep === 4}
         onGoHome={goHome}
         onOpenProfile={goProfile}
-        onGoLevels={(tierId) => navigate(tierId ? `/learn?tier=${encodeURIComponent(tierId)}` : '/learn')}
         onOpenPractice={(unitId) => {
           const mode: LessonMode = /listening$/i.test(unitId) ? 'quiz' : 'speak';
           navigate(`/learn/${tier}/${level.id}/unit/${unitId}/lesson/0/${mode}`);

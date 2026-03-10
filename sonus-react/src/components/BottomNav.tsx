@@ -1,7 +1,6 @@
-import { Book, BookOpen, FolderKanban, House, Layers3, ListChecks, LogOut, User } from 'lucide-react';
+import { Book, BookOpen, FolderKanban, House, Layers3, ListChecks, User } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import { resolveLearnQuickStage } from '../lib/learnPath';
 
 interface BottomNavProps {
@@ -12,18 +11,17 @@ interface BottomNavProps {
 }
 
 export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' }: BottomNavProps) {
-  const { signOut, isDemo } = useAuth();
   const location = useLocation();
   const routeKey = `${location.pathname}${location.search}`;
   const [learnMenuOpenRouteKey, setLearnMenuOpenRouteKey] = useState<string | null>(null);
   const [isMobileViewport, setIsMobileViewport] = useState(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(max-width: 1023px)').matches : false
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 950px)').matches : false
   );
   const mobileLearnMenuOpen = isMobileViewport && learnMenuOpenRouteKey === routeKey;
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const media = window.matchMedia('(max-width: 1023px)');
+    const media = window.matchMedia('(max-width: 950px)');
     const onChange = (event: MediaQueryListEvent) => {
       setIsMobileViewport(event.matches);
       if (!event.matches) {
@@ -86,7 +84,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           type="button"
           aria-label="Close learn quick menu"
           onClick={() => setLearnMenuOpenRouteKey(null)}
-          className="fixed left-0 right-0 top-0 z-[58] bg-[#1F2A37]/24 backdrop-blur-[1.5px]"
+          className="fixed left-0 right-0 top-0 z-[58] bg-[#1F2A37]/24 backdrop-blur-[1.5px] min-[951px]:hidden"
           style={{
             bottom: bottomNavHeight,
           }}
@@ -94,7 +92,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
       )}
       {mobileLearnMenuOpen && (
         <div
-          className="fixed left-1/2 z-[59] w-[min(92vw,420px)] -translate-x-1/2 rounded-2xl border border-[#E4E9EF] bg-[#FBFBF9] p-3 backdrop-blur-sm shadow-[0_20px_40px_-24px_rgba(15,23,42,0.40)]"
+          className="fixed left-1/2 z-[59] w-[min(92vw,420px)] -translate-x-1/2 rounded-2xl border border-[#E4E9EF] bg-[#FBFBF9] p-3 backdrop-blur-sm shadow-[0_20px_40px_-24px_rgba(15,23,42,0.40)] min-[951px]:hidden"
           style={{
             bottom: `calc(${bottomNavHeight} + 0.6rem)`,
           }}
@@ -140,7 +138,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
         </div>
       )}
       <div
-        className="fixed bottom-0 left-0 right-0 bg-bg-warm/95 backdrop-blur-xl border-t border-border z-[60]"
+        className="fixed bottom-0 left-0 right-0 bg-bg-warm/95 backdrop-blur-xl border-t border-border z-[60] min-[951px]:hidden"
         style={{
           position: 'fixed',
           left: 0,
@@ -204,16 +202,6 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
             <span className="font-mono">© {new Date().getFullYear()} Sonus</span>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={signOut}
-          className="hidden lg:flex absolute right-4 top-[41%] -translate-y-1/2 items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium leading-none text-text-light transition-colors hover:text-text-dark"
-          aria-label={isDemo ? 'Exit Demo' : 'Sign Out'}
-          title={isDemo ? 'Exit Demo' : 'Sign Out'}
-        >
-          <LogOut className="w-4 h-4" />
-          <span>{isDemo ? 'Exit Demo' : 'Sign Out'}</span>
-        </button>
       </div>
       </div>
     </>

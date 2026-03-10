@@ -7,12 +7,9 @@ import BottomNav from './BottomNav';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import GlassHeader from './GlassHeader';
-import CollapsibleBreadcrumbs, { type BreadcrumbItem } from './CollapsibleBreadcrumbs';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import type { LessonMode } from '../types/lesson.types';
-import { tierForBand } from '../routes/lessonRouting';
 import { firstTrackLevelIds, isReleasedTrackLevel, nextTrackLevelId } from '../lib/bandIds';
-import { deriveJapaneseSectionIdFromUnitId } from '../lib/learnPath';
 
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
@@ -72,7 +69,6 @@ const CARD_ACCENTS = [
 interface UnitSelectProps {
   onSelectLesson: (unitId: string, lessonIndex: number, mode?: LessonMode) => void;
   onOpenPractice: (unitId: string) => void;
-  onGoLevels: (tierId?: string) => void;
   onGoHome: () => void;
   onOpenProfile: () => void;
   walkthroughHighlightLevels?: boolean;
@@ -160,7 +156,6 @@ function deriveHanziPreviewFromWords(words: unknown[]) {
 export default function UnitSelect({
   onSelectLesson,
   onOpenPractice,
-  onGoLevels,
   onGoHome,
   onOpenProfile,
   walkthroughHighlightLevels = false,
@@ -196,17 +191,6 @@ export default function UnitSelect({
     next.delete('unit');
     setSearchParams(next);
   };
-  const goToUnitsStage = (sectionId: string | null) => {
-    const next = new URLSearchParams(searchParams);
-    if (sectionId) {
-      next.set('section', sectionId);
-    } else {
-      next.delete('section');
-    }
-    next.delete('unit');
-    setSearchParams(next);
-  };
-
   useEffect(() => {
     const onResize = () => setViewportWidth(window.innerWidth);
     window.addEventListener('resize', onResize);
@@ -589,54 +573,6 @@ export default function UnitSelect({
       activeUnit.completedLessons === activeUnit.lessonsCount &&
       activeUnit.masteredLessons === activeUnit.lessonsCount
     : false;
-  const normalizedLanguageId = selectedLanguageId;
-  const parentTierId = normalizedLanguageId === 'zh' ? tierForBand(currentLevel.id) : undefined;
-  const isUnitsStage = !activeUnit && !(showSectionStep && !activeSection);
-  const isLevelsStage = showSectionStep && !activeSection && !activeUnit;
-  const isLessonsStage = Boolean(activeUnit);
-  const headerBreadcrumbItems: BreadcrumbItem[] = [
-    {
-      label: 'Main',
-      onClick: () => onGoLevels(),
-      current: false,
-    },
-    {
-      label: 'Levels',
-      onClick:
-        isUnitsStage || isLessonsStage
-          ? () => {
-              if (showSectionStep) {
-                setActiveUnit(null);
-                setActiveSection(null);
-                return;
-              }
-              onGoLevels(parentTierId);
-            }
-          : undefined,
-      current: isLevelsStage,
-    },
-    {
-      label: 'Units',
-      onClick: isLessonsStage
-        ? () => {
-            const targetSectionId = showSectionStep
-              ? (
-                  activeSection?.id ||
-                  deriveJapaneseSectionIdFromUnitId(currentLevel.id, activeUnit?.unitId || activeUnitId)
-                )
-              : null;
-            goToUnitsStage(targetSectionId);
-          }
-        : undefined,
-      current: isUnitsStage,
-      disabled: !isUnitsStage && !isLessonsStage,
-    },
-    {
-      label: 'Lessons',
-      current: isLessonsStage,
-      disabled: !isLessonsStage,
-    },
-  ];
   const isMandarinBandLocked =
     !isReleasedTrackLevel(currentLevel.id) || !state.unlockedLevels.includes(currentLevel.id);
 
@@ -644,12 +580,6 @@ export default function UnitSelect({
     <div className="min-h-screen page-shell with-bottom-nav px-6">
       <GlassHeader
         title={headerTitle}
-        subtitle={
-          <div className="hidden lg:block">
-            <CollapsibleBreadcrumbs items={headerBreadcrumbItems} />
-          </div>
-        }
-        showLogo={false}
       />
 
       {isMandarinBandLocked && (

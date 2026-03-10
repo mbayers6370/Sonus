@@ -149,7 +149,6 @@ export default function LessonComplete({
                   ? (speakPassed ? 'Lesson Complete' : 'Speaking Review')
                   : 'Lesson Complete'
           }
-          showLogo={false}
           hideLogoOnMobile={hideLogoOnMobile}
         />
       </div>

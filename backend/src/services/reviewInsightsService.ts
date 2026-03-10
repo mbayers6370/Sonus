@@ -4,6 +4,7 @@ import type { SharedLexeme } from '../types.js';
 
 type SupportedLanguage = 'zh' | 'ja';
 type ResponseShape = 'legacy' | 'lexeme';
+type WordScoped = { wordId: string };
 
 function normalizeLanguage(language: string | null | undefined): SupportedLanguage | null {
   // Collapse incoming language labels to supported internal IDs.
@@ -64,6 +65,20 @@ async function pruneUnknownWordIds<T extends { wordId: string }>(
 
   const kept = items.filter((item) => !staleWordIds.has(item.wordId));
   return { kept, lexemeByWordId };
+}
+
+async function attachLexemes<T extends WordScoped>(
+  items: T[],
+  language: string | null | undefined,
+  lexemeByWordId: Map<string, SharedLexeme>
+) {
+  return Promise.all(
+    items.map(async (item) => ({
+      ...item,
+      lexeme:
+        lexemeByWordId.get(item.wordId) ?? (await resolveLexemeForWordId(item.wordId, language)),
+    }))
+  );
 }
 
 function buildReviewPriority(input: {
@@ -234,18 +249,8 @@ export async function fetchReviewQueue(
 
   const { kept: activeQueue, lexemeByWordId } = await pruneUnknownWordIds(userId, language, queue);
 
-  if (shape === 'legacy') {
-    return { count: activeQueue.length, limit, queue: activeQueue };
-  }
-
-  const queueWithLexemes = await Promise.all(
-    activeQueue.map(async (item) => ({
-      ...item,
-      lexeme:
-        lexemeByWordId.get(item.wordId) ?? (await resolveLexemeForWordId(item.wordId, language)),
-    }))
-  );
-
+  if (shape === 'legacy') return { count: activeQueue.length, limit, queue: activeQueue };
+  const queueWithLexemes = await attachLexemes(activeQueue, language, lexemeByWordId);
   return { count: queueWithLexemes.length, limit, queue: queueWithLexemes };
 }
 
@@ -440,18 +445,9 @@ export async function fetchNeedsWork(
     needsWork
   );
 
-  if (shape === 'legacy') {
+  if (shape === 'legacy')
     return { count: activeNeedsWork.length, limit, needsWork: activeNeedsWork };
-  }
-
-  const needsWorkWithLexemes = await Promise.all(
-    activeNeedsWork.map(async (item) => ({
-      ...item,
-      lexeme:
-        lexemeByWordId.get(item.wordId) ?? (await resolveLexemeForWordId(item.wordId, language)),
-    }))
-  );
-
+  const needsWorkWithLexemes = await attachLexemes(activeNeedsWork, language, lexemeByWordId);
   return { count: needsWorkWithLexemes.length, limit, needsWork: needsWorkWithLexemes };
 }
 

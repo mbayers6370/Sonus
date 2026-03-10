@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ArrowDownRight,
@@ -634,7 +634,14 @@ function downloadTextFile(filename: string, content: string, contentType: string
 }
 
 function escapeCsvCell(value: unknown) {
-  const text = String(value ?? '');
+  const text =
+    value === null || value === undefined
+      ? ''
+      : value instanceof Date
+        ? value.toISOString()
+        : typeof value === 'object'
+          ? JSON.stringify(value)
+          : String(value);
   if (/[",\n]/.test(text)) {
     return `"${text.replace(/"/g, '""')}"`;
   }
@@ -644,7 +651,7 @@ function escapeCsvCell(value: unknown) {
 function toCsv(headers: string[], rows: Array<Array<unknown>>) {
   const headerLine = headers.map((cell) => escapeCsvCell(cell)).join(',');
   const rowLines = rows.map((row) => row.map((cell) => escapeCsvCell(cell)).join(','));
-  return [headerLine, ...rowLines].join('\n');
+  return `\ufeff${[headerLine, ...rowLines].join('\n')}`;
 }
 
 function normalizeFullSuiteConfirmText(value: string) {
@@ -823,6 +830,7 @@ export default function SupportConsolePage() {
   const location = useLocation();
   const [bootLoading, setBootLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
+  const didBootstrapRef = useRef(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authBusy, setAuthBusy] = useState(false);
   const [adminUsername, setAdminUsername] = useState('qa-admin-f8n2x7r1@sonus.test');
@@ -1039,7 +1047,7 @@ export default function SupportConsolePage() {
   }, [location.search]);
   const canCreateAdmins = supportAdminUsername === ROOT_QA_ADMIN_USERNAME;
 
-  const verifySupportAdminSession = async () => {
+  const verifySupportAdminSession = useCallback(async () => {
     try {
       const payload = await parseJsonOrThrow<{ username?: string }>(
         await apiFetch('/v1/admin/auth/me', { cache: 'no-store' })
@@ -1053,9 +1061,9 @@ export default function SupportConsolePage() {
       setSupportAdminUsername(null);
       return false;
     }
-  };
+  }, []);
 
-  const runSearch = async () => {
+  const runSearch = useCallback(async () => {
     setSearchLoading(true);
     try {
       const params = new URLSearchParams();
@@ -1074,9 +1082,9 @@ export default function SupportConsolePage() {
     } finally {
       setSearchLoading(false);
     }
-  };
+  }, [query, selectedUserId]);
 
-  const refreshSelectedUser = async (targetUserId: string) => {
+  const refreshSelectedUser = useCallback(async (targetUserId: string) => {
     setDetailLoading(true);
     setDetailError(null);
     try {
@@ -1153,7 +1161,7 @@ export default function SupportConsolePage() {
     } finally {
       setDetailLoading(false);
     }
-  };
+  }, []);
 
   const downloadUserExport = async (format: 'json' | 'csv') => {
     if (!selectedUserId) return;
@@ -1182,7 +1190,7 @@ export default function SupportConsolePage() {
     }
   };
 
-  const loadSupportMetrics = async (windowDays = metricsWindowDays) => {
+  const loadSupportMetrics = useCallback(async (windowDays = metricsWindowDays) => {
     setMetricsLoading(true);
     setMetricsError(null);
     try {
@@ -1197,9 +1205,9 @@ export default function SupportConsolePage() {
     } finally {
       setMetricsLoading(false);
     }
-  };
+  }, [metricsWindowDays]);
 
-  const loadLearningMetrics = async (windowDays = metricsWindowDays) => {
+  const loadLearningMetrics = useCallback(async (windowDays = metricsWindowDays) => {
     setMetricsLoading(true);
     setMetricsError(null);
     try {
@@ -1234,9 +1242,9 @@ export default function SupportConsolePage() {
     } finally {
       setMetricsLoading(false);
     }
-  };
+  }, [metricsWindowDays]);
 
-  const loadDashboardMetrics = async (windowDays = metricsWindowDays) => {
+  const loadDashboardMetrics = useCallback(async (windowDays = metricsWindowDays) => {
     setDashboardLoading(true);
     setDashboardError(null);
     try {
@@ -1319,9 +1327,9 @@ export default function SupportConsolePage() {
     } finally {
       setDashboardLoading(false);
     }
-  };
+  }, [metricsWindowDays]);
 
-  const loadAdminTimeline = async () => {
+  const loadAdminTimeline = useCallback(async () => {
     setAdminTimelineLoading(true);
     setAdminTimelineError(null);
     try {
@@ -1344,9 +1352,9 @@ export default function SupportConsolePage() {
     } finally {
       setAdminTimelineLoading(false);
     }
-  };
+  }, []);
 
-  const loadRecentDeletions = async () => {
+  const loadRecentDeletions = useCallback(async () => {
     setRecentDeletionsLoading(true);
     setRecentDeletionsError(null);
     try {
@@ -1360,9 +1368,9 @@ export default function SupportConsolePage() {
     } finally {
       setRecentDeletionsLoading(false);
     }
-  };
+  }, []);
 
-  const loadOpenDeletionRequests = async () => {
+  const loadOpenDeletionRequests = useCallback(async () => {
     setOpenDeletionRequestsLoading(true);
     setOpenDeletionRequestsError(null);
     try {
@@ -1378,9 +1386,9 @@ export default function SupportConsolePage() {
     } finally {
       setOpenDeletionRequestsLoading(false);
     }
-  };
+  }, []);
 
-  const loadDeletionCases = async (query?: string) => {
+  const loadDeletionCases = useCallback(async (query?: string) => {
     setDeletionCasesLoading(true);
     setDeletionCasesError(null);
     try {
@@ -1398,9 +1406,9 @@ export default function SupportConsolePage() {
     } finally {
       setDeletionCasesLoading(false);
     }
-  };
+  }, [deletionCaseSearch]);
 
-  const loadQualityReports = async () => {
+  const loadQualityReports = useCallback(async () => {
     setQualityReportsLoading(true);
     setQualityReportsError(null);
     try {
@@ -1421,7 +1429,7 @@ export default function SupportConsolePage() {
     } finally {
       setQualityReportsLoading(false);
     }
-  };
+  }, [selectedQualityRunId]);
 
   const loadQualityReportDetail = async (runId: string) => {
     setQualityDetailLoading(true);
@@ -2121,8 +2129,9 @@ export default function SupportConsolePage() {
     ]);
   };
 
-  // Intentionally run only once at mount to bootstrap session and initial view data.
   useEffect(() => {
+    if (didBootstrapRef.current) return;
+    didBootstrapRef.current = true;
     let cancelled = false;
     void (async () => {
       const ok = await verifySupportAdminSession();
@@ -2143,9 +2152,16 @@ export default function SupportConsolePage() {
     return () => {
       cancelled = true;
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [
+    loadAdminTimeline,
+    loadDashboardMetrics,
+    loadQualityReports,
+    metricsWindowDays,
+    runSearch,
+    verifySupportAdminSession,
+    viewMode,
+  ]);
 
-  // Intentionally re-run on auth/view/window only; loaders are stable enough for this scope.
   useEffect(() => {
     if (!authenticated) return;
     if (viewMode === 'dashboard') {
@@ -2165,7 +2181,17 @@ export default function SupportConsolePage() {
     if (viewMode === 'quality-reports') {
       void loadQualityReports();
     }
-  }, [authenticated, viewMode, metricsWindowDays]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [
+    authenticated,
+    loadAdminTimeline,
+    loadDashboardMetrics,
+    loadDeletionCases,
+    loadLearningMetrics,
+    loadQualityReports,
+    loadSupportMetrics,
+    metricsWindowDays,
+    viewMode,
+  ]);
 
   // Intentionally tied to auth/view transitions to repopulate operations state.
   useEffect(() => {
@@ -2179,7 +2205,7 @@ export default function SupportConsolePage() {
       return;
     }
     void refreshSelectedUser(selectedUserId);
-  }, [selectedUserId, authenticated, viewMode]);
+  }, [authenticated, refreshSelectedUser, selectedUserId, viewMode]);
 
   useEffect(() => {
     if (!authenticated || viewMode !== 'ops') return;
@@ -2187,7 +2213,7 @@ export default function SupportConsolePage() {
     void runSearch();
     void loadRecentDeletions();
     void loadOpenDeletionRequests();
-  }, [authenticated, viewMode]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [authenticated, loadOpenDeletionRequests, loadRecentDeletions, runSearch, viewMode]);
 
   useEffect(() => {
     let cancelled = false;

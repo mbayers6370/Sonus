@@ -6,7 +6,6 @@ import { ChevronRight } from 'lucide-react';
 import { getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
-import CollapsibleBreadcrumbs from './CollapsibleBreadcrumbs';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT } from '../lib/passCriteria';
@@ -730,27 +729,6 @@ export default function LevelSelect({
       <GlassHeader
         title={getLanguageName()}
         compactStandaloneTitle={false}
-        subtitle={
-          <div className="hidden lg:block">
-            <CollapsibleBreadcrumbs
-              items={
-                normalizedLanguageId === 'zh' && activeTierConfig !== null
-                  ? [
-                      { label: 'Main', onClick: () => setTier(null) },
-                      { label: 'Levels', current: true },
-                      { label: 'Units', disabled: true },
-                      { label: 'Lessons', disabled: true },
-                    ]
-                  : [
-                      { label: 'Main', current: true },
-                      { label: 'Levels', disabled: true },
-                      { label: 'Units', disabled: true },
-                      { label: 'Lessons', disabled: true },
-                    ]
-              }
-            />
-          </div>
-        }
       />
 
       {/* Tier or Level Cards */}

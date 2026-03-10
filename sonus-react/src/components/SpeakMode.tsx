@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { BandData, Word, SpeakBreakdown } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
@@ -40,6 +40,16 @@ type PinyinSyllable = {
   final: string;
   tone: number;
 };
+
+function useStableCallback<TArgs extends unknown[], TResult>(
+  fn: (...args: TArgs) => TResult
+): (...args: TArgs) => TResult {
+  const fnRef = useRef(fn);
+  useEffect(() => {
+    fnRef.current = fn;
+  }, [fn]);
+  return useCallback((...args: TArgs) => fnRef.current(...args), []);
+}
 
 type ScoreBreakdown = {
   matched: number;
@@ -1847,7 +1857,7 @@ export default function SpeakMode({
     mediaStreamRef.current = null;
   };
 
-  const abortActiveCapture = (preserveStream = false) => {
+  const abortActiveCapture = useStableCallback((preserveStream = false) => {
     // Set idle flags first so recognition onend cannot restart while tearing down.
     isRecordingRef.current = false;
     recognitionStateRef.current = 'idle';
@@ -1890,7 +1900,7 @@ export default function SpeakMode({
     setIsStartingRecording(false);
     setIsRecording(false);
     setIsFinalizing(false);
-  };
+  });
 
   const startRecognition = () => {
     const recognitionWindow = window as SpeechRecognitionWindow;
@@ -2149,6 +2159,11 @@ export default function SpeakMode({
     stopRecognition();
   };
 
+  const recordingUrlRef = useRef<string | null>(recordingUrl);
+  useEffect(() => {
+    recordingUrlRef.current = recordingUrl;
+  }, [recordingUrl]);
+
   const requestMicStream = async () => {
     const shortJapaneseCapture = isJapaneseLesson && isShortJapaneseTarget;
     const tunedConstraints: MediaStreamConstraints = {
@@ -2340,54 +2355,56 @@ export default function SpeakMode({
         window.clearTimeout(listenRetryTimerRef.current);
         listenRetryTimerRef.current = null;
       }
-      if (recordingUrl) URL.revokeObjectURL(recordingUrl);
+      if (recordingUrlRef.current) URL.revokeObjectURL(recordingUrlRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [abortActiveCapture]);
 
   useEffect(() => {
-    abortActiveCapture(false);
-    setTranscript('');
-    setMatchResult(null);
-    setAnalysis(null);
-    setIsStartingRecording(false);
-    setIsFinalizing(false);
-    if (finalizeTimerRef.current) {
-      window.clearTimeout(finalizeTimerRef.current);
-      finalizeTimerRef.current = null;
-    }
-    if (recognitionStopTimerRef.current) {
-      window.clearTimeout(recognitionStopTimerRef.current);
-      recognitionStopTimerRef.current = null;
-    }
-    if (silenceStopTimerRef.current) {
-      window.clearTimeout(silenceStopTimerRef.current);
-      silenceStopTimerRef.current = null;
-    }
-    if (noInputAutoStopTimerRef.current) {
-      window.clearTimeout(noInputAutoStopTimerRef.current);
-      noInputAutoStopTimerRef.current = null;
-    }
-    if (stopWatchdogTimerRef.current) {
-      window.clearTimeout(stopWatchdogTimerRef.current);
-      stopWatchdogTimerRef.current = null;
-    }
-    if (listenRetryTimerRef.current) {
-      window.clearTimeout(listenRetryTimerRef.current);
-      listenRetryTimerRef.current = null;
-    }
-    if (recordingUrl) {
-      URL.revokeObjectURL(recordingUrl);
-      setRecordingUrl(null);
-    }
-    recordingSessionRef.current += 1;
-    isRecordingRef.current = false;
-    recognitionStateRef.current = 'idle';
-    pendingSpeakAttemptRef.current = null;
-    recentFinalCandidatesRef.current = [];
-    lastHeardRawRef.current = '';
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex]);
+    const frame = window.requestAnimationFrame(() => {
+      abortActiveCapture(false);
+      setTranscript('');
+      setMatchResult(null);
+      setAnalysis(null);
+      setIsStartingRecording(false);
+      setIsFinalizing(false);
+      if (finalizeTimerRef.current) {
+        window.clearTimeout(finalizeTimerRef.current);
+        finalizeTimerRef.current = null;
+      }
+      if (recognitionStopTimerRef.current) {
+        window.clearTimeout(recognitionStopTimerRef.current);
+        recognitionStopTimerRef.current = null;
+      }
+      if (silenceStopTimerRef.current) {
+        window.clearTimeout(silenceStopTimerRef.current);
+        silenceStopTimerRef.current = null;
+      }
+      if (noInputAutoStopTimerRef.current) {
+        window.clearTimeout(noInputAutoStopTimerRef.current);
+        noInputAutoStopTimerRef.current = null;
+      }
+      if (stopWatchdogTimerRef.current) {
+        window.clearTimeout(stopWatchdogTimerRef.current);
+        stopWatchdogTimerRef.current = null;
+      }
+      if (listenRetryTimerRef.current) {
+        window.clearTimeout(listenRetryTimerRef.current);
+        listenRetryTimerRef.current = null;
+      }
+      if (recordingUrlRef.current) {
+        URL.revokeObjectURL(recordingUrlRef.current);
+        setRecordingUrl(null);
+        recordingUrlRef.current = null;
+      }
+      recordingSessionRef.current += 1;
+      isRecordingRef.current = false;
+      recognitionStateRef.current = 'idle';
+      pendingSpeakAttemptRef.current = null;
+      recentFinalCandidatesRef.current = [];
+      lastHeardRawRef.current = '';
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [abortActiveCapture, currentIndex]);
 
   const heardHanzi = normalizeHanzi(transcript);
   const isNoSpeech = transcript.toLowerCase() === NO_SPEECH_RESULT_TEXT.toLowerCase();
