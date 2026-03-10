@@ -35,6 +35,13 @@ type AuthContextValue = {
     lastName: string;
     targetLanguage?: string;
     timezone?: string;
+    legalAcceptance: {
+      termsVersion: string;
+      privacyVersion: string;
+      termsAccepted: true;
+      privacyAccepted: true;
+      ageConfirmed: true;
+    };
   }) => Promise<{ requiresEmailVerification: boolean }>;
   requestPasswordReset: (email: string) => Promise<void>;
   resetPassword: (token: string, password: string) => Promise<void>;

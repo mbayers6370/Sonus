@@ -23,6 +23,23 @@ model Profile {
   @@map("profiles")
 }
 
+model LegalDocumentAcceptance {
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId            String   @map("user_id") @db.Uuid
+  documentType      String   @map("document_type") @db.Text
+  documentVersion   String   @map("document_version") @db.Text
+  acceptanceSource  String   @default("signup") @map("acceptance_source") @db.Text
+  ageConfirmed      Boolean  @default(false) @map("age_confirmed")
+  acceptedIp        String?  @map("accepted_ip") @db.Text
+  acceptedUserAgent String?  @map("accepted_user_agent") @db.Text
+  acceptedAt        DateTime @default(now()) @map("accepted_at") @db.Timestamptz(6)
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([userId, documentType, documentVersion])
+  @@index([userId, acceptedAt])
+  @@map("legal_document_acceptances")
+}
+
 model UserProgress {
   id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId           String    @unique @map("user_id") @db.Uuid

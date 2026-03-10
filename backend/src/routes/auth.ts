@@ -24,19 +24,49 @@ import {
   verifyPassword,
 } from '../lib/localAuth.js';
 
+const TERMS_OF_SERVICE_VERSION = '2026-03-08';
+const PRIVACY_POLICY_VERSION = '2026-03-07';
+const PASSWORD_MIN_LENGTH = 10;
+
+function isStrongPassword(value: string) {
+  return (
+    value.length >= PASSWORD_MIN_LENGTH &&
+    /[a-z]/.test(value) &&
+    /[A-Z]/.test(value) &&
+    /\d/.test(value) &&
+    /[^A-Za-z0-9\s]/.test(value) &&
+    !/\s/.test(value)
+  );
+}
+
+const passwordSchema = z.string().min(PASSWORD_MIN_LENGTH).max(128).refine(isStrongPassword, {
+  message:
+    'Password must be at least 10 characters and include uppercase, lowercase, number, and special character, with no spaces.',
+});
+
 const signupSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8).max(128),
+  password: passwordSchema,
   firstName: z.string().trim().min(1).max(60),
   lastName: z.string().trim().min(1).max(60),
   targetLanguage: z.string().trim().min(2).max(12).optional(),
   timezone: z.string().trim().min(1).max(64).optional(),
+  legalAcceptance: z.object({
+    termsVersion: z.string().trim().min(1).max(32),
+    privacyVersion: z.string().trim().min(1).max(32),
+    termsAccepted: z.literal(true),
+    privacyAccepted: z.literal(true),
+    ageConfirmed: z.literal(true),
+  }),
 });
 
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1).max(128),
   rememberMe: z.boolean().optional(),
+});
+const emailAvailabilitySchema = z.object({
+  email: z.string().email(),
 });
 
 const refreshSchema = z.object({});
@@ -45,7 +75,7 @@ const forgotPasswordSchema = z.object({
 });
 const resetPasswordSchema = z.object({
   token: z.string().min(20).max(512),
-  password: z.string().min(8).max(128),
+  password: passwordSchema,
 });
 const throttleResetSchema = z.object({
   email: z.string().email().optional(),
@@ -92,6 +122,53 @@ function requestClientInfo(request: {
     ip: request.ip || null,
     userAgent: readHeader(request.headers['user-agent']),
   };
+}
+
+function hasCurrentLegalVersions(legalAcceptance: {
+  termsVersion: string;
+  privacyVersion: string;
+}) {
+  return (
+    legalAcceptance.termsVersion === TERMS_OF_SERVICE_VERSION &&
+    legalAcceptance.privacyVersion === PRIVACY_POLICY_VERSION
+  );
+}
+
+async function recordSignupLegalAcceptance(
+  db: Pick<typeof prisma, 'legalDocumentAcceptance'>,
+  input: {
+    userId: string;
+    client: ReturnType<typeof requestClientInfo>;
+    legalAcceptance: {
+      termsVersion: string;
+      privacyVersion: string;
+      ageConfirmed: true;
+    };
+  }
+) {
+  const { userId, client, legalAcceptance } = input;
+  await db.legalDocumentAcceptance.createMany({
+    data: [
+      {
+        userId,
+        documentType: 'terms',
+        documentVersion: legalAcceptance.termsVersion,
+        acceptanceSource: 'signup',
+        ageConfirmed: legalAcceptance.ageConfirmed,
+        acceptedIp: client.ip,
+        acceptedUserAgent: client.userAgent,
+      },
+      {
+        userId,
+        documentType: 'privacy',
+        documentVersion: legalAcceptance.privacyVersion,
+        acceptanceSource: 'signup',
+        ageConfirmed: legalAcceptance.ageConfirmed,
+        acceptedIp: client.ip,
+        acceptedUserAgent: client.userAgent,
+      },
+    ],
+  });
 }
 
 type CookieReply = {
@@ -393,12 +470,47 @@ export async function authRoutes(app: FastifyInstance) {
   });
 
   // Public endpoint. Creates account/profile and returns auth session material for configured auth mode.
+  app.post('/v1/auth/check-email', async (request, reply) => {
+    if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
+
+    const parsed = emailAvailabilitySchema.safeParse(request.body);
+    if (!parsed.success) {
+      reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+
+    const email = normalizeEmail(parsed.data.email);
+    let exists = false;
+
+    if (env.AUTH_MODE === 'local') {
+      const record = await prisma.localAuthCredential.findUnique({ where: { email } });
+      exists = Boolean(record);
+    } else {
+      const record = await prisma.profile.findFirst({
+        where: { email },
+        orderBy: { createdAt: 'asc' },
+        select: { userId: true },
+      });
+      exists = Boolean(record);
+    }
+
+    reply.send({ available: !exists });
+  });
+
+  // Public endpoint. Creates account/profile and returns auth session material for configured auth mode.
   app.post('/v1/auth/signup', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 
     const parsed = signupSchema.safeParse(request.body);
     if (!parsed.success) {
       reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+    if (!hasCurrentLegalVersions(parsed.data.legalAcceptance)) {
+      reply.code(409).send({
+        error:
+          'The Terms or Privacy Policy changed. Please review the latest versions and try again.',
+      });
       return;
     }
 
@@ -429,7 +541,7 @@ export async function authRoutes(app: FastifyInstance) {
             passwordHash,
           },
         });
-        return tx.profile.create({
+        const createdProfile = await tx.profile.create({
           data: {
             userId,
             email,
@@ -439,6 +551,12 @@ export async function authRoutes(app: FastifyInstance) {
             onboardingComplete: false,
           },
         });
+        await recordSignupLegalAcceptance(tx, {
+          userId,
+          client,
+          legalAcceptance: parsed.data.legalAcceptance,
+        });
+        return createdProfile;
       });
 
       await prisma.refreshSession.create({
@@ -484,6 +602,11 @@ export async function authRoutes(app: FastifyInstance) {
         timezone: parsed.data.timezone,
         onboardingComplete: false,
       });
+      await recordSignupLegalAcceptance(prisma, {
+        userId,
+        client: requestClientInfo(request),
+        legalAcceptance: parsed.data.legalAcceptance,
+      });
       reply.send({
         user: { id: userId, email },
         profile,
@@ -519,6 +642,11 @@ export async function authRoutes(app: FastifyInstance) {
       targetLanguage: parsed.data.targetLanguage,
       timezone: parsed.data.timezone,
       onboardingComplete: false,
+    });
+    await recordSignupLegalAcceptance(prisma, {
+      userId: data.user.id,
+      client: requestClientInfo(request),
+      legalAcceptance: parsed.data.legalAcceptance,
     });
 
     if (data.session?.refresh_token) {

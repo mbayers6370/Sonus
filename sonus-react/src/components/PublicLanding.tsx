@@ -101,7 +101,7 @@ export default function PublicLanding() {
   );
   const [heroLineVariantIdx, setHeroLineVariantIdx] = useState(0);
   const activeHeroLine = heroLineVariants[heroLineVariantIdx] || '';
-  const useCompactHeroLine = activeHeroLine.length > 32;
+  const useCompactHeroLine = activeHeroLine.length > 24;
 
   const openAuth = (mode: ModalMode) => {
     setMobileMenuOpen(false);
@@ -275,22 +275,6 @@ export default function PublicLanding() {
                   )}
                 </div>
               </form>
-              <div className="mt-2 grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => openAuth('demo')}
-                  className="rounded-xl bg-[#0C4A6E] px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-[#0A3B57]"
-                >
-                  Guided Walkthrough
-                </button>
-                <button
-                  type="button"
-                  onClick={() => openAuth('signup')}
-                  className="rounded-xl bg-[#0C4A6E] px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-[#0A3B57]"
-                >
-                  Sign Up
-                </button>
-              </div>
             </div>
           </div>
         )}
@@ -317,15 +301,17 @@ export default function PublicLanding() {
                   <p className="secondary-font mx-auto mt-6 max-w-[38ch] text-base leading-relaxed text-[#334155] sm:text-lg lg:mx-0">
                     Sonus combines framework-based language paths with speaking reps, feedback, and recall loops so learners build durable fluency instead of short-term memorization.
                   </p>
-                  <p className="secondary-font mt-4 text-lg font-semibold text-[#0C4A6E] sm:text-xl">
+                  <p className="secondary-font mt-5 text-center text-lg font-semibold text-[#186E95] sm:mt-6 sm:text-xl lg:mx-0 lg:text-left">
                     <span
                       key={`${heroLineVariants[heroLineVariantIdx]}-${heroLineVariantIdx}`}
-                      className={`dashboard-card-enter block min-h-[1.2em] font-semibold ${useCompactHeroLine ? 'text-[1.1rem] sm:text-[1.25rem]' : ''}`}
+                      className={`dashboard-card-enter mx-auto block min-h-[2.6em] max-w-[24ch] font-semibold leading-tight lg:mx-0 ${
+                        useCompactHeroLine ? 'text-[1rem] sm:text-[1.08rem]' : 'text-[1.08rem] sm:text-[1.22rem]'
+                      }`}
                     >
                       {activeHeroLine}
                     </span>
                   </p>
-                  <div className="mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
+                  <div className="mt-5 flex flex-wrap justify-center gap-3 sm:mt-6 lg:justify-start">
                     <button
                       type="button"
                       onClick={() => openAuth('signup')}
@@ -344,31 +330,34 @@ export default function PublicLanding() {
                   <p className="mt-3 text-xs text-[#475569] sm:text-sm">Free, no account needed to explore.</p>
                 </div>
 
-                <aside className="grid gap-4 pt-1">
-                  <article
-                    className="flex min-h-[132px] flex-col items-center justify-center border border-[#1F2A37] bg-[#1F2A37] px-6 py-4 text-center text-white shadow-[0_16px_26px_-20px_rgba(15,23,42,0.7)] translate-x-0 sm:w-[92%] sm:-translate-x-3 sm:-rotate-[0.8deg]"
-                    style={{ borderRadius: '44% 56% 52% 48% / 38% 43% 57% 62%' }}
-                  >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#C3D7E8]">Practice Rhythm</p>
-                    <p className="main-font mt-1.5 text-3xl leading-none">Flexible Pace</p>
-                    <p className="mt-1.5 text-[0.95rem] text-[#E5EDF6]">Practice in short or extended sessions.</p>
-                  </article>
-                  <article
-                    className="flex min-h-[132px] flex-col items-center justify-center border border-[#1F2A37] bg-[#1F2A37] px-6 py-4 text-center text-white shadow-[0_16px_26px_-20px_rgba(15,23,42,0.7)] translate-x-3 sm:w-[96%] sm:translate-x-4 sm:rotate-[0.8deg]"
-                    style={{ borderRadius: '53% 47% 43% 57% / 57% 41% 59% 43%' }}
-                  >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#C3D7E8]">Learning Tracks</p>
-                    <p className="main-font mt-1.5 text-3xl leading-none">HSK + JLPT</p>
-                    <p className="mt-1.5 text-[0.95rem] text-[#E5EDF6]">Framework-aligned progression.</p>
-                  </article>
-                  <article
-                    className="flex min-h-[132px] flex-col items-center justify-center border border-[#1F2A37] bg-[#1F2A37] px-6 py-4 text-center text-white shadow-[0_16px_26px_-20px_rgba(15,23,42,0.7)] translate-x-1 sm:w-[90%] sm:translate-x-0 sm:-rotate-[0.5deg]"
-                    style={{ borderRadius: '46% 54% 58% 42% / 46% 58% 42% 54%' }}
-                  >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#C3D7E8]">Practice Modes</p>
-                    <p className="main-font mt-1.5 text-3xl leading-none">3 Core</p>
-                    <p className="mt-1.5 text-[0.95rem] text-[#E5EDF6]">Speak, Focus, and Travel.</p>
-                  </article>
+                <aside className="grid gap-3 pt-1">
+                  <HeroMethodCard
+                    kicker="01"
+                    title="Practice Rhythm"
+                    subtitle="Flexible Pace"
+                    body="Practice in short or extended sessions."
+                    accent="#186E95"
+                    motif="wave"
+                    className="lg:w-[86%] lg:-translate-x-2"
+                  />
+                  <HeroMethodCard
+                    kicker="02"
+                    title="Learning Tracks"
+                    subtitle="HSK + JLPT"
+                    body="Framework-aligned progression."
+                    accent="#0C4A6E"
+                    motif="grid"
+                    className="lg:w-[90%] lg:translate-x-2"
+                  />
+                  <HeroMethodCard
+                    kicker="03"
+                    title="Practice Modes"
+                    subtitle="3 Core"
+                    body="Speak, Focus, and Travel."
+                    accent="#C56A3D"
+                    motif="route"
+                    className="lg:w-[84%] lg:translate-x-0"
+                  />
                 </aside>
               </div>
             </div>
@@ -479,13 +468,13 @@ export default function PublicLanding() {
           aria-modal="true"
           onClick={() => setModalMode(null)}
         >
-          <div className="relative w-full max-w-lg" onClick={(event) => event.stopPropagation()}>
+          <div className="relative w-full max-w-[42rem]" onClick={(event) => event.stopPropagation()}>
             <Suspense fallback={null}>
               <AuthScreen
                 initialMode={modalMode}
                 variant="modal"
                 showDemoTab={modalMode === 'demo'}
-                showAuthTabs={modalMode !== 'demo'}
+                showAuthTabs={false}
                 onClose={() => setModalMode(null)}
               />
             </Suspense>
@@ -552,6 +541,69 @@ function ExploreCardPreview({ title }: { title: string }) {
   if (title === 'Reinforcement') return <MiniPracticeFocusPreview />;
   if (title === 'Real Context') return <MiniTravelPreview />;
   return <div className="h-full rounded-lg bg-[#B6C3D4]" />;
+}
+
+function HeroMethodCard({
+  kicker,
+  title,
+  subtitle,
+  body,
+  accent,
+  motif,
+  className,
+}: {
+  kicker: string;
+  title: string;
+  subtitle: string;
+  body: string;
+  accent: string;
+  motif: 'wave' | 'grid' | 'route';
+  className?: string;
+}) {
+  const stroke = `${accent}55`;
+  const fill = `${accent}1F`;
+
+  return (
+    <article className={`group relative min-h-[144px] overflow-hidden rounded-2xl border border-[#CBD5E1] bg-white p-3.5 text-center shadow-[0_14px_28px_-24px_rgba(15,23,42,0.35)] transition-all hover:-translate-y-0.5 ${className || ''}`}>
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <svg viewBox="0 0 320 220" className="h-full w-full" aria-hidden="true" focusable="false">
+          {motif === 'wave' ? (
+            <>
+              <circle cx="252" cy="58" r="44" fill={fill} />
+              <path d="M24 174c28-18 58-23 92-17 32 6 60 5 85-8" stroke={stroke} strokeWidth="1.6" fill="none" strokeLinecap="round" />
+              <path d="M24 192c28-18 58-23 92-17 32 6 60 5 85-8" stroke={stroke} strokeWidth="1.6" fill="none" strokeLinecap="round" />
+            </>
+          ) : null}
+          {motif === 'grid' ? (
+            <>
+              <circle cx="250" cy="56" r="40" fill={fill} />
+              <path d="M210 56h80M250 16v80M224 30h52M224 82h52M236 42v28M264 42v28" stroke={stroke} strokeWidth="1.6" fill="none" strokeLinecap="round" />
+              <path d="M40 190c34-18 76-20 114-8" stroke={stroke} strokeWidth="1.6" fill="none" strokeLinecap="round" />
+            </>
+          ) : null}
+          {motif === 'route' ? (
+            <>
+              <circle cx="250" cy="56" r="36" fill={fill} />
+              <path d="M44 188c30-24 64-37 100-36 34 1 64 13 94 35" stroke={stroke} strokeWidth="1.6" fill="none" strokeLinecap="round" />
+              <circle cx="56" cy="188" r="4" fill={accent} />
+              <circle cx="238" cy="188" r="4" fill={accent} />
+            </>
+          ) : null}
+        </svg>
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-white/70 to-transparent" />
+      <div className="pointer-events-none absolute inset-[8px] rounded-xl border" style={{ borderColor: `${accent}40` }} />
+      <div className="relative z-10 flex h-full flex-col items-center">
+        <p className="font-mono text-[10px] uppercase tracking-[0.14em]" style={{ color: accent }}>
+          {kicker} {title}
+        </p>
+        <div className="-mt-1 flex flex-1 flex-col items-center justify-center">
+          <h3 className="main-font text-[1.45rem] leading-tight text-[#1F2A37]">{subtitle}</h3>
+          <p className="mx-auto mt-1.5 max-w-[26ch] text-[11px] font-semibold leading-relaxed text-[#475569]">{body}</p>
+        </div>
+      </div>
+    </article>
+  );
 }
 
 function ExploreDemoCard({ card }: { card: DemoCard }) {
