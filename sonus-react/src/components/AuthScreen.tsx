@@ -752,6 +752,7 @@ export default function AuthScreen({
           id="auth-form-panel"
           role={hasAuthTabs ? 'tabpanel' : undefined}
           aria-labelledby={hasAuthTabs ? activeTabId : undefined}
+          className="px-1"
         >
         <form
           onSubmit={(e) => {

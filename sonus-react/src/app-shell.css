@@ -3,6 +3,11 @@ body {
   scrollbar-color: rgba(148, 163, 184, 0.62) rgba(255, 255, 255, 0.42);
 }
 
+#root * {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 body.auth-screen-open {
   overflow: hidden;
   overscroll-behavior: none;
@@ -27,6 +32,12 @@ body.lesson-screen-open #root {
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;
+}
+
+#root *::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 *::-webkit-scrollbar-track {
