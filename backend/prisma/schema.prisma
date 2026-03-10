@@ -260,6 +260,7 @@ model SupportNote {
   updatedAt   DateTime @map("updated_at") @db.Timestamptz(6)
 
   @@index([targetUserId, createdAt])
+  @@index([actorUserId, createdAt])
   @@map("support_notes")
 }
 
@@ -279,6 +280,8 @@ model DeletionRequest {
   updatedAt         DateTime  @map("updated_at") @db.Timestamptz(6)
 
   @@index([targetUserId, createdAt])
+  @@index([requestedByUserId, createdAt])
+  @@index([resolvedByUserId, createdAt])
   @@map("deletion_requests")
 }
 
@@ -293,6 +296,7 @@ model AccountSecurityEvent {
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
   @@index([targetUserId, createdAt])
+  @@index([actorUserId, createdAt])
   @@map("account_security_events")
 }
 
@@ -337,6 +341,7 @@ model DeletionCaseHistory {
   createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
   @@index([targetUserId, resolvedAt])
+  @@index([resolvedByUserId, resolvedAt])
   @@index([retentionUntil])
   @@map("deletion_case_history")
 }
