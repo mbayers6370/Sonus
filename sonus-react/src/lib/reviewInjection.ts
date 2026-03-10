@@ -34,6 +34,27 @@ export function appendReviewWords(
       "Added from your Needs Work list after repeated misses. A correct answer clears it.",
   }));
 
-  // Review words are appended so core lesson content is never replaced.
-  return [...lessonWords, ...pickedReviews];
+  if (pickedReviews.length === 0) return [...lessonWords];
+
+  // Interleave review words across the lesson to increase spacing effect.
+  // Core lesson words are preserved; review words are only inserted between them.
+  const injected = [...lessonWords];
+  const plannedSlots: number[] = [];
+  for (let i = 0; i < pickedReviews.length; i += 1) {
+    // Even spacing anchors around the current core sequence.
+    const anchor = Math.floor(((i + 1) * (lessonWords.length + 1)) / (pickedReviews.length + 1));
+    const jitter = Math.floor(Math.random() * 3) - 1; // -1, 0, +1
+    const slot = Math.max(1, Math.min(lessonWords.length, anchor + jitter));
+    plannedSlots.push(slot);
+  }
+  plannedSlots.sort((a, b) => a - b);
+
+  let offset = 0;
+  for (let i = 0; i < pickedReviews.length; i += 1) {
+    const insertAt = plannedSlots[i] + offset;
+    injected.splice(insertAt, 0, pickedReviews[i]);
+    offset += 1;
+  }
+
+  return injected;
 }

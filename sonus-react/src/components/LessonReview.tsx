@@ -84,28 +84,42 @@ export default function LessonReview({
             <div className="text-text-med">You have gone through all missed words.</div>
           </div>
         )}
-        <div className="w-full max-w-md mt-4 flex flex-col gap-3">
+        <div className="lesson-review-actions w-full max-w-md mt-4 flex flex-col gap-3">
           {!reviewDone && (
             <>
               <div className="grid grid-cols-2 gap-3">
                 <button
-                  onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
-                  disabled={isFirstCard}
-                  className="w-full py-3 px-4 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.12)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
+                  onClick={() => {
+                    if (isFirstCard) return;
+                    setCurrentIndex((prev) => Math.max(0, prev - 1));
+                  }}
+                  aria-disabled={isFirstCard}
+                  className={`w-full py-3 px-4 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all active:bg-white ${
+                    isFirstCard
+                      ? 'cursor-not-allowed pointer-events-none'
+                      : 'hover:bg-white'
+                  }`}
                 >
                   Previous
                 </button>
                 <button
-                  onClick={() => setCurrentIndex((prev) => Math.min(totalMissed - 1, prev + 1))}
-                  disabled={isLastCard}
-                  className="w-full py-3 px-4 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium transition-all hover:bg-[rgba(31,42,55,0.08)] active:bg-[rgba(31,42,55,0.12)] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white"
+                  onClick={() => {
+                    if (isLastCard) return;
+                    setCurrentIndex((prev) => Math.min(totalMissed - 1, prev + 1));
+                  }}
+                  aria-disabled={isLastCard}
+                  className={`w-full py-3 px-4 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all active:bg-white ${
+                    isLastCard
+                      ? 'cursor-not-allowed pointer-events-none'
+                      : 'hover:bg-white'
+                  }`}
                 >
                   Next
                 </button>
               </div>
               <button
                 onClick={() => setCurrentIndex(totalMissed)}
-                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Finish Review
               </button>
@@ -115,13 +129,13 @@ export default function LessonReview({
             <>
               <button
                 onClick={onRetakeQuiz}
-                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Retake Quiz
               </button>
               <button
                 onClick={onContinueToSpeak}
-                className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145B7A]"
+                className="self-center text-sm font-medium text-[#186E95] opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 underline underline-offset-4 hover:text-[#145B7A]"
               >
                 Continue to Speak
               </button>
@@ -130,7 +144,7 @@ export default function LessonReview({
           {!reviewDone && (
             <button
               onClick={onBackToResults}
-              className="self-center text-sm font-medium text-[#186E95] underline underline-offset-4 hover:text-[#145B7A]"
+              className="self-center text-sm font-medium text-[#186E95] opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 underline underline-offset-4 hover:text-[#145B7A]"
             >
               Back to Results
             </button>

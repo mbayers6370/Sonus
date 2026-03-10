@@ -5,6 +5,7 @@ import { requireAuth } from '../lib/auth.js';
 import { touchUserActivity } from '../services/progressService.js';
 import { computeQuizMemoryUpdate, computeSpeakMemoryUpdate } from '../lib/learningPolicy.js';
 import { recordAttemptTelemetry } from '../services/learningMetricsService.js';
+import { pruneOldLearningAttempts } from '../services/revolvingRetentionService.js';
 
 const quizAttemptSchema = z.object({
   wordId: z.string().trim().min(1).max(80),
@@ -115,6 +116,9 @@ export async function attemptRoutes(app: FastifyInstance) {
     });
 
     await touchUserActivity(userId);
+    void pruneOldLearningAttempts(userId).catch(() => {
+      // Retention pruning should not block attempt ingestion.
+    });
     recordAttemptTelemetry({
       kind: 'quiz',
       durationMs: Date.now() - startedAt,
@@ -219,6 +223,9 @@ export async function attemptRoutes(app: FastifyInstance) {
     });
 
     await touchUserActivity(userId);
+    void pruneOldLearningAttempts(userId).catch(() => {
+      // Retention pruning should not block attempt ingestion.
+    });
     recordAttemptTelemetry({
       kind: 'speak',
       durationMs: Date.now() - startedAt,

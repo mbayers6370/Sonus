@@ -26,6 +26,7 @@ export default function Flashcard({
   const meaningList = (word.defs && word.defs.length > 0 ? word.defs : [word.en]).slice(0, 3);
   const hasPoliteTag = [...(word.tags || []), ...(word.meta?.grammarTags || [])]
     .some((tag) => tag.trim().toLowerCase() === 'polite');
+  const isReviewWord = Boolean(word.isReview);
   const homophoneCount = word.homophoneGroup?.count || 0;
   const homophoneChars = homophoneCount > 1
     ? Array.from(
@@ -65,6 +66,15 @@ export default function Flashcard({
             isFlipped ? 'bg-[#1F2A37] border-[#1F2A37]' : 'bg-white border-border'
           }`}
         >
+          {isReviewWord ? (
+            <div className={`absolute top-3 left-3 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.14em] border ${
+              isFlipped
+                ? 'bg-[#186E95]/30 text-[#D8F2FF] border-[#7CC7EA]/45'
+                : 'bg-[#186E95]/12 text-[#145B7A] border-[#186E95]/30'
+            }`}>
+              Review
+            </div>
+          ) : null}
           {hasPoliteTag ? (
             <div className={`absolute top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.14em] ${
               isFlipped ? 'bg-white/15 text-white/90 border border-white/20' : 'bg-[#1F2A37]/8 text-[#1F2A37] border border-[#1F2A37]/20'

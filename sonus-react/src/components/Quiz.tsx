@@ -129,6 +129,7 @@ export default function Quiz({
   const ttsReading = isJapanese ? (word.reading || word.pinyin) : word.pinyin;
   const hasPoliteTag = [...(word.tags || []), ...(word.meta?.grammarTags || [])]
     .some((tag) => tag.trim().toLowerCase() === 'polite');
+  const isReviewWord = Boolean(word.isReview);
 
   const handleAnswer = (choice: string) => {
     if (selectedAnswer) return; // Already answered
@@ -136,7 +137,6 @@ export default function Quiz({
     setSelectedAnswer(choice);
     const correct = choice === word.en;
     setIsCorrect(correct);
-
     sendQuizAttemptSafe({
       wordId: word.id,
       isCorrect: correct,
@@ -202,6 +202,13 @@ export default function Quiz({
               : 'bg-[#1F2A37] border-[#1F2A37]'
           }`}
         >
+          {isReviewWord ? (
+            <div
+              className="absolute top-3 left-3 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.14em] border bg-[#186E95]/30 text-[#D8F2FF] border-[#7CC7EA]/45"
+            >
+              Review
+            </div>
+          ) : null}
           {hasPoliteTag ? (
             <div
               className={`absolute top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.14em] ${
@@ -275,7 +282,6 @@ export default function Quiz({
               )}
             </>
           </div>
-
         </div>
 
         {/* Answer Choices */}

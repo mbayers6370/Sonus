@@ -1532,9 +1532,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
         const reviewCandidates = shuffleWords(needsWorkCandidates);
         const shouldInjectReviewWords = !isCheckpointQuiz;
+        // Adapt frequency by weak-queue pressure to avoid overloading every lesson.
+        const baseInjectProbability = lessonWordsBase.length <= 6 ? 0.2 : 0.28;
+        const candidateBoost = Math.min(0.45, reviewCandidates.length * 0.06);
+        const adaptiveInjectProbability = Math.min(0.8, baseInjectProbability + candidateBoost);
         // Inject a small number of needs-work words without replacing core lesson content.
         lessonWords = shouldInjectReviewWords
-          ? appendReviewWords(lessonWordsBase, reviewCandidates, 3, 1)
+          ? appendReviewWords(lessonWordsBase, reviewCandidates, 3, adaptiveInjectProbability)
           : [...lessonWordsBase];
       }
 
@@ -1817,14 +1821,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
         // Wrong answers reset streak and pull the next review window closer.
         consecutiveCorrect = 0;
         totalWrong += 1;
-        nextReviewAt = plusDays(1);
+        nextReviewAt = plusDays(confidence === 'sure' ? 0 : 1);
       } else {
         // Correct answers expand the spacing interval based on streak/confidence.
         consecutiveCorrect = Math.min(existing.consecutiveCorrect + 1, 3);
         totalCorrect += 1;
         const baseDays = scheduleDaysForCorrectStreak(consecutiveCorrect);
         const adjustedDays = applyConfidenceAdjustment(baseDays, consecutiveCorrect, confidence);
-        nextReviewAt = plusDays(adjustedDays);
+        const totalAttempts = Math.max(1, totalCorrect + totalWrong);
+        const accuracyRatio = totalCorrect / totalAttempts;
+        const personalizedFactor = accuracyRatio >= 0.85 ? 1.15 : accuracyRatio <= 0.55 ? 0.78 : 1;
+        const personalizedDays = Math.max(
+          1,
+          Math.round(adjustedDays * personalizedFactor + (confidence === 'sure' ? 1 : 0))
+        );
+        nextReviewAt = plusDays(personalizedDays);
       }
 
       const nextReview: WordReviewState = {

@@ -149,6 +149,7 @@ const envSchema = z
     TELEMETRY_SPEAK_MISS_RATE_WARN_PCT: z.coerce.number().min(0).max(100).default(70),
     TELEMETRY_INTERVAL_GROWTH_WARN_DAYS: z.coerce.number().min(0).default(3),
     TELEMETRY_WARN_MIN_SAMPLES: z.coerce.number().int().positive().default(50),
+    LEARNING_ATTEMPT_RETENTION_DAYS: z.coerce.number().int().min(1).max(3650).default(120),
     JA_ROMAJI_MODE: z.enum(['auto', 'provider', 'kuromoji', 'local']).default('auto'),
     JA_ROMAJI_API_URL: z.string().trim().url().optional(),
     STORAGE_BUDGET_MB: z.coerce

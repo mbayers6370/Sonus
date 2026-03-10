@@ -117,6 +117,15 @@ body::before {
   opacity: 1 !important;
 }
 
+.lesson-review-actions button,
+.lesson-review-actions button:hover,
+.lesson-review-actions button:focus,
+.lesson-review-actions button:active,
+.lesson-review-actions button:disabled,
+.lesson-review-actions button[aria-disabled='true'] {
+  opacity: 1 !important;
+}
+
 .sonus-loader-wrap {
   display: flex;
   width: 100%;
