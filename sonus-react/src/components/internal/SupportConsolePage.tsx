@@ -520,8 +520,23 @@ function timelineSourceLabel(entry: TimelineEntry) {
 function normalizeLanguageId(languageId: string | null | undefined) {
   const normalized = (languageId || '').trim().toLowerCase();
   if (!normalized) return 'ja';
-  if (normalized === 'jp') return 'ja';
-  return normalized;
+  if (normalized === 'jp' || normalized === 'japanese') return 'ja';
+  if (normalized === 'ko' || normalized === 'korean') return 'kr';
+  if (normalized === 'french') return 'fr';
+  if (normalized === 'italian') return 'it';
+  if (normalized === 'spanish') return 'es';
+  if (normalized === 'ja' || normalized === 'kr' || normalized === 'fr' || normalized === 'it' || normalized === 'es') return normalized;
+  return 'ja';
+}
+
+function languageLabel(languageId: string | null | undefined) {
+  const normalized = normalizeLanguageId(languageId);
+  if (normalized === 'ja') return 'Japanese';
+  if (normalized === 'kr') return 'Korean';
+  if (normalized === 'fr') return 'French';
+  if (normalized === 'it') return 'Italian';
+  if (normalized === 'es') return 'Spanish';
+  return 'Japanese';
 }
 
 function resolveBandDataPath(languageId: string, bandId: string) {
@@ -3927,7 +3942,7 @@ export default function SupportConsolePage() {
                       >
                         <div className="break-words text-sm font-semibold text-[#0f172a]">{entry.displayName || entry.email || entry.userId}</div>
                         <div className="break-all text-xs text-[#475569]">{entry.email || 'No email'}</div>
-                        <div className="mt-1 text-xs text-[#64748b]">{entry.targetLanguage || 'no language'} | onboarding {entry.onboardingComplete ? 'done' : 'pending'}</div>
+                        <div className="mt-1 text-xs text-[#64748b]">{languageLabel(entry.targetLanguage)} | onboarding {entry.onboardingComplete ? 'done' : 'pending'}</div>
                       </button>
                       <button
                         type="button"
@@ -4047,7 +4062,7 @@ export default function SupportConsolePage() {
                   {overview && (
                     <>
                       <div className="mt-4 grid gap-3 md:grid-cols-4">
-                        <div className={metricCard}><div className="text-xs text-[#64748b]">Language</div><div className="text-sm font-semibold text-[#0f172a]">{overview.profile.targetLanguage || 'n/a'}</div></div>
+                        <div className={metricCard}><div className="text-xs text-[#64748b]">Language</div><div className="text-sm font-semibold text-[#0f172a]">{languageLabel(overview.profile.targetLanguage)}</div></div>
                         <div className={metricCard}><div className="text-xs text-[#64748b]">Streak</div><div className="text-sm font-semibold text-[#0f172a]">{overview.progress?.streak ?? 0}</div></div>
                         <div className={metricCard}><div className="text-xs text-[#64748b]">Quiz Attempts</div><div className="text-sm font-semibold text-[#0f172a]">{overview.counts.quizCount}</div></div>
                         <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-sm font-semibold text-[#0f172a]">{overview.counts.speakCount}</div></div>
@@ -4056,7 +4071,7 @@ export default function SupportConsolePage() {
                       <div className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
                         <h3 className="text-sm font-semibold text-[#0f172a]">Current Progress (Read-only)</h3>
                         <div className="mt-2 grid gap-3 md:grid-cols-5">
-                          <div className={metricCard}><div className="text-xs text-[#64748b]">Current Language</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.language || overview.profile.targetLanguage || 'n/a'}</div></div>
+                          <div className={metricCard}><div className="text-xs text-[#64748b]">Current Language</div><div className="text-sm font-semibold text-[#0f172a]">{languageLabel(progressDetail?.language || overview.profile.targetLanguage)}</div></div>
                           <div className={metricCard}><div className="text-xs text-[#64748b]">Current Level</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentBandId || overview.progress?.currentBandId || 'n/a'}</div></div>
                           <div className={metricCard}><div className="text-xs text-[#64748b]">Current Unit</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentUnitId || overview.progress?.currentUnitId || 'n/a'}</div></div>
                           <div className={metricCard}><div className="text-xs text-[#64748b]">Lesson Index</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentLessonIdx ?? overview.progress?.currentLessonIdx ?? 'n/a'}</div></div>

@@ -95,6 +95,26 @@ function toInt(value: unknown) {
   return 0;
 }
 
+function normalizeAdminLanguageId(value: string | null | undefined) {
+  const normalized = (value || '').trim().toLowerCase();
+  if (!normalized) return null;
+  if (normalized === 'jp' || normalized === 'japanese') return 'ja';
+  if (normalized === 'ko' || normalized === 'korean') return 'kr';
+  if (normalized === 'french') return 'fr';
+  if (normalized === 'italian') return 'it';
+  if (normalized === 'spanish') return 'es';
+  if (
+    normalized === 'ja' ||
+    normalized === 'kr' ||
+    normalized === 'fr' ||
+    normalized === 'it' ||
+    normalized === 'es'
+  ) {
+    return normalized;
+  }
+  return 'ja';
+}
+
 function toExportRows(value: unknown): Array<Record<string, unknown>> {
   if (Array.isArray(value))
     return value.filter((row) => Boolean(row) && typeof row === 'object') as Array<
@@ -2055,7 +2075,14 @@ export async function adminRoutes(app: FastifyInstance) {
       >`
       WITH scoped AS (
         SELECT
-          COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') AS language,
+          CASE
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('ja', 'jp', 'japanese') THEN 'ja'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('kr', 'ko', 'korean') THEN 'kr'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('fr', 'french') THEN 'fr'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('it', 'italian') THEN 'it'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('es', 'spanish') THEN 'es'
+            ELSE 'ja'
+          END AS language,
           sa.word_id,
           sa.initial_ok,
           sa.final_ok,
@@ -2176,7 +2203,14 @@ export async function adminRoutes(app: FastifyInstance) {
       >`
       WITH scoped_current AS (
         SELECT
-          COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') AS language,
+          CASE
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('ja', 'jp', 'japanese') THEN 'ja'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('kr', 'ko', 'korean') THEN 'kr'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('fr', 'french') THEN 'fr'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('it', 'italian') THEN 'it'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('es', 'spanish') THEN 'es'
+            ELSE 'ja'
+          END AS language,
           sa.user_id,
           sa.word_id
         FROM speak_attempts sa
@@ -2215,7 +2249,14 @@ export async function adminRoutes(app: FastifyInstance) {
       ),
       scoped_previous AS (
         SELECT
-          COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') AS language,
+          CASE
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('ja', 'jp', 'japanese') THEN 'ja'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('kr', 'ko', 'korean') THEN 'kr'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('fr', 'french') THEN 'fr'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('it', 'italian') THEN 'it'
+            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('es', 'spanish') THEN 'es'
+            ELSE 'ja'
+          END AS language,
           sa.user_id,
           sa.word_id
         FROM speak_attempts sa
@@ -2407,7 +2448,12 @@ export async function adminRoutes(app: FastifyInstance) {
       LIMIT ${parsed.data.limit}
     `;
 
-    return { users };
+    return {
+      users: users.map((entry) => ({
+        ...entry,
+        targetLanguage: normalizeAdminLanguageId(entry.targetLanguage),
+      })),
+    };
   });
 
   app.get(
@@ -2997,7 +3043,7 @@ export async function adminRoutes(app: FastifyInstance) {
 
       return {
         userId: profile.userId,
-        language: profile.targetLanguage || null,
+        language: normalizeAdminLanguageId(profile.targetLanguage),
         currentBandId: progress?.currentBandId || null,
         currentUnitId: progress?.currentUnitId || null,
         currentLessonIdx: progress?.currentLessonIdx ?? null,
@@ -3146,7 +3192,7 @@ export async function adminRoutes(app: FastifyInstance) {
 
       if (parsedBody.data.progressTarget) {
         const target = parsedBody.data.progressTarget;
-        const normalizedLanguage = target.language?.trim() || null;
+        const normalizedLanguage = normalizeAdminLanguageId(target.language);
         const nextCursorLanguage = normalizedLanguage || beforeState.cursor?.language || null;
 
         if (normalizedLanguage) {
