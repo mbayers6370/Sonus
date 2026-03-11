@@ -1,0 +1,12 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Allow only legacy placeholder ACCESS_TOKEN_SECRET values in docs/examples"
+paths = [
+  '''backend/README\.md''',
+  '''backend/\.env\.example''',
+]
+regexes = [
+  '''ACCESS_TOKEN_SECRET\s*=\s*"?replace[-_]with[-_]at[-_]least[-_]32[-_]characters"?''',
+]

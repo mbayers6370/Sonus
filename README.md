@@ -1,70 +1,50 @@
-# Sonus Monorepo
+# Sonus
 
-Sonus is a language-learning platform focused on structured progression, pronunciation quality, and practical recall.
+Sonus is a structured language-learning platform focused on durable fluency through speaking practice, proficiency-aligned progression, and practical travel-first learning.
 
-Core study loop:
-- `Learn` for guided intake
-- `Quiz` for recall/recognition
-- `Speak` for pronunciation scoring
-- `Apply` for sentence-level context
+## What Is This?
+Sonus is a full-stack language-learning app in this monorepo:
+- Frontend: `sonus-react/` (React + Vite + TypeScript)
+- Backend: `backend/` (Fastify + Prisma + PostgreSQL)
 
-Primary production surface: `https://sonuslearning.com/#/`
+Primary public surface: `https://sonuslearning.com/`
 
-## Product Snapshot
-- Multi-language tracks with standards-aligned progression:
-  - Mandarin: HSK-style (`band1`-`band9`, `advanced`)
-  - Japanese: JLPT-style (`n5`-`n1`)
-- Home resume flow with saved lesson path restoration
-- Weak-word and review queue logic from quiz/speak performance with channel-aware graduation rules
-- Travel mode for phrase-first practice by section
-- Public marketing + auth landing pages
-- Profile/account management (including account deletion endpoint)
-- Loader messaging with rotating line variants and lightweight animated dots
+## Why Sonus
+Sonus exists to close the gap between vocabulary study and actually speaking in context. The product emphasizes:
+- Structured curriculum progression (HSK/JLPT aligned bands)
+- Active recall over passive review
+- Pronunciation practice with immediate feedback
+- Practical travel-first phrase training
 
-## Repository Structure
-- `sonus-react/` React frontend (Vite + TypeScript + Tailwind)
-- `backend/` Fastify API (Prisma + PostgreSQL)
-- `shared/` shared declaration contracts (`contracts.d.ts`)
-- `docs/` architecture/API/env/product docs
-- `scripts/` data and maintenance scripts
-- `files/` source/archive assets for data workflows
-
-## Monorepo Setup (Current)
-- Root uses npm workspaces for:
-  - `backend` (`name: sonus-backend`)
-  - `sonus-react` (`name: sonus-react`)
-- Root scripts are standardized so local dev and CI can run from repo root.
+## Current Features
+- Mandarin track with banded progression and review queues
+- Japanese track with JLPT-style levels (`n5` to `n1`)
+- Core study loop: Learn, Quiz, Speak, Apply
+- Weak-word detection and spaced review scheduling
+- Progress resume flow from home dashboard
+- Travel mode for phrase-first drills
+- Public landing + auth pages
+- Account/profile management
 
 ## Tech Stack
 - Frontend: React 19, Vite 7, TypeScript, Tailwind CSS
 - Backend: Fastify 5, Prisma, TypeScript
 - Database: PostgreSQL
+- Tooling: npm workspaces, Vitest, Playwright
 
-## Prerequisites
+## Local Development
+Prerequisites:
 - Node.js 20+
 - npm 10+
-- PostgreSQL (local or Docker)
+- PostgreSQL (local install or Docker)
 
-## Local Setup
-1. Install dependencies:
+Setup:
 ```bash
 npm install
-```
-2. Optional: install git hooks:
-```bash
-npm run hooks:install
-```
-3. Configure backend env:
-```bash
 cp backend/.env.example backend/.env
-```
-4. Prepare database:
-```bash
+cp sonus-react/.env.example sonus-react/.env
 npm run -w sonus-backend prisma:generate
 npm run -w sonus-backend prisma:push
-```
-5. Start both apps:
-```bash
 npm run dev
 ```
 
@@ -72,87 +52,43 @@ Local endpoints:
 - Frontend: `http://127.0.0.1:5173`
 - Backend: `http://127.0.0.1:4000`
 
-## Root Commands
+## Environment Variables
+- Backend template: `backend/.env.example`
+- Frontend template: `sonus-react/.env.example`
+- Detailed reference: `docs/ENV.md`
+
+Notes:
+- `.env` files are ignored by git.
+- Do not commit secrets or private tokens.
+- Production should use explicitly configured CORS and auth settings.
+
+## Commands
+Most-used root commands:
 - `npm run dev` run frontend + backend
 - `npm run dev:frontend` run frontend only
 - `npm run dev:backend` run backend only
-- `npm run dev:all` run both
-- `npm test` run backend core regression (with local backend bootstrap) + frontend unit tests
-- `npm run test:backend` run backend core regression with auto-start local backend
-- `npm run test:frontend` run frontend unit tests
-- `npm run checklist` run regression checklist
-- `npm run test:core` run backend core regression scenario
-- `npm run quality:report` run security + stability + latency checks and write a report to `reports/quality-*/QUALITY_REPORT.md`
-- `npm run quality:report:soft` same as above, but does not fail shell on check failures
-- `npm run quality:report:prod-safe` run production-safe (read-only) checks only: npm audits + `/health` load check
-- `npm run quality:report:prod-safe:soft` same as above, but does not fail shell on check failures
-- `npm run -w sonus-backend db:ops:nightly` run nightly DB ops bundle (`db:health` + `db:compact:safe`) and write summary report to `reports/db-ops-nightly-*`
+- `npm run build` build all workspaces
+- `npm test` run backend + frontend test suites
+- `npm run lint` run lint checks
 
-## Quality Gates
-```bash
-npm run lint
-npm run build
-npm test
-```
+## Project Status
+Actively developed. Functional for end-to-end learning flows, but still evolving.
 
-Optional frontend tests:
-```bash
-npm run -w sonus-react test:unit
-npm run -w sonus-react test:e2e
-```
+Known limitations:
+- Curriculum breadth is still expanding by language and level.
+- UI/UX polish is ongoing in some flows.
+- Not positioned as production-perfect for every deployment topology yet.
 
-## Auth and Session Model (Current)
-- Frontend uses access token in runtime/session context.
-- Refresh path uses backend `/v1/auth/refresh` with cookie credentials.
-- App includes same-tab session persistence behavior to avoid refresh sign-out regressions.
-- Frontend production routing is hash-based (`/#/`) for refresh-safe hosting behavior.
+## Screenshots
+![Landing Page](./sonus-react/public/Demo/Landing-Page.png)
+![Choose a Language](./sonus-react/public/Demo/Choose%20A%20Language.png)
+![Home Dashboard](./sonus-react/public/Demo/Home-Dashboard.png)
+![Speaking Feedback](./sonus-react/public/Demo/Speaking-Feedback.png)
+![Travel Sprint](./sonus-react/public/Demo/Travel%20Sprint.png)
 
-## Review and Weak-Word Logic (Current)
-- Needs-work logic evaluates quiz and speak channels separately.
-- Graduation requires post-miss recovery checks:
-  - 3+ correct attempts
-  - increasing intervals
-  - at least one interval `>= 7 days`
-  - total span `>= 7 days`
-- Relapse behavior re-adds words to practice and restarts shorter interval progression.
-- Review scheduling uses graduated intervals (`1, 3, 7, 14, 30` days for review progression).
-
-## Data Layout
-- Mandarin data: `sonus-react/public/data/zh/`
-- Japanese data: `sonus-react/public/data/ja/`
-- Character insights: `sonus-react/public/data/zh/character-insights/`
-
-## Security Baseline
-- `.env` files are ignored.
-- Backend requires explicit CORS allowlist in production.
-- CI blocks unsafe Prisma raw-query APIs.
-- CI runs dependency audits for frontend/backend.
-
-## Docs Index
-- `docs/ARCHITECTURE.md`
-- `docs/API.md`
-- `docs/ENV.md`
-- `docs/PERFORMANCE.md`
-- `docs/OPERATIONS.md`
-- `docs/NPM_COMMANDS.md`
-- `docs/PRODUCT_SETTINGS.md`
-- `backend/README.md`
-- `sonus-react/README.md`
-- `CONTRIBUTING.md`
-- `SECURITY.md`
-- `reports/README.md`
-
-## Repository Standards
-- Git normalization is defined in `.gitattributes` (LF by default).
-- Generated quality and DB-health run folders are intentionally ignored via `.gitignore`.
-- Static analysis configs are centralized in `config/` (with root compatibility for dependency-cruiser).
-
-## Data Attribution
-Mandarin vocabulary/enrichment sources include:
-- HSK 3.0 materials (including adapted structure from `ivankra/hsk30`)
-- CC-CEDICT
-- Tatoeba (CC-BY) examples
-
-Japanese vocabulary informed by publicly available JLPT study datasets originally compiled by TANOS (tanos.co.uk).
-
-Respect upstream licenses for all dataset sources.
+## Roadmap
+- Expand lesson depth and content quality across all bands
+- Improve pronunciation feedback quality and transparency
+- Add more progress analytics and personalized review recommendations
+- Harden deployment/ops workflows for broader public rollout
+- Continue performance and accessibility improvements

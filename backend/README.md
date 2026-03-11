@@ -22,8 +22,9 @@ AUTH_MODE=mock
 To run first-party auth without Supabase:
 ```env
 AUTH_MODE=local
-ACCESS_TOKEN_SECRET=replace-with-at-least-32-characters
+ACCESS_TOKEN_SECRET=set_me
 ```
+Use a long random value (32+ characters) for production.
 3. Set a valid PostgreSQL URL:
 ```env
 DATABASE_URL=postgresql://sonus:sonus_dev_password@localhost:5432/sonus

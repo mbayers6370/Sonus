@@ -33,6 +33,22 @@ type RegisterAdminAuthRoutesDeps = {
     registerFailure: (identity: { email: string; ip: string }) => void;
     registerSuccess: (identity: { email: string; ip: string }) => void;
   };
+  supportAdminForgotPasswordThrottle: {
+    check: (identity: { email: string; ip: string }) => {
+      allowed: boolean;
+      retryAfterSeconds: number;
+    };
+    registerFailure: (identity: { email: string; ip: string }) => void;
+    registerSuccess: (identity: { email: string; ip: string }) => void;
+  };
+  supportAdminResetWithTokenThrottle: {
+    check: (identity: { email: string; ip: string }) => {
+      allowed: boolean;
+      retryAfterSeconds: number;
+    };
+    registerFailure: (identity: { email: string; ip: string }) => void;
+    registerSuccess: (identity: { email: string; ip: string }) => void;
+  };
   createSupportAdminResetToken: () => string;
   hashSupportAdminResetToken: (token: string) => string;
   supportAdminSessionExpiry: () => Date;
@@ -49,6 +65,29 @@ type RegisterAdminAuthRoutesDeps = {
 };
 
 export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdminAuthRoutesDeps) {
+  const logSupportAdminSecurityEvent = async (params: {
+    eventType: string;
+    detail: string;
+    actorEmail?: string | null;
+    metadata?: Record<string, unknown>;
+  }) => {
+    await deps.prisma.$executeRaw`
+      INSERT INTO account_security_events
+        (id, target_user_id, actor_user_id, actor_email, event_type, detail, metadata_json, created_at)
+      VALUES
+        (
+          gen_random_uuid(),
+          ${deps.env.DEV_USER_ID}::uuid,
+          null,
+          ${params.actorEmail ?? null},
+          ${params.eventType},
+          ${params.detail},
+          ${params.metadata ? JSON.stringify(params.metadata) : null}::jsonb,
+          now()
+        )
+    `;
+  };
+
   app.post('/v1/admin/auth/login', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, deps.allowedOrigins)) return;
 
@@ -145,21 +184,12 @@ export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdmi
       VALUES (gen_random_uuid(), ${username}, ${tokenHash}, ${expiresAt}, null, now(), now())
     `;
 
-    await deps.prisma.$executeRaw`
-      INSERT INTO account_security_events
-        (id, target_user_id, actor_user_id, actor_email, event_type, detail, metadata_json, created_at)
-      VALUES
-        (
-          gen_random_uuid(),
-          ${deps.env.DEV_USER_ID}::uuid,
-          null,
-          ${username},
-          'support_admin_login_succeeded',
-          'Support admin login succeeded',
-          ${JSON.stringify({ username })}::jsonb,
-          now()
-        )
-    `;
+    await logSupportAdminSecurityEvent({
+      eventType: 'support_admin_login_succeeded',
+      detail: 'Support admin login succeeded',
+      actorEmail: username,
+      metadata: { username, endpoint: '/v1/admin/auth/login', ip: request.ip || null },
+    });
     deps.supportAdminLoginThrottle.registerSuccess(throttleIdentity);
 
     return {
@@ -208,6 +238,31 @@ export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdmi
       reply.code(409).send({ error: 'Support admin already exists.' });
       return;
     }
+    const currentRows = await deps.prisma.$queryRaw<Array<{ password_hash: string }>>`
+      SELECT password_hash
+      FROM support_admin_credentials
+      WHERE username = ${identity.username}
+      LIMIT 1
+    `;
+    const current = currentRows[0];
+    if (!current) {
+      reply.code(404).send({ error: 'Current support admin account not found.' });
+      return;
+    }
+    const currentPasswordValid = await verifyPassword(
+      parsed.data.currentPassword,
+      current.password_hash
+    ).catch(() => false);
+    if (!currentPasswordValid) {
+      await logSupportAdminSecurityEvent({
+        eventType: 'support_admin_create_admin_rejected',
+        detail: 'Support admin create-admin rejected due to incorrect re-auth password',
+        actorEmail: identity.username,
+        metadata: { username, endpoint: '/v1/admin/auth/create-admin', ip: request.ip || null },
+      });
+      reply.code(401).send({ error: 'Current password is incorrect.' });
+      return;
+    }
     const passwordHash = await hashPrivilegedPassword(parsed.data.password);
     const recoveryEmail = parsed.data.recoveryEmail?.trim().toLowerCase() || null;
     await deps.prisma.$executeRaw`
@@ -216,6 +271,18 @@ export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdmi
       VALUES
         (${username}, ${passwordHash}, ${recoveryEmail}, ${identity.username}, now(), now())
     `;
+    await logSupportAdminSecurityEvent({
+      eventType: 'support_admin_created',
+      detail: 'Support admin account created',
+      actorEmail: identity.username,
+      metadata: {
+        createdUsername: username,
+        createdRecoveryEmail: recoveryEmail,
+        createdByUsername: identity.username,
+        endpoint: '/v1/admin/auth/create-admin',
+        ip: request.ip || null,
+      },
+    });
     return { ok: true, username, recoveryEmail };
   });
 
@@ -254,6 +321,12 @@ export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdmi
       SET revoked_at = now()
       WHERE username = ${identity.username} AND revoked_at IS NULL AND id <> ${identity.sessionId}::uuid
     `;
+    await logSupportAdminSecurityEvent({
+      eventType: 'support_admin_password_changed',
+      detail: 'Support admin password changed',
+      actorEmail: identity.username,
+      metadata: { username: identity.username, endpoint: '/v1/admin/auth/reset-password' },
+    });
     return { ok: true };
   });
 
@@ -283,6 +356,24 @@ export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdmi
       return;
     }
     const email = parsed.data.email.trim().toLowerCase();
+    const throttleIdentity = {
+      email,
+      ip: request.ip || 'unknown',
+    };
+    const throttleDecision = deps.supportAdminForgotPasswordThrottle.check(throttleIdentity);
+    if (!throttleDecision.allowed) {
+      await logSupportAdminSecurityEvent({
+        eventType: 'support_admin_forgot_password_throttled',
+        detail: 'Support admin forgot-password throttled due to too many attempts',
+        actorEmail: email,
+        metadata: { email, endpoint: '/v1/admin/auth/forgot-password', ip: request.ip || null },
+      });
+      reply
+        .code(429)
+        .header('Retry-After', throttleDecision.retryAfterSeconds.toString())
+        .send({ error: 'Too many reset requests. Try again later.' });
+      return;
+    }
     const rows = await deps.prisma.$queryRaw<
       Array<{ username: string; recovery_email: string | null }>
     >`
@@ -293,6 +384,13 @@ export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdmi
     `;
     const row = rows[0];
     if (!row) {
+      deps.supportAdminForgotPasswordThrottle.registerSuccess(throttleIdentity);
+      await logSupportAdminSecurityEvent({
+        eventType: 'support_admin_password_reset_requested',
+        detail: 'Support admin forgot-password requested',
+        actorEmail: email,
+        metadata: { email, accountFound: false, endpoint: '/v1/admin/auth/forgot-password' },
+      });
       return { ok: true };
     }
     const destinationEmail = row.recovery_email?.trim().toLowerCase() || row.username;
@@ -312,6 +410,18 @@ export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdmi
       to: destinationEmail,
       resetUrl,
     });
+    deps.supportAdminForgotPasswordThrottle.registerSuccess(throttleIdentity);
+    await logSupportAdminSecurityEvent({
+      eventType: 'support_admin_password_reset_requested',
+      detail: 'Support admin forgot-password requested',
+      actorEmail: email,
+      metadata: {
+        email,
+        accountFound: true,
+        username: row.username,
+        endpoint: '/v1/admin/auth/forgot-password',
+      },
+    });
     return { ok: true };
   });
 
@@ -320,6 +430,23 @@ export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdmi
     const parsed = supportAdminResetWithTokenSchema.safeParse(request.body);
     if (!parsed.success) {
       reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
+      return;
+    }
+    const throttleIdentity = {
+      email: `admin-reset:${parsed.data.token.slice(0, 24)}`,
+      ip: request.ip || 'unknown',
+    };
+    const throttleDecision = deps.supportAdminResetWithTokenThrottle.check(throttleIdentity);
+    if (!throttleDecision.allowed) {
+      await logSupportAdminSecurityEvent({
+        eventType: 'support_admin_reset_password_throttled',
+        detail: 'Support admin reset-password-with-token throttled due to too many attempts',
+        metadata: { endpoint: '/v1/admin/auth/reset-password-with-token', ip: request.ip || null },
+      });
+      reply
+        .code(429)
+        .header('Retry-After', throttleDecision.retryAfterSeconds.toString())
+        .send({ error: 'Too many reset attempts. Try again later.' });
       return;
     }
     const tokenHash = deps.hashSupportAdminResetToken(parsed.data.token);
@@ -333,6 +460,7 @@ export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdmi
     `;
     const row = rows[0];
     if (!row || row.used_at || row.expires_at <= new Date()) {
+      deps.supportAdminResetWithTokenThrottle.registerFailure(throttleIdentity);
       reply.code(400).send({ error: 'Reset token is invalid or expired.' });
       return;
     }
@@ -352,6 +480,13 @@ export function registerAdminAuthRoutes(app: FastifyInstance, deps: RegisterAdmi
       SET revoked_at = now()
       WHERE username = ${row.username} AND revoked_at IS NULL
     `;
+    deps.supportAdminResetWithTokenThrottle.registerSuccess(throttleIdentity);
+    await logSupportAdminSecurityEvent({
+      eventType: 'support_admin_password_reset_completed',
+      detail: 'Support admin password reset completed with token',
+      actorEmail: row.username,
+      metadata: { username: row.username, endpoint: '/v1/admin/auth/reset-password-with-token' },
+    });
     return { ok: true };
   });
 

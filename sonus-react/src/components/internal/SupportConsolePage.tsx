@@ -912,6 +912,7 @@ export default function SupportConsolePage() {
   const [createAdminOpen, setCreateAdminOpen] = useState(false);
   const [createAdminBusy, setCreateAdminBusy] = useState(false);
   const [createAdminUsername, setCreateAdminUsername] = useState('');
+  const [createAdminCurrentPassword, setCreateAdminCurrentPassword] = useState('');
   const [createAdminPassword, setCreateAdminPassword] = useState('');
   const [createAdminRecoveryEmail, setCreateAdminRecoveryEmail] = useState('');
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
@@ -2464,6 +2465,7 @@ export default function SupportConsolePage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             username: createAdminUsername.trim(),
+            currentPassword: createAdminCurrentPassword,
             password: createAdminPassword,
             recoveryEmail: createAdminRecoveryEmail.trim() || undefined,
           }),
@@ -2471,6 +2473,7 @@ export default function SupportConsolePage() {
       );
       setCreateAdminOpen(false);
       setCreateAdminUsername('');
+      setCreateAdminCurrentPassword('');
       setCreateAdminPassword('');
       setCreateAdminRecoveryEmail('');
       setAdminActionSuccess('New admin created successfully.');
@@ -4477,10 +4480,11 @@ export default function SupportConsolePage() {
             <h3 className="text-lg font-semibold text-[#0f172a]">Create New Admin</h3>
             <input className={`${baseInput} mt-3`} value={createAdminUsername} onChange={(event) => setCreateAdminUsername(event.target.value)} placeholder="admin username" />
             <input className={`${baseInput} mt-2`} value={createAdminRecoveryEmail} onChange={(event) => setCreateAdminRecoveryEmail(event.target.value)} placeholder="recovery email (optional)" />
+            <input type="password" className={`${baseInput} mt-2`} value={createAdminCurrentPassword} onChange={(event) => setCreateAdminCurrentPassword(event.target.value)} placeholder="confirm your current admin password" />
             <input type="password" className={`${baseInput} mt-2`} value={createAdminPassword} onChange={(event) => setCreateAdminPassword(event.target.value)} placeholder="initial password (min 12 chars, upper/lower/number/symbol)" />
             {adminActionError && <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{adminActionError}</p>}
             <div className="mt-3 flex gap-2">
-              <button type="button" className={baseButton} disabled={createAdminBusy || createAdminUsername.trim().length < 3 || createAdminPassword.length < 12} onClick={() => void handleCreateSupportAdmin()}>
+              <button type="button" className={baseButton} disabled={createAdminBusy || createAdminUsername.trim().length < 3 || createAdminCurrentPassword.length < 1 || createAdminPassword.length < 12} onClick={() => void handleCreateSupportAdmin()}>
                 {createAdminBusy ? 'Creating…' : 'Create'}
               </button>
               <button type="button" className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-sm font-semibold text-[#1f2937]" disabled={createAdminBusy} onClick={() => setCreateAdminOpen(false)}>

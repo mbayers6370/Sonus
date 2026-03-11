@@ -1,7 +1,7 @@
 # Sonus Frontend
 > Scope: `Frontend` (client app, UI behavior, frontend commands)
 
-React + TypeScript client for Sonus.
+React + TypeScript client for a structured language-learning platform focused on durable speaking fluency.
 
 ## What This App Does
 Sonus is a language-learning app focused on practical progress and pronunciation quality.

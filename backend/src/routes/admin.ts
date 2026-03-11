@@ -61,6 +61,20 @@ const supportAdminLoginThrottle = createLoginThrottle({
   maxDelayMs: env.SUPPORT_ADMIN_LOGIN_THROTTLE_WINDOW_MS,
   resetAfterMs: env.SUPPORT_ADMIN_LOGIN_THROTTLE_WINDOW_MS,
 });
+const supportAdminForgotPasswordThrottle = createLoginThrottle({
+  enabled: env.PASSWORD_RESET_THROTTLE_ENABLED,
+  threshold: env.PASSWORD_RESET_REQUEST_THRESHOLD,
+  baseDelayMs: env.PASSWORD_RESET_REQUEST_WINDOW_MS,
+  maxDelayMs: env.PASSWORD_RESET_REQUEST_WINDOW_MS,
+  resetAfterMs: env.PASSWORD_RESET_REQUEST_WINDOW_MS,
+});
+const supportAdminResetWithTokenThrottle = createLoginThrottle({
+  enabled: env.PASSWORD_RESET_THROTTLE_ENABLED,
+  threshold: env.PASSWORD_RESET_CONSUME_THRESHOLD,
+  baseDelayMs: env.PASSWORD_RESET_CONSUME_WINDOW_MS,
+  maxDelayMs: env.PASSWORD_RESET_CONSUME_WINDOW_MS,
+  resetAfterMs: env.PASSWORD_RESET_CONSUME_WINDOW_MS,
+});
 
 function createSupportAdminResetToken() {
   return randomBytes(32).toString('base64url');
@@ -702,6 +716,8 @@ export async function adminRoutes(app: FastifyInstance) {
     SUPPORT_ADMIN_DUMMY_PASSWORD_HASH,
     SUPPORT_ROOT_ADMIN_USERNAME,
     supportAdminLoginThrottle,
+    supportAdminForgotPasswordThrottle,
+    supportAdminResetWithTokenThrottle,
     createSupportAdminResetToken,
     hashSupportAdminResetToken,
     supportAdminSessionExpiry,
