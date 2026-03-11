@@ -22,6 +22,36 @@ function WordsIcon() {
   );
 }
 
+const TONE_CHAR_TO_VALUE: Record<string, number> = {
+  ā: 1, ē: 1, ī: 1, ō: 1, ū: 1, ǖ: 1,
+  á: 2, é: 2, í: 2, ó: 2, ú: 2, ǘ: 2,
+  ǎ: 3, ě: 3, ǐ: 3, ǒ: 3, ǔ: 3, ǚ: 3,
+  à: 4, è: 4, ì: 4, ò: 4, ù: 4, ǜ: 4,
+};
+
+function extractToneValues(pinyin: string): number[] {
+  const values = new Set<number>();
+  const lower = (pinyin || '').toLowerCase();
+  for (const ch of lower) {
+    const fromDiacritic = TONE_CHAR_TO_VALUE[ch];
+    if (fromDiacritic) values.add(fromDiacritic);
+    if (/[1-4]/.test(ch)) values.add(Number(ch));
+  }
+  return Array.from(values).sort((a, b) => a - b);
+}
+
+function toneCoachingForPinyin(pinyin: string) {
+  const tones = extractToneValues(pinyin);
+  if (!tones.length) return `Tone: listen and copy the tone pattern in "${pinyin}" carefully.`;
+  const parts = tones.map((tone) => {
+    if (tone === 1) return 'Tone 1: keep it high and level.';
+    if (tone === 2) return 'Tone 2: rise clearly from mid to high.';
+    if (tone === 3) return 'Tone 3: dip low, then rise.';
+    return 'Tone 4: start high and drop sharply.';
+  });
+  return `Tone: ${parts.join(' ')}`;
+}
+
 export default function LessonComplete({
   onStartQuiz,
   onStartSpeak,
@@ -88,6 +118,9 @@ export default function LessonComplete({
     const breakdown = speakBreakdownByIndex[index];
     const word = activeLesson.words[index];
     if (!breakdown || (breakdown.initial.pass && breakdown.final.pass && breakdown.tone.pass)) return [];
+    if (breakdown.source === 'no-speech') {
+      return ['Try again slowly and clearly.'];
+    }
     const suggestions: string[] = [];
     if (!breakdown.initial.pass) {
       suggestions.push(`Initial: isolate the starting consonant in "${word.pinyin}" and repeat slowly.`);
@@ -96,7 +129,7 @@ export default function LessonComplete({
       suggestions.push(`Final: hold the ending vowel in "${word.pinyin}" for a clean finish.`);
     }
     if (!breakdown.tone.pass) {
-      suggestions.push(`Tone: exaggerate the tone contour in "${word.pinyin}" before saying it at normal speed.`);
+      suggestions.push(toneCoachingForPinyin(word.pinyin || ''));
     }
     return suggestions;
   };
@@ -229,22 +262,30 @@ export default function LessonComplete({
                             </>
                           ) : null}
                         </div>
-                        <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-mono uppercase tracking-wider">
-                          {(breakdown.dimensions?.length
-                            ? breakdown.dimensions
-                            : [
-                                { key: 'initial', label: 'Initial', pass: breakdown.initial.pass },
-                                { key: 'final', label: 'Final', pass: breakdown.final.pass },
-                                { key: 'tone', label: 'Tone', pass: breakdown.tone.pass },
-                              ]).map((dimension) => (
-                                <span
-                                  key={dimension.key}
-                                  className={`px-2 py-1 rounded ${dimension.pass ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}
-                                >
-                                  {dimension.label} {dimension.pass ? 'OK' : 'Fix'}
-                                </span>
-                              ))}
-                        </div>
+                        {breakdown.source === 'no-speech' ? (
+                          <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-mono uppercase tracking-wider">
+                            <span className="px-2 py-1 rounded bg-[rgba(194,65,12,0.14)] text-[#C2410C]">
+                              Try Again
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-mono uppercase tracking-wider">
+                            {(breakdown.dimensions?.length
+                              ? breakdown.dimensions
+                              : [
+                                  { key: 'initial', label: 'Initial', pass: breakdown.initial.pass },
+                                  { key: 'final', label: 'Final', pass: breakdown.final.pass },
+                                  { key: 'tone', label: 'Tone', pass: breakdown.tone.pass },
+                                ]).map((dimension) => (
+                                  <span
+                                    key={dimension.key}
+                                    className={`px-2 py-1 rounded ${dimension.pass ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}
+                                  >
+                                    {dimension.label} {dimension.pass ? 'OK' : 'Fix'}
+                                  </span>
+                                ))}
+                          </div>
+                        )}
                         {suggestions.length > 0 && (
                           <div className="mt-2 space-y-1">
                             {suggestions.map((suggestion) => (
