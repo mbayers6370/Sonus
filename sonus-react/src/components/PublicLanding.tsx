@@ -67,7 +67,7 @@ export default function PublicLanding() {
   const authCtaLabel = useMemo(() => 'Login', []);
   const landingDescription = useMemo(
     () =>
-      'Sonus is a language learning platform built on real fluency frameworks like HSK and JLPT. Practice vocabulary, speaking, and travel phrases through structured lessons.',
+      'Sonus is a language learning platform built on real fluency frameworks like JLPT. Practice vocabulary, speaking, and travel phrases through structured lessons.',
     []
   );
   const demoCards = useMemo<DemoCard[]>(
@@ -91,7 +91,6 @@ export default function PublicLanding() {
     () => [
       'Language learning built to last.',
       '続く語学学習を。',
-      '持久有效的语言学习。',
       '오래 가는 언어 학습.',
       "Apprentissage des langues concu pour durer.",
       'Aprendizaje de idiomas pensado para durar.',
@@ -343,7 +342,7 @@ export default function PublicLanding() {
                   <HeroMethodCard
                     kicker="02"
                     title="Learning Tracks"
-                    subtitle="HSK + JLPT"
+                    subtitle="JLPT"
                     body="Framework-aligned progression."
                     accent="#0C4A6E"
                     motif="grid"
@@ -376,7 +375,7 @@ export default function PublicLanding() {
               <div className="mx-auto mt-6 grid max-w-5xl gap-4 text-center sm:grid-cols-3 sm:gap-0">
                 <div className="px-2 sm:px-5 sm:border-r sm:border-[#334155]">
                   <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#186E95]">Framework-grounded</p>
-                  <p className="mt-1.5 text-sm leading-relaxed text-[#D6E2EE]">Progression aligned to HSK and JLPT levels.</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-[#D6E2EE]">Progression aligned to JLPT levels.</p>
                 </div>
                 <div className="px-2 sm:px-5 sm:border-r sm:border-[#334155]">
                   <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#186E95]">Speaking-first</p>
@@ -417,38 +416,38 @@ export default function PublicLanding() {
               <article className="rounded-3xl border border-[#6B7280] bg-[#FBFCFD] p-5 text-[#1F2A37] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:p-6">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="main-font text-2xl leading-tight text-[#1F2A37] sm:text-3xl">Mandarin</h3>
-                    <p className="mt-1 secondary-font text-sm text-[#334155] sm:text-base">普通话 · 汉语</p>
+                    <h3 className="main-font text-2xl leading-tight text-[#1F2A37] sm:text-3xl">Japanese</h3>
+                    <p className="mt-1 secondary-font text-sm text-[#334155] sm:text-base">日本語</p>
                   </div>
                   <span className="rounded-full border border-[#0C4A6E] bg-[#0C4A6E] px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white">
-                    In Development
+                    Active
                   </span>
                 </div>
                 <p className="secondary-font mt-3 text-sm leading-relaxed text-[#334155] sm:text-base">
-                  Curriculum and speech training in active development.
+                  Structured curriculum and speaking practice are available now.
                 </p>
                 <div className="mt-4 rounded-xl border border-[#1F2A37] bg-[#1F2A37] px-3 py-2.5">
                   <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#C3D7E8]">Focus</p>
-                  <p className="mt-1 secondary-font text-sm text-white">HSK-aligned progression, speaking feedback, and practical dialog.</p>
+                  <p className="mt-1 secondary-font text-sm text-white">JLPT-style progression, speaking feedback, and practical dialog.</p>
                 </div>
               </article>
 
               <article className="rounded-3xl border border-[#6B7280] bg-[#FBFCFD] p-5 text-[#1F2A37] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:p-6">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="main-font text-2xl leading-tight text-[#1F2A37] sm:text-3xl">Japanese</h3>
-                    <p className="mt-1 secondary-font text-sm text-[#334155] sm:text-base">日本語</p>
+                    <h3 className="main-font text-2xl leading-tight text-[#1F2A37] sm:text-3xl">More Languages</h3>
+                    <p className="mt-1 secondary-font text-sm text-[#334155] sm:text-base">Coming soon</p>
                   </div>
                   <span className="rounded-full border border-[#475569] bg-[#475569] px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white">
-                    Early Stage
+                    Planned
                   </span>
                 </div>
                 <p className="secondary-font mt-3 text-sm leading-relaxed text-[#334155] sm:text-base">
-                  Foundational lessons currently available.
+                  Additional tracks will roll out as curriculum and tooling are finalized.
                 </p>
                 <div className="mt-4 rounded-xl border border-[#0C4A6E] bg-[#0C4A6E] px-3 py-2.5">
                   <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#DCE7F1]">Focus</p>
-                  <p className="mt-1 secondary-font text-sm text-white">JLPT-style foundations with kana, core vocabulary, and speaking reps.</p>
+                  <p className="mt-1 secondary-font text-sm text-white">Clear proficiency frameworks, speaking-first practice, and durable progression loops.</p>
                 </div>
               </article>
             </div>
@@ -626,10 +625,7 @@ function ExploreDemoCard({ card }: { card: DemoCard }) {
         <p className="secondary-font mt-1.5 text-center text-xs leading-relaxed text-[#334155] sm:mt-2 sm:text-sm">{card.body}</p>
         {isTravelCard ? (
           <nav className="sr-only" aria-label="Travel Sprint guides">
-            <Link to="/essential-mandarin-travel-phrases">Essential Mandarin Travel Phrases</Link>
-            <Link to="/mandarin-airport-phrases">Mandarin Airport Phrases</Link>
-            <Link to="/mandarin-taxi-phrases">Mandarin Taxi Phrases</Link>
-            <Link to="/how-to-order-food-in-chinese">How to Order Food in Chinese</Link>
+            <Link to="/essential-japanese-travel-phrases">Essential Japanese Travel Phrases</Link>
           </nav>
         ) : null}
       </div>
@@ -660,7 +656,7 @@ function MiniPracticeFocusPreview() {
     };
   }, []);
 
-  const weakWords = ['你好', '谢谢', '对不起'] as const;
+  const weakWords = ['こんにちは', 'ありがとう', 'すみません'] as const;
   const activeWord = weakWords[step % weakWords.length];
   const wordResolved = step % 2 === 1;
 
@@ -694,9 +690,9 @@ function MiniTravelPreview() {
   const activeStop = travelPath[pathStep];
   const travelPercent = activeStop === 0 ? 8 : activeStop === 1 ? 49 : 89;
   const samples = [
-    { script: '请问，航站楼怎么走？', reading: 'qǐngwèn, hángzhànlóu zěnme zǒu?' },
-    { script: '请问，地铁站在哪里？', reading: 'qǐngwèn, dìtiě zhàn zài nǎlǐ?' },
-    { script: '我要去这个地址。', reading: 'wǒ yào qù zhège dìzhǐ.' },
+    { script: 'すみません、搭乗口はどこですか。', reading: 'sumimasen, toujouguchi wa doko desu ka?' },
+    { script: 'すみません、駅はどこですか。', reading: 'sumimasen, eki wa doko desu ka?' },
+    { script: 'この住所までお願いします。', reading: 'kono juusho made onegaishimasu.' },
   ] as const;
   const sample = samples[activeStop];
 

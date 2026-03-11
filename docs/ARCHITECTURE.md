@@ -5,7 +5,7 @@ Sonus is organized as a two-application monorepo:
 - `sonus-react/` - frontend client (React + Vite + TypeScript)
 - `backend/` - API service (Fastify + Prisma + PostgreSQL)
 
-The current product focus is Mandarin lesson flow, pronunciation scoring, and review scheduling.
+The current product focus is Japanese lesson flow, pronunciation scoring, and review scheduling.
 
 ## High-Level Components
 
@@ -19,7 +19,7 @@ The current product focus is Mandarin lesson flow, pronunciation scoring, and re
   - Quiz (`Quiz`)
   - Speak (`SpeakMode`)
   - Apply (`ApplyMode`)
-- Static curriculum data in `public/data/zh/*.json`
+- Static curriculum data in `public/data/ja/*.json`
 
 ### Backend (`backend/`)
 - HTTP entrypoint in `src/server.ts`
@@ -45,15 +45,15 @@ The current product focus is Mandarin lesson flow, pronunciation scoring, and re
 - Resume checkpoint for mid-lesson exit/re-entry
 
 ## Curriculum Data Model
-Core curriculum payload (`band*.json`):
+Core curriculum payload (`n*.json`):
 - Band metadata
 - Units
-- Word objects (hanzi, pinyin, English, examples)
+- Word objects (kanji/hiragana/romaji, English, examples)
 
 Apply payload (preferred `band*-apply.json`, legacy `band*.apply.json` still supported):
 - Sentence prompts by unit
 - Links to source word ids
-- Sentence-level Chinese, English, and pinyin
+- Sentence-level Japanese, English, and reading
 
 At runtime, apply prompts are merged into lesson words as `word.example`.
 
@@ -67,13 +67,13 @@ At runtime, apply prompts are merged into lesson words as `word.example`.
 
 ## Speak Analysis Pipeline
 `SpeakMode` follows a staged detection strategy:
-1. Normalize transcript to Hanzi/latin paths.
-2. Resolve detected pinyin via:
+1. Normalize transcript to script/transliteration paths.
+2. Resolve detected transliteration via:
   - exact target match
   - lesson vocabulary match
-  - global Hanzi lookup tables
+  - global script lookup tables
   - lesson-based single-character inference
-3. Parse target/detected pinyin into syllable components.
+3. Parse target/detected syllable reading into syllable components.
 4. Score initial/final/tone per syllable index.
 
 ## Review Scheduling Model

@@ -1,4 +1,4 @@
-// HSK 3.0 Unit Metadata
+// Legacy Band Unit Metadata
 // Defines the thematic structure, display names, and order for each unit
 
 import type { LucideIcon } from 'lucide-react';
@@ -30,7 +30,7 @@ import {
 export interface UnitMetadata {
   id: string;
   name: string; // English name
-  hanzi: string; // Chinese name
+  nativeLabel: string; // Native-script label
   description: string;
   microUnits?: string[]; // Optional sub-focus list shown for macro units
   order: number; // Display order within the band
@@ -74,7 +74,7 @@ function withCheckpointQuizzes(units: UnitMetadata[]): UnitMetadata[] {
     checkpoints.push({
       id: `checkpoint-${idx}`,
       name: `Checkpoint Quiz ${idx}`,
-      hanzi: `阶段测验 ${idx}`,
+      nativeLabel: `阶段测验 ${idx}`,
       description: `Quiz review covering Units ${start} - ${end}.`,
       order: end + 0.5,
       icon: BookOpenCheck,
@@ -142,7 +142,7 @@ function buildRuntimeUnitsForBand(bandId: string, bandData: RuntimeBandLike) {
     return {
       id: unit.id,
       name: (unit.title || staticMatch?.name || displayNameFromUnitId(unit.id)).trim(),
-      hanzi: staticMatch?.hanzi || '',
+      nativeLabel: staticMatch?.nativeLabel || '',
       description: (unit.description || staticMatch?.description || 'Core vocabulary.').trim(),
       microUnits: staticMatch?.microUnits,
       order: index + 1,
@@ -160,7 +160,7 @@ function buildRuntimeUnitsForBand(bandId: string, bandData: RuntimeBandLike) {
     return {
       id: `checkpoint-${checkpointIndex}`,
       name: template?.name || `Checkpoint Quiz ${checkpointIndex}`,
-      hanzi: template?.hanzi || `阶段测验 ${checkpointIndex}`,
+      nativeLabel: template?.nativeLabel || `阶段测验 ${checkpointIndex}`,
       description:
         template?.description ||
         `Quiz review covering Units ${Math.max(1, idx * CHECKPOINT_EVERY_UNITS + 1)} - ${Math.min(coreUnits.length, checkpointIndex * CHECKPOINT_EVERY_UNITS)}.`,
@@ -189,7 +189,7 @@ function buildRuntimeUnitsForBand(bandId: string, bandData: RuntimeBandLike) {
       return {
         id: unit.id,
         name: (unit.title || staticMatch?.name || displayNameFromUnitId(unit.id)).trim(),
-        hanzi: staticMatch?.hanzi || '',
+        nativeLabel: staticMatch?.nativeLabel || '',
         description: (unit.description || staticMatch?.description || 'Skill practice.').trim(),
         order: interleaved.length + index + 1,
         icon: staticMatch?.icon || BookOpen,
@@ -204,12 +204,12 @@ function buildRuntimeUnitsForBand(bandId: string, bandData: RuntimeBandLike) {
   return [...interleaved, ...runtimePractice, ...staticPractice];
 }
 
-// Elementary I (Band 1) - HSK 3.0 Aligned Units
+// Elementary I (Band 1) - Aligned Units
 export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-pronouns',
     name: 'Personal Pronouns',
-    hanzi: '人称代词',
+    nativeLabel: '人称代词',
     description: 'Core pronouns and reference words',
     order: 1,
     icon: Users,
@@ -217,7 +217,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-politeness',
     name: 'Greetings & Politeness',
-    hanzi: '问候与礼貌',
+    nativeLabel: '问候与礼貌',
     description: 'Polite everyday phrases and responses',
     order: 2,
     icon: Hand,
@@ -225,7 +225,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-numbers',
     name: 'Numbers',
-    hanzi: '数字',
+    nativeLabel: '数字',
     description: 'Basic counting and number words',
     order: 3,
     icon: Hash,
@@ -233,7 +233,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-time',
     name: 'Time & Dates',
-    hanzi: '时间与日期',
+    nativeLabel: '时间与日期',
     description: 'Time words, dates, and daily timing',
     order: 4,
     icon: Clock,
@@ -241,7 +241,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-verbs-1',
     name: 'Verbs I',
-    hanzi: '动词一',
+    nativeLabel: '动词一',
     description: 'Core action verbs (foundation set)',
     order: 5,
     icon: Zap,
@@ -249,7 +249,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-family',
     name: 'Family',
-    hanzi: '家庭',
+    nativeLabel: '家庭',
     description: 'Family members and people words',
     order: 6,
     icon: Home,
@@ -257,7 +257,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-routine',
     name: 'Daily Life & Routine',
-    hanzi: '日常生活',
+    nativeLabel: '日常生活',
     description: 'Daily actions, habits, and routine life',
     order: 7,
     icon: Sun,
@@ -265,7 +265,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-food',
     name: 'Food & Drinks',
-    hanzi: '食物与饮料',
+    nativeLabel: '食物与饮料',
     description: 'Food, drinks, and meal vocabulary',
     order: 8,
     icon: Utensils,
@@ -273,7 +273,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-shopping',
     name: 'Shopping',
-    hanzi: '购物',
+    nativeLabel: '购物',
     description: 'Money, prices, and shopping basics',
     order: 9,
     icon: ShoppingBag,
@@ -281,7 +281,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-locations',
     name: 'Places & Locations',
-    hanzi: '地点',
+    nativeLabel: '地点',
     description: 'Common places and location words',
     order: 10,
     icon: MapPin,
@@ -289,7 +289,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-directions',
     name: 'Directions',
-    hanzi: '方向',
+    nativeLabel: '方向',
     description: 'Direction words and spatial positions',
     order: 11,
     icon: Navigation,
@@ -297,7 +297,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-transport',
     name: 'Transportation',
-    hanzi: '交通',
+    nativeLabel: '交通',
     description: 'Transport words and travel terms',
     order: 12,
     icon: Bus,
@@ -305,7 +305,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-school',
     name: 'School & Study',
-    hanzi: '学校与学习',
+    nativeLabel: '学校与学习',
     description: 'School people, places, and study words',
     order: 13,
     icon: BookOpen,
@@ -313,7 +313,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-questions',
     name: 'Question Words',
-    hanzi: '疑问词',
+    nativeLabel: '疑问词',
     description: 'Question words and key particles',
     order: 14,
     icon: HelpCircle,
@@ -321,7 +321,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-verbs-2',
     name: 'Verbs II',
-    hanzi: '动词二',
+    nativeLabel: '动词二',
     description: 'Core action verbs (practice set)',
     order: 15,
     icon: Zap,
@@ -329,7 +329,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-measure',
     name: 'Measure Words',
-    hanzi: '量词',
+    nativeLabel: '量词',
     description: 'High-frequency classifiers and counters',
     order: 16,
     icon: Ruler,
@@ -337,7 +337,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-opinions',
     name: 'Expressing Opinions',
-    hanzi: '表达意见',
+    nativeLabel: '表达意见',
     description: 'Preference, feelings, and opinion words',
     order: 17,
     icon: MessageSquare,
@@ -345,7 +345,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-ability',
     name: 'Ability & Permission',
-    hanzi: '能力与许可',
+    nativeLabel: '能力与许可',
     description: 'Ability and modal helper words',
     order: 18,
     icon: Sparkles,
@@ -353,7 +353,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-verbs-3',
     name: 'Verbs III',
-    hanzi: '动词三',
+    nativeLabel: '动词三',
     description: 'Core action verbs (advanced set)',
     order: 19,
     icon: Zap,
@@ -361,7 +361,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-comparison',
     name: 'Comparisons',
-    hanzi: '比较',
+    nativeLabel: '比较',
     description: 'Basic comparison patterns (比, 一样)',
     order: 20,
     icon: Scale,
@@ -369,7 +369,7 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-listening',
     name: 'Listening Practice',
-    hanzi: '听力练习',
+    nativeLabel: '听力练习',
     description: 'Audio comprehension exercises',
     order: 21,
     icon: Headphones,
@@ -377,20 +377,20 @@ export const band1Units: UnitMetadata[] = [
   {
     id: 'b1-speaking',
     name: 'Speaking Practice',
-    hanzi: '口语练习',
+    nativeLabel: '口语练习',
     description: 'Pronunciation and conversation',
     order: 22,
     icon: Mic,
   },
-  // Note: b1-tones is handled separately (Mandarin Tones fundamentals screen)
+  // Note: b1-tones is handled separately in legacy foundation content.
 ];
 
-// Elementary II (Band 2) - HSK 3.0 Aligned Units
+// Elementary II (Band 2) - Aligned Units
 export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-grammar',
     name: 'Core Patterns',
-    hanzi: '语法与句型',
+    nativeLabel: '语法与句型',
     description: 'High-frequency sentence patterns and connectors',
     order: 1,
     icon: BookOpen,
@@ -398,7 +398,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-quantifiers',
     name: 'Quantifiers',
-    hanzi: '数量表达',
+    nativeLabel: '数量表达',
     description: 'Amount words and quantity-focused expressions',
     order: 2,
     icon: Scale,
@@ -406,7 +406,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-classifiers',
     name: 'Classifiers',
-    hanzi: '量词',
+    nativeLabel: '量词',
     description: 'Common measure words used with nouns',
     order: 3,
     icon: Ruler,
@@ -414,7 +414,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-verbs-1',
     name: 'Verbs & Verb Phrases I',
-    hanzi: '动词与动词短语一',
+    nativeLabel: '动词与动词短语一',
     description: 'Core daily verbs and high-frequency action phrases',
     order: 4,
     icon: Zap,
@@ -422,7 +422,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-verbs-2',
     name: 'Verbs & Verb Phrases II',
-    hanzi: '动词与动词短语二',
+    nativeLabel: '动词与动词短语二',
     description: 'Expanded action verbs for routines and communication',
     order: 5,
     icon: Zap,
@@ -430,7 +430,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-verbs-3',
     name: 'Verbs & Verb Phrases III',
-    hanzi: '动词与动词短语三',
+    nativeLabel: '动词与动词短语三',
     description: 'Advanced Band 2 verb usage and mixed verb phrases',
     order: 6,
     icon: Zap,
@@ -438,7 +438,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-time',
     name: 'Time & Scheduling',
-    hanzi: '时间安排',
+    nativeLabel: '时间安排',
     description: 'Planning, frequency, and time references',
     order: 7,
     icon: Clock,
@@ -446,7 +446,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-home',
     name: 'Home & Community',
-    hanzi: '家庭与社区',
+    nativeLabel: '家庭与社区',
     description: 'Home life, neighbors, and local context',
     order: 8,
     icon: Home,
@@ -454,7 +454,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-food',
     name: 'Food & Eating Out',
-    hanzi: '饮食与点餐',
+    nativeLabel: '饮食与点餐',
     description: 'Meals, restaurants, and food preferences',
     order: 9,
     icon: Utensils,
@@ -462,7 +462,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-shopping',
     name: 'Money & Shopping',
-    hanzi: '购物与消费',
+    nativeLabel: '购物与消费',
     description: 'Prices, payment, and shopping situations',
     order: 10,
     icon: ShoppingBag,
@@ -470,7 +470,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-travel',
     name: 'Travel & Mobility',
-    hanzi: '出行与交通',
+    nativeLabel: '出行与交通',
     description: 'Transportation and travel communication',
     order: 11,
     icon: Bus,
@@ -478,7 +478,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-health',
     name: 'Health & Body',
-    hanzi: '健康与身体',
+    nativeLabel: '健康与身体',
     description: 'Symptoms, care, and body-related vocabulary',
     order: 12,
     icon: Hand,
@@ -486,7 +486,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-weather',
     name: 'Weather & Seasons',
-    hanzi: '天气与季节',
+    nativeLabel: '天气与季节',
     description: 'Weather talk and seasonal expressions',
     order: 13,
     icon: Sun,
@@ -494,7 +494,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-social',
     name: 'Social Interaction',
-    hanzi: '社交表达',
+    nativeLabel: '社交表达',
     description: 'Interpersonal language and social usage',
     order: 14,
     icon: Users,
@@ -502,7 +502,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-people-social',
     name: 'People & Social Terms',
-    hanzi: '人物与社交词汇',
+    nativeLabel: '人物与社交词汇',
     description: 'Relationships, people labels, and social references',
     order: 16,
     icon: Users,
@@ -510,7 +510,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-places',
     name: 'Places & Nature',
-    hanzi: '地点、方位与机构',
+    nativeLabel: '地点、方位与机构',
     description: 'Locations, directions, and institutional/place vocabulary in one unit',
     order: 15,
     icon: MapPin,
@@ -518,7 +518,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-objects-tech',
     name: 'Objects & Tech',
-    hanzi: '日常物品与科技',
+    nativeLabel: '日常物品与科技',
     description: 'Everyday objects, tools, and basic technology nouns',
     order: 18,
     icon: Sparkles,
@@ -526,7 +526,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-adjectives-feelings',
     name: 'Adjectives & Feelings',
-    hanzi: '形容词与感受',
+    nativeLabel: '形容词与感受',
     description: 'Descriptive quality words and emotional states',
     order: 19,
     icon: HelpCircle,
@@ -534,7 +534,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-general',
     name: 'General Vocabulary',
-    hanzi: '通用词汇',
+    nativeLabel: '通用词汇',
     description: 'Useful mixed vocabulary that does not belong to a tighter thematic unit',
     order: 20,
     icon: Scale,
@@ -542,7 +542,7 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-listening',
     name: 'Listening Practice',
-    hanzi: '听力练习',
+    nativeLabel: '听力练习',
     description: 'Band 2 listening drills using Band 2 vocabulary',
     order: 21,
     icon: Headphones,
@@ -550,19 +550,19 @@ export const band2Units: UnitMetadata[] = [
   {
     id: 'b2-speaking',
     name: 'Speaking Practice',
-    hanzi: '口语练习',
+    nativeLabel: '口语练习',
     description: 'Band 2 pronunciation drills using Band 2 vocabulary',
     order: 22,
     icon: Mic,
   },
 ];
 
-// Pre-Intermediate (Band 3) - HSK 3.0 Aligned Units
+// Pre-Intermediate (Band 3) - Aligned Units
 export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-grammar',
     name: 'Grammar Expansion',
-    hanzi: '语法进阶',
+    nativeLabel: '语法进阶',
     description: 'Expanded structures and connective expressions',
     order: 1,
     icon: BookOpen,
@@ -570,7 +570,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-workstudy',
     name: 'Work & Study',
-    hanzi: '工作与学习',
+    nativeLabel: '工作与学习',
     description: 'Academic and workplace communication',
     order: 2,
     icon: Ruler,
@@ -578,7 +578,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-social',
     name: 'Social Life',
-    hanzi: '社交生活',
+    nativeLabel: '社交生活',
     description: 'Daily social interaction and expression',
     order: 3,
     icon: Users,
@@ -586,7 +586,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-food',
     name: 'Food & Lifestyle',
-    hanzi: '饮食与生活',
+    nativeLabel: '饮食与生活',
     description: 'Food, habits, and lifestyle scenarios',
     order: 4,
     icon: Utensils,
@@ -594,7 +594,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-health',
     name: 'Health & Wellbeing',
-    hanzi: '健康与状态',
+    nativeLabel: '健康与状态',
     description: 'Physical condition and health vocabulary',
     order: 5,
     icon: Hand,
@@ -602,7 +602,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-travel',
     name: 'Travel & Navigation',
-    hanzi: '旅行与路线',
+    nativeLabel: '旅行与路线',
     description: 'Travel planning and route communication',
     order: 6,
     icon: MapPin,
@@ -610,7 +610,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-hobbies',
     name: 'Hobbies & Leisure',
-    hanzi: '兴趣与休闲',
+    nativeLabel: '兴趣与休闲',
     description: 'Leisure activities and personal interests',
     order: 7,
     icon: Sparkles,
@@ -618,7 +618,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-media',
     name: 'Media & Information',
-    hanzi: '媒体与信息',
+    nativeLabel: '媒体与信息',
     description: 'News, content, and information language',
     order: 8,
     icon: MessageSquare,
@@ -626,7 +626,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-feelings',
     name: 'Feelings & Opinions',
-    hanzi: '感受与观点',
+    nativeLabel: '感受与观点',
     description: 'Describing emotions and viewpoints',
     order: 9,
     icon: HelpCircle,
@@ -634,7 +634,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-story',
     name: 'Narration & Sequence',
-    hanzi: '叙事与顺序',
+    nativeLabel: '叙事与顺序',
     description: 'Storytelling and sequencing expressions',
     order: 10,
     icon: Clock,
@@ -642,7 +642,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-problems',
     name: 'Problems & Solutions',
-    hanzi: '问题与解决',
+    nativeLabel: '问题与解决',
     description: 'Challenges, causes, and response language',
     order: 11,
     icon: Scale,
@@ -650,7 +650,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-review',
     name: 'Consolidation',
-    hanzi: '综合复习',
+    nativeLabel: '综合复习',
     description: 'Mixed review set across Pre-Intermediate',
     order: 12,
     icon: Zap,
@@ -658,7 +658,7 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-listening',
     name: 'Listening Practice',
-    hanzi: '听力练习',
+    nativeLabel: '听力练习',
     description: 'Band 3 listening drills using Band 3 vocabulary',
     order: 13,
     icon: Headphones,
@@ -666,72 +666,72 @@ export const band3Units: UnitMetadata[] = [
   {
     id: 'b3-speaking',
     name: 'Speaking Practice',
-    hanzi: '口语练习',
+    nativeLabel: '口语练习',
     description: 'Band 3 pronunciation drills using Band 3 vocabulary',
     order: 14,
     icon: Mic,
   },
 ];
 
-// Intermediate I (Band 4) - HSK 3.0 Aligned Units
+// Intermediate I (Band 4) - Aligned Units
 export const band4Units: UnitMetadata[] = [
-  { id: 'b4-grammar', name: 'Grammar Systems', hanzi: '语法系统', description: 'Complex sentence patterns and grammar usage', order: 1, icon: BookOpen },
-  { id: 'b4-services', name: 'Public Services', hanzi: '公共服务', description: 'Service encounters and formal requests', order: 2, icon: Hand },
-  { id: 'b4-work', name: 'Workplace Communication', hanzi: '职场沟通', description: 'Professional vocabulary and collaboration language', order: 3, icon: Ruler },
-  { id: 'b4-learning', name: 'Learning & Education', hanzi: '学习与教育', description: 'Study systems, teaching, and academic language', order: 4, icon: BookOpen },
-  { id: 'b4-travel', name: 'Travel Scenarios', hanzi: '出行场景', description: 'Real-world travel and transportation situations', order: 5, icon: Bus },
-  { id: 'b4-society', name: 'Society & Daily Affairs', hanzi: '社会与事务', description: 'Civic and social context vocabulary', order: 6, icon: Users },
-  { id: 'b4-environment', name: 'Environment', hanzi: '环境', description: 'Nature, environment, and sustainability themes', order: 7, icon: Sun },
-  { id: 'b4-tech', name: 'Technology', hanzi: '科技', description: 'Digital life and practical tech language', order: 8, icon: Zap },
-  { id: 'b4-health', name: 'Health & Care', hanzi: '健康与护理', description: 'Health status, treatment, and wellbeing language', order: 9, icon: Home },
-  { id: 'b4-opinion', name: 'Opinion & Argument', hanzi: '观点与论证', description: 'Opinion framing and structured expression', order: 10, icon: MessageSquare },
-  { id: 'b4-narrative', name: 'Narrative Skills', hanzi: '叙述能力', description: 'Sequencing, explanation, and storytelling', order: 11, icon: Clock },
-  { id: 'b4-review', name: 'Consolidation', hanzi: '综合复习', description: 'Mixed review set across Intermediate I', order: 12, icon: Scale },
-  { id: 'b4-listening', name: 'Listening Practice', hanzi: '听力练习', description: 'Band 4 listening drills using Band 4 vocabulary', order: 13, icon: Headphones },
-  { id: 'b4-speaking', name: 'Speaking Practice', hanzi: '口语练习', description: 'Band 4 pronunciation drills using Band 4 vocabulary', order: 14, icon: Mic },
+  { id: 'b4-grammar', name: 'Grammar Systems', nativeLabel: '语法系统', description: 'Complex sentence patterns and grammar usage', order: 1, icon: BookOpen },
+  { id: 'b4-services', name: 'Public Services', nativeLabel: '公共服务', description: 'Service encounters and formal requests', order: 2, icon: Hand },
+  { id: 'b4-work', name: 'Workplace Communication', nativeLabel: '职场沟通', description: 'Professional vocabulary and collaboration language', order: 3, icon: Ruler },
+  { id: 'b4-learning', name: 'Learning & Education', nativeLabel: '学习与教育', description: 'Study systems, teaching, and academic language', order: 4, icon: BookOpen },
+  { id: 'b4-travel', name: 'Travel Scenarios', nativeLabel: '出行场景', description: 'Real-world travel and transportation situations', order: 5, icon: Bus },
+  { id: 'b4-society', name: 'Society & Daily Affairs', nativeLabel: '社会与事务', description: 'Civic and social context vocabulary', order: 6, icon: Users },
+  { id: 'b4-environment', name: 'Environment', nativeLabel: '环境', description: 'Nature, environment, and sustainability themes', order: 7, icon: Sun },
+  { id: 'b4-tech', name: 'Technology', nativeLabel: '科技', description: 'Digital life and practical tech language', order: 8, icon: Zap },
+  { id: 'b4-health', name: 'Health & Care', nativeLabel: '健康与护理', description: 'Health status, treatment, and wellbeing language', order: 9, icon: Home },
+  { id: 'b4-opinion', name: 'Opinion & Argument', nativeLabel: '观点与论证', description: 'Opinion framing and structured expression', order: 10, icon: MessageSquare },
+  { id: 'b4-narrative', name: 'Narrative Skills', nativeLabel: '叙述能力', description: 'Sequencing, explanation, and storytelling', order: 11, icon: Clock },
+  { id: 'b4-review', name: 'Consolidation', nativeLabel: '综合复习', description: 'Mixed review set across Intermediate I', order: 12, icon: Scale },
+  { id: 'b4-listening', name: 'Listening Practice', nativeLabel: '听力练习', description: 'Band 4 listening drills using Band 4 vocabulary', order: 13, icon: Headphones },
+  { id: 'b4-speaking', name: 'Speaking Practice', nativeLabel: '口语练习', description: 'Band 4 pronunciation drills using Band 4 vocabulary', order: 14, icon: Mic },
 ];
 
-// Intermediate II (Band 5) - HSK 3.0 Aligned Units
+// Intermediate II (Band 5) - Aligned Units
 export const band5Units: UnitMetadata[] = [
-  { id: 'b5-grammar', name: 'Grammar Precision', hanzi: '语法精炼', description: 'Nuanced grammar and high-control sentence patterns', order: 1, icon: BookOpen },
-  { id: 'b5-work', name: 'Work & Projects', hanzi: '工作与项目', description: 'Project-oriented workplace communication', order: 2, icon: Ruler },
-  { id: 'b5-finance', name: 'Finance & Economy', hanzi: '金融与经济', description: 'Money, business, and economic vocabulary', order: 3, icon: ShoppingBag },
-  { id: 'b5-culture', name: 'Culture & Heritage', hanzi: '文化与传统', description: 'Cultural literacy and heritage topics', order: 4, icon: Sparkles },
-  { id: 'b5-media', name: 'Media & Communication', hanzi: '媒体与传播', description: 'Media interpretation and communication language', order: 5, icon: MessageSquare },
-  { id: 'b5-tech', name: 'Technology & Systems', hanzi: '科技与系统', description: 'Technical systems and digital language', order: 6, icon: Zap },
-  { id: 'b5-lifestyle', name: 'Lifestyle & Habits', hanzi: '生活方式', description: 'Lifestyle choices and personal routines', order: 7, icon: Sun },
-  { id: 'b5-relationships', name: 'Relationships', hanzi: '人际关系', description: 'Interpersonal nuance and social interaction', order: 8, icon: Users },
-  { id: 'b5-society', name: 'Societal Topics', hanzi: '社会议题', description: 'Public issues and social discussion', order: 9, icon: Scale },
-  { id: 'b5-nuance', name: 'Nuanced Expression', hanzi: '细微表达', description: 'Subtle distinctions and precise wording', order: 10, icon: HelpCircle },
-  { id: 'b5-academic', name: 'Academic Language', hanzi: '学术语言', description: 'School, exams, and formal study contexts', order: 11, icon: BookOpen },
-  { id: 'b5-news', name: 'News & Current Events', hanzi: '新闻时事', description: 'Reporting, headlines, and public events', order: 12, icon: MessageSquare },
-  { id: 'b5-science', name: 'Science & Nature', hanzi: '科学与自然', description: 'Natural phenomena and scientific concepts', order: 13, icon: Zap },
-  { id: 'b5-health', name: 'Health & Medicine', hanzi: '健康与医疗', description: 'Medical, wellness, and care vocabulary', order: 14, icon: Heart },
-  { id: 'b5-abstract', name: 'Human Experience', hanzi: '人类经验', description: 'States, qualities, outcomes, and lived experiences', order: 15, icon: HelpCircle },
-  { id: 'b5-policy', name: 'Policy & Governance', hanzi: '政策治理', description: 'Government, law, and institutional language', order: 16, icon: Scale },
-  { id: 'b5-writing', name: 'Writing & Structure', hanzi: '写作与结构', description: 'Structured writing and formal composition', order: 17, icon: BookOpen },
-  { id: 'b5-review', name: 'Consolidation', hanzi: '综合复习', description: 'Mixed review set across Intermediate II', order: 18, icon: Scale },
-  { id: 'b5-listening', name: 'Listening Practice', hanzi: '听力练习', description: 'Band 5 listening drills using Band 5 vocabulary', order: 19, icon: Headphones },
-  { id: 'b5-speaking', name: 'Speaking Practice', hanzi: '口语练习', description: 'Band 5 pronunciation drills using Band 5 vocabulary', order: 20, icon: Mic },
+  { id: 'b5-grammar', name: 'Grammar Precision', nativeLabel: '语法精炼', description: 'Nuanced grammar and high-control sentence patterns', order: 1, icon: BookOpen },
+  { id: 'b5-work', name: 'Work & Projects', nativeLabel: '工作与项目', description: 'Project-oriented workplace communication', order: 2, icon: Ruler },
+  { id: 'b5-finance', name: 'Finance & Economy', nativeLabel: '金融与经济', description: 'Money, business, and economic vocabulary', order: 3, icon: ShoppingBag },
+  { id: 'b5-culture', name: 'Culture & Heritage', nativeLabel: '文化与传统', description: 'Cultural literacy and heritage topics', order: 4, icon: Sparkles },
+  { id: 'b5-media', name: 'Media & Communication', nativeLabel: '媒体与传播', description: 'Media interpretation and communication language', order: 5, icon: MessageSquare },
+  { id: 'b5-tech', name: 'Technology & Systems', nativeLabel: '科技与系统', description: 'Technical systems and digital language', order: 6, icon: Zap },
+  { id: 'b5-lifestyle', name: 'Lifestyle & Habits', nativeLabel: '生活方式', description: 'Lifestyle choices and personal routines', order: 7, icon: Sun },
+  { id: 'b5-relationships', name: 'Relationships', nativeLabel: '人际关系', description: 'Interpersonal nuance and social interaction', order: 8, icon: Users },
+  { id: 'b5-society', name: 'Societal Topics', nativeLabel: '社会议题', description: 'Public issues and social discussion', order: 9, icon: Scale },
+  { id: 'b5-nuance', name: 'Nuanced Expression', nativeLabel: '细微表达', description: 'Subtle distinctions and precise wording', order: 10, icon: HelpCircle },
+  { id: 'b5-academic', name: 'Academic Language', nativeLabel: '学术语言', description: 'School, exams, and formal study contexts', order: 11, icon: BookOpen },
+  { id: 'b5-news', name: 'News & Current Events', nativeLabel: '新闻时事', description: 'Reporting, headlines, and public events', order: 12, icon: MessageSquare },
+  { id: 'b5-science', name: 'Science & Nature', nativeLabel: '科学与自然', description: 'Natural phenomena and scientific concepts', order: 13, icon: Zap },
+  { id: 'b5-health', name: 'Health & Medicine', nativeLabel: '健康与医疗', description: 'Medical, wellness, and care vocabulary', order: 14, icon: Heart },
+  { id: 'b5-abstract', name: 'Human Experience', nativeLabel: '人类经验', description: 'States, qualities, outcomes, and lived experiences', order: 15, icon: HelpCircle },
+  { id: 'b5-policy', name: 'Policy & Governance', nativeLabel: '政策治理', description: 'Government, law, and institutional language', order: 16, icon: Scale },
+  { id: 'b5-writing', name: 'Writing & Structure', nativeLabel: '写作与结构', description: 'Structured writing and formal composition', order: 17, icon: BookOpen },
+  { id: 'b5-review', name: 'Consolidation', nativeLabel: '综合复习', description: 'Mixed review set across Intermediate II', order: 18, icon: Scale },
+  { id: 'b5-listening', name: 'Listening Practice', nativeLabel: '听力练习', description: 'Band 5 listening drills using Band 5 vocabulary', order: 19, icon: Headphones },
+  { id: 'b5-speaking', name: 'Speaking Practice', nativeLabel: '口语练习', description: 'Band 5 pronunciation drills using Band 5 vocabulary', order: 20, icon: Mic },
 ];
 
-// Upper-Intermediate (Band 6) - HSK 3.0 Aligned Units
+// Upper-Intermediate (Band 6) - Aligned Units
 export const band6Units: UnitMetadata[] = [
-  { id: 'b6-grammar', name: 'Advanced Grammar', hanzi: '高级语法', description: 'High-level grammar control and syntax', order: 1, icon: BookOpen },
-  { id: 'b6-academic', name: 'Academic Language', hanzi: '学术语言', description: 'Academic discourse and formal explanation', order: 2, icon: Ruler },
-  { id: 'b6-work', name: 'Professional Contexts', hanzi: '职业场景', description: 'Advanced workplace communication', order: 3, icon: Users },
-  { id: 'b6-negotiation', name: 'Negotiation & Persuasion', hanzi: '谈判与说服', description: 'Persuasive language and negotiation strategy', order: 4, icon: MessageSquare },
-  { id: 'b6-policy', name: 'Policy & Governance', hanzi: '政策与治理', description: 'Institutional and policy-level topics', order: 5, icon: Scale },
-  { id: 'b6-news', name: 'News & Current Affairs', hanzi: '新闻与时事', description: 'Current events and analysis vocabulary', order: 6, icon: Clock },
-  { id: 'b6-science', name: 'Science Topics', hanzi: '科学主题', description: 'Scientific concepts and formal terminology', order: 7, icon: Sparkles },
-  { id: 'b6-tech', name: 'Technology Topics', hanzi: '技术主题', description: 'Technical concepts and systems language', order: 8, icon: Zap },
-  { id: 'b6-culture', name: 'Culture & Thought', hanzi: '文化与思想', description: 'Cultural analysis and conceptual discussion', order: 9, icon: Home },
-  { id: 'b6-health', name: 'Health & Society', hanzi: '健康与社会', description: 'Health issues in broader social context', order: 10, icon: Hand },
-  { id: 'b6-human-experience', name: 'Human Experience', hanzi: '人类经验', description: 'Emotions, traits, outcomes, and lived experiences', order: 11, icon: HelpCircle },
-  { id: 'b6-idioms', name: 'Idioms & Set Phrases', hanzi: '成语与固定搭配', description: 'Idiomatic expression and advanced phraseology', order: 12, icon: Hash },
-  { id: 'b6-review', name: 'Consolidation', hanzi: '综合复习', description: 'Mixed review set across Upper-Intermediate', order: 13, icon: Scale },
-  { id: 'b6-listening', name: 'Listening Practice', hanzi: '听力练习', description: 'Band 6 listening drills using Band 6 vocabulary', order: 14, icon: Headphones },
-  { id: 'b6-speaking', name: 'Speaking Practice', hanzi: '口语练习', description: 'Band 6 pronunciation drills using Band 6 vocabulary', order: 15, icon: Mic },
+  { id: 'b6-grammar', name: 'Advanced Grammar', nativeLabel: '高级语法', description: 'High-level grammar control and syntax', order: 1, icon: BookOpen },
+  { id: 'b6-academic', name: 'Academic Language', nativeLabel: '学术语言', description: 'Academic discourse and formal explanation', order: 2, icon: Ruler },
+  { id: 'b6-work', name: 'Professional Contexts', nativeLabel: '职业场景', description: 'Advanced workplace communication', order: 3, icon: Users },
+  { id: 'b6-negotiation', name: 'Negotiation & Persuasion', nativeLabel: '谈判与说服', description: 'Persuasive language and negotiation strategy', order: 4, icon: MessageSquare },
+  { id: 'b6-policy', name: 'Policy & Governance', nativeLabel: '政策与治理', description: 'Institutional and policy-level topics', order: 5, icon: Scale },
+  { id: 'b6-news', name: 'News & Current Affairs', nativeLabel: '新闻与时事', description: 'Current events and analysis vocabulary', order: 6, icon: Clock },
+  { id: 'b6-science', name: 'Science Topics', nativeLabel: '科学主题', description: 'Scientific concepts and formal terminology', order: 7, icon: Sparkles },
+  { id: 'b6-tech', name: 'Technology Topics', nativeLabel: '技术主题', description: 'Technical concepts and systems language', order: 8, icon: Zap },
+  { id: 'b6-culture', name: 'Culture & Thought', nativeLabel: '文化与思想', description: 'Cultural analysis and conceptual discussion', order: 9, icon: Home },
+  { id: 'b6-health', name: 'Health & Society', nativeLabel: '健康与社会', description: 'Health issues in broader social context', order: 10, icon: Hand },
+  { id: 'b6-human-experience', name: 'Human Experience', nativeLabel: '人类经验', description: 'Emotions, traits, outcomes, and lived experiences', order: 11, icon: HelpCircle },
+  { id: 'b6-idioms', name: 'Idioms & Set Phrases', nativeLabel: '成语与固定搭配', description: 'Idiomatic expression and advanced phraseology', order: 12, icon: Hash },
+  { id: 'b6-review', name: 'Consolidation', nativeLabel: '综合复习', description: 'Mixed review set across Upper-Intermediate', order: 13, icon: Scale },
+  { id: 'b6-listening', name: 'Listening Practice', nativeLabel: '听力练习', description: 'Band 6 listening drills using Band 6 vocabulary', order: 14, icon: Headphones },
+  { id: 'b6-speaking', name: 'Speaking Practice', nativeLabel: '口语练习', description: 'Band 6 pronunciation drills using Band 6 vocabulary', order: 15, icon: Mic },
 ];
 
 // Advanced (Bands 7-9) - Shared 24-Unit Track + Practice
@@ -739,7 +739,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m1-cause-effect',
     name: 'Academic Thought I: Cause & Effect',
-    hanzi: '学术思维一：因果关系',
+    nativeLabel: '学术思维一：因果关系',
     description: '因此、由此、导致、促成 and causal framing.',
     order: 1,
     icon: BookOpen,
@@ -747,7 +747,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m1-comparison-evaluation',
     name: 'Academic Thought II: Comparison & Evaluation',
-    hanzi: '学术思维二：比较与评估',
+    nativeLabel: '学术思维二：比较与评估',
     description: '优于、相较于、显著、值得 and evaluative language.',
     order: 2,
     icon: Scale,
@@ -755,7 +755,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m1-hypothesis-speculation',
     name: 'Academic Thought III: Hypothesis & Speculation',
-    hanzi: '学术思维三：假设与推测',
+    nativeLabel: '学术思维三：假设与推测',
     description: '假设、倘若、或许、未必 and speculative structures.',
     order: 3,
     icon: HelpCircle,
@@ -763,7 +763,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m2-agreement-concession',
     name: 'Argumentation I: Agreement & Concession',
-    hanzi: '论证一：认同与让步',
+    nativeLabel: '论证一：认同与让步',
     description: '固然、诚然、尽管如此 and concession language.',
     order: 4,
     icon: MessageSquare,
@@ -771,7 +771,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m2-emphasis-reinforcement',
     name: 'Argumentation II: Emphasis & Reinforcement',
-    hanzi: '论证二：强调与强化',
+    nativeLabel: '论证二：强调与强化',
     description: '的确、无疑、毫无疑问 and emphasis patterns.',
     order: 5,
     icon: Zap,
@@ -779,7 +779,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m2-counterargument',
     name: 'Argumentation III: Critique & Counterargument',
-    hanzi: '论证三：质疑与反驳',
+    nativeLabel: '论证三：质疑与反驳',
     description: '质疑、反驳、指出 and structured rebuttal language.',
     order: 6,
     icon: Scale,
@@ -787,7 +787,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m3-politics-policy',
     name: 'News & Media I: Politics & Policy',
-    hanzi: '新闻媒体一：政治与政策',
+    nativeLabel: '新闻媒体一：政治与政策',
     description: 'Government, policy, and institutional reporting vocabulary.',
     order: 7,
     icon: Users,
@@ -795,7 +795,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m3-economy-finance',
     name: 'News & Media II: Economy & Finance',
-    hanzi: '新闻媒体二：经济与金融',
+    nativeLabel: '新闻媒体二：经济与金融',
     description: 'Economic indicators, markets, and finance language.',
     order: 8,
     icon: ShoppingBag,
@@ -803,7 +803,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m3-tech-innovation',
     name: 'News & Media III: Technology & Innovation',
-    hanzi: '新闻媒体三：科技与创新',
+    nativeLabel: '新闻媒体三：科技与创新',
     description: 'Technology trends and innovation reporting language.',
     order: 9,
     icon: Sparkles,
@@ -811,7 +811,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m4-meetings-discussion',
     name: 'Workplace I: Meetings & Discussion',
-    hanzi: '职场一：会议与讨论',
+    nativeLabel: '职场一：会议与讨论',
     description: 'Managing agendas, discussion flow, and decisions.',
     order: 10,
     icon: Ruler,
@@ -819,7 +819,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m4-negotiation',
     name: 'Workplace II: Negotiation Language',
-    hanzi: '职场二：谈判表达',
+    nativeLabel: '职场二：谈判表达',
     description: 'Negotiation terms, tradeoffs, and alignment language.',
     order: 11,
     icon: MessageSquare,
@@ -827,7 +827,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m4-formal-writing',
     name: 'Workplace III: Formal Writing Tone',
-    hanzi: '职场三：正式书面语',
+    nativeLabel: '职场三：正式书面语',
     description: 'Formal emails, reports, and written register control.',
     order: 12,
     icon: BookOpen,
@@ -835,7 +835,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m5-idiomatic-social',
     name: 'Social Nuance I: Idiomatic Social Expressions',
-    hanzi: '语用一：社交习语',
+    nativeLabel: '语用一：社交习语',
     description: 'Natural social idioms and everyday advanced phrasing.',
     order: 13,
     icon: Users,
@@ -843,7 +843,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m5-register-shift',
     name: 'Social Nuance II: Politeness & Register Shift',
-    hanzi: '语用二：礼貌与语域转换',
+    nativeLabel: '语用二：礼貌与语域转换',
     description: 'Switching between formal and informal style accurately.',
     order: 14,
     icon: Hand,
@@ -851,7 +851,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m5-emotional-subtlety',
     name: 'Social Nuance III: Emotional Subtlety',
-    hanzi: '语用三：情感细微表达',
+    nativeLabel: '语用三：情感细微表达',
     description: 'Fine-grained emotional and interpersonal vocabulary.',
     order: 15,
     icon: Heart,
@@ -859,7 +859,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m6-chengyu',
     name: 'Idioms & Literary I: High-Frequency Chengyu',
-    hanzi: '成语一：高频成语',
+    nativeLabel: '成语一：高频成语',
     description: 'Practical high-frequency chengyu for modern contexts.',
     order: 16,
     icon: Hash,
@@ -867,7 +867,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m6-literary-connectors',
     name: 'Idioms & Literary II: Literary Connectors',
-    hanzi: '成语二：书面连接表达',
+    nativeLabel: '成语二：书面连接表达',
     description: 'Written discourse connectors and rhetorical flow.',
     order: 17,
     icon: BookOpen,
@@ -875,7 +875,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m6-cultural-references',
     name: 'Idioms & Literary III: Cultural References',
-    hanzi: '成语三：文化典故',
+    nativeLabel: '成语三：文化典故',
     description: 'Cultural/historical references used in advanced media.',
     order: 18,
     icon: Sparkles,
@@ -883,7 +883,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m7-nominalization',
     name: 'Advanced Grammar I: Nominalization',
-    hanzi: '语法一：名词化结构',
+    nativeLabel: '语法一：名词化结构',
     description: 'Nominalization patterns for dense formal writing.',
     order: 19,
     icon: Scale,
@@ -891,7 +891,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m7-passive-causative',
     name: 'Advanced Grammar II: Passive/Causative Nuance',
-    hanzi: '语法二：被动与使动细微差异',
+    nativeLabel: '语法二：被动与使动细微差异',
     description: 'Precision with passive and causative structures.',
     order: 20,
     icon: HelpCircle,
@@ -899,7 +899,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m7-discourse-chaining',
     name: 'Advanced Grammar III: Discourse Chaining',
-    hanzi: '语法三：复杂句链与篇章衔接',
+    nativeLabel: '语法三：复杂句链与篇章衔接',
     description: 'Complex sentence chaining and topic-comment sophistication.',
     order: 21,
     icon: MessageSquare,
@@ -907,7 +907,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m8-legal',
     name: 'Specialized I: Legal Language',
-    hanzi: '专业一：法律语汇',
+    nativeLabel: '专业一：法律语汇',
     description: 'Core legal domain vocabulary and framing.',
     order: 22,
     icon: Scale,
@@ -915,7 +915,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m8-medical',
     name: 'Specialized II: Medical Language',
-    hanzi: '专业二：医疗语汇',
+    nativeLabel: '专业二：医疗语汇',
     description: 'Medical communication and healthcare terminology.',
     order: 23,
     icon: Hand,
@@ -923,7 +923,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-m8-business-analytics',
     name: 'Specialized III: Business Analytics',
-    hanzi: '专业三：商业分析语汇',
+    nativeLabel: '专业三：商业分析语汇',
     description: 'Business metrics, analysis, and strategic reporting.',
     order: 24,
     icon: Ruler,
@@ -931,7 +931,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-listening',
     name: 'Listening Practice',
-    hanzi: '听力练习',
+    nativeLabel: '听力练习',
     description: 'Bands 7-9 listening drills using advanced vocabulary.',
     order: 25,
     icon: Headphones,
@@ -939,7 +939,7 @@ export const band79Units: UnitMetadata[] = [
   {
     id: 'b79-speaking',
     name: 'Speaking Practice',
-    hanzi: '口语练习',
+    nativeLabel: '口语练习',
     description: 'Bands 7-9 pronunciation drills using advanced vocabulary.',
     order: 26,
     icon: Mic,

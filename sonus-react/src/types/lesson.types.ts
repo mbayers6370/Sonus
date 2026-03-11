@@ -26,7 +26,7 @@ export interface Word extends SharedWord {
   kanji?: string;
   hiragana?: string;
   tags?: string[] | null;
-  pinyinNum?: string; // canonical storage: syllables with tone numbers, e.g. "bei3 jing1"
+  transliteration?: string;
   variants?: string[]; // alternative real-world forms, e.g. ["星期日"] for preferred "星期天"
   preferred?: boolean; // preferred teaching/display form when variants exist
   mw?: string[]; // common measure words for nouns, e.g. ["个", "张", "本"]
@@ -43,9 +43,9 @@ export interface Word extends SharedWord {
   reattemptQueued?: boolean;
   homophoneGroup?: HomophoneGroup;
   example?: {
-    zh?: string;
+    native?: string;
     en?: string;
-    pinyin?: string;
+    transliteration?: string;
     reading?: string;
     pronunciation?: string;
   };
@@ -54,8 +54,8 @@ export interface Word extends SharedWord {
 export type ConfidenceLevel = 'sure' | 'unsure';
 
 export type QuizPromptType =
-  | 'hanzi_to_en'
-  | 'en_to_hanzi'
+  | 'script_to_en'
+  | 'en_to_script'
   | 'audio_to_meaning'
   | 'cloze'
   | 'speak_from_en';
@@ -89,7 +89,7 @@ export interface Unit {
   id: string;
   icon: string;
   name: string;
-  hanzi: string;
+  nativeLabel: string;
   words: number;
 }
 
@@ -170,13 +170,26 @@ export interface SpeakDimensionScore extends SpeakComponentScore {
   label: string;
 }
 
+export type SpeakFeedbackReliability = 'high' | 'medium' | 'low';
+
+export type SpeakFeedbackReason =
+  | 'strong_alignment'
+  | 'tone_only_miss'
+  | 'near_phonetic_substitution'
+  | 'partial_capture'
+  | 'short_utterance_ambiguous'
+  | 'low_confidence_capture'
+  | 'unresolved_capture';
+
 export interface SpeakBreakdown {
   heardText: string;
-  targetPinyin: string;
-  detectedPinyin: string;
+  targetTransliteration: string;
+  detectedTransliteration: string;
   language?: string;
   dimensions?: SpeakDimensionScore[];
-  source: 'hanzi-map' | 'latin' | 'unresolved' | 'no-speech';
+  source: 'script-map' | 'latin' | 'unresolved' | 'no-speech';
+  feedbackReliability?: SpeakFeedbackReliability;
+  feedbackReason?: SpeakFeedbackReason;
   initial: SpeakComponentScore;
   final: SpeakComponentScore;
   tone: SpeakComponentScore;

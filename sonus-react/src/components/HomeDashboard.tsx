@@ -75,7 +75,6 @@ interface HomeDashboardProps {
 }
 
 const LANGUAGE_LABELS: Record<string, string> = {
-  zh: 'Mandarin',
   ja: 'Japanese',
   kr: 'Korean',
   fr: 'French',
@@ -101,7 +100,6 @@ function toJapaneseSectionTitle(sectionId: string) {
 function bandMatchesLanguage(bandId: string | null | undefined, languageId: string) {
   if (!bandId) return false;
   if (languageId === 'ja') return /^n[1-5]$/i.test(bandId);
-  if (languageId === 'zh') return /^band\d+$/i.test(bandId) || bandId === 'advanced';
   return true;
 }
 
@@ -215,7 +213,7 @@ function resolveHomeLanguageId(input: {
   ) {
     return 'ja';
   }
-  return 'zh';
+  return 'ja';
 }
 
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
@@ -313,11 +311,6 @@ export default function HomeDashboard({
   const practiceLockMessage = 'Practice Focus unlocks after you complete your first unit.';
   const formatBandLabel = (bandId: string | null) => {
     if (!bandId) return 'Level';
-    if (languageId === 'zh') {
-      if (/^band[1-3]$/i.test(bandId)) return 'Beginner';
-      if (/^band[4-6]$/i.test(bandId)) return 'Intermediate';
-      if (/^band[7-9]$/i.test(bandId) || bandId === 'advanced') return 'Advanced';
-    }
     if (languageId === 'ja' && /^n[1-5]$/i.test(bandId)) {
       return bandId.toUpperCase();
     }
@@ -416,7 +409,7 @@ export default function HomeDashboard({
                   };
                   let words: Array<{
                     id?: string;
-                    example?: { zh?: string; en?: string };
+                    example?: { native?: string; en?: string };
                   }> = [];
                   const units = bandData.units;
                   if (Array.isArray(units)) {
@@ -694,10 +687,7 @@ export default function HomeDashboard({
               </button>
             </div>
             <nav className="sr-only" aria-label="Travel Sprint guides">
-              <Link to="/essential-mandarin-travel-phrases">Essential Mandarin Travel Phrases</Link>
-              <Link to="/mandarin-airport-phrases">Mandarin Airport Phrases</Link>
-              <Link to="/mandarin-taxi-phrases">Mandarin Taxi Phrases</Link>
-              <Link to="/how-to-order-food-in-chinese">How to Order Food in Chinese</Link>
+              <Link to="/essential-japanese-travel-phrases">Essential Japanese Travel Phrases</Link>
             </nav>
             <p className="text-[11px] leading-relaxed text-text-light mt-4 max-w-md mx-auto">
               Travel Sprint is separate from your structured lesson path.
@@ -714,7 +704,7 @@ export default function HomeDashboard({
           <p className="text-sm leading-relaxed text-white/86 mt-3 mb-3 max-w-md mx-auto">
             {!practiceUnlocked
               ? practiceLockMessage
-              : selectedLanguage === 'zh' || isJapaneseLanguage
+              : isJapaneseLanguage
               ? needsWorkMessage
               : `Practice labs are currently available for ${languageLabel}.`}
           </p>
@@ -748,7 +738,7 @@ export default function HomeDashboard({
               <div className="mt-1 text-[10px] uppercase tracking-[0.16em] text-center font-mono text-white/80">Reinforcing</div>
             </div>
           </div>
-          {selectedLanguage === 'zh' || isJapaneseLanguage ? (
+          {isJapaneseLanguage ? (
             <div className="flex items-center justify-center gap-3 max-w-md mx-auto mt-4">
               <button
                 onClick={() => {

@@ -10,6 +10,7 @@ import GlassHeader from './GlassHeader';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import type { LessonMode } from '../types/lesson.types';
 import { firstTrackLevelIds, isReleasedTrackLevel, nextTrackLevelId } from '../lib/bandIds';
+import { getExampleNative } from '../lib/languageFields';
 
 const LESSON_UNLOCK_PASS_PERCENT = 85;
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
@@ -142,13 +143,13 @@ function getPracticeType(unitId: string): 'listening' | 'speaking' | 'checkpoint
   return null;
 }
 
-function deriveHanziPreviewFromWords(words: unknown[]) {
+function deriveScriptPreviewFromWords(words: unknown[]) {
   for (const rawWord of words || []) {
     const word = rawWord as { simp?: string; trad?: string; kanji?: string };
     const scriptSource = (word.simp || word.trad || word.kanji || '').trim();
     if (!scriptSource) continue;
-    const hanzi = scriptSource.replace(/[^\p{Script=Han}]/gu, '');
-    if (hanzi) return Array.from(hanzi).slice(0, 8).join('');
+    const nativeLabel = scriptSource.replace(/[^\p{Script=Han}]/gu, '');
+    if (nativeLabel) return Array.from(nativeLabel).slice(0, 8).join('');
   }
   return '';
 }
@@ -243,7 +244,7 @@ export default function UnitSelect({
         return {
           id: unit.id,
           name: (unit.title || meta?.name || fallbackName).trim(),
-          hanzi: meta?.hanzi || '',
+          nativeLabel: meta?.nativeLabel || '',
           description: (unit.description || meta?.description || 'Core vocabulary.').trim(),
           microUnits: meta?.microUnits,
           order: index + 1,
@@ -261,7 +262,7 @@ export default function UnitSelect({
       return {
         id: `checkpoint-${index}`,
         name: template?.name || `Checkpoint Quiz ${index}`,
-        hanzi: template?.hanzi || `阶段测验 ${index}`,
+        nativeLabel: template?.nativeLabel || `阶段测验 ${index}`,
         description: template?.description || `Quiz review covering Units ${Math.max(1, (index - 1) * 4 + 1)} - ${Math.min(coreUnits.length, index * 4)}.`,
         microUnits: undefined,
         order: coreUnits.length + index,
@@ -272,7 +273,7 @@ export default function UnitSelect({
     const interleaved: Array<{
       id: string;
       name: string;
-      hanzi: string;
+      nativeLabel: string;
       description: string;
       microUnits?: string[];
       order: number;
@@ -303,7 +304,6 @@ export default function UnitSelect({
 
   const selectedLanguageId = (state.selectedLanguage || '').toLowerCase();
   const isJapaneseLevel = selectedLanguageId === 'ja';
-  const isMandarinLevel = selectedLanguageId === 'zh';
   const availableSections = isJapaneseLevel && Array.isArray(activeBandData.sections)
     ? activeBandData.sections
     : [];
@@ -314,20 +314,20 @@ export default function UnitSelect({
   const orderedUnits = configuredUnits.length > 0 && shouldUseConfiguredCoreUnits
     ? configuredUnits
     : buildDataDrivenOrderedUnits();
-  const orderedUnitsWithDisplayHanzi = orderedUnits.map((metadata) => {
-    if ((metadata.hanzi || '').trim()) return metadata;
+  const orderedUnitsWithDisplayNativeLabel = orderedUnits.map((metadata) => {
+    if ((metadata.nativeLabel || '').trim()) return metadata;
     const unitData = getUnitDataById(
       activeBandData.units as Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }>,
       metadata.id
     );
-    const fallbackHanzi = deriveHanziPreviewFromWords(unitData?.words || []);
-    return fallbackHanzi
-      ? { ...metadata, hanzi: fallbackHanzi }
+    const fallbackNativeLabel = deriveScriptPreviewFromWords(unitData?.words || []);
+    return fallbackNativeLabel
+      ? { ...metadata, nativeLabel: fallbackNativeLabel }
       : metadata;
   });
 
   // Map units with their data and metrics
-  const unitMetrics = orderedUnitsWithDisplayHanzi
+  const unitMetrics = orderedUnitsWithDisplayNativeLabel
     .map((metadata) => {
       const practiceType = getPracticeType(metadata.id);
       if (practiceType) {
@@ -359,11 +359,11 @@ export default function UnitSelect({
       const lessonsCount = lessonRanges.length;
       // Apply prompts require full example pairs to be valid.
       const applySentenceCount = unitWords.filter(
-        (word) =>
-          typeof (word as { example?: { zh?: string; en?: string } }).example?.zh === 'string' &&
-          Boolean((word as { example?: { zh?: string; en?: string } }).example?.zh?.trim()) &&
-          typeof (word as { example?: { zh?: string; en?: string } }).example?.en === 'string' &&
-          Boolean((word as { example?: { zh?: string; en?: string } }).example?.en?.trim())
+        (word) => {
+          const candidate = word as { example?: { native?: string; en?: string } };
+          return Boolean(getExampleNative(candidate.example)) &&
+            Boolean(candidate.example?.en?.trim());
+        }
       ).length;
       const completedLessons = lessonRanges.filter((_, lessonIndex) => {
         const key = makeLessonKey(currentLevel.id, metadata.id, lessonIndex);
@@ -560,7 +560,7 @@ export default function UnitSelect({
   const standardUnitMetrics = filteredUnitMetrics.filter(
     (metric) => metric.practiceType !== 'listening' && metric.practiceType !== 'speaking'
   );
-  const unitCardHeightClass = (isMandarinLevel || isJapaneseLevel)
+  const unitCardHeightClass = isJapaneseLevel
     ? 'h-[220px] sm:h-[220px]'
     : 'h-[296px] sm:h-[250px]';
   const headerTitle = activeUnit
@@ -573,7 +573,7 @@ export default function UnitSelect({
       activeUnit.completedLessons === activeUnit.lessonsCount &&
       activeUnit.masteredLessons === activeUnit.lessonsCount
     : false;
-  const isMandarinBandLocked =
+  const isCurrentLevelLocked =
     !isReleasedTrackLevel(currentLevel.id) || !state.unlockedLevels.includes(currentLevel.id);
 
   return (
@@ -582,7 +582,7 @@ export default function UnitSelect({
         title={headerTitle}
       />
 
-      {isMandarinBandLocked && (
+      {isCurrentLevelLocked && (
         <div className="pt-2">
           <div className="rounded-3xl border border-[#186E95]/35 bg-white p-6 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
             <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.12)] text-[#186E95]">
@@ -599,7 +599,7 @@ export default function UnitSelect({
       )}
 
       {/* Japanese Sections */}
-      {!activeUnit && !activeSection && showSectionStep && !isMandarinBandLocked && (
+      {!activeUnit && !activeSection && showSectionStep && !isCurrentLevelLocked && (
         <div className="pt-2 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {orderedSections.map((section, index) => {
@@ -652,7 +652,7 @@ export default function UnitSelect({
       )}
 
       {/* Units Grid */}
-      {!activeUnit && (!showSectionStep || Boolean(activeSection)) && !isMandarinBandLocked && (
+      {!activeUnit && (!showSectionStep || Boolean(activeSection)) && !isCurrentLevelLocked && (
       <div className="pt-2 space-y-4">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
           {standardUnitMetrics.map(({ unitId, metadata, lessonsCount, completedLessons, masteredLessons, completionPercent, practiceType, isBlueprint }, index) => {
@@ -809,7 +809,7 @@ export default function UnitSelect({
       )}
 
       {/* Lesson Squares for Selected Unit */}
-      {activeUnit && !isMandarinBandLocked && (
+      {activeUnit && !isCurrentLevelLocked && (
         <div className="pt-2">
           {isActiveUnitMastered && (
             <div className="grid grid-cols-2 gap-4 mb-4">

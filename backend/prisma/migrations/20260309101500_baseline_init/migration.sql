@@ -50,7 +50,7 @@ CREATE TABLE "speak_attempts" (
     "user_id" UUID NOT NULL,
     "word_id" TEXT NOT NULL,
     "transcript" TEXT,
-    "detected_pinyin" TEXT,
+    "detected_transliteration" TEXT,
     "initial_ok" BOOLEAN NOT NULL DEFAULT false,
     "final_ok" BOOLEAN NOT NULL DEFAULT false,
     "tone_ok" BOOLEAN NOT NULL DEFAULT false,

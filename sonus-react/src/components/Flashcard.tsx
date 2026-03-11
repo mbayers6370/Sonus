@@ -4,6 +4,7 @@ import { useAudio } from '../hooks/useAudio';
 import { Volume2, Snail, ChevronLeft, ChevronRight } from 'lucide-react';
 import WordProgressRail from './WordProgressRail';
 import { useApp } from '../contexts/AppContext';
+import { getWordReading } from '../lib/languageFields';
 
 interface FlashcardProps {
   word: Word;
@@ -42,7 +43,7 @@ export default function Flashcard({
     : '';
   const isJapanese = (state.selectedLanguage || '').trim().toLowerCase() === 'ja';
   const ttsText = isJapanese ? (word.hiragana || word.reading || word.simp) : word.simp;
-  const ttsReading = isJapanese ? (word.reading || word.pinyin) : word.pinyin;
+  const ttsReading = getWordReading(word);
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
@@ -105,9 +106,9 @@ export default function Flashcard({
               <div className="secondary-font text-4xl sm:text-[2.35rem] mb-2.5 text-text-dark leading-tight break-words">
                 {word.simp}
               </div>
-              {word.pinyin && (
+              {getWordReading(word) && (
                 <div className="text-[1.2rem] sm:text-[1.3rem] text-text-med mb-2.5 break-words">
-                  {word.pinyin}
+                  {getWordReading(word)}
                 </div>
               )}
               <div className="text-[13px] text-text-light italic mt-2.5">

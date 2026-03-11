@@ -15,7 +15,6 @@ This document records product-level decisions so behavior stays consistent while
 
 ## Learning Framework Policy
 - Use official/recognizable frameworks where possible:
-  - Mandarin: HSK style bands/levels.
   - Japanese: JLPT-style tiers (N5 -> N1).
 - Keep labels learner-friendly in UI (e.g., `Band 3`, not raw IDs).
 
@@ -37,7 +36,7 @@ This document records product-level decisions so behavior stays consistent while
   - Final
   - Tone
 - Score each independently and show explicit feedback (pass/fail + percentages).
-- Keep transcript + detected pinyin visible for learner debugging.
+- Keep transcript + detected transliteration visible for learner debugging.
 
 ## Home Surface
 - Use practical daily cards (resume, streak, spotlight, motivation, shortcuts).

@@ -5,7 +5,7 @@ This is the high-level map of how Sonus fits together.
 ## One-Minute View
 ```mermaid
 flowchart LR
-  A[Curriculum & Content\npublic/data/zh + public/data/ja] --> B[Frontend Learning Flow\nLearn / Quiz / Speak / Apply]
+  A[Curriculum & Content\npublic/data/ja] --> B[Frontend Learning Flow\nLearn / Quiz / Speak / Apply]
   B --> C[Learning Engine\nScoring + Scheduling + Weak-word logic]
   C --> D[Backend API\nFastify routes + services]
   D --> E[(PostgreSQL via Prisma)]

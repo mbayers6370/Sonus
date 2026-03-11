@@ -6,6 +6,7 @@ import { Volume2, ChevronRight } from 'lucide-react';
 import { sendQuizAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
+import { getExampleNative, getWordReading } from '../lib/languageFields';
 import WordProgressRail from './WordProgressRail';
 
 interface QuizProps {
@@ -126,7 +127,7 @@ export default function Quiz({
   const { speak } = useAudio();
   const isJapanese = (state.selectedLanguage || '').trim().toLowerCase() === 'ja';
   const ttsText = isJapanese ? (word.hiragana || word.reading || word.simp) : word.simp;
-  const ttsReading = isJapanese ? (word.reading || word.pinyin) : word.pinyin;
+  const ttsReading = getWordReading(word);
   const hasPoliteTag = [...(word.tags || []), ...(word.meta?.grammarTags || [])]
     .some((tag) => tag.trim().toLowerCase() === 'polite');
   const isReviewWord = Boolean(word.isReview);
@@ -168,17 +169,18 @@ export default function Quiz({
     onNext();
   };
 
-  const clozeZh = word.example?.zh
-    ? maskExample(word.example.zh, [word.simp, word.trad])
+  const nativeSentence = getExampleNative(word.example);
+  const clozeNativeSentence = nativeSentence
+    ? maskExample(nativeSentence, [word.simp, word.trad])
     : '';
-  const fullZh = word.example?.zh?.trim() || '';
+  const fullNativeSentence = nativeSentence;
   const fullEn = word.example?.en?.trim() || '';
   const clozeEn = fullEn
     ? maskExample(fullEn, [word.en, ...(word.defs || [])])
     : '';
   const highlightClass = listeningMode ? 'text-[#3E5648] font-semibold' : 'text-[#B7E4CC] font-semibold';
-  const zhFilled = fullZh
-    ? highlightFirstMatch(fullZh, [word.simp, word.trad], highlightClass)
+  const nativeFilled = fullNativeSentence
+    ? highlightFirstMatch(fullNativeSentence, [word.simp, word.trad], highlightClass)
     : '';
   const enFilled = fullEn
     ? highlightFirstMatch(fullEn, [word.en, ...(word.defs || [])], highlightClass, true)
@@ -227,13 +229,13 @@ export default function Quiz({
                   <div className={`secondary-font text-4xl mb-1 text-white leading-tight ${hasPoliteTag ? 'mt-7' : ''}`}>
                     {word.simp}
                   </div>
-                  {!hideReadingAndMeaning && word.pinyin && (
-                    <div className="text-[1.2rem] text-white/80">{word.pinyin}</div>
+                  {!hideReadingAndMeaning && getWordReading(word) && (
+                    <div className="text-[1.2rem] text-white/80">{getWordReading(word)}</div>
                   )}
-                  {!hideReadingAndMeaning && (clozeZh || clozeEn || fullEn) && (
+                  {!hideReadingAndMeaning && (clozeNativeSentence || clozeEn || fullEn) && (
                     <div className="mt-2 text-center space-y-1">
-                      {selectedAnswer && fullZh ? (
-                        <div className="text-sm text-white/80 leading-relaxed">{zhFilled}</div>
+                      {selectedAnswer && fullNativeSentence ? (
+                        <div className="text-sm text-white/80 leading-relaxed">{nativeFilled}</div>
                       ) : null}
                       {selectedAnswer && fullEn ? (
                         <div className="text-xs text-white/75 leading-relaxed">{enFilled}</div>
@@ -273,8 +275,8 @@ export default function Quiz({
                   {selectedAnswer ? (
                     <div className="mt-2 text-center">
                       <div className="secondary-font text-3xl text-white leading-tight">{word.simp}</div>
-                      {!hideReadingAndMeaning && word.pinyin ? (
-                        <div className="text-sm text-white/80 mt-0.5">{word.pinyin}</div>
+                      {!hideReadingAndMeaning && getWordReading(word) ? (
+                        <div className="text-sm text-white/80 mt-0.5">{getWordReading(word)}</div>
                       ) : null}
                     </div>
                   ) : null}

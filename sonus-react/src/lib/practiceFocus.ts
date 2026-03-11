@@ -16,10 +16,9 @@ type BandDataLike = {
 
 export function getStarterBandIdForLanguage(languageId: string) {
   if (languageId === 'ja') return 'n5';
-  if (languageId === 'zh') return 'band1';
   if (languageId === 'kr') return 'topik1-1';
   if (languageId === 'fr') return 'a1';
-  return 'band1';
+  return 'n5';
 }
 
 function getUnitWordsCount(bandData: BandDataLike, unitId: string) {

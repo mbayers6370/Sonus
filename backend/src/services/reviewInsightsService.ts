@@ -2,7 +2,8 @@ import { prisma } from '../lib/prisma.js';
 import { resolveLexemeForWordId } from '../lib/lexemeCatalog.js';
 import type { SharedLexeme } from '../types.js';
 
-type SupportedLanguage = 'zh' | 'ja';
+
+type SupportedLanguage = 'ja';
 type ResponseShape = 'legacy' | 'lexeme';
 type WordScoped = { wordId: string };
 
@@ -10,7 +11,6 @@ function normalizeLanguage(language: string | null | undefined): SupportedLangua
   // Collapse incoming language labels to supported internal IDs.
   const value = (language || '').trim().toLowerCase();
   if (value === 'ja' || value === 'jp') return 'ja';
-  if (value === 'zh') return 'zh';
   return null;
 }
 
@@ -18,7 +18,6 @@ function languageWordFilter(language: string | null | undefined) {
   // Map active language to legacy word-id prefixes used in persisted datasets.
   const normalized = normalizeLanguage(language);
   if (normalized === 'ja') return { startsWith: 'N' };
-  if (normalized === 'zh') return { startsWith: 'L' };
   return undefined;
 }
 
@@ -491,7 +490,7 @@ export async function fetchWeakLogs(userId: string, limit: number, language?: st
       createdAt: row.createdAt,
       details: {
         transcript: row.transcript,
-        detectedPinyin: row.detectedPinyin,
+        detectedTransliteration: row.detectedTransliteration,
         initialOk: row.initialOk,
         finalOk: row.finalOk,
         toneOk: row.toneOk,

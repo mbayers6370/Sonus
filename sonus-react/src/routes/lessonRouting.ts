@@ -1,7 +1,7 @@
 import type { LessonBand } from '../types/lesson.types';
 import { isReleasedTrackLevel, isTrackLevelLocked } from '../lib/bandIds';
 
-const CHINESE_LEVEL_BY_ID: Record<string, LessonBand> = {
+const LEGACY_LEVEL_BY_ID: Record<string, LessonBand> = {
   intro: { id: 'intro', band: 0, name: 'Introduction', title: '', subtitle: '', wordCount: 0, wordRange: '', color: 'bg-gray-400', description: 'Start here', units: [] },
   band1: { id: 'band1', band: 1, name: 'Elementary I', title: 'Elementary I', subtitle: 'Foundations · Everyday Use', wordCount: 500, wordRange: '0–500', color: 'bg-[#3E5648]', description: 'Foundations · Everyday Use', units: [] },
   band2: { id: 'band2', band: 2, name: 'Elementary II', title: 'Elementary II', subtitle: 'Expanded Daily Life', wordCount: 1272, wordRange: '500–1272', color: 'bg-[#3E5648]', description: 'Expanded Daily Life', units: [] },
@@ -24,7 +24,7 @@ const JAPANESE_LEVEL_BY_ID: Record<string, LessonBand> = {
 };
 
 export const LEVEL_BY_ID: Record<string, LessonBand> = {
-  ...CHINESE_LEVEL_BY_ID,
+  ...LEGACY_LEVEL_BY_ID,
   ...JAPANESE_LEVEL_BY_ID,
 };
 
@@ -35,6 +35,6 @@ export function tierForBand(bandId: string) {
   return 'beginner';
 }
 
-export function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
+export function isLegacyBandLocked(bandId: string, unlockedLevels: string[]) {
   return !isReleasedTrackLevel(bandId) || isTrackLevelLocked(bandId, unlockedLevels);
 }

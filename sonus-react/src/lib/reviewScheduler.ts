@@ -31,7 +31,7 @@ export function applyConfidenceAdjustment(days: number, streak: number, confiden
 
 export function pickQuizPromptType(cursor: number, mode: 'quiz' | 'speak'): QuizPromptType {
   if (mode === 'speak') return 'speak_from_en';
-  const sequence: QuizPromptType[] = ['hanzi_to_en', 'en_to_hanzi', 'audio_to_meaning', 'cloze'];
+  const sequence: QuizPromptType[] = ['script_to_en', 'en_to_script', 'audio_to_meaning', 'cloze'];
   return sequence[cursor % sequence.length];
 }
 

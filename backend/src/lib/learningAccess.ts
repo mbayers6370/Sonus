@@ -190,8 +190,8 @@ export function lessonOverrideKey(unitId: string, lessonIndex: number) {
 
 function normalizeBandRank(bandId: string) {
   const normalized = bandId.trim().toLowerCase();
-  const zhMatch = normalized.match(/^band(\d+)$/);
-  if (zhMatch) return Number(zhMatch[1]);
+  const legacyBandMatch = normalized.match(/^band(\d+)$/);
+  if (legacyBandMatch) return Number(legacyBandMatch[1]);
   if (normalized === 'advanced') return 99;
   const jlptMatch = normalized.match(/^n([1-5])$/);
   if (jlptMatch) return 6 - Number(jlptMatch[1]); // n5 beginner -> 1, n1 advanced -> 5

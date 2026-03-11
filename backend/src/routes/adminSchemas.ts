@@ -163,6 +163,12 @@ export const weakWordsByLanguageQuerySchema = z.object({
   windowDays: z.coerce.number().int().min(1).max(365).default(30),
 });
 
+export const speakMissHotspotsByLanguageQuerySchema = z.object({
+  limitPerLanguage: z.coerce.number().int().min(1).max(20).default(5),
+  windowDays: z.coerce.number().int().min(1).max(365).default(30),
+  minMissesPerUser: z.coerce.number().int().min(2).max(50).default(4),
+});
+
 export const reportWindowQuerySchema = z.object({
   windowDays: z.coerce.number().int().min(1).max(180).default(30),
 });

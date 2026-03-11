@@ -3,11 +3,11 @@ import {
   firstTrackLevelIds,
   isTrackLevelLocked,
   nextTrackLevelId,
-  isMandarinBandLocked,
+  isLegacyBandLocked,
 } from './bandIds';
 
 describe('track progression helpers', () => {
-  it('resolves Mandarin next-level progression', () => {
+  it('resolves starter next-level progression', () => {
     expect(nextTrackLevelId('band1')).toBe('band2');
     expect(nextTrackLevelId('band4')).toBe('band5');
     expect(nextTrackLevelId('band9')).toBe('advanced');
@@ -32,15 +32,15 @@ describe('track progression helpers', () => {
     expect(isTrackLevelLocked('n4', unlocked)).toBe(true);
   });
 
-  it('treats Mandarin levels as lockable progression levels', () => {
+  it('treats track levels as lockable progression levels', () => {
     const unlocked = ['intro', 'band1'];
     expect(isTrackLevelLocked('band1', unlocked)).toBe(false);
     expect(isTrackLevelLocked('band2', unlocked)).toBe(true);
   });
 
-  it('keeps legacy lock helper compatible with non-Mandarin tracks', () => {
+  it('keeps legacy lock helper compatible across tracks', () => {
     const unlocked = ['intro', 'n5'];
-    expect(isMandarinBandLocked('n4', unlocked)).toBe(true);
-    expect(isMandarinBandLocked('n5', unlocked)).toBe(false);
+    expect(isLegacyBandLocked('n4', unlocked)).toBe(true);
+    expect(isLegacyBandLocked('n5', unlocked)).toBe(false);
   });
 });

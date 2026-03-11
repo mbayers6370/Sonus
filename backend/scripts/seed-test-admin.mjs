@@ -15,15 +15,11 @@ const TEST_ADMIN_FIRST_NAME = process.env.TEST_ADMIN_FIRST_NAME || 'QA';
 const TEST_ADMIN_LAST_NAME = process.env.TEST_ADMIN_LAST_NAME || 'Admin';
 
 const BAND_DATA_FILE = {
-  band1: 'band1.json',
-  band2: 'band2.json',
-  band3: 'band3.json',
-  band4: 'band4.json',
-  band5: 'band5.json',
-  band6: 'band6.json',
-  band7: 'band7-9.json',
-  band8: 'band7-9.json',
-  band9: 'band7-9.json',
+  n5: 'n5.json',
+  n4: 'n4.json',
+  n3: 'n3.json',
+  n2: 'n2.json',
+  n1: 'n1.json',
 };
 
 const SCRYPT_N = 1 << 15;
@@ -97,8 +93,8 @@ function normalizeUnits(units) {
 function countApplySentenceWords(words) {
   return words.filter(
     (word) =>
-      typeof word?.example?.zh === 'string' &&
-      word.example.zh.trim().length > 0 &&
+      typeof word?.example?.ja === 'string' &&
+      word.example.ja.trim().length > 0 &&
       typeof word?.example?.en === 'string' &&
       word.example.en.trim().length > 0
   ).length;
@@ -106,7 +102,7 @@ function countApplySentenceWords(words) {
 
 async function loadBandJson(fileName) {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
-  const filePath = path.resolve(__dirname, '../../sonus-react/public/data/zh', fileName);
+  const filePath = path.resolve(__dirname, '../../sonus-react/public/data/ja', fileName);
   try {
     const raw = await readFile(filePath, 'utf8');
     return JSON.parse(raw);
@@ -198,14 +194,14 @@ async function main() {
       update: {
         email: TEST_ADMIN_EMAIL,
         displayName,
-        targetLanguage: 'zh',
+        targetLanguage: 'ja',
         onboardingComplete: true,
       },
       create: {
         userId,
         email: TEST_ADMIN_EMAIL,
         displayName,
-        targetLanguage: 'zh',
+        targetLanguage: 'ja',
         onboardingComplete: true,
       },
     });
@@ -232,9 +228,9 @@ async function main() {
         userId,
         streak: 30,
         lastActiveDate: new Date(),
-        currentBandId: 'band9',
-        currentUnitId: 'b9-u12',
-        currentLessonIdx: 0,
+        currentBandId: 'n5',
+        currentUnitId: null,
+        currentLessonIdx: null,
       },
     });
 

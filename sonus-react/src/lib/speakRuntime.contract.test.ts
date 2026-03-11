@@ -15,20 +15,20 @@ describe('speak runtime language contract', () => {
     expect(normalizeSpeechCandidate('ja', '2')).toBe('二');
   });
 
-  it('normalizes Mandarin numeric-only transcripts into pinyin-like tokens', () => {
-    expect(normalizeSpeechCandidate('zh', '2')).toBe('er4');
+  it('falls back unsupported language ids to Japanese normalization', () => {
+    expect(normalizeSpeechCandidate('xx', '2')).toBe('二');
   });
 
   it('exposes expected scoring dimension keys per language', () => {
-    expect(speakDimensionKeys('zh')).toEqual(['initial', 'final', 'tone']);
+    expect(speakDimensionKeys('xx')).toEqual(['word']);
     expect(speakDimensionKeys('ja')).toEqual(['word']);
   });
 
   it('resolves speak language from selected language first, then band fallback', () => {
-    expect(resolveSpeakLanguageForSession('zh', 'n4')).toBe('zh');
+    expect(resolveSpeakLanguageForSession('xx', 'n4')).toBe('ja');
     expect(resolveSpeakLanguageForSession('ja', 'band2')).toBe('ja');
     expect(resolveSpeakLanguageForSession('', 'n4')).toBe('ja');
-    expect(resolveSpeakLanguageForSession('', 'band2')).toBe('zh');
+    expect(resolveSpeakLanguageForSession('', 'band2')).toBe('ja');
     expect(getSpeakRecognitionLocale(resolveSpeakLanguageForSession('kr', null))).toBe('ko-KR');
   });
 
@@ -40,13 +40,13 @@ describe('speak runtime language contract', () => {
   });
 
   it('builds speak dimensions that UI can render without branching on hardcoded labels', () => {
-    const zh = buildSpeakDimensionScores({
-      languageId: 'zh',
+    const fallback = buildSpeakDimensionScores({
+      languageId: 'xx',
       initial: { matched: 1, total: 1, percent: 100, pass: true },
       final: { matched: 1, total: 1, percent: 100, pass: true },
       tone: { matched: 1, total: 1, percent: 100, pass: true },
     });
-    expect(zh.map((dimension) => dimension.key)).toEqual(['initial', 'final', 'tone']);
+    expect(fallback.map((dimension) => dimension.key)).toEqual(['word']);
 
     const ja = buildSpeakDimensionScores({
       languageId: 'ja',
@@ -92,6 +92,6 @@ describe('speak runtime language contract', () => {
     const units = Array.isArray(sample?.units) ? sample?.units : [];
     expect(units.length).toBeGreaterThan(0);
     expect(units[0]?.words?.[0]?.id).toBe('w1');
-    expect(units[0]?.words?.[0]?.pinyin).toBe('ichi');
+    expect(units[0]?.words?.[0]?.transliteration).toBe('ichi');
   });
 });

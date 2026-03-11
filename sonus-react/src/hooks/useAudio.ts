@@ -3,6 +3,18 @@ import { normalizeLanguageId } from '../lib/languageRuntime';
 
 let voiceRegistryInitialized = false;
 let cachedVoices: SpeechSynthesisVoice[] = [];
+const LAST_LANGUAGE_KEY = 'sonus.last_language';
+
+function readPersistedLanguage() {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = window.localStorage.getItem(LAST_LANGUAGE_KEY);
+    if (!raw || !raw.trim()) return null;
+    return normalizeLanguageId(raw);
+  } catch {
+    return null;
+  }
+}
 
 function refreshVoiceCache() {
   if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
@@ -34,7 +46,6 @@ export function useAudio() {
 
     const normalizedHint = languageHint ? normalizeLanguageId(languageHint) : '';
     const languageToLocale: Record<string, string> = {
-      zh: 'zh-CN',
       ja: 'ja-JP',
       kr: 'ko-KR',
       ko: 'ko-KR',
@@ -42,18 +53,15 @@ export function useAudio() {
       it: 'it-IT',
       es: 'es-ES',
     };
-    const hasKana = /[\u3040-\u30ff]/.test(text || '');
-    const hasToneMarks = /[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/i.test(reading || '');
-    const hasToneNumbers = /(?:^|\s)[a-züv:]+[1-5](?=\s|$)/i.test(reading || '');
-    const isCjk = /[\u3400-\u9fff]/.test(text || '');
-    const isLikelyJapanese =
-      normalizedHint === 'ja' ||
-      hasKana ||
-      (isCjk && Boolean(reading?.trim()) && !hasToneMarks && !hasToneNumbers);
-    const hintedLanguage = ['zh', 'ja', 'kr', 'ko', 'fr', 'it', 'es'].includes(normalizedHint)
+    const hintedLanguage = ['ja', 'kr', 'ko', 'fr', 'it', 'es'].includes(normalizedHint)
       ? normalizedHint
       : null;
-    const targetLanguage = hintedLanguage || (isLikelyJapanese ? 'ja' : 'zh');
+    const persistedLanguage = readPersistedLanguage();
+    const targetLanguage =
+      hintedLanguage ||
+      (persistedLanguage && ['ja', 'kr', 'ko', 'fr', 'it', 'es'].includes(persistedLanguage)
+        ? persistedLanguage
+        : 'ja');
 
     const synth = window.speechSynthesis;
     ensureVoiceRegistry();
@@ -62,7 +70,6 @@ export function useAudio() {
     const voices = cachedVoices.length > 0 ? cachedVoices : synth.getVoices();
 
     const preferredByLanguage: Record<string, RegExp[]> = {
-      zh: [/ting-ting/i, /sin-ji/i, /meijia/i, /xiaoxiao/i, /xiaoyi/i],
       ja: [/kyoko/i, /otoya/i, /haruka/i, /ichiro/i, /nanami/i, /keita/i],
       ko: [/yuna/i, /narae/i],
       fr: [/thomas/i, /amelie/i, /aurelie/i],
@@ -118,7 +125,6 @@ export function useAudio() {
     const utterance = new SpeechSynthesisUtterance(playbackText);
     utterance.lang = lang;
     const defaultRateByLanguage: Record<string, number> = {
-      zh: 0.86,
       ja: 0.8,
       ko: 0.84,
       fr: 0.9,

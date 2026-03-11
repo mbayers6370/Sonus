@@ -3,6 +3,7 @@ import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
 import { SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { useLocation } from 'react-router-dom';
+import { getWordReading } from '../lib/languageFields';
 
 interface LessonCompleteProps {
   onStartQuiz: () => void;
@@ -39,19 +40,20 @@ const TONE_CHAR_TO_ASCII: Record<string, string> = {
 };
 
 const INITIALS = [
-  'zh', 'ch', 'sh', 'b', 'p', 'm', 'f', 'd', 't', 'n', 'l', 'g',
+  'ch', 'sh', 'b', 'p', 'm', 'f', 'd', 't', 'n', 'l', 'g',
   'k', 'h', 'j', 'q', 'x', 'r', 'z', 'c', 's', 'y', 'w',
 ] as const;
 
 type ParsedToneSyllable = {
   raw: string;
   ascii: string;
+  initial: string;
   final: string;
   tone: number;
 };
 
-function parseToneSyllables(pinyin: string): ParsedToneSyllable[] {
-  const chunks = (pinyin || '')
+function parseToneSyllables(transliteration: string): ParsedToneSyllable[] {
+  const chunks = (transliteration || '')
     .toLowerCase()
     .replace(/[’']/g, ' ')
     .replace(/u:/g, 'ü')
@@ -82,8 +84,15 @@ function parseToneSyllables(pinyin: string): ParsedToneSyllable[] {
     }
     const initial = INITIALS.find((candidate) => ascii.startsWith(candidate)) || '';
     const final = ascii.slice(initial.length);
-    return { raw, ascii, final, tone };
+    return { raw, ascii, initial, final, tone };
   }).filter((token) => Boolean(token.ascii));
+}
+
+function syllableOrdinal(position: number) {
+  if (position === 1) return '1st';
+  if (position === 2) return '2nd';
+  if (position === 3) return '3rd';
+  return `${position}th`;
 }
 
 function toneNucleus(final: string): string {
@@ -108,11 +117,11 @@ function toneCue(syllable: ParsedToneSyllable): string {
   return `keep it light and short${nucleusCue}`;
 }
 
-function toneCoachingForPinyin(targetPinyin: string, detectedPinyin: string) {
-  const target = parseToneSyllables(targetPinyin);
-  const detected = parseToneSyllables(detectedPinyin);
+function toneCoachingForTransliteration(targetTransliteration: string, detectedTransliteration: string) {
+  const target = parseToneSyllables(targetTransliteration);
+  const detected = parseToneSyllables(detectedTransliteration);
   if (!target.length) {
-    return `Tone: listen and copy the target tone pattern in "${targetPinyin}".`;
+    return `Tone: listen and copy the target tone pattern in "${targetTransliteration}".`;
   }
 
   const mismatchIndex = target.findIndex((syllable, idx) => {
@@ -194,7 +203,7 @@ export default function LessonComplete({
       activeLesson.words.flatMap((word) => Array.from(word.simp || '')).filter((char) => /[\u3400-\u9FFF]/.test(char))
     )
   ).length;
-  const normalizeHanzi = (value: string) => (value || '').replace(/[^\u3400-\u9FFF]/g, '');
+  const normalizeScriptText = (value: string) => (value || '').replace(/[^\u3400-\u9FFF]/g, '');
 
   const getSpeakSuggestions = (index: number) => {
     const breakdown = speakBreakdownByIndex[index];
@@ -203,15 +212,62 @@ export default function LessonComplete({
     if (breakdown.source === 'no-speech') {
       return ['Try again slowly and clearly.'];
     }
+    const reliability = breakdown.feedbackReliability || 'high';
+    const reason = breakdown.feedbackReason || 'strong_alignment';
+    if (reliability === 'low') {
+      if (reason === 'partial_capture') {
+        return ['Only part of the word was captured. Say the full word again slowly in one pass.'];
+      }
+      if (reason === 'short_utterance_ambiguous') {
+        return ['Short capture was ambiguous. Repeat once clearly and hold the vowel a bit longer.'];
+      }
+      if (reason === 'low_confidence_capture') {
+        return ['Capture confidence was low. Repeat once with a steady voice and less background noise.'];
+      }
+      return ['Capture was unclear. Try the full word again slowly and clearly.'];
+    }
+
+    const targetTokens = parseToneSyllables(getWordReading(word) || '');
+    const heardTokens = parseToneSyllables(breakdown.detectedTransliteration || '');
+    const mediumReliability = reliability === 'medium';
     const suggestions: string[] = [];
     if (!breakdown.initial.pass) {
-      suggestions.push(`Initial: isolate the starting consonant in "${word.pinyin}" and repeat slowly.`);
+      const mismatchIndex = targetTokens.findIndex((token, idx) => {
+        const heard = heardTokens[idx];
+        return Boolean(heard) && token.initial !== heard.initial;
+      });
+      if (mismatchIndex >= 0) {
+        const token = targetTokens[mismatchIndex];
+        suggestions.push(
+          mediumReliability
+            ? `Likely initial drift on ${syllableOrdinal(mismatchIndex + 1)} syllable. Start more clearly with "${token.initial || '∅'}".`
+            : `Initial (${syllableOrdinal(mismatchIndex + 1)} syllable "${token.raw}"): start with "${token.initial || '∅'}" and repeat slowly.`
+        );
+      } else {
+        suggestions.push(`Initial: isolate the starting consonant in "${getWordReading(word)}" and repeat slowly.`);
+      }
     }
     if (!breakdown.final.pass) {
-      suggestions.push(`Final: hold the ending vowel in "${word.pinyin}" for a clean finish.`);
+      const mismatchIndex = targetTokens.findIndex((token, idx) => {
+        const heard = heardTokens[idx];
+        return Boolean(heard) && token.final !== heard.final;
+      });
+      if (mismatchIndex >= 0) {
+        const token = targetTokens[mismatchIndex];
+        suggestions.push(
+          mediumReliability
+            ? `Likely ending drift on ${syllableOrdinal(mismatchIndex + 1)} syllable. Use ending "${token.final || '∅'}" more clearly.`
+            : `Final (${syllableOrdinal(mismatchIndex + 1)} syllable "${token.raw}"): use ending "${token.final || '∅'}" and finish cleanly.`
+        );
+      } else {
+        suggestions.push(`Final: hold the ending vowel in "${getWordReading(word)}" for a clean finish.`);
+      }
     }
     if (!breakdown.tone.pass) {
-      suggestions.push(toneCoachingForPinyin(word.pinyin || '', breakdown.detectedPinyin || ''));
+      suggestions.push(toneCoachingForTransliteration(getWordReading(word) || '', breakdown.detectedTransliteration || ''));
+    }
+    if (mediumReliability) {
+      return suggestions.slice(0, 2);
     }
     return suggestions;
   };
@@ -221,19 +277,19 @@ export default function LessonComplete({
     const hasSpeakResult = Object.prototype.hasOwnProperty.call(speakResultsByIndex, index);
     const isSpeakCorrect = Boolean(speakResultsByIndex[index]);
     const missing = !hasSpeakResult;
-    const heardHanzi = normalizeHanzi(breakdown?.heardText || '');
-    const targetHanzi = normalizeHanzi(word.simp || '');
-    const homophoneChars = new Set<string>(
+    const heardScript = normalizeScriptText(breakdown?.heardText || '');
+    const targetScript = normalizeScriptText(word.simp || '');
+    const homophoneScripts = new Set<string>(
       (word.homophoneGroup?.members || [])
-        .map((member) => normalizeHanzi(member.simp || ''))
+        .map((member) => normalizeScriptText(member.simp || ''))
         .filter(Boolean)
     );
-    homophoneChars.add(targetHanzi);
+    homophoneScripts.add(targetScript);
     const acceptedHomophone =
-      Boolean(heardHanzi) &&
-      Boolean(targetHanzi) &&
-      heardHanzi !== targetHanzi &&
-      homophoneChars.has(heardHanzi);
+      Boolean(heardScript) &&
+      Boolean(targetScript) &&
+      heardScript !== targetScript &&
+      homophoneScripts.has(heardScript);
     return {
       word,
       index,
@@ -273,7 +329,7 @@ export default function LessonComplete({
           isSpeakCompletion ? 'pb-[18rem] sm:pb-[14rem] lg:pb-8' : 'pb-[12.5rem] sm:pb-10 lg:pb-8'
         }`}
       >
-        <div className={`w-full max-w-md lg:max-w-6xl ${isSpeakCompletion ? 'lg:grid lg:grid-cols-12 lg:gap-4 lg:items-start' : ''}`}>
+        <div className={`w-full ${isSpeakCompletion ? 'max-w-4xl' : 'max-w-md lg:max-w-6xl'}`}>
         {isQuizCompletion && !quizReadyForSpeak ? (
           <div className="mb-5 text-center">
             <p className="text-lg text-text-med"><b>Close!</b></p>
@@ -293,13 +349,13 @@ export default function LessonComplete({
           </p>
         ) : null}
         {isSpeakCompletion && speakNeedsFullLessonRetry && (
-          <p className="mb-5 text-center text-[#C2410C]">
+          <p className="mb-5 text-center text-[#C2410C] max-w-2xl mx-auto">
             Score below {SPEAK_FULL_RETRY_PERCENT}%: return to Learn, then retake Quiz and Speak.
           </p>
         )}
 
         {isSpeakCompletion && (
-          <div className={`${surfaceCardClass} p-3 mb-4 w-full lg:col-span-7 lg:mb-3`}>
+          <div className={`${surfaceCardClass} p-3 mb-4 w-full lg:mb-3`}>
             <div className="text-sm font-semibold text-text-dark mb-3">Speaking Breakdown</div>
             <div className="text-sm text-text-med mb-3">
               {`Speak score: ${speakScorePercent}% (${speakCorrectCount}/${totalQuizItems}) · Core: ${speakScorePercentCore}%`}
@@ -314,7 +370,7 @@ export default function LessonComplete({
                   <div key={`${word.id}-${index}`} className="rounded-xl border border-border p-3">
                     <div className="flex items-center justify-between gap-3">
                       <div className="text-sm text-text-dark font-semibold">
-                        {word.simp} <span className="text-text-med font-normal">({word.pinyin})</span>
+                        {word.simp} <span className="text-text-med font-normal">({getWordReading(word)})</span>
                       </div>
                       {!missing && (
                         <span
@@ -338,9 +394,9 @@ export default function LessonComplete({
                       <>
                         <div className="text-xs text-text-med mt-1">
                           Heard: <span className="text-text-dark">{breakdown.heardText || '...'}</span>
-                          {breakdown.detectedPinyin ? (
+                          {breakdown.detectedTransliteration ? (
                             <>
-                              {' · '}Detected: <span className="text-text-dark">{breakdown.detectedPinyin}</span>
+                              {' · '}Detected: <span className="text-text-dark">{breakdown.detectedTransliteration}</span>
                             </>
                           ) : null}
                         </div>
@@ -402,7 +458,7 @@ export default function LessonComplete({
         )}
 
         {/* Stats Card */}
-        <div className={`${surfaceCardClass} p-6 mb-5 w-full ${isSpeakCompletion ? 'lg:col-span-5 lg:mb-4' : ''}`}>
+        <div className={`${surfaceCardClass} p-6 mb-5 w-full ${isSpeakCompletion ? 'max-w-xl mx-auto lg:mb-4' : ''}`}>
           <div className="space-y-6">
             {/* Lesson summary */}
             <div className={`flex ${centerWordsPracticedCard ? 'flex-col items-center justify-center text-center gap-2' : 'items-center gap-3'}`}>
@@ -423,7 +479,7 @@ export default function LessonComplete({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col gap-3 w-full max-w-md lg:max-w-6xl">
+        <div className={`flex flex-col gap-3 w-full ${isSpeakCompletion ? 'max-w-4xl' : 'max-w-md lg:max-w-6xl'}`}>
           {isQuizCompletion && !quizReadyForSpeak && (
             <>
               {quizMissedTotalCount > 0 && (

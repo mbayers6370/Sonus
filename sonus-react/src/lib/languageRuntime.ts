@@ -1,7 +1,6 @@
 import type { BandData, Word } from '../types/lesson.types';
-import { resolveBandDataId } from './bandIds';
 
-export type LanguageId = 'zh' | 'ja' | (string & {});
+export type LanguageId = 'ja' | (string & {});
 
 export type LanguageRuntime = {
   id: LanguageId;
@@ -11,7 +10,6 @@ export type LanguageRuntime = {
 };
 
 const LANGUAGE_RUNTIMES: Record<string, LanguageRuntime> = {
-  zh: { id: 'zh', label: 'Mandarin', homeCollectionLabel: 'Levels', available: true },
   ja: { id: 'ja', label: 'Japanese', homeCollectionLabel: 'Levels', available: true },
   kr: { id: 'kr', label: 'Korean', homeCollectionLabel: 'Levels', available: false },
   fr: { id: 'fr', label: 'French', homeCollectionLabel: 'Levels', available: false },
@@ -37,12 +35,12 @@ const DEFAULT_JA_SECTIONS = [
 ] as const;
 const JA_SEQUENTIAL_UNIT_SIZE = 80;
 
-function toPinyinHomophoneKey(value: string): string {
+function toReadingHomophoneKey(value: string): string {
   return value.trim().toLowerCase().replace(/[\s-]+/g, '');
 }
 
-function augmentMandarinHomophoneGroups(bandData: BandData, languageId: string): BandData {
-  if (normalizeLanguageId(languageId) !== 'zh') return bandData;
+function augmentLanguageHomophoneGroups(bandData: BandData, languageId: string): BandData {
+  if (normalizeLanguageId(languageId) !== 'ja') return bandData;
 
   const unitRows = Array.isArray(bandData.units)
     ? bandData.units
@@ -55,8 +53,10 @@ function augmentMandarinHomophoneGroups(bandData: BandData, languageId: string):
       ? ((unit as { words?: Word[] }).words as Word[])
       : [];
     for (const word of words) {
-      const pinyinRaw = typeof word.pinyin === 'string' ? word.pinyin : '';
-      const key = toPinyinHomophoneKey(pinyinRaw);
+      const transliterationRaw = typeof word.transliteration === 'string'
+        ? word.transliteration
+        : '';
+      const key = toReadingHomophoneKey(transliterationRaw);
       if (!key) continue;
       const groupedMembers = membersByKey.get(key) || new Map<string, { id: string; simp?: string; en?: string }>();
       if (!groupedMembers.has(word.id)) {
@@ -92,8 +92,10 @@ function augmentMandarinHomophoneGroups(bandData: BandData, languageId: string):
       ? ((unit as { words?: Word[] }).words as Word[])
       : [];
     for (const word of words) {
-      const pinyinRaw = typeof word.pinyin === 'string' ? word.pinyin : '';
-      const key = toPinyinHomophoneKey(pinyinRaw);
+      const transliterationRaw = typeof word.transliteration === 'string'
+        ? word.transliteration
+        : '';
+      const key = toReadingHomophoneKey(transliterationRaw);
       const group = key ? homophoneGroups.get(key) : undefined;
       if (group) {
         word.homophoneGroup = group;
@@ -108,9 +110,16 @@ function augmentMandarinHomophoneGroups(bandData: BandData, languageId: string):
 
 export function normalizeLanguageId(languageId: string | null | undefined): string {
   const normalized = (languageId || '').trim().toLowerCase();
-  if (!normalized) return 'zh';
-  if (normalized === 'jp') return 'ja';
-  return normalized;
+  if (!normalized) return 'ja';
+  if (normalized === 'jp' || normalized === 'japanese') return 'ja';
+  if (normalized === 'ko' || normalized === 'korean') return 'kr';
+  if (normalized === 'french') return 'fr';
+  if (normalized === 'italian') return 'it';
+  if (normalized === 'spanish') return 'es';
+  if (normalized === 'ja' || normalized === 'kr' || normalized === 'fr' || normalized === 'it' || normalized === 'es') {
+    return normalized;
+  }
+  return 'ja';
 }
 
 export function getLanguageRuntime(languageId: string | null | undefined): LanguageRuntime {
@@ -127,14 +136,16 @@ export function getLanguageRuntime(languageId: string | null | undefined): Langu
 
 export function inferLanguageForBand(bandId: string, selectedLanguage: string | null): string {
   if (/^n[1-5]$/i.test(bandId)) return 'ja';
+  if (/^band\d+$/i.test(bandId) || bandId === 'advanced') return 'ja';
   return normalizeLanguageId(selectedLanguage);
 }
 
 export function resolveBandDataPath(languageId: string, bandId: string): string {
-  if (languageId === 'zh') {
-    return `/data/zh/${resolveBandDataId(bandId)}.json`;
+  const normalizedLanguage = normalizeLanguageId(languageId);
+  if (normalizedLanguage === 'ja') {
+    return `/data/ja/${bandId}.json`;
   }
-  return `/data/${languageId}/${bandId}.json`;
+  return `/data/${normalizedLanguage}/${bandId}.json`;
 }
 
 export function resolveApplyDataPaths(languageId: string, bandId: string): string[] {
@@ -145,15 +156,6 @@ export function resolveApplyDataPaths(languageId: string, bandId: string): strin
     `/data/${normalized}/${bandId}-apply.json`,
     `/data/${normalized}/${bandId}.apply.json`,
   ];
-  if (normalized !== 'zh') {
-    // Backward compatibility while non-Mandarin apply JSON is rolled out.
-    paths.push(
-      `/data/zh/apply/${bandId}-apply.json`,
-      `/data/zh/apply/${bandId}.apply.json`,
-      `/data/zh/${bandId}-apply.json`,
-      `/data/zh/${bandId}.apply.json`
-    );
-  }
   return paths;
 }
 
@@ -163,37 +165,40 @@ function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null 
     ? rawWord.tags.filter((value): value is string => typeof value === 'string')
     : undefined;
   if (typeof rawWord.simp === 'string' && typeof rawWord.trad === 'string') {
-    const pinyinValue =
-      typeof rawWord.pinyin === 'string'
-        ? rawWord.pinyin
+    const transliterationValue =
+      typeof rawWord.transliteration === 'string'
+        ? rawWord.transliteration
         : (typeof rawWord.romaji === 'string' ? rawWord.romaji : '');
     const readingValue =
       typeof rawWord.reading === 'string'
         ? rawWord.reading
-        : (typeof rawWord.pronunciation === 'string' ? rawWord.pronunciation : pinyinValue);
-    return {
+        : (typeof rawWord.pronunciation === 'string' ? rawWord.pronunciation : transliterationValue);
+    const normalizedWord: Word = {
       ...(rawWord as unknown as Word),
-      pinyin: pinyinValue,
+      transliteration: transliterationValue,
       reading: readingValue,
       pronunciation: readingValue,
       tags,
     };
+    return normalizedWord;
   }
 
   const exampleRaw = (rawWord.example || {}) as Record<string, unknown>;
   const kanji = typeof rawWord.kanji === 'string' ? rawWord.kanji.trim() : '';
   const hiragana = typeof rawWord.hiragana === 'string' ? rawWord.hiragana.trim() : '';
-  const romaji = typeof rawWord.romaji === 'string' ? rawWord.romaji.trim() : '';
+  const transliteration = typeof rawWord.transliteration === 'string'
+    ? rawWord.transliteration.trim()
+    : (typeof rawWord.romaji === 'string' ? rawWord.romaji.trim() : '');
 
-  return {
+  const normalizedWord: Word = {
     id: rawWord.id,
     kanji: kanji || undefined,
     hiragana: hiragana || undefined,
     simp: kanji || hiragana,
     trad: kanji || hiragana,
-    pinyin: romaji,
-    reading: hiragana || romaji,
-    pronunciation: hiragana || romaji,
+    transliteration: transliteration,
+    reading: hiragana || transliteration,
+    pronunciation: hiragana || transliteration,
     tags,
     pos: typeof rawWord.pos === 'string' ? rawWord.pos : '',
     en: typeof rawWord.en === 'string' ? rawWord.en : '',
@@ -202,15 +207,23 @@ function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null 
       : [],
     isReview: typeof rawWord.isReview === 'boolean' ? rawWord.isReview : false,
     example: {
-      zh:
-        typeof exampleRaw.zh === 'string'
-          ? exampleRaw.zh
-          : (typeof exampleRaw.ja === 'string' ? exampleRaw.ja : undefined),
+      native:
+        typeof exampleRaw.native === 'string'
+          ? exampleRaw.native
+          : (
+              typeof exampleRaw.ja === 'string'
+                ? exampleRaw.ja
+                : undefined
+            ),
       en: typeof exampleRaw.en === 'string' ? exampleRaw.en : undefined,
-      pinyin:
-        typeof exampleRaw.pinyin === 'string'
-          ? exampleRaw.pinyin
-          : (typeof exampleRaw.romaji === 'string' ? exampleRaw.romaji : undefined),
+      transliteration:
+        typeof exampleRaw.transliteration === 'string'
+          ? exampleRaw.transliteration
+          : (
+              typeof exampleRaw.romaji === 'string'
+                ? exampleRaw.romaji
+                : undefined
+            ),
       reading:
         typeof exampleRaw.reading === 'string'
           ? exampleRaw.reading
@@ -218,9 +231,13 @@ function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null 
               typeof exampleRaw.pronunciation === 'string'
                 ? exampleRaw.pronunciation
                 : (
-                    typeof exampleRaw.pinyin === 'string'
-                      ? exampleRaw.pinyin
-                      : (typeof exampleRaw.romaji === 'string' ? exampleRaw.romaji : undefined)
+                    typeof exampleRaw.transliteration === 'string'
+                      ? exampleRaw.transliteration
+                      : (
+                          typeof exampleRaw.romaji === 'string'
+                            ? exampleRaw.romaji
+                            : undefined
+                        )
                   )
             ),
       pronunciation:
@@ -230,13 +247,18 @@ function normalizeWordForRuntime(rawWord: Record<string, unknown>): Word | null 
               typeof exampleRaw.reading === 'string'
                 ? exampleRaw.reading
                 : (
-                    typeof exampleRaw.pinyin === 'string'
-                      ? exampleRaw.pinyin
-                      : (typeof exampleRaw.romaji === 'string' ? exampleRaw.romaji : undefined)
+                    typeof exampleRaw.transliteration === 'string'
+                      ? exampleRaw.transliteration
+                      : (
+                          typeof exampleRaw.romaji === 'string'
+                            ? exampleRaw.romaji
+                            : undefined
+                        )
                   )
             ),
     },
   };
+  return normalizedWord;
 }
 
 function buildJapaneseSequentialBandData(
@@ -484,7 +506,7 @@ export function normalizeBandDataPayload(
           };
         })
         .filter(Boolean);
-      return augmentMandarinHomophoneGroups({
+      return augmentLanguageHomophoneGroups({
         language: (typeof raw.language === 'string' && raw.language) || languageId,
         source: typeof raw.source === 'string' ? raw.source : '',
         bandId:
@@ -529,7 +551,7 @@ export function normalizeBandDataPayload(
         (n, unit) => n + (unit.words?.length || 0),
         0
       );
-      return augmentMandarinHomophoneGroups({
+      return augmentLanguageHomophoneGroups({
         language: (typeof raw.language === 'string' && raw.language) || languageId,
         source: typeof raw.source === 'string' ? raw.source : '',
         bandId:
@@ -554,7 +576,7 @@ export function normalizeBandDataPayload(
     .filter((word): word is Word => Boolean(word));
   if (!words.length) return null;
   const coreUnitId = `${bandId}-core`;
-  return augmentMandarinHomophoneGroups({
+  return augmentLanguageHomophoneGroups({
     language: (typeof raw.language === 'string' && raw.language) || languageId,
     source: typeof raw.source === 'string' ? raw.source : '',
     bandId:

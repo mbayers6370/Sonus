@@ -15,13 +15,12 @@ How the system fits together:
 
 ## Why Sonus
 Sonus exists to close the gap between vocabulary study and actually speaking in context. The product emphasizes:
-- Structured curriculum progression (HSK/JLPT aligned bands)
+- Structured curriculum progression (JLPT-aligned levels)
 - Active recall over passive review
 - Pronunciation practice with immediate feedback
 - Practical travel-first phrase training
 
 ## Current Features
-- Mandarin track with banded progression and review queues
 - Japanese track with JLPT-style levels (`n5` to `n1`)
 - Core study loop: Learn, Quiz, Speak, Apply
 - Weak-word detection and spaced review scheduling

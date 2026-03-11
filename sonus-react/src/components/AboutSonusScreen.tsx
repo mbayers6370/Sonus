@@ -10,12 +10,6 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
   // Content collections are data-driven so copy and ordering can be edited without touching layout.
   const frameworks = [
     {
-      language: 'Mandarin',
-      system: 'HSK 3.0',
-      range: 'Bands 1-9',
-      accent: 'border-[#3E5648]/26 bg-[rgba(62,86,72,0.08)] text-[#3E5648]',
-    },
-    {
       language: 'Japanese',
       system: 'JLPT',
       range: 'N5-N1',
@@ -142,7 +136,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
           <h4 className="main-font text-2xl leading-tight text-white">Some apps teach you a language. Sonus lets you meet one.</h4>
           <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-white/88">
             <p>
-              Built directly on the standards that matter: HSK 3.0 for Mandarin, JLPT for Japanese, TOPIK for Korean. Not proprietary systems designed to keep you subscribed. Real frameworks, implemented properly, with pronunciation feedback specific enough to actually improve from.
+              Built directly on the standards that matter: JLPT for Japanese and TOPIK for Korean. Not proprietary systems designed to keep you subscribed. Real frameworks, implemented properly, with pronunciation feedback specific enough to actually improve from.
             </p>
             <p>
               I&apos;ve picked up pieces of seven languages throughout my life. I know what works: structured progression, real scripts, and feedback that tells you something true.

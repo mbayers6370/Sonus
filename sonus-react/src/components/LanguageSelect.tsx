@@ -4,7 +4,6 @@ import GlassHeader from './GlassHeader';
 import { normalizeLanguageId } from '../lib/languageRuntime';
 
 const LANGUAGE_ACCENT_HEX: Record<string, string> = {
-  zh: '#DE2910',
   ja: '#BC002D',
   kr: '#0047A0',
   fr: '#0055A4',
@@ -18,12 +17,6 @@ const CARD_ACCENTS_BY_LANGUAGE: Record<string, {
   surfaceTint: string;
   hoverShadow: string;
 }> = {
-  zh: {
-    borderColor: 'border-[#DE2910]/58',
-    innerBorderColor: 'border-[#DE2910]/34',
-    surfaceTint: 'bg-white',
-    hoverShadow: 'hover:shadow-[0_18px_42px_-24px_rgba(222,41,16,0.42)]',
-  },
   ja: {
     borderColor: 'border-[#BC002D]/58',
     innerBorderColor: 'border-[#BC002D]/34',
@@ -63,7 +56,7 @@ function LanguageCardBackdrop({
   langId: string;
   isCurrent: boolean;
 }) {
-  const color = isCurrent ? '#FFFFFF' : (LANGUAGE_ACCENT_HEX[langId] || LANGUAGE_ACCENT_HEX.zh);
+  const color = isCurrent ? '#FFFFFF' : (LANGUAGE_ACCENT_HEX[langId] || LANGUAGE_ACCENT_HEX.ja);
   const strokeOpacity = isCurrent ? 0.2 : 0.11;
   const fillOpacity = isCurrent ? 0.09 : 0.05;
   const commonStroke = {
@@ -76,13 +69,6 @@ function LanguageCardBackdrop({
   };
 
   const motifs: Record<string, ReactNode> = {
-    zh: (
-      <>
-        <circle cx="252" cy="62" r="42" fill={color} opacity={fillOpacity} />
-        <path d="M214 62h76M252 24v76M226 36h52M226 88h52M236 46v32M268 46v32" {...commonStroke} />
-        <path d="M42 190c34-18 77-20 116-8" {...commonStroke} />
-      </>
-    ),
     ja: (
       <>
         <circle cx="250" cy="60" r="46" fill={color} opacity={fillOpacity} />
@@ -128,20 +114,13 @@ function LanguageCardBackdrop({
         aria-hidden="true"
         focusable="false"
       >
-        {motifs[langId] || motifs.zh}
+        {motifs[langId] || motifs.ja}
       </svg>
     </div>
   );
 }
 
 const languages = [
-  {
-    id: 'zh',
-    name: 'Mandarin',
-    nativeName: '普通话',
-    nativeClassName: 'font-secondary',
-    framework: 'HSK 3.0 · Levels 1 - 9',
-  },
   {
     id: 'ja',
     name: 'Japanese',
@@ -206,8 +185,8 @@ export default function LanguageSelect({
       {/* Language Cards */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {languages.map((lang) => {
-          const accent = CARD_ACCENTS_BY_LANGUAGE[lang.id] || CARD_ACCENTS_BY_LANGUAGE.zh;
-          const isAvailable = lang.id === 'zh' || lang.id === 'ja';
+          const accent = CARD_ACCENTS_BY_LANGUAGE[lang.id] || CARD_ACCENTS_BY_LANGUAGE.ja;
+          const isAvailable = lang.id === 'ja';
           const isCurrent = normalizedCurrent === lang.id;
           const isSwitchCurrent = switchMode && isCurrent;
           return (

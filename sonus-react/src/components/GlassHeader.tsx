@@ -16,7 +16,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { resolveLearnQuickStage } from '../lib/learnPath';
 
 const NATIVE_LANGUAGE_LABEL_BY_ENGLISH: Record<string, string> = {
-  mandarin: '普通话',
   japanese: '日本語',
   korean: '한국어',
   french: 'Français',
@@ -24,7 +23,6 @@ const NATIVE_LANGUAGE_LABEL_BY_ENGLISH: Record<string, string> = {
   spanish: 'Español',
 };
 const LANGUAGE_ID_BY_ENGLISH: Record<string, string> = {
-  mandarin: 'zh',
   japanese: 'ja',
   korean: 'kr',
   french: 'fr',
@@ -32,7 +30,6 @@ const LANGUAGE_ID_BY_ENGLISH: Record<string, string> = {
   spanish: 'es',
 };
 const NATIVE_LANGUAGE_LABEL_BY_ID: Record<string, string> = {
-  zh: '普通话',
   ja: '日本語',
   kr: '한국어',
   fr: 'Français',

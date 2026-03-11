@@ -27,7 +27,7 @@ Signup payload example:
   "password": "strong-password",
   "firstName": "Ada",
   "lastName": "Lovelace",
-  "targetLanguage": "zh",
+  "targetLanguage": "ja",
   "timezone": "America/New_York"
 }
 ```
@@ -85,7 +85,7 @@ Subsequent authenticated requests should include:
 Patch body example:
 ```json
 {
-  "targetLanguage": "zh",
+  "targetLanguage": "ja",
   "onboardingComplete": true
 }
 ```
@@ -160,7 +160,7 @@ Speak attempt body:
   "wordId": "L1-0001",
   "isReview": false,
   "transcript": "一",
-  "detectedPinyin": "yi1",
+  "detectedTransliteration": "ichi",
   "initialOk": true,
   "finalOk": true,
   "toneOk": true,

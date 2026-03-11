@@ -4,15 +4,6 @@
 
 const LANGUAGES = [
   {
-    id: 'mandarin',
-    name: 'Mandarin',
-    native: '普通话',
-    framework: 'HSK 3.0',
-    track: 'Bands 1–9',
-    icon: 'sparkles',
-    available: true
-  },
-  {
     id: 'japanese',
     name: 'Japanese',
     native: '日本語',

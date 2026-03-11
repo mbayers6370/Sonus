@@ -17,7 +17,7 @@ interface TravelSectionPageProps {
   selectedLanguage?: string | null;
 }
 
-type RecallMode = 'en_to_zh' | 'zh_to_speak' | 'audio_only';
+type RecallMode = 'meaning_to_script' | 'script_to_speak' | 'audio_only';
 
 function shuffleArray<T>(items: T[]): T[] {
   const next = [...items];
@@ -43,8 +43,8 @@ function hexToRgba(hex: string, alpha: number) {
 }
 
 function getRecallMode(index: number): RecallMode {
-  if (index % 3 === 0) return 'en_to_zh';
-  if (index % 3 === 1) return 'zh_to_speak';
+  if (index % 3 === 0) return 'meaning_to_script';
+  if (index % 3 === 1) return 'script_to_speak';
   return 'audio_only';
 }
 
@@ -183,7 +183,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
 
   const renderRecallPrompt = () => {
     if (!recallPhrase) return null;
-    if (recallMode === 'en_to_zh') {
+    if (recallMode === 'meaning_to_script') {
       return (
         <>
           <div className="text-xs uppercase tracking-wider font-mono text-white/75">{`English → Speak ${targetLabel}`}</div>
@@ -191,7 +191,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
         </>
       );
     }
-    if (recallMode === 'zh_to_speak') {
+    if (recallMode === 'script_to_speak') {
       return (
         <>
           <div className="text-xs uppercase tracking-wider font-mono text-white/75">{`${targetLabel} → Speak`}</div>

@@ -14,12 +14,12 @@ const JAPANESE_LEVELS = [
     color: '#ef4444',
     description: 'Build functional daily communication: writing systems, core grammar, essential vocabulary.',
     units: [
-      { id: 'jp-n5-1', icon: 'type', name: 'Hiragana', hanzi: 'ひらがな', words: 0 },
-      { id: 'jp-n5-2', icon: 'type', name: 'Katakana', hanzi: 'カタカナ', words: 0 },
-      { id: 'jp-n5-3', icon: 'message-circle', name: 'Basic Sentences', hanzi: '文型', words: 0 },
-      { id: 'jp-n5-4', icon: 'shuffle', name: 'Particles I', hanzi: 'は・が・を', words: 0 },
-      { id: 'jp-n5-5', icon: 'clock', name: 'Daily Life', hanzi: '日常', words: 0 },
-      { id: 'jp-n5-6', icon: 'volume-2', name: 'Listening Survival', hanzi: '聴解', words: 0 }
+      { id: 'jp-n5-1', icon: 'type', name: 'Hiragana', nativeLabel: 'ひらがな', words: 0 },
+      { id: 'jp-n5-2', icon: 'type', name: 'Katakana', nativeLabel: 'カタカナ', words: 0 },
+      { id: 'jp-n5-3', icon: 'message-circle', name: 'Basic Sentences', nativeLabel: '文型', words: 0 },
+      { id: 'jp-n5-4', icon: 'shuffle', name: 'Particles I', nativeLabel: 'は・が・を', words: 0 },
+      { id: 'jp-n5-5', icon: 'clock', name: 'Daily Life', nativeLabel: '日常', words: 0 },
+      { id: 'jp-n5-6', icon: 'volume-2', name: 'Listening Survival', nativeLabel: '聴解', words: 0 }
     ]
   },
   {
@@ -33,13 +33,13 @@ const JAPANESE_LEVELS = [
     color: '#f97316',
     description: 'Expand grammar control and conversational flexibility.',
     units: [
-      { id: 'jp-n4-1', icon: 'message-square', name: 'Past & Experience', hanzi: '経験', words: 0 },
-      { id: 'jp-n4-2', icon: 'shuffle', name: 'Particles II', hanzi: 'に・で・へ', words: 0 },
-      { id: 'jp-n4-3', icon: 'calendar', name: 'Plans & Invitations', hanzi: '予定', words: 0 },
-      { id: 'jp-n4-4', icon: 'users', name: 'Casual Speech', hanzi: '普通形', words: 0 },
-      { id: 'jp-n4-5', icon: 'map', name: 'Directions & Travel', hanzi: '道案内', words: 0 },
-      { id: 'jp-n4-6', icon: 'volume-2', name: 'Listening I', hanzi: '聴解', words: 0 },
-      { id: 'jp-n4-7', icon: 'book-open', name: 'Reading I', hanzi: '読解', words: 0 }
+      { id: 'jp-n4-1', icon: 'message-square', name: 'Past & Experience', nativeLabel: '経験', words: 0 },
+      { id: 'jp-n4-2', icon: 'shuffle', name: 'Particles II', nativeLabel: 'に・で・へ', words: 0 },
+      { id: 'jp-n4-3', icon: 'calendar', name: 'Plans & Invitations', nativeLabel: '予定', words: 0 },
+      { id: 'jp-n4-4', icon: 'users', name: 'Casual Speech', nativeLabel: '普通形', words: 0 },
+      { id: 'jp-n4-5', icon: 'map', name: 'Directions & Travel', nativeLabel: '道案内', words: 0 },
+      { id: 'jp-n4-6', icon: 'volume-2', name: 'Listening I', nativeLabel: '聴解', words: 0 },
+      { id: 'jp-n4-7', icon: 'book-open', name: 'Reading I', nativeLabel: '読解', words: 0 }
     ]
   },
   {
@@ -53,13 +53,13 @@ const JAPANESE_LEVELS = [
     color: '#3b82f6',
     description: 'Handle connected speech, explanation, and moderate reading.',
     units: [
-      { id: 'jp-n3-1', icon: 'git-branch', name: 'Connectors', hanzi: '接続詞', words: 0 },
-      { id: 'jp-n3-2', icon: 'message-circle', name: 'Explaining & Reasons', hanzi: '理由', words: 0 },
-      { id: 'jp-n3-3', icon: 'briefcase', name: 'Work Situations', hanzi: '仕事', words: 0 },
-      { id: 'jp-n3-4', icon: 'layers', name: 'Honorific Basics', hanzi: '敬語入門', words: 0 },
-      { id: 'jp-n3-5', icon: 'file-text', name: 'Articles & Notices', hanzi: '文章', words: 0 },
-      { id: 'jp-n3-6', icon: 'volume-2', name: 'Listening II', hanzi: '聴解', words: 0 },
-      { id: 'jp-n3-7', icon: 'book-open', name: 'Reading II', hanzi: '読解', words: 0 }
+      { id: 'jp-n3-1', icon: 'git-branch', name: 'Connectors', nativeLabel: '接続詞', words: 0 },
+      { id: 'jp-n3-2', icon: 'message-circle', name: 'Explaining & Reasons', nativeLabel: '理由', words: 0 },
+      { id: 'jp-n3-3', icon: 'briefcase', name: 'Work Situations', nativeLabel: '仕事', words: 0 },
+      { id: 'jp-n3-4', icon: 'layers', name: 'Honorific Basics', nativeLabel: '敬語入門', words: 0 },
+      { id: 'jp-n3-5', icon: 'file-text', name: 'Articles & Notices', nativeLabel: '文章', words: 0 },
+      { id: 'jp-n3-6', icon: 'volume-2', name: 'Listening II', nativeLabel: '聴解', words: 0 },
+      { id: 'jp-n3-7', icon: 'book-open', name: 'Reading II', nativeLabel: '読解', words: 0 }
     ]
   },
   {
@@ -73,13 +73,13 @@ const JAPANESE_LEVELS = [
     color: '#8b5cf6',
     description: 'Operate in work and social environments with nuance.',
     units: [
-      { id: 'jp-n2-1', icon: 'brain', name: 'Abstract Ideas', hanzi: '抽象概念', words: 0 },
-      { id: 'jp-n2-2', icon: 'activity', name: 'Nuanced Grammar', hanzi: '文法強化', words: 0 },
-      { id: 'jp-n2-3', icon: 'briefcase', name: 'Business Japanese', hanzi: 'ビジネス', words: 0 },
-      { id: 'jp-n2-4', icon: 'file-text', name: 'Editorial Reading', hanzi: '社説', words: 0 },
-      { id: 'jp-n2-5', icon: 'users', name: 'Social Issues', hanzi: '社会問題', words: 0 },
-      { id: 'jp-n2-6', icon: 'volume-2', name: 'Listening III', hanzi: '聴解', words: 0 },
-      { id: 'jp-n2-7', icon: 'book-open', name: 'Reading III', hanzi: '読解', words: 0 }
+      { id: 'jp-n2-1', icon: 'brain', name: 'Abstract Ideas', nativeLabel: '抽象概念', words: 0 },
+      { id: 'jp-n2-2', icon: 'activity', name: 'Nuanced Grammar', nativeLabel: '文法強化', words: 0 },
+      { id: 'jp-n2-3', icon: 'briefcase', name: 'Business Japanese', nativeLabel: 'ビジネス', words: 0 },
+      { id: 'jp-n2-4', icon: 'file-text', name: 'Editorial Reading', nativeLabel: '社説', words: 0 },
+      { id: 'jp-n2-5', icon: 'users', name: 'Social Issues', nativeLabel: '社会問題', words: 0 },
+      { id: 'jp-n2-6', icon: 'volume-2', name: 'Listening III', nativeLabel: '聴解', words: 0 },
+      { id: 'jp-n2-7', icon: 'book-open', name: 'Reading III', nativeLabel: '読解', words: 0 }
     ]
   },
   {
@@ -93,13 +93,13 @@ const JAPANESE_LEVELS = [
     color: '#0f172a',
     description: 'Engage complex topics, abstract ideas, and fast native input.',
     units: [
-      { id: 'jp-n1-1', icon: 'sparkles', name: 'Idiomatic Mastery', hanzi: '慣用表現', words: 0 },
-      { id: 'jp-n1-2', icon: 'award', name: 'Precision & Register', hanzi: '語感', words: 0 },
-      { id: 'jp-n1-3', icon: 'messages-square', name: 'Debate & Argument', hanzi: '討論', words: 0 },
-      { id: 'jp-n1-4', icon: 'book', name: 'Literature & Essays', hanzi: '文学', words: 0 },
-      { id: 'jp-n1-5', icon: 'globe', name: 'Culture & History', hanzi: '文化史', words: 0 },
-      { id: 'jp-n1-6', icon: 'volume-2', name: 'Listening IV', hanzi: '聴解', words: 0 },
-      { id: 'jp-n1-7', icon: 'book-open', name: 'Reading IV', hanzi: '読解', words: 0 }
+      { id: 'jp-n1-1', icon: 'sparkles', name: 'Idiomatic Mastery', nativeLabel: '慣用表現', words: 0 },
+      { id: 'jp-n1-2', icon: 'award', name: 'Precision & Register', nativeLabel: '語感', words: 0 },
+      { id: 'jp-n1-3', icon: 'messages-square', name: 'Debate & Argument', nativeLabel: '討論', words: 0 },
+      { id: 'jp-n1-4', icon: 'book', name: 'Literature & Essays', nativeLabel: '文学', words: 0 },
+      { id: 'jp-n1-5', icon: 'globe', name: 'Culture & History', nativeLabel: '文化史', words: 0 },
+      { id: 'jp-n1-6', icon: 'volume-2', name: 'Listening IV', nativeLabel: '聴解', words: 0 },
+      { id: 'jp-n1-7', icon: 'book-open', name: 'Reading IV', nativeLabel: '読解', words: 0 }
     ]
   }
 ];

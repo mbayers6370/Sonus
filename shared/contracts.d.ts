@@ -14,13 +14,12 @@ export type SharedLexeme = {
   };
 };
 
-// Backward-compatible Mandarin-first shape still used by parts of the app.
-// Keep this while migrating call-sites to SharedLexeme.
+// Backward-compatible app-facing word shape.
 export type SharedWord = {
   id: string;
   simp: string;
   trad: string;
-  pinyin: string;
+  transliteration?: string;
   reading?: string;
   pronunciation?: string;
   pos: string;

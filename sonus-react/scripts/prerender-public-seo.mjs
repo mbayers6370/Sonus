@@ -11,20 +11,6 @@ const HOST = '127.0.0.1';
 const PORT = 4173;
 
 const ROUTES = [
-  '/essential-mandarin-travel-phrases',
-  '/travel-mandarin-phrases',
-  '/mandarin-airport-phrases',
-  '/mandarin-taxi-phrases',
-  '/how-to-order-food-in-chinese',
-  '/speak-chinese-for-travel',
-  '/how-to-ask-for-directions-in-chinese',
-  '/hsk-mandarin-for-travelers',
-  '/how-to-ask-for-the-bill-in-chinese',
-  '/mandarin-hotel-phrases',
-  '/mandarin-emergency-phrases',
-  '/chinese-shopping-phrases',
-  '/digital-china-travel-phrases',
-  '/chinese-small-talk-for-travel',
   '/essential-japanese-travel-phrases',
 ];
 

@@ -6,8 +6,9 @@ import LessonReview from '../components/LessonReview';
 import LessonScreen from '../components/LessonScreen';
 import GlassLoader from '../components/ui/GlassLoader';
 import type { LessonMode } from '../types/lesson.types';
-import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
+import { LEVEL_BY_ID, isLegacyBandLocked, tierForBand } from './lessonRouting';
 import { normalizeLanguageId } from '../lib/languageRuntime';
+import { getExampleNative } from '../lib/languageFields';
 
 interface LessonRouteControllerProps {
   onGoHome: () => void;
@@ -45,18 +46,18 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
 
   useEffect(() => {
     if (!band || !unitId || !Number.isFinite(parsedLessonIndex)) return;
-    const isMandarinLevel = /^band\d+$/i.test(band) || band === 'advanced';
+    const isLegacyBandLevel = /^band\d+$/i.test(band) || band === 'advanced';
     const isJapaneseLevel = /^n[1-5]$/i.test(band);
     if (!state.selectedLanguage) {
       navigate('/learn', { replace: true });
       return;
     }
     const normalizedLanguage = normalizeLanguageId(state.selectedLanguage);
-    if ((isMandarinLevel && normalizedLanguage !== 'zh') || (isJapaneseLevel && normalizedLanguage !== 'ja')) {
+    if (isLegacyBandLevel || (isJapaneseLevel && normalizedLanguage !== 'ja')) {
       navigate('/learn', { replace: true });
       return;
     }
-    if (isMandarinBandLocked(band, state.unlockedLevels)) {
+    if (isLegacyBandLocked(band, state.unlockedLevels)) {
       navigate('/learn', { replace: true });
       return;
     }
@@ -84,7 +85,7 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
         Boolean(state.activeLesson.unitName?.includes('· Apply'));
       const hasApplyExamples = state.activeLesson.words.every(
         (word) =>
-          Boolean(word.example?.zh?.trim()) &&
+          Boolean(getExampleNative(word.example)) &&
           Boolean(word.example?.en?.trim())
       );
       if (looksLikeApplyLesson && hasApplyExamples) {

@@ -12,7 +12,6 @@ import { authRoutes } from './routes/auth.js';
 import { meRoutes } from './routes/me.js';
 import { attemptRoutes } from './routes/attempts.js';
 import { telemetryRoutes } from './routes/telemetry.js';
-import { characterRoutes } from './routes/characters.js';
 import { publicContactRoutes } from './routes/publicContact.js';
 import { adminRoutes, processScheduledAccountDeletions } from './routes/admin.js';
 
@@ -199,7 +198,6 @@ export async function buildServer() {
   await meRoutes(app);
   await attemptRoutes(app);
   await telemetryRoutes(app);
-  await characterRoutes(app);
   await publicContactRoutes(app);
   await adminRoutes(app);
 

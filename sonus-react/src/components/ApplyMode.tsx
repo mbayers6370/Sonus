@@ -9,6 +9,7 @@ import { resolveBandDataId } from '../lib/bandIds';
 import { apiFetch } from '../lib/apiClient';
 import { useApp } from '../contexts/AppContext';
 import { normalizeLanguageId } from '../lib/languageRuntime';
+import { getExampleNative, getExampleReading, getWordReading } from '../lib/languageFields';
 
 interface ApplyModeProps {
   word: Word;
@@ -25,7 +26,7 @@ interface ApplyModeProps {
 type ApplyTab = 'context' | 'characters';
 
 interface CharacterInsight {
-  pinyin?: string[];
+  transliteration?: string[];
   glosses?: string[];
   decomposition?: string | null;
   notes?: string[];
@@ -35,12 +36,6 @@ interface CharacterInsightsPayload {
   characters?: Record<string, CharacterInsight>;
 }
 
-interface LiveCharacterLookupPayload {
-  characters?: Record<string, { pinyin?: string[]; glosses?: string[] }>;
-}
-interface SentencePinyinPayload {
-  pinyin?: string;
-}
 interface SentenceRomajiPayload {
   romaji?: string;
   reading?: string;
@@ -65,7 +60,7 @@ async function fetchCharacterInsightsMap(bandId: string): Promise<Record<string,
   }
 
   try {
-    const response = await fetch(`/data/zh/character-insights/${resolved}.json`, { cache: 'no-store' });
+    const response = await fetch(`/data/ja/character-insights/${resolved}.json`, { cache: 'no-store' });
     if (!response.ok) {
       characterInsightsCache.set(resolved, {});
       return {};
@@ -81,10 +76,10 @@ async function fetchCharacterInsightsMap(bandId: string): Promise<Record<string,
 }
 
 function buildCharacterRows(allWords: Word[], insightsMap: Record<string, CharacterInsight>) {
-  const wordsWithHanzi = allWords.filter((candidate) => containsHanCharacter(candidate.simp || ''));
+  const wordsWithScript = allWords.filter((candidate) => containsHanCharacter(candidate.simp || ''));
   const uniqueChars = Array.from(
     new Set(
-      wordsWithHanzi
+      wordsWithScript
         .flatMap((candidate) => Array.from(candidate.simp || ''))
         .filter((char) => /[\u3400-\u9FFF]/.test(char))
     )
@@ -92,7 +87,7 @@ function buildCharacterRows(allWords: Word[], insightsMap: Record<string, Charac
 
   return uniqueChars.map((char): CharacterRow => ({
     char,
-    examples: wordsWithHanzi.filter((candidate) => (candidate.simp || '').includes(char)).slice(0, 3),
+    examples: wordsWithScript.filter((candidate) => (candidate.simp || '').includes(char)).slice(0, 3),
     insight: insightsMap[char] || null,
   }));
 }
@@ -273,7 +268,7 @@ function highlightEnglishFocus(text: string, word: Word, priorWords: Word[]) {
   );
 }
 
-function splitCompactPinyin(value: string) {
+function splitCompactTransliteration(value: string) {
   const normalized = (value || '').trim().toLowerCase();
   if (!normalized) return [] as string[];
   const chunks = normalized.match(/[a-züv:]+[1-5]/gi);
@@ -281,27 +276,27 @@ function splitCompactPinyin(value: string) {
   return chunks.map((chunk) => chunk.toLowerCase());
 }
 
-function deriveSentencePinyinLocal(
+function deriveSentenceTransliterationLocal(
   sentence: string,
   allWords: Word[],
-  liveCharacterMap: Record<string, { pinyin?: string[]; glosses?: string[] }>,
+  liveCharacterMap: Record<string, { transliteration?: string[]; glosses?: string[] }>,
   insightsMap: Record<string, CharacterInsight>
 ) {
   const source = (sentence || '').trim();
   if (!source) return '';
 
-  const wordToPinyin: Record<string, string> = {};
+  const wordToTransliteration: Record<string, string> = {};
   allWords.forEach((candidate) => {
     const simp = candidate.simp?.trim() || '';
     const trad = candidate.trad?.trim() || '';
-    const pinyin = candidate.pinyin?.trim() || '';
-    if (!pinyin) return;
-    if (simp && !wordToPinyin[simp]) wordToPinyin[simp] = pinyin;
-    if (trad && !wordToPinyin[trad]) wordToPinyin[trad] = pinyin;
+    const transliteration = candidate.transliteration?.trim() || '';
+    if (!transliteration) return;
+    if (simp && !wordToTransliteration[simp]) wordToTransliteration[simp] = transliteration;
+    if (trad && !wordToTransliteration[trad]) wordToTransliteration[trad] = transliteration;
   });
 
-  const wordEntries = Object.entries(wordToPinyin)
-    .map(([token, pinyin]) => ({ token, pinyin }))
+  const wordEntries = Object.entries(wordToTransliteration)
+    .map(([token, transliteration]) => ({ token, transliteration }))
     .sort((a, b) => b.token.length - a.token.length);
 
   const tokens: string[] = [];
@@ -309,19 +304,19 @@ function deriveSentencePinyinLocal(
   while (index < source.length) {
     const matchedWord = wordEntries.find((entry) => source.startsWith(entry.token, index));
     if (matchedWord) {
-      tokens.push(...splitCompactPinyin(matchedWord.pinyin));
+      tokens.push(...splitCompactTransliteration(matchedWord.transliteration));
       index += matchedWord.token.length;
       continue;
     }
 
     const char = source[index];
     if (/[\u3400-\u9FFF]/.test(char)) {
-      const pinyin =
-        insightsMap[char]?.pinyin?.[0] ||
-        liveCharacterMap[char]?.pinyin?.[0] ||
+      const transliteration =
+        insightsMap[char]?.transliteration?.[0] ||
+        liveCharacterMap[char]?.transliteration?.[0] ||
         '';
-      if (pinyin) {
-        tokens.push(...splitCompactPinyin(pinyin));
+      if (transliteration) {
+        tokens.push(...splitCompactTransliteration(transliteration));
       }
       index += 1;
       continue;
@@ -341,7 +336,7 @@ function deriveSentencePinyinLocal(
     .trim();
 }
 
-function renderPinyinWithToneNumber(value: string) {
+function renderTransliterationWithToneNumber(value: string) {
   const trimmed = value.trim();
   if (!trimmed) return null;
   const chunks = trimmed.split(/\s+/);
@@ -365,7 +360,7 @@ function renderPinyinWithToneNumber(value: string) {
   });
 }
 
-function sentenceCasePinyin(value: string) {
+function sentenceCaseTransliteration(value: string) {
   const trimmed = value.trim();
   if (!trimmed) return '';
   return trimmed.replace(/^([a-zA-Z\u00C0-\u024F])/u, (match) => match.toUpperCase());
@@ -471,7 +466,7 @@ function deriveSentenceRomajiLocal(sentence: string, sourceWords: Word[]) {
   const wordMap = new Map<string, string>();
   const charMap = new Map<string, string>();
   for (const word of sourceWords) {
-    const reading = (word.pinyin || '').trim();
+    const reading = getWordReading(word);
     if (!reading) continue;
     const simp = (word.simp || '').trim();
     const trad = (word.trad || '').trim();
@@ -530,8 +525,8 @@ export default function ApplyMode({
   const { speak } = useAudio();
   const normalizedLanguageId = state.selectedLanguage ? normalizeLanguageId(state.selectedLanguage) : '';
   const isJapanese = normalizedLanguageId === 'ja';
-  const supportsCharacterTab = normalizedLanguageId === 'zh' || isJapanese;
-  const useZhCharacterServices = normalizedLanguageId === 'zh';
+  const supportsCharacterTab = isJapanese;
+  const useCharacterServices = false;
   const location = useLocation();
   const navigate = useNavigate();
   const applyPath = useMemo(
@@ -550,14 +545,14 @@ export default function ApplyMode({
   });
   const [characterIndex, setCharacterIndex] = useState(0);
   const [characterInsightsMap, setCharacterInsightsMap] = useState<Record<string, CharacterInsight>>({});
-  const [liveCharacterMap, setLiveCharacterMap] = useState<Record<string, { pinyin?: string[]; glosses?: string[] }>>({});
-  const [resolvedSentencePinyin, setResolvedSentencePinyin] = useState('');
+  const [liveCharacterMap, setLiveCharacterMap] = useState<Record<string, { transliteration?: string[]; glosses?: string[] }>>({});
+  const [resolvedSentenceTransliteration, setResolvedSentenceTransliteration] = useState('');
   const [resolvedSentenceRomaji, setResolvedSentenceRomaji] = useState('');
   const effectiveActiveTab: ApplyTab = supportsCharacterTab ? activeTab : 'context';
 
-  const zh = word.example?.zh?.trim() || word.simp;
+  const targetSentence = getExampleNative(word.example) || word.simp;
   const en = word.example?.en?.trim() || 'Translation unavailable for this prompt.';
-  const rawSentencePinyin = word.example?.pinyin?.trim() || '';
+  const rawSentenceTransliteration = getExampleReading(word.example) || '';
 
   useEffect(() => {
     try {
@@ -569,7 +564,7 @@ export default function ApplyMode({
 
   useEffect(() => {
     let cancelled = false;
-    if (!bandId || !useZhCharacterServices) return () => { cancelled = true; };
+    if (!bandId || !useCharacterServices) return () => { cancelled = true; };
 
     fetchCharacterInsightsMap(bandId).then((map) => {
       if (cancelled) return;
@@ -579,7 +574,7 @@ export default function ApplyMode({
     return () => {
       cancelled = true;
     };
-  }, [bandId, useZhCharacterServices]);
+  }, [bandId, useCharacterServices]);
 
   const characterRows = useMemo(
     () => buildCharacterRows(allWords, bandId ? characterInsightsMap : {}),
@@ -588,70 +583,29 @@ export default function ApplyMode({
   const clampedCharacterIndex = Math.min(characterIndex, Math.max(0, characterRows.length - 1));
 
   useEffect(() => {
-    if (!useZhCharacterServices) return;
-    const sentenceChars = Array.from((zh || '')).filter((value) => /[\u3400-\u9FFF]/.test(value));
+    if (!useCharacterServices) {
+      setLiveCharacterMap({});
+      return;
+    }
+
+    const sentenceChars = Array.from((targetSentence || '')).filter((value) => /[\u3400-\u9FFF]/.test(value));
     const chars = Array.from(new Set([...characterRows.map((row) => row.char), ...sentenceChars])).filter((value) =>
       /[\u3400-\u9FFF]/.test(value)
     );
     if (chars.length === 0) return;
-
-    let cancelled = false;
-    void apiFetch(`/v1/zh/characters/lookup?chars=${encodeURIComponent(chars.join(','))}`)
-      .then(async (response) => {
-        if (!response.ok) return;
-        const payload = (await response.json()) as LiveCharacterLookupPayload;
-        if (cancelled) return;
-        setLiveCharacterMap(payload.characters || {});
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setLiveCharacterMap({});
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [characterRows, useZhCharacterServices, zh]);
+  }, [characterRows, useCharacterServices, targetSentence]);
 
   useEffect(() => {
-    if (!useZhCharacterServices || !zh || !containsHanCharacter(zh)) return;
-
-    let cancelled = false;
-    void apiFetch(`/v1/zh/pinyin/sentence?text=${encodeURIComponent(zh)}`)
-      .then(async (response) => {
-        if (!response.ok) {
-          if (!cancelled) {
-            const fallback = deriveSentencePinyinLocal(zh, allWords, liveCharacterMap, characterInsightsMap);
-            setResolvedSentencePinyin(fallback || rawSentencePinyin || '');
-          }
-          return;
-        }
-        const payload = (await response.json()) as SentencePinyinPayload;
-        if (cancelled) return;
-        const resolved = payload.pinyin?.trim() || '';
-        if (resolved) {
-          setResolvedSentencePinyin(resolved);
-          return;
-        }
-        const fallback = deriveSentencePinyinLocal(zh, allWords, liveCharacterMap, characterInsightsMap);
-        setResolvedSentencePinyin(fallback || rawSentencePinyin || '');
-      })
-      .catch(() => {
-        if (cancelled) return;
-        const fallback = deriveSentencePinyinLocal(zh, allWords, liveCharacterMap, characterInsightsMap);
-        setResolvedSentencePinyin(fallback || rawSentencePinyin || '');
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [rawSentencePinyin, zh, allWords, liveCharacterMap, characterInsightsMap, useZhCharacterServices]);
+    if (!useCharacterServices || !targetSentence || !containsHanCharacter(targetSentence)) return;
+    const fallback = deriveSentenceTransliterationLocal(targetSentence, allWords, liveCharacterMap, characterInsightsMap);
+    setResolvedSentenceTransliteration(fallback || rawSentenceTransliteration || '');
+  }, [rawSentenceTransliteration, targetSentence, allWords, liveCharacterMap, characterInsightsMap, useCharacterServices]);
 
   useEffect(() => {
-    if (!isJapanese || !zh) return;
+    if (!isJapanese || !targetSentence) return;
     let cancelled = false;
 
-    void apiFetch(`/v1/ja/romaji/sentence?text=${encodeURIComponent(zh)}`)
+    void apiFetch(`/v1/ja/romaji/sentence?text=${encodeURIComponent(targetSentence)}`)
       .then(async (response) => {
         if (!response.ok) {
           if (!cancelled) setResolvedSentenceRomaji('');
@@ -670,9 +624,9 @@ export default function ApplyMode({
     return () => {
       cancelled = true;
     };
-  }, [isJapanese, zh]);
+  }, [isJapanese, targetSentence]);
 
-  const highlighted = highlightLessonTerms(zh, word.simp, allWords);
+  const highlighted = highlightLessonTerms(targetSentence, word.simp, allWords);
   const combined = [...allWords, ...previousWords];
   const seenIds = new Set<string>();
   const priorWordsForEnglish = combined.filter((candidate) => {
@@ -681,7 +635,7 @@ export default function ApplyMode({
     return true;
   });
   const englishFocus = highlightEnglishFocus(en, word, priorWordsForEnglish);
-  const sentencePinyin = containsHanCharacter(zh) ? resolvedSentencePinyin : (rawSentencePinyin || '');
+  const sentenceTransliteration = containsHanCharacter(targetSentence) ? resolvedSentenceTransliteration : (rawSentenceTransliteration || '');
   const romajiSourceWords = (() => {
     const byId = new Map<string, Word>();
     const push = (candidate: Word | null | undefined) => {
@@ -711,22 +665,25 @@ export default function ApplyMode({
   })();
   const sentenceReading = isJapanese
     ? (
-        (rawSentencePinyin || '').trim() ||
+        (rawSentenceTransliteration || '').trim() ||
         resolvedSentenceRomaji ||
-        deriveSentenceRomajiLocal(zh, romajiSourceWords)
+        deriveSentenceRomajiLocal(targetSentence, romajiSourceWords)
       )
-    : sentencePinyin;
+    : sentenceTransliteration;
 
   const isCharactersTab = effectiveActiveTab === 'characters';
   const railTotal = supportsCharacterTab && isCharactersTab ? Math.max(1, characterRows.length) : totalWords;
   const railIndex = supportsCharacterTab && isCharactersTab ? clampedCharacterIndex : currentIndex;
   const activeCharacterRow = characterRows[clampedCharacterIndex] || null;
   const activeCharacterLive = activeCharacterRow ? liveCharacterMap[activeCharacterRow.char] : null;
-  const activeCharacterPinyin = activeCharacterRow
+  const activeCharacterTransliteration = activeCharacterRow
     ? (
-        activeCharacterRow.insight?.pinyin?.[0] ||
-        activeCharacterLive?.pinyin?.[0] ||
-        activeCharacterRow.examples.find((example) => (example.simp || '').includes(activeCharacterRow.char))?.pinyin ||
+        activeCharacterRow.insight?.transliteration?.[0] ||
+        activeCharacterLive?.transliteration?.[0] ||
+        (() => {
+          const match = activeCharacterRow.examples.find((example) => (example.simp || '').includes(activeCharacterRow.char));
+          return match ? getWordReading(match) : '';
+        })() ||
         ''
       )
     : '';
@@ -743,14 +700,14 @@ export default function ApplyMode({
   const isLastCharacter = characterRows.length > 0 && clampedCharacterIndex >= characterRows.length - 1;
   const nextLabel = 'Next';
 
-  const speakText = supportsCharacterTab && isCharactersTab && activeCharacterRow ? activeCharacterRow.char : zh;
-  const speakPinyin =
-    supportsCharacterTab && isCharactersTab && activeCharacterPinyin
-      ? activeCharacterPinyin
+  const speakText = supportsCharacterTab && isCharactersTab && activeCharacterRow ? activeCharacterRow.char : targetSentence;
+  const speakTransliteration =
+    supportsCharacterTab && isCharactersTab && activeCharacterTransliteration
+      ? activeCharacterTransliteration
       : (
-          word.pinyin ||
-          rawSentencePinyin ||
-          (isJapanese ? (resolvedSentenceRomaji || deriveSentenceRomajiLocal(zh, romajiSourceWords)) : '')
+          getWordReading(word) ||
+          rawSentenceTransliteration ||
+          (isJapanese ? (resolvedSentenceRomaji || deriveSentenceRomajiLocal(targetSentence, romajiSourceWords)) : '')
         );
 
   const handlePrev = () => {
@@ -824,15 +781,15 @@ export default function ApplyMode({
             <div className="secondary-font text-[2rem] text-text-dark leading-tight">{highlighted}</div>
             {sentenceReading ? (
               <div className="mt-2 text-sm text-text-med">
-                {isJapanese ? sentenceCasePinyin(sentenceReading) : renderPinyinWithToneNumber(sentenceCasePinyin(sentenceReading))}
+                {isJapanese ? sentenceCaseTransliteration(sentenceReading) : renderTransliterationWithToneNumber(sentenceCaseTransliteration(sentenceReading))}
               </div>
             ) : null}
             <div className="mt-2 inline-flex items-center rounded-full border border-border bg-[rgba(31,42,55,0.05)] px-3 py-1 text-xs text-text-med">
               Focus word: <span className="ml-1 font-semibold text-text-dark">{word.simp}</span>{' '}
               <span className="font-mono">
                 {isJapanese
-                  ? (word.pinyin || deriveSentenceRomajiLocal(word.simp || '', romajiSourceWords))
-                  : renderPinyinWithToneNumber(word.pinyin)}
+                  ? (getWordReading(word) || deriveSentenceRomajiLocal(word.simp || '', romajiSourceWords))
+                  : renderTransliterationWithToneNumber(getWordReading(word))}
               </span>
             </div>
             <div className="mt-3 rounded-xl border border-border bg-[rgba(31,42,55,0.06)] px-4 py-3 text-text-dark text-center">
@@ -847,9 +804,9 @@ export default function ApplyMode({
                   Character Focus
                 </div>
                 <div className="main-font text-[3.2rem] leading-none text-text-dark">{activeCharacterRow.char}</div>
-                {activeCharacterPinyin ? (
+                {activeCharacterTransliteration ? (
                   <div className="mt-2 text-sm font-mono text-[#1F2A37]">
-                    {isJapanese ? activeCharacterPinyin : renderPinyinWithToneNumber(activeCharacterPinyin)}
+                    {isJapanese ? activeCharacterTransliteration : renderTransliterationWithToneNumber(activeCharacterTransliteration)}
                   </div>
                 ) : null}
                 {activeCharacterGloss ? <div className="mt-1.5 text-sm text-text-med">{activeCharacterGloss}</div> : null}
@@ -866,7 +823,7 @@ export default function ApplyMode({
                       >
                         <span className="text-xs font-semibold text-[#186E95]">{example.simp}</span>
                         <span className="text-[10px] text-text-light font-mono">
-                          {isJapanese ? (example.pinyin || '') : renderPinyinWithToneNumber(example.pinyin)}
+                          {isJapanese ? getWordReading(example) : renderTransliterationWithToneNumber(getWordReading(example))}
                         </span>
                       </div>
                     ))}
@@ -882,14 +839,14 @@ export default function ApplyMode({
 
       <div className="flex gap-3 justify-center px-5 pb-4">
         <button
-          onClick={() => speak(speakText, speakPinyin, false, state.selectedLanguage)}
+          onClick={() => speak(speakText, speakTransliteration, false, state.selectedLanguage)}
           className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#186E95] hover:-translate-y-0.5 hover:shadow-lg"
         >
           <Volume2 className="w-5 h-5" />
           Listen
         </button>
         <button
-          onClick={() => speak(speakText, speakPinyin, true, state.selectedLanguage)}
+          onClick={() => speak(speakText, speakTransliteration, true, state.selectedLanguage)}
           className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-white"
         >
           <Snail className="w-5 h-5" />

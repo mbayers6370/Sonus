@@ -6,8 +6,8 @@ export type TravelPhrase = {
   script?: string;
   pronunciation?: string;
   // Legacy keys kept for backward compatibility with existing data.
-  hanzi?: string;
-  pinyin?: string;
+  nativeScript?: string;
+  transliteration?: string;
   literal?: string;
   english: string;
 };
@@ -46,7 +46,7 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
     'You just landed in Beijing. You are tired and immigration is moving fast.',
     ['Immigration', 'Baggage', 'Customs', 'Asking for help'],
     [
-      'Use the Official Taxi Line::In Beijing, taxi pickup is clearly signed and runs through the official queue. Have your destination written in Chinese before you get in. The address matters more than the hotel’s English name.',
+      'Use the Official Taxi Line::In Beijing, taxi pickup is clearly signed and runs through the official queue. Have your destination written in the local script before you get in. The address matters more than the hotel’s English name.',
       'Fix Connectivity Before You Leave the Terminal::If your phone setup is not working yet, solve it inside the airport. SIM purchase and setup can involve real-name registration, and airport services are easier to use before you head into the city.',
       'Do Not Rely on One Payment Method for Your First Hour::Foreign cards can now work through Alipay and WeChat Pay, but that does not mean every part of your arrival will feel seamless. Have a backup ready before you leave the airport.',
       'Late Pudong Arrival Changes Your Options::If you land late in Shanghai, the airport night shuttle buses keep running after 23:00 and continue until 45 minutes after the last flight. That can save you if rail timing no longer works in your favor.',
@@ -62,7 +62,7 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
       { id: 'aa-5', script: '这件行李不是我的。', pronunciation: 'zhè jiàn xíngli bú shì wǒ de', english: "This bag isn't mine." },
       { id: 'aa-6', script: '我没有需要申报的物品。', pronunciation: 'wǒ méiyǒu xūyào shēnbào de wùpǐn', english: 'I have nothing to declare.' },
       { id: 'aa-7', script: '官方出租车排队点在哪里？', pronunciation: 'guānfāng chūzūchē páiduì diǎn zài nǎlǐ', english: 'Where is the official taxi queue?' },
-      { id: 'aa-8', script: '请帮我看一下这个中文地址。', pronunciation: 'qǐng bāng wǒ kàn yíxià zhège zhōngwén dìzhǐ', english: 'Please check this Chinese address for me.' },
+      { id: 'aa-8', script: '请帮我看一下这个地址。', pronunciation: 'qǐng bāng wǒ kàn yíxià zhège dìzhǐ', english: 'Please check this local-script address for me.' },
       { id: 'aa-9', script: '我的手机网络还没开通。', pronunciation: 'wǒ de shǒujī wǎngluò hái méi kāitōng', english: "My phone data isn't active yet." },
       { id: 'aa-10', script: '夜间大巴还在运行吗？', pronunciation: 'yèjiān dàbā hái zài yùnxíng ma', english: 'Are the night shuttle buses still running?' },
     ]
@@ -76,7 +76,7 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
     'You leave the airport and need to move quickly through a city you do not know.',
     ['Taxi', 'Metro', 'Ride apps', 'Address clarification'],
     [
-      'Use The Chinese Address::In Beijing, especially, the useful move is having the destination in Chinese before the ride starts. Taxi queues are clearly signed, service runs 24/7 from the airport, and drivers often do not speak English. The address does the work.',
+      'Use The Local Address::In Beijing, especially, the useful move is having the destination in the local script before the ride starts. Taxi queues are clearly signed, service runs 24/7 from the airport, and drivers often do not speak English. The address does the work.',
       'App Rides Work::In Beijing, DiDi and ShouYue now have English versions that support major international credit cards. In Shanghai, you can also book rides through Alipay, WeChat, or DiDi, and Shanghai has been expanding foreigner-friendly transport support across the system.',
       'One Shanghai QR::If you are making more than one trip in Shanghai, SH MaaS / Suishenxing is a useful setup. It now covers metro, buses, suburban rail, maglev, ferries, taxis, shared bikes, and more, with one transport QR code. It also lets one phone scan in up to two companions. That is the kind of detail that saves time immediately.',
       'Tap-In Beijing::You do not always need to buy a metro ticket or download a local app first. Beijing allows many overseas-issued Visa and Mastercard cards to tap directly at fare gates on most urban rail lines. That is a real convenience if you just need to get moving.',
@@ -231,7 +231,7 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
       { id: 'st-1', script: '你好，我第一次来中国。', pronunciation: 'nǐhǎo, wǒ dì yī cì lái Zhōngguó', english: "Hi, it's my first time in China." },
       { id: 'st-2', script: '你的建议很有用，谢谢你。', pronunciation: 'nǐ de jiànyì hěn yǒuyòng, xièxie nǐ', english: 'Your advice is very helpful, thank you.' },
       { id: 'st-3', script: '你觉得这附近有什么值得去的地方？', pronunciation: 'nǐ juéde zhè fùjìn yǒu shénme zhídé qù de dìfang', english: 'What places nearby do you think are worth visiting?' },
-      { id: 'st-4', script: '我中文还在学习，请慢一点说。', pronunciation: 'wǒ Zhōngwén hái zài xuéxí, qǐng màn yìdiǎn shuō', english: "I'm still learning Chinese, please speak a little slower." },
+      { id: 'st-4', script: '我还在学习，请慢一点说。', pronunciation: 'wǒ hái zài xuéxí, qǐng màn yìdiǎn shuō', english: "I'm still learning, please speak a little slower." },
       { id: 'st-5', script: '这家店是本地人常去的吗？', pronunciation: 'zhè jiā diàn shì běndìrén cháng qù de ma', english: 'Do locals often come to this place?' },
       { id: 'st-6', script: '这个菜怎么吃最地道？', pronunciation: 'zhège cài zěnme chī zuì dìdao', english: 'What is the most authentic way to eat this dish?' },
       { id: 'st-7', script: '我先不打扰你了，谢谢。', pronunciation: 'wǒ xiān bù dǎrǎo nǐ le, xièxie', english: "I won't keep you, thank you." },
@@ -533,17 +533,17 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
 export function getTravelModeSections(languageId: string | null | undefined) {
   const normalized = normalizeLanguageId(languageId);
   if (normalized === 'ja') return TRAVEL_MODE_SECTIONS_JA;
-  return TRAVEL_MODE_SECTIONS_ZH;
+  return TRAVEL_MODE_SECTIONS_JA;
 }
 
-export function getTravelSectionById(sectionId: string, languageId: string | null | undefined = 'zh') {
+export function getTravelSectionById(sectionId: string, languageId: string | null | undefined = 'ja') {
   return getTravelModeSections(languageId).find((section) => section.id === sectionId);
 }
 
 export function getPhraseScriptText(phrase: TravelPhrase): string {
-  return phrase.script || phrase.hanzi || '';
+  return phrase.script || phrase.nativeScript || '';
 }
 
 export function getPhrasePronunciationText(phrase: TravelPhrase): string {
-  return phrase.pronunciation || phrase.pinyin || '';
+  return phrase.pronunciation || phrase.transliteration || '';
 }

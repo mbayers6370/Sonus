@@ -3,7 +3,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 're
 import { useApp } from '../contexts/AppContext';
 import { useAuth } from '../contexts/AuthContext';
 import type { LessonBand, LessonMode } from '../types/lesson.types';
-import { LEVEL_BY_ID, isMandarinBandLocked, tierForBand } from './lessonRouting';
+import { LEVEL_BY_ID, isLegacyBandLocked, tierForBand } from './lessonRouting';
 import { apiFetch } from '../lib/apiClient';
 import {
   getLanguageRuntime,
@@ -31,10 +31,6 @@ const JapaneseKanaChartScreen = lazy(() => import('../components/JapaneseKanaCha
 const LessonRouteController = lazy(() => import('./LessonRouteController'));
 const LanguageRoute = lazy(() => import('./homeRoutes').then((m) => ({ default: m.LanguageRoute })));
 const HomeRoute = lazy(() => import('./homeRoutes').then((m) => ({ default: m.HomeRoute })));
-const CharactersRoute = lazy(() => import('./foundationRoutes').then((m) => ({ default: m.CharactersRoute })));
-const FoundationsRoute = lazy(() => import('./foundationRoutes').then((m) => ({ default: m.FoundationsRoute })));
-const PinyinRoute = lazy(() => import('./foundationRoutes').then((m) => ({ default: m.PinyinRoute })));
-const TonesRoute = lazy(() => import('./foundationRoutes').then((m) => ({ default: m.TonesRoute })));
 const ProfileRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.ProfileRoute })));
 const TravelRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelRoute })));
 const TravelSectionRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelSectionRoute })));
@@ -43,7 +39,6 @@ const SupportConsolePage = lazy(() => import('../components/internal/SupportCons
 const LAST_LANGUAGE_KEY = 'sonus.last_language';
 const WALKTHROUGH_DONE_PREFIX = 'sonus.walkthrough.done:';
 const STARTER_BAND_BY_LANGUAGE: Record<string, string> = {
-  zh: 'band1',
   ja: 'n5',
   kr: 'topik1-1',
   fr: 'a1',
@@ -51,28 +46,27 @@ const STARTER_BAND_BY_LANGUAGE: Record<string, string> = {
   es: 'a1',
 };
 
-const isMandarinLevel = (levelId: string) => /^band\d+$/i.test(levelId) || levelId === 'advanced';
+const isLegacyBandLevel = (levelId: string) => /^band\d+$/i.test(levelId) || /^advanced$/i.test(levelId);
 const isJapaneseLevel = (levelId: string) => /^n[1-5]$/i.test(levelId);
+const isKoreanLevel = (levelId: string) => /^topik\d+-\d+$/i.test(levelId);
+const isCefrLevel = (levelId: string) => /^(a1|a2|b1|b2|c1|c2)$/i.test(levelId);
 const levelMatchesLanguage = (levelId: string, languageId: string | null) => {
-  if (!languageId) return true;
+  const normalizedLevelId = (levelId || '').trim().toLowerCase();
+  if (normalizedLevelId === 'intro') return true;
   const normalizedLanguage = normalizeLanguageId(languageId);
-  if (normalizedLanguage === 'zh') return isMandarinLevel(levelId);
-  if (normalizedLanguage === 'ja') return isJapaneseLevel(levelId);
+  if (isJapaneseLevel(normalizedLevelId) || isLegacyBandLevel(normalizedLevelId)) {
+    return normalizedLanguage === 'ja';
+  }
+  if (isKoreanLevel(normalizedLevelId)) return normalizedLanguage === 'kr';
+  if (isCefrLevel(normalizedLevelId)) {
+    return normalizedLanguage === 'fr' || normalizedLanguage === 'it' || normalizedLanguage === 'es';
+  }
   return true;
 };
 
-function readLastLanguage(): string | null {
-  try {
-    const value = window.localStorage.getItem(LAST_LANGUAGE_KEY);
-    return value?.trim() || null;
-  } catch {
-    return null;
-  }
-}
-
 function writeLastLanguage(languageId: string) {
   try {
-    window.localStorage.setItem(LAST_LANGUAGE_KEY, languageId);
+    window.localStorage.setItem(LAST_LANGUAGE_KEY, normalizeLanguageId(languageId));
   } catch {
     // Ignore storage failures.
   }
@@ -103,6 +97,7 @@ export default function AppRoutes() {
   const navigate = useNavigate();
   const location = useLocation();
   const { email, isDemo } = useAuth();
+  const languageBootstrapDoneRef = useRef(false);
   const [languageResolved, setLanguageResolved] = useState(false);
   const [onboardingStatus, setOnboardingStatus] = useState<'loading' | 'complete' | 'incomplete'>('loading');
   const [walkthroughVisible, setWalkthroughVisible] = useState(false);
@@ -181,53 +176,51 @@ export default function AppRoutes() {
   }, [email, isDemo]);
 
   useEffect(() => {
+    if (languageBootstrapDoneRef.current) return;
+    languageBootstrapDoneRef.current = true;
+
     let cancelled = false;
-
-    if (selectedLanguage) {
-      setLanguageResolved(true);
-      return () => {
-        cancelled = true;
-      };
-    }
-
     setLanguageResolved(false);
 
-    const cachedLanguage = readLastLanguage();
-    if (cachedLanguage) {
-      selectLanguage(cachedLanguage);
-      navigate('/home', { replace: true });
-      return () => {
-        cancelled = true;
-      };
-    }
-
     void (async () => {
+      let profileLanguage: string | null = null;
+      let profileLoaded = false;
+
       try {
         const response = await apiFetch('/v1/me/profile');
-        if (!response.ok) {
-          if (!cancelled) setLanguageResolved(true);
-          return;
-        }
-        const payload = (await response.json()) as { profile?: { targetLanguage?: string | null } };
-        const profileLanguage = payload.profile?.targetLanguage;
-        if (!cancelled && typeof profileLanguage === 'string' && profileLanguage.trim()) {
-          const resolvedLanguage = profileLanguage.trim();
-          writeLastLanguage(resolvedLanguage);
-          selectLanguage(resolvedLanguage);
-          navigate('/home', { replace: true });
-          return;
+        if (response.ok) {
+          profileLoaded = true;
+          const payload = (await response.json()) as { profile?: { targetLanguage?: string | null } };
+          const value = payload.profile?.targetLanguage;
+          if (typeof value === 'string' && value.trim()) {
+            profileLanguage = normalizeLanguageId(value);
+          }
         }
       } catch {
-        // Fall back to onboarding language selection.
+        // Continue with local/runtime fallback.
       }
 
-      if (!cancelled) setLanguageResolved(true);
+      if (cancelled) return;
+
+      const selectedLanguageNormalized =
+        typeof selectedLanguage === 'string' && selectedLanguage.trim()
+          ? normalizeLanguageId(selectedLanguage)
+          : null;
+      const resolvedLanguage = profileLoaded
+        ? (profileLanguage || 'ja')
+        : (selectedLanguageNormalized || 'ja');
+
+      if (selectedLanguageNormalized !== resolvedLanguage) {
+        selectLanguage(resolvedLanguage);
+      }
+      writeLastLanguage(resolvedLanguage);
+      setLanguageResolved(true);
     })();
 
     return () => {
       cancelled = true;
     };
-  }, [selectedLanguage, navigate, selectLanguage]);
+  }, [selectLanguage, selectedLanguage]);
 
   useEffect(() => {
     if (!selectedLanguage) return;
@@ -263,8 +256,7 @@ export default function AppRoutes() {
   const resolveFallbackBandId = useCallback(() => {
     const normalizedLanguage = normalizeLanguageId(selectedLanguage);
     if (normalizedLanguage === 'ja') return 'n5';
-    if (normalizedLanguage === 'zh') return 'band1';
-    return null;
+    return STARTER_BAND_BY_LANGUAGE[normalizedLanguage] || 'n5';
   }, [selectedLanguage]);
 
   const resolveContinueLearnTarget = useCallback(async () => {
@@ -285,7 +277,7 @@ export default function AppRoutes() {
       if (!bandId || !unitId) return null;
       if (!levelMatchesLanguage(bandId, normalizedLanguage)) return null;
       const level = LEVEL_BY_ID[bandId];
-      if (!level || isMandarinBandLocked(level.id, state.unlockedLevels)) return null;
+      if (!level || isLegacyBandLocked(level.id, state.unlockedLevels)) return null;
       if (isPracticeUnitId(unitId) || isCheckpointUnitId(unitId) || unitId === 'daily-review') return null;
       writeCachedCurrentPath({ bandId, unitId, lessonIndex: Math.max(0, lessonIdx) });
       return {
@@ -298,7 +290,7 @@ export default function AppRoutes() {
       if (!fallback) return null;
       if (!levelMatchesLanguage(fallback.bandId, normalizedLanguage)) return null;
       const level = LEVEL_BY_ID[fallback.bandId];
-      if (!level || isMandarinBandLocked(level.id, state.unlockedLevels)) return null;
+      if (!level || isLegacyBandLocked(level.id, state.unlockedLevels)) return null;
       if (
         isPracticeUnitId(fallback.unitId) ||
         isCheckpointUnitId(fallback.unitId) ||
@@ -410,9 +402,8 @@ export default function AppRoutes() {
   const walkthroughSteps = useMemo(() => {
     const normalizedLanguage = normalizeLanguageId(selectedLanguage);
     const isJapanese = normalizedLanguage === 'ja';
-    const isMandarin = normalizedLanguage === 'zh';
     const isKorean = normalizedLanguage === 'kr';
-    const isScriptFocusedLanguage = isMandarin || isJapanese || isKorean;
+    const isScriptFocusedLanguage = isJapanese || isKorean;
     const runtime = getLanguageRuntime(normalizedLanguage);
     const languageLabel = runtime.label || 'this language';
     const effectiveLabel = tourRoutes.languageLabel || languageLabel;
@@ -428,16 +419,14 @@ export default function AppRoutes() {
         title: 'Main',
         body: isJapanese
           ? 'This is your Japanese roadmap. Choose a JLPT level (N5 to N1) to match your current proficiency and goals.'
-          : 'This is your Mandarin roadmap. Start in the right tier (Beginner, Intermediate, Advanced) and progress step by step.',
+          : `This is your ${effectiveLabel} roadmap. Start in the right tier and progress step by step.`,
         path: tourRoutes.mainPath,
       },
       {
         title: 'Levels',
         body: isJapanese
           ? 'Within each JLPT level, sections are structured by learning purpose: Core, Expansion, and Integration.'
-          : isMandarin
-            ? 'Each tier contains guided levels (for example Elementary I, Elementary II, and Pre-Intermediate) designed for steady progression.'
-            : `Structured level pathways for ${effectiveLabel} are prepared and will activate automatically as content is published.`,
+          : `Structured level pathways for ${effectiveLabel} are prepared and will activate automatically as content is published.`,
         path: tourRoutes.levelsPath,
       },
       {
@@ -460,7 +449,7 @@ export default function AppRoutes() {
                     <br />
                     <span className="font-semibold text-[#C2410C]">
                       Pay close attention to native script (characters/kana/hangul): mastery emphasizes script recall,
-                      not romanized aids like pinyin or romaji.
+                      not romanized aids like transliteration or romaji.
                     </span>
                   </>
                 )}
@@ -490,11 +479,9 @@ export default function AppRoutes() {
   useEffect(() => {
     const normalizedLanguage = normalizeLanguageId(selectedLanguage);
     const runtime = getLanguageRuntime(normalizedLanguage);
-    const starterBandId = STARTER_BAND_BY_LANGUAGE[normalizedLanguage] || 'band1';
+    const starterBandId = STARTER_BAND_BY_LANGUAGE[normalizedLanguage] || 'n5';
     const starterTier = tierForBand(starterBandId);
-    const defaultLevelsPath = normalizedLanguage === 'zh'
-      ? '/learn?tier=beginner'
-      : (normalizedLanguage === 'ja' ? '/learn/jlpt/n5' : '/learn');
+    const defaultLevelsPath = normalizedLanguage === 'ja' ? '/learn/jlpt/n5' : '/learn';
     const defaultState = {
       mainPath: '/learn',
       levelsPath: defaultLevelsPath,
@@ -557,6 +544,7 @@ export default function AppRoutes() {
     (kind: 'listening' | 'speaking', bandId?: string | null) => {
       const normalizedLanguage = normalizeLanguageId(selectedLanguage);
       const isJapanese = normalizedLanguage === 'ja';
+      const starterBandId = STARTER_BAND_BY_LANGUAGE[normalizedLanguage] || 'n5';
       const requestedBandId = isJapanese
         ? (
             bandId && /^n[1-5]$/i.test(bandId)
@@ -564,10 +552,10 @@ export default function AppRoutes() {
               : (/^n[1-5]$/i.test(currentLevel?.id || '') ? currentLevel!.id : 'n5')
           )
         : (
-            bandId && (/^band\d+$/i.test(bandId) || bandId === 'advanced') ? bandId : 'band1'
+            bandId && (/^band\d+$/i.test(bandId) || bandId === 'advanced') ? bandId : starterBandId
           );
-      const resolvedBand = isMandarinBandLocked(requestedBandId, state.unlockedLevels)
-        ? (isJapanese ? 'n5' : 'band1')
+      const resolvedBand = isLegacyBandLocked(requestedBandId, state.unlockedLevels)
+        ? starterBandId
         : requestedBandId;
       const targetUnitId = isJapanese
         ? `${resolvedBand}-${kind}`
@@ -589,7 +577,7 @@ export default function AppRoutes() {
       void target.mode;
       exitLesson();
       const level = LEVEL_BY_ID[target.bandId];
-      if (!level || isMandarinBandLocked(level.id, state.unlockedLevels)) {
+      if (!level || isLegacyBandLocked(level.id, state.unlockedLevels)) {
         navigate('/learn');
         return;
       }
@@ -828,10 +816,9 @@ export default function AppRoutes() {
         walkthroughHighlightLevels={walkthroughVisible && walkthroughStep === 2}
         onGoHome={goHome}
         onOpenProfile={goProfile}
-        onOpenFoundations={() => navigate('/learn/foundations')}
         onOpenLanguageIntro={() => navigate('/learn/language-intro')}
         onSelectLevel={(level: LessonBand) => {
-          if (isMandarinBandLocked(level.id, state.unlockedLevels)) {
+          if (isLegacyBandLocked(level.id, state.unlockedLevels)) {
             return;
           }
           void selectLevel(level);
@@ -857,7 +844,7 @@ export default function AppRoutes() {
     if (!selectedLanguage || !levelMatchesLanguage(level.id, selectedLanguage)) {
       return <Navigate to="/learn" replace />;
     }
-    if (isMandarinBandLocked(level.id, state.unlockedLevels)) return <Navigate to="/learn" replace />;
+    if (isLegacyBandLocked(level.id, state.unlockedLevels)) return <Navigate to="/learn" replace />;
     if (!currentLevel || currentLevel.id !== level.id || !state.activeBandData) {
       return (
         <div className="min-h-screen page-shell flex items-center justify-center">
@@ -887,13 +874,13 @@ export default function AppRoutes() {
 
   function PracticeRedirectRoute() {
     const { kind, band } = useParams<{ kind: string; band: string }>();
-    const isJapaneseBand = Boolean(band && /^n[1-5]$/i.test(band));
+    const normalizedLanguage = normalizeLanguageId(selectedLanguage);
+    const isJapaneseBand = normalizedLanguage === 'ja';
+    const starterBandId = STARTER_BAND_BY_LANGUAGE[normalizedLanguage] || 'n5';
     const targetBand = isJapaneseBand
-      ? (band as string)
-      : (band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : 'band1');
-    const resolvedBand = isJapaneseBand
-      ? (isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'n5' : targetBand)
-      : (isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'band1' : targetBand);
+      ? (band && /^n[1-5]$/i.test(band) ? band : starterBandId)
+      : (band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : starterBandId);
+    const resolvedBand = isLegacyBandLocked(targetBand, state.unlockedLevels) ? starterBandId : targetBand;
     const targetKind = kind === 'speaking' ? 'speaking' : 'listening';
     const targetUnitId = isJapaneseBand
       ? `${resolvedBand}-${targetKind}`
@@ -919,7 +906,7 @@ export default function AppRoutes() {
         }
       };
 
-      // Try requested band first, then fall back to Band 1 practice routes.
+      // Try requested band first, then fall back to the language starter practice routes.
       void openLessonPath(resolvedBand, targetUnitId, 0).then(async (opened) => {
         await waitForMinimumLoader();
         if (cancelled) return;
@@ -944,11 +931,11 @@ export default function AppRoutes() {
           });
           return;
         }
-        void openLessonPath('band1', `b1-${targetKind}`, 0).then(async (fallbackOpened) => {
+        void openLessonPath(starterBandId, `${starterBandId}-${targetKind}`, 0).then(async (fallbackOpened) => {
           await waitForMinimumLoader();
           if (cancelled) return;
           if (fallbackOpened) {
-            navigate(`/learn/beginner/band1/unit/b1-${targetKind}/lesson/0/${targetMode}`, {
+            navigate(`/learn/${tierForBand(starterBandId)}/${starterBandId}/unit/${starterBandId}-${targetKind}/lesson/0/${targetMode}`, {
               replace: true,
             });
             return;
@@ -960,7 +947,7 @@ export default function AppRoutes() {
       return () => {
         cancelled = true;
       };
-    }, [isJapaneseBand, resolvedBand, targetKind, targetMode, targetUnitId]);
+    }, [isJapaneseBand, resolvedBand, starterBandId, targetKind, targetMode, targetUnitId]);
 
     return (
       <div className="min-h-screen page-shell flex items-center justify-center">
@@ -971,8 +958,12 @@ export default function AppRoutes() {
 
   function DailyPracticeRoute() {
     const { band } = useParams<{ band: string }>();
-    const targetBand = band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : 'band1';
-    const resolvedBand = isMandarinBandLocked(targetBand, state.unlockedLevels) ? 'band1' : targetBand;
+    const normalizedLanguage = normalizeLanguageId(selectedLanguage);
+    const starterBandId = STARTER_BAND_BY_LANGUAGE[normalizedLanguage] || 'n5';
+    const targetBand = normalizedLanguage === 'ja'
+      ? (band && /^n[1-5]$/i.test(band) ? band : starterBandId)
+      : (band && (/^band\d+$/i.test(band) || band === 'advanced') ? band : starterBandId);
+    const resolvedBand = isLegacyBandLocked(targetBand, state.unlockedLevels) ? starterBandId : targetBand;
 
     useEffect(() => {
       // Build a fresh daily set and route directly into its quiz lesson.
@@ -1106,32 +1097,6 @@ export default function AppRoutes() {
             onOpenProfile={goProfile}
           />
         }
-      />
-      <Route path="/learn/tones" element={<Navigate to="/learn/foundations/tones" replace />} />
-      <Route
-        path="/learn/foundations"
-        element={
-          <FoundationsRoute
-            selectedLanguage={selectedLanguage}
-            onGoHome={goHome}
-            onOpenProfile={goProfile}
-            onOpenTones={() => navigate('/learn/foundations/tones')}
-            onOpenPinyin={() => navigate('/learn/foundations/pinyin')}
-            onOpenCharacters={() => navigate('/learn/foundations/characters')}
-          />
-        }
-      />
-      <Route
-        path="/learn/foundations/tones"
-        element={<TonesRoute selectedLanguage={selectedLanguage} onGoHome={goHome} onOpenProfile={goProfile} />}
-      />
-      <Route
-        path="/learn/foundations/pinyin"
-        element={<PinyinRoute selectedLanguage={selectedLanguage} onGoHome={goHome} onOpenProfile={goProfile} />}
-      />
-      <Route
-        path="/learn/foundations/characters"
-        element={<CharactersRoute selectedLanguage={selectedLanguage} onGoHome={goHome} onOpenProfile={goProfile} />}
       />
       <Route path="/learn/:tier/:band" element={<UnitsRoute />} />
       <Route

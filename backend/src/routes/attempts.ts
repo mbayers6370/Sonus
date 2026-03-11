@@ -7,6 +7,7 @@ import { computeQuizMemoryUpdate, computeSpeakMemoryUpdate } from '../lib/learni
 import { recordAttemptTelemetry } from '../services/learningMetricsService.js';
 import { pruneOldLearningAttempts } from '../services/revolvingRetentionService.js';
 
+
 const quizAttemptSchema = z.object({
   wordId: z.string().trim().min(1).max(80),
   isCorrect: z.boolean(),
@@ -19,12 +20,12 @@ const speakAttemptSchema = z.object({
   wordId: z.string().trim().min(1).max(80),
   isReview: z.boolean().optional(),
   transcript: z.string().max(512).optional(),
-  detectedPinyin: z.string().max(128).optional(),
+  detectedTransliteration: z.string().max(128).optional(),
   initialOk: z.boolean(),
   finalOk: z.boolean(),
   toneOk: z.boolean(),
   score: z.number().int().min(0).max(100).optional(),
-});
+}).passthrough();
 
 function nextDueDate(days: number) {
   // Convert interval days to an absolute due timestamp.
@@ -156,6 +157,7 @@ export async function attemptRoutes(app: FastifyInstance) {
     const { id: userId } = request.user;
     const data = parsed.data;
     const isReview = Boolean(data.isReview);
+    const detectedTransliteration = data.detectedTransliteration;
     const mispronounced = !(data.initialOk && data.finalOk && data.toneOk);
 
     const result = await prisma.$transaction(async (tx) => {
@@ -164,7 +166,7 @@ export async function attemptRoutes(app: FastifyInstance) {
           userId,
           wordId: data.wordId,
           transcript: data.transcript,
-          detectedPinyin: data.detectedPinyin,
+          detectedTransliteration,
           initialOk: data.initialOk,
           finalOk: data.finalOk,
           toneOk: data.toneOk,

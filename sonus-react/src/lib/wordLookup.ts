@@ -1,17 +1,16 @@
 import type { BandData, Word } from '../types/lesson.types';
-import { normalizeBandDataPayload as normalizeBandDataPayloadRuntime, normalizeLanguageId } from './languageRuntime';
+import { normalizeBandDataPayload as normalizeBandDataPayloadRuntime } from './languageRuntime';
+import { getWordReading } from './languageFields';
 
-export type WordLookup = Record<string, Pick<Word, 'id' | 'simp' | 'pinyin' | 'reading' | 'pronunciation' | 'en'>>;
+export type WordLookup = Record<string, Pick<Word, 'id' | 'simp' | 'transliteration' | 'reading' | 'pronunciation' | 'en'>>;
 
-const BAND_IDS = ['band1', 'band2', 'band3', 'band4', 'band5', 'band6', 'band7', 'band8', 'band9'] as const;
 const JLPT_IDS = ['n5', 'n4', 'n3', 'n2', 'n1'] as const;
 
-type LanguageId = 'zh' | 'ja';
+type LanguageId = 'ja';
 
 function normalizeLanguage(languageId: string | null | undefined): LanguageId {
-  const value = normalizeLanguageId(languageId);
-  if (value === 'ja') return 'ja';
-  return 'zh';
+  void languageId;
+  return 'ja';
 }
 
 function extractWords(bandData: BandData) {
@@ -23,7 +22,7 @@ function extractWords(bandData: BandData) {
 
 export async function loadWordLookup(languageId?: string | null): Promise<WordLookup> {
   const language = normalizeLanguage(languageId);
-  const bandIds = language === 'ja' ? JLPT_IDS : BAND_IDS;
+  const bandIds = JLPT_IDS;
 
   const responses = await Promise.all(
     bandIds.map(async (bandId) => {
@@ -42,9 +41,9 @@ export async function loadWordLookup(languageId?: string | null): Promise<WordLo
       lookup[word.id] = {
         id: word.id,
         simp: word.simp || word.en || '',
-        pinyin: word.pinyin || '',
-        reading: word.reading || word.pronunciation || word.pinyin || '',
-        pronunciation: word.pronunciation || word.reading || word.pinyin || '',
+        transliteration: word.transliteration || '',
+        reading: getWordReading(word),
+        pronunciation: getWordReading(word),
         en: word.en || '',
       };
     }

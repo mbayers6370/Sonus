@@ -21,7 +21,7 @@ function resolveCurrentPathStorageKey() {
 function inferLanguageFromBandId(bandId: string | null | undefined): string | null {
   if (!bandId) return null;
   if (/^n[1-5]$/i.test(bandId)) return 'ja';
-  if (/^band\d+$/i.test(bandId) || bandId === 'advanced') return 'zh';
+  if (/^band\d+$/i.test(bandId) || bandId === 'advanced') return 'ja';
   return null;
 }
 

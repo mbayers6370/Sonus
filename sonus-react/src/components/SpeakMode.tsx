@@ -1,9 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { BandData, Word, SpeakBreakdown } from '../types/lesson.types';
+import type {
+  BandData,
+  Word,
+  SpeakBreakdown,
+  SpeakFeedbackReason,
+  SpeakFeedbackReliability,
+} from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, Mic, ChevronRight, Check } from 'lucide-react';
-import { pinyin as toPinyin } from 'pinyin-pro';
 import { sendClientTelemetrySafe, sendSpeakAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
@@ -21,6 +26,7 @@ import { getLessonRanges } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { requestMicStreamWithFallback } from '../lib/micCapture';
+import { getExampleNative, getExampleReading, getWordReading } from '../lib/languageFields';
 
 interface SpeakModeProps {
   word: Word;
@@ -35,7 +41,7 @@ interface SpeakModeProps {
 
 type MatchResult = 'match' | 'retry' | null;
 
-type PinyinSyllable = {
+type RomanizedSyllable = {
   raw: string;
   initial: string;
   final: string;
@@ -60,10 +66,12 @@ type ScoreBreakdown = {
 };
 
 type PronunciationAnalysis = {
-  targetPinyin: string;
-  detectedPinyin: string;
-  source: 'hanzi-map' | 'latin' | 'unresolved';
-  alignedHeard: Array<PinyinSyllable | null>;
+  targetTransliteration: string;
+  detectedTransliteration: string;
+  source: 'script-map' | 'latin' | 'unresolved';
+  feedbackReliability: SpeakFeedbackReliability;
+  feedbackReason: SpeakFeedbackReason;
+  alignedHeard: Array<RomanizedSyllable | null>;
   missingSyllables: number;
   extraSyllables: number;
   toneEligibleTotal: number;
@@ -84,8 +92,8 @@ const NO_INPUT_AUTO_STOP_MS = 3800;
 const SENTENCE_MODE_NO_INPUT_AUTO_STOP_MS = 12000;
 const SENTENCE_MODE_SILENCE_STOP_MS = 1400;
 const SHORT_UTTERANCE_SILENCE_STOP_MS = 260;
-const MANDARIN_CONFIDENCE_FLOOR_INTERIM = 0.18;
-const MANDARIN_CONFIDENCE_FLOOR_FINAL = 0.28;
+const LEGACY_TONE_CONFIDENCE_FLOOR_INTERIM = 0.18;
+const LEGACY_TONE_CONFIDENCE_FLOOR_FINAL = 0.28;
 const NO_SPEECH_RESULT_TEXT = 'No speech detected';
 const LOW_CONFIDENCE_RESULT_TEXT = 'Couldn’t confidently detect that. Try once more.';
 const LESSON_UNLOCK_PASS_PERCENT = 85;
@@ -163,7 +171,6 @@ function getSttCapability(): SttCapability {
 }
 
 const INITIALS = [
-  'zh',
   'ch',
   'sh',
   'b',
@@ -215,45 +222,45 @@ const TONE_CHAR_MAP: Record<string, { base: string; tone: number }> = {
   'ǜ': { base: 'ü', tone: 4 },
 };
 
-const hanziLookupLoadedBands = new Set<string>();
-const hanziLookupPromises = new Map<string, Promise<void>>();
-const hanziToPinyinWord = new Map<string, string>();
-const hanziToPinyinChar = new Map<string, string>();
-const pinyinToHanziChar = new Map<string, string>();
-const HANZI_PINYIN_OVERRIDES: Record<string, string> = {
+const scriptLookupLoadedBands = new Set<string>();
+const scriptLookupPromises = new Map<string, Promise<void>>();
+const scriptToReadingWord = new Map<string, string>();
+const scriptToReadingChar = new Map<string, string>();
+const readingToScriptChar = new Map<string, string>();
+const SCRIPT_READING_OVERRIDES: Record<string, string> = {
   // In conversational learner context, 嗨 is generally intended as the greeting "hāi".
   嗨: 'hāi',
 };
 
-function firstPinyinSyllable(pinyin: string) {
-  return pinyin.trim().split(/\s+/)[0] || '';
+function firstRomanizedSyllable(transliteration: string) {
+  return transliteration.trim().split(/\s+/)[0] || '';
 }
 
-function pinyinLookupKeys(rawSyllable: string) {
+function romanizedLookupKeys(rawSyllable: string) {
   const { ascii, tone } = toToneAndAscii(rawSyllable);
   if (!ascii) return [];
   const keyWithTone = tone === 5 ? ascii : `${ascii}${tone}`;
   return [keyWithTone, ascii];
 }
 
-function addHanziMapping(hanziRaw: string, pinyinRaw: string) {
-  const hanzi = normalizeHanzi(hanziRaw);
-  const pinyin = pinyinRaw.trim();
-  if (!hanzi || !pinyin) return;
-  if (!hanziToPinyinWord.has(hanzi)) {
-    hanziToPinyinWord.set(hanzi, pinyin);
+function addScriptMapping(scriptRaw: string, transliterationRaw: string) {
+  const script = normalizeScriptText(scriptRaw);
+  const transliteration = transliterationRaw.trim();
+  if (!script || !transliteration) return;
+  if (!scriptToReadingWord.has(script)) {
+    scriptToReadingWord.set(script, transliteration);
   }
-  const chars = Array.from(hanzi);
-  const tokens = tokenizePinyin(pinyin, chars.length);
+  const chars = Array.from(script);
+  const tokens = tokenizeRomanized(transliteration, chars.length);
   if (chars.length === 1) {
-    const syllable = firstPinyinSyllable(pinyin);
+    const syllable = firstRomanizedSyllable(transliteration);
     if (!syllable) return;
-    if (!hanziToPinyinChar.has(hanzi)) {
-      hanziToPinyinChar.set(hanzi, syllable);
+    if (!scriptToReadingChar.has(script)) {
+      scriptToReadingChar.set(script, syllable);
     }
-    for (const key of pinyinLookupKeys(syllable)) {
-      if (!pinyinToHanziChar.has(key)) {
-        pinyinToHanziChar.set(key, hanzi);
+    for (const key of romanizedLookupKeys(syllable)) {
+      if (!readingToScriptChar.has(key)) {
+        readingToScriptChar.set(key, script);
       }
     }
     return;
@@ -263,26 +270,26 @@ function addHanziMapping(hanziRaw: string, pinyinRaw: string) {
     chars.forEach((char, index) => {
       const token = tokens[index];
       if (!token) return;
-      if (!hanziToPinyinChar.has(char)) {
-        hanziToPinyinChar.set(char, token);
+      if (!scriptToReadingChar.has(char)) {
+        scriptToReadingChar.set(char, token);
       }
-      for (const key of pinyinLookupKeys(token)) {
-        if (!pinyinToHanziChar.has(key)) {
-          pinyinToHanziChar.set(key, char);
+      for (const key of romanizedLookupKeys(token)) {
+        if (!readingToScriptChar.has(key)) {
+          readingToScriptChar.set(key, char);
         }
       }
     });
   }
 }
 
-function mapPinyinToHanzi(pinyinRaw: string) {
-  const tokens = tokenizePinyin(pinyinRaw || '', 1);
+function mapReadingToScript(transliterationRaw: string) {
+  const tokens = tokenizeRomanized(transliterationRaw || '', 1);
   if (!tokens.length) return '';
   const chars = tokens
     .map((token) => {
-      const keys = pinyinLookupKeys(token);
+      const keys = romanizedLookupKeys(token);
       for (const key of keys) {
-        const mapped = pinyinToHanziChar.get(key);
+        const mapped = readingToScriptChar.get(key);
         if (mapped) return mapped;
       }
       return '';
@@ -291,17 +298,15 @@ function mapPinyinToHanzi(pinyinRaw: string) {
   return chars.join('');
 }
 
-function samePinyinToken(a: string, b: string) {
-  const aKeys = pinyinLookupKeys(a);
-  const bKeys = pinyinLookupKeys(b);
+function sameRomanizedToken(a: string, b: string) {
+  const aKeys = romanizedLookupKeys(a);
+  const bKeys = romanizedLookupKeys(b);
   return aKeys.some((key) => bKeys.includes(key));
 }
 
 const INITIAL_NEAR_MISS = new Set([
   'n:l',
   'l:n',
-  'zh:z',
-  'z:zh',
   'ch:c',
   'c:ch',
   'sh:s',
@@ -321,6 +326,15 @@ const FINAL_NEAR_MISS = new Set([
   'uang:uan',
 ]);
 
+const INITIAL_STT_CONFUSION = new Set([
+  'c:q',
+  'q:c',
+  'z:j',
+  'j:z',
+  's:x',
+  'x:s',
+]);
+
 function matchesInitial(targetInitial: string, heardInitial: string) {
   if (targetInitial === heardInitial) return true;
   return INITIAL_NEAR_MISS.has(`${targetInitial}:${heardInitial}`);
@@ -337,11 +351,30 @@ function matchesFinal(targetFinal: string, heardFinal: string) {
   return FINAL_NEAR_MISS.has(`${left}:${right}`);
 }
 
-function isLikelyMandarinTranscript(raw: string, expectedSyllables: number) {
+function initialsAreClose(targetInitial: string, heardInitial: string) {
+  if (matchesInitial(targetInitial, heardInitial)) return true;
+  return INITIAL_STT_CONFUSION.has(`${targetInitial}:${heardInitial}`);
+}
+
+function finalVowelFamily(finalValue: string) {
+  const normalized = normalizeFinalForCompare(finalValue || '');
+  const vowel = (normalized.match(/[aeiouü]/) || [])[0] || '';
+  const nasal = normalized.endsWith('ng') ? 'ng' : normalized.endsWith('n') ? 'n' : '';
+  return `${vowel}:${nasal}`;
+}
+
+function finalsAreClose(targetFinal: string, heardFinal: string) {
+  if (matchesFinal(targetFinal, heardFinal)) return true;
+  const left = finalVowelFamily(targetFinal);
+  const right = finalVowelFamily(heardFinal);
+  return Boolean(left) && left === right;
+}
+
+function isLikelyToneTranscript(raw: string, expectedSyllables: number) {
   const value = (raw || '').trim();
   if (!value) return false;
-  if (normalizeHanzi(value)) return true;
-  const tokens = parsePinyin(value, Math.max(1, expectedSyllables));
+  if (normalizeScriptText(value)) return true;
+  const tokens = parseRomanizedSyllables(value, Math.max(1, expectedSyllables));
   return tokens.length > 0;
 }
 
@@ -363,17 +396,17 @@ function isSiriArtifactTranscript(raw: string) {
   return /\bsiri\b/.test(value);
 }
 
-function inferHanziFromDetectedPinyin(
-  detectedPinyinRaw: string,
-  targetHanziRaw: string,
-  targetPinyinRaw: string,
+function inferScriptFromDetectedTransliteration(
+  detectedTransliterationRaw: string,
+  targetScriptRaw: string,
+  targetTransliterationRaw: string,
   lessonWords: Word[]
 ) {
-  const detectedTokens = tokenizePinyin(detectedPinyinRaw || '', 1);
+  const detectedTokens = tokenizeRomanized(detectedTransliterationRaw || '', 1);
   if (!detectedTokens.length) return '';
 
-  const targetChars = Array.from(normalizeHanzi(targetHanziRaw));
-  const targetTokens = tokenizePinyin(targetPinyinRaw || '', targetChars.length);
+  const targetChars = Array.from(normalizeScriptText(targetScriptRaw));
+  const targetTokens = tokenizeRomanized(targetTransliterationRaw || '', targetChars.length);
   const resolvedChars: string[] = [];
 
   for (let index = 0; index < detectedTokens.length; index += 1) {
@@ -381,12 +414,12 @@ function inferHanziFromDetectedPinyin(
     if (!detected) continue;
 
     // Highest confidence: exact target alignment.
-    if (index < targetTokens.length && index < targetChars.length && samePinyinToken(detected, targetTokens[index])) {
+    if (index < targetTokens.length && index < targetChars.length && sameRomanizedToken(detected, targetTokens[index])) {
       resolvedChars.push(targetChars[index]);
       continue;
     }
     if (detectedTokens.length === 1) {
-      const targetIdx = targetTokens.findIndex((token) => samePinyinToken(detected, token));
+      const targetIdx = targetTokens.findIndex((token) => sameRomanizedToken(detected, token));
       if (targetIdx >= 0 && targetChars[targetIdx]) {
         resolvedChars.push(targetChars[targetIdx]);
         continue;
@@ -396,11 +429,11 @@ function inferHanziFromDetectedPinyin(
     // Next confidence: lesson-context alignment vote.
     const vote = new Map<string, number>();
     for (const lessonWord of lessonWords) {
-      const chars = Array.from(normalizeHanzi(lessonWord.simp || lessonWord.trad || ''));
+      const chars = Array.from(normalizeScriptText(lessonWord.simp || lessonWord.trad || ''));
       if (!chars.length) continue;
-      const tokens = tokenizePinyin(lessonWord.pinyin || '', chars.length);
+      const tokens = tokenizeRomanized(getWordReading(lessonWord) || '', chars.length);
       for (let i = 0; i < Math.min(chars.length, tokens.length); i += 1) {
-        if (samePinyinToken(detected, tokens[i])) {
+        if (sameRomanizedToken(detected, tokens[i])) {
           vote.set(chars[i], (vote.get(chars[i]) || 0) + 1);
         }
       }
@@ -414,7 +447,7 @@ function inferHanziFromDetectedPinyin(
     }
 
     // Lowest confidence fallback: only allow when token has a direct, unique map.
-    const fallbackChar = mapPinyinToHanzi(detected);
+    const fallbackChar = mapReadingToScript(detected);
     if (fallbackChar && Array.from(fallbackChar).length === 1) {
       resolvedChars.push(fallbackChar);
     }
@@ -425,8 +458,8 @@ function inferHanziFromDetectedPinyin(
 
 function hydrateLookupFromWords(words: Word[]) {
   for (const lessonWord of words || []) {
-    addHanziMapping(lessonWord.simp, lessonWord.pinyin || '');
-    addHanziMapping(lessonWord.trad || '', lessonWord.pinyin || '');
+    addScriptMapping(lessonWord.simp, getWordReading(lessonWord) || '');
+    addScriptMapping(lessonWord.trad || '', getWordReading(lessonWord) || '');
   }
 }
 
@@ -437,13 +470,13 @@ function hydrateLookupFromBandData(bandData: BandData | null | undefined) {
     : Object.values(bandData.units || {});
   for (const unit of units) {
     for (const unitWord of unit.words || []) {
-      addHanziMapping(unitWord.simp, unitWord.pinyin || '');
-      addHanziMapping(unitWord.trad || '', unitWord.pinyin || '');
+      addScriptMapping(unitWord.simp, getWordReading(unitWord) || '');
+      addScriptMapping(unitWord.trad || '', getWordReading(unitWord) || '');
     }
   }
 }
 
-async function ensureHanziLookupLoaded(
+async function ensureScriptLookupLoaded(
   bandId: string | null | undefined,
   bandData: BandData | null | undefined,
   lessonWords: Word[]
@@ -452,55 +485,46 @@ async function ensureHanziLookupLoaded(
   if (!bandId || !bandData) {
     return;
   }
-  if (hanziLookupLoadedBands.has(bandId)) {
+  if (scriptLookupLoadedBands.has(bandId)) {
     return;
   }
-  if (hanziLookupPromises.has(bandId)) {
-    return hanziLookupPromises.get(bandId);
+  if (scriptLookupPromises.has(bandId)) {
+    return scriptLookupPromises.get(bandId);
   }
 
   const loadPromise = Promise.resolve().then(() => {
     hydrateLookupFromBandData(bandData);
-    hanziLookupLoadedBands.add(bandId);
+    scriptLookupLoadedBands.add(bandId);
   });
-  hanziLookupPromises.set(bandId, loadPromise);
+  scriptLookupPromises.set(bandId, loadPromise);
   await loadPromise;
-  hanziLookupPromises.delete(bandId);
+  scriptLookupPromises.delete(bandId);
 }
 
-function convertHanziToPinyin(hanziRaw: string): string {
-  const hanzi = normalizeHanzi(hanziRaw);
-  if (!hanzi) return '';
-  try {
-    const chars = Array.from(hanzi);
-    const result = chars.map((char) => {
-      const overridden = HANZI_PINYIN_OVERRIDES[char];
-      if (overridden) return overridden;
-      const value = toPinyin(char, { type: 'array', toneType: 'symbol' });
-      if (!Array.isArray(value)) return '';
-      return (value[0] || '').trim();
-    }).filter(Boolean);
-    return result.join(' ');
-  } catch {
-    return '';
-  }
+function convertScriptToReading(scriptRaw: string): string {
+  const script = normalizeScriptText(scriptRaw);
+  if (!script) return '';
+  const overrides = Array.from(script)
+    .map((char) => SCRIPT_READING_OVERRIDES[char] || '')
+    .filter(Boolean);
+  return overrides.join(' ');
 }
 
-function mapHanziToPinyin(hanziRaw: string): string {
-  const hanzi = normalizeHanzi(hanziRaw);
-  if (!hanzi) return '';
+function mapScriptToReading(scriptRaw: string): string {
+  const script = normalizeScriptText(scriptRaw);
+  if (!script) return '';
 
-  const direct = hanziToPinyinWord.get(hanzi);
+  const direct = scriptToReadingWord.get(script);
   if (direct) return direct;
 
-  if (hanzi.length === 1) {
-    return hanziToPinyinChar.get(hanzi) || convertHanziToPinyin(hanzi);
+  if (script.length === 1) {
+    return scriptToReadingChar.get(script) || convertScriptToReading(script);
   }
 
   const syllables: string[] = [];
   let mappedCount = 0;
-  for (const char of Array.from(hanzi)) {
-    const mapped = hanziToPinyinChar.get(char);
+  for (const char of Array.from(script)) {
+    const mapped = scriptToReadingChar.get(char);
     if (!mapped) {
       syllables.push('?');
       continue;
@@ -508,13 +532,13 @@ function mapHanziToPinyin(hanziRaw: string): string {
     mappedCount += 1;
     syllables.push(mapped);
   }
-  if (mappedCount === 0) return convertHanziToPinyin(hanzi);
+  if (mappedCount === 0) return convertScriptToReading(script);
   const joined = syllables.join(' ');
-  const cleaned = stripUnknownPinyinTokens(joined);
-  return cleaned || convertHanziToPinyin(hanzi);
+  const cleaned = stripUnknownReadingTokens(joined);
+  return cleaned || convertScriptToReading(script);
 }
 
-function stripUnknownPinyinTokens(value: string) {
+function stripUnknownReadingTokens(value: string) {
   return value
     .trim()
     .split(/\s+/)
@@ -522,15 +546,15 @@ function stripUnknownPinyinTokens(value: string) {
     .join(' ');
 }
 
-function inferPinyinFromTargetHanzi(recognizedHanziRaw: string, targetHanziRaw: string, targetPinyinRaw: string) {
-  const recognized = Array.from(normalizeHanzi(recognizedHanziRaw));
-  const targetHanzi = Array.from(normalizeHanzi(targetHanziRaw));
-  const targetTokens = tokenizePinyin(targetPinyinRaw || '', targetHanzi.length);
-  if (!recognized.length || !targetHanzi.length || !targetTokens.length) return '';
+function inferReadingFromTargetScript(recognizedScriptRaw: string, targetScriptRaw: string, targetTransliterationRaw: string) {
+  const recognized = Array.from(normalizeScriptText(recognizedScriptRaw));
+  const targetScript = Array.from(normalizeScriptText(targetScriptRaw));
+  const targetTokens = tokenizeRomanized(targetTransliterationRaw || '', targetScript.length);
+  if (!recognized.length || !targetScript.length || !targetTokens.length) return '';
 
   const inferred: string[] = [];
   for (const char of recognized) {
-    const idx = targetHanzi.indexOf(char);
+    const idx = targetScript.indexOf(char);
     if (idx < 0) continue;
     const token = targetTokens[idx];
     if (token) inferred.push(token);
@@ -538,18 +562,18 @@ function inferPinyinFromTargetHanzi(recognizedHanziRaw: string, targetHanziRaw: 
   return inferred.join(' ').trim();
 }
 
-function inferSingleCharPinyinFromLessonWords(charRaw: string, words: Word[]) {
-  const char = normalizeHanzi(charRaw);
+function inferSingleCharReadingFromLessonWords(charRaw: string, words: Word[]) {
+  const char = normalizeScriptText(charRaw);
   if (!char || Array.from(char).length !== 1) return '';
 
   const candidates: string[] = [];
-  // Align Hanzi index to pinyin token index for each lesson word that contains the character.
+  // Align Script index to transliteration token index for each lesson word that contains the character.
   for (const lessonWord of words) {
-    const lessonHanzi = Array.from(normalizeHanzi(lessonWord.simp || lessonWord.trad || ''));
-    if (!lessonHanzi.length) continue;
-    const idx = lessonHanzi.indexOf(char);
+    const lessonScript = Array.from(normalizeScriptText(lessonWord.simp || lessonWord.trad || ''));
+    if (!lessonScript.length) continue;
+    const idx = lessonScript.indexOf(char);
     if (idx < 0) continue;
-    const tokens = tokenizePinyin(lessonWord.pinyin || '', lessonHanzi.length);
+    const tokens = tokenizeRomanized(getWordReading(lessonWord) || '', lessonScript.length);
     const token = tokens[idx];
     if (token) candidates.push(token);
   }
@@ -645,7 +669,7 @@ function countJapaneseMora(value: string) {
 function japanesePronunciationKey(input: {
   reading?: string | null;
   hiragana?: string | null;
-  pinyin?: string | null;
+  transliteration?: string | null;
   simp?: string | null;
 }) {
   const fromKana = normalizeJapaneseReadingForCompare(
@@ -653,8 +677,8 @@ function japanesePronunciationKey(input: {
   );
   if (fromKana) return fromKana;
 
-  const fromPinyin = normalizeLatinForCompare(input.pinyin || '');
-  if (fromPinyin) return fromPinyin;
+  const fromTransliteration = normalizeLatinForCompare(input.transliteration || '');
+  if (fromTransliteration) return fromTransliteration;
 
   const fromScriptRomaji = normalizeLatinForCompare(romanizeJapaneseForDisplay(input.simp || ''));
   return fromScriptRomaji;
@@ -663,7 +687,7 @@ function japanesePronunciationKey(input: {
 function japaneseRomajiFromEntry(input: {
   reading?: string | null;
   hiragana?: string | null;
-  pinyin?: string | null;
+  transliteration?: string | null;
   simp?: string | null;
 }) {
   const fromReading = normalizeLatinForCompare(
@@ -671,8 +695,8 @@ function japaneseRomajiFromEntry(input: {
   );
   if (fromReading) return fromReading;
 
-  const fromPinyin = normalizeLatinForCompare(input.pinyin || '');
-  if (fromPinyin) return fromPinyin;
+  const fromTransliteration = normalizeLatinForCompare(input.transliteration || '');
+  if (fromTransliteration) return fromTransliteration;
 
   return normalizeLatinForCompare(romanizeJapaneseForDisplay(input.simp || ''));
 }
@@ -691,13 +715,13 @@ function normalizeLatinForCompare(value: string) {
   return normalize(value || '').replace(/[^a-z0-9]/g, '');
 }
 
-function normalizeHanzi(value: string) {
+function normalizeScriptText(value: string) {
   return value.replace(/[^\p{Script=Han}]/gu, '');
 }
 
 function buildSpeakBreakdown(
   heardText: string,
-  targetPinyin: string,
+  targetTransliteration: string,
   analysis: PronunciationAnalysis | null,
   languageId: string,
   isMatch: boolean
@@ -708,14 +732,16 @@ function buildSpeakBreakdown(
       : EMPTY_SCORE;
     return {
       heardText,
-      targetPinyin,
-      detectedPinyin: '',
+      targetTransliteration,
+      detectedTransliteration: '',
       language: languageId,
       dimensions: buildSpeakDimensionScores({
         languageId,
         word: baseWordScore,
       }),
       source: heardText === 'No speech detected' ? 'no-speech' : 'unresolved',
+      feedbackReliability: 'low',
+      feedbackReason: heardText === 'No speech detected' ? 'unresolved_capture' : 'low_confidence_capture',
       initial: EMPTY_SCORE,
       final: EMPTY_SCORE,
       tone: EMPTY_SCORE,
@@ -724,8 +750,8 @@ function buildSpeakBreakdown(
 
   return {
     heardText,
-    targetPinyin,
-    detectedPinyin: analysis.detectedPinyin,
+    targetTransliteration,
+    detectedTransliteration: analysis.detectedTransliteration,
     language: languageId,
     dimensions: buildSpeakDimensionScores({
       languageId,
@@ -734,6 +760,8 @@ function buildSpeakBreakdown(
       tone: analysis.tone,
     }),
     source: analysis.source,
+    feedbackReliability: analysis.feedbackReliability,
+    feedbackReason: analysis.feedbackReason,
     initial: analysis.initial,
     final: analysis.final,
     tone: analysis.tone,
@@ -782,7 +810,7 @@ function toToneAndAscii(rawSyllable: string) {
   return { ascii, tone };
 }
 
-function splitCompactPinyin(compact: string, expectedCount: number) {
+function splitCompactRomanized(compact: string, expectedCount: number) {
   if (!compact) return [];
   if (expectedCount <= 1) return [compact];
 
@@ -854,7 +882,7 @@ function splitCompactPinyin(compact: string, expectedCount: number) {
   return chunks.reverse();
 }
 
-function tokenizePinyin(input: string, expectedCount: number) {
+function tokenizeRomanized(input: string, expectedCount: number) {
   const cleaned = input
     .toLowerCase()
     .replace(/u:/g, 'ü')
@@ -870,10 +898,10 @@ function tokenizePinyin(input: string, expectedCount: number) {
     return spaced;
   }
 
-  return splitCompactPinyin(cleaned.replace(/\s+/g, ''), expectedCount);
+  return splitCompactRomanized(cleaned.replace(/\s+/g, ''), expectedCount);
 }
 
-function parseSyllable(rawSyllable: string): PinyinSyllable | null {
+function parseSyllable(rawSyllable: string): RomanizedSyllable | null {
   const { ascii, tone } = toToneAndAscii(rawSyllable);
   if (!ascii) return null;
 
@@ -890,17 +918,17 @@ function parseSyllable(rawSyllable: string): PinyinSyllable | null {
   };
 }
 
-function parsePinyin(input: string, expectedCount: number): PinyinSyllable[] {
-  return tokenizePinyin(input, expectedCount)
+function parseRomanizedSyllables(input: string, expectedCount: number): RomanizedSyllable[] {
+  return tokenizeRomanized(input, expectedCount)
     .map(parseSyllable)
-    .filter((syllable): syllable is PinyinSyllable => syllable !== null);
+    .filter((syllable): syllable is RomanizedSyllable => syllable !== null);
 }
 
 function alignHeardToTargetSyllables(
-  target: PinyinSyllable[],
-  heard: PinyinSyllable[]
+  target: RomanizedSyllable[],
+  heard: RomanizedSyllable[]
 ) {
-  const MANDARIN_ALIGNMENT_WEIGHTS = {
+  const LEGACY_TONE_ALIGNMENT_WEIGHTS = {
     initial: 1,
     final: 3,
     toneExact: 2,
@@ -916,33 +944,33 @@ function alignHeardToTargetSyllables(
     { length: targetLen + 1 },
     () => Array.from({ length: heardLen + 1 }, () => null)
   );
-  const alignedHeard: Array<PinyinSyllable | null> = Array.from({ length: targetLen }, () => null);
+  const alignedHeard: Array<RomanizedSyllable | null> = Array.from({ length: targetLen }, () => null);
 
   dp[0][0] = 0;
   for (let i = 1; i <= targetLen; i += 1) {
-    dp[i][0] = dp[i - 1][0] + MANDARIN_ALIGNMENT_WEIGHTS.skipTarget;
+    dp[i][0] = dp[i - 1][0] + LEGACY_TONE_ALIGNMENT_WEIGHTS.skipTarget;
     back[i][0] = 'skip-target';
   }
   for (let j = 1; j <= heardLen; j += 1) {
-    dp[0][j] = dp[0][j - 1] + MANDARIN_ALIGNMENT_WEIGHTS.skipHeard;
+    dp[0][j] = dp[0][j - 1] + LEGACY_TONE_ALIGNMENT_WEIGHTS.skipHeard;
     back[0][j] = 'skip-heard';
   }
 
-  const matchWeight = (targetSyllable: PinyinSyllable, heardSyllable: PinyinSyllable) => {
+  const matchWeight = (targetSyllable: RomanizedSyllable, heardSyllable: RomanizedSyllable) => {
     let weight = 0;
     const initialOk = matchesInitial(targetSyllable.initial, heardSyllable.initial);
     const finalOk = matchesFinal(targetSyllable.final, heardSyllable.final);
-    if (initialOk) weight += MANDARIN_ALIGNMENT_WEIGHTS.initial;
-    if (finalOk) weight += MANDARIN_ALIGNMENT_WEIGHTS.final;
+    if (initialOk) weight += LEGACY_TONE_ALIGNMENT_WEIGHTS.initial;
+    if (finalOk) weight += LEGACY_TONE_ALIGNMENT_WEIGHTS.final;
     const toneMatchesExactly = targetSyllable.tone === heardSyllable.tone && initialOk && finalOk;
-    if (toneMatchesExactly) weight += MANDARIN_ALIGNMENT_WEIGHTS.toneExact;
+    if (toneMatchesExactly) weight += LEGACY_TONE_ALIGNMENT_WEIGHTS.toneExact;
     return weight;
   };
 
   for (let i = 0; i < targetLen; i += 1) {
     for (let j = 0; j < heardLen; j += 1) {
-      const skipTarget = dp[i][j + 1] + MANDARIN_ALIGNMENT_WEIGHTS.skipTarget;
-      const skipHeard = dp[i + 1][j] + MANDARIN_ALIGNMENT_WEIGHTS.skipHeard;
+      const skipTarget = dp[i][j + 1] + LEGACY_TONE_ALIGNMENT_WEIGHTS.skipTarget;
+      const skipHeard = dp[i + 1][j] + LEGACY_TONE_ALIGNMENT_WEIGHTS.skipHeard;
       const match = dp[i][j] + matchWeight(target[i], heard[j]);
 
       let best = skipTarget;
@@ -1011,6 +1039,72 @@ function alignHeardToTargetSyllables(
     toneEligibleCount,
     missingSyllables: Math.max(0, targetLen - alignedCount),
     extraSyllables: Math.max(0, heardLen - alignedCount),
+  };
+}
+
+function classifyFeedbackReliability(
+  target: RomanizedSyllable[],
+  analysis: Pick<
+    PronunciationAnalysis,
+    'alignedHeard' | 'missingSyllables' | 'initial' | 'final' | 'tone'
+  >
+): { feedbackReliability: SpeakFeedbackReliability; feedbackReason: SpeakFeedbackReason } {
+  const alignedCount = analysis.alignedHeard.filter(Boolean).length;
+  if (alignedCount === 0) {
+    return { feedbackReliability: 'low', feedbackReason: 'unresolved_capture' };
+  }
+
+  if (analysis.missingSyllables > 0 && target.length > 1) {
+    return { feedbackReliability: 'low', feedbackReason: 'partial_capture' };
+  }
+
+  let closePhoneticSlots = 0;
+  let toneOnlySlots = 0;
+  for (let idx = 0; idx < target.length; idx += 1) {
+    const heard = analysis.alignedHeard[idx];
+    if (!heard) continue;
+    const targetToken = target[idx];
+    const closeInitial = initialsAreClose(targetToken.initial, heard.initial);
+    const closeFinal = finalsAreClose(targetToken.final, heard.final);
+    if (closeInitial || closeFinal) closePhoneticSlots += 1;
+    if (closeInitial && closeFinal && targetToken.tone !== heard.tone) {
+      toneOnlySlots += 1;
+    }
+  }
+
+  if (analysis.initial.pass && analysis.final.pass && !analysis.tone.pass) {
+    return { feedbackReliability: 'high', feedbackReason: 'tone_only_miss' };
+  }
+
+  if (target.length === 1 && closePhoneticSlots >= 1 && !analysis.tone.pass) {
+    return { feedbackReliability: 'medium', feedbackReason: 'short_utterance_ambiguous' };
+  }
+
+  if (analysis.initial.percent >= 67 && analysis.final.percent >= 67) {
+    if (toneOnlySlots > 0) {
+      return { feedbackReliability: 'high', feedbackReason: 'tone_only_miss' };
+    }
+    if (!analysis.initial.pass || !analysis.final.pass || !analysis.tone.pass) {
+      return { feedbackReliability: 'medium', feedbackReason: 'near_phonetic_substitution' };
+    }
+    return { feedbackReliability: 'high', feedbackReason: 'strong_alignment' };
+  }
+
+  if (closePhoneticSlots > 0) {
+    return { feedbackReliability: 'medium', feedbackReason: 'near_phonetic_substitution' };
+  }
+
+  return { feedbackReliability: 'low', feedbackReason: 'unresolved_capture' };
+}
+
+function applyLowConfidenceReliability(
+  analysis: PronunciationAnalysis | null
+): PronunciationAnalysis | null {
+  if (!analysis) return null;
+  return {
+    ...analysis,
+    feedbackReliability: 'low',
+    feedbackReason: 'low_confidence_capture',
   };
 }
 
@@ -1138,9 +1232,9 @@ function pickBetterCandidate(
   if (!current) return next;
   if (current.isFinal !== next.isFinal) return next.isFinal ? next : current;
 
-  // Language-aware ranking: for target-language learning (Mandarin/Japanese),
+  // Language-aware ranking: for target-language learning (target-language),
   // prefer correctness/pronunciation fit before raw confidence.
-  if (languageId === 'zh' || languageId === 'ja') {
+  if (languageId === 'ja') {
     if (current.match !== next.match) return next.match ? next : current;
     if (current.compositeScore !== next.compositeScore) {
       return next.compositeScore > current.compositeScore ? next : current;
@@ -1226,18 +1320,18 @@ export default function SpeakMode({
     ? 'ja'
     : resolveSpeakLanguageForSession(state.selectedLanguage, state.activeBandId);
   const isJapaneseLesson = speakLanguageId === 'ja';
-  const isMandarinLesson = speakLanguageId === 'zh';
+  const isLegacyToneLesson = false;
   const isPracticeFocusSpeakSession =
     practiceMode && /^(?:b\d+|b79|n[1-5])-speaking$/i.test((state.activeLesson?.unitId || '').trim());
-  const practiceSentence = (word.example?.zh || '').trim();
+  const practiceSentence = getExampleNative(word.example);
   const practiceSentenceEnglish = (word.example?.en || '').trim();
   const useSentenceTargetInPractice = isPracticeFocusSpeakSession && Boolean(practiceSentence);
   const ttsTargetText = useSentenceTargetInPractice
     ? practiceSentence
     : (isJapaneseLesson ? (word.hiragana || word.reading || word.simp) : word.simp);
   const ttsTargetReading = useSentenceTargetInPractice
-    ? (word.example?.reading || word.example?.pinyin || (isJapaneseLesson ? word.reading : word.pinyin) || '')
-    : ((isJapaneseLesson ? (word.reading || word.pinyin) : word.pinyin) || '');
+    ? (getExampleReading(word.example) || getWordReading(word) || '')
+    : (getWordReading(word) || '');
   const completedUnitSeenTerms = useMemo(() => {
     if (!state.activeBandId || !state.activeBandData) return [] as string[];
     const terms = new Set<string>();
@@ -1266,8 +1360,8 @@ export default function SpeakMode({
     () => [word.simp, word.trad || '', ...(word.variants || [])].map((value) => normalizeTerm(value)).filter(Boolean),
     [word.simp, word.trad, word.variants]
   );
-  const practiceSentenceTargetHanziTerms = useMemo(
-    () => practiceSentenceTargetTerms.map((value) => normalizeHanzi(value)).filter(Boolean),
+  const practiceSentenceTargetScriptTerms = useMemo(
+    () => practiceSentenceTargetTerms.map((value) => normalizeScriptText(value)).filter(Boolean),
     [practiceSentenceTargetTerms]
   );
   const practiceSentenceTargetJapaneseTerms = useMemo(
@@ -1284,42 +1378,42 @@ export default function SpeakMode({
     [completedUnitSeenTerms, practiceSentence, practiceSentenceTargetTerms, word.simp]
   );
 
-  const targetHanzi = normalizeHanzi(word.simp);
+  const targetScript = normalizeScriptText(word.simp);
   const targetHomophoneSet = useMemo(() => {
     const values = new Set<string>();
-    values.add(targetHanzi);
-    const normalizedTrad = normalizeHanzi(word.trad || '');
+    values.add(targetScript);
+    const normalizedTrad = normalizeScriptText(word.trad || '');
     if (normalizedTrad) values.add(normalizedTrad);
     for (const variant of word.variants || []) {
-      const normalized = normalizeHanzi(variant || '');
+      const normalized = normalizeScriptText(variant || '');
       if (normalized) values.add(normalized);
     }
     const members = word.homophoneGroup?.members || [];
     for (const member of members) {
-      const direct = normalizeHanzi(member.simp || '');
+      const direct = normalizeScriptText(member.simp || '');
       if (direct) values.add(direct);
       if (member.id) {
         const byId = allWords.find((candidate) => candidate.id === member.id);
-        const byIdSimp = normalizeHanzi(byId?.simp || '');
-        const byIdTrad = normalizeHanzi(byId?.trad || '');
+        const byIdSimp = normalizeScriptText(byId?.simp || '');
+        const byIdTrad = normalizeScriptText(byId?.trad || '');
         if (byIdSimp) values.add(byIdSimp);
         if (byIdTrad) values.add(byIdTrad);
       }
     }
     return values;
-  }, [allWords, targetHanzi, word.homophoneGroup?.members, word.trad, word.variants]);
+  }, [allWords, targetScript, word.homophoneGroup?.members, word.trad, word.variants]);
   const targetJapaneseScript = normalizeJapaneseForCompare(word.simp || '');
   const targetJapaneseReading = japanesePronunciationKey({
     reading: word.reading,
     hiragana: word.hiragana,
-    pinyin: word.pinyin,
+    transliteration: getWordReading(word),
     simp: word.simp,
   });
   const targetJapaneseKanaReading =
     normalizeJapaneseReadingForCompare(word.reading || word.hiragana || '') ||
     normalizeJapaneseReadingForCompare(word.simp || '');
   const targetJapaneseMoraCount = countJapaneseMora(targetJapaneseKanaReading);
-  const targetJapaneseRomaji = japaneseRomajiKeyFromScriptOrFallback(word.simp || '', word.pinyin || '');
+  const targetJapaneseRomaji = japaneseRomajiKeyFromScriptOrFallback(word.simp || '', getWordReading(word) || '');
   const isShortJapaneseTarget =
     isJapaneseLesson && (
       targetJapaneseMoraCount > 0
@@ -1328,12 +1422,12 @@ export default function SpeakMode({
     );
   const targetSyllableCount = Math.max(
     1,
-    normalizeHanzi(word.simp).length || tokenizePinyin(word.pinyin || '', 1).length
+    normalizeScriptText(word.simp).length || tokenizeRomanized(getWordReading(word) || '', 1).length
   );
 
   useEffect(() => {
     let cancelled = false;
-    void ensureHanziLookupLoaded(state.activeBandId, state.activeBandData, allWords).finally(() => {
+    void ensureScriptLookupLoaded(state.activeBandId, state.activeBandData, allWords).finally(() => {
       if (cancelled) return;
       const lookupKey = `${state.activeBandId || 'none'}:${allWords.length}`;
       if (!lookupTelemetryKeysRef.current.has(lookupKey)) {
@@ -1341,16 +1435,16 @@ export default function SpeakMode({
         trackEvent('speak_lookup_ready', {
           bandId: state.activeBandId || null,
           lessonWordCount: allWords.length,
-          lookupWords: hanziToPinyinWord.size,
-          lookupChars: hanziToPinyinChar.size,
+          lookupWords: scriptToReadingWord.size,
+          lookupChars: scriptToReadingChar.size,
         });
         sendClientTelemetrySafe({
           name: 'speak_lookup_ready',
           payload: {
             bandId: state.activeBandId || null,
             lessonWordCount: allWords.length,
-            lookupWords: hanziToPinyinWord.size,
-            lookupChars: hanziToPinyinChar.size,
+            lookupWords: scriptToReadingWord.size,
+            lookupChars: scriptToReadingChar.size,
           },
         });
       }
@@ -1378,90 +1472,93 @@ export default function SpeakMode({
     });
   }, [sttSupported, word.id, word.isReview]);
 
-  const resolveDetectedPinyin = (recognized: string): { pinyin: string; source: PronunciationAnalysis['source'] } => {
-    const heardHanzi = normalizeHanzi(recognized);
+  const resolveDetectedTransliteration = (recognized: string): { transliteration: string; source: PronunciationAnalysis['source'] } => {
+    const heardScript = normalizeScriptText(recognized);
 
-    if (heardHanzi) {
-      if (isMandarinLesson && targetHomophoneSet.has(heardHanzi) && word.pinyin) {
+    if (heardScript) {
+      if (isLegacyToneLesson && targetHomophoneSet.has(heardScript) && getWordReading(word)) {
         // Homophone groups are explicitly curated; treat listed members as pronunciation-valid.
-        return { pinyin: word.pinyin, source: 'hanzi-map' };
+        return { transliteration: getWordReading(word), source: 'script-map' };
       }
       // Fast path when recognition exactly matches the current target word.
-      if (heardHanzi === targetHanzi && word.pinyin) {
-        return { pinyin: word.pinyin, source: 'hanzi-map' };
+      if (heardScript === targetScript && getWordReading(word)) {
+        return { transliteration: getWordReading(word), source: 'script-map' };
       }
 
       // Check current lesson vocabulary first to prioritize local context.
       const matchInLesson = allWords.find(
-        (lessonWord) => normalizeHanzi(lessonWord.simp) === heardHanzi || normalizeHanzi(lessonWord.trad) === heardHanzi
+        (lessonWord) => normalizeScriptText(lessonWord.simp) === heardScript || normalizeScriptText(lessonWord.trad) === heardScript
       );
-      if (matchInLesson?.pinyin) {
-        return { pinyin: matchInLesson.pinyin, source: 'hanzi-map' };
+      const lessonMatchReading = matchInLesson ? getWordReading(matchInLesson) : '';
+      if (lessonMatchReading) {
+        return { transliteration: lessonMatchReading, source: 'script-map' };
       }
 
-      const mapped = mapHanziToPinyin(heardHanzi);
+      const mapped = mapScriptToReading(heardScript);
       if (mapped) {
-        const cleaned = stripUnknownPinyinTokens(mapped);
+        const cleaned = stripUnknownReadingTokens(mapped);
         if (cleaned) {
-          return { pinyin: cleaned, source: 'hanzi-map' };
+          return { transliteration: cleaned, source: 'script-map' };
         }
       }
 
-      if (heardHanzi.length === 1) {
-        // Last Hanzi-path fallback: infer character reading from lesson-level alignments.
-        const inferredFromLesson = inferSingleCharPinyinFromLessonWords(heardHanzi, allWords);
+      if (heardScript.length === 1) {
+        // Last Script-path fallback: infer character reading from lesson-level alignments.
+        const inferredFromLesson = inferSingleCharReadingFromLessonWords(heardScript, allWords);
         if (inferredFromLesson) {
-          return { pinyin: inferredFromLesson, source: 'hanzi-map' };
+          return { transliteration: inferredFromLesson, source: 'script-map' };
         }
       }
 
-      // If only a subset of target Hanzi is recognized, infer the aligned
-      // syllable from target pinyin to preserve component-level scoring.
-      if (heardHanzi.length === 1 && targetHanzi.length > 1 && word.pinyin) {
-        const idx = Array.from(targetHanzi).indexOf(heardHanzi);
+      // If only a subset of target Script is recognized, infer the aligned
+      // syllable from target transliteration to preserve component-level scoring.
+      if (heardScript.length === 1 && targetScript.length > 1 && getWordReading(word)) {
+        const idx = Array.from(targetScript).indexOf(heardScript);
         if (idx >= 0) {
-          const targetTokens = tokenizePinyin(word.pinyin, targetHanzi.length);
+          const targetTokens = tokenizeRomanized(getWordReading(word), targetScript.length);
           const inferred = targetTokens[idx];
           if (inferred) {
-            return { pinyin: inferred, source: 'hanzi-map' };
+            return { transliteration: inferred, source: 'script-map' };
           }
         }
       }
 
-      return { pinyin: '', source: 'unresolved' };
+      return { transliteration: '', source: 'unresolved' };
     }
 
-    if (isMandarinLesson) {
-      const detected = parsePinyin(recognized, targetSyllableCount);
+    if (isLegacyToneLesson) {
+      const detected = parseRomanizedSyllables(recognized, targetSyllableCount);
       if (!detected.length) {
-        return { pinyin: '', source: 'unresolved' };
+        return { transliteration: '', source: 'unresolved' };
       }
       return {
-        pinyin: detected.map((token) => token.raw).join(' '),
+        transliteration: detected.map((token) => token.raw).join(' '),
         source: 'latin',
       };
     }
 
-    return { pinyin: recognized, source: 'latin' };
+    return { transliteration: recognized, source: 'latin' };
   };
 
   const analyzePronunciation = (recognized: string): PronunciationAnalysis | null => {
-    // Deep phonological scoring is intentionally Mandarin-only.
-    if (!isMandarinLesson) return null;
-    const targetPinyin = word.pinyin || '';
-    if (!targetPinyin.trim()) return null;
+    // Deep phonological scoring is intentionally tone-analysis-only.
+    if (!isLegacyToneLesson) return null;
+    const targetTransliteration = getWordReading(word) || '';
+    if (!targetTransliteration.trim()) return null;
 
-    const target = parsePinyin(targetPinyin, targetSyllableCount);
+    const target = parseRomanizedSyllables(targetTransliteration, targetSyllableCount);
     if (!target.length) return null;
 
-    const detected = resolveDetectedPinyin(recognized);
-    const recognizedHanzi = normalizeHanzi(recognized);
-    if (recognizedHanzi && (recognizedHanzi === targetHanzi || (isMandarinLesson && targetHomophoneSet.has(recognizedHanzi)))) {
+    const detected = resolveDetectedTransliteration(recognized);
+    const recognizedScript = normalizeScriptText(recognized);
+    if (recognizedScript && (recognizedScript === targetScript || (isLegacyToneLesson && targetHomophoneSet.has(recognizedScript)))) {
       const allowOneMiss = target.length >= 2 ? 1 : 0;
       return {
-        targetPinyin,
-        detectedPinyin: targetPinyin,
-        source: 'hanzi-map',
+        targetTransliteration,
+        detectedTransliteration: targetTransliteration,
+        source: 'script-map',
+        feedbackReliability: 'high',
+        feedbackReason: 'strong_alignment',
         alignedHeard: target,
         missingSyllables: 0,
         extraSyllables: 0,
@@ -1471,12 +1568,15 @@ export default function SpeakMode({
         tone: buildScore(target.length, target.length, allowOneMiss),
       };
     }
-    if (!detected.pinyin.trim()) {
+    if (!detected.transliteration.trim()) {
       const allowOneMiss = target.length >= 2 ? 1 : 0;
+      const missingReason: SpeakFeedbackReason = target.length > 1 ? 'partial_capture' : 'unresolved_capture';
       return {
-        targetPinyin,
-        detectedPinyin: '',
+        targetTransliteration,
+        detectedTransliteration: '',
         source: detected.source,
+        feedbackReliability: 'low',
+        feedbackReason: missingReason,
         alignedHeard: Array.from({ length: target.length }, () => null),
         missingSyllables: target.length,
         extraSyllables: 0,
@@ -1487,21 +1587,33 @@ export default function SpeakMode({
       };
     }
 
-    const heard = parsePinyin(detected.pinyin, target.length);
+    const heard = parseRomanizedSyllables(detected.transliteration, target.length);
     const aligned = alignHeardToTargetSyllables(target, heard);
 
     const allowOneMiss = target.length >= 2 ? 1 : 0;
+    const initial = buildScore(aligned.initialMatches, target.length, allowOneMiss);
+    const final = buildScore(aligned.finalMatches, target.length, allowOneMiss);
+    const tone = buildScore(aligned.toneMatches, aligned.toneEligibleCount, allowOneMiss);
+    const feedback = classifyFeedbackReliability(target, {
+      alignedHeard: aligned.alignedHeard,
+      missingSyllables: aligned.missingSyllables,
+      initial,
+      final,
+      tone,
+    });
     return {
-      targetPinyin,
-      detectedPinyin: detected.pinyin,
+      targetTransliteration,
+      detectedTransliteration: detected.transliteration,
       source: detected.source,
+      feedbackReliability: feedback.feedbackReliability,
+      feedbackReason: feedback.feedbackReason,
       alignedHeard: aligned.alignedHeard,
       missingSyllables: aligned.missingSyllables,
       extraSyllables: aligned.extraSyllables,
       toneEligibleTotal: aligned.toneEligibleCount,
-      initial: buildScore(aligned.initialMatches, target.length, allowOneMiss),
-      final: buildScore(aligned.finalMatches, target.length, allowOneMiss),
-      tone: buildScore(aligned.toneMatches, aligned.toneEligibleCount, allowOneMiss),
+      initial,
+      final,
+      tone,
     };
   };
 
@@ -1511,11 +1623,11 @@ export default function SpeakMode({
     if (nextAnalysis) {
       const strictAnalysisMatch = nextAnalysis.initial.pass && nextAnalysis.final.pass && nextAnalysis.tone.pass;
       let shortTargetAssistMatch = false;
-      if (!strictAnalysisMatch && isMandarinLesson && targetSyllableCount <= 1) {
+      if (!strictAnalysisMatch && isLegacyToneLesson && targetSyllableCount <= 1) {
         const heardForCompare = normalize(recognized);
-        const targetForCompare = normalize(word.pinyin || '');
+        const targetForCompare = normalize(getWordReading(word) || '');
         if (heardForCompare && targetForCompare) {
-          // Short Mandarin syllables are often returned without tone marks/numbers by browser STT.
+          // Short syllables are often returned without tone marks/numbers by browser STT.
           shortTargetAssistMatch =
             heardForCompare === targetForCompare ||
             levenshtein(heardForCompare, targetForCompare) <= 1;
@@ -1551,17 +1663,17 @@ export default function SpeakMode({
         return { recognizedText: recognized, analysis: null, match: Boolean(hasScriptTarget || hasReadingTarget || hasRomajiTarget) };
       }
 
-      if (isMandarinLesson) {
-        const recognizedHanzi = normalizeHanzi(recognized);
-        if (recognizedHanzi) {
-          const hasTargetTerm = practiceSentenceTargetHanziTerms.some((term) => recognizedHanzi.includes(term));
-          const hasHomophoneTerm = Array.from(targetHomophoneSet).some((term) => term && recognizedHanzi.includes(term));
+      if (isLegacyToneLesson) {
+        const recognizedScript = normalizeScriptText(recognized);
+        if (recognizedScript) {
+          const hasTargetTerm = practiceSentenceTargetScriptTerms.some((term) => recognizedScript.includes(term));
+          const hasHomophoneTerm = Array.from(targetHomophoneSet).some((term) => term && recognizedScript.includes(term));
           return { recognizedText: recognized, analysis: null, match: Boolean(hasTargetTerm || hasHomophoneTerm) };
         }
 
-        const targetPinyin = normalize(word.pinyin || '');
-        const pinyinLikeMatch = Boolean(targetPinyin && cleanedRecognized.includes(targetPinyin));
-        return { recognizedText: recognized, analysis: null, match: pinyinLikeMatch };
+        const targetTransliteration = normalize(getWordReading(word) || '');
+        const transliterationLikeMatch = Boolean(targetTransliteration && cleanedRecognized.includes(targetTransliteration));
+        return { recognizedText: recognized, analysis: null, match: transliterationLikeMatch };
       }
     }
 
@@ -1591,7 +1703,7 @@ export default function SpeakMode({
           const heardCandidateReading = japanesePronunciationKey({
             reading: candidate.reading,
             hiragana: candidate.hiragana,
-            pinyin: candidate.pinyin,
+            transliteration: candidate.transliteration,
             simp: candidate.simp,
           });
           return Boolean(heardCandidateReading && targetJapaneseReading && heardCandidateReading === targetJapaneseReading);
@@ -1652,28 +1764,28 @@ export default function SpeakMode({
       return { recognizedText: recognized, analysis: null, match: false };
     }
 
-    const recognizedHanzi = normalizeHanzi(recognized);
-    const targetPinyin = normalize(word.pinyin || '');
+    const recognizedScript = normalizeScriptText(recognized);
+    const targetTransliteration = normalize(getWordReading(word) || '');
 
-    if (recognizedHanzi) {
-      if (isMandarinLesson && targetHomophoneSet.has(recognizedHanzi)) {
+    if (recognizedScript) {
+      if (isLegacyToneLesson && targetHomophoneSet.has(recognizedScript)) {
         return { recognizedText: recognized, analysis: null, match: true };
       }
-      return { recognizedText: recognized, analysis: null, match: targetHanzi.length > 0 && recognizedHanzi === targetHanzi };
+      return { recognizedText: recognized, analysis: null, match: targetScript.length > 0 && recognizedScript === targetScript };
     }
 
-    if (isMandarinLesson) {
+    if (isLegacyToneLesson) {
       return { recognizedText: recognized, analysis: null, match: false };
     }
 
-    if (!targetPinyin) return { recognizedText: recognized, analysis: null, match: false };
+    if (!targetTransliteration) return { recognizedText: recognized, analysis: null, match: false };
     // Accept exact or contained matches before falling back to edit distance.
-    if (cleanedRecognized === targetPinyin || cleanedRecognized.includes(targetPinyin)) {
+    if (cleanedRecognized === targetTransliteration || cleanedRecognized.includes(targetTransliteration)) {
       return { recognizedText: recognized, analysis: null, match: true };
     }
 
-    const dist = levenshtein(cleanedRecognized, targetPinyin);
-    return { recognizedText: recognized, analysis: null, match: dist <= (targetPinyin.length <= 4 ? 1 : 2) };
+    const dist = levenshtein(cleanedRecognized, targetTransliteration);
+    return { recognizedText: recognized, analysis: null, match: dist <= (targetTransliteration.length <= 4 ? 1 : 2) };
   };
 
   const postSpeakAttempt = (
@@ -1699,13 +1811,56 @@ export default function SpeakMode({
       wordId: word.id,
       isReview: Boolean(word.isReview),
       transcript: recognizedText,
-      detectedPinyin: nextAnalysis?.detectedPinyin || undefined,
+      detectedTransliteration: nextAnalysis?.detectedTransliteration || undefined,
       initialOk: nextAnalysis?.initial.pass ?? match,
       finalOk: nextAnalysis?.final.pass ?? match,
       toneOk: nextAnalysis?.tone.pass ?? match,
       score: nextAnalysis
         ? Math.round((nextAnalysis.initial.percent + nextAnalysis.final.percent + nextAnalysis.tone.percent) / 3)
         : fallbackValue,
+    });
+
+    const targetTokenCount = tokenizeRomanized(getWordReading(word) || '', targetSyllableCount).length || targetSyllableCount;
+    const detectedTokenCount = nextAnalysis?.detectedTransliteration
+      ? tokenizeRomanized(nextAnalysis.detectedTransliteration, targetTokenCount).length
+      : 0;
+    const reliability = nextAnalysis?.feedbackReliability || 'low';
+    const reason = nextAnalysis?.feedbackReason || (recognizedText === NO_SPEECH_RESULT_TEXT ? 'unresolved_capture' : 'low_confidence_capture');
+    const source = nextAnalysis?.source || (recognizedText === NO_SPEECH_RESULT_TEXT ? 'no-speech' : 'unresolved');
+    const attemptScore = nextAnalysis
+      ? Math.round((nextAnalysis.initial.percent + nextAnalysis.final.percent + nextAnalysis.tone.percent) / 3)
+      : fallbackValue;
+
+    trackEvent('speak_feedback_classified', {
+      wordId: word.id,
+      language: speakLanguageId,
+      isReview: Boolean(word.isReview),
+      matched: match,
+      source,
+      reliability,
+      reason,
+      targetSyllables: targetTokenCount,
+      detectedSyllables: detectedTokenCount,
+      missingSyllables: nextAnalysis?.missingSyllables ?? targetTokenCount,
+      extraSyllables: nextAnalysis?.extraSyllables ?? 0,
+      score: attemptScore,
+    });
+    sendClientTelemetrySafe({
+      name: 'speak_feedback_classified',
+      payload: {
+        wordId: word.id,
+        language: speakLanguageId,
+        isReview: Boolean(word.isReview),
+        matched: match,
+        source,
+        reliability,
+        reason,
+        targetSyllables: targetTokenCount,
+        detectedSyllables: detectedTokenCount,
+        missingSyllables: nextAnalysis?.missingSyllables ?? targetTokenCount,
+        extraSyllables: nextAnalysis?.extraSyllables ?? 0,
+        score: attemptScore,
+      },
     });
   };
 
@@ -1734,11 +1889,11 @@ export default function SpeakMode({
         pending.analysis,
         pending.match ? 'match' : 'retry'
       );
-      if (isMandarinLesson && pending.analysis) {
-        const targetTokens = parsePinyin(word.pinyin || '', targetSyllableCount);
+      if (isLegacyToneLesson && pending.analysis) {
+        const targetTokens = parseRomanizedSyllables(getWordReading(word) || '', targetSyllableCount);
         const heardTokens = pending.analysis.alignedHeard.length
           ? pending.analysis.alignedHeard
-          : parsePinyin(pending.analysis.detectedPinyin || '', targetTokens.length || targetSyllableCount);
+          : parseRomanizedSyllables(pending.analysis.detectedTransliteration || '', targetTokens.length || targetSyllableCount);
         const confusionPairs: string[] = [];
         for (let idx = 0; idx < targetTokens.length; idx += 1) {
           const targetToken = targetTokens[idx];
@@ -1771,7 +1926,7 @@ export default function SpeakMode({
         pendingFullyCorrect,
         buildSpeakBreakdown(
           pending.recognizedText,
-          word.pinyin || '',
+          getWordReading(word) || '',
           pending.analysis,
           speakLanguageId,
           pendingFullyCorrect
@@ -1806,7 +1961,7 @@ export default function SpeakMode({
       recordSpeakResult(
         currentIndex,
         false,
-        buildSpeakBreakdown(fallbackMessage, word.pinyin || '', null, speakLanguageId, false)
+        buildSpeakBreakdown(fallbackMessage, getWordReading(word) || '', null, speakLanguageId, false)
       );
       recordWordOutcome(word, false, 'unsure', 'speak');
       trackEvent('speak_retry', {
@@ -1929,11 +2084,11 @@ export default function SpeakMode({
     try {
       const sessionId = recordingSessionRef.current;
       const recognition = new SpeechRecognitionCtor();
-      recognition.lang = isMandarinLesson ? 'zh-CN' : getSpeakRecognitionLocale(speakLanguageId);
+      recognition.lang = getSpeakRecognitionLocale(speakLanguageId);
       // Single-utterance mode improves responsiveness for short words.
       recognition.continuous = false;
       recognition.interimResults = isJapaneseLesson ? true : !isShortJapaneseTarget;
-      recognition.maxAlternatives = isJapaneseLesson ? 5 : (isMandarinLesson ? 3 : 3);
+      recognition.maxAlternatives = isJapaneseLesson ? 5 : (isLegacyToneLesson ? 3 : 3);
       if ('phrases' in recognition) {
         const phraseCandidates = isJapaneseLesson && isShortJapaneseTarget
           ? [
@@ -1941,20 +2096,20 @@ export default function SpeakMode({
               word.trad || '',
               word.hiragana || '',
               word.reading || '',
-              word.pinyin || '',
+              getWordReading(word) || '',
               romanizeJapaneseForDisplay(word.simp || '') || '',
             ]
           : [
               word.simp,
               word.trad || '',
-              word.pinyin || '',
+              getWordReading(word) || '',
               ...allWords.slice(0, 12).map((candidate) => candidate.simp),
             ];
         if (isJapaneseLesson) {
           phraseCandidates.push(
             normalizeJapaneseForCompare(word.simp || ''),
             romanizeJapaneseForDisplay(word.simp || '') || '',
-            word.pinyin || ''
+            getWordReading(word) || ''
           );
         }
         recognition.phrases = Array.from(
@@ -1978,11 +2133,11 @@ export default function SpeakMode({
           for (let altIdx = 0; altIdx < altCount; altIdx += 1) {
             const text = result?.[altIdx]?.transcript?.trim?.() || '';
             if (!text) continue;
-            if ((isMandarinLesson || isJapaneseLesson) && isSiriArtifactTranscript(text)) {
+            if ((isLegacyToneLesson || isJapaneseLesson) && isSiriArtifactTranscript(text)) {
               continue;
             }
             if (!lastHeardRawRef.current) lastHeardRawRef.current = text;
-            if (isMandarinLesson && !isLikelyMandarinTranscript(text, targetSyllableCount)) {
+            if (isLegacyToneLesson && !isLikelyToneTranscript(text, targetSyllableCount)) {
               continue;
             }
             if (isJapaneseLesson && !isLikelyJapaneseTranscript(text, targetJapaneseRomaji)) {
@@ -1993,19 +2148,22 @@ export default function SpeakMode({
               ? Math.max(0, Math.min(1, rawConfidence))
               : 0;
             const confidenceFloor = result.isFinal
-              ? MANDARIN_CONFIDENCE_FLOOR_FINAL
-              : MANDARIN_CONFIDENCE_FLOOR_INTERIM;
-            const lowConfidenceMandarin = isMandarinLesson && confidence > 0 && confidence < confidenceFloor;
+              ? LEGACY_TONE_CONFIDENCE_FLOOR_FINAL
+              : LEGACY_TONE_CONFIDENCE_FLOOR_INTERIM;
+            const lowConfidenceCapture = isLegacyToneLesson && confidence > 0 && confidence < confidenceFloor;
             const evaluated = evaluateTranscript(text);
             const nextAnalysis = evaluated.analysis;
+            const reliabilityAdjustedAnalysis = lowConfidenceCapture
+              ? applyLowConfidenceReliability(nextAnalysis)
+              : nextAnalysis;
             const matched = evaluated.match;
             const candidate: SpeakCandidate = {
               recognizedText: evaluated.recognizedText,
-              analysis: lowConfidenceMandarin ? null : nextAnalysis,
-              match: lowConfidenceMandarin ? false : matched,
+              analysis: reliabilityAdjustedAnalysis,
+              match: lowConfidenceCapture ? false : matched,
               isFinal: Boolean(result.isFinal),
               confidence,
-              compositeScore: lowConfidenceMandarin ? 0 : analysisCompositeScore(nextAnalysis, matched),
+              compositeScore: lowConfidenceCapture ? 0 : analysisCompositeScore(nextAnalysis, matched),
               updatedAt: Date.now(),
             };
             if (result.isFinal) {
@@ -2430,7 +2588,7 @@ export default function SpeakMode({
     return () => window.cancelAnimationFrame(frame);
   }, [abortActiveCapture, currentIndex]);
 
-  const heardHanzi = normalizeHanzi(transcript);
+  const heardScript = normalizeScriptText(transcript);
   const isNoSpeech = transcript.toLowerCase() === NO_SPEECH_RESULT_TEXT.toLowerCase();
   const noSpeechResultClass = isNoSpeech ? 'text-base' : 'text-lg';
   const hasAttempt =
@@ -2440,23 +2598,23 @@ export default function SpeakMode({
     !isFinalizing &&
     (Boolean(transcript) || Boolean(analysis) || Boolean(audioError) || Boolean(matchResult));
   const showDesktopResult = showMobileResult;
-  const detectedFromTranscript = transcript ? resolveDetectedPinyin(transcript).pinyin : '';
-  const fallbackDetectedFromChars = heardHanzi ? mapHanziToPinyin(heardHanzi) : '';
-  const inferredFromTarget = heardHanzi ? inferPinyinFromTargetHanzi(heardHanzi, word.simp, word.pinyin || '') : '';
-  const rawDetectedPinyin = [analysis?.detectedPinyin || '', detectedFromTranscript, fallbackDetectedFromChars, inferredFromTarget]
+  const detectedFromTranscript = transcript ? resolveDetectedTransliteration(transcript).transliteration : '';
+  const fallbackDetectedFromScript = heardScript ? mapScriptToReading(heardScript) : '';
+  const inferredFromTarget = heardScript ? inferReadingFromTargetScript(heardScript, word.simp, getWordReading(word) || '') : '';
+  const rawDetectedTransliteration = [analysis?.detectedTransliteration || '', detectedFromTranscript, fallbackDetectedFromScript, inferredFromTarget]
     .map((value) => value.trim())
     .find((value) => Boolean(value) && value.toLowerCase() !== 'unresolved') || '';
-  const firstUsableDetected = [rawDetectedPinyin]
-    .map((value) => stripUnknownPinyinTokens(value))
+  const firstUsableDetected = [rawDetectedTransliteration]
+    .map((value) => stripUnknownReadingTokens(value))
     .find((value) => {
       if (!value) return false;
       if (value.toLowerCase() === 'unresolved') return false;
       if (/^\?(\s+\?)*$/.test(value)) return false;
       return true;
     });
-  const detectedPinyinLabel =
+  const detectedTransliterationLabel =
     firstUsableDetected ||
-    (isMandarinLesson && transcript && !isNoSpeech ? (rawDetectedPinyin || 'Unknown pronunciation') : '');
+    (isLegacyToneLesson && transcript && !isNoSpeech ? (rawDetectedTransliteration || 'Unknown pronunciation') : '');
   const normalizedHeardJapaneseLookup = normalizeJapaneseLookupKey(transcript || '');
   const normalizedHeardRomanized = isJapaneseLesson
     ? japaneseRomajiKeyFromScriptOrFallback(transcript || '', transcript || '')
@@ -2473,7 +2631,7 @@ export default function SpeakMode({
       ? [word, ...allWords].find((candidate) => {
           const candidateRomaji = japaneseRomajiKeyFromScriptOrFallback(
             candidate.simp || '',
-            candidate.pinyin || ''
+            candidate.transliteration || ''
           );
           return Boolean(candidateRomaji) && candidateRomaji === normalizedHeardRomanized;
         })
@@ -2518,31 +2676,31 @@ export default function SpeakMode({
           ''
         )
       : '';
-  const shouldShowTargetPinyin =
+  const shouldShowTargetTransliteration =
     isJapaneseLesson
       ? false
-      : (!detectedPinyinLabel && (!heardHanzi || isNoSpeech));
-  const resultPinyinLabel = isJapaneseLesson
+      : (!detectedTransliterationLabel && (!heardScript || isNoSpeech));
+  const resultTransliterationLabel = isJapaneseLesson
     ? (isNoSpeech || !transcript.trim() ? 'Try again.' : (heardRomanized || fallbackJapaneseReading))
-    : (detectedPinyinLabel || (shouldShowTargetPinyin ? (word.pinyin || '').trim() : ''));
-  const displayResultReading = hideReadingAndMeaning || isJapaneseLesson ? '' : resultPinyinLabel;
-  const mappedMandarinHeard = isMandarinLesson && transcript && !heardHanzi
-    ? inferHanziFromDetectedPinyin(
-        firstUsableDetected || rawDetectedPinyin || transcript,
+    : (detectedTransliterationLabel || (shouldShowTargetTransliteration ? (getWordReading(word) || '').trim() : ''));
+  const displayResultReading = hideReadingAndMeaning || isJapaneseLesson ? '' : resultTransliterationLabel;
+  const mappedDetectedScript = isLegacyToneLesson && transcript && !heardScript
+    ? inferScriptFromDetectedTransliteration(
+        firstUsableDetected || rawDetectedTransliteration || transcript,
         word.simp || '',
-        word.pinyin || '',
+        getWordReading(word) || '',
         allWords
       )
     : '';
-  const mandarinHeardDisplay =
-    heardHanzi ||
-    mappedMandarinHeard ||
-    (isNoSpeech ? 'No speech detected' : 'Unrecognized Mandarin');
+  const detectedScriptDisplay =
+    heardScript ||
+    mappedDetectedScript ||
+    (isNoSpeech ? 'No speech detected' : 'Unrecognized speech');
   const displayHeardText =
     isNoSpeech
       ? transcript
-      : isMandarinLesson
-        ? mandarinHeardDisplay
+      : isLegacyToneLesson
+        ? detectedScriptDisplay
         : isJapaneseLesson
           ? (
               heardJapaneseMatch?.simp ||
@@ -2579,10 +2737,10 @@ export default function SpeakMode({
   const canAdvance = !navLocked && hasAttempt && matchResult !== null;
   const listenDisabled = disableTargetAudio || isRecording || isStartingRecording;
   const recordLockedAfterMatch = isFullyCorrect;
-  const isShortMandarinTarget = isMandarinLesson && targetSyllableCount <= 1;
+  const isShortLegacyTarget = isLegacyToneLesson && targetSyllableCount <= 1;
   const shouldUseAdaptiveShortDelay = (candidate: SpeakCandidate, hasNewFinal: boolean) => {
     if (useSentenceTargetInPractice) return true;
-    const shortTarget = isShortMandarinTarget || isShortJapaneseTarget;
+    const shortTarget = isShortLegacyTarget || isShortJapaneseTarget;
     if (!shortTarget) return false;
     if (!candidate.match) return true;
     if (!hasNewFinal) return true;
@@ -2593,19 +2751,23 @@ export default function SpeakMode({
   const renderScoreChips = (compact: boolean) => {
     if (isJapaneseLesson || useSentenceTargetInPractice) return null;
 
-    if (isMandarinLesson && analysis && !disableTargetAudio) {
-      const targetTokens = parsePinyin(word.pinyin || '', targetSyllableCount);
+    if (isLegacyToneLesson && analysis && !disableTargetAudio) {
+      const targetTokens = parseRomanizedSyllables(getWordReading(word) || '', targetSyllableCount);
       if (targetTokens.length) {
         const heardTokens = analysis.alignedHeard.length
           ? analysis.alignedHeard
-          : parsePinyin(analysis.detectedPinyin || '', targetTokens.length || targetSyllableCount);
+          : parseRomanizedSyllables(analysis.detectedTransliteration || '', targetTokens.length || targetSyllableCount);
+        const feedbackReliability: SpeakFeedbackReliability = analysis.feedbackReliability || 'high';
+        const feedbackReason: SpeakFeedbackReason = analysis.feedbackReason || 'strong_alignment';
+        const allowDetailedCoaching = feedbackReliability === 'high';
+        const allowNarrowCoaching = feedbackReliability !== 'low';
         const successToneClass = 'text-[#8DD3AE]';
         const errorToneClass = 'text-[#C2410C]';
         const toneMarkedCharIndex = (syllable: string): number => {
           const chars = Array.from(syllable || '');
           return chars.findIndex((char) => Boolean(TONE_CHAR_MAP[char.toLowerCase()]));
         };
-        const toneNucleus = (token: PinyinSyllable) => {
+        const toneNucleus = (token: RomanizedSyllable) => {
           const final = token.final || '';
           if (final.includes('a')) return 'a';
           if (final.includes('o')) return 'o';
@@ -2617,7 +2779,7 @@ export default function SpeakMode({
           if (final.includes('ü')) return 'ü';
           return '';
         };
-        const toneAction = (token: PinyinSyllable, compactHint: boolean) => {
+        const toneAction = (token: RomanizedSyllable, compactHint: boolean) => {
           const nucleus = toneNucleus(token);
           const nucleusCue = nucleus ? ` on "${nucleus}"` : '';
           if (token.tone === 1) {
@@ -2675,6 +2837,15 @@ export default function SpeakMode({
           return 'All syllables and tones are accurate.';
         })();
         const nextAttemptPlan = (() => {
+          if (feedbackReason === 'low_confidence_capture') {
+            return 'Next attempt: capture confidence was low, so repeat once with a steady voice and minimal background noise.';
+          }
+          if (feedbackReason === 'partial_capture') {
+            return 'Next attempt: only part of the word was captured, so say the full word in one clear pass.';
+          }
+          if (feedbackReason === 'short_utterance_ambiguous') {
+            return 'Next attempt: short syllable capture was ambiguous, so repeat once and hold the vowel slightly longer.';
+          }
           if (syllableCountFeedback) {
             return `Next attempt: match the full ${targetTokens.length}-syllable shape first, then keep a brief pause between syllables.`;
           }
@@ -2719,19 +2890,39 @@ export default function SpeakMode({
                 const isolateToneError = toneEligible && !toneOk;
                 let coaching = '';
                 if (!heard) {
-                  coaching = `Try saying "${token.raw}" by itself first.`;
+                  coaching = allowDetailedCoaching
+                    ? `Try saying "${token.raw}" by itself first.`
+                    : 'Capture incomplete. Say the full word clearly.';
                 } else if (!initialOk && !finalOk) {
-                  coaching = compact ? 'Reset start and ending.' : 'Reset the opening consonant and ending sound.';
+                  coaching = allowDetailedCoaching
+                    ? (compact ? 'Reset start and ending.' : 'Reset the opening consonant and ending sound.')
+                    : 'Likely pronunciation drift. Repeat the whole word slowly.';
                 } else if (!initialOk) {
-                  coaching = compact ? 'Focus the opening.' : 'Focus the opening consonant.';
+                  coaching = allowDetailedCoaching
+                    ? (compact ? 'Focus the opening.' : 'Focus the opening consonant.')
+                    : allowNarrowCoaching
+                      ? 'Likely opening drift. Repeat clearly.'
+                      : 'Capture uncertain. Repeat the full word clearly.';
                 } else if (!finalOk) {
-                  coaching = compact
-                    ? `Use ending "${token.final}".`
-                    : `Switch to ending "${token.final}" (not "${heard?.final || '?'}").`;
+                  coaching = allowDetailedCoaching
+                    ? (
+                        compact
+                          ? `Use ending "${token.final}".`
+                          : `Switch to ending "${token.final}" (not "${heard?.final || '?'}").`
+                      )
+                    : allowNarrowCoaching
+                      ? 'Likely ending drift. Repeat and hold the vowel clearly.'
+                      : 'Capture uncertain. Repeat the full word clearly.';
                 } else if (!toneOk) {
-                  coaching = compact
-                    ? `Tone: ${toneAction(token, true)}`
-                    : `Tone target: ${toneAction(token, false)}`;
+                  coaching = allowDetailedCoaching
+                    ? (
+                        compact
+                          ? `Tone: ${toneAction(token, true)}`
+                          : `Tone target: ${toneAction(token, false)}`
+                      )
+                    : allowNarrowCoaching
+                      ? 'Likely tone drift. Repeat with a clearer tone contour.'
+                      : 'Capture uncertain. Repeat once more clearly.';
                 } else {
                   coaching = compact ? 'Keep it steady.' : 'Keep this syllable steady.';
                 }
@@ -2803,8 +2994,8 @@ export default function SpeakMode({
 
   const renderResultCard = (compact: boolean) => {
     if (!showMobileResult && !showDesktopResult) return null;
-    if (isMandarinLesson && !useSentenceTargetInPractice) {
-      const mandarinScoreChips = renderScoreChips(compact);
+    if (isLegacyToneLesson && !useSentenceTargetInPractice) {
+      const legacyScoreChips = renderScoreChips(compact);
       return (
         <div className="rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-3 py-3.5 sm:px-4">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 items-stretch">
@@ -2862,7 +3053,7 @@ export default function SpeakMode({
             </div>
 
             <div className="text-center sm:pl-2">
-              {mandarinScoreChips || renderMandarinFallbackCoaching(compact)}
+              {legacyScoreChips || renderLegacyFallbackCoaching(compact)}
               {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
             </div>
           </div>
@@ -2938,8 +3129,8 @@ export default function SpeakMode({
     );
   };
 
-  const renderMandarinFallbackCoaching = (compact: boolean) => {
-    if (!isMandarinLesson) return null;
+  const renderLegacyFallbackCoaching = (compact: boolean) => {
+    if (!isLegacyToneLesson) return null;
     const rowClass = `relative rounded-xl border border-white/20 bg-[#1F2A37] ${
       compact ? 'min-h-[56px] px-2 py-1.5' : 'min-h-[82px] px-2 py-1.5'
     } flex items-center justify-center text-center`;
@@ -3071,7 +3262,7 @@ export default function SpeakMode({
         </div>
       );
     }
-    if (isMandarinLesson) {
+    if (isLegacyToneLesson) {
       const scoreChips = renderScoreChips(true);
       return (
         <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
@@ -3130,7 +3321,7 @@ export default function SpeakMode({
             </div>
 
             <div className="pl-2 text-center">
-              {scoreChips || renderMandarinFallbackCoaching(true)}
+              {scoreChips || renderLegacyFallbackCoaching(true)}
               {audioError && <div className="text-xs text-[#FCA5A5] mt-2 text-center">{audioError}</div>}
             </div>
           </div>
@@ -3248,7 +3439,7 @@ export default function SpeakMode({
                 <>
                   <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight break-words">{displayMeaning}</div>
                   <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
-                  {!hideReadingAndMeaning && word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
+                  {!hideReadingAndMeaning && getWordReading(word) ? <div className="text-[13px] sm:text-sm text-[#475569]">{getWordReading(word)}</div> : null}
                 </>
               ) : (
                 <>
@@ -3266,7 +3457,7 @@ export default function SpeakMode({
                   ) : (
                     <>
                       <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
-                      {!hideReadingAndMeaning && word.pinyin ? <div className="text-[13px] sm:text-sm text-[#475569]">{word.pinyin}</div> : null}
+                      {!hideReadingAndMeaning && getWordReading(word) ? <div className="text-[13px] sm:text-sm text-[#475569]">{getWordReading(word)}</div> : null}
                       {!hideReadingAndMeaning ? (
                         <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1 break-words">{displayMeaning}</div>
                       ) : null}

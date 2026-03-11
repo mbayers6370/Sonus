@@ -88,7 +88,6 @@ function getNeedsWorkColumns(width: number) {
 function bandMatchesLanguage(bandId: string | null | undefined, languageId: string | null) {
   if (!bandId || !languageId) return false;
   if (languageId === 'ja') return /^n[1-5]$/i.test(bandId);
-  if (languageId === 'zh') return /^band\d+$/i.test(bandId) || bandId === 'advanced';
   return true;
 }
 
@@ -132,7 +131,10 @@ function toNeedsWorkCard(
   const fallback = fallbackLookup[item.wordId];
   return {
     term: safeDisplayValue(fallback?.simp || '', item.wordId) || 'Word',
-    reading: safeDisplayValue(fallback?.pronunciation || fallback?.reading || fallback?.pinyin || '', item.wordId),
+    reading: safeDisplayValue(
+      fallback?.pronunciation || fallback?.reading || fallback?.transliteration || '',
+      item.wordId
+    ),
     en: safeDisplayValue(fallback?.en || '', item.wordId),
   };
 }

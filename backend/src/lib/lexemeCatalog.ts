@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { SharedLexeme } from '../types.js';
 
-type SupportedLanguage = 'zh' | 'ja';
+type SupportedLanguage = 'ja';
 
 type GenericWord = Record<string, unknown>;
 type GenericUnit = {
@@ -16,9 +16,7 @@ type GenericSection = {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '../../..');
-const zhDataDir = path.resolve(projectRoot, 'sonus-react/public/data/zh');
 const jaDataDir = path.resolve(projectRoot, 'sonus-react/public/data/ja');
-const zhLevels = ['band1', 'band2', 'band3', 'band4', 'band5', 'band6', 'band7', 'band8', 'band9'];
 const jaLevels = ['n5', 'n4', 'n3', 'n2', 'n1'];
 
 let lexemeCatalogPromise: Promise<Map<string, SharedLexeme>> | null = null;
@@ -100,43 +98,6 @@ function buildScripts(input: {
   return scripts.primary || scripts.secondary || scripts.tertiary ? scripts : undefined;
 }
 
-function buildZhLexeme(word: GenericWord): SharedLexeme | null {
-  const id = asNonEmptyString(word.id);
-  if (!id) return null;
-
-  const simp = asNonEmptyString(word.simp);
-  const trad = asNonEmptyString(word.trad);
-  const term = simp || trad || id;
-  const reading =
-    asNonEmptyString(word.reading) ||
-    asNonEmptyString(word.pronunciation) ||
-    asNonEmptyString(word.pinyin);
-  const pronunciation =
-    asNonEmptyString(word.pronunciation) ||
-    asNonEmptyString(word.reading) ||
-    asNonEmptyString(word.pinyin);
-  const en = asNonEmptyString(word.en) || asStringArray(word.defs)[0] || id;
-  const defs = asStringArray(word.defs);
-  const pos = asNonEmptyString(word.pos);
-  const scripts = buildScripts({
-    primary: simp,
-    secondary: trad,
-  });
-
-  const lexeme: SharedLexeme = {
-    id,
-    lang: 'zh',
-    term,
-    en,
-  };
-  if (defs.length > 0) lexeme.defs = defs;
-  if (pos) lexeme.pos = pos;
-  if (reading) lexeme.reading = reading;
-  if (pronunciation) lexeme.pronunciation = pronunciation;
-  if (scripts) lexeme.scripts = scripts;
-  return lexeme;
-}
-
 function buildJaLexeme(word: GenericWord): SharedLexeme | null {
   const id = asNonEmptyString(word.id);
   if (!id) return null;
@@ -193,7 +154,7 @@ async function loadLanguageLexemes(
 
     const words = extractWords(payload);
     for (const word of words) {
-      const lexeme = language === 'zh' ? buildZhLexeme(word) : buildJaLexeme(word);
+      const lexeme = buildJaLexeme(word);
       if (!lexeme) continue;
       if (!catalog.has(lexeme.id)) catalog.set(lexeme.id, lexeme);
     }
@@ -202,14 +163,13 @@ async function loadLanguageLexemes(
 
 async function loadLexemeCatalog() {
   const catalog = new Map<string, SharedLexeme>();
-  await loadLanguageLexemes('zh', zhLevels, zhDataDir, catalog);
   await loadLanguageLexemes('ja', jaLevels, jaDataDir, catalog);
   return catalog;
 }
 
 function inferLanguageFromWordId(wordId: string): SupportedLanguage {
   if (/^N/i.test(wordId)) return 'ja';
-  return 'zh';
+  return 'ja';
 }
 
 export async function resolveLexemeForWordId(wordId: string, languageHint?: string | null) {
@@ -224,9 +184,7 @@ export async function resolveLexemeForWordId(wordId: string, languageHint?: stri
   const lang =
     hinted === 'ja' || hinted === 'jp'
       ? 'ja'
-      : hinted === 'zh'
-        ? 'zh'
-        : inferLanguageFromWordId(wordId);
+      : inferLanguageFromWordId(wordId);
 
   return {
     id: wordId,

@@ -50,8 +50,7 @@ function renderTileTitle(title: string) {
 export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection, selectedLanguage }: TravelModePageProps) {
   const normalizedLanguage = normalizeLanguageId(selectedLanguage);
   const sections = getTravelModeSections(normalizedLanguage);
-  const isJapanese = normalizedLanguage === 'ja';
-  const targetLabel = isJapanese ? 'Japanese' : 'Mandarin';
+  const targetLabel = 'Japanese';
   return (
     <div className="relative min-h-screen page-shell px-6 overflow-hidden pb-[calc(var(--sonus-bottom-nav-height)+env(safe-area-inset-bottom,0px)+1rem)] lg:pb-0 lg:h-[100svh]">
       <div
@@ -107,10 +106,7 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
               <span className="px-2.5 py-1 rounded-lg bg-white/16 text-[11px] font-mono uppercase tracking-wider">Emergency-ready phrases</span>
             </div>
             <nav className="sr-only" aria-label="Travel Sprint guides">
-              <Link to="/essential-mandarin-travel-phrases">Essential Mandarin Travel Phrases</Link>
-              <Link to="/mandarin-airport-phrases">Mandarin Airport Phrases</Link>
-              <Link to="/mandarin-taxi-phrases">Mandarin Taxi Phrases</Link>
-              <Link to="/how-to-order-food-in-chinese">How to Order Food in Chinese</Link>
+              <Link to="/essential-japanese-travel-phrases">Essential Japanese Travel Phrases</Link>
             </nav>
           </div>
 

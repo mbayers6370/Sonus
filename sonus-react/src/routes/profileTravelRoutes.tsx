@@ -57,11 +57,11 @@ function resolveTravelLanguage(state: ReturnType<typeof useApp>['state']): strin
     null;
 
   if (activeBandId && /^n[1-5]$/i.test(activeBandId)) return 'ja';
-  if (activeBandId && (/^band\d+$/i.test(activeBandId) || activeBandId === 'advanced')) return 'zh';
+  if (activeBandId && (/^band\d+$/i.test(activeBandId) || activeBandId === 'advanced')) return 'ja';
 
   const normalized = normalizeLanguageId(state.selectedLanguage);
-  if (normalized === 'ja' || normalized === 'zh') return normalized;
-  return 'zh';
+  if (normalized === 'ja') return normalized;
+  return 'ja';
 }
 
 type ProfileRouteProps = {

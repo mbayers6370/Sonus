@@ -76,7 +76,7 @@ model SpeakAttempt {
   userId         String   @map("user_id") @db.Uuid
   wordId         String   @map("word_id") @db.Text
   transcript     String?  @db.Text
-  detectedPinyin String?  @map("detected_pinyin") @db.Text
+  detectedTransliteration String?  @map("detected_transliteration") @db.Text
   initialOk      Boolean  @default(false) @map("initial_ok")
   finalOk        Boolean  @default(false) @map("final_ok")
   toneOk         Boolean  @default(false) @map("tone_ok")

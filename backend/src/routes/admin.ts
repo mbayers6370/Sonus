@@ -45,6 +45,7 @@ import {
   userExportQuerySchema,
   userIdParamsSchema,
   userSearchQuerySchema,
+  speakMissHotspotsByLanguageQuerySchema,
   weakWordsByLanguageQuerySchema,
   weakWordsQuerySchema,
 } from './adminSchemas.js';
@@ -1934,7 +1935,7 @@ export async function adminRoutes(app: FastifyInstance) {
 
       const windowInterval = `${parsed.data.windowDays} days`;
       const limitPerLanguage = parsed.data.limitPerLanguage;
-      const languages = ['zh', 'ja', 'kr', 'fr', 'it', 'es'];
+      const languages = ['ja', 'kr', 'fr', 'it', 'es'];
 
       const rows = await prisma.$queryRaw<
         Array<{
@@ -1948,7 +1949,6 @@ export async function adminRoutes(app: FastifyInstance) {
       WITH agg AS (
         SELECT
           CASE
-            WHEN qa.word_id LIKE 'L%' THEN 'zh'
             WHEN qa.word_id LIKE 'N%' THEN 'ja'
             ELSE 'unknown'
           END AS language,
@@ -2042,7 +2042,7 @@ export async function adminRoutes(app: FastifyInstance) {
 
       const windowInterval = `${parsed.data.windowDays} days`;
       const limitPerLanguage = parsed.data.limitPerLanguage;
-      const languages = ['zh', 'ja', 'kr', 'fr', 'it', 'es'];
+      const languages = ['ja', 'kr', 'fr', 'it', 'es'];
 
       const rows = await prisma.$queryRaw<
         Array<{
@@ -2138,6 +2138,213 @@ export async function adminRoutes(app: FastifyInstance) {
       return {
         windowDays: parsed.data.windowDays,
         limitPerLanguage,
+        languages: languages.map((languageId) => ({
+          languageId,
+          hasData: byLanguage[languageId].length > 0,
+          words: byLanguage[languageId],
+        })),
+      };
+    }
+  );
+
+  app.get(
+    '/v1/admin/metrics/learning/speak-miss-hotspots-by-language',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = speakMissHotspotsByLanguageQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+
+      const windowInterval = `${parsed.data.windowDays} days`;
+      const previousIntervalStart = `${parsed.data.windowDays * 2} days`;
+      const limitPerLanguage = parsed.data.limitPerLanguage;
+      const minMissesPerUser = parsed.data.minMissesPerUser;
+      const languages = ['ja', 'kr', 'fr', 'it', 'es'];
+
+      const rows = await prisma.$queryRaw<
+        Array<{
+          language: string;
+          wordId: string;
+          affectedUsers: bigint;
+          totalMisses: bigint;
+          avgMissesPerUser: number;
+          previousAffectedUsers: bigint | null;
+          previousTotalMisses: bigint | null;
+        }>
+      >`
+      WITH scoped_current AS (
+        SELECT
+          COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') AS language,
+          sa.user_id,
+          sa.word_id
+        FROM speak_attempts sa
+        LEFT JOIN profiles p ON p.user_id = sa.user_id
+        WHERE sa.created_at >= now() - ${windowInterval}::interval
+          AND sa.created_at < now()
+          AND (sa.initial_ok = false OR sa.final_ok = false OR sa.tone_ok = false)
+      ),
+      user_word_misses_current AS (
+        SELECT
+          language,
+          user_id,
+          word_id AS "wordId",
+          COUNT(*)::bigint AS miss_count
+        FROM scoped_current
+        GROUP BY language, user_id, word_id
+      ),
+      filtered_current AS (
+        SELECT
+          language,
+          "wordId",
+          user_id,
+          miss_count
+        FROM user_word_misses_current
+        WHERE miss_count >= ${minMissesPerUser}
+      ),
+      agg_current AS (
+        SELECT
+          language,
+          "wordId",
+          COUNT(DISTINCT user_id)::bigint AS "affectedUsers",
+          SUM(miss_count)::bigint AS "totalMisses",
+          ROUND(AVG(miss_count)::numeric, 2) AS "avgMissesPerUser"
+        FROM filtered_current
+        GROUP BY language, "wordId"
+      ),
+      scoped_previous AS (
+        SELECT
+          COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') AS language,
+          sa.user_id,
+          sa.word_id
+        FROM speak_attempts sa
+        LEFT JOIN profiles p ON p.user_id = sa.user_id
+        WHERE sa.created_at >= now() - ${previousIntervalStart}::interval
+          AND sa.created_at < now() - ${windowInterval}::interval
+          AND (sa.initial_ok = false OR sa.final_ok = false OR sa.tone_ok = false)
+      ),
+      user_word_misses_previous AS (
+        SELECT
+          language,
+          user_id,
+          word_id AS "wordId",
+          COUNT(*)::bigint AS miss_count
+        FROM scoped_previous
+        GROUP BY language, user_id, word_id
+      ),
+      filtered_previous AS (
+        SELECT
+          language,
+          "wordId",
+          user_id,
+          miss_count
+        FROM user_word_misses_previous
+        WHERE miss_count >= ${minMissesPerUser}
+      ),
+      agg_previous AS (
+        SELECT
+          language,
+          "wordId",
+          COUNT(DISTINCT user_id)::bigint AS "previousAffectedUsers",
+          SUM(miss_count)::bigint AS "previousTotalMisses"
+        FROM filtered_previous
+        GROUP BY language, "wordId"
+      ),
+      ranked AS (
+        SELECT
+          c.language,
+          c."wordId",
+          c."affectedUsers",
+          c."totalMisses",
+          c."avgMissesPerUser",
+          COALESCE(p."previousAffectedUsers", 0)::bigint AS "previousAffectedUsers",
+          COALESCE(p."previousTotalMisses", 0)::bigint AS "previousTotalMisses",
+          ROW_NUMBER() OVER (
+            PARTITION BY c.language
+            ORDER BY c."affectedUsers" DESC, c."totalMisses" DESC, c."avgMissesPerUser" DESC
+          ) AS rn
+        FROM agg_current c
+        LEFT JOIN agg_previous p
+          ON p.language = c.language
+         AND p."wordId" = c."wordId"
+      )
+      SELECT
+        language,
+        "wordId",
+        "affectedUsers",
+        "totalMisses",
+        "avgMissesPerUser",
+        "previousAffectedUsers",
+        "previousTotalMisses"
+      FROM ranked
+      WHERE rn <= ${limitPerLanguage}
+      ORDER BY language, "affectedUsers" DESC, "totalMisses" DESC, "avgMissesPerUser" DESC
+    `.catch(() => []);
+
+      const byLanguage = Object.fromEntries(
+        languages.map((languageId) => [
+          languageId,
+          [] as Array<{
+            wordId: string;
+            affectedUsers: number;
+            totalMisses: number;
+            avgMissesPerUser: number;
+            previousAffectedUsers: number;
+            previousTotalMisses: number;
+            affectedUsersDeltaPct: number;
+            totalMissesDeltaPct: number;
+            nativeText: string;
+            englishText: string;
+          }>,
+        ])
+      ) as Record<
+        string,
+        Array<{
+          wordId: string;
+          affectedUsers: number;
+          totalMisses: number;
+          avgMissesPerUser: number;
+          previousAffectedUsers: number;
+          previousTotalMisses: number;
+          affectedUsersDeltaPct: number;
+          totalMissesDeltaPct: number;
+          nativeText: string;
+          englishText: string;
+        }>
+      >;
+
+      const deltaPct = (current: number, previous: number) => {
+        if (previous <= 0) return current > 0 ? 100 : 0;
+        return Number((((current - previous) / previous) * 100).toFixed(2));
+      };
+
+      for (const row of rows) {
+        const language = languages.includes(row.language) ? row.language : null;
+        if (!language) continue;
+        const lexeme = await resolveLexemeForWordId(row.wordId, language).catch(() => null);
+        const affectedUsers = toInt(row.affectedUsers);
+        const totalMisses = toInt(row.totalMisses);
+        const previousAffectedUsers = toInt(row.previousAffectedUsers);
+        const previousTotalMisses = toInt(row.previousTotalMisses);
+        byLanguage[language].push({
+          wordId: row.wordId,
+          affectedUsers,
+          totalMisses,
+          avgMissesPerUser: Number(row.avgMissesPerUser || 0),
+          previousAffectedUsers,
+          previousTotalMisses,
+          affectedUsersDeltaPct: deltaPct(affectedUsers, previousAffectedUsers),
+          totalMissesDeltaPct: deltaPct(totalMisses, previousTotalMisses),
+          nativeText: lexeme?.term || row.wordId,
+          englishText: lexeme?.en || row.wordId,
+        });
+      }
+
+      return {
+        windowDays: parsed.data.windowDays,
+        limitPerLanguage,
+        minMissesPerUser,
         languages: languages.map((languageId) => ({
           languageId,
           hasData: byLanguage[languageId].length > 0,

@@ -7,7 +7,7 @@ const isInstructionalComplete = (quizScore: number | null | undefined, speakScor
 
 describe('practiceFocus', () => {
   it('maps starter band by language', () => {
-    expect(getStarterBandIdForLanguage('zh')).toBe('band1');
+    expect(getStarterBandIdForLanguage('xx')).toBe('n5');
     expect(getStarterBandIdForLanguage('ja')).toBe('n5');
     expect(getStarterBandIdForLanguage('kr')).toBe('topik1-1');
     expect(getStarterBandIdForLanguage('fr')).toBe('a1');

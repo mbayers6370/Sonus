@@ -49,7 +49,7 @@ create table if not exists public.speak_attempts (
   user_id uuid not null,
   word_id text not null,
   transcript text,
-  detected_pinyin text,
+  detected_transliteration text,
   initial_ok boolean not null default false,
   final_ok boolean not null default false,
   tone_ok boolean not null default false,

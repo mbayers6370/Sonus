@@ -23,7 +23,6 @@ import { normalizeLanguageId } from '../lib/languageRuntime';
 import type { SharedUserProgress } from '../../../shared/contracts';
 
 const LANGUAGE_ACCENT_HEX: Record<string, string> = {
-  zh: '#DE2910',
   ja: '#BC002D',
   kr: '#0047A0',
   fr: '#0055A4',
@@ -36,11 +35,6 @@ const CARD_ACCENTS_BY_LANGUAGE: Record<string, {
   innerBorderColor: string;
   surfaceTint: string;
 }> = {
-  zh: {
-    borderColor: 'border-[#DE2910]/58',
-    innerBorderColor: 'border-[#DE2910]/34',
-    surfaceTint: 'bg-white',
-  },
   ja: {
     borderColor: 'border-[#BC002D]/58',
     innerBorderColor: 'border-[#BC002D]/34',
@@ -75,7 +69,7 @@ function LanguageCardBackdrop({
   langId: string;
   isCurrent: boolean;
 }) {
-  const color = isCurrent ? '#FFFFFF' : (LANGUAGE_ACCENT_HEX[langId] || LANGUAGE_ACCENT_HEX.zh);
+  const color = isCurrent ? '#FFFFFF' : (LANGUAGE_ACCENT_HEX[langId] || LANGUAGE_ACCENT_HEX.ja);
   const strokeOpacity = isCurrent ? 0.2 : 0.11;
   const fillOpacity = isCurrent ? 0.09 : 0.05;
   const commonStroke = {
@@ -88,13 +82,6 @@ function LanguageCardBackdrop({
   };
 
   const motifs: Record<string, ReactNode> = {
-    zh: (
-      <>
-        <circle cx="252" cy="62" r="42" fill={color} opacity={fillOpacity} />
-        <path d="M214 62h76M252 24v76M226 36h52M226 88h52M236 46v32M268 46v32" {...commonStroke} />
-        <path d="M42 190c34-18 77-20 116-8" {...commonStroke} />
-      </>
-    ),
     ja: (
       <>
         <circle cx="250" cy="60" r="46" fill={color} opacity={fillOpacity} />
@@ -140,7 +127,7 @@ function LanguageCardBackdrop({
         aria-hidden="true"
         focusable="false"
       >
-        {motifs[langId] || motifs.zh}
+        {motifs[langId] || motifs.ja}
       </svg>
     </div>
   );
@@ -191,7 +178,6 @@ function isInstructionalComplete(quizScore: number | null | undefined, speakScor
 function bandMatchesLanguage(bandId: string | null | undefined, languageId: string | null) {
   if (!bandId || !languageId) return false;
   if (languageId === 'ja') return /^n[1-5]$/i.test(bandId);
-  if (languageId === 'zh') return /^band\d+$/i.test(bandId) || bandId === 'advanced';
   return true;
 }
 
@@ -231,7 +217,6 @@ export default function ProfileScreen({
   const [switchingLanguage, setSwitchingLanguage] = useState(false);
 
   const languageNameById: Record<string, string> = {
-    zh: 'Mandarin',
     ja: 'Japanese',
     kr: 'Korean',
     ko: 'Korean',
@@ -247,7 +232,6 @@ export default function ProfileScreen({
     frameworkRange: string;
     available: boolean;
   }> = [
-    { id: 'zh', name: 'Mandarin', nativeName: '普通话', frameworkTitle: 'HSK 3.0', frameworkRange: 'Bands 1 - 9', available: true },
     { id: 'ja', name: 'Japanese', nativeName: '日本語', frameworkTitle: 'JLPT', frameworkRange: 'N5 - N1', available: true },
     { id: 'kr', name: 'Korean', nativeName: '한국어', frameworkTitle: 'TOPIK', frameworkRange: 'Levels 1 - 6', available: false },
     { id: 'fr', name: 'French', nativeName: 'Français', frameworkTitle: 'CEFR', frameworkRange: 'A1 - C2', available: false },
@@ -699,7 +683,6 @@ export default function ProfileScreen({
                   className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white"
                 >
                   <option value="">Select language</option>
-                  <option value="zh">Chinese (Mandarin)</option>
                   <option value="es">Spanish</option>
                   <option value="fr">French</option>
                   <option value="de">German</option>
@@ -740,7 +723,7 @@ export default function ProfileScreen({
               {switchableLanguages.map((language) => {
                 const isCurrent = resolvedCurrentLearningLanguage === language.id;
                 const isAvailable = language.available;
-                const accent = CARD_ACCENTS_BY_LANGUAGE[language.id] || CARD_ACCENTS_BY_LANGUAGE.zh;
+                const accent = CARD_ACCENTS_BY_LANGUAGE[language.id] || CARD_ACCENTS_BY_LANGUAGE.ja;
                 return (
                   <button
                     key={language.id}

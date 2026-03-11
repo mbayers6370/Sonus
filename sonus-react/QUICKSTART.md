@@ -23,7 +23,7 @@ To see the flashcard working, open your browser console and run:
 
 ```javascript
 // Load some test data
-fetch('/data/zh/band1.json')
+fetch('/data/ja/n5.json')
   .then(r => r.json())
   .then(data => {
     // Get first 10 words from pronouns unit

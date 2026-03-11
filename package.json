@@ -18,17 +18,7 @@
     "test:core": "npm run -w sonus-backend test:core",
     "lint": "npm run -w sonus-react lint && npm run -w sonus-backend lint",
     "build": "npm run -w sonus-react build && npm run -w sonus-backend build",
-    "characters:generate": "node scripts/generate-character-insights.mjs",
-    "band1:normalize": "node scripts/band1-normalize-validate.mjs --fix",
-    "band1:validate": "node scripts/band1-normalize-validate.mjs",
-    "data:zh:lint": "node scripts/zh-data-pipeline.mjs",
-    "data:zh:lint:strict": "node scripts/zh-data-pipeline.mjs --fail-on-warn",
-    "data:zh:fix": "node scripts/zh-data-pipeline.mjs --fix --write-review-queue",
-    "data:zh:queue": "node scripts/zh-data-pipeline.mjs --write-review-queue",
-    "data:zh:refresh-defs": "node scripts/refresh-zh-defs.mjs",
     "tatoeba:fetch": "node scripts/tatoeba-fetch.mjs",
-    "tatoeba:candidates": "node scripts/tatoeba-generate-candidates.mjs",
-    "tatoeba:apply": "node scripts/tatoeba-apply-candidates.mjs",
     "quality:report": "node scripts/quality-report.mjs",
     "quality:report:soft": "node scripts/quality-report.mjs || true",
     "quality:report:prod-safe": "QUALITY_PROFILE=prod-safe node scripts/quality-report.mjs",
@@ -40,7 +30,5 @@
     "codehealth:scan": "node scripts/codehealth-scan.mjs",
     "codehealth": "npm run codehealth:dead && npm run codehealth:deps && npm run codehealth:cycles && npm run codehealth:scan"
   },
-  "devDependencies": {
-    "hanzi": "^2.1.5"
-  }
+  "devDependencies": {}
 }

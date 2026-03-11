@@ -246,6 +246,28 @@ type WeakWordsByLanguage = {
   }>;
 };
 
+type SpeakMissHotspotsByLanguage = {
+  windowDays: number;
+  limitPerLanguage: number;
+  minMissesPerUser: number;
+  languages: Array<{
+    languageId: string;
+    hasData: boolean;
+    words: Array<{
+      wordId: string;
+      affectedUsers: number;
+      totalMisses: number;
+      avgMissesPerUser: number;
+      previousAffectedUsers: number;
+      previousTotalMisses: number;
+      affectedUsersDeltaPct: number;
+      totalMissesDeltaPct: number;
+      nativeText: string;
+      englishText: string;
+    }>;
+  }>;
+};
+
 type QualityReportListItem = {
   runId: string;
   generatedAt: string | null;
@@ -404,11 +426,9 @@ type ProdReadinessReport = {
 const SUPPORT_ADMIN_TOKEN_STORAGE_KEY = 'sonus.support_admin.token';
 const ROOT_QA_ADMIN_USERNAME = 'qa-admin-f8n2x7r1@sonus.test';
 const ACCESS_LANGUAGE_OPTIONS = [
-  { id: 'zh', label: 'Mandarin' },
   { id: 'ja', label: 'Japanese' },
 ] as const;
 const ACCESS_BANDS_BY_LANGUAGE: Record<string, string[]> = {
-  zh: ['band1', 'band2', 'band3', 'band4', 'band5', 'band6', 'band7', 'band8', 'band9'],
   ja: ['n5', 'n4', 'n3', 'n2', 'n1'],
 };
 
@@ -453,6 +473,33 @@ function TrendDelta({ deltaPct }: { deltaPct: number }) {
   );
 }
 
+function MissTrendDelta({ deltaPct }: { deltaPct: number }) {
+  const safeDelta = Number.isFinite(deltaPct) ? deltaPct : 0;
+  const rounded = Math.round(safeDelta * 10) / 10;
+  if (rounded > 0) {
+    return (
+      <span className="inline-flex items-center gap-1 font-semibold text-rose-700">
+        <ArrowUpRight className="h-3.5 w-3.5" />
+        +{rounded}%
+      </span>
+    );
+  }
+  if (rounded < 0) {
+    return (
+      <span className="inline-flex items-center gap-1 font-semibold text-emerald-700">
+        <ArrowDownRight className="h-3.5 w-3.5" />
+        {rounded}%
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1 font-semibold text-slate-600">
+      <Minus className="h-3.5 w-3.5" />
+      0%
+    </span>
+  );
+}
+
 function riskStyles(ratio: number) {
   if (ratio >= 1) {
     return { label: 'high', tone: 'text-red-700', bar: 'bg-red-600' };
@@ -472,18 +519,14 @@ function timelineSourceLabel(entry: TimelineEntry) {
 
 function normalizeLanguageId(languageId: string | null | undefined) {
   const normalized = (languageId || '').trim().toLowerCase();
-  if (!normalized) return 'zh';
+  if (!normalized) return 'ja';
   if (normalized === 'jp') return 'ja';
   return normalized;
 }
 
 function resolveBandDataPath(languageId: string, bandId: string) {
   const normalizedLanguage = normalizeLanguageId(languageId);
-  if (normalizedLanguage === 'zh') {
-    const resolvedBandId =
-      bandId === 'band7' || bandId === 'band8' || bandId === 'band9' ? 'band7-9' : bandId;
-    return `/data/zh/${resolvedBandId}.json`;
-  }
+  if (normalizedLanguage === 'ja') return `/data/ja/${bandId}.json`;
   return `/data/${normalizedLanguage}/${bandId}.json`;
 }
 
@@ -855,7 +898,7 @@ export default function SupportConsolePage() {
   const [busyAction, setBusyAction] = useState<string | null>(null);
   const [accessReason, setAccessReason] = useState('');
   const [accessFilter, setAccessFilter] = useState('');
-  const [accessLanguageId, setAccessLanguageId] = useState<'zh' | 'ja'>('zh');
+  const [accessLanguageId, setAccessLanguageId] = useState<'ja'>('ja');
   const [accessCatalogBands, setAccessCatalogBands] = useState<AccessCatalogBandOption[]>([]);
   const [accessCatalogLoading, setAccessCatalogLoading] = useState(false);
   const [accessCatalogError, setAccessCatalogError] = useState<string | null>(null);
@@ -879,6 +922,7 @@ export default function SupportConsolePage() {
   const [learningMetrics, setLearningMetrics] = useState<LearningMetrics | null>(null);
   const [weakWordsByLanguage, setWeakWordsByLanguage] = useState<WeakWordsByLanguage | null>(null);
   const [weakSpeakWordsByLanguage, setWeakSpeakWordsByLanguage] = useState<WeakWordsByLanguage | null>(null);
+  const [speakMissHotspotsByLanguage, setSpeakMissHotspotsByLanguage] = useState<SpeakMissHotspotsByLanguage | null>(null);
   const [metricsLoading, setMetricsLoading] = useState(false);
   const [metricsError, setMetricsError] = useState<string | null>(null);
   const [dashboardLoading, setDashboardLoading] = useState(false);
@@ -1143,9 +1187,9 @@ export default function SupportConsolePage() {
         setLearningAccessAudit([]);
       }
       const normalizedProgressLanguage = normalizeLanguageId(
-        resolvedProgress.language || overviewPayload.profile.targetLanguage || 'zh'
+        resolvedProgress.language || overviewPayload.profile.targetLanguage || 'ja'
       );
-      setAccessLanguageId(normalizedProgressLanguage === 'ja' ? 'ja' : 'zh');
+      setAccessLanguageId(normalizedProgressLanguage === 'ja' ? 'ja' : 'ja');
       setTargetBandInput(resolvedProgress.currentBandId || '');
       setTargetUnitInput(resolvedProgress.currentUnitId || '');
       setTargetLessonInput(String(resolvedProgress.currentLessonIdx ?? 0));
@@ -1212,7 +1256,12 @@ export default function SupportConsolePage() {
     setMetricsLoading(true);
     setMetricsError(null);
     try {
-      const [overviewPayload, weakWordsByLanguagePayload, weakSpeakWordsByLanguagePayload] = await Promise.all([
+      const [
+        overviewPayload,
+        weakWordsByLanguagePayload,
+        weakSpeakWordsByLanguagePayload,
+        speakMissHotspotsByLanguagePayload,
+      ] = await Promise.all([
         parseJsonOrThrow<LearningMetrics>(
           await apiFetch(`/v1/admin/metrics/learning/overview?windowDays=${windowDays}`, {
             cache: 'no-store',
@@ -1234,10 +1283,19 @@ export default function SupportConsolePage() {
             }
           )
         ),
+        parseJsonOrThrow<SpeakMissHotspotsByLanguage>(
+          await apiFetch(
+            `/v1/admin/metrics/learning/speak-miss-hotspots-by-language?windowDays=${windowDays}&limitPerLanguage=5&minMissesPerUser=4`,
+            {
+              cache: 'no-store',
+            }
+          )
+        ),
       ]);
       setLearningMetrics(overviewPayload);
       setWeakWordsByLanguage(weakWordsByLanguagePayload);
       setWeakSpeakWordsByLanguage(weakSpeakWordsByLanguagePayload);
+      setSpeakMissHotspotsByLanguage(speakMissHotspotsByLanguagePayload);
     } catch (error) {
       setMetricsError(error instanceof Error ? error.message : 'Failed to load learning metrics');
     } finally {
@@ -1252,6 +1310,7 @@ export default function SupportConsolePage() {
       const [
         supportPayload,
         learningPayload,
+        speakMissHotspotsPayload,
         executivePayload,
         deletionPayload,
         securityPayload,
@@ -1270,6 +1329,14 @@ export default function SupportConsolePage() {
           await apiFetch(`/v1/admin/metrics/learning/overview?windowDays=${windowDays}`, {
             cache: 'no-store',
           })
+        ),
+        parseJsonOrThrow<SpeakMissHotspotsByLanguage>(
+          await apiFetch(
+            `/v1/admin/metrics/learning/speak-miss-hotspots-by-language?windowDays=${windowDays}&limitPerLanguage=4&minMissesPerUser=4`,
+            {
+              cache: 'no-store',
+            }
+          )
         ),
         parseJsonOrThrow<ExecutiveWeeklyReport>(
           await apiFetch(`/v1/admin/reports/executive-weekly?windowDays=${windowDays}`, {
@@ -1314,6 +1381,7 @@ export default function SupportConsolePage() {
       ]);
       setSupportMetrics(supportPayload);
       setLearningMetrics(learningPayload);
+      setSpeakMissHotspotsByLanguage(speakMissHotspotsPayload);
       setExecutiveWeeklyReport(executivePayload);
       setDeletionLifecycleReport(deletionPayload);
       setSecurityIncidentReport(securityPayload);
@@ -2950,6 +3018,55 @@ export default function SupportConsolePage() {
                 <div>Lesson abandons: <span className="font-semibold">{learningMetrics?.learning.lessonAbandons ?? 0}</span></div>
               </div>
             </div>
+            {speakMissHotspotsByLanguage && (
+              <div className="mt-4 rounded-xl border border-[#fca5a5]/50 bg-[#fff1f2] p-3">
+                <h3 className="text-sm font-semibold text-[#9f1239]">
+                  Speak Miss Hotspots By Language
+                </h3>
+                <p className="mt-1 text-xs text-[#9f1239]">
+                  Trigger threshold: at least {speakMissHotspotsByLanguage.minMissesPerUser} misses per user on the same word.
+                </p>
+                <p className="mt-1 text-[11px] text-[#be123c]">
+                  Trend compares against the previous {speakMissHotspotsByLanguage.windowDays}-day window.
+                </p>
+                <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                  {speakMissHotspotsByLanguage.languages.map((bucket) => (
+                    <article
+                      key={`hotspot-${bucket.languageId}`}
+                      className={`rounded-lg border p-3 ${
+                        bucket.hasData
+                          ? 'border-[#fecdd3] bg-white'
+                          : 'border-[#ffd6dc] bg-[#fff7f9] text-[#9ca3af]'
+                      }`}
+                    >
+                      <div className="text-xs uppercase tracking-[0.16em]">{bucket.languageId}</div>
+                      {!bucket.hasData && <div className="mt-2 text-sm">No hotspots in this window.</div>}
+                      {bucket.hasData && (
+                        <div className="mt-2 space-y-2 text-sm">
+                          {bucket.words.map((word) => (
+                            <div key={`hotspot-${bucket.languageId}-${word.wordId}`} className="rounded border border-[#ffe4e6] bg-[#fffafb] p-2">
+                              <div className="truncate font-semibold text-[#0f172a]">{word.nativeText}</div>
+                              <div className="truncate text-[#475569]">{word.englishText}</div>
+                              <div className="mt-1 space-y-1 text-xs text-[#9f1239]">
+                                <div className="flex items-center justify-between gap-2">
+                                  <span>{word.affectedUsers} users (prev {word.previousAffectedUsers})</span>
+                                  <MissTrendDelta deltaPct={word.affectedUsersDeltaPct} />
+                                </div>
+                                <div className="flex items-center justify-between gap-2">
+                                  <span>{word.totalMisses} misses (prev {word.previousTotalMisses})</span>
+                                  <MissTrendDelta deltaPct={word.totalMissesDeltaPct} />
+                                </div>
+                                <div>avg {word.avgMissesPerUser.toFixed(1)}/user</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="text-sm font-semibold text-[#0f172a]">Downloadable Reports</h3>
@@ -3969,7 +4086,7 @@ export default function SupportConsolePage() {
                           <select
                             className={baseInput}
                             value={accessLanguageId}
-                            onChange={(event) => setAccessLanguageId(event.target.value === 'ja' ? 'ja' : 'zh')}
+                            onChange={() => setAccessLanguageId('ja')}
                           >
                             {ACCESS_LANGUAGE_OPTIONS.map((option) => (
                               <option key={option.id} value={option.id}>

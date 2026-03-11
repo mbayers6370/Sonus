@@ -408,7 +408,7 @@ export function PrivacyPolicyContent() {
         </p>
         <p className="mt-2">
           Sonus does store recognized transcript text and derived scoring fields from speak attempts, such as
-          pronunciation component results, detected transcript text, and optional detected pinyin.
+          pronunciation component results, detected transcript text, and optional detected transliteration.
         </p>
         <p className="mt-2">
           Speech recognition itself may be processed by your browser or platform provider according to that provider’s

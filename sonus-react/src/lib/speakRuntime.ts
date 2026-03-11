@@ -1,7 +1,7 @@
 import type { SpeakDimensionScore } from '../types/lesson.types';
 
-export type SupportedSpeakLanguage = 'zh' | 'ja';
-export type AppSpeakLanguage = 'zh' | 'ja' | 'ko' | 'fr' | 'it' | 'es';
+export type SupportedSpeakLanguage = 'ja';
+export type AppSpeakLanguage = 'ja' | 'ko' | 'fr' | 'it' | 'es';
 
 const JAPANESE_DIGIT_TO_KANJI: Record<string, string> = {
   '0': '零',
@@ -16,29 +16,19 @@ const JAPANESE_DIGIT_TO_KANJI: Record<string, string> = {
   '9': '九',
 };
 
-const MANDARIN_DIGIT_TO_PINYIN: Record<string, string> = {
-  '0': 'ling2',
-  '1': 'yi1',
-  '2': 'er4',
-  '3': 'san1',
-  '4': 'si4',
-  '5': 'wu3',
-  '6': 'liu4',
-  '7': 'qi1',
-  '8': 'ba1',
-  '9': 'jiu3',
-};
-
 function canonicalLanguageId(languageId: string | null | undefined): string {
   const normalized = (languageId || '').trim().toLowerCase();
-  if (!normalized) return 'zh';
+  if (!normalized) return 'ja';
   if (normalized === 'jp') return 'ja';
   if (normalized === 'kr') return 'ko';
+  if (normalized !== 'ja' && normalized !== 'ko' && normalized !== 'fr' && normalized !== 'it' && normalized !== 'es') {
+    return 'ja';
+  }
   return normalized;
 }
 
-function normalizeToLanguageId(languageId: string | null | undefined): SupportedSpeakLanguage {
-  return canonicalLanguageId(languageId) === 'ja' ? 'ja' : 'zh';
+function normalizeToLanguageId(_languageId: string | null | undefined): SupportedSpeakLanguage {
+  return 'ja';
 }
 
 export function resolveSpeakLanguageForSession(
@@ -48,14 +38,13 @@ export function resolveSpeakLanguageForSession(
   const selectedRaw = (selectedLanguage || '').trim();
   if (selectedRaw) {
     const normalized = canonicalLanguageId(selectedRaw);
-    if (normalized === 'ja' || normalized === 'zh' || normalized === 'ko' || normalized === 'fr' || normalized === 'it' || normalized === 'es') {
+    if (normalized === 'ja' || normalized === 'ko' || normalized === 'fr' || normalized === 'it' || normalized === 'es') {
       return normalized;
     }
   }
   // Only infer from band as a fallback when selected language is absent/unknown.
   if (activeBandId && /^n[1-5]$/i.test(activeBandId)) return 'ja';
-  if (activeBandId && (/^band\d+$/i.test(activeBandId) || activeBandId === 'advanced')) return 'zh';
-  return 'zh';
+  return 'ja';
 }
 
 export function getSpeakRecognitionLocale(languageId: string | null | undefined) {
@@ -65,7 +54,7 @@ export function getSpeakRecognitionLocale(languageId: string | null | undefined)
   if (normalized === 'fr') return 'fr-FR';
   if (normalized === 'it') return 'it-IT';
   if (normalized === 'es') return 'es-ES';
-  return 'zh-CN';
+  return 'ja-JP';
 }
 
 export function normalizeSpeechCandidate(languageId: string | null | undefined, value: string) {
@@ -78,12 +67,6 @@ export function normalizeSpeechCandidate(languageId: string | null | undefined, 
       .map((char) => JAPANESE_DIGIT_TO_KANJI[char] || char)
       .join('');
     return withKanjiDigits;
-  }
-
-  if (normalizedLanguage === 'zh' && /^\d+$/.test(input)) {
-    return Array.from(input)
-      .map((char) => MANDARIN_DIGIT_TO_PINYIN[char] || char)
-      .join(' ');
   }
 
   return input;

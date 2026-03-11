@@ -12,7 +12,7 @@ type SpeakAttemptPayload = {
   wordId: string;
   isReview?: boolean;
   transcript?: string;
-  detectedPinyin?: string;
+  detectedTransliteration?: string;
   initialOk: boolean;
   finalOk: boolean;
   toneOk: boolean;
@@ -20,7 +20,7 @@ type SpeakAttemptPayload = {
 };
 
 type ClientTelemetryPayload = {
-  name: 'speak_stt_unavailable' | 'speak_stt_error' | 'speak_lookup_ready';
+  name: 'speak_stt_unavailable' | 'speak_stt_error' | 'speak_lookup_ready' | 'speak_feedback_classified';
   payload?: Record<string, unknown>;
 };
 

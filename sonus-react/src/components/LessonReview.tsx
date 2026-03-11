@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useApp } from '../contexts/AppContext';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
+import { getWordReading } from '../lib/languageFields';
 
 interface LessonReviewProps {
   onGoHome: () => void;
@@ -72,7 +73,7 @@ export default function LessonReview({
               {currentItem.word.simp}
             </div>
             <div className="mt-2 text-center text-xl text-text-med">
-              {currentItem.word.pinyin}
+              {getWordReading(currentItem.word)}
             </div>
             <div className="mt-4 text-center text-lg text-text-dark font-medium">
               {currentItem.word.en}

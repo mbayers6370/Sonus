@@ -15,11 +15,11 @@ describe('reviewScheduler', () => {
   });
 
   it('returns deterministic prompt sequence for quiz mode', () => {
-    expect(pickQuizPromptType(0, 'quiz')).toBe('hanzi_to_en');
-    expect(pickQuizPromptType(1, 'quiz')).toBe('en_to_hanzi');
+    expect(pickQuizPromptType(0, 'quiz')).toBe('script_to_en');
+    expect(pickQuizPromptType(1, 'quiz')).toBe('en_to_script');
     expect(pickQuizPromptType(2, 'quiz')).toBe('audio_to_meaning');
     expect(pickQuizPromptType(3, 'quiz')).toBe('cloze');
-    expect(pickQuizPromptType(4, 'quiz')).toBe('hanzi_to_en');
+    expect(pickQuizPromptType(4, 'quiz')).toBe('script_to_en');
   });
 
   it('forces speak prompt type in speak mode', () => {
@@ -43,7 +43,7 @@ describe('reviewScheduler', () => {
       id,
       simp: id,
       trad: id,
-      pinyin: 'a1',
+      transliteration: 'a1',
       pos: 'N',
       en: id,
       defs: [id],

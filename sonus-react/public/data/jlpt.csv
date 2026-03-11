@@ -888,7 +888,7 @@ expression,reading,meaning,tags
 簡潔,かんけつ,"brevity, concise, simple",N1
 還元,かんげん,"resolution, reduction, return",N1
 看護,かんご,nursing,N1
-漢語,かんご,"Chinese word, Sino-Japanese word",N1
+漢語,かんご,"Sino-Japanese word",N1
 頑固,がんこ,"stubbornness, obstinacy",N1
 勧告,かんこく,"advice, counsel",N1
 換算,かんさん,"conversion, change, exchange",N1
@@ -3182,7 +3182,7 @@ expression,reading,meaning,tags
 看板,かんばん,"sign, signboard",N2
 看病,かんびょう,nursing (a patient),N2
 冠,かんむり,"crown, wreath",N2
-漢和,かんわ,"Chinese Character-Japanese (e.g., dictionary)",N2
+漢和,かんわ,"Kanji-Japanese (e.g., dictionary)",N2
 ～期,～き,"~age, ~period",N2
 ～器,～き,"device, equipment",N2
 ～機,～き,machine,N2
@@ -5262,7 +5262,7 @@ expression,reading,meaning,tags
 咥える,くわえる,to hold something in the mouth,N3
 詳しい,くわしい,detailed; full; accurate,N3
 加わる,くわわる,"to join in, to accede to",N3
-訓,くん,native Japanese reading of a Chinese character,N3
+訓,くん,native Japanese reading of a logographic character,N3
 軍,ぐん,"army, force, troops",N3
 郡,ぐん,"country, district",N3
 軍隊,ぐんたい,"army, troops",N3
@@ -7440,7 +7440,7 @@ expression,reading,meaning,tags
 川; 河,かわ,river,N5
 ～側,～がわ,~ side,N5
 可愛い,かわいい,"cute, adorable",N5
-漢字,かんじ,kanji; Chinese character,N5
+漢字,かんじ,kanji; logographic character,N5
 木,き,"tree, wood, timber",N5
 黄色,きいろ,yellow,N5
 黄色い,きいろい,yellow,N5

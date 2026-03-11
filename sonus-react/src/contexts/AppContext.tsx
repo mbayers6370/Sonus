@@ -59,6 +59,7 @@ import { apiFetch } from '../lib/apiClient';
 import { cachePolicy } from '../config/cachePolicy';
 import { getMockIdentity } from '../lib/authSession';
 import { writeCachedCurrentPath } from '../lib/currentPathStore';
+import { getExampleNative, getExampleReading } from '../lib/languageFields';
 import { useAuth } from './AuthContext';
 
 interface AppContextType {
@@ -193,7 +194,7 @@ function normalizeLanguageForState(languageId: string | null | undefined): strin
 function inferLanguageFromBandId(bandId: string | null | undefined): string | null {
   if (!bandId) return null;
   if (/^n[1-5]$/i.test(bandId)) return 'ja';
-  if (/^band\d+$/i.test(bandId) || bandId === 'advanced') return 'zh';
+  if (/^band\d+$/i.test(bandId) || bandId === 'advanced') return 'ja';
   return null;
 }
 
@@ -362,12 +363,11 @@ type ReviewQueueResponse = {
 type ApplySentence = {
   id: string;
   wordId: string;
-  zh: string;
+  native?: string;
   en: string;
-  pinyin?: string;
+  transliteration?: string;
   reading?: string;
   pronunciation?: string;
-  py?: string;
   strictUnitOnly?: boolean;
 };
 
@@ -381,8 +381,21 @@ const applySentenceCache = new Map<string, Record<string, ApplySentence[]>>();
 const bandDataCache = new Map<string, { data: BandData; fetchedAt: number }>();
 const BAND_DATA_CACHE_TTL_MS = cachePolicy.bandData.bandCacheTTLms;
 
-function normalizeHanzi(value: string | undefined) {
+function normalizeScriptText(value: string | undefined) {
   return (value || '').trim();
+}
+
+function getLegacyApplySentenceNative(sentence: ApplySentence) {
+  return (sentence.native || '').trim();
+}
+
+function getLegacyApplySentenceTransliteration(sentence: ApplySentence) {
+  return (
+    sentence.transliteration ||
+    sentence.reading ||
+    sentence.pronunciation ||
+    ''
+  ).trim();
 }
 
 function bandDataCacheKey(languageId: string, bandId: string) {
@@ -416,12 +429,12 @@ async function fetchBandData(
   return bandData;
 }
 
-function sentenceUsesFocusWord(sentenceZh: string | undefined, word: Word) {
-  const sentence = normalizeHanzi(sentenceZh);
+function sentenceUsesFocusWord(sentenceNative: string | undefined, word: Word) {
+  const sentence = normalizeScriptText(sentenceNative);
   if (!sentence) return false;
 
-  const simp = normalizeHanzi(word.simp);
-  const trad = normalizeHanzi(word.trad);
+  const simp = normalizeScriptText(word.simp);
+  const trad = normalizeScriptText(word.trad);
   if (simp && sentence.includes(simp)) return true;
   if (trad && sentence.includes(trad)) return true;
   return false;
@@ -433,7 +446,7 @@ function isApplySentence(value: unknown): value is ApplySentence {
   return (
     typeof candidate.id === 'string' &&
     typeof candidate.wordId === 'string' &&
-    typeof candidate.zh === 'string' &&
+    typeof candidate.native === 'string' &&
     typeof candidate.en === 'string'
   );
 }
@@ -1267,43 +1280,51 @@ export function AppProvider({ children }: { children: ReactNode }) {
         const applySentences = applySentenceByUnit[resolvedUnitId] || [];
         const applyByWordId = new Map(
           applySentences
-            .filter((item) => Boolean(item.wordId) && Boolean(item.zh?.trim()) && Boolean(item.en?.trim()))
+            .filter((item) => Boolean(item.wordId) && Boolean(getLegacyApplySentenceNative(item)) && Boolean(item.en?.trim()))
             .map((item) => [item.wordId, item])
         );
         const applyFallbackByWord = words
-          .filter((word) => Boolean(word.example?.zh?.trim()) && Boolean(word.example?.en?.trim()))
+          .filter((word) => Boolean(getExampleNative(word.example)) && Boolean(word.example?.en?.trim()))
           .map((word) => ({
             ...word,
             example: {
-              zh: word.example?.zh?.trim() || '',
+              native: getExampleNative(word.example),
               en: word.example?.en?.trim() || '',
-              pinyin: word.example?.pinyin?.trim() || undefined,
-              reading: word.example?.reading?.trim() || word.example?.pronunciation?.trim() || word.example?.pinyin?.trim() || undefined,
-              pronunciation: word.example?.pronunciation?.trim() || word.example?.reading?.trim() || word.example?.pinyin?.trim() || undefined,
+              transliteration: getExampleReading(word.example) || undefined,
+              reading: getExampleReading(word.example) || undefined,
+              pronunciation: getExampleReading(word.example) || undefined,
             },
           }));
         const applyWordsFromMap: Word[] = [];
         for (const word of words) {
           const applySentence = applyByWordId.get(word.id);
           if (!applySentence) continue;
-          if (!sentenceUsesFocusWord(applySentence.zh, word)) continue;
+          const applySentenceNative = getLegacyApplySentenceNative(applySentence);
+          const applySentenceTransliteration = getLegacyApplySentenceTransliteration(applySentence);
+          if (!sentenceUsesFocusWord(applySentenceNative, word)) continue;
           applyWordsFromMap.push({
             ...word,
             example: {
-              zh: applySentence.zh,
+              native: applySentenceNative,
               en: applySentence.en,
-              pinyin: applySentence.pinyin?.trim() || applySentence.py?.trim() || undefined,
+              transliteration: (
+                applySentence.transliteration?.trim() ||
+                applySentence.reading?.trim() ||
+                applySentence.pronunciation?.trim() ||
+                applySentenceTransliteration ||
+                undefined
+              ),
               reading:
                 applySentence.reading?.trim() ||
                 applySentence.pronunciation?.trim() ||
-                applySentence.pinyin?.trim() ||
-                applySentence.py?.trim() ||
+                applySentence.transliteration?.trim() ||
+                applySentenceTransliteration ||
                 undefined,
               pronunciation:
                 applySentence.pronunciation?.trim() ||
                 applySentence.reading?.trim() ||
-                applySentence.pinyin?.trim() ||
-                applySentence.py?.trim() ||
+                applySentence.transliteration?.trim() ||
+                applySentenceTransliteration ||
                 undefined,
             },
           });

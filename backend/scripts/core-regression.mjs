@@ -211,7 +211,7 @@ async function main() {
       wordId: TEST_WORD_ID,
       isReview: true,
       transcript: 'ok',
-      detectedPinyin: 'yi1',
+      detectedTransliteration: 'yi1',
       initialOk: true,
       finalOk: true,
       toneOk: true,

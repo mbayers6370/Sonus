@@ -42,7 +42,12 @@ export function isReleasedTrackLevel(levelId: string) {
 
 export function isTrackLevelLocked(levelId: string, unlockedLevels: string[]) {
   if (!isTrackProgressionLevel(levelId)) return false;
-  return !unlockedLevels.includes(normalizeLevelId(levelId));
+  const normalizedLevelId = normalizeLevelId(levelId);
+  const sequence = findTrackSequence(normalizedLevelId);
+  // Track starters (e.g., n5/topik1-1/a1/band1) should always remain enterable.
+  if (sequence && sequence[0] === normalizedLevelId) return false;
+  const unlocked = new Set(unlockedLevels.map((value) => normalizeLevelId(value)));
+  return !unlocked.has(normalizedLevelId);
 }
 
 export function nextTrackLevelId(levelId: string) {
@@ -58,11 +63,11 @@ export function firstTrackLevelIds() {
   return TRACK_SEQUENCES.map((sequence) => sequence[0]);
 }
 
-export function isMandarinBandId(levelId: string) {
+export function isLegacyBandLevelId(levelId: string) {
   return /^band\d+$/i.test(levelId) || normalizeLevelId(levelId) === 'advanced';
 }
 
-export function isMandarinBandLocked(bandId: string, unlockedLevels: string[]) {
+export function isLegacyBandLocked(bandId: string, unlockedLevels: string[]) {
   return isTrackLevelLocked(bandId, unlockedLevels);
 }
 

@@ -26,7 +26,7 @@ Last updated: 2026-03-05
 - `user_progress`: streak and current lesson path (`current_band_id`, `current_unit_id`, `current_lesson_idx`)
 - `progress_events`: event stream with optional `payload_json`
 - `quiz_attempts`: `word_id`, correctness, `response_ms`, `answer_text`
-- `speak_attempts`: `word_id`, `transcript`, `detected_pinyin`, `initial_ok`, `final_ok`, `tone_ok`, `score`
+- `speak_attempts`: `word_id`, `transcript`, `detected_transliteration`, `initial_ok`, `final_ok`, `tone_ok`, `score`
 - `word_memory_state`: spaced-repetition and weakness fields (`quiz_ease`, `quiz_interval_days`, `quiz_due_at`, `pronunciation_risk`, miss counters)
 - Code:
   - Schema: `backend/prisma/schema.prisma`, `backend/sql/001_init.sql`

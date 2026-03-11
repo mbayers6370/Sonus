@@ -62,11 +62,11 @@ async function runChecks() {
     method: 'PATCH',
     body: {
       displayName: 'Checklist User',
-      targetLanguage: 'zh',
+      targetLanguage: 'ja',
       onboardingComplete: true,
     },
   });
-  assert(updatedProfile?.profile?.targetLanguage === 'zh', 'Profile PATCH did not persist targetLanguage');
+  assert(updatedProfile?.profile?.targetLanguage === 'ja', 'Profile PATCH did not persist targetLanguage');
   // eslint-disable-next-line no-console
   console.log('PASS PATCH /v1/me/profile');
 
@@ -107,7 +107,7 @@ async function runChecks() {
       wordId: TEST_WORD_ID,
       isReview: true,
       transcript: 'ba',
-      detectedPinyin: 'ba3',
+      detectedTransliteration: 'ichi',
       initialOk: true,
       finalOk: true,
       toneOk: false,

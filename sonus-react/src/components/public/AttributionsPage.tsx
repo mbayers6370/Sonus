@@ -13,18 +13,12 @@ export default function AttributionsPage() {
       <section>
         <h2 className="main-font text-xl text-[#1F2A37] sm:text-2xl">Data Sources</h2>
         <p className="mt-2">
-          Sonus language datasets include material adapted from public and third-party sources. Current Mandarin
-          vocabulary and enrichment sources include:
+          Sonus language datasets include material adapted from public and third-party sources.
         </p>
         <ul className="mt-2 list-disc space-y-1 pl-6">
-          <li>HSK 3.0 materials, including adapted structure from `ivankra/hsk30`</li>
-          <li>CC-CEDICT</li>
+          <li>JLPT study datasets originally compiled by TANOS (tanos.co.uk)</li>
           <li>Tatoeba examples (CC-BY)</li>
         </ul>
-        <p className="mt-3">
-          Japanese vocabulary informed by publicly available JLPT study datasets originally compiled by TANOS
-          (tanos.co.uk).
-        </p>
       </section>
 
       <section>

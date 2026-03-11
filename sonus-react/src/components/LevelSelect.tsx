@@ -23,7 +23,7 @@ const ACCENT = {
 
 type AccentKey = keyof typeof ACCENT;
 const CARD_ACCENT_ORDER: AccentKey[] = ['navy', 'sage', 'graphite', 'rust'];
-const RELEASED_MANDARIN_BANDS = new Set(['band1', 'band2', 'band3', 'band4']);
+const RELEASED_LEGACY_BAND_LEVELS = new Set(['band1', 'band2', 'band3', 'band4']);
 
 type BandData = {
   band: number;
@@ -61,8 +61,8 @@ function getBandUnitsMap(bandData: BandData) {
   return next;
 }
 
-// HSK 3.0 Bands for Chinese
-const chineseLevels: LessonBand[] = [
+// Legacy band track levels
+const bandTrackLevels: LessonBand[] = [
   {
     id: 'intro',
     name: 'Introduction',
@@ -385,7 +385,7 @@ interface LevelCardProps {
   isDrenched?: boolean;
   elementId?: string;
   onSelect: (level: LessonBand) => void;
-  // Optional overrides to support the Mandarin (band) view
+  // Optional overrides to support the legacy band-track view
   badgeLabel?: string;
   topRightLabel?: string;
   showChevronWhenUnlocked?: boolean;
@@ -561,13 +561,12 @@ export default function LevelSelect({
 }: LevelSelectProps) {
   const { state } = useApp();
   const normalizedLanguageId = normalizeLanguageId(state.selectedLanguage);
+  const legacyTrackEnabled = false;
   const [searchParams, setSearchParams] = useSearchParams();
   const [bandQuizRequirementKeys, setBandQuizRequirementKeys] = useState<Record<string, string[]>>({});
 
   const getLevelsForLanguage = () => {
     switch (normalizedLanguageId) {
-      case 'zh':
-        return chineseLevels;
       case 'ja':
         return japaneseLevels;
       case 'kr':
@@ -575,14 +574,12 @@ export default function LevelSelect({
       case 'fr':
         return frenchLevels;
       default:
-        return chineseLevels;
+        return japaneseLevels;
     }
   };
 
   const getLanguageName = () => {
     switch (normalizedLanguageId) {
-      case 'zh':
-        return 'Mandarin';
       case 'ja':
         return 'Japanese';
       case 'kr':
@@ -609,7 +606,7 @@ export default function LevelSelect({
     units: [],
   };
 
-  const activeTier = normalizedLanguageId === 'zh' ? searchParams.get('tier') : null;
+  const activeTier = legacyTrackEnabled ? searchParams.get('tier') : null;
 
   const setTier = (tier: string | null) => {
     const next = new URLSearchParams(searchParams);
@@ -621,7 +618,7 @@ export default function LevelSelect({
     setSearchParams(next);
   };
 
-  const tiers = normalizedLanguageId === 'zh'
+  const tiers = legacyTrackEnabled
     ? [
         {
           id: 'beginner',
@@ -661,7 +658,7 @@ export default function LevelSelect({
         }
       ]
     : [];
-  const activeTierConfig = normalizedLanguageId === 'zh' && activeTier
+  const activeTierConfig = legacyTrackEnabled && activeTier
     ? tiers.find((tier) => tier.id === activeTier) ?? null
     : null;
   const firstNonIntroLevelId = levels.find((level) => level.id !== 'intro')?.id || levels[0]?.id || null;
@@ -675,14 +672,14 @@ export default function LevelSelect({
           : firstNonIntroLevelId;
 
   useEffect(() => {
-    if (normalizedLanguageId !== 'zh') return;
+    if (!legacyTrackEnabled) return;
     let cancelled = false;
 
-    const bandLevels = chineseLevels.filter((level) => /^band\d+$/i.test(level.id));
+    const bandLevels = bandTrackLevels.filter((level) => /^band\d+$/i.test(level.id));
     void Promise.all(
       bandLevels.map(async (level) => {
         try {
-          const response = await fetch(`/data/zh/${resolveBandDataId(level.id)}.json`, { cache: 'no-store' });
+          const response = await fetch(`/data/ja/${resolveBandDataId(level.id)}.json`, { cache: 'no-store' });
           if (!response.ok) return [level.id, []] as const;
           const bandData = (await response.json()) as BandData;
           const unitWordsById = getBandUnitsMap(bandData);
@@ -712,7 +709,7 @@ export default function LevelSelect({
     return () => {
       cancelled = true;
     };
-  }, [normalizedLanguageId]);
+  }, [legacyTrackEnabled, normalizedLanguageId]);
 
   const bandQuizCompleteById = useMemo(() => {
     const next: Record<string, boolean> = {};
@@ -733,7 +730,7 @@ export default function LevelSelect({
 
       {/* Tier or Level Cards */}
       <div className="space-y-4">
-        {normalizedLanguageId === 'zh' && activeTierConfig === null && (
+        {legacyTrackEnabled && activeTierConfig === null && (
           <>
             <button
               onClick={onOpenFoundations}
@@ -754,7 +751,7 @@ export default function LevelSelect({
                     Sound + Script Lab
                   </h3>
                   <p className="text-[0.98rem] text-white/85">
-                    Tones, pinyin, and character pattern training
+                    Tones, transliteration, and character pattern training
                   </p>
                 </div>
               </div>
@@ -847,12 +844,12 @@ export default function LevelSelect({
           </>
         )}
 
-        {normalizedLanguageId === 'zh' && activeTierConfig !== null && (
+        {legacyTrackEnabled && activeTierConfig !== null && (
           <>
             {activeTierConfig.levels.map((level, index) => {
-                const isMandarinReleased =
-                  normalizedLanguageId !== 'zh' || RELEASED_MANDARIN_BANDS.has(level.id);
-                const isReleased = isMandarinReleased && isReleasedTrackLevel(level.id);
+                const isLegacyBandReleased =
+                  !legacyTrackEnabled || RELEASED_LEGACY_BAND_LEVELS.has(level.id);
+                const isReleased = isLegacyBandReleased && isReleasedTrackLevel(level.id);
                 const isUnlocked = isReleased && state.unlockedLevels.includes(level.id);
                 const isQuizCompleted = Boolean(bandQuizCompleteById[level.id]);
                 const isCompleted = state.completedLevels.includes(level.id) || isQuizCompleted;
@@ -885,7 +882,7 @@ export default function LevelSelect({
           </>
         )}
 
-        {normalizedLanguageId !== 'zh' &&
+        {!legacyTrackEnabled &&
           levels.map((level, index) => {
             const isReleased = level.id === 'intro' || isReleasedTrackLevel(level.id);
             const isUnlocked = isReleased && (state.unlockedLevels.includes(level.id) || level.id === 'intro');
@@ -937,7 +934,7 @@ export default function LevelSelect({
                               : level.id === 'n1'
                                 ? 'Nuance and high-level Japanese'
                                 : '')
-                    : 'Curriculum is in production for this language. Mandarin is currently available.'
+                    : 'Curriculum is in production for this language.'
                 }
                 topRightLabel={isReleased ? (isUnlocked ? undefined : 'Locked') : 'Coming Soon'}
                 accentOverride={CARD_ACCENT_ORDER[index % CARD_ACCENT_ORDER.length]}

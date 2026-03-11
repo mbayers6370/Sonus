@@ -53,29 +53,14 @@ Runs workspace lint checks (frontend + backend).
 Builds frontend and backend production artifacts.
 `npm run build`
 
-Generates Mandarin character insight artifacts.
+Generates character insight artifacts.
 `npm run characters:generate`
 
-Normalizes Band 1 Mandarin data and auto-fixes issues.
+Normalizes Band 1 curriculum data and auto-fixes issues.
 `npm run band1:normalize`
 
-Validates Band 1 Mandarin data without auto-fixing.
+Validates Band 1 curriculum data without auto-fixing.
 `npm run band1:validate`
-
-Runs Mandarin data pipeline lint checks.
-`npm run data:zh:lint`
-
-Runs Mandarin lint checks and fails on warnings.
-`npm run data:zh:lint:strict`
-
-Runs Mandarin data auto-fixes and writes review queue.
-`npm run data:zh:fix`
-
-Writes Mandarin review queue only.
-`npm run data:zh:queue`
-
-Refreshes Mandarin definitions from configured sources.
-`npm run data:zh:refresh-defs`
 
 Fetches Tatoeba data used by sentence pipelines.
 `npm run tatoeba:fetch`
