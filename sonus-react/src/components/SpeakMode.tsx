@@ -638,7 +638,7 @@ function normalizeJapaneseForCompare(value: string) {
 function normalizeJapaneseLookupKey(value: string) {
   // Canonicalize common orthographic variants so dictionary-style lookup is resilient.
   return normalizeJapaneseForCompare(value || '')
-    .replace(/[ヶヵ]/g, 'か')
+    .replace(/[ヶヵゖゕ]/g, 'か')
     .replace(/け(?=月)/g, 'か');
 }
 
@@ -1414,6 +1414,15 @@ export default function SpeakMode({
     normalizeJapaneseReadingForCompare(word.simp || '');
   const targetJapaneseMoraCount = countJapaneseMora(targetJapaneseKanaReading);
   const targetJapaneseRomaji = japaneseRomajiKeyFromScriptOrFallback(word.simp || '', getWordReading(word) || '');
+  const displayCardReading = useMemo(() => {
+    if (hideReadingAndMeaning) return '';
+    if (!isJapaneseLesson) return getWordReading(word) || '';
+    return (
+      romanizeJapaneseForDisplay(
+        word.reading || word.hiragana || getWordReading(word) || word.simp || ''
+      ) || ''
+    );
+  }, [hideReadingAndMeaning, isJapaneseLesson, word]);
   const isShortJapaneseTarget =
     isJapaneseLesson && (
       targetJapaneseMoraCount > 0
@@ -1688,6 +1697,14 @@ export default function SpeakMode({
             return heardLookup === simp || heardLookup === trad;
           })
         : [];
+      const heardPronunciationFromScriptCandidate = heardScriptCandidates
+        .map((candidate) => japanesePronunciationKey({
+          reading: candidate.reading,
+          hiragana: candidate.hiragana,
+          transliteration: candidate.transliteration,
+          simp: candidate.simp,
+        }))
+        .find((value) => Boolean(value)) || '';
       if (
         (heard && targetJapaneseScript && heard === targetJapaneseScript) ||
         (heardLookup && targetLookup && heardLookup === targetLookup)
@@ -1712,11 +1729,19 @@ export default function SpeakMode({
           return { recognizedText: heardScriptCandidateMatch.simp || recognized, analysis: null, match: true };
         }
       }
+      if (
+        heardPronunciationFromScriptCandidate &&
+        targetJapaneseReading &&
+        heardPronunciationFromScriptCandidate === targetJapaneseReading
+      ) {
+        // Homophone/equivalent-script pass: pronunciation matches target, normalize display to target script.
+        return { recognizedText: word.simp || recognized, analysis: null, match: true };
+      }
 
       // When STT returns kana directly, compare normalized hiragana readings.
       const heardReading = normalizeJapaneseReadingForCompare(recognized);
       if (heardReading && targetJapaneseReading && heardReading === targetJapaneseReading) {
-        return { recognizedText: recognized, analysis: null, match: true };
+        return { recognizedText: word.simp || recognized, analysis: null, match: true };
       }
 
       const closestHeardScriptCandidate = heardLookup
@@ -1741,6 +1766,21 @@ export default function SpeakMode({
             return best.bestDistance <= threshold ? best.candidate : null;
           })()
         : null;
+      const heardPronunciationFromClosest = closestHeardScriptCandidate
+        ? japanesePronunciationKey({
+            reading: closestHeardScriptCandidate.reading,
+            hiragana: closestHeardScriptCandidate.hiragana,
+            transliteration: closestHeardScriptCandidate.transliteration,
+            simp: closestHeardScriptCandidate.simp,
+          })
+        : '';
+      if (
+        heardPronunciationFromClosest &&
+        targetJapaneseReading &&
+        heardPronunciationFromClosest === targetJapaneseReading
+      ) {
+        return { recognizedText: word.simp || recognized, analysis: null, match: true };
+      }
       const heardRomajiDirect = japaneseRomajiKeyFromScriptOrFallback(recognized, recognized);
       const heardRomajiFromLookup = heardScriptCandidates
         .map((candidate) => japaneseRomajiFromEntry(candidate))
@@ -3439,7 +3479,7 @@ export default function SpeakMode({
                 <>
                   <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight break-words">{displayMeaning}</div>
                   <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
-                  {!hideReadingAndMeaning && getWordReading(word) ? <div className="text-[13px] sm:text-sm text-[#475569]">{getWordReading(word)}</div> : null}
+                  {displayCardReading ? <div className="text-[13px] sm:text-sm text-[#475569]">{displayCardReading}</div> : null}
                 </>
               ) : (
                 <>
@@ -3457,7 +3497,7 @@ export default function SpeakMode({
                   ) : (
                     <>
                       <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
-                      {!hideReadingAndMeaning && getWordReading(word) ? <div className="text-[13px] sm:text-sm text-[#475569]">{getWordReading(word)}</div> : null}
+                      {displayCardReading ? <div className="text-[13px] sm:text-sm text-[#475569]">{displayCardReading}</div> : null}
                       {!hideReadingAndMeaning ? (
                         <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1 break-words">{displayMeaning}</div>
                       ) : null}

@@ -38,8 +38,8 @@
                 "good morning (casual)"
               ],
               "example": {
-                "en": "Good morning, let's do our best today.",
-                "native": "おはよう、きょうもがんばろう。"
+                "en": "Good morning!",
+                "native": "おはよう！"
               },
               "type": "word",
               "pos_detail": "int",
@@ -487,6 +487,186 @@
           "description": "Numeric forms and common counters",
           "words": [
             {
+              "id": "N5-8014",
+              "kanji": "一",
+              "hiragana": "いち",
+              "katakana": "イチ",
+              "pos": "Num",
+              "en": "one",
+              "defs": [
+                "one"
+              ],
+              "example": {
+                "en": "I have one younger sister.",
+                "native": "妹が一人います。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "ichi"
+            },
+            {
+              "id": "N5-8015",
+              "kanji": "二",
+              "hiragana": "に",
+              "katakana": "ニ",
+              "pos": "Num",
+              "en": "two",
+              "defs": [
+                "two"
+              ],
+              "example": {
+                "en": "There are two cats in the room.",
+                "native": "部屋に猫が二匹います。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "ni"
+            },
+            {
+              "id": "N5-0288",
+              "kanji": "三",
+              "hiragana": "さん",
+              "katakana": "サン",
+              "pos": "Num",
+              "en": "three",
+              "defs": [
+                "three"
+              ],
+              "example": {
+                "en": "I have three siblings.",
+                "native": "私は三人きょうだいです。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "san"
+            },
+            {
+              "id": "N5-0290",
+              "kanji": "四",
+              "hiragana": "よん",
+              "katakana": "ヨン",
+              "pos": "Num",
+              "en": "four",
+              "defs": [
+                "four"
+              ],
+              "example": {
+                "en": "Four of us are going to see a movie.",
+                "native": "四人で映画を見に行きます。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "yon"
+            },
+            {
+              "id": "N5-8016",
+              "kanji": "五",
+              "hiragana": "ご",
+              "katakana": "ゴ",
+              "pos": "Num",
+              "en": "five",
+              "defs": [
+                "five"
+              ],
+              "example": {
+                "en": "I study Japanese for five minutes every day.",
+                "native": "毎日五分日本語を勉強します。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "go"
+            },
+            {
+              "id": "N5-0709",
+              "kanji": "六",
+              "hiragana": "ろく",
+              "katakana": "ロク",
+              "pos": "Num",
+              "en": "six",
+              "defs": [
+                "six"
+              ],
+              "example": {
+                "en": "Please read page six.",
+                "native": "六ページを読んでください。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "roku"
+            },
+            {
+              "id": "N5-0300",
+              "kanji": "七",
+              "hiragana": "なな",
+              "katakana": "ナナ",
+              "pos": "Num",
+              "en": "seven",
+              "defs": [
+                "seven"
+              ],
+              "example": {
+                "en": "I get up at seven.",
+                "native": "七時に起きます。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "nana"
+            },
+            {
+              "id": "N5-0536",
+              "kanji": "八",
+              "hiragana": "はち",
+              "katakana": "ハチ",
+              "pos": "Num",
+              "en": "eight",
+              "defs": [
+                "eight"
+              ],
+              "example": {
+                "en": "Class starts at eight o'clock.",
+                "native": "八時に授業が始まります。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "hachi"
+            },
+            {
+              "id": "N5-0216",
+              "kanji": "九",
+              "hiragana": "きゅう",
+              "katakana": "キュウ",
+              "pos": "Num",
+              "en": "nine",
+              "defs": [
+                "nine"
+              ],
+              "example": {
+                "en": "There are nine students in the classroom.",
+                "native": "教室に学生が九人います。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "kyuu"
+            },
+            {
+              "id": "N5-0314",
+              "kanji": "十",
+              "hiragana": "じゅう",
+              "katakana": "ジュウ",
+              "pos": "Num",
+              "en": "ten",
+              "defs": [
+                "ten"
+              ],
+              "example": {
+                "en": "Please read ten pages.",
+                "native": "十ページ読んでください。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "juu"
+            },
+            {
               "id": "N5-0291",
               "kanji": "時",
               "hiragana": "じ",
@@ -560,24 +740,6 @@
               "transliteration": "～kagetsu"
             },
             {
-              "id": "N5-0216",
-              "kanji": "九",
-              "hiragana": "く",
-              "katakana": "ク",
-              "pos": "Num",
-              "en": "nine",
-              "defs": [
-                "nine"
-              ],
-              "example": {
-                "en": "There are nine students in the classroom.",
-                "native": "教室に学生が九人います。"
-              },
-              "type": "word",
-              "pos_detail": "num",
-              "transliteration": "ku"
-            },
-            {
               "id": "N5-0255",
               "kanji": "九つ",
               "hiragana": "ここのつ",
@@ -594,42 +756,6 @@
               "type": "word",
               "pos_detail": "num",
               "transliteration": "kokonotsu"
-            },
-            {
-              "id": "N5-0288",
-              "kanji": "三",
-              "hiragana": "さん",
-              "katakana": "サン",
-              "pos": "Num",
-              "en": "three",
-              "defs": [
-                "three"
-              ],
-              "example": {
-                "en": "I have three siblings.",
-                "native": "私は三人きょうだいです。"
-              },
-              "type": "word",
-              "pos_detail": "num",
-              "transliteration": "san"
-            },
-            {
-              "id": "N5-0290",
-              "kanji": "四",
-              "hiragana": "し",
-              "katakana": "シ",
-              "pos": "Num",
-              "en": "four",
-              "defs": [
-                "four"
-              ],
-              "example": {
-                "en": "Four of us are going to see a movie.",
-                "native": "四人で映画を見に行きます。"
-              },
-              "type": "word",
-              "pos_detail": "num",
-              "transliteration": "shi"
             },
             {
               "id": "N5-0451",
@@ -793,42 +919,6 @@
               "type": "word",
               "pos_detail": "num",
               "transliteration": "yattsu"
-            },
-            {
-              "id": "N5-0536",
-              "kanji": "八",
-              "hiragana": "はち",
-              "katakana": "ハチ",
-              "pos": "Num",
-              "en": "eight",
-              "defs": [
-                "eight"
-              ],
-              "example": {
-                "en": "Class starts at eight o'clock.",
-                "native": "八時に授業が始まります。"
-              },
-              "type": "word",
-              "pos_detail": "num",
-              "transliteration": "hachi"
-            },
-            {
-              "id": "N5-0709",
-              "kanji": "六",
-              "hiragana": "ろく",
-              "katakana": "ロク",
-              "pos": "Num",
-              "en": "six",
-              "defs": [
-                "six"
-              ],
-              "example": {
-                "en": "Please read page six.",
-                "native": "六ページを読んでください。"
-              },
-              "type": "word",
-              "pos_detail": "num",
-              "transliteration": "roku"
             },
             {
               "id": "N5-0569",
@@ -1028,42 +1118,6 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "guramu"
-            },
-            {
-              "id": "N5-0300",
-              "kanji": "七",
-              "hiragana": "しち",
-              "katakana": "シチ",
-              "pos": "Num",
-              "en": "seven",
-              "defs": [
-                "seven"
-              ],
-              "example": {
-                "en": "I get up at seven.",
-                "native": "七時に起きます。"
-              },
-              "type": "word",
-              "pos_detail": "num",
-              "transliteration": "shichi"
-            },
-            {
-              "id": "N5-0314",
-              "kanji": "十",
-              "hiragana": "じゅう",
-              "katakana": "ジュウ",
-              "pos": "Num",
-              "en": "ten",
-              "defs": [
-                "ten"
-              ],
-              "example": {
-                "en": "Please read ten pages.",
-                "native": "十ページ読んでください。"
-              },
-              "type": "word",
-              "pos_detail": "num",
-              "transliteration": "juu"
             },
             {
               "id": "N5-0656",

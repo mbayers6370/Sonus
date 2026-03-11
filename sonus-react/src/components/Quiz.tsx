@@ -7,6 +7,7 @@ import { sendQuizAttemptSafe } from '../lib/backendApi';
 import { trackEvent } from '../lib/analytics';
 import { useApp } from '../contexts/AppContext';
 import { getExampleNative, getWordReading } from '../lib/languageFields';
+import { romanizeJapaneseForDisplay } from '../lib/speakRuntime';
 import WordProgressRail from './WordProgressRail';
 
 interface QuizProps {
@@ -128,6 +129,17 @@ export default function Quiz({
   const isJapanese = (state.selectedLanguage || '').trim().toLowerCase() === 'ja';
   const ttsText = isJapanese ? (word.hiragana || word.reading || word.simp) : word.simp;
   const ttsReading = getWordReading(word);
+  const displayReading = !hideReadingAndMeaning
+    ? (
+        isJapanese
+          ? (
+              romanizeJapaneseForDisplay(
+                word.reading || word.hiragana || getWordReading(word) || word.simp || ''
+              ) || ''
+            )
+          : (getWordReading(word) || '')
+      )
+    : '';
   const hasPoliteTag = [...(word.tags || []), ...(word.meta?.grammarTags || [])]
     .some((tag) => tag.trim().toLowerCase() === 'polite');
   const isReviewWord = Boolean(word.isReview);
@@ -229,9 +241,9 @@ export default function Quiz({
                   <div className={`secondary-font text-4xl mb-1 text-white leading-tight ${hasPoliteTag ? 'mt-7' : ''}`}>
                     {word.simp}
                   </div>
-                  {!hideReadingAndMeaning && getWordReading(word) && (
-                    <div className="text-[1.2rem] text-white/80">{getWordReading(word)}</div>
-                  )}
+                  {displayReading ? (
+                    <div className="text-[1.2rem] text-white/80">{displayReading}</div>
+                  ) : null}
                   {!hideReadingAndMeaning && (clozeNativeSentence || clozeEn || fullEn) && (
                     <div className="mt-2 text-center space-y-1">
                       {selectedAnswer && fullNativeSentence ? (
@@ -275,8 +287,8 @@ export default function Quiz({
                   {selectedAnswer ? (
                     <div className="mt-2 text-center">
                       <div className="secondary-font text-3xl text-white leading-tight">{word.simp}</div>
-                      {!hideReadingAndMeaning && getWordReading(word) ? (
-                        <div className="text-sm text-white/80 mt-0.5">{getWordReading(word)}</div>
+                      {displayReading ? (
+                        <div className="text-sm text-white/80 mt-0.5">{displayReading}</div>
                       ) : null}
                     </div>
                   ) : null}
