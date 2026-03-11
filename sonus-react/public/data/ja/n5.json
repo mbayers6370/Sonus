@@ -497,8 +497,8 @@
                 "one"
               ],
               "example": {
-                "en": "I have one younger sister.",
-                "native": "妹が一人います。"
+                "en": "There is one apple.",
+                "native": "りんごが一つです。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -515,8 +515,8 @@
                 "two"
               ],
               "example": {
-                "en": "There are two cats in the room.",
-                "native": "部屋に猫が二匹います。"
+                "en": "There are two cats.",
+                "native": "猫が二匹います。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -533,8 +533,8 @@
                 "three"
               ],
               "example": {
-                "en": "I have three siblings.",
-                "native": "私は三人きょうだいです。"
+                "en": "Three people will go.",
+                "native": "三人で行きます。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -551,8 +551,8 @@
                 "four"
               ],
               "example": {
-                "en": "Four of us are going to see a movie.",
-                "native": "四人で映画を見に行きます。"
+                "en": "Let's meet at four.",
+                "native": "四時に会いましょう。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -569,8 +569,8 @@
                 "five"
               ],
               "example": {
-                "en": "I study Japanese for five minutes every day.",
-                "native": "毎日五分日本語を勉強します。"
+                "en": "Wait five minutes, please.",
+                "native": "五分だけ待って。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -587,8 +587,8 @@
                 "six"
               ],
               "example": {
-                "en": "Please read page six.",
-                "native": "六ページを読んでください。"
+                "en": "I read six pages.",
+                "native": "六ページ読みました。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -605,7 +605,7 @@
                 "seven"
               ],
               "example": {
-                "en": "I get up at seven.",
+                "en": "I wake up at seven.",
                 "native": "七時に起きます。"
               },
               "type": "word",
@@ -623,8 +623,8 @@
                 "eight"
               ],
               "example": {
-                "en": "Class starts at eight o'clock.",
-                "native": "八時に授業が始まります。"
+                "en": "August is very hot.",
+                "native": "八月は暑いです。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -641,8 +641,8 @@
                 "nine"
               ],
               "example": {
-                "en": "There are nine students in the classroom.",
-                "native": "教室に学生が九人います。"
+                "en": "I sleep at nine.",
+                "native": "九時に寝ます。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -659,8 +659,8 @@
                 "ten"
               ],
               "example": {
-                "en": "Please read ten pages.",
-                "native": "十ページ読んでください。"
+                "en": "I practiced ten times.",
+                "native": "十回練習しました。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -677,8 +677,8 @@
                 "o'clock (time)"
               ],
               "example": {
-                "en": "It is three o'clock now.",
-                "native": "今、三時です。"
+                "en": "It is three o'clock.",
+                "native": "いま三時です。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -696,8 +696,8 @@
                 "first day of the month"
               ],
               "example": {
-                "en": "Please take the medicine three times a day.",
-                "native": "一日三回くすりを飲んでください。"
+                "en": "I stayed home all day.",
+                "native": "一日中家にいました。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -714,8 +714,8 @@
                 "counter for occurrences ( times)"
               ],
               "example": {
-                "en": "I watched this movie twice.",
-                "native": "この映画を二回見ました。"
+                "en": "Please say it once more.",
+                "native": "もう一回言ってください。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -732,8 +732,8 @@
                 "(number of) months"
               ],
               "example": {
-                "en": "I am four months pregnant.",
-                "native": "妊娠４か月です。"
+                "en": "I'll stay two months.",
+                "native": "日本に二か月います。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -750,8 +750,8 @@
                 "nine things"
               ],
               "example": {
-                "en": "There are nine questions.",
-                "native": "九つの質問があります。"
+                "en": "There are nine plates.",
+                "native": "皿が九つあります。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -768,8 +768,8 @@
                 "ten ()"
               ],
               "example": {
-                "en": "I go to bed at ten.",
-                "native": "十時に寝ます。"
+                "en": "Please count to ten.",
+                "native": "十まで数えてください。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -786,8 +786,8 @@
                 "seven things"
               ],
               "example": {
-                "en": "Please line up seven plates.",
-                "native": "皿を七つ並べてください。"
+                "en": "There are seven boxes.",
+                "native": "箱が七つあります。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -804,8 +804,8 @@
                 "three things"
               ],
               "example": {
-                "en": "'The child is father to the man' is certainly well said.",
-                "native": "三つ子の魂百までとは本当によく言ったものだ。"
+                "en": "I have three questions.",
+                "native": "質問が三つあります。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -822,8 +822,8 @@
                 "six things"
               ],
               "example": {
-                "en": "There are six plates in that box.",
-                "native": "その箱に六つの皿が入っている。"
+                "en": "I bought six apples.",
+                "native": "りんごを六つ買った。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -841,8 +841,8 @@
                 "ninth day of the month"
               ],
               "example": {
-                "en": "I will go to Tokyo on the ninth.",
-                "native": "九日に東京へ行きます。"
+                "en": "The meeting is on the ninth.",
+                "native": "会議は九日です。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -859,8 +859,8 @@
                 "counter for stories (floors) of a building"
               ],
               "example": {
-                "en": "The classroom is on the second floor.",
-                "native": "教室は二階です。"
+                "en": "The classroom is on third floor.",
+                "native": "教室は三階です。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -877,8 +877,8 @@
                 "counter for books"
               ],
               "example": {
-                "en": "I read two Japanese books.",
-                "native": "日本語の本を二冊読みました。"
+                "en": "I bought two books.",
+                "native": "本を二冊買いました。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -895,8 +895,8 @@
                 "thousand"
               ],
               "example": {
-                "en": "This bicycle costs one thousand yen.",
-                "native": "この自転車は千円です。"
+                "en": "Is one thousand yen enough?",
+                "native": "千円で足りますか。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -913,8 +913,8 @@
                 "eight things"
               ],
               "example": {
-                "en": "This town has eight bridges.",
-                "native": "この町には橋が八つあります。"
+                "en": "There are eight chairs.",
+                "native": "椅子が八つあります。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -931,8 +931,8 @@
                 "hundred"
               ],
               "example": {
-                "en": "This encyclopaedia is convenient for looking up things.",
-                "native": "この百科事典は検索に便利である。"
+                "en": "Please give one hundred yen.",
+                "native": "百円ください。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -949,8 +949,8 @@
                 "zero, nought"
               ],
               "example": {
-                "en": "The temperature this morning was zero degrees.",
-                "native": "今朝の気温は零度だった。"
+                "en": "The temperature is zero.",
+                "native": "気温は零度です。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -967,8 +967,8 @@
                 "zero"
               ],
               "example": {
-                "en": "Today I will study from zero.",
-                "native": "今日はゼロから勉強します。"
+                "en": "My score is zero.",
+                "native": "私の点数はゼロです。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -985,8 +985,8 @@
                 "one thing"
               ],
               "example": {
-                "en": "I have one request.",
-                "native": "お願いが一つあります。"
+                "en": "I have one question.",
+                "native": "質問が一つあります。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -1003,8 +1003,8 @@
                 "two things"
               ],
               "example": {
-                "en": "The twin sisters are alike as two peas in a pod.",
-                "native": "その双子の姉妹はうりふたつだ。"
+                "en": "Please give me two pieces of bread.",
+                "native": "パンを二つください。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -1021,8 +1021,8 @@
                 "four things"
               ],
               "example": {
-                "en": "He crept on all fours like a cat.",
-                "native": "彼は猫のように四つんばいにはった。"
+                "en": "I bought four apples.",
+                "native": "りんごを四つ買いました。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -1040,8 +1040,8 @@
                 "machines"
               ],
               "example": {
-                "en": "We have one car at home.",
-                "native": "うちには車が一台あります。"
+                "en": "There are two cars.",
+                "native": "車が二台あります。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -1058,8 +1058,8 @@
                 "counter for flat things"
               ],
               "example": {
-                "en": "He's a comedian.",
-                "native": "彼は三枚目だ。"
+                "en": "Please give three sheets.",
+                "native": "紙を三枚ください。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -1076,8 +1076,8 @@
                 "counter for small animals"
               ],
               "example": {
-                "en": "I have 3 cats.",
-                "native": "猫が三匹います。"
+                "en": "There is one dog.",
+                "native": "犬が一匹います。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -1094,8 +1094,8 @@
                 "counter for long cylindrical things"
               ],
               "example": {
-                "en": "Please give me three pencils.",
-                "native": "えんぴつを三本ください。"
+                "en": "Please give one pen.",
+                "native": "ペンを一本ください。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -1112,8 +1112,8 @@
                 "gram"
               ],
               "example": {
-                "en": "My wife gave birth prematurely to a 1,500-gram baby girl.",
-                "native": "妻が早産で１５００グラムの女の子を授かった。"
+                "en": "Sugar is five grams.",
+                "native": "砂糖は五グラムです。"
               },
               "type": "word",
               "pos_detail": "v5",
@@ -1130,8 +1130,8 @@
                 "meter"
               ],
               "example": {
-                "en": "This bridge is three hundred meters long.",
-                "native": "この橋の長さは三百めーとるです。"
+                "en": "The river is ten meters deep.",
+                "native": "川は十メートル深い。"
               },
               "type": "word",
               "pos_detail": "v5",
@@ -1148,8 +1148,8 @@
                 "number, series of digits"
               ],
               "example": {
-                "en": "May I please have your telephone number?",
-                "native": "そちら様のお電話番号をいただけますか。"
+                "en": "Please write your number.",
+                "native": "電話番号を書いてください。"
               },
               "type": "word",
               "pos_detail": "v5",
@@ -1166,8 +1166,8 @@
                 "half"
               ],
               "example": {
-                "en": "If you're doing it in fun, I'd rather you didn't come.",
-                "native": "面白半分なら来ないで欲しい。"
+                "en": "I ate half the cake.",
+                "native": "ケーキを半分食べた。"
               },
               "type": "word",
               "pos_detail": "adv",
@@ -1179,13 +1179,13 @@
               "hiragana": "はん",
               "katakana": "ハン",
               "pos": "N",
-              "en": "half (e.g., にじはん | half-past two)",
+              "en": "half (e.g., half-past two)",
               "defs": [
-                "half (e.g., にじはん | half-past two)"
+                "half (e.g., half-past two)"
               ],
               "example": {
-                "en": "I studied for one and a half hours.",
-                "native": "一時間半勉強しました。"
+                "en": "It is three thirty.",
+                "native": "いま三時半です。"
               },
               "type": "word",
               "pos_detail": "n",

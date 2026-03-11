@@ -2033,8 +2033,8 @@ export async function adminRoutes(app: FastifyInstance) {
           misses: toInt(row.misses),
           attempts: toInt(row.attempts),
           missRatePct: Number(row.missRatePct || 0),
-          nativeText: lexeme?.term || row.wordId,
-          englishText: lexeme?.en || row.wordId,
+          nativeText: lexeme?.term || 'Unknown term',
+          englishText: lexeme?.en || 'Unknown meaning',
         });
       }
 
@@ -2157,8 +2157,8 @@ export async function adminRoutes(app: FastifyInstance) {
           misses: toInt(row.misses),
           attempts: toInt(row.attempts),
           missRatePct: Number(row.missRatePct || 0),
-          nativeText: lexeme?.term || row.wordId,
-          englishText: lexeme?.en || row.wordId,
+          nativeText: lexeme?.term || 'Unknown term',
+          englishText: lexeme?.en || 'Unknown meaning',
         });
       }
 
@@ -2377,8 +2377,8 @@ export async function adminRoutes(app: FastifyInstance) {
           previousTotalMisses,
           affectedUsersDeltaPct: deltaPct(affectedUsers, previousAffectedUsers),
           totalMissesDeltaPct: deltaPct(totalMisses, previousTotalMisses),
-          nativeText: lexeme?.term || row.wordId,
-          englishText: lexeme?.en || row.wordId,
+          nativeText: lexeme?.term || 'Unknown term',
+          englishText: lexeme?.en || 'Unknown meaning',
         });
       }
 

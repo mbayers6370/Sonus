@@ -16988,6 +16988,24 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "waapuro"
+            },
+            {
+              "id": "N4-0061",
+              "kanji": "一生懸命",
+              "hiragana": "いっしょうけんめい",
+              "katakana": "イッショウケンメイ",
+              "pos": "Adv",
+              "en": "very hard (as in \"to work hard\"), with utmost effort",
+              "defs": [
+                "very hard (as in \"to work hard\"), with utmost effort"
+              ],
+              "example": {
+                "en": "Let's study hard and become great men.",
+                "native": "いっしょうけんめい勉強して、立派な人になりましょう。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "isshoukenmei"
             }
           ]
         },
@@ -17244,26 +17262,7 @@
           "id": "n4-expansion-06",
           "title": "Life Events & Milestones",
           "description": "Life Events & Milestones",
-          "words": [
-            {
-              "id": "N4-0537",
-              "kanji": "約束",
-              "hiragana": "やくそく",
-              "katakana": "ヤクソク",
-              "pos": "V",
-              "en": "arrangement, appointment, promise",
-              "defs": [
-                "arrangement, appointment, promise"
-              ],
-              "example": {
-                "en": "He broke his word.",
-                "native": "彼は約束を破った。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "yakusoku"
-            }
-          ]
+          "words": []
         },
         {
           "id": "n4-expansion-07",
@@ -17651,6 +17650,24 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "riyou"
+            },
+            {
+              "id": "N4-0537",
+              "kanji": "約束",
+              "hiragana": "やくそく",
+              "katakana": "ヤクソク",
+              "pos": "V",
+              "en": "arrangement, appointment, promise",
+              "defs": [
+                "arrangement, appointment, promise"
+              ],
+              "example": {
+                "en": "He broke his word.",
+                "native": "彼は約束を破った。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "yakusoku"
             }
           ]
         },
@@ -17810,26 +17827,7 @@
           "id": "n4-expansion-09",
           "title": "Success, Failure & Effort",
           "description": "Success, Failure & Effort",
-          "words": [
-            {
-              "id": "N4-0061",
-              "kanji": "一生懸命",
-              "hiragana": "いっしょうけんめい",
-              "katakana": "イッショウケンメイ",
-              "pos": "Adv",
-              "en": "very hard (as in \"to work hard\"), with utmost effort",
-              "defs": [
-                "very hard (as in \"to work hard\"), with utmost effort"
-              ],
-              "example": {
-                "en": "Let's study hard and become great men.",
-                "native": "いっしょうけんめい勉強して、立派な人になりましょう。"
-              },
-              "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "isshoukenmei"
-            }
-          ]
+          "words": []
         },
         {
           "id": "n4-expansion-10",

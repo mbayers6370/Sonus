@@ -517,6 +517,27 @@ function timelineSourceLabel(entry: TimelineEntry) {
   return entry.source;
 }
 
+function resolveMetricWordLabels(word: { wordId: string; nativeText?: string; englishText?: string }) {
+  const wordId = (word.wordId || '').trim();
+  const nativeRaw = (word.nativeText || '').trim();
+  const englishRaw = (word.englishText || '').trim();
+  const looksLikeId = (value: string) =>
+    /^l\d+-\d+$/i.test(value) ||
+    /^n[1-5]-\d+$/i.test(value) ||
+    /^n\d+-\d+$/i.test(value);
+
+  const native =
+    nativeRaw && nativeRaw !== wordId && !looksLikeId(nativeRaw)
+      ? nativeRaw
+      : 'Unknown term';
+  const english =
+    englishRaw && englishRaw !== wordId && !looksLikeId(englishRaw)
+      ? englishRaw
+      : 'Unknown meaning';
+
+  return { native, english };
+}
+
 function normalizeLanguageId(languageId: string | null | undefined) {
   const normalized = (languageId || '').trim().toLowerCase();
   if (!normalized) return 'ja';
@@ -3035,51 +3056,58 @@ export default function SupportConsolePage() {
             </div>
             {speakMissHotspotsByLanguage && (
               <div className="mt-4 rounded-xl border border-[#fca5a5]/50 bg-[#fff1f2] p-3">
-                <h3 className="text-sm font-semibold text-[#9f1239]">
-                  Speak Miss Hotspots By Language
-                </h3>
-                <p className="mt-1 text-xs text-[#9f1239]">
-                  Trigger threshold: at least {speakMissHotspotsByLanguage.minMissesPerUser} misses per user on the same word.
-                </p>
-                <p className="mt-1 text-[11px] text-[#be123c]">
-                  Trend compares against the previous {speakMissHotspotsByLanguage.windowDays}-day window.
-                </p>
-                <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                  {speakMissHotspotsByLanguage.languages.map((bucket) => (
-                    <article
-                      key={`hotspot-${bucket.languageId}`}
-                      className={`rounded-lg border p-3 ${
-                        bucket.hasData
-                          ? 'border-[#fecdd3] bg-white'
-                          : 'border-[#ffd6dc] bg-[#fff7f9] text-[#9ca3af]'
-                      }`}
-                    >
-                      <div className="text-xs uppercase tracking-[0.16em]">{bucket.languageId}</div>
-                      {!bucket.hasData && <div className="mt-2 text-sm">No hotspots in this window.</div>}
-                      {bucket.hasData && (
-                        <div className="mt-2 space-y-2 text-sm">
-                          {bucket.words.map((word) => (
-                            <div key={`hotspot-${bucket.languageId}-${word.wordId}`} className="rounded border border-[#ffe4e6] bg-[#fffafb] p-2">
-                              <div className="truncate font-semibold text-[#0f172a]">{word.nativeText}</div>
-                              <div className="truncate text-[#475569]">{word.englishText}</div>
-                              <div className="mt-1 space-y-1 text-xs text-[#9f1239]">
-                                <div className="flex items-center justify-between gap-2">
-                                  <span>{word.affectedUsers} users (prev {word.previousAffectedUsers})</span>
-                                  <MissTrendDelta deltaPct={word.affectedUsersDeltaPct} />
+                <details open>
+                  <summary className="cursor-pointer list-none">
+                    <h3 className="text-sm font-semibold text-[#9f1239]">
+                      Speak Miss Hotspots By Language
+                    </h3>
+                  </summary>
+                  <p className="mt-1 text-xs text-[#9f1239]">
+                    Trigger threshold: at least {speakMissHotspotsByLanguage.minMissesPerUser} misses per user on the same word.
+                  </p>
+                  <p className="mt-1 text-[11px] text-[#be123c]">
+                    Trend compares against the previous {speakMissHotspotsByLanguage.windowDays}-day window.
+                  </p>
+                  <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                    {speakMissHotspotsByLanguage.languages.map((bucket) => (
+                      <article
+                        key={`hotspot-${bucket.languageId}`}
+                        className={`rounded-lg border p-3 ${
+                          bucket.hasData
+                            ? 'border-[#fecdd3] bg-white'
+                            : 'border-[#ffd6dc] bg-[#fff7f9] text-[#9ca3af]'
+                        }`}
+                      >
+                        <div className="text-xs uppercase tracking-[0.16em]">{bucket.languageId}</div>
+                        {!bucket.hasData && <div className="mt-2 text-sm">No hotspots in this window.</div>}
+                        {bucket.hasData && (
+                          <div className="mt-2 max-h-72 space-y-2 overflow-y-auto pr-1 text-sm">
+                            {bucket.words.map((word) => {
+                              const labels = resolveMetricWordLabels(word);
+                              return (
+                                <div key={`hotspot-${bucket.languageId}-${word.wordId}`} className="rounded border border-[#ffe4e6] bg-[#fffafb] p-2">
+                                  <div className="truncate font-semibold text-[#0f172a]">{labels.native}</div>
+                                  <div className="truncate text-[#475569]">{labels.english}</div>
+                                  <div className="mt-1 space-y-1 text-xs text-[#9f1239]">
+                                    <div className="flex items-center justify-between gap-2">
+                                      <span>{word.affectedUsers} users (prev {word.previousAffectedUsers})</span>
+                                      <MissTrendDelta deltaPct={word.affectedUsersDeltaPct} />
+                                    </div>
+                                    <div className="flex items-center justify-between gap-2">
+                                      <span>{word.totalMisses} misses (prev {word.previousTotalMisses})</span>
+                                      <MissTrendDelta deltaPct={word.totalMissesDeltaPct} />
+                                    </div>
+                                    <div>avg {word.avgMissesPerUser.toFixed(1)}/user</div>
+                                  </div>
                                 </div>
-                                <div className="flex items-center justify-between gap-2">
-                                  <span>{word.totalMisses} misses (prev {word.previousTotalMisses})</span>
-                                  <MissTrendDelta deltaPct={word.totalMissesDeltaPct} />
-                                </div>
-                                <div>avg {word.avgMissesPerUser.toFixed(1)}/user</div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </article>
-                  ))}
-                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </article>
+                    ))}
+                  </div>
+                </details>
               </div>
             )}
             <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
@@ -3563,98 +3591,116 @@ export default function SupportConsolePage() {
                   <div className={metricCard}><div className="text-xs text-[#64748b]">Apply Completed</div><div className="text-2xl font-semibold text-[#0f172a]">{learningMetrics.learning.applyCompleted}</div></div>
                 </div>
                 <div className="mt-4 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3">
-                  <h3 className="text-sm font-semibold text-[#0f172a]">Raw Pipeline Check</h3>
-                  <p className="mt-1 text-xs text-[#64748b]">Use these counters to verify data ingestion in production.</p>
-                  <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-                    <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
-                      <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">tracked_starts</div>
-                      <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsTracked ?? 0}</div>
+                  <details open>
+                    <summary className="cursor-pointer list-none">
+                      <h3 className="text-sm font-semibold text-[#0f172a]">Raw Pipeline Check</h3>
+                    </summary>
+                    <p className="mt-1 text-xs text-[#64748b]">Use these counters to verify data ingestion in production.</p>
+                    <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                      <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
+                        <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">tracked_starts</div>
+                        <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsTracked ?? 0}</div>
+                      </div>
+                      <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
+                        <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">inferred_starts</div>
+                        <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsInferred ?? 0}</div>
+                      </div>
+                      <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
+                        <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">completed</div>
+                        <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonCompleted}</div>
+                      </div>
+                      <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
+                        <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">effective_starts</div>
+                        <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStarts}</div>
+                      </div>
                     </div>
-                    <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
-                      <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">inferred_starts</div>
-                      <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStartsInferred ?? 0}</div>
-                    </div>
-                    <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
-                      <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">completed</div>
-                      <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonCompleted}</div>
-                    </div>
-                    <div className="rounded-lg border border-[#dbe3ee] bg-white p-2">
-                      <div className="text-[11px] uppercase tracking-[0.12em] text-[#64748b]">effective_starts</div>
-                      <div className="mt-1 text-xl font-semibold text-[#0f172a]">{learningMetrics.learning.lessonStarts}</div>
-                    </div>
-                  </div>
+                  </details>
                 </div>
               </>
             )}
 
             {weakWordsByLanguage && (
               <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
-                <h3 className="text-sm font-semibold text-[#0f172a]">Most Missed Quiz Words By Language</h3>
-                <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                  {weakWordsByLanguage.languages.map((bucket) => (
-                    <article
-                      key={bucket.languageId}
-                      className={`rounded-lg border p-3 ${
-                        bucket.hasData
-                          ? 'border-[#dbe7ff] bg-[#f8fbff]'
-                          : 'border-[#e2e8f0] bg-[#f1f5f9] text-[#94a3b8]'
-                      }`}
-                    >
-                      <div className="text-xs uppercase tracking-[0.16em]">
-                        {bucket.languageId}
-                      </div>
-                      {!bucket.hasData && <div className="mt-2 text-sm">No data yet</div>}
-                      {bucket.hasData && (
-                        <div className="mt-2 space-y-1 text-sm">
-                          {bucket.words.map((word) => (
-                            <div key={`${bucket.languageId}-${word.wordId}`} className="flex items-center justify-between gap-2">
-                              <div className="min-w-0">
-                                <div className="truncate font-semibold text-[#0f172a]">{word.nativeText}</div>
-                                <div className="truncate text-[#475569]">{word.englishText}</div>
-                              </div>
-                              <span className="font-semibold">{word.misses}</span>
-                            </div>
-                          ))}
+                <details open>
+                  <summary className="cursor-pointer list-none">
+                    <h3 className="text-sm font-semibold text-[#0f172a]">Most Missed Quiz Words By Language</h3>
+                  </summary>
+                  <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                    {weakWordsByLanguage.languages.map((bucket) => (
+                      <article
+                        key={bucket.languageId}
+                        className={`rounded-lg border p-3 ${
+                          bucket.hasData
+                            ? 'border-[#dbe7ff] bg-[#f8fbff]'
+                            : 'border-[#e2e8f0] bg-[#f1f5f9] text-[#94a3b8]'
+                        }`}
+                      >
+                        <div className="text-xs uppercase tracking-[0.16em]">
+                          {bucket.languageId}
                         </div>
-                      )}
-                    </article>
-                  ))}
-                </div>
+                        {!bucket.hasData && <div className="mt-2 text-sm">No data yet</div>}
+                        {bucket.hasData && (
+                          <div className="mt-2 max-h-72 space-y-1 overflow-y-auto pr-1 text-sm">
+                            {bucket.words.map((word) => {
+                              const labels = resolveMetricWordLabels(word);
+                              return (
+                                <div key={`${bucket.languageId}-${word.wordId}`} className="flex items-center justify-between gap-2">
+                                  <div className="min-w-0">
+                                    <div className="truncate font-semibold text-[#0f172a]">{labels.native}</div>
+                                    <div className="truncate text-[#475569]">{labels.english}</div>
+                                  </div>
+                                  <span className="font-semibold">{word.misses}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </article>
+                    ))}
+                  </div>
+                </details>
               </div>
             )}
             {weakSpeakWordsByLanguage && (
               <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
-                <h3 className="text-sm font-semibold text-[#0f172a]">Most Missed Speak Words By Language</h3>
-                <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                  {weakSpeakWordsByLanguage.languages.map((bucket) => (
-                    <article
-                      key={`speak-${bucket.languageId}`}
-                      className={`rounded-lg border p-3 ${
-                        bucket.hasData
-                          ? 'border-[#dbe7ff] bg-[#f8fbff]'
-                          : 'border-[#e2e8f0] bg-[#f1f5f9] text-[#94a3b8]'
-                      }`}
-                    >
-                      <div className="text-xs uppercase tracking-[0.16em]">
-                        {bucket.languageId}
-                      </div>
-                      {!bucket.hasData && <div className="mt-2 text-sm">No data yet</div>}
-                      {bucket.hasData && (
-                        <div className="mt-2 space-y-1 text-sm">
-                          {bucket.words.map((word) => (
-                            <div key={`speak-${bucket.languageId}-${word.wordId}`} className="flex items-center justify-between gap-2">
-                              <div className="min-w-0">
-                                <div className="truncate font-semibold text-[#0f172a]">{word.nativeText}</div>
-                                <div className="truncate text-[#475569]">{word.englishText}</div>
-                              </div>
-                              <span className="font-semibold">{word.misses}</span>
-                            </div>
-                          ))}
+                <details open>
+                  <summary className="cursor-pointer list-none">
+                    <h3 className="text-sm font-semibold text-[#0f172a]">Most Missed Speak Words By Language</h3>
+                  </summary>
+                  <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                    {weakSpeakWordsByLanguage.languages.map((bucket) => (
+                      <article
+                        key={`speak-${bucket.languageId}`}
+                        className={`rounded-lg border p-3 ${
+                          bucket.hasData
+                            ? 'border-[#dbe7ff] bg-[#f8fbff]'
+                            : 'border-[#e2e8f0] bg-[#f1f5f9] text-[#94a3b8]'
+                        }`}
+                      >
+                        <div className="text-xs uppercase tracking-[0.16em]">
+                          {bucket.languageId}
                         </div>
-                      )}
-                    </article>
-                  ))}
-                </div>
+                        {!bucket.hasData && <div className="mt-2 text-sm">No data yet</div>}
+                        {bucket.hasData && (
+                          <div className="mt-2 max-h-72 space-y-1 overflow-y-auto pr-1 text-sm">
+                            {bucket.words.map((word) => {
+                              const labels = resolveMetricWordLabels(word);
+                              return (
+                                <div key={`speak-${bucket.languageId}-${word.wordId}`} className="flex items-center justify-between gap-2">
+                                  <div className="min-w-0">
+                                    <div className="truncate font-semibold text-[#0f172a]">{labels.native}</div>
+                                    <div className="truncate text-[#475569]">{labels.english}</div>
+                                  </div>
+                                  <span className="font-semibold">{word.misses}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </article>
+                    ))}
+                  </div>
+                </details>
               </div>
             )}
           </section>
