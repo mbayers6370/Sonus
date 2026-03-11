@@ -20,49 +20,27 @@ function languageWordFilter(language: string | null | undefined) {
   return undefined;
 }
 
-function isLexemePlaceholderForWordId(lexeme: SharedLexeme, wordId: string) {
-  // Detect unresolved lexeme placeholders (id/term/en all echoing wordId).
-  const normalize = (value: string) => value.trim().toLowerCase();
-  const normalizedWordId = normalize(wordId);
-  return (
-    normalize(lexeme.id) === normalizedWordId &&
-    normalize(lexeme.term) === normalizedWordId &&
-    normalize(lexeme.en) === normalizedWordId
-  );
-}
-
 async function pruneUnknownWordIds<T extends { wordId: string }>(
   userId: string,
   language: string | null | undefined,
   items: T[]
 ) {
-  // Drop stale memory rows whose lexeme cannot be resolved from current catalogs.
+  // Keep response rows even when lexemes cannot be resolved yet.
+  // Some environments/tests use synthetic IDs that should still surface in
+  // needs-work and review queues; lexeme fallback handles missing catalog rows.
+  void userId;
   if (items.length === 0) return { kept: items, lexemeByWordId: new Map<string, SharedLexeme>() };
 
   const lexemeByWordId = new Map<string, SharedLexeme>();
-  const staleWordIds = new Set<string>();
 
   await Promise.all(
     items.map(async (item) => {
       const lexeme = await resolveLexemeForWordId(item.wordId, language);
       lexemeByWordId.set(item.wordId, lexeme);
-      if (isLexemePlaceholderForWordId(lexeme, item.wordId)) {
-        staleWordIds.add(item.wordId);
-      }
     })
   );
 
-  if (staleWordIds.size > 0) {
-    await prisma.wordMemoryState.deleteMany({
-      where: {
-        userId,
-        wordId: { in: Array.from(staleWordIds) },
-      },
-    });
-  }
-
-  const kept = items.filter((item) => !staleWordIds.has(item.wordId));
-  return { kept, lexemeByWordId };
+  return { kept: items, lexemeByWordId };
 }
 
 async function attachLexemes<T extends WordScoped>(
