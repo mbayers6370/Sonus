@@ -9,6 +9,10 @@ Sonus is a full-stack language-learning app in this monorepo:
 
 Primary public surface: `https://sonuslearning.com/`
 
+How the system fits together:
+- `docs/SYSTEM_OVERVIEW.md` (quick architecture map + diagram)
+- `docs/ARCHITECTURE.md` (deeper technical breakdown)
+
 ## Why Sonus
 Sonus exists to close the gap between vocabulary study and actually speaking in context. The product emphasizes:
 - Structured curriculum progression (HSK/JLPT aligned bands)
