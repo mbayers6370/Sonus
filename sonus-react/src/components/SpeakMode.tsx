@@ -20,6 +20,7 @@ import { getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/u
 import { getLessonRanges } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
+import { requestMicStreamWithFallback } from '../lib/micCapture';
 
 interface SpeakModeProps {
   word: Word;
@@ -2166,6 +2167,11 @@ export default function SpeakMode({
 
   const requestMicStream = async () => {
     const shortJapaneseCapture = isJapaneseLesson && isShortJapaneseTarget;
+    const supportsMediaDevices =
+      typeof navigator !== 'undefined' && Boolean(navigator.mediaDevices?.getUserMedia);
+    if (!supportsMediaDevices) {
+      throw new Error('media-devices-unavailable');
+    }
     const tunedConstraints: MediaStreamConstraints = {
       audio: {
         // Prefer stable spoken-word capture across built-in and Bluetooth mics.
@@ -2177,12 +2183,10 @@ export default function SpeakMode({
         channelCount: { ideal: 1 },
       },
     };
-    try {
-      return await navigator.mediaDevices.getUserMedia(tunedConstraints);
-    } catch {
-      // Fallback for stricter mobile/browser stacks (including some Bluetooth routes).
-      return navigator.mediaDevices.getUserMedia({ audio: true });
-    }
+    return requestMicStreamWithFallback({
+      mediaDevices: navigator.mediaDevices,
+      tunedConstraints,
+    });
   };
 
   const computeIsFullyCorrect = (candidateAnalysis: PronunciationAnalysis | null, candidateMatch: MatchResult): boolean => {
@@ -2258,9 +2262,29 @@ export default function SpeakMode({
       setIsFinalizing(false);
       const sessionId = recordingSessionRef.current;
       let stream = mediaStreamRef.current;
-      if (!useRecognitionOnlyCapture) {
+      let recognitionOnlyCapture = useRecognitionOnlyCapture;
+      if (!recognitionOnlyCapture) {
         if (!stream || stream.getTracks().every((track) => track.readyState === 'ended')) {
-          stream = await requestMicStream();
+          try {
+            stream = await requestMicStream();
+          } catch {
+            // Some environments fail raw capture but can still run browser speech recognition.
+            stream = null;
+            recognitionOnlyCapture = true;
+            trackEvent('speak_stt_error', {
+              phase: 'capture-fallback-recognition-only',
+              wordId: word.id,
+              isReview: Boolean(word.isReview),
+            });
+            sendClientTelemetrySafe({
+              name: 'speak_stt_error',
+              payload: {
+                phase: 'capture-fallback-recognition-only',
+                wordId: word.id,
+                isReview: Boolean(word.isReview),
+              },
+            });
+          }
         }
         mediaStreamRef.current = stream;
       }
@@ -2270,7 +2294,7 @@ export default function SpeakMode({
       setMatchResult(null);
       setAnalysis(null);
       let recorder: MediaRecorder | null = null;
-      if (!useRecognitionOnlyCapture && stream) {
+      if (!recognitionOnlyCapture && stream) {
         try {
           recorder = new MediaRecorder(stream);
         } catch {
