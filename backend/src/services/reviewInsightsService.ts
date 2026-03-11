@@ -14,9 +14,9 @@ function normalizeLanguage(language: string | null | undefined): SupportedLangua
 }
 
 function languageWordFilter(language: string | null | undefined) {
-  // Map active language to legacy word-id prefixes used in persisted datasets.
-  const normalized = normalizeLanguage(language);
-  if (normalized === 'ja') return { startsWith: 'N' };
+  // Keep query language-aware without hard-coding word-id prefixes.
+  // IDs vary across datasets/tests (e.g. "N..." and "L..."), so avoid filtering by prefix.
+  void normalizeLanguage(language);
   return undefined;
 }
 
