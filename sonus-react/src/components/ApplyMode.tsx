@@ -545,8 +545,10 @@ export default function ApplyMode({
   });
   const [characterIndex, setCharacterIndex] = useState(0);
   const [characterInsightsMap, setCharacterInsightsMap] = useState<Record<string, CharacterInsight>>({});
-  const [liveCharacterMap, setLiveCharacterMap] = useState<Record<string, { transliteration?: string[]; glosses?: string[] }>>({});
-  const [resolvedSentenceTransliteration, setResolvedSentenceTransliteration] = useState('');
+  const liveCharacterMap = useMemo<Record<string, { transliteration?: string[]; glosses?: string[] }>>(
+    () => ({}),
+    []
+  );
   const [resolvedSentenceRomaji, setResolvedSentenceRomaji] = useState('');
   const effectiveActiveTab: ApplyTab = supportsCharacterTab ? activeTab : 'context';
 
@@ -582,24 +584,25 @@ export default function ApplyMode({
   );
   const clampedCharacterIndex = Math.min(characterIndex, Math.max(0, characterRows.length - 1));
 
-  useEffect(() => {
-    if (!useCharacterServices) {
-      setLiveCharacterMap({});
-      return;
+  const resolvedSentenceTransliteration = useMemo(() => {
+    if (!useCharacterServices || !targetSentence || !containsHanCharacter(targetSentence)) {
+      return rawSentenceTransliteration || '';
     }
-
-    const sentenceChars = Array.from((targetSentence || '')).filter((value) => /[\u3400-\u9FFF]/.test(value));
-    const chars = Array.from(new Set([...characterRows.map((row) => row.char), ...sentenceChars])).filter((value) =>
-      /[\u3400-\u9FFF]/.test(value)
+    const fallback = deriveSentenceTransliterationLocal(
+      targetSentence,
+      allWords,
+      liveCharacterMap,
+      characterInsightsMap
     );
-    if (chars.length === 0) return;
-  }, [characterRows, useCharacterServices, targetSentence]);
-
-  useEffect(() => {
-    if (!useCharacterServices || !targetSentence || !containsHanCharacter(targetSentence)) return;
-    const fallback = deriveSentenceTransliterationLocal(targetSentence, allWords, liveCharacterMap, characterInsightsMap);
-    setResolvedSentenceTransliteration(fallback || rawSentenceTransliteration || '');
-  }, [rawSentenceTransliteration, targetSentence, allWords, liveCharacterMap, characterInsightsMap, useCharacterServices]);
+    return fallback || rawSentenceTransliteration || '';
+  }, [
+    allWords,
+    characterInsightsMap,
+    liveCharacterMap,
+    rawSentenceTransliteration,
+    targetSentence,
+    useCharacterServices,
+  ]);
 
   useEffect(() => {
     if (!isJapanese || !targetSentence) return;

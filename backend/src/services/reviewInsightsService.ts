@@ -2,7 +2,6 @@ import { prisma } from '../lib/prisma.js';
 import { resolveLexemeForWordId } from '../lib/lexemeCatalog.js';
 import type { SharedLexeme } from '../types.js';
 
-
 type SupportedLanguage = 'ja';
 type ResponseShape = 'legacy' | 'lexeme';
 type WordScoped = { wordId: string };

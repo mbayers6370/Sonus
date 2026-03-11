@@ -27,7 +27,7 @@ function canonicalLanguageId(languageId: string | null | undefined): string {
   return normalized;
 }
 
-function normalizeToLanguageId(_languageId: string | null | undefined): SupportedSpeakLanguage {
+function normalizeToLanguageId(): SupportedSpeakLanguage {
   return 'ja';
 }
 
@@ -77,7 +77,8 @@ function isShortSpeakTarget(
   targetScript: string,
   targetReading: string
 ) {
-  const normalizedLanguage = normalizeToLanguageId(languageId);
+  void languageId;
+  const normalizedLanguage = normalizeToLanguageId();
   const scriptLen = Array.from((targetScript || '').trim()).length;
   const readingTokens = (targetReading || '').trim().split(/\s+/).filter(Boolean);
   if (normalizedLanguage === 'ja') {
@@ -112,7 +113,8 @@ export function buildSpeakDimensionScores(input: {
   tone?: { matched: number; total: number; percent: number; pass: boolean };
   word?: { matched: number; total: number; percent: number; pass: boolean };
 }): SpeakDimensionScore[] {
-  const normalizedLanguage = normalizeToLanguageId(input.languageId);
+  void input.languageId;
+  const normalizedLanguage = normalizeToLanguageId();
   if (normalizedLanguage === 'ja') {
     const word = input.word || { matched: 0, total: 1, percent: 0, pass: false };
     return [{ key: 'word', label: 'Word', ...word }];
@@ -129,7 +131,8 @@ export function buildSpeakDimensionScores(input: {
 }
 
 export function speakDimensionKeys(languageId: string | null | undefined) {
-  return normalizeToLanguageId(languageId) === 'ja'
+  void languageId;
+  return normalizeToLanguageId() === 'ja'
     ? ['word']
     : ['initial', 'final', 'tone'];
 }

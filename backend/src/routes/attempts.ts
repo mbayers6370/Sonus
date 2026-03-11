@@ -7,7 +7,6 @@ import { computeQuizMemoryUpdate, computeSpeakMemoryUpdate } from '../lib/learni
 import { recordAttemptTelemetry } from '../services/learningMetricsService.js';
 import { pruneOldLearningAttempts } from '../services/revolvingRetentionService.js';
 
-
 const quizAttemptSchema = z.object({
   wordId: z.string().trim().min(1).max(80),
   isCorrect: z.boolean(),
@@ -16,16 +15,18 @@ const quizAttemptSchema = z.object({
   answerText: z.string().trim().max(256).optional(),
 });
 
-const speakAttemptSchema = z.object({
-  wordId: z.string().trim().min(1).max(80),
-  isReview: z.boolean().optional(),
-  transcript: z.string().max(512).optional(),
-  detectedTransliteration: z.string().max(128).optional(),
-  initialOk: z.boolean(),
-  finalOk: z.boolean(),
-  toneOk: z.boolean(),
-  score: z.number().int().min(0).max(100).optional(),
-}).passthrough();
+const speakAttemptSchema = z
+  .object({
+    wordId: z.string().trim().min(1).max(80),
+    isReview: z.boolean().optional(),
+    transcript: z.string().max(512).optional(),
+    detectedTransliteration: z.string().max(128).optional(),
+    initialOk: z.boolean(),
+    finalOk: z.boolean(),
+    toneOk: z.boolean(),
+    score: z.number().int().min(0).max(100).optional(),
+  })
+  .passthrough();
 
 function nextDueDate(days: number) {
   // Convert interval days to an absolute due timestamp.

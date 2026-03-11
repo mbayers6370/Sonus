@@ -181,10 +181,7 @@ export async function resolveLexemeForWordId(wordId: string, languageHint?: stri
   if (direct) return direct;
 
   const hinted = asNonEmptyString(languageHint).toLowerCase();
-  const lang =
-    hinted === 'ja' || hinted === 'jp'
-      ? 'ja'
-      : inferLanguageFromWordId(wordId);
+  const lang = hinted === 'ja' || hinted === 'jp' ? 'ja' : inferLanguageFromWordId(wordId);
 
   return {
     id: wordId,
