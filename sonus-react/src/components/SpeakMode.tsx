@@ -2605,12 +2605,44 @@ export default function SpeakMode({
           const chars = Array.from(syllable || '');
           return chars.findIndex((char) => Boolean(TONE_CHAR_MAP[char.toLowerCase()]));
         };
-        const toneAction = (tone: number) => {
-          if (tone === 1) return 'Keep it flat and steady.';
-          if (tone === 2) return 'Let it rise.';
-          if (tone === 3) return 'Dip then rise.';
-          if (tone === 4) return 'Start high and drop.';
-          return 'Keep it light and neutral.';
+        const toneNucleus = (token: PinyinSyllable) => {
+          const final = token.final || '';
+          if (final.includes('a')) return 'a';
+          if (final.includes('o')) return 'o';
+          if (final.includes('e')) return 'e';
+          if (final.includes('iu')) return 'u';
+          if (final.includes('ui')) return 'i';
+          if (final.includes('i')) return 'i';
+          if (final.includes('u')) return 'u';
+          if (final.includes('ü')) return 'ü';
+          return '';
+        };
+        const toneAction = (token: PinyinSyllable, compactHint: boolean) => {
+          const nucleus = toneNucleus(token);
+          const nucleusCue = nucleus ? ` on "${nucleus}"` : '';
+          if (token.tone === 1) {
+            return compactHint
+              ? `high and level${nucleusCue}`
+              : `keep "${token.raw}" high and level${nucleusCue}.`;
+          }
+          if (token.tone === 2) {
+            return compactHint
+              ? `clear rise${nucleusCue}`
+              : `let "${token.raw}" rise clearly${nucleusCue}.`;
+          }
+          if (token.tone === 3) {
+            return compactHint
+              ? `dip then rise${nucleusCue}`
+              : `dip "${token.raw}" low, then rise${nucleusCue}.`;
+          }
+          if (token.tone === 4) {
+            return compactHint
+              ? `sharp fall${nucleusCue}`
+              : `start "${token.raw}" high, then drop sharply${nucleusCue}.`;
+          }
+          return compactHint
+            ? `light neutral ending${nucleusCue}`
+            : `keep "${token.raw}" light and short${nucleusCue}.`;
         };
         const tokenGridClass = compact ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-2';
         const syllableCountFeedback =
@@ -2637,10 +2669,37 @@ export default function SpeakMode({
               return `Fix syllable ${index + 1}: ending should be "${token.final || '∅'}".`;
             }
             if (heard.tone !== token.tone) {
-              return `Fix the ${syllableOrdinalLabel(index + 1)} syllable's tone: ${toneAction(token.tone)}`;
+              return `Fix the ${syllableOrdinalLabel(index + 1)} syllable's tone: ${toneAction(token, false)}`;
             }
           }
           return 'All syllables and tones are accurate.';
+        })();
+        const nextAttemptPlan = (() => {
+          if (syllableCountFeedback) {
+            return `Next attempt: match the full ${targetTokens.length}-syllable shape first, then keep a brief pause between syllables.`;
+          }
+          for (let index = 0; index < targetTokens.length; index += 1) {
+            const token = targetTokens[index];
+            const heard = heardTokens[index];
+            if (!heard) {
+              return `Next attempt: say "${token.raw}" alone once, then reconnect it in the full word.`;
+            }
+            const initialOk = matchesInitial(token.initial, heard.initial);
+            const finalOk = matchesFinal(token.final, heard.final);
+            if (!initialOk && !finalOk) {
+              return `Next attempt: rebuild syllable ${index + 1} from start to end, then repeat the whole word once.`;
+            }
+            if (!initialOk) {
+              return `Next attempt: lock the opening "${token.initial || '∅'}" on syllable ${index + 1}, then run the full word.`;
+            }
+            if (!finalOk) {
+              return `Next attempt: hold ending "${token.final || '∅'}" on syllable ${index + 1}, then run the full word.`;
+            }
+            if (heard.tone !== token.tone) {
+              return `Next attempt: keep initials/finals the same and fix only tone on "${token.raw}" (${toneAction(token, true)}).`;
+            }
+          }
+          return 'Next attempt: keep the same pace and clarity.';
         })();
         return (
           <div className={`mt-2 ${compact ? 'space-y-1.5' : 'space-y-2'} w-full max-w-[40rem] mx-auto`}>
@@ -2670,7 +2729,9 @@ export default function SpeakMode({
                     ? `Use ending "${token.final}".`
                     : `Switch to ending "${token.final}" (not "${heard?.final || '?'}").`;
                 } else if (!toneOk) {
-                  coaching = "Let's work on the tone.";
+                  coaching = compact
+                    ? `Tone: ${toneAction(token, true)}`
+                    : `Tone target: ${toneAction(token, false)}`;
                 } else {
                   coaching = compact ? 'Keep it steady.' : 'Keep this syllable steady.';
                 }
@@ -2726,7 +2787,7 @@ export default function SpeakMode({
             </div>
             <div className={`relative rounded-xl border border-white/20 bg-[#1F2A37] px-2.5 py-2 text-center ${compact ? '' : 'min-h-[66px]'} flex items-center justify-center`}>
               <div className={`${compact ? 'text-[11px]' : 'text-[12px]'} leading-[1.35] text-white/95`}>
-                {toneFeedback}
+                {isFullyCorrect ? toneFeedback : nextAttemptPlan}
               </div>
               {isFullyCorrect ? (
                 <Check className="absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white" />

@@ -29,27 +29,109 @@ const TONE_CHAR_TO_VALUE: Record<string, number> = {
   à: 4, è: 4, ì: 4, ò: 4, ù: 4, ǜ: 4,
 };
 
-function extractToneValues(pinyin: string): number[] {
-  const values = new Set<number>();
-  const lower = (pinyin || '').toLowerCase();
-  for (const ch of lower) {
-    const fromDiacritic = TONE_CHAR_TO_VALUE[ch];
-    if (fromDiacritic) values.add(fromDiacritic);
-    if (/[1-4]/.test(ch)) values.add(Number(ch));
-  }
-  return Array.from(values).sort((a, b) => a - b);
+const TONE_CHAR_TO_ASCII: Record<string, string> = {
+  ā: 'a', á: 'a', ǎ: 'a', à: 'a',
+  ē: 'e', é: 'e', ě: 'e', è: 'e',
+  ī: 'i', í: 'i', ǐ: 'i', ì: 'i',
+  ō: 'o', ó: 'o', ǒ: 'o', ò: 'o',
+  ū: 'u', ú: 'u', ǔ: 'u', ù: 'u',
+  ǖ: 'ü', ǘ: 'ü', ǚ: 'ü', ǜ: 'ü',
+};
+
+const INITIALS = [
+  'zh', 'ch', 'sh', 'b', 'p', 'm', 'f', 'd', 't', 'n', 'l', 'g',
+  'k', 'h', 'j', 'q', 'x', 'r', 'z', 'c', 's', 'y', 'w',
+] as const;
+
+type ParsedToneSyllable = {
+  raw: string;
+  ascii: string;
+  final: string;
+  tone: number;
+};
+
+function parseToneSyllables(pinyin: string): ParsedToneSyllable[] {
+  const chunks = (pinyin || '')
+    .toLowerCase()
+    .replace(/[’']/g, ' ')
+    .replace(/u:/g, 'ü')
+    .replace(/[^a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ1-5\s-]/g, ' ')
+    .replace(/-/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  return chunks.map((raw) => {
+    let ascii = '';
+    let tone = 5;
+    for (const ch of raw) {
+      if (TONE_CHAR_TO_ASCII[ch]) {
+        ascii += TONE_CHAR_TO_ASCII[ch];
+        tone = TONE_CHAR_TO_VALUE[ch] || tone;
+        continue;
+      }
+      if (/[1-5]/.test(ch)) {
+        tone = Number(ch);
+        continue;
+      }
+      if (ch === 'v') {
+        ascii += 'ü';
+        continue;
+      }
+      if (/[a-zü]/.test(ch)) ascii += ch;
+    }
+    const initial = INITIALS.find((candidate) => ascii.startsWith(candidate)) || '';
+    const final = ascii.slice(initial.length);
+    return { raw, ascii, final, tone };
+  }).filter((token) => Boolean(token.ascii));
 }
 
-function toneCoachingForPinyin(pinyin: string) {
-  const tones = extractToneValues(pinyin);
-  if (!tones.length) return `Tone: listen and copy the tone pattern in "${pinyin}" carefully.`;
-  const parts = tones.map((tone) => {
-    if (tone === 1) return 'Tone 1: keep it high and level.';
-    if (tone === 2) return 'Tone 2: rise clearly from mid to high.';
-    if (tone === 3) return 'Tone 3: dip low, then rise.';
-    return 'Tone 4: start high and drop sharply.';
+function toneNucleus(final: string): string {
+  if (final.includes('a')) return 'a';
+  if (final.includes('o')) return 'o';
+  if (final.includes('e')) return 'e';
+  if (final.includes('iu')) return 'u';
+  if (final.includes('ui')) return 'i';
+  if (final.includes('i')) return 'i';
+  if (final.includes('u')) return 'u';
+  if (final.includes('ü')) return 'ü';
+  return '';
+}
+
+function toneCue(syllable: ParsedToneSyllable): string {
+  const nucleus = toneNucleus(syllable.final);
+  const nucleusCue = nucleus ? ` on "${nucleus}"` : '';
+  if (syllable.tone === 1) return `keep it high and level${nucleusCue}`;
+  if (syllable.tone === 2) return `rise clearly${nucleusCue}`;
+  if (syllable.tone === 3) return `dip low, then rise${nucleusCue}`;
+  if (syllable.tone === 4) return `start high and drop sharply${nucleusCue}`;
+  return `keep it light and short${nucleusCue}`;
+}
+
+function toneCoachingForPinyin(targetPinyin: string, detectedPinyin: string) {
+  const target = parseToneSyllables(targetPinyin);
+  const detected = parseToneSyllables(detectedPinyin);
+  if (!target.length) {
+    return `Tone: listen and copy the target tone pattern in "${targetPinyin}".`;
+  }
+
+  const mismatchIndex = target.findIndex((syllable, idx) => {
+    const heard = detected[idx];
+    if (!heard) return false;
+    if (syllable.tone === 5 || heard.tone === 5) return false;
+    return syllable.tone !== heard.tone;
   });
-  return `Tone: ${parts.join(' ')}`;
+  const selected = mismatchIndex >= 0 ? target[mismatchIndex] : target.find((token) => token.tone >= 1 && token.tone <= 4) || target[0];
+  const ordinal =
+    mismatchIndex === 0 ? '1st' :
+    mismatchIndex === 1 ? '2nd' :
+    mismatchIndex === 2 ? '3rd' :
+    mismatchIndex >= 3 ? `${mismatchIndex + 1}th` :
+    target.length > 1 ? 'target' : 'target';
+  const prefix = target.length > 1 && mismatchIndex >= 0
+    ? `Tone (${ordinal} syllable "${selected.raw}")`
+    : `Tone ("${selected.raw}")`;
+  return `${prefix}: ${toneCue(selected)}.`;
 }
 
 export default function LessonComplete({
@@ -129,7 +211,7 @@ export default function LessonComplete({
       suggestions.push(`Final: hold the ending vowel in "${word.pinyin}" for a clean finish.`);
     }
     if (!breakdown.tone.pass) {
-      suggestions.push(toneCoachingForPinyin(word.pinyin || ''));
+      suggestions.push(toneCoachingForPinyin(word.pinyin || '', breakdown.detectedPinyin || ''));
     }
     return suggestions;
   };
