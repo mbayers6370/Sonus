@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/create-spa-route-fallbacks.mjs",
     "build:prerender": "npm run build && node scripts/prerender-public-seo.mjs",
     "seo:validate": "node scripts/validate-prerender-seo.mjs",
     "build:prerender:validate": "npm run build:prerender && npm run seo:validate",
