@@ -9196,23 +9196,6 @@
               "transliteration": "kuukou"
             },
             {
-              "id": "N4-0127",
-              "kanji": "動物園",
-              "hiragana": "どうぶつえん",
-              "katakana": "ドウブツエン",
-              "en": "zoo",
-              "defs": [
-                "zoo"
-              ],
-              "example": {
-                "en": "I went to the zoo yesterday.",
-                "native": "昨日動物園に行った。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "doubutsuen"
-            },
-            {
               "id": "N4-0600",
               "kanji": "警察",
               "hiragana": "けいさつ",
@@ -11012,23 +10995,6 @@
               "transliteration": "hi"
             },
             {
-              "id": "N4-0294",
-              "kanji": "小鳥",
-              "hiragana": "ことり",
-              "katakana": "コトリ",
-              "en": "small bird",
-              "defs": [
-                "small bird"
-              ],
-              "example": {
-                "en": "Birds, for instance, have a special protective device.",
-                "native": "例えば、小鳥は特別な防御装置を備えている。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "kotori"
-            },
-            {
               "id": "N4-0285",
               "kanji": "火",
               "hiragana": "ひ",
@@ -11095,23 +11061,6 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "shima"
-            },
-            {
-              "id": "N4-0590",
-              "kanji": "虫",
-              "hiragana": "むし",
-              "katakana": "ムシ",
-              "en": "insect",
-              "defs": [
-                "insect"
-              ],
-              "example": {
-                "en": "In fact, I've heard that long hair is more likely to go bald!",
-                "native": "むしろロン毛のほうが禿げやすいって聞いたぞ。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "mushi"
             },
             {
               "id": "N4-0084",
@@ -16244,9 +16193,61 @@
         },
         {
           "id": "n4-expansion-05",
-          "title": "Daily Routines & Habits",
-          "description": "Daily Routines & Habits",
-          "words": []
+          "title": "Animals",
+          "description": "Animals & Related Places",
+          "words": [
+            {
+              "id": "N4-0127",
+              "kanji": "動物園",
+              "hiragana": "どうぶつえん",
+              "katakana": "ドウブツエン",
+              "en": "zoo",
+              "defs": [
+                "zoo"
+              ],
+              "example": {
+                "en": "I went to the zoo yesterday.",
+                "native": "昨日動物園に行った。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "doubutsuen"
+            },
+            {
+              "id": "N4-0294",
+              "kanji": "小鳥",
+              "hiragana": "ことり",
+              "katakana": "コトリ",
+              "en": "small bird",
+              "defs": [
+                "small bird"
+              ],
+              "example": {
+                "en": "Birds, for instance, have a special protective device.",
+                "native": "例えば、小鳥は特別な防御装置を備えている。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "kotori"
+            },
+            {
+              "id": "N4-0590",
+              "kanji": "虫",
+              "hiragana": "むし",
+              "katakana": "ムシ",
+              "en": "insect",
+              "defs": [
+                "insect"
+              ],
+              "example": {
+                "en": "In fact, I've heard that long hair is more likely to go bald!",
+                "native": "むしろロン毛のほうが禿げやすいって聞いたぞ。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "mushi"
+            }
+          ]
         },
         {
           "id": "n4-expansion-06",
