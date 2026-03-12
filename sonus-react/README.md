@@ -1,10 +1,10 @@
 # Sonus Frontend
 > Scope: `Frontend` (client app, UI behavior, frontend commands)
 
-React + TypeScript client for a structured language-learning platform focused on durable speaking fluency.
+React + TypeScript client for a multilingual language-learning platform focused on durable speaking fluency.
 
 ## What This App Does
-Sonus is a language-learning app focused on practical progress and pronunciation quality.
+Sonus is a multilingual language-learning app focused on practical progress and pronunciation quality.
 
 Core user flow:
 - Select a target language.
@@ -56,3 +56,4 @@ npm run lint
 - Weak words are tracked and surfaced in progress views.
 - Review words are injected as append-only items in lessons.
 - Local analytics events are stored in browser `localStorage`.
+- Frontend routing uses `BrowserRouter` with SPA rewrites (`public/_redirects`).

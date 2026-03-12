@@ -16,6 +16,7 @@
     "test:core": "node scripts/core-regression.mjs",
     "test:core:local": "node scripts/test-core-local.mjs",
     "test:srs": "node --import tsx src/lib/learningPolicy.test.ts",
+    "test:auth-contract": "node --import tsx src/lib/authModeProvider.contract.test.ts",
     "test:security": "node scripts/security-regression.mjs",
     "test:auth-modes": "node scripts/auth-mode-boundary.mjs",
     "seed:test-admin": "node scripts/seed-test-admin.mjs",

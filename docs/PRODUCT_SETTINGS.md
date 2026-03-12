@@ -15,7 +15,9 @@ This document records product-level decisions so behavior stays consistent while
 
 ## Learning Framework Policy
 - Use official/recognizable frameworks where possible:
-  - Japanese: JLPT-style tiers (N5 -> N1).
+  - Japanese: JLPT-style tiers (N5 -> N1)
+  - Korean: TOPIK-style tiers
+  - CEFR-aligned tracks for applicable languages
 - Keep labels learner-friendly in UI (e.g., `Band 3`, not raw IDs).
 
 ## Language Selection Policy

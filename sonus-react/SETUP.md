@@ -28,7 +28,7 @@ sonus-react/
 
 ✅ **TypeScript Types** - All your data structures typed
 ✅ **Context API** - Global state management
-✅ **Audio Hook** - TTS with Chinese voice support
+✅ **Audio Hook** - TTS with language-specific voice support
 ✅ **Flashcard Component** - Fully functional flashcard with flip animation
 ✅ **Tailwind CSS** - Configured with your color scheme
 ✅ **Data** - All your JSON vocabulary files copied
@@ -147,7 +147,7 @@ Your color scheme is available as Tailwind classes:
 <div className="bg-blue text-white">Blue button</div>
 <div className="text-text-med">Medium text</div>
 <div className="border-border">Border</div>
-<div className="font-noto-serif">Chinese font</div>
+<div className="font-noto-serif">Language-specific script font</div>
 <div className="main-font">Title font</div>
 ```
 

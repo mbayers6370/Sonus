@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useMemo } from 'react';
-import { BrowserRouter, HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import GlassLoader from './components/ui/GlassLoader';
 const AuthScreen = lazy(() => import('./components/AuthScreen'));
@@ -14,24 +14,8 @@ const EssentialJapaneseTravelPhrasesPillarPage = lazy(() =>
 const SignedInApp = lazy(() => import('./components/internal/SignedInApp'));
 const SupportConsolePage = lazy(() => import('./components/internal/SupportConsolePage'));
 
-type RouterKind = 'browser' | 'hash';
 const HAS_VISITED_KEY = 'sonus.has_visited';
 const LAST_LANGUAGE_KEY = 'sonus.last_language';
-const SEO_PUBLIC_PATHS = new Set([
-  '/essential-japanese-travel-phrases',
-]);
-
-function normalizePathname(pathname: string) {
-  const trimmed = pathname.trim();
-  if (!trimmed || trimmed === '/') return '/';
-  return trimmed.endsWith('/') ? trimmed.slice(0, -1) : trimmed;
-}
-
-function shouldUseBrowserRouterInProd() {
-  if (typeof window === 'undefined') return false;
-  const normalizedPath = normalizePathname(window.location.pathname);
-  return SEO_PUBLIC_PATHS.has(normalizedPath);
-}
 
 function hasReturningVisitorSignal() {
   if (typeof window === 'undefined') return false;
@@ -54,27 +38,16 @@ function markVisited() {
   }
 }
 
-function resolveRouterKind(): RouterKind {
-  const configured = (import.meta.env.VITE_ROUTER_MODE || '').trim().toLowerCase();
-  if (configured === 'browser') return 'browser';
-  if (configured === 'hash') return 'hash';
-  if (import.meta.env.PROD && shouldUseBrowserRouterInProd()) return 'browser';
-  return import.meta.env.PROD ? 'hash' : 'browser';
-}
-
-function normalizeHashDeepLinkIfNeeded(routerKind: RouterKind) {
-  if (typeof window === 'undefined' || routerKind !== 'hash') return;
-  const { pathname, search, hash } = window.location;
-  if (hash) return;
-
-  // Keep the public landing canonical at '/'.
-  if (!pathname || pathname === '/') return;
-
-  const nextUrl = `${window.location.origin}/#${pathname}${search}`;
+function normalizeLegacyHashRouteIfNeeded() {
+  if (typeof window === 'undefined') return;
+  const hash = window.location.hash || '';
+  if (!hash.startsWith('#/')) return;
+  const nextPath = hash.slice(1);
+  const nextUrl = `${window.location.origin}${nextPath}`;
   window.location.replace(nextUrl);
 }
 
-function AppShell({ routerKind }: { routerKind: RouterKind }) {
+function AppShell() {
   const { status, error } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -82,12 +55,11 @@ function AppShell({ routerKind }: { routerKind: RouterKind }) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     console.info('[sonus] boot', {
-      router: routerKind,
       authStatus: status,
       pathname: window.location.pathname,
       hash: window.location.hash,
     });
-  }, [routerKind, status]);
+  }, [status]);
 
   const showReauthModal = useMemo(() => {
     if (status !== 'signed_out') return false;
@@ -218,16 +190,14 @@ function PublicEntryRoute() {
 }
 
 export default function App() {
-  const routerKind = resolveRouterKind();
-  normalizeHashDeepLinkIfNeeded(routerKind);
-  const Router = routerKind === 'browser' ? BrowserRouter : HashRouter;
+  normalizeLegacyHashRouteIfNeeded();
 
   return (
     <AuthProvider>
-      <Router>
+      <BrowserRouter>
         <ScrollToTop />
-        <AppShell routerKind={routerKind} />
-      </Router>
+        <AppShell />
+      </BrowserRouter>
     </AuthProvider>
   );
 }

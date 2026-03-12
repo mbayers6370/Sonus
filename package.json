@@ -13,7 +13,7 @@
     "dev:all": "bash -lc 'trap \"kill 0\" EXIT; npm run -w sonus-backend dev & npm run -w sonus-react dev & wait'",
     "checklist": "node scripts/regression-checklist.mjs",
     "test": "npm run test:backend && npm run test:frontend",
-    "test:backend": "npm run -w sonus-backend test:core:local",
+    "test:backend": "npm run -w sonus-backend test:srs && npm run -w sonus-backend test:auth-contract && npm run -w sonus-backend test:core:local",
     "test:frontend": "npm run -w sonus-react test:unit",
     "test:core": "npm run -w sonus-backend test:core",
     "lint": "npm run -w sonus-react lint && npm run -w sonus-backend lint",

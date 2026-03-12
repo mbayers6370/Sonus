@@ -1,27 +1,15 @@
 import type { FastifyInstance } from 'fastify';
-import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import { env } from '../env.js';
 import { prisma } from '../lib/prisma.js';
 import { getOrCreateProfile, upsertProfile } from '../services/profileService.js';
-import { sendPasswordResetEmail } from '../services/passwordResetEmailService.js';
-import { getSupabaseAuthClient } from '../lib/supabase.js';
 import { parseCookies, serializeCookie } from '../lib/cookies.js';
 import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js';
 import { createLoginThrottle } from '../lib/loginThrottle.js';
+import { createAuthModeProvider } from '../lib/authModeProvider.js';
 import {
-  createPasswordResetToken,
-  createAccessToken,
-  createRefreshFamilyId,
-  createRefreshToken,
-  evaluateRefreshRotationState,
   hashPasswordResetToken,
-  hashPassword,
-  hashRefreshToken,
-  needsPasswordRehash,
   normalizeEmail,
-  refreshExpiryDate,
-  verifyPassword,
 } from '../lib/localAuth.js';
 
 const TERMS_OF_SERVICE_VERSION = '2026-03-08';
@@ -107,6 +95,7 @@ const resetPasswordThrottle = createLoginThrottle({
   maxDelayMs: env.PASSWORD_RESET_CONSUME_WINDOW_MS,
   resetAfterMs: env.PASSWORD_RESET_CONSUME_WINDOW_MS,
 });
+const authProvider = createAuthModeProvider();
 
 function readHeader(value: string | string[] | undefined) {
   if (!value) return null;
@@ -353,53 +342,11 @@ export async function authRoutes(app: FastifyInstance) {
       return;
     }
 
-    if (env.AUTH_MODE === 'local') {
-      const email = identity.email;
-      const account = await prisma.localAuthCredential.findUnique({
-        where: { email },
-      });
-      if (!account) {
-        forgotPasswordThrottle.registerFailure(identity);
-        reply.send(genericResponse);
-        return;
-      }
-
-      const resetBase = resolveResetUrlBase(request);
-      if (!resetBase) {
-        console.error('[auth] RESET_URL_BASE is not configured; cannot send password reset email.');
-        forgotPasswordThrottle.registerFailure(identity);
-        reply.send(genericResponse);
-        return;
-      }
-
-      const rawToken = createPasswordResetToken();
-      const tokenHash = hashPasswordResetToken(rawToken);
-      const expiresAt = new Date(Date.now() + env.RESET_TOKEN_TTL_MINUTES * 60_000);
-      const client = requestClientInfo(request);
-      await prisma.$transaction(async (tx) => {
-        await tx.$executeRaw`DELETE FROM password_reset_tokens WHERE user_id = ${account.userId}::uuid AND used_at IS NULL`;
-        await tx.$executeRaw`
-          INSERT INTO password_reset_tokens (id, user_id, token_hash, expires_at, created_ip, user_agent, created_at)
-          VALUES (gen_random_uuid(), ${account.userId}::uuid, ${tokenHash}, ${expiresAt}, ${client.ip}, ${client.userAgent}, now())
-        `;
-      });
-
-      const resetUrl = `${resetBase}/?reset_token=${encodeURIComponent(rawToken)}`;
-      await sendPasswordResetEmail({
-        to: email,
-        resetUrl,
-      });
-      forgotPasswordThrottle.registerFailure(identity);
-      reply.send(genericResponse);
-      return;
-    }
-
-    if (env.AUTH_MODE === 'supabase') {
-      const supabase = getSupabaseAuthClient();
-      await supabase.auth.resetPasswordForEmail(parsed.data.email, {
-        redirectTo: resolveResetUrlBase(request) || undefined,
-      });
-    }
+    await authProvider.requestPasswordReset({
+      email: parsed.data.email,
+      resetBase: resolveResetUrlBase(request),
+      client: requestClientInfo(request),
+    });
 
     forgotPasswordThrottle.registerFailure(identity);
     reply.send(genericResponse);
@@ -412,11 +359,6 @@ export async function authRoutes(app: FastifyInstance) {
     const parsed = resetPasswordSchema.safeParse(request.body);
     if (!parsed.success) {
       reply.code(400).send({ error: 'Invalid payload', issues: parsed.error.issues });
-      return;
-    }
-
-    if (env.AUTH_MODE !== 'local') {
-      reply.code(400).send({ error: 'Password reset is only available in local auth mode.' });
       return;
     }
 
@@ -439,30 +381,17 @@ export async function authRoutes(app: FastifyInstance) {
         .send({ error: 'Too many reset attempts. Try again later.' });
       return;
     }
-    const tokenRows = await prisma.$queryRaw<
-      Array<{ id: string; user_id: string; expires_at: Date; used_at: Date | null }>
-    >`SELECT id, user_id, expires_at, used_at FROM password_reset_tokens WHERE token_hash = ${tokenHash} LIMIT 1`;
-    const tokenRow = tokenRows[0] ?? null;
     const now = new Date();
-    if (!tokenRow || tokenRow.used_at || tokenRow.expires_at <= now) {
+    const resetResult = await authProvider.resetPassword({
+      token: parsed.data.token,
+      password: parsed.data.password,
+      now,
+    });
+    if (!resetResult.ok) {
       resetPasswordThrottle.registerFailure(identity);
-      reply.code(400).send({ error: 'Reset link is invalid or expired.' });
+      reply.code(resetResult.status).send({ error: resetResult.error });
       return;
     }
-
-    const newPasswordHash = await hashPassword(parsed.data.password);
-    await prisma.$transaction(async (tx) => {
-      await tx.localAuthCredential.update({
-        where: { userId: tokenRow.user_id },
-        data: { passwordHash: newPasswordHash },
-      });
-      await tx.$executeRaw`UPDATE password_reset_tokens SET used_at = ${now} WHERE id = ${tokenRow.id}::uuid`;
-      await tx.$executeRaw`UPDATE password_reset_tokens SET used_at = ${now} WHERE user_id = ${tokenRow.user_id}::uuid AND used_at IS NULL`;
-      await tx.refreshSession.updateMany({
-        where: { userId: tokenRow.user_id, revokedAt: null },
-        data: { revokedAt: now, revokedReason: 'password_reset' },
-      });
-    });
 
     clearRefreshCookie(reply);
     resetPasswordThrottle.registerSuccess(identity);
@@ -480,16 +409,7 @@ export async function authRoutes(app: FastifyInstance) {
     }
 
     const email = normalizeEmail(parsed.data.email);
-    const exists =
-      env.AUTH_MODE === 'local'
-        ? Boolean(await prisma.localAuthCredential.findUnique({ where: { email } }))
-        : Boolean(
-            await prisma.profile.findFirst({
-              where: { email },
-              orderBy: { createdAt: 'asc' },
-              select: { userId: true },
-            })
-          );
+    const exists = await authProvider.emailExists(email);
 
     reply.send({ available: !exists });
   });
@@ -511,156 +431,51 @@ export async function authRoutes(app: FastifyInstance) {
       return;
     }
 
-    if (env.AUTH_MODE === 'local') {
-      const email = normalizeEmail(parsed.data.email);
-      const existing = await prisma.localAuthCredential.findUnique({
-        where: { email },
-      });
-      if (existing) {
-        reply.code(409).send({ error: 'Email already exists. Sign in instead.' });
-        return;
-      }
-
-      const userId = randomUUID();
-      const displayName = `${parsed.data.firstName} ${parsed.data.lastName}`.trim();
-      const passwordHash = await hashPassword(parsed.data.password);
-      const sessionToken = createRefreshToken();
-      const sessionTokenHash = hashRefreshToken(sessionToken);
-      const familyId = createRefreshFamilyId();
-      const expiresAt = refreshExpiryDate();
-      const client = requestClientInfo(request);
-
-      const profile = await prisma.$transaction(async (tx) => {
-        await tx.localAuthCredential.create({
-          data: {
-            userId,
-            email,
-            passwordHash,
-          },
-        });
-        const createdProfile = await tx.profile.create({
-          data: {
-            userId,
-            email,
-            displayName,
-            targetLanguage: parsed.data.targetLanguage,
-            timezone: parsed.data.timezone,
-            onboardingComplete: false,
-          },
-        });
-        await recordSignupLegalAcceptance(tx, {
-          userId,
-          client,
-          legalAcceptance: parsed.data.legalAcceptance,
-        });
-        return createdProfile;
-      });
-
-      await prisma.refreshSession.create({
-        data: {
-          userId,
-          tokenHash: sessionTokenHash,
-          familyId,
-          createdIp: client.ip,
-          createdUserAgent: client.userAgent,
-          expiresAt,
-        },
-      });
-
-      const accessToken = createAccessToken({ userId, email });
-      setRefreshCookie(reply, sessionToken, true);
-      setRememberCookie(reply, true);
-      reply.send({
-        user: { id: userId, email },
-        profile,
-        accessToken,
-        requiresEmailVerification: false,
-      });
-      return;
-    }
-
-    if (env.AUTH_MODE === 'mock') {
-      const email = normalizeEmail(parsed.data.email);
-      const existing = await prisma.profile.findFirst({
-        where: { email },
-        orderBy: { createdAt: 'asc' },
-      });
-      if (existing) {
-        reply.code(409).send({ error: 'Email already exists. Sign in instead.' });
-        return;
-      }
-      const userId = randomUUID();
-      const displayName = `${parsed.data.firstName} ${parsed.data.lastName}`.trim();
-      const profile = await upsertProfile({
-        userId,
-        email,
-        displayName,
-        targetLanguage: parsed.data.targetLanguage,
-        timezone: parsed.data.timezone,
-        onboardingComplete: false,
-      });
-      await recordSignupLegalAcceptance(prisma, {
-        userId,
-        client: requestClientInfo(request),
-        legalAcceptance: parsed.data.legalAcceptance,
-      });
-      reply.send({
-        user: { id: userId, email },
-        profile,
-        accessToken: null,
-        requiresEmailVerification: false,
-      });
-      return;
-    }
-
-    const supabase = getSupabaseAuthClient();
     const displayName = `${parsed.data.firstName} ${parsed.data.lastName}`.trim();
-    const { data, error } = await supabase.auth.signUp({
+    const signupResult = await authProvider.signup({
       email: parsed.data.email,
       password: parsed.data.password,
-      options: {
-        data: {
-          first_name: parsed.data.firstName,
-          last_name: parsed.data.lastName,
-          display_name: displayName,
-        },
-      },
+      firstName: parsed.data.firstName,
+      lastName: parsed.data.lastName,
+      displayName,
     });
-
-    if (error || !data.user) {
-      reply.code(400).send({ error: error?.message || 'Unable to sign up' });
+    if (!signupResult.ok) {
+      reply.code(signupResult.status).send({ error: signupResult.error });
       return;
     }
 
     const profile = await upsertProfile({
-      userId: data.user.id,
-      email: data.user.email ?? parsed.data.email,
+      userId: signupResult.user.id,
+      email: signupResult.user.email ?? parsed.data.email,
       displayName,
       targetLanguage: parsed.data.targetLanguage,
       timezone: parsed.data.timezone,
       onboardingComplete: false,
     });
     await recordSignupLegalAcceptance(prisma, {
-      userId: data.user.id,
+      userId: signupResult.user.id,
       client: requestClientInfo(request),
       legalAcceptance: parsed.data.legalAcceptance,
     });
 
-    if (data.session?.refresh_token) {
-      setRefreshCookie(reply, data.session.refresh_token, true);
+    if (signupResult.refreshToken) {
+      setRefreshCookie(reply, signupResult.refreshToken, true);
       setRememberCookie(reply, true);
     }
     reply.send({
-      user: { id: data.user.id, email: data.user.email ?? parsed.data.email },
+      user: {
+        id: signupResult.user.id,
+        email: signupResult.user.email ?? parsed.data.email,
+      },
       profile,
-      accessToken: data.session?.access_token ?? null,
-      requiresEmailVerification: !data.session,
+      accessToken: signupResult.accessToken,
+      requiresEmailVerification: signupResult.requiresEmailVerification,
     });
-    if (!data.session) {
+    if (signupResult.requiresEmailVerification) {
       await logAuthSecurityEvent({
         eventType: 'email_verification_required',
-        targetUserId: data.user.id,
-        actorEmail: data.user.email ?? parsed.data.email,
+        targetUserId: signupResult.user.id,
+        actorEmail: signupResult.user.email ?? parsed.data.email,
         detail: 'Signup completed but email verification is required before first session.',
         endpoint: '/v1/auth/signup',
         ip: request.ip || null,
@@ -726,222 +541,72 @@ export async function authRoutes(app: FastifyInstance) {
       reply.code(401).send({ error: 'Invalid email or password' });
     };
 
-    if (env.AUTH_MODE === 'local') {
-      const email = normalizeEmail(parsed.data.email);
-      const account = await prisma.localAuthCredential.findUnique({
-        where: { email },
-      });
-      if (!account) {
-        await rejectInvalidCredentials('account_not_found');
-        return;
-      }
-      const passwordValid = await verifyPassword(parsed.data.password, account.passwordHash);
-      if (!passwordValid) {
-        await rejectInvalidCredentials('invalid_password');
-        return;
-      }
-      if (needsPasswordRehash(account.passwordHash)) {
-        const upgradedPasswordHash = await hashPassword(parsed.data.password);
-        await prisma.localAuthCredential
-          .update({
-            where: { userId: account.userId },
-            data: { passwordHash: upgradedPasswordHash },
-          })
-          .catch(() => null);
-      }
-
-      const profile = await getOrCreateProfile(account.userId, account.email);
-      const sessionToken = createRefreshToken();
-      const sessionTokenHash = hashRefreshToken(sessionToken);
-      const familyId = createRefreshFamilyId();
-      const expiresAt = refreshExpiryDate();
-      const client = requestClientInfo(request);
-      const [knownIpSession, knownDeviceSession] = await Promise.all([
-        client.ip
-          ? prisma.refreshSession.findFirst({
-              where: {
-                userId: account.userId,
-                createdIp: client.ip,
-              },
-              select: { id: true },
-            })
-          : null,
-        client.userAgent
-          ? prisma.refreshSession.findFirst({
-              where: {
-                userId: account.userId,
-                createdUserAgent: client.userAgent,
-              },
-              select: { id: true },
-            })
-          : null,
-      ]);
-
-      await prisma.refreshSession.create({
-        data: {
-          userId: account.userId,
-          tokenHash: sessionTokenHash,
-          familyId,
-          createdIp: client.ip,
-          createdUserAgent: client.userAgent,
-          expiresAt,
-        },
-      });
-
-      setRefreshCookie(reply, sessionToken, rememberMe);
-      setRememberCookie(reply, rememberMe);
-      loginThrottle.registerSuccess(identity);
-      await logAuthSecurityEvent({
-        eventType: 'auth_login_succeeded',
-        targetUserId: account.userId,
-        actorEmail: account.email,
-        detail: 'User login succeeded.',
-        endpoint: '/v1/auth/login',
-        ip: request.ip || null,
-      });
-      if (client.ip && !knownIpSession) {
-        await logAuthSecurityEvent({
-          eventType: 'auth_login_new_ip',
-          targetUserId: account.userId,
-          actorEmail: account.email,
-          detail: 'First observed login from this IP for user.',
-          endpoint: '/v1/auth/login',
-          ip: client.ip,
-        });
-      }
-      if (client.userAgent && !knownDeviceSession) {
-        await logAuthSecurityEvent({
-          eventType: 'auth_login_new_device',
-          targetUserId: account.userId,
-          actorEmail: account.email,
-          detail: 'First observed login from this user-agent for user.',
-          endpoint: '/v1/auth/login',
-          ip: client.ip,
-        });
-      }
-      reply.send({
-        user: { id: account.userId, email: account.email },
-        profile,
-        accessToken: createAccessToken({ userId: account.userId, email: account.email }),
-      });
-      return;
-    }
-
-    if (env.AUTH_MODE === 'mock') {
-      const email = normalizeEmail(parsed.data.email);
-      const existing = await prisma.profile.findFirst({
-        where: { email },
-        orderBy: { createdAt: 'asc' },
-      });
-      if (existing) {
-        const profile = await getOrCreateProfile(existing.userId, email);
-        loginThrottle.registerSuccess(identity);
-        await logAuthSecurityEvent({
-          eventType: 'auth_login_succeeded',
-          targetUserId: existing.userId,
-          actorEmail: email,
-          detail: 'Mock login succeeded.',
-          endpoint: '/v1/auth/login',
-          ip: request.ip || null,
-        });
-        reply.send({
-          user: { id: existing.userId, email },
-          profile,
-          accessToken: null,
-        });
-        return;
-      }
-
-      // Allow seeded local-auth QA/admin accounts to sign in while running in
-      // mock mode (useful for local dev parity and preview environments).
-      const account = await prisma.localAuthCredential.findUnique({
-        where: { email },
-      });
-      if (!account) {
-        loginThrottle.registerFailure(identity);
-        await logAuthSecurityEvent({
-          eventType: 'auth_login_failed',
-          actorEmail: email,
-          detail: 'Mock login failed: account_not_found',
-          endpoint: '/v1/auth/login',
-          ip: request.ip || null,
-          metadata: { reason: 'account_not_found' },
-        });
-        reply.code(401).send({ error: 'No account found for this email. Sign up first.' });
-        return;
-      }
-
-      const passwordValid = await verifyPassword(parsed.data.password, account.passwordHash);
-      if (!passwordValid) {
-        await rejectInvalidCredentials('invalid_password');
-        return;
-      }
-      if (needsPasswordRehash(account.passwordHash)) {
-        const upgradedPasswordHash = await hashPassword(parsed.data.password);
-        await prisma.localAuthCredential
-          .update({
-            where: { userId: account.userId },
-            data: { passwordHash: upgradedPasswordHash },
-          })
-          .catch(() => null);
-      }
-
-      const profile = await getOrCreateProfile(account.userId, email);
-      loginThrottle.registerSuccess(identity);
-      await logAuthSecurityEvent({
-        eventType: 'auth_login_succeeded',
-        targetUserId: account.userId,
-        actorEmail: email,
-        detail: 'Mock login via local credential succeeded.',
-        endpoint: '/v1/auth/login',
-        ip: request.ip || null,
-      });
-      reply.send({
-        user: { id: account.userId, email },
-        profile,
-        accessToken: null,
-      });
-      return;
-    }
-
-    const supabase = getSupabaseAuthClient();
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const loginResult = await authProvider.login({
       email: parsed.data.email,
       password: parsed.data.password,
+      client: requestClientInfo(request),
     });
-
-    if (error || !data.user || !data.session) {
+    if (!loginResult.ok) {
+      if (loginResult.invalidCredentials) {
+        await rejectInvalidCredentials(loginResult.reason);
+        return;
+      }
       loginThrottle.registerFailure(identity);
       await logAuthSecurityEvent({
         eventType: 'auth_login_failed',
         actorEmail: identity.email,
-        detail: `Supabase login failed: ${error?.message || 'invalid_credentials'}`,
+        detail: `Login failed: ${loginResult.reason}`,
         endpoint: '/v1/auth/login',
         ip: request.ip || null,
-        metadata: { reason: 'supabase_sign_in_failed' },
+        metadata: { reason: loginResult.reason },
       });
-      reply.code(401).send({ error: error?.message || 'Invalid email or password' });
+      reply.code(loginResult.status).send({ error: loginResult.error });
       return;
     }
 
-    const profile = await getOrCreateProfile(data.user.id, data.user.email ?? parsed.data.email);
+    const profile = await getOrCreateProfile(
+      loginResult.user.id,
+      loginResult.user.email ?? parsed.data.email
+    );
 
-    setRefreshCookie(reply, data.session.refresh_token, rememberMe);
+    if (loginResult.refreshToken) {
+      setRefreshCookie(reply, loginResult.refreshToken, rememberMe);
+    }
     setRememberCookie(reply, rememberMe);
     reply.send({
-      user: { id: data.user.id, email: data.user.email ?? parsed.data.email },
+      user: { id: loginResult.user.id, email: loginResult.user.email ?? parsed.data.email },
       profile,
-      accessToken: data.session.access_token,
+      accessToken: loginResult.accessToken,
     });
     loginThrottle.registerSuccess(identity);
     await logAuthSecurityEvent({
       eventType: 'auth_login_succeeded',
-      targetUserId: data.user.id,
-      actorEmail: data.user.email ?? parsed.data.email,
-      detail: 'Supabase login succeeded.',
+      targetUserId: loginResult.user.id,
+      actorEmail: loginResult.user.email ?? parsed.data.email,
+      detail: `${authProvider.mode} login succeeded.`,
       endpoint: '/v1/auth/login',
       ip: request.ip || null,
     });
+    if (authProvider.mode === 'local' && loginResult.newIp) {
+      await logAuthSecurityEvent({
+        eventType: 'auth_login_new_ip',
+        targetUserId: loginResult.user.id,
+        actorEmail: loginResult.user.email ?? parsed.data.email,
+        detail: 'First observed login from this IP for user.',
+        endpoint: '/v1/auth/login',
+        ip: request.ip || null,
+      });
+    }
+    if (authProvider.mode === 'local' && loginResult.newDevice) {
+      await logAuthSecurityEvent({
+        eventType: 'auth_login_new_device',
+        targetUserId: loginResult.user.id,
+        actorEmail: loginResult.user.email ?? parsed.data.email,
+        detail: 'First observed login from this user-agent for user.',
+        endpoint: '/v1/auth/login',
+        ip: request.ip || null,
+      });
+    }
   });
 
   // Admin-only debug endpoint. Clears login-throttle buckets for support and local QA scenarios.
@@ -1028,169 +693,41 @@ export async function authRoutes(app: FastifyInstance) {
       return;
     }
 
-    if (env.AUTH_MODE === 'local') {
-      const tokenHash = hashRefreshToken(refreshToken);
-      const now = new Date();
-      const client = requestClientInfo(request);
-
-      const rotated = await prisma.$transaction(async (tx) => {
-        const existing = await tx.refreshSession.findUnique({
-          where: { tokenHash },
-        });
-        if (!existing) {
-          return {
-            ok: false as const,
-            reason: 'local_no_session' as const,
-          };
-        }
-
-        const state = evaluateRefreshRotationState(existing, now);
-        if (state === 'reuse_detected') {
-          await tx.refreshSession.updateMany({
-            where: { familyId: existing.familyId, revokedAt: null },
-            data: { revokedAt: now, revokedReason: 'reuse_detected' },
-          });
-          return {
-            ok: false as const,
-            reason: 'local_reuse_detected' as const,
-          };
-        }
-
-        if (state !== 'rotate') {
-          return {
-            ok: false as const,
-            reason: 'local_invalid_session_state' as const,
-          };
-        }
-
-        const account = await tx.localAuthCredential.findUnique({
-          where: { userId: existing.userId },
-        });
-        if (!account) {
-          await tx.refreshSession.update({
-            where: { id: existing.id },
-            data: { revokedAt: now, revokedReason: 'account_missing' },
-          });
-          return {
-            ok: false as const,
-            reason: 'local_account_missing' as const,
-          };
-        }
-
-        const nextToken = createRefreshToken();
-        const nextHash = hashRefreshToken(nextToken);
-        await tx.refreshSession.create({
-          data: {
-            userId: existing.userId,
-            tokenHash: nextHash,
-            familyId: existing.familyId,
-            parentTokenHash: existing.tokenHash,
-            createdIp: client.ip,
-            createdUserAgent: client.userAgent,
-            expiresAt: refreshExpiryDate(),
-          },
-        });
-        await tx.refreshSession.update({
-          where: { id: existing.id },
-          data: {
-            replacedByHash: nextHash,
-            revokedAt: now,
-            revokedReason: 'rotated',
-            lastUsedAt: now,
-          },
-        });
-        return {
-          ok: true as const,
-          reason: 'local_rotated' as const,
-          user: {
-            id: existing.userId,
-            email: account.email,
-          },
-          refreshToken: nextToken,
-        };
-      });
-
-      if (!rotated.ok) {
-        await logAuthSecurityEvent({
-          eventType: 'auth_error_refresh_failed',
-          targetUserId: env.DEV_USER_ID,
-          detail: `Local refresh failed: ${rotated.reason}`,
-          endpoint: '/v1/auth/refresh',
-          ip: request.ip || null,
-          metadata: { reason: rotated.reason },
-        });
-        setRefreshDebugHeaders(reply, {
-          result: 'error',
-          reason: rotated.reason,
-          requestId: request.id,
-        });
-        clearRefreshCookie(reply);
-        clearRememberCookie(reply);
-        reply.code(401).send({ error: 'Unable to refresh session' });
-        return;
-      }
-
-      setRefreshDebugHeaders(reply, {
-        result: 'ok',
-        reason: rotated.reason,
-        requestId: request.id,
-      });
-      setRefreshCookie(reply, rotated.refreshToken, persistentSession);
-      setRememberCookie(reply, persistentSession);
-      reply.send({
-        user: rotated.user,
-        accessToken: createAccessToken({
-          userId: rotated.user.id,
-          email: rotated.user.email,
-        }),
-      });
-      return;
-    }
-
-    if (env.AUTH_MODE !== 'supabase') {
-      setRefreshDebugHeaders(reply, {
-        result: 'error',
-        reason: 'refresh_not_supported',
-        requestId: request.id,
-      });
-      reply
-        .code(400)
-        .send({ error: 'Refresh endpoint is only available in supabase/local auth mode.' });
-      return;
-    }
-
-    const supabase = getSupabaseAuthClient();
-    const { data, error } = await supabase.auth.refreshSession({
-      refresh_token: refreshToken,
+    const refreshResult = await authProvider.refresh({
+      refreshToken,
+      client: requestClientInfo(request),
     });
-
-    if (error || !data.session || !data.user) {
+    if (!refreshResult.ok) {
       await logAuthSecurityEvent({
         eventType: 'auth_error_refresh_failed',
-        detail: `Supabase refresh failed: ${error?.message || 'unknown_error'}`,
+        detail: `Refresh failed: ${refreshResult.reason}`,
         endpoint: '/v1/auth/refresh',
         ip: request.ip || null,
-        metadata: { reason: 'supabase_refresh_failed' },
+        metadata: { reason: refreshResult.reason },
       });
       setRefreshDebugHeaders(reply, {
         result: 'error',
-        reason: 'supabase_refresh_failed',
+        reason: refreshResult.reason,
         requestId: request.id,
       });
-      reply.code(401).send({ error: error?.message || 'Unable to refresh session' });
+      if (refreshResult.clearCookies) {
+        clearRefreshCookie(reply);
+        clearRememberCookie(reply);
+      }
+      reply.code(refreshResult.status).send({ error: refreshResult.error });
       return;
     }
 
     setRefreshDebugHeaders(reply, {
       result: 'ok',
-      reason: 'supabase_rotated',
+      reason: refreshResult.reason,
       requestId: request.id,
     });
-    setRefreshCookie(reply, data.session.refresh_token, persistentSession);
+    setRefreshCookie(reply, refreshResult.refreshToken, persistentSession);
     setRememberCookie(reply, persistentSession);
     reply.send({
-      user: { id: data.user.id, email: data.user.email ?? null },
-      accessToken: data.session.access_token,
+      user: refreshResult.user,
+      accessToken: refreshResult.accessToken,
     });
   });
 
@@ -1198,20 +735,9 @@ export async function authRoutes(app: FastifyInstance) {
   app.post('/v1/auth/logout', async (request, reply) => {
     if (!requireTrustedOrigin(request, reply, allowedOrigins)) return;
 
-    if (env.AUTH_MODE === 'local') {
-      const cookies = parseCookies(request.headers.cookie);
-      const refreshToken = cookies.get(env.AUTH_COOKIE_NAME);
-      if (refreshToken) {
-        const tokenHash = hashRefreshToken(refreshToken);
-        await prisma.refreshSession.updateMany({
-          where: { tokenHash, revokedAt: null },
-          data: {
-            revokedAt: new Date(),
-            revokedReason: 'logout',
-          },
-        });
-      }
-    }
+    const cookies = parseCookies(request.headers.cookie);
+    const refreshToken = cookies.get(env.AUTH_COOKIE_NAME) ?? null;
+    await authProvider.logout({ refreshToken });
 
     clearRefreshCookie(reply);
     clearRememberCookie(reply);

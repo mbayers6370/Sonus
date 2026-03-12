@@ -5,7 +5,7 @@ Sonus is organized as a two-application monorepo:
 - `sonus-react/` - frontend client (React + Vite + TypeScript)
 - `backend/` - API service (Fastify + Prisma + PostgreSQL)
 
-The current product focus is Japanese lesson flow, pronunciation scoring, and review scheduling.
+The current product focus is multilingual lesson flow, pronunciation scoring, and review scheduling.
 
 ## High-Level Components
 
@@ -32,6 +32,7 @@ The current product focus is Japanese lesson flow, pronunciation scoring, and re
   - `src/services/reviewInsightsService.ts`
 - Data layer through Prisma (`src/lib/prisma.ts`)
 - Auth mode abstraction in `src/lib/auth.ts` (`mock`, `supabase`, or `local`)
+- Route auth behavior provider strategy in `src/lib/authModeProvider.ts` (mode-specific signup/login/refresh/reset flows)
 - Rate limiter abstraction in `src/lib/rateLimiter.ts` (`memory`, `redis`, `edge`)
 
 ## Frontend State Model
@@ -101,10 +102,9 @@ Backend persists:
 Frontend remains source of immediate UI state; backend is source of durable history.
 
 ## Routing Strategy
-- Development: `BrowserRouter`
-- Production: `HashRouter`
-
-Hash routing is used in production to avoid deep-link refresh failures on static hosting.
+- All environments use `BrowserRouter`.
+- Static hosting must provide SPA rewrites (`/* -> /index.html`), configured in `sonus-react/public/_redirects`.
+- Legacy hash links are normalized at app boot (`#/path` -> `/path`) for backward compatibility.
 
 ## Scalability Notes
 - In-app `memory` rate limiting is single-instance and intended for local/demo environments.

@@ -1,6 +1,6 @@
 # Sonus
 
-Sonus is a structured language-learning platform focused on durable fluency through speaking practice, proficiency-aligned progression, and practical travel-first learning.
+Sonus is a multilingual language-learning platform focused on durable fluency through speaking practice, proficiency-aligned progression, and practical travel-first learning.
 
 ## What Is This?
 Sonus is a full-stack language-learning app in this monorepo:
@@ -12,16 +12,18 @@ Primary public surface: `https://sonuslearning.com/`
 How the system fits together:
 - `docs/SYSTEM_OVERVIEW.md` (quick architecture map + diagram)
 - `docs/ARCHITECTURE.md` (deeper technical breakdown)
+- `docs/PRODUCT_SCOPE.md` (product identity and scope guardrails)
 
 ## Why Sonus
 Sonus exists to close the gap between vocabulary study and actually speaking in context. The product emphasizes:
-- Structured curriculum progression (JLPT-aligned levels)
+- Structured curriculum progression by language framework (for example, JLPT/TOPIK/CEFR-style tracks)
 - Active recall over passive review
 - Pronunciation practice with immediate feedback
 - Practical travel-first phrase training
 
 ## Current Features
-- Japanese track with JLPT-style levels (`n5` to `n1`)
+- Multilingual product architecture (language-aware onboarding, profile, routing, and progression)
+- Japanese track with JLPT-style levels (`n5` to `n1`) as the most complete curriculum today
 - Core study loop: Learn, Quiz, Speak, Apply
 - Weak-word detection and spaced review scheduling
 - Progress resume flow from home dashboard
@@ -78,7 +80,7 @@ Most-used root commands:
 Actively developed. Functional for end-to-end learning flows, but still evolving.
 
 Known limitations:
-- Curriculum breadth is still expanding by language and level.
+- Curriculum depth is uneven by language and level (Japanese is currently the most complete track).
 - UI/UX polish is ongoing in some flows.
 - Not positioned as production-perfect for every deployment topology yet.
 

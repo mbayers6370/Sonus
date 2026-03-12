@@ -7,6 +7,11 @@ This repository is an npm-workspaces monorepo:
 - `backend/` API
 - `shared/` shared contracts
 
+## Product Identity
+- Sonus is a multilingual platform.
+- Keep user-facing copy language-aware (avoid single-language claims in root docs/UI unless a page is intentionally language-specific).
+- If your change affects product scope or positioning, update `docs/PRODUCT_SCOPE.md`.
+
 ## Prerequisites
 - Node.js `20+`
 - npm `10+`
@@ -44,6 +49,14 @@ npm run codehealth
 - Update docs when behavior, API, or operations change.
 - Do not commit secrets or `.env` files.
 - Avoid breaking mobile layouts and accessibility baselines.
+- Include before/after notes for routing, auth, and SRS logic changes (high-risk areas).
+
+## Engineering Standards
+- Prefer clear module boundaries over scattered conditionals.
+- Keep routing behavior predictable and environment-consistent.
+- Add tests for core decision logic (especially learning policy/SRS).
+- Fail safely: preserve backward compatibility where practical (for example, URL migration paths).
+- Do not mix unrelated refactors into feature or bug-fix PRs.
 
 ## Commit Guidance
 - Use clear, imperative commit messages.
