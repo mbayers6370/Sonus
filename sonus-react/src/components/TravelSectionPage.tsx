@@ -308,7 +308,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                   {section.id === 'shopping' ? (
                     <Link
                       to={konbiniLinkTarget}
-                      className="absolute right-3 top-3 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white bg-[#013220] p-1 transition hover:scale-[1.03] hover:bg-[#1F5A40]"
+                      className="absolute right-3 top-3 inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl border border-white bg-[#013220] p-1 transition hover:scale-[1.03] hover:bg-[#1F5A40]"
                       aria-label="Open shopping local guide"
                       title="Open shopping local guide"
                     >

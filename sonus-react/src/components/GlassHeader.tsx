@@ -260,7 +260,11 @@ export default function GlassHeader({
                       else navigate('/home');
                     }}
                     aria-label="Go back"
-                    className="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 rounded-full border border-[rgba(31,42,55,0.22)] bg-white/72 text-text-dark inline-flex items-center justify-center"
+                    className={`absolute left-0 md:left-2 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 rounded-full border inline-flex items-center justify-center ${
+                      useLightDesktopChrome
+                        ? 'border-white/45 bg-white/10 text-white'
+                        : 'border-[rgba(31,42,55,0.22)] bg-white/72 text-text-dark'
+                    }`}
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
@@ -348,7 +352,11 @@ export default function GlassHeader({
                   else navigate('/home');
                 }}
                 aria-label="Go back"
-                className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 rounded-full border border-[rgba(31,42,55,0.22)] bg-white/72 text-text-dark inline-flex items-center justify-center"
+                className={`absolute left-3 md:left-6 top-1/2 -translate-y-1/2 w-9 h-9 md:w-10 md:h-10 rounded-full border inline-flex items-center justify-center ${
+                  useLightDesktopChrome
+                    ? 'border-white/45 bg-white/10 text-white'
+                    : 'border-[rgba(31,42,55,0.22)] bg-white/72 text-text-dark'
+                }`}
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
