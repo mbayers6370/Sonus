@@ -16,6 +16,7 @@ export type TravelSectionData = {
   id: string;
   title: string;
   themeColor: string;
+  accentColor?: string;
   tone: string;
   focus: string;
   scene: string;
@@ -33,8 +34,9 @@ const s = (
   scene: string,
   subclusters: string[],
   culturalNotes: string[],
-  phrases: TravelPhrase[]
-): TravelSectionData => ({ id, title, themeColor, tone, focus, scene, subclusters, culturalNotes, phrases });
+  phrases: TravelPhrase[],
+  accentColor?: string
+): TravelSectionData => ({ id, title, themeColor, accentColor, tone, focus, scene, subclusters, culturalNotes, phrases });
 
 export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
   s(

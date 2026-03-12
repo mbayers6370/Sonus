@@ -200,6 +200,12 @@ export default function GlassHeader({
   const useLightDesktopChrome =
     /(?:^|\s)text-white(?:\s|$)/.test(`${titleClassName} ${scrolledTitleClassName}`) ||
     /(?:^|\s)border-white(?:\s|$)/.test(`${className} ${scrolledClassName}`);
+  const headerLogoSrc = useLightDesktopChrome
+    ? '/branding/Sonus-White-Transparent.png'
+    : '/branding/logo_name_solo.png';
+  const headerLogoSrcSet = useLightDesktopChrome
+    ? '/branding/Sonus-White-Transparent-500.png 500w, /branding/Sonus-White-Transparent.png 1000w'
+    : '/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w';
 
   const runDesktopLearnAction = (target: 'main' | 'levels' | 'units' | 'lessons') => {
     setDesktopLearnMenuOpenRouteKey(null);
@@ -226,7 +232,7 @@ export default function GlassHeader({
               ? 'text-white font-semibold'
               : 'text-[#15364A] font-semibold'
           )
-        : (useLightDesktopChrome ? 'text-white/82 hover:text-white' : 'text-text-med hover:text-text-dark')
+        : (useLightDesktopChrome ? 'text-white hover:text-white' : 'text-text-med hover:text-text-dark')
     }`;
 
   const desktopLearnItemClass = (active: boolean) =>
@@ -268,7 +274,7 @@ export default function GlassHeader({
                       className="inline-flex items-center justify-center shrink-0"
                     >
                       <img
-                        src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
+                        src={headerLogoSrc} srcSet={headerLogoSrcSet} sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
                         alt="Sonus"
                         className="h-[18px] max-h-[18px] md:h-6 md:max-h-none w-auto object-contain"
                         onError={(e) => {
@@ -295,7 +301,7 @@ export default function GlassHeader({
                         className="self-center inline-flex items-center justify-center"
                       >
                         <img
-                          src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
+                          src={headerLogoSrc} srcSet={headerLogoSrcSet} sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
                           alt="Sonus"
                           className="h-[18px] max-h-[18px] md:h-6 md:max-h-none w-auto object-contain"
                           onError={(e) => {
@@ -355,7 +361,7 @@ export default function GlassHeader({
                 className="min-[951px]:hidden inline-flex items-center justify-center mb-1"
               >
                 <img
-                  src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
+                  src={headerLogoSrc} srcSet={headerLogoSrcSet} sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
                   alt="Sonus"
                   className="h-[18px] max-h-[18px] w-auto object-contain"
                   onError={(e) => {
@@ -372,7 +378,7 @@ export default function GlassHeader({
                 className="hidden min-[951px]:inline-flex absolute left-6 items-center justify-center"
               >
                 <img
-                  src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
+                  src={headerLogoSrc} srcSet={headerLogoSrcSet} sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
                   alt="Sonus"
                   className="h-6 md:h-7 w-auto object-contain"
                   onError={(e) => {
@@ -569,7 +575,7 @@ export default function GlassHeader({
                     className="inline-flex items-center justify-center shrink-0"
                   >
                     <img
-                      src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
+                      src={headerLogoSrc} srcSet={headerLogoSrcSet} sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
                       alt="Sonus"
                       className="h-[18px] max-h-[18px] w-auto object-contain"
                       onError={(e) => {
@@ -596,7 +602,7 @@ export default function GlassHeader({
                     className="inline-flex items-center justify-center"
                   >
                     <img
-                      src="/branding/logo_name_solo.png" srcSet="/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w" sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
+                      src={headerLogoSrc} srcSet={headerLogoSrcSet} sizes="(max-width: 768px) 160px, 240px" width={2000} height={500}
                       alt="Sonus"
                       className="h-6 lg:h-7 w-auto object-contain"
                       onError={(e) => {

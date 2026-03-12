@@ -22,7 +22,6 @@ export default function Flashcard({
   onNext,
 }: FlashcardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
-  const [mobileWordFontPx, setMobileWordFontPx] = useState<number | null>(null);
   const wordRowRef = useRef<HTMLDivElement | null>(null);
   const wordTextRef = useRef<HTMLDivElement | null>(null);
   const { state } = useApp();
@@ -58,13 +57,14 @@ export default function Flashcard({
 
   const fitWordOnMobile = useCallback(() => {
     if (typeof window === 'undefined') return;
-    if (window.innerWidth >= 640) {
-      setMobileWordFontPx(null);
-      return;
-    }
     const row = wordRowRef.current;
     const text = wordTextRef.current;
     if (!row || !text) return;
+
+    if (window.innerWidth >= 640) {
+      text.style.fontSize = '';
+      return;
+    }
 
     let size = 38;
     const minSize = 18;
@@ -75,7 +75,6 @@ export default function Flashcard({
       size -= 1;
       text.style.fontSize = `${size}px`;
     }
-    setMobileWordFontPx(size);
   }, []);
 
   useLayoutEffect(() => {
@@ -153,7 +152,6 @@ export default function Flashcard({
                 <div
                   ref={wordTextRef}
                   className="secondary-font text-[2.35rem] sm:text-[2.35rem] text-text-dark leading-tight whitespace-nowrap"
-                  style={mobileWordFontPx ? { fontSize: `${mobileWordFontPx}px` } : undefined}
                 >
                   {word.simp}
                 </div>

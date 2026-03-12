@@ -34,6 +34,7 @@ const HomeRoute = lazy(() => import('./homeRoutes').then((m) => ({ default: m.Ho
 const ProfileRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.ProfileRoute })));
 const TravelRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelRoute })));
 const TravelSectionRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelSectionRoute })));
+const KonbiniGuidePage = lazy(() => import('../components/KonbiniGuidePage'));
 const SupportConsolePage = lazy(() => import('../components/internal/SupportConsolePage'));
 
 const LAST_LANGUAGE_KEY = 'sonus.last_language';
@@ -1058,6 +1059,16 @@ export default function AppRoutes() {
             onGoHome={goHome}
             onOpenProfile={goProfile}
             onOpenSection={(sectionId) => navigate(`/travel/${sectionId}`)}
+          />
+        }
+      />
+      <Route
+        path="/travel/konbini"
+        element={
+          <KonbiniGuidePage
+            onGoHome={goHome}
+            onOpenProfile={goProfile}
+            selectedLanguage={selectedLanguage}
           />
         }
       />
