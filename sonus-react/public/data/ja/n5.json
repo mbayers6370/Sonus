@@ -148,41 +148,6 @@
               "transliteration": "arigatou gozaimasu"
             },
             {
-              "id": "N5-8008",
-              "kanji": null,
-              "hiragana": "すみません",
-              "katakana": "スミマセン",
-              "en": "excuse me / sorry",
-              "defs": [
-                "excuse me",
-                "sorry"
-              ],
-              "example": {
-                "en": "Excuse me, where is the station?",
-                "native": "すみません、えきはどこですか。"
-              },
-              "type": "word",
-              "pos_detail": "int",
-              "transliteration": "sumimasen"
-            },
-            {
-              "id": "N5-8009",
-              "kanji": null,
-              "hiragana": "ごめんなさい",
-              "katakana": "ゴメンナサイ",
-              "en": "I'm sorry",
-              "defs": [
-                "I'm sorry"
-              ],
-              "example": {
-                "en": "I'm sorry for being late.",
-                "native": "おくれて、ごめんなさい。"
-              },
-              "type": "word",
-              "pos_detail": "int",
-              "transliteration": "gomennasai"
-            },
-            {
               "id": "N5-0714",
               "kanji": "私",
               "hiragana": "わたし",
@@ -283,125 +248,6 @@
               "type": "word",
               "pos_detail": "part",
               "transliteration": "ni"
-            },
-            {
-              "id": "N5-0268",
-              "kanji": null,
-              "hiragana": "これ",
-              "katakana": "コレ",
-              "en": "this one",
-              "defs": [
-                "this one"
-              ],
-              "example": {
-                "en": "This is my notebook.",
-                "native": "これは私のノートです。"
-              },
-              "type": "word",
-              "pos_detail": "pron",
-              "transliteration": "kore"
-            },
-            {
-              "id": "N5-0368",
-              "kanji": null,
-              "hiragana": "それ",
-              "katakana": "ソレ",
-              "en": "that one",
-              "defs": [
-                "that one"
-              ],
-              "example": {
-                "en": "That is my pen.",
-                "native": "それは私のペンです。"
-              },
-              "type": "word",
-              "pos_detail": "pron",
-              "transliteration": "sore"
-            },
-            {
-              "id": "N5-0043",
-              "kanji": null,
-              "hiragana": "あれ",
-              "katakana": "アレ",
-              "en": "that one (over there)",
-              "defs": [
-                "that one (over there)"
-              ],
-              "example": {
-                "en": "That over there is the teacher's car.",
-                "native": "あれは先生の車です。"
-              },
-              "type": "word",
-              "pos_detail": "pron",
-              "transliteration": "are"
-            },
-            {
-              "id": "N5-0519",
-              "kanji": null,
-              "hiragana": "はい",
-              "katakana": "ハイ",
-              "en": "yes",
-              "defs": [
-                "yes"
-              ],
-              "example": {
-                "en": "Yes, I understand.",
-                "native": "はい、分かりました。"
-              },
-              "type": "word",
-              "pos_detail": "int",
-              "transliteration": "hai"
-            },
-            {
-              "id": "N5-0045",
-              "kanji": null,
-              "hiragana": "いいえ",
-              "katakana": "イイエ",
-              "en": "no, not at all",
-              "defs": [
-                "no, not at all"
-              ],
-              "example": {
-                "en": "No, I haven't eaten yet.",
-                "native": "いいえ、まだ食べていません。"
-              },
-              "type": "word",
-              "pos_detail": "int",
-              "transliteration": "iie"
-            },
-            {
-              "id": "N5-0488",
-              "kanji": "何",
-              "hiragana": "なに",
-              "katakana": "ナニ",
-              "en": "what",
-              "defs": [
-                "what"
-              ],
-              "example": {
-                "en": "Let's try doing something.",
-                "native": "何かしてみましょう。"
-              },
-              "type": "word",
-              "pos_detail": "pron",
-              "transliteration": "nani"
-            },
-            {
-              "id": "N5-0395",
-              "kanji": "誰",
-              "hiragana": "だれ",
-              "katakana": "ダレ",
-              "en": "who",
-              "defs": [
-                "who"
-              ],
-              "example": {
-                "en": "Who is coming?",
-                "native": "誰が来ますか。"
-              },
-              "type": "word",
-              "pos_detail": "pron",
-              "transliteration": "dare"
             },
             {
               "id": "N5-8901",
@@ -1161,6 +1007,41 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "meetoru"
+            },
+            {
+              "id": "N5-0337",
+              "kanji": null,
+              "hiragana": "ずつ",
+              "katakana": "ズツ",
+              "en": "at a time",
+              "defs": [
+                "at a time"
+              ],
+              "example": {
+                "en": "I'll take three of each sort.",
+                "native": "３個ずつください。"
+              },
+              "type": "affix",
+              "pos_detail": "suf",
+              "transliteration": "～zutsu"
+            },
+            {
+              "id": "N5-0332",
+              "kanji": null,
+              "hiragana": "すぎ",
+              "katakana": "スギ",
+              "en": "past",
+              "defs": [
+                "past",
+                "to exceed, too much"
+              ],
+              "example": {
+                "en": "There used to be a large cedar tree there.",
+                "native": "昔そこにはスギの大木があった。"
+              },
+              "type": "affix",
+              "pos_detail": "suf",
+              "transliteration": "～sugi"
             }
           ]
         },
@@ -1202,40 +1083,6 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "ashita"
-            },
-            {
-              "id": "N5-0060",
-              "kanji": null,
-              "hiragana": "いつ",
-              "katakana": "イツ",
-              "en": "when",
-              "defs": [
-                "when"
-              ],
-              "example": {
-                "en": "When did you come to Japan?",
-                "native": "いつ日本に来ましたか。"
-              },
-              "type": "word",
-              "pos_detail": "pron",
-              "transliteration": "itsu"
-            },
-            {
-              "id": "N5-0064",
-              "kanji": null,
-              "hiragana": "いつも",
-              "katakana": "イツモ",
-              "en": "always, usually, every time, never (with neg. verb)",
-              "defs": [
-                "always, usually, every time, never (with neg. verb)"
-              ],
-              "example": {
-                "en": "He always makes breakfast.",
-                "native": "彼はいつも朝ご飯を作ります。"
-              },
-              "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "itsumo"
             },
             {
               "id": "N5-0066",
@@ -1641,6 +1488,40 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "hatachi"
+            },
+            {
+              "id": "N5-0295",
+              "kanji": "時間",
+              "hiragana": "じかん",
+              "katakana": "ジカン",
+              "en": "hours",
+              "defs": [
+                "hours"
+              ],
+              "example": {
+                "en": "I have time today.",
+                "native": "今日は時間があります。"
+              },
+              "type": "affix",
+              "pos_detail": "suf",
+              "transliteration": "～jikan"
+            },
+            {
+              "id": "N5-0454",
+              "kanji": "時",
+              "hiragana": "とき",
+              "katakana": "トキ",
+              "en": "at the time of",
+              "defs": [
+                "at the time of"
+              ],
+              "example": {
+                "en": "I lived in this town when I was a child.",
+                "native": "子どもの時、この町に住んでいました。"
+              },
+              "type": "affix",
+              "pos_detail": "suf",
+              "transliteration": "～toki"
             }
           ]
         },
@@ -1784,23 +1665,6 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "chairo"
-            },
-            {
-              "id": "N5-0050",
-              "kanji": null,
-              "hiragana": "いくつ",
-              "katakana": "イクツ",
-              "en": "how many, how old",
-              "defs": [
-                "how many, how old"
-              ],
-              "example": {
-                "en": "How old are you?",
-                "native": "あなたはいくつですか。"
-              },
-              "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "ikutsu"
             },
             {
               "id": "N5-0004",
@@ -2649,23 +2513,6 @@
               "transliteration": "genki"
             },
             {
-              "id": "N5-0075",
-              "kanji": "色々",
-              "hiragana": "いろいろ",
-              "katakana": "イロイロ",
-              "en": "various",
-              "defs": [
-                "various"
-              ],
-              "example": {
-                "en": "I want to eat food from many countries.",
-                "native": "色々な国の料理を食べたいです。"
-              },
-              "type": "word",
-              "pos_detail": "adj-na",
-              "transliteration": "iroiro"
-            },
-            {
               "id": "N5-0298",
               "kanji": "静か",
               "hiragana": "しずか",
@@ -2715,40 +2562,6 @@
               "type": "word",
               "pos_detail": "adj-na",
               "transliteration": "yuumei"
-            },
-            {
-              "id": "N5-0381",
-              "kanji": "沢山",
-              "hiragana": "たくさん",
-              "katakana": "タクサン",
-              "en": "many, much",
-              "defs": [
-                "many, much"
-              ],
-              "example": {
-                "en": "There are many words that I don't understand.",
-                "native": "分からない言葉がたくさんある。"
-              },
-              "type": "word",
-              "pos_detail": "adj-na",
-              "transliteration": "takusan"
-            },
-            {
-              "id": "N5-0125",
-              "kanji": "同じ",
-              "hiragana": "おなじ",
-              "katakana": "オナジ",
-              "en": "same, identical",
-              "defs": [
-                "same, identical"
-              ],
-              "example": {
-                "en": "My younger brother and I go to the same school.",
-                "native": "私と弟は同じ学校です。"
-              },
-              "type": "word",
-              "pos_detail": "adj-na",
-              "transliteration": "onaji"
             },
             {
               "id": "N5-0069",
@@ -2851,25 +2664,6 @@
               "type": "word",
               "pos_detail": "adj-na",
               "transliteration": "heta"
-            },
-            {
-              "id": "N5-0374",
-              "kanji": "大丈夫",
-              "hiragana": "だいじょうぶ",
-              "katakana": "ダイジョウブ",
-              "en": "It's ok (all right)",
-              "defs": [
-                "It's ok (all right)",
-                "No need to worry",
-                "Everything is under control"
-              ],
-              "example": {
-                "en": "You don't need to worry about such a thing.",
-                "native": "そんなこと心配しなくてだいじょうぶだよ。"
-              },
-              "type": "word",
-              "pos_detail": "adj-na",
-              "transliteration": "daijoubu"
             },
             {
               "id": "N5-0376",
@@ -6460,152 +6254,6 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "kaidan"
-            }
-          ]
-        },
-        {
-          "id": "n5-core-09",
-          "title": "Questions, Demonstratives & Responses",
-          "description": "Interrogatives, pointing language, and response patterns",
-          "words": [
-            {
-              "id": "N5-0337",
-              "kanji": null,
-              "hiragana": "ずつ",
-              "katakana": "ズツ",
-              "en": "at a time",
-              "defs": [
-                "at a time"
-              ],
-              "example": {
-                "en": "I'll take three of each sort.",
-                "native": "３個ずつください。"
-              },
-              "type": "affix",
-              "pos_detail": "suf",
-              "transliteration": "～zutsu"
-            },
-            {
-              "id": "N5-0258",
-              "kanji": null,
-              "hiragana": "こちら",
-              "katakana": "コチラ",
-              "en": "this person",
-              "defs": [
-                "this person",
-                "this way"
-              ],
-              "example": {
-                "en": "This way, please.",
-                "native": "こちらへどうぞ。"
-              },
-              "type": "honorific",
-              "pos_detail": "pron",
-              "transliteration": "kochira"
-            },
-            {
-              "id": "N5-0361",
-              "kanji": null,
-              "hiragana": "そこ",
-              "katakana": "ソコ",
-              "en": "that place, there",
-              "defs": [
-                "that place, there",
-                "bottom, sole"
-              ],
-              "example": {
-                "en": "Please write your name there.",
-                "native": "そこに名前を書いてください。"
-              },
-              "type": "word",
-              "pos_detail": "pron",
-              "transliteration": "soko"
-            },
-            {
-              "id": "N5-0477",
-              "kanji": null,
-              "hiragana": "ない",
-              "katakana": "ナイ",
-              "en": "there isn't, doesn't have",
-              "defs": [
-                "there isn't, doesn't have"
-              ],
-              "example": {
-                "en": "I don't know.",
-                "native": "知らない。"
-              },
-              "type": "word",
-              "pos_detail": "adj-i",
-              "transliteration": "nai"
-            },
-            {
-              "id": "N5-0048",
-              "kanji": null,
-              "hiragana": "いかが",
-              "katakana": "イカガ",
-              "en": "how, in what way",
-              "defs": [
-                "how, in what way"
-              ],
-              "example": {
-                "en": "Would you like some tea?",
-                "native": "お茶はいかがですか。"
-              },
-              "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "ikaga"
-            },
-            {
-              "id": "N5-0295",
-              "kanji": "時間",
-              "hiragana": "じかん",
-              "katakana": "ジカン",
-              "en": "hours",
-              "defs": [
-                "hours"
-              ],
-              "example": {
-                "en": "I have time today.",
-                "native": "今日は時間があります。"
-              },
-              "type": "affix",
-              "pos_detail": "suf",
-              "transliteration": "～jikan"
-            },
-            {
-              "id": "N5-0332",
-              "kanji": null,
-              "hiragana": "すぎ",
-              "katakana": "スギ",
-              "en": "past",
-              "defs": [
-                "past",
-                "to exceed, too much"
-              ],
-              "example": {
-                "en": "There used to be a large cedar tree there.",
-                "native": "昔そこにはスギの大木があった。"
-              },
-              "type": "affix",
-              "pos_detail": "suf",
-              "transliteration": "～sugi"
-            },
-            {
-              "id": "N5-0446",
-              "kanji": null,
-              "hiragana": "どう",
-              "katakana": "ドウ",
-              "en": "how, in what way",
-              "defs": [
-                "how, in what way"
-              ],
-              "example": {
-                "en": "How do I get to the station?",
-                "native": "どうやって駅まで行きますか。"
-              },
-              "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "dou"
             },
             {
               "id": "N5-0622",
@@ -6623,57 +6271,47 @@
               "type": "affix",
               "pos_detail": "suf",
               "transliteration": "～mae"
-            },
+            }
+          ]
+        },
+        {
+          "id": "n5-core-09",
+          "title": "Questions, Demonstratives & Responses",
+          "description": "Interrogatives, pointing language, and response patterns",
+          "words": [
             {
-              "id": "N5-0022",
-              "kanji": null,
-              "hiragana": "あちら",
-              "katakana": "アチラ",
-              "en": "this way",
+              "id": "N5-0605",
+              "kanji": "欲しい",
+              "hiragana": "ほしい",
+              "katakana": "ホシイ",
+              "en": "to want, in need of",
               "defs": [
-                "this way"
+                "to want, in need of"
               ],
               "example": {
-                "en": "He motioned us away.",
-                "native": "彼は身ぶりであちらへ行けと合図した。"
+                "en": "Whenever I find something I like, it's too expensive.",
+                "native": "欲しいものがみつかると、決まって高いものだ。"
               },
-              "type": "honorific",
-              "pos_detail": "pron",
-              "transliteration": "achira"
+              "type": "word",
+              "pos_detail": "adj-i",
+              "transliteration": "hoshii"
             },
             {
-              "id": "N5-0363",
-              "kanji": null,
-              "hiragana": "そっち",
-              "katakana": "ソッチ",
-              "en": "over there",
+              "id": "N5-0488",
+              "kanji": "何",
+              "hiragana": "なに",
+              "katakana": "ナニ",
+              "en": "what",
               "defs": [
-                "over there"
+                "what"
               ],
               "example": {
-                "en": "Please go over there.",
-                "native": "そっちに行ってください。"
+                "en": "Let's try doing something.",
+                "native": "何かしてみましょう。"
               },
               "type": "word",
               "pos_detail": "pron",
-              "transliteration": "socchi"
-            },
-            {
-              "id": "N5-0464",
-              "kanji": null,
-              "hiragana": "どなた",
-              "katakana": "ドナタ",
-              "en": "who",
-              "defs": [
-                "who"
-              ],
-              "example": {
-                "en": "Was anybody here while I was out?",
-                "native": "留守中どなたか見えましたか。"
-              },
-              "type": "word",
-              "pos_detail": "pron",
-              "transliteration": "donata"
+              "transliteration": "nani"
             },
             {
               "id": "N5-0495",
@@ -6693,74 +6331,38 @@
               "transliteration": "～nan"
             },
             {
-              "id": "N5-0454",
-              "kanji": "時",
-              "hiragana": "とき",
-              "katakana": "トキ",
-              "en": "at the time of",
+              "id": "N5-0395",
+              "kanji": "誰",
+              "hiragana": "だれ",
+              "katakana": "ダレ",
+              "en": "who",
               "defs": [
-                "at the time of"
+                "who"
               ],
               "example": {
-                "en": "I lived in this town when I was a child.",
-                "native": "子どもの時、この町に住んでいました。"
-              },
-              "type": "affix",
-              "pos_detail": "suf",
-              "transliteration": "～toki"
-            },
-            {
-              "id": "N5-0605",
-              "kanji": "欲しい",
-              "hiragana": "ほしい",
-              "katakana": "ホシイ",
-              "en": "to want, in need of",
-              "defs": [
-                "to want, in need of"
-              ],
-              "example": {
-                "en": "Whenever I find something I like, it's too expensive.",
-                "native": "欲しいものがみつかると、決まって高いものだ。"
-              },
-              "type": "word",
-              "pos_detail": "adj-i",
-              "transliteration": "hoshii"
-            },
-            {
-              "id": "N5-0252",
-              "kanji": null,
-              "hiragana": "ここ",
-              "katakana": "ココ",
-              "en": "here, this place",
-              "defs": [
-                "here, this place"
-              ],
-              "example": {
-                "en": "I want a boat that will take me far away from here.",
-                "native": "ここから遠くまで行けるボートが欲しいです。"
+                "en": "Who is coming?",
+                "native": "誰が来ますか。"
               },
               "type": "word",
               "pos_detail": "pron",
-              "transliteration": "koko"
+              "transliteration": "dare"
             },
             {
-              "id": "N5-0259",
+              "id": "N5-0464",
               "kanji": null,
-              "hiragana": "こっち",
-              "katakana": "コッチ",
-              "en": "this person",
+              "hiragana": "どなた",
+              "katakana": "ドナタ",
+              "en": "who",
               "defs": [
-                "this person",
-                "this direction",
-                "this side"
+                "who"
               ],
               "example": {
-                "en": "Kiddo! Two medium-size drafts here.",
-                "native": "兄ちゃん、こっち生中二つー。"
+                "en": "Was anybody here while I was out?",
+                "native": "留守中どなたか見えましたか。"
               },
               "type": "word",
               "pos_detail": "pron",
-              "transliteration": "kocchi"
+              "transliteration": "donata"
             },
             {
               "id": "N5-0457",
@@ -6778,6 +6380,125 @@
               "type": "word",
               "pos_detail": "pron",
               "transliteration": "doko"
+            },
+            {
+              "id": "N5-0060",
+              "kanji": null,
+              "hiragana": "いつ",
+              "katakana": "イツ",
+              "en": "when",
+              "defs": [
+                "when"
+              ],
+              "example": {
+                "en": "When did you come to Japan?",
+                "native": "いつ日本に来ましたか。"
+              },
+              "type": "word",
+              "pos_detail": "pron",
+              "transliteration": "itsu"
+            },
+            {
+              "id": "N5-0050",
+              "kanji": null,
+              "hiragana": "いくつ",
+              "katakana": "イクツ",
+              "en": "how many, how old",
+              "defs": [
+                "how many, how old"
+              ],
+              "example": {
+                "en": "How old are you?",
+                "native": "あなたはいくつですか。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "ikutsu"
+            },
+            {
+              "id": "N5-0051",
+              "kanji": null,
+              "hiragana": "いくら",
+              "katakana": "イクラ",
+              "en": "how much, how many",
+              "defs": [
+                "how much, how many"
+              ],
+              "example": {
+                "en": "One can always find time.",
+                "native": "時間はいくらでも作れる。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "ikura"
+            },
+            {
+              "id": "N5-0446",
+              "kanji": null,
+              "hiragana": "どう",
+              "katakana": "ドウ",
+              "en": "how, in what way",
+              "defs": [
+                "how, in what way"
+              ],
+              "example": {
+                "en": "How do I get to the station?",
+                "native": "どうやって駅まで行きますか。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "dou"
+            },
+            {
+              "id": "N5-0048",
+              "kanji": null,
+              "hiragana": "いかが",
+              "katakana": "イカガ",
+              "en": "how, in what way",
+              "defs": [
+                "how, in what way"
+              ],
+              "example": {
+                "en": "Would you like some tea?",
+                "native": "お茶はいかがですか。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "ikaga"
+            },
+            {
+              "id": "N5-0483",
+              "kanji": null,
+              "hiragana": "なぜ",
+              "katakana": "ナゼ",
+              "en": "why (same as どうして)",
+              "defs": [
+                "why (same as どうして)"
+              ],
+              "example": {
+                "en": "For some reason I feel more alive at night.",
+                "native": "私はなぜか夜の方が元気だ。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "naze"
+            },
+            {
+              "id": "N5-0447",
+              "kanji": null,
+              "hiragana": "どうして",
+              "katakana": "ドウシテ",
+              "en": "why, for what reason",
+              "defs": [
+                "why, for what reason"
+              ],
+              "example": {
+                "en": "Why are you studying Japanese?",
+                "native": "どうして日本語を勉強していますか。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "doushite"
             },
             {
               "id": "N5-0461",
@@ -6832,40 +6553,6 @@
               "transliteration": "dore"
             },
             {
-              "id": "N5-0483",
-              "kanji": null,
-              "hiragana": "なぜ",
-              "katakana": "ナゼ",
-              "en": "why (same as どうして)",
-              "defs": [
-                "why (same as どうして)"
-              ],
-              "example": {
-                "en": "For some reason I feel more alive at night.",
-                "native": "私はなぜか夜の方が元気だ。"
-              },
-              "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "naze"
-            },
-            {
-              "id": "N5-0447",
-              "kanji": null,
-              "hiragana": "どうして",
-              "katakana": "ドウシテ",
-              "en": "why, for what reason",
-              "defs": [
-                "why, for what reason"
-              ],
-              "example": {
-                "en": "Why are you studying Japanese?",
-                "native": "どうして日本語を勉強していますか。"
-              },
-              "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "doushite"
-            },
-            {
               "id": "N5-0466",
               "kanji": null,
               "hiragana": "どの",
@@ -6900,21 +6587,125 @@
               "transliteration": "donna"
             },
             {
-              "id": "N5-0272",
+              "id": "N5-0252",
               "kanji": null,
-              "hiragana": "こんな",
-              "katakana": "コンナ",
-              "en": "such, like this",
+              "hiragana": "ここ",
+              "katakana": "ココ",
+              "en": "here, this place",
               "defs": [
-                "such, like this"
+                "here, this place"
               ],
               "example": {
-                "en": "That's the stupidest thing I've ever said.",
-                "native": "こんな馬鹿なことは言ったことが無い。"
+                "en": "I want a boat that will take me far away from here.",
+                "native": "ここから遠くまで行けるボートが欲しいです。"
               },
               "type": "word",
-              "pos_detail": "n",
-              "transliteration": "konna"
+              "pos_detail": "pron",
+              "transliteration": "koko"
+            },
+            {
+              "id": "N5-0361",
+              "kanji": null,
+              "hiragana": "そこ",
+              "katakana": "ソコ",
+              "en": "that place, there",
+              "defs": [
+                "that place, there",
+                "bottom, sole"
+              ],
+              "example": {
+                "en": "Please write your name there.",
+                "native": "そこに名前を書いてください。"
+              },
+              "type": "word",
+              "pos_detail": "pron",
+              "transliteration": "soko"
+            },
+            {
+              "id": "N5-0017",
+              "kanji": null,
+              "hiragana": "あそこ",
+              "katakana": "アソコ",
+              "en": "there, over there, that place",
+              "defs": [
+                "there, over there, that place"
+              ],
+              "example": {
+                "en": "There is a convenience store over there.",
+                "native": "あそこにコンビニがあります。"
+              },
+              "type": "word",
+              "pos_detail": "pron",
+              "transliteration": "asoko"
+            },
+            {
+              "id": "N5-0268",
+              "kanji": null,
+              "hiragana": "これ",
+              "katakana": "コレ",
+              "en": "this one",
+              "defs": [
+                "this one"
+              ],
+              "example": {
+                "en": "This is my notebook.",
+                "native": "これは私のノートです。"
+              },
+              "type": "word",
+              "pos_detail": "pron",
+              "transliteration": "kore"
+            },
+            {
+              "id": "N5-0368",
+              "kanji": null,
+              "hiragana": "それ",
+              "katakana": "ソレ",
+              "en": "that one",
+              "defs": [
+                "that one"
+              ],
+              "example": {
+                "en": "That is my pen.",
+                "native": "それは私のペンです。"
+              },
+              "type": "word",
+              "pos_detail": "pron",
+              "transliteration": "sore"
+            },
+            {
+              "id": "N5-0043",
+              "kanji": null,
+              "hiragana": "あれ",
+              "katakana": "アレ",
+              "en": "that one (over there)",
+              "defs": [
+                "that one (over there)"
+              ],
+              "example": {
+                "en": "That over there is the teacher's car.",
+                "native": "あれは先生の車です。"
+              },
+              "type": "word",
+              "pos_detail": "pron",
+              "transliteration": "are"
+            },
+            {
+              "id": "N5-0258",
+              "kanji": null,
+              "hiragana": "こちら",
+              "katakana": "コチラ",
+              "en": "this person",
+              "defs": [
+                "this person",
+                "this way"
+              ],
+              "example": {
+                "en": "This way, please.",
+                "native": "こちらへどうぞ。"
+              },
+              "type": "honorific",
+              "pos_detail": "pron",
+              "transliteration": "kochira"
             },
             {
               "id": "N5-0362",
@@ -6934,6 +6725,301 @@
               "transliteration": "sochira"
             },
             {
+              "id": "N5-0022",
+              "kanji": null,
+              "hiragana": "あちら",
+              "katakana": "アチラ",
+              "en": "this way",
+              "defs": [
+                "this way"
+              ],
+              "example": {
+                "en": "He motioned us away.",
+                "native": "彼は身ぶりであちらへ行けと合図した。"
+              },
+              "type": "honorific",
+              "pos_detail": "pron",
+              "transliteration": "achira"
+            },
+            {
+              "id": "N5-0259",
+              "kanji": null,
+              "hiragana": "こっち",
+              "katakana": "コッチ",
+              "en": "this person",
+              "defs": [
+                "this person",
+                "this direction",
+                "this side"
+              ],
+              "example": {
+                "en": "Kiddo! Two medium-size drafts here.",
+                "native": "兄ちゃん、こっち生中二つー。"
+              },
+              "type": "word",
+              "pos_detail": "pron",
+              "transliteration": "kocchi"
+            },
+            {
+              "id": "N5-0363",
+              "kanji": null,
+              "hiragana": "そっち",
+              "katakana": "ソッチ",
+              "en": "over there",
+              "defs": [
+                "over there"
+              ],
+              "example": {
+                "en": "Please go over there.",
+                "native": "そっちに行ってください。"
+              },
+              "type": "word",
+              "pos_detail": "pron",
+              "transliteration": "socchi"
+            },
+            {
+              "id": "N5-0026",
+              "kanji": null,
+              "hiragana": "あっち",
+              "katakana": "アッチ",
+              "en": "over there",
+              "defs": [
+                "over there"
+              ],
+              "example": {
+                "en": "He waved me away.",
+                "native": "彼は手を振って私にあっちにいけと合図した。"
+              },
+              "type": "word",
+              "pos_detail": "pron",
+              "transliteration": "acchi"
+            },
+            {
+              "id": "N5-0264",
+              "kanji": null,
+              "hiragana": "この",
+              "katakana": "コノ",
+              "en": "this",
+              "defs": [
+                "this"
+              ],
+              "example": {
+                "en": "Education in this world disappoints me.",
+                "native": "この世界の教育にはがっかりしてしまう。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "kono"
+            },
+            {
+              "id": "N5-0365",
+              "kanji": null,
+              "hiragana": "その",
+              "katakana": "ソノ",
+              "en": "that",
+              "defs": [
+                "that"
+              ],
+              "example": {
+                "en": "I already watched that movie.",
+                "native": "その映画はもう見ました。"
+              },
+              "type": "word",
+              "pos_detail": "int",
+              "transliteration": "sono"
+            },
+            {
+              "id": "N5-0032",
+              "kanji": null,
+              "hiragana": "あの",
+              "katakana": "アノ",
+              "en": "that over there",
+              "defs": [
+                "that over there",
+                "like that, that way",
+                "um..."
+              ],
+              "example": {
+                "en": "Do whatever he tells you.",
+                "native": "あの方が言われる事を、何でもしてあげて下さい。"
+              },
+              "type": "word",
+              "pos_detail": "int",
+              "transliteration": "ano"
+            },
+            {
+              "id": "N5-0272",
+              "kanji": null,
+              "hiragana": "こんな",
+              "katakana": "コンナ",
+              "en": "such, like this",
+              "defs": [
+                "such, like this"
+              ],
+              "example": {
+                "en": "That's the stupidest thing I've ever said.",
+                "native": "こんな馬鹿なことは言ったことが無い。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "konna"
+            },
+            {
+              "id": "N5-0125",
+              "kanji": "同じ",
+              "hiragana": "おなじ",
+              "katakana": "オナジ",
+              "en": "same, identical",
+              "defs": [
+                "same, identical"
+              ],
+              "example": {
+                "en": "My younger brother and I go to the same school.",
+                "native": "私と弟は同じ学校です。"
+              },
+              "type": "word",
+              "pos_detail": "adj-na",
+              "transliteration": "onaji"
+            },
+            {
+              "id": "N5-0075",
+              "kanji": "色々",
+              "hiragana": "いろいろ",
+              "katakana": "イロイロ",
+              "en": "various",
+              "defs": [
+                "various"
+              ],
+              "example": {
+                "en": "I want to eat food from many countries.",
+                "native": "色々な国の料理を食べたいです。"
+              },
+              "type": "word",
+              "pos_detail": "adj-na",
+              "transliteration": "iroiro"
+            },
+            {
+              "id": "N5-0519",
+              "kanji": null,
+              "hiragana": "はい",
+              "katakana": "ハイ",
+              "en": "yes",
+              "defs": [
+                "yes"
+              ],
+              "example": {
+                "en": "Yes, I understand.",
+                "native": "はい、分かりました。"
+              },
+              "type": "word",
+              "pos_detail": "int",
+              "transliteration": "hai"
+            },
+            {
+              "id": "N5-0091",
+              "kanji": null,
+              "hiragana": "ええ",
+              "katakana": "エエ",
+              "en": "yes",
+              "defs": [
+                "yes"
+              ],
+              "example": {
+                "en": "You're doing good work there.",
+                "native": "君、ええ仕事をしてるな。"
+              },
+              "type": "word",
+              "pos_detail": "int",
+              "transliteration": "ee"
+            },
+            {
+              "id": "N5-0045",
+              "kanji": null,
+              "hiragana": "いいえ",
+              "katakana": "イイエ",
+              "en": "no, not at all",
+              "defs": [
+                "no, not at all"
+              ],
+              "example": {
+                "en": "No, I haven't eaten yet.",
+                "native": "いいえ、まだ食べていません。"
+              },
+              "type": "word",
+              "pos_detail": "int",
+              "transliteration": "iie"
+            },
+            {
+              "id": "N5-0477",
+              "kanji": null,
+              "hiragana": "ない",
+              "katakana": "ナイ",
+              "en": "there isn't, doesn't have",
+              "defs": [
+                "there isn't, doesn't have"
+              ],
+              "example": {
+                "en": "I don't know.",
+                "native": "知らない。"
+              },
+              "type": "word",
+              "pos_detail": "adj-i",
+              "transliteration": "nai"
+            },
+            {
+              "id": "N5-0001",
+              "kanji": null,
+              "hiragana": "ああ",
+              "katakana": "アア",
+              "en": "Ah!, Oh!",
+              "defs": [
+                "Ah!, Oh!"
+              ],
+              "example": {
+                "en": "Ah, I see.",
+                "native": "ああ、そうですか。"
+              },
+              "type": "word",
+              "pos_detail": "int",
+              "transliteration": "aa"
+            },
+            {
+              "id": "N5-0274",
+              "kanji": null,
+              "hiragana": "さあ",
+              "katakana": "サア",
+              "en": "come now, well",
+              "defs": [
+                "come now, well"
+              ],
+              "example": {
+                "en": "Well then, let's go.",
+                "native": "さあ、行きましょう。"
+              },
+              "type": "word",
+              "pos_detail": "int",
+              "transliteration": "saa"
+            },
+            {
+              "id": "N5-0374",
+              "kanji": "大丈夫",
+              "hiragana": "だいじょうぶ",
+              "katakana": "ダイジョウブ",
+              "en": "It's ok (all right)",
+              "defs": [
+                "It's ok (all right)",
+                "No need to worry",
+                "Everything is under control"
+              ],
+              "example": {
+                "en": "You don't need to worry about such a thing.",
+                "native": "そんなこと心配しなくてだいじょうぶだよ。"
+              },
+              "type": "word",
+              "pos_detail": "adj-na",
+              "transliteration": "daijoubu"
+            },
+            {
               "id": "N5-0257",
               "kanji": "答える",
               "hiragana": "こたえる",
@@ -6949,6 +7035,23 @@
               "type": "word",
               "pos_detail": "v1",
               "transliteration": "kotaeru"
+            },
+            {
+              "id": "N5-0389",
+              "kanji": "頼む",
+              "hiragana": "たのむ",
+              "katakana": "タノム",
+              "en": "to request, to ask (a favor)",
+              "defs": [
+                "to request, to ask (a favor)"
+              ],
+              "example": {
+                "en": "Take care of Mr. Tanaka for me!",
+                "native": "田中さんのことを頼むよ。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "tanomu"
             },
             {
               "id": "N5-0323",
@@ -6985,23 +7088,6 @@
               "transliteration": "wakaru"
             },
             {
-              "id": "N5-0301",
-              "kanji": "質問",
-              "hiragana": "しつもん",
-              "katakana": "シツモン",
-              "en": "question, inquiry",
-              "defs": [
-                "question, inquiry"
-              ],
-              "example": {
-                "en": "I need to ask you a silly question.",
-                "native": "バカな質問があるんだ。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "shitsumon"
-            },
-            {
               "id": "N5-0640",
               "kanji": "見せる",
               "hiragana": "みせる",
@@ -7019,75 +7105,21 @@
               "transliteration": "miseru"
             },
             {
-              "id": "N5-0280",
-              "kanji": "作文",
-              "hiragana": "さくぶん",
-              "katakana": "サクブン",
-              "en": "essay",
+              "id": "N5-0301",
+              "kanji": "質問",
+              "hiragana": "しつもん",
+              "katakana": "シツモン",
+              "en": "question, inquiry",
               "defs": [
-                "essay",
-                "composition"
+                "question, inquiry"
               ],
               "example": {
-                "en": "I do exercises in English composition every day.",
-                "native": "毎日英作文の練習をする。"
+                "en": "I need to ask you a silly question.",
+                "native": "バカな質問があるんだ。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "sakubun"
-            },
-            {
-              "id": "N5-0389",
-              "kanji": "頼む",
-              "hiragana": "たのむ",
-              "katakana": "タノム",
-              "en": "to request, to ask (a favor)",
-              "defs": [
-                "to request, to ask (a favor)"
-              ],
-              "example": {
-                "en": "Take care of Mr. Tanaka for me!",
-                "native": "田中さんのことを頼むよ。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "tanomu"
-            },
-            {
-              "id": "N5-0660",
-              "kanji": null,
-              "hiragana": "もしもし",
-              "katakana": "モシモシ",
-              "en": "Hello? (used on the phone)",
-              "defs": [
-                "Hello? (used on the phone)"
-              ],
-              "example": {
-                "en": "Hello, this is Dr Yamada's surgery.",
-                "native": "もしもし、山田医院です。"
-              },
-              "type": "word",
-              "pos_detail": "int",
-              "transliteration": "moshimoshi"
-            },
-            {
-              "id": "N5-0032",
-              "kanji": null,
-              "hiragana": "あの",
-              "katakana": "アノ",
-              "en": "that over there",
-              "defs": [
-                "that over there",
-                "like that, that way",
-                "um..."
-              ],
-              "example": {
-                "en": "Do whatever he tells you.",
-                "native": "あの方が言われる事を、何でもしてあげて下さい。"
-              },
-              "type": "word",
-              "pos_detail": "int",
-              "transliteration": "ano"
+              "transliteration": "shitsumon"
             }
           ]
         },
@@ -7146,23 +7178,6 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "iu"
-            },
-            {
-              "id": "N5-0091",
-              "kanji": null,
-              "hiragana": "ええ",
-              "katakana": "エエ",
-              "en": "yes",
-              "defs": [
-                "yes"
-              ],
-              "example": {
-                "en": "You're doing good work there.",
-                "native": "君、ええ仕事をしてるな。"
-              },
-              "type": "word",
-              "pos_detail": "int",
-              "transliteration": "ee"
             },
             {
               "id": "N5-0053",
@@ -7283,40 +7298,6 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "gakkou"
-            },
-            {
-              "id": "N5-0264",
-              "kanji": null,
-              "hiragana": "この",
-              "katakana": "コノ",
-              "en": "this",
-              "defs": [
-                "this"
-              ],
-              "example": {
-                "en": "Education in this world disappoints me.",
-                "native": "この世界の教育にはがっかりしてしまう。"
-              },
-              "type": "word",
-              "pos_detail": "num",
-              "transliteration": "kono"
-            },
-            {
-              "id": "N5-0365",
-              "kanji": null,
-              "hiragana": "その",
-              "katakana": "ソノ",
-              "en": "that",
-              "defs": [
-                "that"
-              ],
-              "example": {
-                "en": "I already watched that movie.",
-                "native": "その映画はもう見ました。"
-              },
-              "type": "word",
-              "pos_detail": "int",
-              "transliteration": "sono"
             },
             {
               "id": "N5-0689",
@@ -7979,6 +7960,24 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "sensei"
+            },
+            {
+              "id": "N5-0280",
+              "kanji": "作文",
+              "hiragana": "さくぶん",
+              "katakana": "サクブン",
+              "en": "essay",
+              "defs": [
+                "essay",
+                "composition"
+              ],
+              "example": {
+                "en": "I do exercises in English composition every day.",
+                "native": "毎日英作文の練習をする。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "sakubun"
             }
           ]
         },
@@ -8665,23 +8664,6 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "kutsu"
-            },
-            {
-              "id": "N5-0051",
-              "kanji": null,
-              "hiragana": "いくら",
-              "katakana": "イクラ",
-              "en": "how much, how many",
-              "defs": [
-                "how much, how many"
-              ],
-              "example": {
-                "en": "One can always find time.",
-                "native": "時間はいくらでも作れる。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "ikura"
             }
           ]
         },
@@ -10353,23 +10335,6 @@
               "transliteration": "hontou"
             },
             {
-              "id": "N5-0335",
-              "kanji": "少し",
-              "hiragana": "すこし",
-              "katakana": "スコシ",
-              "en": "little, few",
-              "defs": [
-                "little, few"
-              ],
-              "example": {
-                "en": "I can speak a little Japanese.",
-                "native": "日本語が少し話せます。"
-              },
-              "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "sukoshi"
-            },
-            {
               "id": "N5-0357",
               "kanji": "全部",
               "hiragana": "ぜんぶ",
@@ -11898,23 +11863,6 @@
               "transliteration": "ichiban"
             },
             {
-              "id": "N5-0026",
-              "kanji": null,
-              "hiragana": "あっち",
-              "katakana": "アッチ",
-              "en": "over there",
-              "defs": [
-                "over there"
-              ],
-              "example": {
-                "en": "He waved me away.",
-                "native": "彼は手を振って私にあっちにいけと合図した。"
-              },
-              "type": "word",
-              "pos_detail": "pron",
-              "transliteration": "acchi"
-            },
-            {
               "id": "N5-0008",
               "kanji": "秋",
               "hiragana": "あき",
@@ -11930,23 +11878,6 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "aki"
-            },
-            {
-              "id": "N5-0017",
-              "kanji": null,
-              "hiragana": "あそこ",
-              "katakana": "アソコ",
-              "en": "there, over there, that place",
-              "defs": [
-                "there, over there, that place"
-              ],
-              "example": {
-                "en": "There is a convenience store over there.",
-                "native": "あそこにコンビニがあります。"
-              },
-              "type": "word",
-              "pos_detail": "pron",
-              "transliteration": "asoko"
             },
             {
               "id": "N5-0036",
@@ -11967,21 +11898,21 @@
               "transliteration": "amari"
             },
             {
-              "id": "N5-0455",
-              "kanji": "時々",
-              "hiragana": "ときどき",
-              "katakana": "トキドキ",
-              "en": "sometimes",
+              "id": "N5-0064",
+              "kanji": null,
+              "hiragana": "いつも",
+              "katakana": "イツモ",
+              "en": "always, usually, every time, never (with neg. verb)",
               "defs": [
-                "sometimes"
+                "always, usually, every time, never (with neg. verb)"
               ],
               "example": {
-                "en": "Leaves fell down every now and then.",
-                "native": "葉がときどき落ちてきた。"
+                "en": "He always makes breakfast.",
+                "native": "彼はいつも朝ご飯を作ります。"
               },
               "type": "word",
               "pos_detail": "adv",
-              "transliteration": "tokidoki"
+              "transliteration": "itsumo"
             },
             {
               "id": "N5-0618",
@@ -12001,6 +11932,57 @@
               "transliteration": "mainichi"
             },
             {
+              "id": "N5-0615",
+              "kanji": "毎朝",
+              "hiragana": "まいあさ",
+              "katakana": "マイアサ",
+              "en": "every morning",
+              "defs": [
+                "every morning"
+              ],
+              "example": {
+                "en": "Back in high school, I got up at 6 a.m. every morning.",
+                "native": "高校生の時は毎朝6時に起きていた。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "maiasa"
+            },
+            {
+              "id": "N5-0620",
+              "kanji": "毎晩",
+              "hiragana": "まいばん",
+              "katakana": "マイバン",
+              "en": "every night",
+              "defs": [
+                "every night"
+              ],
+              "example": {
+                "en": "I'll give you a ring every night.",
+                "native": "毎晩電話するよ。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "maiban"
+            },
+            {
+              "id": "N5-0617",
+              "kanji": "毎週",
+              "hiragana": "まいしゅう",
+              "katakana": "マイシュウ",
+              "en": "every week",
+              "defs": [
+                "every week"
+              ],
+              "example": {
+                "en": "I do it every Sunday morning.",
+                "native": "毎週日曜日の朝にします。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "maishuu"
+            },
+            {
               "id": "N5-0619",
               "kanji": "毎年",
               "hiragana": "まいとし",
@@ -12016,6 +11998,128 @@
               "type": "word",
               "pos_detail": "adv",
               "transliteration": "maitoshi"
+            },
+            {
+              "id": "N5-0455",
+              "kanji": "時々",
+              "hiragana": "ときどき",
+              "katakana": "トキドキ",
+              "en": "sometimes",
+              "defs": [
+                "sometimes"
+              ],
+              "example": {
+                "en": "Leaves fell down every now and then.",
+                "native": "葉がときどき落ちてきた。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "tokidoki"
+            },
+            {
+              "id": "N5-0335",
+              "kanji": "少し",
+              "hiragana": "すこし",
+              "katakana": "スコシ",
+              "en": "little, few",
+              "defs": [
+                "little, few"
+              ],
+              "example": {
+                "en": "I can speak a little Japanese.",
+                "native": "日本語が少し話せます。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "sukoshi"
+            },
+            {
+              "id": "N5-0381",
+              "kanji": "沢山",
+              "hiragana": "たくさん",
+              "katakana": "タクサン",
+              "en": "many, much",
+              "defs": [
+                "many, much"
+              ],
+              "example": {
+                "en": "There are many words that I don't understand.",
+                "native": "分からない言葉がたくさんある。"
+              },
+              "type": "word",
+              "pos_detail": "adj-na",
+              "transliteration": "takusan"
+            },
+            {
+              "id": "N5-0411",
+              "kanji": null,
+              "hiragana": "ちょっと",
+              "katakana": "チョット",
+              "en": "a little, somewhat",
+              "defs": [
+                "a little, somewhat",
+                "just a little, somewhat"
+              ],
+              "example": {
+                "en": "Please wait a moment.",
+                "native": "ちょっと待ってください。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "chotto"
+            },
+            {
+              "id": "N5-0334",
+              "kanji": null,
+              "hiragana": "すぐに",
+              "katakana": "スグニ",
+              "en": "immediately, soon",
+              "defs": [
+                "immediately, soon"
+              ],
+              "example": {
+                "en": "I will be back soon.",
+                "native": "すぐに戻ります。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "suguni"
+            },
+            {
+              "id": "N5-0658",
+              "kanji": null,
+              "hiragana": "もう",
+              "katakana": "モウ",
+              "en": "already",
+              "defs": [
+                "already",
+                "again",
+                "more"
+              ],
+              "example": {
+                "en": "I already finished my homework.",
+                "native": "宿題はもう終わりました。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "mou"
+            },
+            {
+              "id": "N5-0391",
+              "kanji": "多分",
+              "hiragana": "たぶん",
+              "katakana": "タブン",
+              "en": "perhaps, probably, maybe",
+              "defs": [
+                "perhaps, probably, maybe"
+              ],
+              "example": {
+                "en": "Maybe it will be exactly the same for him.",
+                "native": "たぶん彼にしてみれば同じことよ。"
+              },
+              "type": "word",
+              "pos_detail": "adv",
+              "transliteration": "tabun"
             }
           ]
         },
@@ -12161,6 +12265,41 @@
               "transliteration": "～juu"
             },
             {
+              "id": "N5-8008",
+              "kanji": null,
+              "hiragana": "すみません",
+              "katakana": "スミマセン",
+              "en": "excuse me / sorry",
+              "defs": [
+                "excuse me",
+                "sorry"
+              ],
+              "example": {
+                "en": "Excuse me, where is the station?",
+                "native": "すみません、えきはどこですか。"
+              },
+              "type": "word",
+              "pos_detail": "int",
+              "transliteration": "sumimasen"
+            },
+            {
+              "id": "N5-8009",
+              "kanji": null,
+              "hiragana": "ごめんなさい",
+              "katakana": "ゴメンナサイ",
+              "en": "I'm sorry",
+              "defs": [
+                "I'm sorry"
+              ],
+              "example": {
+                "en": "I'm sorry for being late.",
+                "native": "おくれて、ごめんなさい。"
+              },
+              "type": "word",
+              "pos_detail": "int",
+              "transliteration": "gomennasai"
+            },
+            {
               "id": "N5-0448",
               "kanji": null,
               "hiragana": "どうぞ",
@@ -12176,6 +12315,23 @@
               "type": "word",
               "pos_detail": "adv",
               "transliteration": "douzo"
+            },
+            {
+              "id": "N5-0218",
+              "kanji": "下さい",
+              "hiragana": "ください",
+              "katakana": "クダサイ",
+              "en": "(with te-form verb) please do for me",
+              "defs": [
+                "(with te-form verb) please do for me"
+              ],
+              "example": {
+                "en": "If you see a mistake, then please correct it.",
+                "native": "もし間違いを見つけたら訂正してください。"
+              },
+              "type": "expression",
+              "pos_detail": "expr",
+              "transliteration": "kudasai"
             },
             {
               "id": "N5-0450",
@@ -12197,39 +12353,21 @@
               "transliteration": "doumo"
             },
             {
-              "id": "N5-0218",
-              "kanji": "下さい",
-              "hiragana": "ください",
-              "katakana": "クダサイ",
-              "en": "(with te-form verb) please do for me",
-              "defs": [
-                "(with te-form verb) please do for me"
-              ],
-              "example": {
-                "en": "If you see a mistake, then please correct it.",
-                "native": "もし間違いを見つけたら訂正してください。"
-              },
-              "type": "expression",
-              "pos_detail": "expr",
-              "transliteration": "kudasai"
-            },
-            {
-              "id": "N5-0411",
+              "id": "N5-0660",
               "kanji": null,
-              "hiragana": "ちょっと",
-              "katakana": "チョット",
-              "en": "a little, somewhat",
+              "hiragana": "もしもし",
+              "katakana": "モシモシ",
+              "en": "Hello? (used on the phone)",
               "defs": [
-                "a little, somewhat",
-                "just a little, somewhat"
+                "Hello? (used on the phone)"
               ],
               "example": {
-                "en": "Please wait a moment.",
-                "native": "ちょっと待ってください。"
+                "en": "Hello, this is Dr Yamada's surgery.",
+                "native": "もしもし、山田医院です。"
               },
               "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "chotto"
+              "pos_detail": "int",
+              "transliteration": "moshimoshi"
             }
           ]
         },
@@ -12351,57 +12489,6 @@
           "description": "Practical mixed-use connectors used in daily conversation",
           "words": [
             {
-              "id": "N5-0615",
-              "kanji": "毎朝",
-              "hiragana": "まいあさ",
-              "katakana": "マイアサ",
-              "en": "every morning",
-              "defs": [
-                "every morning"
-              ],
-              "example": {
-                "en": "Back in high school, I got up at 6 a.m. every morning.",
-                "native": "高校生の時は毎朝6時に起きていた。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "maiasa"
-            },
-            {
-              "id": "N5-0617",
-              "kanji": "毎週",
-              "hiragana": "まいしゅう",
-              "katakana": "マイシュウ",
-              "en": "every week",
-              "defs": [
-                "every week"
-              ],
-              "example": {
-                "en": "I do it every Sunday morning.",
-                "native": "毎週日曜日の朝にします。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "maishuu"
-            },
-            {
-              "id": "N5-0620",
-              "kanji": "毎晩",
-              "hiragana": "まいばん",
-              "katakana": "マイバン",
-              "en": "every night",
-              "defs": [
-                "every night"
-              ],
-              "example": {
-                "en": "I'll give you a ring every night.",
-                "native": "毎晩電話するよ。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "maiban"
-            },
-            {
               "id": "N5-0244",
               "kanji": "語",
               "hiragana": "ご",
@@ -12519,93 +12606,6 @@
               "type": "affix",
               "pos_detail": "suf",
               "transliteration": "～nado"
-            },
-            {
-              "id": "N5-0001",
-              "kanji": null,
-              "hiragana": "ああ",
-              "katakana": "アア",
-              "en": "Ah!, Oh!",
-              "defs": [
-                "Ah!, Oh!"
-              ],
-              "example": {
-                "en": "Ah, I see.",
-                "native": "ああ、そうですか。"
-              },
-              "type": "word",
-              "pos_detail": "int",
-              "transliteration": "aa"
-            },
-            {
-              "id": "N5-0334",
-              "kanji": null,
-              "hiragana": "すぐに",
-              "katakana": "スグニ",
-              "en": "immediately, soon",
-              "defs": [
-                "immediately, soon"
-              ],
-              "example": {
-                "en": "I will be back soon.",
-                "native": "すぐに戻ります。"
-              },
-              "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "suguni"
-            },
-            {
-              "id": "N5-0391",
-              "kanji": "多分",
-              "hiragana": "たぶん",
-              "katakana": "タブン",
-              "en": "perhaps, probably, maybe",
-              "defs": [
-                "perhaps, probably, maybe"
-              ],
-              "example": {
-                "en": "Maybe it will be exactly the same for him.",
-                "native": "たぶん彼にしてみれば同じことよ。"
-              },
-              "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "tabun"
-            },
-            {
-              "id": "N5-0658",
-              "kanji": null,
-              "hiragana": "もう",
-              "katakana": "モウ",
-              "en": "already",
-              "defs": [
-                "already",
-                "again",
-                "more"
-              ],
-              "example": {
-                "en": "I already finished my homework.",
-                "native": "宿題はもう終わりました。"
-              },
-              "type": "word",
-              "pos_detail": "adv",
-              "transliteration": "mou"
-            },
-            {
-              "id": "N5-0274",
-              "kanji": null,
-              "hiragana": "さあ",
-              "katakana": "サア",
-              "en": "come now, well",
-              "defs": [
-                "come now, well"
-              ],
-              "example": {
-                "en": "Well then, let's go.",
-                "native": "さあ、行きましょう。"
-              },
-              "type": "word",
-              "pos_detail": "int",
-              "transliteration": "saa"
             }
           ]
         }
