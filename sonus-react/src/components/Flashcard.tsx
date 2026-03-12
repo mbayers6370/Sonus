@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
 import { Volume2, Snail, ChevronLeft, ChevronRight } from 'lucide-react';
 import WordProgressRail from './WordProgressRail';
 import { useApp } from '../contexts/AppContext';
-import { getWordReading, getWordTransliteration } from '../lib/languageFields';
+import { getWordReading, getWordScript, getWordTransliteration } from '../lib/languageFields';
 
 interface FlashcardProps {
   word: Word;
@@ -22,6 +22,9 @@ export default function Flashcard({
   onNext,
 }: FlashcardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [mobileWordFontPx, setMobileWordFontPx] = useState<number | null>(null);
+  const wordRowRef = useRef<HTMLDivElement | null>(null);
+  const wordTextRef = useRef<HTMLDivElement | null>(null);
   const { state } = useApp();
   const { speak } = useAudio();
   const meaningList = (word.defs && word.defs.length > 0 ? word.defs : [word.en]).slice(0, 3);
@@ -43,11 +46,47 @@ export default function Flashcard({
     : '';
   const isJapanese = (state.selectedLanguage || '').trim().toLowerCase() === 'ja';
   const ttsText = isJapanese ? (word.hiragana || word.reading || word.simp) : word.simp;
+  const script = getWordScript(word);
   const ttsReading = getWordReading(word);
   const transliteration = getWordTransliteration(word);
+  const normalizedScript = script.trim().toLowerCase();
+  const normalizedReading = ttsReading.trim().toLowerCase();
+  const showReading = Boolean(normalizedReading && normalizedReading !== normalizedScript);
   const showTransliteration = Boolean(
     transliteration && transliteration.toLowerCase() !== ttsReading.toLowerCase()
   );
+
+  const fitWordOnMobile = useCallback(() => {
+    if (typeof window === 'undefined') return;
+    if (window.innerWidth >= 640) {
+      setMobileWordFontPx(null);
+      return;
+    }
+    const row = wordRowRef.current;
+    const text = wordTextRef.current;
+    if (!row || !text) return;
+
+    let size = 38;
+    const minSize = 18;
+    const availableWidth = row.clientWidth;
+
+    text.style.fontSize = `${size}px`;
+    while (text.scrollWidth > availableWidth && size > minSize) {
+      size -= 1;
+      text.style.fontSize = `${size}px`;
+    }
+    setMobileWordFontPx(size);
+  }, []);
+
+  useLayoutEffect(() => {
+    fitWordOnMobile();
+  }, [fitWordOnMobile, word.simp, isFlipped, showReading, showTransliteration]);
+
+  useLayoutEffect(() => {
+    const onResize = () => fitWordOnMobile();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [fitWordOnMobile]);
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
@@ -107,16 +146,25 @@ export default function Flashcard({
           {!isFlipped ? (
             // Front side
             <div className={`text-center w-full h-full flex flex-col items-center justify-center ${hasPoliteTag ? 'pt-7' : ''}`}>
-              <div className="secondary-font text-4xl sm:text-[2.35rem] mb-2.5 text-text-dark leading-tight break-words">
-                {word.simp}
+              <div
+                ref={wordRowRef}
+                className="w-full px-2 sm:px-6 mb-2.5"
+              >
+                <div
+                  ref={wordTextRef}
+                  className="secondary-font text-[2.35rem] sm:text-[2.35rem] text-text-dark leading-tight whitespace-nowrap"
+                  style={mobileWordFontPx ? { fontSize: `${mobileWordFontPx}px` } : undefined}
+                >
+                  {word.simp}
+                </div>
               </div>
-              {getWordReading(word) && (
-                <div className="text-[1.2rem] sm:text-[1.3rem] text-text-med mb-2.5 break-words">
-                  {getWordReading(word)}
+              {showReading && (
+                <div className="text-[1.1rem] sm:text-[1.3rem] text-text-med mb-2.5 w-full px-2 sm:px-6 whitespace-nowrap overflow-hidden text-ellipsis">
+                  {ttsReading}
                 </div>
               )}
               {showTransliteration && (
-                <div className="text-[0.95rem] sm:text-[1rem] text-[#5D7696] mb-1.5 break-words">
+                <div className="text-[0.95rem] sm:text-[1rem] text-[#5D7696] mb-1.5 w-full px-2 sm:px-6 whitespace-nowrap overflow-hidden text-ellipsis">
                   {transliteration}
                 </div>
               )}
