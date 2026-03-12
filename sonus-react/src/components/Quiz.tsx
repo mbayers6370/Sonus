@@ -190,7 +190,7 @@ export default function Quiz({
   const clozeEn = fullEn
     ? maskExample(fullEn, [word.en, ...(word.defs || [])])
     : '';
-  const highlightClass = listeningMode ? 'text-[#3E5648] font-semibold' : 'text-[#B7E4CC] font-semibold';
+  const highlightClass = listeningMode ? 'text-[#013220] font-semibold' : 'text-[#B7E4CC] font-semibold';
   const nativeFilled = fullNativeSentence
     ? highlightFirstMatch(fullNativeSentence, [word.simp, word.trad], highlightClass)
     : '';
@@ -309,7 +309,7 @@ export default function Quiz({
             if (selectedAnswer) {
               // After answering
               if (isCorrectAnswer) {
-                buttonClass += 'bg-[rgba(62,86,72,0.12)] border-[#3E5648] text-[#3E5648]';
+                buttonClass += 'bg-[rgba(1,50,32,0.12)] border-[#013220] text-[#013220]';
               } else if (isSelected) {
                 buttonClass += 'bg-[rgba(194,65,12,0.12)] border-[#C2410C] text-[#C2410C]';
               } else {

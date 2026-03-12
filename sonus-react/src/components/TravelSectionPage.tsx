@@ -216,8 +216,11 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
   const rapidRecallBackground = hasAccentTheme ? accentTheme : theme;
   const phrasePanelBackground = hasAccentTheme ? '#FFFFFF' : theme;
   const localGuideBackground = section.id === 'shopping'
-    ? '#355246'
+    ? '#013220'
     : (hasAccentTheme ? accentTheme : theme);
+  const pageBackground = section.id === 'konbini'
+    ? 'linear-gradient(145deg, #186E95 0%, #00A850 100%)'
+    : theme;
   const learned = useMemo(() => learnedBySection[section.id] || {}, [learnedBySection, section.id]);
   const orderedPhrases = useMemo(() => {
     return [...section.phrases].sort((a, b) => Number(Boolean(learned[a.id])) - Number(Boolean(learned[b.id])));
@@ -266,11 +269,21 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
 
   return (
     <div
-      className="min-h-screen px-6 with-bottom-nav"
+      className="relative min-h-screen px-6 with-bottom-nav overflow-hidden"
       style={{
-        backgroundColor: theme,
+        background: pageBackground,
       }}
     >
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          opacity: 0.2,
+          backgroundImage: "url('/branding/Transparent_Background.png')",
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+        }}
+      />
       <GlassHeader
         title={section.title}
         className="bg-white/14 border-white/28"
@@ -280,7 +293,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
         compactMobile
       />
 
-      <div className="min-h-[calc(100vh-10.75rem)] lg:min-h-0">
+      <div className="relative z-10 min-h-[calc(100vh-10.75rem)] lg:min-h-0">
         <div className="w-full grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-4 lg:gap-5 lg:items-stretch">
           <div ref={leftColumnRef} className="space-y-4 lg:space-y-0 lg:gap-4 lg:flex lg:flex-col lg:h-full">
             <section
@@ -295,7 +308,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                   {section.id === 'shopping' ? (
                     <Link
                       to={konbiniLinkTarget}
-                      className="absolute right-3 top-3 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white bg-[#355246] p-1 transition hover:scale-[1.03] hover:bg-[#2D463C]"
+                      className="absolute right-3 top-3 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white bg-[#013220] p-1 transition hover:scale-[1.03] hover:bg-[#1F5A40]"
                       aria-label="Open shopping local guide"
                       title="Open shopping local guide"
                     >
@@ -389,7 +402,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
             <section
               ref={rapidRecallRef}
               className="rounded-3xl border p-4 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
-              style={{ borderColor: panelBorderColor, backgroundColor: rapidRecallBackground }}
+              style={{ borderColor: 'rgba(255,255,255,0.55)', backgroundColor: rapidRecallBackground }}
             >
               <div className="h-full flex flex-col">
               <div className="text-1.0em tracking-wide main-font text-center mb-2 text-white/85">Rapid Recall Mode</div>
@@ -459,7 +472,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
           <section
             ref={rightPanelRef}
             className="travel-scroll-hidden rounded-3xl border p-4 sm:p-5 md:p-6 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.34)] lg:overflow-y-auto"
-            style={{ borderColor: panelBorderColor, backgroundColor: phrasePanelBackground }}
+            style={{ borderColor: 'rgba(255,255,255,0.55)', backgroundColor: phrasePanelBackground }}
           >
             <div className="mb-4 text-center">
               <div className={`text-1.0em tracking-wide main-font ${hasAccentTheme ? 'text-[#003087]' : 'text-white/75'}`}>
@@ -495,28 +508,35 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                       className={`absolute top-3 right-3 inline-flex items-center justify-center w-7 h-7 rounded-lg border transition-colors ${
                         hasAccentTheme
                           ? (isLearned
-                            ? 'border-[#00A850] bg-[#00A850]/10 text-[#00A850]'
+                            ? ''
                             : 'border-white/75 bg-white/20 text-white')
                           : (isLearned
                             ? 'border-white/35 bg-white/20 text-white'
                             : 'border-white/25 bg-white/12 text-white/70 hover:text-white')
                       }`}
+                      style={hasAccentTheme && isLearned
+                        ? {
+                            borderColor: accentTheme,
+                            backgroundColor: `${accentTheme}1A`,
+                            color: accentTheme,
+                          }
+                        : undefined}
                       aria-label={isLearned ? `Unmark ${phrase.english}` : `Mark ${phrase.english} as learned`}
                       title={isLearned ? 'Uncheck to unlock card' : "Check when you've got this down"}
                     >
                       {isLearned ? <SquareCheckBig className="w-4 h-4" /> : <Square className="w-4 h-4" />}
                     </button>
 
-                    <div className={`h-full flex flex-col ${isLearned ? 'opacity-55' : ''}`}>
+                    <div className="h-full flex flex-col">
                       <div className="flex-1 flex flex-col items-center justify-center gap-1.5 pt-5">
                       <div className={`secondary-font leading-tight text-[1.2rem] lg:text-[1.2rem] xl:text-2xl ${hasAccentTheme && isLearned ? 'text-[#003087]' : 'text-white'}`}>
                           {getPhraseScriptText(phrase)}
                         </div>
                         <div
-                          className={`max-w-[90%] leading-snug text-[0.7rem] lg:text-[0.7rem] xl:text-sm ${
+                          className={`max-w-[90%] leading-snug text-[0.78rem] lg:text-[0.78rem] xl:text-sm ${
                             hasAccentTheme && isLearned
-                              ? 'text-[#475569]'
-                              : (isCharcoalTheme ? 'text-[#D7EAF6]' : 'text-white/88')
+                              ? 'text-[#334155]'
+                              : (isCharcoalTheme ? 'text-[#E5F3FC]' : 'text-[#EAF6F0]')
                           }`}
                         >
                           {getPhrasePronunciationText(phrase)}
@@ -536,9 +556,16 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                           disabled={isLearned}
                           className={`inline-flex items-center justify-center w-10 h-10 rounded-xl border disabled:opacity-40 disabled:cursor-not-allowed ${
                             hasAccentTheme && isLearned
-                              ? 'border-[#00A850]/40 bg-[#00A850]/12 text-[#00A850]'
+                              ? ''
                               : 'border-white/28 bg-white/16 text-white'
                           }`}
+                          style={hasAccentTheme && isLearned
+                            ? {
+                                borderColor: `${accentTheme}66`,
+                                backgroundColor: `${accentTheme}1F`,
+                                color: accentTheme,
+                              }
+                            : undefined}
                           aria-label={`Play ${phrase.english}`}
                         >
                           <Volume2 className="w-4 h-4" />

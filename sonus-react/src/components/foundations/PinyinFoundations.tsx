@@ -155,7 +155,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
                   </button>
                   <button
                     onClick={() => speak(pair.right.hanzi, pair.right.pinyin)}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs font-mono uppercase tracking-wider text-[#3E5648]"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs font-mono uppercase tracking-wider text-[#013220]"
                   >
                     <AudioLines className="w-3.5 h-3.5" />
                     {pair.right.pinyin}

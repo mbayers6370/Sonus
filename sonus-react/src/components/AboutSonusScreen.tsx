@@ -19,7 +19,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
       language: 'Korean',
       system: 'TOPIK',
       range: 'Level-based track',
-      accent: 'border-[#3E5648]/26 bg-[rgba(62,86,72,0.08)] text-[#3E5648]',
+      accent: 'border-[#013220]/26 bg-[rgba(1,50,32,0.08)] text-[#013220]',
     },
     {
       language: 'French',
@@ -112,7 +112,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
               {workflow.map((item) => (
                 <div key={item.title} className="rounded-2xl border border-border bg-white px-3.5 py-3">
                   <div className="inline-flex items-center gap-2">
-                    <span className="inline-flex w-5 h-5 rounded-full bg-[rgba(62,86,72,0.12)] text-[#3E5648] items-center justify-center text-[11px] font-semibold font-mono">
+                    <span className="inline-flex w-5 h-5 rounded-full bg-[rgba(1,50,32,0.12)] text-[#013220] items-center justify-center text-[11px] font-semibold font-mono">
                       {item.step}
                     </span>
                     <div className="text-sm font-semibold text-text-dark">{item.title}</div>
@@ -123,8 +123,8 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
             </div>
           </div>
 
-          <div className="mt-3 rounded-2xl border border-[#3E5648]/24 bg-[linear-gradient(135deg,rgba(62,86,72,0.10),rgba(31,42,55,0.04))] px-4 py-3.5">
-            <div className="text-[11px] uppercase tracking-wider font-mono text-[#3E5648] mb-1.5">Core Principle</div>
+          <div className="mt-3 rounded-2xl border border-[#013220]/24 bg-[linear-gradient(135deg,rgba(1,50,32,0.10),rgba(31,42,55,0.04))] px-4 py-3.5">
+            <div className="text-[11px] uppercase tracking-wider font-mono text-[#013220] mb-1.5">Core Principle</div>
             <p className="text-sm text-text-med">
               Frameworks provide structure, but every screen is tuned for one outcome: confident communication in real situations.
             </p>

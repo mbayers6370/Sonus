@@ -16,7 +16,7 @@ import { isReleasedTrackLevel } from '../lib/bandIds';
 const ACCENT = {
   gray: { badgeBg: 'bg-gray-100/80', badgeText: 'text-gray-700', ctaText: 'text-gray-700', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(107,114,128,0.18)]', leftBorder: 'border-gray-400/55' },
   navy: { badgeBg: 'bg-[rgba(24,110,149,0.12)]', badgeText: 'text-[#186E95]', ctaText: 'text-[#186E95]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(24,110,149,0.28)]', leftBorder: 'border-[#186E95]/55' },
-  sage: { badgeBg: 'bg-[rgba(62,86,72,0.12)]', badgeText: 'text-[#3E5648]', ctaText: 'text-[#3E5648]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(62,86,72,0.26)]', leftBorder: 'border-[#3E5648]/55' },
+  sage: { badgeBg: 'bg-[rgba(1,50,32,0.12)]', badgeText: 'text-[#013220]', ctaText: 'text-[#013220]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(1,50,32,0.26)]', leftBorder: 'border-[#013220]/55' },
   graphite: { badgeBg: 'bg-[rgba(31,42,55,0.10)]', badgeText: 'text-[#1F2A37]', ctaText: 'text-[#1F2A37]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(31,42,55,0.24)]', leftBorder: 'border-[#1F2A37]/55' },
   rust: { badgeBg: 'bg-[rgba(194,65,12,0.12)]', badgeText: 'text-[#C2410C]', ctaText: 'text-[#C2410C]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.30)]', leftBorder: 'border-[#C2410C]/55' },
 } as const;
@@ -79,7 +79,7 @@ const bandTrackLevels: LessonBand[] = [
     id: 'band1',
     name: 'Elementary I',
     description: 'Foundations · Everyday Use',
-    color: 'bg-[#3E5648]',
+    color: 'bg-[#013220]',
     band: 1,
     title: 'Elementary I',
     subtitle: 'Foundations · Everyday Use',
@@ -91,7 +91,7 @@ const bandTrackLevels: LessonBand[] = [
     id: 'band2',
     name: 'Elementary II',
     description: 'Expanded Daily Life',
-    color: 'bg-[#3E5648]',
+    color: 'bg-[#013220]',
     band: 2,
     title: 'Elementary II',
     subtitle: 'Expanded Daily Life',
@@ -197,7 +197,7 @@ const japaneseLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'n5', name: 'N5', description: 'Basic', color: 'bg-[#3E5648]',
+    id: 'n5', name: 'N5', description: 'Basic', color: 'bg-[#013220]',
     band: 0,
     title: '',
     subtitle: '',
@@ -255,7 +255,7 @@ const koreanLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'topik1-1', name: 'TOPIK I Level 1', description: 'Beginner', color: 'bg-[#3E5648]',
+    id: 'topik1-1', name: 'TOPIK I Level 1', description: 'Beginner', color: 'bg-[#013220]',
     band: 0,
     title: '',
     subtitle: '',
@@ -264,7 +264,7 @@ const koreanLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'topik1-2', name: 'TOPIK I Level 2', description: 'Elementary', color: 'bg-[#3E5648]',
+    id: 'topik1-2', name: 'TOPIK I Level 2', description: 'Elementary', color: 'bg-[#013220]',
     band: 0,
     title: '',
     subtitle: '',
@@ -322,7 +322,7 @@ const frenchLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'a1', name: 'A1', description: 'Beginner', color: 'bg-[#3E5648]',
+    id: 'a1', name: 'A1', description: 'Beginner', color: 'bg-[#013220]',
     band: 0,
     title: '',
     subtitle: '',
@@ -331,7 +331,7 @@ const frenchLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'a2', name: 'A2', description: 'Elementary', color: 'bg-[#3E5648]',
+    id: 'a2', name: 'A2', description: 'Elementary', color: 'bg-[#013220]',
     band: 0,
     title: '',
     subtitle: '',
@@ -449,7 +449,7 @@ function LevelCard({
             level.id === 'intro'
               ? 'bg-[#1F2A37]'
               : level.id === 'band1' || level.id === 'band2'
-                ? 'bg-[#3E5648]'
+                ? 'bg-[#013220]'
                 : level.id === 'band3' || level.id === 'band4'
                   ? 'bg-[#186E95]'
                   : level.id === 'band5' || level.id === 'band6'
@@ -487,7 +487,7 @@ function LevelCard({
                   : isLocked
                     ? lockedSoftTone
                     : isCompleted
-                      ? 'text-[#3E5648]'
+                      ? 'text-[#013220]'
                       : 'text-text-light'
               }`}
             >
@@ -624,7 +624,7 @@ export default function LevelSelect({
           id: 'beginner',
           title: 'Beginner',
           subtitle: 'Levels 1–3 · Core Foundations',
-          style: { rail: 'bg-[#3E5648]', accent: 'green' as const },
+          style: { rail: 'bg-[#013220]', accent: 'green' as const },
           summary:
             'Tone control, high-frequency grammar, and everyday communication for a strong foundation.',
           isAvailable: true,
@@ -778,7 +778,7 @@ export default function LevelSelect({
                 disabled={isLocked}
                 className={`w-full border rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
                   isTierDrenched && !isLocked
-                    ? `${index === 0 ? 'bg-[#3E5648]' : index === 1 ? 'bg-[#186E95]' : 'bg-[#C2410C]'} border-transparent text-white`
+                    ? `${index === 0 ? 'bg-[#013220]' : index === 1 ? 'bg-[#186E95]' : 'bg-[#C2410C]'} border-transparent text-white`
                     : isLocked
                       ? 'bg-[#F3F4F6] border-[#D1D5DB]'
                       : `bg-white ${a.leftBorder}`

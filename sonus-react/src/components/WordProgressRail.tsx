@@ -12,7 +12,7 @@ function nodeClasses(
   const hasResult = resultsByIndex ? Object.prototype.hasOwnProperty.call(resultsByIndex, index) : false;
   if (hasResult) {
     return resultsByIndex?.[index]
-      ? 'bg-[#3E5648] border-[#3E5648]'
+      ? 'bg-[#013220] border-[#013220]'
       : 'bg-[#E5E7EB] border-[#D1D5DB]';
   }
   if (index === currentIndex) {

@@ -506,7 +506,7 @@ export default function ProfileScreen({
             className={`bg-white rounded-2xl p-4 text-sm ${
               isLanguageSwitchNotice
                 ? 'border border-[#C56A3D] text-[#C56A3D]'
-                : 'border border-[#3E5648] text-[#3E5648]'
+                : 'border border-[#013220] text-[#013220]'
             }`}
           >
             {saveMessage}
@@ -593,7 +593,7 @@ export default function ProfileScreen({
 
           <SurfaceCard id="tour-profile-language-card" className="relative h-full min-h-[150px] overflow-hidden p-4 sm:p-5 lg:col-span-1">
             <div className="pointer-events-none absolute -right-14 -top-14 h-32 w-32 rounded-full bg-[rgba(24,110,149,0.13)] blur-2xl" />
-            <div className="pointer-events-none absolute -left-10 -bottom-14 h-28 w-28 rounded-full bg-[rgba(62,86,72,0.12)] blur-2xl" />
+            <div className="pointer-events-none absolute -left-10 -bottom-14 h-28 w-28 rounded-full bg-[rgba(1,50,32,0.12)] blur-2xl" />
 
             <div className="relative flex h-full flex-col">
               <div>

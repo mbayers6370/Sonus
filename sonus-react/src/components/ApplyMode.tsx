@@ -121,7 +121,7 @@ function highlightLessonTerms(text: string, focusWord: string, allWords: Word[])
 
     const lessonMatch = otherTerms.find((candidate) => source.startsWith(candidate, index));
     if (lessonMatch) {
-      chunks.push({ text: lessonMatch, className: 'font-semibold text-[rgba(62,86,72,0.76)]' });
+      chunks.push({ text: lessonMatch, className: 'font-semibold text-[rgba(1,50,32,0.76)]' });
       index += lessonMatch.length;
       continue;
     }
@@ -228,7 +228,7 @@ function highlightEnglishFocus(text: string, word: Word, priorWords: Word[]) {
   const priorMatches = collectMeaningMatches(
     source,
     priorCandidates,
-    'font-semibold text-[rgba(62,86,72,0.76)]',
+    'font-semibold text-[rgba(1,50,32,0.76)]',
     1,
     focusMatches
   );
@@ -354,7 +354,7 @@ function renderTransliterationWithToneNumber(value: string) {
       <span key={`${chunk}-${idx}`}>
         {idx > 0 ? ' ' : ''}
         {match[1]}
-        <span className="font-bold text-[#3E5648]">{match[2]}</span>
+        <span className="font-bold text-[#013220]">{match[2]}</span>
       </span>
     );
   });
@@ -766,7 +766,7 @@ export default function ApplyMode({
               type="button"
               onClick={() => setActiveTab('characters')}
               className={`rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider font-mono transition-all ${
-                effectiveActiveTab === 'characters' ? 'bg-[#3E5648] text-white' : 'text-[#1F2A37] hover:bg-white'
+                effectiveActiveTab === 'characters' ? 'bg-[#013220] text-white' : 'text-[#1F2A37] hover:bg-white'
               }`}
             >
               Characters
@@ -803,7 +803,7 @@ export default function ApplyMode({
           <div className="w-full max-w-2xl bg-white rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-5 text-center">
             {activeCharacterRow ? (
               <>
-                <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(62,86,72,0.14)] text-[#3E5648]">
+                <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(1,50,32,0.14)] text-[#013220]">
                   Character Focus
                 </div>
                 <div className="main-font text-[3.2rem] leading-none text-text-dark">{activeCharacterRow.char}</div>

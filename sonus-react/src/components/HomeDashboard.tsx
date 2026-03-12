@@ -573,7 +573,7 @@ export default function HomeDashboard({
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav relative overflow-hidden">
-      <div className="absolute inset-x-0 top-0 h-72 bg-gradient-to-br from-[#186E95]/18 via-[#3E5648]/10 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-72 bg-gradient-to-br from-[#186E95]/18 via-[#013220]/10 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-white/45 via-white/15 to-transparent pointer-events-none" />
 
       <GlassHeader title={`${languageLabel}`} spacerClassName="mb-0" compactStandaloneTitle={false} />
@@ -802,7 +802,7 @@ export default function HomeDashboard({
               className={glassRowBtn}
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
-                <ListChecks className="w-4 h-4 text-[#3E5648]" />
+                <ListChecks className="w-4 h-4 text-[#013220]" />
                 Progress Check
               </span>
               <ArrowRight className="w-4 h-4 text-text-light" />

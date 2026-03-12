@@ -17,7 +17,7 @@ interface LessonCompleteProps {
 
 function WordsIcon() {
   return (
-    <div className="w-6 h-6 text-[#3E5648] font-semibold text-[13px] leading-none flex items-center justify-center" aria-hidden="true">
+    <div className="w-6 h-6 text-[#013220] font-semibold text-[13px] leading-none flex items-center justify-center" aria-hidden="true">
       Aa
     </div>
   );
@@ -376,7 +376,7 @@ export default function LessonComplete({
                         <span
                           className={`px-2 py-1 rounded text-[10px] font-mono uppercase tracking-wider ${
                             isSpeakCorrect
-                              ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]'
+                              ? 'bg-[rgba(1,50,32,0.14)] text-[#013220]'
                               : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'
                           }`}
                         >
@@ -417,7 +417,7 @@ export default function LessonComplete({
                                 ]).map((dimension) => (
                                   <span
                                     key={dimension.key}
-                                    className={`px-2 py-1 rounded ${dimension.pass ? 'bg-[rgba(62,86,72,0.14)] text-[#3E5648]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}
+                                    className={`px-2 py-1 rounded ${dimension.pass ? 'bg-[rgba(1,50,32,0.14)] text-[#013220]' : 'bg-[rgba(194,65,12,0.14)] text-[#C2410C]'}`}
                                   >
                                     {dimension.label} {dimension.pass ? 'OK' : 'Fix'}
                                   </span>
@@ -441,7 +441,7 @@ export default function LessonComplete({
             </div>
             {acceptedHomophoneRows.length > 0 && (
               <div className="mt-3 rounded-xl border border-border p-3 bg-[#F3F7F5]">
-                <div className="text-[11px] font-mono uppercase tracking-wider text-[#3E5648] mb-1.5">Accepted Homophone Matches</div>
+                <div className="text-[11px] font-mono uppercase tracking-wider text-[#013220] mb-1.5">Accepted Homophone Matches</div>
                 <div className="space-y-1">
                   {acceptedHomophoneRows.map(({ word, index, breakdown }) => (
                     <div key={`homophone-${word.id}-${index}`} className="text-xs text-text-med">
@@ -462,7 +462,7 @@ export default function LessonComplete({
           <div className="space-y-6">
             {/* Lesson summary */}
             <div className={`flex ${centerWordsPracticedCard ? 'flex-col items-center justify-center text-center gap-2' : 'items-center gap-3'}`}>
-              <div className="w-12 h-12 rounded-full bg-[rgba(62,86,72,0.16)] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-[rgba(1,50,32,0.16)] flex items-center justify-center">
                 <WordsIcon />
               </div>
               <div>
@@ -548,7 +548,7 @@ export default function LessonComplete({
             <>
               <button
                 onClick={onContinue}
-                className="w-full py-4 px-6 bg-[#3E5648] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[#013220] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Continue Learning
               </button>
@@ -579,7 +579,7 @@ export default function LessonComplete({
           {isSpeakCompletion && !speakNeedsFullLessonRetry && (
             <button
               onClick={onContinue}
-              className="w-full py-4 px-6 bg-[#3E5648] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full py-4 px-6 bg-[#013220] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
             >
               Continue Learning
             </button>

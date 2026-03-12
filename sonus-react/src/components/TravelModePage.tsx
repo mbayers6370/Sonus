@@ -73,7 +73,7 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
       />
       <div className="pointer-events-none absolute -top-28 -left-16 h-72 w-72 rounded-full bg-white/10 blur-3xl animate-pulse" />
       <div
-        className="pointer-events-none absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-[#3E5648]/20 blur-3xl animate-pulse"
+        className="pointer-events-none absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-[#013220]/20 blur-3xl animate-pulse"
         style={{ animationDelay: '1200ms' }}
       />
       <GlassHeader

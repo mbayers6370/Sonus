@@ -996,7 +996,7 @@ export default function AuthScreen({
 
         <div className="mt-3 min-h-[1.25rem]">
           {error && <p className="text-sm text-[#C2410C]" role="status" aria-live="polite">{error}</p>}
-          {message && <p className="text-sm text-[#3E5648]" role="status" aria-live="polite">{message}</p>}
+          {message && <p className="text-sm text-[#013220]" role="status" aria-live="polite">{message}</p>}
         </div>
 
         {mode !== 'demo' && (

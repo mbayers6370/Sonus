@@ -12,8 +12,7 @@ interface KonbiniGuidePageProps {
 const KONBINI_SECTION: TravelSectionData = {
   id: 'konbini',
   title: 'Konbini Guide',
-  themeColor: '#003087',
-  accentColor: '#00A850',
+  themeColor: '#186E95',
   tone: 'Fast + practical',
   focus: 'Checkout, Food Prep, & Payment at Convenience Stores',
   scene: 'You are at the register and need smooth Japanese for bags, heating, payment, and receipts.',
@@ -34,7 +33,7 @@ const KONBINI_SECTION: TravelSectionData = {
     { id: 'ko-6', script: 'クレジットカードで払います。', pronunciation: 'kurejitto kaado de haraimasu', english: "I'll pay by credit card." },
     { id: 'ko-7', script: '電子マネーで払えますか？', pronunciation: 'denshi manee de haraemasu ka', english: 'Can I pay with e-money?' },
     { id: 'ko-8', script: '現金で払います。', pronunciation: 'genkin de haraimasu', english: "I'll pay in cash." },
-    { id: 'ko-9', script: 'ポイントカードはありません。', pronunciation: 'pointo kaado wa arimasen', english: "I don't have a point card." },
+    { id: 'ko-9', script: 'ポイントカードは持っていません。', pronunciation: 'pointo kaado wa motte imasen', english: "I don't have a point card." },
     { id: 'ko-10', script: 'お箸をください。', pronunciation: 'ohashi o kudasai', english: 'Please give me chopsticks.' },
   ],
 };
