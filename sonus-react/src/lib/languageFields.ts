@@ -10,6 +10,15 @@ export function getWordReading(
   return (word.reading || word.pronunciation || word.transliteration || '').trim();
 }
 
+export function getWordTransliteration(
+  word: Pick<Word, 'transliteration' | 'romaji' | 'reading' | 'pronunciation'>
+) {
+  const direct = (word.transliteration || word.romaji || '').trim();
+  if (direct) return direct;
+  const fallback = (word.pronunciation || word.reading || '').trim();
+  return /[a-z]/i.test(fallback) ? fallback : '';
+}
+
 export function getExampleNative(example: Word['example'] | null | undefined) {
   return (example?.native || '').trim();
 }

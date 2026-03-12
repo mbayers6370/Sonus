@@ -169,7 +169,28 @@ async function loadLexemeCatalog() {
 
 function inferLanguageFromWordId(wordId: string): SupportedLanguage {
   if (/^N/i.test(wordId)) return 'ja';
+  if (/^L\d+-\d+$/i.test(wordId)) return 'ja';
   return 'ja';
+}
+
+function buildLegacyWordIdCandidates(wordId: string) {
+  const normalized = asNonEmptyString(wordId).toUpperCase();
+  const match = /^L([1-5])-(\d{4})$/.exec(normalized);
+  if (!match) return [];
+
+  const levelMap: Record<string, string> = {
+    '1': 'N5',
+    '2': 'N4',
+    '3': 'N3',
+    '4': 'N2',
+    '5': 'N1',
+  };
+  const mappedLevel = levelMap[match[1]] || 'N5';
+  const numeric = match[2];
+
+  const ordered = [mappedLevel, 'N5', 'N4', 'N3', 'N2', 'N1'];
+  const dedup = Array.from(new Set(ordered));
+  return dedup.map((prefix) => `${prefix}-${numeric}`);
 }
 
 export async function resolveLexemeForWordId(wordId: string, languageHint?: string | null) {
@@ -177,8 +198,11 @@ export async function resolveLexemeForWordId(wordId: string, languageHint?: stri
     lexemeCatalogPromise = loadLexemeCatalog();
   }
   const catalog = await lexemeCatalogPromise;
-  const direct = catalog.get(wordId);
-  if (direct) return direct;
+  const candidates = [wordId, ...buildLegacyWordIdCandidates(wordId)];
+  for (const candidate of candidates) {
+    const direct = catalog.get(candidate);
+    if (direct) return direct;
+  }
 
   const hinted = asNonEmptyString(languageHint).toLowerCase();
   const lang = hinted === 'ja' || hinted === 'jp' ? 'ja' : inferLanguageFromWordId(wordId);

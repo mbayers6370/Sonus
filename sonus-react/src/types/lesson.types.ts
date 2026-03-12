@@ -25,6 +25,7 @@ export interface HomophoneGroup {
 export interface Word extends SharedWord {
   kanji?: string;
   hiragana?: string;
+  romaji?: string;
   tags?: string[] | null;
   transliteration?: string;
   variants?: string[]; // alternative real-world forms, e.g. ["星期日"] for preferred "星期天"

@@ -3474,12 +3474,24 @@ export default function SpeakMode({
             title={disableTargetAudio ? '' : 'Play target audio'}
           >
             {!disableTargetAudio ? <Volume2 className="absolute top-3 right-3 w-5 h-5 text-[#1F2A37]" /> : null}
-            <div className={`w-full mx-auto ${disableTargetAudio ? 'max-w-[94%]' : 'max-w-[calc(100%-2.25rem)] pr-7 sm:max-w-[94%] sm:pr-0'}`}>
+            <div
+              className={`w-full mx-auto max-w-[94%] ${
+                disableTargetAudio ? '' : 'px-7 pt-6 sm:px-0 sm:pt-0'
+              }`}
+            >
               {!practiceMode ? (
                 <>
-                  <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight break-words">{displayMeaning}</div>
-                  <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
-                  {displayCardReading ? <div className="text-[13px] sm:text-sm text-[#475569]">{displayCardReading}</div> : null}
+                  <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight text-center break-words whitespace-normal [overflow-wrap:anywhere]">
+                    {displayMeaning}
+                  </div>
+                  <div className="secondary-font text-[clamp(1.1rem,5.2vw,1.5rem)] text-[#1F2A37] mt-1 text-center leading-tight break-words whitespace-normal [overflow-wrap:anywhere]">
+                    {word.simp}
+                  </div>
+                  {displayCardReading ? (
+                    <div className="text-[clamp(0.75rem,3.3vw,0.9rem)] text-[#475569] text-center break-words whitespace-normal [overflow-wrap:anywhere]">
+                      {displayCardReading}
+                    </div>
+                  ) : null}
                 </>
               ) : (
                 <>
@@ -3496,10 +3508,18 @@ export default function SpeakMode({
                     </div>
                   ) : (
                     <>
-                      <div className="secondary-font text-xl sm:text-2xl text-[#1F2A37] mt-1">{word.simp}</div>
-                      {displayCardReading ? <div className="text-[13px] sm:text-sm text-[#475569]">{displayCardReading}</div> : null}
+                      <div className="secondary-font text-[clamp(1.1rem,5.2vw,1.5rem)] text-[#1F2A37] mt-1 text-center leading-tight break-words whitespace-normal [overflow-wrap:anywhere]">
+                        {word.simp}
+                      </div>
+                      {displayCardReading ? (
+                        <div className="text-[clamp(0.75rem,3.3vw,0.9rem)] text-[#475569] text-center break-words whitespace-normal [overflow-wrap:anywhere]">
+                          {displayCardReading}
+                        </div>
+                      ) : null}
                       {!hideReadingAndMeaning ? (
-                        <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1 break-words">{displayMeaning}</div>
+                        <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1 text-center break-words whitespace-normal [overflow-wrap:anywhere]">
+                          {displayMeaning}
+                        </div>
                       ) : null}
                     </>
                   )}
