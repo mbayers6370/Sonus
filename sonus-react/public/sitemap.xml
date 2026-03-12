@@ -3,31 +3,43 @@
 
   <url>
     <loc>https://sonuslearning.com/</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://sonuslearning.com/essential-japanese-travel-phrases</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://sonuslearning.com/privacy</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://sonuslearning.com/terms</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://sonuslearning.com/contact</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://sonuslearning.com/attributions</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
 
