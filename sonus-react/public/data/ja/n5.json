@@ -4304,23 +4304,6 @@
               "transliteration": "fuooku"
             },
             {
-              "id": "N5-0427",
-              "kanji": null,
-              "hiragana": "てーぶる",
-              "katakana": "テーブル",
-              "en": "table",
-              "defs": [
-                "table"
-              ],
-              "example": {
-                "en": "Place the deck of cards on the oaken table.",
-                "native": "トランプを樫のテーブルに置いて。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "teeburu"
-            },
-            {
               "id": "N5-0478",
               "kanji": null,
               "hiragana": "ないふ",
@@ -4344,230 +4327,6 @@
           "title": "HOME & DAILY LIFE",
           "description": "House, furniture, and daily home activities",
           "words": [
-            {
-              "id": "N5-0047",
-              "kanji": "家",
-              "hiragana": "いえ",
-              "katakana": "イエ",
-              "en": "house, home",
-              "defs": [
-                "house, home"
-              ],
-              "example": {
-                "en": "My house is near the station.",
-                "native": "私の家は駅の近くです。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "ie"
-            },
-            {
-              "id": "N5-0081",
-              "kanji": null,
-              "hiragana": "うち",
-              "katakana": "ウチ",
-              "en": "home",
-              "defs": [
-                "home",
-                "house",
-                "my place"
-              ],
-              "example": {
-                "en": "Would you like to watch a movie at my place?",
-                "native": "うちで映画を見ませんか。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "uchi"
-            },
-            {
-              "id": "N5-0054",
-              "kanji": "椅子",
-              "hiragana": "いす",
-              "katakana": "イス",
-              "en": "chair",
-              "defs": [
-                "chair"
-              ],
-              "example": {
-                "en": "I put my bag on the chair.",
-                "native": "椅子にかばんを置きました。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "isu"
-            },
-            {
-              "id": "N5-0116",
-              "kanji": "お手洗い",
-              "hiragana": "おてあらい",
-              "katakana": "オテアライ",
-              "en": "toilet, restroom, bathroom (lit., a place to wash one's hands)",
-              "defs": [
-                "toilet, restroom, bathroom (lit., a place to wash one's hands)"
-              ],
-              "example": {
-                "en": "Where is the restroom?",
-                "native": "お手洗いはどこですか。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "otearai"
-            },
-            {
-              "id": "N5-0147",
-              "kanji": "階段",
-              "hiragana": "かいだん",
-              "katakana": "カイダン",
-              "en": "stairs",
-              "defs": [
-                "stairs"
-              ],
-              "example": {
-                "en": "Please use the stairs.",
-                "native": "階段を使ってください。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "kaidan"
-            },
-            {
-              "id": "N5-0070",
-              "kanji": "入口",
-              "hiragana": "いりぐち",
-              "katakana": "イリグチ",
-              "en": "entrance",
-              "defs": [
-                "entrance"
-              ],
-              "example": {
-                "en": "The entrance is over there.",
-                "native": "入口はあちらです。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "iriguchi"
-            },
-            {
-              "id": "N5-0171",
-              "kanji": "角",
-              "hiragana": "かど",
-              "katakana": "カド",
-              "en": "corner (e.g., desk, pavement)",
-              "defs": [
-                "corner (e.g., desk, pavement)"
-              ],
-              "example": {
-                "en": "Watch out for cars at the corner.",
-                "native": "曲がり角で車に気をつけて。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "kado"
-            },
-            {
-              "id": "N5-0172",
-              "kanji": null,
-              "hiragana": "かばん",
-              "katakana": "カバン",
-              "en": "bag, basket",
-              "defs": [
-                "bag, basket"
-              ],
-              "example": {
-                "en": "This bag is light and durable.",
-                "native": "このかばんは軽くて丈夫です。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "kaban"
-            },
-            {
-              "id": "N5-0173",
-              "kanji": "花瓶",
-              "hiragana": "かびん",
-              "katakana": "カビン",
-              "en": "(flower) vase",
-              "defs": [
-                "(flower) vase"
-              ],
-              "example": {
-                "en": "There is a vase on the table.",
-                "native": "テーブルの上に花瓶があります。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "kabin"
-            },
-            {
-              "id": "N5-0176",
-              "kanji": null,
-              "hiragana": "かめら",
-              "katakana": "カメラ",
-              "en": "camera",
-              "defs": [
-                "camera"
-              ],
-              "example": {
-                "en": "I took photos with my new camera.",
-                "native": "新しいカメラで写真を撮りました。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "kamera"
-            },
-            {
-              "id": "N5-0175",
-              "kanji": "紙",
-              "hiragana": "かみ",
-              "katakana": "カミ",
-              "en": "paper",
-              "defs": [
-                "paper"
-              ],
-              "example": {
-                "en": "Please write your name on this paper.",
-                "native": "この紙に名前を書いてください。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "kami"
-            },
-            {
-              "id": "N5-0095",
-              "kanji": "鉛筆",
-              "hiragana": "えんぴつ",
-              "katakana": "エンピツ",
-              "en": "pencil",
-              "defs": [
-                "pencil"
-              ],
-              "example": {
-                "en": "The boy liked to keep his pencils sharp.",
-                "native": "少年はエンピツをとがらせておくのが好きだった。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "enpitsu"
-            },
-            {
-              "id": "N5-0154",
-              "kanji": "鍵",
-              "hiragana": "かぎ",
-              "katakana": "カギ",
-              "en": "a lock",
-              "defs": [
-                "a lock",
-                "a key"
-              ],
-              "example": {
-                "en": "I forgot my key.",
-                "native": "鍵を忘れました。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "kagi"
-            },
             {
               "id": "N5-0073",
               "kanji": "入れる",
@@ -4614,8 +4373,8 @@
                 "to learn, to commit to memory, to remember, to memorize"
               ],
               "example": {
-                "en": "The sight memory organ is below the hypothalamus.",
-                "native": "物を視覚的に覚える器官は視床下部の下にある。"
+                "en": "I will learn a new word.",
+                "native": "新しい単語を覚えます。"
               },
               "type": "word",
               "pos_detail": "v1",
@@ -4631,165 +4390,12 @@
                 "to finish, to close"
               ],
               "example": {
-                "en": "The chairman did not rule out the possibility of a disagreement.",
-                "native": "議長は意見が不一致に終る可能性を排除しなかった。"
+                "en": "I finished my homework.",
+                "native": "「宿題が終わりました」と言った。"
               },
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "owaru"
-            },
-            {
-              "id": "N5-0704",
-              "kanji": "冷蔵庫",
-              "hiragana": "れいぞうこ",
-              "katakana": "レイゾウコ",
-              "en": "refrigerator",
-              "defs": [
-                "refrigerator"
-              ],
-              "example": {
-                "en": "I have never seen a red refrigerator.",
-                "native": "赤い冷蔵庫を見たことがない。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "reizouko"
-            },
-            {
-              "id": "N5-0439",
-              "kanji": "電気",
-              "hiragana": "でんき",
-              "katakana": "デンキ",
-              "en": "electricity, (electric) light",
-              "defs": [
-                "electricity, (electric) light"
-              ],
-              "example": {
-                "en": "Please turn off the light before going to bed.",
-                "native": "電気を消してから寝てください。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "denki"
-            },
-            {
-              "id": "N5-0594",
-              "kanji": null,
-              "hiragana": "べっど",
-              "katakana": "ベッド",
-              "en": "bed",
-              "defs": [
-                "bed"
-              ],
-              "example": {
-                "en": "This bed is soft.",
-                "native": "このベッドはやわらかいです。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "beddo"
-            },
-            {
-              "id": "N5-0338",
-              "kanji": null,
-              "hiragana": "すとーぶ",
-              "katakana": "ストーブ",
-              "en": "heater (lit: stove)",
-              "defs": [
-                "heater (lit: stove)"
-              ],
-              "example": {
-                "en": "The kettle is whistling on the stove.",
-                "native": "薬缶がストーブの上でチンチン鳴っています。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "sutoobu"
-            },
-            {
-              "id": "N5-0631",
-              "kanji": "窓",
-              "hiragana": "まど",
-              "katakana": "マド",
-              "en": "window",
-              "defs": [
-                "window"
-              ],
-              "example": {
-                "en": "Please open the window.",
-                "native": "窓を開けてください。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "mado"
-            },
-            {
-              "id": "N5-0442",
-              "kanji": "戸",
-              "hiragana": "と",
-              "katakana": "ト",
-              "en": "door (Japanese style)",
-              "defs": [
-                "door (Japanese style)"
-              ],
-              "example": {
-                "en": "Please close that door quietly.",
-                "native": "その戸を静かに閉めてください。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "to"
-            },
-            {
-              "id": "N5-0444",
-              "kanji": null,
-              "hiragana": "どあ",
-              "katakana": "ドア",
-              "en": "door (Western style)",
-              "defs": [
-                "door (Western style)"
-              ],
-              "example": {
-                "en": "Please close the door.",
-                "native": "ドアを閉めてください。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "doa"
-            },
-            {
-              "id": "N5-0612",
-              "kanji": "本棚",
-              "hiragana": "ほんだな",
-              "katakana": "ホンダナ",
-              "en": "bookshelf",
-              "defs": [
-                "bookshelf"
-              ],
-              "example": {
-                "en": "Can you reach to the top of the bookshelf?",
-                "native": "本棚の上に手が届きますか。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "hondana"
-            },
-            {
-              "id": "N5-0417",
-              "kanji": "机",
-              "hiragana": "つくえ",
-              "katakana": "ツクエ",
-              "en": "desk",
-              "defs": [
-                "desk"
-              ],
-              "example": {
-                "en": "There is a dictionary on the desk.",
-                "native": "机の上に辞書があります。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "tsukue"
             },
             {
               "id": "N5-0309",
@@ -4826,90 +4432,449 @@
               "transliteration": "tsukau"
             },
             {
-              "id": "N5-0359",
-              "kanji": "掃除",
-              "hiragana": "そうじ",
-              "katakana": "ソウジ",
-              "en": "cleaning, sweeping",
+              "id": "N5-0236",
+              "kanji": "消す",
+              "hiragana": "けす",
+              "katakana": "ケス",
+              "en": "to erase, to delete, to turn off power",
               "defs": [
-                "cleaning, sweeping"
+                "to erase, to delete, to turn off power"
               ],
               "example": {
-                "en": "I clean my room every morning.",
-                "native": "毎朝、部屋を掃除します。"
+                "en": "Take care to turn off lights in rooms when nobody's in them.",
+                "native": "人のいない部屋の照明をこまめに消す。"
               },
               "type": "word",
-              "pos_detail": "n",
-              "transliteration": "souji"
+              "pos_detail": "v5",
+              "transliteration": "kesu"
             },
             {
-              "id": "N5-0356",
-              "kanji": "洗濯",
-              "hiragana": "せんたく",
-              "katakana": "センタク",
-              "en": "washing, laundry",
+              "id": "N5-0047",
+              "kanji": "家",
+              "hiragana": "いえ",
+              "katakana": "イエ",
+              "en": "house, home",
               "defs": [
-                "washing, laundry"
+                "house, home"
               ],
               "example": {
-                "en": "Wash before first wearing.",
-                "native": "最初着る前に洗濯してください。"
+                "en": "My house is near the station.",
+                "native": "私の家は駅の近くです。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "sentaku"
+              "transliteration": "ie"
             },
             {
-              "id": "N5-0240",
-              "kanji": "玄関",
-              "hiragana": "げんかん",
-              "katakana": "ゲンカン",
-              "en": "entrance (to a house or a building)",
+              "id": "N5-0081",
+              "kanji": null,
+              "hiragana": "うち",
+              "katakana": "ウチ",
+              "en": "home",
               "defs": [
-                "entrance (to a house or a building)"
+                "home",
+                "house",
+                "my place"
               ],
               "example": {
-                "en": "This is a code lock type that you can use on the entranceway as well.",
-                "native": "玄関にも取り付け可能な暗証タイプです。"
+                "en": "Would you like to watch a movie at my place?",
+                "native": "うちで映画を見ませんか。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "genkan"
+              "transliteration": "uchi"
             },
             {
-              "id": "N5-0521",
-              "kanji": "灰皿",
-              "hiragana": "はいざら",
-              "katakana": "ハイザラ",
-              "en": "ashtray",
+              "id": "N5-0442",
+              "kanji": "戸",
+              "hiragana": "と",
+              "katakana": "ト",
+              "en": "door (Japanese style)",
               "defs": [
-                "ashtray"
+                "door (Japanese style)"
               ],
               "example": {
-                "en": "He picked up the ash-tray.",
-                "native": "彼は灰皿を拾い上げた。"
+                "en": "Please close that door quietly.",
+                "native": "その戸を静かに閉めてください。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "haizara"
+              "transliteration": "to"
             },
             {
-              "id": "N5-0456",
-              "kanji": "時計",
-              "hiragana": "とけい",
-              "katakana": "トケイ",
-              "en": "a watch",
+              "id": "N5-0444",
+              "kanji": null,
+              "hiragana": "どあ",
+              "katakana": "ドア",
+              "en": "door (Western style)",
               "defs": [
-                "a watch",
-                "a clock"
+                "door (Western style)"
               ],
               "example": {
-                "en": "My watch doesn't keep good time.",
-                "native": "私のとけいは時間が正確ではありません。"
+                "en": "Please close the door.",
+                "native": "ドアを閉めてください。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "tokei"
+              "transliteration": "doa"
+            },
+            {
+              "id": "N5-0631",
+              "kanji": "窓",
+              "hiragana": "まど",
+              "katakana": "マド",
+              "en": "window",
+              "defs": [
+                "window"
+              ],
+              "example": {
+                "en": "Please open the window.",
+                "native": "窓を開けてください。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "mado"
+            },
+            {
+              "id": "N5-0708",
+              "kanji": "廊下",
+              "hiragana": "ろうか",
+              "katakana": "ロウカ",
+              "en": "corridor",
+              "defs": [
+                "corridor"
+              ],
+              "example": {
+                "en": "Please do not run in the hallway.",
+                "native": "廊下を走らないでください。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "rouka"
+            },
+            {
+              "id": "N5-0171",
+              "kanji": "角",
+              "hiragana": "かど",
+              "katakana": "カド",
+              "en": "corner (e.g., desk, pavement)",
+              "defs": [
+                "corner (e.g., desk, pavement)"
+              ],
+              "example": {
+                "en": "Watch out for cars at the corner.",
+                "native": "曲がり角で車に気をつけて。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "kado"
+            },
+            {
+              "id": "N5-0377",
+              "kanji": "台所",
+              "hiragana": "だいどころ",
+              "katakana": "ダイドコロ",
+              "en": "kitchen",
+              "defs": [
+                "kitchen"
+              ],
+              "example": {
+                "en": "I heard something crashing in the kitchen in the middle of the night.",
+                "native": "夜中に台所で物が壊れる音がした。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "daidokoro"
+            },
+            {
+              "id": "N5-0596",
+              "kanji": "部屋",
+              "hiragana": "へや",
+              "katakana": "ヘヤ",
+              "en": "a room",
+              "defs": [
+                "a room"
+              ],
+              "example": {
+                "en": "I cleaned my room well.",
+                "native": "部屋をきれいに掃除しました。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "heya"
+            },
+            {
+              "id": "N5-0458",
+              "kanji": "所",
+              "hiragana": "ところ",
+              "katakana": "トコロ",
+              "en": "place",
+              "defs": [
+                "place"
+              ],
+              "example": {
+                "en": "I was wondering if you were going to show up today.",
+                "native": "今日君は来るのかなと思っていたところだよ。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "tokoro"
+            },
+            {
+              "id": "N5-0054",
+              "kanji": "椅子",
+              "hiragana": "いす",
+              "katakana": "イス",
+              "en": "chair",
+              "defs": [
+                "chair"
+              ],
+              "example": {
+                "en": "I put my bag on the chair.",
+                "native": "椅子にかばんを置きました。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "isu"
+            },
+            {
+              "id": "N5-0417",
+              "kanji": "机",
+              "hiragana": "つくえ",
+              "katakana": "ツクエ",
+              "en": "desk",
+              "defs": [
+                "desk"
+              ],
+              "example": {
+                "en": "There is a dictionary on the desk.",
+                "native": "机の上に辞書があります。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "tsukue"
+            },
+            {
+              "id": "N5-0594",
+              "kanji": null,
+              "hiragana": "べっど",
+              "katakana": "ベッド",
+              "en": "bed",
+              "defs": [
+                "bed"
+              ],
+              "example": {
+                "en": "This bed is soft.",
+                "native": "このベッドはやわらかいです。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "beddo"
+            },
+            {
+              "id": "N5-0612",
+              "kanji": "本棚",
+              "hiragana": "ほんだな",
+              "katakana": "ホンダナ",
+              "en": "bookshelf",
+              "defs": [
+                "bookshelf"
+              ],
+              "example": {
+                "en": "Can you reach to the top of the bookshelf?",
+                "native": "本棚の上に手が届きますか。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "hondana"
+            },
+            {
+              "id": "N5-0704",
+              "kanji": "冷蔵庫",
+              "hiragana": "れいぞうこ",
+              "katakana": "レイゾウコ",
+              "en": "refrigerator",
+              "defs": [
+                "refrigerator"
+              ],
+              "example": {
+                "en": "I have never seen a red refrigerator.",
+                "native": "赤い冷蔵庫を見たことがない。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "reizouko"
+            },
+            {
+              "id": "N5-0338",
+              "kanji": null,
+              "hiragana": "すとーぶ",
+              "katakana": "ストーブ",
+              "en": "heater (lit: stove)",
+              "defs": [
+                "heater (lit: stove)"
+              ],
+              "example": {
+                "en": "The kettle is whistling on the stove.",
+                "native": "薬缶がストーブの上でチンチン鳴っています。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "sutoobu"
+            },
+            {
+              "id": "N5-0427",
+              "kanji": null,
+              "hiragana": "てーぶる",
+              "katakana": "テーブル",
+              "en": "table",
+              "defs": [
+                "table"
+              ],
+              "example": {
+                "en": "Place the deck of cards on the oaken table.",
+                "native": "トランプを樫のテーブルに置いて。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "teeburu"
+            },
+            {
+              "id": "N5-0172",
+              "kanji": null,
+              "hiragana": "かばん",
+              "katakana": "カバン",
+              "en": "bag, basket",
+              "defs": [
+                "bag, basket"
+              ],
+              "example": {
+                "en": "This bag is light and durable.",
+                "native": "このかばんは軽くて丈夫です。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "kaban"
+            },
+            {
+              "id": "N5-0525",
+              "kanji": "箱",
+              "hiragana": "はこ",
+              "katakana": "ハコ",
+              "en": "box",
+              "defs": [
+                "box"
+              ],
+              "example": {
+                "en": "This box is heavy.",
+                "native": "この箱は重いです。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "hako"
+            },
+            {
+              "id": "N5-0276",
+              "kanji": "財布",
+              "hiragana": "さいふ",
+              "katakana": "サイフ",
+              "en": "wallet",
+              "defs": [
+                "wallet"
+              ],
+              "example": {
+                "en": "I had my wallet stolen.",
+                "native": "私はサイフを盗まれた。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "saifu"
+            },
+            {
+              "id": "N5-0502",
+              "kanji": "荷物",
+              "hiragana": "にもつ",
+              "katakana": "ニモツ",
+              "en": "luggage",
+              "defs": [
+                "luggage",
+                "baggage"
+              ],
+              "example": {
+                "en": "Shall I carry that luggage for you?",
+                "native": "その荷物、私が持ちましょうか。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "nimotsu"
+            },
+            {
+              "id": "N5-0173",
+              "kanji": "花瓶",
+              "hiragana": "かびん",
+              "katakana": "カビン",
+              "en": "(flower) vase",
+              "defs": [
+                "(flower) vase"
+              ],
+              "example": {
+                "en": "There is a vase on the table.",
+                "native": "テーブルの上に花瓶があります。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "kabin"
+            },
+            {
+              "id": "N5-0604",
+              "kanji": null,
+              "hiragana": "ぽけっと",
+              "katakana": "ポケット",
+              "en": "pocket",
+              "defs": [
+                "pocket"
+              ],
+              "example": {
+                "en": "She put the key in her pocket.",
+                "native": "彼女は鍵をポケットに入れた。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "poketto"
+            },
+            {
+              "id": "N5-0553",
+              "kanji": null,
+              "hiragana": "はんかち",
+              "katakana": "ハンカチ",
+              "en": "handkerchief",
+              "defs": [
+                "handkerchief"
+              ],
+              "example": {
+                "en": "Do you have a handkerchief?",
+                "native": "ハンカチを持っていますか。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "hankachi"
+            },
+            {
+              "id": "N5-0116",
+              "kanji": "お手洗い",
+              "hiragana": "おてあらい",
+              "katakana": "オテアライ",
+              "en": "toilet, restroom, bathroom (lit., a place to wash one's hands)",
+              "defs": [
+                "toilet, restroom, bathroom (lit., a place to wash one's hands)"
+              ],
+              "example": {
+                "en": "Where is the restroom?",
+                "native": "お手洗いはどこですか。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "otearai"
             },
             {
               "id": "N5-0445",
@@ -4947,38 +4912,21 @@
               "transliteration": "shawaa"
             },
             {
-              "id": "N5-0525",
-              "kanji": "箱",
-              "hiragana": "はこ",
-              "katakana": "ハコ",
-              "en": "box",
+              "id": "N5-0130",
+              "kanji": "お風呂",
+              "hiragana": "おふろ",
+              "katakana": "オフロ",
+              "en": "a bath",
               "defs": [
-                "box"
+                "a bath"
               ],
               "example": {
-                "en": "This box is heavy.",
-                "native": "この箱は重いです。"
+                "en": "Please take a bath.",
+                "native": "お風呂をお召しください。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "hako"
-            },
-            {
-              "id": "N5-0276",
-              "kanji": "財布",
-              "hiragana": "さいふ",
-              "katakana": "サイフ",
-              "en": "wallet",
-              "defs": [
-                "wallet"
-              ],
-              "example": {
-                "en": "I had my wallet stolen.",
-                "native": "私はサイフを盗まれた。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "saifu"
+              "transliteration": "ofuro"
             },
             {
               "id": "N5-0348",
@@ -4998,39 +4946,55 @@
               "transliteration": "sekken"
             },
             {
-              "id": "N5-0608",
-              "kanji": null,
-              "hiragana": "ぼたん",
-              "katakana": "ボタン",
-              "en": "button",
+              "id": "N5-0359",
+              "kanji": "掃除",
+              "hiragana": "そうじ",
+              "katakana": "ソウジ",
+              "en": "cleaning, sweeping",
               "defs": [
-                "button"
+                "cleaning, sweeping"
               ],
               "example": {
-                "en": "The button battery in the PC's internal timer has gone flat.",
-                "native": "PC内部のタイマー用ボタン電池が切れた。"
+                "en": "I clean my room every morning.",
+                "native": "毎朝、部屋を掃除します。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "botan"
+              "transliteration": "souji"
             },
             {
-              "id": "N5-0502",
-              "kanji": "荷物",
-              "hiragana": "にもつ",
-              "katakana": "ニモツ",
-              "en": "luggage",
+              "id": "N5-0356",
+              "kanji": "洗濯",
+              "hiragana": "せんたく",
+              "katakana": "センタク",
+              "en": "washing, laundry",
               "defs": [
-                "luggage",
-                "baggage"
+                "washing, laundry"
               ],
               "example": {
-                "en": "His house is a tumbledown affair.",
-                "native": "彼の家は今にもつぶれそうなしろものだ。"
+                "en": "Wash before first wearing.",
+                "native": "最初着る前に洗濯してください。"
               },
               "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "nimotsu"
+              "pos_detail": "n",
+              "transliteration": "sentaku"
+            },
+            {
+              "id": "N5-0521",
+              "kanji": "灰皿",
+              "hiragana": "はいざら",
+              "katakana": "ハイザラ",
+              "en": "ashtray",
+              "defs": [
+                "ashtray"
+              ],
+              "example": {
+                "en": "He picked up the ash-tray.",
+                "native": "彼は灰皿を拾い上げた。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "haizara"
             },
             {
               "id": "N5-0390",
@@ -5050,55 +5014,295 @@
               "transliteration": "tabako"
             },
             {
-              "id": "N5-0708",
-              "kanji": "廊下",
-              "hiragana": "ろうか",
-              "katakana": "ロウカ",
-              "en": "corridor",
+              "id": "N5-0439",
+              "kanji": "電気",
+              "hiragana": "でんき",
+              "katakana": "デンキ",
+              "en": "electricity, (electric) light",
               "defs": [
-                "corridor"
+                "electricity, (electric) light"
               ],
               "example": {
-                "en": "Please do not run in the hallway.",
-                "native": "廊下を走らないでください。"
+                "en": "Please turn off the light before going to bed.",
+                "native": "電気を消してから寝てください。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "rouka"
+              "transliteration": "denki"
             },
             {
-              "id": "N5-0664",
-              "kanji": "門",
-              "hiragana": "もん",
-              "katakana": "モン",
-              "en": "gate",
+              "id": "N5-0456",
+              "kanji": "時計",
+              "hiragana": "とけい",
+              "katakana": "トケイ",
+              "en": "a watch",
               "defs": [
-                "gate"
+                "a watch",
+                "a clock"
               ],
               "example": {
-                "en": "I am waiting for my friend in front of the gate.",
-                "native": "門の前で友達を待っています。"
+                "en": "My watch doesn't keep good time.",
+                "native": "私のとけいは時間が正確ではありません。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "mon"
+              "transliteration": "tokei"
             },
             {
-              "id": "N5-0236",
-              "kanji": "消す",
-              "hiragana": "けす",
-              "katakana": "ケス",
-              "en": "to erase, to delete, to turn off power",
+              "id": "N5-0176",
+              "kanji": null,
+              "hiragana": "かめら",
+              "katakana": "カメラ",
+              "en": "camera",
               "defs": [
-                "to erase, to delete, to turn off power"
+                "camera"
               ],
               "example": {
-                "en": "Take care to turn off lights in rooms when nobody's in them.",
-                "native": "人のいない部屋の照明をこまめに消す。"
+                "en": "I took photos with my new camera.",
+                "native": "新しいカメラで写真を撮りました。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "kamera"
+            },
+            {
+              "id": "N5-0437",
+              "kanji": null,
+              "hiragana": "てれび",
+              "katakana": "テレビ",
+              "en": "television, TV",
+              "defs": [
+                "television, TV"
+              ],
+              "example": {
+                "en": "I can't live without a TV.",
+                "native": "テレビがなかったら生きていけないよ。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "terebi"
+            },
+            {
+              "id": "N5-0696",
+              "kanji": null,
+              "hiragana": "らじお",
+              "katakana": "ラジオ",
+              "en": "radio",
+              "defs": [
+                "radio"
+              ],
+              "example": {
+                "en": "He offered ten dollars for our old radio.",
+                "native": "彼は私たちの古いラジオを１０ドルで買うと言った。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "rajio"
+            },
+            {
+              "id": "N5-0503",
+              "kanji": null,
+              "hiragana": "にゅーす",
+              "katakana": "ニュース",
+              "en": "news",
+              "defs": [
+                "news"
+              ],
+              "example": {
+                "en": "The latest news.",
+                "native": "最新ニュース。"
               },
               "type": "word",
               "pos_detail": "v5",
-              "transliteration": "kesu"
+              "transliteration": "nyuusu"
+            },
+            {
+              "id": "N5-0175",
+              "kanji": "紙",
+              "hiragana": "かみ",
+              "katakana": "カミ",
+              "en": "paper",
+              "defs": [
+                "paper"
+              ],
+              "example": {
+                "en": "Please write your name on this paper.",
+                "native": "この紙に名前を書いてください。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "kami"
+            },
+            {
+              "id": "N5-0095",
+              "kanji": "鉛筆",
+              "hiragana": "えんぴつ",
+              "katakana": "エンピツ",
+              "en": "pencil",
+              "defs": [
+                "pencil"
+              ],
+              "example": {
+                "en": "The boy liked to keep his pencils sharp.",
+                "native": "少年はエンピツをとがらせておくのが好きだった。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "enpitsu"
+            },
+            {
+              "id": "N5-0598",
+              "kanji": null,
+              "hiragana": "ぺん",
+              "katakana": "ペン",
+              "en": "pen",
+              "defs": [
+                "pen"
+              ],
+              "example": {
+                "en": "This pen is easy to write with.",
+                "native": "このペンは書きやすいです。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "pen"
+            },
+            {
+              "id": "N5-0602",
+              "kanji": null,
+              "hiragana": "ぼーるぺん",
+              "katakana": "ボールペン",
+              "en": "ball-point pen",
+              "defs": [
+                "ball-point pen"
+              ],
+              "example": {
+                "en": "He held a ball-point by the wrong end.",
+                "native": "彼はボールペンを逆さに持った。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "boorupen"
+            },
+            {
+              "id": "N5-0512",
+              "kanji": null,
+              "hiragana": "のーと",
+              "katakana": "ノート",
+              "en": "notebook",
+              "defs": [
+                "notebook"
+              ],
+              "example": {
+                "en": "I write new words in this notebook.",
+                "native": "このノートに新しい単語を書きます。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "nooto"
+            },
+            {
+              "id": "N5-0429",
+              "kanji": "手紙",
+              "hiragana": "てがみ",
+              "katakana": "テガミ",
+              "en": "letter",
+              "defs": [
+                "letter"
+              ],
+              "example": {
+                "en": "He was employed writing letter.",
+                "native": "彼はてがみを何通もかいていた。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "tegami"
+            },
+            {
+              "id": "N5-0523",
+              "kanji": "葉書",
+              "hiragana": "はがき",
+              "katakana": "ハガキ",
+              "en": "postcard",
+              "defs": [
+                "postcard"
+              ],
+              "example": {
+                "en": "My parents sent me a postcard.",
+                "native": "両親が私にはがきを送ってくれた。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "hagaki"
+            },
+            {
+              "id": "N5-0577",
+              "kanji": "封筒",
+              "hiragana": "ふうとう",
+              "katakana": "フウトウ",
+              "en": "envelope",
+              "defs": [
+                "envelope"
+              ],
+              "example": {
+                "en": "Please give me an envelope.",
+                "native": "封筒をください。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "fuutou"
+            },
+            {
+              "id": "N5-0154",
+              "kanji": "鍵",
+              "hiragana": "かぎ",
+              "katakana": "カギ",
+              "en": "a lock",
+              "defs": [
+                "a lock",
+                "a key"
+              ],
+              "example": {
+                "en": "I forgot my key.",
+                "native": "鍵を忘れました。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "kagi"
+            },
+            {
+              "id": "N5-0608",
+              "kanji": null,
+              "hiragana": "ぼたん",
+              "katakana": "ボタン",
+              "en": "button",
+              "defs": [
+                "button"
+              ],
+              "example": {
+                "en": "Please push this button.",
+                "native": "このボタンを押してください。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "botan"
+            },
+            {
+              "id": "N5-0630",
+              "kanji": null,
+              "hiragana": "まっち",
+              "katakana": "マッチ",
+              "en": "match",
+              "defs": [
+                "match"
+              ],
+              "example": {
+                "en": "Sulfur is used to make matches.",
+                "native": "硫黄はマッチを作るのに使われる。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "macchi"
             }
           ]
         },
@@ -5142,6 +5346,177 @@
               "transliteration": "iku"
             },
             {
+              "id": "N5-0230",
+              "kanji": "来る",
+              "hiragana": "くる",
+              "katakana": "クル",
+              "en": "to come",
+              "defs": [
+                "to come"
+              ],
+              "example": {
+                "en": "The teacher comes at nine.",
+                "native": "先生は九時に来る。"
+              },
+              "type": "word",
+              "pos_detail": "vk",
+              "transliteration": "kuru"
+            },
+            {
+              "id": "N5-0151",
+              "kanji": "帰る",
+              "hiragana": "かえる",
+              "katakana": "カエル",
+              "en": "to go back, to go home, to return",
+              "defs": [
+                "to go back, to go home, to return"
+              ],
+              "example": {
+                "en": "Don't count your chickens before they are hatched.",
+                "native": "卵がかえる前にひよこの数を数えるな。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "kaeru"
+            },
+            {
+              "id": "N5-0137",
+              "kanji": "降りる",
+              "hiragana": "おりる",
+              "katakana": "オリル",
+              "en": "to get off",
+              "defs": [
+                "to get off"
+              ],
+              "example": {
+                "en": "On getting off the train, he was met by his cousin.",
+                "native": "列車を降りるとすぐに、彼はいとこの出迎えを受けた。"
+              },
+              "type": "word",
+              "pos_detail": "v1",
+              "transliteration": "oriru"
+            },
+            {
+              "id": "N5-0516",
+              "kanji": "乗る",
+              "hiragana": "のる",
+              "katakana": "ノル",
+              "en": "to get on, to ride in, to board",
+              "defs": [
+                "to get on, to ride in, to board"
+              ],
+              "example": {
+                "en": "I ride the bus every day.",
+                "native": "毎日バスに乗る。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "noru"
+            },
+            {
+              "id": "N5-0416",
+              "kanji": "着く",
+              "hiragana": "つく",
+              "katakana": "ツク",
+              "en": "to arrive at, to reach",
+              "defs": [
+                "to arrive at, to reach"
+              ],
+              "example": {
+                "en": "How long does it take to get to the station?",
+                "native": "あなたが駅に着くのにどのくらいかかりますか。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "tsuku"
+            },
+            {
+              "id": "N5-0428",
+              "kanji": "出かける",
+              "hiragana": "でかける",
+              "katakana": "デカケル",
+              "en": "to go out",
+              "defs": [
+                "to go out",
+                "to depart"
+              ],
+              "example": {
+                "en": "I want to get a haircut before I go on the trip.",
+                "native": "旅行に出かける前に頭を刈っておきたい。"
+              },
+              "type": "word",
+              "pos_detail": "v1",
+              "transliteration": "dekakeru"
+            },
+            {
+              "id": "N5-0467",
+              "kanji": "飛ぶ",
+              "hiragana": "とぶ",
+              "katakana": "トブ",
+              "en": "to fly, to hop",
+              "defs": [
+                "to fly, to hop"
+              ],
+              "example": {
+                "en": "Birds fly in the sky.",
+                "native": "鳥は空を飛ぶ。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "tobu"
+            },
+            {
+              "id": "N5-0717",
+              "kanji": "渡る",
+              "hiragana": "わたる",
+              "katakana": "ワタル",
+              "en": "to cross over, to go across",
+              "defs": [
+                "to cross over, to go across"
+              ],
+              "example": {
+                "en": "Cross the road after the light turns green.",
+                "native": "信号が青になってから道を渡る。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "wataru"
+            },
+            {
+              "id": "N5-0623",
+              "kanji": "曲る",
+              "hiragana": "まがる",
+              "katakana": "マガル",
+              "en": "to turn, to bend",
+              "defs": [
+                "to turn, to bend"
+              ],
+              "example": {
+                "en": "If you turn right on this road, there is a library.",
+                "native": "この道を右に曲ると図書館がある。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "magaru"
+            },
+            {
+              "id": "N5-0468",
+              "kanji": "止まる",
+              "hiragana": "とまる",
+              "katakana": "トマル",
+              "en": "to come to a halt",
+              "defs": [
+                "to come to a halt"
+              ],
+              "example": {
+                "en": "Don't open the door till the train stops.",
+                "native": "列車が止まるまでドアを開けてはいけません。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "tomaru"
+            },
+            {
               "id": "N5-0076",
               "kanji": "上",
               "hiragana": "うえ",
@@ -5176,57 +5551,6 @@
               "transliteration": "ushiro"
             },
             {
-              "id": "N5-0092",
-              "kanji": "駅",
-              "hiragana": "えき",
-              "katakana": "エキ",
-              "en": "station",
-              "defs": [
-                "station"
-              ],
-              "example": {
-                "en": "The station is on the right side of this road.",
-                "native": "駅はこの道の右です。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "eki"
-            },
-            {
-              "id": "N5-0137",
-              "kanji": "降りる",
-              "hiragana": "おりる",
-              "katakana": "オリル",
-              "en": "to get off",
-              "defs": [
-                "to get off"
-              ],
-              "example": {
-                "en": "On getting off the train, he was met by his cousin.",
-                "native": "列車を降りるとすぐに、彼はいとこの出迎えを受けた。"
-              },
-              "type": "word",
-              "pos_detail": "v1",
-              "transliteration": "oriru"
-            },
-            {
-              "id": "N5-0151",
-              "kanji": "帰る",
-              "hiragana": "かえる",
-              "katakana": "カエル",
-              "en": "to go back, to go home, to return",
-              "defs": [
-                "to go back, to go home, to return"
-              ],
-              "example": {
-                "en": "Don't count your chickens before they are hatched.",
-                "native": "卵がかえる前にひよこの数を数えるな。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "kaeru"
-            },
-            {
               "id": "N5-0186",
               "kanji": "側",
               "hiragana": "がわ",
@@ -5242,6 +5566,146 @@
               "type": "affix",
               "pos_detail": "suf",
               "transliteration": "～gawa"
+            },
+            {
+              "id": "N5-0621",
+              "kanji": "前",
+              "hiragana": "まえ",
+              "katakana": "マエ",
+              "en": "before, in front",
+              "defs": [
+                "before, in front"
+              ],
+              "example": {
+                "en": "I wash my hands before eating.",
+                "native": "食べる前に手を洗います。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "mae"
+            },
+            {
+              "id": "N5-0299",
+              "kanji": "下",
+              "hiragana": "した",
+              "katakana": "シタ",
+              "en": "under, below, beneath",
+              "defs": [
+                "under, below, beneath"
+              ],
+              "example": {
+                "en": "There is a cat under the chair.",
+                "native": "いすの下にねこがいます。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "shita"
+            },
+            {
+              "id": "N5-0479",
+              "kanji": "中",
+              "hiragana": "なか",
+              "katakana": "ナカ",
+              "en": "inside, middle, among",
+              "defs": [
+                "inside, middle, among"
+              ],
+              "example": {
+                "en": "The keys are inside the bag.",
+                "native": "かばんの中に鍵があります。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "naka"
+            },
+            {
+              "id": "N5-0364",
+              "kanji": "外",
+              "hiragana": "そと",
+              "katakana": "ソト",
+              "en": "outside, exterior",
+              "defs": [
+                "outside, exterior"
+              ],
+              "example": {
+                "en": "It is cold outside.",
+                "native": "外は寒いです。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "soto"
+            },
+            {
+              "id": "N5-0686",
+              "kanji": "横",
+              "hiragana": "よこ",
+              "katakana": "ヨコ",
+              "en": "beside",
+              "defs": [
+                "beside",
+                "side",
+                "width"
+              ],
+              "example": {
+                "en": "The station is beside the bank.",
+                "native": "駅は銀行の横です。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "yoko"
+            },
+            {
+              "id": "N5-0366",
+              "kanji": null,
+              "hiragana": "そば",
+              "katakana": "ソバ",
+              "en": "near, close, beside",
+              "defs": [
+                "near, close, beside",
+                "Japanese traditional buckwheat noodle"
+              ],
+              "example": {
+                "en": "Ai sat down beside me.",
+                "native": "愛ちゃんは私のそばに座った。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "soba"
+            },
+            {
+              "id": "N5-0403",
+              "kanji": "近く",
+              "hiragana": "ちかく",
+              "katakana": "チカク",
+              "en": "nearby",
+              "defs": [
+                "nearby",
+                "in the neighborhood"
+              ],
+              "example": {
+                "en": "A new store opened near the station.",
+                "native": "駅の近くに新しい店ができた。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "chikaku"
+            },
+            {
+              "id": "N5-0651",
+              "kanji": "向こう",
+              "hiragana": "むこう",
+              "katakana": "ムコウ",
+              "en": "beyond, over there",
+              "defs": [
+                "beyond, over there"
+              ],
+              "example": {
+                "en": "He threw a ball over the fence.",
+                "native": "彼は塀の向こう側にボールを投げた。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "mukou"
             },
             {
               "id": "N5-0194",
@@ -5261,56 +5725,124 @@
               "transliteration": "kita"
             },
             {
-              "id": "N5-0223",
-              "kanji": "国",
-              "hiragana": "くに",
-              "katakana": "クニ",
-              "en": "country",
+              "id": "N5-0646",
+              "kanji": "南",
+              "hiragana": "みなみ",
+              "katakana": "ミナミ",
+              "en": "South",
               "defs": [
-                "country",
-                "place of origin"
+                "South"
               ],
               "example": {
-                "en": "My country is the United States.",
-                "native": "私の国はアメリカです。"
+                "en": "The waiter filled our glasses to the brim.",
+                "native": "ウエイターは私たちのグラスになみなみと注いだ。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "kuni"
+              "transliteration": "minami"
             },
             {
-              "id": "N5-0225",
-              "kanji": "曇る",
-              "hiragana": "くもる",
-              "katakana": "クモル",
-              "en": "to become cloudy, to become dim",
+              "id": "N5-0557",
+              "kanji": "東",
+              "hiragana": "ひがし",
+              "katakana": "ヒガシ",
+              "en": "east",
               "defs": [
-                "to become cloudy, to become dim"
+                "east"
               ],
               "example": {
-                "en": "When I wear a mask, my glasses get steamed up.",
-                "native": "マスクをつけると眼鏡が曇る。"
+                "en": "I came to Tokyo three years ago and have been living here ever since.",
+                "native": "３年前に東京へ来て以来ここに住んでいる。"
               },
               "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "kumoru"
+              "pos_detail": "n",
+              "transliteration": "higashi"
             },
             {
-              "id": "N5-0230",
-              "kanji": "来る",
-              "hiragana": "くる",
-              "katakana": "クル",
-              "en": "to come",
+              "id": "N5-0499",
+              "kanji": "西",
+              "hiragana": "にし",
+              "katakana": "ニシ",
+              "en": "west",
               "defs": [
-                "to come"
+                "west"
               ],
               "example": {
-                "en": "The teacher comes at nine.",
-                "native": "先生は九時に来る。"
+                "en": "The western sky is turning red.",
+                "native": "西の空が赤くなってきた。"
               },
               "type": "word",
-              "pos_detail": "vk",
-              "transliteration": "kuru"
+              "pos_detail": "n",
+              "transliteration": "nishi"
+            },
+            {
+              "id": "N5-0636",
+              "kanji": "右",
+              "hiragana": "みぎ",
+              "katakana": "ミギ",
+              "en": "right hand side",
+              "defs": [
+                "right hand side"
+              ],
+              "example": {
+                "en": "If you turn right, there is a post office.",
+                "native": "右に曲がると郵便局があります。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "migi"
+            },
+            {
+              "id": "N5-0563",
+              "kanji": "左",
+              "hiragana": "ひだり",
+              "katakana": "ヒダリ",
+              "en": "left hand side",
+              "defs": [
+                "left hand side"
+              ],
+              "example": {
+                "en": "Please look left.",
+                "native": "左を見てください。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "hidari"
+            },
+            {
+              "id": "N5-0641",
+              "kanji": "道",
+              "hiragana": "みち",
+              "katakana": "ミチ",
+              "en": "road, street",
+              "defs": [
+                "road, street",
+                "way, directions"
+              ],
+              "example": {
+                "en": "This road leads to the station.",
+                "native": "この道は駅へ続きます。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "michi"
+            },
+            {
+              "id": "N5-0246",
+              "kanji": "交差点",
+              "hiragana": "こうさてん",
+              "katakana": "コウサテン",
+              "en": "intersection",
+              "defs": [
+                "intersection"
+              ],
+              "example": {
+                "en": "Please turn right at the next intersection.",
+                "native": "次の交差点を右に曲がってください。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "kousaten"
             },
             {
               "id": "N5-0231",
@@ -5328,110 +5860,6 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "kuruma"
-            },
-            {
-              "id": "N5-0032",
-              "kanji": null,
-              "hiragana": "あの",
-              "katakana": "アノ",
-              "en": "that over there",
-              "defs": [
-                "that over there",
-                "like that, that way",
-                "um..."
-              ],
-              "example": {
-                "en": "Do whatever he tells you.",
-                "native": "あの方が言われる事を、何でもしてあげて下さい。"
-              },
-              "type": "word",
-              "pos_detail": "int",
-              "transliteration": "ano"
-            },
-            {
-              "id": "N5-0083",
-              "kanji": "海",
-              "hiragana": "うみ",
-              "katakana": "ウミ",
-              "en": "sea, beach",
-              "defs": [
-                "sea, beach"
-              ],
-              "example": {
-                "en": "I go to the sea in summer.",
-                "native": "夏に海へ行きます。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "umi"
-            },
-            {
-              "id": "N5-0052",
-              "kanji": "池",
-              "hiragana": "いけ",
-              "katakana": "イケ",
-              "en": "pond",
-              "defs": [
-                "pond"
-              ],
-              "example": {
-                "en": "Fish are swimming in the pond at the park.",
-                "native": "公園の池で魚が泳いでいる。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "ike"
-            },
-            {
-              "id": "N5-0185",
-              "kanji": "川; 河",
-              "hiragana": "かわ",
-              "katakana": "カワ",
-              "en": "river",
-              "defs": [
-                "river"
-              ],
-              "example": {
-                "en": "I saw fish in the river.",
-                "native": "川で魚を見ました。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "kawa"
-            },
-            {
-              "id": "N5-0093",
-              "kanji": null,
-              "hiragana": "えれべーたー",
-              "katakana": "エレベーター",
-              "en": "elevator",
-              "defs": [
-                "elevator"
-              ],
-              "example": {
-                "en": "I go to the fifth floor by elevator.",
-                "native": "エレベーターで五階へ行きます。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "erebeetaa"
-            },
-            {
-              "id": "N5-0562",
-              "kanji": "飛行機",
-              "hiragana": "ひこうき",
-              "katakana": "ヒコウキ",
-              "en": "airplane",
-              "defs": [
-                "airplane"
-              ],
-              "example": {
-                "en": "I plan to go to Osaka by airplane.",
-                "native": "飛行機で大阪へ行く予定です。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "hikouki"
             },
             {
               "id": "N5-0303",
@@ -5468,23 +5896,6 @@
               "transliteration": "jitensha"
             },
             {
-              "id": "N5-0382",
-              "kanji": null,
-              "hiragana": "たくしー",
-              "katakana": "タクシー",
-              "en": "taxi",
-              "defs": [
-                "taxi"
-              ],
-              "example": {
-                "en": "In the end, it was just too much bother so I went home by taxi.",
-                "native": "結局面倒なのでタクシーで帰宅しました。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "takushii"
-            },
-            {
               "id": "N5-0532",
               "kanji": null,
               "hiragana": "ばす",
@@ -5502,6 +5913,23 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "basu"
+            },
+            {
+              "id": "N5-0382",
+              "kanji": null,
+              "hiragana": "たくしー",
+              "katakana": "タクシー",
+              "en": "taxi",
+              "defs": [
+                "taxi"
+              ],
+              "example": {
+                "en": "In the end, it was just too much bother so I went home by taxi.",
+                "native": "結局面倒なのでタクシーで帰宅しました。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "takushii"
             },
             {
               "id": "N5-0404",
@@ -5538,55 +5966,55 @@
               "transliteration": "densha"
             },
             {
-              "id": "N5-0434",
+              "id": "N5-0562",
+              "kanji": "飛行機",
+              "hiragana": "ひこうき",
+              "katakana": "ヒコウキ",
+              "en": "airplane",
+              "defs": [
+                "airplane"
+              ],
+              "example": {
+                "en": "I plan to go to Osaka by airplane.",
+                "native": "飛行機で大阪へ行く予定です。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "hikouki"
+            },
+            {
+              "id": "N5-0093",
               "kanji": null,
-              "hiragana": "でぱーと",
-              "katakana": "デパート",
-              "en": "(abbr.) department store",
+              "hiragana": "えれべーたー",
+              "katakana": "エレベーター",
+              "en": "elevator",
               "defs": [
-                "(abbr.) department store"
+                "elevator"
               ],
               "example": {
-                "en": "Mother went shopping at the department store.",
-                "native": "母はデパートへ買い物に行きました。"
+                "en": "I go to the fifth floor by elevator.",
+                "native": "エレベーターで五階へ行きます。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "depaato"
+              "transliteration": "erebeetaa"
             },
             {
-              "id": "N5-0248",
-              "kanji": "交番",
-              "hiragana": "こうばん",
-              "katakana": "コウバン",
-              "en": "police box",
+              "id": "N5-0092",
+              "kanji": "駅",
+              "hiragana": "えき",
+              "katakana": "エキ",
+              "en": "station",
               "defs": [
-                "police box"
+                "station"
               ],
               "example": {
-                "en": "A lost child was sobbing at the police box.",
-                "native": "迷子の子が交番でしくしく泣いていた。"
+                "en": "The station is on the right side of this road.",
+                "native": "駅はこの道の右です。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "kouban"
-            },
-            {
-              "id": "N5-0246",
-              "kanji": "交差点",
-              "hiragana": "こうさてん",
-              "katakana": "コウサテン",
-              "en": "intersection",
-              "defs": [
-                "intersection"
-              ],
-              "example": {
-                "en": "Please turn right at the next intersection.",
-                "native": "次の交差点を右に曲がってください。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "kousaten"
+              "transliteration": "eki"
             },
             {
               "id": "N5-0245",
@@ -5606,21 +6034,21 @@
               "transliteration": "kouen"
             },
             {
-              "id": "N5-0526",
-              "kanji": "橋",
-              "hiragana": "はし",
-              "katakana": "ハシ",
-              "en": "bridge",
+              "id": "N5-0460",
+              "kanji": "図書館",
+              "hiragana": "としょかん",
+              "katakana": "トショカン",
+              "en": "library",
               "defs": [
-                "bridge"
+                "library"
               ],
               "example": {
-                "en": "If you cross the old bridge, there is a station.",
-                "native": "古い橋を渡ると駅があります。"
+                "en": "Tomorrow, I'm going to study at the library.",
+                "native": "明日図書館で勉強するつもりです。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "hashi"
+              "transliteration": "toshokan"
             },
             {
               "id": "N5-0639",
@@ -5640,21 +6068,21 @@
               "transliteration": "mise"
             },
             {
-              "id": "N5-0460",
-              "kanji": "図書館",
-              "hiragana": "としょかん",
-              "katakana": "トショカン",
-              "en": "library",
+              "id": "N5-0434",
+              "kanji": null,
+              "hiragana": "でぱーと",
+              "katakana": "デパート",
+              "en": "(abbr.) department store",
               "defs": [
-                "library"
+                "(abbr.) department store"
               ],
               "example": {
-                "en": "Tomorrow, I'm going to study at the library.",
-                "native": "明日図書館で勉強するつもりです。"
+                "en": "Mother went shopping at the department store.",
+                "native": "母はデパートへ買い物に行きました。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "toshokan"
+              "transliteration": "depaato"
             },
             {
               "id": "N5-0706",
@@ -5708,73 +6136,21 @@
               "transliteration": "byouin"
             },
             {
-              "id": "N5-0627",
-              "kanji": "町",
-              "hiragana": "まち",
-              "katakana": "マチ",
-              "en": "town",
+              "id": "N5-0248",
+              "kanji": "交番",
+              "hiragana": "こうばん",
+              "katakana": "コウバン",
+              "en": "police box",
               "defs": [
-                "town",
-                "city"
+                "police box"
               ],
               "example": {
-                "en": "This town is quiet and easy to live in.",
-                "native": "この町は静かで住みやすい。"
+                "en": "A lost child was sobbing at the police box.",
+                "native": "迷子の子が交番でしくしく泣いていた。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "machi"
-            },
-            {
-              "id": "N5-0654",
-              "kanji": "村",
-              "hiragana": "むら",
-              "katakana": "ムラ",
-              "en": "village",
-              "defs": [
-                "village"
-              ],
-              "example": {
-                "en": "My grandfather lives in a small village.",
-                "native": "祖父は小さい村に住んでいます。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "mura"
-            },
-            {
-              "id": "N5-0609",
-              "kanji": null,
-              "hiragana": "ほてる",
-              "katakana": "ホテル",
-              "en": "hotel",
-              "defs": [
-                "hotel"
-              ],
-              "example": {
-                "en": "I stayed at the hotel in front of the station.",
-                "native": "駅の前のホテルに泊まりました。"
-              },
-              "type": "word",
-              "pos_detail": "v1",
-              "transliteration": "hoteru"
-            },
-            {
-              "id": "N5-0373",
-              "kanji": "大使館",
-              "hiragana": "たいしかん",
-              "katakana": "タイシカン",
-              "en": "embassy",
-              "defs": [
-                "embassy"
-              ],
-              "example": {
-                "en": "He is a diplomat at the American Embassy.",
-                "native": "彼はアメリカ大使館の外交官である。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "taishikan"
+              "transliteration": "kouban"
             },
             {
               "id": "N5-0678",
@@ -5794,6 +6170,230 @@
               "transliteration": "yuubinkyoku"
             },
             {
+              "id": "N5-0373",
+              "kanji": "大使館",
+              "hiragana": "たいしかん",
+              "katakana": "タイシカン",
+              "en": "embassy",
+              "defs": [
+                "embassy"
+              ],
+              "example": {
+                "en": "He is a diplomat at the American Embassy.",
+                "native": "彼はアメリカ大使館の外交官である。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "taishikan"
+            },
+            {
+              "id": "N5-0609",
+              "kanji": null,
+              "hiragana": "ほてる",
+              "katakana": "ホテル",
+              "en": "hotel",
+              "defs": [
+                "hotel"
+              ],
+              "example": {
+                "en": "I stayed at the hotel in front of the station.",
+                "native": "駅の前のホテルに泊まりました。"
+              },
+              "type": "word",
+              "pos_detail": "v1",
+              "transliteration": "hoteru"
+            },
+            {
+              "id": "N5-0627",
+              "kanji": "町",
+              "hiragana": "まち",
+              "katakana": "マチ",
+              "en": "town",
+              "defs": [
+                "town",
+                "city"
+              ],
+              "example": {
+                "en": "This town is quiet and easy to live in.",
+                "native": "この町は静かで住みやすい。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "machi"
+            },
+            {
+              "id": "N5-0031",
+              "kanji": null,
+              "hiragana": "あぱーと",
+              "katakana": "アパート",
+              "en": "apartment (abbr.)",
+              "defs": [
+                "apartment (abbr.)"
+              ],
+              "example": {
+                "en": "My older brother lives in an apartment near the station.",
+                "native": "兄は駅前のアパートに住んでいます。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "apaato"
+            },
+            {
+              "id": "N5-0654",
+              "kanji": "村",
+              "hiragana": "むら",
+              "katakana": "ムラ",
+              "en": "village",
+              "defs": [
+                "village"
+              ],
+              "example": {
+                "en": "My grandfather lives in a small village.",
+                "native": "祖父は小さい村に住んでいます。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "mura"
+            },
+            {
+              "id": "N5-0223",
+              "kanji": "国",
+              "hiragana": "くに",
+              "katakana": "クニ",
+              "en": "country",
+              "defs": [
+                "country",
+                "place of origin"
+              ],
+              "example": {
+                "en": "My country is the United States.",
+                "native": "私の国はアメリカです。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "kuni"
+            },
+            {
+              "id": "N5-0144",
+              "kanji": "外国",
+              "hiragana": "がいこく",
+              "katakana": "ガイコク",
+              "en": "foreign country",
+              "defs": [
+                "foreign country",
+                "abroad"
+              ],
+              "example": {
+                "en": "My dream is to work abroad.",
+                "native": "外国で働くのが夢です。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "gaikoku"
+            },
+            {
+              "id": "N5-0083",
+              "kanji": "海",
+              "hiragana": "うみ",
+              "katakana": "ウミ",
+              "en": "sea, beach",
+              "defs": [
+                "sea, beach"
+              ],
+              "example": {
+                "en": "I go to the sea in summer.",
+                "native": "夏に海へ行きます。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "umi"
+            },
+            {
+              "id": "N5-0185",
+              "kanji": "川; 河",
+              "hiragana": "かわ",
+              "katakana": "カワ",
+              "en": "river",
+              "defs": [
+                "river"
+              ],
+              "example": {
+                "en": "I saw fish in the river.",
+                "native": "川で魚を見ました。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "kawa"
+            },
+            {
+              "id": "N5-0052",
+              "kanji": "池",
+              "hiragana": "いけ",
+              "katakana": "イケ",
+              "en": "pond",
+              "defs": [
+                "pond"
+              ],
+              "example": {
+                "en": "Fish are swimming in the pond at the park.",
+                "native": "公園の池で魚が泳いでいる。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "ike"
+            },
+            {
+              "id": "N5-0674",
+              "kanji": "山",
+              "hiragana": "やま",
+              "katakana": "ヤマ",
+              "en": "mountain",
+              "defs": [
+                "mountain"
+              ],
+              "example": {
+                "en": "You can see the town from the top of the mountain.",
+                "native": "山の上から町が見える。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "yama"
+            },
+            {
+              "id": "N5-0526",
+              "kanji": "橋",
+              "hiragana": "はし",
+              "katakana": "ハシ",
+              "en": "bridge",
+              "defs": [
+                "bridge"
+              ],
+              "example": {
+                "en": "If you cross the old bridge, there is a station.",
+                "native": "古い橋を渡ると駅があります。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "hashi"
+            },
+            {
+              "id": "N5-0664",
+              "kanji": "門",
+              "hiragana": "もん",
+              "katakana": "モン",
+              "en": "gate",
+              "defs": [
+                "gate"
+              ],
+              "example": {
+                "en": "I am waiting for my friend in front of the gate.",
+                "native": "門の前で友達を待っています。"
+              },
+              "type": "word",
+              "pos_detail": "n",
+              "transliteration": "mon"
+            },
+            {
               "id": "N5-0431",
               "kanji": "出口",
               "hiragana": "でぐち",
@@ -5811,73 +6411,55 @@
               "transliteration": "deguchi"
             },
             {
-              "id": "N5-0557",
-              "kanji": "東",
-              "hiragana": "ひがし",
-              "katakana": "ヒガシ",
-              "en": "east",
+              "id": "N5-0070",
+              "kanji": "入口",
+              "hiragana": "いりぐち",
+              "katakana": "イリグチ",
+              "en": "entrance",
               "defs": [
-                "east"
+                "entrance"
               ],
               "example": {
-                "en": "I came to Tokyo three years ago and have been living here ever since.",
-                "native": "３年前に東京へ来て以来ここに住んでいる。"
+                "en": "The entrance is over there.",
+                "native": "入口はあちらです。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "higashi"
+              "transliteration": "iriguchi"
             },
             {
-              "id": "N5-0499",
-              "kanji": "西",
-              "hiragana": "にし",
-              "katakana": "ニシ",
-              "en": "west",
+              "id": "N5-0240",
+              "kanji": "玄関",
+              "hiragana": "げんかん",
+              "katakana": "ゲンカン",
+              "en": "entrance (to a house or a building)",
               "defs": [
-                "west"
+                "entrance (to a house or a building)"
               ],
               "example": {
-                "en": "The western sky is turning red.",
-                "native": "西の空が赤くなってきた。"
+                "en": "This is a code lock type that you can use on the entranceway as well.",
+                "native": "玄関にも取り付け可能な暗証タイプです。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "nishi"
+              "transliteration": "genkan"
             },
             {
-              "id": "N5-0646",
-              "kanji": "南",
-              "hiragana": "みなみ",
-              "katakana": "ミナミ",
-              "en": "South",
+              "id": "N5-0147",
+              "kanji": "階段",
+              "hiragana": "かいだん",
+              "katakana": "カイダン",
+              "en": "stairs",
               "defs": [
-                "South"
+                "stairs"
               ],
               "example": {
-                "en": "The waiter filled our glasses to the brim.",
-                "native": "ウエイターは私たちのグラスになみなみと注いだ。"
+                "en": "Please use the stairs.",
+                "native": "階段を使ってください。"
               },
               "type": "word",
               "pos_detail": "n",
-              "transliteration": "minami"
-            },
-            {
-              "id": "N5-0641",
-              "kanji": "道",
-              "hiragana": "みち",
-              "katakana": "ミチ",
-              "en": "road, street",
-              "defs": [
-                "road, street",
-                "way, directions"
-              ],
-              "example": {
-                "en": "This road leads to the station.",
-                "native": "この道は駅へ続きます。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "michi"
+              "transliteration": "kaidan"
             }
           ]
         },
@@ -6126,23 +6708,6 @@
               "type": "affix",
               "pos_detail": "suf",
               "transliteration": "～toki"
-            },
-            {
-              "id": "N5-0621",
-              "kanji": "前",
-              "hiragana": "まえ",
-              "katakana": "マエ",
-              "en": "before, in front",
-              "defs": [
-                "before, in front"
-              ],
-              "example": {
-                "en": "I wash my hands before eating.",
-                "native": "食べる前に手を洗います。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "mae"
             },
             {
               "id": "N5-0605",
@@ -6504,6 +7069,25 @@
               "type": "word",
               "pos_detail": "int",
               "transliteration": "moshimoshi"
+            },
+            {
+              "id": "N5-0032",
+              "kanji": null,
+              "hiragana": "あの",
+              "katakana": "アノ",
+              "en": "that over there",
+              "defs": [
+                "that over there",
+                "like that, that way",
+                "um..."
+              ],
+              "example": {
+                "en": "Do whatever he tells you.",
+                "native": "あの方が言われる事を、何でもしてあげて下さい。"
+              },
+              "type": "word",
+              "pos_detail": "int",
+              "transliteration": "ano"
             }
           ]
         },
@@ -6631,24 +7215,6 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "gaikokujin"
-            },
-            {
-              "id": "N5-0144",
-              "kanji": "外国",
-              "hiragana": "がいこく",
-              "katakana": "ガイコク",
-              "en": "foreign country",
-              "defs": [
-                "foreign country",
-                "abroad"
-              ],
-              "example": {
-                "en": "My dream is to work abroad.",
-                "native": "外国で働くのが夢です。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "gaikoku"
             },
             {
               "id": "N5-0062",
@@ -7191,23 +7757,6 @@
               "transliteration": "jibiki"
             },
             {
-              "id": "N5-0512",
-              "kanji": null,
-              "hiragana": "のーと",
-              "katakana": "ノート",
-              "en": "notebook",
-              "defs": [
-                "notebook"
-              ],
-              "example": {
-                "en": "I write new words in this notebook.",
-                "native": "このノートに新しい単語を書きます。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "nooto"
-            },
-            {
               "id": "N5-0591",
               "kanji": "文章",
               "hiragana": "ぶんしょう",
@@ -7308,91 +7857,6 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "chizu"
-            },
-            {
-              "id": "N5-0429",
-              "kanji": "手紙",
-              "hiragana": "てがみ",
-              "katakana": "テガミ",
-              "en": "letter",
-              "defs": [
-                "letter"
-              ],
-              "example": {
-                "en": "He was employed writing letter.",
-                "native": "彼はてがみを何通もかいていた。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "tegami"
-            },
-            {
-              "id": "N5-0523",
-              "kanji": "葉書",
-              "hiragana": "はがき",
-              "katakana": "ハガキ",
-              "en": "postcard",
-              "defs": [
-                "postcard"
-              ],
-              "example": {
-                "en": "My parents sent me a postcard.",
-                "native": "両親が私にはがきを送ってくれた。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "hagaki"
-            },
-            {
-              "id": "N5-0577",
-              "kanji": "封筒",
-              "hiragana": "ふうとう",
-              "katakana": "フウトウ",
-              "en": "envelope",
-              "defs": [
-                "envelope"
-              ],
-              "example": {
-                "en": "Enclose your resume in this envelope and submit it to the personnel department.",
-                "native": "履歴書はこの封筒に入れて人事部に提出して下さい。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "fuutou"
-            },
-            {
-              "id": "N5-0598",
-              "kanji": null,
-              "hiragana": "ぺん",
-              "katakana": "ペン",
-              "en": "pen",
-              "defs": [
-                "pen"
-              ],
-              "example": {
-                "en": "This pen is easy to write with.",
-                "native": "このペンは書きやすいです。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "pen"
-            },
-            {
-              "id": "N5-0602",
-              "kanji": null,
-              "hiragana": "ぼーるぺん",
-              "katakana": "ボールペン",
-              "en": "ball-point pen",
-              "defs": [
-                "ball-point pen"
-              ],
-              "example": {
-                "en": "He held a ball-point by the wrong end.",
-                "native": "彼はボールペンを逆さに持った。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "boorupen"
             },
             {
               "id": "N5-0634",
@@ -7678,40 +8142,6 @@
               "transliteration": "supootsu"
             },
             {
-              "id": "N5-0437",
-              "kanji": null,
-              "hiragana": "てれび",
-              "katakana": "テレビ",
-              "en": "television, TV",
-              "defs": [
-                "television, TV"
-              ],
-              "example": {
-                "en": "I can't live without a TV.",
-                "native": "テレビがなかったら生きていけないよ。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "terebi"
-            },
-            {
-              "id": "N5-0696",
-              "kanji": null,
-              "hiragana": "らじお",
-              "katakana": "ラジオ",
-              "en": "radio",
-              "defs": [
-                "radio"
-              ],
-              "example": {
-                "en": "He offered ten dollars for our old radio.",
-                "native": "彼は私たちの古いラジオを１０ドルで買うと言った。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "rajio"
-            },
-            {
               "id": "N5-0705",
               "kanji": null,
               "hiragana": "れこーど",
@@ -7891,40 +8321,6 @@
               "type": "word",
               "pos_detail": "v1",
               "transliteration": "tsukeru"
-            },
-            {
-              "id": "N5-0458",
-              "kanji": "所",
-              "hiragana": "ところ",
-              "katakana": "トコロ",
-              "en": "place",
-              "defs": [
-                "place"
-              ],
-              "example": {
-                "en": "I was wondering if you were going to show up today.",
-                "native": "今日君は来るのかなと思っていたところだよ。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "tokoro"
-            },
-            {
-              "id": "N5-0596",
-              "kanji": "部屋",
-              "hiragana": "へや",
-              "katakana": "ヘヤ",
-              "en": "a room",
-              "defs": [
-                "a room"
-              ],
-              "example": {
-                "en": "I cleaned my room well.",
-                "native": "部屋をきれいに掃除しました。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "heya"
             },
             {
               "id": "N5-0606",
@@ -9031,23 +9427,6 @@
               "transliteration": "sora"
             },
             {
-              "id": "N5-0674",
-              "kanji": "山",
-              "hiragana": "やま",
-              "katakana": "ヤマ",
-              "en": "mountain",
-              "defs": [
-                "mountain"
-              ],
-              "example": {
-                "en": "You can see the town from the top of the mountain.",
-                "native": "山の上から町が見える。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "yama"
-            },
-            {
               "id": "N5-0279",
               "kanji": "咲く",
               "hiragana": "さく",
@@ -9301,6 +9680,23 @@
               "type": "word",
               "pos_detail": "adj-i",
               "transliteration": "nurui"
+            },
+            {
+              "id": "N5-0225",
+              "kanji": "曇る",
+              "hiragana": "くもる",
+              "katakana": "クモル",
+              "en": "to become cloudy, to become dim",
+              "defs": [
+                "to become cloudy, to become dim"
+              ],
+              "example": {
+                "en": "When I wear a mask, my glasses get steamed up.",
+                "native": "マスクをつけると眼鏡が曇る。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "kumoru"
             }
           ]
         },
@@ -9482,23 +9878,6 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "arau"
-            },
-            {
-              "id": "N5-0130",
-              "kanji": "お風呂",
-              "hiragana": "おふろ",
-              "katakana": "オフロ",
-              "en": "a bath",
-              "defs": [
-                "a bath"
-              ],
-              "example": {
-                "en": "Please take a bath.",
-                "native": "お風呂をお召しください。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "ofuro"
             },
             {
               "id": "N5-0220",
@@ -9713,23 +10092,6 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "yoku"
-            },
-            {
-              "id": "N5-0630",
-              "kanji": null,
-              "hiragana": "まっち",
-              "katakana": "マッチ",
-              "en": "match",
-              "defs": [
-                "match"
-              ],
-              "example": {
-                "en": "Sulfur is used to make matches.",
-                "native": "硫黄はマッチを作るのに使われる。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "macchi"
             },
             {
               "id": "N5-0345",
@@ -10135,23 +10497,6 @@
               "transliteration": "hiragana"
             },
             {
-              "id": "N5-0467",
-              "kanji": "飛ぶ",
-              "hiragana": "とぶ",
-              "katakana": "トブ",
-              "en": "to fly, to hop",
-              "defs": [
-                "to fly, to hop"
-              ],
-              "example": {
-                "en": "Birds fly in the sky.",
-                "native": "鳥は空を飛ぶ。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "tobu"
-            },
-            {
               "id": "N5-0492",
               "kanji": "並ぶ",
               "hiragana": "ならぶ",
@@ -10169,23 +10514,6 @@
               "transliteration": "narabu"
             },
             {
-              "id": "N5-0604",
-              "kanji": null,
-              "hiragana": "ぽけっと",
-              "katakana": "ポケット",
-              "en": "pocket",
-              "defs": [
-                "pocket"
-              ],
-              "example": {
-                "en": "She put the key in her pocket.",
-                "native": "彼女は鍵をポケットに入れた。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "poketto"
-            },
-            {
               "id": "N5-0329",
               "kanji": "吸う",
               "hiragana": "すう",
@@ -10201,109 +10529,6 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "suu"
-            },
-            {
-              "id": "N5-0416",
-              "kanji": "着く",
-              "hiragana": "つく",
-              "katakana": "ツク",
-              "en": "to arrive at, to reach",
-              "defs": [
-                "to arrive at, to reach"
-              ],
-              "example": {
-                "en": "How long does it take to get to the station?",
-                "native": "あなたが駅に着くのにどのくらいかかりますか。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "tsuku"
-            },
-            {
-              "id": "N5-0428",
-              "kanji": "出かける",
-              "hiragana": "でかける",
-              "katakana": "デカケル",
-              "en": "to go out",
-              "defs": [
-                "to go out",
-                "to depart"
-              ],
-              "example": {
-                "en": "I want to get a haircut before I go on the trip.",
-                "native": "旅行に出かける前に頭を刈っておきたい。"
-              },
-              "type": "word",
-              "pos_detail": "v1",
-              "transliteration": "dekakeru"
-            },
-            {
-              "id": "N5-0468",
-              "kanji": "止まる",
-              "hiragana": "とまる",
-              "katakana": "トマル",
-              "en": "to come to a halt",
-              "defs": [
-                "to come to a halt"
-              ],
-              "example": {
-                "en": "Don't open the door till the train stops.",
-                "native": "列車が止まるまでドアを開けてはいけません。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "tomaru"
-            },
-            {
-              "id": "N5-0516",
-              "kanji": "乗る",
-              "hiragana": "のる",
-              "katakana": "ノル",
-              "en": "to get on, to ride in, to board",
-              "defs": [
-                "to get on, to ride in, to board"
-              ],
-              "example": {
-                "en": "I ride the bus every day.",
-                "native": "毎日バスに乗る。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "noru"
-            },
-            {
-              "id": "N5-0623",
-              "kanji": "曲る",
-              "hiragana": "まがる",
-              "katakana": "マガル",
-              "en": "to turn, to bend",
-              "defs": [
-                "to turn, to bend"
-              ],
-              "example": {
-                "en": "If you turn right on this road, there is a library.",
-                "native": "この道を右に曲ると図書館がある。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "magaru"
-            },
-            {
-              "id": "N5-0717",
-              "kanji": "渡る",
-              "hiragana": "わたる",
-              "katakana": "ワタル",
-              "en": "to cross over, to go across",
-              "defs": [
-                "to cross over, to go across"
-              ],
-              "example": {
-                "en": "Cross the road after the light turns green.",
-                "native": "信号が青になってから道を渡る。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "wataru"
             }
           ]
         },
@@ -10328,23 +10553,6 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "hajime"
-            },
-            {
-              "id": "N5-0553",
-              "kanji": null,
-              "hiragana": "はんかち",
-              "katakana": "ハンカチ",
-              "en": "handkerchief",
-              "defs": [
-                "handkerchief"
-              ],
-              "example": {
-                "en": "Do you have a handkerchief?",
-                "native": "ハンカチを持っていますか。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "hankachi"
             },
             {
               "id": "N5-0481",
@@ -10398,23 +10606,6 @@
               "transliteration": "mada"
             },
             {
-              "id": "N5-0636",
-              "kanji": "右",
-              "hiragana": "みぎ",
-              "katakana": "ミギ",
-              "en": "right hand side",
-              "defs": [
-                "right hand side"
-              ],
-              "example": {
-                "en": "If you turn right, there is a post office.",
-                "native": "右に曲がると郵便局があります。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "migi"
-            },
-            {
               "id": "N5-0684",
               "kanji": "洋服",
               "hiragana": "ようふく",
@@ -10430,25 +10621,6 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "youfuku"
-            },
-            {
-              "id": "N5-0686",
-              "kanji": "横",
-              "hiragana": "よこ",
-              "katakana": "ヨコ",
-              "en": "beside",
-              "defs": [
-                "beside",
-                "side",
-                "width"
-              ],
-              "example": {
-                "en": "The station is beside the bank.",
-                "native": "駅は銀行の横です。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "yoko"
             },
             {
               "id": "N5-0661",
@@ -10486,23 +10658,6 @@
               "type": "word",
               "pos_detail": "v5",
               "transliteration": "haru"
-            },
-            {
-              "id": "N5-0563",
-              "kanji": "左",
-              "hiragana": "ひだり",
-              "katakana": "ヒダリ",
-              "en": "left hand side",
-              "defs": [
-                "left hand side"
-              ],
-              "example": {
-                "en": "Please look left.",
-                "native": "左を見てください。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "hidari"
             },
             {
               "id": "N5-0595",
@@ -10554,110 +10709,6 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "hen"
-            },
-            {
-              "id": "N5-0651",
-              "kanji": "向こう",
-              "hiragana": "むこう",
-              "katakana": "ムコウ",
-              "en": "beyond, over there",
-              "defs": [
-                "beyond, over there"
-              ],
-              "example": {
-                "en": "He threw a ball over the fence.",
-                "native": "彼は塀の向こう側にボールを投げた。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "mukou"
-            },
-            {
-              "id": "N5-0366",
-              "kanji": null,
-              "hiragana": "そば",
-              "katakana": "ソバ",
-              "en": "near, close, beside",
-              "defs": [
-                "near, close, beside",
-                "Japanese traditional buckwheat noodle"
-              ],
-              "example": {
-                "en": "Ai sat down beside me.",
-                "native": "愛ちゃんは私のそばに座った。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "soba"
-            },
-            {
-              "id": "N5-0403",
-              "kanji": "近く",
-              "hiragana": "ちかく",
-              "katakana": "チカク",
-              "en": "nearby",
-              "defs": [
-                "nearby",
-                "in the neighborhood"
-              ],
-              "example": {
-                "en": "A new store opened near the station.",
-                "native": "駅の近くに新しい店ができた。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "chikaku"
-            },
-            {
-              "id": "N5-0364",
-              "kanji": "外",
-              "hiragana": "そと",
-              "katakana": "ソト",
-              "en": "outside, exterior",
-              "defs": [
-                "outside, exterior"
-              ],
-              "example": {
-                "en": "It is cold outside.",
-                "native": "外は寒いです。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "soto"
-            },
-            {
-              "id": "N5-0479",
-              "kanji": "中",
-              "hiragana": "なか",
-              "katakana": "ナカ",
-              "en": "inside, middle, among",
-              "defs": [
-                "inside, middle, among"
-              ],
-              "example": {
-                "en": "The keys are inside the bag.",
-                "native": "かばんの中に鍵があります。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "naka"
-            },
-            {
-              "id": "N5-0299",
-              "kanji": "下",
-              "hiragana": "した",
-              "katakana": "シタ",
-              "en": "under, below, beneath",
-              "defs": [
-                "under, below, beneath"
-              ],
-              "example": {
-                "en": "There is a cat under the chair.",
-                "native": "いすの下にねこがいます。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "shita"
             }
           ]
         }
@@ -11427,23 +11478,6 @@
               "transliteration": "sumu"
             },
             {
-              "id": "N5-0377",
-              "kanji": "台所",
-              "hiragana": "だいどころ",
-              "katakana": "ダイドコロ",
-              "en": "kitchen",
-              "defs": [
-                "kitchen"
-              ],
-              "example": {
-                "en": "I heard something crashing in the kitchen in the middle of the night.",
-                "native": "夜中に台所で物が壊れる音がした。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "daidokoro"
-            },
-            {
               "id": "N5-0372",
               "kanji": "大学",
               "hiragana": "だいがく",
@@ -11862,23 +11896,6 @@
               "type": "word",
               "pos_detail": "n",
               "transliteration": "ichiban"
-            },
-            {
-              "id": "N5-0031",
-              "kanji": null,
-              "hiragana": "あぱーと",
-              "katakana": "アパート",
-              "en": "apartment (abbr.)",
-              "defs": [
-                "apartment (abbr.)"
-              ],
-              "example": {
-                "en": "My older brother lives in an apartment near the station.",
-                "native": "兄は駅前のアパートに住んでいます。"
-              },
-              "type": "word",
-              "pos_detail": "n",
-              "transliteration": "apaato"
             },
             {
               "id": "N5-0026",
@@ -12451,23 +12468,6 @@
               "type": "affix",
               "pos_detail": "suf",
               "transliteration": "～ya"
-            },
-            {
-              "id": "N5-0503",
-              "kanji": null,
-              "hiragana": "にゅーす",
-              "katakana": "ニュース",
-              "en": "news",
-              "defs": [
-                "news"
-              ],
-              "example": {
-                "en": "You'll have to ask at the newsstand.",
-                "native": "ニューススタンドで聞いて下さい。"
-              },
-              "type": "word",
-              "pos_detail": "v5",
-              "transliteration": "nyuusu"
             },
             {
               "id": "N5-0181",

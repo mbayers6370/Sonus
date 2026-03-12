@@ -644,7 +644,9 @@ function createSupabaseProvider(): AuthModeProvider {
   };
 }
 
-export function createAuthModeProvider(mode: 'mock' | 'local' | 'supabase' = env.AUTH_MODE): AuthModeProvider {
+export function createAuthModeProvider(
+  mode: 'mock' | 'local' | 'supabase' = env.AUTH_MODE
+): AuthModeProvider {
   if (mode === 'local') return createLocalProvider();
   if (mode === 'supabase') return createSupabaseProvider();
   return createMockProvider();

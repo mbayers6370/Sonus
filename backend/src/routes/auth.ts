@@ -7,10 +7,7 @@ import { parseCookies, serializeCookie } from '../lib/cookies.js';
 import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js';
 import { createLoginThrottle } from '../lib/loginThrottle.js';
 import { createAuthModeProvider } from '../lib/authModeProvider.js';
-import {
-  hashPasswordResetToken,
-  normalizeEmail,
-} from '../lib/localAuth.js';
+import { hashPasswordResetToken, normalizeEmail } from '../lib/localAuth.js';
 
 const TERMS_OF_SERVICE_VERSION = '2026-03-08';
 const PRIVACY_POLICY_VERSION = '2026-03-07';
