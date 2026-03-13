@@ -535,7 +535,7 @@ export default function GlassHeader({
                     className={`main-font inline-flex h-11 items-center gap-1.5 rounded-xl border px-4 text-[0.85rem] ${
                       useLightDesktopChrome
                         ? 'border-white/70 bg-white/8 text-white'
-                        : 'border-[var(--sonus-palette-charcoal)]/40 bg-white/90 text-[var(--sonus-palette-charcoal)]'
+                        : 'border-[var(--sonus-palette-charcoal)]/40 bg-transparent text-[var(--sonus-palette-charcoal)]'
                     }`}
                   >
                     <span>{resolvedLanguageLabel}</span>

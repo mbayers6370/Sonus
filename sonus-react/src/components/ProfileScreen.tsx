@@ -22,7 +22,7 @@ import { SurfaceButtonCard, SurfaceCard } from './ui/SurfaceCard';
 import { formatUnitNameForDisplay, getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { normalizeLanguageId } from '../lib/languageRuntime';
-import { getTrackedEvents } from '../lib/analytics';
+import { getTrackedEvents, isLessonActivityEventName } from '../lib/analytics';
 import type { SharedUserProgress } from '../../../shared/contracts';
 
 const LANGUAGE_ACCENT_HEX: Record<string, string> = {
@@ -334,7 +334,7 @@ export default function ProfileScreen({
     const keys = new Set<string>();
     const events = getTrackedEvents();
     for (const event of events) {
-      if (event.name !== 'lesson_completed') continue;
+      if (!isLessonActivityEventName(event.name)) continue;
       const ts = new Date(event.timestamp);
       if (Number.isNaN(ts.getTime())) continue;
       ts.setHours(0, 0, 0, 0);

@@ -21,6 +21,15 @@ export type AnalyticsEvent = {
 
 const STORAGE_KEY = 'sonus:analytics:events';
 const MAX_EVENTS = 200;
+const LESSON_ACTIVITY_EVENT_NAMES: ReadonlySet<AnalyticsEventName> = new Set([
+  'lesson_started',
+  'lesson_resumed',
+  'lesson_completed',
+  'quiz_answered',
+  'speak_retry',
+  'speak_feedback_classified',
+  'daily_set_started',
+]);
 
 function readEvents(): AnalyticsEvent[] {
   if (typeof window === 'undefined') return [];
@@ -58,4 +67,8 @@ export function trackEvent(name: AnalyticsEventName, payload?: Record<string, un
 
 export function getTrackedEvents() {
   return readEvents();
+}
+
+export function isLessonActivityEventName(name: AnalyticsEventName) {
+  return LESSON_ACTIVITY_EVENT_NAMES.has(name);
 }

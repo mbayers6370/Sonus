@@ -7,7 +7,7 @@ import { formatUnitNameForDisplay, getUnitMetadata, getUnitsForBand, isCheckpoin
 import { useApp } from '../contexts/AppContext';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { normalizeLanguageId } from '../lib/languageRuntime';
-import { getTrackedEvents } from '../lib/analytics';
+import { getTrackedEvents, isLessonActivityEventName } from '../lib/analytics';
 import { makeLessonKey } from '../lib/lessonProgress';
 import type { SharedLexeme, SharedUserProgress } from '../../../shared/contracts';
 
@@ -376,7 +376,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     const keys = new Set<string>();
     const events = getTrackedEvents();
     for (const event of events) {
-      if (event.name !== 'lesson_completed') continue;
+      if (!isLessonActivityEventName(event.name)) continue;
       const ts = new Date(event.timestamp);
       if (Number.isNaN(ts.getTime())) continue;
       ts.setHours(0, 0, 0, 0);
