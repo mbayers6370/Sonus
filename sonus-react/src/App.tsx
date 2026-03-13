@@ -47,6 +47,28 @@ function normalizeLegacyHashRouteIfNeeded() {
   window.location.replace(nextUrl);
 }
 
+function isSupportConsoleBootPath() {
+  if (typeof window === 'undefined') return false;
+  return window.location.pathname.startsWith('/internal/support');
+}
+
+function SupportConsoleEntry() {
+  return (
+    <Suspense
+      fallback={(
+        <div className="min-h-screen page-shell flex items-center justify-center">
+          <GlassLoader compact message="Loading support console..." />
+        </div>
+      )}
+    >
+      <Routes>
+        <Route path="/internal/support/*" element={<SupportConsolePage />} />
+        <Route path="*" element={<Navigate to="/internal/support" replace />} />
+      </Routes>
+    </Suspense>
+  );
+}
+
 function AppShell() {
   const { status, error } = useAuth();
   const navigate = useNavigate();
@@ -197,6 +219,15 @@ function PublicEntryRoute() {
 
 export default function App() {
   normalizeLegacyHashRouteIfNeeded();
+
+  if (isSupportConsoleBootPath()) {
+    return (
+      <BrowserRouter>
+        <ScrollToTop />
+        <SupportConsoleEntry />
+      </BrowserRouter>
+    );
+  }
 
   return (
     <AuthProvider>

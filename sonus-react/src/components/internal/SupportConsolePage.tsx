@@ -425,6 +425,15 @@ type ProdReadinessReport = {
 
 const SUPPORT_ADMIN_TOKEN_STORAGE_KEY = 'sonus.support_admin.token';
 const ROOT_QA_ADMIN_USERNAME = 'qa-admin-f8n2x7r1@sonus.test';
+const SUPPORT_AUTH_BOOT_TIMEOUT_MS = 6000;
+
+function readSupportAdminToken() {
+  try {
+    return window.localStorage.getItem(SUPPORT_ADMIN_TOKEN_STORAGE_KEY) || null;
+  } catch {
+    return null;
+  }
+}
 const ACCESS_LANGUAGE_OPTIONS = [
   { id: 'ja', label: 'Japanese' },
 ] as const;
@@ -907,13 +916,16 @@ async function parseJsonOrThrow<T>(response: Response) {
 export default function SupportConsolePage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [bootLoading, setBootLoading] = useState(true);
+  const [bootLoading] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const didBootstrapRef = useRef(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authBusy, setAuthBusy] = useState(false);
   const [adminUsername, setAdminUsername] = useState('qa-admin-f8n2x7r1@sonus.test');
   const [adminPassword, setAdminPassword] = useState('');
+  const adminUsernameInputRef = useRef<HTMLInputElement | null>(null);
+  const adminPasswordInputRef = useRef<HTMLInputElement | null>(null);
+  const adminAutoSubmittedRef = useRef(false);
   const [query, setQuery] = useState('');
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -1129,6 +1141,11 @@ export default function SupportConsolePage() {
   const canCreateAdmins = supportAdminUsername === ROOT_QA_ADMIN_USERNAME;
 
   const verifySupportAdminSession = useCallback(async () => {
+    if (!readSupportAdminToken()) {
+      setAuthenticated(false);
+      setSupportAdminUsername(null);
+      return false;
+    }
     try {
       const payload = await parseJsonOrThrow<{ username?: string }>(
         await apiFetch('/v1/admin/auth/me', { cache: 'no-store' })
@@ -1138,6 +1155,7 @@ export default function SupportConsolePage() {
       setAuthError(null);
       return true;
     } catch {
+      setSupportAdminToken(null);
       setAuthenticated(false);
       setSupportAdminUsername(null);
       return false;
@@ -2238,10 +2256,21 @@ export default function SupportConsolePage() {
     if (didBootstrapRef.current) return;
     didBootstrapRef.current = true;
     let cancelled = false;
+    if (!readSupportAdminToken()) {
+      setAuthenticated(false);
+      setSupportAdminUsername(null);
+      return () => {
+        cancelled = true;
+      };
+    }
     void (async () => {
-      const ok = await verifySupportAdminSession();
+      const ok = await Promise.race<boolean>([
+        verifySupportAdminSession(),
+        new Promise<boolean>((resolve) => {
+          window.setTimeout(() => resolve(false), SUPPORT_AUTH_BOOT_TIMEOUT_MS);
+        }),
+      ]);
       if (!cancelled) {
-        setBootLoading(false);
         if (ok) {
           if (viewMode === 'ops') void runSearch();
           if (viewMode === 'dashboard') {
@@ -2518,15 +2547,17 @@ export default function SupportConsolePage() {
     await runAccessMutation(payload);
   };
 
-  const handleSupportLogin = async () => {
+  const handleSupportLogin = useCallback(async (usernameOverride?: string, passwordOverride?: string) => {
     setAuthBusy(true);
     setAuthError(null);
     try {
+      const resolvedUsername = (usernameOverride ?? adminUsername).trim();
+      const resolvedPassword = passwordOverride ?? adminPassword;
       const payload = await parseJsonOrThrow<{ token: string }>(
         await apiFetch('/v1/admin/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: adminUsername.trim(), password: adminPassword }),
+          body: JSON.stringify({ username: resolvedUsername, password: resolvedPassword }),
         })
       );
       setSupportAdminToken(payload.token);
@@ -2540,7 +2571,50 @@ export default function SupportConsolePage() {
     } finally {
       setAuthBusy(false);
     }
-  };
+  }, [adminPassword, adminUsername, runSearch, verifySupportAdminSession, viewMode]);
+
+  useEffect(() => {
+    if (authenticated || authBusy) return;
+    let checks = 0;
+    const timer = window.setInterval(() => {
+      const usernameEl = adminUsernameInputRef.current;
+      const passwordEl = adminPasswordInputRef.current;
+      if (!usernameEl || !passwordEl) return;
+
+      const nextUsername = usernameEl.value.trim();
+      const nextPassword = passwordEl.value;
+
+      if (nextUsername && nextUsername !== adminUsername) setAdminUsername(nextUsername);
+      if (nextPassword && nextPassword !== adminPassword) setAdminPassword(nextPassword);
+
+      const isAutoFilled = (() => {
+        try {
+          return (
+            usernameEl.matches(':-webkit-autofill') ||
+            passwordEl.matches(':-webkit-autofill') ||
+            usernameEl.matches(':autofill') ||
+            passwordEl.matches(':autofill')
+          );
+        } catch {
+          return false;
+        }
+      })();
+
+      if (!adminAutoSubmittedRef.current && isAutoFilled && nextUsername.length >= 3 && nextPassword.length > 0) {
+        adminAutoSubmittedRef.current = true;
+        void handleSupportLogin(nextUsername, nextPassword);
+      }
+
+      checks += 1;
+      if (checks >= 20) {
+        window.clearInterval(timer);
+      }
+    }, 250);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [authenticated, authBusy, adminPassword, adminUsername, handleSupportLogin]);
 
   const handleSupportLogout = async () => {
     try {
@@ -2803,11 +2877,40 @@ export default function SupportConsolePage() {
             <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-5">
             <h1 className="text-lg font-semibold text-[#0f172a]">Support Admin Login</h1>
             <p className="mt-1 text-sm text-[#475569]">Sign in to access `/internal/support`.</p>
-            <input className={`${baseInput} mt-3`} value={adminUsername} onChange={(event) => setAdminUsername(event.target.value)} placeholder="admin username (email)" />
-            <input type="password" className={`${baseInput} mt-2`} value={adminPassword} onChange={(event) => setAdminPassword(event.target.value)} placeholder="password" />
-            <button type="button" className={`${baseButton} mt-3 w-full`} disabled={authBusy || adminUsername.trim().length < 3 || adminPassword.length < 1} onClick={() => void handleSupportLogin()}>
-              Sign In
-            </button>
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+                if (authBusy || adminUsername.trim().length < 3 || adminPassword.length < 1) return;
+                void handleSupportLogin();
+              }}
+            >
+              <input
+                ref={adminUsernameInputRef}
+                className={`${baseInput} mt-3`}
+                value={adminUsername}
+                onChange={(event) => {
+                  adminAutoSubmittedRef.current = false;
+                  setAdminUsername(event.target.value);
+                }}
+                placeholder="admin username (email)"
+                autoComplete="username"
+              />
+              <input
+                ref={adminPasswordInputRef}
+                type="password"
+                className={`${baseInput} mt-2`}
+                value={adminPassword}
+                onChange={(event) => {
+                  adminAutoSubmittedRef.current = false;
+                  setAdminPassword(event.target.value);
+                }}
+                placeholder="password"
+                autoComplete="current-password"
+              />
+              <button type="submit" className={`${baseButton} mt-3 w-full`} disabled={authBusy || adminUsername.trim().length < 3 || adminPassword.length < 1}>
+                Sign In
+              </button>
+            </form>
             <button
               type="button"
               className="mt-2 w-full text-xs font-medium text-[#1f2937] underline underline-offset-4"

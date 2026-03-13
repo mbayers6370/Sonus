@@ -65,6 +65,7 @@ type AuthApiResponse = {
 const AUTH_DEBUG_STORAGE_KEY = 'sonus.debug.auth';
 const DEFER_INIT_REFRESH =
   String(import.meta.env.VITE_DEFER_INIT_REFRESH || 'true').toLowerCase() !== 'false';
+const AUTH_BOOT_TIMEOUT_MS = 8000;
 const PUBLIC_AUTH_BOOT_PATHS = new Set([
   '/',
   '/landing',
@@ -236,6 +237,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let cancelled = false;
+    let timedOut = false;
     const init = async () => {
       setStatus('loading');
       setError(null);
@@ -438,9 +440,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       }
     };
-    void init();
+    const timeoutId = window.setTimeout(() => {
+      if (cancelled) return;
+      timedOut = true;
+      setError('Auth init timed out. Showing signed-out state.');
+      setStatus('signed_out');
+      setIsDemo(false);
+      setEmail(null);
+    }, AUTH_BOOT_TIMEOUT_MS);
+
+    void init().finally(() => {
+      window.clearTimeout(timeoutId);
+      if (timedOut) {
+        authDebugLog('warn', 'auth boot timeout elapsed before init completion', {
+          timeoutMs: AUTH_BOOT_TIMEOUT_MS,
+        });
+      }
+    });
     return () => {
       cancelled = true;
+      window.clearTimeout(timeoutId);
     };
   }, [clearDemoStateOnly, clearToSignedOut]);
 

@@ -128,6 +128,10 @@ function isAuthRoute(path: string) {
   return path.startsWith('/v1/auth/');
 }
 
+function isAdminRoute(path: string) {
+  return path.startsWith('/v1/admin/');
+}
+
 function readSupportAdminToken() {
   try {
     return window.localStorage.getItem(SUPPORT_ADMIN_TOKEN_STORAGE_KEY) || null;
@@ -288,6 +292,7 @@ async function requestWithAuthRetry(url: string, path: string, init: RequestInit
   const canRetryWithRefresh =
     !getDemoMode() &&
     !isAuthRoute(path) &&
+    !isAdminRoute(path) &&
     (response.status === 401 || response.status === 403);
   if (!canRetryWithRefresh) {
     return response;

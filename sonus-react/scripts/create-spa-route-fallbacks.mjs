@@ -8,6 +8,7 @@ const DIST_DIR = path.join(PROJECT_ROOT, 'dist');
 const INDEX_HTML_PATH = path.join(DIST_DIR, 'index.html');
 
 const ROUTE_FALLBACKS = [
+  '/landing',
   '/login',
   '/signup',
   '/privacy',
@@ -15,6 +16,11 @@ const ROUTE_FALLBACKS = [
   '/contact',
   '/attributions',
   '/essential-japanese-travel-phrases',
+  '/internal/support',
+  '/internal/support/users',
+  '/internal/support/metrics/support',
+  '/internal/support/metrics/learning',
+  '/internal/support/quality-reports',
 ];
 
 function toRouteDir(route) {
