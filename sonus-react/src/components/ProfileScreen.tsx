@@ -341,7 +341,7 @@ export default function ProfileScreen({
       keys.add(toLocalDayKey(ts));
     }
     return keys;
-  }, [state.lessonProgress]);
+  }, []);
   const streakDisplay = useMemo(
     () => calculateCurrentCompletionStreak(completedDayKeys),
     [completedDayKeys]

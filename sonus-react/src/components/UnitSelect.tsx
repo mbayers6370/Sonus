@@ -204,6 +204,27 @@ export default function UnitSelect({
     return () => window.clearTimeout(timer);
   }, [currentLevel?.id, activeSectionId]);
 
+  useEffect(() => {
+    if (!currentLevel || !activeBandData) return;
+    const selectedLanguageId = (state.selectedLanguage || '').toLowerCase();
+    const isJapaneseLevel = selectedLanguageId === 'ja';
+    const availableSections = isJapaneseLevel && Array.isArray(activeBandData.sections)
+      ? activeBandData.sections
+      : [];
+    if (!isJapaneseLevel || availableSections.length === 0) return;
+    const sectionIds = new Set(
+      availableSections.map((section) => section.id).filter((id): id is string => Boolean(id))
+    );
+    const currentSectionId = searchParams.get('section');
+    if (currentSectionId && sectionIds.has(currentSectionId)) return;
+    const fallbackSectionId = availableSections.find((section) => section.id)?.id || null;
+    if (!fallbackSectionId) return;
+    const next = new URLSearchParams(searchParams);
+    next.set('section', fallbackSectionId);
+    next.delete('unit');
+    setSearchParams(next, { replace: true });
+  }, [activeBandData, currentLevel, searchParams, setSearchParams, state.selectedLanguage]);
+
   if (!currentLevel || !activeBandData) {
     return (
       <div className="flex items-center justify-center h-screen page-shell">
@@ -561,15 +582,6 @@ export default function UnitSelect({
   const filteredUnitMetrics = showSectionStep && activeSection
     ? unitMetrics.filter((metric) => activeSection.unitIds.includes(metric.unitId))
     : unitMetrics;
-
-  useEffect(() => {
-    if (!showSectionStep || !activeSection) return;
-    if (activeSectionId === activeSection.id) return;
-    const next = new URLSearchParams(searchParams);
-    next.set('section', activeSection.id);
-    next.delete('unit');
-    setSearchParams(next, { replace: true });
-  }, [activeSection, activeSectionId, searchParams, setSearchParams, showSectionStep]);
 
   const columns = getGridColumns(viewportWidth);
   const activeUnit = activeUnitId

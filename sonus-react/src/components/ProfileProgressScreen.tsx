@@ -383,7 +383,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       keys.add(toLocalDayKey(ts));
     }
     return keys;
-  }, [state.lessonProgress]);
+  }, []);
   const streakDisplay = useMemo(
     () => calculateCurrentCompletionStreak(completedDayKeys),
     [completedDayKeys]

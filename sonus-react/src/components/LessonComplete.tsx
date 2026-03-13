@@ -23,125 +23,6 @@ function WordsIcon() {
   );
 }
 
-const TONE_CHAR_TO_VALUE: Record<string, number> = {
-  ā: 1, ē: 1, ī: 1, ō: 1, ū: 1, ǖ: 1,
-  á: 2, é: 2, í: 2, ó: 2, ú: 2, ǘ: 2,
-  ǎ: 3, ě: 3, ǐ: 3, ǒ: 3, ǔ: 3, ǚ: 3,
-  à: 4, è: 4, ì: 4, ò: 4, ù: 4, ǜ: 4,
-};
-
-const TONE_CHAR_TO_ASCII: Record<string, string> = {
-  ā: 'a', á: 'a', ǎ: 'a', à: 'a',
-  ē: 'e', é: 'e', ě: 'e', è: 'e',
-  ī: 'i', í: 'i', ǐ: 'i', ì: 'i',
-  ō: 'o', ó: 'o', ǒ: 'o', ò: 'o',
-  ū: 'u', ú: 'u', ǔ: 'u', ù: 'u',
-  ǖ: 'ü', ǘ: 'ü', ǚ: 'ü', ǜ: 'ü',
-};
-
-const INITIALS = [
-  'ch', 'sh', 'b', 'p', 'm', 'f', 'd', 't', 'n', 'l', 'g',
-  'k', 'h', 'j', 'q', 'x', 'r', 'z', 'c', 's', 'y', 'w',
-] as const;
-
-type ParsedToneSyllable = {
-  raw: string;
-  ascii: string;
-  initial: string;
-  final: string;
-  tone: number;
-};
-
-function parseToneSyllables(transliteration: string): ParsedToneSyllable[] {
-  const chunks = (transliteration || '')
-    .toLowerCase()
-    .replace(/[’']/g, ' ')
-    .replace(/u:/g, 'ü')
-    .replace(/[^a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ1-5\s-]/g, ' ')
-    .replace(/-/g, ' ')
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
-
-  return chunks.map((raw) => {
-    let ascii = '';
-    let tone = 5;
-    for (const ch of raw) {
-      if (TONE_CHAR_TO_ASCII[ch]) {
-        ascii += TONE_CHAR_TO_ASCII[ch];
-        tone = TONE_CHAR_TO_VALUE[ch] || tone;
-        continue;
-      }
-      if (/[1-5]/.test(ch)) {
-        tone = Number(ch);
-        continue;
-      }
-      if (ch === 'v') {
-        ascii += 'ü';
-        continue;
-      }
-      if (/[a-zü]/.test(ch)) ascii += ch;
-    }
-    const initial = INITIALS.find((candidate) => ascii.startsWith(candidate)) || '';
-    const final = ascii.slice(initial.length);
-    return { raw, ascii, initial, final, tone };
-  }).filter((token) => Boolean(token.ascii));
-}
-
-function syllableOrdinal(position: number) {
-  if (position === 1) return '1st';
-  if (position === 2) return '2nd';
-  if (position === 3) return '3rd';
-  return `${position}th`;
-}
-
-function toneNucleus(final: string): string {
-  if (final.includes('a')) return 'a';
-  if (final.includes('o')) return 'o';
-  if (final.includes('e')) return 'e';
-  if (final.includes('iu')) return 'u';
-  if (final.includes('ui')) return 'i';
-  if (final.includes('i')) return 'i';
-  if (final.includes('u')) return 'u';
-  if (final.includes('ü')) return 'ü';
-  return '';
-}
-
-function toneCue(syllable: ParsedToneSyllable): string {
-  const nucleus = toneNucleus(syllable.final);
-  const nucleusCue = nucleus ? ` on "${nucleus}"` : '';
-  if (syllable.tone === 1) return `keep it high and level${nucleusCue}`;
-  if (syllable.tone === 2) return `rise clearly${nucleusCue}`;
-  if (syllable.tone === 3) return `dip low, then rise${nucleusCue}`;
-  if (syllable.tone === 4) return `start high and drop sharply${nucleusCue}`;
-  return `keep it light and short${nucleusCue}`;
-}
-
-function toneCoachingForTransliteration(targetTransliteration: string, detectedTransliteration: string) {
-  const target = parseToneSyllables(targetTransliteration);
-  const detected = parseToneSyllables(detectedTransliteration);
-  if (!target.length) {
-    return `Tone: listen and copy the target tone pattern in "${targetTransliteration}".`;
-  }
-
-  const mismatchIndex = target.findIndex((syllable, idx) => {
-    const heard = detected[idx];
-    if (!heard) return false;
-    if (syllable.tone === 5 || heard.tone === 5) return false;
-    return syllable.tone !== heard.tone;
-  });
-  const selected = mismatchIndex >= 0 ? target[mismatchIndex] : target.find((token) => token.tone >= 1 && token.tone <= 4) || target[0];
-  const ordinal =
-    mismatchIndex === 0 ? '1st' :
-    mismatchIndex === 1 ? '2nd' :
-    mismatchIndex === 2 ? '3rd' :
-    mismatchIndex >= 3 ? `${mismatchIndex + 1}th` :
-    target.length > 1 ? 'target' : 'target';
-  const prefix = target.length > 1 && mismatchIndex >= 0
-    ? `Tone (${ordinal} syllable "${selected.raw}")`
-    : `Tone ("${selected.raw}")`;
-  return `${prefix}: ${toneCue(selected)}.`;
-}
 
 export default function LessonComplete({
   onStartQuiz,
@@ -227,44 +108,26 @@ export default function LessonComplete({
       return ['Capture was unclear. Try the full word again slowly and clearly.'];
     }
 
-    const targetTokens = parseToneSyllables(getWordReading(word) || '');
-    const heardTokens = parseToneSyllables(breakdown.detectedTransliteration || '');
     const mediumReliability = reliability === 'medium';
     const suggestions: string[] = [];
-    if (!breakdown.initial.pass) {
-      const mismatchIndex = targetTokens.findIndex((token, idx) => {
-        const heard = heardTokens[idx];
-        return Boolean(heard) && token.initial !== heard.initial;
-      });
-      if (mismatchIndex >= 0) {
-        const token = targetTokens[mismatchIndex];
-        suggestions.push(
-          mediumReliability
-            ? `Likely initial drift on ${syllableOrdinal(mismatchIndex + 1)} syllable. Start more clearly with "${token.initial || '∅'}".`
-            : `Initial (${syllableOrdinal(mismatchIndex + 1)} syllable "${token.raw}"): start with "${token.initial || '∅'}" and repeat slowly.`
-        );
-      } else {
-        suggestions.push(`Initial: isolate the starting consonant in "${getWordReading(word)}" and repeat slowly.`);
-      }
+    const dimensionMap = new Map(
+      (breakdown.dimensions || []).map((dimension) => [dimension.key, dimension.pass])
+    );
+    const wordPass = dimensionMap.get('word');
+    if (wordPass === false) {
+      suggestions.push('Pronunciation did not match this word. Repeat once slowly and clearly.');
     }
-    if (!breakdown.final.pass) {
-      const mismatchIndex = targetTokens.findIndex((token, idx) => {
-        const heard = heardTokens[idx];
-        return Boolean(heard) && token.final !== heard.final;
-      });
-      if (mismatchIndex >= 0) {
-        const token = targetTokens[mismatchIndex];
-        suggestions.push(
-          mediumReliability
-            ? `Likely ending drift on ${syllableOrdinal(mismatchIndex + 1)} syllable. Use ending "${token.final || '∅'}" more clearly.`
-            : `Final (${syllableOrdinal(mismatchIndex + 1)} syllable "${token.raw}"): use ending "${token.final || '∅'}" and finish cleanly.`
-        );
-      } else {
-        suggestions.push(`Final: hold the ending vowel in "${getWordReading(word)}" for a clean finish.`);
-      }
+    if (!suggestions.length && !breakdown.initial.pass) {
+      suggestions.push('Opening sound drifted. Repeat from the start of the word and articulate the first sound clearly.');
     }
-    if (!breakdown.tone.pass) {
-      suggestions.push(toneCoachingForTransliteration(getWordReading(word) || '', breakdown.detectedTransliteration || ''));
+    if (!suggestions.length && !breakdown.final.pass) {
+      suggestions.push('Ending sound drifted. Hold the ending a bit longer and finish cleanly.');
+    }
+    if (!suggestions.length && !breakdown.tone.pass) {
+      suggestions.push('Pronunciation contour drifted. Listen once and repeat with steady pacing.');
+    }
+    if (!suggestions.length) {
+      suggestions.push(`Repeat "${getWordReading(word) || word.simp}" once with clear pacing.`);
     }
     if (mediumReliability) {
       return suggestions.slice(0, 2);

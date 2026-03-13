@@ -831,10 +831,7 @@ export default function LevelSelect({
   }, [legacyTrackEnabled, normalizedLanguageId]);
 
   useEffect(() => {
-    if (!isJapaneseLanguage) {
-      setSectionUnlockRulesByLevel({});
-      return;
-    }
+    if (!isJapaneseLanguage) return;
     let cancelled = false;
     void (async () => {
       const levelIds = levels
@@ -876,7 +873,7 @@ export default function LevelSelect({
     };
   }, [isJapaneseLanguage, levels]);
 
-  const sectionUnlockStateByLevel = useMemo(() => {
+  const sectionUnlockStateByLevel = (() => {
     const next: Record<string, { core: boolean; expansion: boolean; integration: boolean }> = {};
     for (const level of levels) {
       if (!/^n[1-5]$/i.test(level.id)) continue;
@@ -894,7 +891,7 @@ export default function LevelSelect({
       };
     }
     return next;
-  }, [levels, sectionUnlockRulesByLevel, state.lessonProgress]);
+  })();
 
   const bandQuizCompleteById = useMemo(() => {
     const next: Record<string, boolean> = {};
