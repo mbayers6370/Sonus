@@ -223,9 +223,9 @@
               "kanji": "下さい",
               "hiragana": "ください",
               "katakana": "クダサイ",
-              "en": "(with te-form verb) please do for me",
+              "en": "please (do for me)",
               "defs": [
-                "(with te-form verb) please do for me"
+                "please (do for me)"
               ],
               "example": {
                 "en": "If you see a mistake, then please correct it.",
@@ -2481,8 +2481,8 @@
                 "a boxed lunch"
               ],
               "example": {
-                "en": "He brought his lunch today.",
-                "native": "彼は今日、お弁当を持って来た。"
+                "en": "He brought a boxed lunch today.",
+                "native": "今日はお弁当を持ってきました。"
               },
               "type": "word",
               "pos_detail": "v5",
@@ -6315,7 +6315,7 @@
                 "native": "あそこに大きな木があります。"
               },
               "type": "word",
-              "pos_detail": "n",
+              "pos_detail": "adj-pn",
               "transliteration": "ookina"
             },
             {
@@ -6332,7 +6332,7 @@
                 "native": "小さな犬が庭で走っている。"
               },
               "type": "word",
-              "pos_detail": "n",
+              "pos_detail": "adj-pn",
               "transliteration": "chiisana"
             },
             {
@@ -6677,8 +6677,8 @@
                 "pupil"
               ],
               "example": {
-                "en": "I attributed the delay in delivery to a traffic jam.",
-                "native": "その配達の遅れは交通渋滞のせいと考えた。"
+                "en": "I am a student.",
+                "native": "私は生徒です。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -8540,8 +8540,8 @@
                 "shopping"
               ],
               "example": {
-                "en": "Please eat only soft foods.",
-                "native": "柔らかいものだけを食べてくださいね。"
+                "en": "Shopping is fun!",
+                "native": "買い物は楽しい！"
               },
               "type": "word",
               "pos_detail": "n",
@@ -9037,9 +9037,9 @@
               "kanji": "在る",
               "hiragana": "ある",
               "katakana": "アル",
-              "en": "to be, to have",
+              "en": "to be, to exist (inanimate)",
               "defs": [
-                "to be, to have"
+                "to be, to exist (inanimate)"
               ],
               "example": {
                 "en": "The book here is mine.",
@@ -12549,12 +12549,80 @@
               "type": "word",
               "pos_detail": "v1",
               "transliteration": "wasureru"
+            },
+            {
+              "id": "N5-9001",
+              "kanji": "手伝う",
+              "hiragana": "てつだう",
+              "katakana": "テツダウ",
+              "en": "to help",
+              "defs": [
+                "to help"
+              ],
+              "example": {
+                "en": "I help my friend with homework.",
+                "native": "友達の宿題を手伝う。"
+              },
+              "type": "word",
+              "pos_detail": "v5",
+              "transliteration": "tetsudau"
+            },
+            {
+              "id": "N5-9002",
+              "kanji": "大丈夫",
+              "hiragana": "だいじょうぶ",
+              "katakana": "ダイジョウブ",
+              "en": "okay, fine",
+              "defs": [
+                "okay, fine"
+              ],
+              "example": {
+                "en": "Are you okay?",
+                "native": "大丈夫ですか。"
+              },
+              "type": "word",
+              "pos_detail": "adj-na",
+              "transliteration": "daijoubu"
+            },
+            {
+              "id": "N5-9003",
+              "kanji": "助ける",
+              "hiragana": "たすける",
+              "katakana": "タスケル",
+              "en": "to rescue, to help",
+              "defs": [
+                "to rescue, to help"
+              ],
+              "example": {
+                "en": "Please help me.",
+                "native": "私を助けてください。"
+              },
+              "type": "word",
+              "pos_detail": "v1",
+              "transliteration": "tasukeru"
+            },
+            {
+              "id": "N5-9004",
+              "kanji": "気をつける",
+              "hiragana": "きをつける",
+              "katakana": "キヲツケル",
+              "en": "to be careful",
+              "defs": [
+                "to be careful"
+              ],
+              "example": {
+                "en": "Please be careful on your way home.",
+                "native": "帰り道は気をつけてください。"
+              },
+              "type": "word",
+              "pos_detail": "v1",
+              "transliteration": "kiwotsukeru"
             }
           ]
         }
       ]
     }
   ],
-  "availableWords": 719,
+  "availableWords": 723,
   "unallocatedWords": 0
 }
