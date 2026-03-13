@@ -187,13 +187,17 @@ export interface SpeakBreakdown {
   targetTransliteration: string;
   detectedTransliteration: string;
   language?: string;
-  dimensions?: SpeakDimensionScore[];
+  dimensions: SpeakDimensionScore[];
   source: 'script-map' | 'latin' | 'unresolved' | 'no-speech';
   feedbackReliability?: SpeakFeedbackReliability;
   feedbackReason?: SpeakFeedbackReason;
-  initial: SpeakComponentScore;
-  final: SpeakComponentScore;
-  tone: SpeakComponentScore;
+  onset: SpeakComponentScore;
+  rime: SpeakComponentScore;
+  prosody: SpeakComponentScore;
+  // Legacy aliases retained for backward compatibility with older stored payloads.
+  initial?: SpeakComponentScore;
+  final?: SpeakComponentScore;
+  tone?: SpeakComponentScore;
 }
 
 export interface ResumeCheckpoint {

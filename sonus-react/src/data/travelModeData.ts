@@ -72,7 +72,7 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
   s(
     'transport',
     'Transport & Getting Around',
-    '#0F6660',
+    '#193232',
     'Functional',
     'Locations, Prices, & Confirmations',
     'You leave the airport and need to move quickly through a city you do not know.',
@@ -101,7 +101,7 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
   s(
     'hotel',
     'Hotel & Accommodation',
-    '#0F6660',
+    '#193232',
     'Polite, calm',
     'Check-In & Problem Handling',
     'You are at reception and need to check in quickly with clear details.',
@@ -159,7 +159,7 @@ export const TRAVEL_MODE_SECTIONS_ZH: TravelSectionData[] = [
   s(
     'shopping',
     'Shopping & Payments',
-    '#0F6660',
+    '#193232',
     'Transactional',
     'Price Checks, Payment Methods, & Returns',
     'You are shopping and need to negotiate, pay, and confirm return options quickly.',
@@ -307,7 +307,7 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
   s(
     'transport',
     'Transport & Getting Around',
-    '#0F6660',
+    '#193232',
     'Functional',
     'Stations, Transfers, & Fare Confirmation',
     'You are moving through busy stations and need clear route and transfer language.',
@@ -342,7 +342,7 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
   s(
     'hotel',
     'Hotel & Accommodation',
-    '#0F6660',
+    '#193232',
     'Polite, calm',
     'Check-In, Room Issues, & Front Desk Requests',
     'You are at reception and need efficient language for check-in and room support.',
@@ -416,7 +416,7 @@ export const TRAVEL_MODE_SECTIONS_JA: TravelSectionData[] = [
   s(
     'shopping',
     'Shopping & Payments',
-    '#0F6660',
+    '#193232',
     'Transactional',
     'Price Checks, Tax-Free, & Returns',
     'You are shopping and need practical phrases for payment, discounts, and returns.',

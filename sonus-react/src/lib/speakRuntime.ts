@@ -27,8 +27,8 @@ function canonicalLanguageId(languageId: string | null | undefined): string {
   return normalized;
 }
 
-function normalizeToLanguageId(): SupportedSpeakLanguage {
-  return 'ja';
+function normalizeToLanguageId(languageId: string | null | undefined): AppSpeakLanguage {
+  return canonicalLanguageId(languageId) as AppSpeakLanguage;
 }
 
 export function resolveSpeakLanguageForSession(
@@ -77,8 +77,7 @@ function isShortSpeakTarget(
   targetScript: string,
   targetReading: string
 ) {
-  void languageId;
-  const normalizedLanguage = normalizeToLanguageId();
+  const normalizedLanguage = normalizeToLanguageId(languageId);
   const scriptLen = Array.from((targetScript || '').trim()).length;
   const readingTokens = (targetReading || '').trim().split(/\s+/).filter(Boolean);
   if (normalizedLanguage === 'ja') {
@@ -108,33 +107,35 @@ export function shouldTrySpeakFallback(input: {
 
 export function buildSpeakDimensionScores(input: {
   languageId: string | null | undefined;
+  onset?: { matched: number; total: number; percent: number; pass: boolean };
+  rime?: { matched: number; total: number; percent: number; pass: boolean };
+  prosody?: { matched: number; total: number; percent: number; pass: boolean };
+  // Legacy aliases accepted for backward compatibility.
   initial?: { matched: number; total: number; percent: number; pass: boolean };
   final?: { matched: number; total: number; percent: number; pass: boolean };
   tone?: { matched: number; total: number; percent: number; pass: boolean };
   word?: { matched: number; total: number; percent: number; pass: boolean };
 }): SpeakDimensionScore[] {
-  void input.languageId;
-  const normalizedLanguage = normalizeToLanguageId();
+  const normalizedLanguage = normalizeToLanguageId(input.languageId);
   if (normalizedLanguage === 'ja') {
     const word = input.word || { matched: 0, total: 1, percent: 0, pass: false };
     return [{ key: 'word', label: 'Word', ...word }];
   }
 
-  const initial = input.initial || { matched: 0, total: 1, percent: 0, pass: false };
-  const final = input.final || { matched: 0, total: 1, percent: 0, pass: false };
-  const tone = input.tone || { matched: 0, total: 1, percent: 0, pass: false };
+  const onset = input.onset || input.initial || { matched: 0, total: 1, percent: 0, pass: false };
+  const rime = input.rime || input.final || { matched: 0, total: 1, percent: 0, pass: false };
+  const prosody = input.prosody || input.tone || { matched: 0, total: 1, percent: 0, pass: false };
   return [
-    { key: 'initial', label: 'Initial', ...initial },
-    { key: 'final', label: 'Final', ...final },
-    { key: 'tone', label: 'Tone', ...tone },
+    { key: 'onset', label: 'Onset', ...onset },
+    { key: 'rime', label: 'Rime', ...rime },
+    { key: 'prosody', label: 'Prosody', ...prosody },
   ];
 }
 
 export function speakDimensionKeys(languageId: string | null | undefined) {
-  void languageId;
-  return normalizeToLanguageId() === 'ja'
+  return normalizeToLanguageId(languageId) === 'ja'
     ? ['word']
-    : ['initial', 'final', 'tone'];
+    : ['onset', 'rime', 'prosody'];
 }
 
 function toHiragana(text: string) {

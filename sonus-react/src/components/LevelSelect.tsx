@@ -16,7 +16,7 @@ import { isReleasedTrackLevel } from '../lib/bandIds';
 const ACCENT = {
   gray: { badgeBg: 'bg-gray-100/80', badgeText: 'text-gray-700', ctaText: 'text-gray-700', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(107,114,128,0.18)]', leftBorder: 'border-gray-400/55' },
   navy: { badgeBg: 'bg-[rgba(19,87,119,0.12)]', badgeText: 'text-[var(--sonus-palette-blue)]', ctaText: 'text-[var(--sonus-palette-blue)]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(19,87,119,0.28)]', leftBorder: 'border-[var(--sonus-palette-blue)]/55' },
-  sage: { badgeBg: 'bg-[rgba(15,102,96,0.12)]', badgeText: 'text-[var(--sonus-palette-green)]', ctaText: 'text-[var(--sonus-palette-green)]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(15,102,96,0.26)]', leftBorder: 'border-[var(--sonus-palette-green)]/55' },
+  sage: { badgeBg: 'bg-[rgba(25,50,50,0.12)]', badgeText: 'text-[var(--sonus-palette-green)]', ctaText: 'text-[var(--sonus-palette-green)]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(25,50,50,0.26)]', leftBorder: 'border-[var(--sonus-palette-green)]/55' },
   graphite: { badgeBg: 'bg-[rgba(31,42,55,0.10)]', badgeText: 'text-[var(--sonus-palette-charcoal)]', ctaText: 'text-[var(--sonus-palette-charcoal)]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(31,42,55,0.24)]', leftBorder: 'border-[var(--sonus-palette-charcoal)]/55' },
   rust: { badgeBg: 'bg-[rgba(194,65,12,0.12)]', badgeText: 'text-[var(--sonus-palette-rust)]', ctaText: 'text-[var(--sonus-palette-rust)]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.30)]', leftBorder: 'border-[var(--sonus-palette-rust)]/55' },
 } as const;

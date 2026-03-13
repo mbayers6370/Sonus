@@ -309,7 +309,7 @@ export default function Quiz({
             if (selectedAnswer) {
               // After answering
               if (isCorrectAnswer) {
-                buttonClass += 'bg-[rgba(15,102,96,0.12)] border-[var(--sonus-palette-green)] text-[var(--sonus-palette-green)]';
+                buttonClass += 'bg-[rgba(25,50,50,0.12)] border-[var(--sonus-palette-green)] text-[var(--sonus-palette-green)]';
               } else if (isSelected) {
                 buttonClass += 'bg-[rgba(194,65,12,0.12)] border-[var(--sonus-palette-rust)] text-[var(--sonus-palette-rust)]';
               } else {

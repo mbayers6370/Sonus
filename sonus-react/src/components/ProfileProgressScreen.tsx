@@ -401,7 +401,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
 
       <div className="mx-auto max-w-6xl space-y-6">
         {backendOffline && (
-          <div className="bg-white border border-[rgba(15,102,96,0.35)] rounded-2xl p-4 text-sm text-text-med">
+          <div className="bg-white border border-[rgba(25,50,50,0.35)] rounded-2xl p-4 text-sm text-text-med">
             Backend appears offline. Showing cached/empty progress.
           </div>
         )}
@@ -444,39 +444,39 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
         </section>
 
         <section className="grid grid-cols-1 gap-3 lg:grid-cols-12">
-          <div className="rounded-3xl border border-[rgba(15,102,96,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)] lg:col-span-7">
+          <div className="rounded-3xl border border-[rgba(25,50,50,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)] lg:col-span-7">
             <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Diagnostic Breakdown</p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Diagnostic Breakdown</p>
                 <h3 className="mt-1 text-xl font-semibold text-text-dark">Performance Summary</h3>
               </div>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2.5">
-              <div className="rounded-2xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
-                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Quiz Review Misses</p>
+              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Quiz Review Misses</p>
                 <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">
                   {needsWork.reduce((sum, item) => sum + item.missedQuizCount, 0)}
                 </p>
               </div>
-              <div className="rounded-2xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
-                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Speech Review Misses</p>
+              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Speech Review Misses</p>
                 <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">
                   {needsWork.reduce((sum, item) => sum + item.mispronounceCount, 0)}
                 </p>
               </div>
-              <div className="rounded-2xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
-                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Masteries Completed</p>
+              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Masteries Completed</p>
                 <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">{masteriesCompleted}</p>
               </div>
-              <div className="rounded-2xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
-                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Last Quiz Score</p>
+              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Last Quiz Score</p>
                 <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">{lastQuizScore}%</p>
               </div>
             </div>
           </div>
 
-          <div className="rounded-3xl border border-[rgba(15,102,96,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)] lg:col-span-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Priority Queue</p>
+          <div className="rounded-3xl border border-[rgba(25,50,50,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)] lg:col-span-5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Priority Queue</p>
             <h3 className="mt-1 text-xl font-semibold text-text-dark">Top Review Words</h3>
             <div className="mt-4 space-y-2">
               {topNeedsWork.length === 0 ? (
@@ -485,7 +485,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                 topNeedsWork.map((item) => {
                   const card = toNeedsWorkCard(item, wordLookup);
                   return (
-                    <div key={item.wordId} className="rounded-xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] px-3 py-2.5">
+                    <div key={item.wordId} className="rounded-xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] px-3 py-2.5">
                       <div className="flex items-start justify-between gap-2">
                         <div>
                           <p className="secondary-font text-[1.35rem] leading-none text-text-dark">{card.term}</p>
@@ -503,10 +503,10 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[rgba(15,102,96,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)]">
+        <section className="rounded-3xl border border-[rgba(25,50,50,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)]">
           <div className="flex flex-col items-center gap-2 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Full Queue</p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Full Queue</p>
               <h3 className="mt-1 text-xl font-semibold text-text-dark">All Tracked Review Items</h3>
             </div>
             <p className="text-xs text-text-light">{needsWork.length} tracked entries</p>
@@ -523,7 +523,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                     return (
                       <div
                         key={item.wordId}
-                        className="rounded-2xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] p-3 text-center sm:text-left min-h-[124px] flex flex-col justify-between"
+                        className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-3 text-center sm:text-left min-h-[124px] flex flex-col justify-between"
                       >
                         <div>
                           <div className="secondary-font text-[1.55rem] leading-none text-text-dark">

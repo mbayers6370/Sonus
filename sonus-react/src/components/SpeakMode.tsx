@@ -80,7 +80,7 @@ type PronunciationAnalysis = {
   tone: ScoreBreakdown;
 };
 
-const EMPTY_SCORE: SpeakBreakdown['initial'] = {
+const EMPTY_SCORE: ScoreBreakdown = {
   matched: 0,
   total: 1,
   percent: 0,
@@ -575,9 +575,9 @@ function buildSpeakBreakdown(
       source: heardText === 'No speech detected' ? 'no-speech' : 'unresolved',
       feedbackReliability: 'low',
       feedbackReason: heardText === 'No speech detected' ? 'unresolved_capture' : 'low_confidence_capture',
-      initial: EMPTY_SCORE,
-      final: EMPTY_SCORE,
-      tone: EMPTY_SCORE,
+      onset: EMPTY_SCORE,
+      rime: EMPTY_SCORE,
+      prosody: EMPTY_SCORE,
     };
   }
 
@@ -588,16 +588,16 @@ function buildSpeakBreakdown(
     language: languageId,
     dimensions: buildSpeakDimensionScores({
       languageId,
-      initial: analysis.initial,
-      final: analysis.final,
-      tone: analysis.tone,
+      onset: analysis.initial,
+      rime: analysis.final,
+      prosody: analysis.tone,
     }),
     source: analysis.source,
     feedbackReliability: analysis.feedbackReliability,
     feedbackReason: analysis.feedbackReason,
-    initial: analysis.initial,
-    final: analysis.final,
-    tone: analysis.tone,
+    onset: analysis.initial,
+    rime: analysis.final,
+    prosody: analysis.tone,
   };
 }
 

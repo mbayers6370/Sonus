@@ -22,6 +22,7 @@ describe('speak runtime language contract', () => {
   it('exposes expected scoring dimension keys per language', () => {
     expect(speakDimensionKeys('xx')).toEqual(['word']);
     expect(speakDimensionKeys('ja')).toEqual(['word']);
+    expect(speakDimensionKeys('ko')).toEqual(['onset', 'rime', 'prosody']);
   });
 
   it('resolves speak language from selected language first, then band fallback', () => {
@@ -41,12 +42,12 @@ describe('speak runtime language contract', () => {
 
   it('builds speak dimensions that UI can render without branching on hardcoded labels', () => {
     const fallback = buildSpeakDimensionScores({
-      languageId: 'xx',
-      initial: { matched: 1, total: 1, percent: 100, pass: true },
-      final: { matched: 1, total: 1, percent: 100, pass: true },
-      tone: { matched: 1, total: 1, percent: 100, pass: true },
+      languageId: 'ko',
+      onset: { matched: 1, total: 1, percent: 100, pass: true },
+      rime: { matched: 1, total: 1, percent: 100, pass: true },
+      prosody: { matched: 1, total: 1, percent: 100, pass: true },
     });
-    expect(fallback.map((dimension) => dimension.key)).toEqual(['word']);
+    expect(fallback.map((dimension) => dimension.key)).toEqual(['onset', 'rime', 'prosody']);
 
     const ja = buildSpeakDimensionScores({
       languageId: 'ja',

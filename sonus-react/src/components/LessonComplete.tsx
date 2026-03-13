@@ -85,11 +85,27 @@ export default function LessonComplete({
     )
   ).length;
   const normalizeScriptText = (value: string) => (value || '').replace(/[^\u3400-\u9FFF]/g, '');
+  const getDimensions = (index: number) => {
+    const breakdown = speakBreakdownByIndex[index];
+    if (!breakdown) return [];
+    if (breakdown.dimensions?.length) return breakdown.dimensions;
+    const fallback = [
+      { key: 'onset', label: 'Onset', pass: breakdown.onset?.pass ?? breakdown.initial?.pass },
+      { key: 'rime', label: 'Rime', pass: breakdown.rime?.pass ?? breakdown.final?.pass },
+      { key: 'prosody', label: 'Prosody', pass: breakdown.prosody?.pass ?? breakdown.tone?.pass },
+    ].filter((dimension) => typeof dimension.pass === 'boolean') as Array<{
+      key: string;
+      label: string;
+      pass: boolean;
+    }>;
+    return fallback;
+  };
 
   const getSpeakSuggestions = (index: number) => {
     const breakdown = speakBreakdownByIndex[index];
     const word = activeLesson.words[index];
-    if (!breakdown || (breakdown.initial.pass && breakdown.final.pass && breakdown.tone.pass)) return [];
+    const dimensions = getDimensions(index);
+    if (!breakdown || (dimensions.length > 0 && dimensions.every((dimension) => dimension.pass))) return [];
     if (breakdown.source === 'no-speech') {
       return ['Try again slowly and clearly.'];
     }
@@ -111,20 +127,15 @@ export default function LessonComplete({
     const mediumReliability = reliability === 'medium';
     const suggestions: string[] = [];
     const dimensionMap = new Map(
-      (breakdown.dimensions || []).map((dimension) => [dimension.key, dimension.pass])
+      dimensions.map((dimension) => [dimension.key, dimension.pass])
     );
     const wordPass = dimensionMap.get('word');
     if (wordPass === false) {
       suggestions.push('Pronunciation did not match this word. Repeat once slowly and clearly.');
     }
-    if (!suggestions.length && !breakdown.initial.pass) {
-      suggestions.push('Opening sound drifted. Repeat from the start of the word and articulate the first sound clearly.');
-    }
-    if (!suggestions.length && !breakdown.final.pass) {
-      suggestions.push('Ending sound drifted. Hold the ending a bit longer and finish cleanly.');
-    }
-    if (!suggestions.length && !breakdown.tone.pass) {
-      suggestions.push('Pronunciation contour drifted. Listen once and repeat with steady pacing.');
+    const firstFailedDimension = dimensions.find((dimension) => !dimension.pass);
+    if (!suggestions.length && firstFailedDimension) {
+      suggestions.push(`${firstFailedDimension.label} needs refinement. Listen once, then repeat with steady pacing.`);
     }
     if (!suggestions.length) {
       suggestions.push(`Repeat "${getWordReading(word) || word.simp}" once with clear pacing.`);
@@ -239,7 +250,7 @@ export default function LessonComplete({
                         <span
                           className={`px-2 py-1 rounded text-[10px] font-mono uppercase tracking-wider ${
                             isSpeakCorrect
-                              ? 'bg-[rgba(15,102,96,0.14)] text-[var(--sonus-palette-green)]'
+                              ? 'bg-[rgba(25,50,50,0.14)] text-[var(--sonus-palette-green)]'
                               : 'bg-[rgba(194,65,12,0.14)] text-[var(--sonus-palette-rust)]'
                           }`}
                         >
@@ -271,16 +282,10 @@ export default function LessonComplete({
                           </div>
                         ) : (
                           <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-mono uppercase tracking-wider">
-                            {(breakdown.dimensions?.length
-                              ? breakdown.dimensions
-                              : [
-                                  { key: 'initial', label: 'Initial', pass: breakdown.initial.pass },
-                                  { key: 'final', label: 'Final', pass: breakdown.final.pass },
-                                  { key: 'tone', label: 'Tone', pass: breakdown.tone.pass },
-                                ]).map((dimension) => (
+                            {getDimensions(index).map((dimension) => (
                                   <span
                                     key={dimension.key}
-                                    className={`px-2 py-1 rounded ${dimension.pass ? 'bg-[rgba(15,102,96,0.14)] text-[var(--sonus-palette-green)]' : 'bg-[rgba(194,65,12,0.14)] text-[var(--sonus-palette-rust)]'}`}
+                                    className={`px-2 py-1 rounded ${dimension.pass ? 'bg-[rgba(25,50,50,0.14)] text-[var(--sonus-palette-green)]' : 'bg-[rgba(194,65,12,0.14)] text-[var(--sonus-palette-rust)]'}`}
                                   >
                                     {dimension.label} {dimension.pass ? 'OK' : 'Fix'}
                                   </span>
@@ -325,7 +330,7 @@ export default function LessonComplete({
           <div className="space-y-6">
             {/* Lesson summary */}
             <div className={`flex ${centerWordsPracticedCard ? 'flex-col items-center justify-center text-center gap-2' : 'items-center gap-3'}`}>
-              <div className="w-12 h-12 rounded-full bg-[rgba(15,102,96,0.16)] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-[rgba(25,50,50,0.16)] flex items-center justify-center">
                 <WordsIcon />
               </div>
               <div>

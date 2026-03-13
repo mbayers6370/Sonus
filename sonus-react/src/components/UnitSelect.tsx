@@ -46,10 +46,10 @@ const CARD_ACCENTS = [
   },
   {
     borderColor: 'border-[var(--sonus-palette-green)]/55',
-    badgeBg: 'bg-[rgba(15,102,96,0.12)]',
+    badgeBg: 'bg-[rgba(25,50,50,0.12)]',
     badgeText: 'text-[var(--sonus-palette-green)]',
     progressFill: 'bg-[var(--sonus-palette-green)]/55',
-    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(15,102,96,0.26)]',
+    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(25,50,50,0.26)]',
   },
   {
     borderColor: 'border-[var(--sonus-palette-charcoal)]/55',

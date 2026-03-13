@@ -19,7 +19,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
       language: 'Korean',
       system: 'TOPIK',
       range: 'Level-based track',
-      accent: 'border-[var(--sonus-palette-green)]/26 bg-[rgba(15,102,96,0.08)] text-[var(--sonus-palette-green)]',
+      accent: 'border-[var(--sonus-palette-green)]/26 bg-[rgba(25,50,50,0.08)] text-[var(--sonus-palette-green)]',
     },
     {
       language: 'French',
@@ -112,7 +112,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
               {workflow.map((item) => (
                 <div key={item.title} className="rounded-2xl border border-border bg-white px-3.5 py-3">
                   <div className="inline-flex items-center gap-2">
-                    <span className="inline-flex w-5 h-5 rounded-full bg-[rgba(15,102,96,0.12)] text-[var(--sonus-palette-green)] items-center justify-center text-[11px] font-semibold font-mono">
+                    <span className="inline-flex w-5 h-5 rounded-full bg-[rgba(25,50,50,0.12)] text-[var(--sonus-palette-green)] items-center justify-center text-[11px] font-semibold font-mono">
                       {item.step}
                     </span>
                     <div className="text-sm font-semibold text-text-dark">{item.title}</div>
@@ -123,7 +123,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
             </div>
           </div>
 
-          <div className="mt-3 rounded-2xl border border-[var(--sonus-palette-green)]/24 bg-[linear-gradient(135deg,rgba(15,102,96,0.10),rgba(31,42,55,0.04))] px-4 py-3.5">
+          <div className="mt-3 rounded-2xl border border-[var(--sonus-palette-green)]/24 bg-[linear-gradient(135deg,rgba(25,50,50,0.10),rgba(31,42,55,0.04))] px-4 py-3.5">
             <div className="text-[11px] uppercase tracking-wider font-mono text-[var(--sonus-palette-green)] mb-1.5">Core Principle</div>
             <p className="text-sm text-text-med">
               Frameworks provide structure, but every screen is tuned for one outcome: confident communication in real situations.

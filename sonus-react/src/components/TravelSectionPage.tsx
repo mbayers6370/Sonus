@@ -216,10 +216,10 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
   const rapidRecallBackground = hasAccentTheme ? accentTheme : theme;
   const phrasePanelBackground = hasAccentTheme ? '#FFFFFF' : theme;
   const localGuideBackground = section.id === 'shopping'
-    ? '#0F6660'
+    ? '#193232'
     : (hasAccentTheme ? accentTheme : theme);
   const pageBackground = section.id === 'konbini'
-    ? 'linear-gradient(145deg, #135777 0%, #0F6660 100%)'
+    ? 'linear-gradient(145deg, #135777 0%, #193232 100%)'
     : theme;
   const learned = useMemo(() => learnedBySection[section.id] || {}, [learnedBySection, section.id]);
   const orderedPhrases = useMemo(() => {

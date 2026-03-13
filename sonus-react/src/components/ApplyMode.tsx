@@ -121,7 +121,7 @@ function highlightLessonTerms(text: string, focusWord: string, allWords: Word[])
 
     const lessonMatch = otherTerms.find((candidate) => source.startsWith(candidate, index));
     if (lessonMatch) {
-      chunks.push({ text: lessonMatch, className: 'font-semibold text-[rgba(15,102,96,0.76)]' });
+      chunks.push({ text: lessonMatch, className: 'font-semibold text-[rgba(25,50,50,0.76)]' });
       index += lessonMatch.length;
       continue;
     }
@@ -228,7 +228,7 @@ function highlightEnglishFocus(text: string, word: Word, priorWords: Word[]) {
   const priorMatches = collectMeaningMatches(
     source,
     priorCandidates,
-    'font-semibold text-[rgba(15,102,96,0.76)]',
+    'font-semibold text-[rgba(25,50,50,0.76)]',
     1,
     focusMatches
   );
@@ -803,7 +803,7 @@ export default function ApplyMode({
           <div className="w-full max-w-2xl bg-white rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-5 text-center">
             {activeCharacterRow ? (
               <>
-                <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(15,102,96,0.14)] text-[var(--sonus-palette-green)]">
+                <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(25,50,50,0.14)] text-[var(--sonus-palette-green)]">
                   Character Focus
                 </div>
                 <div className="main-font text-[3.2rem] leading-none text-text-dark">{activeCharacterRow.char}</div>

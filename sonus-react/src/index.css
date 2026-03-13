@@ -9,7 +9,7 @@
   /* Core product palette */
   --sonus-palette-charcoal: #1F2A37;
   --sonus-palette-blue: #135777;
-  --sonus-palette-green: #0F6660;
+  --sonus-palette-green: #193232;
   --sonus-palette-rust: #C2410C;
   /* Semantic theme tokens */
   --sonus-color-text-dark: var(--sonus-palette-charcoal);

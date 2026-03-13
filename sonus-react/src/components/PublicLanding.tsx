@@ -496,41 +496,32 @@ function ExploreCardPreview({ title }: { title: string }) {
           <div className="relative rounded-lg border border-[#3C4B5E] bg-[#243345] px-2 py-1.5">
             <Volume2 className="absolute right-1 top-1 h-2.5 w-2.5 text-[#EAF3FA]" />
             <p className="text-[8px] uppercase tracking-[0.14em] text-[#A9BCD0]">Target</p>
-            <p className="mt-0.5 text-[17px] leading-none text-[#EAF3FA] sm:text-[18px]">你好</p>
+            <p className="mt-0.5 text-[17px] leading-none text-[#EAF3FA] sm:text-[18px]">こんにちは</p>
           </div>
           <div className="relative rounded-lg border border-[#3C4B5E] bg-[#233041] px-2 py-1.5">
             <Mic className="absolute right-1 top-1 h-2.5 w-2.5 text-[#EAF3FA]" />
             <p className="text-[8px] uppercase tracking-[0.14em] text-[#A9BCD0]">Heard</p>
-            <p className="mt-0.5 text-[17px] leading-none text-[#EAF3FA] sm:text-[18px]">nǐ hǎo</p>
+            <p className="mt-0.5 text-[17px] leading-none text-[#EAF3FA] sm:text-[18px]">こんにちは</p>
           </div>
         </div>
 
-        <div className="mt-1.5 space-y-1">
+        <div className="mt-3 space-y-1">
           <div>
             <div className="flex items-center justify-between text-[8px] uppercase tracking-[0.14em] text-[#A9BCD0]">
-              <span>Initial</span>
+              <span>Target Match</span>
               <span className="text-[#EAF3FA]">100%</span>
             </div>
             <div className="mt-0.5 h-1 rounded-full bg-[#314154]">
-              <div className="h-full w-full rounded-full bg-[#EAF3FA] shadow-[0_0_10px_rgba(234,243,250,0.42)]" />
+              <div className="h-full w-full rounded-full bg-[#EAF3FA]" />
             </div>
           </div>
           <div>
             <div className="flex items-center justify-between text-[8px] uppercase tracking-[0.14em] text-[#A9BCD0]">
-              <span>Final</span>
-              <span className="text-[#EAF3FA]">100%</span>
+              <span>Capture Quality</span>
+              <span className="text-[#EAF3FA]">High</span>
             </div>
             <div className="mt-0.5 h-1 rounded-full bg-[#314154]">
-              <div className="h-full w-full rounded-full bg-[#EAF3FA] shadow-[0_0_10px_rgba(234,243,250,0.42)]" />
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center justify-between text-[8px] uppercase tracking-[0.14em] text-[#A9BCD0]">
-              <span>Tone</span>
-              <span className="text-[#EAF3FA]">100%</span>
-            </div>
-            <div className="mt-0.5 h-1 rounded-full bg-[#314154]">
-              <div className="h-full w-full rounded-full bg-[#EAF3FA] shadow-[0_0_10px_rgba(234,243,250,0.42)]" />
+              <div className="h-full w-[92%] rounded-full bg-[#EAF3FA]" />
             </div>
           </div>
         </div>
