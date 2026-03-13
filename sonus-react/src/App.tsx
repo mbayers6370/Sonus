@@ -51,7 +51,7 @@ function AppShell() {
   const { status, error } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [reauthModalDismissed, setReauthModalDismissed] = useState(false);
+  const [dismissedReauthError, setDismissedReauthError] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -67,12 +67,8 @@ function AppShell() {
     if (location.pathname.startsWith('/internal/support')) return false;
     return typeof error === 'string' && /please sign in again/i.test(error);
   }, [error, location.pathname, status]);
-
-  useEffect(() => {
-    if (!showReauthModal) {
-      setReauthModalDismissed(false);
-    }
-  }, [showReauthModal]);
+  const reauthErrorKey = showReauthModal && typeof error === 'string' ? error : null;
+  const reauthModalDismissed = Boolean(reauthErrorKey && dismissedReauthError === reauthErrorKey);
 
   if (status === 'loading') {
     return (
@@ -136,7 +132,9 @@ function AppShell() {
                 <button
                   type="button"
                   onClick={() => {
-                    setReauthModalDismissed(true);
+                    if (reauthErrorKey) {
+                      setDismissedReauthError(reauthErrorKey);
+                    }
                     navigate('/login');
                   }}
                   className="font-mono rounded-lg bg-[#1F2A37] px-4 py-2 text-sm font-semibold text-white"
