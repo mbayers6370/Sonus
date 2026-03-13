@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useMemo } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import GlassLoader from './components/ui/GlassLoader';
@@ -51,6 +51,7 @@ function AppShell() {
   const { status, error } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [reauthModalDismissed, setReauthModalDismissed] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -66,6 +67,12 @@ function AppShell() {
     if (location.pathname.startsWith('/internal/support')) return false;
     return typeof error === 'string' && /please sign in again/i.test(error);
   }, [error, location.pathname, status]);
+
+  useEffect(() => {
+    if (!showReauthModal) {
+      setReauthModalDismissed(false);
+    }
+  }, [showReauthModal]);
 
   if (status === 'loading') {
     return (
@@ -113,7 +120,7 @@ function AppShell() {
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-        {showReauthModal && (
+        {showReauthModal && !reauthModalDismissed && (
           <div className="fixed inset-0 z-[260] flex items-center justify-center bg-black/45 px-4">
             <section
               role="dialog"
@@ -129,6 +136,7 @@ function AppShell() {
                 <button
                   type="button"
                   onClick={() => {
+                    setReauthModalDismissed(true);
                     navigate('/login');
                   }}
                   className="font-mono rounded-lg bg-[#1F2A37] px-4 py-2 text-sm font-semibold text-white"
