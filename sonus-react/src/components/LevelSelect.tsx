@@ -25,6 +25,16 @@ type AccentKey = keyof typeof ACCENT;
 const CARD_ACCENT_ORDER: AccentKey[] = ['navy', 'sage', 'graphite', 'rust'];
 const RELEASED_LEGACY_BAND_LEVELS = new Set(['band1', 'band2', 'band3', 'band4']);
 
+function getDrenchedBorderClass(levelId: string) {
+  if (levelId === 'intro') return 'sonus-drenched-border-charcoal';
+  if (levelId === 'band1' || levelId === 'band2') return 'sonus-drenched-border-green';
+  if (levelId === 'band3' || levelId === 'band4') return 'sonus-drenched-border-ocean';
+  if (levelId === 'band5' || levelId === 'band6') return 'sonus-drenched-border-charcoal';
+  if (levelId === 'n5') return 'sonus-drenched-border-green';
+  if (levelId === 'n4') return 'sonus-drenched-border-ocean';
+  return 'border-transparent';
+}
+
 type BandData = {
   band: number;
   units:
@@ -451,6 +461,7 @@ function LevelCard({
       ? 'Open →'
       : 'Start learning →';
   const isSectionCard = sectionLinks.length > 0;
+  const drenchedBorderClass = getDrenchedBorderClass(level.id);
   const cardBaseClass = `w-full border rounded-3xl ${isSectionCard ? 'min-h-[228px] sm:min-h-[212px] p-4 sm:p-6' : 'min-h-[170px] p-5'} text-center sm:text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200`;
   const cardToneClass = isDrenched && isUnlocked
     ? `${
@@ -463,7 +474,7 @@ function LevelCard({
             : level.id === 'band5' || level.id === 'band6'
               ? 'bg-[var(--sonus-palette-charcoal)]'
               : 'bg-[var(--sonus-palette-rust)]'
-    } border-transparent text-white`
+    } ${drenchedBorderClass} text-white`
     : isLocked
       ? 'bg-[#F3F4F6] border-[#D1D5DB]'
       : `bg-white ${a.leftBorder}`;
@@ -917,7 +928,7 @@ export default function LevelSelect({
           <>
             <button
               onClick={onOpenFoundations}
-              className="relative w-full bg-[var(--sonus-palette-charcoal)] border border-transparent rounded-3xl min-h-[132px] p-4 text-center text-white shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+              className="relative w-full bg-[var(--sonus-palette-charcoal)] border sonus-drenched-border-charcoal rounded-3xl min-h-[132px] p-4 text-center text-white shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
             >
               <ChevronRight className="absolute top-4 right-4 w-5 h-5 text-white/80" />
               <div className="w-full h-full flex flex-col items-center justify-center">
@@ -961,7 +972,7 @@ export default function LevelSelect({
                 disabled={isLocked}
                 className={`w-full border rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
                   isTierDrenched && !isLocked
-                    ? `${index === 0 ? 'bg-[var(--sonus-palette-green)]' : index === 1 ? 'bg-[var(--sonus-palette-blue)]' : 'bg-[var(--sonus-palette-rust)]'} border-transparent text-white`
+                    ? `${index === 0 ? 'bg-[var(--sonus-palette-green)] sonus-drenched-border-green' : index === 1 ? 'bg-[var(--sonus-palette-blue)] sonus-drenched-border-ocean' : 'bg-[var(--sonus-palette-rust)] border-transparent'} text-white`
                     : isLocked
                       ? 'bg-[#F3F4F6] border-[#D1D5DB]'
                       : `bg-white ${a.leftBorder}`

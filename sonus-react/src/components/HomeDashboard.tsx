@@ -581,7 +581,7 @@ export default function HomeDashboard({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
         <section
-          className={`${cardShell} md:order-1 md:col-span-2 bg-[var(--sonus-palette-charcoal)] text-white border-[var(--sonus-palette-charcoal)]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(31,42,55,0.42)] relative overflow-hidden`}
+          className={`${cardShell} md:order-1 md:col-span-2 bg-[var(--sonus-palette-charcoal)] text-white sonus-drenched-border-charcoal min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(31,42,55,0.42)] relative overflow-hidden`}
           style={{ animationDelay: '35ms' }}
         >
           <div className="pointer-events-none absolute inset-[8px] rounded-[1.2rem] border border-white/18" />
@@ -705,7 +705,7 @@ export default function HomeDashboard({
 
         <section
           id="tour-practice-focus-card"
-          className={`${cardShell} md:order-2 md:h-full bg-[var(--sonus-palette-blue)] text-white border-[var(--sonus-palette-blue)]/90 min-h-[210px] text-center flex flex-col justify-between py-4 shadow-[0_20px_40px_-28px_rgba(19,87,119,0.38)]`}
+          className={`${cardShell} md:order-2 md:h-full bg-[var(--sonus-palette-blue)] text-white sonus-drenched-border-ocean min-h-[210px] text-center flex flex-col justify-between py-4 shadow-[0_20px_40px_-28px_rgba(19,87,119,0.38)]`}
           style={{ animationDelay: '85ms' }}
         >
           <div className="main-font text-2xl leading-none mb-2 text-[#D7F0E4]">Practice Focus</div>

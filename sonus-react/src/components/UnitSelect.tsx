@@ -67,6 +67,13 @@ const CARD_ACCENTS = [
   },
 ] as const;
 
+function drenchedBorderClassFromAccent(accentBadgeText: string) {
+  if (accentBadgeText === 'text-[var(--sonus-palette-blue)]') return 'sonus-drenched-border-ocean';
+  if (accentBadgeText === 'text-[var(--sonus-palette-green)]') return 'sonus-drenched-border-green';
+  if (accentBadgeText === 'text-[var(--sonus-palette-charcoal)]') return 'sonus-drenched-border-charcoal';
+  return '';
+}
+
 interface UnitSelectProps {
   onSelectLesson: (unitId: string, lessonIndex: number, mode?: LessonMode) => void;
   onOpenPractice: (unitId: string) => void;
@@ -697,7 +704,7 @@ export default function UnitSelect({
             if (practiceType === 'checkpoint') {
               const practiceAccent = {
                 solidBg: 'bg-[var(--sonus-palette-charcoal)]',
-                borderColor: 'border-[var(--sonus-palette-charcoal)]',
+                borderColor: 'sonus-drenched-border-charcoal',
               };
               return (
                 <button
@@ -753,6 +760,7 @@ export default function UnitSelect({
             }
             const isUnitCompleted = lessonsCount > 0 && completedLessons === lessonsCount;
             const isUnitMastered = lessonsCount > 0 && masteredLessons === lessonsCount && isUnitCompleted;
+            const unitMasteredBorderClass = drenchedBorderClassFromAccent(accent.badgeText) || accent.borderColor;
             const safeCompletionPercent = completionPercent ?? 0;
             const depth = isBlueprint ? 0 : isUnitMastered ? 100 : Math.max(4, safeCompletionPercent);
             const isWalkthroughUnitTarget = walkthroughHighlightUnits && index === 0;
@@ -771,7 +779,7 @@ export default function UnitSelect({
                   setActiveUnit(unitId);
                 }}
                 disabled={isBlueprint || !isUnitUnlocked}
-                className={`${isUnitMastered ? `${accent.badgeText === 'text-[var(--sonus-palette-blue)]' ? 'bg-[#145B7A]' : accent.badgeText === 'text-[var(--sonus-palette-green)]' ? 'bg-[#1B3B27]' : accent.badgeText === 'text-[var(--sonus-palette-charcoal)]' ? 'bg-[var(--sonus-palette-charcoal)]' : 'bg-[var(--sonus-palette-rust)]'} text-white` : !isUnitUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[var(--sonus-palette-green)]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-4 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                className={`${isUnitMastered ? `${accent.badgeText === 'text-[var(--sonus-palette-blue)]' ? 'bg-[#145B7A]' : accent.badgeText === 'text-[var(--sonus-palette-green)]' ? 'bg-[#1B3B27]' : accent.badgeText === 'text-[var(--sonus-palette-charcoal)]' ? 'bg-[var(--sonus-palette-charcoal)]' : 'bg-[var(--sonus-palette-rust)]'} text-white` : !isUnitUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[var(--sonus-palette-green)]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? (isUnitMastered ? unitMasteredBorderClass : accent.borderColor) : 'border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-4 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
               >
                 <div className="flex items-center justify-center gap-2 mb-3">
                   <div className={`inline-flex w-full items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitMastered ? 'bg-white/20 text-white' : !isUnitUnlocked ? 'bg-white text-[#6B7280] border border-[#D1D5DB]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
@@ -855,7 +863,7 @@ export default function UnitSelect({
             <div className="grid grid-cols-2 gap-4 mb-4">
               <button
                 onClick={() => onOpenPractice(`${activeUnit.unitId}-listening`)}
-                className="rounded-2xl border border-[var(--sonus-palette-blue)] bg-[var(--sonus-palette-blue)] text-white min-h-[92px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(19,87,119,0.55)]"
+                className="rounded-2xl border sonus-drenched-border-ocean bg-[var(--sonus-palette-blue)] text-white min-h-[92px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(19,87,119,0.55)]"
               >
                 <div className="text-[11px] uppercase tracking-wider font-mono text-white/85">Practice</div>
                 <div className="main-font text-[1.1rem] leading-tight mt-1">Listening</div>
@@ -899,6 +907,7 @@ export default function UnitSelect({
                 (lessonStatus?.introViewed ? 1 : 0) +
                 ((lessonStatus?.quizScore ?? 0) >= QUIZ_PASS_PERCENT ? 1 : 0) +
                 ((lessonStatus?.speakScore ?? 0) >= SPEAK_PASS_PERCENT ? 1 : 0);
+              const lessonMasteredBorderClass = drenchedBorderClassFromAccent(accent.badgeText) || accent.borderColor;
 
               return (
                 <button
@@ -913,7 +922,7 @@ export default function UnitSelect({
                     );
                   }}
                   disabled={!isLessonUnlocked}
-                  className={`${isLessonMastered ? `${accent.badgeText === 'text-[var(--sonus-palette-blue)]' ? 'bg-[var(--sonus-palette-blue)]' : accent.badgeText === 'text-[var(--sonus-palette-green)]' ? 'bg-[var(--sonus-palette-green)]' : accent.badgeText === 'text-[var(--sonus-palette-charcoal)]' ? 'bg-[var(--sonus-palette-charcoal)]' : 'bg-[var(--sonus-palette-rust)]'} text-white` : !isLessonUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isLessonCompleted ? 'bg-white text-text-dark ring-1 ring-[var(--sonus-palette-green)]/45' : 'bg-white text-text-dark'} border-2 ${isLessonUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isLessonMastered ? `${accent.badgeText === 'text-[var(--sonus-palette-blue)]' ? 'bg-[var(--sonus-palette-blue)]' : accent.badgeText === 'text-[var(--sonus-palette-green)]' ? 'bg-[var(--sonus-palette-green)]' : accent.badgeText === 'text-[var(--sonus-palette-charcoal)]' ? 'bg-[var(--sonus-palette-charcoal)]' : 'bg-[var(--sonus-palette-rust)]'} text-white` : !isLessonUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isLessonCompleted ? 'bg-white text-text-dark ring-1 ring-[var(--sonus-palette-green)]/45' : 'bg-white text-text-dark'} border ${isLessonUnlocked ? (isLessonMastered ? lessonMasteredBorderClass : accent.borderColor) : 'border-[#D1D5DB]'} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
                   <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isLessonMastered ? 'bg-white/20 text-white' : !isLessonUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
                     <BookOpen className={`w-3.5 h-3.5 ${isLessonMastered ? 'text-white' : !isLessonUnlocked ? 'text-[#6B7280]' : accent.badgeText}`} />

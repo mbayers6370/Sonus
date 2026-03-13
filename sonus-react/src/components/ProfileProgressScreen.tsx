@@ -413,7 +413,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
         )}
 
         <section className="grid grid-cols-1 gap-3 lg:grid-cols-12">
-          <div className="rounded-3xl border p-5 text-center sm:p-6 sm:text-left shadow-[0_20px_48px_-40px_rgba(15,23,42,0.28)] lg:col-span-12 bg-[var(--sonus-palette-green)] border-[rgba(255,255,255,0.26)]">
+          <div className="rounded-3xl border p-5 text-center sm:p-6 sm:text-left shadow-[0_20px_48px_-40px_rgba(15,23,42,0.28)] lg:col-span-12 bg-[var(--sonus-palette-green)] sonus-drenched-border-green">
             <h2 className="main-font text-[2rem] leading-none text-white sm:text-[2.2rem]">Progress Overview</h2>
             <p className="mt-3 max-w-2xl text-sm text-[rgba(255,255,255,0.86)]">
               This report summarizes active-path completion, study streak, and intervention priorities for the current study track.

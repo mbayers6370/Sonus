@@ -578,7 +578,7 @@ export default function ProfileScreen({
         )}
 
         <section className="grid grid-cols-1 gap-3 lg:grid-cols-12">
-          <SurfaceCard className="relative overflow-hidden !border-[var(--sonus-palette-charcoal)] !bg-[var(--sonus-palette-charcoal)] p-5 text-white shadow-[0_24px_52px_-34px_rgba(15,23,42,0.62)] sm:p-6 lg:col-span-12">
+          <SurfaceCard className="relative overflow-hidden border sonus-drenched-border-charcoal !bg-[var(--sonus-palette-charcoal)] p-5 text-white shadow-[0_24px_52px_-34px_rgba(15,23,42,0.62)] sm:p-6 lg:col-span-12">
             <div className="relative mx-auto max-w-4xl text-center">
               <p className="inline-flex items-center rounded-full border border-white/28 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-white">
                 Profile
@@ -845,7 +845,7 @@ export default function ProfileScreen({
                     disabled={switchingLanguage || !isAvailable || isCurrent}
                     className={`group relative w-full min-h-[148px] overflow-hidden rounded-2xl border p-3 text-center transition-all ${
                       isCurrent
-                        ? 'bg-[var(--sonus-palette-charcoal)] border-[var(--sonus-palette-charcoal)]/90'
+                        ? 'bg-[var(--sonus-palette-charcoal)] sonus-drenched-border-charcoal'
                         : isAvailable
                           ? `${accent.surfaceTint} ${accent.borderColor} hover:-translate-y-0.5`
                           : 'bg-[#F8FAFC] border-[#CBD5E1]'

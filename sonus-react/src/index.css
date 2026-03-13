@@ -208,6 +208,27 @@ body::before {
   animation: sonus-loader-ellipsis 1s steps(3, end) infinite;
 }
 
+.sonus-drenched-border-ocean {
+  border: 0.75px solid transparent;
+  background:
+    linear-gradient(var(--sonus-palette-blue), var(--sonus-palette-blue)) padding-box,
+    linear-gradient(135deg, #fb923c 0%, #ef4444 100%) border-box;
+}
+
+.sonus-drenched-border-charcoal {
+  border: 0.75px solid transparent;
+  background:
+    linear-gradient(var(--sonus-palette-charcoal), var(--sonus-palette-charcoal)) padding-box,
+    linear-gradient(135deg, #14b8a6 0%, #22c55e 100%) border-box;
+}
+
+.sonus-drenched-border-green {
+  border: 0.75px solid transparent;
+  background:
+    linear-gradient(var(--sonus-palette-green), var(--sonus-palette-green)) padding-box,
+    linear-gradient(135deg, #f472b6 0%, #a855f7 100%) border-box;
+}
+
 @media (min-width: 640px) {
   .sonus-loader__wordmark {
     font-size: 1.6rem;

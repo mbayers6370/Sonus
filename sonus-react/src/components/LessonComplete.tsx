@@ -360,7 +360,7 @@ export default function LessonComplete({
               )}
               <button
                 onClick={onStartQuiz}
-                className="w-full py-4 px-6 bg-[var(--sonus-palette-charcoal)] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[var(--sonus-palette-charcoal)] text-white rounded-xl border sonus-drenched-border-charcoal font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Retake Quiz
               </button>
@@ -384,7 +384,7 @@ export default function LessonComplete({
               )}
               <button
                 onClick={onStartSpeak}
-                className="w-full py-4 px-6 bg-[var(--sonus-palette-charcoal)] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[var(--sonus-palette-charcoal)] text-white rounded-xl border sonus-drenched-border-charcoal font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Continue to Speak
               </button>
@@ -394,7 +394,7 @@ export default function LessonComplete({
             <>
               <button
                 onClick={onStartQuiz}
-                className="w-full py-4 px-6 bg-[var(--sonus-palette-charcoal)] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[var(--sonus-palette-charcoal)] text-white rounded-xl border sonus-drenched-border-charcoal font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Start Quiz
               </button>
@@ -416,7 +416,7 @@ export default function LessonComplete({
             <>
               <button
                 onClick={onContinue}
-                className="w-full py-4 px-6 bg-[var(--sonus-palette-green)] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[var(--sonus-palette-green)] text-white rounded-xl border sonus-drenched-border-green font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Continue Learning
               </button>
@@ -431,7 +431,7 @@ export default function LessonComplete({
           {isSpeakCompletion && !speakNeedsFullLessonRetry && !speakPassed && (
             <button
               onClick={onStartSpeak}
-              className="w-full py-4 px-6 bg-[var(--sonus-palette-charcoal)] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full py-4 px-6 bg-[var(--sonus-palette-charcoal)] text-white rounded-xl border sonus-drenched-border-charcoal font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
             >
               Retake Speaking
             </button>
@@ -447,7 +447,7 @@ export default function LessonComplete({
           {isSpeakCompletion && !speakNeedsFullLessonRetry && (
             <button
               onClick={onContinue}
-              className="w-full py-4 px-6 bg-[var(--sonus-palette-green)] text-white rounded-xl font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full py-4 px-6 bg-[var(--sonus-palette-green)] text-white rounded-xl border sonus-drenched-border-green font-bold text-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
             >
               Continue Learning
             </button>
