@@ -2670,8 +2670,8 @@
                 "bread"
               ],
               "example": {
-                "en": "We made pancakes for breakfast.",
-                "native": "私たちは朝食にパンケーキを作った。"
+                "en": "I ate bread for breakfast.",
+                "native": "朝ごはんにパンを食べました。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -2704,8 +2704,8 @@
                 "curry (abbr. for curry and rice)"
               ],
               "example": {
-                "en": "The digression is escalating more and more.",
-                "native": "脱線がどんどんエスカレートしていく。"
+                "en": "I ate curry for dinner.",
+                "native": "晩ごはんにカレーを食べました。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -5266,8 +5266,8 @@
                 "plural suffix"
               ],
               "example": {
-                "en": "Feta cheese has a lot of salt.",
-                "native": "フェタチーズは塩分が多い。"
+                "en": "The children are playing in the park.",
+                "native": "子どもたちは公園で遊んでいます。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -5647,8 +5647,8 @@
                 "to exceed, too much"
               ],
               "example": {
-                "en": "There used to be a large cedar tree there.",
-                "native": "昔そこにはスギの大木があった。"
+                "en": "I left home a little after eight o'clock.",
+                "native": "八時すぎに家を出ました。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -5749,8 +5749,8 @@
                 "et cetera"
               ],
               "example": {
-                "en": "Mennad loves YouTube.",
-                "native": "メナドはYouTubeが大好きだ。"
+                "en": "I bought apples, oranges, and so on.",
+                "native": "りんごやオレンジなどを買いました。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -7324,14 +7324,14 @@
               "id": "N5-0266",
               "kanji": null,
               "hiragana": "こぴーする",
-              "katakana": "コピースル",
+              "katakana": "コピーする",
               "en": "to copy",
               "defs": [
                 "to copy"
               ],
               "example": {
                 "en": "I copy the materials before the meeting.",
-                "native": "会議の前に資料をコピースル。"
+                "native": "会議の前に資料をコピーする。"
               },
               "type": "expression",
               "pos_detail": "vs",
@@ -8642,8 +8642,8 @@
                 "a ticket"
               ],
               "example": {
-                "en": "Would anyone like a transfer?",
-                "native": "乗り換えキップが必要な方はいますか。"
+                "en": "I bought a train ticket at the station.",
+                "native": "駅で電車の切符を買いました。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -12509,8 +12509,8 @@
                 "to lose something"
               ],
               "example": {
-                "en": "When I see typos I lose interest in answering.",
-                "native": "タイポみると答える気なくす。"
+                "en": "I lost my house keys.",
+                "native": "家の鍵をなくしました。"
               },
               "type": "word",
               "pos_detail": "v5",
