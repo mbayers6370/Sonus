@@ -1217,8 +1217,8 @@
                 "serious"
               ],
               "example": {
-                "en": "Who do you think she lives with?",
-                "native": "彼女は誰といっしょに暮らしているとおもいますか。"
+                "en": "This is very heavy.",
+                "native": "これはとても重いです。"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -8310,8 +8310,8 @@
                 "record"
               ],
               "example": {
-                "en": "She gave me access to her records.",
-                "native": "彼女はレコードを聞いていいと言ってくれた。"
+                "en": "She said I could listen to her records.",
+                "native": "レコードを聞いていいと言ってくれた。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -9653,8 +9653,8 @@
                 "cloudiness, cloudy weather"
               ],
               "example": {
-                "en": "I can't find anything like warmth anywhere.",
-                "native": "ぬくもりなどどこにも見つからない。"
+                "en": "It's cloudy today.",
+                "native": "今日は曇りです。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -9925,8 +9925,8 @@
                 "minutes"
               ],
               "example": {
-                "en": "I understand.",
-                "native": "分かる。"
+                "en": "It takes five minutes.",
+                "native": "五分かかります。"
               },
               "type": "affix",
               "pos_detail": "suf",
@@ -11476,8 +11476,8 @@
                 "twenty days, twentieth (day of the month)"
               ],
               "example": {
-                "en": "She fled for fear of being caught.",
-                "native": "彼女はつかまるといけないので逃げた。"
+                "en": "The event is on the twentieth.",
+                "native": "行事は二十日です。"
               },
               "type": "word",
               "pos_detail": "n",
