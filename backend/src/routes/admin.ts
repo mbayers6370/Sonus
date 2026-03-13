@@ -95,6 +95,21 @@ function toInt(value: unknown) {
   return 0;
 }
 
+const supportedAdminLanguageIds = ['ja', 'kr', 'fr', 'it', 'es'] as const;
+const supportedAdminLanguageSql = Prisma.join(
+  supportedAdminLanguageIds.map((languageId) => Prisma.sql`${languageId}`)
+);
+const normalizedProfileLanguageSql = Prisma.sql`
+  CASE
+    WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('ja', 'jp', 'japanese') THEN 'ja'
+    WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('kr', 'ko', 'korean') THEN 'kr'
+    WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('fr', 'french') THEN 'fr'
+    WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('it', 'italian') THEN 'it'
+    WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('es', 'spanish') THEN 'es'
+    ELSE 'unknown'
+  END
+`;
+
 function normalizeAdminLanguageId(value: string | null | undefined) {
   const normalized = (value || '').trim().toLowerCase();
   if (!normalized) return null;
@@ -112,7 +127,7 @@ function normalizeAdminLanguageId(value: string | null | undefined) {
   ) {
     return normalized;
   }
-  return 'ja';
+  return null;
 }
 
 function toExportRows(value: unknown): Array<Record<string, unknown>> {
@@ -1819,8 +1834,10 @@ export async function adminRoutes(app: FastifyInstance) {
           COALESCE(pe.payload_json->>'reachedCompleteScreen', '') AS reached_complete_screen,
           COALESCE(pe.payload_json->>'completed', '') AS completed_flag
         FROM progress_events pe
+        LEFT JOIN profiles p ON p.user_id = pe.user_id
         WHERE pe.event_type IN ('lesson_completed', 'apply_completed')
           AND pe.created_at >= now() - ${windowInterval}::interval
+          AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
       ),
       completion_keys AS (
         SELECT DISTINCT
@@ -1835,14 +1852,56 @@ export async function adminRoutes(app: FastifyInstance) {
         WHERE ce.band_id <> '' AND ce.unit_id <> '' AND ce.lesson_idx <> ''
       )
       SELECT
-        (SELECT COUNT(*)::bigint FROM quiz_attempts qa WHERE qa.created_at >= now() - ${windowInterval}::interval) AS "quizAttempts",
-        (SELECT COUNT(*)::bigint FROM quiz_attempts qa WHERE qa.is_correct = true AND qa.created_at >= now() - ${windowInterval}::interval) AS "quizCorrect",
-        (SELECT COUNT(*)::bigint FROM speak_attempts sa WHERE sa.created_at >= now() - ${windowInterval}::interval) AS "speakAttempts",
-        (SELECT COUNT(*)::bigint FROM speak_attempts sa WHERE sa.initial_ok = true AND sa.final_ok = true AND sa.tone_ok = true AND sa.created_at >= now() - ${windowInterval}::interval) AS "speakPassed",
-        (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'lesson_started' AND pe.created_at >= now() - ${windowInterval}::interval) AS "lessonStartsTracked",
+        (
+          SELECT COUNT(*)::bigint
+          FROM quiz_attempts qa
+          LEFT JOIN profiles p ON p.user_id = qa.user_id
+          WHERE qa.created_at >= now() - ${windowInterval}::interval
+            AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ) AS "quizAttempts",
+        (
+          SELECT COUNT(*)::bigint
+          FROM quiz_attempts qa
+          LEFT JOIN profiles p ON p.user_id = qa.user_id
+          WHERE qa.is_correct = true
+            AND qa.created_at >= now() - ${windowInterval}::interval
+            AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ) AS "quizCorrect",
+        (
+          SELECT COUNT(*)::bigint
+          FROM speak_attempts sa
+          LEFT JOIN profiles p ON p.user_id = sa.user_id
+          WHERE sa.created_at >= now() - ${windowInterval}::interval
+            AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ) AS "speakAttempts",
+        (
+          SELECT COUNT(*)::bigint
+          FROM speak_attempts sa
+          LEFT JOIN profiles p ON p.user_id = sa.user_id
+          WHERE sa.initial_ok = true
+            AND sa.final_ok = true
+            AND sa.tone_ok = true
+            AND sa.created_at >= now() - ${windowInterval}::interval
+            AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ) AS "speakPassed",
+        (
+          SELECT COUNT(*)::bigint
+          FROM progress_events pe
+          LEFT JOIN profiles p ON p.user_id = pe.user_id
+          WHERE pe.event_type = 'lesson_started'
+            AND pe.created_at >= now() - ${windowInterval}::interval
+            AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ) AS "lessonStartsTracked",
         (SELECT COUNT(*)::bigint FROM completion_keys) AS "lessonStartsInferred",
         GREATEST(
-          (SELECT COUNT(*)::bigint FROM progress_events pe WHERE pe.event_type = 'lesson_started' AND pe.created_at >= now() - ${windowInterval}::interval),
+          (
+            SELECT COUNT(*)::bigint
+            FROM progress_events pe
+            LEFT JOIN profiles p ON p.user_id = pe.user_id
+            WHERE pe.event_type = 'lesson_started'
+              AND pe.created_at >= now() - ${windowInterval}::interval
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ),
           (SELECT COUNT(*)::bigint FROM completion_keys)
         ) AS "lessonStarts",
         (
@@ -1955,7 +2014,7 @@ export async function adminRoutes(app: FastifyInstance) {
 
       const windowInterval = `${parsed.data.windowDays} days`;
       const limitPerLanguage = parsed.data.limitPerLanguage;
-      const languages = ['ja', 'kr', 'fr', 'it', 'es'];
+      const languages = [...supportedAdminLanguageIds] as string[];
 
       const rows = await prisma.$queryRaw<
         Array<{
@@ -1968,10 +2027,7 @@ export async function adminRoutes(app: FastifyInstance) {
       >`
       WITH agg AS (
         SELECT
-          CASE
-            WHEN qa.word_id LIKE 'N%' THEN 'ja'
-            ELSE 'unknown'
-          END AS language,
+          ${normalizedProfileLanguageSql} AS language,
           qa.word_id AS "wordId",
           COUNT(*) FILTER (WHERE qa.is_correct = false)::bigint AS misses,
           COUNT(*)::bigint AS attempts,
@@ -1980,7 +2036,9 @@ export async function adminRoutes(app: FastifyInstance) {
             2
           ) AS "missRatePct"
         FROM quiz_attempts qa
+        LEFT JOIN profiles p ON p.user_id = qa.user_id
         WHERE qa.created_at >= now() - ${windowInterval}::interval
+          AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
         GROUP BY language, qa.word_id
         HAVING COUNT(*) FILTER (WHERE qa.is_correct = false) > 0
       ),
@@ -2062,7 +2120,7 @@ export async function adminRoutes(app: FastifyInstance) {
 
       const windowInterval = `${parsed.data.windowDays} days`;
       const limitPerLanguage = parsed.data.limitPerLanguage;
-      const languages = ['ja', 'kr', 'fr', 'it', 'es'];
+      const languages = [...supportedAdminLanguageIds] as string[];
 
       const rows = await prisma.$queryRaw<
         Array<{
@@ -2075,14 +2133,7 @@ export async function adminRoutes(app: FastifyInstance) {
       >`
       WITH scoped AS (
         SELECT
-          CASE
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('ja', 'jp', 'japanese') THEN 'ja'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('kr', 'ko', 'korean') THEN 'kr'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('fr', 'french') THEN 'fr'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('it', 'italian') THEN 'it'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('es', 'spanish') THEN 'es'
-            ELSE 'ja'
-          END AS language,
+          ${normalizedProfileLanguageSql} AS language,
           sa.word_id,
           sa.initial_ok,
           sa.final_ok,
@@ -2090,6 +2141,7 @@ export async function adminRoutes(app: FastifyInstance) {
         FROM speak_attempts sa
         LEFT JOIN profiles p ON p.user_id = sa.user_id
         WHERE sa.created_at >= now() - ${windowInterval}::interval
+          AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
       ),
       agg AS (
         SELECT
@@ -2188,7 +2240,7 @@ export async function adminRoutes(app: FastifyInstance) {
       const previousIntervalStart = `${parsed.data.windowDays * 2} days`;
       const limitPerLanguage = parsed.data.limitPerLanguage;
       const minMissesPerUser = parsed.data.minMissesPerUser;
-      const languages = ['ja', 'kr', 'fr', 'it', 'es'];
+      const languages = [...supportedAdminLanguageIds] as string[];
 
       const rows = await prisma.$queryRaw<
         Array<{
@@ -2203,14 +2255,7 @@ export async function adminRoutes(app: FastifyInstance) {
       >`
       WITH scoped_current AS (
         SELECT
-          CASE
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('ja', 'jp', 'japanese') THEN 'ja'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('kr', 'ko', 'korean') THEN 'kr'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('fr', 'french') THEN 'fr'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('it', 'italian') THEN 'it'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('es', 'spanish') THEN 'es'
-            ELSE 'ja'
-          END AS language,
+          ${normalizedProfileLanguageSql} AS language,
           sa.user_id,
           sa.word_id
         FROM speak_attempts sa
@@ -2218,6 +2263,7 @@ export async function adminRoutes(app: FastifyInstance) {
         WHERE sa.created_at >= now() - ${windowInterval}::interval
           AND sa.created_at < now()
           AND (sa.initial_ok = false OR sa.final_ok = false OR sa.tone_ok = false)
+          AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
       ),
       user_word_misses_current AS (
         SELECT
@@ -2249,14 +2295,7 @@ export async function adminRoutes(app: FastifyInstance) {
       ),
       scoped_previous AS (
         SELECT
-          CASE
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('ja', 'jp', 'japanese') THEN 'ja'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('kr', 'ko', 'korean') THEN 'kr'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('fr', 'french') THEN 'fr'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('it', 'italian') THEN 'it'
-            WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('es', 'spanish') THEN 'es'
-            ELSE 'ja'
-          END AS language,
+          ${normalizedProfileLanguageSql} AS language,
           sa.user_id,
           sa.word_id
         FROM speak_attempts sa
@@ -2264,6 +2303,7 @@ export async function adminRoutes(app: FastifyInstance) {
         WHERE sa.created_at >= now() - ${previousIntervalStart}::interval
           AND sa.created_at < now() - ${windowInterval}::interval
           AND (sa.initial_ok = false OR sa.final_ok = false OR sa.tone_ok = false)
+          AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
       ),
       user_word_misses_previous AS (
         SELECT
