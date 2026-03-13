@@ -56,11 +56,11 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundColor: '#186E95',
-          backgroundImage: 'linear-gradient(145deg, #186E95 0%, #186E95 42%, #145B7A 100%)',
+          backgroundColor: '#135777',
+          backgroundImage: 'linear-gradient(145deg, #135777 0%, #135777 42%, #145B7A 100%)',
         }}
       />
-      <div className="pointer-events-none absolute inset-0 bg-[#186E95]/72" />
+      <div className="pointer-events-none absolute inset-0 bg-[var(--sonus-palette-blue)]/72" />
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -73,13 +73,14 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
       />
       <div className="pointer-events-none absolute -top-28 -left-16 h-72 w-72 rounded-full bg-white/10 blur-3xl animate-pulse" />
       <div
-        className="pointer-events-none absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-[#013220]/20 blur-3xl animate-pulse"
+        className="pointer-events-none absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-[var(--sonus-palette-green)]/20 blur-3xl animate-pulse"
         style={{ animationDelay: '1200ms' }}
       />
       <GlassHeader
         title="Travel Sprint"
+        hideLogoOnMobile
         className="bg-white/12 border-white/25"
-        scrolledClassName="bg-[#186E95]/88 border-white/35"
+        scrolledClassName="bg-[var(--sonus-palette-blue)]/88 border-white/35"
         titleClassName="text-white !text-[1.5rem] md:!text-[2rem]"
         scrolledTitleClassName="text-white"
       />

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Square, SquareCheckBig, Volume2 } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Square, SquareCheckBig, Volume2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import BottomNav from './BottomNav';
 import { useAudio } from '../hooks/useAudio';
@@ -59,7 +59,7 @@ function renderNoteText(text: string) {
           href={part}
           target="_blank"
           rel="noreferrer"
-          className="underline decoration-[#186E95]/45 underline-offset-2 hover:text-[#186E95]"
+          className="underline decoration-[var(--sonus-palette-blue)]/45 underline-offset-2 hover:text-[var(--sonus-palette-blue)]"
         >
           {part}
         </a>
@@ -216,10 +216,10 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
   const rapidRecallBackground = hasAccentTheme ? accentTheme : theme;
   const phrasePanelBackground = hasAccentTheme ? '#FFFFFF' : theme;
   const localGuideBackground = section.id === 'shopping'
-    ? '#013220'
+    ? '#0F6660'
     : (hasAccentTheme ? accentTheme : theme);
   const pageBackground = section.id === 'konbini'
-    ? 'linear-gradient(145deg, #186E95 0%, #00A850 100%)'
+    ? 'linear-gradient(145deg, #135777 0%, #0F6660 100%)'
     : theme;
   const learned = useMemo(() => learnedBySection[section.id] || {}, [learnedBySection, section.id]);
   const orderedPhrases = useMemo(() => {
@@ -286,6 +286,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
       />
       <GlassHeader
         title={section.title}
+        hideLogoOnMobile
         className="bg-white/14 border-white/28"
         scrolledClassName="bg-white/22 border-white/36"
         titleClassName="text-white !text-[1.18rem] md:!text-[1.55rem]"
@@ -305,20 +306,6 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                   className="relative rounded-2xl px-4 py-4 sm:px-5 sm:py-5 mb-3.5"
                   style={{ background: localGuideBackground }}
                 >
-                  {section.id === 'shopping' ? (
-                    <Link
-                      to={konbiniLinkTarget}
-                      className="absolute right-3 top-3 inline-flex h-8 w-8 sm:h-12 sm:w-12 items-center justify-center rounded-xl border border-white bg-[#013220] p-1 transition hover:scale-[1.03] hover:bg-[#1F5A40]"
-                      aria-label="Open shopping local guide"
-                      title="Open shopping local guide"
-                    >
-                      <img
-                        src="/branding/Konbini_Icon.png"
-                        alt="Konbini icon"
-                        className="h-full w-full object-contain"
-                      />
-                    </Link>
-                  ) : null}
                   <div className="font-mono text-[0.95rem] sm:text-[1rem] uppercase tracking-[0.12em] mb-2 text-white">
                     Local Guide
                   </div>
@@ -355,9 +342,24 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                       );
                     })}
                   </div>
+
+                  {section.id === 'shopping' ? (
+                    <div className="mt-3.5">
+                      <Link
+                        to={konbiniLinkTarget}
+                        className="group mx-auto flex w-full max-w-xs items-center gap-2 rounded-xl border border-white/70 bg-transparent px-3 py-2 text-white transition-colors hover:bg-white/10"
+                        aria-label="Open Konbini guide"
+                        title="Open Konbini guide"
+                      >
+                        <ShoppingBag className="h-5 w-5" />
+                        <span className="text-sm font-semibold tracking-wide">Konbini</span>
+                        <ArrowRight className="ml-auto h-4 w-4 opacity-90 transition-transform group-hover:translate-x-0.5" />
+                      </Link>
+                    </div>
+                  ) : null}
                 </div>
 
-                <div className="mx-auto max-w-3xl space-y-2.5 text-left text-[#1F2A37] text-pretty">
+                <div className="mx-auto max-w-3xl space-y-2.5 text-left text-[var(--sonus-palette-charcoal)] text-pretty">
                   {buildGuideNoteBlocks(section.culturalNotes).map((block, idx) => {
                     if (block.kind === 'bullet') {
                       return (
@@ -373,7 +375,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                     if (block.kind === 'title') {
                       return (
                         <div key={`${section.id}-tip-${idx}`} className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2.5">
-                          <p className="text-[0.84rem] font-semibold text-[#1F2A37] leading-tight mb-1">
+                          <p className="text-[0.84rem] font-semibold text-[var(--sonus-palette-charcoal)] leading-tight mb-1">
                             {block.title}
                           </p>
                           <div className="space-y-1.5">

@@ -1195,7 +1195,7 @@ function highlightPracticeSentence(
   while (index < source.length) {
     const targetMatch = uniqueTarget.find((candidate) => source.startsWith(candidate, index));
     if (targetMatch) {
-      chunks.push({ text: targetMatch, className: 'font-semibold text-[#186E95]' });
+      chunks.push({ text: targetMatch, className: 'font-semibold text-[var(--sonus-palette-blue)]' });
       index += targetMatch.length;
       continue;
     }
@@ -2802,7 +2802,7 @@ export default function SpeakMode({
         const allowDetailedCoaching = feedbackReliability === 'high';
         const allowNarrowCoaching = feedbackReliability !== 'low';
         const successToneClass = 'text-[#8DD3AE]';
-        const errorToneClass = 'text-[#C2410C]';
+        const errorToneClass = 'text-[var(--sonus-palette-rust)]';
         const toneMarkedCharIndex = (syllable: string): number => {
           const chars = Array.from(syllable || '');
           return chars.findIndex((char) => Boolean(TONE_CHAR_MAP[char.toLowerCase()]));
@@ -2969,7 +2969,7 @@ export default function SpeakMode({
                 return (
                   <div
                     key={`coach-${token.raw}-${index}`}
-                    className={`relative rounded-xl border border-white/20 bg-[#1F2A37] text-center flex items-center justify-center ${
+                    className={`relative rounded-xl border border-white/20 bg-[var(--sonus-palette-charcoal)] text-center flex items-center justify-center ${
                       compact ? 'min-h-[56px] px-2 py-1.5' : 'min-h-[82px] px-2 py-1.5'
                     } ${isOddDesktopTail || isSingleSyllable ? 'md:col-span-2' : ''}`}
                   >
@@ -3016,7 +3016,7 @@ export default function SpeakMode({
                 );
               })}
             </div>
-            <div className={`relative rounded-xl border border-white/20 bg-[#1F2A37] px-2.5 py-2 text-center ${compact ? '' : 'min-h-[66px]'} flex items-center justify-center`}>
+            <div className={`relative rounded-xl border border-white/20 bg-[var(--sonus-palette-charcoal)] px-2.5 py-2 text-center ${compact ? '' : 'min-h-[66px]'} flex items-center justify-center`}>
               <div className={`${compact ? 'text-[11px]' : 'text-[12px]'} leading-[1.35] text-white/95`}>
                 {isFullyCorrect ? toneFeedback : nextAttemptPlan}
               </div>
@@ -3037,7 +3037,7 @@ export default function SpeakMode({
     if (isLegacyToneLesson && !useSentenceTargetInPractice) {
       const legacyScoreChips = renderScoreChips(compact);
       return (
-        <div className="rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-3 py-3.5 sm:px-4">
+        <div className="rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-3 py-3.5 sm:px-4">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 items-stretch">
             <div className="h-full text-center sm:pr-2 flex flex-col justify-center">
               <div className="flex items-center justify-center gap-2 mb-2">
@@ -3054,13 +3054,13 @@ export default function SpeakMode({
                     }
                     if (passCount >= 1) {
                       return (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[rgba(24,110,149,0.16)] text-[#186E95]">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[rgba(19,87,119,0.16)] text-[var(--sonus-palette-blue)]">
                           Keep Going
                         </span>
                       );
                     }
                     return (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#C2410C] text-white">
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[var(--sonus-palette-rust)] text-white">
                         Needs Work
                       </span>
                     );
@@ -3070,7 +3070,7 @@ export default function SpeakMode({
                       className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
                         isFullyCorrect
                           ? 'bg-[#8DD3AE] text-white'
-                          : 'bg-[#C2410C] text-white'
+                          : 'bg-[var(--sonus-palette-rust)] text-white'
                       }`}
                     >
                       {isFullyCorrect ? 'Correct' : 'Needs Work'}
@@ -3101,8 +3101,8 @@ export default function SpeakMode({
       );
     }
     const shell = compact
-      ? 'rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-3 py-3.5'
-      : 'rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5';
+      ? 'rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-3 py-3.5'
+      : 'rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5';
     const heardClass = compact
       ? `secondary-font font-semibold ${noSpeechResultClass} text-white leading-tight break-words text-center`
       : 'secondary-font font-semibold text-2xl text-white leading-tight break-words text-center';
@@ -3120,12 +3120,12 @@ export default function SpeakMode({
         if (passCount >= 1) {
           return {
             label: 'Keep Going',
-            className: 'bg-[rgba(24,110,149,0.16)] text-[#186E95]',
+            className: 'bg-[rgba(19,87,119,0.16)] text-[var(--sonus-palette-blue)]',
           };
         }
         return {
           label: 'Needs Work',
-          className: 'bg-[#C2410C] text-white',
+          className: 'bg-[var(--sonus-palette-rust)] text-white',
         };
       }
       return {
@@ -3133,7 +3133,7 @@ export default function SpeakMode({
         className:
           isFullyCorrect
             ? 'bg-[#8DD3AE] text-white'
-            : 'bg-[#C2410C] text-white',
+            : 'bg-[var(--sonus-palette-rust)] text-white',
       };
     })();
     const scoreChips = renderScoreChips(compact);
@@ -3171,10 +3171,10 @@ export default function SpeakMode({
 
   const renderLegacyFallbackCoaching = (compact: boolean) => {
     if (!isLegacyToneLesson) return null;
-    const rowClass = `relative rounded-xl border border-white/20 bg-[#1F2A37] ${
+    const rowClass = `relative rounded-xl border border-white/20 bg-[var(--sonus-palette-charcoal)] ${
       compact ? 'min-h-[56px] px-2 py-1.5' : 'min-h-[82px] px-2 py-1.5'
     } flex items-center justify-center text-center`;
-    const summaryClass = `relative rounded-xl border border-white/20 bg-[#1F2A37] px-2.5 py-2 text-center ${
+    const summaryClass = `relative rounded-xl border border-white/20 bg-[var(--sonus-palette-charcoal)] px-2.5 py-2 text-center ${
       compact ? '' : 'min-h-[66px]'
     } flex items-center justify-center`;
     const titleClass = `font-semibold leading-none ${compact ? 'text-[16px]' : 'text-[17px]'}`;
@@ -3186,7 +3186,7 @@ export default function SpeakMode({
         <div className={`mt-2 ${compact ? 'space-y-1.5' : 'space-y-2'} w-full max-w-[40rem] mx-auto`}>
           <div className={rowClass}>
             <div className="space-y-0.5">
-              <div className={`${titleClass} text-[#C2410C]`}>No speech detected</div>
+              <div className={`${titleClass} text-[var(--sonus-palette-rust)]`}>No speech detected</div>
               <div className={detailClass}>Tap the mic and speak clearly.</div>
             </div>
           </div>
@@ -3219,7 +3219,7 @@ export default function SpeakMode({
       <div className={`mt-2 ${compact ? 'space-y-1.5' : 'space-y-2'} w-full max-w-[40rem] mx-auto`}>
         <div className={rowClass}>
           <div className="space-y-0.5">
-            <div className={`${titleClass} text-[#C2410C]`}>Needs work</div>
+            <div className={`${titleClass} text-[var(--sonus-palette-rust)]`}>Needs work</div>
             <div className={detailClass}>Try another clear repetition.</div>
           </div>
         </div>
@@ -3236,7 +3236,7 @@ export default function SpeakMode({
       const hasExtraContent = Boolean(displayResultReading || audioError);
       const centerSimpleResult = Boolean(matchResult) && !hasExtraContent;
       return (
-        <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
+        <div className="hidden md:block rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5">
           <div className={`text-center ${centerSimpleResult ? 'w-full min-h-[118px] flex flex-col items-center justify-center text-center' : ''}`}>
             <div className="flex items-center justify-center gap-2 mb-2">
               {(() => {
@@ -3244,7 +3244,7 @@ export default function SpeakMode({
                 return (
                   <span
                     className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
-                      isFullyCorrect ? 'bg-[#8DD3AE] text-white' : 'bg-[#C2410C] text-white'
+                      isFullyCorrect ? 'bg-[#8DD3AE] text-white' : 'bg-[var(--sonus-palette-rust)] text-white'
                     }`}
                   >
                     {isFullyCorrect ? 'Correct' : 'Needs Work'}
@@ -3271,7 +3271,7 @@ export default function SpeakMode({
       const hasExtraContent = Boolean(displayResultReading || audioError);
       const centerSimpleResult = Boolean(matchResult) && !hasExtraContent;
       return (
-        <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
+        <div className="hidden md:block rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5">
           <div className={`text-center ${centerSimpleResult ? 'w-full min-h-[118px] flex flex-col items-center justify-center text-center' : ''}`}>
             <div className="flex items-center justify-center gap-2 mb-2">
               {(() => {
@@ -3279,7 +3279,7 @@ export default function SpeakMode({
                 return (
                   <span
                     className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
-                      isFullyCorrect ? 'bg-[#8DD3AE] text-white' : 'bg-[#C2410C] text-white'
+                      isFullyCorrect ? 'bg-[#8DD3AE] text-white' : 'bg-[var(--sonus-palette-rust)] text-white'
                     }`}
                   >
                     {isFullyCorrect ? 'Correct' : 'Needs Work'}
@@ -3305,7 +3305,7 @@ export default function SpeakMode({
     if (isLegacyToneLesson) {
       const scoreChips = renderScoreChips(true);
       return (
-        <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
+        <div className="hidden md:block rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5">
           <div className="grid grid-cols-2 gap-3 items-stretch">
             <div className="h-full pr-2 text-center flex flex-col justify-center">
               <div className="flex items-center justify-center gap-2 mb-2">
@@ -3322,13 +3322,13 @@ export default function SpeakMode({
                     }
                     if (passCount >= 1) {
                       return (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[rgba(24,110,149,0.16)] text-[#186E95]">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[rgba(19,87,119,0.16)] text-[var(--sonus-palette-blue)]">
                           Keep Going
                         </span>
                       );
                     }
                     return (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#C2410C] text-white">
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[var(--sonus-palette-rust)] text-white">
                         Needs Work
                       </span>
                     );
@@ -3338,7 +3338,7 @@ export default function SpeakMode({
                       className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
                         isFullyCorrect
                           ? 'bg-[#8DD3AE] text-white'
-                          : 'bg-[#C2410C] text-white'
+                          : 'bg-[var(--sonus-palette-rust)] text-white'
                       }`}
                     >
                       {isFullyCorrect ? 'Correct' : 'Needs Work'}
@@ -3370,7 +3370,7 @@ export default function SpeakMode({
     }
     if (isNoSpeech) {
       return (
-        <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
+        <div className="hidden md:block rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5">
           <div className="text-center">
             <div className={`secondary-font font-semibold ${noSpeechResultClass} text-white leading-tight break-words text-center`}>
               {displayHeardText || '...'}
@@ -3381,7 +3381,7 @@ export default function SpeakMode({
       );
     }
     return (
-      <div className="hidden md:block rounded-2xl border border-[#1F2A37] bg-[#1F2A37] px-4 py-3.5">
+      <div className="hidden md:block rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5">
         <div className="grid grid-cols-2 gap-3 items-start">
           <div className="pr-2 text-center">
             <div className="flex items-center justify-center gap-2 mb-2">
@@ -3398,13 +3398,13 @@ export default function SpeakMode({
                   }
                   if (passCount >= 1) {
                     return (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[rgba(24,110,149,0.16)] text-[#186E95]">
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[rgba(19,87,119,0.16)] text-[var(--sonus-palette-blue)]">
                         Keep Going
                       </span>
                     );
                   }
                   return (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#C2410C] text-white">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[var(--sonus-palette-rust)] text-white">
                       Needs Work
                     </span>
                   );
@@ -3414,7 +3414,7 @@ export default function SpeakMode({
                     className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
                       isFullyCorrect
                         ? 'bg-[#8DD3AE] text-white'
-                        : 'bg-[#C2410C] text-white'
+                        : 'bg-[var(--sonus-palette-rust)] text-white'
                     }`}
                   >
                     {isFullyCorrect ? 'Correct' : 'Needs Work'}
@@ -3465,7 +3465,7 @@ export default function SpeakMode({
             type="button"
             onClick={handlePlayTargetAudio}
             disabled={listenDisabled}
-            className={`relative rounded-3xl border border-[#1F2A37] px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[176px] flex flex-col items-center justify-center text-center transition-colors ${
+            className={`relative rounded-3xl border border-[var(--sonus-palette-charcoal)] px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[176px] flex flex-col items-center justify-center text-center transition-colors ${
               disableTargetAudio
                 ? 'bg-white cursor-default'
                 : 'bg-white active:bg-[#F8FAFC]'
@@ -3473,7 +3473,7 @@ export default function SpeakMode({
             aria-label={disableTargetAudio ? 'Target audio hidden in mastery speak mode' : 'Play target audio'}
             title={disableTargetAudio ? '' : 'Play target audio'}
           >
-            {!disableTargetAudio ? <Volume2 className="absolute top-3 right-3 w-5 h-5 text-[#1F2A37]" /> : null}
+            {!disableTargetAudio ? <Volume2 className="absolute top-3 right-3 w-5 h-5 text-[var(--sonus-palette-charcoal)]" /> : null}
             <div
               className={`w-full mx-auto max-w-[94%] ${
                 disableTargetAudio ? '' : 'px-7 pt-6 sm:px-0 sm:pt-0'
@@ -3481,10 +3481,10 @@ export default function SpeakMode({
             >
               {!practiceMode ? (
                 <>
-                  <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight text-center break-words whitespace-normal [overflow-wrap:anywhere]">
+                  <div className="text-base sm:text-lg font-semibold text-[var(--sonus-palette-charcoal)] leading-tight text-center break-words whitespace-normal [overflow-wrap:anywhere]">
                     {displayMeaning}
                   </div>
-                  <div className="secondary-font text-[clamp(1.1rem,5.2vw,1.5rem)] text-[#1F2A37] mt-1 text-center leading-tight break-words whitespace-normal [overflow-wrap:anywhere]">
+                  <div className="secondary-font text-[clamp(1.1rem,5.2vw,1.5rem)] text-[var(--sonus-palette-charcoal)] mt-1 text-center leading-tight break-words whitespace-normal [overflow-wrap:anywhere]">
                     {word.simp}
                   </div>
                   {displayCardReading ? (
@@ -3497,7 +3497,7 @@ export default function SpeakMode({
                 <>
                   {isPracticeFocusSpeakSession ? (
                     <div className="w-full max-w-[32rem] mx-auto px-2 sm:px-4">
-                      <div className="secondary-font text-base sm:text-lg text-[#1F2A37] leading-relaxed break-words whitespace-normal">
+                      <div className="secondary-font text-base sm:text-lg text-[var(--sonus-palette-charcoal)] leading-relaxed break-words whitespace-normal">
                         {practiceSentenceHighlighted}
                       </div>
                       {practiceSentenceEnglish ? (
@@ -3508,7 +3508,7 @@ export default function SpeakMode({
                     </div>
                   ) : (
                     <>
-                      <div className="secondary-font text-[clamp(1.1rem,5.2vw,1.5rem)] text-[#1F2A37] mt-1 text-center leading-tight break-words whitespace-normal [overflow-wrap:anywhere]">
+                      <div className="secondary-font text-[clamp(1.1rem,5.2vw,1.5rem)] text-[var(--sonus-palette-charcoal)] mt-1 text-center leading-tight break-words whitespace-normal [overflow-wrap:anywhere]">
                         {word.simp}
                       </div>
                       {displayCardReading ? (
@@ -3517,7 +3517,7 @@ export default function SpeakMode({
                         </div>
                       ) : null}
                       {!hideReadingAndMeaning ? (
-                        <div className="text-base sm:text-lg font-semibold text-[#1F2A37] leading-tight mt-1 text-center break-words whitespace-normal [overflow-wrap:anywhere]">
+                        <div className="text-base sm:text-lg font-semibold text-[var(--sonus-palette-charcoal)] leading-tight mt-1 text-center break-words whitespace-normal [overflow-wrap:anywhere]">
                           {displayMeaning}
                         </div>
                       ) : null}
@@ -3539,7 +3539,7 @@ export default function SpeakMode({
                   ? 'border-[#2B3440] bg-[#2B3440] opacity-75 cursor-not-allowed'
                 : (isRecording || isStartingRecording)
                   ? 'border-[#2B3440] bg-[#2B3440] shadow-[0_0_0_1px_rgba(255,255,255,0.06)] active:bg-[#344253]'
-                : 'border-[#1F2A37] bg-[#1F2A37] active:bg-[#273243]'
+                : 'border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] active:bg-[#273243]'
             }`}
             aria-label={isRecording ? 'Stop recording' : 'Start recording'}
           >
@@ -3589,7 +3589,7 @@ export default function SpeakMode({
           <button
             onClick={onNext}
             disabled={!canAdvance}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#1F2A37] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2A37] hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[var(--sonus-palette-charcoal)] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[var(--sonus-palette-charcoal)] hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
           >
             Next
             <ChevronRight className="w-5 h-5" />

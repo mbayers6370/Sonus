@@ -68,7 +68,7 @@ function cardContent(
             <button
               type="button"
               onClick={onOpenHiragana}
-              className="mt-3 inline-flex items-center justify-center rounded-xl bg-[#1F2A37] px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#111827]"
+              className="mt-3 inline-flex items-center justify-center rounded-xl bg-[var(--sonus-palette-charcoal)] px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#111827]"
             >
               Open Chart
             </button>
@@ -80,7 +80,7 @@ function cardContent(
             <button
               type="button"
               onClick={onOpenKatakana}
-              className="mt-3 inline-flex items-center justify-center rounded-xl bg-[#1F2A37] px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#111827]"
+              className="mt-3 inline-flex items-center justify-center rounded-xl bg-[var(--sonus-palette-charcoal)] px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#111827]"
             >
               Open Chart
             </button>
@@ -105,7 +105,7 @@ function cardContent(
         <p>Japanese can feel unfamiliar at first, especially with new scripts and different sentence rhythm. That adjustment period is normal.</p>
         <p>The language is highly consistent once you learn core patterns. Repeated structures appear quickly, and progress starts compounding.</p>
         <div className="rounded-xl border border-[#D2DEE7] bg-white px-3.5 py-3">
-          <p className="text-[13px] font-mono uppercase tracking-[0.14em] text-[#186E95]">Start Here</p>
+          <p className="text-[13px] font-mono uppercase tracking-[0.14em] text-[var(--sonus-palette-blue)]">Start Here</p>
           <ul className="mt-2 space-y-1.5 text-[14px] text-text-dark">
             {STARTING_FLOW.map((item) => (
               <li key={item}>{item}</li>
@@ -175,14 +175,15 @@ export default function JapaneseIntroScreen({
 
       <GlassHeader
         title="Japanese Intro"
+        hideLogoOnMobile
         className="bg-white/12 border-white/25"
-        scrolledClassName="bg-[#186E95]/88 border-white/35"
-        titleClassName="text-[#1F2A37]"
+        scrolledClassName="bg-[var(--sonus-palette-blue)]/88 border-white/35"
+        titleClassName="text-[var(--sonus-palette-charcoal)]"
         scrolledTitleClassName="text-white"
       />
 
       <div className="max-w-6xl mx-auto">
-        <section className="dashboard-card-enter mb-4 rounded-3xl border-2 border-[#1F2A37] bg-[#1F2A37] p-5 sm:p-6 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+        <section className="dashboard-card-enter mb-4 rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 sm:p-6 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
           <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div className="min-w-[230px]">
               <div className="text-[11px] uppercase tracking-[0.2em] font-mono text-white/80">Orientation</div>
@@ -207,7 +208,7 @@ export default function JapaneseIntroScreen({
         </section>
       </div>
 
-      <section className="dashboard-card-enter max-w-6xl mx-auto rounded-3xl border border-[#2B3440] bg-[#1F2A37] shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)] overflow-hidden">
+      <section className="dashboard-card-enter max-w-6xl mx-auto rounded-3xl border border-[#2B3440] bg-[var(--sonus-palette-charcoal)] shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)] overflow-hidden">
         <div className="divide-y divide-[#364252]">
           {INTRO_SECTIONS.map((section) => (
             <article key={section.id} className="px-5 py-6 sm:px-7 sm:py-7">

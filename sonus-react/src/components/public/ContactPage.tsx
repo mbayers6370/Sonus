@@ -56,7 +56,7 @@ export default function ContactPage() {
       metaDescription="Contact Sonus support for account help, privacy requests, and product feedback."
     >
       <section>
-        <h2 className="main-font text-2xl text-[#1F2A37] sm:text-3xl">Get in Touch</h2>
+        <h2 className="main-font text-2xl text-[var(--sonus-palette-charcoal)] sm:text-3xl">Get in Touch</h2>
         <p className="mt-2">
           For support, product feedback, or account requests, email us at{' '}
           <a className="underline underline-offset-4" href="mailto:support@sonuslearning.com">
@@ -67,10 +67,10 @@ export default function ContactPage() {
       </section>
 
       <section>
-        <h2 className="main-font text-2xl text-[#1F2A37] sm:text-3xl">Contact Form</h2>
+        <h2 className="main-font text-2xl text-[var(--sonus-palette-charcoal)] sm:text-3xl">Contact Form</h2>
         <p className="mt-2">Send your message directly to our support inbox.</p>
         <form className="mt-4 grid gap-3" onSubmit={handleSubmit}>
-          <label className="text-sm text-[#1F2A37]">
+          <label className="text-sm text-[var(--sonus-palette-charcoal)]">
             Name
             <input
               type="text"
@@ -81,7 +81,7 @@ export default function ContactPage() {
               required
             />
           </label>
-          <label className="text-sm text-[#1F2A37]">
+          <label className="text-sm text-[var(--sonus-palette-charcoal)]">
             Email
             <input
               type="email"
@@ -92,7 +92,7 @@ export default function ContactPage() {
               required
             />
           </label>
-          <label className="text-sm text-[#1F2A37]">
+          <label className="text-sm text-[var(--sonus-palette-charcoal)]">
             Message
             <textarea
               value={message}
@@ -105,7 +105,7 @@ export default function ContactPage() {
           <button
             type="submit"
             disabled={status === 'sending'}
-            className="w-fit rounded-xl border border-[#4C5A6A] bg-[#1F2A37] px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-70"
+            className="w-fit rounded-xl border border-[#4C5A6A] bg-[var(--sonus-palette-charcoal)] px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-70"
           >
             {status === 'sending' ? 'Sending...' : 'Send'}
           </button>
@@ -119,7 +119,7 @@ export default function ContactPage() {
             aria-modal="true"
             className="w-full max-w-md rounded-2xl border border-[#CBD5E1] bg-white p-6 shadow-xl"
           >
-            <h2 className="main-font text-2xl text-[#1F2A37]">
+            <h2 className="main-font text-2xl text-[var(--sonus-palette-charcoal)]">
               {modal === 'success' ? 'Message Sent' : 'Message Not Sent'}
             </h2>
             <p className="mt-2 text-sm text-[#334155]">
@@ -133,7 +133,7 @@ export default function ContactPage() {
                 setModal(null);
                 if (status !== 'sending') setStatus('idle');
               }}
-              className="mt-5 rounded-xl border border-[#4C5A6A] bg-[#1F2A37] px-4 py-2 text-sm font-semibold text-white"
+              className="mt-5 rounded-xl border border-[#4C5A6A] bg-[var(--sonus-palette-charcoal)] px-4 py-2 text-sm font-semibold text-white"
             >
               Close
             </button>

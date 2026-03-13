@@ -78,21 +78,22 @@ export default function JapaneseKanaChartScreen({
     <div className="min-h-screen page-shell px-6 with-bottom-nav bg-[linear-gradient(180deg,#F7FAFD_0%,#EEF4F8_100%)]">
       <GlassHeader
         title={`${title} Chart`}
+        hideLogoOnMobile
         className="bg-white/12 border-white/25"
-        scrolledClassName="bg-[#186E95]/88 border-white/35"
-        titleClassName="text-[#1F2A37]"
+        scrolledClassName="bg-[var(--sonus-palette-blue)]/88 border-white/35"
+        titleClassName="text-[var(--sonus-palette-charcoal)]"
         scrolledTitleClassName="text-white"
       />
 
       <div className="max-w-6xl mx-auto">
-        <section className="dashboard-card-enter mb-4 rounded-3xl border-2 border-[#1F2A37] bg-[#1F2A37] p-5 sm:p-6 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+        <section className="dashboard-card-enter mb-4 rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 sm:p-6 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
           <div className="text-[11px] uppercase tracking-[0.2em] font-mono text-white/80">Japanese Foundations</div>
           <h2 className="main-font mt-2 text-[2rem] sm:text-[2.35rem] leading-tight max-w-3xl">{title}</h2>
           <p className="mt-3 text-[15px] leading-7 text-white/92 max-w-3xl">{subtitle}. Tap a square to hear pronunciation.</p>
         </section>
       </div>
 
-      <section className="dashboard-card-enter max-w-6xl mx-auto rounded-3xl border border-[#2B3440] bg-[#1F2A37] shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)] overflow-hidden">
+      <section className="dashboard-card-enter max-w-6xl mx-auto rounded-3xl border border-[#2B3440] bg-[var(--sonus-palette-charcoal)] shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)] overflow-hidden">
         <article className="px-4 py-5 sm:px-6 sm:py-6">
           <h3 className="main-font text-[1.5rem] sm:text-[1.75rem] leading-tight text-white">Gojuon Chart</h3>
           <p className="mt-1 text-[11px] uppercase tracking-[0.16em] font-mono text-[#B5D8EA]">Tap to Play Audio</p>

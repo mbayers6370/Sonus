@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { BookOpen, Flag, Flame } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import BottomNav from './BottomNav';
 import { loadWordLookup, type WordLookup } from '../lib/wordLookup';
 import GlassHeader from './GlassHeader';
 import { apiFetch } from '../lib/apiClient';
 import { formatUnitNameForDisplay, getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import { useApp } from '../contexts/AppContext';
-import { getLessonRanges } from '../lib/lessonChunks';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { normalizeLanguageId } from '../lib/languageRuntime';
+import { getTrackedEvents } from '../lib/analytics';
+import { makeLessonKey } from '../lib/lessonProgress';
 import type { SharedLexeme, SharedUserProgress } from '../../../shared/contracts';
 
 type Progress = SharedUserProgress;
@@ -48,12 +48,12 @@ function inferUnitFromLessonProgress(
   return latestStarted ?? null;
 }
 
-function inferLessonCountFromProgress(
+function inferLatestLessonIdxForUnit(
   bandId: string | null,
-  unitId: string,
+  unitId: string | null,
   lessonProgress: Record<string, unknown>
 ) {
-  if (!bandId) return 0;
+  if (!bandId || !unitId) return null;
   let maxSeen = -1;
   for (const key of Object.keys(lessonProgress || {})) {
     const [keyBandId, keyUnitId, keyLessonIdx] = key.split(':');
@@ -61,7 +61,7 @@ function inferLessonCountFromProgress(
     const idx = Number(keyLessonIdx);
     if (Number.isFinite(idx)) maxSeen = Math.max(maxSeen, idx);
   }
-  return maxSeen + 1;
+  return maxSeen >= 0 ? maxSeen : null;
 }
 
 function formatUnitFallbackLabel(unitId: string | null | undefined) {
@@ -73,11 +73,26 @@ function formatUnitFallbackLabel(unitId: string | null | undefined) {
 }
 
 const ROWS_PER_PAGE = 2;
-const LESSON_UNLOCK_PASS_PERCENT = 85;
 const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
   (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
-const hasLessonUnlockCredit = (status: { completed?: boolean; quizScore?: number | null; speakScore?: number | null } | undefined) =>
-  Boolean(status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore) || (status?.quizScore ?? 0) >= LESSON_UNLOCK_PASS_PERCENT);
+
+function toLocalDayKey(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function calculateCurrentCompletionStreak(completedDayKeys: Set<string>) {
+  let streak = 0;
+  const cursor = new Date();
+  cursor.setHours(0, 0, 0, 0);
+  while (completedDayKeys.has(toLocalDayKey(cursor))) {
+    streak += 1;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return streak;
+}
 
 function getNeedsWorkColumns(width: number) {
   if (width >= 1024) return 4;
@@ -230,6 +245,10 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     bandMatchesLanguage(state.currentLevel?.id, languageId)
       ? state.currentLevel?.id
       : null;
+  const languageScopedProgressUnitId =
+    languageScopedProgressBandId ? progress?.currentUnitId : null;
+  const languageScopedProgressLessonIdx =
+    languageScopedProgressBandId ? progress?.currentLessonIdx : null;
   const effectiveBandId =
     languageScopedProgressBandId ??
     languageScopedResumeBandId ??
@@ -243,20 +262,6 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
     state.lessonProgress || {},
     activeBandDataForMetrics
   );
-  const coreUnits = effectiveBandId
-    ? getUnitsForBand(effectiveBandId, activeBandDataForMetrics).filter(
-      (unit) => !isCheckpointUnitId(unit.id) && !isPracticeUnitId(unit.id)
-    )
-    : [];
-  const unitLessonCount = (unitId: string) => {
-    if (activeBandDataForMetrics) {
-      const words = Array.isArray(activeBandDataForMetrics.units)
-        ? (activeBandDataForMetrics.units.find((entry) => entry?.id === unitId)?.words || [])
-        : (activeBandDataForMetrics.units?.[unitId]?.words || []);
-      return getLessonRanges(words.length, 10).length;
-    }
-    return inferLessonCountFromProgress(effectiveBandId, unitId, state.lessonProgress || {});
-  };
   const completedLessons = Object.entries(state.lessonProgress || {}).filter(([key, progressEntry]) => {
       const entry = progressEntry as {
         completed?: boolean;
@@ -270,122 +275,270 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
       if (isCheckpointUnitId(unitId) || isPracticeUnitId(unitId)) return false;
       return true;
     }).length;
+  const masteriesCompleted = Object.entries(state.lessonProgress || {}).filter(([key, progressEntry]) => {
+      const entry = progressEntry as {
+        mastered?: boolean;
+      };
+      const [bandId, unitId] = key.split(':');
+      if (!bandMatchesLanguage(bandId, languageId)) return false;
+      if (unitId === 'daily-review') return false;
+      if (isCheckpointUnitId(unitId) || isPracticeUnitId(unitId)) return false;
+      return Boolean(entry?.mastered);
+    }).length;
+  const effectiveUnitId =
+    languageScopedProgressUnitId ??
+    state.resumeCheckpoint?.unitId ??
+    state.activeUnitId ??
+    state.activeLesson?.unitId ??
+    inferredUnitId ??
+    null;
+  const fallbackLessonIdx =
+    inferLatestLessonIdxForUnit(effectiveBandId, effectiveUnitId, state.lessonProgress || {});
+  const effectiveLessonIdx =
+    typeof languageScopedProgressLessonIdx === 'number'
+      ? languageScopedProgressLessonIdx
+      : (state.resumeCheckpoint?.lessonIndex ?? state.activeLesson?.lessonIndex ?? fallbackLessonIdx);
+  const lastQuizScore = useMemo(() => {
+    const getEntry = (bandId: string, unitId: string, lessonIndex: number) => {
+      const key = makeLessonKey(bandId, unitId, lessonIndex);
+      return state.lessonProgress[key] as {
+        completed?: boolean;
+        quizScore?: number | null;
+        speakScore?: number | null;
+      } | undefined;
+    };
 
-  const currentPath = (() => {
-    if (!effectiveBandId || coreUnits.length === 0) return { unitId: inferredUnitId, lessonIdx: null as number | null };
-    for (const unit of coreUnits) {
-      const total = unitLessonCount(unit.id);
-      if (total <= 0) continue;
-      for (let lessonIdx = 0; lessonIdx < total; lessonIdx += 1) {
-        const key = `${effectiveBandId}:${unit.id}:${lessonIdx}`;
-        if (!hasLessonUnlockCredit(state.lessonProgress[key])) {
-          return { unitId: unit.id, lessonIdx };
+    const isCompletedWithScore = (
+      entry:
+        | {
+            completed?: boolean;
+            quizScore?: number | null;
+            speakScore?: number | null;
+          }
+        | undefined
+    ) =>
+      Boolean(entry) &&
+      (Boolean(entry?.completed) || isInstructionalComplete(entry?.quizScore, entry?.speakScore)) &&
+      typeof entry?.quizScore === 'number' &&
+      !Number.isNaN(entry.quizScore);
+
+    if (effectiveBandId && effectiveUnitId && typeof effectiveLessonIdx === 'number' && effectiveLessonIdx >= 0) {
+      const currentEntry = getEntry(effectiveBandId, effectiveUnitId, effectiveLessonIdx);
+      if (isCompletedWithScore(currentEntry)) {
+        return Math.round(currentEntry!.quizScore as number);
+      }
+      for (let lessonIndex = effectiveLessonIdx - 1; lessonIndex >= 0; lessonIndex -= 1) {
+        const previousEntry = getEntry(effectiveBandId, effectiveUnitId, lessonIndex);
+        if (isCompletedWithScore(previousEntry)) {
+          return Math.round(previousEntry!.quizScore as number);
         }
       }
     }
-    const lastUnit = coreUnits[coreUnits.length - 1];
-    const lastUnitLessons = lastUnit ? unitLessonCount(lastUnit.id) : 0;
-    return {
-      unitId: lastUnit?.id ?? inferredUnitId,
-      lessonIdx: lastUnitLessons > 0 ? lastUnitLessons - 1 : null,
-    };
-  })();
+
+    const fallbackCandidates = Object.entries(state.lessonProgress || {})
+      .map(([key, progressEntry]) => {
+        const [bandId, unitId, lessonIndexRaw] = key.split(':');
+        const entry = progressEntry as {
+          completed?: boolean;
+          quizScore?: number | null;
+          speakScore?: number | null;
+        };
+        const lessonIndex = Number(lessonIndexRaw);
+        if (!bandMatchesLanguage(bandId, languageId)) return null;
+        if (unitId === 'daily-review') return null;
+        if (isCheckpointUnitId(unitId) || isPracticeUnitId(unitId)) return null;
+        if (!isCompletedWithScore(entry)) return null;
+        if (!Number.isFinite(lessonIndex)) return null;
+        return {
+          lessonIndex,
+          score: Math.round(entry.quizScore as number),
+        };
+      })
+      .filter((value): value is { lessonIndex: number; score: number } => Boolean(value))
+      .sort((a, b) => b.lessonIndex - a.lessonIndex);
+
+    return fallbackCandidates[0]?.score ?? 0;
+  }, [effectiveBandId, effectiveLessonIdx, effectiveUnitId, languageId, state.lessonProgress]);
 
   const lessonsCompletedDisplay = completedLessons;
   const currentUnitMeta =
-    effectiveBandId && currentPath.unitId
-      ? getUnitMetadata(effectiveBandId, currentPath.unitId, activeBandDataForMetrics)
+    effectiveBandId && effectiveUnitId
+      ? getUnitMetadata(effectiveBandId, effectiveUnitId, activeBandDataForMetrics)
       : null;
   const currentLessonNumber =
-    typeof currentPath.lessonIdx === 'number' && currentPath.lessonIdx >= 0
-      ? currentPath.lessonIdx + 1
+    typeof effectiveLessonIdx === 'number' && effectiveLessonIdx >= 0
+      ? effectiveLessonIdx + 1
       : null;
-  const currentUnitAndLesson = currentPath.unitId
-    ? `${formatUnitNameForDisplay(currentUnitMeta?.name) || formatUnitFallbackLabel(currentPath.unitId)}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
+  const currentUnitAndLesson = effectiveUnitId
+    ? `${formatUnitNameForDisplay(currentUnitMeta?.name) || formatUnitFallbackLabel(effectiveUnitId)}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
     : 'Not started';
-  const streakDisplay = Math.max(progress?.streak ?? 0, 1);
+  const completedDayKeys = useMemo(() => {
+    const keys = new Set<string>();
+    const events = getTrackedEvents();
+    for (const event of events) {
+      if (event.name !== 'lesson_completed') continue;
+      const ts = new Date(event.timestamp);
+      if (Number.isNaN(ts.getTime())) continue;
+      ts.setHours(0, 0, 0, 0);
+      keys.add(toLocalDayKey(ts));
+    }
+    return keys;
+  }, [state.lessonProgress]);
+  const streakDisplay = useMemo(
+    () => calculateCurrentCompletionStreak(completedDayKeys),
+    [completedDayKeys]
+  );
+  const prioritizedNeedsWork = [...needsWork].sort((a, b) => {
+    const aWeight = a.totalMisses * 3 + a.mispronounceCount * 2 + a.missedQuizCount + a.pronunciationRisk;
+    const bWeight = b.totalMisses * 3 + b.mispronounceCount * 2 + b.missedQuizCount + b.pronunciationRisk;
+    return bWeight - aWeight;
+  });
+  const topNeedsWork = prioritizedNeedsWork.slice(0, 5);
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
-      <GlassHeader title="Progress" />
+      <GlassHeader title="Progress" hideLogoOnMobile />
 
-      <div className="space-y-4 max-w-6xl mx-auto text-center">
+      <div className="mx-auto max-w-6xl space-y-6">
         {backendOffline && (
-          <div className="bg-white border border-border rounded-2xl p-4 text-sm text-text-med">
+          <div className="bg-white border border-[rgba(15,102,96,0.35)] rounded-2xl p-4 text-sm text-text-med">
             Backend appears offline. Showing cached/empty progress.
           </div>
         )}
 
         {error && (
-          <div className="bg-white border border-[#C2410C] rounded-2xl p-4 text-sm text-[#C2410C]">
+          <div className="bg-white border border-[var(--sonus-palette-rust)] rounded-2xl p-4 text-sm text-[var(--sonus-palette-rust)]">
             {error}
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-          <div className="bg-[#C2410C] text-white border border-[#C2410C]/90 rounded-3xl p-5 shadow-[0_20px_40px_-28px_rgba(194,65,12,0.40)] flex flex-col items-center justify-center">
-            <div className="inline-flex items-center gap-2 mb-3 rounded-full border border-white/28 bg-white/12 px-3 py-1 justify-center">
-              <Flame className="w-4 h-4 text-white" />
-              <span className="text-xs font-mono uppercase tracking-wider text-white">Current Streak</span>
+        <section className="grid grid-cols-1 gap-3 lg:grid-cols-12">
+          <div className="rounded-3xl border p-5 text-center sm:p-6 sm:text-left shadow-[0_20px_48px_-40px_rgba(15,23,42,0.28)] lg:col-span-12 bg-[var(--sonus-palette-green)] border-[rgba(255,255,255,0.26)]">
+            <h2 className="main-font text-[2rem] leading-none text-white sm:text-[2.2rem]">Progress Overview</h2>
+            <p className="mt-3 max-w-2xl text-sm text-[rgba(255,255,255,0.86)]">
+              This report summarizes active-path completion, study streak, and intervention priorities for the current study track.
+            </p>
+            <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-3 text-center sm:text-left">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[rgba(255,255,255,0.74)]">Current Unit + Lesson</p>
+                <p className="mt-1.5 text-sm font-semibold text-white">{currentUnitAndLesson}</p>
+              </div>
+              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-3 text-center sm:text-left">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[rgba(255,255,255,0.74)]">Review Queue Size</p>
+                <p className="mt-1.5 text-sm font-semibold text-white">{needsWork.length} tracked words</p>
+              </div>
+              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-3 text-center sm:text-left">
+                <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.14em] text-[rgba(255,255,255,0.74)] sm:justify-start">
+                  Lessons Completed
+                </div>
+                <p className="mt-1 text-2xl font-semibold leading-none text-white">{lessonsCompletedDisplay}</p>
+              </div>
+              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-3 text-center sm:text-left">
+                <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.14em] text-[rgba(255,255,255,0.74)] sm:justify-start">
+                  Study Streak
+                </div>
+                <p className="mt-1 text-2xl font-semibold leading-none text-white">{streakDisplay}</p>
+              </div>
             </div>
-            <div className="text-4xl font-semibold text-white leading-none">
-              {streakDisplay}
+          </div>
+        </section>
+
+        <section className="grid grid-cols-1 gap-3 lg:grid-cols-12">
+          <div className="rounded-3xl border border-[rgba(15,102,96,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)] lg:col-span-7">
+            <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Diagnostic Breakdown</p>
+                <h3 className="mt-1 text-xl font-semibold text-text-dark">Performance Summary</h3>
+              </div>
             </div>
-            <div className="text-sm text-white/85 mt-1">day streak</div>
+            <div className="mt-4 grid grid-cols-2 gap-2.5">
+              <div className="rounded-2xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Quiz Review Misses</p>
+                <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">
+                  {needsWork.reduce((sum, item) => sum + item.missedQuizCount, 0)}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Speech Review Misses</p>
+                <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">
+                  {needsWork.reduce((sum, item) => sum + item.mispronounceCount, 0)}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Masteries Completed</p>
+                <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">{masteriesCompleted}</p>
+              </div>
+              <div className="rounded-2xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Last Quiz Score</p>
+                <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">{lastQuizScore}%</p>
+              </div>
+            </div>
           </div>
 
-        <div className="bg-[#186E95] text-white border border-[#186E95]/90 rounded-3xl p-5 shadow-[0_20px_40px_-28px_rgba(24,110,149,0.38)]">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <div className="inline-flex items-center rounded-full px-3 py-1 bg-white/14 border border-white/28 text-[10px] uppercase tracking-[0.2em] font-mono text-white/90">
-              Progress Metrics
+          <div className="rounded-3xl border border-[rgba(15,102,96,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)] lg:col-span-5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Priority Queue</p>
+            <h3 className="mt-1 text-xl font-semibold text-text-dark">Top Review Words</h3>
+            <div className="mt-4 space-y-2">
+              {topNeedsWork.length === 0 ? (
+                <p className="text-sm text-text-med">No words currently in your intervention queue.</p>
+              ) : (
+                topNeedsWork.map((item) => {
+                  const card = toNeedsWorkCard(item, wordLookup);
+                  return (
+                    <div key={item.wordId} className="rounded-xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] px-3 py-2.5">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <p className="secondary-font text-[1.35rem] leading-none text-text-dark">{card.term}</p>
+                          {card.reading ? <p className="mt-1 text-xs text-text-med">{card.reading}</p> : null}
+                        </div>
+                        <span className="rounded-full border border-[var(--sonus-palette-rust)]/22 bg-[rgba(194,65,12,0.08)] px-2 py-0.5 text-[11px] font-semibold text-[#9A3412]">
+                          {item.totalMisses}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div className="rounded-xl border border-white/28 bg-white/10 p-3 sm:col-span-2">
-              <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
-                <BookOpen className="w-3.5 h-3.5" />
-                Lessons Completed
-              </div>
-              <div className="text-2xl font-semibold text-white mt-2 leading-none">{lessonsCompletedDisplay}</div>
-            </div>
-            <div className="rounded-xl border border-white/28 bg-white/12 p-3 sm:col-span-2">
-              <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
-                <Flag className="w-3.5 h-3.5" />
-                Current Unit + Lesson
-              </div>
-              <div className="text-sm font-semibold text-white mt-2 leading-tight">{currentUnitAndLesson}</div>
-            </div>
-          </div>
-        </div>
+        </section>
 
-        <div className="bg-white border border-border rounded-3xl p-5 md:col-span-2">
-            <h3 className="font-semibold text-text-dark mb-3">Words To Work On</h3>
+        <section className="rounded-3xl border border-[rgba(15,102,96,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)]">
+          <div className="flex flex-col items-center gap-2 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#0F6660]">Full Queue</p>
+              <h3 className="mt-1 text-xl font-semibold text-text-dark">All Tracked Review Items</h3>
+            </div>
+            <p className="text-xs text-text-light">{needsWork.length} tracked entries</p>
+          </div>
+
+          <div className="mt-4">
             {needsWork.length === 0 ? (
               <div className="text-sm text-text-med">No words currently in your needs-work list.</div>
             ) : (
               <>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {visibleNeedsWork.map((item) => {
                     const card = toNeedsWorkCard(item, wordLookup);
                     return (
                       <div
                         key={item.wordId}
-                        className="border border-border rounded-xl p-2 bg-[#FBFBF9] min-h-[116px] sm:min-h-[124px] flex flex-col items-center justify-center text-center"
+                        className="rounded-2xl border border-[rgba(15,102,96,0.30)] bg-[#FBFBF9] p-3 text-center sm:text-left min-h-[124px] flex flex-col justify-between"
                       >
                         <div>
-                          <div className="secondary-font text-2xl text-text-dark leading-none">
+                          <div className="secondary-font text-[1.55rem] leading-none text-text-dark">
                             {card.term}
                           </div>
                           {card.reading ? (
-                            <div className="text-xs text-text-med mt-1">{card.reading}</div>
+                            <div className="mt-1 text-xs text-text-med">{card.reading}</div>
                           ) : null}
                           {card.en ? (
-                            <div className="text-xs text-text-light mt-0.5">{card.en}</div>
+                            <div className="mt-0.5 text-xs text-text-light">{card.en}</div>
                           ) : null}
                         </div>
-                      <div className="mt-1 text-xs text-[#C2410C] font-semibold">
-                        {item.totalMisses} misses
-                      </div>
+                        <div className="mt-3 inline-flex items-center rounded-full border border-[var(--sonus-palette-rust)]/22 bg-[rgba(194,65,12,0.08)] px-2 py-0.5 text-[11px] font-semibold text-[#9A3412]">
+                          {item.totalMisses} misses
+                        </div>
                       </div>
                     );
                   })}
@@ -393,15 +546,15 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                 {hasMoreNeedsWork && (
                   <button
                     onClick={() => setVisibleRows((prev) => prev + ROWS_PER_PAGE)}
-                    className="mt-3 text-sm font-medium text-[#186E95] hover:opacity-80"
+                    className="mx-auto mt-4 inline-flex items-center rounded-xl border border-[var(--sonus-palette-blue)]/26 bg-white px-3 py-1.5 text-sm font-medium text-[var(--sonus-palette-blue)] hover:bg-[rgba(19,87,119,0.05)] sm:mx-0"
                   >
-                    Show More
+                    Show more
                   </button>
                 )}
               </>
             )}
           </div>
-        </div>
+        </section>
 
       </div>
 

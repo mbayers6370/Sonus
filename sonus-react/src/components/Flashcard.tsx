@@ -106,21 +106,21 @@ export default function Flashcard({
         <div
           onClick={handleFlip}
           className={`relative w-full max-w-md md:max-w-xl lg:max-w-2xl h-[220px] sm:h-[245px] md:h-[235px] lg:h-[220px] rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border cursor-pointer transition-shadow duration-200 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-5 sm:p-6 overflow-hidden ${
-            isFlipped ? 'bg-[#1F2A37] border-[#1F2A37]' : 'bg-white border-border'
+            isFlipped ? 'bg-[var(--sonus-palette-charcoal)] border-[var(--sonus-palette-charcoal)]' : 'bg-white border-border'
           }`}
         >
           {isReviewWord ? (
             <div className={`absolute top-3 left-3 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.14em] border ${
               isFlipped
-                ? 'bg-[#186E95]/30 text-[#D8F2FF] border-[#7CC7EA]/45'
-                : 'bg-[#186E95]/12 text-[#145B7A] border-[#186E95]/30'
+                ? 'bg-[var(--sonus-palette-blue)]/30 text-[#D8F2FF] border-[#7CC7EA]/45'
+                : 'bg-[var(--sonus-palette-blue)]/12 text-[#145B7A] border-[var(--sonus-palette-blue)]/30'
             }`}>
               Review
             </div>
           ) : null}
           {hasPoliteTag ? (
             <div className={`absolute top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.14em] ${
-              isFlipped ? 'bg-white/15 text-white/90 border border-white/20' : 'bg-[#1F2A37]/8 text-[#1F2A37] border border-[#1F2A37]/20'
+              isFlipped ? 'bg-white/15 text-white/90 border border-white/20' : 'bg-[var(--sonus-palette-charcoal)]/8 text-[var(--sonus-palette-charcoal)] border border-[var(--sonus-palette-charcoal)]/20'
             }`}>
               Polite
             </div>
@@ -199,14 +199,14 @@ export default function Flashcard({
       <div className="flex gap-3 justify-center px-5 pb-3 mb-[4.7rem] sm:mb-[6.25rem] md:mb-[6.75rem]">
         <button
           onClick={() => speak(ttsText, ttsReading, false, state.selectedLanguage)}
-          className="flex items-center gap-1.5 px-5 py-2.5 sm:px-6 sm:py-3 bg-[#186E95] text-white rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-colors hover:bg-[#145B7A] active:bg-[#145B7A]"
+          className="flex items-center gap-1.5 px-5 py-2.5 sm:px-6 sm:py-3 bg-[var(--sonus-palette-blue)] text-white rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-colors hover:bg-[#145B7A] active:bg-[#145B7A]"
         >
           <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" />
           Listen
         </button>
         <button
           onClick={() => speak(ttsText, ttsReading, true, state.selectedLanguage)}
-          className="flex items-center gap-1.5 px-5 py-2.5 sm:px-6 sm:py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[#1F2A37] rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-colors hover:bg-white active:bg-white"
+          className="flex items-center gap-1.5 px-5 py-2.5 sm:px-6 sm:py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[var(--sonus-palette-charcoal)] rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-colors hover:bg-white active:bg-white"
         >
           <Snail className="w-4 h-4 sm:w-5 sm:h-5" />
           Slow
@@ -219,14 +219,14 @@ export default function Flashcard({
           <button
             onClick={onPrev}
             disabled={currentIndex === 0}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(31,42,55,0.35)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)] disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(31,42,55,0.35)] text-[var(--sonus-palette-charcoal)] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)] disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-5 h-5" />
             Previous
           </button>
           <button
             onClick={handleNext}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#1F2A37] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2A37] hover:-translate-y-0.5 hover:shadow-lg"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[var(--sonus-palette-charcoal)] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[var(--sonus-palette-charcoal)] hover:-translate-y-0.5 hover:shadow-lg"
           >
             Next
             <ChevronRight className="w-5 h-5" />

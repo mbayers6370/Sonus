@@ -4,7 +4,7 @@ import SEOHead from './SEOHead';
 
 function HeaderNav() {
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/18 bg-[#1F2A37]/92 backdrop-blur-xl">
+    <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/18 bg-[var(--sonus-palette-charcoal)]/92 backdrop-blur-xl">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-8">
         <Link to="/" aria-label="Sonus home">
           <img
@@ -54,9 +54,9 @@ function PhraseTable({ phrases }: { phrases: Phrase[] }) {
         <tbody>
           {phrases.map((item) => (
             <tr key={`${item.script}-${item.english}`} className="border-t border-[#E2E8F0] align-top">
-              <td className="px-4 py-3 font-medium text-[#1F2A37]">{item.script}</td>
+              <td className="px-4 py-3 font-medium text-[var(--sonus-palette-charcoal)]">{item.script}</td>
               <td className="px-4 py-3 font-mono text-[#334155]">{item.reading}</td>
-              <td className="px-4 py-3 text-[#1F2A37]">{item.english}</td>
+              <td className="px-4 py-3 text-[var(--sonus-palette-charcoal)]">{item.english}</td>
               <td className="px-4 py-3 text-[#475569]">{item.note}</td>
             </tr>
           ))}
@@ -136,7 +136,7 @@ export function EssentialJapaneseTravelPhrasesPillarPage() {
   };
 
   return (
-    <div className="min-h-screen font-normal text-[#1F2A37] bg-[linear-gradient(180deg,#1F2A37_0%,#203042_42%,#F8FAFC_42%,#F8FAFC_100%)]">
+    <div className="min-h-screen font-normal text-[var(--sonus-palette-charcoal)] bg-[linear-gradient(180deg,#1F2A37_0%,#203042_42%,#F8FAFC_42%,#F8FAFC_100%)]">
       <SEOHead
         title={title}
         description={description}
@@ -153,14 +153,14 @@ export function EssentialJapaneseTravelPhrasesPillarPage() {
 
       <main className="pt-16">
         <section className="px-4 py-10 sm:px-8 sm:py-12">
-          <div className="mx-auto w-full max-w-6xl rounded-3xl border border-white/20 bg-[#1F2A37]/88 p-6 text-white shadow-[0_24px_48px_-30px_rgba(15,23,42,0.65)] sm:p-10">
+          <div className="mx-auto w-full max-w-6xl rounded-3xl border border-white/20 bg-[var(--sonus-palette-charcoal)]/88 p-6 text-white shadow-[0_24px_48px_-30px_rgba(15,23,42,0.65)] sm:p-10">
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#B8CCDE]">Travel Sprint Resource</p>
             <h1 className="main-font mt-2 text-3xl leading-tight sm:text-5xl">Essential Japanese Travel Phrases (Audio + Practice)</h1>
             <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#D6E2EE] sm:text-base">
               A practical Japanese travel phrase guide focused on real situations, clear pronunciation, and fast recall.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              <Link to="/signup" className="rounded-xl border border-[#186E95] bg-[#186E95] px-4 py-2 text-sm font-semibold text-white hover:bg-[#145B7A]">
+              <Link to="/signup" className="rounded-xl border border-[var(--sonus-palette-blue)] bg-[var(--sonus-palette-blue)] px-4 py-2 text-sm font-semibold text-white hover:bg-[#145B7A]">
                 Start Travel Sprint
               </Link>
               <Link to="/demo" className="rounded-xl border border-white/30 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10">
@@ -173,8 +173,8 @@ export function EssentialJapaneseTravelPhrasesPillarPage() {
         <section className="px-4 pb-12 sm:px-8">
           <div className="mx-auto w-full max-w-6xl space-y-5">
             {sections.map((section) => (
-              <article key={section.title} className="rounded-2xl border border-[#1F2A37]/14 bg-white p-5 shadow-[0_14px_30px_-24px_rgba(15,23,42,0.45)] sm:p-6">
-                <h2 className="main-font text-2xl text-[#1F2A37]">{section.title}</h2>
+              <article key={section.title} className="rounded-2xl border border-[var(--sonus-palette-charcoal)]/14 bg-white p-5 shadow-[0_14px_30px_-24px_rgba(15,23,42,0.45)] sm:p-6">
+                <h2 className="main-font text-2xl text-[var(--sonus-palette-charcoal)]">{section.title}</h2>
                 <p className="mt-2 text-sm leading-relaxed text-[#475569]">{section.intro}</p>
                 <div className="mt-4">
                   <PhraseTable phrases={section.phrases} />
@@ -182,12 +182,12 @@ export function EssentialJapaneseTravelPhrasesPillarPage() {
               </article>
             ))}
 
-            <section className="rounded-2xl border border-[#1F2A37]/14 bg-white p-5 sm:p-6">
-              <h2 className="main-font text-2xl text-[#1F2A37]">FAQ</h2>
+            <section className="rounded-2xl border border-[var(--sonus-palette-charcoal)]/14 bg-white p-5 sm:p-6">
+              <h2 className="main-font text-2xl text-[var(--sonus-palette-charcoal)]">FAQ</h2>
               <div className="mt-4 space-y-3">
                 {faq.map((item) => (
                   <details key={item.question} className="rounded-xl border border-[#CBD5E1] bg-[#F8FAFC] px-4 py-3">
-                    <summary className="cursor-pointer font-semibold text-[#1F2A37]">{item.question}</summary>
+                    <summary className="cursor-pointer font-semibold text-[var(--sonus-palette-charcoal)]">{item.question}</summary>
                     <p className="mt-2 text-sm leading-relaxed text-[#475569]">{item.answer}</p>
                   </details>
                 ))}

@@ -38,31 +38,31 @@ function compareTrackLevelOrder(levelId: string | null | undefined, targetLevelI
 
 const CARD_ACCENTS = [
   {
-    borderColor: 'border-[#186E95]/55',
-    badgeBg: 'bg-[rgba(24,110,149,0.12)]',
-    badgeText: 'text-[#186E95]',
-    progressFill: 'bg-[#186E95]/55',
-    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(24,110,149,0.28)]',
+    borderColor: 'border-[var(--sonus-palette-blue)]/55',
+    badgeBg: 'bg-[rgba(19,87,119,0.12)]',
+    badgeText: 'text-[var(--sonus-palette-blue)]',
+    progressFill: 'bg-[var(--sonus-palette-blue)]/55',
+    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(19,87,119,0.28)]',
   },
   {
-    borderColor: 'border-[#013220]/55',
-    badgeBg: 'bg-[rgba(1,50,32,0.12)]',
-    badgeText: 'text-[#013220]',
-    progressFill: 'bg-[#013220]/55',
-    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(1,50,32,0.26)]',
+    borderColor: 'border-[var(--sonus-palette-green)]/55',
+    badgeBg: 'bg-[rgba(15,102,96,0.12)]',
+    badgeText: 'text-[var(--sonus-palette-green)]',
+    progressFill: 'bg-[var(--sonus-palette-green)]/55',
+    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(15,102,96,0.26)]',
   },
   {
-    borderColor: 'border-[#1F2A37]/55',
+    borderColor: 'border-[var(--sonus-palette-charcoal)]/55',
     badgeBg: 'bg-[rgba(31,42,55,0.10)]',
-    badgeText: 'text-[#1F2A37]',
-    progressFill: 'bg-[#1F2A37]/55',
+    badgeText: 'text-[var(--sonus-palette-charcoal)]',
+    progressFill: 'bg-[var(--sonus-palette-charcoal)]/55',
     hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(31,42,55,0.24)]',
   },
   {
-    borderColor: 'border-[#C2410C]/55',
+    borderColor: 'border-[var(--sonus-palette-rust)]/55',
     badgeBg: 'bg-[rgba(194,65,12,0.12)]',
-    badgeText: 'text-[#C2410C]',
-    progressFill: 'bg-[#C2410C]/55',
+    badgeText: 'text-[var(--sonus-palette-rust)]',
+    progressFill: 'bg-[var(--sonus-palette-rust)]/55',
     hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.30)]',
   },
 ] as const;
@@ -482,8 +482,19 @@ export default function UnitSelect({
     unlockedBySectionId.set(section.id, prevUnlocked && prevComplete);
   }
 
-  const activeSection = activeSectionRaw && Boolean(unlockedBySectionId.get(activeSectionRaw.id))
-    ? activeSectionRaw
+  const fallbackSection = showSectionStep
+    ? (
+        orderedSections.find((section) => Boolean(unlockedBySectionId.get(section.id))) ||
+        orderedSections[0] ||
+        null
+      )
+    : null;
+  const activeSection = showSectionStep
+    ? (
+        activeSectionRaw && Boolean(unlockedBySectionId.get(activeSectionRaw.id))
+          ? activeSectionRaw
+          : fallbackSection
+      )
     : null;
   const unlockedByUnitId = new Map<string, boolean>();
   const checkpointUnitIds = orderedUnits
@@ -551,6 +562,15 @@ export default function UnitSelect({
     ? unitMetrics.filter((metric) => activeSection.unitIds.includes(metric.unitId))
     : unitMetrics;
 
+  useEffect(() => {
+    if (!showSectionStep || !activeSection) return;
+    if (activeSectionId === activeSection.id) return;
+    const next = new URLSearchParams(searchParams);
+    next.set('section', activeSection.id);
+    next.delete('unit');
+    setSearchParams(next, { replace: true });
+  }, [activeSection, activeSectionId, searchParams, setSearchParams, showSectionStep]);
+
   const columns = getGridColumns(viewportWidth);
   const activeUnit = activeUnitId
     ? (unlockedByUnitId.get(activeUnitId) ?? true)
@@ -580,15 +600,16 @@ export default function UnitSelect({
     <div className="min-h-screen page-shell with-bottom-nav px-6">
       <GlassHeader
         title={headerTitle}
+        hideLogoOnMobile
       />
 
       {isCurrentLevelLocked && (
         <div className="pt-2">
-          <div className="rounded-3xl border border-[#186E95]/35 bg-white p-6 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
-            <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.12)] text-[#186E95]">
+          <div className="rounded-3xl border border-[var(--sonus-palette-blue)]/35 bg-white p-6 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
+            <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(19,87,119,0.12)] text-[var(--sonus-palette-blue)]">
               Coming Soon
             </div>
-            <h3 className="main-font text-[2rem] leading-tight font-normal mt-4 text-[#186E95]">
+            <h3 className="main-font text-[2rem] leading-tight font-normal mt-4 text-[var(--sonus-palette-blue)]">
               This Level Is In Progress
             </h3>
             <p className="text-sm text-text-med mt-2 max-w-xl mx-auto">
@@ -663,8 +684,8 @@ export default function UnitSelect({
             const isUnitUnlocked = Boolean(unlockedByUnitId.get(unitId));
             if (practiceType === 'checkpoint') {
               const practiceAccent = {
-                solidBg: 'bg-[#1F2A37]',
-                borderColor: 'border-[#1F2A37]',
+                solidBg: 'bg-[var(--sonus-palette-charcoal)]',
+                borderColor: 'border-[var(--sonus-palette-charcoal)]',
               };
               return (
                 <button
@@ -722,16 +743,23 @@ export default function UnitSelect({
             const isUnitMastered = lessonsCount > 0 && masteredLessons === lessonsCount && isUnitCompleted;
             const safeCompletionPercent = completionPercent ?? 0;
             const depth = isBlueprint ? 0 : isUnitMastered ? 100 : Math.max(4, safeCompletionPercent);
+            const isWalkthroughUnitTarget = walkthroughHighlightUnits && index === 0;
+            const isWalkthroughLessonsFallbackTarget = walkthroughHighlightLessons && index === 0 && !activeUnit;
+            const walkthroughTargetId = isWalkthroughUnitTarget
+              ? 'tour-units-first-card'
+              : isWalkthroughLessonsFallbackTarget
+                ? 'tour-lessons-first-card'
+                : undefined;
             return (
               <button
                 key={unitId}
-                id={walkthroughHighlightUnits && index === 0 ? 'tour-units-first-card' : undefined}
+                id={walkthroughTargetId}
                 onClick={() => {
                   if (isBlueprint || !isUnitUnlocked) return;
                   setActiveUnit(unitId);
                 }}
                 disabled={isBlueprint || !isUnitUnlocked}
-                className={`${isUnitMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#145B7A]' : accent.badgeText === 'text-[#013220]' ? 'bg-[#1B3B27]' : accent.badgeText === 'text-[#1F2A37]' ? 'bg-[#1F2A37]' : 'bg-[#C2410C]'} text-white` : !isUnitUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[#013220]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-4 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                className={`${isUnitMastered ? `${accent.badgeText === 'text-[var(--sonus-palette-blue)]' ? 'bg-[#145B7A]' : accent.badgeText === 'text-[var(--sonus-palette-green)]' ? 'bg-[#1B3B27]' : accent.badgeText === 'text-[var(--sonus-palette-charcoal)]' ? 'bg-[var(--sonus-palette-charcoal)]' : 'bg-[var(--sonus-palette-rust)]'} text-white` : !isUnitUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[var(--sonus-palette-green)]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-4 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
               >
                 <div className="flex items-center justify-center gap-2 mb-3">
                   <div className={`inline-flex w-full items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitMastered ? 'bg-white/20 text-white' : !isUnitUnlocked ? 'bg-white text-[#6B7280] border border-[#D1D5DB]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
@@ -815,14 +843,14 @@ export default function UnitSelect({
             <div className="grid grid-cols-2 gap-4 mb-4">
               <button
                 onClick={() => onOpenPractice(`${activeUnit.unitId}-listening`)}
-                className="rounded-2xl border border-[#186E95] bg-[#186E95] text-white min-h-[92px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(24,110,149,0.55)]"
+                className="rounded-2xl border border-[var(--sonus-palette-blue)] bg-[var(--sonus-palette-blue)] text-white min-h-[92px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(19,87,119,0.55)]"
               >
                 <div className="text-[11px] uppercase tracking-wider font-mono text-white/85">Practice</div>
                 <div className="main-font text-[1.1rem] leading-tight mt-1">Listening</div>
               </button>
               <button
                 onClick={() => onOpenPractice(`${activeUnit.unitId}-speaking`)}
-                className="rounded-2xl border border-[#C2410C] bg-[#C2410C] text-white min-h-[92px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(194,65,12,0.58)]"
+                className="rounded-2xl border border-[var(--sonus-palette-rust)] bg-[var(--sonus-palette-rust)] text-white min-h-[92px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(194,65,12,0.58)]"
               >
                 <div className="text-[11px] uppercase tracking-wider font-mono text-white/85">Practice</div>
                 <div className="main-font text-[1.1rem] leading-tight mt-1">Speaking</div>
@@ -854,6 +882,7 @@ export default function UnitSelect({
                 resumeCheckpoint?.bandId === currentLevel.id &&
                 resumeCheckpoint?.unitId === activeUnit.unitId &&
                 resumeCheckpoint?.lessonIndex === lessonIndex;
+              const isWalkthroughLessonTarget = walkthroughHighlightLessons && lessonIndex === 0;
               const lessonChecks =
                 (lessonStatus?.introViewed ? 1 : 0) +
                 ((lessonStatus?.quizScore ?? 0) >= QUIZ_PASS_PERCENT ? 1 : 0) +
@@ -862,7 +891,7 @@ export default function UnitSelect({
               return (
                 <button
                   key={`${activeUnit.unitId}-${lessonIndex}`}
-                  id={walkthroughHighlightLessons && lessonIndex === 0 ? 'tour-lessons-first-card' : undefined}
+                  id={isWalkthroughLessonTarget ? 'tour-lessons-first-card' : undefined}
                   onClick={() => {
                     if (!isLessonUnlocked) return;
                     onSelectLesson(
@@ -872,7 +901,7 @@ export default function UnitSelect({
                     );
                   }}
                   disabled={!isLessonUnlocked}
-                  className={`${isLessonMastered ? `${accent.badgeText === 'text-[#186E95]' ? 'bg-[#186E95]' : accent.badgeText === 'text-[#013220]' ? 'bg-[#013220]' : accent.badgeText === 'text-[#1F2A37]' ? 'bg-[#1F2A37]' : 'bg-[#C2410C]'} text-white` : !isLessonUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isLessonCompleted ? 'bg-white text-text-dark ring-1 ring-[#013220]/45' : 'bg-white text-text-dark'} border-2 ${isLessonUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isLessonMastered ? `${accent.badgeText === 'text-[var(--sonus-palette-blue)]' ? 'bg-[var(--sonus-palette-blue)]' : accent.badgeText === 'text-[var(--sonus-palette-green)]' ? 'bg-[var(--sonus-palette-green)]' : accent.badgeText === 'text-[var(--sonus-palette-charcoal)]' ? 'bg-[var(--sonus-palette-charcoal)]' : 'bg-[var(--sonus-palette-rust)]'} text-white` : !isLessonUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isLessonCompleted ? 'bg-white text-text-dark ring-1 ring-[var(--sonus-palette-green)]/45' : 'bg-white text-text-dark'} border-2 ${isLessonUnlocked ? accent.borderColor : 'border-[#D1D5DB]'} rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0 disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
                   <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg ${isLessonMastered ? 'bg-white/20 text-white' : !isLessonUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
                     <BookOpen className={`w-3.5 h-3.5 ${isLessonMastered ? 'text-white' : !isLessonUnlocked ? 'text-[#6B7280]' : accent.badgeText}`} />
@@ -918,7 +947,7 @@ export default function UnitSelect({
                   onClick={() => {
                     onSelectLesson(activeUnit.unitId, applyLessonIndex, 'apply');
                   }}
-                  className="bg-[#C2410C] text-white border-[#C2410C] border-[2.5px] rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-[0_18px_34px_-22px_rgba(194,65,12,0.55)] active:translate-y-0 relative overflow-hidden"
+                  className="bg-[var(--sonus-palette-rust)] text-white border-[var(--sonus-palette-rust)] border-[2.5px] rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-[0_18px_34px_-22px_rgba(194,65,12,0.55)] active:translate-y-0 relative overflow-hidden"
                 >
                   <div className="absolute inset-[6px] rounded-[0.8rem] border border-white/24 pointer-events-none" />
 

@@ -12,7 +12,7 @@ interface KonbiniGuidePageProps {
 const KONBINI_SECTION: TravelSectionData = {
   id: 'konbini',
   title: 'Konbini Guide',
-  themeColor: '#186E95',
+  themeColor: '#135777',
   tone: 'Fast + practical',
   focus: 'Checkout, Food Prep, & Payment at Convenience Stores',
   scene: 'You are at the register and need smooth Japanese for bags, heating, payment, and receipts.',

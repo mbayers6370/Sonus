@@ -6,6 +6,20 @@
   --font-main: 'Tenor Sans', sans-serif;
   --font-secondary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --sonus-bottom-nav-height: 6.1rem;
+  /* Core product palette */
+  --sonus-palette-charcoal: #1F2A37;
+  --sonus-palette-blue: #135777;
+  --sonus-palette-green: #0F6660;
+  --sonus-palette-rust: #C2410C;
+  /* Semantic theme tokens */
+  --sonus-color-text-dark: var(--sonus-palette-charcoal);
+  --sonus-color-text-med: #64748B;
+  --sonus-color-text-light: #94A3B8;
+  --sonus-color-bg-white: #FFFFFF;
+  --sonus-color-bg-blue: #F0F7FF;
+  --sonus-color-bg-warm: #FBFBF9;
+  --sonus-color-bg-warm-deep: #F1EFEA;
+  --sonus-color-border: #E6E3DC;
 }
 
 * {
@@ -25,14 +39,14 @@ body {
 
 body {
   font-family: var(--font-secondary);
-  background-color: #FBFBF9;
-  color: #1F2A37;
+  background-color: var(--sonus-color-bg-warm);
+  color: var(--sonus-color-text-dark);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .text-black {
-  color: #1F2A37 !important;
+  color: var(--sonus-color-text-dark) !important;
 }
 
 body::before {
@@ -66,6 +80,14 @@ body::before {
   .dashboard-card-enter {
     animation: dashboard-card-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
   }
+
+  .sonus-tour-levels-pulse {
+    animation: sonus-tour-levels-pulse 1.05s ease-in-out infinite;
+  }
+
+  .sonus-tour-target-glow {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.68), 0 0 18px rgba(255, 255, 255, 0.34);
+  }
 }
 
 @keyframes dashboard-card-in {
@@ -76,6 +98,21 @@ body::before {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes sonus-tour-levels-pulse {
+  0% {
+    box-shadow: inset 0 0 0 1px rgba(19, 87, 119, 0.24);
+    background-color: rgba(19, 87, 119, 0.015);
+  }
+  50% {
+    box-shadow: inset 0 0 0 1px rgba(19, 87, 119, 0.36);
+    background-color: rgba(19, 87, 119, 0.035);
+  }
+  100% {
+    box-shadow: inset 0 0 0 1px rgba(19, 87, 119, 0.24);
+    background-color: rgba(19, 87, 119, 0.015);
   }
 }
 
@@ -149,13 +186,13 @@ body::before {
   font-family: var(--font-main);
   letter-spacing: 0.22em;
   font-size: clamp(1.05rem, 2.6vw, 1.45rem);
-  color: #1F2A37;
+  color: var(--sonus-color-text-dark);
   text-shadow: 0 1px 6px rgba(255, 255, 255, 0.35);
 }
 
 .sonus-loader__message {
   font-size: 0.92rem;
-  color: #1F2A37;
+  color: var(--sonus-color-text-dark);
   letter-spacing: 0.02em;
   text-shadow: 0 1px 6px rgba(255, 255, 255, 0.3);
 }

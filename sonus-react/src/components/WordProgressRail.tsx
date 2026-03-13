@@ -12,11 +12,11 @@ function nodeClasses(
   const hasResult = resultsByIndex ? Object.prototype.hasOwnProperty.call(resultsByIndex, index) : false;
   if (hasResult) {
     return resultsByIndex?.[index]
-      ? 'bg-[#013220] border-[#013220]'
+      ? 'bg-[var(--sonus-palette-green)] border-[var(--sonus-palette-green)]'
       : 'bg-[#E5E7EB] border-[#D1D5DB]';
   }
   if (index === currentIndex) {
-    return 'bg-white border-[#186E95] shadow-[0_0_0_2px_rgba(255,255,255,0.9)]';
+    return 'bg-white border-[var(--sonus-palette-blue)] shadow-[0_0_0_2px_rgba(255,255,255,0.9)]';
   }
   if (index < currentIndex) {
     return 'bg-[rgba(31,42,55,0.26)] border-[rgba(31,42,55,0.34)]';

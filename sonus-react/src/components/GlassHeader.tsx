@@ -5,7 +5,6 @@ import {
   ChevronDown,
   ChevronLeft,
   FolderKanban,
-  House,
   Layers3,
   ListChecks,
   LogOut,
@@ -207,12 +206,8 @@ export default function GlassHeader({
     ? '/branding/Sonus-White-Transparent-500.png 500w, /branding/Sonus-White-Transparent.png 1000w'
     : '/branding/logo_name_solo-500.png 500w, /branding/logo_name_solo.png 2000w';
 
-  const runDesktopLearnAction = (target: 'main' | 'levels' | 'units' | 'lessons') => {
+  const runDesktopLearnAction = (target: 'levels' | 'units' | 'lessons') => {
     setDesktopLearnMenuOpenRouteKey(null);
-    if (target === 'main') {
-      window.dispatchEvent(new CustomEvent('sonus:learn:main'));
-      return;
-    }
     if (target === 'levels') {
       window.dispatchEvent(new CustomEvent('sonus:learn:levels'));
       return;
@@ -238,7 +233,7 @@ export default function GlassHeader({
   const desktopLearnItemClass = (active: boolean) =>
     `flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[0.95rem] transition-colors ${
       active
-        ? (useLightDesktopChrome ? 'bg-white/18 text-white' : 'bg-[rgba(24,110,149,0.12)] text-[#144E6A]')
+        ? (useLightDesktopChrome ? 'bg-white/18 text-white' : 'bg-[rgba(19,87,119,0.12)] text-[#144E6A]')
         : (useLightDesktopChrome ? 'text-white/88 hover:bg-white/12' : 'text-text-dark hover:bg-[rgba(15,23,42,0.06)]')
     }`;
 
@@ -409,7 +404,7 @@ export default function GlassHeader({
                         <span
                           aria-hidden="true"
                           className={`pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
-                            useLightDesktopChrome ? 'text-white/42' : 'text-[#186E95]/42'
+                            useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                           }`}
                         >
                           [
@@ -420,7 +415,7 @@ export default function GlassHeader({
                         <span
                           aria-hidden="true"
                           className={`pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
-                            useLightDesktopChrome ? 'text-white/42' : 'text-[#186E95]/42'
+                            useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                           }`}
                         >
                           ]
@@ -445,7 +440,7 @@ export default function GlassHeader({
                           <span
                             aria-hidden="true"
                             className={`pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
-                              useLightDesktopChrome ? 'text-white/42' : 'text-[#186E95]/42'
+                              useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                             }`}
                           >
                             [
@@ -455,7 +450,7 @@ export default function GlassHeader({
                           <span
                             aria-hidden="true"
                             className={`pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
-                              useLightDesktopChrome ? 'text-white/42' : 'text-[#186E95]/42'
+                              useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                             }`}
                           >
                             ]
@@ -473,14 +468,6 @@ export default function GlassHeader({
                             : 'border border-[rgba(31,42,55,0.12)] bg-[#FDFDFB]'
                         }`}
                       >
-                        <button
-                          type="button"
-                          onClick={() => runDesktopLearnAction('main')}
-                          className={desktopLearnItemClass(desktopLearnStage === 'main')}
-                        >
-                          <House className="h-4 w-4" />
-                          <span>Main</span>
-                        </button>
                         <button
                           type="button"
                           onClick={() => runDesktopLearnAction('levels')}
@@ -519,7 +506,7 @@ export default function GlassHeader({
                         <span
                           aria-hidden="true"
                           className={`pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
-                            useLightDesktopChrome ? 'text-white/42' : 'text-[#186E95]/42'
+                            useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                           }`}
                         >
                           [
@@ -530,7 +517,7 @@ export default function GlassHeader({
                         <span
                           aria-hidden="true"
                           className={`pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
-                            useLightDesktopChrome ? 'text-white/42' : 'text-[#186E95]/42'
+                            useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                           }`}
                         >
                           ]
@@ -548,11 +535,11 @@ export default function GlassHeader({
                     className={`main-font inline-flex h-11 items-center gap-1.5 rounded-xl border px-4 text-[0.85rem] ${
                       useLightDesktopChrome
                         ? 'border-white/70 bg-white/8 text-white'
-                        : 'border-[#1F2A37]/40 bg-white/90 text-[#1F2A37]'
+                        : 'border-[var(--sonus-palette-charcoal)]/40 bg-white/90 text-[var(--sonus-palette-charcoal)]'
                     }`}
                   >
                     <span>{resolvedLanguageLabel}</span>
-                    <span className={useLightDesktopChrome ? 'text-white/72' : 'text-[#1F2A37]/55'}>|</span>
+                    <span className={useLightDesktopChrome ? 'text-white/72' : 'text-[var(--sonus-palette-charcoal)]/55'}>|</span>
                     <span>{resolvedNativeLanguageLabel}</span>
                   </span>
                 ) : null}

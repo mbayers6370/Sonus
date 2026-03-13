@@ -176,7 +176,7 @@ export default function PublicLanding() {
 
   return (
     <div
-      className="min-h-screen font-normal text-[#1F2A37]"
+      className="min-h-screen font-normal text-[var(--sonus-palette-charcoal)]"
     >
       <SEOHead
         title="Sonus | Language Learning Built on Real Fluency Frameworks"
@@ -202,7 +202,7 @@ export default function PublicLanding() {
                 <button
                   type="button"
                   onClick={() => openAuth('signin')}
-                  className="text-sm text-[#1F2A37] underline-offset-4 transition-colors hover:underline hover:text-[#0C4A6E] sm:text-base"
+                  className="text-sm text-[var(--sonus-palette-charcoal)] underline-offset-4 transition-colors hover:underline hover:text-[#0C4A6E] sm:text-base"
                 >
                   {authCtaLabel}
                 </button>
@@ -211,7 +211,7 @@ export default function PublicLanding() {
                   type="button"
                   onClick={() => setMobileMenuOpen((open) => !open)}
                   aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#1F2A37] transition-colors hover:bg-[#EAF3F9] active:bg-[#DCECF6]"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[var(--sonus-palette-charcoal)] transition-colors hover:bg-[#EAF3F9] active:bg-[#DCECF6]"
                 >
                   {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                 </button>
@@ -237,7 +237,7 @@ export default function PublicLanding() {
                     onChange={(event) => setMobileEmail(event.target.value)}
                     autoComplete="email"
                     placeholder="Email"
-                    className="h-9 rounded-lg border border-[#4B5563]/35 bg-white px-2.5 text-xs text-[#1F2A37] placeholder:text-[#1F2A37]/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F2A37]/35"
+                    className="h-9 rounded-lg border border-[#4B5563]/35 bg-white px-2.5 text-xs text-[var(--sonus-palette-charcoal)] placeholder:text-[var(--sonus-palette-charcoal)]/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-charcoal)]/35"
                   />
                   <label className="sr-only" htmlFor="mobile-header-password">Password</label>
                   <input
@@ -247,7 +247,7 @@ export default function PublicLanding() {
                     onChange={(event) => setMobilePassword(event.target.value)}
                     autoComplete="current-password"
                     placeholder="Password"
-                    className="h-9 rounded-lg border border-[#4B5563]/35 bg-white px-2.5 text-xs text-[#1F2A37] placeholder:text-[#1F2A37]/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1F2A37]/35"
+                    className="h-9 rounded-lg border border-[#4B5563]/35 bg-white px-2.5 text-xs text-[var(--sonus-palette-charcoal)] placeholder:text-[var(--sonus-palette-charcoal)]/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-charcoal)]/35"
                   />
                   <button
                     type="submit"
@@ -258,17 +258,17 @@ export default function PublicLanding() {
                   </button>
                 </div>
                 <div className="mt-2 flex items-center justify-between">
-                  <label className="inline-flex items-center gap-1.5 text-[11px] text-[#1F2A37]">
+                  <label className="inline-flex items-center gap-1.5 text-[11px] text-[var(--sonus-palette-charcoal)]">
                     <input
                       type="checkbox"
                       checked={mobileRememberMe}
                       onChange={(event) => setMobileRememberMe(event.target.checked)}
-                      className="h-3.5 w-3.5 rounded border-[#4B5563]/45 bg-white text-[#1F2A37] focus:ring-[#1F2A37]/35"
+                      className="h-3.5 w-3.5 rounded border-[#4B5563]/45 bg-white text-[var(--sonus-palette-charcoal)] focus:ring-[var(--sonus-palette-charcoal)]/35"
                     />
                     <span>Remember me</span>
                   </label>
                   {mobileLoginError && (
-                    <p className="text-[11px] text-[#1F2A37]" role="status" aria-live="polite">
+                    <p className="text-[11px] text-[var(--sonus-palette-charcoal)]" role="status" aria-live="polite">
                       {mobileLoginError}
                     </p>
                   )}
@@ -292,7 +292,7 @@ export default function PublicLanding() {
               <div className="grid items-start gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
                 <div className="text-center lg:text-left">
                   <p className="font-mono text-xs uppercase tracking-[0.16em] text-[#0C4A6E]">Sonus Learning Platform</p>
-                  <h1 className="main-font mt-4 text-4xl leading-[1.04] text-[#1F2A37] sm:text-5xl lg:text-[4rem]">
+                  <h1 className="main-font mt-4 text-4xl leading-[1.04] text-[var(--sonus-palette-charcoal)] sm:text-5xl lg:text-[4rem]">
                     Speak with clarity.
                     <br />
                     Learn with structure.
@@ -300,7 +300,7 @@ export default function PublicLanding() {
                   <p className="secondary-font mx-auto mt-6 max-w-[38ch] text-base leading-relaxed text-[#334155] sm:text-lg lg:mx-0">
                     Sonus combines framework-based language paths with speaking reps, feedback, and recall loops so learners build durable fluency instead of short-term memorization.
                   </p>
-                  <p className="secondary-font mt-5 text-center text-lg font-semibold text-[#186E95] sm:mt-6 sm:text-xl lg:mx-0 lg:text-left">
+                  <p className="secondary-font mt-5 text-center text-lg font-semibold text-[var(--sonus-palette-blue)] sm:mt-6 sm:text-xl lg:mx-0 lg:text-left">
                     <span
                       key={`${heroLineVariants[heroLineVariantIdx]}-${heroLineVariantIdx}`}
                       className={`dashboard-card-enter mx-auto block min-h-[2.6em] max-w-[24ch] font-semibold leading-tight lg:mx-0 ${
@@ -314,14 +314,14 @@ export default function PublicLanding() {
                     <button
                       type="button"
                       onClick={() => openAuth('signup')}
-                      className="rounded-xl bg-[#1F2A37] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#111827] sm:text-base"
+                      className="rounded-xl bg-[var(--sonus-palette-charcoal)] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#111827] sm:text-base"
                     >
                       Start Free
                     </button>
                     <button
                       type="button"
                       onClick={() => openAuth('demo')}
-                      className="rounded-xl border border-[#4B5563] bg-white px-6 py-3 text-sm font-semibold text-[#1F2A37] transition-colors hover:bg-[#F8FBFD] sm:text-base"
+                      className="rounded-xl border border-[#4B5563] bg-white px-6 py-3 text-sm font-semibold text-[var(--sonus-palette-charcoal)] transition-colors hover:bg-[#F8FBFD] sm:text-base"
                     >
                       Guided Walkthrough
                     </button>
@@ -335,7 +335,7 @@ export default function PublicLanding() {
                     title="Practice Rhythm"
                     subtitle="Flexible Pace"
                     body="Practice in short or extended sessions."
-                    accent="#186E95"
+                    accent="#135777"
                     motif="wave"
                     className="lg:w-[86%] lg:-translate-x-2"
                   />
@@ -364,9 +364,9 @@ export default function PublicLanding() {
         </div>
 
         <section className="mx-auto w-full max-w-7xl px-4 pb-8 sm:px-8">
-          <aside className="overflow-hidden rounded-3xl border border-[#0F172A] bg-[#1F2A37] text-white shadow-[0_16px_30px_-24px_rgba(15,23,42,0.55)]">
+          <aside className="overflow-hidden rounded-3xl border border-[#0F172A] bg-[var(--sonus-palette-charcoal)] text-white shadow-[0_16px_30px_-24px_rgba(15,23,42,0.55)]">
             <div className="px-5 py-6 text-center sm:px-8 sm:py-8">
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#186E95]">About Sonus</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sonus-palette-blue)]">About Sonus</p>
               <h2 className="main-font mt-2 text-2xl leading-[1.15] text-white sm:text-[2rem]">Built for real language use</h2>
               <p className="mx-auto mt-3 max-w-3xl text-sm leading-relaxed text-[#D6E2EE] sm:text-base">
                 Sonus is a structured language platform focused on practical speaking, reliable progression, and long-term retention.
@@ -374,15 +374,15 @@ export default function PublicLanding() {
 
               <div className="mx-auto mt-6 grid max-w-5xl gap-4 text-center sm:grid-cols-3 sm:gap-0">
                 <div className="px-2 sm:px-5 sm:border-r sm:border-[#334155]">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#186E95]">Framework-grounded</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--sonus-palette-blue)]">Framework-grounded</p>
                   <p className="mt-1.5 text-sm leading-relaxed text-[#D6E2EE]">Progression aligned to JLPT levels.</p>
                 </div>
                 <div className="px-2 sm:px-5 sm:border-r sm:border-[#334155]">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#186E95]">Speaking-first</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--sonus-palette-blue)]">Speaking-first</p>
                   <p className="mt-1.5 text-sm leading-relaxed text-[#D6E2EE]">Practice loops emphasize pronunciation and recall.</p>
                 </div>
                 <div className="px-2 sm:px-5">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#186E95]">Built to stick</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--sonus-palette-blue)]">Built to stick</p>
                   <p className="mt-1.5 text-sm leading-relaxed text-[#D6E2EE]">Reinforcement targets weak points before they fade.</p>
                 </div>
               </div>
@@ -392,8 +392,8 @@ export default function PublicLanding() {
 
         <section className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-8">
           <article className="rounded-3xl border border-[#4B5563] bg-white p-4 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] sm:p-6">
-            <p className="text-center font-mono text-[11px] uppercase tracking-[0.16em] text-[#186E95]">Process</p>
-            <h2 className="main-font mt-2 text-center text-2xl text-[#1F2A37] sm:text-5xl">How Sonus Works</h2>
+            <p className="text-center font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sonus-palette-blue)]">Process</p>
+            <h2 className="main-font mt-2 text-center text-2xl text-[var(--sonus-palette-charcoal)] sm:text-5xl">How Sonus Works</h2>
             <p className="mx-auto mt-3 max-w-3xl text-center text-sm leading-relaxed text-[#475569] sm:text-base">
               Structured practice loops that move from precision to spontaneous use.
             </p>
@@ -407,16 +407,16 @@ export default function PublicLanding() {
 
         <section className="mx-auto w-full max-w-7xl px-4 py-4 pb-10 sm:px-8 sm:pb-12">
           <article className="rounded-3xl border border-[#4B5563] bg-white p-4 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] sm:p-6">
-            <p className="text-center font-mono text-[11px] uppercase tracking-[0.16em] text-[#186E95]">In Progress</p>
-            <h2 className="main-font mt-2 text-center text-2xl text-[#1F2A37] sm:text-5xl">Languages</h2>
+            <p className="text-center font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sonus-palette-blue)]">In Progress</p>
+            <h2 className="main-font mt-2 text-center text-2xl text-[var(--sonus-palette-charcoal)] sm:text-5xl">Languages</h2>
             <p className="mx-auto mt-3 max-w-3xl text-center secondary-font text-sm leading-relaxed text-[#475569] sm:text-base">
               Structured paths with pronunciation, recall, and travel-ready practice.
             </p>
             <div className="mx-auto mt-6 grid max-w-5xl gap-4 sm:grid-cols-2 sm:gap-5">
-              <article className="rounded-3xl border border-[#6B7280] bg-[#FBFCFD] p-5 text-[#1F2A37] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:p-6">
+              <article className="rounded-3xl border border-[#6B7280] bg-[#FBFCFD] p-5 text-[var(--sonus-palette-charcoal)] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:p-6">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="main-font text-2xl leading-tight text-[#1F2A37] sm:text-3xl">Japanese</h3>
+                    <h3 className="main-font text-2xl leading-tight text-[var(--sonus-palette-charcoal)] sm:text-3xl">Japanese</h3>
                     <p className="mt-1 secondary-font text-sm text-[#334155] sm:text-base">日本語</p>
                   </div>
                   <span className="rounded-full border border-[#0C4A6E] bg-[#0C4A6E] px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white">
@@ -426,16 +426,16 @@ export default function PublicLanding() {
                 <p className="secondary-font mt-3 text-sm leading-relaxed text-[#334155] sm:text-base">
                   Structured curriculum and speaking practice are available now.
                 </p>
-                <div className="mt-4 rounded-xl border border-[#1F2A37] bg-[#1F2A37] px-3 py-2.5">
+                <div className="mt-4 rounded-xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-3 py-2.5">
                   <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#C3D7E8]">Focus</p>
                   <p className="mt-1 secondary-font text-sm text-white">JLPT-style progression, speaking feedback, and practical dialog.</p>
                 </div>
               </article>
 
-              <article className="rounded-3xl border border-[#6B7280] bg-[#FBFCFD] p-5 text-[#1F2A37] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:p-6">
+              <article className="rounded-3xl border border-[#6B7280] bg-[#FBFCFD] p-5 text-[var(--sonus-palette-charcoal)] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:p-6">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="main-font text-2xl leading-tight text-[#1F2A37] sm:text-3xl">More Languages</h3>
+                    <h3 className="main-font text-2xl leading-tight text-[var(--sonus-palette-charcoal)] sm:text-3xl">More Languages</h3>
                     <p className="mt-1 secondary-font text-sm text-[#334155] sm:text-base">Coming soon</p>
                   </div>
                   <span className="rounded-full border border-[#475569] bg-[#475569] px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white">
@@ -597,7 +597,7 @@ function HeroMethodCard({
           {kicker} {title}
         </p>
         <div className="-mt-1 flex flex-1 flex-col items-center justify-center">
-          <h3 className="main-font text-[1.45rem] leading-tight text-[#1F2A37]">{subtitle}</h3>
+          <h3 className="main-font text-[1.45rem] leading-tight text-[var(--sonus-palette-charcoal)]">{subtitle}</h3>
           <p className="mx-auto mt-1.5 max-w-[26ch] text-[11px] font-semibold leading-relaxed text-[#475569]">{body}</p>
         </div>
       </div>
@@ -616,7 +616,7 @@ function ExploreDemoCard({ card }: { card: DemoCard }) {
 
   return (
     <article className="h-[316px] overflow-hidden rounded-3xl border border-[#6B7280] bg-[#FBFCFD] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:min-h-[300px] sm:h-auto">
-      <div className="h-[188px] bg-[#1F2A37] p-3 sm:h-[188px]">
+      <div className="h-[188px] bg-[var(--sonus-palette-charcoal)] p-3 sm:h-[188px]">
         <ExploreCardPreview title={card.title} />
       </div>
       <div className="h-[128px] p-3 sm:h-auto sm:p-4">

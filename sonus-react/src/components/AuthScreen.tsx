@@ -646,7 +646,7 @@ export default function AuthScreen({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute right-3 top-3 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white text-[#1F2A37] transition-colors hover:bg-[#F8F8F6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/40"
+          className="absolute right-3 top-3 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white text-[var(--sonus-palette-charcoal)] transition-colors hover:bg-[#F8F8F6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/40"
         >
           <X className="h-4 w-4" />
         </button>
@@ -667,9 +667,9 @@ export default function AuthScreen({
             <button
               type="button"
               onClick={() => setMode('signin')}
-              className={`rounded-sm border-b-2 pb-1 font-mono text-[11px] font-semibold uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/50 ${
+              className={`rounded-sm border-b-2 pb-1 font-mono text-[11px] font-semibold uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/50 ${
                 mode === 'signin'
-                  ? 'border-[#1F2A37] text-[#1F2A37]'
+                  ? 'border-[var(--sonus-palette-charcoal)] text-[var(--sonus-palette-charcoal)]'
                   : 'border-transparent text-text-med hover:text-text-dark'
               }`}
               role="tab"
@@ -682,9 +682,9 @@ export default function AuthScreen({
             <button
               type="button"
               onClick={() => setMode('signup')}
-              className={`rounded-sm border-b-2 pb-1 font-mono text-[11px] font-semibold uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/50 ${
+              className={`rounded-sm border-b-2 pb-1 font-mono text-[11px] font-semibold uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/50 ${
                 mode === 'signup'
-                  ? 'text-[#1F2A37] border-[#1F2A37]'
+                  ? 'text-[var(--sonus-palette-charcoal)] border-[var(--sonus-palette-charcoal)]'
                   : 'text-text-med border-transparent hover:text-text-dark'
               }`}
               role="tab"
@@ -698,9 +698,9 @@ export default function AuthScreen({
               <button
                 type="button"
                 onClick={() => setMode('demo')}
-                className={`rounded-sm border-b-2 pb-1 font-mono text-[11px] font-semibold uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/50 ${
+                className={`rounded-sm border-b-2 pb-1 font-mono text-[11px] font-semibold uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/50 ${
                   mode === 'demo'
-                    ? 'border-[#1F2A37] text-[#1F2A37]'
+                    ? 'border-[var(--sonus-palette-charcoal)] text-[var(--sonus-palette-charcoal)]'
                     : 'border-transparent text-text-med hover:text-text-dark'
                 }`}
                 role="tab"
@@ -714,7 +714,7 @@ export default function AuthScreen({
           </div>
         )}
 
-        <h1 className="main-font text-[2rem] leading-tight text-[#1F2A37]">
+        <h1 className="main-font text-[2rem] leading-tight text-[var(--sonus-palette-charcoal)]">
         {mode === 'signin' && 'Welcome Back'}
         {mode === 'signup' && 'Create Account'}
         {mode === 'demo' && 'Try Sonus Demo'}
@@ -730,19 +730,19 @@ export default function AuthScreen({
         </p>
 
         {mode === 'demo' && (
-          <div className={`rounded-2xl border border-[#1F2A37]/12 bg-white p-3 text-center ${isModal ? 'mb-3' : 'mb-4'}`}>
-          <p className="text-[11px] font-semibold uppercase tracking-wider font-mono text-[#1F2A37]">
+          <div className={`rounded-2xl border border-[var(--sonus-palette-charcoal)]/12 bg-white p-3 text-center ${isModal ? 'mb-3' : 'mb-4'}`}>
+          <p className="text-[11px] font-semibold uppercase tracking-wider font-mono text-[var(--sonus-palette-charcoal)]">
             Demo Includes
           </p>
           <div className="mt-2 grid grid-cols-1 gap-1.5">
             <div className="text-[12px] font-mono text-[#475569]">
-              <span className="font-semibold text-[#1F2A37]">No signup:</span> start instantly.
+              <span className="font-semibold text-[var(--sonus-palette-charcoal)]">No signup:</span> start instantly.
             </div>
             <div className="text-[12px] font-mono text-[#475569]">
-              <span className="font-semibold text-[#1F2A37]">Core flow:</span> Learn, Quiz, and Speak.
+              <span className="font-semibold text-[var(--sonus-palette-charcoal)]">Core flow:</span> Learn, Quiz, and Speak.
             </div>
             <div className="text-[12px] font-mono text-[#475569]">
-              <span className="font-semibold text-[#1F2A37]">Safe preview:</span> temporary session.
+              <span className="font-semibold text-[var(--sonus-palette-charcoal)]">Safe preview:</span> temporary session.
             </div>
             </div>
           </div>
@@ -779,7 +779,7 @@ export default function AuthScreen({
                   onChange={(e) => setSignUpFirstName(e.target.value)}
                   placeholder="First name"
                   autoComplete="given-name"
-                  className="w-full border border-border rounded-xl px-3 py-2.5 pr-10 text-base sm:text-sm bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/40"
+                  className="w-full border border-border rounded-xl px-3 py-2.5 pr-10 text-base sm:text-sm bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/40"
                 />
                 <FieldValidCheck visible={signUpFirstNameValid} />
               </div>
@@ -793,7 +793,7 @@ export default function AuthScreen({
                   onChange={(e) => setSignUpLastName(e.target.value)}
                   placeholder="Last name"
                   autoComplete="family-name"
-                  className="w-full border border-border rounded-xl px-3 py-2.5 pr-10 text-base sm:text-sm bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/40"
+                  className="w-full border border-border rounded-xl px-3 py-2.5 pr-10 text-base sm:text-sm bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/40"
                 />
                 <FieldValidCheck visible={signUpLastNameValid} />
               </div>
@@ -821,8 +821,8 @@ export default function AuthScreen({
                 aria-invalid={Boolean(error && !isValidEmail(emailByMode))}
                 className={`w-full rounded-xl px-3 py-2.5 pr-10 text-base sm:text-sm bg-white text-left focus-visible:outline-none focus-visible:ring-2 ${
                   mode === 'signup' && signUpEmailAvailable === false
-                    ? 'border border-[#C2410C] focus-visible:ring-[#C2410C]/25'
-                    : 'border border-border focus-visible:ring-[#186E95]/40'
+                    ? 'border border-[var(--sonus-palette-rust)] focus-visible:ring-[var(--sonus-palette-rust)]/25'
+                    : 'border border-border focus-visible:ring-[var(--sonus-palette-blue)]/40'
                 }`}
               />
               <FieldValidCheck visible={mode === 'signup' && signUpEmailValid} />
@@ -830,7 +830,7 @@ export default function AuthScreen({
             {mode === 'signup' && signUpEmail.trim() ? (
               <p
                 className={`mt-1 px-1 text-[11px] text-left ${
-                  signUpEmailAvailable === false ? 'text-[#C2410C]' : 'text-[#64748B]'
+                  signUpEmailAvailable === false ? 'text-[var(--sonus-palette-rust)]' : 'text-[#64748B]'
                 }`}
               >
                 {!signUpEmailFormatValid && 'Enter a valid email address.'}
@@ -859,7 +859,7 @@ export default function AuthScreen({
                   }}
                   placeholder="Password"
                   autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
-                  className="w-full border border-border rounded-xl px-3 py-2.5 pr-10 text-base sm:text-sm bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/40"
+                  className="w-full border border-border rounded-xl px-3 py-2.5 pr-10 text-base sm:text-sm bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/40"
                 />
                 <FieldValidCheck visible={mode === 'signup' && !signUpPasswordError && signUpPassword.length > 0} />
               </div>
@@ -875,7 +875,7 @@ export default function AuthScreen({
           </div>
         )}
         {mode === 'signup' && (
-          <div className="mt-3 rounded-2xl border border-[#1F2A37]/12 bg-[#F8FAFC] p-2.5 text-center">
+          <div className="mt-3 rounded-2xl border border-[var(--sonus-palette-charcoal)]/12 bg-[#F8FAFC] p-2.5 text-center">
             <div className="flex items-center justify-between gap-2 rounded-xl bg-white/70 px-3 py-2 text-left">
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C4A6E]">
@@ -885,7 +885,7 @@ export default function AuthScreen({
                   Open both policies to unlock consent.
                 </p>
               </div>
-              <div className="rounded-full border border-[#CBD5E1] bg-white px-2 py-1 text-[10px] font-mono uppercase tracking-[0.14em] text-[#1F2A37]">
+              <div className="rounded-full border border-[#CBD5E1] bg-white px-2 py-1 text-[10px] font-mono uppercase tracking-[0.14em] text-[var(--sonus-palette-charcoal)]">
                 {[reviewedTerms, reviewedPrivacy].filter(Boolean).length}/2
               </div>
             </div>
@@ -893,25 +893,25 @@ export default function AuthScreen({
               <button
                 type="button"
                 onClick={() => openLegalDocument('terms')}
-                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#1F2A37]/15 bg-white px-3 py-2 text-xs font-medium text-[#1F2A37] transition-colors hover:border-[#186E95] hover:text-[#186E95]"
+                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[var(--sonus-palette-charcoal)]/15 bg-white px-3 py-2 text-xs font-medium text-[var(--sonus-palette-charcoal)] transition-colors hover:border-[var(--sonus-palette-blue)] hover:text-[var(--sonus-palette-blue)]"
               >
                 Terms
-                {reviewedTerms ? <Check className="h-3.5 w-3.5 text-[#186E95]" aria-hidden="true" /> : null}
+                {reviewedTerms ? <Check className="h-3.5 w-3.5 text-[var(--sonus-palette-blue)]" aria-hidden="true" /> : null}
               </button>
               <button
                 type="button"
                 onClick={() => openLegalDocument('privacy')}
-                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#1F2A37]/15 bg-white px-3 py-2 text-xs font-medium text-[#1F2A37] transition-colors hover:border-[#186E95] hover:text-[#186E95]"
+                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[var(--sonus-palette-charcoal)]/15 bg-white px-3 py-2 text-xs font-medium text-[var(--sonus-palette-charcoal)] transition-colors hover:border-[var(--sonus-palette-blue)] hover:text-[var(--sonus-palette-blue)]"
               >
                 Privacy
-                {reviewedPrivacy ? <Check className="h-3.5 w-3.5 text-[#186E95]" aria-hidden="true" /> : null}
+                {reviewedPrivacy ? <Check className="h-3.5 w-3.5 text-[var(--sonus-palette-blue)]" aria-hidden="true" /> : null}
               </button>
             </div>
             <div className="mt-2 space-y-2 text-left">
               <label
                 className={`flex items-start gap-2 rounded-xl border px-3 py-2 text-[11px] leading-5 ${
                   legalReviewReady
-                    ? 'border-[#CBD5E1] bg-white text-[#1F2A37]'
+                    ? 'border-[#CBD5E1] bg-white text-[var(--sonus-palette-charcoal)]'
                     : 'cursor-not-allowed border-[#E2E8F0] bg-[#F8FAFC] text-[#94A3B8]'
                 }`}
               >
@@ -920,19 +920,19 @@ export default function AuthScreen({
                   checked={signUpAgreedToLegal}
                   onChange={(e) => setSignUpAgreedToLegal(e.target.checked)}
                   disabled={!legalReviewReady}
-                  className="mt-0.5 h-4 w-4 rounded border-border text-[#186E95] focus:ring-[#186E95]/40 disabled:opacity-60"
+                  className="mt-0.5 h-4 w-4 rounded border-border text-[var(--sonus-palette-blue)] focus:ring-[var(--sonus-palette-blue)]/40 disabled:opacity-60"
                 />
                 <span>
                   I agree to the Terms and Privacy Policy.
                   {!legalReviewReady ? ' Review both first to enable this.' : ''}
                 </span>
               </label>
-              <label className="flex items-start gap-2 rounded-xl border border-[#CBD5E1] bg-white px-3 py-2 text-[11px] leading-5 text-[#1F2A37]">
+              <label className="flex items-start gap-2 rounded-xl border border-[#CBD5E1] bg-white px-3 py-2 text-[11px] leading-5 text-[var(--sonus-palette-charcoal)]">
                 <input
                   type="checkbox"
                   checked={signUpConfirmedAge}
                   onChange={(e) => setSignUpConfirmedAge(e.target.checked)}
-                  className="mt-0.5 h-4 w-4 rounded border-border text-[#186E95] focus:ring-[#186E95]/40"
+                  className="mt-0.5 h-4 w-4 rounded border-border text-[var(--sonus-palette-blue)] focus:ring-[var(--sonus-palette-blue)]/40"
                 />
                 <span>
                   I confirm I meet the minimum legal age to create this account.
@@ -948,7 +948,7 @@ export default function AuthScreen({
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 rounded border-border text-[#186E95] focus:ring-[#186E95]/40"
+                className="h-4 w-4 rounded border-border text-[var(--sonus-palette-blue)] focus:ring-[var(--sonus-palette-blue)]/40"
               />
               <span>Remember me on this device</span>
             </label>
@@ -970,7 +970,7 @@ export default function AuthScreen({
                   onChange={(e) => setResetNewPassword(e.target.value)}
                   placeholder="New password"
                   autoComplete="new-password"
-                  className="w-full border border-border rounded-xl px-3 py-2.5 pr-10 text-base sm:text-sm bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/40"
+                  className="w-full border border-border rounded-xl px-3 py-2.5 pr-10 text-base sm:text-sm bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/40"
                 />
                 <FieldValidCheck visible={!passwordCreationError(resetNewPassword) && resetNewPassword.length > 0} />
               </div>
@@ -984,7 +984,7 @@ export default function AuthScreen({
                 onChange={(e) => setResetConfirmPassword(e.target.value)}
                 placeholder="Confirm new password"
                 autoComplete="new-password"
-                className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/40"
+                className="w-full border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/40"
               />
             </div>
             <p className="text-[11px] text-text-med text-left px-1">
@@ -995,15 +995,15 @@ export default function AuthScreen({
         )}
 
         <div className="mt-3 min-h-[1.25rem]">
-          {error && <p className="text-sm text-[#C2410C]" role="status" aria-live="polite">{error}</p>}
-          {message && <p className="text-sm text-[#013220]" role="status" aria-live="polite">{message}</p>}
+          {error && <p className="text-sm text-[var(--sonus-palette-rust)]" role="status" aria-live="polite">{error}</p>}
+          {message && <p className="text-sm text-[var(--sonus-palette-green)]" role="status" aria-live="polite">{message}</p>}
         </div>
 
         {mode !== 'demo' && (
           <button
             type="submit"
             disabled={submitDisabled}
-            className="w-full mt-1 inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-[#1F2A37] text-white font-semibold hover:bg-[#111827] transition-colors disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/50"
+            className="w-full mt-1 inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-[var(--sonus-palette-charcoal)] text-white font-semibold hover:bg-[#111827] transition-colors disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/50"
           >
             {loading && 'Working…'}
             {!loading && mode === 'signin' && 'Sign In'}
@@ -1024,7 +1024,7 @@ export default function AuthScreen({
               setError(null);
               setMessage(null);
             }}
-            className="text-xs text-text-med underline underline-offset-2 hover:text-text-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/40 rounded-sm"
+            className="text-xs text-text-med underline underline-offset-2 hover:text-text-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/40 rounded-sm"
           >
             Forgot password?
           </button>
@@ -1039,11 +1039,11 @@ export default function AuthScreen({
             type="button"
             onClick={() => {
               continueAsDemo();
+              navigate('/home', { replace: true });
               onClose?.();
-              navigate('/', { replace: true });
             }}
             disabled={loading}
-            className="w-full mt-3 inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-[#1F2A37] text-white font-semibold hover:bg-[#111827] transition-colors disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/50"
+            className="w-full mt-3 inline-flex items-center justify-center px-4 py-3 rounded-2xl bg-[var(--sonus-palette-charcoal)] text-white font-semibold hover:bg-[#111827] transition-colors disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/50"
           >
             Start Demo Tour
           </button>
@@ -1062,7 +1062,7 @@ export default function AuthScreen({
               setError(null);
             }}
             disabled={loading}
-            className="mt-3 rounded-sm text-sm text-text-med underline underline-offset-2 transition-colors hover:text-text-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#186E95]/40 disabled:opacity-60"
+            className="mt-3 rounded-sm text-sm text-text-med underline underline-offset-2 transition-colors hover:text-text-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sonus-palette-blue)]/40 disabled:opacity-60"
           >
             Back to Sign In
           </button>
@@ -1077,13 +1077,13 @@ export default function AuthScreen({
           onClick={() => setActiveLegalDocument(null)}
         >
           <div
-            className="flex max-h-[88vh] w-full max-w-[42rem] flex-col overflow-hidden rounded-[28px] border border-[#1F2A37]/10 bg-white shadow-[0_30px_80px_-36px_rgba(15,23,42,0.58)]"
+            className="flex max-h-[88vh] w-full max-w-[42rem] flex-col overflow-hidden rounded-[28px] border border-[var(--sonus-palette-charcoal)]/10 bg-white shadow-[0_30px_80px_-36px_rgba(15,23,42,0.58)]"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="relative border-b border-[#E2E8F0] px-4 py-4 text-center sm:px-6">
               <div className="mx-auto max-w-2xl">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0C4A6E]">Legal Review</p>
-                <h2 className="main-font mt-1 text-2xl leading-tight text-[#1F2A37]">
+                <h2 className="main-font mt-1 text-2xl leading-tight text-[var(--sonus-palette-charcoal)]">
                   {LEGAL_DOCUMENT_META[activeLegalDocument].title}
                 </h2>
                 <p className="mt-1 text-xs text-[#64748B]">
@@ -1094,7 +1094,7 @@ export default function AuthScreen({
               <button
                 type="button"
                 onClick={() => setActiveLegalDocument(null)}
-                className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#475569] transition-colors hover:bg-[#F1F5F9] hover:text-[#1F2A37] sm:right-6"
+                className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-[#475569] transition-colors hover:bg-[#F1F5F9] hover:text-[var(--sonus-palette-charcoal)] sm:right-6"
                 aria-label="Close legal document"
               >
                 <X className="h-5 w-5" />
@@ -1105,7 +1105,7 @@ export default function AuthScreen({
               onScroll={updateLegalFinishState}
               className="flex-1 overflow-y-auto px-4 py-5 sm:px-6"
             >
-              <div className="space-y-7 text-left text-[13px] leading-6 text-[#334155] sm:text-sm [&_section]:text-left [&_h2]:secondary-font [&_h2]:text-left [&_h2]:text-[1rem] [&_h2]:leading-snug sm:[&_h2]:text-[1.08rem] [&_h2]:text-[#1F2A37] [&_p]:font-mono [&_p]:text-[13px] [&_p]:leading-6 sm:[&_p]:text-sm [&_ul]:font-mono [&_ul]:text-[13px] sm:[&_ul]:text-sm [&_li]:leading-6">
+              <div className="space-y-7 text-left text-[13px] leading-6 text-[#334155] sm:text-sm [&_section]:text-left [&_h2]:secondary-font [&_h2]:text-left [&_h2]:text-[1rem] [&_h2]:leading-snug sm:[&_h2]:text-[1.08rem] [&_h2]:text-[var(--sonus-palette-charcoal)] [&_p]:font-mono [&_p]:text-[13px] [&_p]:leading-6 sm:[&_p]:text-sm [&_ul]:font-mono [&_ul]:text-[13px] sm:[&_ul]:text-sm [&_li]:leading-6">
                 {activeLegalDocument === 'terms' ? <TermsOfServiceContent /> : <PrivacyPolicyContent />}
               </div>
             </div>
@@ -1118,7 +1118,7 @@ export default function AuthScreen({
                   type="button"
                   onClick={finishLegalReview}
                   disabled={!legalFinishEnabled}
-                  className="inline-flex items-center justify-center rounded-2xl bg-[#1F2A37] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#111827] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex items-center justify-center rounded-2xl bg-[var(--sonus-palette-charcoal)] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#111827] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Finish Review
                 </button>

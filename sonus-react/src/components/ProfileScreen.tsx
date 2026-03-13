@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import {
   BookOpen,
@@ -10,6 +10,8 @@ import {
   Languages,
   LogOut,
   UserRound,
+  Monitor,
+  KeyRound,
 } from 'lucide-react';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
@@ -20,6 +22,7 @@ import { SurfaceButtonCard, SurfaceCard } from './ui/SurfaceCard';
 import { formatUnitNameForDisplay, getUnitMetadata, getUnitsForBand, isCheckpointUnitId, isPracticeUnitId } from '../data/unitMetadata';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { normalizeLanguageId } from '../lib/languageRuntime';
+import { getTrackedEvents } from '../lib/analytics';
 import type { SharedUserProgress } from '../../../shared/contracts';
 
 const LANGUAGE_ACCENT_HEX: Record<string, string> = {
@@ -189,6 +192,24 @@ function formatUnitFallbackLabel(unitId: string | null | undefined) {
   return 'Unit #';
 }
 
+function toLocalDayKey(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function calculateCurrentCompletionStreak(completedDayKeys: Set<string>) {
+  let streak = 0;
+  const cursor = new Date();
+  cursor.setHours(0, 0, 0, 0);
+  while (completedDayKeys.has(toLocalDayKey(cursor))) {
+    streak += 1;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return streak;
+}
+
 export default function ProfileScreen({
   onOpenProgress,
   onOpenAbout,
@@ -209,12 +230,12 @@ export default function ProfileScreen({
   const [profile, setProfile] = useState<Profile | null>(null);
   const [progress, setProgress] = useState<Progress | null>(null);
   const [displayName, setDisplayName] = useState('');
-  const [targetLanguage, setTargetLanguage] = useState('');
   const [timezone, setTimezone] = useState('');
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [languagePickerOpen, setLanguagePickerOpen] = useState(false);
   const [switchingLanguage, setSwitchingLanguage] = useState(false);
+  const [deviceLabel, setDeviceLabel] = useState('Current device');
 
   const languageNameById: Record<string, string> = {
     ja: 'Japanese',
@@ -309,17 +330,41 @@ export default function ProfileScreen({
   const currentUnitAndLesson = effectiveUnitId
     ? `${formatUnitNameForDisplay(currentUnitMeta?.name) || formatUnitFallbackLabel(effectiveUnitId)}${currentLessonNumber ? ` · Lesson ${currentLessonNumber}` : ''}`
     : 'Not started';
-  const isLastActiveToday = (() => {
-    if (!progress?.lastActiveDate) return false;
-    const last = new Date(progress.lastActiveDate);
-    const now = new Date();
-    return (
-      last.getFullYear() === now.getFullYear() &&
-      last.getMonth() === now.getMonth() &&
-      last.getDate() === now.getDate()
-    );
+  const completedDayKeys = useMemo(() => {
+    const keys = new Set<string>();
+    const events = getTrackedEvents();
+    for (const event of events) {
+      if (event.name !== 'lesson_completed') continue;
+      const ts = new Date(event.timestamp);
+      if (Number.isNaN(ts.getTime())) continue;
+      ts.setHours(0, 0, 0, 0);
+      keys.add(toLocalDayKey(ts));
+    }
+    return keys;
+  }, [state.lessonProgress]);
+  const streakDisplay = useMemo(
+    () => calculateCurrentCompletionStreak(completedDayKeys),
+    [completedDayKeys]
+  );
+
+  const activityTrackerDays = (() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayKey = toLocalDayKey(today);
+
+    return Array.from({ length: 7 }, (_, index) => {
+      const day = new Date(today);
+      day.setDate(today.getDate() - (6 - index));
+      const key = toLocalDayKey(day);
+      return {
+        key,
+        label: day.toLocaleDateString(undefined, { weekday: 'short' }).slice(0, 1).toUpperCase(),
+        dayOfMonth: day.getDate(),
+        isActive: completedDayKeys.has(key),
+        isToday: key === todayKey,
+      };
+    });
   })();
-  const streakDisplay = Math.max(progress?.streak ?? 0, isLastActiveToday ? 1 : 0, 1);
   const isLanguageSwitchNotice = Boolean(saveMessage && /^Language switched to\b/i.test(saveMessage));
 
   const loadProfile = useCallback(async () => {
@@ -351,7 +396,6 @@ export default function ProfileScreen({
       setProfile(profileJson.profile);
       setProgress(progressJson.progress);
       setDisplayName(profileJson.profile.displayName || '');
-      setTargetLanguage(profileJson.profile.targetLanguage || '');
       setTimezone(resolvedTimezone);
     } catch {
       setBackendOffline(true);
@@ -410,6 +454,28 @@ export default function ProfileScreen({
     return () => window.clearTimeout(timer);
   }, [saveMessage]);
 
+  useEffect(() => {
+    if (typeof navigator === 'undefined') return;
+    const ua = navigator.userAgent || '';
+    if (/iPhone|iPad|iPod/i.test(ua)) {
+      setDeviceLabel('iOS device');
+      return;
+    }
+    if (/Android/i.test(ua)) {
+      setDeviceLabel('Android device');
+      return;
+    }
+    if (/Macintosh|Mac OS X/i.test(ua)) {
+      setDeviceLabel('Mac device');
+      return;
+    }
+    if (/Windows/i.test(ua)) {
+      setDeviceLabel('Windows device');
+      return;
+    }
+    setDeviceLabel('Web browser session');
+  }, []);
+
   const saveProfile = async () => {
     setSaving(true);
     setError(null);
@@ -420,8 +486,6 @@ export default function ProfileScreen({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           displayName: displayName.trim() || undefined,
-          targetLanguage: targetLanguage.trim() || undefined,
-          timezone: timezone.trim() || undefined,
         }),
       });
 
@@ -486,9 +550,9 @@ export default function ProfileScreen({
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
-      <GlassHeader title="Profile" />
+      <GlassHeader title="Profile" hideLogoOnMobile />
 
-      <div className="space-y-4">
+      <div className="mx-auto max-w-6xl space-y-6">
         {backendOffline && (
           <div className="bg-white border border-border rounded-2xl p-4 text-sm text-text-med">
             Backend appears offline. Showing local profile view.
@@ -496,7 +560,7 @@ export default function ProfileScreen({
         )}
 
         {error && (
-          <div className="bg-white border border-[#C2410C] rounded-2xl p-4 text-sm text-[#C2410C]">
+          <div className="bg-white border border-[var(--sonus-palette-rust)] rounded-2xl p-4 text-sm text-[var(--sonus-palette-rust)]">
             {error}
           </div>
         )}
@@ -506,154 +570,219 @@ export default function ProfileScreen({
             className={`bg-white rounded-2xl p-4 text-sm ${
               isLanguageSwitchNotice
                 ? 'border border-[#C56A3D] text-[#C56A3D]'
-                : 'border border-[#013220] text-[#013220]'
+                : 'border border-[var(--sonus-palette-green)] text-[var(--sonus-palette-green)]'
             }`}
           >
             {saveMessage}
           </div>
         )}
 
-        <SurfaceCard className="relative p-6 sm:p-7 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)]">
-          <div className="flex flex-col items-center gap-2.5 text-center sm:gap-3">
-            <div className="w-11 h-11 rounded-full bg-[rgba(24,110,149,0.12)] border border-[rgba(24,110,149,0.22)] flex items-center justify-center text-[#186E95]">
-              <UserRound className="w-5 h-5" />
-            </div>
-            <div className="w-full max-w-[20rem] px-1">
-              <div className="text-lg font-semibold text-text-dark leading-tight break-words">
-                {displayName.trim() || 'Learner'}
-              </div>
-              <div className="mt-1 text-sm text-text-med leading-snug break-all">
-                {profile?.email || '—'}
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-1.5">
-              <span className="inline-flex items-center rounded-full border border-border bg-[rgba(31,42,55,0.06)] px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider text-text-med">
-                {activeLanguageName ? `Target: ${activeLanguageName}` : 'Target: Not set'}
-              </span>
-            </div>
-            <button
-              onClick={signOut}
-              className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-text-light hover:text-text-dark transition-colors"
-            >
-              <LogOut className="w-4 h-4" />
-              {isDemo ? 'Exit Demo' : 'Sign Out'}
-            </button>
-          </div>
-          <button
-            onClick={() => setProfileEditorOpen(true)}
-            aria-label="Edit profile"
-            title="Edit profile"
-            className="absolute bottom-7 right-8 inline-flex items-center justify-center text-text-light hover:text-text-dark transition-colors"
-          >
-            <PencilLine className="w-3.5 h-3.5" />
-          </button>
-        </SurfaceCard>
-
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-2.5 items-stretch">
-          <SurfaceButtonCard
-            onClick={onOpenProgress}
-            className="h-full min-h-[150px] p-4 text-center flex flex-col items-center !bg-[#186E95] !text-white !border-[#186E95]/90 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(24,110,149,0.38)] active:translate-y-0 lg:col-span-2"
-          >
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <div className="inline-flex items-center rounded-full px-3 py-1 bg-white/14 border border-white/28 text-[10px] uppercase tracking-[0.2em] font-mono text-white/90">
-                Progress Snapshot
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 w-full">
-              <div className="rounded-2xl border border-white/28 bg-white/10 p-3 col-span-2">
-                <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
-                  <BookOpen className="w-3.5 h-3.5" />
-                  Lessons Completed
+        <section className="grid grid-cols-1 gap-3 lg:grid-cols-12">
+          <SurfaceCard className="relative overflow-hidden !border-[var(--sonus-palette-charcoal)] !bg-[var(--sonus-palette-charcoal)] p-5 text-white shadow-[0_24px_52px_-34px_rgba(15,23,42,0.62)] sm:p-6 lg:col-span-12">
+            <div className="relative mx-auto max-w-4xl text-center">
+              <p className="inline-flex items-center rounded-full border border-white/28 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-white">
+                Profile
+              </p>
+              <div className="mt-2.5 flex flex-col items-center gap-2.5">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/20 bg-transparent text-[#A7E1DC]">
+                  <UserRound className="h-5 w-5" />
                 </div>
-                <div className="text-2xl font-semibold text-white leading-none mt-2">{lessonsCompleted}</div>
-              </div>
-              <div className="rounded-2xl border border-white/28 bg-white/12 p-3 col-span-2">
-                <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
-                  <Flag className="w-3.5 h-3.5" />
-                  Current Unit + Lesson
+                <div className="min-w-0">
+                  <h2 className="main-font text-[2.25rem] font-semibold leading-none text-white break-words">
+                    {displayName.trim() || 'Learner'}
+                  </h2>
+                  <p className="mt-1.5 text-sm leading-snug text-white/80 break-all">{profile?.email || '—'}</p>
                 </div>
-                <div className="text-sm font-semibold text-white leading-tight mt-2">{currentUnitAndLesson}</div>
               </div>
-              <div className="rounded-2xl border border-white/28 bg-white/12 p-3 col-span-2">
-                <div className="inline-flex items-center justify-center gap-1.5 text-[11px] uppercase tracking-wider font-mono text-white/90">
-                  <Flame className="w-3.5 h-3.5" />
-                  Streak
+              <div
+                id="tour-profile-language-card"
+                className="mt-4 mx-auto w-full max-w-[360px] rounded-xl border border-white/14 bg-white/[0.03] sm:max-w-[420px]"
+              >
+                <div className="grid grid-cols-1">
+                  <div className="px-4 py-3 text-center">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A7E1DC]">Language</p>
+                    <p className="mt-1 text-base font-semibold text-white">{activeLanguageName || 'Not set'}</p>
+                  </div>
                 </div>
-                <div className="text-2xl font-semibold text-white leading-none mt-2">{streakDisplay}</div>
               </div>
-            </div>
-
-            <div className="pt-2.5">
-              <span className="inline-flex items-center text-xs text-white font-semibold">
-                Open full progress →
-              </span>
-            </div>
-          </SurfaceButtonCard>
-
-          <SurfaceCard id="tour-profile-language-card" className="relative h-full min-h-[150px] overflow-hidden p-4 sm:p-5 lg:col-span-1">
-            <div className="pointer-events-none absolute -right-14 -top-14 h-32 w-32 rounded-full bg-[rgba(24,110,149,0.13)] blur-2xl" />
-            <div className="pointer-events-none absolute -left-10 -bottom-14 h-28 w-28 rounded-full bg-[rgba(1,50,32,0.12)] blur-2xl" />
-
-            <div className="relative flex h-full flex-col">
-              <div>
-                <div className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(24,110,149,0.28)] bg-[rgba(24,110,149,0.10)] px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.16em] text-[#186E95]">
-                  <Languages className="h-3.5 w-3.5" />
-                  Language
-                </div>
-                <h3 className="mt-2 text-[1.15rem] font-semibold leading-tight text-text-dark">Change Learning Language</h3>
-                <p className="mt-1 text-xs leading-relaxed text-text-med">
-                  Switch your active dashboard language. Progress remains saved.
-                </p>
-              </div>
-
-              <div className="mt-3 rounded-2xl border border-[rgba(24,110,149,0.18)] bg-white/85 p-3">
-                <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-text-light">Current</div>
-                <div className="mt-1.5 inline-flex items-center rounded-full border border-[#186E95]/25 bg-[rgba(24,110,149,0.08)] px-3 py-1 text-xs font-semibold text-[#186E95]">
-                  {activeLanguageName || 'Not set'}
-                </div>
-
-                <div className="mt-3 space-y-2.5">
+              <div className="mt-4 pt-2">
+                <div className="flex flex-wrap items-center justify-center gap-2">
                   <button
+                    id="tour-profile-switch-language-button"
                     onClick={() => setLanguagePickerOpen(true)}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#186E95] px-3 py-2.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-18px_rgba(24,110,149,0.55)] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+                    className="inline-flex h-10 min-w-[152px] items-center justify-center gap-2 rounded-xl border border-[var(--sonus-palette-blue)] bg-[var(--sonus-palette-blue)] px-3 text-sm font-semibold text-white transition-all hover:bg-[#145B7A]"
                   >
+                    <Languages className="h-4 w-4" />
                     Switch Language
                   </button>
+                  <button
+                    onClick={signOut}
+                    className="inline-flex h-10 min-w-[152px] items-center justify-center gap-1.5 rounded-xl border border-white/24 bg-transparent px-3 text-sm font-medium text-white transition-colors hover:bg-white/10"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    {isDemo ? 'Exit Demo' : 'Sign Out'}
+                  </button>
+                </div>
+                <p className="mx-auto mt-2 max-w-[34rem] text-center text-[11px] leading-relaxed text-white/80">
+                  Language progress and review data are tracked and saved separately for each language.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setProfileEditorOpen(true)}
+              aria-label="Edit profile"
+              title="Edit profile"
+              className="absolute right-8 top-7 inline-flex items-center justify-center rounded-full border border-white/22 bg-transparent p-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <PencilLine className="w-3.5 h-3.5" />
+            </button>
+          </SurfaceCard>
+        </section>
+
+        <section className="grid grid-cols-1 gap-3 lg:grid-cols-12">
+          <SurfaceButtonCard
+            onClick={onOpenProgress}
+            className="flex h-full min-h-[150px] flex-col justify-start border-[rgba(31,42,55,0.55)] bg-white p-5 text-center sm:text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-28px_rgba(15,23,42,0.24)] active:translate-y-0 lg:col-span-7"
+          >
+            <div className="relative flex items-center justify-center gap-2 sm:justify-start">
+              <div className="inline-flex items-center justify-center rounded-full border border-[var(--sonus-palette-blue)]/22 bg-[rgba(19,87,119,0.08)] px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.16em] text-[var(--sonus-palette-blue)] sm:justify-start">
+                Progress Overview
+              </div>
+              <ChevronRight className="absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-text-light" />
+            </div>
+
+            <div className="mt-4 grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
+              <div className="rounded-2xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] p-3 text-center sm:text-left sm:col-span-2">
+                <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.16em] text-text-med sm:justify-start">
+                  <Flag className="h-3.5 w-3.5 text-[var(--sonus-palette-blue)]" />
+                  Current Unit + Lesson
+                </div>
+                <div className="mt-2 text-sm font-semibold leading-tight text-text-dark">{currentUnitAndLesson}</div>
+              </div>
+              <div className="rounded-2xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] p-3 text-center sm:text-left sm:col-span-1">
+                <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.16em] text-text-med sm:justify-start">
+                  <BookOpen className="h-3.5 w-3.5 text-[var(--sonus-palette-blue)]" />
+                  Lessons Completed
+                </div>
+                <div className="mt-2 text-2xl font-semibold leading-none text-text-dark">{lessonsCompleted}</div>
+              </div>
+              <div className="rounded-2xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] p-3 text-center sm:text-left sm:col-span-1">
+                <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.16em] text-text-med sm:justify-start">
+                  <Flame className="h-3.5 w-3.5 text-[#9A3412]" />
+                  Study Streak
+                </div>
+                <div className="mt-2 text-2xl font-semibold leading-none text-text-dark">{streakDisplay}</div>
+              </div>
+            </div>
+
+            <div className="mt-3 border-t border-[rgba(31,42,55,0.22)] pt-3">
+              <p className="mb-2 text-[10px] font-mono uppercase tracking-[0.14em] text-text-med">Last 7 Days</p>
+              <div className="grid grid-cols-7 gap-1.5">
+                {activityTrackerDays.map((day) => (
+                  <div
+                    key={day.key}
+                    className="flex flex-col items-center rounded-lg border border-[var(--sonus-palette-blue)] bg-[var(--sonus-palette-blue)] px-1 py-1.5"
+                  >
+                    <span className="text-[9px] font-mono uppercase tracking-[0.1em] text-white">
+                      {day.label}
+                    </span>
+                    <span
+                      className={`mt-1 h-2.5 w-2.5 rounded-full border ${
+                        day.isActive
+                          ? 'border-white bg-white shadow-[0_0_0_2px_rgba(255,255,255,0.2)]'
+                          : 'border-white/45 bg-transparent'
+                      }`}
+                    />
+                    <span className={`mt-1 text-[10px] ${day.isToday ? 'font-semibold text-white' : 'text-white'}`}>
+                      {day.dayOfMonth}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </SurfaceButtonCard>
+
+          <SurfaceCard className="relative h-full min-h-[150px] overflow-hidden border-[rgba(31,42,55,0.55)] p-5 text-center sm:text-left lg:col-span-5">
+            <div className="relative">
+              <div className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[rgba(19,87,119,0.28)] bg-[rgba(19,87,119,0.10)] px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.16em] text-[var(--sonus-palette-blue)] sm:justify-start">
+                Account Security
+              </div>
+              <h3 className="mt-2 text-[1.15rem] font-semibold leading-tight text-text-dark">Access & Identity</h3>
+              <div className="mt-3 space-y-2">
+                <div className="rounded-xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] px-3 py-2 text-center sm:text-left">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-light">Email</p>
+                  <p className="mt-1 text-sm font-semibold text-text-dark break-all">{profile?.email || 'Not set'}</p>
+                </div>
+                <div className="rounded-xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] px-3 py-2 text-center sm:text-left">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-light">Timezone</p>
+                  <p className="mt-1 text-sm font-semibold text-text-dark">{timezone || 'Auto-detected'}</p>
+                </div>
+                <div className="rounded-xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] px-3 py-2 text-center sm:text-left">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-light">Active Session</p>
+                  <p className="mt-1 inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-text-dark sm:justify-start">
+                    <Monitor className="h-3.5 w-3.5 text-[var(--sonus-palette-blue)]" />
+                    {deviceLabel}
+                  </p>
                 </div>
               </div>
-
-              <div className="mt-3 rounded-xl border border-[rgba(24,110,149,0.14)] bg-[rgba(24,110,149,0.04)] px-3 py-2.5 text-[11px] leading-relaxed text-[#4D6075]">
-                Your lessons, streak, and progress stay tied to your account.
+              <div className="mt-3 flex flex-wrap justify-center gap-2 sm:justify-start">
+                <a
+                  href="/login"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--sonus-palette-blue)]/25 bg-white px-3 py-2 text-xs font-semibold text-[var(--sonus-palette-blue)] hover:bg-[rgba(19,87,119,0.06)]"
+                >
+                  <KeyRound className="h-3.5 w-3.5" />
+                  Reset Password
+                </a>
               </div>
             </div>
           </SurfaceCard>
+        </section>
 
-          <div className="space-y-2.5 lg:col-span-1 lg:h-full lg:flex lg:flex-col">
-            <SurfaceButtonCard
-              onClick={onOpenAbout}
-              className="w-full min-h-[150px] lg:flex-1 !bg-[#1F2A37] !border-transparent p-4 text-left !text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(31,42,55,0.45)] active:translate-y-0"
-            >
-              <div>
-                <div className="font-semibold text-white">About Sonus</div>
-                <div className="text-sm text-white/80">Why the system uses national proficiency frameworks</div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-white/80" />
-            </SurfaceButtonCard>
-            {!isDemo && (
-              <SurfaceButtonCard
-                onClick={() => setDeleteModalOpen(true)}
-                disabled={deletingAccount}
-                className="w-full min-h-[150px] lg:flex-1 !bg-[#C2410C] !border-transparent p-4 text-left !text-white flex flex-col justify-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.45)] active:translate-y-0 disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
-              >
-                <div className="font-semibold text-white">
+        <section className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+          <SurfaceCard className="border-[rgba(31,42,55,0.55)] p-4 text-center sm:text-left">
+            <div className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[rgba(19,87,119,0.26)] bg-[rgba(19,87,119,0.09)] px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.15em] text-[var(--sonus-palette-blue)] sm:justify-start">
+              Data & Privacy
+            </div>
+            <div className="mt-3 space-y-2">
+              <a href="/privacy" className="inline-flex w-full items-center justify-center rounded-xl border border-[rgba(31,42,55,0.4)] bg-white px-3 py-2 text-sm font-medium text-text-dark hover:bg-[#F8F8F6]">
+                Privacy Policy
+              </a>
+              <a href="/terms" className="inline-flex w-full items-center justify-center rounded-xl border border-[rgba(31,42,55,0.4)] bg-white px-3 py-2 text-sm font-medium text-text-dark hover:bg-[#F8F8F6]">
+                Terms of Service
+              </a>
+              {!isDemo && (
+                <button
+                  onClick={() => setDeleteModalOpen(true)}
+                  disabled={deletingAccount}
+                  className="inline-flex w-full items-center justify-center rounded-xl border border-[var(--sonus-palette-rust)]/35 bg-white px-3 py-2 text-sm font-semibold text-[#9A3412] hover:bg-[rgba(194,65,12,0.06)] disabled:opacity-60"
+                >
                   {deletingAccount ? 'Scheduling Deletion…' : 'Delete Account'}
-                </div>
-                <div className="text-sm text-white/85">Permanently remove account and learning data.</div>
-              </SurfaceButtonCard>
-            )}
-          </div>
-        </div>
+                </button>
+              )}
+            </div>
+          </SurfaceCard>
+
+          <SurfaceCard className="border-[rgba(31,42,55,0.55)] p-4 text-center sm:text-left">
+            <div className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[rgba(19,87,119,0.26)] bg-[rgba(19,87,119,0.09)] px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.15em] text-[var(--sonus-palette-blue)] sm:justify-start">
+              Support & Contact
+            </div>
+            <div className="mt-3 space-y-2">
+              <a href="/contact" className="inline-flex w-full items-center justify-center rounded-xl border border-[rgba(31,42,55,0.4)] bg-white px-3 py-2 text-sm font-medium text-text-dark hover:bg-[#F8F8F6]">
+                Contact Page
+              </a>
+              <a href="mailto:support@sonuslearning.com" className="inline-flex w-full items-center justify-center rounded-xl border border-[rgba(31,42,55,0.4)] bg-white px-3 py-2 text-sm font-medium text-text-dark hover:bg-[#F8F8F6]">
+                Email Support
+              </a>
+              <button
+                onClick={onOpenAbout}
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-[rgba(31,42,55,0.4)] bg-white px-3 py-2 text-sm font-medium text-text-dark hover:bg-[#F8F8F6]"
+              >
+                About Sonus
+              </button>
+            </div>
+          </SurfaceCard>
+        </section>
       </div>
 
       <BottomNav active="profile" onHome={onGoHome} onProfile={() => {}} />
@@ -672,24 +801,9 @@ export default function ProfileScreen({
                   placeholder="Your name"
                 />
               </label>
-              <label className="block">
-                <div className="text-xs uppercase tracking-wider text-text-light font-mono mb-1 flex items-center gap-1.5">
-                  <Languages className="w-3.5 h-3.5" />
-                  Target Language
-                </div>
-                <select
-                  value={targetLanguage}
-                  onChange={(e) => setTargetLanguage(e.target.value)}
-                  className="w-full border border-border rounded-xl px-3 py-2.5 text-sm bg-white"
-                >
-                  <option value="">Select language</option>
-                  <option value="es">Spanish</option>
-                  <option value="fr">French</option>
-                  <option value="de">German</option>
-                  <option value="ja">Japanese</option>
-                  <option value="ko">Korean</option>
-                </select>
-              </label>
+              <div className="rounded-xl border border-[#C56A3D]/35 bg-[rgba(197,106,61,0.08)] px-3 py-2.5 text-xs leading-relaxed text-[#9A3412]">
+                Changing this will update the name shown on your profile.
+              </div>
             </div>
             <div className="flex gap-2 mt-4">
               <button
@@ -701,7 +815,7 @@ export default function ProfileScreen({
               <button
                 onClick={() => void saveProfile()}
                 disabled={saving}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[#186E95] text-white text-sm font-semibold disabled:opacity-60"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[var(--sonus-palette-blue)] text-white text-sm font-semibold disabled:opacity-60"
               >
                 <BadgeCheck className="w-4 h-4" />
                 {saving ? 'Saving...' : 'Save'}
@@ -731,7 +845,7 @@ export default function ProfileScreen({
                     disabled={switchingLanguage || !isAvailable || isCurrent}
                     className={`group relative w-full min-h-[148px] overflow-hidden rounded-2xl border p-3 text-center transition-all ${
                       isCurrent
-                        ? 'bg-[#1F2A37] border-[#1F2A37]/90'
+                        ? 'bg-[var(--sonus-palette-charcoal)] border-[var(--sonus-palette-charcoal)]/90'
                         : isAvailable
                           ? `${accent.surfaceTint} ${accent.borderColor} hover:-translate-y-0.5`
                           : 'bg-[#F8FAFC] border-[#CBD5E1]'

@@ -52,9 +52,9 @@ const TONE_CARDS = [
     englishExample: 'English analogy: uncertain "well..." (dips then lifts).',
     accent: {
       border: 'border-[#CBD5E1]',
-      chip: 'bg-[#ECEFF3] text-[#1F2A37]',
-      contour: 'text-[#1F2A37]',
-      tone: 'text-[#1F2A37]',
+      chip: 'bg-[#ECEFF3] text-[var(--sonus-palette-charcoal)]',
+      contour: 'text-[var(--sonus-palette-charcoal)]',
+      tone: 'text-[var(--sonus-palette-charcoal)]',
     },
     contour: 'M2 6 Q10 18 16 11 T26 4',
   },
@@ -108,15 +108,16 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
     <div className="min-h-screen page-shell px-6 with-bottom-nav bg-[linear-gradient(180deg,#F7FAFD_0%,#EEF4F8_100%)]">
       <GlassHeader
         title="Tone Foundations"
+        hideLogoOnMobile
         spacerClassName="mb-10"
         className="bg-white/12 border-white/25"
-        scrolledClassName="bg-[#186E95]/88 border-white/35"
-        titleClassName="text-[#1F2A37]"
+        scrolledClassName="bg-[var(--sonus-palette-blue)]/88 border-white/35"
+        titleClassName="text-[var(--sonus-palette-charcoal)]"
         scrolledTitleClassName="text-white"
       />
 
       <div className="max-w-6xl mx-auto space-y-4">
-        <section className="dashboard-card-enter rounded-3xl border-2 border-[#1F2A37] bg-[#1F2A37] p-5 sm:p-6 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+        <section className="dashboard-card-enter rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 sm:p-6 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
           <div className="text-[11px] uppercase tracking-[0.2em] font-mono text-[#B5D8EA]">Mandarin Foundations</div>
           <h2 className="main-font mt-2 text-[2rem] leading-tight">Tune Your Ear to Tone Shape</h2>
           <p className="mt-2 text-sm text-white/90">
@@ -124,7 +125,7 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
           </p>
         </section>
 
-      <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[#1F2A37] p-4 sm:p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
+      <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[var(--sonus-palette-charcoal)] p-4 sm:p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {TONE_CARDS.map((tone, index) => (
           <div
@@ -144,7 +145,7 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
               <button
                 type="button"
                 onClick={() => handlePlay(tone.hanzi, tone.pinyin)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[#CBD5E1] text-[11px] font-semibold uppercase tracking-[0.14em] font-mono text-[#1F2A37] bg-white hover:bg-[#F7FAFC] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#9CC8DE]"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[#CBD5E1] text-[11px] font-semibold uppercase tracking-[0.14em] font-mono text-[var(--sonus-palette-charcoal)] bg-white hover:bg-[#F7FAFC] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#9CC8DE]"
                 aria-label={`Play ${tone.label}`}
               >
                 <AudioLines className="w-3.5 h-3.5" />
@@ -155,7 +156,7 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
             <div className="flex items-end justify-between gap-3 border-t border-[#E2E8F0] pt-4">
               <div>
                 <div className={`main-font text-[2.05rem] leading-none mb-1 ${tone.accent.tone}`}>{tone.pinyin}</div>
-                <div className="secondary-font text-[1.8rem] leading-none text-[#1F2A37]">{tone.hanzi}</div>
+                <div className="secondary-font text-[1.8rem] leading-none text-[var(--sonus-palette-charcoal)]">{tone.hanzi}</div>
               </div>
               <div className={`inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-[#F7FAFC] ${tone.accent.contour}`}>
                 <svg viewBox="0 0 28 20" className="w-8 h-5" fill="none" aria-hidden="true">

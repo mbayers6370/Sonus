@@ -20,8 +20,8 @@ export default function LessonReview({
   onBackToResults,
 }: LessonReviewProps) {
   const { state } = useApp();
-  const { activeLesson, quizResultsByIndex, activeBandId } = state;
-  const hideLogoOnMobile = /^band\d+$/i.test(activeBandId || '') || activeBandId === 'advanced';
+  const { activeLesson, quizResultsByIndex } = state;
+  const hideLogoOnMobile = true;
 
   const missedWords = useMemo(() => {
     if (!activeLesson) return [];
@@ -61,7 +61,7 @@ export default function LessonReview({
           </div>
           <div className="w-full h-1.5 rounded-full bg-[rgba(31,42,55,0.14)] overflow-hidden">
             <div
-              className="h-full rounded-full bg-[#186E95] transition-all duration-300"
+              className="h-full rounded-full bg-[var(--sonus-palette-blue)] transition-all duration-300"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -95,7 +95,7 @@ export default function LessonReview({
                     setCurrentIndex((prev) => Math.max(0, prev - 1));
                   }}
                   aria-disabled={isFirstCard}
-                  className={`w-full py-3 px-4 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all active:bg-white ${
+                  className={`w-full py-3 px-4 bg-white text-[var(--sonus-palette-charcoal)] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all active:bg-white ${
                     isFirstCard
                       ? 'cursor-not-allowed pointer-events-none'
                       : 'hover:bg-white'
@@ -109,7 +109,7 @@ export default function LessonReview({
                     setCurrentIndex((prev) => Math.min(totalMissed - 1, prev + 1));
                   }}
                   aria-disabled={isLastCard}
-                  className={`w-full py-3 px-4 bg-white text-[#1F2A37] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all active:bg-white ${
+                  className={`w-full py-3 px-4 bg-white text-[var(--sonus-palette-charcoal)] border-2 border-[rgba(31,42,55,0.30)] rounded-xl font-medium opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all active:bg-white ${
                     isLastCard
                       ? 'cursor-not-allowed pointer-events-none'
                       : 'hover:bg-white'
@@ -120,7 +120,7 @@ export default function LessonReview({
               </div>
               <button
                 onClick={() => setCurrentIndex(totalMissed)}
-                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[var(--sonus-palette-blue)] text-white rounded-xl font-bold text-lg opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Finish Review
               </button>
@@ -130,13 +130,13 @@ export default function LessonReview({
             <>
               <button
                 onClick={onRetakeQuiz}
-                className="w-full py-4 px-6 bg-[#186E95] text-white rounded-xl font-bold text-lg opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 px-6 bg-[var(--sonus-palette-blue)] text-white rounded-xl font-bold text-lg opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
                 Retake Quiz
               </button>
               <button
                 onClick={onContinueToSpeak}
-                className="self-center text-sm font-medium text-[#186E95] opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 underline underline-offset-4 hover:text-[#145B7A]"
+                className="self-center text-sm font-medium text-[var(--sonus-palette-blue)] opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 underline underline-offset-4 hover:text-[#145B7A]"
               >
                 Continue to Speak
               </button>
@@ -145,7 +145,7 @@ export default function LessonReview({
           {!reviewDone && (
             <button
               onClick={onBackToResults}
-              className="self-center text-sm font-medium text-[#186E95] opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 underline underline-offset-4 hover:text-[#145B7A]"
+              className="self-center text-sm font-medium text-[var(--sonus-palette-blue)] opacity-100 hover:opacity-100 focus:opacity-100 active:opacity-100 underline underline-offset-4 hover:text-[#145B7A]"
             >
               Back to Results
             </button>

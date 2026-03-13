@@ -45,15 +45,16 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
     <div className="min-h-screen page-shell px-6 with-bottom-nav bg-[linear-gradient(180deg,#F7FAFD_0%,#EEF4F8_100%)]">
       <GlassHeader
         title="Pinyin Foundations"
+        hideLogoOnMobile
         spacerClassName="mb-10"
         className="bg-white/12 border-white/25"
-        scrolledClassName="bg-[#186E95]/88 border-white/35"
-        titleClassName="text-[#1F2A37]"
+        scrolledClassName="bg-[var(--sonus-palette-blue)]/88 border-white/35"
+        titleClassName="text-[var(--sonus-palette-charcoal)]"
         scrolledTitleClassName="text-white"
       />
 
       <div className="max-w-6xl mx-auto space-y-4">
-        <section className="dashboard-card-enter rounded-3xl border-2 border-[#1F2A37] bg-[#1F2A37] p-5 sm:p-6 shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+        <section className="dashboard-card-enter rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 sm:p-6 shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
           <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(181,216,234,0.16)] text-[#B5D8EA]">
             Why Pinyin Matters
           </div>
@@ -63,7 +64,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </p>
         </section>
 
-        <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[#1F2A37] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
+        <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[var(--sonus-palette-charcoal)] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
           <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(181,216,234,0.16)] text-[#B5D8EA]">
             How It Works
           </div>
@@ -87,7 +88,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </div>
         </section>
 
-        <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[#1F2A37] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
+        <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[var(--sonus-palette-charcoal)] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
           <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(181,216,234,0.16)] text-[#B5D8EA]">
             Character to Pinyin
           </div>
@@ -126,7 +127,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
                     className="min-w-0 text-center rounded-xl border border-[#9EC7DC] bg-[rgba(181,216,234,0.28)] px-2 py-2 sm:px-3 hover:bg-[rgba(181,216,234,0.40)]"
                   >
                     <div className="text-[2rem] sm:text-3xl secondary-font leading-none">{item.result.hanzi}</div>
-                    <div className="text-xs text-[#186E95] font-medium">{item.result.pinyin}</div>
+                    <div className="text-xs text-[var(--sonus-palette-blue)] font-medium">{item.result.pinyin}</div>
                   </button>
                 </div>
               </div>
@@ -134,7 +135,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </div>
         </section>
 
-        <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[#1F2A37] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
+        <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[var(--sonus-palette-charcoal)] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
           <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(181,216,234,0.16)] text-[#B5D8EA]">
             Build Better Pronunciation
           </div>
@@ -148,14 +149,14 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
                 <div className="flex items-center gap-2 mb-3">
                   <button
                     onClick={() => speak(pair.left.hanzi, pair.left.pinyin)}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs font-mono uppercase tracking-wider text-[#186E95]"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs font-mono uppercase tracking-wider text-[var(--sonus-palette-blue)]"
                   >
                     <AudioLines className="w-3.5 h-3.5" />
                     {pair.left.pinyin}
                   </button>
                   <button
                     onClick={() => speak(pair.right.hanzi, pair.right.pinyin)}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs font-mono uppercase tracking-wider text-[#013220]"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs font-mono uppercase tracking-wider text-[var(--sonus-palette-green)]"
                   >
                     <AudioLines className="w-3.5 h-3.5" />
                     {pair.right.pinyin}

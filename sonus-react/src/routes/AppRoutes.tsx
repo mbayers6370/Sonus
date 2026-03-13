@@ -119,6 +119,7 @@ export default function AppRoutes() {
     borderRadius: string;
   } | null>(null);
   const walkthroughStartedRef = useRef(false);
+  const walkthroughAlignedStepRef = useRef<number | null>(null);
   const [tourRoutes, setTourRoutes] = useState<{
     mainPath: string;
     levelsPath: string;
@@ -183,6 +184,29 @@ export default function AppRoutes() {
     let cancelled = false;
     setLanguageResolved(false);
 
+    if (isDemo) {
+      const selectedLanguageNormalized =
+        typeof selectedLanguage === 'string' && selectedLanguage.trim()
+          ? normalizeLanguageId(selectedLanguage)
+          : null;
+      let storedLanguage: string | null = null;
+      try {
+        const raw = window.localStorage.getItem(LAST_LANGUAGE_KEY);
+        if (raw && raw.trim()) storedLanguage = normalizeLanguageId(raw);
+      } catch {
+        // Ignore storage failures and fall back to default.
+      }
+      const resolvedLanguage = selectedLanguageNormalized || storedLanguage || 'ja';
+      if (selectedLanguageNormalized !== resolvedLanguage) {
+        selectLanguage(resolvedLanguage);
+      }
+      writeLastLanguage(resolvedLanguage);
+      setLanguageResolved(true);
+      return () => {
+        cancelled = true;
+      };
+    }
+
     void (async () => {
       let profileLanguage: string | null = null;
       let profileLoaded = false;
@@ -221,7 +245,7 @@ export default function AppRoutes() {
     return () => {
       cancelled = true;
     };
-  }, [selectLanguage, selectedLanguage]);
+  }, [isDemo, selectLanguage, selectedLanguage]);
 
   useEffect(() => {
     if (!selectedLanguage) return;
@@ -239,9 +263,10 @@ export default function AppRoutes() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    if (walkthroughVisible && walkthroughStep === 1) return;
     // Keep navigation deterministic on mobile: every route starts from the top.
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  }, [location.pathname, location.search]);
+  }, [location.pathname, location.search, walkthroughStep, walkthroughVisible]);
 
   const goHome = useCallback(() => {
     exitLesson();
@@ -307,14 +332,14 @@ export default function AppRoutes() {
     }
   }, [selectedLanguage, state.unlockedLevels]);
 
-  const navigateLearnStage = useCallback(async (stage: 'main' | 'levels' | 'units' | 'lessons') => {
+  const navigateLearnStage = useCallback(async (stage: 'levels' | 'units' | 'lessons') => {
     exitLesson();
     if (!selectedLanguage) {
       navigate('/');
       return;
     }
     const normalizedLanguage = normalizeLanguageId(selectedLanguage);
-    if (stage === 'main') {
+    if (stage === 'levels') {
       navigate('/learn');
       return;
     }
@@ -327,7 +352,7 @@ export default function AppRoutes() {
       return;
     }
 
-    // Japanese has a 4-step hierarchy: Main -> Levels(N5..N1) -> Units(Section) -> Lessons(Unit)
+    // Japanese flow: Levels (N5..N1 cards with section links) -> Units -> Lessons
     if (normalizedLanguage === 'ja' && /^n[1-5]$/i.test(bandId)) {
       const basePath = `/learn/jlpt/${bandId}`;
       const currentBandSections =
@@ -344,10 +369,6 @@ export default function AppRoutes() {
       const unitId = continueTarget?.unitId || fallbackUnitId;
       const sectionId = deriveJapaneseSectionIdFromUnitId(bandId, unitId) || 'core';
 
-      if (stage === 'levels') {
-        navigate(basePath);
-        return;
-      }
       if (stage === 'units') {
         navigate(sectionId ? `${basePath}?section=${encodeURIComponent(sectionId)}` : basePath);
         return;
@@ -357,12 +378,6 @@ export default function AppRoutes() {
       if (unitId) params.set('unit', unitId);
       const query = params.toString();
       navigate(query ? `${basePath}?${query}` : basePath);
-      return;
-    }
-
-    if (stage === 'levels') {
-      const tier = tierForBand(bandId);
-      navigate(tier ? `/learn?tier=${encodeURIComponent(tier)}` : '/learn');
       return;
     }
 
@@ -383,10 +398,6 @@ export default function AppRoutes() {
     state.activeBandData?.sections,
     state.currentLevel?.id,
   ]);
-
-  const goLearnMain = useCallback(() => {
-    void navigateLearnStage('main');
-  }, [navigateLearnStage]);
 
   const goLearnLevels = useCallback(() => {
     void navigateLearnStage('levels');
@@ -417,24 +428,17 @@ export default function AppRoutes() {
         path: '/home',
       },
       {
-        title: 'Main',
-        body: isJapanese
-          ? 'This is your Japanese roadmap. Choose a JLPT level (N5 to N1) to match your current proficiency and goals.'
-          : `This is your ${effectiveLabel} roadmap. Start in the right tier and progress step by step.`,
-        path: tourRoutes.mainPath,
-      },
-      {
         title: 'Levels',
         body: isJapanese
-          ? 'Within each JLPT level, sections are structured by learning purpose: Core, Expansion, and Integration.'
-          : `Structured level pathways for ${effectiveLabel} are prepared and will activate automatically as content is published.`,
+          ? 'This is your Japanese roadmap. Start at the right JLPT level (N5 to N1), then use Core, Expansion, and Integration on each card to enter that track directly.'
+          : `This is your ${effectiveLabel} roadmap. Start in the right tier and progress step by step.`,
         path: tourRoutes.levelsPath,
       },
       {
-        title: 'Unit',
-        body: hasStructuredTour
-          ? 'Units break each level into practical themes, helping you focus on one meaningful topic at a time.'
-          : `Unit navigation for ${effectiveLabel} is ready and will route here once units are available.`,
+        title: 'Units',
+        body: isJapanese
+          ? 'After choosing a JLPT section, Units break study into focused themes so you can progress in a clear sequence.'
+          : `Structured level pathways for ${effectiveLabel} are prepared and will activate automatically as content is published.`,
         path: tourRoutes.unitsPath,
       },
       {
@@ -442,13 +446,13 @@ export default function AppRoutes() {
         body: hasStructuredTour
           ? (
               <>
-                Each lesson has Learn (flashcards), Quiz, and Speak modes. To pass, reach 90% Quiz and 75% Speak;
-                mastery is earned on a later mastery attempt after the lesson is already completed.
+                Open a lesson card to begin. Each lesson then runs through Learn, Quiz, and Speak.
+                To pass, reach 90% Quiz and 75% Speak; mastery is earned on a later mastery attempt after completion.
                 {isScriptFocusedLanguage && (
                   <>
                     <br />
                     <br />
-                    <span className="font-semibold text-[#C2410C]">
+                    <span className="font-semibold text-[var(--sonus-palette-rust)]">
                       Pay close attention to native script (characters/kana/hangul): mastery emphasizes script recall,
                       not romanized aids like transliteration or romaji.
                     </span>
@@ -482,7 +486,7 @@ export default function AppRoutes() {
     const runtime = getLanguageRuntime(normalizedLanguage);
     const starterBandId = STARTER_BAND_BY_LANGUAGE[normalizedLanguage] || 'n5';
     const starterTier = tierForBand(starterBandId);
-    const defaultLevelsPath = normalizedLanguage === 'ja' ? '/learn/jlpt/n5' : '/learn';
+    const defaultLevelsPath = '/learn';
     const defaultState = {
       mainPath: '/learn',
       levelsPath: defaultLevelsPath,
@@ -595,10 +599,10 @@ export default function AppRoutes() {
 
   useEffect(() => {
     const handler = () => {
-      void goLearnUnits();
+      void goLearnLevels();
     };
     const mainHandler = () => {
-      void goLearnMain();
+      void goLearnLevels();
     };
     const levelsHandler = () => {
       void goLearnLevels();
@@ -621,7 +625,7 @@ export default function AppRoutes() {
       window.removeEventListener('sonus:learn:units', unitsHandler);
       window.removeEventListener('sonus:learn:lessons', lessonsHandler);
     };
-  }, [goLearnMain, goLearnLevels, goLearnUnits, goLearnLessons]);
+  }, [goLearnLevels, goLearnUnits, goLearnLessons]);
 
   useEffect(() => {
     if (onboardingStatus !== 'incomplete' || !selectedLanguage) {
@@ -685,18 +689,16 @@ export default function AppRoutes() {
             ? 'tour-begin-here-button'
             : walkthroughStep === 1
               ? 'tour-main-first-path-card'
-              : walkthroughStep === 2
-                ? 'tour-levels-first-card'
+            : walkthroughStep === 2
+                ? 'tour-units-first-card'
                 : walkthroughStep === 3
-                  ? 'tour-units-first-card'
+                  ? 'tour-lessons-first-card'
               : walkthroughStep === 4
-                ? 'tour-lessons-first-card'
-                : walkthroughStep === 5
                   ? 'tour-travel-sprint-card'
-                  : walkthroughStep === 6
-                    ? 'tour-practice-focus-card'
-                    : walkthroughStep === 7
-                      ? 'tour-profile-language-card'
+                  : walkthroughStep === 5
+                  ? 'tour-practice-focus-card'
+                    : walkthroughStep === 6
+                      ? 'tour-profile-switch-language-button'
                 : null
         )
       : null;
@@ -708,21 +710,24 @@ export default function AppRoutes() {
 
     let frameId = 0;
     let timeoutId = 0;
+    let retryIntervalId = 0;
+    let retryDeadlineId = 0;
     let observedTarget: HTMLElement | null = null;
     let observer: ResizeObserver | null = null;
     let layoutObserver: ResizeObserver | null = null;
+    let domObserver: MutationObserver | null = null;
     const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
-    const isDesktopViewport = !isMobileViewport;
-    const shouldPinTargetNearTop =
-      isMobileViewport && targetId !== 'tour-begin-here-button';
-    const shouldPinProfileCardHigherOnDesktop =
-      isDesktopViewport && targetId === 'tour-profile-language-card';
-
     const alignTargetForMobileWalkthrough = (target: HTMLElement) => {
-      if (!shouldPinTargetNearTop && !shouldPinProfileCardHigherOnDesktop) return;
       const rect = target.getBoundingClientRect();
-      // Keep highlighted cards consistently visible above the tour sheet.
-      const desiredTop = shouldPinProfileCardHigherOnDesktop ? 92 : 106;
+      const walkthroughSheet = document.querySelector<HTMLElement>('[aria-label="First-time walkthrough"]');
+      const sheetTop = walkthroughSheet?.getBoundingClientRect().top ?? window.innerHeight;
+      const safetyGap = isMobileViewport ? 10 : 14;
+      const minTop = isMobileViewport ? 72 : 74;
+      const maxBottom = sheetTop - safetyGap;
+      // Center first; if it overlaps the walkthrough sheet, move it up until fully clear.
+      const centeredTop = (window.innerHeight - rect.height) / 2;
+      const maxTopForFullVisibility = maxBottom - rect.height;
+      const desiredTop = Math.max(minTop, Math.min(centeredTop, maxTopForFullVisibility));
       const delta = rect.top - desiredTop;
       if (Math.abs(delta) < 2) return;
       window.scrollTo({
@@ -772,7 +777,13 @@ export default function AppRoutes() {
         setWalkthroughHighlightRect(null);
         return;
       }
-      alignTargetForMobileWalkthrough(target);
+      const disableAutoAlignForLevelsStep = walkthroughStep === 1;
+      if (!disableAutoAlignForLevelsStep && walkthroughAlignedStepRef.current !== walkthroughStep) {
+        alignTargetForMobileWalkthrough(target);
+        walkthroughAlignedStepRef.current = walkthroughStep;
+      } else if (disableAutoAlignForLevelsStep) {
+        walkthroughAlignedStepRef.current = walkthroughStep;
+      }
       if (observedTarget === target) {
         queueUpdate();
         return;
@@ -788,6 +799,20 @@ export default function AppRoutes() {
 
     resolveAndObserveTarget();
     timeoutId = window.setTimeout(resolveAndObserveTarget, 120);
+    // Some step targets (units/lessons) mount after async data hydration.
+    // Keep resolving for a short window so we always attach the same glow logic.
+    retryIntervalId = window.setInterval(() => {
+      resolveAndObserveTarget();
+    }, 180);
+    retryDeadlineId = window.setTimeout(() => {
+      window.clearInterval(retryIntervalId);
+      retryIntervalId = 0;
+    }, 4000);
+    // Also watch DOM mutations so delayed card mounts still pick up the shared glow.
+    domObserver = new MutationObserver(() => {
+      resolveAndObserveTarget();
+    });
+    domObserver.observe(document.body, { childList: true, subtree: true });
     // Fonts/images/layout shifts can move the target without resizing it directly.
     // Watch document-level layout and re-sync the glow rect when that happens.
     layoutObserver = new ResizeObserver(() => {
@@ -800,15 +825,19 @@ export default function AppRoutes() {
     return () => {
       window.cancelAnimationFrame(frameId);
       window.clearTimeout(timeoutId);
+      if (retryIntervalId) window.clearInterval(retryIntervalId);
+      if (retryDeadlineId) window.clearTimeout(retryDeadlineId);
       window.removeEventListener('resize', queueUpdate);
       window.removeEventListener('scroll', queueUpdate);
       if (observer) observer.disconnect();
       if (layoutObserver) layoutObserver.disconnect();
+      if (domObserver) domObserver.disconnect();
       layoutObserver = null;
+      domObserver = null;
       observer = null;
       observedTarget = null;
     };
-  }, [walkthroughStep, walkthroughVisible, location.pathname]);
+  }, [walkthroughStep, walkthroughVisible, location.pathname, location.search]);
 
   function LearnRoute() {
     return (
@@ -818,12 +847,21 @@ export default function AppRoutes() {
         onGoHome={goHome}
         onOpenProfile={goProfile}
         onOpenLanguageIntro={() => navigate('/learn/language-intro')}
-        onSelectLevel={(level: LessonBand) => {
+        onSelectLevel={(level: LessonBand, options) => {
           if (isLegacyBandLocked(level.id, state.unlockedLevels)) {
             return;
           }
           void selectLevel(level);
-          navigate(`/learn/${tierForBand(level.id)}/${level.id}`);
+          const basePath = `/learn/${tierForBand(level.id)}/${level.id}`;
+          const sectionId =
+            /^n[1-5]$/i.test(level.id)
+              ? (options?.sectionId || 'core')
+              : null;
+          navigate(
+            sectionId
+              ? `${basePath}?section=${encodeURIComponent(sectionId)}`
+              : basePath
+          );
         }}
       />
     );
@@ -857,9 +895,9 @@ export default function AppRoutes() {
     const tier = tierForBand(level.id);
     return (
       <UnitSelect
-        walkthroughHighlightLevels={walkthroughVisible && walkthroughStep === 2}
-        walkthroughHighlightUnits={walkthroughVisible && walkthroughStep === 3}
-        walkthroughHighlightLessons={walkthroughVisible && walkthroughStep === 4}
+        walkthroughHighlightLevels={false}
+        walkthroughHighlightUnits={walkthroughVisible && walkthroughStep === 2}
+        walkthroughHighlightLessons={walkthroughVisible && walkthroughStep === 3}
         onGoHome={goHome}
         onOpenProfile={goProfile}
         onOpenPractice={(unitId) => {

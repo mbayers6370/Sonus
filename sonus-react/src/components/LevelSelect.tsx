@@ -8,17 +8,17 @@ import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
 import { getLessonRanges } from '../lib/lessonChunks';
 import { makeLessonKey } from '../lib/lessonProgress';
-import { QUIZ_PASS_PERCENT } from '../lib/passCriteria';
+import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { normalizeLanguageId } from '../lib/languageRuntime';
 import { isReleasedTrackLevel } from '../lib/bandIds';
 
 // Accent styling helpers
 const ACCENT = {
   gray: { badgeBg: 'bg-gray-100/80', badgeText: 'text-gray-700', ctaText: 'text-gray-700', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(107,114,128,0.18)]', leftBorder: 'border-gray-400/55' },
-  navy: { badgeBg: 'bg-[rgba(24,110,149,0.12)]', badgeText: 'text-[#186E95]', ctaText: 'text-[#186E95]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(24,110,149,0.28)]', leftBorder: 'border-[#186E95]/55' },
-  sage: { badgeBg: 'bg-[rgba(1,50,32,0.12)]', badgeText: 'text-[#013220]', ctaText: 'text-[#013220]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(1,50,32,0.26)]', leftBorder: 'border-[#013220]/55' },
-  graphite: { badgeBg: 'bg-[rgba(31,42,55,0.10)]', badgeText: 'text-[#1F2A37]', ctaText: 'text-[#1F2A37]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(31,42,55,0.24)]', leftBorder: 'border-[#1F2A37]/55' },
-  rust: { badgeBg: 'bg-[rgba(194,65,12,0.12)]', badgeText: 'text-[#C2410C]', ctaText: 'text-[#C2410C]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.30)]', leftBorder: 'border-[#C2410C]/55' },
+  navy: { badgeBg: 'bg-[rgba(19,87,119,0.12)]', badgeText: 'text-[var(--sonus-palette-blue)]', ctaText: 'text-[var(--sonus-palette-blue)]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(19,87,119,0.28)]', leftBorder: 'border-[var(--sonus-palette-blue)]/55' },
+  sage: { badgeBg: 'bg-[rgba(15,102,96,0.12)]', badgeText: 'text-[var(--sonus-palette-green)]', ctaText: 'text-[var(--sonus-palette-green)]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(15,102,96,0.26)]', leftBorder: 'border-[var(--sonus-palette-green)]/55' },
+  graphite: { badgeBg: 'bg-[rgba(31,42,55,0.10)]', badgeText: 'text-[var(--sonus-palette-charcoal)]', ctaText: 'text-[var(--sonus-palette-charcoal)]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(31,42,55,0.24)]', leftBorder: 'border-[var(--sonus-palette-charcoal)]/55' },
+  rust: { badgeBg: 'bg-[rgba(194,65,12,0.12)]', badgeText: 'text-[var(--sonus-palette-rust)]', ctaText: 'text-[var(--sonus-palette-rust)]', hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.30)]', leftBorder: 'border-[var(--sonus-palette-rust)]/55' },
 } as const;
 
 type AccentKey = keyof typeof ACCENT;
@@ -79,7 +79,7 @@ const bandTrackLevels: LessonBand[] = [
     id: 'band1',
     name: 'Elementary I',
     description: 'Foundations · Everyday Use',
-    color: 'bg-[#013220]',
+    color: 'bg-[var(--sonus-palette-green)]',
     band: 1,
     title: 'Elementary I',
     subtitle: 'Foundations · Everyday Use',
@@ -91,7 +91,7 @@ const bandTrackLevels: LessonBand[] = [
     id: 'band2',
     name: 'Elementary II',
     description: 'Expanded Daily Life',
-    color: 'bg-[#013220]',
+    color: 'bg-[var(--sonus-palette-green)]',
     band: 2,
     title: 'Elementary II',
     subtitle: 'Expanded Daily Life',
@@ -103,7 +103,7 @@ const bandTrackLevels: LessonBand[] = [
     id: 'band3',
     name: 'Pre‑Intermediate',
     description: 'Simple Narratives',
-    color: 'bg-[#186E95]',
+    color: 'bg-[var(--sonus-palette-blue)]',
     band: 3,
     title: 'Pre‑Intermediate',
     subtitle: 'Simple Narratives',
@@ -115,7 +115,7 @@ const bandTrackLevels: LessonBand[] = [
     id: 'band4',
     name: 'Intermediate I',
     description: 'Intermediate Topics',
-    color: 'bg-[#186E95]',
+    color: 'bg-[var(--sonus-palette-blue)]',
     band: 4,
     title: 'Intermediate I',
     subtitle: 'Intermediate Topics',
@@ -197,7 +197,7 @@ const japaneseLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'n5', name: 'N5', description: 'Basic', color: 'bg-[#013220]',
+    id: 'n5', name: 'N5', description: 'Basic', color: 'bg-[var(--sonus-palette-green)]',
     band: 0,
     title: '',
     subtitle: '',
@@ -206,7 +206,7 @@ const japaneseLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'n4', name: 'N4', description: 'Elementary', color: 'bg-[#186E95]',
+    id: 'n4', name: 'N4', description: 'Elementary', color: 'bg-[var(--sonus-palette-blue)]',
     band: 0,
     title: '',
     subtitle: '',
@@ -255,7 +255,7 @@ const koreanLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'topik1-1', name: 'TOPIK I Level 1', description: 'Beginner', color: 'bg-[#013220]',
+    id: 'topik1-1', name: 'TOPIK I Level 1', description: 'Beginner', color: 'bg-[var(--sonus-palette-green)]',
     band: 0,
     title: '',
     subtitle: '',
@@ -264,7 +264,7 @@ const koreanLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'topik1-2', name: 'TOPIK I Level 2', description: 'Elementary', color: 'bg-[#013220]',
+    id: 'topik1-2', name: 'TOPIK I Level 2', description: 'Elementary', color: 'bg-[var(--sonus-palette-green)]',
     band: 0,
     title: '',
     subtitle: '',
@@ -273,7 +273,7 @@ const koreanLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'topik2-3', name: 'TOPIK II Level 3', description: 'Intermediate', color: 'bg-[#186E95]',
+    id: 'topik2-3', name: 'TOPIK II Level 3', description: 'Intermediate', color: 'bg-[var(--sonus-palette-blue)]',
     band: 0,
     title: '',
     subtitle: '',
@@ -282,7 +282,7 @@ const koreanLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'topik2-4', name: 'TOPIK II Level 4', description: 'Upper Intermediate', color: 'bg-[#186E95]',
+    id: 'topik2-4', name: 'TOPIK II Level 4', description: 'Upper Intermediate', color: 'bg-[var(--sonus-palette-blue)]',
     band: 0,
     title: '',
     subtitle: '',
@@ -322,7 +322,7 @@ const frenchLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'a1', name: 'A1', description: 'Beginner', color: 'bg-[#013220]',
+    id: 'a1', name: 'A1', description: 'Beginner', color: 'bg-[var(--sonus-palette-green)]',
     band: 0,
     title: '',
     subtitle: '',
@@ -331,7 +331,7 @@ const frenchLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'a2', name: 'A2', description: 'Elementary', color: 'bg-[#013220]',
+    id: 'a2', name: 'A2', description: 'Elementary', color: 'bg-[var(--sonus-palette-green)]',
     band: 0,
     title: '',
     subtitle: '',
@@ -340,7 +340,7 @@ const frenchLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'b1', name: 'B1', description: 'Intermediate', color: 'bg-[#186E95]',
+    id: 'b1', name: 'B1', description: 'Intermediate', color: 'bg-[var(--sonus-palette-blue)]',
     band: 0,
     title: '',
     subtitle: '',
@@ -349,7 +349,7 @@ const frenchLevels: LessonBand[] = [
     units: []
   },
   {
-    id: 'b2', name: 'B2', description: 'Upper Intermediate', color: 'bg-[#186E95]',
+    id: 'b2', name: 'B2', description: 'Upper Intermediate', color: 'bg-[var(--sonus-palette-blue)]',
     band: 0,
     title: '',
     subtitle: '',
@@ -385,6 +385,14 @@ interface LevelCardProps {
   isDrenched?: boolean;
   elementId?: string;
   onSelect: (level: LessonBand) => void;
+  onSelectSection?: (level: LessonBand, sectionId: 'core' | 'expansion' | 'integration') => void;
+  sectionLinks?: Array<{
+    id: 'core' | 'expansion' | 'integration';
+    label: string;
+    elementId?: string;
+    unlocked?: boolean;
+  }>;
+  highlightSectionLinks?: boolean;
   // Optional overrides to support the legacy band-track view
   badgeLabel?: string;
   topRightLabel?: string;
@@ -396,6 +404,7 @@ interface LevelCardProps {
   showStats?: boolean;
   showCta?: boolean;
   centerContent?: boolean;
+  cardClickable?: boolean;
 }
 
 function LevelCard({
@@ -405,6 +414,9 @@ function LevelCard({
   isDrenched = false,
   elementId,
   onSelect,
+  onSelectSection,
+  sectionLinks = [],
+  highlightSectionLinks = false,
   badgeLabel,
   topRightLabel,
   showChevronWhenUnlocked = true,
@@ -415,6 +427,7 @@ function LevelCard({
   showStats = true,
   showCta = true,
   centerContent = false,
+  cardClickable = true,
 }: LevelCardProps) {
   const a = ACCENT[accentOverride ?? 'navy'];
   const isLocked = !isUnlocked;
@@ -437,111 +450,208 @@ function LevelCard({
     effectiveBadge.toLowerCase().startsWith('band') || effectiveBadge.toLowerCase() === 'track'
       ? 'Open →'
       : 'Start learning →';
+  const isSectionCard = sectionLinks.length > 0;
+  const cardBaseClass = `w-full border rounded-3xl ${isSectionCard ? 'min-h-[228px] sm:min-h-[212px] p-4 sm:p-6' : 'min-h-[170px] p-5'} text-center sm:text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200`;
+  const cardToneClass = isDrenched && isUnlocked
+    ? `${
+      level.id === 'intro'
+        ? 'bg-[var(--sonus-palette-charcoal)]'
+        : level.id === 'band1' || level.id === 'band2'
+          ? 'bg-[var(--sonus-palette-green)]'
+          : level.id === 'band3' || level.id === 'band4'
+            ? 'bg-[var(--sonus-palette-blue)]'
+            : level.id === 'band5' || level.id === 'band6'
+              ? 'bg-[var(--sonus-palette-charcoal)]'
+              : 'bg-[var(--sonus-palette-rust)]'
+    } border-transparent text-white`
+    : isLocked
+      ? 'bg-[#F3F4F6] border-[#D1D5DB]'
+      : `bg-white ${a.leftBorder}`;
+  const cardMotionClass = cardClickable
+    ? (isUnlocked ? `hover:-translate-y-0.5 ${a.hoverShadow} active:translate-y-0` : 'cursor-not-allowed')
+    : '';
+  const cardClassName = `${cardBaseClass} ${cardToneClass} ${cardMotionClass}`.trim();
+  const content = isSectionCard ? (
+    <div className="w-full">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+        <div className="min-w-0 w-full text-center sm:text-left">
+          <h3 className={`main-font text-[2.15rem] sm:text-[2.4rem] leading-none font-normal ${isDrenched ? 'text-white' : isLocked ? lockedTone : a.badgeText}`}>
+            {level.title || level.name}
+          </h3>
+          <p className={`mt-2 text-[1.08rem] text-center sm:text-left ${isDrenched ? 'text-white/90' : isLocked ? lockedTone : 'text-text-med'}`}>
+            {level.subtitle || level.description}
+          </p>
+          <p className={`mt-3 text-[11px] leading-relaxed font-mono tracking-[0.14em] text-center sm:text-left ${isDrenched ? 'text-white/75' : isLocked ? lockedTone : 'text-text-med'}`}>
+            {bodyText || 'Structured lessons and practice built on official proficiency frameworks.'}
+          </p>
+        </div>
+        {effectiveTopRight ? (
+          <div
+            className={`shrink-0 hidden sm:block text-xs font-mono uppercase tracking-wider ${
+              isDrenched
+                ? 'text-white/85'
+                : isLocked
+                  ? lockedSoftTone
+                  : isCompleted
+                    ? 'text-[var(--sonus-palette-green)]'
+                    : 'text-text-light'
+            }`}
+          >
+            {effectiveTopRight}
+          </div>
+        ) : null}
+      </div>
+
+      {effectiveTopRight ? (
+        <div
+          className={`mt-2 sm:hidden text-[11px] text-center font-mono uppercase tracking-wider ${
+            isDrenched
+              ? 'text-white/85'
+              : isLocked
+                ? lockedSoftTone
+                : isCompleted
+                  ? 'text-[var(--sonus-palette-green)]'
+                  : 'text-text-light'
+          }`}
+        >
+          {effectiveTopRight}
+        </div>
+      ) : null}
+
+      <div className="mt-4 sm:mt-5 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+        {sectionLinks.map((section, sectionIndex) => (
+          <button
+            key={section.id}
+            id={section.elementId}
+            type="button"
+            disabled={!section.unlocked}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              if (!section.unlocked) return;
+              onSelectSection?.(level, section.id);
+            }}
+            className={`h-11 rounded-xl border px-3 text-center text-[11px] font-mono uppercase tracking-[0.2em] transition-colors ${
+              !section.unlocked
+                ? 'border-[#D1D5DB] text-[#9CA3AF] bg-[#F3F4F6] cursor-not-allowed'
+                : isDrenched
+                  ? 'border-white/45 text-white bg-white/5 hover:bg-white/12'
+                  : 'border-[var(--sonus-palette-charcoal)]/24 text-[var(--sonus-palette-charcoal)] bg-white hover:bg-[var(--sonus-palette-charcoal)]/6'
+            } ${
+              highlightSectionLinks
+                ? 'ring-1 ring-[rgba(19,87,119,0.26)] sonus-tour-levels-pulse bg-[rgba(19,87,119,0.02)]'
+                : ''
+            }`}
+            style={
+              highlightSectionLinks
+                ? { animationDelay: `${sectionIndex * 110}ms` }
+                : undefined
+            }
+          >
+            {section.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div className="w-full">
+      <div className="flex items-start justify-between gap-4">
+        {showBadge ? (
+          <span
+            className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
+              isDrenched ? 'bg-white/20 text-white' : isLocked ? 'bg-[#F3F4F6] text-[#6B7280]' : `${a.badgeBg} ${a.badgeText}`
+            }`}
+          >
+            {effectiveBadge}
+          </span>
+        ) : (
+          <span />
+        )}
+
+        {effectiveTopRight ? (
+          <div
+            className={`text-xs font-mono uppercase tracking-wider ${
+              isDrenched
+                ? 'text-white/85'
+                : isLocked
+                  ? lockedSoftTone
+                  : isCompleted
+                    ? 'text-[var(--sonus-palette-green)]'
+                    : 'text-text-light'
+            }`}
+          >
+            {effectiveTopRight}
+          </div>
+        ) : showChevronWhenUnlocked ? (
+          <ChevronRight className="w-5 h-5 text-text-light" />
+        ) : null}
+      </div>
+
+      <div className="mt-5">
+        {headerKicker && (
+          <p className={`text-[11px] font-mono tracking-wide mb-1 ${isLocked ? lockedSoftTone : 'text-text-med'}`}>
+            {headerKicker}
+          </p>
+        )}
+
+        <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${isDrenched ? 'text-white' : isLocked ? lockedTone : a.badgeText}`}>
+          {level.title || level.name}
+        </h3>
+
+        <p className={`text-[1.05rem] mb-4 ${isDrenched ? 'text-white/90' : isLocked ? lockedTone : 'text-text-med'}`}>
+          {level.subtitle || level.description}
+        </p>
+
+        {showStats && (
+          <div className={`flex gap-10 text-sm font-mono mb-4 ${isDrenched ? 'text-white' : isLocked ? lockedTone : 'text-text-dark'} ${centerContent ? 'justify-center' : ''}`}>
+            <div>
+              <span className="text-lg font-semibold">{level.wordRange || '—'}</span>
+              <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : isLocked ? lockedSoftTone : 'text-text-med'}`}>Vocabulary</div>
+            </div>
+            <div>
+              <span className="text-lg font-semibold">{unitCount}</span>
+              <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : isLocked ? lockedSoftTone : 'text-text-med'}`}>Units</div>
+            </div>
+          </div>
+        )}
+
+        <p className={`text-[11px] leading-relaxed font-mono tracking-wide mb-4 ${isDrenched ? 'text-white/80' : isLocked ? lockedTone : 'text-text-med'}`}>
+          {bodyText ||
+            'Structured lessons and practice built on official proficiency frameworks.'}
+        </p>
+
+        {isUnlocked && showCta && (
+          <div className={`${isDrenched ? 'text-white' : a.ctaText} text-sm font-semibold tracking-wide`}>{ctaLabel}</div>
+        )}
+      </div>
+    </div>
+  );
+
+  if (!cardClickable) {
+    return (
+      <div id={elementId} className={cardClassName}>
+        {content}
+      </div>
+    );
+  }
 
   return (
     <button
       id={elementId}
       onClick={() => isUnlocked && onSelect(level)}
       disabled={!isUnlocked}
-      className={`w-full border rounded-3xl min-h-[170px] p-5 ${centerContent ? 'text-center' : 'text-left'} shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
-        isDrenched && isUnlocked
-          ? `${
-            level.id === 'intro'
-              ? 'bg-[#1F2A37]'
-              : level.id === 'band1' || level.id === 'band2'
-                ? 'bg-[#013220]'
-                : level.id === 'band3' || level.id === 'band4'
-                  ? 'bg-[#186E95]'
-                  : level.id === 'band5' || level.id === 'band6'
-                    ? 'bg-[#1F2A37]'
-                    : 'bg-[#C2410C]'
-          } border-transparent text-white`
-          : isLocked
-            ? 'bg-[#F3F4F6] border-[#D1D5DB]'
-            : `bg-white ${a.leftBorder}`
-      } ${
-        isUnlocked
-          ? `hover:-translate-y-0.5 ${a.hoverShadow} active:translate-y-0`
-          : 'cursor-not-allowed'
-      }`}
+      className={cardClassName}
     >
-      <div className="w-full">
-        <div className="flex items-start justify-between gap-4">
-          {showBadge ? (
-            <span
-              className={`inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono ${
-                isDrenched ? 'bg-white/20 text-white' : isLocked ? 'bg-[#F3F4F6] text-[#6B7280]' : `${a.badgeBg} ${a.badgeText}`
-              }`}
-            >
-              {effectiveBadge}
-            </span>
-          ) : (
-            <span />
-          )}
-
-          {effectiveTopRight ? (
-            <div
-              className={`text-xs font-mono uppercase tracking-wider ${
-                isDrenched
-                  ? 'text-white/85'
-                  : isLocked
-                    ? lockedSoftTone
-                    : isCompleted
-                      ? 'text-[#013220]'
-                      : 'text-text-light'
-              }`}
-            >
-              {effectiveTopRight}
-            </div>
-          ) : showChevronWhenUnlocked ? (
-            <ChevronRight className="w-5 h-5 text-text-light" />
-          ) : null}
-        </div>
-
-        <div className="mt-5">
-          {headerKicker && (
-            <p className={`text-[11px] font-mono tracking-wide mb-1 ${isLocked ? lockedSoftTone : 'text-text-med'}`}>
-              {headerKicker}
-            </p>
-          )}
-
-          <h3 className={`main-font text-[2rem] leading-tight font-normal mb-1 ${isDrenched ? 'text-white' : isLocked ? lockedTone : a.badgeText}`}>
-            {level.title || level.name}
-          </h3>
-
-          <p className={`text-[1.05rem] mb-4 ${isDrenched ? 'text-white/90' : isLocked ? lockedTone : 'text-text-med'}`}>
-            {level.subtitle || level.description}
-          </p>
-
-          {showStats && (
-            <div className={`flex gap-10 text-sm font-mono mb-4 ${isDrenched ? 'text-white' : isLocked ? lockedTone : 'text-text-dark'} ${centerContent ? 'justify-center' : ''}`}>
-              <div>
-                <span className="text-lg font-semibold">{level.wordRange || '—'}</span>
-                <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : isLocked ? lockedSoftTone : 'text-text-med'}`}>Vocabulary</div>
-              </div>
-              <div>
-                <span className="text-lg font-semibold">{unitCount}</span>
-                <div className={`text-[11px] tracking-wide ${isDrenched ? 'text-white/75' : isLocked ? lockedSoftTone : 'text-text-med'}`}>Units</div>
-              </div>
-            </div>
-          )}
-
-          <p className={`text-[11px] leading-relaxed font-mono tracking-wide mb-4 ${isDrenched ? 'text-white/80' : isLocked ? lockedTone : 'text-text-med'}`}>
-            {bodyText ||
-              'Structured lessons and practice built on official proficiency frameworks.'}
-          </p>
-
-          {isUnlocked && showCta && (
-            <div className={`${isDrenched ? 'text-white' : a.ctaText} text-sm font-semibold tracking-wide`}>{ctaLabel}</div>
-          )}
-        </div>
-      </div>
+      {content}
     </button>
   );
 }
 
 interface LevelSelectProps {
-  onSelectLevel: (level: LessonBand) => void;
+  onSelectLevel: (
+    level: LessonBand,
+    options?: { sectionId?: 'core' | 'expansion' | 'integration' }
+  ) => void;
   onOpenFoundations?: () => void;
   onOpenLanguageIntro?: () => void;
   onGoHome: () => void;
@@ -564,6 +674,15 @@ export default function LevelSelect({
   const legacyTrackEnabled = false;
   const [searchParams, setSearchParams] = useSearchParams();
   const [bandQuizRequirementKeys, setBandQuizRequirementKeys] = useState<Record<string, string[]>>({});
+  const [sectionUnlockRulesByLevel, setSectionUnlockRulesByLevel] = useState<Record<string, {
+    coreLastLessonKey: string | null;
+    expansionLastLessonKey: string | null;
+  }>>({});
+
+  const isInstructionalComplete = (quizScore: number | null | undefined, speakScore: number | null | undefined) =>
+    (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
+  const hasLessonUnlockCredit = (status: { completed?: boolean; quizScore?: number | null; speakScore?: number | null } | undefined) =>
+    Boolean(status?.completed || isInstructionalComplete(status?.quizScore, status?.speakScore));
 
   const getLevelsForLanguage = () => {
     switch (normalizedLanguageId) {
@@ -624,7 +743,7 @@ export default function LevelSelect({
           id: 'beginner',
           title: 'Beginner',
           subtitle: 'Levels 1–3 · Core Foundations',
-          style: { rail: 'bg-[#013220]', accent: 'green' as const },
+          style: { rail: 'bg-[var(--sonus-palette-green)]', accent: 'green' as const },
           summary:
             'Tone control, high-frequency grammar, and everyday communication for a strong foundation.',
           isAvailable: true,
@@ -636,7 +755,7 @@ export default function LevelSelect({
           id: 'intermediate',
           title: 'Intermediate',
           subtitle: 'Levels 4–6 · Functional Fluency',
-          style: { rail: 'bg-[#186E95]', accent: 'blue' as const },
+          style: { rail: 'bg-[var(--sonus-palette-blue)]', accent: 'blue' as const },
           summary:
             'Longer conversations, wider topics, and more flexible sentence patterns for real-world fluency.',
           isAvailable: true,
@@ -711,6 +830,72 @@ export default function LevelSelect({
     };
   }, [legacyTrackEnabled, normalizedLanguageId]);
 
+  useEffect(() => {
+    if (!isJapaneseLanguage) {
+      setSectionUnlockRulesByLevel({});
+      return;
+    }
+    let cancelled = false;
+    void (async () => {
+      const levelIds = levels
+        .filter((level) => /^n[1-5]$/i.test(level.id))
+        .map((level) => level.id);
+      const entries = await Promise.all(
+        levelIds.map(async (levelId) => {
+          try {
+            const response = await fetch(`/data/ja/${levelId}.json`, { cache: 'no-store' });
+            if (!response.ok) return [levelId, { coreLastLessonKey: null, expansionLastLessonKey: null }] as const;
+            const payload = (await response.json()) as {
+              sections?: Array<{ id?: string; units?: Array<{ id?: string; words?: unknown[] }> }>;
+            };
+            const sections = Array.isArray(payload.sections) ? payload.sections : [];
+            const findSection = (id: 'core' | 'expansion') => sections.find((section) => (section.id || '').toLowerCase() === id);
+            const toLastLessonKey = (section?: { units?: Array<{ id?: string; words?: unknown[] }> }) => {
+              const units = Array.isArray(section?.units) ? section!.units : [];
+              const lastUnit = [...units].reverse().find((unit) => (unit?.id || '').trim()) || null;
+              if (!lastUnit?.id) return null;
+              const wordCount = Array.isArray(lastUnit.words) ? lastUnit.words.length : 0;
+              const lessonCount = getLessonRanges(wordCount, 10).length;
+              if (lessonCount <= 0) return null;
+              return makeLessonKey(levelId, lastUnit.id, lessonCount - 1);
+            };
+            return [levelId, {
+              coreLastLessonKey: toLastLessonKey(findSection('core')),
+              expansionLastLessonKey: toLastLessonKey(findSection('expansion')),
+            }] as const;
+          } catch {
+            return [levelId, { coreLastLessonKey: null, expansionLastLessonKey: null }] as const;
+          }
+        })
+      );
+      if (cancelled) return;
+      setSectionUnlockRulesByLevel(Object.fromEntries(entries));
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [isJapaneseLanguage, levels]);
+
+  const sectionUnlockStateByLevel = useMemo(() => {
+    const next: Record<string, { core: boolean; expansion: boolean; integration: boolean }> = {};
+    for (const level of levels) {
+      if (!/^n[1-5]$/i.test(level.id)) continue;
+      const rules = sectionUnlockRulesByLevel[level.id];
+      const coreComplete = rules?.coreLastLessonKey
+        ? hasLessonUnlockCredit(state.lessonProgress[rules.coreLastLessonKey])
+        : false;
+      const expansionComplete = rules?.expansionLastLessonKey
+        ? hasLessonUnlockCredit(state.lessonProgress[rules.expansionLastLessonKey])
+        : false;
+      next[level.id] = {
+        core: true,
+        expansion: coreComplete,
+        integration: expansionComplete,
+      };
+    }
+    return next;
+  }, [levels, sectionUnlockRulesByLevel, state.lessonProgress]);
+
   const bandQuizCompleteById = useMemo(() => {
     const next: Record<string, boolean> = {};
     for (const [bandId, keys] of Object.entries(bandQuizRequirementKeys)) {
@@ -726,6 +911,7 @@ export default function LevelSelect({
       <GlassHeader
         title={getLanguageName()}
         compactStandaloneTitle={false}
+        hideLogoOnMobile
       />
 
       {/* Tier or Level Cards */}
@@ -734,7 +920,7 @@ export default function LevelSelect({
           <>
             <button
               onClick={onOpenFoundations}
-              className="relative w-full bg-[#1F2A37] border border-transparent rounded-3xl min-h-[132px] p-4 text-center text-white shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+              className="relative w-full bg-[var(--sonus-palette-charcoal)] border border-transparent rounded-3xl min-h-[132px] p-4 text-center text-white shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
             >
               <ChevronRight className="absolute top-4 right-4 w-5 h-5 text-white/80" />
               <div className="w-full h-full flex flex-col items-center justify-center">
@@ -778,7 +964,7 @@ export default function LevelSelect({
                 disabled={isLocked}
                 className={`w-full border rounded-3xl min-h-[170px] p-5 text-left shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 ${
                   isTierDrenched && !isLocked
-                    ? `${index === 0 ? 'bg-[#013220]' : index === 1 ? 'bg-[#186E95]' : 'bg-[#C2410C]'} border-transparent text-white`
+                    ? `${index === 0 ? 'bg-[var(--sonus-palette-green)]' : index === 1 ? 'bg-[var(--sonus-palette-blue)]' : 'bg-[var(--sonus-palette-rust)]'} border-transparent text-white`
                     : isLocked
                       ? 'bg-[#F3F4F6] border-[#D1D5DB]'
                       : `bg-white ${a.leftBorder}`
@@ -891,15 +1077,23 @@ export default function LevelSelect({
               <LevelCard
                 key={level.id}
                 elementId={
-                  mainPathStarterLevelId && level.id === mainPathStarterLevelId
+                  level.id === 'n5'
                     ? (
-                        walkthroughHighlightLevels
+                      walkthroughHighlightMainPath
+                        ? 'tour-main-first-path-card'
+                        : walkthroughHighlightLevels
                           ? 'tour-levels-first-card'
-                          : walkthroughHighlightMainPath
-                            ? 'tour-main-first-path-card'
-                            : undefined
-                      )
-                    : undefined
+                          : undefined
+                    )
+                    : (
+                      mainPathStarterLevelId && level.id === mainPathStarterLevelId
+                        ? (
+                          walkthroughHighlightMainPath
+                              ? 'tour-main-first-path-card'
+                              : undefined
+                        )
+                        : undefined
+                    )
                 }
                 level={level}
                 isUnlocked={isUnlocked}
@@ -912,16 +1106,41 @@ export default function LevelSelect({
                   onSelectLevel(selectedLevel);
                 }}
                 badgeLabel={level.id === 'intro' ? 'Intro' : 'Level'}
-                showChevronWhenUnlocked={true}
+                showChevronWhenUnlocked={level.id === 'intro'}
+                showBadge={level.id === 'intro'}
                 showStats={false}
                 showCta={false}
                 centerContent={isJapaneseLanguage && level.id === 'intro'}
                 isDrenched={isJapaneseLanguage && level.id === 'intro'}
+                cardClickable={!(isJapaneseLanguage && /^n[1-5]$/i.test(level.id))}
+                sectionLinks={
+                  isJapaneseLanguage && /^n[1-5]$/i.test(level.id)
+                    ? [
+                        {
+                          id: 'core',
+                          label: 'Core',
+                          unlocked: isUnlocked,
+                        },
+                        {
+                          id: 'expansion',
+                          label: 'Expansion',
+                          unlocked: isUnlocked && Boolean(sectionUnlockStateByLevel[level.id]?.expansion),
+                        },
+                        {
+                          id: 'integration',
+                          label: 'Integration',
+                          unlocked: isUnlocked && Boolean(sectionUnlockStateByLevel[level.id]?.integration),
+                        },
+                      ]
+                    : []
+                }
+                highlightSectionLinks={level.id === 'n5' && (walkthroughHighlightMainPath || walkthroughHighlightLevels)}
+                onSelectSection={(selectedLevel, sectionId) => {
+                  onSelectLevel(selectedLevel, { sectionId });
+                }}
                 bodyText={
                   isJapaneseLanguage
-                    ? (!isReleased
-                      ? 'This level is configured and visible now, and will open soon.'
-                      : level.id === 'intro'
+                    ? (level.id === 'intro'
                       ? 'Open orientation cards before JLPT study.'
                       : level.id === 'n5'
                         ? 'Core survival Japanese'

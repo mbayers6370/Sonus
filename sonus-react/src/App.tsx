@@ -124,7 +124,7 @@ function AppShell() {
               aria-label="Session expired"
               className="w-full max-w-md rounded-2xl border border-white/30 bg-white p-5 shadow-2xl"
             >
-              <h2 className="main-font text-center text-xl font-semibold text-[#1F2A37]">Please Sign In Again</h2>
+              <h2 className="main-font text-center text-xl font-semibold text-[var(--sonus-palette-charcoal)]">Please Sign In Again</h2>
               <p className="font-secondary mt-2 text-sm leading-6 text-[#334155]">
                 Your session has ended. Please continue to sign in and resume where you left off.
               </p>
@@ -137,7 +137,7 @@ function AppShell() {
                     }
                     navigate('/login');
                   }}
-                  className="font-mono rounded-lg bg-[#1F2A37] px-4 py-2 text-sm font-semibold text-white"
+                  className="font-mono rounded-lg bg-[var(--sonus-palette-charcoal)] px-4 py-2 text-sm font-semibold text-white"
                 >
                   Continue
                 </button>

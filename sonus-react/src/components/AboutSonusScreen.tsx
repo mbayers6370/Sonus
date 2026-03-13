@@ -13,19 +13,19 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
       language: 'Japanese',
       system: 'JLPT',
       range: 'N5-N1',
-      accent: 'border-[#1F2A37]/26 bg-[rgba(31,42,55,0.08)] text-[#1F2A37]',
+      accent: 'border-[var(--sonus-palette-charcoal)]/26 bg-[rgba(31,42,55,0.08)] text-[var(--sonus-palette-charcoal)]',
     },
     {
       language: 'Korean',
       system: 'TOPIK',
       range: 'Level-based track',
-      accent: 'border-[#013220]/26 bg-[rgba(1,50,32,0.08)] text-[#013220]',
+      accent: 'border-[var(--sonus-palette-green)]/26 bg-[rgba(15,102,96,0.08)] text-[var(--sonus-palette-green)]',
     },
     {
       language: 'French',
       system: 'CEFR',
       range: 'A1-C2 path',
-      accent: 'border-[#1F2A37]/26 bg-[rgba(31,42,55,0.08)] text-[#1F2A37]',
+      accent: 'border-[var(--sonus-palette-charcoal)]/26 bg-[rgba(31,42,55,0.08)] text-[var(--sonus-palette-charcoal)]',
     },
   ];
 
@@ -69,10 +69,10 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
-      <GlassHeader title="About Sonus" />
+      <GlassHeader title="About Sonus" hideLogoOnMobile />
 
       <div className="space-y-4">
-        <section className="dashboard-card-enter border border-[#1F2A37]/90 rounded-3xl overflow-hidden shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#1F2A37_0%,#2B3440_45%,#24303A_100%)] text-white">
+        <section className="dashboard-card-enter border border-[var(--sonus-palette-charcoal)]/90 rounded-3xl overflow-hidden shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#1F2A37_0%,#2B3440_45%,#24303A_100%)] text-white">
           <div className="px-6 py-7">
             <div className="text-[11px] uppercase tracking-[0.18em] font-mono mb-2 text-white/70">Method</div>
             <h3 className="main-font text-4xl leading-tight">Built on Real Frameworks</h3>
@@ -112,7 +112,7 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
               {workflow.map((item) => (
                 <div key={item.title} className="rounded-2xl border border-border bg-white px-3.5 py-3">
                   <div className="inline-flex items-center gap-2">
-                    <span className="inline-flex w-5 h-5 rounded-full bg-[rgba(1,50,32,0.12)] text-[#013220] items-center justify-center text-[11px] font-semibold font-mono">
+                    <span className="inline-flex w-5 h-5 rounded-full bg-[rgba(15,102,96,0.12)] text-[var(--sonus-palette-green)] items-center justify-center text-[11px] font-semibold font-mono">
                       {item.step}
                     </span>
                     <div className="text-sm font-semibold text-text-dark">{item.title}</div>
@@ -123,15 +123,15 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
             </div>
           </div>
 
-          <div className="mt-3 rounded-2xl border border-[#013220]/24 bg-[linear-gradient(135deg,rgba(1,50,32,0.10),rgba(31,42,55,0.04))] px-4 py-3.5">
-            <div className="text-[11px] uppercase tracking-wider font-mono text-[#013220] mb-1.5">Core Principle</div>
+          <div className="mt-3 rounded-2xl border border-[var(--sonus-palette-green)]/24 bg-[linear-gradient(135deg,rgba(15,102,96,0.10),rgba(31,42,55,0.04))] px-4 py-3.5">
+            <div className="text-[11px] uppercase tracking-wider font-mono text-[var(--sonus-palette-green)] mb-1.5">Core Principle</div>
             <p className="text-sm text-text-med">
               Frameworks provide structure, but every screen is tuned for one outcome: confident communication in real situations.
             </p>
           </div>
         </section>
 
-        <section className="dashboard-card-enter border border-[#1F2A37]/90 rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#1F2A37_0%,#2B3440_45%,#24303A_100%)] text-white">
+        <section className="dashboard-card-enter border border-[var(--sonus-palette-charcoal)]/90 rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#1F2A37_0%,#2B3440_45%,#24303A_100%)] text-white">
           <div className="text-[11px] uppercase tracking-[0.16em] font-mono text-white/70 mb-2">Why I Built This</div>
           <h4 className="main-font text-2xl leading-tight text-white">Some apps teach you a language. Sonus lets you meet one.</h4>
           <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-white/88">

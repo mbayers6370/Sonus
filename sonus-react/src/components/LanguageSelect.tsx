@@ -180,7 +180,7 @@ export default function LanguageSelect({
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav">
-      <GlassHeader title={title} compactStandaloneTitle={false} />
+      <GlassHeader title={title} compactStandaloneTitle={false} hideLogoOnMobile />
 
       {/* Language Cards */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
@@ -211,9 +211,9 @@ export default function LanguageSelect({
                   : 'cursor-not-allowed'
               } ${
                 isSwitchCurrent
-                  ? 'bg-[#C2410C] border-[#C2410C]/90 ring-2 ring-[#C2410C]/28 sm:bg-[#1F2A37] sm:border-[#1F2A37]/90 sm:ring-[#1F2A37]/35 sm:hover:bg-[#C2410C] sm:hover:border-[#C2410C]/90 sm:hover:ring-[#C2410C]/32'
+                  ? 'bg-[var(--sonus-palette-rust)] border-[var(--sonus-palette-rust)]/90 ring-2 ring-[var(--sonus-palette-rust)]/28 sm:bg-[var(--sonus-palette-charcoal)] sm:border-[var(--sonus-palette-charcoal)]/90 sm:ring-[var(--sonus-palette-charcoal)]/35 sm:hover:bg-[var(--sonus-palette-rust)] sm:hover:border-[var(--sonus-palette-rust)]/90 sm:hover:ring-[var(--sonus-palette-rust)]/32'
                   : isCurrent
-                    ? 'bg-[#1F2A37] border-[#1F2A37]/90 ring-2 ring-[#1F2A37]/35'
+                    ? 'bg-[var(--sonus-palette-charcoal)] border-[var(--sonus-palette-charcoal)]/90 ring-2 ring-[var(--sonus-palette-charcoal)]/35'
                   : `${accent.surfaceTint} ${accent.borderColor}`
               }`}
             >

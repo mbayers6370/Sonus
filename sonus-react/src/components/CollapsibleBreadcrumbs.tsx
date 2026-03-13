@@ -76,7 +76,7 @@ export default function CollapsibleBreadcrumbs({
           onClick={() => setManualOpen((v) => !v)}
           aria-expanded={open}
           aria-label={open ? 'Collapse breadcrumbs' : 'Expand breadcrumbs'}
-          className="inline-flex items-center justify-center text-[#1F2A37]/72 hover:text-[#1F2A37] transition-colors"
+          className="inline-flex items-center justify-center text-[var(--sonus-palette-charcoal)]/72 hover:text-[var(--sonus-palette-charcoal)] transition-colors"
         >
           <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
         </button>
@@ -94,10 +94,10 @@ export default function CollapsibleBreadcrumbs({
             const isCurrent = Boolean(item.current);
             const isDisabled = Boolean(item.disabled) || (!item.onClick && !isCurrent);
             const pillClass = isCurrent
-              ? 'inline-flex items-center rounded-full border border-[#1F2A37]/22 bg-[rgba(31,42,55,0.10)] px-3 py-1 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.08em] font-mono whitespace-nowrap text-[#1F2A37]'
+              ? 'inline-flex items-center rounded-full border border-[var(--sonus-palette-charcoal)]/22 bg-[rgba(31,42,55,0.10)] px-3 py-1 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.08em] font-mono whitespace-nowrap text-[var(--sonus-palette-charcoal)]'
               : isDisabled
                 ? 'inline-flex items-center rounded-full border border-white/76 bg-white/54 px-3 py-1 text-[11px] sm:text-xs font-medium uppercase tracking-[0.08em] font-mono whitespace-nowrap text-[#94A3B8]'
-                : 'inline-flex items-center rounded-full border border-white/85 bg-white/74 px-3 py-1 text-[11px] sm:text-xs font-medium uppercase tracking-[0.08em] font-mono whitespace-nowrap text-text-med transition-colors md:hover:text-[#1F2A37] md:hover:bg-[#E8EEF4]/90 md:hover:border-[#CBD5E1]';
+                : 'inline-flex items-center rounded-full border border-white/85 bg-white/74 px-3 py-1 text-[11px] sm:text-xs font-medium uppercase tracking-[0.08em] font-mono whitespace-nowrap text-text-med transition-colors md:hover:text-[var(--sonus-palette-charcoal)] md:hover:bg-[#E8EEF4]/90 md:hover:border-[#CBD5E1]';
 
             if (item.onClick && !isCurrent && !isDisabled) {
               return (

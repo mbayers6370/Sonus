@@ -114,14 +114,14 @@ function highlightLessonTerms(text: string, focusWord: string, allWords: Word[])
   while (index < source.length) {
     const focusMatch = focusTerms.find((candidate) => source.startsWith(candidate, index));
     if (focusMatch) {
-      chunks.push({ text: focusMatch, className: 'font-semibold text-[#186E95]' });
+      chunks.push({ text: focusMatch, className: 'font-semibold text-[var(--sonus-palette-blue)]' });
       index += focusMatch.length;
       continue;
     }
 
     const lessonMatch = otherTerms.find((candidate) => source.startsWith(candidate, index));
     if (lessonMatch) {
-      chunks.push({ text: lessonMatch, className: 'font-semibold text-[rgba(1,50,32,0.76)]' });
+      chunks.push({ text: lessonMatch, className: 'font-semibold text-[rgba(15,102,96,0.76)]' });
       index += lessonMatch.length;
       continue;
     }
@@ -221,14 +221,14 @@ function highlightEnglishFocus(text: string, word: Word, priorWords: Word[]) {
   const focusMatches = collectMeaningMatches(
     source,
     focusCandidates,
-    'font-semibold text-[#186E95]',
+    'font-semibold text-[var(--sonus-palette-blue)]',
     2,
     []
   );
   const priorMatches = collectMeaningMatches(
     source,
     priorCandidates,
-    'font-semibold text-[rgba(1,50,32,0.76)]',
+    'font-semibold text-[rgba(15,102,96,0.76)]',
     1,
     focusMatches
   );
@@ -354,7 +354,7 @@ function renderTransliterationWithToneNumber(value: string) {
       <span key={`${chunk}-${idx}`}>
         {idx > 0 ? ' ' : ''}
         {match[1]}
-        <span className="font-bold text-[#013220]">{match[2]}</span>
+        <span className="font-bold text-[var(--sonus-palette-green)]">{match[2]}</span>
       </span>
     );
   });
@@ -756,7 +756,7 @@ export default function ApplyMode({
             type="button"
             onClick={() => setActiveTab('context')}
             className={`rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider font-mono transition-all ${
-              effectiveActiveTab === 'context' ? 'bg-[#186E95] text-white' : 'text-[#1F2A37] hover:bg-white'
+              effectiveActiveTab === 'context' ? 'bg-[var(--sonus-palette-blue)] text-white' : 'text-[var(--sonus-palette-charcoal)] hover:bg-white'
             }`}
           >
             Sentence Context
@@ -766,7 +766,7 @@ export default function ApplyMode({
               type="button"
               onClick={() => setActiveTab('characters')}
               className={`rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-wider font-mono transition-all ${
-                effectiveActiveTab === 'characters' ? 'bg-[#013220] text-white' : 'text-[#1F2A37] hover:bg-white'
+                effectiveActiveTab === 'characters' ? 'bg-[var(--sonus-palette-green)] text-white' : 'text-[var(--sonus-palette-charcoal)] hover:bg-white'
               }`}
             >
               Characters
@@ -778,7 +778,7 @@ export default function ApplyMode({
       <div className="flex-1 px-5 py-2 flex items-center justify-center">
         {effectiveActiveTab === 'context' ? (
           <div className="w-full max-w-2xl bg-white rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-5 text-center">
-            <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(24,110,149,0.14)] text-[#186E95]">
+            <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(19,87,119,0.14)] text-[var(--sonus-palette-blue)]">
               Apply In Context
             </div>
             <div className="secondary-font text-[2rem] text-text-dark leading-tight">{highlighted}</div>
@@ -803,19 +803,19 @@ export default function ApplyMode({
           <div className="w-full max-w-2xl bg-white rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border border-border p-5 text-center">
             {activeCharacterRow ? (
               <>
-                <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(1,50,32,0.14)] text-[#013220]">
+                <div className="inline-flex mb-2 items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider font-mono bg-[rgba(15,102,96,0.14)] text-[var(--sonus-palette-green)]">
                   Character Focus
                 </div>
                 <div className="main-font text-[3.2rem] leading-none text-text-dark">{activeCharacterRow.char}</div>
                 {activeCharacterTransliteration ? (
-                  <div className="mt-2 text-sm font-mono text-[#1F2A37]">
+                  <div className="mt-2 text-sm font-mono text-[var(--sonus-palette-charcoal)]">
                     {isJapanese ? activeCharacterTransliteration : renderTransliterationWithToneNumber(activeCharacterTransliteration)}
                   </div>
                 ) : null}
                 {activeCharacterGloss ? <div className="mt-1.5 text-sm text-text-med">{activeCharacterGloss}</div> : null}
 
                 <div className="mt-4 rounded-xl border border-border bg-[rgba(31,42,55,0.05)] p-3">
-                  <div className="text-[11px] font-semibold uppercase tracking-wider font-mono text-[#1F2A37]">
+                  <div className="text-[11px] font-semibold uppercase tracking-wider font-mono text-[var(--sonus-palette-charcoal)]">
                     Words From This Lesson
                   </div>
                   <div className="mt-2 flex flex-wrap gap-1.5 justify-center">
@@ -824,7 +824,7 @@ export default function ApplyMode({
                         key={`${activeCharacterRow.char}-${example.id}`}
                         className="inline-flex items-center gap-1 rounded-md border border-border bg-white px-2 py-1"
                       >
-                        <span className="text-xs font-semibold text-[#186E95]">{example.simp}</span>
+                        <span className="text-xs font-semibold text-[var(--sonus-palette-blue)]">{example.simp}</span>
                         <span className="text-[10px] text-text-light font-mono">
                           {isJapanese ? getWordReading(example) : renderTransliterationWithToneNumber(getWordReading(example))}
                         </span>
@@ -843,14 +843,14 @@ export default function ApplyMode({
       <div className="flex gap-3 justify-center px-5 pb-4">
         <button
           onClick={() => speak(speakText, speakTransliteration, false, state.selectedLanguage)}
-          className="flex items-center gap-2 px-6 py-3 bg-[#186E95] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#186E95] hover:-translate-y-0.5 hover:shadow-lg"
+          className="flex items-center gap-2 px-6 py-3 bg-[var(--sonus-palette-blue)] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[var(--sonus-palette-blue)] hover:-translate-y-0.5 hover:shadow-lg"
         >
           <Volume2 className="w-5 h-5" />
           Listen
         </button>
         <button
           onClick={() => speak(speakText, speakTransliteration, true, state.selectedLanguage)}
-          className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-white"
+          className="flex items-center gap-2 px-6 py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[var(--sonus-palette-charcoal)] rounded-2xl font-semibold tracking-wide transition-all hover:bg-white"
         >
           <Snail className="w-5 h-5" />
           Slow
@@ -862,14 +862,14 @@ export default function ApplyMode({
           <button
             onClick={handlePrev}
             disabled={prevDisabled}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(31,42,55,0.35)] text-[#1F2A37] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)] disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(31,42,55,0.35)] text-[var(--sonus-palette-charcoal)] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)] disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-5 h-5" />
             Previous
           </button>
           <button
             onClick={handleNextAction}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[#1F2A37] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[#1F2A37] hover:-translate-y-0.5 hover:shadow-lg"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[var(--sonus-palette-charcoal)] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[var(--sonus-palette-charcoal)] hover:-translate-y-0.5 hover:shadow-lg"
           >
             {nextLabel}
             <ChevronRight className="w-5 h-5" />

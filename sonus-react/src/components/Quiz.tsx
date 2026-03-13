@@ -190,7 +190,7 @@ export default function Quiz({
   const clozeEn = fullEn
     ? maskExample(fullEn, [word.en, ...(word.defs || [])])
     : '';
-  const highlightClass = listeningMode ? 'text-[#013220] font-semibold' : 'text-[#B7E4CC] font-semibold';
+  const highlightClass = listeningMode ? 'text-[var(--sonus-palette-green)] font-semibold' : 'text-[#B7E4CC] font-semibold';
   const nativeFilled = fullNativeSentence
     ? highlightFirstMatch(fullNativeSentence, [word.simp, word.trad], highlightClass)
     : '';
@@ -212,13 +212,13 @@ export default function Quiz({
         <div
           className={`rounded-3xl p-3.5 mb-3 border relative ${
             listeningMode
-              ? 'bg-[#1F2A37] border-[#1F2A37]'
-              : 'bg-[#1F2A37] border-[#1F2A37]'
+              ? 'bg-[var(--sonus-palette-charcoal)] border-[var(--sonus-palette-charcoal)]'
+              : 'bg-[var(--sonus-palette-charcoal)] border-[var(--sonus-palette-charcoal)]'
           }`}
         >
           {isReviewWord ? (
             <div
-              className="absolute top-3 left-3 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.14em] border bg-[#186E95]/30 text-[#D8F2FF] border-[#7CC7EA]/45"
+              className="absolute top-3 left-3 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.14em] border bg-[var(--sonus-palette-blue)]/30 text-[#D8F2FF] border-[#7CC7EA]/45"
             >
               Review
             </div>
@@ -279,7 +279,7 @@ export default function Quiz({
                 <div className={hasPoliteTag ? 'mt-7' : 'mt-1'}>
                   <button
                     onClick={() => speak(ttsText, ttsReading, false, state.selectedLanguage)}
-                    className="mx-auto w-12 h-12 rounded-full bg-white text-[#1F2A37] flex items-center justify-center hover:bg-[#E5E7EB] transition-all"
+                    className="mx-auto w-12 h-12 rounded-full bg-white text-[var(--sonus-palette-charcoal)] flex items-center justify-center hover:bg-[#E5E7EB] transition-all"
                     aria-label="Play audio"
                   >
                     <Volume2 className="w-5 h-5" />
@@ -309,9 +309,9 @@ export default function Quiz({
             if (selectedAnswer) {
               // After answering
               if (isCorrectAnswer) {
-                buttonClass += 'bg-[rgba(1,50,32,0.12)] border-[#013220] text-[#013220]';
+                buttonClass += 'bg-[rgba(15,102,96,0.12)] border-[var(--sonus-palette-green)] text-[var(--sonus-palette-green)]';
               } else if (isSelected) {
-                buttonClass += 'bg-[rgba(194,65,12,0.12)] border-[#C2410C] text-[#C2410C]';
+                buttonClass += 'bg-[rgba(194,65,12,0.12)] border-[var(--sonus-palette-rust)] text-[var(--sonus-palette-rust)]';
               } else {
                 buttonClass += 'bg-white border-border text-text-med';
               }
@@ -340,7 +340,7 @@ export default function Quiz({
         <div className="grid grid-cols-1 gap-2">
           <button
             onClick={handleNext}
-            className="w-full flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-3 sm:py-3.5 bg-[#1F2A37] text-white rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-all hover:bg-[#1F2A37] hover:-translate-y-0.5 hover:shadow-lg"
+            className="w-full flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-3 sm:py-3.5 bg-[var(--sonus-palette-charcoal)] text-white rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-all hover:bg-[var(--sonus-palette-charcoal)] hover:-translate-y-0.5 hover:shadow-lg"
           >
             Next
             <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />

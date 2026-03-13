@@ -44,12 +44,8 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
     window.dispatchEvent(new CustomEvent('sonus:learn'));
   };
 
-  const runLearnAction = (target: 'main' | 'levels' | 'units' | 'lessons') => {
+  const runLearnAction = (target: 'levels' | 'units' | 'lessons') => {
     setLearnMenuOpenRouteKey(null);
-    if (target === 'main') {
-      window.dispatchEvent(new CustomEvent('sonus:learn:main'));
-      return;
-    }
     if (target === 'levels') {
       window.dispatchEvent(new CustomEvent('sonus:learn:levels'));
       return;
@@ -64,7 +60,6 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
   const learnActive = active === 'learn' || mobileLearnMenuOpen;
   const quickStage = resolveLearnQuickStage(location.pathname, location.search);
   const quickActive = {
-    main: quickStage === 'main',
     levels: quickStage === 'levels',
     units: quickStage === 'units',
     lessons: quickStage === 'lessons',
@@ -72,7 +67,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
   const quickButtonClass = (isCurrent: boolean) =>
     `flex flex-col items-center justify-center gap-1 rounded-xl border px-3 py-3 text-text-dark transition-colors ${
       isCurrent
-        ? 'border-[#C2410C]/45 bg-[rgba(194,65,12,0.10)] text-[#C2410C] shadow-[inset_0_0_0_1px_rgba(194,65,12,0.22)]'
+        ? 'border-[var(--sonus-palette-rust)]/45 bg-[rgba(194,65,12,0.10)] text-[var(--sonus-palette-rust)] shadow-[inset_0_0_0_1px_rgba(194,65,12,0.22)]'
         : 'border-[#E2E8F0] bg-white hover:bg-[#F8F8F6]'
     }`;
   const bottomNavHeight = 'calc(var(--sonus-bottom-nav-height, 6.1rem) + env(safe-area-inset-bottom, 0px))';
@@ -84,7 +79,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           type="button"
           aria-label="Close learn quick menu"
           onClick={() => setLearnMenuOpenRouteKey(null)}
-          className="fixed left-0 right-0 top-0 z-[58] bg-[#1F2A37]/24 backdrop-blur-[1.5px] min-[951px]:hidden"
+          className="fixed left-0 right-0 top-0 z-[58] bg-[var(--sonus-palette-charcoal)]/24 backdrop-blur-[1.5px] min-[951px]:hidden"
           style={{
             bottom: bottomNavHeight,
           }}
@@ -100,17 +95,8 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
-              onClick={() => runLearnAction('main')}
-              className={quickButtonClass(quickActive.main)}
-              aria-current={quickActive.main ? 'page' : undefined}
-            >
-              <House className="h-4 w-4" />
-              <span className="text-xs font-medium">Main</span>
-            </button>
-            <button
-              type="button"
               onClick={() => runLearnAction('levels')}
-              className={quickButtonClass(quickActive.levels)}
+              className={`col-span-2 ${quickButtonClass(quickActive.levels)}`}
               aria-current={quickActive.levels ? 'page' : undefined}
             >
               <Layers3 className="h-4 w-4" />
@@ -155,7 +141,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           <button
             onClick={onHome}
             className={`flex flex-col items-center gap-1 px-6 py-2 transition-colors ${
-              active === 'home' ? 'text-[#186E95] font-semibold' : 'text-text-light hover:text-text-dark'
+              active === 'home' ? 'text-[var(--sonus-palette-blue)] font-semibold' : 'text-text-light hover:text-text-dark'
             }`}
           >
             <House className="w-6 h-6" />
@@ -164,7 +150,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           <button
             onClick={handleLearn}
             className={`flex flex-col items-center gap-1 px-6 py-2 transition-colors ${
-              learnActive ? 'text-[#186E95] font-semibold' : 'text-text-light hover:text-text-dark'
+              learnActive ? 'text-[var(--sonus-palette-blue)] font-semibold' : 'text-text-light hover:text-text-dark'
             }`}
           >
             {mobileLearnMenuOpen ? <BookOpen className="w-6 h-6" /> : <Book className="w-6 h-6" />}
@@ -173,7 +159,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           <button
             onClick={onProfile}
             className={`flex flex-col items-center gap-1 px-6 py-2 transition-colors ${
-              active === 'profile' ? 'text-[#186E95] font-semibold' : 'text-text-light hover:text-text-dark'
+              active === 'profile' ? 'text-[var(--sonus-palette-blue)] font-semibold' : 'text-text-light hover:text-text-dark'
             }`}
           >
             <User className="w-6 h-6" />

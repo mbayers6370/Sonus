@@ -183,8 +183,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const isPracticeUnit = isListeningPractice || isSpeakingPractice;
   const lessonSubtitle = isPracticeUnit ? '(Not Graded)' : undefined;
   const isApplyMode = lessonMode === 'apply';
-  const hideLogoOnMobile =
-    isPracticeUnit || isApplyMode || /^band\d+$/i.test(activeBandId || '') || activeBandId === 'advanced';
+  const hideLogoOnMobile = true;
   const titleText = isCheckpointQuiz
     ? (activeLesson.unitName || 'Checkpoint Quiz')
     : isPracticeUnit
@@ -197,7 +196,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const speakingPageTheme = isSpeakingPractice
     ? {
         shell: '',
-        title: 'text-[#1F2A37]',
+        title: 'text-[var(--sonus-palette-charcoal)]',
         content: '',
       }
     : {
@@ -269,7 +268,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
           title={titleText}
           subtitle={lessonSubtitle}
           hideLogoOnMobile={hideLogoOnMobile}
-          className={isSpeakingPractice ? 'bg-white/75 border-[#1F2A37]/25' : ''}
+          className={isSpeakingPractice ? 'bg-white/75 border-[var(--sonus-palette-charcoal)]/25' : ''}
           titleClassName={speakingPageTheme.title}
           subtitleClassName="text-text-light"
         />
@@ -293,8 +292,8 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
                   }}
                   className={`relative rounded-xl py-2 px-3 sm:py-2.5 sm:px-4 text-[0.9rem] sm:text-[1.03rem] font-semibold tracking-wide transition-all ${
                     isActive
-                      ? 'bg-[#186E95] text-white shadow-[0_10px_24px_-18px_rgba(24,110,149,0.55)]'
-                      : 'text-[#1F2A37] hover:bg-white'
+                      ? 'bg-[var(--sonus-palette-blue)] text-white shadow-[0_10px_24px_-18px_rgba(19,87,119,0.55)]'
+                      : 'text-[var(--sonus-palette-charcoal)] hover:bg-white'
                   }`}
                 >
                   <span className="inline-flex w-full items-center justify-center">{tab.label}</span>

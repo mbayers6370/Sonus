@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function PublicFooter() {
   return (
-    <footer className="bg-[#1F2A37] px-4 py-8 backdrop-blur-[1px] sm:px-8 sm:py-4">
+    <footer className="bg-[var(--sonus-palette-charcoal)] px-4 py-8 backdrop-blur-[1px] sm:px-8 sm:py-4">
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center">
         <nav
           aria-label="Footer"

@@ -93,12 +93,12 @@ export default function FirstTimeWalkthrough({
           </button>
         </div>
 
-        <h2 className="main-font text-center text-xl font-semibold text-[#1F2A37]">{title}</h2>
+        <h2 className="main-font text-center text-xl font-semibold text-[var(--sonus-palette-charcoal)]">{title}</h2>
         <div className="font-secondary mt-2 text-sm leading-6 text-[#334155]">{body}</div>
 
         <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
           <div
-            className="h-full rounded-full bg-[#1F2A37] transition-all"
+            className="h-full rounded-full bg-[var(--sonus-palette-charcoal)] transition-all"
             style={{ width: `${((stepIndex + 1) / stepCount) * 100}%` }}
           />
         </div>
@@ -116,7 +116,7 @@ export default function FirstTimeWalkthrough({
             type="button"
             onClick={onNext}
             disabled={!canGoNext || saving}
-            className="font-mono rounded-lg bg-[#1F2A37] px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+            className="font-mono rounded-lg bg-[var(--sonus-palette-charcoal)] px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
           >
             {saving ? 'Saving...' : isLastStep ? 'Finish' : 'Next'}
           </button>

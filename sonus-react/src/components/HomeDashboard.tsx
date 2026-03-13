@@ -7,6 +7,7 @@ import {
   ListChecks,
   Mic,
   Plane,
+  ShoppingBag,
   Stethoscope,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -565,7 +566,7 @@ export default function HomeDashboard({
   const glassBtnPrimary =
     'inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 font-semibold border border-[#8FA3B8]/45 bg-[#3A4B5D] text-white transition-colors duration-200 hover:bg-[#465B70]';
   const glassPillLight =
-    'rounded-xl text-xs border border-[#186E95]/25 bg-white/58 text-[#186E95] backdrop-blur-sm transition-all hover:bg-[#D9ECF7]/78 hover:border-[#186E95]/42';
+    'rounded-xl text-xs border border-[var(--sonus-palette-blue)]/25 bg-white/58 text-[var(--sonus-palette-blue)] backdrop-blur-sm transition-all hover:bg-[#D9ECF7]/78 hover:border-[var(--sonus-palette-blue)]/42';
   const glassBarShell = 'mt-2 h-2.5 w-full rounded-full overflow-hidden border border-white/34 bg-[rgba(255,255,255,0.14)] backdrop-blur-sm relative';
   const glassStatPill = 'rounded-xl border border-white/26 bg-white/12 backdrop-blur-sm px-2.5 py-2 text-left';
   const glassRowBtn =
@@ -573,14 +574,14 @@ export default function HomeDashboard({
 
   return (
     <div className="min-h-screen page-shell px-6 with-bottom-nav relative overflow-hidden">
-      <div className="absolute inset-x-0 top-0 h-72 bg-gradient-to-br from-[#186E95]/18 via-[#013220]/10 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-72 bg-gradient-to-br from-[var(--sonus-palette-blue)]/18 via-[var(--sonus-palette-green)]/10 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-white/45 via-white/15 to-transparent pointer-events-none" />
 
-      <GlassHeader title={`${languageLabel}`} spacerClassName="mb-0" compactStandaloneTitle={false} />
+      <GlassHeader title={`${languageLabel}`} spacerClassName="mb-0" compactStandaloneTitle={false} hideLogoOnMobile />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[minmax(180px,auto)] relative">
         <section
-          className={`${cardShell} md:order-1 md:col-span-2 bg-[#1F2A37] text-white border-[#1F2A37]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(31,42,55,0.42)] relative overflow-hidden`}
+          className={`${cardShell} md:order-1 md:col-span-2 bg-[var(--sonus-palette-charcoal)] text-white border-[var(--sonus-palette-charcoal)]/90 min-h-[210px] text-center flex flex-col justify-center shadow-[0_20px_40px_-28px_rgba(31,42,55,0.42)] relative overflow-hidden`}
           style={{ animationDelay: '35ms' }}
         >
           <div className="pointer-events-none absolute inset-[8px] rounded-[1.2rem] border border-white/18" />
@@ -603,7 +604,7 @@ export default function HomeDashboard({
             <div className="absolute right-[37%] top-[42%] rotate-[7deg] font-mono text-[0.9rem] uppercase tracking-[0.18em] text-white/[0.04]">
               안녕하세요
             </div>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1F2A37]/22 to-[#1F2A37]/34" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--sonus-palette-charcoal)]/22 to-[var(--sonus-palette-charcoal)]/34" />
           </div>
           <div className="relative z-10">
             <div className="text-[11px] tracking-wide font-mono uppercase text-white/50 mb-1.5">
@@ -655,7 +656,7 @@ export default function HomeDashboard({
 
         <section
           id="tour-travel-sprint-card"
-          className={`${cardShell} md:order-3 md:h-full bg-white text-text-dark border-[#1F2A37]/18 min-h-[260px] text-center flex flex-col justify-center relative overflow-hidden`}
+          className={`${cardShell} md:order-3 md:h-full bg-white text-text-dark border-[var(--sonus-palette-charcoal)]/18 min-h-[260px] text-center flex flex-col justify-center relative overflow-hidden`}
           style={{ animationDelay: '135ms' }}
         >
           <div className="relative z-10 w-full h-full flex flex-col justify-between">
@@ -672,15 +673,22 @@ export default function HomeDashboard({
                 <BedDouble className="w-3.5 h-3.5" />
                 Hotel
               </button>
-              <button onClick={() => onOpenTravelMode('emergency')} className={`inline-flex items-center justify-center gap-1.5 px-2 py-2 ${glassPillLight}`}>
-                <Stethoscope className="w-3.5 h-3.5" />
-                Emergency
-              </button>
+              {isJapaneseLanguage ? (
+                <button onClick={() => onOpenTravelMode('konbini')} className={`inline-flex items-center justify-center gap-1.5 px-2 py-2 ${glassPillLight}`}>
+                  <ShoppingBag className="w-3.5 h-3.5" />
+                  Konbini
+                </button>
+              ) : (
+                <button onClick={() => onOpenTravelMode('emergency')} className={`inline-flex items-center justify-center gap-1.5 px-2 py-2 ${glassPillLight}`}>
+                  <Stethoscope className="w-3.5 h-3.5" />
+                  Emergency
+                </button>
+              )}
             </div>
             <div className="max-w-md mx-auto">
               <button
                 onClick={() => onOpenTravelMode()}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-2xl px-3 py-2.5 border border-[#186E95] bg-[#186E95] text-white transition-colors hover:bg-[#145B7A] hover:border-[#145B7A]"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-2xl px-3 py-2.5 border border-[var(--sonus-palette-blue)] bg-[var(--sonus-palette-blue)] text-white transition-colors hover:bg-[#145B7A] hover:border-[#145B7A]"
               >
                 Explore Travel Content
                 <ArrowRight className="w-4 h-4 text-white" />
@@ -697,7 +705,7 @@ export default function HomeDashboard({
 
         <section
           id="tour-practice-focus-card"
-          className={`${cardShell} md:order-2 md:h-full bg-[#186E95] text-white border-[#186E95]/90 min-h-[210px] text-center flex flex-col justify-between py-4 shadow-[0_20px_40px_-28px_rgba(24,110,149,0.38)]`}
+          className={`${cardShell} md:order-2 md:h-full bg-[var(--sonus-palette-blue)] text-white border-[var(--sonus-palette-blue)]/90 min-h-[210px] text-center flex flex-col justify-between py-4 shadow-[0_20px_40px_-28px_rgba(19,87,119,0.38)]`}
           style={{ animationDelay: '85ms' }}
         >
           <div className="main-font text-2xl leading-none mb-2 text-[#D7F0E4]">Practice Focus</div>
@@ -748,13 +756,13 @@ export default function HomeDashboard({
                 disabled={!canUsePractice}
                 className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-sm font-semibold transition-colors duration-200 ${
                   canUsePractice
-                    ? 'border-white/70 bg-white text-[#186E95] hover:bg-[#EAF4FA]'
+                    ? 'border-white/70 bg-white text-[var(--sonus-palette-blue)] hover:bg-[#EAF4FA]'
                     : 'border-white/35 bg-white/20 text-white/65 hover:bg-white/25'
                 }`}
                 aria-label="Listening practice"
                 title="Listening practice"
               >
-                <Headphones className={`w-4 h-4 ${canUsePractice ? 'text-[#186E95]' : 'text-white/70'}`} />
+                <Headphones className={`w-4 h-4 ${canUsePractice ? 'text-[var(--sonus-palette-blue)]' : 'text-white/70'}`} />
                 Listening
               </button>
               <button
@@ -765,13 +773,13 @@ export default function HomeDashboard({
                 disabled={!canUsePractice}
                 className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-sm font-semibold transition-colors duration-200 ${
                   canUsePractice
-                    ? 'border-white/70 bg-white text-[#186E95] hover:bg-[#EAF4FA]'
+                    ? 'border-white/70 bg-white text-[var(--sonus-palette-blue)] hover:bg-[#EAF4FA]'
                     : 'border-white/35 bg-white/20 text-white/65 hover:bg-white/25'
                 }`}
                 aria-label="Speaking practice"
                 title="Speaking practice"
               >
-                <Mic className={`w-4 h-4 ${canUsePractice ? 'text-[#186E95]' : 'text-white/70'}`} />
+                <Mic className={`w-4 h-4 ${canUsePractice ? 'text-[var(--sonus-palette-blue)]' : 'text-white/70'}`} />
                 Speaking
               </button>
             </div>
@@ -792,7 +800,7 @@ export default function HomeDashboard({
         </section>
 
         <section
-          className={`${cardShell} md:order-4 md:col-span-2 bg-white text-text-dark border-[#1F2A37]/35 flex flex-col justify-center`}
+          className={`${cardShell} md:order-4 md:col-span-2 bg-white text-text-dark border-[var(--sonus-palette-charcoal)]/35 flex flex-col justify-center`}
           style={{ animationDelay: '235ms' }}
         >
           <div className="main-font text-2xl leading-none mb-3 text-[#1B3446]">Shortcuts</div>
@@ -802,7 +810,7 @@ export default function HomeDashboard({
               className={glassRowBtn}
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
-                <ListChecks className="w-4 h-4 text-[#013220]" />
+                <ListChecks className="w-4 h-4 text-[var(--sonus-palette-green)]" />
                 Progress Check
               </span>
               <ArrowRight className="w-4 h-4 text-text-light" />
@@ -812,7 +820,7 @@ export default function HomeDashboard({
               className={glassRowBtn}
             >
               <span className="inline-flex items-center gap-2 text-sm text-text-dark">
-                <AudioWaveform className="w-4 h-4 text-[#1F2A37]" />
+                <AudioWaveform className="w-4 h-4 text-[var(--sonus-palette-charcoal)]" />
                 About Sonus
               </span>
               <ArrowRight className="w-4 h-4 text-text-light" />

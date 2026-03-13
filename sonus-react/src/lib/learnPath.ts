@@ -1,4 +1,4 @@
-export type LearnQuickStage = 'main' | 'levels' | 'units' | 'lessons';
+export type LearnQuickStage = 'levels' | 'units' | 'lessons';
 
 const JAPANESE_SECTION_ALIASES: Record<string, 'core' | 'expansion' | 'integration'> = {
   core: 'core',
@@ -58,5 +58,5 @@ export function resolveLearnQuickStage(pathname: string, search: string): LearnQ
     return 'levels';
   }
   if (onBandRoute) return unitId ? 'lessons' : 'units';
-  return params.has('tier') ? 'levels' : 'main';
+  return 'levels';
 }
