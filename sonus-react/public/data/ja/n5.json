@@ -211,8 +211,8 @@
                 "please, kindly, by all means"
               ],
               "example": {
-                "en": "Will everyone please stick with it to the last moment.",
-                "native": "どうぞ、皆様も最後の一瞬まで粘り抜いてください。"
+                "en": "Please go ahead.",
+                "native": "どうぞ"
               },
               "type": "word",
               "pos_detail": "adv",
@@ -228,8 +228,8 @@
                 "please (do for me)"
               ],
               "example": {
-                "en": "If you see a mistake, then please correct it.",
-                "native": "もし間違いを見つけたら訂正してください。"
+                "en": "Please wait a moment.",
+                "native": "待ってください。"
               },
               "type": "expression",
               "pos_detail": "expr",
@@ -245,8 +245,8 @@
                 "Hello? (used on the phone)"
               ],
               "example": {
-                "en": "Hello, this is Dr Yamada's surgery.",
-                "native": "もしもし、山田医院です。"
+                "en": "Hello, can you hear me?",
+                "native": "もしもし、聞こえますか？"
               },
               "type": "word",
               "pos_detail": "int",
@@ -262,8 +262,8 @@
                 "all of you, everyone"
               ],
               "example": {
-                "en": "Everyone, do you have any questions?",
-                "native": "みなさん、質問はありますか。"
+                "en": "Hello, everyone.",
+                "native": "みなさん、こんにちは。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -449,8 +449,8 @@
                 "you"
               ],
               "example": {
-                "en": "It's because you don't want to be alone.",
-                "native": "それはあなたが一人になりたくないからです。"
+                "en": "I miss you.",
+                "native": "私はあなたがいなくて寂しいです。"
               },
               "type": "word",
               "pos_detail": "pron",
@@ -466,7 +466,7 @@
                 "to say"
               ],
               "example": {
-                "en": "I say my name one more time.",
+                "en": "Say your name again.",
                 "native": "もう一度名前を言う。"
               },
               "type": "word",
@@ -483,7 +483,7 @@
                 "to speak"
               ],
               "example": {
-                "en": "He talks as if he knew everything.",
+                "en": "He talks as if he knows everything.",
                 "native": "彼はまるで何でも知ってるかのようにはなす。"
               },
               "type": "word",
@@ -626,8 +626,8 @@
                 "eight"
               ],
               "example": {
-                "en": "August is very hot.",
-                "native": "八月は暑いです。"
+                "en": "The meeting ended at eight.",
+                "native": "会は八時に解散した。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -711,8 +711,8 @@
                 "ten thousand"
               ],
               "example": {
-                "en": "This car costs two million yen.",
-                "native": "この車は二百万円です。"
+                "en": "It's a one million dollar car.",
+                "native": "100万ドルの車です。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -838,6 +838,23 @@
               "transliteration": "muttsu"
             },
             {
+              "id": "N5-0755",
+              "kanji": "五つ",
+              "hiragana": "いつつ",
+              "katakana": "イツツ",
+              "en": "five things",
+              "defs": [
+                "five things"
+              ],
+              "example": {
+                "en": "There are five apples.",
+                "native": "りんごが五つあります。"
+              },
+              "type": "word",
+              "pos_detail": "num",
+              "transliteration": "itsutsu"
+            },
+            {
               "id": "N5-0487",
               "kanji": "七つ",
               "hiragana": "ななつ",
@@ -893,13 +910,13 @@
               "kanji": "十",
               "hiragana": "とお",
               "katakana": "トオ",
-              "en": "ten ()",
+              "en": "ten (10)",
               "defs": [
-                "ten ()"
+                "ten (10)"
               ],
               "example": {
-                "en": "Please count to ten.",
-                "native": "十まで数えてください。"
+                "en": "The meeting ended at ten.",
+                "native": "その会は十時に終わった。"
               },
               "type": "word",
               "pos_detail": "num",
@@ -1042,8 +1059,8 @@
                 "dark"
               ],
               "example": {
-                "en": "Grooming in primates increases group cohesion.",
-                "native": "霊長類の毛づくろいは集団の結合を強める。"
+                "en": "She has a small black dog.",
+                "native": "彼女は小さな黒い犬を飼っている。"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -1093,7 +1110,7 @@
                 "small, little"
               ],
               "example": {
-                "en": "Land occupies the minor portion of the earth's surface.",
+                "en": "The land occupies the smaller part of the surface.",
                 "native": "陸地は地表の小さいほうの部分を占めている。"
               },
               "type": "word",
@@ -1111,7 +1128,7 @@
                 "expensive"
               ],
               "example": {
-                "en": "The cakes at this shop are a little expensive.",
+                "en": "The cake at this shop is a little expensive.",
                 "native": "この店のケーキは少し高いです。"
               },
               "type": "word",
@@ -1128,8 +1145,8 @@
                 "short, low"
               ],
               "example": {
-                "en": "This desk is low, so it is just right for children.",
-                "native": "この机は低いので子どもにちょうどいい。"
+                "en": "This desk is low.",
+                "native": "この机は低いです。"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -1234,7 +1251,7 @@
                 "light, non-serious, minor"
               ],
               "example": {
-                "en": "I'm short-tempered, and a loose-tongued man.",
+                "en": "I am a short-tempered and light-tongued man.",
                 "native": "私は気が短いし、口も軽い男だ。"
               },
               "type": "word",
@@ -1268,8 +1285,8 @@
                 "thin, weak"
               ],
               "example": {
-                "en": "He wore a light blue tie.",
-                "native": "彼はうすい青色のネクタイをしていた。"
+                "en": "I like my coffee weak.",
+                "native": "コーヒーは薄いのが好きです。"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -1336,8 +1353,8 @@
                 "new"
               ],
               "example": {
-                "en": "This new town is beautifully laid out.",
-                "native": "このあたらしい町はうまく設計してある。"
+                "en": "This new town is beautiful.",
+                "native": "この新しい町はきれいです。"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -1440,8 +1457,8 @@
                 "cheerful"
               ],
               "example": {
-                "en": "Smiling cheerfully, the two began to walk off into their brilliant future.",
-                "native": "明るい笑顔で2人は光り輝く未来を歩み始めたんだ。"
+                "en": "This room is very bright.",
+                "native": "この部屋はとても明るい。"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -1526,8 +1543,8 @@
                 "weak"
               ],
               "example": {
-                "en": "She is weak by nature.",
-                "native": "彼女は生まれつき弱い。"
+                "en": "She is feeling weak.",
+                "native": "彼女は弱いです。"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -1544,8 +1561,8 @@
                 "there are a lot"
               ],
               "example": {
-                "en": "Her clothes attracted much attention at the party.",
-                "native": "彼女の服はパーティーでおおいに注意をひいた。"
+                "en": "His outfit attracted much attention at the party.",
+                "native": "彼の服装はパーティーで多いに注目を集めた。"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -1630,8 +1647,8 @@
                 "early"
               ],
               "example": {
-                "en": "My pulse is fast.",
-                "native": "脈がはやいです。"
+                "en": "The Shinkansen is very fast.",
+                "native": "新幹線はとても速いです。"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -1665,7 +1682,7 @@
                 "difficult"
               ],
               "example": {
-                "en": "It is very hard to live up to your reputation.",
+                "en": "It is very difficult to act in a way that does not disgrace one's reputation.",
                 "native": "名声に恥じないように行動するのはとてもむずかしい。"
               },
               "type": "word",
@@ -1734,8 +1751,8 @@
                 "insignificant"
               ],
               "example": {
-                "en": "Please accept this little gift.",
-                "native": "つまらないものですがご笑納ください。"
+                "en": "That movie was boring.",
+                "native": "その映画はつまらなかった。"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -1785,8 +1802,8 @@
                 "young"
               ],
               "example": {
-                "en": "That teacher is still young.",
-                "native": "あの先生はまだ若いです。"
+                "en": "That teacher is very young!",
+                "native": "あの先生はとても若い！"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -1809,6 +1826,23 @@
               "type": "word",
               "pos_detail": "adj-i",
               "transliteration": "yasui"
+            },
+            {
+              "id": "N5-0035",
+              "kanji": "甘い",
+              "hiragana": "あまい",
+              "katakana": "アマイ",
+              "en": "generous, sweet",
+              "defs": [
+                "generous, sweet"
+              ],
+              "example": {
+                "en": "His view seems to be too optimistic.",
+                "native": "彼の考えはどうもあまい。"
+              },
+              "type": "word",
+              "pos_detail": "adj-i",
+              "transliteration": "amai"
             }
           ]
         },
@@ -1912,8 +1946,8 @@
                 "woman, female"
               ],
               "example": {
-                "en": "He finally broke up with that woman.",
-                "native": "彼はようやくそのおんなと手をきった。"
+                "en": "She finally broke up with that woman.",
+                "native": "彼女はようやくそのおんなと手をきった。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -1946,8 +1980,8 @@
                 "girl"
               ],
               "example": {
-                "en": "That's because you're a girl.",
-                "native": "あなたが女の子だからよ。"
+                "en": "That girl wanted to become a doctor.",
+                "native": "その女の子は医者になりたがっていた。"
               },
               "type": "expression",
               "pos_detail": "expr",
@@ -1963,8 +1997,8 @@
                 "child(ren)"
               ],
               "example": {
-                "en": "She seems to take immense pleasure in playing with children.",
-                "native": "彼女はこどもたちと遊ぶのが非常に好きだ。"
+                "en": "She loves playing with children.",
+                "native": "彼女は子供と遊ぶのが大好きです。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -2014,7 +2048,7 @@
                 "two people"
               ],
               "example": {
-                "en": "My parents are not strict with me.",
+                "en": "Neither of my parents is strict with me.",
                 "native": "両親がふたりとも私に厳しいわけではない。"
               },
               "type": "word",
@@ -2082,8 +2116,8 @@
                 "(my) older sister"
               ],
               "example": {
-                "en": "My older sister is a nurse.",
-                "native": "姉は看護師です。"
+                "en": "My older sister is a scientist.",
+                "native": "姉は科学者です。"
               },
               "type": "honorific",
               "pos_detail": "n",
@@ -2498,8 +2532,8 @@
                 "café"
               ],
               "example": {
-                "en": "We three sisters opened a coffee shop.",
-                "native": "私たちは姉妹３人で喫茶店を始めた。"
+                "en": "We opened a cafe.",
+                "native": "私たちは喫茶店を開きました。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -2532,8 +2566,8 @@
                 "to drink"
               ],
               "example": {
-                "en": "We roast just enough beans for the amount we're going to drink, and grind them in the coffee mill.",
-                "native": "飲む分だけ豆をローストして、ミルで挽くんです。"
+                "en": "Drinking a lot of water is good for your health.",
+                "native": "水をたくさん飲むと体に良い。"
               },
               "type": "word",
               "pos_detail": "v5",
@@ -2584,7 +2618,7 @@
                 "cuisine"
               ],
               "example": {
-                "en": "I cook, but I'm really crap at it.",
+                "en": "I can cook, but I'm terribly bad at it.",
                 "native": "私は料理をしますが、とんでもなく下手くそです。"
               },
               "type": "word",
@@ -2653,8 +2687,8 @@
                 "meal"
               ],
               "example": {
-                "en": "My husband has his breakfast while reading the newspaper.",
-                "native": "夫は新聞を読みながら、朝ごはんを食べる。"
+                "en": "Which do you like better, bread or rice?",
+                "native": "パンとごはん、どっちが好き？"
               },
               "type": "word",
               "pos_detail": "n",
@@ -2738,8 +2772,8 @@
                 "beef"
               ],
               "example": {
-                "en": "He doesn't like beef. Neither do I.",
-                "native": "彼は牛肉が好きではありません。私もです。"
+                "en": "He doesn't like beef.",
+                "native": "彼は牛肉が好きではありません。"
               },
               "type": "word",
               "pos_detail": "v5",
@@ -2772,8 +2806,8 @@
                 "chicken meat"
               ],
               "example": {
-                "en": "It's hard to communicate.",
-                "native": "コミュニケーションがとりにくい。"
+                "en": "Please give me three pounds of chicken meat.",
+                "native": "とりにくを３ポンドください"
               },
               "type": "word",
               "pos_detail": "v5",
@@ -3019,23 +3053,6 @@
               "transliteration": "mizu"
             },
             {
-              "id": "N5-0035",
-              "kanji": "甘い",
-              "hiragana": "あまい",
-              "katakana": "アマイ",
-              "en": "generous, sweet",
-              "defs": [
-                "generous, sweet"
-              ],
-              "example": {
-                "en": "His view seems to be too optimistic.",
-                "native": "彼の考えはどうもあまい。"
-              },
-              "type": "word",
-              "pos_detail": "adj-i",
-              "transliteration": "amai"
-            },
-            {
               "id": "N5-0178",
               "kanji": "辛い",
               "hiragana": "からい",
@@ -3132,7 +3149,7 @@
                 "rice bowl"
               ],
               "example": {
-                "en": "He dashed the cup on the floor.",
+                "en": "He threw the rice bowl on the floor.",
                 "native": "彼は茶碗を床にたたきつけた。"
               },
               "type": "word",
@@ -3294,8 +3311,8 @@
                 "to tie, to fasten, to tighten"
               ],
               "example": {
-                "en": "I close the door before sleeping.",
-                "native": "寝る前にドアを締める。"
+                "en": "Please close the door.",
+                "native": "ドアを閉めてください。"
               },
               "type": "word",
               "pos_detail": "v1",
@@ -3500,7 +3517,7 @@
                 "place"
               ],
               "example": {
-                "en": "I was wondering if you were going to show up today.",
+                "en": "I was wondering if you would come today.",
                 "native": "今日君は来るのかなと思っていたところだよ。"
               },
               "type": "word",
@@ -3619,7 +3636,7 @@
                 "table"
               ],
               "example": {
-                "en": "Place the deck of cards on the oaken table.",
+                "en": "Put the cards on the oak table.",
                 "native": "トランプを樫のテーブルに置いて。"
               },
               "type": "word",
@@ -3670,8 +3687,8 @@
                 "wallet"
               ],
               "example": {
-                "en": "I had my wallet stolen.",
-                "native": "私はサイフを盗まれた。"
+                "en": "I found my wallet!",
+                "native": "財布が見つかった！"
               },
               "type": "word",
               "pos_detail": "n",
@@ -3791,7 +3808,7 @@
                 "soap"
               ],
               "example": {
-                "en": "He bought six cakes of soap yesterday.",
+                "en": "He bought six bars of soap yesterday.",
                 "native": "彼は昨日せっけんを６個買った。"
               },
               "type": "word",
@@ -4064,7 +4081,7 @@
                 "letter"
               ],
               "example": {
-                "en": "He was employed writing letter.",
+                "en": "He was writing several letters.",
                 "native": "彼はてがみを何通もかいていた。"
               },
               "type": "word",
@@ -4349,8 +4366,8 @@
                 "what"
               ],
               "example": {
-                "en": "Let's try doing something.",
-                "native": "何かしてみましょう。"
+                "en": "What will you eat?",
+                "native": "なにを食べますか？"
               },
               "type": "word",
               "pos_detail": "pron",
@@ -4451,8 +4468,8 @@
                 "how much, how many"
               ],
               "example": {
-                "en": "One can always find time.",
-                "native": "時間はいくらでも作れる。"
+                "en": "How much is this?",
+                "native": "これはいくらですか"
               },
               "type": "word",
               "pos_detail": "n",
@@ -4502,8 +4519,8 @@
                 "why (same as どうして)"
               ],
               "example": {
-                "en": "For some reason I feel more alive at night.",
-                "native": "私はなぜか夜の方が元気だ。"
+                "en": "Why did you do that?",
+                "native": "なぜそうしたんですか。"
               },
               "type": "word",
               "pos_detail": "adv",
@@ -4779,8 +4796,8 @@
                 "this side"
               ],
               "example": {
-                "en": "Kiddo! Two medium-size drafts here.",
-                "native": "兄ちゃん、こっち生中二つー。"
+                "en": "Come this way.",
+                "native": "こっちに来て."
               },
               "type": "word",
               "pos_detail": "pron",
@@ -4866,7 +4883,7 @@
                 "um..."
               ],
               "example": {
-                "en": "Do whatever he tells you.",
+                "en": "Please do whatever that person says.",
                 "native": "あの方が言われる事を、何でもしてあげて下さい。"
               },
               "type": "word",
@@ -4883,7 +4900,7 @@
                 "such, like this"
               ],
               "example": {
-                "en": "That's the stupidest thing I've ever said.",
+                "en": "I've never said such a stupid thing.",
                 "native": "こんな馬鹿なことは言ったことが無い。"
               },
               "type": "word",
@@ -4917,7 +4934,7 @@
                 "various"
               ],
               "example": {
-                "en": "I want to eat food from many countries.",
+                "en": "I want to eat food from various countries.",
                 "native": "色々な国の料理を食べたいです。"
               },
               "type": "word",
@@ -5072,7 +5089,7 @@
                 "to request, to ask (a favor)"
               ],
               "example": {
-                "en": "Take care of Mr. Tanaka for me!",
+                "en": "Please take care of Ms. Tanaka.",
                 "native": "田中さんのことを頼むよ。"
               },
               "type": "word",
@@ -5123,7 +5140,7 @@
                 "to show, to display"
               ],
               "example": {
-                "en": "He said he would win and he did, too.",
+                "en": "He said he would show us how to win, and sure enough, he won.",
                 "native": "彼は勝って見せると言ったが確かに勝った。"
               },
               "type": "word",
@@ -5157,8 +5174,8 @@
                 "talk (chat), story"
               ],
               "example": {
-                "en": "There is kindness to be found everywhere.",
-                "native": "渡る世間に鬼はなし。"
+                "en": "I haven't heard that story yet.",
+                "native": "私はまだそのはなしは聞いてない。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -9721,7 +9738,7 @@
                 "to become cloudy, to become dim"
               ],
               "example": {
-                "en": "When I wear a mask, my glasses get steamed up.",
+                "en": "When I wear a mask, my glasses get foggy.",
                 "native": "マスクをつけると眼鏡が曇る。"
               },
               "type": "word",
@@ -9840,7 +9857,7 @@
                 "lukewarm"
               ],
               "example": {
-                "en": "This coffee is not hot enough.",
+                "en": "This coffee is lukewarm.",
                 "native": "このコーヒーはぬるいです。"
               },
               "type": "word",
@@ -9993,8 +10010,8 @@
                 "fish"
               ],
               "example": {
-                "en": "The whale is not a fish but a mammal.",
-                "native": "鯨はさかなではなくて哺乳動物である。"
+                "en": "The whale is a mammal.",
+                "native": "クジラは魚ではなく、哺乳類です。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -10187,8 +10204,8 @@
                 "head"
               ],
               "example": {
-                "en": "He got mad at me for calling him Shorty.",
-                "native": "ぼくにチビと言われてあいつはすごくあたまにきた。"
+                "en": "It was on my mind all day.",
+                "native": "一日中頭から離れなかった"
               },
               "type": "word",
               "pos_detail": "n",
@@ -10267,10 +10284,10 @@
               "kanji": "口",
               "hiragana": "くち",
               "katakana": "クチ",
-              "en": "job opening",
+              "en": "mouth",
               "defs": [
-                "job opening",
-                "mouth"
+                "mouth",
+                "opening"
               ],
               "example": {
                 "en": "Please open your mouth wide.",
@@ -10377,7 +10394,7 @@
                 "to bathe, to shower"
               ],
               "example": {
-                "en": "When you feel tired, there is nothing like having a bath.",
+                "en": "When you are tired, taking a bath is the best thing to do.",
                 "native": "疲れたときはひと風呂浴びるのがいちばんだ。"
               },
               "type": "word",
@@ -10447,8 +10464,8 @@
                 "sore"
               ],
               "example": {
-                "en": "I don't know what you mean.",
-                "native": "何が言いたいのか分からないなあ。"
+                "en": "My head hurts.",
+                "native": "頭が痛い。"
               },
               "type": "word",
               "pos_detail": "adj-i",
@@ -10482,7 +10499,7 @@
                 "sickness"
               ],
               "example": {
-                "en": "Avian medicine - diagnosis and treatment of illnesses.",
+                "en": "The medicine is for treating the illness of pet birds.",
                 "native": "飼鳥の医学―病気の診断とその治療。"
               },
               "type": "word",
@@ -10567,7 +10584,7 @@
           "words": [
             {
               "id": "N5-0494",
-              "kanji": null,
+              "kanji": "なる",
               "hiragana": "なる",
               "katakana": "ナル",
               "en": "to become",
@@ -10575,8 +10592,8 @@
                 "to become"
               ],
               "example": {
-                "en": "It's a word I'd like to find a substitute for.",
-                "native": "これは代わりになるものをみつけたい単語だ。"
+                "en": "The coffee has become warm.",
+                "native": "コーヒーが温かくなった"
               },
               "type": "word",
               "pos_detail": "v5",
@@ -10627,8 +10644,8 @@
                 "to become fatigued"
               ],
               "example": {
-                "en": "It's not nice being lied to.",
-                "native": "嘘をつかれるのは嫌だよね。"
+                "en": "I am tired today.",
+                "native": "きょうはつかれた"
               },
               "type": "word",
               "pos_detail": "v1",
@@ -10644,8 +10661,8 @@
                 "to make, to create"
               ],
               "example": {
-                "en": "The ordinary people had their livelihood in farming rice.",
-                "native": "庶民のなりわいは、米をつくることだった。"
+                "en": "Making lunch was my father's job.",
+                "native": "昼ごはんを作るのは父の仕事だった。"
               },
               "type": "word",
               "pos_detail": "v5",
@@ -10697,8 +10714,8 @@
                 "to line up"
               ],
               "example": {
-                "en": "Rank boys according to their height.",
-                "native": "身長順に男の子を並べる。"
+                "en": "Please line up the chairs here.",
+                "native": "椅子をここに並べてください。"
               },
               "type": "word",
               "pos_detail": "v1",
@@ -10842,7 +10859,7 @@
             },
             {
               "id": "N5-0685",
-              "kanji": null,
+              "kanji": "よく",
               "hiragana": "よく",
               "katakana": "ヨク",
               "en": "frequently, often (much)",
@@ -10851,8 +10868,8 @@
                 "well, skillfully"
               ],
               "example": {
-                "en": "I don't feel well.",
-                "native": "気分がよくないんだ。"
+                "en": "You should brush your teeth well.",
+                "native": "歯をよく磨きなさい"
               },
               "type": "word",
               "pos_detail": "v5",
@@ -10955,8 +10972,8 @@
                 "tonight, this evening"
               ],
               "example": {
-                "en": "Hello, Chicago!",
-                "native": "シカゴのみなさん、こんばんは。"
+                "en": "My friend is coming tonight.",
+                "native": "友達が今晩来ます。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -11006,8 +11023,8 @@
                 "yesterday"
               ],
               "example": {
-                "en": "Someone ploughed into me from behind at an intersection yesterday.",
-                "native": "きのう交差点でお釜を掘られちゃったよ。"
+                "en": "Someone ran into me yesterday.",
+                "native": "昨日、誰かが私にぶつかった。"
               },
               "type": "word",
               "pos_detail": "v5",
@@ -11125,8 +11142,8 @@
                 "late afternoon (typically just before dinner time), evening"
               ],
               "example": {
-                "en": "My water broke on the evening of the predicted birth date.",
-                "native": "予定日の夕方に破水しました。"
+                "en": "I enjoy walking in the late afternoon.",
+                "native": "夕方の散歩は楽しいです。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -11350,8 +11367,8 @@
                 "fourth day of the month"
               ],
               "example": {
-                "en": "I start early tomorrow, maybe I should go to sleep soon.",
-                "native": "明日早いからそろそろ寝よっかな。"
+                "en": "We leave in four days.",
+                "native": "四日後に出発します。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -11422,8 +11439,8 @@
                 "eighth day of the month"
               ],
               "example": {
-                "en": "Shall we take this outside?",
-                "native": "表に出ようか。"
+                "en": "Eight days until the festival.",
+                "native": "祭りまで八日です。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -11459,8 +11476,8 @@
                 "tenth day of the month"
               ],
               "example": {
-                "en": "It's sort of strange.",
-                "native": "それはちょっとおかしいね。"
+                "en": "Today is the tenth.",
+                "native": "今日は十日です。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -11578,8 +11595,8 @@
                 "last year"
               ],
               "example": {
-                "en": "Ken, who is a graduate student, went to the United States last year.",
-                "native": "大学院生のケンは去年アメリカに行った。"
+                "en": "Ken went to the United States last year.",
+                "native": "去年、健はアメリカに行きました。"
               },
               "type": "word",
               "pos_detail": "n",
@@ -11749,8 +11766,8 @@
                 "time"
               ],
               "example": {
-                "en": "My fingers are so numb with cold that I can't play the piano.",
-                "native": "手がかじかんでピアノが弾けない。"
+                "en": "Do you have time tonight?",
+                "native": "今晩時間はありますか？"
               },
               "type": "word",
               "pos_detail": "n",
@@ -11957,8 +11974,8 @@
                 "one month"
               ],
               "example": {
-                "en": "A misfortune never comes alone.",
-                "native": "不幸は決してひとつきりではこない。"
+                "en": "It took me over a month to recover from the cold.",
+                "native": "風邪を治すのにひと月以上かかったが"
               },
               "type": "word",
               "pos_detail": "n",
@@ -11976,8 +11993,8 @@
                 "absence"
               ],
               "example": {
-                "en": "She kissed me on the cheek and said goodnight.",
-                "native": "彼女は私のほおにキスをしておやすみと言った。"
+                "en": "Where are you going for your next holiday?",
+                "native": "今度の休みはどこへ行くの？"
               },
               "type": "word",
               "pos_detail": "n",
@@ -12018,7 +12035,7 @@
                 "but"
               ],
               "example": {
-                "en": "And yet, the contrary is always true as well.",
+                "en": "However, the opposite is also true.",
                 "native": "しかし、逆もまた真である。"
               },
               "type": "word",
@@ -12053,7 +12070,7 @@
                 "furthermore"
               ],
               "example": {
-                "en": "Someday I'll run like the wind.",
+                "en": "And then, I'll run like the wind again someday.",
                 "native": "またいつか風のように走るんだ。"
               },
               "type": "word",
@@ -12070,7 +12087,7 @@
                 "then, well, so"
               ],
               "example": {
-                "en": "It doesn't surprise me.",
+                "en": "It's not surprising, is it?",
                 "native": "驚くことではないね。"
               },
               "type": "word",
@@ -12104,7 +12121,7 @@
                 "and then, after that"
               ],
               "example": {
-                "en": "The days after that flew past.",
+                "en": "And then, the days passed by in a flash.",
                 "native": "それからの日々は、飛ぶように過ぎた。"
               },
               "type": "expression",
@@ -12223,7 +12240,7 @@
                 "sometimes"
               ],
               "example": {
-                "en": "Leaves fell down every now and then.",
+                "en": "Sometimes leaves would fall down.",
                 "native": "葉がときどき落ちてきた。"
               },
               "type": "word",
@@ -12240,7 +12257,7 @@
                 "best (most), first, number one"
               ],
               "example": {
-                "en": "Friendship is the most precious of all.",
+                "en": "Friendship is the most important of all.",
                 "native": "友情は、すべての中でいちばん大切である。"
               },
               "type": "word",
@@ -12257,7 +12274,7 @@
                 "many, much"
               ],
               "example": {
-                "en": "There are many words that I don't understand.",
+                "en": "There are many words I don't understand.",
                 "native": "分からない言葉がたくさんある。"
               },
               "type": "word",
@@ -12327,7 +12344,7 @@
                 "gradually, by degrees"
               ],
               "example": {
-                "en": "As he talked, he got more and more excited.",
+                "en": "As we were talking, he got more and more excited.",
                 "native": "話しているうちに、彼はだんだん興奮して来た。"
               },
               "type": "word",
@@ -12455,7 +12472,7 @@
                 "to be bothered, to have difficulty"
               ],
               "example": {
-                "en": "He looks to his uncle for advice whenever he is in trouble.",
+                "en": "Whenever he's in trouble, he always relies on his uncle for advice.",
                 "native": "彼はこまるといつも助言を叔父にたよる。"
               },
               "type": "word",
@@ -12492,7 +12509,7 @@
                 "wrong"
               ],
               "example": {
-                "en": "He may have gone home by another way.",
+                "en": "He may have taken a different route home.",
                 "native": "彼はちがう道を通って家に帰ったかもしれない。"
               },
               "type": "word",
@@ -12543,7 +12560,7 @@
                 "to forget"
               ],
               "example": {
-                "en": "It wasn't very discreet of you to forget the appointment.",
+                "en": "It wasn't very careful of you to forget the promise.",
                 "native": "約束を忘れるとはあまり慎重ではなかったですね。"
               },
               "type": "word",
@@ -12560,7 +12577,7 @@
                 "to help"
               ],
               "example": {
-                "en": "I help my friend with homework.",
+                "en": "I will help my friend with his homework.",
                 "native": "友達の宿題を手伝う。"
               },
               "type": "word",
