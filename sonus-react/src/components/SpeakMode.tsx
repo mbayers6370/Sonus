@@ -1167,14 +1167,6 @@ export default function SpeakMode({
             return heardLookup === simp || heardLookup === trad;
           })
         : [];
-      const heardPronunciationFromScriptCandidate = heardScriptCandidates
-        .map((candidate) => japanesePronunciationKey({
-          reading: candidate.reading,
-          hiragana: candidate.hiragana,
-          transliteration: candidate.transliteration,
-          simp: candidate.simp,
-        }))
-        .find((value) => Boolean(value)) || '';
       if (
         (heard && targetJapaneseScript && heard === targetJapaneseScript) ||
         (heardLookup && targetLookup && heardLookup === targetLookup)
@@ -1183,80 +1175,16 @@ export default function SpeakMode({
         return { recognizedText: word.simp || recognized, analysis: null, match: true };
       }
 
-      // If STT returns a different script form (e.g. kanji instead of kana),
-      // accept it when the recognized token maps to the same hiragana reading as target.
-      if (heard) {
-        const heardScriptCandidateMatch = heardScriptCandidates.find((candidate) => {
-          const heardCandidateReading = japanesePronunciationKey({
-            reading: candidate.reading,
-            hiragana: candidate.hiragana,
-            transliteration: candidate.transliteration,
-            simp: candidate.simp,
-          });
-          return Boolean(heardCandidateReading && targetJapaneseReading && heardCandidateReading === targetJapaneseReading);
-        });
-        if (heardScriptCandidateMatch) {
-          return { recognizedText: heardScriptCandidateMatch.simp || recognized, analysis: null, match: true };
-        }
-      }
-      if (
-        heardPronunciationFromScriptCandidate &&
-        targetJapaneseReading &&
-        heardPronunciationFromScriptCandidate === targetJapaneseReading
-      ) {
-        // Homophone/equivalent-script pass: pronunciation matches target, normalize display to target script.
-        return { recognizedText: word.simp || recognized, analysis: null, match: true };
-      }
-
       // When STT returns kana directly, compare normalized hiragana readings.
       const heardReading = normalizeJapaneseReadingForCompare(recognized);
       if (heardReading && targetJapaneseReading && heardReading === targetJapaneseReading) {
-        return { recognizedText: word.simp || recognized, analysis: null, match: true };
-      }
-
-      const closestHeardScriptCandidate = heardLookup
-        ? (() => {
-            const candidates = [word, ...allWords]
-              .map((candidate) => {
-                const simp = normalizeJapaneseLookupKey(candidate.simp || '');
-                const trad = normalizeJapaneseLookupKey(candidate.trad || '');
-                const keys = [simp, trad].filter(Boolean);
-                if (!keys.length) return null;
-                const bestDistance = keys.reduce((minDistance, key) => {
-                  const distance = levenshtein(heardLookup, key);
-                  return Math.min(minDistance, distance);
-                }, Number.POSITIVE_INFINITY);
-                return { candidate, bestDistance, keyLength: Math.min(...keys.map((key) => key.length)) };
-              })
-              .filter((entry): entry is { candidate: Word; bestDistance: number; keyLength: number } => Boolean(entry))
-              .sort((a, b) => a.bestDistance - b.bestDistance);
-            const best = candidates[0];
-            if (!best) return null;
-            const threshold = Math.max(1, Math.floor(best.keyLength * 0.34));
-            return best.bestDistance <= threshold ? best.candidate : null;
-          })()
-        : null;
-      const heardPronunciationFromClosest = closestHeardScriptCandidate
-        ? japanesePronunciationKey({
-            reading: closestHeardScriptCandidate.reading,
-            hiragana: closestHeardScriptCandidate.hiragana,
-            transliteration: closestHeardScriptCandidate.transliteration,
-            simp: closestHeardScriptCandidate.simp,
-          })
-        : '';
-      if (
-        heardPronunciationFromClosest &&
-        targetJapaneseReading &&
-        heardPronunciationFromClosest === targetJapaneseReading
-      ) {
         return { recognizedText: word.simp || recognized, analysis: null, match: true };
       }
       const heardRomajiDirect = japaneseRomajiKeyFromScriptOrFallback(recognized, recognized);
       const heardRomajiFromLookup = heardScriptCandidates
         .map((candidate) => japaneseRomajiFromEntry(candidate))
         .find((value) => Boolean(value)) || '';
-      const heardRomajiFromClosest = closestHeardScriptCandidate ? japaneseRomajiFromEntry(closestHeardScriptCandidate) : '';
-      const heardRomaji = heardRomajiDirect || heardRomajiFromLookup || heardRomajiFromClosest;
+      const heardRomaji = heardRomajiDirect || heardRomajiFromLookup;
       if (!targetJapaneseRomaji || !heardRomaji) {
         return { recognizedText: recognized, analysis: null, match: false };
       }
