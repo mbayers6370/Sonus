@@ -69,7 +69,7 @@ const CARD_ACCENTS = [
 
 function drenchedBorderClassFromAccent(accentBadgeText: string) {
   if (accentBadgeText === 'text-[var(--sonus-palette-blue)]') return 'sonus-drenched-border-ocean';
-  if (accentBadgeText === 'text-[var(--sonus-palette-green)]') return 'sonus-drenched-border-green';
+  if (accentBadgeText === 'text-[var(--sonus-palette-green)]') return 'sonus-drenched-border-pine';
   if (accentBadgeText === 'text-[var(--sonus-palette-charcoal)]') return 'sonus-drenched-border-charcoal';
   return '';
 }

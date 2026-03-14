@@ -222,7 +222,8 @@ body::before {
     linear-gradient(135deg, #14b8a6 0%, #22c55e 100%) border-box;
 }
 
-.sonus-drenched-border-green {
+.sonus-drenched-border-green,
+.sonus-drenched-border-pine {
   border: 0.75px solid transparent;
   background:
     linear-gradient(var(--sonus-palette-green), var(--sonus-palette-green)) padding-box,
