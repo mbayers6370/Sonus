@@ -275,7 +275,7 @@ export default function LessonScreen({
           <div className="w-full max-w-md rounded-2xl border border-border bg-white p-5 shadow-[0_20px_40px_-24px_rgba(15,23,42,0.55)]">
             <h2 className="text-lg font-semibold text-text-dark">Return To Lessons?</h2>
             <p className="mt-2 text-sm text-text-med">
-              This will exit mastery and restart this lesson from the beginning, clearing this lesson&apos;s prior scores.
+              This will exit mastery mode, return you to the lesson, and clear your scores for this session.
             </p>
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
               <button
