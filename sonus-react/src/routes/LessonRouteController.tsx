@@ -17,7 +17,14 @@ interface LessonRouteControllerProps {
 
 export default function LessonRouteController({ onGoHome, onOpenProfile }: LessonRouteControllerProps) {
   const navigate = useNavigate();
-  const { state, openLessonPath, restartLesson, exitLesson, setLessonMode } = useApp();
+  const {
+    state,
+    openLessonPath,
+    restartLesson,
+    exitLesson,
+    setLessonMode,
+    resetActiveLessonForReview,
+  } = useApp();
   const { activeLesson, lessonWordIndex, activeBandId } = state;
   const { band, unitId, lessonIndex, mode } = useParams<{
     tier: string;
@@ -220,6 +227,12 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
     <LessonScreen
       onGoHome={onGoHome}
       onOpenProfile={onOpenProfile}
+      onReturnToLessons={() => {
+        resetActiveLessonForReview();
+        navigate(
+          `/learn/${tierForBand(level.id)}/${level.id}/unit/${activeLesson.unitId}/lesson/${activeLesson.lessonIndex}/intro`
+        );
+      }}
       onModeChange={(nextMode) => {
         if (nextMode === lessonMode) return;
         navigate(

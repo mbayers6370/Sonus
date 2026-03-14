@@ -17,6 +17,8 @@ interface QuizProps {
   totalWords: number;
   listeningMode?: boolean;
   hideReadingAndMeaning?: boolean;
+  showNeedReviewAction?: boolean;
+  onNeedReview?: () => void;
   onNext: () => void;
 }
 
@@ -119,6 +121,8 @@ export default function Quiz({
   totalWords,
   listeningMode = false,
   hideReadingAndMeaning = false,
+  showNeedReviewAction = false,
+  onNeedReview,
   onNext,
 }: QuizProps) {
   const { state, recordQuizResult, recordWordOutcome } = useApp();
@@ -337,7 +341,16 @@ export default function Quiz({
 
       {/* Navigation Buttons */}
       <div className="fixed left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-2 bg-bg-warm/95 backdrop-blur-sm bottom-[calc(var(--sonus-bottom-nav-height,5rem)+env(safe-area-inset-bottom,0px))]">
-        <div className="grid grid-cols-1 gap-2">
+        <div className={`grid gap-2 ${showNeedReviewAction ? 'grid-cols-2' : 'grid-cols-1'}`}>
+          {showNeedReviewAction ? (
+            <button
+              type="button"
+              onClick={() => onNeedReview?.()}
+              className="w-full flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-3 sm:py-3.5 bg-white border border-[var(--sonus-palette-rust)] text-[var(--sonus-palette-rust)] rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-all hover:bg-[rgba(194,65,12,0.08)]"
+            >
+              Need Review
+            </button>
+          ) : null}
           <button
             onClick={handleNext}
             className="w-full flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-3 sm:py-3.5 bg-[var(--sonus-palette-charcoal)] text-white rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-all hover:bg-[var(--sonus-palette-charcoal)] hover:-translate-y-0.5 hover:shadow-lg"

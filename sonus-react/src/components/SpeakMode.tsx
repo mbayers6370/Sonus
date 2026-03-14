@@ -36,6 +36,8 @@ interface SpeakModeProps {
   practiceMode?: boolean;
   hideReadingAndMeaning?: boolean;
   disableTargetAudio?: boolean;
+  showNeedReviewAction?: boolean;
+  onNeedReview?: () => void;
   onNext: () => void;
 }
 
@@ -873,6 +875,8 @@ export default function SpeakMode({
   practiceMode = false,
   hideReadingAndMeaning = false,
   disableTargetAudio = false,
+  showNeedReviewAction = false,
+  onNeedReview,
   onNext,
 }: SpeakModeProps) {
   const renderAnimatedEllipsis = () => (
@@ -2483,7 +2487,16 @@ export default function SpeakMode({
           practiceMode ? 'bg-white border-white/30' : 'bg-bg-warm/95 border-border'
         }`}
       >
-        <div className="grid grid-cols-1 gap-2">
+        <div className={`grid gap-2 ${showNeedReviewAction ? 'grid-cols-2' : 'grid-cols-1'}`}>
+          {showNeedReviewAction ? (
+            <button
+              type="button"
+              onClick={() => onNeedReview?.()}
+              className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[var(--sonus-palette-rust)] text-[var(--sonus-palette-rust)] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(194,65,12,0.08)]"
+            >
+              Need Review
+            </button>
+          ) : null}
           <button
             onClick={onNext}
             disabled={!canAdvance}

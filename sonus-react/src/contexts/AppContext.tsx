@@ -85,6 +85,7 @@ interface AppContextType {
   completeLessonProgress: () => void;
   exitLesson: () => void;
   restartLesson: () => void;
+  resetActiveLessonForReview: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -2386,6 +2387,50 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const resetActiveLessonForReview = () => {
+    setState((prev) => {
+      if (!prev.activeLesson || !prev.activeBandId) return prev;
+
+      const lessonKey = makeLessonKey(
+        prev.activeBandId,
+        prev.activeLesson.unitId,
+        prev.activeLesson.lessonIndex
+      );
+      const nextLessonProgress = { ...prev.lessonProgress };
+      delete nextLessonProgress[lessonKey];
+
+      const currentLanguage =
+        normalizeLanguageForState(prev.selectedLanguage) ||
+        inferLanguageFromBandId(prev.activeBandId);
+      const nextCheckpointMap = { ...prev.resumeCheckpointByLanguage };
+      if (currentLanguage) {
+        delete nextCheckpointMap[currentLanguage];
+      }
+
+      const queued = readQueuedLessonSnapshots();
+      if (queued.length) {
+        writeQueuedLessonSnapshots(
+          queued.filter(
+            (item) =>
+              makeLessonKey(item.bandId, item.unitId, item.lessonIndex) !== lessonKey
+          )
+        );
+      }
+
+      return {
+        ...prev,
+        lessonProgress: nextLessonProgress,
+        lessonMode: 'intro',
+        lessonWordIndex: 0,
+        quizResultsByIndex: {},
+        speakResultsByIndex: {},
+        speakBreakdownByIndex: {},
+        resumeCheckpoint: null,
+        resumeCheckpointByLanguage: nextCheckpointMap,
+      };
+    });
+  };
+
   const value: AppContextType = {
     state,
     selectLanguage,
@@ -2404,6 +2449,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     completeLessonProgress,
     exitLesson,
     restartLesson,
+    resetActiveLessonForReview,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

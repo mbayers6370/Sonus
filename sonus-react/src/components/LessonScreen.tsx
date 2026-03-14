@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { LessonMode } from '../types/lesson.types';
 import { useApp } from '../contexts/AppContext';
 import Flashcard from './Flashcard';
@@ -18,6 +18,7 @@ interface LessonScreenProps {
   onGoHome: () => void;
   onOpenProfile: () => void;
   onModeChange?: (mode: LessonMode) => void;
+  onReturnToLessons?: () => void;
 }
 
 const LESSON_RELOAD_GUARD_KEY = 'sonus.lesson.reload_guard';
@@ -54,8 +55,14 @@ function isBrowserReloadNavigation() {
   }
 }
 
-export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: LessonScreenProps) {
+export default function LessonScreen({
+  onGoHome,
+  onOpenProfile,
+  onModeChange,
+  onReturnToLessons,
+}: LessonScreenProps) {
   const { state, setLessonMode, nextWord, prevWord, restartLesson, completeLessonProgress } = useApp();
+  const [showNeedReviewModal, setShowNeedReviewModal] = useState(false);
   const {
     activeLesson,
     lessonMode,
@@ -218,6 +225,7 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
   const masterySpeakDone = Boolean(lessonStatus?.mastered || lessonStatus?.masterySpeakPassed);
   const quizDone = isMasterySession ? masteryQuizDone : instructionalQuizDone;
   const speakDone = isMasterySession ? masterySpeakDone : instructionalSpeakDone;
+  const showNeedReviewAction = isMasterySession && (lessonMode === 'quiz' || lessonMode === 'speak');
   const modeTabs: Array<{
     mode: LessonMode;
     label: string;
@@ -262,6 +270,35 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
 
   return (
     <div className={`flex flex-col h-[100svh] min-h-[100svh] overflow-hidden page-shell ${speakingPageTheme.shell}`}>
+      {showNeedReviewModal ? (
+        <div className="fixed inset-0 z-[120] bg-[rgba(15,23,42,0.48)] px-6 flex items-center justify-center" role="dialog" aria-modal="true" aria-label="Return to lessons confirmation">
+          <div className="w-full max-w-md rounded-2xl border border-border bg-white p-5 shadow-[0_20px_40px_-24px_rgba(15,23,42,0.55)]">
+            <h2 className="text-lg font-semibold text-text-dark">Return To Lessons?</h2>
+            <p className="mt-2 text-sm text-text-med">
+              This will exit mastery and restart this lesson from the beginning, clearing this lesson&apos;s prior scores.
+            </p>
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setShowNeedReviewModal(false)}
+                className="w-full rounded-xl border border-border bg-white px-4 py-2.5 text-sm font-semibold text-text-dark transition-colors hover:bg-[#F8FAFC]"
+              >
+                Keep Practicing
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowNeedReviewModal(false);
+                  onReturnToLessons?.();
+                }}
+                className="w-full rounded-xl border border-[var(--sonus-palette-rust)] bg-white px-4 py-2.5 text-sm font-semibold text-[var(--sonus-palette-rust)] transition-colors hover:bg-[rgba(194,65,12,0.08)]"
+              >
+                Restart Lesson
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
       {/* Header */}
       <div className="px-6 pb-1">
         <GlassHeader
@@ -336,6 +373,8 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             totalWords={totalWords}
             listeningMode={isListeningPractice}
             hideReadingAndMeaning={shouldHideReadingAndMeaning}
+            showNeedReviewAction={showNeedReviewAction}
+            onNeedReview={() => setShowNeedReviewModal(true)}
             onNext={nextWord}
           />
         )}
@@ -348,6 +387,8 @@ export default function LessonScreen({ onGoHome, onOpenProfile, onModeChange }: 
             practiceMode={isSpeakingPractice}
             hideReadingAndMeaning={shouldHideReadingAndMeaning}
             disableTargetAudio={isMasterySession}
+            showNeedReviewAction={showNeedReviewAction}
+            onNeedReview={() => setShowNeedReviewModal(true)}
             onNext={nextWord}
           />
         )}
