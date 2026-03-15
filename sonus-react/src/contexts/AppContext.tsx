@@ -53,6 +53,7 @@ import {
   normalizeLessonProgressKeys,
   mergeLessonProgress,
   buildLessonProgressFromRecentEvents,
+  collectResetLessonKeysFromEvents,
 } from '../lib/lessonProgressState';
 import type { ProgressEventEnvelope } from '../lib/lessonProgressState';
 import { apiFetch } from '../lib/apiClient';
@@ -559,14 +560,14 @@ type LessonCompletionSnapshot = {
   reachedCompleteScreen?: boolean;
 };
 
-type ProgressCompletionEventType = 'lesson_completed' | 'apply_completed';
+type ProgressCompletionEventType = 'lesson_completed';
 
 const LESSON_SNAPSHOT_OUTBOX_STORAGE_KEY = 'sonus.lesson_snapshot_outbox';
 
 type QueuedLessonCompletionSnapshot = LessonCompletionSnapshot & {
   ownerUserId?: string | null;
   ownerEmail?: string | null;
-  eventType: ProgressCompletionEventType;
+  eventType: string;
   queuedAt: string;
 };
 
@@ -575,7 +576,11 @@ function readQueuedLessonSnapshots() {
     const raw = window.localStorage.getItem(LESSON_SNAPSHOT_OUTBOX_STORAGE_KEY);
     if (!raw) return [] as QueuedLessonCompletionSnapshot[];
     const parsed = JSON.parse(raw) as QueuedLessonCompletionSnapshot[];
-    return Array.isArray(parsed) ? parsed : [];
+    if (!Array.isArray(parsed)) return [] as QueuedLessonCompletionSnapshot[];
+    return parsed.map((snapshot) => ({
+      ...snapshot,
+      eventType: 'lesson_completed',
+    }));
   } catch {
     return [] as QueuedLessonCompletionSnapshot[];
   }
@@ -598,6 +603,7 @@ function queueLessonSnapshot(
   snapshot: LessonCompletionSnapshot,
   eventType: ProgressCompletionEventType = 'lesson_completed'
 ) {
+  if (!snapshot.completed || !snapshot.reachedCompleteScreen) return;
   const existing = readQueuedLessonSnapshots();
   const identity = getMockIdentity();
   const key = makeLessonKey(snapshot.bandId, snapshot.unitId, snapshot.lessonIndex);
@@ -625,6 +631,7 @@ async function saveLessonCompletionSnapshot(
   snapshot: LessonCompletionSnapshot,
   eventType: ProgressCompletionEventType = 'lesson_completed'
 ) {
+  if (!snapshot.completed || !snapshot.reachedCompleteScreen) return;
   const buildEventBody = (type: ProgressCompletionEventType) =>
     JSON.stringify({
       eventType: type,
@@ -633,22 +640,11 @@ async function saveLessonCompletionSnapshot(
     });
 
   try {
-    let response = await apiFetch('/v1/me/progress/events', {
+    const response = await apiFetch('/v1/me/progress/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: buildEventBody(eventType),
     });
-
-    // Backward compatibility: if backend hasn't deployed apply_completed yet,
-    // retry as lesson_completed so Apply progress still persists.
-    if (!response.ok && response.status === 400 && eventType === 'apply_completed') {
-      response = await apiFetch('/v1/me/progress/events', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: buildEventBody('lesson_completed'),
-      });
-      if (response.ok) return;
-    }
 
     if (!response.ok) {
       queueLessonSnapshot(snapshot, eventType);
@@ -687,6 +683,7 @@ async function flushQueuedLessonSnapshots() {
 
   const remaining: QueuedLessonCompletionSnapshot[] = [];
   for (const snapshot of queued) {
+    if (!snapshot.completed || !snapshot.reachedCompleteScreen) continue;
     const snapshotOwnerUserId = snapshot.ownerUserId || null;
     const snapshotOwnerEmail = snapshot.ownerEmail?.trim().toLowerCase() || null;
     const hasOwner = Boolean(snapshotOwnerUserId || snapshotOwnerEmail);
@@ -720,18 +717,11 @@ async function flushQueuedLessonSnapshots() {
         },
       });
     try {
-      let response = await apiFetch('/v1/me/progress/events', {
+      const response = await apiFetch('/v1/me/progress/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: buildEventBody(snapshot.eventType || 'lesson_completed'),
+        body: buildEventBody('lesson_completed'),
       });
-      if (!response.ok && response.status === 400 && snapshot.eventType === 'apply_completed') {
-        response = await apiFetch('/v1/me/progress/events', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: buildEventBody('lesson_completed'),
-        });
-      }
       if (!response.ok) {
         remaining.push(snapshot);
       }
@@ -974,6 +964,24 @@ export function AppProvider({ children }: { children: ReactNode }) {
           );
           const serverProgress = mergeLessonProgress(snapshotProgress, eventProgress);
           const nextLessonProgress = mergeLessonProgress(prev.lessonProgress, serverProgress);
+          const resetLessonKeys = collectResetLessonKeysFromEvents(payload.recentEvents);
+
+          for (const key of resetLessonKeys) {
+            delete nextLessonProgress[key];
+          }
+
+          for (const [key, status] of Object.entries(nextLessonProgress)) {
+            const hasServerState = Object.prototype.hasOwnProperty.call(serverProgress, key);
+            const isPersistedCompletionLike =
+              Boolean(status.completed) ||
+              Boolean(status.mastered) ||
+              Boolean(status.masteryQuizPassed) ||
+              Boolean(status.masterySpeakPassed);
+            if (!hasServerState && isPersistedCompletionLike) {
+              delete nextLessonProgress[key];
+            }
+          }
+
           const unlockedFromServerCursor = trackLevelIdsThrough(currentBandId);
           const nextUnlockedLevels = Array.from(
             new Set([...prev.unlockedLevels, ...unlockedFromServerCursor])
@@ -2293,9 +2301,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       );
     }
     if (completionSnapshotRef.current) {
-      const completionEventType: ProgressCompletionEventType =
-        lessonMode === 'apply' ? 'apply_completed' : 'lesson_completed';
-      void saveLessonCompletionSnapshot(completionSnapshotRef.current, completionEventType);
+      void saveLessonCompletionSnapshot(completionSnapshotRef.current, 'lesson_completed');
     }
   };
 
@@ -2368,6 +2374,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const resetActiveLessonForReview = () => {
+    const activeBandId = state.activeBandId;
+    const activeLesson = state.activeLesson;
+    const lessonKeyForReset =
+      activeBandId && activeLesson
+        ? makeLessonKey(activeBandId, activeLesson.unitId, activeLesson.lessonIndex)
+        : null;
+
     setState((prev) => {
       if (!prev.activeLesson || !prev.activeBandId) return prev;
 
@@ -2409,6 +2422,28 @@ export function AppProvider({ children }: { children: ReactNode }) {
         resumeCheckpointByLanguage: nextCheckpointMap,
       };
     });
+
+    if (authStatus === 'signed_in' && lessonKeyForReset) {
+      const [bandId, unitId, lessonIndexRaw] = lessonKeyForReset.split(':');
+      const lessonIndex = Number(lessonIndexRaw);
+      if (bandId && unitId && Number.isInteger(lessonIndex) && lessonIndex >= 0) {
+        void apiFetch('/v1/me/progress/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            eventType: 'lesson_reset_for_review',
+            streakDelta: 0,
+            payloadJson: {
+              bandId,
+              unitId,
+              lessonIndex,
+            },
+          }),
+        }).catch(() => {
+          // Keep optimistic reset locally if persistence call fails.
+        });
+      }
+    }
   };
 
   const value: AppContextType = {

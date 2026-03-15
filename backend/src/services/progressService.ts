@@ -10,10 +10,10 @@ interface ProgressEventInput {
   eventType:
     | 'lesson_started'
     | 'lesson_completed'
-    | 'apply_completed'
     | 'quiz_answered'
     | 'speak_scored'
-    | 'manual_adjustment';
+    | 'manual_adjustment'
+    | 'lesson_reset_for_review';
   streakDelta: number;
   payloadJson?: Prisma.JsonObject;
 }
@@ -103,7 +103,7 @@ function mergeLessonState(
 }
 
 function buildLessonProgressFromEvents(
-  events: Array<{ payloadJson: Prisma.JsonValue | null }>
+  events: Array<{ eventType: string; payloadJson: Prisma.JsonValue | null }>
 ): Record<string, LessonProgressState> {
   // Rehydrate lesson snapshots from append-only progress events.
   const lessonProgress: Record<string, LessonProgressState> = {};
@@ -123,6 +123,10 @@ function buildLessonProgressFromEvents(
     if (!bandId || !unitId || lessonIndex === null || lessonIndex < 0) continue;
 
     const key = `${bandId}:${unitId}:${lessonIndex}`;
+    if (event.eventType === 'lesson_reset_for_review') {
+      delete lessonProgress[key];
+      continue;
+    }
     const quizScore = toOptionalScore(record.quizScore);
     const speakScore = toOptionalScore(record.speakScore);
     const completed = Boolean(record.completed) || isCompletedByScores(quizScore, speakScore);
@@ -294,14 +298,17 @@ export async function getProgressSnapshot(userId: string) {
         take: 20,
       }),
       prisma.progressEvent.findMany({
-        where: { userId, eventType: { in: ['lesson_completed', 'apply_completed'] } },
-        select: { payloadJson: true },
+        where: {
+          userId,
+          eventType: { in: ['lesson_completed', 'lesson_reset_for_review'] },
+        },
+        select: { eventType: true, payloadJson: true },
         orderBy: { createdAt: 'asc' },
       }),
       prisma.progressEvent.findMany({
         where: {
           userId,
-          eventType: { in: ['lesson_completed', 'apply_completed'] },
+          eventType: { in: ['lesson_completed'] },
           createdAt: { gte: new Date(Date.now() - 35 * 86_400_000) },
         },
         select: { createdAt: true, payloadJson: true },
@@ -414,8 +421,7 @@ export async function recordProgressEvent(userId: string, event: ProgressEventIn
     const lastKey = existing?.lastActiveDate ? dayKeyAt(existing.lastActiveDate, timezone) : null;
 
     const countsAsCompletedLesson =
-      (event.eventType === 'lesson_completed' || event.eventType === 'apply_completed') &&
-      isCompletedLessonPayload(event.payloadJson);
+      event.eventType === 'lesson_completed' && isCompletedLessonPayload(event.payloadJson);
 
     const nextStreak = (() => {
       if (!countsAsCompletedLesson) {

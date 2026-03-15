@@ -8,6 +8,19 @@ export type ProgressEventEnvelope = {
   payloadJson?: unknown;
 };
 
+function lessonKeyFromEventPayload(payload: unknown) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return null;
+  const data = payload as Record<string, unknown>;
+  const bandId = typeof data.bandId === 'string' ? data.bandId.trim() : '';
+  const unitId = typeof data.unitId === 'string' ? data.unitId.trim() : '';
+  const lessonIndex =
+    typeof data.lessonIndex === 'number' && Number.isInteger(data.lessonIndex)
+      ? data.lessonIndex
+      : null;
+  if (!bandId || !unitId || lessonIndex === null || lessonIndex < 0) return null;
+  return makeLessonKey(bandId, unitId, lessonIndex);
+}
+
 function isCompletedByScores(quizScore: number | null, speakScore: number | null) {
   return (quizScore ?? 0) >= QUIZ_PASS_PERCENT && (speakScore ?? 0) >= SPEAK_PASS_PERCENT;
 }
@@ -95,18 +108,16 @@ export function mergeLessonProgress(
 export function buildLessonProgressFromRecentEvents(events: ProgressEventEnvelope[] | undefined) {
   const next: AppState['lessonProgress'] = {};
   for (const event of events || []) {
-    if (event?.eventType !== 'lesson_completed' && event?.eventType !== 'apply_completed') continue;
-    if (!event.payloadJson || typeof event.payloadJson !== 'object' || Array.isArray(event.payloadJson)) continue;
-    const payload = event.payloadJson as Record<string, unknown>;
-    const bandId = typeof payload.bandId === 'string' ? payload.bandId.trim() : '';
-    const unitId = typeof payload.unitId === 'string' ? payload.unitId.trim() : '';
-    const lessonIndex =
-      typeof payload.lessonIndex === 'number' && Number.isInteger(payload.lessonIndex)
-        ? payload.lessonIndex
-        : null;
-    if (!bandId || !unitId || lessonIndex === null || lessonIndex < 0) continue;
+    const key = lessonKeyFromEventPayload(event?.payloadJson);
+    if (!key) continue;
 
-    const key = makeLessonKey(bandId, unitId, lessonIndex);
+    if (event?.eventType === 'lesson_reset_for_review') {
+      delete next[key];
+      continue;
+    }
+
+    if (event?.eventType !== 'lesson_completed') continue;
+    const payload = event.payloadJson as Record<string, unknown>;
     const quizScore = typeof payload.quizScore === 'number' ? payload.quizScore : null;
     const speakScore = typeof payload.speakScore === 'number' ? payload.speakScore : null;
     const completed = Boolean(payload.completed) || isCompletedByScores(quizScore, speakScore);
@@ -122,4 +133,14 @@ export function buildLessonProgressFromRecentEvents(events: ProgressEventEnvelop
     };
   }
   return next;
+}
+
+export function collectResetLessonKeysFromEvents(events: ProgressEventEnvelope[] | undefined) {
+  const resetKeys = new Set<string>();
+  for (const event of events || []) {
+    if (event?.eventType !== 'lesson_reset_for_review') continue;
+    const key = lessonKeyFromEventPayload(event.payloadJson);
+    if (key) resetKeys.add(key);
+  }
+  return resetKeys;
 }

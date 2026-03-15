@@ -59,13 +59,19 @@ const progressEventSchema = z.object({
   eventType: z.enum([
     'lesson_started',
     'lesson_completed',
-    'apply_completed',
     'quiz_answered',
     'speak_scored',
     'manual_adjustment',
+    'lesson_reset_for_review',
   ]),
   streakDelta: z.number().int().min(-3).max(3).default(0),
   payloadJson: z.record(z.any()).optional(),
+});
+
+const lessonResetPayloadSchema = z.object({
+  bandId: z.string().trim().min(1).max(64),
+  unitId: z.string().trim().min(1).max(128),
+  lessonIndex: z.number().int().min(0).max(500),
 });
 
 const progressCurrentPatchSchema = z.object({
@@ -343,11 +349,24 @@ export async function meRoutes(app: FastifyInstance) {
       return;
     }
 
+    let payloadJson = parsed.data.payloadJson;
+    if (parsed.data.eventType === 'lesson_reset_for_review') {
+      const parsedResetPayload = lessonResetPayloadSchema.safeParse(parsed.data.payloadJson);
+      if (!parsedResetPayload.success) {
+        reply
+          .code(400)
+          .send({ error: 'Invalid lesson reset payload', issues: parsedResetPayload.error.issues });
+        return;
+      }
+      // Explicitly persist only a single lesson pointer for reset events.
+      payloadJson = parsedResetPayload.data;
+    }
+
     const { id } = request.user;
     return recordProgressEvent(id, {
       eventType: parsed.data.eventType,
       streakDelta: parsed.data.streakDelta,
-      payloadJson: parsed.data.payloadJson,
+      payloadJson,
     });
   });
 }

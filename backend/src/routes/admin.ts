@@ -79,6 +79,7 @@ const supportAdminResetWithTokenThrottle = createLoginThrottle({
   maxDelayMs: env.PASSWORD_RESET_CONSUME_WINDOW_MS,
   resetAfterMs: env.PASSWORD_RESET_CONSUME_WINDOW_MS,
 });
+const REPORT_SESSION_GAP_MINUTES = 30;
 
 function createSupportAdminResetToken() {
   return randomBytes(32).toString('base64url');
@@ -124,13 +125,20 @@ function percentile(values: number[], target: number) {
   return low + (high - low) * weight;
 }
 
-const supportedAdminLanguageIds = ['ja', 'kr', 'fr', 'it', 'es'] as const;
+const supportedAdminLanguageIds = ['ja', 'zh', 'kr', 'fr', 'it', 'es'] as const;
 const supportedAdminLanguageSql = Prisma.join(
   supportedAdminLanguageIds.map((languageId) => Prisma.sql`${languageId}`)
+);
+const supportedSpeakMissHotspotLanguageIds = supportedAdminLanguageIds.filter(
+  (languageId) => languageId !== 'zh'
+);
+const supportedSpeakMissHotspotLanguageSql = Prisma.join(
+  supportedSpeakMissHotspotLanguageIds.map((languageId) => Prisma.sql`${languageId}`)
 );
 const normalizedProfileLanguageSql = Prisma.sql`
   CASE
     WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('ja', 'jp', 'japanese') THEN 'ja'
+    WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('zh', 'cn', 'chinese', 'mandarin') THEN 'zh'
     WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('kr', 'ko', 'korean') THEN 'kr'
     WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('fr', 'french') THEN 'fr'
     WHEN COALESCE(NULLIF(LOWER(p.target_language), ''), 'unknown') IN ('it', 'italian') THEN 'it'
@@ -143,11 +151,13 @@ function normalizeAdminLanguageId(value: string | null | undefined) {
   const normalized = (value || '').trim().toLowerCase();
   if (!normalized) return null;
   if (normalized === 'jp' || normalized === 'japanese') return 'ja';
+  if (normalized === 'cn' || normalized === 'chinese' || normalized === 'mandarin') return 'zh';
   if (normalized === 'ko' || normalized === 'korean') return 'kr';
   if (normalized === 'french') return 'fr';
   if (normalized === 'italian') return 'it';
   if (normalized === 'spanish') return 'es';
   if (
+    normalized === 'zh' ||
     normalized === 'ja' ||
     normalized === 'kr' ||
     normalized === 'fr' ||
@@ -668,6 +678,7 @@ function buildEmptyImpactOutcomes(windowDays: number) {
   return {
     generatedAt: new Date().toISOString(),
     windowDays,
+    sessionWindowMinutes: REPORT_SESSION_GAP_MINUTES,
     definitions: {
       cohorts:
         'Signup cohorts grouped by week. D1/D7/D30 retention uses exact day-N return among users with enough account age (eligible).',
@@ -680,6 +691,8 @@ function buildEmptyImpactOutcomes(windowDays: number) {
       mastery: 'Mastery adoption among active users and time to first mastery.',
       needsWorkBurden:
         'Current needs-work load per active user plus miss-rate burden trend across window halves.',
+      needsReview:
+        'How often users intentionally reset mastery-ready lessons to relearn content, reported as aggregate event rate and per-user distribution.',
       perUserDistribution:
         'Anonymized percentile distribution across active users (no user identifiers).',
       riskCohorts:
@@ -699,16 +712,24 @@ function buildEmptyImpactOutcomes(windowDays: number) {
       sample: { firstActiveUsers: 0, secondActiveUsers: 0 },
       firstHalf: {
         quizAttempts: 0,
+        quizSessions: 0,
+        quizSessionsCompleted: 0,
         quizAccuracyPct: 0,
         speakAttempts: 0,
+        speakSessions: 0,
+        speakSessionsCompleted: 0,
         speakPassPct: 0,
         lessonsCompleted: 0,
         lessonsPerActiveUser: 0,
       },
       secondHalf: {
         quizAttempts: 0,
+        quizSessions: 0,
+        quizSessionsCompleted: 0,
         quizAccuracyPct: 0,
         speakAttempts: 0,
+        speakSessions: 0,
+        speakSessionsCompleted: 0,
         speakPassPct: 0,
         lessonsCompleted: 0,
         lessonsPerActiveUser: 0,
@@ -737,6 +758,18 @@ function buildEmptyImpactOutcomes(windowDays: number) {
       secondHalfMissesPerActiveUser: 0,
       missesPerActiveUserDeltaPct: 0,
     },
+    needsReview: {
+      activeUsers: 0,
+      usersWithNeedsReview: 0,
+      totalNeedsReviewEvents: 0,
+      totalLessonCompletions: 0,
+      needsReviewEventsPer100Completions: 0,
+      avgNeedsReviewEventsPerActiveUser: 0,
+      medianNeedsReviewEventsPerActiveUser: 0,
+      firstHalfNeedsReviewEventsPerActiveUser: 0,
+      secondHalfNeedsReviewEventsPerActiveUser: 0,
+      needsReviewEventsPerActiveUserDeltaPct: 0,
+    },
     segmentation: {
       activeUsersByLanguage: [] as Array<{ languageId: string; activeUsers: number }>,
     },
@@ -748,6 +781,7 @@ function buildEmptyImpactOutcomes(windowDays: number) {
         quizAccuracyPct: { avg: 0, p50: 0, p75: 0, p90: 0 },
         speakPassPct: { avg: 0, p50: 0, p75: 0, p90: 0 },
         needsWorkCount: { avg: 0, p50: 0, p75: 0, p90: 0 },
+        needsReviewResets: { avg: 0, p50: 0, p75: 0, p90: 0 },
       },
     },
     riskCohorts: [] as Array<{
@@ -1813,7 +1847,7 @@ export async function adminRoutes(app: FastifyInstance) {
           Prisma.sql`
           SELECT COUNT(DISTINCT pe.user_id)::bigint AS count
           FROM progress_events pe
-          WHERE pe.event_type IN ('lesson_started', 'lesson_completed', 'apply_completed')
+          WHERE pe.event_type IN ('lesson_started', 'lesson_completed')
             AND pe.created_at >= now() - ${windowInterval}::interval
         `
         ),
@@ -2327,7 +2361,6 @@ export async function adminRoutes(app: FastifyInstance) {
           lessonStartsInferred: bigint;
           lessonStarts: bigint;
           lessonCompleted: bigint;
-          applyCompleted: bigint;
         }>
       >`
       WITH completion_events AS (
@@ -2341,7 +2374,7 @@ export async function adminRoutes(app: FastifyInstance) {
           COALESCE(pe.payload_json->>'completed', '') AS completed_flag
         FROM progress_events pe
         LEFT JOIN profiles p ON p.user_id = pe.user_id
-        WHERE pe.event_type IN ('lesson_completed', 'apply_completed')
+        WHERE pe.event_type = 'lesson_completed'
           AND pe.created_at >= now() - ${windowInterval}::interval
           AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
       ),
@@ -2415,16 +2448,7 @@ export async function adminRoutes(app: FastifyInstance) {
           FROM completion_keys ck
           WHERE ck.reached_complete_screen = 'true'
              OR (ck.reached_complete_screen = '' AND ck.completed_flag = 'true')
-        ) AS "lessonCompleted",
-        (
-          SELECT COUNT(*)::bigint
-          FROM completion_keys ck
-          WHERE ck.event_type = 'apply_completed'
-            AND (
-              ck.reached_complete_screen = 'true'
-              OR (ck.reached_complete_screen = '' AND ck.completed_flag = 'true')
-            )
-        ) AS "applyCompleted"
+        ) AS "lessonCompleted"
     `;
 
       const [summary] = rows;
@@ -2454,7 +2478,6 @@ export async function adminRoutes(app: FastifyInstance) {
           lessonCompleted,
           lessonCompletionPct: pct(lessonCompleted, lessonStarts),
           lessonAbandons,
-          applyCompleted: toInt(summary?.applyCompleted),
         },
       };
     }
@@ -2586,7 +2609,7 @@ export async function adminRoutes(app: FastifyInstance) {
               SELECT MIN(pe.created_at)
               FROM progress_events pe
               WHERE pe.user_id = c.user_id
-                AND pe.event_type IN ('lesson_completed', 'apply_completed')
+                AND pe.event_type = 'lesson_completed'
             ) AS first_lesson_complete_at,
             (
               SELECT MIN(sa.created_at)
@@ -2600,7 +2623,7 @@ export async function adminRoutes(app: FastifyInstance) {
               SELECT MIN(pe.created_at)
               FROM progress_events pe
               WHERE pe.user_id = c.user_id
-                AND pe.event_type IN ('lesson_completed', 'apply_completed')
+                AND pe.event_type = 'lesson_completed'
                 AND COALESCE(pe.payload_json->>'mastered', 'false') = 'true'
             ) AS first_mastery_at
           FROM cohort c
@@ -2641,12 +2664,20 @@ export async function adminRoutes(app: FastifyInstance) {
           Array<{
             firstQuizAttempts: bigint;
             firstQuizCorrect: bigint;
+            firstQuizSessions: bigint;
+            firstQuizSessionsCompleted: bigint;
             secondQuizAttempts: bigint;
             secondQuizCorrect: bigint;
+            secondQuizSessions: bigint;
+            secondQuizSessionsCompleted: bigint;
             firstSpeakAttempts: bigint;
             firstSpeakPasses: bigint;
+            firstSpeakSessions: bigint;
+            firstSpeakSessionsCompleted: bigint;
             secondSpeakAttempts: bigint;
             secondSpeakPasses: bigint;
+            secondSpeakSessions: bigint;
+            secondSpeakSessionsCompleted: bigint;
             firstLessonsCompleted: bigint;
             secondLessonsCompleted: bigint;
             firstActiveUsers: bigint;
@@ -2692,6 +2723,50 @@ export async function adminRoutes(app: FastifyInstance) {
               AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
           ) AS "firstQuizCorrect",
           (
+            SELECT COUNT(*)::bigint
+            FROM (
+              SELECT
+                qa.user_id,
+                qa.created_at,
+                LAG(qa.created_at) OVER (PARTITION BY qa.user_id ORDER BY qa.created_at) AS prev_created_at
+              FROM quiz_attempts qa, bounds b
+              LEFT JOIN profiles p ON p.user_id = qa.user_id
+              WHERE qa.created_at >= b.start_at AND qa.created_at < b.split_at
+                AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+            ) q
+            WHERE q.prev_created_at IS NULL
+               OR q.created_at - q.prev_created_at > ${REPORT_SESSION_GAP_MINUTES} * interval '1 minute'
+          ) AS "firstQuizSessions",
+          (
+            SELECT COUNT(*)::bigint
+            FROM (
+              SELECT DISTINCT
+                pe.user_id,
+                COALESCE(pe.payload_json->>'bandId', '') AS band_id,
+                COALESCE(pe.payload_json->>'unitId', '') AS unit_id,
+                COALESCE(pe.payload_json->>'lessonIndex', '') AS lesson_idx
+              FROM progress_events pe, bounds b
+              LEFT JOIN profiles p ON p.user_id = pe.user_id
+              WHERE pe.created_at >= b.start_at AND pe.created_at < b.split_at
+                AND pe.event_type = 'lesson_completed'
+                AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+                AND COALESCE(pe.payload_json->>'bandId', '') <> ''
+                AND COALESCE(pe.payload_json->>'unitId', '') <> ''
+                AND COALESCE(pe.payload_json->>'lessonIndex', '') <> ''
+                AND (
+                  COALESCE(pe.payload_json->>'reachedCompleteScreen', '') = 'true'
+                  OR (
+                    COALESCE(pe.payload_json->>'reachedCompleteScreen', '') = ''
+                    AND COALESCE(pe.payload_json->>'completed', '') = 'true'
+                  )
+                )
+                AND (
+                  COALESCE(pe.payload_json->>'quizScore', '') ~ '^-?[0-9]+(\\.[0-9]+)?$'
+                  AND (pe.payload_json->>'quizScore')::double precision >= 90
+                )
+            ) t
+          ) AS "firstQuizSessionsCompleted",
+          (
             SELECT COUNT(*)::bigint FROM quiz_attempts qa, bounds b
             LEFT JOIN profiles p ON p.user_id = qa.user_id
             WHERE qa.created_at >= b.split_at AND qa.created_at <= b.end_at
@@ -2704,6 +2779,50 @@ export async function adminRoutes(app: FastifyInstance) {
               AND qa.is_correct = true
               AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
           ) AS "secondQuizCorrect",
+          (
+            SELECT COUNT(*)::bigint
+            FROM (
+              SELECT
+                qa.user_id,
+                qa.created_at,
+                LAG(qa.created_at) OVER (PARTITION BY qa.user_id ORDER BY qa.created_at) AS prev_created_at
+              FROM quiz_attempts qa, bounds b
+              LEFT JOIN profiles p ON p.user_id = qa.user_id
+              WHERE qa.created_at >= b.split_at AND qa.created_at <= b.end_at
+                AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+            ) q
+            WHERE q.prev_created_at IS NULL
+               OR q.created_at - q.prev_created_at > ${REPORT_SESSION_GAP_MINUTES} * interval '1 minute'
+          ) AS "secondQuizSessions",
+          (
+            SELECT COUNT(*)::bigint
+            FROM (
+              SELECT DISTINCT
+                pe.user_id,
+                COALESCE(pe.payload_json->>'bandId', '') AS band_id,
+                COALESCE(pe.payload_json->>'unitId', '') AS unit_id,
+                COALESCE(pe.payload_json->>'lessonIndex', '') AS lesson_idx
+              FROM progress_events pe, bounds b
+              LEFT JOIN profiles p ON p.user_id = pe.user_id
+              WHERE pe.created_at >= b.split_at AND pe.created_at <= b.end_at
+                AND pe.event_type = 'lesson_completed'
+                AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+                AND COALESCE(pe.payload_json->>'bandId', '') <> ''
+                AND COALESCE(pe.payload_json->>'unitId', '') <> ''
+                AND COALESCE(pe.payload_json->>'lessonIndex', '') <> ''
+                AND (
+                  COALESCE(pe.payload_json->>'reachedCompleteScreen', '') = 'true'
+                  OR (
+                    COALESCE(pe.payload_json->>'reachedCompleteScreen', '') = ''
+                    AND COALESCE(pe.payload_json->>'completed', '') = 'true'
+                  )
+                )
+                AND (
+                  COALESCE(pe.payload_json->>'quizScore', '') ~ '^-?[0-9]+(\\.[0-9]+)?$'
+                  AND (pe.payload_json->>'quizScore')::double precision >= 90
+                )
+            ) t
+          ) AS "secondQuizSessionsCompleted",
           (
             SELECT COUNT(*)::bigint FROM speak_attempts sa, bounds b
             LEFT JOIN profiles p ON p.user_id = sa.user_id
@@ -2718,6 +2837,50 @@ export async function adminRoutes(app: FastifyInstance) {
               AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
           ) AS "firstSpeakPasses",
           (
+            SELECT COUNT(*)::bigint
+            FROM (
+              SELECT
+                sa.user_id,
+                sa.created_at,
+                LAG(sa.created_at) OVER (PARTITION BY sa.user_id ORDER BY sa.created_at) AS prev_created_at
+              FROM speak_attempts sa, bounds b
+              LEFT JOIN profiles p ON p.user_id = sa.user_id
+              WHERE sa.created_at >= b.start_at AND sa.created_at < b.split_at
+                AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+            ) s
+            WHERE s.prev_created_at IS NULL
+               OR s.created_at - s.prev_created_at > ${REPORT_SESSION_GAP_MINUTES} * interval '1 minute'
+          ) AS "firstSpeakSessions",
+          (
+            SELECT COUNT(*)::bigint
+            FROM (
+              SELECT DISTINCT
+                pe.user_id,
+                COALESCE(pe.payload_json->>'bandId', '') AS band_id,
+                COALESCE(pe.payload_json->>'unitId', '') AS unit_id,
+                COALESCE(pe.payload_json->>'lessonIndex', '') AS lesson_idx
+              FROM progress_events pe, bounds b
+              LEFT JOIN profiles p ON p.user_id = pe.user_id
+              WHERE pe.created_at >= b.start_at AND pe.created_at < b.split_at
+                AND pe.event_type = 'lesson_completed'
+                AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+                AND COALESCE(pe.payload_json->>'bandId', '') <> ''
+                AND COALESCE(pe.payload_json->>'unitId', '') <> ''
+                AND COALESCE(pe.payload_json->>'lessonIndex', '') <> ''
+                AND (
+                  COALESCE(pe.payload_json->>'reachedCompleteScreen', '') = 'true'
+                  OR (
+                    COALESCE(pe.payload_json->>'reachedCompleteScreen', '') = ''
+                    AND COALESCE(pe.payload_json->>'completed', '') = 'true'
+                  )
+                )
+                AND (
+                  COALESCE(pe.payload_json->>'speakScore', '') ~ '^-?[0-9]+(\\.[0-9]+)?$'
+                  AND (pe.payload_json->>'speakScore')::double precision >= 75
+                )
+            ) t
+          ) AS "firstSpeakSessionsCompleted",
+          (
             SELECT COUNT(*)::bigint FROM speak_attempts sa, bounds b
             LEFT JOIN profiles p ON p.user_id = sa.user_id
             WHERE sa.created_at >= b.split_at AND sa.created_at <= b.end_at
@@ -2731,17 +2894,61 @@ export async function adminRoutes(app: FastifyInstance) {
               AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
           ) AS "secondSpeakPasses",
           (
+            SELECT COUNT(*)::bigint
+            FROM (
+              SELECT
+                sa.user_id,
+                sa.created_at,
+                LAG(sa.created_at) OVER (PARTITION BY sa.user_id ORDER BY sa.created_at) AS prev_created_at
+              FROM speak_attempts sa, bounds b
+              LEFT JOIN profiles p ON p.user_id = sa.user_id
+              WHERE sa.created_at >= b.split_at AND sa.created_at <= b.end_at
+                AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+            ) s
+            WHERE s.prev_created_at IS NULL
+               OR s.created_at - s.prev_created_at > ${REPORT_SESSION_GAP_MINUTES} * interval '1 minute'
+          ) AS "secondSpeakSessions",
+          (
+            SELECT COUNT(*)::bigint
+            FROM (
+              SELECT DISTINCT
+                pe.user_id,
+                COALESCE(pe.payload_json->>'bandId', '') AS band_id,
+                COALESCE(pe.payload_json->>'unitId', '') AS unit_id,
+                COALESCE(pe.payload_json->>'lessonIndex', '') AS lesson_idx
+              FROM progress_events pe, bounds b
+              LEFT JOIN profiles p ON p.user_id = pe.user_id
+              WHERE pe.created_at >= b.split_at AND pe.created_at <= b.end_at
+                AND pe.event_type = 'lesson_completed'
+                AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+                AND COALESCE(pe.payload_json->>'bandId', '') <> ''
+                AND COALESCE(pe.payload_json->>'unitId', '') <> ''
+                AND COALESCE(pe.payload_json->>'lessonIndex', '') <> ''
+                AND (
+                  COALESCE(pe.payload_json->>'reachedCompleteScreen', '') = 'true'
+                  OR (
+                    COALESCE(pe.payload_json->>'reachedCompleteScreen', '') = ''
+                    AND COALESCE(pe.payload_json->>'completed', '') = 'true'
+                  )
+                )
+                AND (
+                  COALESCE(pe.payload_json->>'speakScore', '') ~ '^-?[0-9]+(\\.[0-9]+)?$'
+                  AND (pe.payload_json->>'speakScore')::double precision >= 75
+                )
+            ) t
+          ) AS "secondSpeakSessionsCompleted",
+          (
             SELECT COUNT(*)::bigint FROM progress_events pe, bounds b
             LEFT JOIN profiles p ON p.user_id = pe.user_id
             WHERE pe.created_at >= b.start_at AND pe.created_at < b.split_at
-              AND pe.event_type IN ('lesson_completed', 'apply_completed')
+              AND pe.event_type = 'lesson_completed'
               AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
           ) AS "firstLessonsCompleted",
           (
             SELECT COUNT(*)::bigint FROM progress_events pe, bounds b
             LEFT JOIN profiles p ON p.user_id = pe.user_id
             WHERE pe.created_at >= b.split_at AND pe.created_at <= b.end_at
-              AND pe.event_type IN ('lesson_completed', 'apply_completed')
+              AND pe.event_type = 'lesson_completed'
               AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
           ) AS "secondLessonsCompleted",
           (SELECT COUNT(*)::bigint FROM first_active) AS "firstActiveUsers",
@@ -2755,12 +2962,20 @@ export async function adminRoutes(app: FastifyInstance) {
           return [] as Array<{
             firstQuizAttempts: bigint;
             firstQuizCorrect: bigint;
+            firstQuizSessions: bigint;
+            firstQuizSessionsCompleted: bigint;
             secondQuizAttempts: bigint;
             secondQuizCorrect: bigint;
+            secondQuizSessions: bigint;
+            secondQuizSessionsCompleted: bigint;
             firstSpeakAttempts: bigint;
             firstSpeakPasses: bigint;
+            firstSpeakSessions: bigint;
+            firstSpeakSessionsCompleted: bigint;
             secondSpeakAttempts: bigint;
             secondSpeakPasses: bigint;
+            secondSpeakSessions: bigint;
+            secondSpeakSessionsCompleted: bigint;
             firstLessonsCompleted: bigint;
             secondLessonsCompleted: bigint;
             firstActiveUsers: bigint;
@@ -2883,7 +3098,7 @@ export async function adminRoutes(app: FastifyInstance) {
               SELECT MIN(pe.created_at)
               FROM progress_events pe
               WHERE pe.user_id = p.user_id
-                AND pe.event_type IN ('lesson_completed', 'apply_completed')
+                AND pe.event_type = 'lesson_completed'
                 AND COALESCE(pe.payload_json->>'mastered', 'false') = 'true'
             ) AS first_mastery_at
           FROM profiles p
@@ -2898,7 +3113,7 @@ export async function adminRoutes(app: FastifyInstance) {
             FROM progress_events pe
             JOIN first_mastery fm ON fm.user_id = pe.user_id
             CROSS JOIN bounds b
-            WHERE pe.event_type IN ('lesson_completed', 'apply_completed')
+            WHERE pe.event_type = 'lesson_completed'
               AND COALESCE(pe.payload_json->>'mastered', 'false') = 'true'
               AND pe.created_at >= b.start_at
               AND pe.created_at <= b.end_at
@@ -2989,14 +3204,16 @@ export async function adminRoutes(app: FastifyInstance) {
         first_half_misses AS (
           SELECT
             (
-              COALESCE((SELECT COUNT(*)::float FROM quiz_attempts qa, bounds b
+              COALESCE((SELECT COUNT(*)::float FROM quiz_attempts qa
+                CROSS JOIN bounds b
                 LEFT JOIN profiles p ON p.user_id = qa.user_id
                 WHERE qa.created_at >= b.start_at AND qa.created_at < b.split_at
                   AND qa.is_correct = false
                   AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
               ), 0)
               +
-              COALESCE((SELECT COUNT(*)::float FROM speak_attempts sa, bounds b
+              COALESCE((SELECT COUNT(*)::float FROM speak_attempts sa
+                CROSS JOIN bounds b
                 LEFT JOIN profiles p ON p.user_id = sa.user_id
                 WHERE sa.created_at >= b.start_at AND sa.created_at < b.split_at
                   AND NOT (sa.initial_ok = true AND sa.final_ok = true AND sa.tone_ok = true)
@@ -3007,14 +3224,16 @@ export async function adminRoutes(app: FastifyInstance) {
         second_half_misses AS (
           SELECT
             (
-              COALESCE((SELECT COUNT(*)::float FROM quiz_attempts qa, bounds b
+              COALESCE((SELECT COUNT(*)::float FROM quiz_attempts qa
+                CROSS JOIN bounds b
                 LEFT JOIN profiles p ON p.user_id = qa.user_id
                 WHERE qa.created_at >= b.split_at AND qa.created_at <= b.end_at
                   AND qa.is_correct = false
                   AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
               ), 0)
               +
-              COALESCE((SELECT COUNT(*)::float FROM speak_attempts sa, bounds b
+              COALESCE((SELECT COUNT(*)::float FROM speak_attempts sa
+                CROSS JOIN bounds b
                 LEFT JOIN profiles p ON p.user_id = sa.user_id
                 WHERE sa.created_at >= b.split_at AND sa.created_at <= b.end_at
                   AND NOT (sa.initial_ok = true AND sa.final_ok = true AND sa.tone_ok = true)
@@ -3049,6 +3268,146 @@ export async function adminRoutes(app: FastifyInstance) {
           }>;
         });
 
+        const needsReviewRows = await prisma.$queryRaw<
+          Array<{
+            activeUsers: bigint;
+            usersWithNeedsReview: bigint;
+            totalNeedsReviewEvents: bigint;
+            totalLessonCompletions: bigint;
+            avgNeedsReviewEventsPerActiveUser: number | null;
+            medianNeedsReviewEventsPerActiveUser: number | null;
+            firstHalfNeedsReviewEventsPerActiveUser: number | null;
+            secondHalfNeedsReviewEventsPerActiveUser: number | null;
+          }>
+        >`
+        WITH bounds AS (
+          SELECT
+            now() - ${windowDays} * interval '1 day' AS start_at,
+            now() - ${halfDays} * interval '1 day' AS split_at,
+            now() AS end_at
+        ),
+        active_users AS (
+          SELECT DISTINCT user_id
+          FROM (
+            SELECT qa.user_id FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.start_at AND qa.created_at <= b.end_at
+            UNION
+            SELECT sa.user_id FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.start_at AND sa.created_at <= b.end_at
+            UNION
+            SELECT pe.user_id FROM progress_events pe, bounds b WHERE pe.created_at >= b.start_at AND pe.created_at <= b.end_at
+          ) t
+        ),
+        per_user_reset_counts AS (
+          SELECT
+            au.user_id,
+            COUNT(pe.id)::int AS needs_review_events
+          FROM active_users au
+          LEFT JOIN profiles p ON p.user_id = au.user_id
+          LEFT JOIN progress_events pe
+            ON pe.user_id = au.user_id
+            AND pe.event_type = 'lesson_reset_for_review'
+            AND pe.created_at >= (SELECT start_at FROM bounds)
+            AND pe.created_at <= (SELECT end_at FROM bounds)
+          WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          GROUP BY au.user_id
+        ),
+        first_half_active AS (
+          SELECT COUNT(DISTINCT t.user_id)::float AS count
+          FROM (
+            SELECT qa.user_id FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.start_at AND qa.created_at < b.split_at
+            UNION
+            SELECT sa.user_id FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.start_at AND sa.created_at < b.split_at
+            UNION
+            SELECT pe.user_id FROM progress_events pe, bounds b WHERE pe.created_at >= b.start_at AND pe.created_at < b.split_at
+          ) t
+          LEFT JOIN profiles p ON p.user_id = t.user_id
+          WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ),
+        second_half_active AS (
+          SELECT COUNT(DISTINCT t.user_id)::float AS count
+          FROM (
+            SELECT qa.user_id FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.split_at AND qa.created_at <= b.end_at
+            UNION
+            SELECT sa.user_id FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.split_at AND sa.created_at <= b.end_at
+            UNION
+            SELECT pe.user_id FROM progress_events pe, bounds b WHERE pe.created_at >= b.split_at AND pe.created_at <= b.end_at
+          ) t
+          LEFT JOIN profiles p ON p.user_id = t.user_id
+          WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ),
+        first_half_resets AS (
+          SELECT COUNT(*)::float AS resets
+          FROM progress_events pe
+          CROSS JOIN bounds b
+          LEFT JOIN profiles p ON p.user_id = pe.user_id
+          WHERE pe.created_at >= b.start_at
+            AND pe.created_at < b.split_at
+            AND pe.event_type = 'lesson_reset_for_review'
+            AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ),
+        second_half_resets AS (
+          SELECT COUNT(*)::float AS resets
+          FROM progress_events pe
+          CROSS JOIN bounds b
+          LEFT JOIN profiles p ON p.user_id = pe.user_id
+          WHERE pe.created_at >= b.split_at
+            AND pe.created_at <= b.end_at
+            AND pe.event_type = 'lesson_reset_for_review'
+            AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        )
+        SELECT
+          (SELECT COUNT(*)::bigint FROM per_user_reset_counts) AS "activeUsers",
+          (SELECT COUNT(*)::bigint FROM per_user_reset_counts WHERE needs_review_events > 0) AS "usersWithNeedsReview",
+          (
+            SELECT COUNT(*)::bigint
+            FROM progress_events pe
+            CROSS JOIN bounds b
+            LEFT JOIN profiles p ON p.user_id = pe.user_id
+            WHERE pe.created_at >= b.start_at
+              AND pe.created_at <= b.end_at
+              AND pe.event_type = 'lesson_reset_for_review'
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "totalNeedsReviewEvents",
+          (
+            SELECT COUNT(*)::bigint
+            FROM progress_events pe
+            CROSS JOIN bounds b
+            LEFT JOIN profiles p ON p.user_id = pe.user_id
+            WHERE pe.created_at >= b.start_at
+              AND pe.created_at <= b.end_at
+              AND pe.event_type = 'lesson_completed'
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "totalLessonCompletions",
+          (SELECT AVG(needs_review_events)::float FROM per_user_reset_counts) AS "avgNeedsReviewEventsPerActiveUser",
+          (
+            SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY needs_review_events)::float
+            FROM per_user_reset_counts
+          ) AS "medianNeedsReviewEventsPerActiveUser",
+          (
+            SELECT CASE WHEN fha.count > 0 THEN fhr.resets / fha.count ELSE 0 END
+            FROM first_half_resets fhr, first_half_active fha
+          ) AS "firstHalfNeedsReviewEventsPerActiveUser",
+          (
+            SELECT CASE WHEN sha.count > 0 THEN shr.resets / sha.count ELSE 0 END
+            FROM second_half_resets shr, second_half_active sha
+          ) AS "secondHalfNeedsReviewEventsPerActiveUser"
+      `.catch((error) => {
+          impactWarnings.push('Needs-review reset metrics unavailable.');
+          request.log.warn(
+            { err: error, windowDays },
+            'admin.metrics.impact_outcomes.needs_review_failed'
+          );
+          return [] as Array<{
+            activeUsers: bigint;
+            usersWithNeedsReview: bigint;
+            totalNeedsReviewEvents: bigint;
+            totalLessonCompletions: bigint;
+            avgNeedsReviewEventsPerActiveUser: number | null;
+            medianNeedsReviewEventsPerActiveUser: number | null;
+            firstHalfNeedsReviewEventsPerActiveUser: number | null;
+            secondHalfNeedsReviewEventsPerActiveUser: number | null;
+          }>;
+        });
+
         const perUserRows = await prisma.$queryRaw<
           Array<{
             languageId: string;
@@ -3059,6 +3418,7 @@ export async function adminRoutes(app: FastifyInstance) {
             speakAttempts: number;
             speakPasses: number;
             needsWorkCount: number;
+            needsReviewResets: number;
           }>
         >`
         WITH bounds AS (
@@ -3106,7 +3466,7 @@ export async function adminRoutes(app: FastifyInstance) {
         lesson_counts AS (
           SELECT
             pe.user_id,
-            COUNT(*) FILTER (WHERE pe.event_type IN ('lesson_completed', 'apply_completed'))::int AS lessons_completed
+            COUNT(*) FILTER (WHERE pe.event_type = 'lesson_completed')::int AS lessons_completed
           FROM progress_events pe, bounds b
           WHERE pe.created_at >= b.start_at AND pe.created_at <= b.end_at
           GROUP BY pe.user_id
@@ -3122,6 +3482,16 @@ export async function adminRoutes(app: FastifyInstance) {
             OR wms.mispronounce_count > 0
             OR wms.pronunciation_risk > 0
           GROUP BY wms.user_id
+        ),
+        reset_counts AS (
+          SELECT
+            pe.user_id,
+            COUNT(*)::int AS needs_review_resets
+          FROM progress_events pe, bounds b
+          WHERE pe.created_at >= b.start_at
+            AND pe.created_at <= b.end_at
+            AND pe.event_type = 'lesson_reset_for_review'
+          GROUP BY pe.user_id
         )
         SELECT
           ${normalizedProfileLanguageSql}::text AS "languageId",
@@ -3131,7 +3501,8 @@ export async function adminRoutes(app: FastifyInstance) {
           COALESCE(qc.quiz_correct, 0)::int AS "quizCorrect",
           COALESCE(sc.speak_attempts, 0)::int AS "speakAttempts",
           COALESCE(sc.speak_passes, 0)::int AS "speakPasses",
-          COALESCE(nwc.needs_work_count, 0)::int AS "needsWorkCount"
+          COALESCE(nwc.needs_work_count, 0)::int AS "needsWorkCount",
+          COALESCE(rc.needs_review_resets, 0)::int AS "needsReviewResets"
         FROM active_users au
         LEFT JOIN profiles p ON p.user_id = au.user_id
         LEFT JOIN active_day_counts adc ON adc.user_id = au.user_id
@@ -3139,6 +3510,7 @@ export async function adminRoutes(app: FastifyInstance) {
         LEFT JOIN speak_counts sc ON sc.user_id = au.user_id
         LEFT JOIN lesson_counts lc ON lc.user_id = au.user_id
         LEFT JOIN needs_work_counts nwc ON nwc.user_id = au.user_id
+        LEFT JOIN reset_counts rc ON rc.user_id = au.user_id
         WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
       `.catch((error) => {
           impactWarnings.push('Anonymized per-user distribution unavailable.');
@@ -3155,6 +3527,7 @@ export async function adminRoutes(app: FastifyInstance) {
             speakAttempts: number;
             speakPasses: number;
             needsWorkCount: number;
+            needsReviewResets: number;
           }>;
         });
 
@@ -3243,12 +3616,20 @@ export async function adminRoutes(app: FastifyInstance) {
         const learningGain = learningGainRows[0] || {
           firstQuizAttempts: 0n,
           firstQuizCorrect: 0n,
+          firstQuizSessions: 0n,
+          firstQuizSessionsCompleted: 0n,
           secondQuizAttempts: 0n,
           secondQuizCorrect: 0n,
+          secondQuizSessions: 0n,
+          secondQuizSessionsCompleted: 0n,
           firstSpeakAttempts: 0n,
           firstSpeakPasses: 0n,
+          firstSpeakSessions: 0n,
+          firstSpeakSessionsCompleted: 0n,
           secondSpeakAttempts: 0n,
           secondSpeakPasses: 0n,
+          secondSpeakSessions: 0n,
+          secondSpeakSessionsCompleted: 0n,
           firstLessonsCompleted: 0n,
           secondLessonsCompleted: 0n,
           firstActiveUsers: 0n,
@@ -3273,15 +3654,33 @@ export async function adminRoutes(app: FastifyInstance) {
           firstHalfMissesPerActiveUser: 0,
           secondHalfMissesPerActiveUser: 0,
         };
+        const needsReview = needsReviewRows[0] || {
+          activeUsers: 0n,
+          usersWithNeedsReview: 0n,
+          totalNeedsReviewEvents: 0n,
+          totalLessonCompletions: 0n,
+          avgNeedsReviewEventsPerActiveUser: 0,
+          medianNeedsReviewEventsPerActiveUser: 0,
+          firstHalfNeedsReviewEventsPerActiveUser: 0,
+          secondHalfNeedsReviewEventsPerActiveUser: 0,
+        };
 
         const firstQuizAttempts = toInt(learningGain.firstQuizAttempts);
         const firstQuizCorrect = toInt(learningGain.firstQuizCorrect);
+        const firstQuizSessions = toInt(learningGain.firstQuizSessions);
+        const firstQuizSessionsCompleted = toInt(learningGain.firstQuizSessionsCompleted);
         const secondQuizAttempts = toInt(learningGain.secondQuizAttempts);
         const secondQuizCorrect = toInt(learningGain.secondQuizCorrect);
+        const secondQuizSessions = toInt(learningGain.secondQuizSessions);
+        const secondQuizSessionsCompleted = toInt(learningGain.secondQuizSessionsCompleted);
         const firstSpeakAttempts = toInt(learningGain.firstSpeakAttempts);
         const firstSpeakPasses = toInt(learningGain.firstSpeakPasses);
+        const firstSpeakSessions = toInt(learningGain.firstSpeakSessions);
+        const firstSpeakSessionsCompleted = toInt(learningGain.firstSpeakSessionsCompleted);
         const secondSpeakAttempts = toInt(learningGain.secondSpeakAttempts);
         const secondSpeakPasses = toInt(learningGain.secondSpeakPasses);
+        const secondSpeakSessions = toInt(learningGain.secondSpeakSessions);
+        const secondSpeakSessionsCompleted = toInt(learningGain.secondSpeakSessionsCompleted);
         const firstLessonsCompleted = toInt(learningGain.firstLessonsCompleted);
         const secondLessonsCompleted = toInt(learningGain.secondLessonsCompleted);
         const firstActiveUsers = toInt(learningGain.firstActiveUsers);
@@ -3303,6 +3702,12 @@ export async function adminRoutes(app: FastifyInstance) {
         const secondHalfMissesPerActiveUser = Number(
           toFloat(burden.secondHalfMissesPerActiveUser).toFixed(3)
         );
+        const firstHalfNeedsReviewEventsPerActiveUser = Number(
+          toFloat(needsReview.firstHalfNeedsReviewEventsPerActiveUser).toFixed(3)
+        );
+        const secondHalfNeedsReviewEventsPerActiveUser = Number(
+          toFloat(needsReview.secondHalfNeedsReviewEventsPerActiveUser).toFixed(3)
+        );
 
         const distributionValues = {
           activeDays: perUserRows.map((row) => toFloat(row.activeDays)),
@@ -3318,6 +3723,7 @@ export async function adminRoutes(app: FastifyInstance) {
               : 0
           ),
           needsWorkCount: perUserRows.map((row) => toFloat(row.needsWorkCount)),
+          needsReviewResets: perUserRows.map((row) => toFloat(row.needsReviewResets)),
         };
         const summarizeDistribution = (values: number[]) => {
           if (!values.length) return { avg: 0, p50: 0, p75: 0, p90: 0 };
@@ -3347,6 +3753,7 @@ export async function adminRoutes(app: FastifyInstance) {
           const speakAttempts = toInt(row.speakAttempts);
           const speakPasses = toInt(row.speakPasses);
           const needsWorkCount = toInt(row.needsWorkCount);
+          const needsReviewResets = toInt(row.needsReviewResets);
           const quizMissPct =
             quizAttempts > 0 ? ((quizAttempts - quizCorrect) / quizAttempts) * 100 : 0;
           const speakMissPct =
@@ -3362,6 +3769,7 @@ export async function adminRoutes(app: FastifyInstance) {
           const cohortKey = `${row.languageId}:${engagementBucket}`;
           const atRisk =
             needsWorkCount >= 20 ||
+            needsReviewResets >= 3 ||
             quizMissPct >= 35 ||
             speakMissPct >= 45 ||
             (activeDays <= 1 && needsWorkCount >= 8);
@@ -3404,6 +3812,7 @@ export async function adminRoutes(app: FastifyInstance) {
         return {
           generatedAt: new Date().toISOString(),
           windowDays,
+          sessionWindowMinutes: REPORT_SESSION_GAP_MINUTES,
           ...(impactWarnings.length
             ? {
                 warning: impactWarnings.join(' '),
@@ -3415,12 +3824,14 @@ export async function adminRoutes(app: FastifyInstance) {
             timeToValue:
               'Median days from signup to first lesson completion, first speak pass, and first mastery event.',
             learningGain:
-              'Compares first half vs second half of selected window for accuracy and completion intensity.',
+              'Compares first half vs second half of selected window for accuracy and completion intensity, including attempt sessions grouped with a configurable inactivity gap.',
             consistency:
               'Active-day frequency and streak distribution for users active in the selected window.',
             mastery: 'Mastery adoption among active users and time to first mastery.',
             needsWorkBurden:
               'Current needs-work load per active user plus miss-rate burden trend across window halves.',
+            needsReview:
+              'How often users intentionally reset mastery-ready lessons to relearn content, reported as aggregate event rate and per-user distribution.',
             perUserDistribution:
               'Anonymized percentile distribution across active users (no user identifiers).',
             riskCohorts:
@@ -3452,16 +3863,24 @@ export async function adminRoutes(app: FastifyInstance) {
             },
             firstHalf: {
               quizAttempts: firstQuizAttempts,
+              quizSessions: firstQuizSessions,
+              quizSessionsCompleted: firstQuizSessionsCompleted,
               quizAccuracyPct: firstQuizAccuracyPct,
               speakAttempts: firstSpeakAttempts,
+              speakSessions: firstSpeakSessions,
+              speakSessionsCompleted: firstSpeakSessionsCompleted,
               speakPassPct: firstSpeakPassPct,
               lessonsCompleted: firstLessonsCompleted,
               lessonsPerActiveUser: firstLessonsPerActiveUser,
             },
             secondHalf: {
               quizAttempts: secondQuizAttempts,
+              quizSessions: secondQuizSessions,
+              quizSessionsCompleted: secondQuizSessionsCompleted,
               quizAccuracyPct: secondQuizAccuracyPct,
               speakAttempts: secondSpeakAttempts,
+              speakSessions: secondSpeakSessions,
+              speakSessionsCompleted: secondSpeakSessionsCompleted,
               speakPassPct: secondSpeakPassPct,
               lessonsCompleted: secondLessonsCompleted,
               lessonsPerActiveUser: secondLessonsPerActiveUser,
@@ -3506,6 +3925,31 @@ export async function adminRoutes(app: FastifyInstance) {
               secondHalfMissesPerActiveUser
             ),
           },
+          needsReview: {
+            activeUsers: toInt(needsReview.activeUsers),
+            usersWithNeedsReview: toInt(needsReview.usersWithNeedsReview),
+            totalNeedsReviewEvents: toInt(needsReview.totalNeedsReviewEvents),
+            totalLessonCompletions: toInt(needsReview.totalLessonCompletions),
+            needsReviewEventsPer100Completions: Number(
+              (
+                (toInt(needsReview.totalNeedsReviewEvents) /
+                  Math.max(1, toInt(needsReview.totalLessonCompletions))) *
+                100
+              ).toFixed(2)
+            ),
+            avgNeedsReviewEventsPerActiveUser: Number(
+              toFloat(needsReview.avgNeedsReviewEventsPerActiveUser).toFixed(2)
+            ),
+            medianNeedsReviewEventsPerActiveUser: Number(
+              toFloat(needsReview.medianNeedsReviewEventsPerActiveUser).toFixed(2)
+            ),
+            firstHalfNeedsReviewEventsPerActiveUser,
+            secondHalfNeedsReviewEventsPerActiveUser,
+            needsReviewEventsPerActiveUserDeltaPct: safeDelta(
+              firstHalfNeedsReviewEventsPerActiveUser,
+              secondHalfNeedsReviewEventsPerActiveUser
+            ),
+          },
           segmentation: {
             activeUsersByLanguage: languageRows.map((row) => ({
               languageId: row.languageId,
@@ -3520,6 +3964,7 @@ export async function adminRoutes(app: FastifyInstance) {
               quizAccuracyPct: summarizeDistribution(distributionValues.quizAccuracyPct),
               speakPassPct: summarizeDistribution(distributionValues.speakPassPct),
               needsWorkCount: summarizeDistribution(distributionValues.needsWorkCount),
+              needsReviewResets: summarizeDistribution(distributionValues.needsReviewResets),
             },
           },
           riskCohorts,
@@ -3820,7 +4265,7 @@ export async function adminRoutes(app: FastifyInstance) {
       const previousIntervalStart = `${parsed.data.windowDays * 2} days`;
       const limitPerLanguage = parsed.data.limitPerLanguage;
       const minMissesPerUser = parsed.data.minMissesPerUser;
-      const languages = [...supportedAdminLanguageIds] as string[];
+      const languages = [...supportedSpeakMissHotspotLanguageIds] as string[];
 
       const rows = await prisma.$queryRaw<
         Array<{
@@ -3843,7 +4288,7 @@ export async function adminRoutes(app: FastifyInstance) {
         WHERE sa.created_at >= now() - ${windowInterval}::interval
           AND sa.created_at < now()
           AND (sa.initial_ok = false OR sa.final_ok = false OR sa.tone_ok = false)
-          AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          AND ${normalizedProfileLanguageSql} IN (${supportedSpeakMissHotspotLanguageSql})
       ),
       user_word_misses_current AS (
         SELECT
@@ -3883,7 +4328,7 @@ export async function adminRoutes(app: FastifyInstance) {
         WHERE sa.created_at >= now() - ${previousIntervalStart}::interval
           AND sa.created_at < now() - ${windowInterval}::interval
           AND (sa.initial_ok = false OR sa.final_ok = false OR sa.tone_ok = false)
-          AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          AND ${normalizedProfileLanguageSql} IN (${supportedSpeakMissHotspotLanguageSql})
       ),
       user_word_misses_previous AS (
         SELECT
@@ -4639,7 +5084,7 @@ export async function adminRoutes(app: FastifyInstance) {
       const progressEvents = await prisma.progressEvent.findMany({
         where: {
           userId,
-          eventType: { in: ['lesson_started', 'lesson_completed', 'apply_completed'] },
+          eventType: { in: ['lesson_started', 'lesson_completed'] },
         },
         select: {
           eventType: true,
@@ -4801,8 +5246,10 @@ export async function adminRoutes(app: FastifyInstance) {
         Array<{
           day: Date | string;
           quizAttempts: bigint;
+          quizSessions: bigint;
           quizCorrect: bigint;
           speakAttempts: bigint;
+          speakSessions: bigint;
           speakPasses: bigint;
           lessonsStarted: bigint;
           lessonsCompleted: bigint;
@@ -4818,8 +5265,10 @@ export async function adminRoutes(app: FastifyInstance) {
         SELECT
           days.day AS day,
           COALESCE(qa.quiz_attempts, 0)::bigint AS "quizAttempts",
+          COALESCE(pe.quiz_sessions_completed, 0)::bigint AS "quizSessions",
           COALESCE(qa.quiz_correct, 0)::bigint AS "quizCorrect",
           COALESCE(sa.speak_attempts, 0)::bigint AS "speakAttempts",
+          COALESCE(pe.speak_sessions_completed, 0)::bigint AS "speakSessions",
           COALESCE(sa.speak_passes, 0)::bigint AS "speakPasses",
           COALESCE(pe.lessons_started, 0)::bigint AS "lessonsStarted",
           COALESCE(pe.lessons_completed, 0)::bigint AS "lessonsCompleted"
@@ -4843,13 +5292,85 @@ export async function adminRoutes(app: FastifyInstance) {
             AND sa.created_at < days.day + interval '1 day'
         ) sa ON true
         LEFT JOIN LATERAL (
+          WITH day_progress_events AS (
+            SELECT
+              pe.event_type,
+              COALESCE(pe.payload_json->>'bandId', '') AS band_id,
+              COALESCE(pe.payload_json->>'unitId', '') AS unit_id,
+              COALESCE(pe.payload_json->>'lessonIndex', '') AS lesson_idx,
+              COALESCE(pe.payload_json->>'reachedCompleteScreen', '') AS reached_complete_screen,
+              COALESCE(pe.payload_json->>'completed', '') AS completed_flag,
+              CASE
+                WHEN COALESCE(pe.payload_json->>'quizScore', '') ~ '^-?[0-9]+(\\.[0-9]+)?$'
+                  THEN (pe.payload_json->>'quizScore')::double precision
+                ELSE NULL
+              END AS quiz_score,
+              CASE
+                WHEN COALESCE(pe.payload_json->>'speakScore', '') ~ '^-?[0-9]+(\\.[0-9]+)?$'
+                  THEN (pe.payload_json->>'speakScore')::double precision
+                ELSE NULL
+              END AS speak_score
+            FROM progress_events pe
+            WHERE pe.user_id = ${userId}::uuid
+                AND pe.created_at >= days.day
+                AND pe.created_at < days.day + interval '1 day'
+          ),
+          started_keys AS (
+            SELECT DISTINCT dpe.band_id, dpe.unit_id, dpe.lesson_idx
+            FROM day_progress_events dpe
+            WHERE dpe.event_type = 'lesson_started'
+              AND dpe.band_id <> ''
+              AND dpe.unit_id <> ''
+              AND dpe.lesson_idx <> ''
+          ),
+          completed_first_keys AS (
+            SELECT
+              dpe.band_id,
+              dpe.unit_id,
+              dpe.lesson_idx,
+              MAX(CASE WHEN COALESCE(dpe.quiz_score, 0) >= 90 THEN 1 ELSE 0 END) AS quiz_completed,
+              MAX(CASE WHEN COALESCE(dpe.speak_score, 0) >= 75 THEN 1 ELSE 0 END) AS speak_completed
+            FROM day_progress_events dpe
+            WHERE dpe.event_type = 'lesson_completed'
+              AND dpe.band_id <> ''
+              AND dpe.unit_id <> ''
+              AND dpe.lesson_idx <> ''
+              AND (
+                dpe.reached_complete_screen = 'true'
+                OR (dpe.reached_complete_screen = '' AND dpe.completed_flag = 'true')
+              )
+              AND NOT EXISTS (
+                SELECT 1
+                FROM progress_events pe_prev
+                WHERE pe_prev.user_id = ${userId}::uuid
+                  AND pe_prev.created_at < days.day
+                  AND pe_prev.event_type = 'lesson_completed'
+                  AND COALESCE(pe_prev.payload_json->>'bandId', '') = dpe.band_id
+                  AND COALESCE(pe_prev.payload_json->>'unitId', '') = dpe.unit_id
+                  AND COALESCE(pe_prev.payload_json->>'lessonIndex', '') = dpe.lesson_idx
+                  AND (
+                    COALESCE(pe_prev.payload_json->>'reachedCompleteScreen', '') = 'true'
+                    OR (
+                      COALESCE(pe_prev.payload_json->>'reachedCompleteScreen', '') = ''
+                      AND COALESCE(pe_prev.payload_json->>'completed', '') = 'true'
+                    )
+                  )
+              )
+            GROUP BY dpe.band_id, dpe.unit_id, dpe.lesson_idx
+          )
           SELECT
-            COUNT(*) FILTER (WHERE pe.event_type = 'lesson_started') AS lessons_started,
-            COUNT(*) FILTER (WHERE pe.event_type IN ('lesson_completed', 'apply_completed')) AS lessons_completed
-          FROM progress_events pe
-          WHERE pe.user_id = ${userId}::uuid
-            AND pe.created_at >= days.day
-            AND pe.created_at < days.day + interval '1 day'
+            (SELECT COUNT(*)::bigint FROM started_keys) AS lessons_started,
+            (SELECT COUNT(*)::bigint FROM completed_first_keys) AS lessons_completed,
+            (
+              SELECT COUNT(*)::bigint
+              FROM completed_first_keys cfk
+              WHERE cfk.quiz_completed = 1
+            ) AS quiz_sessions_completed,
+            (
+              SELECT COUNT(*)::bigint
+              FROM completed_first_keys cfk
+              WHERE cfk.speak_completed = 1
+            ) AS speak_sessions_completed
         ) pe ON true
         ORDER BY days.day ASC
       `;
@@ -4863,18 +5384,22 @@ export async function adminRoutes(app: FastifyInstance) {
 
       const series = rows.map((row) => {
         const quizAttempts = toInt(row.quizAttempts);
+        const quizSessions = toInt(row.quizSessions);
         const quizCorrect = toInt(row.quizCorrect);
         const speakAttempts = toInt(row.speakAttempts);
+        const speakSessions = toInt(row.speakSessions);
         const speakPasses = toInt(row.speakPasses);
         const lessonsStarted = toInt(row.lessonsStarted);
         const lessonsCompleted = toInt(row.lessonsCompleted);
         return {
           day: isoDay(row.day),
           quizAttempts,
+          quizSessions,
           quizCorrect,
           quizAccuracyPct:
             quizAttempts > 0 ? Number(((quizCorrect / quizAttempts) * 100).toFixed(1)) : 0,
           speakAttempts,
+          speakSessions,
           speakPasses,
           speakPassPct:
             speakAttempts > 0 ? Number(((speakPasses / speakAttempts) * 100).toFixed(1)) : 0,
@@ -4902,7 +5427,9 @@ export async function adminRoutes(app: FastifyInstance) {
         windowDays,
         summary: {
           totalQuizAttempts: sum(series.map((entry) => entry.quizAttempts)),
+          totalQuizSessions: sum(series.map((entry) => entry.quizSessions)),
           totalSpeakAttempts: sum(series.map((entry) => entry.speakAttempts)),
+          totalSpeakSessions: sum(series.map((entry) => entry.speakSessions)),
           totalLessonsCompleted: sum(series.map((entry) => entry.lessonsCompleted)),
           avgQuizAccuracyPct: Number(avg(series.map((entry) => entry.quizAccuracyPct)).toFixed(1)),
           avgSpeakPassPct: Number(avg(series.map((entry) => entry.speakPassPct)).toFixed(1)),
