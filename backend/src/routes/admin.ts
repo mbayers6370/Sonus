@@ -384,7 +384,15 @@ async function buildTextPdf(title: string, subtitle: string, lines: PdfLine[]) {
   const bold = await doc.embedFont(StandardFonts.HelveticaBold);
   const mono = await doc.embedFont(StandardFonts.Courier);
   const logoBytes = await loadExportLogoBytes();
-  const logo = logoBytes ? await doc.embedPng(logoBytes) : null;
+  let logo: Awaited<ReturnType<typeof doc.embedPng>> | null = null;
+  if (logoBytes) {
+    try {
+      logo = await doc.embedPng(logoBytes);
+    } catch {
+      // Keep generating the PDF even if logo bytes are unavailable/invalid in a deploy.
+      logo = null;
+    }
+  }
 
   const styleByKind: Record<
     PdfLineKind,
