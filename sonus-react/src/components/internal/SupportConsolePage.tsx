@@ -1965,9 +1965,9 @@ export default function SupportConsolePage() {
     if (!selectedUserId) return;
     setExportBusy(format);
     setDetailError(null);
-    try {
+    const downloadForFormat = async (targetFormat: "json" | "csv" | "pdf") => {
       const response = await apiFetch(
-        `/v1/admin/users/${selectedUserId}/export?format=${format}`,
+        `/v1/admin/users/${selectedUserId}/export?format=${targetFormat}`,
         { cache: "no-store" },
       );
       if (!response.ok) {
@@ -1980,8 +1980,21 @@ export default function SupportConsolePage() {
         }
         throw new Error(errorText);
       }
-      await downloadResponseAsFile(response, `user-data-export.${format}`);
+      await downloadResponseAsFile(response, `user-data-export.${targetFormat}`);
+    };
+
+    try {
+      await downloadForFormat(format);
     } catch (error) {
+      if (format === "pdf") {
+        try {
+          await downloadForFormat("json");
+          setDetailError(null);
+          return;
+        } catch {
+          // Fall through to surface the original PDF failure.
+        }
+      }
       setDetailError(
         error instanceof Error ? error.message : "Failed to export user data",
       );
@@ -2005,6 +2018,7 @@ export default function SupportConsolePage() {
         );
         setSupportMetrics(payload);
       } catch (error) {
+        setSupportMetrics(null);
         setMetricsError(
           error instanceof Error
             ? error.message
@@ -2066,6 +2080,10 @@ export default function SupportConsolePage() {
         setWeakSpeakWordsByLanguage(weakSpeakWordsByLanguagePayload);
         setSpeakMissHotspotsByLanguage(speakMissHotspotsByLanguagePayload);
       } catch (error) {
+        setLearningMetrics(null);
+        setWeakWordsByLanguage(null);
+        setWeakSpeakWordsByLanguage(null);
+        setSpeakMissHotspotsByLanguage(null);
         setMetricsError(
           error instanceof Error
             ? error.message
@@ -2093,6 +2111,7 @@ export default function SupportConsolePage() {
         );
         setImpactOutcomesMetrics(payload);
       } catch (error) {
+        setImpactOutcomesMetrics(null);
         setMetricsError(
           error instanceof Error
             ? error.message
@@ -2219,6 +2238,18 @@ export default function SupportConsolePage() {
         setProdReadinessReport(readinessPayload);
         setDashboardGeneratedAt(new Date().toISOString());
       } catch (error) {
+        setSupportMetrics(null);
+        setLearningMetrics(null);
+        setSpeakMissHotspotsByLanguage(null);
+        setExecutiveWeeklyReport(null);
+        setDeletionLifecycleReport(null);
+        setSecurityIncidentReport(null);
+        setLearningMomentumReport(null);
+        setActivationFunnelReport(null);
+        setStorageBudgetReport(null);
+        setDbGuardrailsReport(null);
+        setProdReadinessReport(null);
+        setImpactOutcomesMetrics(null);
         setDashboardError(
           error instanceof Error
             ? error.message
