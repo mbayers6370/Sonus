@@ -20,7 +20,9 @@ export function registerAdminUserExportRoutes(app: FastifyInstance) {
       }
       const parsedQuery = userExportQuerySchema.safeParse(request.query ?? {});
       if (!parsedQuery.success) {
-        reply.code(400).send({ error: 'Invalid query parameters', issues: parsedQuery.error.issues });
+        reply
+          .code(400)
+          .send({ error: 'Invalid query parameters', issues: parsedQuery.error.issues });
         return;
       }
 

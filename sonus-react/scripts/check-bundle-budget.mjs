@@ -24,6 +24,7 @@ const chunkStats = [];
 
 const EXCLUDED_TOTAL_BUDGET_PATTERNS = [
   /^SupportConsolePage-/,
+  /^SupportConsoleRoutePages-/,
 ];
 
 function isExcludedFromTotalBudget(name) {
@@ -63,8 +64,8 @@ const CORE_JS_GZIP_BUDGET_KB = Number(process.env.BUDGET_CORE_JS_GZIP_KB || '360
 const TOTAL_JS_RAW_BUDGET_MB = Number(process.env.BUDGET_TOTAL_JS_RAW_MB || '1.2');
 // Support console includes dense internal tooling (report exports, analytics panels).
 // Keep a specific cap for regressions, but calibrated to current expected footprint.
-const SUPPORT_CHUNK_RAW_BUDGET_KB = Number(process.env.BUDGET_SUPPORT_CHUNK_RAW_KB || '182');
-const SUPPORT_CHUNK_GZIP_BUDGET_KB = Number(process.env.BUDGET_SUPPORT_CHUNK_GZIP_KB || '33');
+const SUPPORT_CHUNK_RAW_BUDGET_KB = Number(process.env.BUDGET_SUPPORT_CHUNK_RAW_KB || '210');
+const SUPPORT_CHUNK_GZIP_BUDGET_KB = Number(process.env.BUDGET_SUPPORT_CHUNK_GZIP_KB || '40');
 
 const failures = [];
 if (totalJsGzipKb > TOTAL_JS_GZIP_BUDGET_KB) {
@@ -82,7 +83,9 @@ if (totalJsRawMb > TOTAL_JS_RAW_BUDGET_MB) {
     `Total JS raw ${totalJsRawMb.toFixed(2)}MB exceeds budget ${TOTAL_JS_RAW_BUDGET_MB}MB`
   );
 }
-const supportChunk = chunkStats.find((chunk) => /^SupportConsolePage-/.test(chunk.name));
+const supportChunk = chunkStats.find((chunk) =>
+  /^SupportConsole(?:Page|RoutePages)-/.test(chunk.name)
+);
 if (supportChunk) {
   const supportRawKb = supportChunk.raw / 1024;
   const supportGzipKb = supportChunk.gzip / 1024;

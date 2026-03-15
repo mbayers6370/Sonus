@@ -7,9 +7,7 @@ import { prisma } from '../lib/prisma.js';
 import { readAllowedOrigins } from '../lib/originPolicy.js';
 import { getSupabaseAdmin } from '../lib/supabase.js';
 import { resolveSupportAdminFromRequest } from '../lib/supportAdminAuth.js';
-import {
-  ensureLearningAccessTables,
-} from '../lib/learningAccess.js';
+import { ensureLearningAccessTables } from '../lib/learningAccess.js';
 import { registerAdminAuthRoutes } from './adminAuthRoutes.js';
 import { registerAdminMetricsRoutes } from './adminMetricsRoutes.js';
 import { registerAdminQualityReportsRoutes } from './adminQualityReportsRoutes.js';
@@ -17,9 +15,7 @@ import { registerAdminReportsRoutes } from './adminReportsRoutes.js';
 import { registerAdminUserExportRoutes } from './adminUserExportRoutes.js';
 import { registerAdminUserLookupRoutes } from './adminUserLookupRoutes.js';
 import { registerAdminUserOpsRoutes } from './adminUserOpsRoutes.js';
-import {
-  adminTimelineQuerySchema,
-} from './adminSchemas.js';
+import { adminTimelineQuerySchema } from './adminSchemas.js';
 
 const allowedOrigins = readAllowedOrigins();
 

@@ -16,19 +16,19 @@ export async function computeImpactOutcomesMetrics(params: {
 }) {
   const { windowDays, request } = params;
   const halfDays = Math.max(1, Math.floor(windowDays / 2));
-        const impactWarnings: string[] = [];
-        const cohortRows = await prisma.$queryRaw<
-          Array<{
-            cohortWeek: Date | string;
-            signups: bigint;
-            eligibleD1: bigint;
-            retainedD1: bigint;
-            eligibleD7: bigint;
-            retainedD7: bigint;
-            eligibleD30: bigint;
-            retainedD30: bigint;
-          }>
-        >`
+  const impactWarnings: string[] = [];
+  const cohortRows = await prisma.$queryRaw<
+    Array<{
+      cohortWeek: Date | string;
+      signups: bigint;
+      eligibleD1: bigint;
+      retainedD1: bigint;
+      eligibleD7: bigint;
+      retainedD7: bigint;
+      eligibleD30: bigint;
+      retainedD30: bigint;
+    }>
+  >`
         WITH bounds AS (
           SELECT
             now() - ${windowDays} * interval '1 day' AS start_at,
@@ -118,34 +118,31 @@ export async function computeImpactOutcomesMetrics(params: {
         LEFT JOIN weekly_stats ws ON ws.cohort_week = w.cohort_week
         ORDER BY w.cohort_week DESC
       `.catch((error) => {
-          impactWarnings.push('Cohort retention data unavailable.');
-          request.log.warn(
-            { err: error, windowDays },
-            'admin.metrics.impact_outcomes.cohorts_failed'
-          );
-          return [] as Array<{
-            cohortWeek: Date | string;
-            signups: bigint;
-            eligibleD1: bigint;
-            retainedD1: bigint;
-            eligibleD7: bigint;
-            retainedD7: bigint;
-            eligibleD30: bigint;
-            retainedD30: bigint;
-          }>;
-        });
+    impactWarnings.push('Cohort retention data unavailable.');
+    request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.cohorts_failed');
+    return [] as Array<{
+      cohortWeek: Date | string;
+      signups: bigint;
+      eligibleD1: bigint;
+      retainedD1: bigint;
+      eligibleD7: bigint;
+      retainedD7: bigint;
+      eligibleD30: bigint;
+      retainedD30: bigint;
+    }>;
+  });
 
-        const timeToValueRows = await prisma.$queryRaw<
-          Array<{
-            sampleSize: bigint;
-            reachedLessonComplete: bigint;
-            reachedSpeakPass: bigint;
-            reachedMastery: bigint;
-            medianDaysToLessonComplete: number | null;
-            medianDaysToSpeakPass: number | null;
-            medianDaysToMastery: number | null;
-          }>
-        >`
+  const timeToValueRows = await prisma.$queryRaw<
+    Array<{
+      sampleSize: bigint;
+      reachedLessonComplete: bigint;
+      reachedSpeakPass: bigint;
+      reachedMastery: bigint;
+      medianDaysToLessonComplete: number | null;
+      medianDaysToSpeakPass: number | null;
+      medianDaysToMastery: number | null;
+    }>
+  >`
         WITH cohort AS (
           SELECT p.user_id, p.created_at AS signup_at
           FROM profiles p
@@ -214,46 +211,46 @@ export async function computeImpactOutcomesMetrics(params: {
           ) FILTER (WHERE first_mastery_at IS NOT NULL) AS "medianDaysToMastery"
         FROM firsts
       `.catch((error) => {
-          impactWarnings.push('Time-to-value data unavailable.');
-          request.log.warn(
-            { err: error, windowDays },
-            'admin.metrics.impact_outcomes.time_to_value_failed'
-          );
-          return [] as Array<{
-            sampleSize: bigint;
-            reachedLessonComplete: bigint;
-            reachedSpeakPass: bigint;
-            reachedMastery: bigint;
-            medianDaysToLessonComplete: number | null;
-            medianDaysToSpeakPass: number | null;
-            medianDaysToMastery: number | null;
-          }>;
-        });
+    impactWarnings.push('Time-to-value data unavailable.');
+    request.log.warn(
+      { err: error, windowDays },
+      'admin.metrics.impact_outcomes.time_to_value_failed'
+    );
+    return [] as Array<{
+      sampleSize: bigint;
+      reachedLessonComplete: bigint;
+      reachedSpeakPass: bigint;
+      reachedMastery: bigint;
+      medianDaysToLessonComplete: number | null;
+      medianDaysToSpeakPass: number | null;
+      medianDaysToMastery: number | null;
+    }>;
+  });
 
-        const learningGainRows = await prisma.$queryRaw<
-          Array<{
-            firstQuizAttempts: bigint;
-            firstQuizCorrect: bigint;
-            firstQuizSessions: bigint;
-            firstQuizSessionsCompleted: bigint;
-            secondQuizAttempts: bigint;
-            secondQuizCorrect: bigint;
-            secondQuizSessions: bigint;
-            secondQuizSessionsCompleted: bigint;
-            firstSpeakAttempts: bigint;
-            firstSpeakPasses: bigint;
-            firstSpeakSessions: bigint;
-            firstSpeakSessionsCompleted: bigint;
-            secondSpeakAttempts: bigint;
-            secondSpeakPasses: bigint;
-            secondSpeakSessions: bigint;
-            secondSpeakSessionsCompleted: bigint;
-            firstLessonsCompleted: bigint;
-            secondLessonsCompleted: bigint;
-            firstActiveUsers: bigint;
-            secondActiveUsers: bigint;
-          }>
-        >`
+  const learningGainRows = await prisma.$queryRaw<
+    Array<{
+      firstQuizAttempts: bigint;
+      firstQuizCorrect: bigint;
+      firstQuizSessions: bigint;
+      firstQuizSessionsCompleted: bigint;
+      secondQuizAttempts: bigint;
+      secondQuizCorrect: bigint;
+      secondQuizSessions: bigint;
+      secondQuizSessionsCompleted: bigint;
+      firstSpeakAttempts: bigint;
+      firstSpeakPasses: bigint;
+      firstSpeakSessions: bigint;
+      firstSpeakSessionsCompleted: bigint;
+      secondSpeakAttempts: bigint;
+      secondSpeakPasses: bigint;
+      secondSpeakSessions: bigint;
+      secondSpeakSessionsCompleted: bigint;
+      firstLessonsCompleted: bigint;
+      secondLessonsCompleted: bigint;
+      firstActiveUsers: bigint;
+      secondActiveUsers: bigint;
+    }>
+  >`
         WITH bounds AS (
           SELECT
             now() - ${windowDays} * interval '1 day' AS start_at,
@@ -580,43 +577,43 @@ export async function computeImpactOutcomesMetrics(params: {
           (SELECT COUNT(*)::bigint FROM first_active) AS "firstActiveUsers",
           (SELECT COUNT(*)::bigint FROM second_active) AS "secondActiveUsers"
       `.catch((error) => {
-          impactWarnings.push('Learning gain comparison unavailable.');
-          request.log.warn(
-            { err: error, windowDays },
-            'admin.metrics.impact_outcomes.learning_gain_failed'
-          );
-          return [] as Array<{
-            firstQuizAttempts: bigint;
-            firstQuizCorrect: bigint;
-            firstQuizSessions: bigint;
-            firstQuizSessionsCompleted: bigint;
-            secondQuizAttempts: bigint;
-            secondQuizCorrect: bigint;
-            secondQuizSessions: bigint;
-            secondQuizSessionsCompleted: bigint;
-            firstSpeakAttempts: bigint;
-            firstSpeakPasses: bigint;
-            firstSpeakSessions: bigint;
-            firstSpeakSessionsCompleted: bigint;
-            secondSpeakAttempts: bigint;
-            secondSpeakPasses: bigint;
-            secondSpeakSessions: bigint;
-            secondSpeakSessionsCompleted: bigint;
-            firstLessonsCompleted: bigint;
-            secondLessonsCompleted: bigint;
-            firstActiveUsers: bigint;
-            secondActiveUsers: bigint;
-          }>;
-        });
+    impactWarnings.push('Learning gain comparison unavailable.');
+    request.log.warn(
+      { err: error, windowDays },
+      'admin.metrics.impact_outcomes.learning_gain_failed'
+    );
+    return [] as Array<{
+      firstQuizAttempts: bigint;
+      firstQuizCorrect: bigint;
+      firstQuizSessions: bigint;
+      firstQuizSessionsCompleted: bigint;
+      secondQuizAttempts: bigint;
+      secondQuizCorrect: bigint;
+      secondQuizSessions: bigint;
+      secondQuizSessionsCompleted: bigint;
+      firstSpeakAttempts: bigint;
+      firstSpeakPasses: bigint;
+      firstSpeakSessions: bigint;
+      firstSpeakSessionsCompleted: bigint;
+      secondSpeakAttempts: bigint;
+      secondSpeakPasses: bigint;
+      secondSpeakSessions: bigint;
+      secondSpeakSessionsCompleted: bigint;
+      firstLessonsCompleted: bigint;
+      secondLessonsCompleted: bigint;
+      firstActiveUsers: bigint;
+      secondActiveUsers: bigint;
+    }>;
+  });
 
-        const consistencyRows = await prisma.$queryRaw<
-          Array<{
-            activeUsers: bigint;
-            active3PlusDays: bigint;
-            active7PlusDays: bigint;
-            avgActiveDays: number | null;
-          }>
-        >`
+  const consistencyRows = await prisma.$queryRaw<
+    Array<{
+      activeUsers: bigint;
+      active3PlusDays: bigint;
+      active7PlusDays: bigint;
+      avgActiveDays: number | null;
+    }>
+  >`
         WITH bounds AS (
           SELECT now() - ${windowDays} * interval '1 day' AS start_at, now() AS end_at
         ),
@@ -644,20 +641,20 @@ export async function computeImpactOutcomesMetrics(params: {
           AVG(active_days)::float AS "avgActiveDays"
         FROM per_user_days
       `.catch((error) => {
-          impactWarnings.push('Consistency metrics unavailable.');
-          request.log.warn(
-            { err: error, windowDays },
-            'admin.metrics.impact_outcomes.consistency_failed'
-          );
-          return [] as Array<{
-            activeUsers: bigint;
-            active3PlusDays: bigint;
-            active7PlusDays: bigint;
-            avgActiveDays: number | null;
-          }>;
-        });
+    impactWarnings.push('Consistency metrics unavailable.');
+    request.log.warn(
+      { err: error, windowDays },
+      'admin.metrics.impact_outcomes.consistency_failed'
+    );
+    return [] as Array<{
+      activeUsers: bigint;
+      active3PlusDays: bigint;
+      active7PlusDays: bigint;
+      avgActiveDays: number | null;
+    }>;
+  });
 
-        const streakRows = await prisma.$queryRaw<Array<{ bucket: string; users: bigint }>>`
+  const streakRows = await prisma.$queryRaw<Array<{ bucket: string; users: bigint }>>`
         WITH bounds AS (
           SELECT now() - ${windowDays} * interval '1 day' AS start_at, now() AS end_at
         ),
@@ -687,22 +684,19 @@ export async function computeImpactOutcomesMetrics(params: {
         GROUP BY 1
         ORDER BY 1
       `.catch((error) => {
-          impactWarnings.push('Streak distribution unavailable.');
-          request.log.warn(
-            { err: error, windowDays },
-            'admin.metrics.impact_outcomes.streaks_failed'
-          );
-          return [] as Array<{ bucket: string; users: bigint }>;
-        });
+    impactWarnings.push('Streak distribution unavailable.');
+    request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.streaks_failed');
+    return [] as Array<{ bucket: string; users: bigint }>;
+  });
 
-        const masteryRows = await prisma.$queryRaw<
-          Array<{
-            activeUsers: bigint;
-            usersWithMastery: bigint;
-            usersWithMasteryInWindow: bigint;
-            medianDaysToFirstMastery: number | null;
-          }>
-        >`
+  const masteryRows = await prisma.$queryRaw<
+    Array<{
+      activeUsers: bigint;
+      usersWithMastery: bigint;
+      usersWithMasteryInWindow: bigint;
+      medianDaysToFirstMastery: number | null;
+    }>
+  >`
         WITH bounds AS (
           SELECT now() - ${windowDays} * interval '1 day' AS start_at, now() AS end_at
         ),
@@ -760,28 +754,25 @@ export async function computeImpactOutcomesMetrics(params: {
             ORDER BY EXTRACT(EPOCH FROM (first_mastery_at - signup_at)) / 86400.0
           ) FILTER (WHERE first_mastery_at IS NOT NULL) AS "medianDaysToFirstMastery"
       `.catch((error) => {
-          impactWarnings.push('Mastery metrics unavailable.');
-          request.log.warn(
-            { err: error, windowDays },
-            'admin.metrics.impact_outcomes.mastery_failed'
-          );
-          return [] as Array<{
-            activeUsers: bigint;
-            usersWithMastery: bigint;
-            usersWithMasteryInWindow: bigint;
-            medianDaysToFirstMastery: number | null;
-          }>;
-        });
+    impactWarnings.push('Mastery metrics unavailable.');
+    request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.mastery_failed');
+    return [] as Array<{
+      activeUsers: bigint;
+      usersWithMastery: bigint;
+      usersWithMasteryInWindow: bigint;
+      medianDaysToFirstMastery: number | null;
+    }>;
+  });
 
-        const needsWorkRows = await prisma.$queryRaw<
-          Array<{
-            activeUsers: bigint;
-            avgNeedsWork: number | null;
-            medianNeedsWork: number | null;
-            firstHalfMissesPerActiveUser: number | null;
-            secondHalfMissesPerActiveUser: number | null;
-          }>
-        >`
+  const needsWorkRows = await prisma.$queryRaw<
+    Array<{
+      activeUsers: bigint;
+      avgNeedsWork: number | null;
+      medianNeedsWork: number | null;
+      firstHalfMissesPerActiveUser: number | null;
+      secondHalfMissesPerActiveUser: number | null;
+    }>
+  >`
         WITH bounds AS (
           SELECT
             now() - ${windowDays} * interval '1 day' AS start_at,
@@ -892,32 +883,29 @@ export async function computeImpactOutcomesMetrics(params: {
             FROM second_half_misses shm, second_half_active sha
           ) AS "secondHalfMissesPerActiveUser"
       `.catch((error) => {
-          impactWarnings.push('Needs-work burden metrics unavailable.');
-          request.log.warn(
-            { err: error, windowDays },
-            'admin.metrics.impact_outcomes.needs_work_failed'
-          );
-          return [] as Array<{
-            activeUsers: bigint;
-            avgNeedsWork: number | null;
-            medianNeedsWork: number | null;
-            firstHalfMissesPerActiveUser: number | null;
-            secondHalfMissesPerActiveUser: number | null;
-          }>;
-        });
+    impactWarnings.push('Needs-work burden metrics unavailable.');
+    request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.needs_work_failed');
+    return [] as Array<{
+      activeUsers: bigint;
+      avgNeedsWork: number | null;
+      medianNeedsWork: number | null;
+      firstHalfMissesPerActiveUser: number | null;
+      secondHalfMissesPerActiveUser: number | null;
+    }>;
+  });
 
-        const needsReviewRows = await prisma.$queryRaw<
-          Array<{
-            activeUsers: bigint;
-            usersWithNeedsReview: bigint;
-            totalNeedsReviewEvents: bigint;
-            totalLessonCompletions: bigint;
-            avgNeedsReviewEventsPerActiveUser: number | null;
-            medianNeedsReviewEventsPerActiveUser: number | null;
-            firstHalfNeedsReviewEventsPerActiveUser: number | null;
-            secondHalfNeedsReviewEventsPerActiveUser: number | null;
-          }>
-        >`
+  const needsReviewRows = await prisma.$queryRaw<
+    Array<{
+      activeUsers: bigint;
+      usersWithNeedsReview: bigint;
+      totalNeedsReviewEvents: bigint;
+      totalLessonCompletions: bigint;
+      avgNeedsReviewEventsPerActiveUser: number | null;
+      medianNeedsReviewEventsPerActiveUser: number | null;
+      firstHalfNeedsReviewEventsPerActiveUser: number | null;
+      secondHalfNeedsReviewEventsPerActiveUser: number | null;
+    }>
+  >`
         WITH bounds AS (
           SELECT
             now() - ${windowDays} * interval '1 day' AS start_at,
@@ -1029,36 +1017,36 @@ export async function computeImpactOutcomesMetrics(params: {
             FROM second_half_resets shr, second_half_active sha
           ) AS "secondHalfNeedsReviewEventsPerActiveUser"
       `.catch((error) => {
-          impactWarnings.push('Needs-review reset metrics unavailable.');
-          request.log.warn(
-            { err: error, windowDays },
-            'admin.metrics.impact_outcomes.needs_review_failed'
-          );
-          return [] as Array<{
-            activeUsers: bigint;
-            usersWithNeedsReview: bigint;
-            totalNeedsReviewEvents: bigint;
-            totalLessonCompletions: bigint;
-            avgNeedsReviewEventsPerActiveUser: number | null;
-            medianNeedsReviewEventsPerActiveUser: number | null;
-            firstHalfNeedsReviewEventsPerActiveUser: number | null;
-            secondHalfNeedsReviewEventsPerActiveUser: number | null;
-          }>;
-        });
+    impactWarnings.push('Needs-review reset metrics unavailable.');
+    request.log.warn(
+      { err: error, windowDays },
+      'admin.metrics.impact_outcomes.needs_review_failed'
+    );
+    return [] as Array<{
+      activeUsers: bigint;
+      usersWithNeedsReview: bigint;
+      totalNeedsReviewEvents: bigint;
+      totalLessonCompletions: bigint;
+      avgNeedsReviewEventsPerActiveUser: number | null;
+      medianNeedsReviewEventsPerActiveUser: number | null;
+      firstHalfNeedsReviewEventsPerActiveUser: number | null;
+      secondHalfNeedsReviewEventsPerActiveUser: number | null;
+    }>;
+  });
 
-        const perUserRows = await prisma.$queryRaw<
-          Array<{
-            languageId: string;
-            activeDays: number;
-            lessonsCompleted: number;
-            quizAttempts: number;
-            quizCorrect: number;
-            speakAttempts: number;
-            speakPasses: number;
-            needsWorkCount: number;
-            needsReviewResets: number;
-          }>
-        >`
+  const perUserRows = await prisma.$queryRaw<
+    Array<{
+      languageId: string;
+      activeDays: number;
+      lessonsCompleted: number;
+      quizAttempts: number;
+      quizCorrect: number;
+      speakAttempts: number;
+      speakPasses: number;
+      needsWorkCount: number;
+      needsReviewResets: number;
+    }>
+  >`
         WITH bounds AS (
           SELECT now() - ${windowDays} * interval '1 day' AS start_at, now() AS end_at
         ),
@@ -1151,27 +1139,22 @@ export async function computeImpactOutcomesMetrics(params: {
         LEFT JOIN reset_counts rc ON rc.user_id = au.user_id
         WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
       `.catch((error) => {
-          impactWarnings.push('Anonymized per-user distribution unavailable.');
-          request.log.warn(
-            { err: error, windowDays },
-            'admin.metrics.impact_outcomes.per_user_failed'
-          );
-          return [] as Array<{
-            languageId: string;
-            activeDays: number;
-            lessonsCompleted: number;
-            quizAttempts: number;
-            quizCorrect: number;
-            speakAttempts: number;
-            speakPasses: number;
-            needsWorkCount: number;
-            needsReviewResets: number;
-          }>;
-        });
+    impactWarnings.push('Anonymized per-user distribution unavailable.');
+    request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.per_user_failed');
+    return [] as Array<{
+      languageId: string;
+      activeDays: number;
+      lessonsCompleted: number;
+      quizAttempts: number;
+      quizCorrect: number;
+      speakAttempts: number;
+      speakPasses: number;
+      needsWorkCount: number;
+      needsReviewResets: number;
+    }>;
+  });
 
-        const languageRows = await prisma.$queryRaw<
-          Array<{ languageId: string; activeUsers: bigint }>
-        >`
+  const languageRows = await prisma.$queryRaw<Array<{ languageId: string; activeUsers: bigint }>>`
         WITH bounds AS (
           SELECT now() - ${windowDays} * interval '1 day' AS start_at, now() AS end_at
         ),
@@ -1194,416 +1177,397 @@ export async function computeImpactOutcomesMetrics(params: {
         GROUP BY 1
         ORDER BY 2 DESC
       `.catch((error) => {
-          impactWarnings.push('Language segmentation unavailable.');
-          request.log.warn(
-            { err: error, windowDays },
-            'admin.metrics.impact_outcomes.segmentation_failed'
-          );
-          return [] as Array<{ languageId: string; activeUsers: bigint }>;
-        });
+    impactWarnings.push('Language segmentation unavailable.');
+    request.log.warn(
+      { err: error, windowDays },
+      'admin.metrics.impact_outcomes.segmentation_failed'
+    );
+    return [] as Array<{ languageId: string; activeUsers: bigint }>;
+  });
 
-        const pct = (num: number, den: number) =>
-          den > 0 ? Number(((num / den) * 100).toFixed(2)) : 0;
-        const isoDay = (value: Date | string) => {
-          if (value instanceof Date) return value.toISOString().slice(0, 10);
-          const parsedDate = new Date(value);
-          if (!Number.isNaN(parsedDate.getTime())) return parsedDate.toISOString().slice(0, 10);
-          return String(value).slice(0, 10);
-        };
-        const safeDelta = (first: number, second: number) =>
-          first <= 0
-            ? second > 0
-              ? 100
-              : 0
-            : Number((((second - first) / first) * 100).toFixed(2));
+  const pct = (num: number, den: number) => (den > 0 ? Number(((num / den) * 100).toFixed(2)) : 0);
+  const isoDay = (value: Date | string) => {
+    if (value instanceof Date) return value.toISOString().slice(0, 10);
+    const parsedDate = new Date(value);
+    if (!Number.isNaN(parsedDate.getTime())) return parsedDate.toISOString().slice(0, 10);
+    return String(value).slice(0, 10);
+  };
+  const safeDelta = (first: number, second: number) =>
+    first <= 0 ? (second > 0 ? 100 : 0) : Number((((second - first) / first) * 100).toFixed(2));
 
-        const cohorts = cohortRows
-          .map((row) => {
-            const signups = toInt(row.signups);
-            const eligibleD1 = toInt(row.eligibleD1);
-            const retainedD1 = toInt(row.retainedD1);
-            const eligibleD7 = toInt(row.eligibleD7);
-            const retainedD7 = toInt(row.retainedD7);
-            const eligibleD30 = toInt(row.eligibleD30);
-            const retainedD30 = toInt(row.retainedD30);
-            return {
-              cohortWeek: isoDay(row.cohortWeek),
-              signups,
-              eligibleD1,
-              retainedD1,
-              d1Pct: pct(retainedD1, eligibleD1),
-              eligibleD7,
-              retainedD7,
-              d7Pct: pct(retainedD7, eligibleD7),
-              eligibleD30,
-              retainedD30,
-              d30Pct: pct(retainedD30, eligibleD30),
-            };
-          })
-          .sort((a, b) => (a.cohortWeek < b.cohortWeek ? 1 : -1));
+  const cohorts = cohortRows
+    .map((row) => {
+      const signups = toInt(row.signups);
+      const eligibleD1 = toInt(row.eligibleD1);
+      const retainedD1 = toInt(row.retainedD1);
+      const eligibleD7 = toInt(row.eligibleD7);
+      const retainedD7 = toInt(row.retainedD7);
+      const eligibleD30 = toInt(row.eligibleD30);
+      const retainedD30 = toInt(row.retainedD30);
+      return {
+        cohortWeek: isoDay(row.cohortWeek),
+        signups,
+        eligibleD1,
+        retainedD1,
+        d1Pct: pct(retainedD1, eligibleD1),
+        eligibleD7,
+        retainedD7,
+        d7Pct: pct(retainedD7, eligibleD7),
+        eligibleD30,
+        retainedD30,
+        d30Pct: pct(retainedD30, eligibleD30),
+      };
+    })
+    .sort((a, b) => (a.cohortWeek < b.cohortWeek ? 1 : -1));
 
-        const timeToValue = timeToValueRows[0] || {
-          sampleSize: 0n,
-          reachedLessonComplete: 0n,
-          reachedSpeakPass: 0n,
-          reachedMastery: 0n,
-          medianDaysToLessonComplete: null,
-          medianDaysToSpeakPass: null,
-          medianDaysToMastery: null,
-        };
-        const learningGain = learningGainRows[0] || {
-          firstQuizAttempts: 0n,
-          firstQuizCorrect: 0n,
-          firstQuizSessions: 0n,
-          firstQuizSessionsCompleted: 0n,
-          secondQuizAttempts: 0n,
-          secondQuizCorrect: 0n,
-          secondQuizSessions: 0n,
-          secondQuizSessionsCompleted: 0n,
-          firstSpeakAttempts: 0n,
-          firstSpeakPasses: 0n,
-          firstSpeakSessions: 0n,
-          firstSpeakSessionsCompleted: 0n,
-          secondSpeakAttempts: 0n,
-          secondSpeakPasses: 0n,
-          secondSpeakSessions: 0n,
-          secondSpeakSessionsCompleted: 0n,
-          firstLessonsCompleted: 0n,
-          secondLessonsCompleted: 0n,
-          firstActiveUsers: 0n,
-          secondActiveUsers: 0n,
-        };
-        const consistency = consistencyRows[0] || {
-          activeUsers: 0n,
-          active3PlusDays: 0n,
-          active7PlusDays: 0n,
-          avgActiveDays: 0,
-        };
-        const mastery = masteryRows[0] || {
-          activeUsers: 0n,
-          usersWithMastery: 0n,
-          usersWithMasteryInWindow: 0n,
-          medianDaysToFirstMastery: null,
-        };
-        const burden = needsWorkRows[0] || {
-          activeUsers: 0n,
-          avgNeedsWork: 0,
-          medianNeedsWork: 0,
-          firstHalfMissesPerActiveUser: 0,
-          secondHalfMissesPerActiveUser: 0,
-        };
-        const needsReview = needsReviewRows[0] || {
-          activeUsers: 0n,
-          usersWithNeedsReview: 0n,
-          totalNeedsReviewEvents: 0n,
-          totalLessonCompletions: 0n,
-          avgNeedsReviewEventsPerActiveUser: 0,
-          medianNeedsReviewEventsPerActiveUser: 0,
-          firstHalfNeedsReviewEventsPerActiveUser: 0,
-          secondHalfNeedsReviewEventsPerActiveUser: 0,
-        };
+  const timeToValue = timeToValueRows[0] || {
+    sampleSize: 0n,
+    reachedLessonComplete: 0n,
+    reachedSpeakPass: 0n,
+    reachedMastery: 0n,
+    medianDaysToLessonComplete: null,
+    medianDaysToSpeakPass: null,
+    medianDaysToMastery: null,
+  };
+  const learningGain = learningGainRows[0] || {
+    firstQuizAttempts: 0n,
+    firstQuizCorrect: 0n,
+    firstQuizSessions: 0n,
+    firstQuizSessionsCompleted: 0n,
+    secondQuizAttempts: 0n,
+    secondQuizCorrect: 0n,
+    secondQuizSessions: 0n,
+    secondQuizSessionsCompleted: 0n,
+    firstSpeakAttempts: 0n,
+    firstSpeakPasses: 0n,
+    firstSpeakSessions: 0n,
+    firstSpeakSessionsCompleted: 0n,
+    secondSpeakAttempts: 0n,
+    secondSpeakPasses: 0n,
+    secondSpeakSessions: 0n,
+    secondSpeakSessionsCompleted: 0n,
+    firstLessonsCompleted: 0n,
+    secondLessonsCompleted: 0n,
+    firstActiveUsers: 0n,
+    secondActiveUsers: 0n,
+  };
+  const consistency = consistencyRows[0] || {
+    activeUsers: 0n,
+    active3PlusDays: 0n,
+    active7PlusDays: 0n,
+    avgActiveDays: 0,
+  };
+  const mastery = masteryRows[0] || {
+    activeUsers: 0n,
+    usersWithMastery: 0n,
+    usersWithMasteryInWindow: 0n,
+    medianDaysToFirstMastery: null,
+  };
+  const burden = needsWorkRows[0] || {
+    activeUsers: 0n,
+    avgNeedsWork: 0,
+    medianNeedsWork: 0,
+    firstHalfMissesPerActiveUser: 0,
+    secondHalfMissesPerActiveUser: 0,
+  };
+  const needsReview = needsReviewRows[0] || {
+    activeUsers: 0n,
+    usersWithNeedsReview: 0n,
+    totalNeedsReviewEvents: 0n,
+    totalLessonCompletions: 0n,
+    avgNeedsReviewEventsPerActiveUser: 0,
+    medianNeedsReviewEventsPerActiveUser: 0,
+    firstHalfNeedsReviewEventsPerActiveUser: 0,
+    secondHalfNeedsReviewEventsPerActiveUser: 0,
+  };
 
-        const firstQuizAttempts = toInt(learningGain.firstQuizAttempts);
-        const firstQuizCorrect = toInt(learningGain.firstQuizCorrect);
-        const firstQuizSessions = toInt(learningGain.firstQuizSessions);
-        const firstQuizSessionsCompleted = toInt(learningGain.firstQuizSessionsCompleted);
-        const secondQuizAttempts = toInt(learningGain.secondQuizAttempts);
-        const secondQuizCorrect = toInt(learningGain.secondQuizCorrect);
-        const secondQuizSessions = toInt(learningGain.secondQuizSessions);
-        const secondQuizSessionsCompleted = toInt(learningGain.secondQuizSessionsCompleted);
-        const firstSpeakAttempts = toInt(learningGain.firstSpeakAttempts);
-        const firstSpeakPasses = toInt(learningGain.firstSpeakPasses);
-        const firstSpeakSessions = toInt(learningGain.firstSpeakSessions);
-        const firstSpeakSessionsCompleted = toInt(learningGain.firstSpeakSessionsCompleted);
-        const secondSpeakAttempts = toInt(learningGain.secondSpeakAttempts);
-        const secondSpeakPasses = toInt(learningGain.secondSpeakPasses);
-        const secondSpeakSessions = toInt(learningGain.secondSpeakSessions);
-        const secondSpeakSessionsCompleted = toInt(learningGain.secondSpeakSessionsCompleted);
-        const firstLessonsCompleted = toInt(learningGain.firstLessonsCompleted);
-        const secondLessonsCompleted = toInt(learningGain.secondLessonsCompleted);
-        const firstActiveUsers = toInt(learningGain.firstActiveUsers);
-        const secondActiveUsers = toInt(learningGain.secondActiveUsers);
-        const firstQuizAccuracyPct = pct(firstQuizCorrect, firstQuizAttempts);
-        const secondQuizAccuracyPct = pct(secondQuizCorrect, secondQuizAttempts);
-        const firstSpeakPassPct = pct(firstSpeakPasses, firstSpeakAttempts);
-        const secondSpeakPassPct = pct(secondSpeakPasses, secondSpeakAttempts);
-        const firstLessonsPerActiveUser =
-          firstActiveUsers > 0 ? Number((firstLessonsCompleted / firstActiveUsers).toFixed(3)) : 0;
-        const secondLessonsPerActiveUser =
-          secondActiveUsers > 0
-            ? Number((secondLessonsCompleted / secondActiveUsers).toFixed(3))
-            : 0;
+  const firstQuizAttempts = toInt(learningGain.firstQuizAttempts);
+  const firstQuizCorrect = toInt(learningGain.firstQuizCorrect);
+  const firstQuizSessions = toInt(learningGain.firstQuizSessions);
+  const firstQuizSessionsCompleted = toInt(learningGain.firstQuizSessionsCompleted);
+  const secondQuizAttempts = toInt(learningGain.secondQuizAttempts);
+  const secondQuizCorrect = toInt(learningGain.secondQuizCorrect);
+  const secondQuizSessions = toInt(learningGain.secondQuizSessions);
+  const secondQuizSessionsCompleted = toInt(learningGain.secondQuizSessionsCompleted);
+  const firstSpeakAttempts = toInt(learningGain.firstSpeakAttempts);
+  const firstSpeakPasses = toInt(learningGain.firstSpeakPasses);
+  const firstSpeakSessions = toInt(learningGain.firstSpeakSessions);
+  const firstSpeakSessionsCompleted = toInt(learningGain.firstSpeakSessionsCompleted);
+  const secondSpeakAttempts = toInt(learningGain.secondSpeakAttempts);
+  const secondSpeakPasses = toInt(learningGain.secondSpeakPasses);
+  const secondSpeakSessions = toInt(learningGain.secondSpeakSessions);
+  const secondSpeakSessionsCompleted = toInt(learningGain.secondSpeakSessionsCompleted);
+  const firstLessonsCompleted = toInt(learningGain.firstLessonsCompleted);
+  const secondLessonsCompleted = toInt(learningGain.secondLessonsCompleted);
+  const firstActiveUsers = toInt(learningGain.firstActiveUsers);
+  const secondActiveUsers = toInt(learningGain.secondActiveUsers);
+  const firstQuizAccuracyPct = pct(firstQuizCorrect, firstQuizAttempts);
+  const secondQuizAccuracyPct = pct(secondQuizCorrect, secondQuizAttempts);
+  const firstSpeakPassPct = pct(firstSpeakPasses, firstSpeakAttempts);
+  const secondSpeakPassPct = pct(secondSpeakPasses, secondSpeakAttempts);
+  const firstLessonsPerActiveUser =
+    firstActiveUsers > 0 ? Number((firstLessonsCompleted / firstActiveUsers).toFixed(3)) : 0;
+  const secondLessonsPerActiveUser =
+    secondActiveUsers > 0 ? Number((secondLessonsCompleted / secondActiveUsers).toFixed(3)) : 0;
 
-        const firstHalfMissesPerActiveUser = Number(
-          toFloat(burden.firstHalfMissesPerActiveUser).toFixed(3)
-        );
-        const secondHalfMissesPerActiveUser = Number(
-          toFloat(burden.secondHalfMissesPerActiveUser).toFixed(3)
-        );
-        const firstHalfNeedsReviewEventsPerActiveUser = Number(
-          toFloat(needsReview.firstHalfNeedsReviewEventsPerActiveUser).toFixed(3)
-        );
-        const secondHalfNeedsReviewEventsPerActiveUser = Number(
-          toFloat(needsReview.secondHalfNeedsReviewEventsPerActiveUser).toFixed(3)
-        );
+  const firstHalfMissesPerActiveUser = Number(
+    toFloat(burden.firstHalfMissesPerActiveUser).toFixed(3)
+  );
+  const secondHalfMissesPerActiveUser = Number(
+    toFloat(burden.secondHalfMissesPerActiveUser).toFixed(3)
+  );
+  const firstHalfNeedsReviewEventsPerActiveUser = Number(
+    toFloat(needsReview.firstHalfNeedsReviewEventsPerActiveUser).toFixed(3)
+  );
+  const secondHalfNeedsReviewEventsPerActiveUser = Number(
+    toFloat(needsReview.secondHalfNeedsReviewEventsPerActiveUser).toFixed(3)
+  );
 
-        const distributionValues = {
-          activeDays: perUserRows.map((row) => toFloat(row.activeDays)),
-          lessonsCompleted: perUserRows.map((row) => toFloat(row.lessonsCompleted)),
-          quizAccuracyPct: perUserRows.map((row) =>
-            row.quizAttempts > 0
-              ? Number(((row.quizCorrect / row.quizAttempts) * 100).toFixed(2))
-              : 0
-          ),
-          speakPassPct: perUserRows.map((row) =>
-            row.speakAttempts > 0
-              ? Number(((row.speakPasses / row.speakAttempts) * 100).toFixed(2))
-              : 0
-          ),
-          needsWorkCount: perUserRows.map((row) => toFloat(row.needsWorkCount)),
-          needsReviewResets: perUserRows.map((row) => toFloat(row.needsReviewResets)),
-        };
-        const summarizeDistribution = (values: number[]) => {
-          if (!values.length) return { avg: 0, p50: 0, p75: 0, p90: 0 };
-          const total = values.reduce((sum, value) => sum + value, 0);
-          return {
-            avg: Number((total / values.length).toFixed(2)),
-            p50: Number(percentile(values, 0.5).toFixed(2)),
-            p75: Number(percentile(values, 0.75).toFixed(2)),
-            p90: Number(percentile(values, 0.9).toFixed(2)),
-          };
-        };
+  const distributionValues = {
+    activeDays: perUserRows.map((row) => toFloat(row.activeDays)),
+    lessonsCompleted: perUserRows.map((row) => toFloat(row.lessonsCompleted)),
+    quizAccuracyPct: perUserRows.map((row) =>
+      row.quizAttempts > 0 ? Number(((row.quizCorrect / row.quizAttempts) * 100).toFixed(2)) : 0
+    ),
+    speakPassPct: perUserRows.map((row) =>
+      row.speakAttempts > 0 ? Number(((row.speakPasses / row.speakAttempts) * 100).toFixed(2)) : 0
+    ),
+    needsWorkCount: perUserRows.map((row) => toFloat(row.needsWorkCount)),
+    needsReviewResets: perUserRows.map((row) => toFloat(row.needsReviewResets)),
+  };
+  const summarizeDistribution = (values: number[]) => {
+    if (!values.length) return { avg: 0, p50: 0, p75: 0, p90: 0 };
+    const total = values.reduce((sum, value) => sum + value, 0);
+    return {
+      avg: Number((total / values.length).toFixed(2)),
+      p50: Number(percentile(values, 0.5).toFixed(2)),
+      p75: Number(percentile(values, 0.75).toFixed(2)),
+      p90: Number(percentile(values, 0.9).toFixed(2)),
+    };
+  };
 
-        const riskCohortMap = new Map<
-          string,
-          {
-            users: number;
-            atRiskUsers: number;
-            needsWorkTotal: number;
-            quizMissPctTotal: number;
-            speakMissPctTotal: number;
-          }
-        >();
-        for (const row of perUserRows) {
-          const activeDays = toInt(row.activeDays);
-          const quizAttempts = toInt(row.quizAttempts);
-          const quizCorrect = toInt(row.quizCorrect);
-          const speakAttempts = toInt(row.speakAttempts);
-          const speakPasses = toInt(row.speakPasses);
-          const needsWorkCount = toInt(row.needsWorkCount);
-          const needsReviewResets = toInt(row.needsReviewResets);
-          const quizMissPct =
-            quizAttempts > 0 ? ((quizAttempts - quizCorrect) / quizAttempts) * 100 : 0;
-          const speakMissPct =
-            speakAttempts > 0 ? ((speakAttempts - speakPasses) / speakAttempts) * 100 : 0;
-          const engagementBucket =
-            activeDays >= 8
-              ? 'active_8_plus'
-              : activeDays >= 4
-                ? 'active_4_7'
-                : activeDays >= 2
-                  ? 'active_2_3'
-                  : 'active_0_1';
-          const cohortKey = `${row.languageId}:${engagementBucket}`;
-          const atRisk =
-            needsWorkCount >= 20 ||
-            needsReviewResets >= 3 ||
-            quizMissPct >= 35 ||
-            speakMissPct >= 45 ||
-            (activeDays <= 1 && needsWorkCount >= 8);
-          const existing = riskCohortMap.get(cohortKey) || {
-            users: 0,
-            atRiskUsers: 0,
-            needsWorkTotal: 0,
-            quizMissPctTotal: 0,
-            speakMissPctTotal: 0,
-          };
-          existing.users += 1;
-          existing.atRiskUsers += atRisk ? 1 : 0;
-          existing.needsWorkTotal += needsWorkCount;
-          existing.quizMissPctTotal += quizMissPct;
-          existing.speakMissPctTotal += speakMissPct;
-          riskCohortMap.set(cohortKey, existing);
-        }
-        const riskCohorts = Array.from(riskCohortMap.entries())
-          .filter(([, stats]) => stats.users >= 5)
-          .map(([cohort, stats]) => ({
-            cohort,
-            users: stats.users,
-            atRiskUsers: stats.atRiskUsers,
-            atRiskRatePct: Number(
-              ((stats.atRiskUsers / Math.max(1, stats.users)) * 100).toFixed(2)
-            ),
-            avgNeedsWorkCount: Number((stats.needsWorkTotal / Math.max(1, stats.users)).toFixed(2)),
-            avgQuizMissPct: Number((stats.quizMissPctTotal / Math.max(1, stats.users)).toFixed(2)),
-            avgSpeakMissPct: Number(
-              (stats.speakMissPctTotal / Math.max(1, stats.users)).toFixed(2)
-            ),
-          }))
-          .sort((a, b) => {
-            if (b.atRiskRatePct !== a.atRiskRatePct) return b.atRiskRatePct - a.atRiskRatePct;
-            if (b.users !== a.users) return b.users - a.users;
-            return a.cohort.localeCompare(b.cohort);
-          })
-          .slice(0, 8);
+  const riskCohortMap = new Map<
+    string,
+    {
+      users: number;
+      atRiskUsers: number;
+      needsWorkTotal: number;
+      quizMissPctTotal: number;
+      speakMissPctTotal: number;
+    }
+  >();
+  for (const row of perUserRows) {
+    const activeDays = toInt(row.activeDays);
+    const quizAttempts = toInt(row.quizAttempts);
+    const quizCorrect = toInt(row.quizCorrect);
+    const speakAttempts = toInt(row.speakAttempts);
+    const speakPasses = toInt(row.speakPasses);
+    const needsWorkCount = toInt(row.needsWorkCount);
+    const needsReviewResets = toInt(row.needsReviewResets);
+    const quizMissPct = quizAttempts > 0 ? ((quizAttempts - quizCorrect) / quizAttempts) * 100 : 0;
+    const speakMissPct =
+      speakAttempts > 0 ? ((speakAttempts - speakPasses) / speakAttempts) * 100 : 0;
+    const engagementBucket =
+      activeDays >= 8
+        ? 'active_8_plus'
+        : activeDays >= 4
+          ? 'active_4_7'
+          : activeDays >= 2
+            ? 'active_2_3'
+            : 'active_0_1';
+    const cohortKey = `${row.languageId}:${engagementBucket}`;
+    const atRisk =
+      needsWorkCount >= 20 ||
+      needsReviewResets >= 3 ||
+      quizMissPct >= 35 ||
+      speakMissPct >= 45 ||
+      (activeDays <= 1 && needsWorkCount >= 8);
+    const existing = riskCohortMap.get(cohortKey) || {
+      users: 0,
+      atRiskUsers: 0,
+      needsWorkTotal: 0,
+      quizMissPctTotal: 0,
+      speakMissPctTotal: 0,
+    };
+    existing.users += 1;
+    existing.atRiskUsers += atRisk ? 1 : 0;
+    existing.needsWorkTotal += needsWorkCount;
+    existing.quizMissPctTotal += quizMissPct;
+    existing.speakMissPctTotal += speakMissPct;
+    riskCohortMap.set(cohortKey, existing);
+  }
+  const riskCohorts = Array.from(riskCohortMap.entries())
+    .filter(([, stats]) => stats.users >= 5)
+    .map(([cohort, stats]) => ({
+      cohort,
+      users: stats.users,
+      atRiskUsers: stats.atRiskUsers,
+      atRiskRatePct: Number(((stats.atRiskUsers / Math.max(1, stats.users)) * 100).toFixed(2)),
+      avgNeedsWorkCount: Number((stats.needsWorkTotal / Math.max(1, stats.users)).toFixed(2)),
+      avgQuizMissPct: Number((stats.quizMissPctTotal / Math.max(1, stats.users)).toFixed(2)),
+      avgSpeakMissPct: Number((stats.speakMissPctTotal / Math.max(1, stats.users)).toFixed(2)),
+    }))
+    .sort((a, b) => {
+      if (b.atRiskRatePct !== a.atRiskRatePct) return b.atRiskRatePct - a.atRiskRatePct;
+      if (b.users !== a.users) return b.users - a.users;
+      return a.cohort.localeCompare(b.cohort);
+    })
+    .slice(0, 8);
 
-        if (impactWarnings.length) {
-          throw new Error(`Impact outcomes query failed: ${impactWarnings.join(' ')}`);
-        }
+  if (impactWarnings.length) {
+    throw new Error(`Impact outcomes query failed: ${impactWarnings.join(' ')}`);
+  }
 
-        return {
-          generatedAt: new Date().toISOString(),
-          windowDays,
-          sessionWindowMinutes: REPORT_SESSION_GAP_MINUTES,
-          definitions: {
-            cohorts:
-              'Signup cohorts grouped by week. D1/D7/D30 retention uses exact day-N return among users with enough account age (eligible).',
-            timeToValue:
-              'Median days from signup to first lesson completion, first speak pass, and first mastery event.',
-            learningGain:
-              'Compares first half vs second half of selected window for accuracy and completion intensity, including attempt sessions grouped with a configurable inactivity gap.',
-            consistency:
-              'Active-day frequency and streak distribution for users active in the selected window.',
-            mastery: 'Mastery adoption among active users and time to first mastery.',
-            needsWorkBurden:
-              'Current needs-work load per active user plus miss-rate burden trend across window halves.',
-            needsReview:
-              'How often users intentionally reset mastery-ready lessons to relearn content, reported as aggregate event rate and per-user distribution.',
-            perUserDistribution:
-              'Anonymized percentile distribution across active users (no user identifiers).',
-            riskCohorts:
-              'Anonymized cohorts grouped by language and engagement intensity, ranked by at-risk share.',
-          },
-          cohorts,
-          timeToValue: {
-            sampleSize: toInt(timeToValue.sampleSize),
-            reachedLessonComplete: toInt(timeToValue.reachedLessonComplete),
-            reachedSpeakPass: toInt(timeToValue.reachedSpeakPass),
-            reachedMastery: toInt(timeToValue.reachedMastery),
-            medianDaysToLessonComplete:
-              timeToValue.medianDaysToLessonComplete === null
-                ? null
-                : Number(toFloat(timeToValue.medianDaysToLessonComplete).toFixed(2)),
-            medianDaysToSpeakPass:
-              timeToValue.medianDaysToSpeakPass === null
-                ? null
-                : Number(toFloat(timeToValue.medianDaysToSpeakPass).toFixed(2)),
-            medianDaysToMastery:
-              timeToValue.medianDaysToMastery === null
-                ? null
-                : Number(toFloat(timeToValue.medianDaysToMastery).toFixed(2)),
-          },
-          learningGain: {
-            sample: {
-              firstActiveUsers,
-              secondActiveUsers,
-            },
-            firstHalf: {
-              quizAttempts: firstQuizAttempts,
-              quizSessions: firstQuizSessions,
-              quizSessionsCompleted: firstQuizSessionsCompleted,
-              quizAccuracyPct: firstQuizAccuracyPct,
-              speakAttempts: firstSpeakAttempts,
-              speakSessions: firstSpeakSessions,
-              speakSessionsCompleted: firstSpeakSessionsCompleted,
-              speakPassPct: firstSpeakPassPct,
-              lessonsCompleted: firstLessonsCompleted,
-              lessonsPerActiveUser: firstLessonsPerActiveUser,
-            },
-            secondHalf: {
-              quizAttempts: secondQuizAttempts,
-              quizSessions: secondQuizSessions,
-              quizSessionsCompleted: secondQuizSessionsCompleted,
-              quizAccuracyPct: secondQuizAccuracyPct,
-              speakAttempts: secondSpeakAttempts,
-              speakSessions: secondSpeakSessions,
-              speakSessionsCompleted: secondSpeakSessionsCompleted,
-              speakPassPct: secondSpeakPassPct,
-              lessonsCompleted: secondLessonsCompleted,
-              lessonsPerActiveUser: secondLessonsPerActiveUser,
-            },
-            deltaPct: {
-              quizAccuracyPct: safeDelta(firstQuizAccuracyPct, secondQuizAccuracyPct),
-              speakPassPct: safeDelta(firstSpeakPassPct, secondSpeakPassPct),
-              lessonsPerActiveUser: safeDelta(
-                firstLessonsPerActiveUser,
-                secondLessonsPerActiveUser
-              ),
-            },
-          },
-          consistency: {
-            activeUsers: toInt(consistency.activeUsers),
-            active3PlusDays: toInt(consistency.active3PlusDays),
-            active7PlusDays: toInt(consistency.active7PlusDays),
-            avgActiveDays: Number(toFloat(consistency.avgActiveDays).toFixed(2)),
-            streakDistribution: streakRows.map((row) => ({
-              bucket: row.bucket,
-              users: toInt(row.users),
-            })),
-          },
-          mastery: {
-            activeUsers: toInt(mastery.activeUsers),
-            usersWithMastery: toInt(mastery.usersWithMastery),
-            usersWithMasteryInWindow: toInt(mastery.usersWithMasteryInWindow),
-            masteryRatePct: pct(toInt(mastery.usersWithMastery), toInt(mastery.activeUsers)),
-            medianDaysToFirstMastery:
-              mastery.medianDaysToFirstMastery === null
-                ? null
-                : Number(toFloat(mastery.medianDaysToFirstMastery).toFixed(2)),
-          },
-          needsWorkBurden: {
-            activeUsers: toInt(burden.activeUsers),
-            avgNeedsWorkPerActiveUser: Number(toFloat(burden.avgNeedsWork).toFixed(2)),
-            medianNeedsWorkPerActiveUser: Number(toFloat(burden.medianNeedsWork).toFixed(2)),
-            firstHalfMissesPerActiveUser,
-            secondHalfMissesPerActiveUser,
-            missesPerActiveUserDeltaPct: safeDelta(
-              firstHalfMissesPerActiveUser,
-              secondHalfMissesPerActiveUser
-            ),
-          },
-          needsReview: {
-            activeUsers: toInt(needsReview.activeUsers),
-            usersWithNeedsReview: toInt(needsReview.usersWithNeedsReview),
-            totalNeedsReviewEvents: toInt(needsReview.totalNeedsReviewEvents),
-            totalLessonCompletions: toInt(needsReview.totalLessonCompletions),
-            needsReviewEventsPer100Completions: Number(
-              (
-                (toInt(needsReview.totalNeedsReviewEvents) /
-                  Math.max(1, toInt(needsReview.totalLessonCompletions))) *
-                100
-              ).toFixed(2)
-            ),
-            avgNeedsReviewEventsPerActiveUser: Number(
-              toFloat(needsReview.avgNeedsReviewEventsPerActiveUser).toFixed(2)
-            ),
-            medianNeedsReviewEventsPerActiveUser: Number(
-              toFloat(needsReview.medianNeedsReviewEventsPerActiveUser).toFixed(2)
-            ),
-            firstHalfNeedsReviewEventsPerActiveUser,
-            secondHalfNeedsReviewEventsPerActiveUser,
-            needsReviewEventsPerActiveUserDeltaPct: safeDelta(
-              firstHalfNeedsReviewEventsPerActiveUser,
-              secondHalfNeedsReviewEventsPerActiveUser
-            ),
-          },
-          segmentation: {
-            activeUsersByLanguage: languageRows.map((row) => ({
-              languageId: row.languageId,
-              activeUsers: toInt(row.activeUsers),
-            })),
-          },
-          perUserDistribution: {
-            sampleSize: perUserRows.length,
-            metrics: {
-              activeDays: summarizeDistribution(distributionValues.activeDays),
-              lessonsCompleted: summarizeDistribution(distributionValues.lessonsCompleted),
-              quizAccuracyPct: summarizeDistribution(distributionValues.quizAccuracyPct),
-              speakPassPct: summarizeDistribution(distributionValues.speakPassPct),
-              needsWorkCount: summarizeDistribution(distributionValues.needsWorkCount),
-              needsReviewResets: summarizeDistribution(distributionValues.needsReviewResets),
-            },
-          },
-          riskCohorts,
-        };
+  return {
+    generatedAt: new Date().toISOString(),
+    windowDays,
+    sessionWindowMinutes: REPORT_SESSION_GAP_MINUTES,
+    definitions: {
+      cohorts:
+        'Signup cohorts grouped by week. D1/D7/D30 retention uses exact day-N return among users with enough account age (eligible).',
+      timeToValue:
+        'Median days from signup to first lesson completion, first speak pass, and first mastery event.',
+      learningGain:
+        'Compares first half vs second half of selected window for accuracy and completion intensity, including attempt sessions grouped with a configurable inactivity gap.',
+      consistency:
+        'Active-day frequency and streak distribution for users active in the selected window.',
+      mastery: 'Mastery adoption among active users and time to first mastery.',
+      needsWorkBurden:
+        'Current needs-work load per active user plus miss-rate burden trend across window halves.',
+      needsReview:
+        'How often users intentionally reset mastery-ready lessons to relearn content, reported as aggregate event rate and per-user distribution.',
+      perUserDistribution:
+        'Anonymized percentile distribution across active users (no user identifiers).',
+      riskCohorts:
+        'Anonymized cohorts grouped by language and engagement intensity, ranked by at-risk share.',
+    },
+    cohorts,
+    timeToValue: {
+      sampleSize: toInt(timeToValue.sampleSize),
+      reachedLessonComplete: toInt(timeToValue.reachedLessonComplete),
+      reachedSpeakPass: toInt(timeToValue.reachedSpeakPass),
+      reachedMastery: toInt(timeToValue.reachedMastery),
+      medianDaysToLessonComplete:
+        timeToValue.medianDaysToLessonComplete === null
+          ? null
+          : Number(toFloat(timeToValue.medianDaysToLessonComplete).toFixed(2)),
+      medianDaysToSpeakPass:
+        timeToValue.medianDaysToSpeakPass === null
+          ? null
+          : Number(toFloat(timeToValue.medianDaysToSpeakPass).toFixed(2)),
+      medianDaysToMastery:
+        timeToValue.medianDaysToMastery === null
+          ? null
+          : Number(toFloat(timeToValue.medianDaysToMastery).toFixed(2)),
+    },
+    learningGain: {
+      sample: {
+        firstActiveUsers,
+        secondActiveUsers,
+      },
+      firstHalf: {
+        quizAttempts: firstQuizAttempts,
+        quizSessions: firstQuizSessions,
+        quizSessionsCompleted: firstQuizSessionsCompleted,
+        quizAccuracyPct: firstQuizAccuracyPct,
+        speakAttempts: firstSpeakAttempts,
+        speakSessions: firstSpeakSessions,
+        speakSessionsCompleted: firstSpeakSessionsCompleted,
+        speakPassPct: firstSpeakPassPct,
+        lessonsCompleted: firstLessonsCompleted,
+        lessonsPerActiveUser: firstLessonsPerActiveUser,
+      },
+      secondHalf: {
+        quizAttempts: secondQuizAttempts,
+        quizSessions: secondQuizSessions,
+        quizSessionsCompleted: secondQuizSessionsCompleted,
+        quizAccuracyPct: secondQuizAccuracyPct,
+        speakAttempts: secondSpeakAttempts,
+        speakSessions: secondSpeakSessions,
+        speakSessionsCompleted: secondSpeakSessionsCompleted,
+        speakPassPct: secondSpeakPassPct,
+        lessonsCompleted: secondLessonsCompleted,
+        lessonsPerActiveUser: secondLessonsPerActiveUser,
+      },
+      deltaPct: {
+        quizAccuracyPct: safeDelta(firstQuizAccuracyPct, secondQuizAccuracyPct),
+        speakPassPct: safeDelta(firstSpeakPassPct, secondSpeakPassPct),
+        lessonsPerActiveUser: safeDelta(firstLessonsPerActiveUser, secondLessonsPerActiveUser),
+      },
+    },
+    consistency: {
+      activeUsers: toInt(consistency.activeUsers),
+      active3PlusDays: toInt(consistency.active3PlusDays),
+      active7PlusDays: toInt(consistency.active7PlusDays),
+      avgActiveDays: Number(toFloat(consistency.avgActiveDays).toFixed(2)),
+      streakDistribution: streakRows.map((row) => ({
+        bucket: row.bucket,
+        users: toInt(row.users),
+      })),
+    },
+    mastery: {
+      activeUsers: toInt(mastery.activeUsers),
+      usersWithMastery: toInt(mastery.usersWithMastery),
+      usersWithMasteryInWindow: toInt(mastery.usersWithMasteryInWindow),
+      masteryRatePct: pct(toInt(mastery.usersWithMastery), toInt(mastery.activeUsers)),
+      medianDaysToFirstMastery:
+        mastery.medianDaysToFirstMastery === null
+          ? null
+          : Number(toFloat(mastery.medianDaysToFirstMastery).toFixed(2)),
+    },
+    needsWorkBurden: {
+      activeUsers: toInt(burden.activeUsers),
+      avgNeedsWorkPerActiveUser: Number(toFloat(burden.avgNeedsWork).toFixed(2)),
+      medianNeedsWorkPerActiveUser: Number(toFloat(burden.medianNeedsWork).toFixed(2)),
+      firstHalfMissesPerActiveUser,
+      secondHalfMissesPerActiveUser,
+      missesPerActiveUserDeltaPct: safeDelta(
+        firstHalfMissesPerActiveUser,
+        secondHalfMissesPerActiveUser
+      ),
+    },
+    needsReview: {
+      activeUsers: toInt(needsReview.activeUsers),
+      usersWithNeedsReview: toInt(needsReview.usersWithNeedsReview),
+      totalNeedsReviewEvents: toInt(needsReview.totalNeedsReviewEvents),
+      totalLessonCompletions: toInt(needsReview.totalLessonCompletions),
+      needsReviewEventsPer100Completions: Number(
+        (
+          (toInt(needsReview.totalNeedsReviewEvents) /
+            Math.max(1, toInt(needsReview.totalLessonCompletions))) *
+          100
+        ).toFixed(2)
+      ),
+      avgNeedsReviewEventsPerActiveUser: Number(
+        toFloat(needsReview.avgNeedsReviewEventsPerActiveUser).toFixed(2)
+      ),
+      medianNeedsReviewEventsPerActiveUser: Number(
+        toFloat(needsReview.medianNeedsReviewEventsPerActiveUser).toFixed(2)
+      ),
+      firstHalfNeedsReviewEventsPerActiveUser,
+      secondHalfNeedsReviewEventsPerActiveUser,
+      needsReviewEventsPerActiveUserDeltaPct: safeDelta(
+        firstHalfNeedsReviewEventsPerActiveUser,
+        secondHalfNeedsReviewEventsPerActiveUser
+      ),
+    },
+    segmentation: {
+      activeUsersByLanguage: languageRows.map((row) => ({
+        languageId: row.languageId,
+        activeUsers: toInt(row.activeUsers),
+      })),
+    },
+    perUserDistribution: {
+      sampleSize: perUserRows.length,
+      metrics: {
+        activeDays: summarizeDistribution(distributionValues.activeDays),
+        lessonsCompleted: summarizeDistribution(distributionValues.lessonsCompleted),
+        quizAccuracyPct: summarizeDistribution(distributionValues.quizAccuracyPct),
+        speakPassPct: summarizeDistribution(distributionValues.speakPassPct),
+        needsWorkCount: summarizeDistribution(distributionValues.needsWorkCount),
+        needsReviewResets: summarizeDistribution(distributionValues.needsReviewResets),
+      },
+    },
+    riskCohorts,
+  };
 }

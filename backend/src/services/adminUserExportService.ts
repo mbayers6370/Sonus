@@ -587,16 +587,46 @@ export async function buildUserExportPayload(input: {
     prisma.userLearningAccessAudit.findMany({ where: { userId }, orderBy: { createdAt: 'asc' } }),
     prisma.supportNote.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
     prisma.supportNote.findMany({ where: { actorUserId: userId }, orderBy: { createdAt: 'asc' } }),
-    prisma.deletionRequest.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
-    prisma.deletionRequest.findMany({ where: { requestedByUserId: userId }, orderBy: { createdAt: 'asc' } }),
-    prisma.deletionRequest.findMany({ where: { resolvedByUserId: userId }, orderBy: { createdAt: 'asc' } }),
-    prisma.accountSecurityEvent.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
-    prisma.accountSecurityEvent.findMany({ where: { actorUserId: userId }, orderBy: { createdAt: 'asc' } }),
-    prisma.scheduledAccountDeletion.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
-    prisma.deletionCaseHistory.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
-    prisma.deletionCaseHistory.findMany({ where: { resolvedByUserId: userId }, orderBy: { createdAt: 'asc' } }),
-    prisma.adminAuditLog.findMany({ where: { targetUserId: userId }, orderBy: { createdAt: 'asc' } }),
-    prisma.adminAuditLog.findMany({ where: { actorUserId: userId }, orderBy: { createdAt: 'asc' } }),
+    prisma.deletionRequest.findMany({
+      where: { targetUserId: userId },
+      orderBy: { createdAt: 'asc' },
+    }),
+    prisma.deletionRequest.findMany({
+      where: { requestedByUserId: userId },
+      orderBy: { createdAt: 'asc' },
+    }),
+    prisma.deletionRequest.findMany({
+      where: { resolvedByUserId: userId },
+      orderBy: { createdAt: 'asc' },
+    }),
+    prisma.accountSecurityEvent.findMany({
+      where: { targetUserId: userId },
+      orderBy: { createdAt: 'asc' },
+    }),
+    prisma.accountSecurityEvent.findMany({
+      where: { actorUserId: userId },
+      orderBy: { createdAt: 'asc' },
+    }),
+    prisma.scheduledAccountDeletion.findMany({
+      where: { targetUserId: userId },
+      orderBy: { createdAt: 'asc' },
+    }),
+    prisma.deletionCaseHistory.findMany({
+      where: { targetUserId: userId },
+      orderBy: { createdAt: 'asc' },
+    }),
+    prisma.deletionCaseHistory.findMany({
+      where: { resolvedByUserId: userId },
+      orderBy: { createdAt: 'asc' },
+    }),
+    prisma.adminAuditLog.findMany({
+      where: { targetUserId: userId },
+      orderBy: { createdAt: 'asc' },
+    }),
+    prisma.adminAuditLog.findMany({
+      where: { actorUserId: userId },
+      orderBy: { createdAt: 'asc' },
+    }),
   ]);
 
   return {
