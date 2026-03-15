@@ -3956,22 +3956,15 @@ export async function adminRoutes(app: FastifyInstance) {
           })
           .slice(0, 8);
 
-        if (impactWarnings.length) {
-          request.log.error(
-            { windowDays, impactWarnings },
-            'admin.metrics.impact_outcomes_incomplete'
-          );
-          reply.code(500).send({
-            error: 'Impact outcomes metrics unavailable for one or more sections.',
-            warnings: impactWarnings,
-          });
-          return;
-        }
-
         return {
           generatedAt: new Date().toISOString(),
           windowDays,
           sessionWindowMinutes: REPORT_SESSION_GAP_MINUTES,
+          ...(impactWarnings.length
+            ? {
+                warning: impactWarnings.join(' '),
+              }
+            : {}),
           definitions: {
             cohorts:
               'Signup cohorts grouped by week. D1/D7/D30 retention uses exact day-N return among users with enough account age (eligible).',
