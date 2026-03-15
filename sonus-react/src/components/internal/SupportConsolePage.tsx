@@ -5308,7 +5308,7 @@ export default function SupportConsolePage() {
                   {supportMetrics?.support.currentUsers ?? 0}
                 </div>
                 <div className="mt-1 text-[11px] text-[#94a3b8]">
-                  Total profiles in the system.
+                  Total profile count.
                 </div>
               </article>
               <article className={metricCard}>
@@ -5317,7 +5317,7 @@ export default function SupportConsolePage() {
                   {supportMetrics?.support.newUsers ?? 0}
                 </div>
                 <div className="mt-1 text-[11px] text-[#94a3b8]">
-                  Profiles created inside this reporting window.
+                  Created in this window.
                 </div>
               </article>
               <article className={metricCard}>
@@ -5331,7 +5331,7 @@ export default function SupportConsolePage() {
                   {supportMetrics?.support.activeUsers ?? 0}
                 </div>
                 <div className="mt-1 text-[11px] text-[#94a3b8]">
-                  Distinct users active in the current refresh-session window.
+                  Active in current session window.
                 </div>
               </article>
               <article className={metricCard}>
@@ -5342,7 +5342,7 @@ export default function SupportConsolePage() {
                   {supportMetrics?.support.endUserFailedLogins ?? 0}
                 </div>
                 <div className="mt-1 text-[11px] text-[#94a3b8]">
-                  `auth_login_failed` security events.
+                  Failed user login events.
                 </div>
               </article>
               <article className={metricCard}>
@@ -5353,7 +5353,7 @@ export default function SupportConsolePage() {
                   {supportMetrics?.support.unauthorizedAdminAttempts ?? 0}
                 </div>
                 <div className="mt-1 text-[11px] text-[#94a3b8]">
-                  Access denied + failed/throttled admin login events.
+                  Denied route + failed admin login.
                 </div>
               </article>
               <article className={metricCard}>
@@ -5362,7 +5362,7 @@ export default function SupportConsolePage() {
                   {learningMetrics?.learning.quizAccuracyPct ?? 0}%
                 </div>
                 <div className="mt-1 text-[11px] text-[#94a3b8]">
-                  Correct quiz attempts divided by total quiz attempts.
+                  Correct quiz attempts / total.
                 </div>
               </article>
               <article className={metricCard}>
@@ -5371,7 +5371,7 @@ export default function SupportConsolePage() {
                   {learningMetrics?.learning.speakPassPct ?? 0}%
                 </div>
                 <div className="mt-1 text-[11px] text-[#94a3b8]">
-                  Fully correct speak attempts across initial/final/tone checks.
+                  Full pass across initial/final/tone.
                 </div>
               </article>
               <article className={metricCard}>
@@ -5382,7 +5382,7 @@ export default function SupportConsolePage() {
                   {learningMetrics?.learning.lessonCompletionPct ?? 0}%
                 </div>
                 <div className="mt-1 text-[11px] text-[#94a3b8]">
-                  Completed lessons divided by started lessons in-window.
+                  Completed lessons / started lessons.
                 </div>
               </article>
               <article className={metricCard}>
@@ -5391,7 +5391,7 @@ export default function SupportConsolePage() {
                   {learningMetrics?.learning.lessonAbandons ?? 0}
                 </div>
                 <div className="mt-1 text-[11px] text-[#94a3b8]">
-                  Started lessons that did not reach completion.
+                  Started lessons not completed.
                 </div>
               </article>
               <article className={metricCard}>
@@ -5402,7 +5402,7 @@ export default function SupportConsolePage() {
                   {supportMetrics?.support.supportNotesCreated ?? 0}
                 </div>
                 <div className="mt-1 text-[11px] text-[#94a3b8]">
-                  Notes added by support/admin staff in this window.
+                  Notes created in this window.
                 </div>
               </article>
               <article className={metricCard}>
@@ -5413,7 +5413,7 @@ export default function SupportConsolePage() {
                   {supportMetrics?.support.resetRequests ?? 0}
                 </div>
                 <div className="mt-1 text-[11px] text-[#94a3b8]">
-                  Password reset tokens created in-window.
+                  Reset tokens created in-window.
                 </div>
               </article>
             </div>
@@ -5546,10 +5546,6 @@ export default function SupportConsolePage() {
                 Export snapshots for operations reviews, debugging notes, and
                 leadership updates.
               </p>
-              <p className="mt-1 text-xs text-[#475569]">
-                Each report card includes a short purpose note so it is easier
-                to pick the right packet for grants, legal, and internal ops.
-              </p>
               <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                 <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
@@ -5559,8 +5555,7 @@ export default function SupportConsolePage() {
                     Company health snapshot
                   </div>
                   <div className="mt-1 text-[11px] text-[#475569]">
-                    Why it matters: board/grant-ready baseline across growth and
-                    learning outcomes.
+                    Why it matters: board/grant baseline.
                   </div>
                   <div className="mt-1 text-[11px] text-[#94a3b8]">
                     Last generated: {toLocale(dashboardGeneratedAt)}
@@ -5606,7 +5601,7 @@ export default function SupportConsolePage() {
                     Security and support workload
                   </div>
                   <div className="mt-1 text-[11px] text-[#475569]">
-                    Why it matters: shows account-risk volume and support burden.
+                    Why it matters: support risk + workload.
                   </div>
                   <div className="mt-1 text-[11px] text-[#94a3b8]">
                     Last generated: {toLocale(dashboardGeneratedAt)}
@@ -5659,8 +5654,7 @@ export default function SupportConsolePage() {
                     Learning quality and outcomes
                   </div>
                   <div className="mt-1 text-[11px] text-[#475569]">
-                    Why it matters: validates instructional effectiveness and
-                    friction.
+                    Why it matters: learning quality signal.
                   </div>
                   <div className="mt-1 text-[11px] text-[#94a3b8]">
                     Last generated: {toLocale(dashboardGeneratedAt)}
@@ -5713,7 +5707,7 @@ export default function SupportConsolePage() {
                     Current vs previous window deltas
                   </div>
                   <div className="mt-1 text-[11px] text-[#475569]">
-                    Why it matters: quick trend direction for leadership updates.
+                    Why it matters: trend direction fast.
                   </div>
                   <div className="mt-1 text-[11px] text-[#94a3b8]">
                     Last generated:{" "}
@@ -5785,7 +5779,7 @@ export default function SupportConsolePage() {
                     Deletion pipeline health
                   </div>
                   <div className="mt-1 text-[11px] text-[#475569]">
-                    Why it matters: compliance posture for data-deletion SLAs.
+                    Why it matters: deletion SLA posture.
                   </div>
                   <div className="mt-1 text-[11px] text-[#94a3b8]">
                     Last generated:{" "}
@@ -5842,7 +5836,7 @@ export default function SupportConsolePage() {
                     Security event trend digest
                   </div>
                   <div className="mt-1 text-[11px] text-[#475569]">
-                    Why it matters: incident monitoring and mitigation planning.
+                    Why it matters: incident tracking.
                   </div>
                   <div className="mt-1 text-[11px] text-[#94a3b8]">
                     Last generated:{" "}
@@ -5901,7 +5895,7 @@ export default function SupportConsolePage() {
                     Daily activity and streak momentum
                   </div>
                   <div className="mt-1 text-[11px] text-[#475569]">
-                    Why it matters: learner engagement stability over time.
+                    Why it matters: engagement stability.
                   </div>
                   <div className="mt-1 text-[11px] text-[#94a3b8]">
                     Last generated:{" "}
@@ -5962,7 +5956,7 @@ export default function SupportConsolePage() {
                     Signup to first value and day-7 return
                   </div>
                   <div className="mt-1 text-[11px] text-[#475569]">
-                    Why it matters: acquisition-to-retention conversion quality.
+                    Why it matters: funnel quality.
                   </div>
                   <div className="mt-1 text-[11px] text-[#94a3b8]">
                     Last generated:{" "}
@@ -6023,7 +6017,7 @@ export default function SupportConsolePage() {
                     Database capacity tracking
                   </div>
                   <div className="mt-1 text-[11px] text-[#475569]">
-                    Why it matters: early warning for storage and cost risk.
+                    Why it matters: storage/cost risk.
                   </div>
                   <div className="mt-1 text-[11px] text-[#94a3b8]">
                     Last generated:{" "}
@@ -6079,7 +6073,7 @@ export default function SupportConsolePage() {
                     Index + growth + dead-row health
                   </div>
                   <div className="mt-1 text-[11px] text-[#475569]">
-                    Why it matters: confirms reporting performance and DB hygiene.
+                    Why it matters: DB/reporting health.
                   </div>
                   <div className="mt-1 text-[11px] text-[#94a3b8]">
                     Last generated:{" "}
@@ -6140,7 +6134,7 @@ export default function SupportConsolePage() {
                     Release, staging, backup, rollback posture
                   </div>
                   <div className="mt-1 text-[11px] text-[#475569]">
-                    Why it matters: operational readiness for safe deployments.
+                    Why it matters: release readiness.
                   </div>
                   <div className="mt-1 text-[11px] text-[#94a3b8]">
                     Last generated:{" "}
