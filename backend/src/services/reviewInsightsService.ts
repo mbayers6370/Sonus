@@ -73,28 +73,16 @@ function buildReviewPriority(input: {
   const elapsedDays = Math.max(0, (now - seenAtMs) / 86_400_000);
   const stabilityDays = Math.max(1, input.quizIntervalDays);
   const forgettingRisk = 1 - Math.exp(-elapsedDays / stabilityDays);
-  const missHistory = Math.min(
-    1,
-    (input.missedQuizCount + input.mispronounceCount) / 6
-  );
+  const missHistory = Math.min(1, (input.missedQuizCount + input.mispronounceCount) / 6);
   const pronunciationWeakness = Math.min(
     1,
     input.pronunciationRisk / 2 + input.mispronounceCount * 0.08
   );
   const recentSeenPenalty =
-    elapsedDays < 0.25
-      ? 0.8
-      : elapsedDays < 1
-        ? 0.45
-        : elapsedDays < 2
-          ? 0.2
-          : 0;
+    elapsedDays < 0.25 ? 0.8 : elapsedDays < 1 ? 0.45 : elapsedDays < 2 ? 0.2 : 0;
 
   const blended =
-    forgettingRisk * 0.5 +
-    missHistory * 0.25 +
-    pronunciationWeakness * 0.25 -
-    recentSeenPenalty;
+    forgettingRisk * 0.5 + missHistory * 0.25 + pronunciationWeakness * 0.25 - recentSeenPenalty;
   const score = Math.max(0, blended) * 100;
 
   const overdueMs = Math.max(0, now - input.quizDueAt.getTime());
@@ -103,7 +91,8 @@ function buildReviewPriority(input: {
   const reasons: string[] = [];
   if (forgettingRisk >= 0.55) reasons.push('forgetting_risk');
   if (input.missedQuizCount > 0) reasons.push('missed_quiz');
-  if (input.pronunciationRisk >= 0.35 || input.mispronounceCount > 0) reasons.push('pronunciation_weakness');
+  if (input.pronunciationRisk >= 0.35 || input.mispronounceCount > 0)
+    reasons.push('pronunciation_weakness');
   if (recentSeenPenalty > 0) reasons.push('recent_seen_penalty');
 
   return {
