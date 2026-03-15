@@ -4,6 +4,7 @@ import { createHash, randomBytes } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Prisma } from '@prisma/client';
+import { PDFDocument, StandardFonts, rgb, type PDFFont } from 'pdf-lib';
 import { env } from '../env.js';
 import { requireAdmin } from '../lib/auth.js';
 import { createLoginThrottle } from '../lib/loginThrottle.js';
@@ -12,6 +13,7 @@ import { readAllowedOrigins, requireTrustedOrigin } from '../lib/originPolicy.js
 import { getSupabaseAdmin } from '../lib/supabase.js';
 import { resolveLexemeForWordId } from '../lib/lexemeCatalog.js';
 import { sendAccountDeletionConfirmationEmail } from '../services/accountDeletionEmailService.js';
+import { fetchReviewQueue } from '../services/reviewInsightsService.js';
 import { resolveSupportAdminFromRequest } from '../lib/supportAdminAuth.js';
 import {
   appendLearningAccessAudit,
@@ -38,10 +40,11 @@ import {
   qualityCleanupBodySchema,
   qualityReportsQuerySchema,
   qualityRunFullBodySchema,
-  qualityRunParamsSchema,
-  recentDeletionQuerySchema,
-  reportWindowQuerySchema,
-  timelineQuerySchema,
+    qualityRunParamsSchema,
+    recentDeletionQuerySchema,
+    reviewQueueDebugQuerySchema,
+    reportWindowQuerySchema,
+    timelineQuerySchema,
   userExportQuerySchema,
   userIdParamsSchema,
   userSearchQuerySchema,
@@ -93,6 +96,32 @@ function toInt(value: unknown) {
     return Number.isFinite(parsed) ? parsed : 0;
   }
   return 0;
+}
+
+function toFloat(value: unknown) {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+  if (typeof value === 'bigint') return Number(value);
+  if (typeof value === 'string') {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+  if (value === null || value === undefined) return 0;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function percentile(values: number[], target: number) {
+  if (!values.length) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const clamped = Math.min(1, Math.max(0, target));
+  const index = (sorted.length - 1) * clamped;
+  const lower = Math.floor(index);
+  const upper = Math.ceil(index);
+  if (lower === upper) return sorted[lower] ?? 0;
+  const weight = index - lower;
+  const low = sorted[lower] ?? 0;
+  const high = sorted[upper] ?? 0;
+  return low + (high - low) * weight;
 }
 
 const supportedAdminLanguageIds = ['ja', 'kr', 'fr', 'it', 'es'] as const;
@@ -250,10 +279,475 @@ function buildUserExportCsv(payload: Record<string, unknown>) {
   return `\ufeff${rows.join('\n')}`;
 }
 
-function buildExportFilename(userId: string, format: 'json' | 'csv') {
+type UserExportFormat = 'json' | 'csv' | 'pdf';
+
+function buildExportFilename(userId: string, format: UserExportFormat) {
   const safeUserId = userId.replace(/[^a-zA-Z0-9_-]/g, '_');
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
   return `user-data-export-${safeUserId}-${stamp}.${format}`;
+}
+
+function stringifyExportPayload(payload: Record<string, unknown>) {
+  return JSON.stringify(
+    payload,
+    (_key, value) => (typeof value === 'bigint' ? value.toString() : value),
+    2
+  );
+}
+
+function normalizePdfText(input: string) {
+  return input
+    .replace(/\r/g, '')
+    .replace(/\t/g, '  ')
+    .replace(/[^\x20-\x7e]/g, '?');
+}
+
+function wrapPdfTextLine(text: string, maxWidth: number, font: PDFFont, size: number) {
+  const normalized = normalizePdfText(text || '');
+  if (!normalized.trim()) return [''];
+  const words = normalized.split(/\s+/).filter(Boolean);
+  const lines: string[] = [];
+  let current = words.shift() || '';
+  for (const word of words) {
+    const candidate = `${current} ${word}`;
+    if (font.widthOfTextAtSize(candidate, size) <= maxWidth) {
+      current = candidate;
+      continue;
+    }
+    lines.push(current);
+    current = word;
+    while (font.widthOfTextAtSize(current, size) > maxWidth && current.length > 1) {
+      let sliceEnd = Math.max(1, Math.floor((maxWidth / font.widthOfTextAtSize(current, size)) * current.length));
+      while (sliceEnd > 1 && font.widthOfTextAtSize(current.slice(0, sliceEnd), size) > maxWidth) {
+        sliceEnd -= 1;
+      }
+      lines.push(current.slice(0, sliceEnd));
+      current = current.slice(sliceEnd);
+    }
+  }
+  lines.push(current);
+  return lines;
+}
+
+type PdfLineKind = 'section' | 'label' | 'body' | 'mono' | 'spacer';
+type PdfLine = { kind: PdfLineKind; text: string };
+
+function toPdfKeyValue(label: string, value: unknown) {
+  if (value === null || value === undefined) return `${label}: -`;
+  if (typeof value === 'boolean') return `${label}: ${value ? 'Yes' : 'No'}`;
+  if (value instanceof Date) return `${label}: ${value.toISOString()}`;
+  if (typeof value === 'object') return `${label}: ${normalizeExportValue(value)}`;
+  const text = String(value).trim();
+  return `${label}: ${text || '-'}`;
+}
+
+function sectionRecordCount(value: unknown) {
+  return toExportRows(value).length;
+}
+
+async function loadExportLogoBytes() {
+  const candidates = [
+    path.join(process.cwd(), 'sonus-react', 'public', 'branding', 'logo_name_solo.png'),
+    path.join(process.cwd(), '..', 'sonus-react', 'public', 'branding', 'logo_name_solo.png'),
+    path.join(process.cwd(), 'public', 'branding', 'logo_name_solo.png'),
+  ];
+  for (const logoPath of candidates) {
+    try {
+      const bytes = await fs.readFile(logoPath);
+      if (bytes.byteLength > 0) return bytes;
+    } catch {
+      // Try the next candidate.
+    }
+  }
+  return null;
+}
+
+async function buildTextPdf(title: string, subtitle: string, lines: PdfLine[]) {
+  const pageWidth = 612;
+  const pageHeight = 792;
+  const margin = 48;
+  const doc = await PDFDocument.create();
+  const regular = await doc.embedFont(StandardFonts.Helvetica);
+  const bold = await doc.embedFont(StandardFonts.HelveticaBold);
+  const mono = await doc.embedFont(StandardFonts.Courier);
+  const logoBytes = await loadExportLogoBytes();
+  const logo = logoBytes ? await doc.embedPng(logoBytes) : null;
+
+  const styleByKind: Record<PdfLineKind, { font: PDFFont; size: number; lineHeight: number; blockGap: number }> = {
+    section: { font: bold, size: 12, lineHeight: 15, blockGap: 4 },
+    label: { font: bold, size: 10, lineHeight: 13, blockGap: 2 },
+    body: { font: regular, size: 10, lineHeight: 13, blockGap: 2 },
+    mono: { font: mono, size: 9, lineHeight: 12, blockGap: 1 },
+    spacer: { font: regular, size: 10, lineHeight: 7, blockGap: 0 },
+  };
+  const contentWidth = pageWidth - margin * 2;
+  const headerTopY = pageHeight - margin;
+  const logoMaxWidth = 170;
+  const logoMaxHeight = 36;
+  let logoWidth = 0;
+  let logoHeight = 0;
+  let logoX = 0;
+  let logoY = 0;
+  if (logo) {
+    const scale = Math.min(logoMaxWidth / logo.width, logoMaxHeight / logo.height, 1);
+    logoWidth = logo.width * scale;
+    logoHeight = logo.height * scale;
+    logoX = (pageWidth - logoWidth) / 2;
+    logoY = headerTopY - logoHeight;
+  }
+  const headerTitleY = logoHeight > 0 ? logoY - 24 : headerTopY - 2;
+  const headerSubtitleY = headerTitleY - 16;
+  const headerRuleY = headerSubtitleY - 13;
+  const bodyTopY = headerRuleY - 16;
+  const footerY = margin - 14;
+  const bodyBottomY = footerY + 16;
+
+  const expandedLines: Array<{
+    kind: PdfLineKind;
+    textParts: string[];
+    lineHeight: number;
+    blockGap: number;
+    font: PDFFont;
+    size: number;
+  }> = [];
+  for (const line of lines) {
+    if (line.kind === 'spacer') {
+      const style = styleByKind.spacer;
+      expandedLines.push({
+        kind: 'spacer',
+        textParts: [''],
+        lineHeight: style.lineHeight,
+        blockGap: style.blockGap,
+        font: style.font,
+        size: style.size,
+      });
+      continue;
+    }
+    const style = styleByKind[line.kind];
+    const wrapped = wrapPdfTextLine(line.text || '', contentWidth, style.font, style.size);
+    expandedLines.push({
+      kind: line.kind,
+      textParts: wrapped,
+      lineHeight: style.lineHeight,
+      blockGap: style.blockGap,
+      font: style.font,
+      size: style.size,
+    });
+  }
+  if (!expandedLines.length) {
+    const style = styleByKind.body;
+    expandedLines.push({
+      kind: 'body',
+      textParts: ['-'],
+      lineHeight: style.lineHeight,
+      blockGap: style.blockGap,
+      font: style.font,
+      size: style.size,
+    });
+  }
+
+  const pages: typeof expandedLines[] = [];
+  let currentPage: typeof expandedLines = [];
+  let remainingHeight = bodyTopY - bodyBottomY;
+  for (const line of expandedLines) {
+    const needed = line.textParts.length * line.lineHeight + line.blockGap;
+    if (needed > remainingHeight && currentPage.length) {
+      pages.push(currentPage);
+      currentPage = [];
+      remainingHeight = bodyTopY - bodyBottomY;
+    }
+    currentPage.push(line);
+    remainingHeight -= needed;
+  }
+  if (currentPage.length) pages.push(currentPage);
+  const pageCount = pages.length || 1;
+  for (let pageIdx = 0; pageIdx < pageCount; pageIdx += 1) {
+    const page = doc.addPage([pageWidth, pageHeight]);
+    if (logo && logoWidth > 0 && logoHeight > 0) {
+      page.drawImage(logo, {
+        x: logoX,
+        y: logoY,
+        width: logoWidth,
+        height: logoHeight,
+      });
+    }
+    const titleText = normalizePdfText(title);
+    const subtitleText = normalizePdfText(subtitle);
+    const titleX = (pageWidth - bold.widthOfTextAtSize(titleText, 16)) / 2;
+    const subtitleX = (pageWidth - regular.widthOfTextAtSize(subtitleText, 10)) / 2;
+    page.drawText(normalizePdfText(title), {
+      x: titleX,
+      y: headerTitleY,
+      font: bold,
+      size: 16,
+      color: rgb(0.06, 0.1, 0.16),
+    });
+    page.drawText(normalizePdfText(subtitle), {
+      x: subtitleX,
+      y: headerSubtitleY,
+      font: regular,
+      size: 10,
+      color: rgb(0.29, 0.34, 0.42),
+    });
+    page.drawLine({
+      start: { x: margin, y: headerRuleY },
+      end: { x: pageWidth - margin, y: headerRuleY },
+      thickness: 1,
+      color: rgb(0.87, 0.9, 0.94),
+    });
+
+    const pageLines = pages[pageIdx] || [];
+    let y = bodyTopY;
+    for (const line of pageLines) {
+      if (line.kind === 'spacer') {
+        y -= line.lineHeight;
+        continue;
+      }
+      for (const textPart of line.textParts) {
+        page.drawText(textPart, {
+          x: margin,
+          y,
+          font: line.font,
+          size: line.size,
+          color: rgb(0.1, 0.15, 0.22),
+        });
+        y -= line.lineHeight;
+      }
+      y -= line.blockGap;
+    }
+    page.drawText(`Page ${pageIdx + 1} of ${pageCount}`, {
+      x: pageWidth - margin - 82,
+      y: footerY,
+      font: regular,
+      size: 9,
+      color: rgb(0.4, 0.45, 0.52),
+    });
+    page.drawText('Sonus', {
+      x: margin,
+      y: footerY,
+      font: regular,
+      size: 9,
+      color: rgb(0.4, 0.45, 0.52),
+    });
+  }
+  return doc.save();
+}
+
+async function buildUserExportPdf(payload: Record<string, unknown>, userId: string) {
+  const generatedAt = new Date().toISOString();
+  const exportMeta = ((payload.exportMeta as Record<string, unknown> | undefined) || {}) as Record<
+    string,
+    unknown
+  >;
+  const profile = ((payload.profile as Record<string, unknown> | undefined) || {}) as Record<
+    string,
+    unknown
+  >;
+
+  const sectionEntries = Object.entries(payload).filter(
+    ([key]) => key !== 'exportMeta' && key !== 'profile'
+  );
+  const sectionCounts = sectionEntries.map(([key, value]) => ({
+    key,
+    count: sectionRecordCount(value),
+  }));
+  const nonEmptySectionCount = sectionCounts.filter((entry) => entry.count > 0).length;
+  const totalRecordCount = sectionCounts.reduce((sum, entry) => sum + entry.count, 0);
+
+  const lines: PdfLine[] = [
+    { kind: 'section', text: 'Report Summary' },
+    { kind: 'label', text: toPdfKeyValue('User ID', userId) },
+    { kind: 'body', text: toPdfKeyValue('Generated At (UTC)', generatedAt) },
+    { kind: 'body', text: toPdfKeyValue('Schema Version', exportMeta.schemaVersion) },
+    { kind: 'body', text: toPdfKeyValue('Exported By', exportMeta.exportedByAdminEmail || exportMeta.exportedByAdminUserId) },
+    { kind: 'body', text: toPdfKeyValue('Total Records', totalRecordCount) },
+    { kind: 'body', text: toPdfKeyValue('Non-Empty Data Sections', nonEmptySectionCount) },
+    { kind: 'spacer', text: '' },
+    { kind: 'section', text: 'Profile Snapshot' },
+    { kind: 'label', text: toPdfKeyValue('Display Name', profile.displayName) },
+    { kind: 'body', text: toPdfKeyValue('Email', profile.email) },
+    { kind: 'body', text: toPdfKeyValue('Target Language', profile.targetLanguage) },
+    { kind: 'body', text: toPdfKeyValue('Timezone', profile.timezone) },
+    { kind: 'body', text: toPdfKeyValue('Onboarding Complete', profile.onboardingComplete) },
+    { kind: 'body', text: toPdfKeyValue('Profile Created At', profile.createdAt) },
+    { kind: 'body', text: toPdfKeyValue('Profile Updated At', profile.updatedAt) },
+    { kind: 'spacer', text: '' },
+    { kind: 'section', text: 'Data Inventory' },
+    { kind: 'mono', text: 'Section Name                         Records' },
+    { kind: 'mono', text: '-----------------------------------  -------' },
+  ];
+
+  const sortedCounts = [...sectionCounts].sort((a, b) => a.key.localeCompare(b.key));
+  for (const entry of sortedCounts) {
+    lines.push({
+      kind: 'mono',
+      text: `${entry.key.padEnd(35, ' ')}  ${String(entry.count).padStart(7, ' ')}`,
+    });
+  }
+
+  if (exportMeta.warning) {
+    lines.push({ kind: 'spacer', text: '' });
+    lines.push({ kind: 'section', text: 'Notice' });
+    lines.push({ kind: 'body', text: String(exportMeta.warning) });
+  }
+
+  lines.push({ kind: 'spacer', text: '' });
+  lines.push({ kind: 'section', text: 'Format Guidance' });
+  lines.push({ kind: 'body', text: 'Use JSON for complete structured records and CSV for spreadsheet-based review.' });
+  lines.push({ kind: 'spacer', text: '' });
+  lines.push({ kind: 'section', text: 'Complete Record Appendix' });
+
+  const orderedSectionKeys = [
+    'exportMeta',
+    'profile',
+    ...sortedCounts.map((entry) => entry.key),
+  ];
+  for (const sectionKey of orderedSectionKeys) {
+    const rawSectionValue = payload[sectionKey];
+    if (rawSectionValue === undefined) continue;
+    const recordCount =
+      sectionKey === 'exportMeta' || sectionKey === 'profile' ? 1 : sectionRecordCount(rawSectionValue);
+    lines.push({ kind: 'spacer', text: '' });
+    lines.push({ kind: 'section', text: `${sectionKey} (${recordCount})` });
+    const sectionJson = JSON.stringify(
+      rawSectionValue,
+      (_key, value) => (typeof value === 'bigint' ? value.toString() : value),
+      2
+    );
+    const jsonLines = (sectionJson || 'null').split('\n');
+    jsonLines.forEach((jsonLine) => {
+      lines.push({ kind: 'mono', text: jsonLine });
+    });
+  }
+
+  return buildTextPdf('Sonus User Data Export', 'Legal Data Access Report', lines);
+}
+
+async function sendUserExportPayload(
+  reply: FastifyReply,
+  userId: string,
+  format: UserExportFormat,
+  payload: Record<string, unknown>
+) {
+  const filename = buildExportFilename(userId, format);
+  if (format === 'csv') {
+    const csv = buildUserExportCsv(payload);
+    reply.header('Content-Type', 'text/csv; charset=utf-8');
+    reply.header('Content-Disposition', `attachment; filename="${filename}"`);
+    reply.send(csv);
+    return;
+  }
+
+  if (format === 'pdf') {
+    const pdf = await buildUserExportPdf(payload, userId);
+    reply.header('Content-Type', 'application/pdf');
+    reply.header('Content-Disposition', `attachment; filename="${filename}"`);
+    reply.send(pdf);
+    return;
+  }
+
+  reply.header('Content-Type', 'application/json; charset=utf-8');
+  reply.header('Content-Disposition', `attachment; filename="${filename}"`);
+  reply.send(stringifyExportPayload(payload));
+}
+
+function buildEmptyImpactOutcomes(windowDays: number) {
+  return {
+    generatedAt: new Date().toISOString(),
+    windowDays,
+    definitions: {
+      cohorts:
+        'Signup cohorts grouped by week. D1/D7/D30 retention uses exact day-N return among users with enough account age (eligible).',
+      timeToValue:
+        'Median days from signup to first lesson completion, first speak pass, and first mastery event.',
+      learningGain:
+        'Compares first half vs second half of selected window for accuracy and completion intensity.',
+      consistency:
+        'Active-day frequency and streak distribution for users active in the selected window.',
+      mastery:
+        'Mastery adoption among active users and time to first mastery.',
+      needsWorkBurden:
+        'Current needs-work load per active user plus miss-rate burden trend across window halves.',
+      perUserDistribution:
+        'Anonymized percentile distribution across active users (no user identifiers).',
+      riskCohorts:
+        'Anonymized cohorts grouped by language and engagement intensity, ranked by at-risk share.',
+    },
+    cohorts: [],
+    timeToValue: {
+      sampleSize: 0,
+      reachedLessonComplete: 0,
+      reachedSpeakPass: 0,
+      reachedMastery: 0,
+      medianDaysToLessonComplete: null,
+      medianDaysToSpeakPass: null,
+      medianDaysToMastery: null,
+    },
+    learningGain: {
+      sample: { firstActiveUsers: 0, secondActiveUsers: 0 },
+      firstHalf: {
+        quizAttempts: 0,
+        quizAccuracyPct: 0,
+        speakAttempts: 0,
+        speakPassPct: 0,
+        lessonsCompleted: 0,
+        lessonsPerActiveUser: 0,
+      },
+      secondHalf: {
+        quizAttempts: 0,
+        quizAccuracyPct: 0,
+        speakAttempts: 0,
+        speakPassPct: 0,
+        lessonsCompleted: 0,
+        lessonsPerActiveUser: 0,
+      },
+      deltaPct: { quizAccuracyPct: 0, speakPassPct: 0, lessonsPerActiveUser: 0 },
+    },
+    consistency: {
+      activeUsers: 0,
+      active3PlusDays: 0,
+      active7PlusDays: 0,
+      avgActiveDays: 0,
+      streakDistribution: [] as Array<{ bucket: string; users: number }>,
+    },
+    mastery: {
+      activeUsers: 0,
+      usersWithMastery: 0,
+      usersWithMasteryInWindow: 0,
+      masteryRatePct: 0,
+      medianDaysToFirstMastery: null,
+    },
+    needsWorkBurden: {
+      activeUsers: 0,
+      avgNeedsWorkPerActiveUser: 0,
+      medianNeedsWorkPerActiveUser: 0,
+      firstHalfMissesPerActiveUser: 0,
+      secondHalfMissesPerActiveUser: 0,
+      missesPerActiveUserDeltaPct: 0,
+    },
+    segmentation: {
+      activeUsersByLanguage: [] as Array<{ languageId: string; activeUsers: number }>,
+    },
+    perUserDistribution: {
+      sampleSize: 0,
+      metrics: {
+        activeDays: { avg: 0, p50: 0, p75: 0, p90: 0 },
+        lessonsCompleted: { avg: 0, p50: 0, p75: 0, p90: 0 },
+        quizAccuracyPct: { avg: 0, p50: 0, p75: 0, p90: 0 },
+        speakPassPct: { avg: 0, p50: 0, p75: 0, p90: 0 },
+        needsWorkCount: { avg: 0, p50: 0, p75: 0, p90: 0 },
+      },
+    },
+    riskCohorts: [] as Array<{
+      cohort: string;
+      users: number;
+      atRiskUsers: number;
+      atRiskRatePct: number;
+      avgNeedsWorkCount: number;
+      avgQuizMissPct: number;
+      avgSpeakMissPct: number;
+    }>,
+  };
 }
 
 async function pathExists(filePath: string) {
@@ -1955,6 +2449,1021 @@ export async function adminRoutes(app: FastifyInstance) {
   );
 
   app.get(
+    '/v1/admin/metrics/impact-outcomes',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsed = metricsOverviewQuerySchema.safeParse(request.query ?? {});
+      if (!parsed.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsed.error.issues });
+        return;
+      }
+
+      const windowDays = parsed.data.windowDays;
+      const halfDays = Math.max(1, Math.floor(windowDays / 2));
+
+      try {
+      const impactWarnings: string[] = [];
+      const cohortRows = await prisma.$queryRaw<
+        Array<{
+          cohortWeek: Date | string;
+          signups: bigint;
+          eligibleD1: bigint;
+          retainedD1: bigint;
+          eligibleD7: bigint;
+          retainedD7: bigint;
+          eligibleD30: bigint;
+          retainedD30: bigint;
+        }>
+      >`
+        WITH signups AS (
+          SELECT
+            p.user_id,
+            date_trunc('week', p.created_at)::date AS cohort_week,
+            p.created_at::date AS signup_day
+          FROM profiles p
+          WHERE p.created_at >= now() - ${(windowDays + 35)} * interval '1 day'
+            AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ),
+        activity AS (
+          SELECT DISTINCT qa.user_id, qa.created_at::date AS active_day
+          FROM quiz_attempts qa
+          UNION
+          SELECT DISTINCT sa.user_id, sa.created_at::date AS active_day
+          FROM speak_attempts sa
+          UNION
+          SELECT DISTINCT pe.user_id, pe.created_at::date AS active_day
+          FROM progress_events pe
+        )
+        SELECT
+          s.cohort_week AS "cohortWeek",
+          COUNT(*)::bigint AS signups,
+          COUNT(*) FILTER (WHERE s.signup_day <= current_date - 1)::bigint AS "eligibleD1",
+          COUNT(*) FILTER (
+            WHERE s.signup_day <= current_date - 1
+              AND EXISTS (
+                SELECT 1
+                FROM activity a
+                WHERE a.user_id = s.user_id
+                  AND a.active_day = s.signup_day + 1
+              )
+          )::bigint AS "retainedD1",
+          COUNT(*) FILTER (WHERE s.signup_day <= current_date - 7)::bigint AS "eligibleD7",
+          COUNT(*) FILTER (
+            WHERE s.signup_day <= current_date - 7
+              AND EXISTS (
+                SELECT 1
+                FROM activity a
+                WHERE a.user_id = s.user_id
+                  AND a.active_day = s.signup_day + 7
+              )
+          )::bigint AS "retainedD7",
+          COUNT(*) FILTER (WHERE s.signup_day <= current_date - 30)::bigint AS "eligibleD30",
+          COUNT(*) FILTER (
+            WHERE s.signup_day <= current_date - 30
+              AND EXISTS (
+                SELECT 1
+                FROM activity a
+                WHERE a.user_id = s.user_id
+                  AND a.active_day = s.signup_day + 30
+              )
+          )::bigint AS "retainedD30"
+        FROM signups s
+        GROUP BY s.cohort_week
+        ORDER BY s.cohort_week DESC
+        LIMIT 16
+      `.catch((error) => {
+        impactWarnings.push('Cohort retention data unavailable.');
+        request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.cohorts_failed');
+        return [] as Array<{
+          cohortWeek: Date | string;
+          signups: bigint;
+          eligibleD1: bigint;
+          retainedD1: bigint;
+          eligibleD7: bigint;
+          retainedD7: bigint;
+          eligibleD30: bigint;
+          retainedD30: bigint;
+        }>;
+      });
+
+      const timeToValueRows = await prisma.$queryRaw<
+        Array<{
+          sampleSize: bigint;
+          reachedLessonComplete: bigint;
+          reachedSpeakPass: bigint;
+          reachedMastery: bigint;
+          medianDaysToLessonComplete: number | null;
+          medianDaysToSpeakPass: number | null;
+          medianDaysToMastery: number | null;
+        }>
+      >`
+        WITH cohort AS (
+          SELECT p.user_id, p.created_at AS signup_at
+          FROM profiles p
+          WHERE p.created_at >= now() - ${windowDays} * interval '1 day'
+            AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ),
+        firsts AS (
+          SELECT
+            c.user_id,
+            c.signup_at,
+            (
+              SELECT MIN(pe.created_at)
+              FROM progress_events pe
+              WHERE pe.user_id = c.user_id
+                AND pe.event_type IN ('lesson_completed', 'apply_completed')
+            ) AS first_lesson_complete_at,
+            (
+              SELECT MIN(sa.created_at)
+              FROM speak_attempts sa
+              WHERE sa.user_id = c.user_id
+                AND sa.initial_ok = true
+                AND sa.final_ok = true
+                AND sa.tone_ok = true
+            ) AS first_speak_pass_at,
+            (
+              SELECT MIN(pe.created_at)
+              FROM progress_events pe
+              WHERE pe.user_id = c.user_id
+                AND pe.event_type IN ('lesson_completed', 'apply_completed')
+                AND COALESCE(pe.payload_json->>'mastered', 'false') = 'true'
+            ) AS first_mastery_at
+          FROM cohort c
+        )
+        SELECT
+          COUNT(*)::bigint AS "sampleSize",
+          COUNT(*) FILTER (WHERE first_lesson_complete_at IS NOT NULL)::bigint AS "reachedLessonComplete",
+          COUNT(*) FILTER (WHERE first_speak_pass_at IS NOT NULL)::bigint AS "reachedSpeakPass",
+          COUNT(*) FILTER (WHERE first_mastery_at IS NOT NULL)::bigint AS "reachedMastery",
+          PERCENTILE_CONT(0.5) WITHIN GROUP (
+            ORDER BY EXTRACT(EPOCH FROM (first_lesson_complete_at - signup_at)) / 86400.0
+          ) FILTER (WHERE first_lesson_complete_at IS NOT NULL) AS "medianDaysToLessonComplete",
+          PERCENTILE_CONT(0.5) WITHIN GROUP (
+            ORDER BY EXTRACT(EPOCH FROM (first_speak_pass_at - signup_at)) / 86400.0
+          ) FILTER (WHERE first_speak_pass_at IS NOT NULL) AS "medianDaysToSpeakPass",
+          PERCENTILE_CONT(0.5) WITHIN GROUP (
+            ORDER BY EXTRACT(EPOCH FROM (first_mastery_at - signup_at)) / 86400.0
+          ) FILTER (WHERE first_mastery_at IS NOT NULL) AS "medianDaysToMastery"
+        FROM firsts
+      `.catch((error) => {
+        impactWarnings.push('Time-to-value data unavailable.');
+        request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.time_to_value_failed');
+        return [] as Array<{
+          sampleSize: bigint;
+          reachedLessonComplete: bigint;
+          reachedSpeakPass: bigint;
+          reachedMastery: bigint;
+          medianDaysToLessonComplete: number | null;
+          medianDaysToSpeakPass: number | null;
+          medianDaysToMastery: number | null;
+        }>;
+      });
+
+      const learningGainRows = await prisma.$queryRaw<
+        Array<{
+          firstQuizAttempts: bigint;
+          firstQuizCorrect: bigint;
+          secondQuizAttempts: bigint;
+          secondQuizCorrect: bigint;
+          firstSpeakAttempts: bigint;
+          firstSpeakPasses: bigint;
+          secondSpeakAttempts: bigint;
+          secondSpeakPasses: bigint;
+          firstLessonsCompleted: bigint;
+          secondLessonsCompleted: bigint;
+          firstActiveUsers: bigint;
+          secondActiveUsers: bigint;
+        }>
+      >`
+        WITH bounds AS (
+          SELECT
+            now() - ${windowDays} * interval '1 day' AS start_at,
+            now() - ${halfDays} * interval '1 day' AS split_at,
+            now() AS end_at
+        ),
+        first_active AS (
+          SELECT DISTINCT user_id FROM (
+            SELECT qa.user_id FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.start_at AND qa.created_at < b.split_at
+            UNION
+            SELECT sa.user_id FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.start_at AND sa.created_at < b.split_at
+            UNION
+            SELECT pe.user_id FROM progress_events pe, bounds b WHERE pe.created_at >= b.start_at AND pe.created_at < b.split_at
+          ) x
+        ),
+        second_active AS (
+          SELECT DISTINCT user_id FROM (
+            SELECT qa.user_id FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.split_at AND qa.created_at <= b.end_at
+            UNION
+            SELECT sa.user_id FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.split_at AND sa.created_at <= b.end_at
+            UNION
+            SELECT pe.user_id FROM progress_events pe, bounds b WHERE pe.created_at >= b.split_at AND pe.created_at <= b.end_at
+          ) x
+        )
+        SELECT
+          (
+            SELECT COUNT(*)::bigint FROM quiz_attempts qa, bounds b
+            LEFT JOIN profiles p ON p.user_id = qa.user_id
+            WHERE qa.created_at >= b.start_at AND qa.created_at < b.split_at
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "firstQuizAttempts",
+          (
+            SELECT COUNT(*)::bigint FROM quiz_attempts qa, bounds b
+            LEFT JOIN profiles p ON p.user_id = qa.user_id
+            WHERE qa.created_at >= b.start_at AND qa.created_at < b.split_at
+              AND qa.is_correct = true
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "firstQuizCorrect",
+          (
+            SELECT COUNT(*)::bigint FROM quiz_attempts qa, bounds b
+            LEFT JOIN profiles p ON p.user_id = qa.user_id
+            WHERE qa.created_at >= b.split_at AND qa.created_at <= b.end_at
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "secondQuizAttempts",
+          (
+            SELECT COUNT(*)::bigint FROM quiz_attempts qa, bounds b
+            LEFT JOIN profiles p ON p.user_id = qa.user_id
+            WHERE qa.created_at >= b.split_at AND qa.created_at <= b.end_at
+              AND qa.is_correct = true
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "secondQuizCorrect",
+          (
+            SELECT COUNT(*)::bigint FROM speak_attempts sa, bounds b
+            LEFT JOIN profiles p ON p.user_id = sa.user_id
+            WHERE sa.created_at >= b.start_at AND sa.created_at < b.split_at
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "firstSpeakAttempts",
+          (
+            SELECT COUNT(*)::bigint FROM speak_attempts sa, bounds b
+            LEFT JOIN profiles p ON p.user_id = sa.user_id
+            WHERE sa.created_at >= b.start_at AND sa.created_at < b.split_at
+              AND sa.initial_ok = true AND sa.final_ok = true AND sa.tone_ok = true
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "firstSpeakPasses",
+          (
+            SELECT COUNT(*)::bigint FROM speak_attempts sa, bounds b
+            LEFT JOIN profiles p ON p.user_id = sa.user_id
+            WHERE sa.created_at >= b.split_at AND sa.created_at <= b.end_at
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "secondSpeakAttempts",
+          (
+            SELECT COUNT(*)::bigint FROM speak_attempts sa, bounds b
+            LEFT JOIN profiles p ON p.user_id = sa.user_id
+            WHERE sa.created_at >= b.split_at AND sa.created_at <= b.end_at
+              AND sa.initial_ok = true AND sa.final_ok = true AND sa.tone_ok = true
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "secondSpeakPasses",
+          (
+            SELECT COUNT(*)::bigint FROM progress_events pe, bounds b
+            LEFT JOIN profiles p ON p.user_id = pe.user_id
+            WHERE pe.created_at >= b.start_at AND pe.created_at < b.split_at
+              AND pe.event_type IN ('lesson_completed', 'apply_completed')
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "firstLessonsCompleted",
+          (
+            SELECT COUNT(*)::bigint FROM progress_events pe, bounds b
+            LEFT JOIN profiles p ON p.user_id = pe.user_id
+            WHERE pe.created_at >= b.split_at AND pe.created_at <= b.end_at
+              AND pe.event_type IN ('lesson_completed', 'apply_completed')
+              AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          ) AS "secondLessonsCompleted",
+          (SELECT COUNT(*)::bigint FROM first_active) AS "firstActiveUsers",
+          (SELECT COUNT(*)::bigint FROM second_active) AS "secondActiveUsers"
+      `.catch((error) => {
+        impactWarnings.push('Learning gain comparison unavailable.');
+        request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.learning_gain_failed');
+        return [] as Array<{
+          firstQuizAttempts: bigint;
+          firstQuizCorrect: bigint;
+          secondQuizAttempts: bigint;
+          secondQuizCorrect: bigint;
+          firstSpeakAttempts: bigint;
+          firstSpeakPasses: bigint;
+          secondSpeakAttempts: bigint;
+          secondSpeakPasses: bigint;
+          firstLessonsCompleted: bigint;
+          secondLessonsCompleted: bigint;
+          firstActiveUsers: bigint;
+          secondActiveUsers: bigint;
+        }>;
+      });
+
+      const consistencyRows = await prisma.$queryRaw<
+        Array<{
+          activeUsers: bigint;
+          active3PlusDays: bigint;
+          active7PlusDays: bigint;
+          avgActiveDays: number | null;
+        }>
+      >`
+        WITH bounds AS (
+          SELECT now() - ${windowDays} * interval '1 day' AS start_at, now() AS end_at
+        ),
+        activity_days AS (
+          SELECT user_id, active_day
+          FROM (
+            SELECT qa.user_id, qa.created_at::date AS active_day FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.start_at AND qa.created_at <= b.end_at
+            UNION
+            SELECT sa.user_id, sa.created_at::date AS active_day FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.start_at AND sa.created_at <= b.end_at
+            UNION
+            SELECT pe.user_id, pe.created_at::date AS active_day FROM progress_events pe, bounds b WHERE pe.created_at >= b.start_at AND pe.created_at <= b.end_at
+          ) t
+        ),
+        per_user_days AS (
+          SELECT ad.user_id, COUNT(DISTINCT ad.active_day)::int AS active_days
+          FROM activity_days ad
+          LEFT JOIN profiles p ON p.user_id = ad.user_id
+          WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          GROUP BY ad.user_id
+        )
+        SELECT
+          COUNT(*)::bigint AS "activeUsers",
+          COUNT(*) FILTER (WHERE active_days >= 3)::bigint AS "active3PlusDays",
+          COUNT(*) FILTER (WHERE active_days >= 7)::bigint AS "active7PlusDays",
+          AVG(active_days)::float AS "avgActiveDays"
+        FROM per_user_days
+      `.catch((error) => {
+        impactWarnings.push('Consistency metrics unavailable.');
+        request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.consistency_failed');
+        return [] as Array<{
+          activeUsers: bigint;
+          active3PlusDays: bigint;
+          active7PlusDays: bigint;
+          avgActiveDays: number | null;
+        }>;
+      });
+
+      const streakRows = await prisma.$queryRaw<
+        Array<{ bucket: string; users: bigint }>
+      >`
+        WITH bounds AS (
+          SELECT now() - ${windowDays} * interval '1 day' AS start_at, now() AS end_at
+        ),
+        active_users AS (
+          SELECT DISTINCT user_id
+          FROM (
+            SELECT qa.user_id FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.start_at AND qa.created_at <= b.end_at
+            UNION
+            SELECT sa.user_id FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.start_at AND sa.created_at <= b.end_at
+            UNION
+            SELECT pe.user_id FROM progress_events pe, bounds b WHERE pe.created_at >= b.start_at AND pe.created_at <= b.end_at
+          ) t
+        )
+        SELECT
+          CASE
+            WHEN up.streak >= 30 THEN '30+'
+            WHEN up.streak >= 14 THEN '14-29'
+            WHEN up.streak >= 7 THEN '7-13'
+            WHEN up.streak >= 3 THEN '3-6'
+            ELSE '0-2'
+          END AS bucket,
+          COUNT(*)::bigint AS users
+        FROM user_progress up
+        JOIN active_users au ON au.user_id = up.user_id
+        LEFT JOIN profiles p ON p.user_id = up.user_id
+        WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        GROUP BY 1
+        ORDER BY 1
+      `.catch((error) => {
+        impactWarnings.push('Streak distribution unavailable.');
+        request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.streaks_failed');
+        return [] as Array<{ bucket: string; users: bigint }>;
+      });
+
+      const masteryRows = await prisma.$queryRaw<
+        Array<{
+          activeUsers: bigint;
+          usersWithMastery: bigint;
+          usersWithMasteryInWindow: bigint;
+          medianDaysToFirstMastery: number | null;
+        }>
+      >`
+        WITH bounds AS (
+          SELECT now() - ${windowDays} * interval '1 day' AS start_at, now() AS end_at
+        ),
+        active_users AS (
+          SELECT DISTINCT user_id
+          FROM (
+            SELECT qa.user_id FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.start_at AND qa.created_at <= b.end_at
+            UNION
+            SELECT sa.user_id FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.start_at AND sa.created_at <= b.end_at
+            UNION
+            SELECT pe.user_id FROM progress_events pe, bounds b WHERE pe.created_at >= b.start_at AND pe.created_at <= b.end_at
+          ) t
+        ),
+        first_mastery AS (
+          SELECT
+            p.user_id,
+            p.created_at AS signup_at,
+            (
+              SELECT MIN(pe.created_at)
+              FROM progress_events pe
+              WHERE pe.user_id = p.user_id
+                AND pe.event_type IN ('lesson_completed', 'apply_completed')
+                AND COALESCE(pe.payload_json->>'mastered', 'false') = 'true'
+            ) AS first_mastery_at
+          FROM profiles p
+          JOIN active_users au ON au.user_id = p.user_id
+          WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        )
+        SELECT
+          (SELECT COUNT(*)::bigint FROM first_mastery) AS "activeUsers",
+          (SELECT COUNT(*)::bigint FROM first_mastery WHERE first_mastery_at IS NOT NULL) AS "usersWithMastery",
+          (
+            SELECT COUNT(DISTINCT pe.user_id)::bigint
+            FROM progress_events pe
+            JOIN first_mastery fm ON fm.user_id = pe.user_id
+            CROSS JOIN bounds b
+            WHERE pe.event_type IN ('lesson_completed', 'apply_completed')
+              AND COALESCE(pe.payload_json->>'mastered', 'false') = 'true'
+              AND pe.created_at >= b.start_at
+              AND pe.created_at <= b.end_at
+          ) AS "usersWithMasteryInWindow",
+          PERCENTILE_CONT(0.5) WITHIN GROUP (
+            ORDER BY EXTRACT(EPOCH FROM (first_mastery_at - signup_at)) / 86400.0
+          ) FILTER (WHERE first_mastery_at IS NOT NULL) AS "medianDaysToFirstMastery"
+      `.catch((error) => {
+        impactWarnings.push('Mastery metrics unavailable.');
+        request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.mastery_failed');
+        return [] as Array<{
+          activeUsers: bigint;
+          usersWithMastery: bigint;
+          usersWithMasteryInWindow: bigint;
+          medianDaysToFirstMastery: number | null;
+        }>;
+      });
+
+      const needsWorkRows = await prisma.$queryRaw<
+        Array<{
+          activeUsers: bigint;
+          avgNeedsWork: number | null;
+          medianNeedsWork: number | null;
+          firstHalfMissesPerActiveUser: number | null;
+          secondHalfMissesPerActiveUser: number | null;
+        }>
+      >`
+        WITH bounds AS (
+          SELECT
+            now() - ${windowDays} * interval '1 day' AS start_at,
+            now() - ${halfDays} * interval '1 day' AS split_at,
+            now() AS end_at
+        ),
+        active_users AS (
+          SELECT DISTINCT user_id
+          FROM (
+            SELECT qa.user_id FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.start_at AND qa.created_at <= b.end_at
+            UNION
+            SELECT sa.user_id FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.start_at AND sa.created_at <= b.end_at
+            UNION
+            SELECT pe.user_id FROM progress_events pe, bounds b WHERE pe.created_at >= b.start_at AND pe.created_at <= b.end_at
+          ) t
+        ),
+        per_user_needs_work AS (
+          SELECT
+            au.user_id,
+            COUNT(wms.word_id)::int AS needs_work_count
+          FROM active_users au
+          LEFT JOIN profiles p ON p.user_id = au.user_id
+          LEFT JOIN word_memory_state wms
+            ON wms.user_id = au.user_id
+            AND (
+              wms.quiz_due_at <= now()
+              OR wms.missed_quiz_count > 0
+              OR wms.mispronounce_count > 0
+              OR wms.pronunciation_risk > 0
+            )
+          WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+          GROUP BY au.user_id
+        ),
+        first_half_active AS (
+          SELECT COUNT(DISTINCT t.user_id)::float AS count
+          FROM (
+            SELECT qa.user_id FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.start_at AND qa.created_at < b.split_at
+            UNION
+            SELECT sa.user_id FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.start_at AND sa.created_at < b.split_at
+            UNION
+            SELECT pe.user_id FROM progress_events pe, bounds b WHERE pe.created_at >= b.start_at AND pe.created_at < b.split_at
+          ) t
+          LEFT JOIN profiles p ON p.user_id = t.user_id
+          WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ),
+        second_half_active AS (
+          SELECT COUNT(DISTINCT t.user_id)::float AS count
+          FROM (
+            SELECT qa.user_id FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.split_at AND qa.created_at <= b.end_at
+            UNION
+            SELECT sa.user_id FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.split_at AND sa.created_at <= b.end_at
+            UNION
+            SELECT pe.user_id FROM progress_events pe, bounds b WHERE pe.created_at >= b.split_at AND pe.created_at <= b.end_at
+          ) t
+          LEFT JOIN profiles p ON p.user_id = t.user_id
+          WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        ),
+        first_half_misses AS (
+          SELECT
+            (
+              COALESCE((SELECT COUNT(*)::float FROM quiz_attempts qa, bounds b
+                LEFT JOIN profiles p ON p.user_id = qa.user_id
+                WHERE qa.created_at >= b.start_at AND qa.created_at < b.split_at
+                  AND qa.is_correct = false
+                  AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+              ), 0)
+              +
+              COALESCE((SELECT COUNT(*)::float FROM speak_attempts sa, bounds b
+                LEFT JOIN profiles p ON p.user_id = sa.user_id
+                WHERE sa.created_at >= b.start_at AND sa.created_at < b.split_at
+                  AND NOT (sa.initial_ok = true AND sa.final_ok = true AND sa.tone_ok = true)
+                  AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+              ), 0)
+            ) AS misses
+        ),
+        second_half_misses AS (
+          SELECT
+            (
+              COALESCE((SELECT COUNT(*)::float FROM quiz_attempts qa, bounds b
+                LEFT JOIN profiles p ON p.user_id = qa.user_id
+                WHERE qa.created_at >= b.split_at AND qa.created_at <= b.end_at
+                  AND qa.is_correct = false
+                  AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+              ), 0)
+              +
+              COALESCE((SELECT COUNT(*)::float FROM speak_attempts sa, bounds b
+                LEFT JOIN profiles p ON p.user_id = sa.user_id
+                WHERE sa.created_at >= b.split_at AND sa.created_at <= b.end_at
+                  AND NOT (sa.initial_ok = true AND sa.final_ok = true AND sa.tone_ok = true)
+                  AND ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+              ), 0)
+            ) AS misses
+        )
+        SELECT
+          (SELECT COUNT(*)::bigint FROM per_user_needs_work) AS "activeUsers",
+          (SELECT AVG(needs_work_count)::float FROM per_user_needs_work) AS "avgNeedsWork",
+          (SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY needs_work_count)::float FROM per_user_needs_work) AS "medianNeedsWork",
+          (
+            SELECT CASE WHEN fha.count > 0 THEN fhm.misses / fha.count ELSE 0 END
+            FROM first_half_misses fhm, first_half_active fha
+          ) AS "firstHalfMissesPerActiveUser",
+          (
+            SELECT CASE WHEN sha.count > 0 THEN shm.misses / sha.count ELSE 0 END
+            FROM second_half_misses shm, second_half_active sha
+          ) AS "secondHalfMissesPerActiveUser"
+      `.catch((error) => {
+        impactWarnings.push('Needs-work burden metrics unavailable.');
+        request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.needs_work_failed');
+        return [] as Array<{
+          activeUsers: bigint;
+          avgNeedsWork: number | null;
+          medianNeedsWork: number | null;
+          firstHalfMissesPerActiveUser: number | null;
+          secondHalfMissesPerActiveUser: number | null;
+        }>;
+      });
+
+      const perUserRows = await prisma.$queryRaw<
+        Array<{
+          languageId: string;
+          activeDays: number;
+          lessonsCompleted: number;
+          quizAttempts: number;
+          quizCorrect: number;
+          speakAttempts: number;
+          speakPasses: number;
+          needsWorkCount: number;
+        }>
+      >`
+        WITH bounds AS (
+          SELECT now() - ${windowDays} * interval '1 day' AS start_at, now() AS end_at
+        ),
+        activity_days AS (
+          SELECT qa.user_id, qa.created_at::date AS active_day
+          FROM quiz_attempts qa, bounds b
+          WHERE qa.created_at >= b.start_at AND qa.created_at <= b.end_at
+          UNION
+          SELECT sa.user_id, sa.created_at::date AS active_day
+          FROM speak_attempts sa, bounds b
+          WHERE sa.created_at >= b.start_at AND sa.created_at <= b.end_at
+          UNION
+          SELECT pe.user_id, pe.created_at::date AS active_day
+          FROM progress_events pe, bounds b
+          WHERE pe.created_at >= b.start_at AND pe.created_at <= b.end_at
+        ),
+        active_users AS (
+          SELECT DISTINCT ad.user_id FROM activity_days ad
+        ),
+        active_day_counts AS (
+          SELECT ad.user_id, COUNT(DISTINCT ad.active_day)::int AS active_days
+          FROM activity_days ad
+          GROUP BY ad.user_id
+        ),
+        quiz_counts AS (
+          SELECT
+            qa.user_id,
+            COUNT(*)::int AS quiz_attempts,
+            COUNT(*) FILTER (WHERE qa.is_correct = true)::int AS quiz_correct
+          FROM quiz_attempts qa, bounds b
+          WHERE qa.created_at >= b.start_at AND qa.created_at <= b.end_at
+          GROUP BY qa.user_id
+        ),
+        speak_counts AS (
+          SELECT
+            sa.user_id,
+            COUNT(*)::int AS speak_attempts,
+            COUNT(*) FILTER (WHERE sa.initial_ok = true AND sa.final_ok = true AND sa.tone_ok = true)::int AS speak_passes
+          FROM speak_attempts sa, bounds b
+          WHERE sa.created_at >= b.start_at AND sa.created_at <= b.end_at
+          GROUP BY sa.user_id
+        ),
+        lesson_counts AS (
+          SELECT
+            pe.user_id,
+            COUNT(*) FILTER (WHERE pe.event_type IN ('lesson_completed', 'apply_completed'))::int AS lessons_completed
+          FROM progress_events pe, bounds b
+          WHERE pe.created_at >= b.start_at AND pe.created_at <= b.end_at
+          GROUP BY pe.user_id
+        ),
+        needs_work_counts AS (
+          SELECT
+            wms.user_id,
+            COUNT(*)::int AS needs_work_count
+          FROM word_memory_state wms
+          WHERE
+            wms.quiz_due_at <= now()
+            OR wms.missed_quiz_count > 0
+            OR wms.mispronounce_count > 0
+            OR wms.pronunciation_risk > 0
+          GROUP BY wms.user_id
+        )
+        SELECT
+          ${normalizedProfileLanguageSql}::text AS "languageId",
+          COALESCE(adc.active_days, 0)::int AS "activeDays",
+          COALESCE(lc.lessons_completed, 0)::int AS "lessonsCompleted",
+          COALESCE(qc.quiz_attempts, 0)::int AS "quizAttempts",
+          COALESCE(qc.quiz_correct, 0)::int AS "quizCorrect",
+          COALESCE(sc.speak_attempts, 0)::int AS "speakAttempts",
+          COALESCE(sc.speak_passes, 0)::int AS "speakPasses",
+          COALESCE(nwc.needs_work_count, 0)::int AS "needsWorkCount"
+        FROM active_users au
+        LEFT JOIN profiles p ON p.user_id = au.user_id
+        LEFT JOIN active_day_counts adc ON adc.user_id = au.user_id
+        LEFT JOIN quiz_counts qc ON qc.user_id = au.user_id
+        LEFT JOIN speak_counts sc ON sc.user_id = au.user_id
+        LEFT JOIN lesson_counts lc ON lc.user_id = au.user_id
+        LEFT JOIN needs_work_counts nwc ON nwc.user_id = au.user_id
+        WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+      `.catch((error) => {
+        impactWarnings.push('Anonymized per-user distribution unavailable.');
+        request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.per_user_failed');
+        return [] as Array<{
+          languageId: string;
+          activeDays: number;
+          lessonsCompleted: number;
+          quizAttempts: number;
+          quizCorrect: number;
+          speakAttempts: number;
+          speakPasses: number;
+          needsWorkCount: number;
+        }>;
+      });
+
+      const languageRows = await prisma.$queryRaw<
+        Array<{ languageId: string; activeUsers: bigint }>
+      >`
+        WITH bounds AS (
+          SELECT now() - ${windowDays} * interval '1 day' AS start_at, now() AS end_at
+        ),
+        active_users AS (
+          SELECT DISTINCT user_id
+          FROM (
+            SELECT qa.user_id FROM quiz_attempts qa, bounds b WHERE qa.created_at >= b.start_at AND qa.created_at <= b.end_at
+            UNION
+            SELECT sa.user_id FROM speak_attempts sa, bounds b WHERE sa.created_at >= b.start_at AND sa.created_at <= b.end_at
+            UNION
+            SELECT pe.user_id FROM progress_events pe, bounds b WHERE pe.created_at >= b.start_at AND pe.created_at <= b.end_at
+          ) t
+        )
+        SELECT
+          ${normalizedProfileLanguageSql}::text AS "languageId",
+          COUNT(*)::bigint AS "activeUsers"
+        FROM profiles p
+        JOIN active_users au ON au.user_id = p.user_id
+        WHERE ${normalizedProfileLanguageSql} IN (${supportedAdminLanguageSql})
+        GROUP BY 1
+        ORDER BY 2 DESC
+      `.catch((error) => {
+        impactWarnings.push('Language segmentation unavailable.');
+        request.log.warn({ err: error, windowDays }, 'admin.metrics.impact_outcomes.segmentation_failed');
+        return [] as Array<{ languageId: string; activeUsers: bigint }>;
+      });
+
+      const pct = (num: number, den: number) => (den > 0 ? Number(((num / den) * 100).toFixed(2)) : 0);
+      const isoDay = (value: Date | string) => {
+        if (value instanceof Date) return value.toISOString().slice(0, 10);
+        const parsedDate = new Date(value);
+        if (!Number.isNaN(parsedDate.getTime())) return parsedDate.toISOString().slice(0, 10);
+        return String(value).slice(0, 10);
+      };
+      const safeDelta = (first: number, second: number) =>
+        first <= 0 ? (second > 0 ? 100 : 0) : Number((((second - first) / first) * 100).toFixed(2));
+
+      const cohorts = cohortRows
+        .map((row) => {
+          const signups = toInt(row.signups);
+          const eligibleD1 = toInt(row.eligibleD1);
+          const retainedD1 = toInt(row.retainedD1);
+          const eligibleD7 = toInt(row.eligibleD7);
+          const retainedD7 = toInt(row.retainedD7);
+          const eligibleD30 = toInt(row.eligibleD30);
+          const retainedD30 = toInt(row.retainedD30);
+          return {
+            cohortWeek: isoDay(row.cohortWeek),
+            signups,
+            eligibleD1,
+            retainedD1,
+            d1Pct: pct(retainedD1, eligibleD1),
+            eligibleD7,
+            retainedD7,
+            d7Pct: pct(retainedD7, eligibleD7),
+            eligibleD30,
+            retainedD30,
+            d30Pct: pct(retainedD30, eligibleD30),
+          };
+        })
+        .sort((a, b) => (a.cohortWeek < b.cohortWeek ? 1 : -1));
+
+      const timeToValue = timeToValueRows[0] || {
+        sampleSize: 0n,
+        reachedLessonComplete: 0n,
+        reachedSpeakPass: 0n,
+        reachedMastery: 0n,
+        medianDaysToLessonComplete: null,
+        medianDaysToSpeakPass: null,
+        medianDaysToMastery: null,
+      };
+      const learningGain = learningGainRows[0] || {
+        firstQuizAttempts: 0n,
+        firstQuizCorrect: 0n,
+        secondQuizAttempts: 0n,
+        secondQuizCorrect: 0n,
+        firstSpeakAttempts: 0n,
+        firstSpeakPasses: 0n,
+        secondSpeakAttempts: 0n,
+        secondSpeakPasses: 0n,
+        firstLessonsCompleted: 0n,
+        secondLessonsCompleted: 0n,
+        firstActiveUsers: 0n,
+        secondActiveUsers: 0n,
+      };
+      const consistency = consistencyRows[0] || {
+        activeUsers: 0n,
+        active3PlusDays: 0n,
+        active7PlusDays: 0n,
+        avgActiveDays: 0,
+      };
+      const mastery = masteryRows[0] || {
+        activeUsers: 0n,
+        usersWithMastery: 0n,
+        usersWithMasteryInWindow: 0n,
+        medianDaysToFirstMastery: null,
+      };
+      const burden = needsWorkRows[0] || {
+        activeUsers: 0n,
+        avgNeedsWork: 0,
+        medianNeedsWork: 0,
+        firstHalfMissesPerActiveUser: 0,
+        secondHalfMissesPerActiveUser: 0,
+      };
+
+      const firstQuizAttempts = toInt(learningGain.firstQuizAttempts);
+      const firstQuizCorrect = toInt(learningGain.firstQuizCorrect);
+      const secondQuizAttempts = toInt(learningGain.secondQuizAttempts);
+      const secondQuizCorrect = toInt(learningGain.secondQuizCorrect);
+      const firstSpeakAttempts = toInt(learningGain.firstSpeakAttempts);
+      const firstSpeakPasses = toInt(learningGain.firstSpeakPasses);
+      const secondSpeakAttempts = toInt(learningGain.secondSpeakAttempts);
+      const secondSpeakPasses = toInt(learningGain.secondSpeakPasses);
+      const firstLessonsCompleted = toInt(learningGain.firstLessonsCompleted);
+      const secondLessonsCompleted = toInt(learningGain.secondLessonsCompleted);
+      const firstActiveUsers = toInt(learningGain.firstActiveUsers);
+      const secondActiveUsers = toInt(learningGain.secondActiveUsers);
+      const firstQuizAccuracyPct = pct(firstQuizCorrect, firstQuizAttempts);
+      const secondQuizAccuracyPct = pct(secondQuizCorrect, secondQuizAttempts);
+      const firstSpeakPassPct = pct(firstSpeakPasses, firstSpeakAttempts);
+      const secondSpeakPassPct = pct(secondSpeakPasses, secondSpeakAttempts);
+      const firstLessonsPerActiveUser = firstActiveUsers > 0 ? Number((firstLessonsCompleted / firstActiveUsers).toFixed(3)) : 0;
+      const secondLessonsPerActiveUser = secondActiveUsers > 0 ? Number((secondLessonsCompleted / secondActiveUsers).toFixed(3)) : 0;
+
+      const firstHalfMissesPerActiveUser = Number(toFloat(burden.firstHalfMissesPerActiveUser).toFixed(3));
+      const secondHalfMissesPerActiveUser = Number(toFloat(burden.secondHalfMissesPerActiveUser).toFixed(3));
+
+      const distributionValues = {
+        activeDays: perUserRows.map((row) => toFloat(row.activeDays)),
+        lessonsCompleted: perUserRows.map((row) => toFloat(row.lessonsCompleted)),
+        quizAccuracyPct: perUserRows.map((row) =>
+          row.quizAttempts > 0 ? Number(((row.quizCorrect / row.quizAttempts) * 100).toFixed(2)) : 0
+        ),
+        speakPassPct: perUserRows.map((row) =>
+          row.speakAttempts > 0 ? Number(((row.speakPasses / row.speakAttempts) * 100).toFixed(2)) : 0
+        ),
+        needsWorkCount: perUserRows.map((row) => toFloat(row.needsWorkCount)),
+      };
+      const summarizeDistribution = (values: number[]) => {
+        if (!values.length) return { avg: 0, p50: 0, p75: 0, p90: 0 };
+        const total = values.reduce((sum, value) => sum + value, 0);
+        return {
+          avg: Number((total / values.length).toFixed(2)),
+          p50: Number(percentile(values, 0.5).toFixed(2)),
+          p75: Number(percentile(values, 0.75).toFixed(2)),
+          p90: Number(percentile(values, 0.9).toFixed(2)),
+        };
+      };
+
+      const riskCohortMap = new Map<
+        string,
+        {
+          users: number;
+          atRiskUsers: number;
+          needsWorkTotal: number;
+          quizMissPctTotal: number;
+          speakMissPctTotal: number;
+        }
+      >();
+      for (const row of perUserRows) {
+        const activeDays = toInt(row.activeDays);
+        const quizAttempts = toInt(row.quizAttempts);
+        const quizCorrect = toInt(row.quizCorrect);
+        const speakAttempts = toInt(row.speakAttempts);
+        const speakPasses = toInt(row.speakPasses);
+        const needsWorkCount = toInt(row.needsWorkCount);
+        const quizMissPct = quizAttempts > 0 ? ((quizAttempts - quizCorrect) / quizAttempts) * 100 : 0;
+        const speakMissPct = speakAttempts > 0 ? ((speakAttempts - speakPasses) / speakAttempts) * 100 : 0;
+        const engagementBucket =
+          activeDays >= 8 ? 'active_8_plus' : activeDays >= 4 ? 'active_4_7' : activeDays >= 2 ? 'active_2_3' : 'active_0_1';
+        const cohortKey = `${row.languageId}:${engagementBucket}`;
+        const atRisk =
+          needsWorkCount >= 20 ||
+          quizMissPct >= 35 ||
+          speakMissPct >= 45 ||
+          (activeDays <= 1 && needsWorkCount >= 8);
+        const existing = riskCohortMap.get(cohortKey) || {
+          users: 0,
+          atRiskUsers: 0,
+          needsWorkTotal: 0,
+          quizMissPctTotal: 0,
+          speakMissPctTotal: 0,
+        };
+        existing.users += 1;
+        existing.atRiskUsers += atRisk ? 1 : 0;
+        existing.needsWorkTotal += needsWorkCount;
+        existing.quizMissPctTotal += quizMissPct;
+        existing.speakMissPctTotal += speakMissPct;
+        riskCohortMap.set(cohortKey, existing);
+      }
+      const riskCohorts = Array.from(riskCohortMap.entries())
+        .filter(([, stats]) => stats.users >= 5)
+        .map(([cohort, stats]) => ({
+          cohort,
+          users: stats.users,
+          atRiskUsers: stats.atRiskUsers,
+          atRiskRatePct: Number(((stats.atRiskUsers / Math.max(1, stats.users)) * 100).toFixed(2)),
+          avgNeedsWorkCount: Number((stats.needsWorkTotal / Math.max(1, stats.users)).toFixed(2)),
+          avgQuizMissPct: Number((stats.quizMissPctTotal / Math.max(1, stats.users)).toFixed(2)),
+          avgSpeakMissPct: Number((stats.speakMissPctTotal / Math.max(1, stats.users)).toFixed(2)),
+        }))
+        .sort((a, b) => {
+          if (b.atRiskRatePct !== a.atRiskRatePct) return b.atRiskRatePct - a.atRiskRatePct;
+          if (b.users !== a.users) return b.users - a.users;
+          return a.cohort.localeCompare(b.cohort);
+        })
+        .slice(0, 8);
+
+      return {
+        generatedAt: new Date().toISOString(),
+        windowDays,
+        ...(impactWarnings.length
+          ? {
+              warning: impactWarnings.join(' '),
+            }
+          : {}),
+        definitions: {
+          cohorts:
+            'Signup cohorts grouped by week. D1/D7/D30 retention uses exact day-N return among users with enough account age (eligible).',
+          timeToValue:
+            'Median days from signup to first lesson completion, first speak pass, and first mastery event.',
+          learningGain:
+            'Compares first half vs second half of selected window for accuracy and completion intensity.',
+          consistency:
+            'Active-day frequency and streak distribution for users active in the selected window.',
+          mastery:
+            'Mastery adoption among active users and time to first mastery.',
+          needsWorkBurden:
+            'Current needs-work load per active user plus miss-rate burden trend across window halves.',
+          perUserDistribution:
+            'Anonymized percentile distribution across active users (no user identifiers).',
+          riskCohorts:
+            'Anonymized cohorts grouped by language and engagement intensity, ranked by at-risk share.',
+        },
+        cohorts,
+        timeToValue: {
+          sampleSize: toInt(timeToValue.sampleSize),
+          reachedLessonComplete: toInt(timeToValue.reachedLessonComplete),
+          reachedSpeakPass: toInt(timeToValue.reachedSpeakPass),
+          reachedMastery: toInt(timeToValue.reachedMastery),
+          medianDaysToLessonComplete:
+            timeToValue.medianDaysToLessonComplete === null
+              ? null
+              : Number(toFloat(timeToValue.medianDaysToLessonComplete).toFixed(2)),
+          medianDaysToSpeakPass:
+            timeToValue.medianDaysToSpeakPass === null
+              ? null
+              : Number(toFloat(timeToValue.medianDaysToSpeakPass).toFixed(2)),
+          medianDaysToMastery:
+            timeToValue.medianDaysToMastery === null
+              ? null
+              : Number(toFloat(timeToValue.medianDaysToMastery).toFixed(2)),
+        },
+        learningGain: {
+          sample: {
+            firstActiveUsers,
+            secondActiveUsers,
+          },
+          firstHalf: {
+            quizAttempts: firstQuizAttempts,
+            quizAccuracyPct: firstQuizAccuracyPct,
+            speakAttempts: firstSpeakAttempts,
+            speakPassPct: firstSpeakPassPct,
+            lessonsCompleted: firstLessonsCompleted,
+            lessonsPerActiveUser: firstLessonsPerActiveUser,
+          },
+          secondHalf: {
+            quizAttempts: secondQuizAttempts,
+            quizAccuracyPct: secondQuizAccuracyPct,
+            speakAttempts: secondSpeakAttempts,
+            speakPassPct: secondSpeakPassPct,
+            lessonsCompleted: secondLessonsCompleted,
+            lessonsPerActiveUser: secondLessonsPerActiveUser,
+          },
+          deltaPct: {
+            quizAccuracyPct: safeDelta(firstQuizAccuracyPct, secondQuizAccuracyPct),
+            speakPassPct: safeDelta(firstSpeakPassPct, secondSpeakPassPct),
+            lessonsPerActiveUser: safeDelta(firstLessonsPerActiveUser, secondLessonsPerActiveUser),
+          },
+        },
+        consistency: {
+          activeUsers: toInt(consistency.activeUsers),
+          active3PlusDays: toInt(consistency.active3PlusDays),
+          active7PlusDays: toInt(consistency.active7PlusDays),
+          avgActiveDays: Number(toFloat(consistency.avgActiveDays).toFixed(2)),
+          streakDistribution: streakRows.map((row) => ({ bucket: row.bucket, users: toInt(row.users) })),
+        },
+        mastery: {
+          activeUsers: toInt(mastery.activeUsers),
+          usersWithMastery: toInt(mastery.usersWithMastery),
+          usersWithMasteryInWindow: toInt(mastery.usersWithMasteryInWindow),
+          masteryRatePct: pct(toInt(mastery.usersWithMastery), toInt(mastery.activeUsers)),
+          medianDaysToFirstMastery:
+            mastery.medianDaysToFirstMastery === null
+              ? null
+              : Number(toFloat(mastery.medianDaysToFirstMastery).toFixed(2)),
+        },
+        needsWorkBurden: {
+          activeUsers: toInt(burden.activeUsers),
+          avgNeedsWorkPerActiveUser: Number(toFloat(burden.avgNeedsWork).toFixed(2)),
+          medianNeedsWorkPerActiveUser: Number(toFloat(burden.medianNeedsWork).toFixed(2)),
+          firstHalfMissesPerActiveUser,
+          secondHalfMissesPerActiveUser,
+          missesPerActiveUserDeltaPct: safeDelta(firstHalfMissesPerActiveUser, secondHalfMissesPerActiveUser),
+        },
+        segmentation: {
+          activeUsersByLanguage: languageRows.map((row) => ({
+            languageId: row.languageId,
+            activeUsers: toInt(row.activeUsers),
+          })),
+        },
+        perUserDistribution: {
+          sampleSize: perUserRows.length,
+          metrics: {
+            activeDays: summarizeDistribution(distributionValues.activeDays),
+            lessonsCompleted: summarizeDistribution(distributionValues.lessonsCompleted),
+            quizAccuracyPct: summarizeDistribution(distributionValues.quizAccuracyPct),
+            speakPassPct: summarizeDistribution(distributionValues.speakPassPct),
+            needsWorkCount: summarizeDistribution(distributionValues.needsWorkCount),
+          },
+        },
+        riskCohorts,
+      };
+      } catch (error) {
+        request.log.error(
+          { err: error, windowDays },
+          'admin.metrics.impact_outcomes_failed'
+        );
+        return {
+          ...buildEmptyImpactOutcomes(windowDays),
+          warning: 'Impact metrics fallback payload returned due to query failure.',
+        };
+      }
+    }
+  );
+
+  app.get(
     '/v1/admin/metrics/learning/weak-words',
     { preHandler: [requireAdmin] },
     async (request, reply) => {
@@ -2736,6 +4245,35 @@ export async function adminRoutes(app: FastifyInstance) {
   });
 
   app.get(
+    '/v1/admin/users/:userId/review-queue',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsedParams = userIdParamsSchema.safeParse(request.params ?? {});
+      if (!parsedParams.success) {
+        reply.code(400).send({ error: 'Invalid user id', issues: parsedParams.error.issues });
+        return;
+      }
+      const parsedQuery = reviewQueueDebugQuerySchema.safeParse(request.query ?? {});
+      if (!parsedQuery.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsedQuery.error.issues });
+        return;
+      }
+
+      const userId = parsedParams.data.userId;
+      const profile = await prisma.profile.findUnique({
+        where: { userId },
+        select: { userId: true },
+      });
+      if (!profile) {
+        reply.code(404).send({ error: 'User not found' });
+        return;
+      }
+
+      return fetchReviewQueue(userId, parsedQuery.data.limit, parsedQuery.data.language, 'lexeme');
+    }
+  );
+
+  app.get(
     '/v1/admin/users/:userId/export',
     { preHandler: [requireAdmin] },
     async (request, reply) => {
@@ -2762,6 +4300,7 @@ export async function adminRoutes(app: FastifyInstance) {
         return;
       }
 
+      try {
       const [
         legalDocumentAcceptances,
         userProgress,
@@ -2898,10 +4437,17 @@ export async function adminRoutes(app: FastifyInstance) {
       const exportedAt = new Date().toISOString();
       const exportPayload = {
         exportMeta: {
+          schemaVersion: 2,
           exportedAt,
           exportedByAdminUserId: request.user.id,
           exportedByAdminEmail: request.user.email || null,
           userId,
+          availableFormats: ['json', 'csv', 'pdf'],
+          legalNotes: [
+            'Times are in ISO-8601 UTC unless otherwise noted.',
+            'This export includes both user-owned data and support/admin audit records tied to the user account.',
+            'JSON remains the authoritative machine-readable format.',
+          ],
         },
         profile,
         legalDocumentAcceptances,
@@ -2929,18 +4475,61 @@ export async function adminRoutes(app: FastifyInstance) {
         adminAuditLogsAsActor,
       };
 
-      const filename = buildExportFilename(userId, format);
-      if (format === 'csv') {
-        const csv = buildUserExportCsv(exportPayload as unknown as Record<string, unknown>);
-        reply.header('Content-Type', 'text/csv; charset=utf-8');
-        reply.header('Content-Disposition', `attachment; filename="${filename}"`);
-        reply.send(csv);
-        return;
+      await sendUserExportPayload(
+        reply,
+        userId,
+        format,
+        exportPayload as unknown as Record<string, unknown>
+      );
+      return;
+      } catch (error) {
+        request.log.error(
+          { err: error, userId, format },
+          'admin.user_export_fallback_payload'
+        );
+        const fallbackPayload = {
+          exportMeta: {
+            schemaVersion: 2,
+            exportedAt: new Date().toISOString(),
+            exportedByAdminUserId: request.user.id,
+            exportedByAdminEmail: request.user.email || null,
+            userId,
+            availableFormats: ['json', 'csv', 'pdf'],
+            warning:
+              'Partial export generated because one or more optional datasets were unavailable.',
+          },
+          profile,
+          legalDocumentAcceptances: [],
+          userProgress: [],
+          quizAttempts: [],
+          speakAttempts: [],
+          wordMemoryState: [],
+          progressEvents: [],
+          localAuthCredentials: [],
+          refreshSessions: [],
+          passwordResetTokens: [],
+          learningAccessControls: [],
+          learningAccessAudits: [],
+          supportNotesAsTarget: [],
+          supportNotesAsActor: [],
+          deletionRequestsAsTarget: [],
+          deletionRequestsAsRequester: [],
+          deletionRequestsAsResolver: [],
+          accountSecurityEventsAsTarget: [],
+          accountSecurityEventsAsActor: [],
+          scheduledAccountDeletions: [],
+          deletionCaseHistoryAsTarget: [],
+          deletionCaseHistoryAsActor: [],
+          adminAuditLogsAsTarget: [],
+          adminAuditLogsAsActor: [],
+        };
+        await sendUserExportPayload(
+          reply,
+          userId,
+          format,
+          fallbackPayload as unknown as Record<string, unknown>
+        );
       }
-
-      reply.header('Content-Type', 'application/json; charset=utf-8');
-      reply.header('Content-Disposition', `attachment; filename="${filename}"`);
-      reply.send(JSON.stringify(exportPayload, null, 2));
     }
   );
 
@@ -3106,6 +4695,153 @@ export async function adminRoutes(app: FastifyInstance) {
               completionCount: currentLessonStatus.completionCount,
             }
           : null,
+      };
+    }
+  );
+
+  app.get(
+    '/v1/admin/users/:userId/progress-trend',
+    { preHandler: [requireAdmin] },
+    async (request, reply) => {
+      const parsedParams = userIdParamsSchema.safeParse(request.params ?? {});
+      if (!parsedParams.success) {
+        reply.code(400).send({ error: 'Invalid user id', issues: parsedParams.error.issues });
+        return;
+      }
+      const parsedQuery = reportWindowQuerySchema.safeParse(request.query ?? {});
+      if (!parsedQuery.success) {
+        reply.code(400).send({ error: 'Invalid query parameters', issues: parsedQuery.error.issues });
+        return;
+      }
+
+      const userId = parsedParams.data.userId;
+      const windowDays = parsedQuery.data.windowDays;
+      const profile = await prisma.profile.findUnique({
+        where: { userId },
+        select: { userId: true },
+      });
+      if (!profile) {
+        reply.code(404).send({ error: 'User not found' });
+        return;
+      }
+
+      const rows = await prisma.$queryRaw<
+        Array<{
+          day: Date | string;
+          quizAttempts: bigint;
+          quizCorrect: bigint;
+          speakAttempts: bigint;
+          speakPasses: bigint;
+          lessonsStarted: bigint;
+          lessonsCompleted: bigint;
+        }>
+      >`
+        WITH days AS (
+          SELECT generate_series(
+            date_trunc('day', now() - ${(windowDays - 1)} * interval '1 day'),
+            date_trunc('day', now()),
+            interval '1 day'
+          ) AS day
+        )
+        SELECT
+          days.day AS day,
+          COALESCE(qa.quiz_attempts, 0)::bigint AS "quizAttempts",
+          COALESCE(qa.quiz_correct, 0)::bigint AS "quizCorrect",
+          COALESCE(sa.speak_attempts, 0)::bigint AS "speakAttempts",
+          COALESCE(sa.speak_passes, 0)::bigint AS "speakPasses",
+          COALESCE(pe.lessons_started, 0)::bigint AS "lessonsStarted",
+          COALESCE(pe.lessons_completed, 0)::bigint AS "lessonsCompleted"
+        FROM days
+        LEFT JOIN LATERAL (
+          SELECT
+            COUNT(*) AS quiz_attempts,
+            COUNT(*) FILTER (WHERE qa.is_correct = true) AS quiz_correct
+          FROM quiz_attempts qa
+          WHERE qa.user_id = ${userId}::uuid
+            AND qa.created_at >= days.day
+            AND qa.created_at < days.day + interval '1 day'
+        ) qa ON true
+        LEFT JOIN LATERAL (
+          SELECT
+            COUNT(*) AS speak_attempts,
+            COUNT(*) FILTER (WHERE sa.initial_ok = true AND sa.final_ok = true AND sa.tone_ok = true) AS speak_passes
+          FROM speak_attempts sa
+          WHERE sa.user_id = ${userId}::uuid
+            AND sa.created_at >= days.day
+            AND sa.created_at < days.day + interval '1 day'
+        ) sa ON true
+        LEFT JOIN LATERAL (
+          SELECT
+            COUNT(*) FILTER (WHERE pe.event_type = 'lesson_started') AS lessons_started,
+            COUNT(*) FILTER (WHERE pe.event_type IN ('lesson_completed', 'apply_completed')) AS lessons_completed
+          FROM progress_events pe
+          WHERE pe.user_id = ${userId}::uuid
+            AND pe.created_at >= days.day
+            AND pe.created_at < days.day + interval '1 day'
+        ) pe ON true
+        ORDER BY days.day ASC
+      `;
+
+      const isoDay = (value: Date | string) => {
+        if (value instanceof Date) return value.toISOString().slice(0, 10);
+        const parsed = new Date(value);
+        if (!Number.isNaN(parsed.getTime())) return parsed.toISOString().slice(0, 10);
+        return String(value).slice(0, 10);
+      };
+
+      const series = rows.map((row) => {
+        const quizAttempts = toInt(row.quizAttempts);
+        const quizCorrect = toInt(row.quizCorrect);
+        const speakAttempts = toInt(row.speakAttempts);
+        const speakPasses = toInt(row.speakPasses);
+        const lessonsStarted = toInt(row.lessonsStarted);
+        const lessonsCompleted = toInt(row.lessonsCompleted);
+        return {
+          day: isoDay(row.day),
+          quizAttempts,
+          quizCorrect,
+          quizAccuracyPct: quizAttempts > 0 ? Number(((quizCorrect / quizAttempts) * 100).toFixed(1)) : 0,
+          speakAttempts,
+          speakPasses,
+          speakPassPct: speakAttempts > 0 ? Number(((speakPasses / speakAttempts) * 100).toFixed(1)) : 0,
+          lessonsStarted,
+          lessonsCompleted,
+        };
+      });
+
+      const sum = <T extends number>(values: T[]) => values.reduce((acc, value) => acc + value, 0);
+      const midpoint = Math.max(1, Math.floor(series.length / 2));
+      const firstHalf = series.slice(0, midpoint);
+      const secondHalf = series.slice(midpoint);
+      const avg = (values: number[]) => (values.length ? sum(values) / values.length : 0);
+      const safeDelta = (left: number, right: number) =>
+        left <= 0 ? (right > 0 ? 100 : 0) : Number((((right - left) / left) * 100).toFixed(1));
+
+      const firstQuizAcc = avg(firstHalf.map((entry) => entry.quizAccuracyPct));
+      const secondQuizAcc = avg(secondHalf.map((entry) => entry.quizAccuracyPct));
+      const firstSpeakPass = avg(firstHalf.map((entry) => entry.speakPassPct));
+      const secondSpeakPass = avg(secondHalf.map((entry) => entry.speakPassPct));
+      const firstLessonCompletePerDay = avg(firstHalf.map((entry) => entry.lessonsCompleted));
+      const secondLessonCompletePerDay = avg(secondHalf.map((entry) => entry.lessonsCompleted));
+
+      return {
+        windowDays,
+        summary: {
+          totalQuizAttempts: sum(series.map((entry) => entry.quizAttempts)),
+          totalSpeakAttempts: sum(series.map((entry) => entry.speakAttempts)),
+          totalLessonsCompleted: sum(series.map((entry) => entry.lessonsCompleted)),
+          avgQuizAccuracyPct: Number(avg(series.map((entry) => entry.quizAccuracyPct)).toFixed(1)),
+          avgSpeakPassPct: Number(avg(series.map((entry) => entry.speakPassPct)).toFixed(1)),
+          trend: {
+            quizAccuracyDeltaPct: safeDelta(firstQuizAcc, secondQuizAcc),
+            speakPassDeltaPct: safeDelta(firstSpeakPass, secondSpeakPass),
+            lessonsCompletedPerDayDeltaPct: safeDelta(
+              firstLessonCompletePerDay,
+              secondLessonCompletePerDay
+            ),
+          },
+        },
+        series,
       };
     }
   );

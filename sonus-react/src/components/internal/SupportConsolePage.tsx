@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   FileText,
   BookUser,
+  Gauge,
   Download,
   Home,
   LogOut,
@@ -87,6 +88,33 @@ type UserProgressDetail = {
     masteryReady: boolean;
     completionCount: number;
   } | null;
+};
+
+type UserProgressTrend = {
+  windowDays: number;
+  summary: {
+    totalQuizAttempts: number;
+    totalSpeakAttempts: number;
+    totalLessonsCompleted: number;
+    avgQuizAccuracyPct: number;
+    avgSpeakPassPct: number;
+    trend: {
+      quizAccuracyDeltaPct: number;
+      speakPassDeltaPct: number;
+      lessonsCompletedPerDayDeltaPct: number;
+    };
+  };
+  series: Array<{
+    day: string;
+    quizAttempts: number;
+    quizCorrect: number;
+    quizAccuracyPct: number;
+    speakAttempts: number;
+    speakPasses: number;
+    speakPassPct: number;
+    lessonsStarted: number;
+    lessonsCompleted: number;
+  }>;
 };
 
 type LearningAccessState = {
@@ -268,6 +296,33 @@ type SpeakMissHotspotsByLanguage = {
   }>;
 };
 
+type ReviewQueueDebug = {
+  count: number;
+  limit: number;
+  queue: Array<{
+    wordId: string;
+    priorityScore: number;
+    overdueDays: number;
+    reasons: string[];
+    priorityBreakdown?: {
+      forgettingRisk: number;
+      missHistory: number;
+      pronunciationWeakness: number;
+      recentSeenPenalty: number;
+      elapsedDays: number;
+      stabilityDays: number;
+    };
+    missedQuizCount: number;
+    mispronounceCount: number;
+    pronunciationRisk: number;
+    lastSeenAt: string | null;
+    lexeme?: {
+      term?: string;
+      en?: string;
+    } | null;
+  }>;
+};
+
 type QualityReportListItem = {
   runId: string;
   generatedAt: string | null;
@@ -423,6 +478,118 @@ type ProdReadinessReport = {
   recommendedActions: string[];
 };
 
+type ImpactOutcomesMetrics = {
+  generatedAt: string;
+  windowDays: number;
+  warning?: string;
+  definitions: {
+    cohorts: string;
+    timeToValue: string;
+    learningGain: string;
+    consistency: string;
+    mastery: string;
+    needsWorkBurden: string;
+    perUserDistribution: string;
+    riskCohorts: string;
+  };
+  cohorts: Array<{
+    cohortWeek: string;
+    signups: number;
+    eligibleD1: number;
+    retainedD1: number;
+    d1Pct: number;
+    eligibleD7: number;
+    retainedD7: number;
+    d7Pct: number;
+    eligibleD30: number;
+    retainedD30: number;
+    d30Pct: number;
+  }>;
+  timeToValue: {
+    sampleSize: number;
+    reachedLessonComplete: number;
+    reachedSpeakPass: number;
+    reachedMastery: number;
+    medianDaysToLessonComplete: number | null;
+    medianDaysToSpeakPass: number | null;
+    medianDaysToMastery: number | null;
+  };
+  learningGain: {
+    sample: {
+      firstActiveUsers: number;
+      secondActiveUsers: number;
+    };
+    firstHalf: {
+      quizAttempts: number;
+      quizAccuracyPct: number;
+      speakAttempts: number;
+      speakPassPct: number;
+      lessonsCompleted: number;
+      lessonsPerActiveUser: number;
+    };
+    secondHalf: {
+      quizAttempts: number;
+      quizAccuracyPct: number;
+      speakAttempts: number;
+      speakPassPct: number;
+      lessonsCompleted: number;
+      lessonsPerActiveUser: number;
+    };
+    deltaPct: {
+      quizAccuracyPct: number;
+      speakPassPct: number;
+      lessonsPerActiveUser: number;
+    };
+  };
+  consistency: {
+    activeUsers: number;
+    active3PlusDays: number;
+    active7PlusDays: number;
+    avgActiveDays: number;
+    streakDistribution: Array<{ bucket: string; users: number }>;
+  };
+  mastery: {
+    activeUsers: number;
+    usersWithMastery: number;
+    usersWithMasteryInWindow: number;
+    masteryRatePct: number;
+    medianDaysToFirstMastery: number | null;
+  };
+  needsWorkBurden: {
+    activeUsers: number;
+    avgNeedsWorkPerActiveUser: number;
+    medianNeedsWorkPerActiveUser: number;
+    firstHalfMissesPerActiveUser: number;
+    secondHalfMissesPerActiveUser: number;
+    missesPerActiveUserDeltaPct: number;
+  };
+  segmentation: {
+    activeUsersByLanguage: Array<{
+      languageId: string;
+      activeUsers: number;
+    }>;
+  };
+  perUserDistribution: {
+    sampleSize: number;
+    metrics: {
+      activeDays: { avg: number; p50: number; p75: number; p90: number };
+      lessonsCompleted: { avg: number; p50: number; p75: number; p90: number };
+      quizAccuracyPct: { avg: number; p50: number; p75: number; p90: number };
+      speakPassPct: { avg: number; p50: number; p75: number; p90: number };
+      needsWorkCount: { avg: number; p50: number; p75: number; p90: number };
+    };
+  };
+  riskCohorts: Array<{
+    cohort: string;
+    users: number;
+    atRiskUsers: number;
+    atRiskRatePct: number;
+    avgNeedsWorkCount: number;
+    avgQuizMissPct: number;
+    avgSpeakMissPct: number;
+  }>;
+};
+
 const SUPPORT_ADMIN_TOKEN_STORAGE_KEY = 'sonus.support_admin.token';
 const ROOT_QA_ADMIN_USERNAME = 'qa-admin-f8n2x7r1@sonus.test';
 const SUPPORT_AUTH_BOOT_TIMEOUT_MS = 6000;
@@ -447,6 +614,12 @@ const baseButton =
   'rounded-xl bg-[#1f2937] px-3 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-50';
 const metricCard = 'rounded-xl border border-[#e2e8f0] bg-white p-4';
 const iconButtonBase = 'inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors duration-150';
+const metricsWindowOptions = [
+  { days: 7, label: '7d' },
+  { days: 30, label: '30d' },
+  { days: 90, label: '3m' },
+  { days: 180, label: '6m' },
+] as const;
 
 function toLocale(value: string | null | undefined) {
   if (!value) return 'n/a';
@@ -721,6 +894,167 @@ function downloadTextFile(filename: string, content: string, contentType: string
   URL.revokeObjectURL(url);
 }
 
+function downloadBinaryFile(filename: string, bytes: Uint8Array, contentType: string) {
+  const buffer = bytes.buffer.slice(
+    bytes.byteOffset,
+    bytes.byteOffset + bytes.byteLength
+  ) as ArrayBuffer;
+  const blob = new Blob([buffer], { type: contentType });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+function wrapTextForPdf(
+  text: string,
+  maxWidth: number,
+  font: { widthOfTextAtSize: (text: string, size: number) => number },
+  fontSize: number
+) {
+  const words = String(text || '').split(/\s+/).filter(Boolean);
+  if (!words.length) return [''];
+  const lines: string[] = [];
+  let current = words[0];
+  for (let idx = 1; idx < words.length; idx += 1) {
+    const candidate = `${current} ${words[idx]}`;
+    if (font.widthOfTextAtSize(candidate, fontSize) <= maxWidth) {
+      current = candidate;
+    } else {
+      lines.push(current);
+      current = words[idx];
+    }
+  }
+  lines.push(current);
+  return lines;
+}
+
+async function buildSonusPdf(
+  title: string,
+  subtitle: string,
+  sections: Array<{ heading: string; lines: string[] }>
+) {
+  const { PDFDocument, StandardFonts, rgb } = await import('pdf-lib');
+  const doc = await PDFDocument.create();
+  const regular = await doc.embedFont(StandardFonts.Helvetica);
+  const heading = await doc.embedFont(StandardFonts.TimesRomanBold);
+  const mono = await doc.embedFont(StandardFonts.Courier);
+
+  const margin = 48;
+  const pageWidth = 612;
+  const pageHeight = 792;
+  const contentWidth = pageWidth - margin * 2;
+  const bodySize = 10;
+  const headingSize = 13;
+  const lineHeight = 13;
+  const titleColor = rgb(0.07, 0.34, 0.47);
+  const textColor = rgb(0.09, 0.16, 0.22);
+
+  let logoImage: Awaited<ReturnType<typeof doc.embedPng>> | null = null;
+  try {
+    const logoRes = await fetch('/branding/logo_name_solo.png', { cache: 'no-store' });
+    if (logoRes.ok) {
+      const logoBytes = await logoRes.arrayBuffer();
+      logoImage = await doc.embedPng(logoBytes);
+    }
+  } catch {
+    logoImage = null;
+  }
+
+  const createPage = () => doc.addPage([pageWidth, pageHeight]);
+  let page = createPage();
+  let y = pageHeight - margin;
+  let pageNumber = 1;
+
+  const drawPageHeader = () => {
+    y = pageHeight - margin;
+    if (logoImage) {
+      const scaled = logoImage.scale(0.18);
+      page.drawImage(logoImage, {
+        x: margin,
+        y: y - scaled.height + 4,
+        width: scaled.width,
+        height: scaled.height,
+      });
+      y -= scaled.height + 8;
+    }
+    page.drawText(title, { x: margin, y: y - 8, size: 20, font: heading, color: titleColor });
+    y -= 30;
+    page.drawText(subtitle, { x: margin, y: y, size: 10, font: regular, color: textColor });
+    y -= 22;
+    page.drawLine({
+      start: { x: margin, y },
+      end: { x: pageWidth - margin, y },
+      thickness: 1,
+      color: rgb(0.85, 0.89, 0.93),
+    });
+    y -= 16;
+  };
+
+  const ensureSpace = (required: number) => {
+    if (y - required > margin) return;
+    page.drawText(`Page ${pageNumber}`, {
+      x: pageWidth - margin - 42,
+      y: margin - 18,
+      size: 9,
+      font: regular,
+      color: rgb(0.39, 0.45, 0.52),
+    });
+    pageNumber += 1;
+    page = createPage();
+    drawPageHeader();
+  };
+
+  drawPageHeader();
+
+  for (const section of sections) {
+    ensureSpace(28);
+    page.drawText(section.heading, {
+      x: margin,
+      y,
+      size: headingSize,
+      font: heading,
+      color: textColor,
+    });
+    y -= 18;
+    for (const rawLine of section.lines) {
+      const lineText = rawLine === '' ? ' ' : rawLine;
+      const wrapped = wrapTextForPdf(
+        lineText,
+        contentWidth,
+        lineText.includes('{') || lineText.includes('[') ? mono : regular,
+        bodySize
+      );
+      for (const wrappedLine of wrapped) {
+        ensureSpace(lineHeight + 6);
+        page.drawText(wrappedLine, {
+          x: margin,
+          y,
+          size: bodySize,
+          font: lineText.includes('{') || lineText.includes('[') ? mono : regular,
+          color: textColor,
+        });
+        y -= lineHeight;
+      }
+    }
+    y -= 6;
+  }
+
+  page.drawText(`Page ${pageNumber}`, {
+    x: pageWidth - margin - 42,
+    y: margin - 18,
+    size: 9,
+    font: regular,
+    color: rgb(0.39, 0.45, 0.52),
+  });
+
+  return doc.save();
+}
+
 function escapeCsvCell(value: unknown) {
   const text =
     value === null || value === undefined
@@ -932,11 +1266,17 @@ export default function SupportConsolePage() {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [overview, setOverview] = useState<UserOverview | null>(null);
   const [progressDetail, setProgressDetail] = useState<UserProgressDetail | null>(null);
+  const [progressTrend, setProgressTrend] = useState<UserProgressTrend | null>(null);
+  const [progressTrendWindowDays, setProgressTrendWindowDays] = useState<30 | 90>(30);
   const [learningAccess, setLearningAccess] = useState<LearningAccessState | null>(null);
   const [learningAccessAudit, setLearningAccessAudit] = useState<LearningAccessAuditEntry[]>([]);
   const [timeline, setTimeline] = useState<TimelineEntry[]>([]);
   const [savedNotes, setSavedNotes] = useState<SupportNoteEntry[]>([]);
-  const [exportBusy, setExportBusy] = useState<'json' | 'csv' | null>(null);
+  const [reviewQueueDebug, setReviewQueueDebug] = useState<ReviewQueueDebug | null>(null);
+  const [reviewQueueDebugLoading, setReviewQueueDebugLoading] = useState(false);
+  const [reviewQueueDebugError, setReviewQueueDebugError] = useState<string | null>(null);
+  const [progressTrendError, setProgressTrendError] = useState<string | null>(null);
+  const [exportBusy, setExportBusy] = useState<'json' | 'csv' | 'pdf' | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState<string | null>(null);
   const [note, setNote] = useState('');
@@ -999,7 +1339,7 @@ export default function SupportConsolePage() {
   const [deleteAcknowledge, setDeleteAcknowledge] = useState(false);
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [deleteSuccessOpen, setDeleteSuccessOpen] = useState(false);
-  const [metricsWindowDays, setMetricsWindowDays] = useState<7 | 30 | 90>(30);
+  const [metricsWindowDays, setMetricsWindowDays] = useState<7 | 30 | 90 | 180>(30);
   const [supportAdminUsername, setSupportAdminUsername] = useState<string | null>(null);
   const [createAdminOpen, setCreateAdminOpen] = useState(false);
   const [createAdminBusy, setCreateAdminBusy] = useState(false);
@@ -1045,6 +1385,7 @@ export default function SupportConsolePage() {
   const [storageBudgetReport, setStorageBudgetReport] = useState<StorageBudgetReport | null>(null);
   const [dbGuardrailsReport, setDbGuardrailsReport] = useState<DbGuardrailsReport | null>(null);
   const [prodReadinessReport, setProdReadinessReport] = useState<ProdReadinessReport | null>(null);
+  const [impactOutcomesMetrics, setImpactOutcomesMetrics] = useState<ImpactOutcomesMetrics | null>(null);
   const [dashboardGeneratedAt, setDashboardGeneratedAt] = useState<string | null>(null);
   const canConfirmPermanentDelete =
     !deleteBusy &&
@@ -1052,11 +1393,12 @@ export default function SupportConsolePage() {
     deleteAcknowledge;
 
   const viewMode = useMemo<
-    'dashboard' | 'ops' | 'metrics-support' | 'metrics-learning' | 'quality-reports'
+    'dashboard' | 'ops' | 'metrics-support' | 'metrics-learning' | 'metrics-impact' | 'quality-reports'
   >(() => {
     if (location.pathname.endsWith('/users')) return 'ops';
     if (location.pathname.endsWith('/metrics/support')) return 'metrics-support';
     if (location.pathname.endsWith('/metrics/learning')) return 'metrics-learning';
+    if (location.pathname.endsWith('/metrics/impact-outcomes')) return 'metrics-impact';
     if (location.pathname.endsWith('/quality-reports')) return 'quality-reports';
     return 'dashboard';
   }, [location.pathname]);
@@ -1139,6 +1481,23 @@ export default function SupportConsolePage() {
     return (params.get('adminResetToken') || '').trim();
   }, [location.search]);
   const canCreateAdmins = supportAdminUsername === ROOT_QA_ADMIN_USERNAME;
+  const impactRetentionSummary = useMemo(() => {
+    const cohorts = impactOutcomesMetrics?.cohorts || [];
+    const totals = cohorts.reduce(
+      (acc, cohort) => {
+        acc.eligibleD7 += cohort.eligibleD7;
+        acc.retainedD7 += cohort.retainedD7;
+        acc.eligibleD30 += cohort.eligibleD30;
+        acc.retainedD30 += cohort.retainedD30;
+        return acc;
+      },
+      { eligibleD7: 0, retainedD7: 0, eligibleD30: 0, retainedD30: 0 }
+    );
+    return {
+      d7Pct: totals.eligibleD7 > 0 ? Number(((totals.retainedD7 / totals.eligibleD7) * 100).toFixed(2)) : 0,
+      d30Pct: totals.eligibleD30 > 0 ? Number(((totals.retainedD30 / totals.eligibleD30) * 100).toFixed(2)) : 0,
+    };
+  }, [impactOutcomesMetrics]);
 
   const verifySupportAdminSession = useCallback(async () => {
     if (!readSupportAdminToken()) {
@@ -1186,11 +1545,14 @@ export default function SupportConsolePage() {
   const refreshSelectedUser = useCallback(async (targetUserId: string) => {
     setDetailLoading(true);
     setDetailError(null);
+    setReviewQueueDebugLoading(true);
+    setReviewQueueDebugError(null);
+    setProgressTrendError(null);
     try {
       const overviewPayload = await parseJsonOrThrow<UserOverview>(
         await apiFetch(`/v1/admin/users/${targetUserId}`, { cache: 'no-store' })
       );
-      const [progressResult, accessResult, timelinePayload, notesPayload] = await Promise.all([
+      const [progressResult, progressTrendResult, accessResult, timelinePayload, notesPayload, reviewQueueResult] = await Promise.all([
         (async () => {
           try {
             return await parseJsonOrThrow<UserProgressDetail>(
@@ -1198,6 +1560,22 @@ export default function SupportConsolePage() {
             );
           } catch {
             return null;
+          }
+        })(),
+        (async () => {
+          try {
+            const payload = await parseJsonOrThrow<UserProgressTrend>(
+              await apiFetch(
+                `/v1/admin/users/${targetUserId}/progress-trend?windowDays=${progressTrendWindowDays}`,
+                { cache: 'no-store' }
+              )
+            );
+            return { payload, error: null as string | null };
+          } catch {
+            return {
+              payload: null as UserProgressTrend | null,
+              error: 'Failed to load progress trend data',
+            };
           }
         })(),
         (async () => {
@@ -1215,6 +1593,21 @@ export default function SupportConsolePage() {
         parseJsonOrThrow<{ notes?: SupportNoteEntry[] }>(
           await apiFetch(`/v1/admin/users/${targetUserId}/notes?limit=80`, { cache: 'no-store' })
         ),
+        (async () => {
+          try {
+            const payload = await parseJsonOrThrow<ReviewQueueDebug>(
+              await apiFetch(`/v1/admin/users/${targetUserId}/review-queue?limit=24`, {
+                cache: 'no-store',
+              })
+            );
+            return { payload, error: null as string | null };
+          } catch {
+            return {
+              payload: null as ReviewQueueDebug | null,
+              error: 'Failed to load review queue debug data',
+            };
+          }
+        })(),
       ]);
       setOverview(overviewPayload);
       const fallbackProgress: UserProgressDetail = {
@@ -1249,20 +1642,29 @@ export default function SupportConsolePage() {
       setTargetLessonInput(String(resolvedProgress.currentLessonIdx ?? 0));
       setTimeline(timelinePayload.timeline || []);
       setSavedNotes(notesPayload.notes || []);
+      setReviewQueueDebug(reviewQueueResult.payload);
+      setReviewQueueDebugError(reviewQueueResult.error);
+      setProgressTrend(progressTrendResult.payload);
+      setProgressTrendError(progressTrendResult.error);
     } catch (error) {
       setDetailError(error instanceof Error ? error.message : 'Failed to load user details');
       setOverview(null);
       setProgressDetail(null);
+      setProgressTrend(null);
       setLearningAccess(null);
       setLearningAccessAudit([]);
       setTimeline([]);
       setSavedNotes([]);
+      setReviewQueueDebug(null);
+      setReviewQueueDebugError(null);
+      setProgressTrendError(null);
     } finally {
       setDetailLoading(false);
+      setReviewQueueDebugLoading(false);
     }
-  }, []);
+  }, [progressTrendWindowDays]);
 
-  const downloadUserExport = async (format: 'json' | 'csv') => {
+  const downloadUserExport = async (format: 'json' | 'csv' | 'pdf') => {
     if (!selectedUserId) return;
     setExportBusy(format);
     setDetailError(null);
@@ -1352,6 +1754,23 @@ export default function SupportConsolePage() {
       setSpeakMissHotspotsByLanguage(speakMissHotspotsByLanguagePayload);
     } catch (error) {
       setMetricsError(error instanceof Error ? error.message : 'Failed to load learning metrics');
+    } finally {
+      setMetricsLoading(false);
+    }
+  }, [metricsWindowDays]);
+
+  const loadImpactOutcomesMetrics = useCallback(async (windowDays = metricsWindowDays) => {
+    setMetricsLoading(true);
+    setMetricsError(null);
+    try {
+      const payload = await parseJsonOrThrow<ImpactOutcomesMetrics>(
+        await apiFetch(`/v1/admin/metrics/impact-outcomes?windowDays=${windowDays}`, {
+          cache: 'no-store',
+        })
+      );
+      setImpactOutcomesMetrics(payload);
+    } catch (error) {
+      setMetricsError(error instanceof Error ? error.message : 'Failed to load impact outcomes metrics');
     } finally {
       setMetricsLoading(false);
     }
@@ -2028,10 +2447,184 @@ export default function SupportConsolePage() {
     downloadTextFile('admin-prod-readiness.csv', csv, 'text/csv;charset=utf-8');
   };
 
-  const downloadAllReportsZip = () => {
+  const downloadImpactOutcomesJson = () => {
+    downloadTextFile(
+      `admin-impact-outcomes-${metricsWindowDays}d.json`,
+      JSON.stringify(impactOutcomesMetrics || {}, null, 2),
+      'application/json;charset=utf-8'
+    );
+  };
+
+  const buildImpactOutcomesCsv = (report: ImpactOutcomesMetrics | null) => {
+    const rows: Array<Array<unknown>> = [
+      ['summary', 'generatedAt', report?.generatedAt ?? '', report?.windowDays ?? metricsWindowDays],
+      ['summary', 'windowDays', report?.windowDays ?? metricsWindowDays, report?.windowDays ?? metricsWindowDays],
+      ['timeToValue', 'sampleSize', report?.timeToValue?.sampleSize ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['timeToValue', 'reachedLessonComplete', report?.timeToValue?.reachedLessonComplete ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['timeToValue', 'reachedSpeakPass', report?.timeToValue?.reachedSpeakPass ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['timeToValue', 'reachedMastery', report?.timeToValue?.reachedMastery ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['timeToValue', 'medianDaysToLessonComplete', report?.timeToValue?.medianDaysToLessonComplete ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['timeToValue', 'medianDaysToSpeakPass', report?.timeToValue?.medianDaysToSpeakPass ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['timeToValue', 'medianDaysToMastery', report?.timeToValue?.medianDaysToMastery ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['learningGainDelta', 'quizAccuracyPct', report?.learningGain?.deltaPct?.quizAccuracyPct ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['learningGainDelta', 'speakPassPct', report?.learningGain?.deltaPct?.speakPassPct ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['learningGainDelta', 'lessonsPerActiveUser', report?.learningGain?.deltaPct?.lessonsPerActiveUser ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['consistency', 'activeUsers', report?.consistency?.activeUsers ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['consistency', 'active3PlusDays', report?.consistency?.active3PlusDays ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['consistency', 'active7PlusDays', report?.consistency?.active7PlusDays ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['consistency', 'avgActiveDays', report?.consistency?.avgActiveDays ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['mastery', 'activeUsers', report?.mastery?.activeUsers ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['mastery', 'usersWithMastery', report?.mastery?.usersWithMastery ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['mastery', 'usersWithMasteryInWindow', report?.mastery?.usersWithMasteryInWindow ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['mastery', 'masteryRatePct', report?.mastery?.masteryRatePct ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['mastery', 'medianDaysToFirstMastery', report?.mastery?.medianDaysToFirstMastery ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['needsWorkBurden', 'activeUsers', report?.needsWorkBurden?.activeUsers ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['needsWorkBurden', 'avgNeedsWorkPerActiveUser', report?.needsWorkBurden?.avgNeedsWorkPerActiveUser ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['needsWorkBurden', 'medianNeedsWorkPerActiveUser', report?.needsWorkBurden?.medianNeedsWorkPerActiveUser ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['needsWorkBurden', 'firstHalfMissesPerActiveUser', report?.needsWorkBurden?.firstHalfMissesPerActiveUser ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['needsWorkBurden', 'secondHalfMissesPerActiveUser', report?.needsWorkBurden?.secondHalfMissesPerActiveUser ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['needsWorkBurden', 'missesPerActiveUserDeltaPct', report?.needsWorkBurden?.missesPerActiveUserDeltaPct ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution', 'sampleSize', report?.perUserDistribution?.sampleSize ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.activeDays', 'avg', report?.perUserDistribution?.metrics?.activeDays?.avg ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.activeDays', 'p50', report?.perUserDistribution?.metrics?.activeDays?.p50 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.activeDays', 'p75', report?.perUserDistribution?.metrics?.activeDays?.p75 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.activeDays', 'p90', report?.perUserDistribution?.metrics?.activeDays?.p90 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.lessonsCompleted', 'avg', report?.perUserDistribution?.metrics?.lessonsCompleted?.avg ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.lessonsCompleted', 'p50', report?.perUserDistribution?.metrics?.lessonsCompleted?.p50 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.lessonsCompleted', 'p75', report?.perUserDistribution?.metrics?.lessonsCompleted?.p75 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.lessonsCompleted', 'p90', report?.perUserDistribution?.metrics?.lessonsCompleted?.p90 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.quizAccuracyPct', 'avg', report?.perUserDistribution?.metrics?.quizAccuracyPct?.avg ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.quizAccuracyPct', 'p50', report?.perUserDistribution?.metrics?.quizAccuracyPct?.p50 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.quizAccuracyPct', 'p75', report?.perUserDistribution?.metrics?.quizAccuracyPct?.p75 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.quizAccuracyPct', 'p90', report?.perUserDistribution?.metrics?.quizAccuracyPct?.p90 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.speakPassPct', 'avg', report?.perUserDistribution?.metrics?.speakPassPct?.avg ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.speakPassPct', 'p50', report?.perUserDistribution?.metrics?.speakPassPct?.p50 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.speakPassPct', 'p75', report?.perUserDistribution?.metrics?.speakPassPct?.p75 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.speakPassPct', 'p90', report?.perUserDistribution?.metrics?.speakPassPct?.p90 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.needsWorkCount', 'avg', report?.perUserDistribution?.metrics?.needsWorkCount?.avg ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.needsWorkCount', 'p50', report?.perUserDistribution?.metrics?.needsWorkCount?.p50 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.needsWorkCount', 'p75', report?.perUserDistribution?.metrics?.needsWorkCount?.p75 ?? 0, report?.windowDays ?? metricsWindowDays],
+      ['perUserDistribution.needsWorkCount', 'p90', report?.perUserDistribution?.metrics?.needsWorkCount?.p90 ?? 0, report?.windowDays ?? metricsWindowDays],
+    ];
+    for (const cohort of report?.cohorts || []) {
+      rows.push([`cohort:${cohort.cohortWeek}`, 'signups', cohort.signups, report?.windowDays ?? metricsWindowDays]);
+      rows.push([`cohort:${cohort.cohortWeek}`, 'd1Pct', cohort.d1Pct, report?.windowDays ?? metricsWindowDays]);
+      rows.push([`cohort:${cohort.cohortWeek}`, 'd7Pct', cohort.d7Pct, report?.windowDays ?? metricsWindowDays]);
+      rows.push([`cohort:${cohort.cohortWeek}`, 'd30Pct', cohort.d30Pct, report?.windowDays ?? metricsWindowDays]);
+    }
+    for (const item of report?.segmentation?.activeUsersByLanguage || []) {
+      rows.push([`language:${item.languageId}`, 'activeUsers', item.activeUsers, report?.windowDays ?? metricsWindowDays]);
+    }
+    for (const bucket of report?.consistency?.streakDistribution || []) {
+      rows.push([`streak:${bucket.bucket}`, 'users', bucket.users, report?.windowDays ?? metricsWindowDays]);
+    }
+    for (const cohort of report?.riskCohorts || []) {
+      rows.push([`riskCohort:${cohort.cohort}`, 'users', cohort.users, report?.windowDays ?? metricsWindowDays]);
+      rows.push([`riskCohort:${cohort.cohort}`, 'atRiskUsers', cohort.atRiskUsers, report?.windowDays ?? metricsWindowDays]);
+      rows.push([`riskCohort:${cohort.cohort}`, 'atRiskRatePct', cohort.atRiskRatePct, report?.windowDays ?? metricsWindowDays]);
+      rows.push([`riskCohort:${cohort.cohort}`, 'avgNeedsWorkCount', cohort.avgNeedsWorkCount, report?.windowDays ?? metricsWindowDays]);
+      rows.push([`riskCohort:${cohort.cohort}`, 'avgQuizMissPct', cohort.avgQuizMissPct, report?.windowDays ?? metricsWindowDays]);
+      rows.push([`riskCohort:${cohort.cohort}`, 'avgSpeakMissPct', cohort.avgSpeakMissPct, report?.windowDays ?? metricsWindowDays]);
+    }
+    return toCsv(['section', 'metric', 'value', 'windowDays'], rows);
+  };
+
+  const downloadImpactOutcomesCsv = () => {
+    const csv = buildImpactOutcomesCsv(impactOutcomesMetrics);
+    downloadTextFile(
+      `admin-impact-outcomes-${metricsWindowDays}d.csv`,
+      csv,
+      'text/csv;charset=utf-8'
+    );
+  };
+
+  const downloadImpactOutcomesPdf = async () => {
+    const report = impactOutcomesMetrics;
+    if (!report) return;
+    const topCohorts = report.cohorts.slice(0, 8);
+    const sections = [
+      {
+        heading: 'Overview',
+        lines: [
+          `Generated: ${report.generatedAt}`,
+          `Window: ${report.windowDays} days`,
+          `Mastery rate: ${report.mastery.masteryRatePct}%`,
+          `Median days to first lesson complete: ${report.timeToValue.medianDaysToLessonComplete ?? 'n/a'}`,
+          `Median days to first mastery: ${report.mastery.medianDaysToFirstMastery ?? 'n/a'}`,
+        ],
+      },
+      {
+        heading: 'Retention Cohorts (Recent)',
+        lines: topCohorts.map(
+          (cohort) =>
+            `${cohort.cohortWeek}: signups ${cohort.signups}, D7 ${cohort.d7Pct}% (${cohort.retainedD7}/${cohort.eligibleD7}), D30 ${cohort.d30Pct}% (${cohort.retainedD30}/${cohort.eligibleD30})`
+        ),
+      },
+      {
+        heading: 'Learning Gain',
+        lines: [
+          `Quiz accuracy delta: ${report.learningGain.deltaPct.quizAccuracyPct}%`,
+          `Speak pass delta: ${report.learningGain.deltaPct.speakPassPct}%`,
+          `Lessons per active user delta: ${report.learningGain.deltaPct.lessonsPerActiveUser}%`,
+        ],
+      },
+      {
+        heading: 'Consistency & Burden',
+        lines: [
+          `Active users: ${report.consistency.activeUsers}`,
+          `Users active 3+ days: ${report.consistency.active3PlusDays}`,
+          `Users active 7+ days: ${report.consistency.active7PlusDays}`,
+          `Avg active days: ${report.consistency.avgActiveDays}`,
+          `Needs-work avg/user: ${report.needsWorkBurden.avgNeedsWorkPerActiveUser}`,
+          `Misses per active user delta: ${report.needsWorkBurden.missesPerActiveUserDeltaPct}%`,
+        ],
+      },
+      {
+        heading: 'Language Segmentation',
+        lines: report.segmentation.activeUsersByLanguage.map(
+          (bucket) => `${bucket.languageId}: ${bucket.activeUsers} active users`
+        ),
+      },
+      {
+        heading: 'Metric Definitions',
+        lines: [
+          `Cohorts: ${report.definitions.cohorts}`,
+          `Time-to-value: ${report.definitions.timeToValue}`,
+          `Learning gain: ${report.definitions.learningGain}`,
+          `Consistency: ${report.definitions.consistency}`,
+          `Mastery: ${report.definitions.mastery}`,
+          `Needs-work burden: ${report.definitions.needsWorkBurden}`,
+        ],
+      },
+    ];
+    const pdfBytes = await buildSonusPdf(
+      'Sonus Impact & Outcomes Report',
+      'Grant-ready summary for retention, progression, and mastery outcomes',
+      sections
+    );
+    downloadBinaryFile(
+      `admin-impact-outcomes-${metricsWindowDays}d.pdf`,
+      pdfBytes,
+      'application/pdf'
+    );
+  };
+
+  const downloadAllReportsZip = async () => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const generatedAt = new Date().toISOString();
     const appVersion = (import.meta.env.VITE_APP_VERSION as string | undefined) || 'dev';
+    let impact = impactOutcomesMetrics;
+    if (!impact || impact.windowDays !== metricsWindowDays) {
+      try {
+        impact = await parseJsonOrThrow<ImpactOutcomesMetrics>(
+          await apiFetch(`/v1/admin/metrics/impact-outcomes?windowDays=${metricsWindowDays}`, {
+            cache: 'no-store',
+          })
+        );
+      } catch {
+        impact = impactOutcomesMetrics;
+      }
+    }
     const executivePayload = buildExecutiveSummaryPayload();
     const supportPayload = buildSupportOperationsPayload();
     const learningPayload = buildLearningHealthPayload();
@@ -2043,6 +2636,7 @@ export default function SupportConsolePage() {
     const storagePayload = storageBudgetReport || {};
     const guardrailsPayload = dbGuardrailsReport || {};
     const readinessPayload = prodReadinessReport || {};
+    const impactPayload = impact || {};
 
     const support = supportMetrics?.support;
     const learning = learningMetrics?.learning;
@@ -2214,6 +2808,7 @@ export default function SupportConsolePage() {
       readinessRows.push([`recommendedAction_${idx + 1}`, action]);
     }
     const readinessCsv = toCsv(['metric', 'value'], readinessRows);
+    const impactCsv = buildImpactOutcomesCsv(impact);
 
     const files = [
       { name: `admin-executive-summary-${metricsWindowDays}d.json`, content: JSON.stringify(executivePayload, null, 2) },
@@ -2237,6 +2832,8 @@ export default function SupportConsolePage() {
       { name: `admin-db-guardrails-${metricsWindowDays}d.csv`, content: guardrailsCsv },
       { name: 'admin-prod-readiness.json', content: JSON.stringify(readinessPayload, null, 2) },
       { name: 'admin-prod-readiness.csv', content: readinessCsv },
+      { name: `admin-impact-outcomes-${metricsWindowDays}d.json`, content: JSON.stringify(impactPayload, null, 2) },
+      { name: `admin-impact-outcomes-${metricsWindowDays}d.csv`, content: impactCsv },
     ];
     const manifest = {
       schemaVersion: 1,
@@ -2312,6 +2909,10 @@ export default function SupportConsolePage() {
       void loadLearningMetrics(metricsWindowDays);
       return;
     }
+    if (viewMode === 'metrics-impact') {
+      void loadImpactOutcomesMetrics(metricsWindowDays);
+      return;
+    }
     if (viewMode === 'quality-reports') {
       void loadQualityReports();
     }
@@ -2320,6 +2921,7 @@ export default function SupportConsolePage() {
     loadAdminTimeline,
     loadDashboardMetrics,
     loadDeletionCases,
+    loadImpactOutcomesMetrics,
     loadLearningMetrics,
     loadQualityReports,
     loadSupportMetrics,
@@ -2332,10 +2934,14 @@ export default function SupportConsolePage() {
     if (!selectedUserId || !authenticated || viewMode !== 'ops') {
       setOverview(null);
       setProgressDetail(null);
+      setProgressTrend(null);
+      setProgressTrendError(null);
       setLearningAccess(null);
       setLearningAccessAudit([]);
       setTimeline([]);
       setSavedNotes([]);
+      setReviewQueueDebug(null);
+      setReviewQueueDebugError(null);
       return;
     }
     void refreshSelectedUser(selectedUserId);
@@ -3058,6 +3664,17 @@ export default function SupportConsolePage() {
               <div className="relative">
                 <button
                   type="button"
+                  className={`${iconButtonBase} ${viewMode === 'metrics-impact' ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                  onClick={() => navigate('/internal/support/metrics/impact-outcomes')}
+                  aria-label="Impact and Outcomes"
+                  title="Impact and Outcomes"
+                >
+                  <Gauge className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="relative">
+                <button
+                  type="button"
                   className={`${iconButtonBase} ${viewMode === 'quality-reports' ? 'bg-[#111827] text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
                   onClick={() => navigate('/internal/support/quality-reports')}
                   aria-label="Quality Reports"
@@ -3080,16 +3697,16 @@ export default function SupportConsolePage() {
               <h2 className="text-lg font-semibold text-[#0f172a]">Analytics (Last {metricsWindowDays} Days)</h2>
               <div className="flex items-center gap-2">
                 <div className="flex rounded-xl border border-[#d1d5db] bg-white p-1">
-                  {[7, 30, 90].map((days) => (
+                  {metricsWindowOptions.map(({ days, label }) => (
                     <button
                       key={`home-window-${days}`}
                       type="button"
-                      onClick={() => setMetricsWindowDays(days as 7 | 30 | 90)}
+                      onClick={() => setMetricsWindowDays(days)}
                       className={`rounded-lg px-2 py-1 text-xs font-semibold ${
                         metricsWindowDays === days ? 'bg-[#1f2937] text-white' : 'text-[#334155]'
                       }`}
                     >
-                      {days}d
+                      {label}
                     </button>
                   ))}
                 </div>
@@ -3217,7 +3834,7 @@ export default function SupportConsolePage() {
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="text-sm font-semibold text-[#0f172a]">Downloadable Reports</h3>
                 <button type="button" className={baseButton} onClick={downloadAllReportsZip}>
-                  <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> Download All (ZIP)</span>
+                  <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> Download Grant Packet (ZIP)</span>
                 </button>
               </div>
               <p className="mt-1 text-xs text-[#64748b]">
@@ -3501,16 +4118,16 @@ export default function SupportConsolePage() {
             <p className="mt-1 text-sm text-[#475569]">Broad overview of account access, security, and support workload.</p>
             <p className="mt-1 text-xs text-[#64748b]">Use the same time window across pages for consistent metric interpretation.</p>
             <div className="mt-3 inline-flex rounded-xl border border-[#d1d5db] bg-white p-1">
-              {[7, 30, 90].map((days) => (
+              {metricsWindowOptions.map(({ days, label }) => (
                 <button
                   key={`support-window-${days}`}
                   type="button"
-                  onClick={() => setMetricsWindowDays(days as 7 | 30 | 90)}
+                  onClick={() => setMetricsWindowDays(days)}
                   className={`rounded-lg px-2 py-1 text-xs font-semibold ${
                     metricsWindowDays === days ? 'bg-[#1f2937] text-white' : 'text-[#334155]'
                   }`}
                 >
-                  {days}d
+                  {label}
                 </button>
               ))}
             </div>
@@ -3667,16 +4284,16 @@ export default function SupportConsolePage() {
             <p className="mt-1 text-sm text-[#475569]">Broad overview of learning performance and progression quality.</p>
             <p className="mt-1 text-xs text-[#64748b]">Definitions: finished = reached the Lesson Complete screen. abandoned = started but never reached Lesson Complete.</p>
             <div className="mt-3 inline-flex rounded-xl border border-[#d1d5db] bg-white p-1">
-              {[7, 30, 90].map((days) => (
+              {metricsWindowOptions.map(({ days, label }) => (
                 <button
                   key={`learning-window-${days}`}
                   type="button"
-                  onClick={() => setMetricsWindowDays(days as 7 | 30 | 90)}
+                  onClick={() => setMetricsWindowDays(days)}
                   className={`rounded-lg px-2 py-1 text-xs font-semibold ${
                     metricsWindowDays === days ? 'bg-[#1f2937] text-white' : 'text-[#334155]'
                   }`}
                 >
-                  {days}d
+                  {label}
                 </button>
               ))}
             </div>
@@ -3805,6 +4422,290 @@ export default function SupportConsolePage() {
                   </div>
                 </details>
               </div>
+            )}
+          </section>
+        )}
+
+        {viewMode === 'metrics-impact' && (
+          <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-semibold text-[#0f172a]">Impact & Outcomes (Last {metricsWindowDays} Days)</h2>
+                <p className="mt-1 text-sm text-[#475569]">
+                  Grant-ready retention and learning outcomes across cohorts, behavior consistency, and mastery depth.
+                </p>
+                <p className="mt-1 text-xs text-[#64748b]">
+                  Scope: aggregate metrics across all active users in the selected time window.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="inline-flex rounded-xl border border-[#d1d5db] bg-white p-1">
+                  {metricsWindowOptions.map(({ days, label }) => (
+                    <button
+                      key={`impact-window-${days}`}
+                      type="button"
+                      onClick={() => setMetricsWindowDays(days)}
+                      className={`rounded-lg px-2 py-1 text-xs font-semibold ${
+                        metricsWindowDays === days ? 'bg-[#1f2937] text-white' : 'text-[#334155]'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                <button type="button" className={baseButton} onClick={() => void loadImpactOutcomesMetrics(metricsWindowDays)}>
+                  Refresh
+                </button>
+                <button type="button" className={baseButton} onClick={downloadImpactOutcomesJson}>
+                  <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> JSON</span>
+                </button>
+                <button type="button" className={baseButton} onClick={downloadImpactOutcomesCsv}>
+                  <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> CSV</span>
+                </button>
+                <button type="button" className={baseButton} onClick={() => void downloadImpactOutcomesPdf()}>
+                  <span className="inline-flex items-center gap-1"><Download className="h-4 w-4" /> PDF</span>
+                </button>
+              </div>
+            </div>
+            {metricsLoading && <p className="mt-3 text-sm text-[#475569]">Loading metrics…</p>}
+            {metricsError && <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">{metricsError}</p>}
+            {impactOutcomesMetrics && (
+              <>
+                {impactOutcomesMetrics.warning && (
+                  <p className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-2 text-sm text-amber-800">
+                    {impactOutcomesMetrics.warning}
+                  </p>
+                )}
+                <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4 [&>*:last-child:nth-child(odd)]:col-span-2 [&>*:last-child:nth-child(odd)]:mx-auto [&>*:last-child:nth-child(odd)]:w-full [&>*:last-child:nth-child(odd)]:max-w-md md:[&>*:last-child:nth-child(odd)]:col-span-1 md:[&>*:last-child:nth-child(odd)]:mx-0 md:[&>*:last-child:nth-child(odd)]:max-w-none">
+                  <article className={metricCard}>
+                    <div className="text-xs text-[#64748b]">Weighted D7 Retention</div>
+                    <div className="text-2xl font-semibold text-[#0f172a]">{impactRetentionSummary.d7Pct}%</div>
+                  </article>
+                  <article className={metricCard}>
+                    <div className="text-xs text-[#64748b]">Weighted D30 Retention</div>
+                    <div className="text-2xl font-semibold text-[#0f172a]">{impactRetentionSummary.d30Pct}%</div>
+                  </article>
+                  <article className={metricCard}>
+                    <div className="text-xs text-[#64748b]">Median Days To First Lesson Complete</div>
+                    <div className="text-2xl font-semibold text-[#0f172a]">{impactOutcomesMetrics.timeToValue.medianDaysToLessonComplete ?? 'n/a'}</div>
+                  </article>
+                  <article className={metricCard}>
+                    <div className="text-xs text-[#64748b]">Mastery Rate (Active Users)</div>
+                    <div className="text-2xl font-semibold text-[#0f172a]">{impactOutcomesMetrics.mastery.masteryRatePct}%</div>
+                  </article>
+                </div>
+
+                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                  <h3 className="text-sm font-semibold text-[#0f172a]">Cohort Retention</h3>
+                  <p className="mt-1 text-xs text-[#64748b]">{impactOutcomesMetrics.definitions.cohorts}</p>
+                  <div className="mt-3 overflow-auto">
+                    <table className="min-w-full text-left text-sm">
+                      <thead className="text-xs uppercase tracking-[0.08em] text-[#64748b]">
+                        <tr>
+                          <th className="px-2 py-2">Cohort Week</th>
+                          <th className="px-2 py-2">Signups</th>
+                          <th className="px-2 py-2">D1</th>
+                          <th className="px-2 py-2">D7</th>
+                          <th className="px-2 py-2">D30</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {impactOutcomesMetrics.cohorts.map((cohort) => (
+                          <tr key={cohort.cohortWeek} className="border-t border-[#e2e8f0]">
+                            <td className="px-2 py-2 font-medium text-[#0f172a]">{cohort.cohortWeek}</td>
+                            <td className="px-2 py-2 text-[#334155]">{cohort.signups}</td>
+                            <td className="px-2 py-2 text-[#334155]">{cohort.d1Pct}% ({cohort.retainedD1}/{cohort.eligibleD1})</td>
+                            <td className="px-2 py-2 text-[#334155]">{cohort.d7Pct}% ({cohort.retainedD7}/{cohort.eligibleD7})</td>
+                            <td className="px-2 py-2 text-[#334155]">{cohort.d30Pct}% ({cohort.retainedD30}/{cohort.eligibleD30})</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid gap-3 md:grid-cols-2">
+                  <article className="rounded-xl border border-[#e2e8f0] p-3">
+                    <h3 className="text-sm font-semibold text-[#0f172a]">Time To Value</h3>
+                    <p className="mt-1 text-xs text-[#64748b]">{impactOutcomesMetrics.definitions.timeToValue}</p>
+                    <div className="mt-3 space-y-2 text-sm text-[#334155]">
+                      <div>Sample size: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.timeToValue.sampleSize}</span></div>
+                      <div>Reached lesson complete: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.timeToValue.reachedLessonComplete}</span></div>
+                      <div>Reached speak pass: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.timeToValue.reachedSpeakPass}</span></div>
+                      <div>Reached mastery: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.timeToValue.reachedMastery}</span></div>
+                      <div>Median days to lesson complete: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.timeToValue.medianDaysToLessonComplete ?? 'n/a'}</span></div>
+                      <div>Median days to speak pass: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.timeToValue.medianDaysToSpeakPass ?? 'n/a'}</span></div>
+                      <div>Median days to mastery: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.timeToValue.medianDaysToMastery ?? 'n/a'}</span></div>
+                    </div>
+                  </article>
+                  <article className="rounded-xl border border-[#e2e8f0] p-3">
+                    <h3 className="text-sm font-semibold text-[#0f172a]">Learning Gain (Window Half Comparison)</h3>
+                    <p className="mt-1 text-xs text-[#64748b]">{impactOutcomesMetrics.definitions.learningGain}</p>
+                    <div className="mt-3 grid gap-2 text-sm text-[#334155]">
+                      <div className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2">
+                        <div className="font-semibold text-[#0f172a]">Quiz accuracy</div>
+                        <div className="mt-1">First half: {impactOutcomesMetrics.learningGain.firstHalf.quizAccuracyPct}%</div>
+                        <div>Second half: {impactOutcomesMetrics.learningGain.secondHalf.quizAccuracyPct}%</div>
+                        <div className="mt-1">Delta: <TrendDelta deltaPct={impactOutcomesMetrics.learningGain.deltaPct.quizAccuracyPct} /></div>
+                      </div>
+                      <div className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2">
+                        <div className="font-semibold text-[#0f172a]">Speak pass rate</div>
+                        <div className="mt-1">First half: {impactOutcomesMetrics.learningGain.firstHalf.speakPassPct}%</div>
+                        <div>Second half: {impactOutcomesMetrics.learningGain.secondHalf.speakPassPct}%</div>
+                        <div className="mt-1">Delta: <TrendDelta deltaPct={impactOutcomesMetrics.learningGain.deltaPct.speakPassPct} /></div>
+                      </div>
+                      <div className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2">
+                        <div className="font-semibold text-[#0f172a]">Lessons per active user</div>
+                        <div className="mt-1">First half: {impactOutcomesMetrics.learningGain.firstHalf.lessonsPerActiveUser}</div>
+                        <div>Second half: {impactOutcomesMetrics.learningGain.secondHalf.lessonsPerActiveUser}</div>
+                        <div className="mt-1">Delta: <TrendDelta deltaPct={impactOutcomesMetrics.learningGain.deltaPct.lessonsPerActiveUser} /></div>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+
+                <div className="mt-4 grid gap-3 md:grid-cols-2">
+                  <article className="rounded-xl border border-[#e2e8f0] p-3">
+                    <h3 className="text-sm font-semibold text-[#0f172a]">Consistency</h3>
+                    <p className="mt-1 text-xs text-[#64748b]">{impactOutcomesMetrics.definitions.consistency}</p>
+                    <div className="mt-2 space-y-1 text-sm text-[#334155]">
+                      <div>Active users: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.consistency.activeUsers}</span></div>
+                      <div>3+ active days: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.consistency.active3PlusDays}</span></div>
+                      <div>7+ active days: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.consistency.active7PlusDays}</span></div>
+                      <div>Average active days: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.consistency.avgActiveDays}</span></div>
+                    </div>
+                    <div className="mt-3 space-y-2">
+                      {impactOutcomesMetrics.consistency.streakDistribution.map((bucket) => {
+                        const denominator = Math.max(1, impactOutcomesMetrics.consistency.activeUsers);
+                        const widthPct = Math.round((bucket.users / denominator) * 100);
+                        return (
+                          <div key={bucket.bucket}>
+                            <div className="flex items-center justify-between text-xs text-[#475569]">
+                              <span>{bucket.bucket} days</span>
+                              <span>{bucket.users}</span>
+                            </div>
+                            <div className="mt-1 h-2 rounded-full bg-[#e2e8f0]">
+                              <div className="h-2 rounded-full bg-[#1f2937]" style={{ width: `${widthPct}%` }} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </article>
+                  <article className="rounded-xl border border-[#e2e8f0] p-3">
+                    <h3 className="text-sm font-semibold text-[#0f172a]">Mastery & Needs-Work Burden</h3>
+                    <p className="mt-1 text-xs text-[#64748b]">{impactOutcomesMetrics.definitions.mastery}</p>
+                    <div className="mt-2 space-y-1 text-sm text-[#334155]">
+                      <div>Users with mastery: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.mastery.usersWithMastery}</span></div>
+                      <div>Users with mastery in window: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.mastery.usersWithMasteryInWindow}</span></div>
+                      <div>Mastery rate: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.mastery.masteryRatePct}%</span></div>
+                      <div>Median days to first mastery: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.mastery.medianDaysToFirstMastery ?? 'n/a'}</span></div>
+                    </div>
+                    <p className="mt-3 text-xs text-[#64748b]">{impactOutcomesMetrics.definitions.needsWorkBurden}</p>
+                    <div className="mt-2 space-y-1 text-sm text-[#334155]">
+                      <div>Avg needs-work/user: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.needsWorkBurden.avgNeedsWorkPerActiveUser}</span></div>
+                      <div>Median needs-work/user: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.needsWorkBurden.medianNeedsWorkPerActiveUser}</span></div>
+                      <div>First-half misses/active user: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.needsWorkBurden.firstHalfMissesPerActiveUser}</span></div>
+                      <div>Second-half misses/active user: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.needsWorkBurden.secondHalfMissesPerActiveUser}</span></div>
+                      <div>
+                        Burden delta:
+                        <span className="ml-1">
+                          <MissTrendDelta deltaPct={impactOutcomesMetrics.needsWorkBurden.missesPerActiveUserDeltaPct} />
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+
+                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                  <h3 className="text-sm font-semibold text-[#0f172a]">Active User Segmentation</h3>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                    {impactOutcomesMetrics.segmentation.activeUsersByLanguage.map((row) => (
+                      <div key={row.languageId} className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2">
+                        <div className="text-xs uppercase tracking-[0.12em] text-[#64748b]">{row.languageId}</div>
+                        <div className="mt-1 text-xl font-semibold text-[#0f172a]">{row.activeUsers}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                  <h3 className="text-sm font-semibold text-[#0f172a]">Anonymized Per-User Distribution</h3>
+                  <p className="mt-1 text-xs text-[#64748b]">{impactOutcomesMetrics.definitions.perUserDistribution || 'Anonymized percentile distribution across active users (no user identifiers).'}</p>
+                  <div className="mt-2 text-xs text-[#475569]">
+                    Sample size: <span className="font-semibold text-[#0f172a]">{impactOutcomesMetrics.perUserDistribution?.sampleSize ?? 0}</span> active users
+                  </div>
+                  <div className="mt-3 overflow-auto">
+                    <table className="min-w-full text-left text-sm">
+                      <thead className="text-xs uppercase tracking-[0.08em] text-[#64748b]">
+                        <tr>
+                          <th className="px-2 py-2">Metric</th>
+                          <th className="px-2 py-2">Avg</th>
+                          <th className="px-2 py-2">P50</th>
+                          <th className="px-2 py-2">P75</th>
+                          <th className="px-2 py-2">P90</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[
+                          { label: 'Active Days', row: impactOutcomesMetrics.perUserDistribution?.metrics?.activeDays ?? { avg: 0, p50: 0, p75: 0, p90: 0 } },
+                          { label: 'Lessons Completed', row: impactOutcomesMetrics.perUserDistribution?.metrics?.lessonsCompleted ?? { avg: 0, p50: 0, p75: 0, p90: 0 } },
+                          { label: 'Quiz Accuracy %', row: impactOutcomesMetrics.perUserDistribution?.metrics?.quizAccuracyPct ?? { avg: 0, p50: 0, p75: 0, p90: 0 } },
+                          { label: 'Speak Pass %', row: impactOutcomesMetrics.perUserDistribution?.metrics?.speakPassPct ?? { avg: 0, p50: 0, p75: 0, p90: 0 } },
+                          { label: 'Needs-Work Count', row: impactOutcomesMetrics.perUserDistribution?.metrics?.needsWorkCount ?? { avg: 0, p50: 0, p75: 0, p90: 0 } },
+                        ].map(({ label, row }) => {
+                          return (
+                            <tr key={label} className="border-t border-[#e2e8f0]">
+                              <td className="px-2 py-2 font-medium text-[#0f172a]">{label}</td>
+                              <td className="px-2 py-2 text-[#334155]">{row.avg}</td>
+                              <td className="px-2 py-2 text-[#334155]">{row.p50}</td>
+                              <td className="px-2 py-2 text-[#334155]">{row.p75}</td>
+                              <td className="px-2 py-2 text-[#334155]">{row.p90}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                  <h3 className="text-sm font-semibold text-[#0f172a]">Top Risk Cohorts (Anonymized)</h3>
+                  <p className="mt-1 text-xs text-[#64748b]">{impactOutcomesMetrics.definitions.riskCohorts || 'Anonymized cohorts grouped by language and engagement intensity, ranked by at-risk share.'}</p>
+                  {(impactOutcomesMetrics.riskCohorts || []).length === 0 ? (
+                    <p className="mt-2 text-sm text-[#64748b]">No cohorts met the minimum sample threshold in this window.</p>
+                  ) : (
+                    <div className="mt-3 overflow-auto">
+                      <table className="min-w-full text-left text-sm">
+                        <thead className="text-xs uppercase tracking-[0.08em] text-[#64748b]">
+                          <tr>
+                            <th className="px-2 py-2">Cohort</th>
+                            <th className="px-2 py-2">Users</th>
+                            <th className="px-2 py-2">At-Risk Users</th>
+                            <th className="px-2 py-2">At-Risk %</th>
+                            <th className="px-2 py-2">Avg Needs-Work</th>
+                            <th className="px-2 py-2">Avg Quiz Miss %</th>
+                            <th className="px-2 py-2">Avg Speak Miss %</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {(impactOutcomesMetrics.riskCohorts || []).map((cohort) => (
+                            <tr key={cohort.cohort} className="border-t border-[#e2e8f0]">
+                              <td className="px-2 py-2 font-medium text-[#0f172a]">{cohort.cohort}</td>
+                              <td className="px-2 py-2 text-[#334155]">{cohort.users}</td>
+                              <td className="px-2 py-2 text-[#334155]">{cohort.atRiskUsers}</td>
+                              <td className="px-2 py-2 text-[#334155]">{cohort.atRiskRatePct}%</td>
+                              <td className="px-2 py-2 text-[#334155]">{cohort.avgNeedsWorkCount}</td>
+                              <td className="px-2 py-2 text-[#334155]">{cohort.avgQuizMissPct}%</td>
+                              <td className="px-2 py-2 text-[#334155]">{cohort.avgSpeakMissPct}%</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              </>
             )}
           </section>
         )}
@@ -4201,6 +5102,14 @@ export default function SupportConsolePage() {
                       >
                         {exportBusy === 'csv' ? 'Exporting CSV…' : 'Download CSV'}
                       </button>
+                      <button
+                        type="button"
+                        onClick={() => void downloadUserExport('pdf')}
+                        className={baseButton}
+                        disabled={exportBusy !== null}
+                      >
+                        {exportBusy === 'pdf' ? 'Exporting PDF…' : 'Download PDF'}
+                      </button>
                       <button type="button" onClick={() => void refreshSelectedUser(selectedUserId)} className={baseButton}>Refresh</button>
                     </div>
                   </div>
@@ -4217,9 +5126,9 @@ export default function SupportConsolePage() {
                         <div className={metricCard}><div className="text-xs text-[#64748b]">Speak Attempts</div><div className="text-sm font-semibold text-[#0f172a]">{overview.counts.speakCount}</div></div>
                       </div>
 
-                      <div className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
-                        <h3 className="text-sm font-semibold text-[#0f172a]">Current Progress (Read-only)</h3>
-                        <div className="mt-2 grid gap-3 md:grid-cols-5">
+                      <details className="mt-3 rounded-xl border border-[#e2e8f0] p-3" open>
+                        <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">Current Progress (Read-only)</summary>
+                        <div className="mt-3 grid gap-3 md:grid-cols-5">
                           <div className={metricCard}><div className="text-xs text-[#64748b]">Current Language</div><div className="text-sm font-semibold text-[#0f172a]">{languageLabel(progressDetail?.language || overview.profile.targetLanguage)}</div></div>
                           <div className={metricCard}><div className="text-xs text-[#64748b]">Current Level</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentBandId || overview.progress?.currentBandId || 'n/a'}</div></div>
                           <div className={metricCard}><div className="text-xs text-[#64748b]">Current Unit</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentUnitId || overview.progress?.currentUnitId || 'n/a'}</div></div>
@@ -4239,10 +5148,170 @@ export default function SupportConsolePage() {
                           <div className={metricCard}><div className="text-xs text-[#64748b]">Current Lesson State</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentLessonStatus?.masteryReady ? 'Finished (Mastery Ready)' : progressDetail?.currentLessonStatus?.mastered ? 'Mastered' : progressDetail?.currentLessonStatus?.completed ? 'Finished' : 'In Progress'}</div></div>
                           <div className={metricCard}><div className="text-xs text-[#64748b]">Current Lesson Finish Count</div><div className="text-sm font-semibold text-[#0f172a]">{progressDetail?.currentLessonStatus?.completionCount ?? 0}</div></div>
                         </div>
-                      </div>
+                      </details>
 
-                      <div className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
-                        <h3 className="text-sm font-semibold text-[#0f172a]">Learning Access Controls</h3>
+                      <details className="mt-3 rounded-xl border border-[#e2e8f0] p-3" open>
+                        <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">Progress Over Time</summary>
+                        <div className="mt-2 inline-flex rounded-xl border border-[#d1d5db] bg-white p-1">
+                          {[30, 90].map((days) => (
+                            <button
+                              key={`user-progress-window-${days}`}
+                              type="button"
+                              onClick={() => setProgressTrendWindowDays(days as 30 | 90)}
+                              className={`rounded-lg px-2 py-1 text-xs font-semibold ${
+                                progressTrendWindowDays === days ? 'bg-[#1f2937] text-white' : 'text-[#334155]'
+                              }`}
+                            >
+                              {days}d
+                            </button>
+                          ))}
+                        </div>
+                        {progressTrendError && (
+                          <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                            {progressTrendError}
+                          </p>
+                        )}
+                        {!progressTrendError && !progressTrend && (
+                          <p className="mt-2 text-sm text-[#64748b]">No trend data available yet.</p>
+                        )}
+                        {progressTrend && (
+                          <>
+                            <div className="mt-3 grid gap-3 md:grid-cols-3">
+                              <div className={metricCard}>
+                                <div className="text-xs text-[#64748b]">Quiz Accuracy Trend</div>
+                                <div className="mt-1 flex items-center justify-between">
+                                  <div className="text-sm font-semibold text-[#0f172a]">{progressTrend.summary.avgQuizAccuracyPct}% avg</div>
+                                  <TrendDelta deltaPct={progressTrend.summary.trend.quizAccuracyDeltaPct} />
+                                </div>
+                              </div>
+                              <div className={metricCard}>
+                                <div className="text-xs text-[#64748b]">Speak Pass Trend</div>
+                                <div className="mt-1 flex items-center justify-between">
+                                  <div className="text-sm font-semibold text-[#0f172a]">{progressTrend.summary.avgSpeakPassPct}% avg</div>
+                                  <TrendDelta deltaPct={progressTrend.summary.trend.speakPassDeltaPct} />
+                                </div>
+                              </div>
+                              <div className={metricCard}>
+                                <div className="text-xs text-[#64748b]">Lessons/Day Trend</div>
+                                <div className="mt-1 flex items-center justify-between">
+                                  <div className="text-sm font-semibold text-[#0f172a]">{progressTrend.summary.totalLessonsCompleted} total</div>
+                                  <TrendDelta deltaPct={progressTrend.summary.trend.lessonsCompletedPerDayDeltaPct} />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="mt-3 overflow-x-auto rounded-lg border border-[#e2e8f0]">
+                              <table className="w-full min-w-[760px] text-left text-xs">
+                                <thead className="bg-[#f8fafc] text-[#64748b]">
+                                  <tr>
+                                    <th className="px-2 py-2 font-semibold">Day</th>
+                                    <th className="px-2 py-2 font-semibold">Quiz Attempts</th>
+                                    <th className="px-2 py-2 font-semibold">Quiz Accuracy</th>
+                                    <th className="px-2 py-2 font-semibold">Speak Attempts</th>
+                                    <th className="px-2 py-2 font-semibold">Speak Pass</th>
+                                    <th className="px-2 py-2 font-semibold">Lessons Started</th>
+                                    <th className="px-2 py-2 font-semibold">Lessons Completed</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {progressTrend.series.slice(-21).reverse().map((row) => (
+                                    <tr key={`trend-${row.day}`} className="border-t border-[#e2e8f0]">
+                                      <td className="px-2 py-2 text-[#0f172a]">{row.day}</td>
+                                      <td className="px-2 py-2 text-[#0f172a]">{row.quizAttempts}</td>
+                                      <td className="px-2 py-2 text-[#0f172a]">{row.quizAccuracyPct}%</td>
+                                      <td className="px-2 py-2 text-[#0f172a]">{row.speakAttempts}</td>
+                                      <td className="px-2 py-2 text-[#0f172a]">{row.speakPassPct}%</td>
+                                      <td className="px-2 py-2 text-[#0f172a]">{row.lessonsStarted}</td>
+                                      <td className="px-2 py-2 text-[#0f172a]">{row.lessonsCompleted}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </>
+                        )}
+                      </details>
+
+                      <details className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
+                        <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
+                          Review Queue Debug (v1 Priority)
+                        </summary>
+                        <p className="mt-2 text-xs text-[#64748b]">
+                          Components: forgetting risk, miss history, pronunciation weakness, recent seen penalty.
+                        </p>
+                        {reviewQueueDebugLoading && (
+                          <p className="mt-2 text-sm text-[#475569]">Loading review queue…</p>
+                        )}
+                        {reviewQueueDebugError && (
+                          <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                            {reviewQueueDebugError}
+                          </p>
+                        )}
+                        {!reviewQueueDebugLoading && !reviewQueueDebugError && (!reviewQueueDebug || reviewQueueDebug.queue.length === 0) && (
+                          <p className="mt-2 text-sm text-[#64748b]">No queued review words for this user yet.</p>
+                        )}
+                        {reviewQueueDebug && reviewQueueDebug.queue.length > 0 && (
+                          <div className="mt-3 overflow-x-auto rounded-lg border border-[#e2e8f0]">
+                            <table className="min-w-[920px] w-full text-left text-xs">
+                              <thead className="bg-[#f8fafc] text-[#475569]">
+                                <tr>
+                                  <th className="px-2 py-2 font-semibold">Word</th>
+                                  <th className="px-2 py-2 font-semibold">Priority</th>
+                                  <th className="px-2 py-2 font-semibold">Forget</th>
+                                  <th className="px-2 py-2 font-semibold">Miss</th>
+                                  <th className="px-2 py-2 font-semibold">Pron</th>
+                                  <th className="px-2 py-2 font-semibold">Recent Penalty</th>
+                                  <th className="px-2 py-2 font-semibold">Elapsed/Stability</th>
+                                  <th className="px-2 py-2 font-semibold">Misses</th>
+                                  <th className="px-2 py-2 font-semibold">Reasons</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {reviewQueueDebug.queue.map((item) => {
+                                  const nativeText = (item.lexeme?.term || '').trim() || item.wordId;
+                                  const englishText = (item.lexeme?.en || '').trim();
+                                  const breakdown = item.priorityBreakdown;
+                                  return (
+                                    <tr key={`queue-debug-${item.wordId}`} className="border-t border-[#e2e8f0] align-top">
+                                      <td className="px-2 py-2">
+                                        <div className="font-semibold text-[#0f172a]">{nativeText}</div>
+                                        <div className="text-[#64748b]">{englishText || 'Unknown meaning'}</div>
+                                      </td>
+                                      <td className="px-2 py-2 font-semibold text-[#0f172a]">{item.priorityScore.toFixed(2)}</td>
+                                      <td className="px-2 py-2 text-[#0f172a]">{breakdown ? breakdown.forgettingRisk.toFixed(3) : 'n/a'}</td>
+                                      <td className="px-2 py-2 text-[#0f172a]">{breakdown ? breakdown.missHistory.toFixed(3) : 'n/a'}</td>
+                                      <td className="px-2 py-2 text-[#0f172a]">{breakdown ? breakdown.pronunciationWeakness.toFixed(3) : 'n/a'}</td>
+                                      <td className="px-2 py-2 text-[#0f172a]">{breakdown ? breakdown.recentSeenPenalty.toFixed(3) : 'n/a'}</td>
+                                      <td className="px-2 py-2 text-[#0f172a]">
+                                        {breakdown
+                                          ? `${breakdown.elapsedDays.toFixed(2)}d / ${breakdown.stabilityDays.toFixed(0)}d`
+                                          : 'n/a'}
+                                      </td>
+                                      <td className="px-2 py-2 text-[#0f172a]">
+                                        q:{item.missedQuizCount} / s:{item.mispronounceCount}
+                                      </td>
+                                      <td className="px-2 py-2">
+                                        <div className="flex flex-wrap gap-1">
+                                          {(item.reasons || []).map((reason) => (
+                                            <span
+                                              key={`${item.wordId}-${reason}`}
+                                              className="rounded-full border border-[#dbe3ee] bg-[#f8fafc] px-2 py-0.5 text-[10px] uppercase tracking-[0.08em] text-[#475569]"
+                                            >
+                                              {reason}
+                                            </span>
+                                          ))}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
+                      </details>
+
+                      <details className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
+                        <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">Learning Access Controls</summary>
                         <p className="mt-1 text-xs text-[#64748b]">Every change requires a reason and is audit logged. Explicit locks win over unlocks.</p>
                         <div className="mt-2 grid gap-2 md:grid-cols-4">
                           <input className={baseInput} value={accessReason} onChange={(event) => setAccessReason(event.target.value)} placeholder="Reason for learning access change (required)" />
@@ -4556,10 +5625,10 @@ export default function SupportConsolePage() {
                             ))}
                           </div>
                         </details>
-                      </div>
+                      </details>
 
-                      <div className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
-                        <h3 className="text-sm font-semibold text-[#0f172a]">Security Context</h3>
+                      <details className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
+                        <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">Security Context</summary>
                         <div className="mt-2 grid gap-3 md:grid-cols-3">
                           <div className={metricCard}>
                             <div className="text-xs text-[#64748b]">Active Sessions</div>
@@ -4600,7 +5669,7 @@ export default function SupportConsolePage() {
                             </div>
                           </article>
                         </div>
-                      </div>
+                      </details>
                       <details className="mt-3 rounded-xl border border-[#e2e8f0] bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
                           Saved Operational Notes ({savedNotes.length})
@@ -4643,8 +5712,10 @@ export default function SupportConsolePage() {
                         )}
                       </details>
 
-                      <div className="mt-4 grid gap-4 xl:grid-cols-2">
-                        <div className="rounded-xl border border-[#e2e8f0] p-3">
+                      <details className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                        <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">Operations Actions</summary>
+                        <div className="mt-3 grid gap-4 xl:grid-cols-2">
+                          <div className="rounded-xl border border-[#e2e8f0] p-3">
                           <h3 className="text-sm font-semibold text-[#0f172a]">Operational Note</h3>
                           <textarea className={`${baseInput} mt-2 min-h-[120px] resize-y`} value={note} onChange={(event) => setNote(event.target.value)} placeholder="Add context (device switch issue, suspicious login report, beta exception, deletion request details...)" />
                           <input className={`${baseInput} mt-2`} value={noteReason} onChange={(event) => setNoteReason(event.target.value)} placeholder="Reason (required)" />
@@ -4656,9 +5727,9 @@ export default function SupportConsolePage() {
                           >
                             Save Note
                           </button>
-                        </div>
+                          </div>
 
-                        <div className="rounded-xl border border-[#e2e8f0] p-3">
+                          <div className="rounded-xl border border-[#e2e8f0] p-3">
                           <h3 className="text-sm font-semibold text-[#0f172a]">Admin Actions (Audited)</h3>
                           <p className="mt-1 text-xs text-[#64748b]">Use these controls for account support. Every action is logged with your reason.</p>
                           <div className="mt-2 rounded-lg border border-[#dbe3ef] bg-[#f8fafc] px-2 py-1.5 text-xs text-[#334155]">
@@ -4680,12 +5751,13 @@ export default function SupportConsolePage() {
                               <button type="button" className={baseButton} disabled={busyAction !== null || deletionWorkflowReason.length < 8} onClick={() => void runMutation('request-deletion', `/v1/admin/users/${selectedUserId}/actions/request-deletion`, { reason: deletionWorkflowReason, channel: actionChannel.trim() || 'email' })}>Open Deletion Request</button>
                             </div>
                           </div>
+                          </div>
                         </div>
-                      </div>
+                      </details>
 
-                      <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
-                        <h3 className="text-sm font-semibold text-[#0f172a]">Timeline</h3>
-                        <div className="mt-2 max-h-[38vh] space-y-2 overflow-auto pr-1">
+                      <details className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                        <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">Timeline</summary>
+                        <div className="mt-3 max-h-[38vh] space-y-2 overflow-auto pr-1">
                           {timeline.map((entry, index) => (
                             <article key={`${entry.createdAt}-${entry.source}-${index}`} className="rounded-lg border border-[#e2e8f0] p-2">
                               <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">{timelineSourceLabel(entry)} | {toLocale(entry.createdAt)}</div>
@@ -4694,7 +5766,7 @@ export default function SupportConsolePage() {
                             </article>
                           ))}
                         </div>
-                      </div>
+                      </details>
                     </>
                   )}
                 </>

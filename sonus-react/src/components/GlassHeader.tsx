@@ -233,8 +233,8 @@ export default function GlassHeader({
   const desktopLearnItemClass = (active: boolean) =>
     `flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[0.95rem] transition-colors ${
       active
-        ? (useLightDesktopChrome ? 'bg-white/18 text-white' : 'bg-[rgba(19,87,119,0.12)] text-[#144E6A]')
-        : (useLightDesktopChrome ? 'text-white/88 hover:bg-white/12' : 'text-text-dark hover:bg-[rgba(15,23,42,0.06)]')
+        ? (useLightDesktopChrome ? 'bg-[rgba(31,42,55,0.12)] text-[var(--sonus-palette-charcoal)] font-semibold' : 'bg-[rgba(19,87,119,0.12)] text-[#144E6A]')
+        : (useLightDesktopChrome ? 'text-[var(--sonus-palette-charcoal)] hover:bg-[rgba(31,42,55,0.08)]' : 'text-text-dark hover:bg-[rgba(15,23,42,0.06)]')
     }`;
 
   return (
@@ -462,9 +462,9 @@ export default function GlassHeader({
                     </button>
                     {desktopLearnMenuOpen ? (
                       <div
-                        className={`absolute left-1/2 top-[calc(100%+0.6rem)] z-[75] w-56 -translate-x-1/2 rounded-xl p-2 shadow-[0_24px_48px_-28px_rgba(15,23,42,0.45)] ${
+                        className={`absolute left-1/2 top-[calc(100%+0.6rem)] z-[75] w-56 -translate-x-1/2 rounded-xl p-2 shadow-[0_24px_48px_-24px_rgba(2,6,23,0.72)] ${
                           useLightDesktopChrome
-                            ? 'border border-white/30 bg-[#223447]/94'
+                            ? 'border border-[rgba(31,42,55,0.28)] bg-white ring-1 ring-[rgba(31,42,55,0.12)]'
                             : 'border border-[rgba(31,42,55,0.12)] bg-[#FDFDFB]'
                         }`}
                       >

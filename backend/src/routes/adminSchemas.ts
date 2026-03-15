@@ -10,7 +10,12 @@ export const userSearchQuerySchema = z.object({
 });
 
 export const userExportQuerySchema = z.object({
-  format: z.enum(['json', 'csv']).default('json'),
+  format: z.enum(['json', 'csv', 'pdf']).default('json'),
+});
+
+export const reviewQueueDebugQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(60).default(20),
+  language: z.string().trim().min(2).max(12).optional(),
 });
 
 export const timelineQuerySchema = z.object({

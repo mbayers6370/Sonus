@@ -1099,12 +1099,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const practiceMode = getPracticeModeFromUnit(resolvedUnitId);
       const unit = getBandUnitById(bandData, resolvedUnitId);
       const words = unit?.words || [];
-      const coreLessonCount = getLessonRanges(words.length, 10).length;
-      const isApplyLesson =
-        !practiceMode &&
-        !isCheckpointQuiz &&
-        coreLessonCount > 0 &&
-        lessonIndex === coreLessonCount;
+      const isApplyLesson = false;
       let lessonChunk: Word[] = [];
       // Unlock checks are score-based so users can continue where they left off
       // without requiring completed flags from older session states.
@@ -1247,7 +1242,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (!practiceMode && !isCheckpointQuiz) {
         if (
           lessonIndex > 0 &&
-          !isApplyLesson &&
           !hasAdminBackfillLessonAccess(resolvedUnitId, lessonIndex) &&
           !hasLessonPassedThreshold(resolvedUnitId, lessonIndex - 1)
         ) {
@@ -1397,6 +1391,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
             : buildPracticePoolFromCurrentUnit();
           const dedupedBasePool = dedupeWordsById(basePool);
           if (!dedupedBasePool.length) return dedupedBasePool;
+          if (isSpecificPracticeRequest) {
+            // Unit-scoped practice should stay unit-only: random 10 from that unit,
+            // with no external weak/review injections.
+            return shuffleWords(dedupedBasePool).slice(0, PRACTICE_SESSION_WORD_COUNT);
+          }
 
           const reviewWordIds = await fetchReviewWordIds(60);
           const { map: allWordById, sourceUnitByWordId } = getBandWordMap(bandData);
@@ -1480,7 +1479,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
         hasValidResumeWords &&
         !hasLegacyReattemptWords &&
         !isCheckpointQuiz &&
-        !isApplyLesson &&
         isResumeLengthValid &&
         resumeCheckpoint?.bandId === bandId &&
         resolveUnitIdForBand(resumeCheckpoint?.bandId ?? '', resumeCheckpoint?.unitId ?? '') ===
@@ -1520,7 +1518,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const lessonWordIds = new Set(lessonWordsBase.map((w) => w.id));
       let lessonWords = [...lessonWordsBase];
 
-      if (!practiceMode && !isApplyLesson && !isMasterySessionTarget) {
+      if (!practiceMode && !isMasterySessionTarget) {
         const reviewWordIds = await fetchReviewWordIds(40);
         const checkpointCoveredUnitIds =
           isCheckpointQuiz && checkpointIndex
@@ -1564,33 +1562,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
           : [...lessonWordsBase];
       }
 
-      if (isApplyLesson) {
-        // Apply mode must remain unit-only; never include review/retest overlays.
-        lessonWords = lessonWords
-          .filter((word) => (word.sourceUnitId || resolvedUnitId) === resolvedUnitId)
-          .map((word) => ({
-            ...word,
-            sourceUnitId: resolvedUnitId,
-            isReview: false,
-            reviewReason: undefined,
-            isReattempt: false,
-            reattemptOfWordId: undefined,
-            reattemptQueued: false,
-          }));
-      }
-
       const metadata = getUnitMetadata(bandId, resolvedUnitId);
       const practiceSourceUnitId = practiceMode ? getPracticeSourceUnitId(resolvedUnitId) : null;
       const practiceSourceMetadata =
         practiceSourceUnitId ? getUnitMetadata(bandId, practiceSourceUnitId) : null;
       const newLesson: ActiveLesson = {
         unitId: resolvedUnitId,
-        unitName: isApplyLesson
-          ? `${metadata?.name ?? formatUnitLabel(resolvedUnitId)} · Apply`
-          : practiceMode
-            ? `${practiceSourceMetadata?.name ?? formatUnitLabel(practiceSourceUnitId || resolvedUnitId)} · ${
-                practiceMode === 'quiz' ? 'Listening Practice' : 'Speaking Practice'
-              }`
+        unitName: practiceMode
+          ? `${practiceSourceMetadata?.name ?? formatUnitLabel(practiceSourceUnitId || resolvedUnitId)} · ${
+              practiceMode === 'quiz' ? 'Listening Practice' : 'Speaking Practice'
+            }`
           : (metadata?.name ?? formatUnitLabel(resolvedUnitId)),
         unitOrder: metadata?.order,
         lessonIndex,
@@ -1623,7 +1604,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           activeBandData: bandData,
           activeUnitId: resolvedUnitId,
           activeLesson: newLesson,
-          lessonMode: isApplyLesson ? 'apply' : (isCheckpointQuiz ? 'quiz' : (practiceMode ?? 'intro')),
+          lessonMode: isCheckpointQuiz ? 'quiz' : (practiceMode ?? 'intro'),
           lessonWordIndex: 0,
           quizResultsByIndex: {},
           speakResultsByIndex: {},
@@ -1633,7 +1614,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       });
       const shouldPersistCurrentPath =
         !practiceMode &&
-        !isApplyLesson &&
         resolvedUnitId !== 'daily-review';
       if (shouldPersistCurrentPath) {
         void saveCurrentLessonPath(bandId, resolvedUnitId, lessonIndex);

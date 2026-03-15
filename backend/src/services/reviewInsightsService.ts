@@ -58,30 +58,65 @@ async function attachLexemes<T extends WordScoped>(
 }
 
 function buildReviewPriority(input: {
+  quizIntervalDays: number;
   quizDueAt: Date;
+  lastSeenAt: Date | null;
   pronunciationRisk: number;
   missedQuizCount: number;
   mispronounceCount: number;
 }) {
-  // Composite priority emphasizing overdue review + pronunciation risk.
+  // v1 priority model (readable on purpose):
+  // 1) forgetting risk, 2) miss history, 3) pronunciation weakness,
+  // 4) recent-seen penalty (subtract).
   const now = Date.now();
+  const seenAtMs = input.lastSeenAt ? input.lastSeenAt.getTime() : input.quizDueAt.getTime();
+  const elapsedDays = Math.max(0, (now - seenAtMs) / 86_400_000);
+  const stabilityDays = Math.max(1, input.quizIntervalDays);
+  const forgettingRisk = 1 - Math.exp(-elapsedDays / stabilityDays);
+  const missHistory = Math.min(
+    1,
+    (input.missedQuizCount + input.mispronounceCount) / 6
+  );
+  const pronunciationWeakness = Math.min(
+    1,
+    input.pronunciationRisk / 2 + input.mispronounceCount * 0.08
+  );
+  const recentSeenPenalty =
+    elapsedDays < 0.25
+      ? 0.8
+      : elapsedDays < 1
+        ? 0.45
+        : elapsedDays < 2
+          ? 0.2
+          : 0;
+
+  const blended =
+    forgettingRisk * 0.5 +
+    missHistory * 0.25 +
+    pronunciationWeakness * 0.25 -
+    recentSeenPenalty;
+  const score = Math.max(0, blended) * 100;
+
   const overdueMs = Math.max(0, now - input.quizDueAt.getTime());
   const overdueDays = overdueMs / 86_400_000;
-  const score =
-    overdueDays * 1.25 +
-    input.pronunciationRisk * 4 +
-    input.missedQuizCount * 0.75 +
-    input.mispronounceCount * 0.5;
 
   const reasons: string[] = [];
-  if (overdueDays >= 1) reasons.push('quiz_overdue');
+  if (forgettingRisk >= 0.55) reasons.push('forgetting_risk');
   if (input.missedQuizCount > 0) reasons.push('missed_quiz');
-  if (input.pronunciationRisk >= 0.5 || input.mispronounceCount > 0)
-    reasons.push('pronunciation_risk');
+  if (input.pronunciationRisk >= 0.35 || input.mispronounceCount > 0) reasons.push('pronunciation_weakness');
+  if (recentSeenPenalty > 0) reasons.push('recent_seen_penalty');
 
   return {
     score: Number(score.toFixed(3)),
     overdueDays: Number(overdueDays.toFixed(2)),
+    breakdown: {
+      forgettingRisk: Number(forgettingRisk.toFixed(3)),
+      missHistory: Number(missHistory.toFixed(3)),
+      pronunciationWeakness: Number(pronunciationWeakness.toFixed(3)),
+      recentSeenPenalty: Number(recentSeenPenalty.toFixed(3)),
+      elapsedDays: Number(elapsedDays.toFixed(2)),
+      stabilityDays,
+    },
     reasons,
   };
 }
@@ -174,20 +209,19 @@ export async function fetchReviewQueue(
   shape: ResponseShape = 'legacy'
 ) {
   // Build a prioritized review queue from SRS state with optional lexeme enrichment.
-  const now = new Date();
   const wordFilter = languageWordFilter(language);
   const rows = await prisma.wordMemoryState.findMany({
     where: {
       userId,
       ...(wordFilter ? { wordId: wordFilter } : {}),
       OR: [
-        { quizDueAt: { lte: now } },
+        { lastSeenAt: { not: null } },
         { missedQuizCount: { gt: 0 } },
         { mispronounceCount: { gt: 0 } },
         { pronunciationRisk: { gt: 0 } },
       ],
     },
-    take: Math.max(limit * 4, 80),
+    take: Math.max(limit * 10, 180),
     orderBy: [
       { quizDueAt: 'asc' },
       { pronunciationRisk: 'desc' },
@@ -199,7 +233,9 @@ export async function fetchReviewQueue(
   const queue = rows
     .map((row) => {
       const priority = buildReviewPriority({
+        quizIntervalDays: row.quizIntervalDays,
         quizDueAt: row.quizDueAt,
+        lastSeenAt: row.lastSeenAt,
         pronunciationRisk: row.pronunciationRisk,
         missedQuizCount: row.missedQuizCount,
         mispronounceCount: row.mispronounceCount,
@@ -217,6 +253,7 @@ export async function fetchReviewQueue(
         lastCorrectAt: row.lastCorrectAt,
         priorityScore: priority.score,
         overdueDays: priority.overdueDays,
+        priorityBreakdown: priority.breakdown,
         reasons: priority.reasons,
       };
     })
@@ -356,7 +393,9 @@ export async function fetchNeedsWork(
       const row = memoryByWordId.get(wordId);
       if (!row) return null;
       const priority = buildReviewPriority({
+        quizIntervalDays: row.quizIntervalDays,
         quizDueAt: row.quizDueAt,
+        lastSeenAt: row.lastSeenAt,
         pronunciationRisk: row.pronunciationRisk,
         missedQuizCount: row.missedQuizCount,
         mispronounceCount: row.mispronounceCount,
@@ -382,6 +421,7 @@ export async function fetchNeedsWork(
         priorityScore: Number((priority.score + channelPenalty * 1.25).toFixed(3)),
         totalMisses,
         overdueDays: priority.overdueDays,
+        priorityBreakdown: priority.breakdown,
         reasons: uniqueReasons,
         quizDueAt: row.quizDueAt,
         quizIntervalDays: row.quizIntervalDays,

@@ -1,17 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { LessonMode } from '../types/lesson.types';
 import { useApp } from '../contexts/AppContext';
 import Flashcard from './Flashcard';
 import Quiz from './Quiz';
 import SpeakMode from './SpeakMode';
-import ApplyMode from './ApplyMode';
 import BottomNav from './BottomNav';
 import GlassHeader from './GlassHeader';
 import { makeLessonKey } from '../lib/lessonProgress';
 import { QUIZ_PASS_PERCENT, SPEAK_PASS_PERCENT } from '../lib/passCriteria';
 import { Check } from 'lucide-react';
 import { isCheckpointUnitId } from '../data/unitMetadata';
-import type { BandData, Word } from '../types/lesson.types';
 import { normalizeLanguageId } from '../lib/languageRuntime';
 
 interface LessonScreenProps {
@@ -23,24 +21,6 @@ interface LessonScreenProps {
 
 const LESSON_RELOAD_GUARD_KEY = 'sonus.lesson.reload_guard';
 const LESSON_RELOAD_GUARD_TTL_MS = 2 * 60 * 1000;
-
-type BandUnitRecord = { id: string; words: Word[] };
-
-function getBandUnitsOrdered(bandData: BandData): BandUnitRecord[] {
-  if (Array.isArray(bandData.units)) {
-    return bandData.units
-      .map((unit) => ({
-        id: typeof unit?.id === 'string' ? unit.id : '',
-        words: unit?.words || [],
-      }))
-      .filter((unit) => Boolean(unit.id));
-  }
-
-  return Object.entries(bandData.units || {}).map(([id, unit]) => ({
-    id,
-    words: unit?.words || [],
-  }));
-}
 
 function isBrowserReloadNavigation() {
   try {
@@ -61,7 +41,7 @@ export default function LessonScreen({
   onModeChange,
   onReturnToLessons,
 }: LessonScreenProps) {
-  const { state, setLessonMode, nextWord, prevWord, restartLesson, completeLessonProgress } = useApp();
+  const { state, setLessonMode, nextWord, prevWord, restartLesson } = useApp();
   const [showNeedReviewModal, setShowNeedReviewModal] = useState(false);
   const {
     activeLesson,
@@ -143,22 +123,6 @@ export default function LessonScreen({
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
   }, [activeLesson, hasActiveAttempt, lessonMode]);
 
-  const previousWords = useMemo(() => {
-    if (!state.activeBandData || !activeLesson) return [] as Word[];
-    const units = getBandUnitsOrdered(state.activeBandData);
-    const activeUnitIdx = units.findIndex((unit) => unit.id === activeLesson.unitId);
-    if (activeUnitIdx <= 0) return [] as Word[];
-    const deduped = new Map<string, Word>();
-    units
-      .slice(0, activeUnitIdx)
-      .flatMap((unit) => unit.words || [])
-      .forEach((candidate) => {
-        if (!candidate?.id || deduped.has(candidate.id)) return;
-        deduped.set(candidate.id, candidate);
-      });
-    return Array.from(deduped.values());
-  }, [state.activeBandData, activeLesson]);
-
   if (!activeLesson) {
     return (
       <div className="flex items-center justify-center h-screen page-shell">
@@ -189,14 +153,11 @@ export default function LessonScreen({
   const isDailyReview = activeLesson.unitId === 'daily-review';
   const isPracticeUnit = isListeningPractice || isSpeakingPractice;
   const lessonSubtitle = isPracticeUnit ? '(Not Graded)' : undefined;
-  const isApplyMode = lessonMode === 'apply';
   const hideLogoOnMobile = true;
   const titleText = isCheckpointQuiz
     ? (activeLesson.unitName || 'Checkpoint Quiz')
     : isPracticeUnit
     ? (isListeningPractice ? 'Listening Practice' : 'Speaking Practice')
-    : isApplyMode
-      ? `Unit ${activeLesson.unitOrder ?? activeLesson.lessonIndex + 1}`
     : isDailyReview
       ? (activeLesson.unitName || 'Daily Review')
       : `Unit ${activeLesson.unitOrder ?? activeLesson.lessonIndex + 1}`;
@@ -231,7 +192,6 @@ export default function LessonScreen({
     label: string;
     done: boolean;
   }> = (() => {
-    if (isApplyMode) return [];
     if (isListeningPractice || isCheckpointQuiz) {
       return [{ mode: 'quiz', label: 'Quiz', done: quizDone }];
     }
@@ -252,21 +212,17 @@ export default function LessonScreen({
   })();
   const isIntroMode = lessonMode === 'intro';
   const lockViewportScroll = lessonMode === 'quiz' || isIntroMode;
-  const lessonContentClass = isApplyMode
-    ? 'overflow-y-auto md:overflow-y-hidden pb-0'
-    : lockViewportScroll
-      ? 'overflow-y-hidden pb-0'
-      : 'overflow-y-auto pb-8';
+  const lessonContentClass = lockViewportScroll
+    ? 'overflow-y-hidden pb-0'
+    : 'overflow-y-auto pb-8';
   const effectiveLessonContentClass = lessonMode === 'speak'
     ? 'overflow-y-hidden pb-0 md:overflow-y-auto md:pb-8'
     : lessonContentClass;
-  const lessonContentPaddingBottom = isApplyMode
-    ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 5.25rem)'
-    : lockViewportScroll
-      ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 1rem)'
-      : lessonMode === 'speak'
-        ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 1.5rem)'
-        : 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 9rem)';
+  const lessonContentPaddingBottom = lockViewportScroll
+    ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 1rem)'
+    : lessonMode === 'speak'
+      ? 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 1.5rem)'
+      : 'calc(var(--sonus-bottom-nav-height, 5rem) + env(safe-area-inset-bottom, 0px) + 9rem)';
 
   return (
     <div className={`flex flex-col h-[100svh] min-h-[100svh] overflow-hidden page-shell ${speakingPageTheme.shell}`}>
@@ -390,19 +346,6 @@ export default function LessonScreen({
             showNeedReviewAction={showNeedReviewAction}
             onNeedReview={() => setShowNeedReviewModal(true)}
             onNext={nextWord}
-          />
-        )}
-        {lessonMode === 'apply' && (
-          <ApplyMode
-            word={currentWord}
-            allWords={activeLesson.words}
-            currentIndex={lessonWordIndex}
-            totalWords={totalWords}
-            bandId={activeBandId}
-            previousWords={previousWords}
-            onPrev={prevWord}
-            onNext={nextWord}
-            onCompleteApply={completeLessonProgress}
           />
         )}
       </div>

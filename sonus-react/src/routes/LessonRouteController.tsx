@@ -8,7 +8,6 @@ import GlassLoader from '../components/ui/GlassLoader';
 import type { LessonMode } from '../types/lesson.types';
 import { LEVEL_BY_ID, isLegacyBandLocked, tierForBand } from './lessonRouting';
 import { normalizeLanguageId } from '../lib/languageRuntime';
-import { getExampleNative } from '../lib/languageFields';
 
 interface LessonRouteControllerProps {
   onGoHome: () => void;
@@ -38,7 +37,7 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
   const isCompleteRoute = routeMode === 'complete';
   const isReviewRoute = routeMode === 'review';
   const lessonMode: LessonMode =
-    routeMode === 'quiz' || routeMode === 'speak' || routeMode === 'intro' || routeMode === 'apply'
+    routeMode === 'quiz' || routeMode === 'speak' || routeMode === 'intro'
       ? routeMode
       : 'intro';
   const level = band ? LEVEL_BY_ID[band] : undefined;
@@ -83,21 +82,7 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
       state.activeLesson.words.length > 0 &&
       !hasLegacyReattemptWords
     ) {
-      if (lessonMode !== 'apply') {
-        return;
-      }
-
-      const looksLikeApplyLesson =
-        state.lessonMode === 'apply' ||
-        Boolean(state.activeLesson.unitName?.includes('· Apply'));
-      const hasApplyExamples = state.activeLesson.words.every(
-        (word) =>
-          Boolean(getExampleNative(word.example)) &&
-          Boolean(word.example?.en?.trim())
-      );
-      if (looksLikeApplyLesson && hasApplyExamples) {
-        return;
-      }
+      return;
     }
 
     if (
@@ -187,9 +172,7 @@ export default function LessonRouteController({ onGoHome, onOpenProfile }: Lesso
         onRestart={() => {
           restartLesson();
           const restartMode: LessonMode =
-            state.lessonMode === 'apply'
-              ? 'apply'
-              : state.lessonMode === 'speak'
+            state.lessonMode === 'speak'
                 ? 'speak'
                 : 'intro';
           navigate(

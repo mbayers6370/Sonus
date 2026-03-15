@@ -20,6 +20,7 @@ const ROUTE_FALLBACKS = [
   '/internal/support/users',
   '/internal/support/metrics/support',
   '/internal/support/metrics/learning',
+  '/internal/support/metrics/impact-outcomes',
   '/internal/support/quality-reports',
 ];
 

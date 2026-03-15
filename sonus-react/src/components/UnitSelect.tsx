@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
-import { BookOpen, Check, LockKeyhole, MessageSquare } from 'lucide-react';
+import { BookOpen, Headphones, LockKeyhole, Mic } from 'lucide-react';
 import { getUnitsForBand, isCheckpointUnitId, isPracticeUnitId, parseCheckpointIndex } from '../data/unitMetadata';
 import BottomNav from './BottomNav';
 import { getLessonRanges } from '../lib/lessonChunks';
@@ -38,20 +38,6 @@ function compareTrackLevelOrder(levelId: string | null | undefined, targetLevelI
 
 const CARD_ACCENTS = [
   {
-    borderColor: 'border-[var(--sonus-palette-blue)]/55',
-    badgeBg: 'bg-[rgba(19,87,119,0.12)]',
-    badgeText: 'text-[var(--sonus-palette-blue)]',
-    progressFill: 'bg-[var(--sonus-palette-blue)]/55',
-    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(19,87,119,0.28)]',
-  },
-  {
-    borderColor: 'border-[var(--sonus-palette-green)]/55',
-    badgeBg: 'bg-[rgba(25,50,50,0.12)]',
-    badgeText: 'text-[var(--sonus-palette-green)]',
-    progressFill: 'bg-[var(--sonus-palette-green)]/55',
-    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(25,50,50,0.26)]',
-  },
-  {
     borderColor: 'border-[var(--sonus-palette-charcoal)]/55',
     badgeBg: 'bg-[rgba(31,42,55,0.10)]',
     badgeText: 'text-[var(--sonus-palette-charcoal)]',
@@ -64,6 +50,20 @@ const CARD_ACCENTS = [
     badgeText: 'text-[var(--sonus-palette-rust)]',
     progressFill: 'bg-[var(--sonus-palette-rust)]/55',
     hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(194,65,12,0.30)]',
+  },
+  {
+    borderColor: 'border-[var(--sonus-palette-blue)]/55',
+    badgeBg: 'bg-[rgba(19,87,119,0.12)]',
+    badgeText: 'text-[var(--sonus-palette-blue)]',
+    progressFill: 'bg-[var(--sonus-palette-blue)]/55',
+    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(19,87,119,0.28)]',
+  },
+  {
+    borderColor: 'border-[var(--sonus-palette-green)]/55',
+    badgeBg: 'bg-[rgba(25,50,50,0.12)]',
+    badgeText: 'text-[var(--sonus-palette-green)]',
+    progressFill: 'bg-[var(--sonus-palette-green)]/55',
+    hoverShadow: 'hover:shadow-[0_20px_40px_-24px_rgba(25,50,50,0.26)]',
   },
 ] as const;
 
@@ -141,6 +141,13 @@ function getGridColumns(width: number) {
   if (width >= 1024) return 4; // lg
   if (width >= 768) return 3; // md
   return 2; // base/sm
+}
+
+function getLessonGridColumns(width: number) {
+  if (width >= 1280) return 5; // xl
+  if (width >= 1024) return 4; // lg
+  if (width >= 640) return 3; // sm
+  return 1; // base/mobile
 }
 
 function getPracticeType(unitId: string): 'listening' | 'speaking' | 'checkpoint' | null {
@@ -591,6 +598,8 @@ export default function UnitSelect({
     : unitMetrics;
 
   const columns = getGridColumns(viewportWidth);
+  const lessonColumns = getLessonGridColumns(viewportWidth);
+  const isMobileViewport = viewportWidth < 640;
   const activeUnit = activeUnitId
     ? (unlockedByUnitId.get(activeUnitId) ?? true)
       ? filteredUnitMetrics.find((u) => u.unitId === activeUnitId) ?? null
@@ -600,8 +609,8 @@ export default function UnitSelect({
     (metric) => metric.practiceType !== 'listening' && metric.practiceType !== 'speaking'
   );
   const unitCardHeightClass = isJapaneseLevel
-    ? 'h-[220px] sm:h-[220px]'
-    : 'h-[296px] sm:h-[250px]';
+    ? 'h-[236px] sm:h-[220px]'
+    : 'h-[312px] sm:h-[250px]';
   const headerTitle = activeUnit
     ? `Unit ${activeUnit.metadata.order}`
     : activeSection
@@ -731,7 +740,11 @@ export default function UnitSelect({
                     </div>
                     <div
                       className={`mt-1 text-[11px] leading-4 overflow-hidden ${isUnitUnlocked ? 'text-white' : 'text-[#6B7280]'}`}
-                      style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
+                      style={
+                        isMobileViewport
+                          ? undefined
+                          : { display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }
+                      }
                     >
                       {metadata.description}
                     </div>
@@ -796,7 +809,11 @@ export default function UnitSelect({
                   </div>
                   <div
                     className={`mt-1 text-[11px] leading-4 text-center ${isUnitMastered ? 'text-white/90' : !isUnitUnlocked ? 'text-[#6B7280]' : 'text-text-med'} overflow-hidden`}
-                    style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
+                    style={
+                      isMobileViewport
+                        ? undefined
+                        : { display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }
+                    }
                   >
                     {metadata.description}
                   </div>
@@ -863,24 +880,32 @@ export default function UnitSelect({
             <div className="grid grid-cols-2 gap-4 mb-4">
               <button
                 onClick={() => onOpenPractice(`${activeUnit.unitId}-listening`)}
-                className="rounded-2xl border sonus-drenched-border-ocean bg-[var(--sonus-palette-blue)] text-white min-h-[92px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(19,87,119,0.55)]"
+                className="relative rounded-2xl border border-[var(--sonus-palette-blue)] bg-white text-[var(--sonus-palette-blue)] min-h-[96px] p-4 text-center transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(19,87,119,0.28)] overflow-hidden"
               >
-                <div className="text-[11px] uppercase tracking-wider font-mono text-white/85">Practice</div>
-                <div className="main-font text-[1.1rem] leading-tight mt-1">Listening</div>
+                <div className="absolute inset-[6px] rounded-xl border border-[var(--sonus-palette-blue)]/35 pointer-events-none" />
+                <div className="relative z-10 h-full flex flex-col items-center justify-center gap-1">
+                  <Headphones className="w-5 h-5 text-[var(--sonus-palette-blue)]" />
+                  <div className="text-[10px] uppercase tracking-wider font-mono text-[var(--sonus-palette-blue)]/80">Practice</div>
+                  <div className="main-font text-[1rem] leading-tight text-[var(--sonus-palette-blue)]">Listening</div>
+                </div>
               </button>
               <button
                 onClick={() => onOpenPractice(`${activeUnit.unitId}-speaking`)}
-                className="rounded-2xl border border-[var(--sonus-palette-rust)] bg-[var(--sonus-palette-rust)] text-white min-h-[92px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(194,65,12,0.58)]"
+                className="relative rounded-2xl border border-[var(--sonus-palette-rust)] bg-white text-[var(--sonus-palette-rust)] min-h-[96px] p-4 text-center transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(194,65,12,0.32)] overflow-hidden"
               >
-                <div className="text-[11px] uppercase tracking-wider font-mono text-white/85">Practice</div>
-                <div className="main-font text-[1.1rem] leading-tight mt-1">Speaking</div>
+                <div className="absolute inset-[6px] rounded-xl border border-[var(--sonus-palette-rust)]/35 pointer-events-none" />
+                <div className="relative z-10 h-full flex flex-col items-center justify-center gap-1">
+                  <Mic className="w-5 h-5 text-[var(--sonus-palette-rust)]" />
+                  <div className="text-[10px] uppercase tracking-wider font-mono text-[var(--sonus-palette-rust)]/80">Practice</div>
+                  <div className="main-font text-[1rem] leading-tight text-[var(--sonus-palette-rust)]">Speaking</div>
+                </div>
               </button>
             </div>
           )}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {Array.from({ length: activeUnit.lessonsCount }).map((_, lessonIndex) => {
-              const row = Math.floor(lessonIndex / columns);
-              const col = lessonIndex % columns;
+              const row = Math.floor(lessonIndex / lessonColumns);
+              const col = lessonIndex % lessonColumns;
               const accent = CARD_ACCENTS[(col + row) % CARD_ACCENTS.length];
               const range = activeUnit.lessonRanges[lessonIndex];
               const chunkStart = range.start;
@@ -908,6 +933,20 @@ export default function UnitSelect({
                 ((lessonStatus?.quizScore ?? 0) >= QUIZ_PASS_PERCENT ? 1 : 0) +
                 ((lessonStatus?.speakScore ?? 0) >= SPEAK_PASS_PERCENT ? 1 : 0);
               const lessonMasteredBorderClass = drenchedBorderClassFromAccent(accent.badgeText) || accent.borderColor;
+              const unitData = getUnitDataById(
+                activeBandData.units as Record<string, { words?: unknown[] }> | Array<{ id?: string; words?: unknown[] }>,
+                activeUnit.unitId
+              );
+              const unitWords = unitData?.words || [];
+              const previewWords = unitWords
+                .slice(chunkStart - 1, chunkEnd)
+                .slice(0, 3)
+                .map((rawWord) => {
+                  const word = rawWord as { simp?: string; trad?: string; kanji?: string; hiragana?: string };
+                  return (word.simp || word.trad || word.kanji || word.hiragana || '').trim();
+                })
+                .filter(Boolean);
+              const previewText = previewWords.join(' ・ ');
 
               return (
                 <button
@@ -938,6 +977,12 @@ export default function UnitSelect({
                   <div className={`mt-1 text-xs font-mono uppercase tracking-wider ${isLessonMastered ? 'text-white/85' : !isLessonUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
                     {chunkWords} {chunkWords === 1 ? 'word' : 'words'}
                   </div>
+                  {previewText ? (
+                    <div className={`mt-1.5 text-[11px] leading-4 ${isLessonMastered ? 'text-white/90' : !isLessonUnlocked ? 'text-[#9CA3AF]' : 'text-text-med'}`}>
+                      <span className="font-mono uppercase tracking-wider">Preview:</span>{' '}
+                      <span>{previewText}</span>
+                    </div>
+                  ) : null}
 
                   <div className={`mt-4 text-[11px] font-semibold uppercase tracking-wider font-mono ${isLessonMastered ? 'text-white' : !isLessonUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
                     {isLessonMastered
@@ -960,35 +1005,6 @@ export default function UnitSelect({
                 </button>
               );
             })}
-            {(() => {
-              const applyLessonIndex = activeUnit.lessonsCount;
-              return (
-                <button
-                  key={`${activeUnit.unitId}-apply`}
-                  onClick={() => {
-                    onSelectLesson(activeUnit.unitId, applyLessonIndex, 'apply');
-                  }}
-                  className="bg-[var(--sonus-palette-rust)] text-white border-[var(--sonus-palette-rust)] border-[2.5px] rounded-2xl min-h-[130px] p-4 text-left transition-all hover:-translate-y-1 hover:shadow-[0_18px_34px_-22px_rgba(194,65,12,0.55)] active:translate-y-0 relative overflow-hidden"
-                >
-                  <div className="absolute inset-[6px] rounded-[0.8rem] border border-white/24 pointer-events-none" />
-
-                  <div className="h-full flex flex-col items-center justify-center text-center gap-2 relative z-10">
-                    <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white/18 text-white border border-white/18">
-                      <span className="relative inline-flex items-center justify-center w-4 h-4">
-                        <MessageSquare className="w-4 h-4 text-white" />
-                        <Check className="absolute -right-1 -bottom-1 w-2.5 h-2.5 text-white" />
-                      </span>
-                      <span className="text-[11px] font-semibold uppercase tracking-wider font-mono text-white">
-                        Apply
-                      </span>
-                    </div>
-                    <div className="text-[11px] uppercase tracking-[0.16em] font-mono text-white/85">
-                      Context Practice
-                    </div>
-                  </div>
-                </button>
-              );
-            })()}
           </div>
         </div>
       )}

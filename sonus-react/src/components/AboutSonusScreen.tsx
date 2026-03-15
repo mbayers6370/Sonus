@@ -13,19 +13,19 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
       language: 'Japanese',
       system: 'JLPT',
       range: 'N5-N1',
-      accent: 'border-[var(--sonus-palette-charcoal)]/26 bg-[rgba(31,42,55,0.08)] text-[var(--sonus-palette-charcoal)]',
+      accent: 'text-[var(--sonus-palette-blue)]',
     },
     {
       language: 'Korean',
       system: 'TOPIK',
       range: 'Level-based track',
-      accent: 'border-[var(--sonus-palette-green)]/26 bg-[rgba(25,50,50,0.08)] text-[var(--sonus-palette-green)]',
+      accent: 'text-[var(--sonus-palette-blue)]',
     },
     {
       language: 'French',
       system: 'CEFR',
       range: 'A1-C2 path',
-      accent: 'border-[var(--sonus-palette-charcoal)]/26 bg-[rgba(31,42,55,0.08)] text-[var(--sonus-palette-charcoal)]',
+      accent: 'text-[var(--sonus-palette-blue)]',
     },
   ];
 
@@ -68,73 +68,80 @@ export default function AboutSonusScreen({ onGoHome, onGoProfile }: AboutSonusSc
   ];
 
   return (
-    <div className="min-h-screen page-shell px-6 with-bottom-nav">
-      <GlassHeader title="About Sonus" hideLogoOnMobile />
+    <div className="min-h-screen bg-[var(--sonus-palette-charcoal)] px-6 with-bottom-nav">
+      <GlassHeader
+        title="About Sonus"
+        hideLogoOnMobile
+        className="bg-[var(--sonus-palette-charcoal)]/96 border-white/25"
+        scrolledClassName="bg-[var(--sonus-palette-charcoal)]/96 border-white/30"
+        titleClassName="text-white"
+        scrolledTitleClassName="text-white"
+      />
 
-      <div className="space-y-4">
-        <section className="dashboard-card-enter border border-[var(--sonus-palette-charcoal)]/90 rounded-3xl overflow-hidden shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#1F2A37_0%,#2B3440_45%,#24303A_100%)] text-white">
-          <div className="px-6 py-7">
-            <div className="text-[11px] uppercase tracking-[0.18em] font-mono mb-2 text-white/70">Method</div>
-            <h3 className="main-font text-4xl leading-tight">Built on Real Frameworks</h3>
-            <p className="text-sm text-white/92 mt-2 max-w-2xl">
-              Sonus follows the official proficiency systems used by each language so progress is structured, comparable, and practical.
-            </p>
-          </div>
-        </section>
+      <div className="mx-auto max-w-6xl pb-8">
+        <header className="dashboard-card-enter py-2">
+          <h3 className="main-font mt-2 text-4xl sm:text-5xl text-[var(--sonus-palette-blue)] leading-[1.05] text-center">Built on Real Frameworks</h3>
+          <p className="mt-4 mx-auto max-w-3xl text-center text-white leading-relaxed">
+            Sonus follows the official proficiency systems used by each language so progress is structured, comparable, and practical.
+          </p>
+        </header>
 
-        <section className="dashboard-card-enter bg-white border border-border rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.30)]">
-          <div className="text-xs uppercase tracking-[0.16em] font-mono text-text-light mb-3">Framework Mapping</div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <section className="dashboard-card-enter mt-7 rounded-3xl border border-white/25 bg-white/[0.03] px-5 py-6 sm:px-6">
+          <div className="text-xs uppercase tracking-[0.16em] font-mono text-[var(--sonus-palette-blue)]">Framework Mapping</div>
+          <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-5">
             {frameworks.map((item) => (
-              <div key={item.language} className={`rounded-2xl border px-4 py-3 ${item.accent}`}>
-                <div className="text-sm font-semibold">{item.language}</div>
-                <div className="text-xs uppercase tracking-wider font-mono mt-1 opacity-90">{item.system}</div>
-                <div className="text-sm mt-1.5 text-text-dark">{item.range}</div>
-              </div>
+              <article key={item.language} className="border-t border-white/20 pt-3 first:border-t-0 first:pt-0 md:border-t-0 md:border-l-2 md:border-white/25 md:pt-0 md:pl-4">
+                <div className={`text-[11px] uppercase tracking-[0.16em] font-mono ${item.accent}`}>{item.system}</div>
+                <h4 className="mt-2 text-lg font-semibold text-[var(--sonus-palette-blue)]">{item.language}</h4>
+                <p className="mt-1 text-sm text-white">{item.range}</p>
+              </article>
             ))}
           </div>
         </section>
 
-        <section className="dashboard-card-enter bg-white border border-border rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.30)]">
-          <div className="text-xs uppercase tracking-[0.16em] font-mono text-text-light mb-3">The Structure</div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-            {principles.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-border bg-[#FBFBF9] px-3.5 py-3">
-                <div className="text-sm font-semibold text-text-dark">{item.title}</div>
-                <div className="mt-1.5 text-sm text-text-med">{item.body}</div>
+        <section className="dashboard-card-enter mt-7 border-t border-white/20 pt-7">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-8">
+            <div>
+              <div className="text-xs uppercase tracking-[0.16em] font-mono text-[var(--sonus-palette-blue)]">The Structure</div>
+              <div className="mt-5 space-y-4">
+                {principles.map((item) => (
+                  <article key={item.title} className="border-b border-white/12 pb-4 last:border-b-0 last:pb-0">
+                    <h4 className="text-lg font-semibold text-[var(--sonus-palette-blue)]">{item.title}</h4>
+                    <p className="mt-2 text-sm leading-relaxed text-white">{item.body}</p>
+                  </article>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
 
-          <div className="mt-3">
-            <div className="text-xs uppercase tracking-[0.16em] font-mono text-text-light mb-2.5">How Sonus Works</div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {workflow.map((item) => (
-                <div key={item.title} className="rounded-2xl border border-border bg-white px-3.5 py-3">
-                  <div className="inline-flex items-center gap-2">
-                    <span className="inline-flex w-5 h-5 rounded-full bg-[rgba(25,50,50,0.12)] text-[var(--sonus-palette-green)] items-center justify-center text-[11px] font-semibold font-mono">
+            <div>
+              <div className="text-xs uppercase tracking-[0.16em] font-mono text-[var(--sonus-palette-blue)]">How Sonus Works</div>
+              <div className="mt-5 space-y-4">
+                {workflow.map((item) => (
+                  <article key={item.title} className="grid grid-cols-[32px_minmax(0,1fr)] gap-3 border-b border-white/12 pb-4 last:border-b-0 last:pb-0">
+                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[var(--sonus-palette-blue)]/55 text-xs font-mono font-semibold text-[var(--sonus-palette-blue)]">
                       {item.step}
                     </span>
-                    <div className="text-sm font-semibold text-text-dark">{item.title}</div>
-                  </div>
-                  <div className="mt-1.5 text-sm text-text-med">{item.body}</div>
-                </div>
-              ))}
+                    <div>
+                      <h4 className="text-base font-semibold text-[var(--sonus-palette-blue)]">{item.title}</h4>
+                      <p className="mt-1.5 text-sm leading-relaxed text-white">{item.body}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+              <div className="mt-4 border-t border-[var(--sonus-palette-blue)]/35 pt-3 md:border-t-0 md:border-l-2 md:border-[var(--sonus-palette-blue)]/45 md:pt-0 md:pl-4">
+                <div className="text-[11px] uppercase tracking-[0.16em] font-mono text-[var(--sonus-palette-blue)]">Core Principle</div>
+                <p className="mt-1.5 text-sm leading-relaxed text-white">
+                  Frameworks provide structure, but every screen is tuned for one outcome: confident communication in real situations.
+                </p>
+              </div>
             </div>
-          </div>
-
-          <div className="mt-3 rounded-2xl border border-[var(--sonus-palette-green)]/24 bg-[linear-gradient(135deg,rgba(25,50,50,0.10),rgba(31,42,55,0.04))] px-4 py-3.5">
-            <div className="text-[11px] uppercase tracking-wider font-mono text-[var(--sonus-palette-green)] mb-1.5">Core Principle</div>
-            <p className="text-sm text-text-med">
-              Frameworks provide structure, but every screen is tuned for one outcome: confident communication in real situations.
-            </p>
           </div>
         </section>
 
-        <section className="dashboard-card-enter border border-[var(--sonus-palette-charcoal)]/90 rounded-3xl p-5 shadow-[0_22px_48px_-36px_rgba(31,42,55,0.45)] bg-[linear-gradient(160deg,#1F2A37_0%,#2B3440_45%,#24303A_100%)] text-white">
-          <div className="text-[11px] uppercase tracking-[0.16em] font-mono text-white/70 mb-2">Why I Built This</div>
-          <h4 className="main-font text-2xl leading-tight text-white">Some apps teach you a language. Sonus lets you meet one.</h4>
-          <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-white/88">
+        <section className="dashboard-card-enter mt-7 border-t border-white/20 pt-7">
+          <div className="text-[11px] uppercase tracking-[0.16em] font-mono text-[var(--sonus-palette-blue)] mb-2">Why I Built This</div>
+          <h4 className="main-font text-2xl sm:text-3xl leading-tight text-[var(--sonus-palette-blue)]">Some apps teach you a language. Sonus lets you meet one.</h4>
+          <div className="mt-4 max-w-4xl space-y-3 text-[15px] leading-relaxed text-white">
             <p>
               Built directly on the standards that matter: JLPT for Japanese and TOPIK for Korean. Not proprietary systems designed to keep you subscribed. Real frameworks, implemented properly, with pronunciation feedback specific enough to actually improve from.
             </p>
