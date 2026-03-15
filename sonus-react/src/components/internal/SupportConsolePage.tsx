@@ -1760,6 +1760,11 @@ export default function SupportConsolePage() {
           : 0,
     };
   }, [impactOutcomesMetrics]);
+  const learningGainUnavailable = (impactOutcomesMetrics?.warning || "")
+    .toLowerCase()
+    .includes("learning gain comparison unavailable");
+  const windowQuizAccuracyFallback = learningMetrics?.learning?.quizAccuracyPct ?? null;
+  const windowSpeakPassFallback = learningMetrics?.learning?.speakPassPct ?? null;
 
   const verifySupportAdminSession = useCallback(async () => {
     if (!readSupportAdminToken()) {
@@ -2101,15 +2106,28 @@ export default function SupportConsolePage() {
       setMetricsLoading(true);
       setMetricsError(null);
       try {
-        const payload = await parseJsonOrThrow<ImpactOutcomesMetrics>(
-          await apiFetch(
-            `/v1/admin/metrics/impact-outcomes?windowDays=${windowDays}`,
-            {
-              cache: "no-store",
-            },
+        const [payload, learningFallback] = await Promise.all([
+          parseJsonOrThrow<ImpactOutcomesMetrics>(
+            await apiFetch(
+              `/v1/admin/metrics/impact-outcomes?windowDays=${windowDays}`,
+              {
+                cache: "no-store",
+              },
+            ),
           ),
-        );
+          parseJsonOrThrow<LearningMetrics>(
+            await apiFetch(
+              `/v1/admin/metrics/learning/overview?windowDays=${windowDays}`,
+              {
+                cache: "no-store",
+              },
+            ),
+          ).catch(() => null),
+        ]);
         setImpactOutcomesMetrics(payload);
+        if (learningFallback) {
+          setLearningMetrics(learningFallback);
+        }
       } catch (error) {
         setImpactOutcomesMetrics(null);
         setMetricsError(
@@ -7144,53 +7162,65 @@ export default function SupportConsolePage() {
                         </div>
                         <div className="mt-1">
                           Sessions:{" "}
-                          {impactOutcomesMetrics.learningGain.firstHalf
-                            .quizSessions ?? 0}
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : impactOutcomesMetrics.learningGain.firstHalf
+                                .quizSessions ?? 0}
                         </div>
                         <div>
                           Session completions:{" "}
-                          {
-                            impactOutcomesMetrics.learningGain.firstHalf
-                              .quizSessionsCompleted
-                          ?? 0}
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : impactOutcomesMetrics.learningGain.firstHalf
+                                .quizSessionsCompleted ?? 0}
                         </div>
                         <div className="mt-1">
                           First half:{" "}
-                          {
-                            impactOutcomesMetrics.learningGain.firstHalf
-                              .quizAccuracyPct
-                          }
-                          %
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : `${impactOutcomesMetrics.learningGain.firstHalf.quizAccuracyPct}%`}
                         </div>
                         <div>
                           Second-half sessions:{" "}
-                          {impactOutcomesMetrics.learningGain.secondHalf
-                            .quizSessions ?? 0}
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : impactOutcomesMetrics.learningGain.secondHalf
+                                .quizSessions ?? 0}
                         </div>
                         <div>
                           Second-half session completions:{" "}
-                          {
-                            impactOutcomesMetrics.learningGain.secondHalf
-                              .quizSessionsCompleted
-                          ?? 0}
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : impactOutcomesMetrics.learningGain.secondHalf
+                                .quizSessionsCompleted ?? 0}
                         </div>
                         <div>
                           Second half:{" "}
-                          {
-                            impactOutcomesMetrics.learningGain.secondHalf
-                              .quizAccuracyPct
-                          }
-                          %
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : `${impactOutcomesMetrics.learningGain.secondHalf.quizAccuracyPct}%`}
                         </div>
                         <div className="mt-1">
                           Delta:{" "}
-                          <TrendDelta
-                            deltaPct={
-                              impactOutcomesMetrics.learningGain.deltaPct
-                                .quizAccuracyPct
-                            }
-                          />
+                          {learningGainUnavailable ? (
+                            "n/a"
+                          ) : (
+                            <TrendDelta
+                              deltaPct={
+                                impactOutcomesMetrics.learningGain.deltaPct
+                                  .quizAccuracyPct
+                              }
+                            />
+                          )}
                         </div>
+                        {learningGainUnavailable && (
+                          <div className="mt-1 text-xs text-[#64748b]">
+                            Window rate fallback:{" "}
+                            {windowQuizAccuracyFallback === null
+                              ? "n/a"
+                              : `${windowQuizAccuracyFallback}%`}
+                          </div>
+                        )}
                       </div>
                       <div className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2">
                         <div className="font-semibold text-[#0f172a]">
@@ -7198,53 +7228,65 @@ export default function SupportConsolePage() {
                         </div>
                         <div className="mt-1">
                           Sessions:{" "}
-                          {impactOutcomesMetrics.learningGain.firstHalf
-                            .speakSessions ?? 0}
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : impactOutcomesMetrics.learningGain.firstHalf
+                                .speakSessions ?? 0}
                         </div>
                         <div>
                           Session completions:{" "}
-                          {
-                            impactOutcomesMetrics.learningGain.firstHalf
-                              .speakSessionsCompleted
-                          ?? 0}
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : impactOutcomesMetrics.learningGain.firstHalf
+                                .speakSessionsCompleted ?? 0}
                         </div>
                         <div className="mt-1">
                           First half:{" "}
-                          {
-                            impactOutcomesMetrics.learningGain.firstHalf
-                              .speakPassPct
-                          }
-                          %
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : `${impactOutcomesMetrics.learningGain.firstHalf.speakPassPct}%`}
                         </div>
                         <div>
                           Second-half sessions:{" "}
-                          {impactOutcomesMetrics.learningGain.secondHalf
-                            .speakSessions ?? 0}
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : impactOutcomesMetrics.learningGain.secondHalf
+                                .speakSessions ?? 0}
                         </div>
                         <div>
                           Second-half session completions:{" "}
-                          {
-                            impactOutcomesMetrics.learningGain.secondHalf
-                              .speakSessionsCompleted
-                          ?? 0}
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : impactOutcomesMetrics.learningGain.secondHalf
+                                .speakSessionsCompleted ?? 0}
                         </div>
                         <div>
                           Second half:{" "}
-                          {
-                            impactOutcomesMetrics.learningGain.secondHalf
-                              .speakPassPct
-                          }
-                          %
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : `${impactOutcomesMetrics.learningGain.secondHalf.speakPassPct}%`}
                         </div>
                         <div className="mt-1">
                           Delta:{" "}
-                          <TrendDelta
-                            deltaPct={
-                              impactOutcomesMetrics.learningGain.deltaPct
-                                .speakPassPct
-                            }
-                          />
+                          {learningGainUnavailable ? (
+                            "n/a"
+                          ) : (
+                            <TrendDelta
+                              deltaPct={
+                                impactOutcomesMetrics.learningGain.deltaPct
+                                  .speakPassPct
+                              }
+                            />
+                          )}
                         </div>
+                        {learningGainUnavailable && (
+                          <div className="mt-1 text-xs text-[#64748b]">
+                            Window rate fallback:{" "}
+                            {windowSpeakPassFallback === null
+                              ? "n/a"
+                              : `${windowSpeakPassFallback}%`}
+                          </div>
+                        )}
                       </div>
                       <div className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2">
                         <div className="font-semibold text-[#0f172a]">
@@ -7252,26 +7294,30 @@ export default function SupportConsolePage() {
                         </div>
                         <div className="mt-1">
                           First half:{" "}
-                          {
-                            impactOutcomesMetrics.learningGain.firstHalf
-                              .lessonsPerActiveUser
-                          }
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : impactOutcomesMetrics.learningGain.firstHalf
+                                .lessonsPerActiveUser}
                         </div>
                         <div>
                           Second half:{" "}
-                          {
-                            impactOutcomesMetrics.learningGain.secondHalf
-                              .lessonsPerActiveUser
-                          }
+                          {learningGainUnavailable
+                            ? "n/a"
+                            : impactOutcomesMetrics.learningGain.secondHalf
+                                .lessonsPerActiveUser}
                         </div>
                         <div className="mt-1">
                           Delta:{" "}
-                          <TrendDelta
-                            deltaPct={
-                              impactOutcomesMetrics.learningGain.deltaPct
-                                .lessonsPerActiveUser
-                            }
-                          />
+                          {learningGainUnavailable ? (
+                            "n/a"
+                          ) : (
+                            <TrendDelta
+                              deltaPct={
+                                impactOutcomesMetrics.learningGain.deltaPct
+                                  .lessonsPerActiveUser
+                              }
+                            />
+                          )}
                         </div>
                       </div>
                     </div>
