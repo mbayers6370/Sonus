@@ -1,4 +1,5 @@
-import type { FastifyInstance } from 'fastify';
+import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import type { PrismaClient } from '@prisma/client';
 import { requireTrustedOrigin } from '../lib/originPolicy.js';
 import { verifyPassword, hashPrivilegedPassword } from '../lib/localAuth.js';
 import {
@@ -19,7 +20,7 @@ import {
 
 type RegisterAdminAuthRoutesDeps = {
   allowedOrigins: Set<string>;
-  prisma: any;
+  prisma: PrismaClient;
   env: {
     DEV_USER_ID: string;
   };
@@ -53,10 +54,10 @@ type RegisterAdminAuthRoutesDeps = {
   hashSupportAdminResetToken: (token: string) => string;
   supportAdminSessionExpiry: () => Date;
   canUseSupportAdminUsername: (username: string) => boolean;
-  resolveSupportAdminResetUrlBase: (request: any) => string | null;
+  resolveSupportAdminResetUrlBase: (request: FastifyRequest) => string | null;
   requireSupportAdminSession: (
-    request: any,
-    reply: any
+    request: FastifyRequest,
+    reply: FastifyReply
   ) => Promise<{
     username: string;
     sessionId: string;

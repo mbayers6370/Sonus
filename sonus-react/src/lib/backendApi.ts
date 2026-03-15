@@ -15,7 +15,8 @@ type SpeakAttemptPayload = {
   detectedTransliteration?: string;
   initialOk: boolean;
   finalOk: boolean;
-  toneOk: boolean;
+  prosodyOk: boolean;
+  toneOk?: boolean;
   score?: number;
 };
 

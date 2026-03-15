@@ -40,6 +40,11 @@ describe('speak runtime language contract', () => {
     expect(romanizeJapaneseForDisplay('しんぶん')).toBe('shinbun');
   });
 
+  it('keeps ji and chi mappings distinct', () => {
+    expect(romanizeJapaneseForDisplay('じゅう')).toBe('juu');
+    expect(romanizeJapaneseForDisplay('ちゅう')).toBe('chuu');
+  });
+
   it('builds speak dimensions that UI can render without branching on hardcoded labels', () => {
     const fallback = buildSpeakDimensionScores({
       languageId: 'ko',

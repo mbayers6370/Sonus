@@ -35,7 +35,24 @@ const ProfileRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ d
 const TravelRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelRoute })));
 const TravelSectionRoute = lazy(() => import('./profileTravelRoutes').then((m) => ({ default: m.TravelSectionRoute })));
 const KonbiniGuidePage = lazy(() => import('../components/KonbiniGuidePage'));
-const SupportConsolePage = lazy(() => import('../components/internal/SupportConsolePage'));
+const SupportHomePage = lazy(() =>
+  import('../components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportHomePage }))
+);
+const SupportUsersPage = lazy(() =>
+  import('../components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportUsersPage }))
+);
+const SupportMetricsSupportPage = lazy(() =>
+  import('../components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportMetricsSupportPage }))
+);
+const SupportMetricsLearningPage = lazy(() =>
+  import('../components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportMetricsLearningPage }))
+);
+const SupportMetricsImpactPage = lazy(() =>
+  import('../components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportMetricsImpactPage }))
+);
+const SupportQualityReportsPage = lazy(() =>
+  import('../components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportQualityReportsPage }))
+);
 
 const LAST_LANGUAGE_KEY = 'sonus.last_language';
 const WALKTHROUGH_DONE_PREFIX = 'sonus.walkthrough.done:';
@@ -1182,7 +1199,12 @@ export default function AppRoutes() {
       <Route path="/terms" element={<TermsPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/attributions" element={<AttributionsPage />} />
-      <Route path="/internal/support/*" element={<SupportConsolePage />} />
+      <Route path="/internal/support" element={<SupportHomePage />} />
+      <Route path="/internal/support/users" element={<SupportUsersPage />} />
+      <Route path="/internal/support/metrics/support" element={<SupportMetricsSupportPage />} />
+      <Route path="/internal/support/metrics/learning" element={<SupportMetricsLearningPage />} />
+      <Route path="/internal/support/metrics/impact-outcomes" element={<SupportMetricsImpactPage />} />
+      <Route path="/internal/support/quality-reports" element={<SupportQualityReportsPage />} />
       <Route path="*" element={<Navigate to={selectedLanguage ? '/home' : '/'} replace />} />
       </Routes>
       {walkthroughVisible && walkthroughSteps[walkthroughStep] && (

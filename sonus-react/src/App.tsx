@@ -12,7 +12,24 @@ const EssentialJapaneseTravelPhrasesPillarPage = lazy(() =>
   import('./components/public/TravelSeoPages').then((module) => ({ default: module.EssentialJapaneseTravelPhrasesPillarPage }))
 );
 const SignedInApp = lazy(() => import('./components/internal/SignedInApp'));
-const SupportConsolePage = lazy(() => import('./components/internal/SupportConsolePage'));
+const SupportHomePage = lazy(() =>
+  import('./components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportHomePage }))
+);
+const SupportUsersPage = lazy(() =>
+  import('./components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportUsersPage }))
+);
+const SupportMetricsSupportPage = lazy(() =>
+  import('./components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportMetricsSupportPage }))
+);
+const SupportMetricsLearningPage = lazy(() =>
+  import('./components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportMetricsLearningPage }))
+);
+const SupportMetricsImpactPage = lazy(() =>
+  import('./components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportMetricsImpactPage }))
+);
+const SupportQualityReportsPage = lazy(() =>
+  import('./components/internal/support/SupportConsoleRoutePages').then((module) => ({ default: module.SupportQualityReportsPage }))
+);
 
 const HAS_VISITED_KEY = 'sonus.has_visited';
 const LAST_LANGUAGE_KEY = 'sonus.last_language';
@@ -62,7 +79,12 @@ function SupportConsoleEntry() {
       )}
     >
       <Routes>
-        <Route path="/internal/support/*" element={<SupportConsolePage />} />
+        <Route path="/internal/support" element={<SupportHomePage />} />
+        <Route path="/internal/support/users" element={<SupportUsersPage />} />
+        <Route path="/internal/support/metrics/support" element={<SupportMetricsSupportPage />} />
+        <Route path="/internal/support/metrics/learning" element={<SupportMetricsLearningPage />} />
+        <Route path="/internal/support/metrics/impact-outcomes" element={<SupportMetricsImpactPage />} />
+        <Route path="/internal/support/quality-reports" element={<SupportQualityReportsPage />} />
         <Route path="*" element={<Navigate to="/internal/support" replace />} />
       </Routes>
     </Suspense>
@@ -132,7 +154,7 @@ function AppShell() {
                   </div>
                 )}
               >
-                <SupportConsolePage />
+                <SupportHomePage />
               </Suspense>
             )}
           />

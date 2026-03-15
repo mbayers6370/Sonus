@@ -23,10 +23,15 @@ const speakAttemptSchema = z
     detectedTransliteration: z.string().max(128).optional(),
     initialOk: z.boolean(),
     finalOk: z.boolean(),
-    toneOk: z.boolean(),
+    prosodyOk: z.boolean().optional(),
+    toneOk: z.boolean().optional(),
     score: z.number().int().min(0).max(100).optional(),
   })
-  .passthrough();
+  .passthrough()
+  .refine((payload) => payload.prosodyOk !== undefined || payload.toneOk !== undefined, {
+    message: 'prosodyOk (or legacy toneOk) is required',
+    path: ['prosodyOk'],
+  });
 
 function nextDueDate(days: number) {
   // Convert interval days to an absolute due timestamp.
@@ -159,7 +164,8 @@ export async function attemptRoutes(app: FastifyInstance) {
     const data = parsed.data;
     const isReview = Boolean(data.isReview);
     const detectedTransliteration = data.detectedTransliteration;
-    const mispronounced = !(data.initialOk && data.finalOk && data.toneOk);
+    const prosodyOk = data.prosodyOk ?? data.toneOk ?? false;
+    const mispronounced = !(data.initialOk && data.finalOk && prosodyOk);
 
     const result = await prisma.$transaction(async (tx) => {
       const attempt = await tx.speakAttempt.create({
@@ -170,7 +176,7 @@ export async function attemptRoutes(app: FastifyInstance) {
           detectedTransliteration,
           initialOk: data.initialOk,
           finalOk: data.finalOk,
-          toneOk: data.toneOk,
+          toneOk: prosodyOk,
           score: data.score,
         },
       });
