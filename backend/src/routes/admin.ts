@@ -375,7 +375,7 @@ async function loadExportLogoBytes() {
   return null;
 }
 
-async function buildTextPdf(title: string, subtitle: string, lines: PdfLine[]) {
+async function buildTextPdf(title: string, subtitle: string, lines: Iterable<PdfLine>) {
   const pageWidth = 612;
   const pageHeight = 792;
   const margin = 48;
@@ -426,67 +426,15 @@ async function buildTextPdf(title: string, subtitle: string, lines: PdfLine[]) {
   const footerY = margin - 14;
   const bodyBottomY = footerY + 16;
 
-  const expandedLines: Array<{
-    kind: PdfLineKind;
-    textParts: string[];
-    lineHeight: number;
-    blockGap: number;
-    font: PDFFont;
-    size: number;
-  }> = [];
-  for (const line of lines) {
-    if (line.kind === 'spacer') {
-      const style = styleByKind.spacer;
-      expandedLines.push({
-        kind: 'spacer',
-        textParts: [''],
-        lineHeight: style.lineHeight,
-        blockGap: style.blockGap,
-        font: style.font,
-        size: style.size,
-      });
-      continue;
-    }
-    const style = styleByKind[line.kind];
-    const wrapped = wrapPdfTextLine(line.text || '', contentWidth, style.font, style.size);
-    expandedLines.push({
-      kind: line.kind,
-      textParts: wrapped,
-      lineHeight: style.lineHeight,
-      blockGap: style.blockGap,
-      font: style.font,
-      size: style.size,
-    });
-  }
-  if (!expandedLines.length) {
-    const style = styleByKind.body;
-    expandedLines.push({
-      kind: 'body',
-      textParts: ['-'],
-      lineHeight: style.lineHeight,
-      blockGap: style.blockGap,
-      font: style.font,
-      size: style.size,
-    });
-  }
+  let pageNumber = 0;
+  let page = doc.addPage([pageWidth, pageHeight]);
+  let y = bodyTopY;
+  const titleText = normalizePdfText(title);
+  const subtitleText = normalizePdfText(subtitle);
+  const titleX = (pageWidth - bold.widthOfTextAtSize(titleText, 16)) / 2;
+  const subtitleX = (pageWidth - regular.widthOfTextAtSize(subtitleText, 10)) / 2;
 
-  const pages: (typeof expandedLines)[] = [];
-  let currentPage: typeof expandedLines = [];
-  let remainingHeight = bodyTopY - bodyBottomY;
-  for (const line of expandedLines) {
-    const needed = line.textParts.length * line.lineHeight + line.blockGap;
-    if (needed > remainingHeight && currentPage.length) {
-      pages.push(currentPage);
-      currentPage = [];
-      remainingHeight = bodyTopY - bodyBottomY;
-    }
-    currentPage.push(line);
-    remainingHeight -= needed;
-  }
-  if (currentPage.length) pages.push(currentPage);
-  const pageCount = pages.length || 1;
-  for (let pageIdx = 0; pageIdx < pageCount; pageIdx += 1) {
-    const page = doc.addPage([pageWidth, pageHeight]);
+  const drawHeader = () => {
     if (logo && logoWidth > 0 && logoHeight > 0) {
       page.drawImage(logo, {
         x: logoX,
@@ -495,18 +443,14 @@ async function buildTextPdf(title: string, subtitle: string, lines: PdfLine[]) {
         height: logoHeight,
       });
     }
-    const titleText = normalizePdfText(title);
-    const subtitleText = normalizePdfText(subtitle);
-    const titleX = (pageWidth - bold.widthOfTextAtSize(titleText, 16)) / 2;
-    const subtitleX = (pageWidth - regular.widthOfTextAtSize(subtitleText, 10)) / 2;
-    page.drawText(normalizePdfText(title), {
+    page.drawText(titleText, {
       x: titleX,
       y: headerTitleY,
       font: bold,
       size: 16,
       color: rgb(0.06, 0.1, 0.16),
     });
-    page.drawText(normalizePdfText(subtitle), {
+    page.drawText(subtitleText, {
       x: subtitleX,
       y: headerSubtitleY,
       font: regular,
@@ -519,28 +463,11 @@ async function buildTextPdf(title: string, subtitle: string, lines: PdfLine[]) {
       thickness: 1,
       color: rgb(0.87, 0.9, 0.94),
     });
+  };
 
-    const pageLines = pages[pageIdx] || [];
-    let y = bodyTopY;
-    for (const line of pageLines) {
-      if (line.kind === 'spacer') {
-        y -= line.lineHeight;
-        continue;
-      }
-      for (const textPart of line.textParts) {
-        page.drawText(textPart, {
-          x: margin,
-          y,
-          font: line.font,
-          size: line.size,
-          color: rgb(0.1, 0.15, 0.22),
-        });
-        y -= line.lineHeight;
-      }
-      y -= line.blockGap;
-    }
-    page.drawText(`Page ${pageIdx + 1} of ${pageCount}`, {
-      x: pageWidth - margin - 82,
+  const drawFooter = () => {
+    page.drawText(`Page ${pageNumber}`, {
+      x: pageWidth - margin - 58,
       y: footerY,
       font: regular,
       size: 9,
@@ -553,7 +480,71 @@ async function buildTextPdf(title: string, subtitle: string, lines: PdfLine[]) {
       size: 9,
       color: rgb(0.4, 0.45, 0.52),
     });
+  };
+
+  const nextPage = () => {
+    pageNumber += 1;
+    page = doc.addPage([pageWidth, pageHeight]);
+    y = bodyTopY;
+    drawHeader();
+  };
+
+  // Remove initial placeholder page and start proper pagination.
+  doc.removePage(0);
+  nextPage();
+
+  let wroteContent = false;
+  for (const line of lines) {
+    const style = styleByKind[line.kind];
+    if (line.kind === 'spacer') {
+      if (y - style.lineHeight < bodyBottomY) {
+        drawFooter();
+        nextPage();
+      }
+      y -= style.lineHeight;
+      wroteContent = true;
+      continue;
+    }
+
+    const wrapped = wrapPdfTextLine(line.text || '', contentWidth, style.font, style.size);
+    const parts = wrapped.length ? wrapped : [''];
+    for (const part of parts) {
+      if (y - style.lineHeight < bodyBottomY) {
+        drawFooter();
+        nextPage();
+      }
+      page.drawText(part, {
+        x: margin,
+        y,
+        font: style.font,
+        size: style.size,
+        color: rgb(0.1, 0.15, 0.22),
+      });
+      y -= style.lineHeight;
+      wroteContent = true;
+    }
+
+    if (style.blockGap > 0) {
+      if (y - style.blockGap < bodyBottomY) {
+        drawFooter();
+        nextPage();
+      } else {
+        y -= style.blockGap;
+      }
+    }
   }
+
+  if (!wroteContent) {
+    const fallback = styleByKind.body;
+    page.drawText('-', {
+      x: margin,
+      y,
+      font: fallback.font,
+      size: fallback.size,
+      color: rgb(0.1, 0.15, 0.22),
+    });
+  }
+  drawFooter();
   return doc.save();
 }
 
@@ -578,80 +569,107 @@ async function buildUserExportPdf(payload: Record<string, unknown>, userId: stri
   const nonEmptySectionCount = sectionCounts.filter((entry) => entry.count > 0).length;
   const totalRecordCount = sectionCounts.reduce((sum, entry) => sum + entry.count, 0);
 
-  const lines: PdfLine[] = [
-    { kind: 'section', text: 'Report Summary' },
-    { kind: 'label', text: toPdfKeyValue('User ID', userId) },
-    { kind: 'body', text: toPdfKeyValue('Generated At (UTC)', generatedAt) },
-    { kind: 'body', text: toPdfKeyValue('Schema Version', exportMeta.schemaVersion) },
-    {
+  const sortedCounts = [...sectionCounts].sort((a, b) => a.key.localeCompare(b.key));
+
+  function* streamLines(): Generator<PdfLine> {
+    yield { kind: 'section', text: 'Report Summary' };
+    yield { kind: 'label', text: toPdfKeyValue('User ID', userId) };
+    yield { kind: 'body', text: toPdfKeyValue('Generated At (UTC)', generatedAt) };
+    yield { kind: 'body', text: toPdfKeyValue('Schema Version', exportMeta.schemaVersion) };
+    yield {
       kind: 'body',
       text: toPdfKeyValue(
         'Exported By',
         exportMeta.exportedByAdminEmail || exportMeta.exportedByAdminUserId
       ),
-    },
-    { kind: 'body', text: toPdfKeyValue('Total Records', totalRecordCount) },
-    { kind: 'body', text: toPdfKeyValue('Non-Empty Data Sections', nonEmptySectionCount) },
-    { kind: 'spacer', text: '' },
-    { kind: 'section', text: 'Profile Snapshot' },
-    { kind: 'label', text: toPdfKeyValue('Display Name', profile.displayName) },
-    { kind: 'body', text: toPdfKeyValue('Email', profile.email) },
-    { kind: 'body', text: toPdfKeyValue('Target Language', profile.targetLanguage) },
-    { kind: 'body', text: toPdfKeyValue('Timezone', profile.timezone) },
-    { kind: 'body', text: toPdfKeyValue('Onboarding Complete', profile.onboardingComplete) },
-    { kind: 'body', text: toPdfKeyValue('Profile Created At', profile.createdAt) },
-    { kind: 'body', text: toPdfKeyValue('Profile Updated At', profile.updatedAt) },
-    { kind: 'spacer', text: '' },
-    { kind: 'section', text: 'Data Inventory' },
-    { kind: 'mono', text: 'Section Name                         Records' },
-    { kind: 'mono', text: '-----------------------------------  -------' },
-  ];
+    };
+    yield { kind: 'body', text: toPdfKeyValue('Total Records', totalRecordCount) };
+    yield { kind: 'body', text: toPdfKeyValue('Non-Empty Data Sections', nonEmptySectionCount) };
+    yield { kind: 'spacer', text: '' };
+    yield { kind: 'section', text: 'Profile Snapshot' };
+    yield { kind: 'label', text: toPdfKeyValue('Display Name', profile.displayName) };
+    yield { kind: 'body', text: toPdfKeyValue('Email', profile.email) };
+    yield { kind: 'body', text: toPdfKeyValue('Target Language', profile.targetLanguage) };
+    yield { kind: 'body', text: toPdfKeyValue('Timezone', profile.timezone) };
+    yield { kind: 'body', text: toPdfKeyValue('Onboarding Complete', profile.onboardingComplete) };
+    yield { kind: 'body', text: toPdfKeyValue('Profile Created At', profile.createdAt) };
+    yield { kind: 'body', text: toPdfKeyValue('Profile Updated At', profile.updatedAt) };
+    yield { kind: 'spacer', text: '' };
+    yield { kind: 'section', text: 'Data Inventory' };
+    yield { kind: 'mono', text: 'Section Name                         Records' };
+    yield { kind: 'mono', text: '-----------------------------------  -------' };
 
-  const sortedCounts = [...sectionCounts].sort((a, b) => a.key.localeCompare(b.key));
-  for (const entry of sortedCounts) {
-    lines.push({
-      kind: 'mono',
-      text: `${entry.key.padEnd(35, ' ')}  ${String(entry.count).padStart(7, ' ')}`,
-    });
+    for (const entry of sortedCounts) {
+      yield {
+        kind: 'mono',
+        text: `${entry.key.padEnd(35, ' ')}  ${String(entry.count).padStart(7, ' ')}`,
+      };
+    }
+
+    if (exportMeta.warning) {
+      yield { kind: 'spacer', text: '' };
+      yield { kind: 'section', text: 'Notice' };
+      yield { kind: 'body', text: String(exportMeta.warning) };
+    }
+
+    yield { kind: 'spacer', text: '' };
+    yield { kind: 'section', text: 'Format Guidance' };
+    yield {
+      kind: 'body',
+      text: 'Use JSON for complete structured records and CSV for spreadsheet-based review.',
+    };
+    yield { kind: 'spacer', text: '' };
+    yield { kind: 'section', text: 'Complete Record Appendix' };
+
+    const orderedSectionKeys = ['exportMeta', 'profile', ...sortedCounts.map((entry) => entry.key)];
+    for (const sectionKey of orderedSectionKeys) {
+      const rawSectionValue = payload[sectionKey];
+      if (rawSectionValue === undefined) continue;
+      const recordCount =
+        sectionKey === 'exportMeta' || sectionKey === 'profile'
+          ? 1
+          : sectionRecordCount(rawSectionValue);
+      yield { kind: 'spacer', text: '' };
+      yield { kind: 'section', text: `${sectionKey} (${recordCount})` };
+
+      if (Array.isArray(rawSectionValue)) {
+        if (!rawSectionValue.length) {
+          yield { kind: 'mono', text: '[]' };
+          continue;
+        }
+        yield { kind: 'mono', text: '[' };
+        for (let i = 0; i < rawSectionValue.length; i += 1) {
+          const item = rawSectionValue[i];
+          const json = JSON.stringify(
+            item,
+            (_key, value) => (typeof value === 'bigint' ? value.toString() : value),
+            2
+          );
+          const itemLines = (json || 'null').split('\n');
+          for (let lineIdx = 0; lineIdx < itemLines.length; lineIdx += 1) {
+            const line = itemLines[lineIdx];
+            const suffix =
+              lineIdx === itemLines.length - 1 && i < rawSectionValue.length - 1 ? ',' : '';
+            yield { kind: 'mono', text: `  ${line}${suffix}` };
+          }
+        }
+        yield { kind: 'mono', text: ']' };
+        continue;
+      }
+
+      const sectionJson = JSON.stringify(
+        rawSectionValue,
+        (_key, value) => (typeof value === 'bigint' ? value.toString() : value),
+        2
+      );
+      const jsonLines = (sectionJson || 'null').split('\n');
+      for (const jsonLine of jsonLines) {
+        yield { kind: 'mono', text: jsonLine };
+      }
+    }
   }
 
-  if (exportMeta.warning) {
-    lines.push({ kind: 'spacer', text: '' });
-    lines.push({ kind: 'section', text: 'Notice' });
-    lines.push({ kind: 'body', text: String(exportMeta.warning) });
-  }
-
-  lines.push({ kind: 'spacer', text: '' });
-  lines.push({ kind: 'section', text: 'Format Guidance' });
-  lines.push({
-    kind: 'body',
-    text: 'Use JSON for complete structured records and CSV for spreadsheet-based review.',
-  });
-  lines.push({ kind: 'spacer', text: '' });
-  lines.push({ kind: 'section', text: 'Complete Record Appendix' });
-
-  const orderedSectionKeys = ['exportMeta', 'profile', ...sortedCounts.map((entry) => entry.key)];
-  for (const sectionKey of orderedSectionKeys) {
-    const rawSectionValue = payload[sectionKey];
-    if (rawSectionValue === undefined) continue;
-    const recordCount =
-      sectionKey === 'exportMeta' || sectionKey === 'profile'
-        ? 1
-        : sectionRecordCount(rawSectionValue);
-    lines.push({ kind: 'spacer', text: '' });
-    lines.push({ kind: 'section', text: `${sectionKey} (${recordCount})` });
-    const sectionJson = JSON.stringify(
-      rawSectionValue,
-      (_key, value) => (typeof value === 'bigint' ? value.toString() : value),
-      2
-    );
-    const jsonLines = (sectionJson || 'null').split('\n');
-    jsonLines.forEach((jsonLine) => {
-      lines.push({ kind: 'mono', text: jsonLine });
-    });
-  }
-
-  return buildTextPdf('Sonus User Data Export', 'Legal Data Access Report', lines);
+  return buildTextPdf('Sonus User Data Export', 'Legal Data Access Report', streamLines());
 }
 
 async function sendUserExportPayload(
