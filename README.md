@@ -105,3 +105,6 @@ Known limitations:
 - Add more progress analytics and personalized review recommendations
 - Harden deployment/ops workflows for broader public rollout
 - Continue performance and accessibility improvements
+
+## License
+**Proprietary.** This code is for portfolio demonstration only. Unauthorized use, forking, or modification is prohibited. See [LICENSE](LICENSE) for details.
