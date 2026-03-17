@@ -24,7 +24,7 @@ export default function SupportMetricsSupportPage(props: any) {
   return (
     <>
         {viewMode === "metrics-support" && (
-          <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
+          <section className="rounded-xl border border-[#1f2937]/20 bg-white/95 p-5">
             <h2 className="text-lg font-semibold text-[#0f172a]">
               Support Metrics (Last {metricsWindowDays} Days)
             </h2>
@@ -41,7 +41,7 @@ export default function SupportMetricsSupportPage(props: any) {
                   key={`support-window-${days}`}
                   type="button"
                   onClick={() => setMetricsWindowDays(days)}
-                  className={`rounded-lg px-2 py-1 text-xs font-semibold ${
+                  className={`rounded-xl px-2 py-1 text-xs font-semibold ${
                     metricsWindowDays === days
                       ? "bg-[#1f2937] text-white"
                       : "text-[#334155]"
@@ -55,7 +55,7 @@ export default function SupportMetricsSupportPage(props: any) {
               <p className="mt-3 text-sm text-[#475569]">Loading metrics…</p>
             )}
             {metricsError && (
-              <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+              <p className="mt-3 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                 {metricsError}
               </p>
             )}
@@ -108,7 +108,7 @@ export default function SupportMetricsSupportPage(props: any) {
               </div>
             )}
             {supportMetrics && (
-              <div className="mt-4 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3">
+              <div className="mt-4 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-5">
                 <h3 className="text-sm font-semibold text-[#0f172a]">
                   Incident Risk Snapshot
                 </h3>
@@ -149,7 +149,7 @@ export default function SupportMetricsSupportPage(props: any) {
                     return (
                       <div
                         key={item.label}
-                        className="rounded-lg border border-[#e2e8f0] bg-white p-2"
+                        className="rounded-xl border border-[#e2e8f0] bg-white p-5"
                       >
                         <div className="flex items-center justify-between gap-2 text-xs text-[#334155]">
                           <span>{item.label}</span>
@@ -171,7 +171,7 @@ export default function SupportMetricsSupportPage(props: any) {
             )}
             {supportMetrics && (
               <div className="mt-4 grid gap-3 md:grid-cols-2">
-                <article className="rounded-xl border border-[#e2e8f0] p-3">
+                <article className="rounded-xl border border-[#e2e8f0] p-5">
                   <h3 className="text-sm font-semibold text-[#0f172a]">
                     Auth Error Frequency By Type
                   </h3>
@@ -224,7 +224,7 @@ export default function SupportMetricsSupportPage(props: any) {
                         return (
                           <div
                             key={item.eventType}
-                            className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2"
+                            className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-5"
                           >
                             <div className="flex items-center justify-between gap-2">
                               <div className="min-w-0 text-sm font-medium text-[#0f172a] truncate">
@@ -244,7 +244,7 @@ export default function SupportMetricsSupportPage(props: any) {
                     )}
                   </div>
                 </article>
-                <article className="rounded-xl border border-[#e2e8f0] p-3">
+                <article className="rounded-xl border border-[#e2e8f0] p-5">
                   <h3 className="text-sm font-semibold text-[#0f172a]">
                     Auth/API Failures By Endpoint
                   </h3>
@@ -300,7 +300,7 @@ export default function SupportMetricsSupportPage(props: any) {
                         return (
                           <div
                             key={item.endpoint}
-                            className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2"
+                            className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-5"
                           >
                             <div className="flex items-center justify-between gap-2">
                               <div className="min-w-0 text-sm font-medium text-[#0f172a] truncate">
@@ -323,7 +323,7 @@ export default function SupportMetricsSupportPage(props: any) {
                 </article>
               </div>
             )}
-            <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+            <div className="mt-4 rounded-xl border border-[#e2e8f0] p-5">
               <h3 className="text-sm font-semibold text-[#0f172a]">
                 Deletion Cases
               </h3>
@@ -346,7 +346,7 @@ export default function SupportMetricsSupportPage(props: any) {
                 </button>
               </div>
               {deletionCasesError && (
-                <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                <p className="mt-2 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                   {deletionCasesError}
                 </p>
               )}
@@ -361,7 +361,7 @@ export default function SupportMetricsSupportPage(props: any) {
                 {deletionCases.map((entry: any, index: number) => (
                   <article
                     key={`${entry.sourceType}-${entry.targetUserId}-${entry.eventAt}-${index}`}
-                    className="rounded-lg border border-[#e2e8f0] p-2"
+                    className="rounded-xl border border-[#e2e8f0] p-5"
                   >
                     <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                       {entry.sourceType} | {entry.status} |{" "}

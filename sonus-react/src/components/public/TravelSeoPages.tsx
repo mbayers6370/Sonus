@@ -153,7 +153,7 @@ export function EssentialJapaneseTravelPhrasesPillarPage() {
 
       <main className="pt-16">
         <section className="px-4 py-10 sm:px-8 sm:py-12">
-          <div className="mx-auto w-full max-w-6xl rounded-3xl border border-white/20 bg-[var(--sonus-palette-charcoal)]/88 p-6 text-white shadow-[0_24px_48px_-30px_rgba(15,23,42,0.65)] sm:p-10">
+          <div className="mx-auto w-full max-w-6xl rounded-3xl border border-white/20 bg-[var(--sonus-palette-charcoal)]/88 p-5 text-white shadow-[0_24px_48px_-30px_rgba(15,23,42,0.65)]">
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#B8CCDE]">Travel Sprint Resource</p>
             <h1 className="main-font mt-2 text-3xl leading-tight sm:text-5xl">Essential Japanese Travel Phrases (Audio + Practice)</h1>
             <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#D6E2EE] sm:text-base">
@@ -173,7 +173,7 @@ export function EssentialJapaneseTravelPhrasesPillarPage() {
         <section className="px-4 pb-12 sm:px-8">
           <div className="mx-auto w-full max-w-6xl space-y-5">
             {sections.map((section) => (
-              <article key={section.title} className="rounded-2xl border border-[var(--sonus-palette-charcoal)]/14 bg-white p-5 shadow-[0_14px_30px_-24px_rgba(15,23,42,0.45)] sm:p-6">
+              <article key={section.title} className="rounded-2xl border border-[var(--sonus-palette-charcoal)]/14 bg-white p-5 shadow-[0_14px_30px_-24px_rgba(15,23,42,0.45)]">
                 <h2 className="main-font text-2xl text-[var(--sonus-palette-charcoal)]">{section.title}</h2>
                 <p className="mt-2 text-sm leading-relaxed text-[#475569]">{section.intro}</p>
                 <div className="mt-4">
@@ -182,7 +182,7 @@ export function EssentialJapaneseTravelPhrasesPillarPage() {
               </article>
             ))}
 
-            <section className="rounded-2xl border border-[var(--sonus-palette-charcoal)]/14 bg-white p-5 sm:p-6">
+            <section className="rounded-2xl border border-[var(--sonus-palette-charcoal)]/14 bg-white p-5">
               <h2 className="main-font text-2xl text-[var(--sonus-palette-charcoal)]">FAQ</h2>
               <div className="mt-4 space-y-3">
                 {faq.map((item) => (

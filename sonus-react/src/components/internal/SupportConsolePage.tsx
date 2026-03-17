@@ -84,7 +84,7 @@ const baseInput =
   "w-full rounded-xl border border-[#1f2937]/20 bg-white px-3 py-2 text-sm text-[#0f172a] outline-none focus:border-[#1f2937]";
 const baseButton =
   "rounded-xl bg-[#1f2937] px-3 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-50";
-const metricCard = "rounded-xl border border-[#e2e8f0] bg-white p-4";
+const metricCard = "rounded-xl border border-[#e2e8f0] bg-white p-5";
 const iconButtonBase =
   "inline-flex h-10 w-10 items-center justify-center rounded-lg transition-colors duration-150";
 const metricsWindowOptions = [

@@ -35,7 +35,7 @@ export default function SupportQualityReportsPage(props: any) {
   return (
     <>
         {viewMode === "quality-reports" && (
-          <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
+          <section className="rounded-xl border border-[#1f2937]/20 bg-white/95 p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 className="text-lg font-semibold text-[#0f172a]">
@@ -85,22 +85,22 @@ export default function SupportQualityReportsPage(props: any) {
             </div>
 
             {qualityRunMessage && (
-              <p className="mt-3 rounded-lg border border-emerald-300 bg-emerald-50 p-2 text-sm text-emerald-700">
+              <p className="mt-3 rounded-xl border border-emerald-300 bg-emerald-50 p-5 text-sm text-emerald-700">
                 {qualityRunMessage}
               </p>
             )}
             {qualityCleanupMessage && (
-              <p className="mt-3 rounded-lg border border-cyan-300 bg-cyan-50 p-2 text-sm text-cyan-700">
+              <p className="mt-3 rounded-xl border border-cyan-300 bg-cyan-50 p-5 text-sm text-cyan-700">
                 {qualityCleanupMessage}
               </p>
             )}
             {qualityReportsError && (
-              <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+              <p className="mt-3 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                 {qualityReportsError}
               </p>
             )}
             {qualityRunFullConfirmOpen && (
-              <div className="mt-3 rounded-xl border border-amber-300 bg-amber-50 p-3">
+              <div className="mt-3 rounded-xl border border-amber-300 bg-amber-50 p-5">
                 <h3 className="text-sm font-semibold text-[#0f172a]">
                   Confirm Full Suite Run
                 </h3>
@@ -145,7 +145,7 @@ export default function SupportQualityReportsPage(props: any) {
               </div>
             )}
 
-            <div className="mt-3 rounded-xl border border-[#e2e8f0] bg-white p-3">
+            <div className="mt-3 rounded-xl border border-[#e2e8f0] bg-white p-5">
               <h3 className="text-sm font-semibold text-[#0f172a]">
                 Report Retention
               </h3>
@@ -190,7 +190,7 @@ export default function SupportQualityReportsPage(props: any) {
             </div>
 
             <div className="mt-4 grid min-w-0 gap-4 lg:grid-cols-[360px_minmax(0,1fr)]">
-              <aside className="min-w-0 rounded-xl border border-[#e2e8f0] bg-white p-3">
+              <aside className="min-w-0 rounded-xl border border-[#e2e8f0] bg-white p-5">
                 <h3 className="text-sm font-semibold text-[#0f172a]">Runs</h3>
                 <div className="mt-2 max-h-[62vh] space-y-2 overflow-auto pr-1">
                   {!qualityReportsLoading && qualityReports.length === 0 && (
@@ -204,7 +204,7 @@ export default function SupportQualityReportsPage(props: any) {
                       <button
                         key={report.runId}
                         type="button"
-                        className={`w-full rounded-lg border p-2 text-left ${
+                        className={`w-full rounded-xl border p-5 text-left ${
                           isActive
                             ? "border-[#1f2937] bg-[#f8fafc]"
                             : "border-[#e2e8f0] bg-white hover:border-[#cbd5e1]"
@@ -231,7 +231,7 @@ export default function SupportQualityReportsPage(props: any) {
                 </div>
               </aside>
 
-              <article className="min-w-0 rounded-xl border border-[#e2e8f0] bg-white p-3">
+              <article className="min-w-0 rounded-xl border border-[#e2e8f0] bg-white p-5">
                 {!selectedQualityRunId && (
                   <p className="text-sm text-[#64748b]">
                     Select a report run to view details.
@@ -243,7 +243,7 @@ export default function SupportQualityReportsPage(props: any) {
                   </p>
                 )}
                 {qualityDetailError && (
-                  <p className="rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                  <p className="rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                     {qualityDetailError}
                   </p>
                 )}
@@ -265,7 +265,7 @@ export default function SupportQualityReportsPage(props: any) {
                         <div className="mt-2 flex flex-wrap items-center gap-2">
                           <button
                             type="button"
-                            className="rounded-lg border border-[#cbd5e1] bg-white px-2 py-1 text-xs font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                            className="rounded-xl border border-[#cbd5e1] bg-white px-2 py-1 text-xs font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
                             onClick={() =>
                               downloadTextFile(
                                 `${qualityDetail.runId}-QUALITY_REPORT.md`,
@@ -278,7 +278,7 @@ export default function SupportQualityReportsPage(props: any) {
                           </button>
                           <button
                             type="button"
-                            className="rounded-lg border border-[#cbd5e1] bg-white px-2 py-1 text-xs font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
+                            className="rounded-xl border border-[#cbd5e1] bg-white px-2 py-1 text-xs font-semibold text-[#1f2937] transition hover:bg-[#f8fafc]"
                             onClick={() =>
                               downloadTextFile(
                                 `${qualityDetail.runId}-quality-report.json`,
@@ -296,7 +296,7 @@ export default function SupportQualityReportsPage(props: any) {
                         </div>
                       </header>
 
-                      <section className="rounded-lg border border-[#e2e8f0] p-2">
+                      <section className="rounded-xl border border-[#e2e8f0] p-5">
                         <h4 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#64748b]">
                           Check Status
                         </h4>
@@ -339,7 +339,7 @@ export default function SupportQualityReportsPage(props: any) {
                         </div>
                       </section>
 
-                      <section className="rounded-lg border border-[#e2e8f0] p-2">
+                      <section className="rounded-xl border border-[#e2e8f0] p-5">
                         <h4 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#64748b]">
                           Markdown Report
                         </h4>

@@ -33,7 +33,7 @@ export default function SupportConsoleAuthPage(props: any) {
       <div className="min-h-screen page-shell px-4 py-6 text-[#1f2937] flex items-center justify-center">
         <div className="w-full">
           <div className="mx-auto max-w-md">
-            <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-5">
+            <section className="rounded-xl border border-[#1f2937]/20 bg-white/95 p-5">
               <h1 className="text-lg font-semibold text-[#0f172a]">
                 Support Admin Login
               </h1>
@@ -102,7 +102,7 @@ export default function SupportConsoleAuthPage(props: any) {
             </section>
           </div>
           {(resetTokenFromQuery || resetTokenValue.trim()) && (
-            <div className="mx-auto mt-4 max-w-md rounded-2xl border border-[#1f2937]/20 bg-white/95 p-5">
+            <div className="mx-auto mt-4 max-w-md rounded-xl border border-[#1f2937]/20 bg-white/95 p-5">
               <h2 className="text-lg font-semibold text-[#0f172a]">
                 Reset Admin Password
               </h2>
@@ -144,13 +144,13 @@ export default function SupportConsoleAuthPage(props: any) {
             </div>
           )}
           {authError && (
-            <div className="mx-auto mt-4 max-w-5xl rounded-xl border border-[#1f2937]/20 bg-white/95 p-3 text-sm text-[#1f2937]">
+            <div className="mx-auto mt-4 max-w-5xl rounded-xl border border-[#1f2937]/20 bg-white/95 p-5 text-sm text-[#1f2937]">
               {authError}
             </div>
           )}
           {forgotPasswordOpen && (
             <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/45 p-4">
-              <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+              <div className="w-full max-w-md rounded-xl border border-[#1f2937]/20 bg-white p-5">
                 <h3 className="text-lg font-semibold text-[#0f172a]">
                   Forgot Admin Password
                 </h3>

@@ -117,7 +117,7 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
       />
 
       <div className="max-w-6xl mx-auto space-y-4">
-        <section className="dashboard-card-enter rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 sm:p-6 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+        <section className="dashboard-card-enter rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
           <div className="text-[11px] uppercase tracking-[0.2em] font-mono text-[#B5D8EA]">Mandarin Foundations</div>
           <h2 className="main-font mt-2 text-[2rem] leading-tight">Tune Your Ear to Tone Shape</h2>
           <p className="mt-2 text-sm text-white/90">
@@ -125,7 +125,7 @@ export default function MandarinTones({ onHome, onOpenProfile }: MandarinTonesPr
           </p>
         </section>
 
-      <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[var(--sonus-palette-charcoal)] p-4 sm:p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
+      <section className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[var(--sonus-palette-charcoal)] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {TONE_CARDS.map((tone, index) => (
           <div

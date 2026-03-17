@@ -124,7 +124,7 @@ export default function SupportConsoleAdminModals(props: any) {
       </footer>
       {createAdminOpen && (
         <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/45 p-4">
-          <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+          <div className="w-full max-w-md rounded-xl border border-[#1f2937]/20 bg-white p-5">
             <h3 className="text-lg font-semibold text-[#0f172a]">
               Create New Admin
             </h3>
@@ -159,7 +159,7 @@ export default function SupportConsoleAdminModals(props: any) {
               placeholder="initial password (min 12 chars, upper/lower/number/symbol)"
             />
             {adminActionError && (
-              <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+              <p className="mt-2 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                 {adminActionError}
               </p>
             )}
@@ -191,7 +191,7 @@ export default function SupportConsoleAdminModals(props: any) {
       )}
       {resetPasswordOpen && (
         <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/45 p-4">
-          <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+          <div className="w-full max-w-md rounded-xl border border-[#1f2937]/20 bg-white p-5">
             <h3 className="text-lg font-semibold text-[#0f172a]">
               Reset Admin Password
             </h3>
@@ -212,7 +212,7 @@ export default function SupportConsoleAdminModals(props: any) {
               placeholder="new password (min 12 chars, upper/lower/number/symbol)"
             />
             {adminActionError && (
-              <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+              <p className="mt-2 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                 {adminActionError}
               </p>
             )}
@@ -243,7 +243,7 @@ export default function SupportConsoleAdminModals(props: any) {
       )}
       {recoveryEmailOpen && (
         <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/45 p-4">
-          <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+          <div className="w-full max-w-md rounded-xl border border-[#1f2937]/20 bg-white p-5">
             <h3 className="text-lg font-semibold text-[#0f172a]">
               Set Recovery Email
             </h3>
@@ -254,7 +254,7 @@ export default function SupportConsoleAdminModals(props: any) {
               placeholder="outside recovery email"
             />
             {adminActionError && (
-              <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+              <p className="mt-2 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                 {adminActionError}
               </p>
             )}
@@ -283,7 +283,7 @@ export default function SupportConsoleAdminModals(props: any) {
       )}
       {adminActionSuccess && (
         <div className="fixed inset-0 z-[145] flex items-center justify-center bg-black/45 p-4">
-          <div className="w-full max-w-sm rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+          <div className="w-full max-w-sm rounded-xl border border-[#1f2937]/20 bg-white p-5">
             <h3 className="text-lg font-semibold text-[#0f172a]">Success</h3>
             <p className="mt-2 text-sm text-[#334155]">{adminActionSuccess}</p>
             <div className="mt-4 flex justify-end">
@@ -300,7 +300,7 @@ export default function SupportConsoleAdminModals(props: any) {
       )}
       {accessConfirmOpen && pendingAccessPayload && (
         <div className="fixed inset-0 z-[146] flex items-center justify-center bg-black/45 p-4">
-          <div className="w-full max-w-lg rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+          <div className="w-full max-w-lg rounded-xl border border-[#1f2937]/20 bg-white p-5">
             <h3 className="text-lg font-semibold text-[#0f172a]">
               Confirm High-impact Learning Access Change
             </h3>
@@ -308,7 +308,7 @@ export default function SupportConsoleAdminModals(props: any) {
               This change affects multiple levels, units, or lessons. Confirm to
               apply and write an audit entry.
             </p>
-            <div className="mt-3 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-3 text-xs text-[#334155]">
+            <div className="mt-3 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-5 text-xs text-[#334155]">
               <pre className="whitespace-pre-wrap break-all">
                 {JSON.stringify(pendingAccessPayload, null, 2)}
               </pre>
@@ -341,7 +341,7 @@ export default function SupportConsoleAdminModals(props: any) {
       )}
       {accessApplyModalOpen && accessApplySummary && (
         <div className="fixed inset-0 z-[147] flex items-center justify-center bg-black/45 p-4">
-          <div className="w-full max-w-md rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+          <div className="w-full max-w-md rounded-xl border border-[#1f2937]/20 bg-white p-5">
             <h3 className="text-lg font-semibold text-[#0f172a]">
               Learning Access Updated
             </h3>
@@ -352,7 +352,7 @@ export default function SupportConsoleAdminModals(props: any) {
               </span>
               .
             </p>
-            <div className="mt-3 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm text-[#334155]">
+            <div className="mt-3 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-5 text-sm text-[#334155]">
               <div>
                 <span className="font-semibold text-[#0f172a]">Language:</span>{" "}
                 {accessApplySummary.language || "n/a"}
@@ -405,7 +405,7 @@ export default function SupportConsoleAdminModals(props: any) {
       )}
       {deleteCandidate && (
         <div className="fixed inset-0 z-[140] flex items-center justify-center bg-black/45 p-4">
-          <div className="w-full max-w-lg rounded-2xl border border-red-300 bg-white p-5">
+          <div className="w-full max-w-lg rounded-xl border border-red-300 bg-white p-5">
             <h3 className="text-lg font-semibold text-[#7f1d1d]">
               Schedule Permanent Deletion
             </h3>
@@ -416,7 +416,7 @@ export default function SupportConsoleAdminModals(props: any) {
             <p className="mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#b91c1c]">
               High-impact action
             </p>
-            <div className="mt-3 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm">
+            <div className="mt-3 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-5 text-sm">
               <div className="font-semibold text-[#0f172a]">
                 {deleteCandidate.displayName || "Unknown User"}
               </div>
@@ -472,7 +472,7 @@ export default function SupportConsoleAdminModals(props: any) {
       )}
       {deleteSuccessOpen && (
         <div className="fixed inset-0 z-[145] flex items-center justify-center bg-black/35 p-4">
-          <div className="w-full max-w-sm rounded-2xl border border-[#1f2937]/20 bg-white p-5 text-center">
+          <div className="w-full max-w-sm rounded-xl border border-[#1f2937]/20 bg-white p-5 text-center">
             <h3 className="text-lg font-semibold text-[#0f172a]">
               Deletion Scheduled
             </h3>
@@ -492,7 +492,7 @@ export default function SupportConsoleAdminModals(props: any) {
       )}
       {requestModal && (
         <div className="fixed inset-0 z-[146] flex items-center justify-center bg-black/45 p-4">
-          <div className="w-full max-w-lg rounded-2xl border border-[#1f2937]/20 bg-white p-5">
+          <div className="w-full max-w-lg rounded-xl border border-[#1f2937]/20 bg-white p-5">
             <h3 className="text-lg font-semibold text-[#0f172a]">
               Review Deletion Request
             </h3>
@@ -507,7 +507,7 @@ export default function SupportConsoleAdminModals(props: any) {
                 ? ` | ${requestModal.requestChannel}`
                 : ""}
             </p>
-            <div className="mt-3 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm text-[#334155]">
+            <div className="mt-3 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-5 text-sm text-[#334155]">
               {requestModal.requestReason}
             </div>
             <input

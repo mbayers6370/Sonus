@@ -231,7 +231,7 @@ export default function GlassHeader({
     }`;
 
   const desktopLearnItemClass = (active: boolean) =>
-    `flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[0.95rem] transition-colors ${
+    `flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-[0.95rem] transition-colors ${
       active
         ? (useLightDesktopChrome ? 'bg-[rgba(31,42,55,0.12)] text-[var(--sonus-palette-charcoal)] font-semibold' : 'bg-[rgba(19,87,119,0.12)] text-[#144E6A]')
         : (useLightDesktopChrome ? 'text-[var(--sonus-palette-charcoal)] hover:bg-[rgba(31,42,55,0.08)]' : 'text-text-dark hover:bg-[rgba(15,23,42,0.06)]')
@@ -403,7 +403,7 @@ export default function GlassHeader({
                       {desktopHomeActive ? (
                         <span
                           aria-hidden="true"
-                          className={`pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
+                          className={`pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 font-mono text-caption ${
                             useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                           }`}
                         >
@@ -414,7 +414,7 @@ export default function GlassHeader({
                       {desktopHomeActive ? (
                         <span
                           aria-hidden="true"
-                          className={`pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
+                          className={`pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 font-mono text-caption ${
                             useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                           }`}
                         >
@@ -439,7 +439,7 @@ export default function GlassHeader({
                         {desktopLessonsActive ? (
                           <span
                             aria-hidden="true"
-                            className={`pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
+                            className={`pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 font-mono text-caption ${
                               useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                             }`}
                           >
@@ -449,7 +449,7 @@ export default function GlassHeader({
                         {desktopLessonsActive ? (
                           <span
                             aria-hidden="true"
-                            className={`pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
+                            className={`pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 font-mono text-caption ${
                               useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                             }`}
                           >
@@ -505,7 +505,7 @@ export default function GlassHeader({
                       {desktopProfileActive ? (
                         <span
                           aria-hidden="true"
-                          className={`pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
+                          className={`pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 font-mono text-caption ${
                             useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                           }`}
                         >
@@ -516,7 +516,7 @@ export default function GlassHeader({
                       {desktopProfileActive ? (
                         <span
                           aria-hidden="true"
-                          className={`pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 font-mono text-[0.95rem] ${
+                          className={`pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 font-mono text-caption ${
                             useLightDesktopChrome ? 'text-white/42' : 'text-[var(--sonus-palette-blue)]/42'
                           }`}
                         >
@@ -645,24 +645,24 @@ export default function GlassHeader({
       />
       {showDesktopCenterNav ? (
         <div className="hidden lg:block fixed bottom-0 left-0 right-0 z-40 border-t border-white/45 bg-[#2B3440]/95 backdrop-blur-xl">
-          <div className="mx-auto flex h-8 max-w-[1600px] items-center justify-center gap-2 px-4 text-[0.58rem] leading-none font-light text-[#C7D0DC]">
-            <Link to="/privacy" className="underline-offset-2 hover:underline font-mono">
+          <div className="mx-auto flex h-8 max-w-[1600px] items-center justify-center gap-2 px-4 text-[6px] leading-none font-light text-[#C7D0DC]">
+            <Link to="/privacy" className="underline-offset-2 hover:underline font-mono text-[6px]">
               Privacy
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/terms" className="underline-offset-2 hover:underline font-mono">
+            <Link to="/terms" className="underline-offset-2 hover:underline font-mono text-[6px]">
               Terms
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/contact" className="underline-offset-2 hover:underline font-mono">
+            <Link to="/contact" className="underline-offset-2 hover:underline font-mono text-[6px]">
               Contact
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/attributions" className="underline-offset-2 hover:underline font-mono">
+            <Link to="/attributions" className="underline-offset-2 hover:underline font-mono text-[6px]">
               Attributions
             </Link>
             <span aria-hidden="true">|</span>
-            <span className="font-mono">© {new Date().getFullYear()} Sonus</span>
+            <span className="font-mono text-[6px]">© {new Date().getFullYear()} Sonus</span>
           </div>
         </div>
       ) : null}

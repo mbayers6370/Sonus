@@ -87,8 +87,8 @@ function renderResultCard(input: {
 }) {
   if (!input.showMobileResult && !input.showDesktopResult) return null;
   const shell = input.compact
-    ? 'rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-3 py-3.5'
-    : 'rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5';
+    ? 'rounded-xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-3 py-3.5'
+    : 'rounded-xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5';
   const heardClass = input.compact
     ? `secondary-font font-semibold ${input.noSpeechResultClass} text-white leading-tight break-words text-center`
     : 'secondary-font font-semibold text-2xl text-white leading-tight break-words text-center';
@@ -109,7 +109,7 @@ function renderResultCard(input: {
       >
         <div className="flex items-center justify-center gap-2 mb-2">
           {pill ? (
-            <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${pill.className}`}>
+            <span className={`px-2 py-0.5 rounded-full text-caption font-mono uppercase tracking-wider ${pill.className}`}>
               {pill.label}
             </span>
           ) : null}
@@ -146,13 +146,13 @@ function renderDesktopResultPanels(input: {
     const hasExtraContent = Boolean(input.displayResultReading || input.audioError);
     const centerSimpleResult = Boolean(input.matchResult) && !hasExtraContent;
     return (
-      <div className="hidden md:block rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5">
+      <div className="hidden md:block rounded-xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5">
         <div className={`text-center ${centerSimpleResult ? 'w-full min-h-[118px] flex flex-col items-center justify-center text-center' : ''}`}>
           {!input.isNoSpeech ? (
             <div className="flex items-center justify-center gap-2 mb-2">
               {input.matchResult ? (
                 <span
-                  className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
+                  className={`px-2 py-0.5 rounded-full text-caption font-mono uppercase tracking-wider ${
                     input.isFullyCorrect ? 'bg-[#8DD3AE] text-white' : 'bg-[var(--sonus-palette-rust)] text-white'
                   }`}
                 >
@@ -184,13 +184,13 @@ function renderDesktopResultPanels(input: {
   }
 
   return (
-    <div className="hidden md:block rounded-2xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5">
+    <div className="hidden md:block rounded-xl border border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] px-4 py-3.5">
       <div className="grid grid-cols-2 gap-3 items-start">
         <div className="pr-2 text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
             {resultPill(input.isNoSpeech, input.matchResult, input.analysis, input.isFullyCorrect) ? (
               <span
-                className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider ${
+                className={`px-2 py-0.5 rounded-full text-caption font-mono uppercase tracking-wider ${
                   resultPill(input.isNoSpeech, input.matchResult, input.analysis, input.isFullyCorrect)?.className
                 }`}
               >
@@ -228,7 +228,7 @@ export default function SpeakModeLayout(props: SpeakModeLayoutProps) {
             type="button"
             onClick={props.handlePlayTargetAudio}
             disabled={props.listenDisabled}
-            className={`relative rounded-3xl border border-[var(--sonus-palette-charcoal)] px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[176px] flex flex-col items-center justify-center text-center transition-colors ${
+            className={`relative rounded-card border border-[var(--sonus-palette-charcoal)] px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[176px] flex flex-col items-center justify-center text-center transition-colors ${
               props.disableTargetAudio ? 'bg-white cursor-default' : 'bg-white active:bg-[#F8FAFC]'
             }`}
             aria-label={props.disableTargetAudio ? 'Target audio hidden in mastery speak mode' : 'Play target audio'}
@@ -289,7 +289,7 @@ export default function SpeakModeLayout(props: SpeakModeLayoutProps) {
             type="button"
             onClick={props.handleRecord}
             disabled={props.recordLockedAfterMatch || props.isFinalizing || props.isStartingRecording || !props.sttSupported}
-            className={`relative rounded-3xl border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[176px] transition-colors ${
+            className={`relative rounded-card border px-3 py-2 min-h-[132px] sm:min-h-[170px] md:min-h-[176px] transition-colors ${
               !props.sttSupported
                 ? 'border-[#D1D5DB] bg-[#F3F4F6] opacity-75 cursor-not-allowed'
                 : props.recordLockedAfterMatch
@@ -370,7 +370,7 @@ export default function SpeakModeLayout(props: SpeakModeLayoutProps) {
             <button
               type="button"
               onClick={() => props.onNeedReview?.()}
-              className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[var(--sonus-palette-rust)] text-[var(--sonus-palette-rust)] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(194,65,12,0.08)]"
+              className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[var(--sonus-palette-rust)] text-[var(--sonus-palette-rust)] rounded-xl font-semibold tracking-wide transition-all hover:bg-[rgba(194,65,12,0.08)]"
             >
               Need Review
             </button>
@@ -378,7 +378,7 @@ export default function SpeakModeLayout(props: SpeakModeLayoutProps) {
           <button
             onClick={props.onNext}
             disabled={!props.canAdvance}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[var(--sonus-palette-charcoal)] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[var(--sonus-palette-charcoal)] hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[var(--sonus-palette-charcoal)] text-white rounded-xl font-semibold tracking-wide transition-all hover:bg-[var(--sonus-palette-charcoal)] hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"
           >
             Next
             <ChevronRight className="w-5 h-5" />

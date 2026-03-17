@@ -120,7 +120,7 @@ export default function TravelModePage({ onGoHome, onOpenProfile, onOpenSection,
                     key={section.id}
                     type="button"
                     onClick={() => onOpenSection(section.id)}
-                    className="dashboard-card-enter relative w-full min-w-0 text-left rounded-2xl border-2 border-white/65 p-2.5 sm:p-3 lg:p-2 xl:p-3 transition-all duration-200 h-[158px] sm:h-[166px] lg:h-[132px] xl:h-[172px] flex flex-col hover:-translate-y-1 active:translate-y-0 bg-white/[0.06] shadow-[0_14px_30px_-24px_rgba(255,255,255,0.28)] hover:shadow-[0_20px_34px_-20px_rgba(255,255,255,0.45)] overflow-hidden"
+                    className="dashboard-card-enter relative w-full min-w-0 text-left rounded-2xl border-2 border-white/65 p-5 transition-all duration-200 h-[158px] sm:h-[166px] lg:h-[132px] xl:h-[172px] flex flex-col hover:-translate-y-1 active:translate-y-0 bg-white/[0.06] shadow-[0_14px_30px_-24px_rgba(255,255,255,0.28)] hover:shadow-[0_20px_34px_-20px_rgba(255,255,255,0.45)] overflow-hidden"
                     aria-label={section.title}
                     style={{
                       animationDelay: `${index * 40 + 30}ms`,

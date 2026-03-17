@@ -633,7 +633,7 @@ export default function UnitSelect({
 
       {isCurrentLevelLocked && (
         <div className="pt-2">
-          <div className="rounded-3xl border border-[var(--sonus-palette-blue)]/35 bg-white p-6 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
+          <div className="rounded-3xl border border-[var(--sonus-palette-blue)]/35 bg-white p-5 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)]">
             <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(19,87,119,0.12)] text-[var(--sonus-palette-blue)]">
               Coming Soon
             </div>
@@ -723,7 +723,7 @@ export default function UnitSelect({
                     onSelectLesson(unitId, 0, 'quiz');
                   }}
                   disabled={!isUnitUnlocked}
-                  className={`${isUnitUnlocked ? `${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-4 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                  className={`${isUnitUnlocked ? `${practiceAccent.solidBg} text-white border ${practiceAccent.borderColor}` : 'bg-[#F3F4F6] text-[#6B7280] border border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-5 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
                 >
                   <div className="flex items-center justify-center gap-2 mb-3">
                     <div className={`inline-flex w-full items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitUnlocked ? 'bg-white/20 text-white' : 'bg-white text-[#6B7280] border border-[#D1D5DB]'}`}>
@@ -792,7 +792,7 @@ export default function UnitSelect({
                   setActiveUnit(unitId);
                 }}
                 disabled={isBlueprint || !isUnitUnlocked}
-                className={`${isUnitMastered ? `${accent.badgeText === 'text-[var(--sonus-palette-blue)]' ? 'bg-[#145B7A]' : accent.badgeText === 'text-[var(--sonus-palette-green)]' ? 'bg-[#1B3B27]' : accent.badgeText === 'text-[var(--sonus-palette-charcoal)]' ? 'bg-[var(--sonus-palette-charcoal)]' : 'bg-[var(--sonus-palette-rust)]'} text-white` : !isUnitUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[var(--sonus-palette-green)]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? (isUnitMastered ? unitMasteredBorderClass : accent.borderColor) : 'border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-4 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
+                className={`${isUnitMastered ? `${accent.badgeText === 'text-[var(--sonus-palette-blue)]' ? 'bg-[#145B7A]' : accent.badgeText === 'text-[var(--sonus-palette-green)]' ? 'bg-[#1B3B27]' : accent.badgeText === 'text-[var(--sonus-palette-charcoal)]' ? 'bg-[var(--sonus-palette-charcoal)]' : 'bg-[var(--sonus-palette-rust)]'} text-white` : !isUnitUnlocked ? 'bg-[#F3F4F6] text-[#6B7280]' : isUnitCompleted ? 'bg-white text-text-dark ring-1 ring-[var(--sonus-palette-green)]/40' : 'bg-white text-text-dark'} border ${isUnitUnlocked ? (isUnitMastered ? unitMasteredBorderClass : accent.borderColor) : 'border-[#D1D5DB]'} rounded-3xl ${unitCardHeightClass} p-5 text-center shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.hoverShadow} active:translate-y-0 flex flex-col overflow-hidden relative disabled:opacity-100 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none`}
               >
                 <div className="flex items-center justify-center gap-2 mb-3">
                   <div className={`inline-flex w-full items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg ${isUnitMastered ? 'bg-white/20 text-white' : !isUnitUnlocked ? 'bg-white text-[#6B7280] border border-[#D1D5DB]' : `${accent.badgeBg} ${accent.badgeText}`}`}>
@@ -880,7 +880,7 @@ export default function UnitSelect({
             <div className="grid grid-cols-2 gap-4 mb-4">
               <button
                 onClick={() => onOpenPractice(`${activeUnit.unitId}-listening`)}
-                className="relative rounded-2xl border border-[var(--sonus-palette-blue)] bg-white text-[var(--sonus-palette-blue)] min-h-[96px] p-4 text-center transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(19,87,119,0.28)] overflow-hidden"
+                className="relative rounded-2xl border border-[var(--sonus-palette-blue)] bg-white text-[var(--sonus-palette-blue)] min-h-[96px] p-5 text-center transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(19,87,119,0.28)] overflow-hidden"
               >
                 <div className="absolute inset-[6px] rounded-xl border border-[var(--sonus-palette-blue)]/35 pointer-events-none" />
                 <div className="relative z-10 h-full flex flex-col items-center justify-center gap-1">
@@ -891,7 +891,7 @@ export default function UnitSelect({
               </button>
               <button
                 onClick={() => onOpenPractice(`${activeUnit.unitId}-speaking`)}
-                className="relative rounded-2xl border border-[var(--sonus-palette-rust)] bg-white text-[var(--sonus-palette-rust)] min-h-[96px] p-4 text-center transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(194,65,12,0.32)] overflow-hidden"
+                className="relative rounded-2xl border border-[var(--sonus-palette-rust)] bg-white text-[var(--sonus-palette-rust)] min-h-[96px] p-5 text-center transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 shadow-[0_12px_28px_-22px_rgba(194,65,12,0.32)] overflow-hidden"
               >
                 <div className="absolute inset-[6px] rounded-xl border border-[var(--sonus-palette-rust)]/35 pointer-events-none" />
                 <div className="relative z-10 h-full flex flex-col items-center justify-center gap-1">

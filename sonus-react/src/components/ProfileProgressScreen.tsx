@@ -401,39 +401,39 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
 
       <div className="mx-auto max-w-6xl space-y-6">
         {backendOffline && (
-          <div className="bg-white border border-[rgba(25,50,50,0.35)] rounded-2xl p-4 text-sm text-text-med">
+          <div className="bg-white border border-[rgba(25,50,50,0.35)] rounded-2xl p-5 text-sm text-text-med">
             Backend appears offline. Showing cached/empty progress.
           </div>
         )}
 
         {error && (
-          <div className="bg-white border border-[var(--sonus-palette-rust)] rounded-2xl p-4 text-sm text-[var(--sonus-palette-rust)]">
+          <div className="bg-white border border-[var(--sonus-palette-rust)] rounded-2xl p-5 text-sm text-[var(--sonus-palette-rust)]">
             {error}
           </div>
         )}
 
         <section className="grid grid-cols-1 gap-3 lg:grid-cols-12">
-          <div className="rounded-3xl border p-5 text-center sm:p-6 sm:text-left shadow-[0_20px_48px_-40px_rgba(15,23,42,0.28)] lg:col-span-12 bg-[var(--sonus-palette-green)] sonus-drenched-border-green">
+          <div className="rounded-3xl border p-5 text-center sm:text-left shadow-[0_20px_48px_-40px_rgba(15,23,42,0.28)] lg:col-span-12 bg-[var(--sonus-palette-green)] sonus-drenched-border-green">
             <h2 className="main-font text-[2rem] leading-none text-white sm:text-[2.2rem]">Progress Overview</h2>
             <p className="mt-3 max-w-2xl text-sm text-[rgba(255,255,255,0.86)]">
               This report summarizes active-path completion, study streak, and intervention priorities for the current study track.
             </p>
             <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
-              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-3 text-center sm:text-left">
+              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-5 text-center sm:text-left">
                 <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[rgba(255,255,255,0.74)]">Current Unit + Lesson</p>
                 <p className="mt-1.5 text-sm font-semibold text-white">{currentUnitAndLesson}</p>
               </div>
-              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-3 text-center sm:text-left">
+              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-5 text-center sm:text-left">
                 <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[rgba(255,255,255,0.74)]">Review Queue Size</p>
                 <p className="mt-1.5 text-sm font-semibold text-white">{needsWork.length} tracked words</p>
               </div>
-              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-3 text-center sm:text-left">
+              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-5 text-center sm:text-left">
                 <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.14em] text-[rgba(255,255,255,0.74)] sm:justify-start">
                   Lessons Completed
                 </div>
                 <p className="mt-1 text-2xl font-semibold leading-none text-white">{lessonsCompletedDisplay}</p>
               </div>
-              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-3 text-center sm:text-left">
+              <div className="rounded-2xl border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.1)] p-5 text-center sm:text-left">
                 <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.14em] text-[rgba(255,255,255,0.74)] sm:justify-start">
                   Study Streak
                 </div>
@@ -444,7 +444,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
         </section>
 
         <section className="grid grid-cols-1 gap-3 lg:grid-cols-12">
-          <div className="rounded-3xl border border-[rgba(25,50,50,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)] lg:col-span-7">
+          <div className="rounded-3xl border border-[rgba(25,50,50,0.45)] bg-white p-5 text-center sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)] lg:col-span-7">
             <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Diagnostic Breakdown</p>
@@ -452,30 +452,30 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
               </div>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2.5">
-              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
                 <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Quiz Review Misses</p>
                 <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">
                   {needsWork.reduce((sum, item) => sum + item.missedQuizCount, 0)}
                 </p>
               </div>
-              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
                 <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Speech Review Misses</p>
                 <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">
                   {needsWork.reduce((sum, item) => sum + item.mispronounceCount, 0)}
                 </p>
               </div>
-              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
                 <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Masteries Completed</p>
                 <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">{masteriesCompleted}</p>
               </div>
-              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-3.5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
+              <div className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-5 text-center sm:text-left min-h-[112px] flex flex-col justify-between">
                 <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Last Quiz Score</p>
                 <p className="mt-1 text-2xl font-semibold leading-none text-text-dark">{lastQuizScore}%</p>
               </div>
             </div>
           </div>
 
-          <div className="rounded-3xl border border-[rgba(25,50,50,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)] lg:col-span-5">
+          <div className="rounded-3xl border border-[rgba(25,50,50,0.45)] bg-white p-5 text-center sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)] lg:col-span-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Priority Queue</p>
             <h3 className="mt-1 text-xl font-semibold text-text-dark">Top Review Words</h3>
             <div className="mt-4 space-y-2">
@@ -503,7 +503,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[rgba(25,50,50,0.45)] bg-white p-5 text-center sm:p-6 sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)]">
+        <section className="rounded-3xl border border-[rgba(25,50,50,0.45)] bg-white p-5 text-center sm:text-left shadow-[0_16px_36px_-30px_rgba(15,23,42,0.24)]">
           <div className="flex flex-col items-center gap-2 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#193232]">Full Queue</p>
@@ -523,7 +523,7 @@ export default function ProfileProgressScreen({ onGoHome, onGoProfile }: Profile
                     return (
                       <div
                         key={item.wordId}
-                        className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-3 text-center sm:text-left min-h-[124px] flex flex-col justify-between"
+                        className="rounded-2xl border border-[rgba(25,50,50,0.30)] bg-[#FBFBF9] p-5 text-center sm:text-left min-h-[124px] flex flex-col justify-between"
                       >
                         <div>
                           <div className="secondary-font text-[1.55rem] leading-none text-text-dark">

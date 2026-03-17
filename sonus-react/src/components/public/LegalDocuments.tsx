@@ -5,7 +5,7 @@ export function TermsOfServiceContent() {
   return (
     <>
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">1. Acceptance of These Terms</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">1. Acceptance of These Terms</h2>
         <p className="mt-2">
           By accessing or using Sonus, you agree to these Terms of Service. If you do not agree to these Terms, do not
           use Sonus.
@@ -17,7 +17,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">2. Eligibility</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">2. Eligibility</h2>
         <p className="mt-2">
           You must be at least 13 years old, or older where required by local law in your jurisdiction, to use Sonus.
         </p>
@@ -27,7 +27,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">3. Your Account</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">3. Your Account</h2>
         <p className="mt-2">
           You are responsible for maintaining the confidentiality of your login credentials and for activity that
           occurs under your account.
@@ -50,7 +50,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">4. Acceptable Use</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">4. Acceptable Use</h2>
         <p className="mt-2">You agree not to misuse Sonus or help anyone else do so.</p>
         <p className="mt-2">This includes, for example, not:</p>
         <ul className="mt-2 list-disc space-y-1 pl-6">
@@ -71,7 +71,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">5. Service Scope</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">5. Service Scope</h2>
         <p className="mt-2">
           Sonus provides casual language practice, speech-based exercises, travel phrase support, progress tools, and
           related language exploration features.
@@ -92,7 +92,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">6. Intellectual Property</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">6. Intellectual Property</h2>
         <p className="mt-2">
           Sonus and its software, design, text, lessons, scoring logic, branding, visual assets, and other content are
           protected by intellectual property laws.
@@ -109,7 +109,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">7. Feedback</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">7. Feedback</h2>
         <p className="mt-2">
           If you send Sonus suggestions, ideas, or feedback, Sonus may use that feedback without restriction or
           compensation to you, unless applicable law requires otherwise.
@@ -117,7 +117,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">8. Privacy</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">8. Privacy</h2>
         <p className="mt-2">
           Your use of Sonus is also governed by the Sonus Privacy Policy, which explains how Sonus collects, uses,
           stores, and transfers personal data.
@@ -125,7 +125,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">9. Third-Party Services</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">9. Third-Party Services</h2>
         <p className="mt-2">
           Sonus may depend on or integrate with third-party services, platforms, browsers, hosting providers,
           authentication providers, payment providers, email providers, or speech-recognition technologies.
@@ -137,7 +137,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">10. Availability and Changes to the Service</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">10. Availability and Changes to the Service</h2>
         <p className="mt-2">
           Sonus may modify, update, suspend, or discontinue parts of the service from time to time.
         </p>
@@ -153,7 +153,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">11. Beta Features</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">11. Beta Features</h2>
         <p className="mt-2">
           Some Sonus features may be labeled as beta, preview, experimental, or similar.
         </p>
@@ -164,7 +164,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">12. Suspension and Termination</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">12. Suspension and Termination</h2>
         <p className="mt-2">Sonus may suspend or terminate your access to the service if:</p>
         <ul className="mt-2 list-disc space-y-1 pl-6">
           <li>you violate these Terms;</li>
@@ -184,7 +184,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">13. Disclaimers</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">13. Disclaimers</h2>
         <p className="mt-2">
           To the fullest extent permitted by law, Sonus is provided on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo;
           basis.
@@ -204,7 +204,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">14. Limitation of Liability</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">14. Limitation of Liability</h2>
         <p className="mt-2">
           To the fullest extent permitted by law, Sonus and its affiliates, licensors, service providers, and partners
           will not be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages, or
@@ -228,7 +228,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">15. Indemnity</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">15. Indemnity</h2>
         <p className="mt-2">
           To the extent permitted by law, you agree to indemnify and hold harmless Sonus and its affiliates, officers,
           directors, employees, and agents from claims, liabilities, damages, losses, and expenses arising out of or
@@ -243,7 +243,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">16. Export Controls and Sanctions</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">16. Export Controls and Sanctions</h2>
         <p className="mt-2">
           You may not use Sonus in violation of applicable export controls, sanctions laws, or trade restrictions.
         </p>
@@ -251,7 +251,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">17. Governing Law</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">17. Governing Law</h2>
         <p className="mt-2">
           Unless mandatory local law requires otherwise, these Terms are governed by the laws of the jurisdiction in
           which Sonus is operated, without regard to conflict-of-law rules.
@@ -264,7 +264,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">18. Disputes</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">18. Disputes</h2>
         <p className="mt-2">
           Before filing a formal claim, you and Sonus agree to try to resolve the dispute informally by contacting{' '}
           <a className="underline underline-offset-4" href="mailto:support@sonuslearning.com">
@@ -283,7 +283,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">19. Changes to These Terms</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">19. Changes to These Terms</h2>
         <p className="mt-2">Sonus may update these Terms from time to time.</p>
         <p className="mt-2">
           If Sonus makes material changes, Sonus will update the &ldquo;Last updated&rdquo; date and, where required by law,
@@ -298,7 +298,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">20. Severability</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">20. Severability</h2>
         <p className="mt-2">
           If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions will remain
           in effect to the extent legally possible.
@@ -306,7 +306,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">21. Entire Agreement</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">21. Entire Agreement</h2>
         <p className="mt-2">
           These Terms, together with the Privacy Policy and any other policies or notices expressly incorporated by
           reference, form the entire agreement between you and Sonus regarding your use of the service, except where
@@ -315,7 +315,7 @@ export function TermsOfServiceContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">22. Contact</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">22. Contact</h2>
         <p className="mt-2">
           Questions about these Terms can be sent to{' '}
           <a className="underline underline-offset-4" href="mailto:support@sonuslearning.com">
@@ -332,7 +332,7 @@ export function PrivacyPolicyContent() {
   return (
     <>
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">Overview</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">Overview</h2>
         <p className="mt-2">
           This Privacy Policy explains how Sonus collects, uses, stores, shares, and transfers personal data. It is
           written to support a global user base and to reflect major privacy principles, including transparency,
@@ -341,7 +341,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">1. Who We Are</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">1. Who We Are</h2>
         <p className="mt-2">
           Matthew Bayers, operating Sonus Learning, is the controller of personal data processed through the Sonus
           platform, except where a third party independently determines the purposes and means of processing for its own
@@ -361,7 +361,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">2. Scope of This Policy</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">2. Scope of This Policy</h2>
         <p className="mt-2">
           This Privacy Policy applies to Sonus accounts, authentication, learning and travel features, speech scoring,
           practice and progress features, support interactions, telemetry, and security operations.
@@ -369,7 +369,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">3. Personal Data We Collect</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">3. Personal Data We Collect</h2>
         <p className="mt-2 font-semibold">Account and Profile Data</p>
         <p className="mt-2">
           Sonus stores account profile data such as user ID, email address, display name, target language, timezone,
@@ -432,7 +432,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">4. How We Use Data</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">4. How We Use Data</h2>
         <p className="mt-2">Sonus uses personal data to:</p>
         <ul className="mt-2 list-disc space-y-1 pl-6">
           <li>create and maintain accounts</li>
@@ -450,7 +450,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">5. Legal Bases for Processing</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">5. Legal Bases for Processing</h2>
         <p className="mt-2">
           Depending on your jurisdiction and the context, Sonus processes personal data under one or more of the
           following legal bases:
@@ -474,7 +474,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">6. When Providing Data Is Necessary</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">6. When Providing Data Is Necessary</h2>
         <p className="mt-2">
           Some personal data is necessary to create and operate an account, authenticate you, maintain secure sessions,
           and provide language practice features.
@@ -486,7 +486,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">7. Service Providers and Recipients</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">7. Service Providers and Recipients</h2>
         <p className="mt-2">
           Sonus may share personal data with service providers that help operate the platform, including providers for
           hosting, database services, authentication, email delivery, rate limiting, and similar infrastructure.
@@ -516,7 +516,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">8. International Data Transfers</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">8. International Data Transfers</h2>
         <p className="mt-2">
           Sonus infrastructure and service providers may process personal data in multiple countries.
         </p>
@@ -529,7 +529,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">9. Data Retention</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">9. Data Retention</h2>
         <p className="mt-2">
           Sonus retains personal data for as long as reasonably necessary for the purposes described in this Privacy
           Policy, including to provide the service, maintain learning history, secure the platform, comply with legal
@@ -558,7 +558,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">10. Your Privacy Rights</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">10. Your Privacy Rights</h2>
         <p className="mt-2">Subject to local law, you may have the right to:</p>
         <ul className="mt-2 list-disc space-y-1 pl-6">
           <li>access your personal data</li>
@@ -585,7 +585,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">11. Automated Decision-Making</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">11. Automated Decision-Making</h2>
         <p className="mt-2">
           Sonus uses automated systems to score speech attempts, generate review queues, gate certain feature states,
           and personalize aspects of app flow.
@@ -600,7 +600,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">12. Security</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">12. Security</h2>
         <p className="mt-2">
           Sonus uses technical and organizational safeguards designed to protect personal data, including
           authentication controls, hashed credentials, access restrictions, session protections, rate limiting, and
@@ -613,7 +613,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">13. Children&apos;s Privacy</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">13. Children&apos;s Privacy</h2>
         <p className="mt-2">
           Sonus is intended for users age 13 and older, or older where required by local law.
         </p>
@@ -625,7 +625,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">14. Regional Privacy Notes</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">14. Regional Privacy Notes</h2>
         <p className="mt-2 font-semibold">EEA, UK, and Switzerland</p>
         <p className="mt-2">
           Users in these regions may have additional rights and protections under applicable privacy law, including
@@ -649,7 +649,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">15. Changes to This Policy</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">15. Changes to This Policy</h2>
         <p className="mt-2">
           Sonus may update this Privacy Policy from time to time as features, providers, operations, or legal
           requirements change.
@@ -661,7 +661,7 @@ export function PrivacyPolicyContent() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">16. Contact</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">16. Contact</h2>
         <p className="mt-2">
           For privacy questions or requests, contact{' '}
           <a className="underline underline-offset-4" href="mailto:support@sonuslearning.com">

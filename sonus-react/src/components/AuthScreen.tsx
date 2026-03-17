@@ -730,7 +730,7 @@ export default function AuthScreen({
         </p>
 
         {mode === 'demo' && (
-          <div className={`rounded-2xl border border-[var(--sonus-palette-charcoal)]/12 bg-white p-3 text-center ${isModal ? 'mb-3' : 'mb-4'}`}>
+          <div className={`rounded-2xl border border-[var(--sonus-palette-charcoal)]/12 bg-white p-5 text-center ${isModal ? 'mb-3' : 'mb-4'}`}>
           <p className="text-[11px] font-semibold uppercase tracking-wider font-mono text-[var(--sonus-palette-charcoal)]">
             Demo Includes
           </p>
@@ -875,7 +875,7 @@ export default function AuthScreen({
           </div>
         )}
         {mode === 'signup' && (
-          <div className="mt-3 rounded-2xl border border-[var(--sonus-palette-charcoal)]/12 bg-[#F8FAFC] p-2.5 text-center">
+          <div className="mt-3 rounded-2xl border border-[var(--sonus-palette-charcoal)]/12 bg-[#F8FAFC] p-5 text-center">
             <div className="flex items-center justify-between gap-2 rounded-xl bg-white/70 px-3 py-2 text-left">
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0C4A6E]">

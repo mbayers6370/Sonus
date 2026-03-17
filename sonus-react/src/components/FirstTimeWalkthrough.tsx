@@ -62,7 +62,7 @@ export default function FirstTimeWalkthrough({
       {highlightRect && (
         <div
           aria-hidden="true"
-          className="pointer-events-none fixed z-[1] rounded-2xl border-[1.5px] border-white"
+          className="pointer-events-none fixed z-[1] rounded-xl border-[1.5px] border-white"
           style={{
             top: highlightRect.top,
             left: highlightRect.left,
@@ -77,17 +77,17 @@ export default function FirstTimeWalkthrough({
         role="dialog"
         aria-modal="true"
         aria-label="First-time walkthrough"
-        className="relative z-[2] w-full max-w-xl rounded-2xl border border-white/30 bg-white p-5 shadow-2xl"
+        className="relative z-[2] w-full max-w-xl rounded-xl border border-white/30 bg-white p-5 shadow-2xl"
       >
         <div className="mb-3 flex items-center justify-between gap-3">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#4D6075]">
+          <p className="font-mono text-caption font-semibold uppercase tracking-[0.16em] text-[#4D6075]">
             Step {stepIndex + 1} of {stepCount}
           </p>
           <button
             type="button"
             onClick={onSkip}
             disabled={saving}
-            className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-[#4D6075] disabled:cursor-not-allowed disabled:opacity-60"
+            className="font-mono text-caption font-semibold uppercase tracking-[0.14em] text-[#4D6075] disabled:cursor-not-allowed disabled:opacity-60"
           >
             Skip Tour
           </button>
@@ -108,7 +108,7 @@ export default function FirstTimeWalkthrough({
             type="button"
             onClick={onBack}
             disabled={!canGoBack || saving}
-            className="font-mono rounded-lg border border-[#CBD5E1] px-4 py-2 text-sm font-semibold text-[#334155] disabled:cursor-not-allowed disabled:opacity-50"
+            className="font-mono rounded-xl border border-[#CBD5E1] px-4 py-2 text-sm font-semibold text-[#334155] disabled:cursor-not-allowed disabled:opacity-50"
           >
             Back
           </button>
@@ -116,7 +116,7 @@ export default function FirstTimeWalkthrough({
             type="button"
             onClick={onNext}
             disabled={!canGoNext || saving}
-            className="font-mono rounded-lg bg-[var(--sonus-palette-charcoal)] px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+            className="font-mono rounded-xl bg-[var(--sonus-palette-charcoal)] px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
           >
             {saving ? 'Saving...' : isLastStep ? 'Finish' : 'Next'}
           </button>

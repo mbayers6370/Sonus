@@ -298,7 +298,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
         <div className="w-full grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-4 lg:gap-5 lg:items-stretch">
           <div ref={leftColumnRef} className="space-y-4 lg:space-y-0 lg:gap-4 lg:flex lg:flex-col lg:h-full">
             <section
-              className="rounded-3xl border-2 bg-white/95 p-4 sm:p-5 md:p-6 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
+              className="rounded-3xl border-2 bg-white/95 p-5 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
               style={{ borderColor: panelBorderColor }}
             >
               <div className="mx-auto max-w-4xl text-center">
@@ -403,12 +403,12 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
 
             <section
               ref={rapidRecallRef}
-              className="rounded-3xl border p-4 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
+              className="rounded-3xl border p-5 shadow-[0_16px_32px_-26px_rgba(15,23,42,0.34)]"
               style={{ borderColor: 'rgba(255,255,255,0.55)', backgroundColor: rapidRecallBackground }}
             >
               <div className="h-full flex flex-col">
               <div className="text-1.0em tracking-wide main-font text-center mb-2 text-white/85">Rapid Recall Mode</div>
-              <div className="rounded-2xl border p-3.5 bg-white/12 backdrop-blur-sm flex-1" style={{ borderColor: 'rgba(255,255,255,0.24)' }}>
+              <div className="rounded-2xl border p-5 bg-white/12 backdrop-blur-sm flex-1" style={{ borderColor: 'rgba(255,255,255,0.24)' }}>
                 {!recallDone && recallPhrase ? (
                   <div className="text-center h-full flex flex-col justify-center">
                 <div className="text-xs tracking-wide font-mono text-white/75 mb-2">
@@ -473,7 +473,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
 
           <section
             ref={rightPanelRef}
-            className="travel-scroll-hidden rounded-3xl border p-4 sm:p-5 md:p-6 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.34)] lg:overflow-y-auto"
+            className="travel-scroll-hidden rounded-3xl border p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.34)] lg:overflow-y-auto"
             style={{ borderColor: 'rgba(255,255,255,0.55)', backgroundColor: phrasePanelBackground }}
           >
             <div className="mb-4 text-center">
@@ -490,7 +490,7 @@ export default function TravelSectionPage({ section, onGoHome, onOpenProfile, se
                 return (
                   <div
                     key={phrase.id}
-                    className="relative rounded-2xl border p-4 sm:p-5 text-center min-h-[220px] md:min-h-[200px] md:aspect-square flex flex-col"
+                    className="relative rounded-2xl border p-5 text-center min-h-[220px] md:min-h-[200px] md:aspect-square flex flex-col"
                     style={{
                       borderColor: hasAccentTheme ? accentTheme : 'rgba(255,255,255,0.24)',
                       backgroundColor: hasAccentTheme

@@ -61,7 +61,7 @@ function cardContent(
           Japanese uses multiple scripts together. Read them as a system, not as separate tracks, and fluency becomes much more manageable.
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-2xl border border-[#D2DEE7] bg-white p-3.5">
+          <div className="rounded-2xl border border-[#D2DEE7] bg-white p-5">
             <p className="main-font text-[1.08rem] text-text-dark">Hiragana</p>
             <p className="mt-1 text-[14px] text-text-med">Core grammar endings and many native words. First script to master.</p>
             <p className="mt-1.5 text-[13px] text-text-light">Example: これはほんです。</p>
@@ -73,7 +73,7 @@ function cardContent(
               Open Chart
             </button>
           </div>
-          <div className="rounded-2xl border border-[#D2DEE7] bg-white p-3.5">
+          <div className="rounded-2xl border border-[#D2DEE7] bg-white p-5">
             <p className="main-font text-[1.08rem] text-text-dark">Katakana</p>
             <p className="mt-1 text-[14px] text-text-med">Loanwords, names, and modern vocabulary.</p>
             <p className="mt-1.5 text-[13px] text-text-light">Example: コーヒーをのみます。</p>
@@ -85,12 +85,12 @@ function cardContent(
               Open Chart
             </button>
           </div>
-          <div className="rounded-2xl border border-[#D2DEE7] bg-white p-3.5">
+          <div className="rounded-2xl border border-[#D2DEE7] bg-white p-5">
             <p className="main-font text-[1.08rem] text-text-dark">Kanji</p>
             <p className="mt-1 text-[14px] text-text-med">Meaning-carrying characters that speed reading.</p>
             <p className="mt-1.5 text-[13px] text-text-light">Example: 山へ行きます。</p>
           </div>
-          <div className="rounded-2xl border border-[#D2DEE7] bg-white p-3.5">
+          <div className="rounded-2xl border border-[#D2DEE7] bg-white p-5">
             <p className="main-font text-[1.08rem] text-text-dark">Romaji</p>
             <p className="mt-1 text-[14px] text-text-med">Temporary support only. Reduce early for faster fluency.</p>
           </div>
@@ -120,7 +120,7 @@ function cardContent(
     return (
       <div className="mt-4 space-y-2.5 text-[15px] leading-7">
         <p>A common beginner pattern is Subject + Object + Verb, with the verb usually at the end. Particles mark each word's role, so you can still track meaning even when word order feels new.</p>
-        <div className="rounded-xl border border-[#D2DEE7] bg-white p-3.5">
+        <div className="rounded-xl border border-[#D2DEE7] bg-white p-5">
           <p className="text-[14px] text-text-dark">Example: 私はりんごを食べます。</p>
           <p className="mt-1 text-[14px] text-text-med">I eat an apple.</p>
         </div>
@@ -133,7 +133,7 @@ function cardContent(
     return (
       <div className="mt-4 space-y-2.5 text-[15px] leading-7">
         <p>Levels increase in complexity from basic communication to high-level comprehension. As you move up, vocabulary range, grammar flexibility, and reading-listening difficulty all expand.</p>
-        <div className="rounded-xl border border-[#D2DEE7] bg-white p-3.5">
+        <div className="rounded-xl border border-[#D2DEE7] bg-white p-5">
           <p className="text-text-med"><span className="font-semibold text-text-dark">N5:</span> core survival language + script confidence</p>
           <p className="text-text-med"><span className="font-semibold text-text-dark">N4:</span> everyday topics + broader practical grammar</p>
           <p className="text-text-med"><span className="font-semibold text-text-dark">N3-N1:</span> wider context, denser reading, nuanced usage</p>
@@ -183,7 +183,7 @@ export default function JapaneseIntroScreen({
       />
 
       <div className="max-w-6xl mx-auto">
-        <section className="dashboard-card-enter mb-4 rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 sm:p-6 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+        <section className="dashboard-card-enter mb-4 rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
           <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div className="min-w-[230px]">
               <div className="text-[11px] uppercase tracking-[0.2em] font-mono text-white/80">Orientation</div>
@@ -193,7 +193,7 @@ export default function JapaneseIntroScreen({
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#3A4654] bg-[#2B3440] p-4 sm:p-5">
+            <div className="rounded-2xl border border-[#3A4654] bg-[#2B3440] p-5">
               <p className="text-[11px] uppercase tracking-[0.16em] font-mono text-white/80">At a Glance</p>
               <div className="mt-3 space-y-2.5">
                 {FOUNDATION_POINTS.map((item) => (

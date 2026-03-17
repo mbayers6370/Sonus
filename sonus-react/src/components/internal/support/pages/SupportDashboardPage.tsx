@@ -57,7 +57,7 @@ export default function SupportDashboardPage(props: any) {
   return (
     <>
         {viewMode === "dashboard" && (
-          <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
+          <section className="rounded-xl border border-[#1f2937]/20 bg-white/95 p-5">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-lg font-semibold text-[#0f172a]">
                 Analytics (Last {metricsWindowDays} Days)
@@ -69,7 +69,7 @@ export default function SupportDashboardPage(props: any) {
                       key={`home-window-${days}`}
                       type="button"
                       onClick={() => setMetricsWindowDays(days)}
-                      className={`rounded-lg px-2 py-1 text-xs font-semibold ${
+                      className={`rounded-xl px-2 py-1 text-xs font-semibold ${
                         metricsWindowDays === days
                           ? "bg-[#1f2937] text-white"
                           : "text-[#334155]"
@@ -94,7 +94,7 @@ export default function SupportDashboardPage(props: any) {
               </p>
             )}
             {dashboardError && (
-              <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+              <p className="mt-3 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                 {dashboardError}
               </p>
             )}
@@ -214,7 +214,7 @@ export default function SupportDashboardPage(props: any) {
                 </div>
               </article>
             </div>
-            <div className="mt-4 rounded-xl border border-[#f59e0b]/40 bg-[#fff7ed] p-3">
+            <div className="mt-4 rounded-xl border border-[#f59e0b]/40 bg-[#fff7ed] p-5">
               <h3 className="text-sm font-semibold text-[#9a3412]">
                 Watchlist
               </h3>
@@ -240,7 +240,7 @@ export default function SupportDashboardPage(props: any) {
               </div>
             </div>
             {speakMissHotspotsByLanguage && (
-              <div className="mt-4 rounded-xl border border-[#fca5a5]/50 bg-[#fff1f2] p-3">
+              <div className="mt-4 rounded-xl border border-[#fca5a5]/50 bg-[#fff1f2] p-5">
                 <details open>
                   <summary className="cursor-pointer list-none">
                     <h3 className="text-sm font-semibold text-[#9f1239]">
@@ -260,7 +260,7 @@ export default function SupportDashboardPage(props: any) {
                     {speakMissHotspotsByLanguage.languages.map((bucket: any) => (
                       <article
                         key={`hotspot-${bucket.languageId}`}
-                        className={`rounded-lg border p-3 ${
+                        className={`rounded-xl border p-5 ${
                           bucket.hasData
                             ? "border-[#fecdd3] bg-white"
                             : "border-[#ffd6dc] bg-[#fff7f9] text-[#9ca3af]"
@@ -324,7 +324,7 @@ export default function SupportDashboardPage(props: any) {
                 </details>
               </div>
             )}
-            <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
+            <div className="mt-5 rounded-xl border border-[#e2e8f0] p-5">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="text-sm font-semibold text-[#0f172a]">
                   Downloadable Reports
@@ -344,7 +344,7 @@ export default function SupportDashboardPage(props: any) {
                 leadership updates.
               </p>
               <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                <article className="rounded-xl border border-[#e2e8f0] bg-white p-5">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                     Executive Summary
                   </div>
@@ -390,7 +390,7 @@ export default function SupportDashboardPage(props: any) {
                   </div>
                 </article>
 
-                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                <article className="rounded-xl border border-[#e2e8f0] bg-white p-5">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                     Support Operations
                   </div>
@@ -443,7 +443,7 @@ export default function SupportDashboardPage(props: any) {
                   </div>
                 </article>
 
-                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                <article className="rounded-xl border border-[#e2e8f0] bg-white p-5">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                     Learning Health
                   </div>
@@ -496,7 +496,7 @@ export default function SupportDashboardPage(props: any) {
                   </div>
                 </article>
 
-                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                <article className="rounded-xl border border-[#e2e8f0] bg-white p-5">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                     Weekly Executive
                   </div>
@@ -568,7 +568,7 @@ export default function SupportDashboardPage(props: any) {
                   </div>
                 </article>
 
-                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                <article className="rounded-xl border border-[#e2e8f0] bg-white p-5">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                     Deletion Lifecycle
                   </div>
@@ -625,7 +625,7 @@ export default function SupportDashboardPage(props: any) {
                   </div>
                 </article>
 
-                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                <article className="rounded-xl border border-[#e2e8f0] bg-white p-5">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                     Security Incidents
                   </div>
@@ -684,7 +684,7 @@ export default function SupportDashboardPage(props: any) {
                   </div>
                 </article>
 
-                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                <article className="rounded-xl border border-[#e2e8f0] bg-white p-5">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                     Learning Momentum
                   </div>
@@ -745,7 +745,7 @@ export default function SupportDashboardPage(props: any) {
                   </div>
                 </article>
 
-                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                <article className="rounded-xl border border-[#e2e8f0] bg-white p-5">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                     Activation Funnel
                   </div>
@@ -806,7 +806,7 @@ export default function SupportDashboardPage(props: any) {
                   </div>
                 </article>
 
-                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                <article className="rounded-xl border border-[#e2e8f0] bg-white p-5">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                     Storage Budget
                   </div>
@@ -862,7 +862,7 @@ export default function SupportDashboardPage(props: any) {
                   </div>
                 </article>
 
-                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                <article className="rounded-xl border border-[#e2e8f0] bg-white p-5">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                     DB Guardrails
                   </div>
@@ -923,7 +923,7 @@ export default function SupportDashboardPage(props: any) {
                   </div>
                 </article>
 
-                <article className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                <article className="rounded-xl border border-[#e2e8f0] bg-white p-5">
                   <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                     Production Readiness
                   </div>
@@ -984,7 +984,7 @@ export default function SupportDashboardPage(props: any) {
                 </article>
               </div>
             </div>
-            <div className="mt-5 rounded-xl border border-[#e2e8f0] p-3">
+            <div className="mt-5 rounded-xl border border-[#e2e8f0] p-5">
               <h3 className="text-sm font-semibold text-[#0f172a]">
                 Your Admin Timeline
               </h3>
@@ -995,7 +995,7 @@ export default function SupportDashboardPage(props: any) {
                 <p className="mt-2 text-sm text-[#475569]">Loading timeline…</p>
               )}
               {adminTimelineError && (
-                <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                <p className="mt-2 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                   {adminTimelineError}
                 </p>
               )}
@@ -1013,7 +1013,7 @@ export default function SupportDashboardPage(props: any) {
                     {adminTimeline.map((entry: any, index: number) => (
                       <article
                         key={`${entry.createdAt}-${entry.source}-${index}`}
-                        className="rounded-lg border border-[#e2e8f0] p-2"
+                        className="rounded-xl border border-[#e2e8f0] p-5"
                       >
                         <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                           {entry.source} | {toLocale(entry.createdAt)}

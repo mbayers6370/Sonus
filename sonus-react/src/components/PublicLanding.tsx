@@ -364,7 +364,7 @@ export default function PublicLanding() {
         </div>
 
         <section className="mx-auto w-full max-w-7xl px-4 pb-8 sm:px-8">
-          <aside className="overflow-hidden rounded-3xl border border-[#0F172A] bg-[var(--sonus-palette-charcoal)] text-white shadow-[0_16px_30px_-24px_rgba(15,23,42,0.55)]">
+          <aside className="overflow-hidden rounded-card border border-[#0F172A] bg-[var(--sonus-palette-charcoal)] text-white shadow-[0_16px_30px_-24px_rgba(15,23,42,0.55)]">
             <div className="px-5 py-6 text-center sm:px-8 sm:py-8">
               <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sonus-palette-blue)]">About Sonus</p>
               <h2 className="main-font mt-2 text-2xl leading-[1.15] text-white sm:text-[2rem]">Built for real language use</h2>
@@ -391,7 +391,7 @@ export default function PublicLanding() {
         </section>
 
         <section className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-8">
-          <article className="rounded-3xl border border-[#4B5563] bg-white p-4 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] sm:p-6">
+          <article className="rounded-card border border-[#4B5563] bg-white p-4 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] sm:p-6">
             <p className="text-center font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sonus-palette-blue)]">Process</p>
             <h2 className="main-font mt-2 text-center text-2xl text-[var(--sonus-palette-charcoal)] sm:text-5xl">How Sonus Works</h2>
             <p className="mx-auto mt-3 max-w-3xl text-center text-sm leading-relaxed text-[#475569] sm:text-base">
@@ -406,14 +406,14 @@ export default function PublicLanding() {
         </section>
 
         <section className="mx-auto w-full max-w-7xl px-4 py-4 pb-10 sm:px-8 sm:pb-12">
-          <article className="rounded-3xl border border-[#4B5563] bg-white p-4 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] sm:p-6">
+          <article className="rounded-card border border-[#4B5563] bg-white p-4 shadow-[0_20px_42px_-34px_rgba(31,42,55,0.28)] sm:p-6">
             <p className="text-center font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--sonus-palette-blue)]">In Progress</p>
             <h2 className="main-font mt-2 text-center text-2xl text-[var(--sonus-palette-charcoal)] sm:text-5xl">Languages</h2>
             <p className="mx-auto mt-3 max-w-3xl text-center secondary-font text-sm leading-relaxed text-[#475569] sm:text-base">
               Structured paths with pronunciation, recall, and travel-ready practice.
             </p>
             <div className="mx-auto mt-6 grid max-w-5xl gap-4 sm:grid-cols-2 sm:gap-5">
-              <article className="rounded-3xl border border-[#6B7280] bg-[#FBFCFD] p-5 text-[var(--sonus-palette-charcoal)] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:p-6">
+              <article className="rounded-card border border-[#6B7280] bg-[#FBFCFD] p-5 text-[var(--sonus-palette-charcoal)] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:p-6">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="main-font text-2xl leading-tight text-[var(--sonus-palette-charcoal)] sm:text-3xl">Japanese</h3>
@@ -432,7 +432,7 @@ export default function PublicLanding() {
                 </div>
               </article>
 
-              <article className="rounded-3xl border border-[#6B7280] bg-[#FBFCFD] p-5 text-[var(--sonus-palette-charcoal)] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:p-6">
+              <article className="rounded-card border border-[#6B7280] bg-[#FBFCFD] p-5 text-[var(--sonus-palette-charcoal)] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:p-6">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="main-font text-2xl leading-tight text-[var(--sonus-palette-charcoal)] sm:text-3xl">More Languages</h3>
@@ -606,7 +606,7 @@ function ExploreDemoCard({ card }: { card: DemoCard }) {
         : '03 Real Context';
 
   return (
-    <article className="h-[316px] overflow-hidden rounded-3xl border border-[#6B7280] bg-[#FBFCFD] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:min-h-[300px] sm:h-auto">
+    <article className="h-[316px] overflow-hidden rounded-card border border-[#6B7280] bg-[#FBFCFD] shadow-[0_16px_30px_-24px_rgba(15,23,42,0.35)] sm:min-h-[300px] sm:h-auto">
       <div className="h-[188px] bg-[var(--sonus-palette-charcoal)] p-3 sm:h-[188px]">
         <ExploreCardPreview title={card.title} />
       </div>

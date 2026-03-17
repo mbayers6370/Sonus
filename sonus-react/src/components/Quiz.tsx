@@ -214,7 +214,7 @@ export default function Quiz({
       {/* Quiz Question */}
       <div className="flex-1 px-4">
         <div
-          className={`rounded-3xl p-3.5 mb-3 border relative ${
+          className={`rounded-3xl p-5 mb-3 border relative ${
             listeningMode
               ? 'bg-[var(--sonus-palette-charcoal)] border-[var(--sonus-palette-charcoal)]'
               : 'bg-[var(--sonus-palette-charcoal)] border-[var(--sonus-palette-charcoal)]'

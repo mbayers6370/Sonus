@@ -54,7 +54,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
       />
 
       <div className="max-w-6xl mx-auto space-y-4">
-        <section className="dashboard-card-enter rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 sm:p-6 shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+        <section className="dashboard-card-enter rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
           <div className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider font-mono bg-[rgba(181,216,234,0.16)] text-[#B5D8EA]">
             Why Pinyin Matters
           </div>
@@ -70,17 +70,17 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </div>
           <h2 className="main-font text-[1.9rem] text-white mt-3">Build a Syllable in 3 Parts</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
-            <div className="rounded-2xl border border-border bg-white p-4 text-center">
+            <div className="rounded-2xl border border-border bg-white p-5 text-center">
               <div className="text-xs font-mono uppercase tracking-wider text-text-light">1</div>
               <div className="text-2xl secondary-font text-text-dark mt-1">Initial</div>
               <p className="text-sm text-text-med mt-2">Starting consonant sound, like <span className="font-semibold">m</span>, <span className="font-semibold">zh</span>, <span className="font-semibold">x</span>.</p>
             </div>
-            <div className="rounded-2xl border border-border bg-white p-4 text-center">
+            <div className="rounded-2xl border border-border bg-white p-5 text-center">
               <div className="text-xs font-mono uppercase tracking-wider text-text-light">2</div>
               <div className="text-2xl secondary-font text-text-dark mt-1">Final</div>
               <p className="text-sm text-text-med mt-2">Vowel ending, like <span className="font-semibold">a</span>, <span className="font-semibold">ao</span>, <span className="font-semibold">ang</span>.</p>
             </div>
-            <div className="rounded-2xl border border-border bg-white p-4 text-center">
+            <div className="rounded-2xl border border-border bg-white p-5 text-center">
               <div className="text-xs font-mono uppercase tracking-wider text-text-light">3</div>
               <div className="text-2xl secondary-font text-text-dark mt-1">Tone</div>
               <p className="text-sm text-text-med mt-2">Pitch shape that changes meaning, shown with marks like <span className="font-semibold">ā á ǎ à</span>.</p>
@@ -100,7 +100,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
             {BUILD_FLOW.map((item) => (
               <div
                 key={item.result.hanzi}
-                className="rounded-2xl border border-border bg-white p-4 md:p-5 shadow-[0_10px_22px_-20px_rgba(15,23,42,0.4)]"
+                className="rounded-2xl border border-border bg-white p-5 md:p-5 shadow-[0_10px_22px_-20px_rgba(15,23,42,0.4)]"
               >
                 <div className="text-base font-bold text-text-dark text-center mb-1">{item.result.english}</div>
                 <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_minmax(0,1.15fr)] items-center gap-1.5 sm:gap-3 text-text-dark mt-3">
@@ -145,7 +145,7 @@ export default function PinyinFoundations({ onGoHome, onOpenProfile }: PinyinFou
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
             {CONTRAST_PAIRS.map((pair) => (
-              <div key={pair.id} className="rounded-2xl border border-border bg-white p-4">
+              <div key={pair.id} className="rounded-2xl border border-border bg-white p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <button
                     onClick={() => speak(pair.left.hanzi, pair.left.pinyin)}

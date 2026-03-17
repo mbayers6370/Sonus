@@ -554,20 +554,20 @@ export default function ProfileScreen({
 
       <div className="mx-auto max-w-6xl space-y-6">
         {backendOffline && (
-          <div className="bg-white border border-border rounded-2xl p-4 text-sm text-text-med">
+          <div className="bg-white border border-border rounded-2xl p-5 text-sm text-text-med">
             Backend appears offline. Showing local profile view.
           </div>
         )}
 
         {error && (
-          <div className="bg-white border border-[var(--sonus-palette-rust)] rounded-2xl p-4 text-sm text-[var(--sonus-palette-rust)]">
+          <div className="bg-white border border-[var(--sonus-palette-rust)] rounded-2xl p-5 text-sm text-[var(--sonus-palette-rust)]">
             {error}
           </div>
         )}
 
         {saveMessage && (
           <div
-            className={`bg-white rounded-2xl p-4 text-sm ${
+            className={`bg-white rounded-2xl p-5 text-sm ${
               isLanguageSwitchNotice
                 ? 'border border-[#C56A3D] text-[#C56A3D]'
                 : 'border border-[var(--sonus-palette-green)] text-[var(--sonus-palette-green)]'
@@ -578,7 +578,7 @@ export default function ProfileScreen({
         )}
 
         <section className="grid grid-cols-1 gap-3 lg:grid-cols-12">
-          <SurfaceCard className="relative overflow-hidden border sonus-drenched-border-charcoal !bg-[var(--sonus-palette-charcoal)] p-5 text-white shadow-[0_24px_52px_-34px_rgba(15,23,42,0.62)] sm:p-6 lg:col-span-12">
+          <SurfaceCard className="relative overflow-hidden border sonus-drenched-border-charcoal !bg-[var(--sonus-palette-charcoal)] p-5 text-white shadow-[0_24px_52px_-34px_rgba(15,23,42,0.62)] lg:col-span-12">
             <div className="relative mx-auto max-w-4xl text-center">
               <p className="inline-flex items-center rounded-full border border-white/28 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-white">
                 Profile
@@ -652,21 +652,21 @@ export default function ProfileScreen({
             </div>
 
             <div className="mt-4 grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
-              <div className="rounded-2xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] p-3 text-center sm:text-left sm:col-span-2">
+              <div className="rounded-2xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] p-5 text-center sm:text-left sm:col-span-2">
                 <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.16em] text-text-med sm:justify-start">
                   <Flag className="h-3.5 w-3.5 text-[var(--sonus-palette-blue)]" />
                   Current Unit + Lesson
                 </div>
                 <div className="mt-2 text-sm font-semibold leading-tight text-text-dark">{currentUnitAndLesson}</div>
               </div>
-              <div className="rounded-2xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] p-3 text-center sm:text-left sm:col-span-1">
+              <div className="rounded-2xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] p-5 text-center sm:text-left sm:col-span-1">
                 <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.16em] text-text-med sm:justify-start">
                   <BookOpen className="h-3.5 w-3.5 text-[var(--sonus-palette-blue)]" />
                   Lessons Completed
                 </div>
                 <div className="mt-2 text-2xl font-semibold leading-none text-text-dark">{lessonsCompleted}</div>
               </div>
-              <div className="rounded-2xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] p-3 text-center sm:text-left sm:col-span-1">
+              <div className="rounded-2xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] p-5 text-center sm:text-left sm:col-span-1">
                 <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.16em] text-text-med sm:justify-start">
                   <Flame className="h-3.5 w-3.5 text-[#9A3412]" />
                   Study Streak
@@ -740,7 +740,7 @@ export default function ProfileScreen({
         </section>
 
         <section className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <SurfaceCard className="border-[rgba(31,42,55,0.55)] p-4 text-center sm:text-left">
+          <SurfaceCard className="border-[rgba(31,42,55,0.55)] p-5 text-center sm:text-left">
             <div className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[rgba(19,87,119,0.26)] bg-[rgba(19,87,119,0.09)] px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.15em] text-[var(--sonus-palette-blue)] sm:justify-start">
               Data & Privacy
             </div>
@@ -763,7 +763,7 @@ export default function ProfileScreen({
             </div>
           </SurfaceCard>
 
-          <SurfaceCard className="border-[rgba(31,42,55,0.55)] p-4 text-center sm:text-left">
+          <SurfaceCard className="border-[rgba(31,42,55,0.55)] p-5 text-center sm:text-left">
             <div className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[rgba(19,87,119,0.26)] bg-[rgba(19,87,119,0.09)] px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.15em] text-[var(--sonus-palette-blue)] sm:justify-start">
               Support & Contact
             </div>
@@ -843,7 +843,7 @@ export default function ProfileScreen({
                     key={language.id}
                     onClick={() => void handleLanguageSwitch(language.id)}
                     disabled={switchingLanguage || !isAvailable || isCurrent}
-                    className={`group relative w-full min-h-[148px] overflow-hidden rounded-2xl border p-3 text-center transition-all ${
+                    className={`group relative w-full min-h-[148px] overflow-hidden rounded-2xl border p-5 text-center transition-all ${
                       isCurrent
                         ? 'bg-[var(--sonus-palette-charcoal)] sonus-drenched-border-charcoal'
                         : isAvailable

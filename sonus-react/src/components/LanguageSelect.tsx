@@ -205,7 +205,7 @@ export default function LanguageSelect({
                 onSelectLanguage(lang.id);
               }}
               disabled={!isAvailable}
-              className={`group relative overflow-hidden w-full h-[216px] sm:h-[236px] rounded-2xl sm:rounded-3xl p-4 sm:p-5 text-center transition-all flex items-center justify-center border outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 ${
+              className={`group relative overflow-hidden w-full h-[216px] sm:h-[236px] rounded-2xl sm:rounded-3xl p-5 text-center transition-all flex items-center justify-center border outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 ${
                 isAvailable
                   ? `hover:-translate-y-1 hover:shadow-xl ${accent.hoverShadow} active:translate-y-0`
                   : 'cursor-not-allowed'

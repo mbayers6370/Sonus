@@ -87,7 +87,7 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
       )}
       {mobileLearnMenuOpen && (
         <div
-          className="fixed left-1/2 z-[59] w-[min(92vw,420px)] -translate-x-1/2 rounded-2xl border border-[#E4E9EF] bg-[#FBFBF9] p-3 backdrop-blur-sm shadow-[0_20px_40px_-24px_rgba(15,23,42,0.40)] min-[951px]:hidden"
+          className="fixed left-1/2 z-[59] w-[min(92vw,420px)] -translate-x-1/2 rounded-xl border border-[#E4E9EF] bg-[#FBFBF9] p-5 backdrop-blur-sm shadow-[0_20px_40px_-24px_rgba(15,23,42,0.40)] min-[951px]:hidden"
           style={{
             bottom: `calc(${bottomNavHeight} + 0.6rem)`,
           }}
@@ -168,24 +168,24 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           </div>
         </div>
         <div className="absolute inset-x-0 bottom-0 h-[18%] bg-[#2B3440] border-t border-white/10">
-          <div className="flex h-full items-center justify-center gap-2 px-3 text-[0.52rem] leading-none font-light text-[#C7D0DC] sm:text-[0.58rem]">
-            <Link to="/privacy" className="underline-offset-2 hover:underline font-mono">
+          <div className="flex h-full items-center justify-center gap-2 px-3 text-[6px] leading-none font-light text-[#C7D0DC] sm:text-[6px]">
+            <Link to="/privacy" className="underline-offset-2 hover:underline font-mono text-[6px]">
             Privacy
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/terms" className="underline-offset-2 hover:underline font-mono">
+            <Link to="/terms" className="underline-offset-2 hover:underline font-mono text-[6px]">
               Terms
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/contact" className="underline-offset-2 hover:underline font-mono">
+            <Link to="/contact" className="underline-offset-2 hover:underline font-mono text-[6px]">
             Contact
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/attributions" className="underline-offset-2 hover:underline font-mono">
+            <Link to="/attributions" className="underline-offset-2 hover:underline font-mono text-[6px]">
               Attributions
             </Link>
             <span aria-hidden="true">|</span>
-            <span className="font-mono">© {new Date().getFullYear()} Sonus</span>
+            <span className="font-mono text-[6px]">© {new Date().getFullYear()} Sonus</span>
           </div>
         </div>
       </div>

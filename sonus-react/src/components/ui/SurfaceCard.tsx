@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 
 const BASE_CLASS =
-  'bg-white border border-border rounded-3xl';
+  'bg-white border border-border rounded-card';
 
 function mergeClasses(base: string, extra?: string) {
   return extra ? `${base} ${extra}` : base;

@@ -177,7 +177,7 @@ export default function LessonComplete({
   });
   const speakingIssueRows = speakingRows.filter((row) => row.missing || !row.isSpeakCorrect);
   const acceptedHomophoneRows = speakingRows.filter((row) => row.isSpeakCorrect && row.acceptedHomophone);
-  const surfaceCardClass = 'bg-white border border-border rounded-2xl shadow-[0_12px_28px_-22px_rgba(15,23,42,0.38)]';
+  const surfaceCardClass = 'bg-white border border-border rounded-card shadow-[0_12px_28px_-22px_rgba(15,23,42,0.38)]';
 
   return (
     <div className="flex flex-col h-[100svh] min-h-[100svh] overflow-hidden page-shell">

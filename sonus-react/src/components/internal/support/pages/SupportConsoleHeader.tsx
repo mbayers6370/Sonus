@@ -55,7 +55,7 @@ export default function SupportConsoleHeader({
             <div className="absolute right-0">
               <button
                 type="button"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-white/85 transition hover:bg-white/10 hover:text-white"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-white/85 transition hover:bg-white/10 hover:text-white"
                 onClick={onLogout}
                 aria-label="Log Out"
                 title="Log Out"

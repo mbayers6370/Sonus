@@ -39,7 +39,7 @@ export default function WordProgressRail({
   const nodes = Array.from({ length: clampedTotal }, (_, index) => index);
 
   return (
-    <div className="mb-2 rounded-2xl border border-white/85 bg-white/68 px-3 py-2 shadow-[0_10px_24px_-20px_rgba(15,23,42,0.45)] backdrop-blur-sm">
+    <div className="mb-2 rounded-xl border border-white/85 bg-white/68 px-3 py-2 shadow-[0_10px_24px_-20px_rgba(15,23,42,0.45)] backdrop-blur-sm">
       <div className="flex items-center">
         {nodes.map((index) => (
           <div key={index} className="flex items-center flex-1 last:flex-none">

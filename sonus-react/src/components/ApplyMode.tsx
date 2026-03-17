@@ -814,7 +814,7 @@ export default function ApplyMode({
                 ) : null}
                 {activeCharacterGloss ? <div className="mt-1.5 text-sm text-text-med">{activeCharacterGloss}</div> : null}
 
-                <div className="mt-4 rounded-xl border border-border bg-[rgba(31,42,55,0.05)] p-3">
+                <div className="mt-4 rounded-xl border border-border bg-[rgba(31,42,55,0.05)] p-5">
                   <div className="text-[11px] font-semibold uppercase tracking-wider font-mono text-[var(--sonus-palette-charcoal)]">
                     Words From This Lesson
                   </div>

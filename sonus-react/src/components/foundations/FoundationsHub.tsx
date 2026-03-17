@@ -59,7 +59,7 @@ export default function FoundationsHub({
       />
 
       <div className="max-w-6xl mx-auto space-y-4">
-        <div className="dashboard-card-enter rounded-3xl border-2 text-center border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 sm:p-6 shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+        <div className="dashboard-card-enter rounded-3xl border-2 text-center border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
           <div className="text-[11px] uppercase tracking-[0.2em] font-mono text-[#B5D8EA]">Mandarin Core Tools</div>
           <h2 className="main-font text-[2rem] leading-tight text-white mt-2">Build Sound + Script Confidence</h2>
           <p className="text-sm text-white/92 mt-2">
@@ -67,7 +67,7 @@ export default function FoundationsHub({
           </p>
         </div>
 
-        <div className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[var(--sonus-palette-charcoal)] p-4 sm:p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
+        <div className="dashboard-card-enter rounded-3xl border border-[#2B3440] bg-[var(--sonus-palette-charcoal)] p-5 shadow-[0_16px_34px_-26px_rgba(15,23,42,0.28)]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {MODULES.map((module) => {
             const Icon = module.icon;

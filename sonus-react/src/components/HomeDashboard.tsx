@@ -299,7 +299,7 @@ export default function HomeDashboard({
   const resumeCardTitle = hasSavedLessonPath ? 'Resume' : 'Start';
   const lessonNumber = continueTarget ? continueTarget.lessonIndex + 1 : null;
   const cardShell =
-    'dashboard-card-enter rounded-3xl border p-5 sm:p-6 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
+    'dashboard-card-enter rounded-3xl border p-5 shadow-[0_12px_28px_-22px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5';
   const needsWorkLead =
     needsWorkCount === 1
       ? '1 word ready for practice.'

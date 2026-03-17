@@ -105,7 +105,7 @@ export default function Flashcard({
       <div className="flex-1 flex items-center justify-center px-5 py-2">
         <div
           onClick={handleFlip}
-          className={`relative w-full max-w-md md:max-w-xl lg:max-w-2xl h-[220px] sm:h-[245px] md:h-[235px] lg:h-[220px] rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border cursor-pointer transition-shadow duration-200 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-5 sm:p-6 overflow-hidden ${
+          className={`relative w-full max-w-md md:max-w-xl lg:max-w-2xl h-[220px] sm:h-[245px] md:h-[235px] lg:h-[220px] rounded-3xl shadow-[0_18px_38px_-28px_rgba(15,23,42,0.45)] border cursor-pointer transition-shadow duration-200 hover:shadow-[0_24px_46px_-28px_rgba(15,23,42,0.42)] flex items-center justify-center p-5 overflow-hidden ${
             isFlipped ? 'bg-[var(--sonus-palette-charcoal)] border-[var(--sonus-palette-charcoal)]' : 'bg-white border-border'
           }`}
         >

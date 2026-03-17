@@ -6,6 +6,17 @@ export default {
   ],
   theme: {
     extend: {
+      borderRadius: {
+        card: '1rem',
+      },
+      fontSize: {
+        'title-page': ['24px', { lineHeight: '1.2' }],
+        'title-section': ['18px', { lineHeight: '1.3' }],
+        'title-card': ['18px', { lineHeight: '1.3' }],
+        'body': ['16px', { lineHeight: '1.5' }],
+        'label': ['16px', { lineHeight: '1.4' }],
+        'caption': ['10px', { lineHeight: '1.3' }],
+      },
       colors: {
         'bg-white': 'var(--sonus-color-bg-white)',
         'bg-blue': 'var(--sonus-color-bg-blue)',
@@ -27,12 +38,12 @@ export default {
         'border': 'var(--sonus-color-border)',
       },
       fontFamily: {
-        'sans': ['"Inter"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
-        'mono': ['"DM Mono"', 'monospace'],
+        'sans': ['"Source Sans 3"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+        'mono': ['"Monoist"', '"DM Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
         'main': ['"Tenor Sans"', 'sans-serif'],
-        'secondary': ['"Inter"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+        'secondary': ['"Source Sans 3"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
         'noto-serif': ['"Noto Serif SC"', 'serif'],
-        'dm-mono': ['"DM Mono"', 'monospace'],
+        'dm-mono': ['"Monoist"', '"DM Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
     },
   },

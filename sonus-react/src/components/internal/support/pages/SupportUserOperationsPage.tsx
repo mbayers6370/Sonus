@@ -111,7 +111,7 @@ export default function SupportUserOperationsPage(props: any) {
     <>
         {viewMode === "ops" && (
           <div className="grid min-w-0 gap-4 lg:grid-cols-[360px_minmax(0,1fr)]">
-            <section className="min-w-0 rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
+            <section className="min-w-0 rounded-xl border border-[#1f2937]/20 bg-white/95 p-5">
               <h2 className="text-lg font-semibold text-[#0f172a]">
                 User Operations
               </h2>
@@ -125,7 +125,7 @@ export default function SupportUserOperationsPage(props: any) {
                   return (
                     <article
                       key={entry.userId}
-                      className={`w-full min-w-0 rounded-xl border p-3 ${active ? "border-[#1f2937] bg-[#f8fafc]" : "border-[#e2e8f0] bg-white"}`}
+                      className={`w-full min-w-0 rounded-xl border p-5 ${active ? "border-[#1f2937] bg-[#f8fafc]" : "border-[#e2e8f0] bg-white"}`}
                     >
                       <button
                         type="button"
@@ -146,7 +146,7 @@ export default function SupportUserOperationsPage(props: any) {
                       <button
                         type="button"
                         onClick={() => setDeleteCandidate(entry)}
-                        className="mt-2 w-full rounded-lg border border-red-400 bg-red-50 px-2 py-1 text-xs font-semibold text-red-700 hover:bg-red-100"
+                        className="mt-2 w-full rounded-xl border border-red-400 bg-red-50 px-2 py-1 text-xs font-semibold text-red-700 hover:bg-red-100"
                       >
                         Permanently Delete User
                       </button>
@@ -170,7 +170,7 @@ export default function SupportUserOperationsPage(props: any) {
                   {searchLoading ? "..." : "Find"}
                 </button>
               </div>
-              <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+              <div className="mt-4 rounded-xl border border-[#e2e8f0] p-5">
                 <h3 className="text-sm font-semibold text-[#0f172a]">
                   Recently Scheduled/Deleted Accounts
                 </h3>
@@ -191,7 +191,7 @@ export default function SupportUserOperationsPage(props: any) {
                   </p>
                 )}
                 {recentDeletionsError && (
-                  <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                  <p className="mt-2 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                     {recentDeletionsError}
                   </p>
                 )}
@@ -209,7 +209,7 @@ export default function SupportUserOperationsPage(props: any) {
                       {recentDeletions.map((entry: any) => (
                         <article
                           key={entry.id}
-                          className="rounded-lg border border-[#e2e8f0] bg-white p-2"
+                          className="rounded-xl border border-[#e2e8f0] bg-white p-5"
                         >
                           <div className="text-sm font-semibold text-[#0f172a]">
                             {entry.targetDisplayName ||
@@ -230,7 +230,7 @@ export default function SupportUserOperationsPage(props: any) {
                           {entry.status === "scheduled" && (
                             <button
                               type="button"
-                              className="mt-2 w-full rounded-lg border border-[#1f2937] bg-white px-2 py-1 text-xs font-semibold text-[#1f2937] disabled:opacity-50"
+                              className="mt-2 w-full rounded-xl border border-[#1f2937] bg-white px-2 py-1 text-xs font-semibold text-[#1f2937] disabled:opacity-50"
                               disabled={undoBusyUserId !== null}
                               onClick={() =>
                                 void handleUndoScheduledDeletion(
@@ -248,7 +248,7 @@ export default function SupportUserOperationsPage(props: any) {
                     </div>
                   )}
               </div>
-              <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+              <div className="mt-4 rounded-xl border border-[#e2e8f0] p-5">
                 <h3 className="text-sm font-semibold text-[#0f172a]">
                   Open Deletion Requests
                 </h3>
@@ -261,7 +261,7 @@ export default function SupportUserOperationsPage(props: any) {
                   </p>
                 )}
                 {openDeletionRequestsError && (
-                  <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                  <p className="mt-2 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                     {openDeletionRequestsError}
                   </p>
                 )}
@@ -280,7 +280,7 @@ export default function SupportUserOperationsPage(props: any) {
                         <button
                           key={request.id}
                           type="button"
-                          className="w-full rounded-lg border border-[#e2e8f0] bg-white p-2 text-left hover:border-[#1f2937]"
+                          className="w-full rounded-xl border border-[#e2e8f0] bg-white p-5 text-left hover:border-[#1f2937]"
                           onClick={() => setRequestModal(request)}
                         >
                           <div className="text-sm font-semibold text-[#0f172a]">
@@ -304,7 +304,7 @@ export default function SupportUserOperationsPage(props: any) {
               </div>
             </section>
 
-            <section className="min-w-0 rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
+            <section className="min-w-0 rounded-xl border border-[#1f2937]/20 bg-white/95 p-5">
               {!selectedUserId && (
                 <p className="text-sm text-[#475569]">
                   Select a user to view details.
@@ -370,7 +370,7 @@ export default function SupportUserOperationsPage(props: any) {
                     </p>
                   )}
                   {detailError && (
-                    <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                    <p className="mt-3 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                       {detailError}
                     </p>
                   )}
@@ -409,7 +409,7 @@ export default function SupportUserOperationsPage(props: any) {
                       </div>
 
                       <details
-                        className="mt-3 rounded-xl border border-[#e2e8f0] p-3"
+                        className="mt-3 rounded-xl border border-[#e2e8f0] p-5"
                         open
                       >
                         <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
@@ -560,7 +560,7 @@ export default function SupportUserOperationsPage(props: any) {
                       </details>
 
                       <details
-                        className="mt-3 rounded-xl border border-[#e2e8f0] p-3"
+                        className="mt-3 rounded-xl border border-[#e2e8f0] p-5"
                         open
                       >
                         <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
@@ -574,7 +574,7 @@ export default function SupportUserOperationsPage(props: any) {
                               onClick={() =>
                                 setProgressTrendWindowDays(days as 30 | 90)
                               }
-                              className={`rounded-lg px-2 py-1 text-xs font-semibold ${
+                              className={`rounded-xl px-2 py-1 text-xs font-semibold ${
                                 progressTrendWindowDays === days
                                   ? "bg-[#1f2937] text-white"
                                   : "text-[#334155]"
@@ -585,7 +585,7 @@ export default function SupportUserOperationsPage(props: any) {
                           ))}
                         </div>
                         {progressTrendError && (
-                          <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                          <p className="mt-2 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                             {progressTrendError}
                           </p>
                         )}
@@ -656,7 +656,7 @@ export default function SupportUserOperationsPage(props: any) {
                                 </div>
                               </div>
                             </div>
-                            <div className="mt-3 overflow-x-auto rounded-lg border border-[#e2e8f0]">
+                            <div className="mt-3 overflow-x-auto rounded-xl border border-[#e2e8f0]">
                               <table className="w-full min-w-[920px] text-left text-xs">
                                 <thead className="bg-[#f8fafc] text-[#64748b]">
                                   <tr>
@@ -722,7 +722,7 @@ export default function SupportUserOperationsPage(props: any) {
                         )}
                       </details>
 
-                      <details className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
+                      <details className="mt-3 rounded-xl border border-[#e2e8f0] p-5">
                         <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
                           Review Queue Debug (v1 Priority)
                         </summary>
@@ -736,7 +736,7 @@ export default function SupportUserOperationsPage(props: any) {
                           </p>
                         )}
                         {reviewQueueDebugError && (
-                          <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+                          <p className="mt-2 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                             {reviewQueueDebugError}
                           </p>
                         )}
@@ -750,7 +750,7 @@ export default function SupportUserOperationsPage(props: any) {
                           )}
                         {reviewQueueDebug &&
                           reviewQueueDebug.queue.length > 0 && (
-                            <div className="mt-3 overflow-x-auto rounded-lg border border-[#e2e8f0]">
+                            <div className="mt-3 overflow-x-auto rounded-xl border border-[#e2e8f0]">
                               <table className="min-w-[920px] w-full text-left text-xs">
                                 <thead className="bg-[#f8fafc] text-[#475569]">
                                   <tr>
@@ -866,7 +866,7 @@ export default function SupportUserOperationsPage(props: any) {
                           )}
                       </details>
 
-                      <details className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
+                      <details className="mt-3 rounded-xl border border-[#e2e8f0] p-5">
                         <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
                           Learning Access Controls
                         </summary>
@@ -933,7 +933,7 @@ export default function SupportUserOperationsPage(props: any) {
                         )}
 
                         <details
-                          className="mt-3 rounded-lg border border-[#e2e8f0] p-2"
+                          className="mt-3 rounded-xl border border-[#e2e8f0] p-5"
                           open
                         >
                           <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
@@ -1091,7 +1091,7 @@ export default function SupportUserOperationsPage(props: any) {
 
                         <div className="mt-3 grid gap-3 md:grid-cols-3">
                           <details
-                            className="rounded-lg border border-[#e2e8f0] p-2"
+                            className="rounded-xl border border-[#e2e8f0] p-5"
                             open
                           >
                             <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
@@ -1178,7 +1178,7 @@ export default function SupportUserOperationsPage(props: any) {
                           </details>
 
                           <details
-                            className="rounded-lg border border-[#e2e8f0] p-2"
+                            className="rounded-xl border border-[#e2e8f0] p-5"
                             open
                           >
                             <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
@@ -1282,7 +1282,7 @@ export default function SupportUserOperationsPage(props: any) {
                           </details>
 
                           <details
-                            className="rounded-lg border border-[#e2e8f0] p-2"
+                            className="rounded-xl border border-[#e2e8f0] p-5"
                             open
                           >
                             <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
@@ -1418,7 +1418,7 @@ export default function SupportUserOperationsPage(props: any) {
                           </details>
                         </div>
 
-                        <details className="mt-3 rounded-lg border border-[#e2e8f0] p-2">
+                        <details className="mt-3 rounded-xl border border-[#e2e8f0] p-5">
                           <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
                             Learning Access Audit ({learningAccessAudit.length})
                           </summary>
@@ -1451,7 +1451,7 @@ export default function SupportUserOperationsPage(props: any) {
                         </details>
                       </details>
 
-                      <details className="mt-3 rounded-xl border border-[#e2e8f0] p-3">
+                      <details className="mt-3 rounded-xl border border-[#e2e8f0] p-5">
                         <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
                           Security Context
                         </summary>
@@ -1482,7 +1482,7 @@ export default function SupportUserOperationsPage(props: any) {
                           </div>
                         </div>
                         <div className="mt-3 grid gap-3 md:grid-cols-2">
-                          <article className="rounded-lg border border-[#e2e8f0] p-2">
+                          <article className="rounded-xl border border-[#e2e8f0] p-5">
                             <div className="text-xs font-semibold uppercase tracking-[0.12em] text-[#64748b]">
                               Recent IPs
                             </div>
@@ -1504,7 +1504,7 @@ export default function SupportUserOperationsPage(props: any) {
                               )}
                             </div>
                           </article>
-                          <article className="rounded-lg border border-[#e2e8f0] p-2">
+                          <article className="rounded-xl border border-[#e2e8f0] p-5">
                             <div className="text-xs font-semibold uppercase tracking-[0.12em] text-[#64748b]">
                               Recent Devices
                             </div>
@@ -1532,7 +1532,7 @@ export default function SupportUserOperationsPage(props: any) {
                           </article>
                         </div>
                       </details>
-                      <details className="mt-3 rounded-xl border border-[#e2e8f0] bg-white p-3">
+                      <details className="mt-3 rounded-xl border border-[#e2e8f0] bg-white p-5">
                         <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
                           Saved Operational Notes ({savedNotes.length})
                         </summary>
@@ -1549,7 +1549,7 @@ export default function SupportUserOperationsPage(props: any) {
                             {savedNotes.map((noteEntry: any) => (
                               <article
                                 key={noteEntry.id}
-                                className="flex items-start gap-2 rounded-lg border border-[#e2e8f0] p-2"
+                                className="flex items-start gap-2 rounded-xl border border-[#e2e8f0] p-5"
                               >
                                 <button
                                   type="button"
@@ -1599,12 +1599,12 @@ export default function SupportUserOperationsPage(props: any) {
                         )}
                       </details>
 
-                      <details className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                      <details className="mt-4 rounded-xl border border-[#e2e8f0] p-5">
                         <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
                           Operations Actions
                         </summary>
                         <div className="mt-3 grid gap-4 xl:grid-cols-2">
-                          <div className="rounded-xl border border-[#e2e8f0] p-3">
+                          <div className="rounded-xl border border-[#e2e8f0] p-5">
                             <h3 className="text-sm font-semibold text-[#0f172a]">
                               Operational Note
                             </h3>
@@ -1645,7 +1645,7 @@ export default function SupportUserOperationsPage(props: any) {
                             </button>
                           </div>
 
-                          <div className="rounded-xl border border-[#e2e8f0] p-3">
+                          <div className="rounded-xl border border-[#e2e8f0] p-5">
                             <h3 className="text-sm font-semibold text-[#0f172a]">
                               Admin Actions (Audited)
                             </h3>
@@ -1653,7 +1653,7 @@ export default function SupportUserOperationsPage(props: any) {
                               Use these controls for account support. Every
                               action is logged with your reason.
                             </p>
-                            <div className="mt-2 rounded-lg border border-[#dbe3ef] bg-[#f8fafc] px-2 py-1.5 text-xs text-[#334155]">
+                            <div className="mt-2 rounded-xl border border-[#dbe3ef] bg-[#f8fafc] px-2 py-1.5 text-xs text-[#334155]">
                               Target user:{" "}
                               <span className="font-semibold text-[#0f172a]">
                                 {selectedTargetLabel}
@@ -1713,7 +1713,7 @@ export default function SupportUserOperationsPage(props: any) {
                               for this user. They must sign in again on every
                               device.
                             </p>
-                            <div className="mt-3 rounded-xl border border-red-300 bg-red-50/60 p-3">
+                            <div className="mt-3 rounded-xl border border-red-300 bg-red-50/60 p-5">
                               <div className="text-xs font-semibold uppercase tracking-[0.16em] text-[#64748b]">
                                 Deletion Workflow
                               </div>
@@ -1764,7 +1764,7 @@ export default function SupportUserOperationsPage(props: any) {
                         </div>
                       </details>
 
-                      <details className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                      <details className="mt-4 rounded-xl border border-[#e2e8f0] p-5">
                         <summary className="cursor-pointer text-sm font-semibold text-[#0f172a]">
                           Timeline
                         </summary>
@@ -1772,7 +1772,7 @@ export default function SupportUserOperationsPage(props: any) {
                           {timeline.map((entry: any, index: number) => (
                             <article
                               key={`${entry.createdAt}-${entry.source}-${index}`}
-                              className="rounded-lg border border-[#e2e8f0] p-2"
+                              className="rounded-xl border border-[#e2e8f0] p-5"
                             >
                               <div className="text-xs uppercase tracking-[0.14em] text-[#64748b]">
                                 {timelineSourceLabel(entry)} |{" "}

@@ -92,7 +92,7 @@ export default function CharacterFoundations({ onGoHome, onOpenProfile }: Charac
       />
 
       <div className="max-w-6xl mx-auto space-y-4">
-        <section className="dashboard-card-enter rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 sm:p-6 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
+        <section className="dashboard-card-enter rounded-3xl border-2 border-[var(--sonus-palette-charcoal)] bg-[var(--sonus-palette-charcoal)] p-5 text-white shadow-[0_22px_45px_-32px_rgba(31,42,55,0.60)]">
           <div className="text-[11px] uppercase tracking-[0.2em] font-mono text-[#B5D8EA]">Mandarin Foundations</div>
           <h2 className="main-font mt-2 text-[2rem] leading-tight">Decode Characters with Structure</h2>
           <p className="mt-2 text-sm text-white/90">
@@ -111,7 +111,7 @@ export default function CharacterFoundations({ onGoHome, onOpenProfile }: Charac
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
             {RADICAL_GROUPS.map((group) => (
-              <div key={group.id} className="rounded-2xl border border-border bg-white p-4 text-center">
+              <div key={group.id} className="rounded-2xl border border-border bg-white p-5 text-center">
                 <div className="text-3xl secondary-font text-text-dark">{group.radical}</div>
                 <div className="text-xs font-mono uppercase tracking-wider text-text-light mt-1">{group.meaning}</div>
                 <div className="mt-3 space-y-2">
@@ -138,7 +138,7 @@ export default function CharacterFoundations({ onGoHome, onOpenProfile }: Charac
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
             {BUILD_CARDS.map((card) => (
-              <div key={card.id} className="rounded-2xl border border-border bg-white p-4 text-center">
+              <div key={card.id} className="rounded-2xl border border-border bg-white p-5 text-center">
                 <div className="text-4xl secondary-font text-text-dark">{card.hanzi}</div>
                 <div className="text-sm text-text-med mt-1">{card.pinyin} · {card.meaning}</div>
                 <div className="text-xs font-mono uppercase tracking-wider text-text-light mt-3">{card.breakdown}</div>

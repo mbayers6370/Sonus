@@ -23,7 +23,7 @@ export default function SupportMetricsImpactPage(props: any) {
   return (
     <>
         {viewMode === "metrics-impact" && (
-          <section className="rounded-2xl border border-[#1f2937]/20 bg-white/95 p-4">
+          <section className="rounded-xl border border-[#1f2937]/20 bg-white/95 p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 className="text-lg font-semibold text-[#0f172a]">
@@ -45,7 +45,7 @@ export default function SupportMetricsImpactPage(props: any) {
                       key={`impact-window-${days}`}
                       type="button"
                       onClick={() => setMetricsWindowDays(days)}
-                      className={`rounded-lg px-2 py-1 text-xs font-semibold ${
+                      className={`rounded-xl px-2 py-1 text-xs font-semibold ${
                         metricsWindowDays === days
                           ? "bg-[#1f2937] text-white"
                           : "text-[#334155]"
@@ -97,14 +97,14 @@ export default function SupportMetricsImpactPage(props: any) {
               <p className="mt-3 text-sm text-[#475569]">Loading metrics…</p>
             )}
             {metricsError && (
-              <p className="mt-3 rounded-lg border border-red-300 bg-red-50 p-2 text-sm text-red-700">
+              <p className="mt-3 rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
                 {metricsError}
               </p>
             )}
             {impactOutcomesMetrics && (
               <>
                 {impactOutcomesMetrics.warning && (
-                  <p className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-2 text-sm text-amber-800">
+                  <p className="mt-3 rounded-xl border border-amber-300 bg-amber-50 p-5 text-sm text-amber-800">
                     {impactOutcomesMetrics.warning}
                   </p>
                 )}
@@ -155,7 +155,7 @@ export default function SupportMetricsImpactPage(props: any) {
                   </article>
                 </div>
 
-                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-5">
                   <h3 className="text-sm font-semibold text-[#0f172a]">
                     Cohort Retention
                   </h3>
@@ -205,7 +205,7 @@ export default function SupportMetricsImpactPage(props: any) {
                 </div>
 
                 <div className="mt-4 grid gap-3 md:grid-cols-2">
-                  <article className="rounded-xl border border-[#e2e8f0] p-3">
+                  <article className="rounded-xl border border-[#e2e8f0] p-5">
                     <h3 className="text-sm font-semibold text-[#0f172a]">
                       Time To Value
                     </h3>
@@ -263,7 +263,7 @@ export default function SupportMetricsImpactPage(props: any) {
                       </div>
                     </div>
                   </article>
-                  <article className="rounded-xl border border-[#e2e8f0] p-3">
+                  <article className="rounded-xl border border-[#e2e8f0] p-5">
                     <h3 className="text-sm font-semibold text-[#0f172a]">
                       Learning Gain (Window Half Comparison)
                     </h3>
@@ -275,7 +275,7 @@ export default function SupportMetricsImpactPage(props: any) {
                       {impactOutcomesMetrics.sessionWindowMinutes ?? 30} minutes
                     </p>
                     <div className="mt-3 grid gap-2 text-sm text-[#334155]">
-                      <div className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2">
+                      <div className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-5">
                         <div className="font-semibold text-[#0f172a]">
                           Quiz accuracy
                         </div>
@@ -315,7 +315,7 @@ export default function SupportMetricsImpactPage(props: any) {
                           />
                         </div>
                       </div>
-                      <div className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2">
+                      <div className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-5">
                         <div className="font-semibold text-[#0f172a]">
                           Speak pass rate
                         </div>
@@ -355,7 +355,7 @@ export default function SupportMetricsImpactPage(props: any) {
                           />
                         </div>
                       </div>
-                      <div className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2">
+                      <div className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-5">
                         <div className="font-semibold text-[#0f172a]">
                           Lessons per active user
                         </div>
@@ -384,7 +384,7 @@ export default function SupportMetricsImpactPage(props: any) {
                 </div>
 
                 <div className="mt-4 grid gap-3 md:grid-cols-2">
-                  <article className="rounded-xl border border-[#e2e8f0] p-3">
+                  <article className="rounded-xl border border-[#e2e8f0] p-5">
                     <h3 className="text-sm font-semibold text-[#0f172a]">
                       Consistency
                     </h3>
@@ -445,7 +445,7 @@ export default function SupportMetricsImpactPage(props: any) {
                       )}
                     </div>
                   </article>
-                  <article className="rounded-xl border border-[#e2e8f0] p-3">
+                  <article className="rounded-xl border border-[#e2e8f0] p-5">
                     <h3 className="text-sm font-semibold text-[#0f172a]">
                       Mastery & Needs-Work Burden
                     </h3>
@@ -598,7 +598,7 @@ export default function SupportMetricsImpactPage(props: any) {
                   </article>
                 </div>
 
-                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-5">
                   <h3 className="text-sm font-semibold text-[#0f172a]">
                     Active User Segmentation
                   </h3>
@@ -607,7 +607,7 @@ export default function SupportMetricsImpactPage(props: any) {
                       (row: any) => (
                         <div
                           key={row.languageId}
-                          className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] p-2"
+                          className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-5"
                         >
                           <div className="text-xs uppercase tracking-[0.12em] text-[#64748b]">
                             {row.languageId}
@@ -621,7 +621,7 @@ export default function SupportMetricsImpactPage(props: any) {
                   </div>
                 </div>
 
-                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-5">
                   <h3 className="text-sm font-semibold text-[#0f172a]">
                     Anonymized Per-User Distribution
                   </h3>
@@ -739,7 +739,7 @@ export default function SupportMetricsImpactPage(props: any) {
                   </div>
                 </div>
 
-                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-3">
+                <div className="mt-4 rounded-xl border border-[#e2e8f0] p-5">
                   <h3 className="text-sm font-semibold text-[#0f172a]">
                     Top Risk Cohorts (Anonymized)
                   </h3>

@@ -11,7 +11,7 @@ export default function AttributionsPage() {
       metaDescription="Data attribution summary for Sonus language datasets and enrichment sources."
     >
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">Data Sources</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">Data Sources</h2>
         <p className="mt-2">
           Sonus language datasets include material adapted from public and third-party sources.
         </p>
@@ -22,7 +22,7 @@ export default function AttributionsPage() {
       </section>
 
       <section>
-        <h2 className="main-font text-xl text-[var(--sonus-palette-charcoal)] sm:text-2xl">License Note</h2>
+        <h2 className="main-font text-title-section text-[var(--sonus-palette-charcoal)] sm:text-2xl">License Note</h2>
         <p className="mt-2">Sonus respects upstream licenses and attribution requirements for all dataset sources.</p>
         <p className="mt-2">
           For questions about data provenance or licensing, contact{' '}
