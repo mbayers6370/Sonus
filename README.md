@@ -32,16 +32,17 @@ Sonus exists to close the gap between vocabulary study and actually speaking in 
 - Account/profile management
 
 ## Tech Stack
-- Frontend: React 19, Vite 7, TypeScript, Tailwind CSS
+- Frontend: React 19, Vite 7, TypeScript, Tailwind CSS, PostCSS
 - Backend: Fastify 5, Prisma, TypeScript
 - Database: PostgreSQL
-- Tooling: npm workspaces, Vitest, Playwright
+- Testing: Vitest, Playwright
+- Tooling: npm workspaces, ESLint
 
 ## Local Development
 Prerequisites:
 - Node.js 20+
 - npm 10+
-- PostgreSQL (local install or Docker)
+- PostgreSQL 14+ (local install or Docker)
 
 Setup:
 ```bash
@@ -51,6 +52,13 @@ cp sonus-react/.env.example sonus-react/.env
 npm run -w sonus-backend prisma:generate
 npm run -w sonus-backend prisma:push
 npm run dev
+```
+
+*For PostgreSQL via Docker:*
+```bash
+# In backend/ directory:
+npm run db:up    # Starts postgres container
+npm run db:down  # Stops container
 ```
 
 Local endpoints:
