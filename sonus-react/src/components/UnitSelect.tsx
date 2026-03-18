@@ -970,21 +970,21 @@ export default function UnitSelect({
                     </span>
                   </div>
 
-                  <div className={`mt-4 text-sm font-mono uppercase tracking-wider ${isLessonMastered ? 'text-white/90' : !isLessonUnlocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
+                  <div className={`mt-2 text-[10px] font-mono uppercase tracking-wider ${isLessonMastered ? 'text-white/90' : !isLessonUnlocked ? 'text-[#6B7280]' : 'text-text-med'}`}>
                     Words {chunkStart}-{chunkEnd}
                   </div>
 
-                  <div className={`mt-1 text-xs font-mono uppercase tracking-wider ${isLessonMastered ? 'text-white/85' : !isLessonUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
+                  <div className={`mt-0.5 text-[10px] font-mono uppercase tracking-wider ${isLessonMastered ? 'text-white/85' : !isLessonUnlocked ? 'text-[#9CA3AF]' : 'text-text-light'}`}>
                     {chunkWords} {chunkWords === 1 ? 'word' : 'words'}
                   </div>
                   {previewText ? (
-                    <div className={`mt-1.5 text-[11px] leading-4 ${isLessonMastered ? 'text-white/90' : !isLessonUnlocked ? 'text-[#9CA3AF]' : 'text-text-med'}`}>
+                    <div className={`mt-1.5 text-[10px] leading-4 ${isLessonMastered ? 'text-white/90' : !isLessonUnlocked ? 'text-[#9CA3AF]' : 'text-text-med'}`}>
                       <span className="font-mono uppercase tracking-wider">Preview:</span>{' '}
                       <span>{previewText}</span>
                     </div>
                   ) : null}
 
-                  <div className={`mt-4 text-[11px] font-semibold uppercase tracking-wider font-mono ${isLessonMastered ? 'text-white' : !isLessonUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
+                  <div className={`mt-3 text-[10px] font-semibold uppercase tracking-wider font-mono ${isLessonMastered ? 'text-white' : !isLessonUnlocked ? 'text-[#6B7280]' : accent.badgeText}`}>
                     {isLessonMastered
                       ? 'Mastered'
                       : !isLessonUnlocked

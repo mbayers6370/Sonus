@@ -248,7 +248,7 @@ export default function LessonComplete({
                       </div>
                       {!missing && (
                         <span
-                          className={`px-2 py-1 rounded font-mono uppercase tracking-wider ${
+                          className={`px-1.5 py-0.5 rounded text-xs font-mono uppercase tracking-wider ${
                             isSpeakCorrect
                               ? 'bg-[rgba(25,50,50,0.14)] text-[var(--sonus-palette-green)]'
                               : 'bg-[rgba(194,65,12,0.14)] text-[var(--sonus-palette-rust)]'
@@ -275,17 +275,17 @@ export default function LessonComplete({
                           ) : null}
                         </div>
                         {breakdown.source === 'no-speech' ? (
-                          <div className="mt-2 flex flex-wrap gap-2 font-mono uppercase tracking-wider">
-                            <span className="px-2 py-1 rounded bg-[rgba(194,65,12,0.14)] text-[var(--sonus-palette-rust)]">
+                          <div className="mt-2 flex flex-wrap gap-2 text-xs font-mono uppercase tracking-wider">
+                            <span className="px-1.5 py-0.5 rounded font-mono bg-[rgba(194,65,12,0.14)] text-[var(--sonus-palette-rust)]">
                               Try Again
                             </span>
                           </div>
                         ) : (
-                          <div className="mt-2 flex flex-wrap gap-2 font-mono uppercase tracking-wider">
+                          <div className="mt-2 flex flex-wrap gap-2 text-xs font-mono uppercase tracking-wider">
                             {getDimensions(index).map((dimension) => (
                                   <span
                                     key={dimension.key}
-                                    className={`px-2 py-1 rounded ${dimension.pass ? 'bg-[rgba(25,50,50,0.14)] text-[var(--sonus-palette-green)]' : 'bg-[rgba(194,65,12,0.14)] text-[var(--sonus-palette-rust)]'}`}
+                                    className={`px-1.5 py-0.5 rounded font-mono ${dimension.pass ? 'bg-[rgba(25,50,50,0.14)] text-[var(--sonus-palette-green)]' : 'bg-[rgba(194,65,12,0.14)] text-[var(--sonus-palette-rust)]'}`}
                                   >
                                     {dimension.label} {dimension.pass ? 'OK' : 'Fix'}
                                   </span>
