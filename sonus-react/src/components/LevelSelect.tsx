@@ -498,7 +498,7 @@ function LevelCard({
         </div>
         {effectiveTopRight ? (
           <div
-            className={`shrink-0 hidden sm:block text-xs font-mono uppercase tracking-wider ${
+            className={`shrink-0 hidden sm:block font-mono uppercase tracking-wider ${
               isDrenched
                 ? 'text-white/85'
                 : isLocked
@@ -542,7 +542,7 @@ function LevelCard({
               if (!section.unlocked) return;
               onSelectSection?.(level, section.id);
             }}
-            className={`h-11 rounded-xl border px-3 text-center text-[11px] font-mono uppercase tracking-[0.2em] transition-colors ${
+            className={`h-11 rounded-xl border px-3 text-center font-mono uppercase tracking-[0.2em] transition-colors ${
               !section.unlocked
                 ? 'border-[#D1D5DB] text-[#9CA3AF] bg-[#F3F4F6] cursor-not-allowed'
                 : isDrenched
@@ -581,7 +581,7 @@ function LevelCard({
 
         {effectiveTopRight ? (
           <div
-            className={`text-xs font-mono uppercase tracking-wider ${
+            className={`font-mono uppercase tracking-wider ${
               isDrenched
                 ? 'text-white/85'
                 : isLocked
@@ -600,7 +600,7 @@ function LevelCard({
 
       <div className="mt-5">
         {headerKicker && (
-          <p className={`text-[11px] font-mono tracking-wide mb-1 ${isLocked ? lockedSoftTone : 'text-text-med'}`}>
+          <p className={`font-mono tracking-wide mb-1 ${isLocked ? lockedSoftTone : 'text-text-med'}`}>
             {headerKicker}
           </p>
         )}
@@ -996,7 +996,7 @@ export default function LevelSelect({
                       Track
                     </span>
                     {isLocked ? (
-                      <span className="text-xs font-mono uppercase tracking-wider text-text-light">
+                      <span className="font-mono uppercase tracking-wider text-text-light">
                         Coming Soon
                       </span>
                     ) : (

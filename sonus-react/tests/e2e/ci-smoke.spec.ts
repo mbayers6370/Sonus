@@ -17,10 +17,10 @@ import { expect, test } from '@playwright/test';
 test.describe('CI Smoke Tests', () => {
   test('app loads without crashing on root', async ({ page }) => {
     // Navigate to root - should either show auth or redirect based on state
-    await page.goto('/', { waitUntil: 'networkidle' });
+    const response = await page.goto('/', { waitUntil: 'networkidle' });
 
     // App should load without 5xx errors
-    const statusCode = page.status?.() || 0;
+    const statusCode = response?.status() ?? 0;
     expect([0, 200, 304]).toContain(statusCode);
 
     // Page title should contain "Sonus"

@@ -248,7 +248,7 @@ export default function LessonComplete({
                       </div>
                       {!missing && (
                         <span
-                          className={`px-2 py-1 rounded text-[10px] font-mono uppercase tracking-wider ${
+                          className={`px-2 py-1 rounded font-mono uppercase tracking-wider ${
                             isSpeakCorrect
                               ? 'bg-[rgba(25,50,50,0.14)] text-[var(--sonus-palette-green)]'
                               : 'bg-[rgba(194,65,12,0.14)] text-[var(--sonus-palette-rust)]'
@@ -275,13 +275,13 @@ export default function LessonComplete({
                           ) : null}
                         </div>
                         {breakdown.source === 'no-speech' ? (
-                          <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-mono uppercase tracking-wider">
+                          <div className="mt-2 flex flex-wrap gap-2 font-mono uppercase tracking-wider">
                             <span className="px-2 py-1 rounded bg-[rgba(194,65,12,0.14)] text-[var(--sonus-palette-rust)]">
                               Try Again
                             </span>
                           </div>
                         ) : (
-                          <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-mono uppercase tracking-wider">
+                          <div className="mt-2 flex flex-wrap gap-2 font-mono uppercase tracking-wider">
                             {getDimensions(index).map((dimension) => (
                                   <span
                                     key={dimension.key}
@@ -309,7 +309,7 @@ export default function LessonComplete({
             </div>
             {acceptedHomophoneRows.length > 0 && (
               <div className="mt-3 rounded-xl border border-border p-3 bg-[#F3F7F5]">
-                <div className="text-[11px] font-mono uppercase tracking-wider text-[var(--sonus-palette-green)] mb-1.5">Accepted Homophone Matches</div>
+                <div className="font-mono uppercase tracking-wider text-[var(--sonus-palette-green)] mb-1.5">Accepted Homophone Matches</div>
                 <div className="space-y-1">
                   {acceptedHomophoneRows.map(({ word, index, breakdown }) => (
                     <div key={`homophone-${word.id}-${index}`} className="text-xs text-text-med">
