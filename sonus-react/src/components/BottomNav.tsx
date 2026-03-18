@@ -168,24 +168,24 @@ export default function BottomNav({ onHome, onProfile, onLearn, active = 'home' 
           </div>
         </div>
         <div className="absolute inset-x-0 bottom-0 h-[18%] bg-[#2B3440] border-t border-white/10">
-          <div className="flex h-full items-center justify-center gap-2 px-3 text-[6px] leading-none font-light text-[#C7D0DC] sm:text-[6px]">
-            <Link to="/privacy" className="underline-offset-2 hover:underline font-mono text-[6px]">
+          <div className="flex h-full items-center justify-center gap-2 px-3 text-[10px] leading-none font-light text-[#C7D0DC]">
+            <Link to="/privacy" className="underline-offset-2 hover:underline font-mono text-[8px]">
             Privacy
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/terms" className="underline-offset-2 hover:underline font-mono text-[6px]">
+            <Link to="/terms" className="underline-offset-2 hover:underline font-mono text-[8px]">
               Terms
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/contact" className="underline-offset-2 hover:underline font-mono text-[6px]">
+            <Link to="/contact" className="underline-offset-2 hover:underline font-mono text-[8px]">
             Contact
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/attributions" className="underline-offset-2 hover:underline font-mono text-[6px]">
+            <Link to="/attributions" className="underline-offset-2 hover:underline font-mono text-[8px]">
               Attributions
             </Link>
             <span aria-hidden="true">|</span>
-            <span className="font-mono text-[6px]">© {new Date().getFullYear()} Sonus</span>
+            <span className="font-mono text-[8px]">© {new Date().getFullYear()} Sonus</span>
           </div>
         </div>
       </div>

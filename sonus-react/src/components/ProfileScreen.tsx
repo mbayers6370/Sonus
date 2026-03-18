@@ -580,9 +580,6 @@ export default function ProfileScreen({
         <section className="grid grid-cols-1 gap-3 lg:grid-cols-12">
           <SurfaceCard className="relative overflow-hidden border sonus-drenched-border-charcoal !bg-[var(--sonus-palette-charcoal)] p-5 text-white shadow-[0_24px_52px_-34px_rgba(15,23,42,0.62)] lg:col-span-12">
             <div className="relative mx-auto max-w-4xl text-center">
-              <p className="inline-flex items-center rounded-full border border-white/28 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-white">
-                Profile
-              </p>
               <div className="mt-2.5 flex flex-col items-center gap-2.5">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/20 bg-transparent text-[#A7E1DC]">
                   <UserRound className="h-5 w-5" />
@@ -664,14 +661,14 @@ export default function ProfileScreen({
                   <BookOpen className="h-3.5 w-3.5 text-[var(--sonus-palette-blue)]" />
                   Lessons Completed
                 </div>
-                <div className="mt-2 text-2xl font-semibold leading-none text-text-dark">{lessonsCompleted}</div>
+                <div className="mt-2 text-[16px] font-semibold leading-none text-text-dark">{lessonsCompleted}</div>
               </div>
               <div className="rounded-2xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] p-5 text-center sm:text-left sm:col-span-1">
                 <div className="inline-flex items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-[0.16em] text-text-med sm:justify-start">
                   <Flame className="h-3.5 w-3.5 text-[#9A3412]" />
                   Study Streak
                 </div>
-                <div className="mt-2 text-2xl font-semibold leading-none text-text-dark">{streakDisplay}</div>
+                <div className="mt-2 text-[16px] font-semibold leading-none text-text-dark">{streakDisplay}</div>
               </div>
             </div>
 
@@ -705,10 +702,9 @@ export default function ProfileScreen({
 
           <SurfaceCard className="relative h-full min-h-[150px] overflow-hidden border-[rgba(31,42,55,0.55)] p-5 text-center sm:text-left lg:col-span-5">
             <div className="relative">
-              <div className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[rgba(19,87,119,0.28)] bg-[rgba(19,87,119,0.10)] px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.16em] text-[var(--sonus-palette-blue)] sm:justify-start">
+              <div className="inline-flex items-center justify-center rounded-full border border-[var(--sonus-palette-blue)]/22 bg-[rgba(19,87,119,0.08)] px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.16em] text-[var(--sonus-palette-blue)] sm:justify-start">
                 Account Security
               </div>
-              <h3 className="mt-2 text-[1.15rem] font-semibold leading-tight text-text-dark">Access & Identity</h3>
               <div className="mt-3 space-y-2">
                 <div className="rounded-xl border border-[rgba(31,42,55,0.4)] bg-[#FBFBF9] px-3 py-2 text-center sm:text-left">
                   <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-text-light">Email</p>

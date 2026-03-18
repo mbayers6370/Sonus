@@ -646,23 +646,23 @@ export default function GlassHeader({
       {showDesktopCenterNav ? (
         <div className="hidden lg:block fixed bottom-0 left-0 right-0 z-40 border-t border-white/45 bg-[#2B3440]/95 backdrop-blur-xl">
           <div className="mx-auto flex h-8 max-w-[1600px] items-center justify-center gap-2 px-4 text-[6px] leading-none font-light text-[#C7D0DC]">
-            <Link to="/privacy" className="underline-offset-2 hover:underline font-mono text-[6px]">
+            <Link to="/privacy" className="underline-offset-2 hover:underline font-mono text-[10px]">
               Privacy
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/terms" className="underline-offset-2 hover:underline font-mono text-[6px]">
+            <Link to="/terms" className="underline-offset-2 hover:underline font-mono text-[10px]">
               Terms
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/contact" className="underline-offset-2 hover:underline font-mono text-[6px]">
+            <Link to="/contact" className="underline-offset-2 hover:underline font-mono text-[10px]">
               Contact
             </Link>
             <span aria-hidden="true">|</span>
-            <Link to="/attributions" className="underline-offset-2 hover:underline font-mono text-[6px]">
+            <Link to="/attributions" className="underline-offset-2 hover:underline font-mono text-[10px]">
               Attributions
             </Link>
             <span aria-hidden="true">|</span>
-            <span className="font-mono text-[6px]">© {new Date().getFullYear()} Sonus</span>
+            <span className="font-mono text-[10px]">© {new Date().getFullYear()} Sonus</span>
           </div>
         </div>
       ) : null}

@@ -6,7 +6,7 @@ export default function PublicFooter() {
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center">
         <nav
           aria-label="Footer"
-          className="font-mono flex flex-wrap items-center justify-center gap-2 text-[0.66rem] tracking-[0.02em] text-[#C7D0DC] sm:text-xs"
+          className="font-mono flex flex-wrap items-center justify-center gap-2"
         >
           <Link className="underline-offset-2 hover:underline" to="/privacy">
             Privacy
