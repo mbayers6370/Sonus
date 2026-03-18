@@ -17,7 +17,7 @@
     "test:core:local": "node scripts/test-core-local.mjs",
     "test:srs": "node --import tsx src/lib/learningPolicy.test.ts",
     "test:auth-contract": "node --import tsx src/lib/authModeProvider.contract.test.ts",
-    "test:routes": "NODE_ENV=test AUTH_MODE=mock DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/sonus_test node --import tsx --test src/routes/admin.metrics.integration.test.ts src/routes/adminAuthRoutes.integration.test.ts",
+    "test:routes": "NODE_ENV=test AUTH_MODE=mock DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/sonus_test node --import tsx --test src/routes/admin.metrics.integration.test.ts src/routes/adminAuthRoutes.integration.test.ts src/routes/admin.validation.integration.test.ts",
     "test:security": "node scripts/security-regression.mjs",
     "test:auth-modes": "node scripts/auth-mode-boundary.mjs",
     "seed:test-admin": "node scripts/seed-test-admin.mjs",
