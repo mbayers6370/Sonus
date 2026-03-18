@@ -1,16 +1,16 @@
 import { useCallback, useState } from 'react';
-import { apiFetch } from '../../lib/apiClient';
+import { apiFetch } from '../../../lib/apiClient';
 import { parseJsonOrThrow } from './supportConsoleDataUtils';
 import {
   readSupportAdminToken,
   setSupportAdminToken,
 } from './supportConsoleAccessUtils';
 
-export function useSupportConsoleAuth() {
+export function useSupportConsoleAuth(initialAdminUsername = '') {
   const [authenticated, setAuthenticated] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authBusy, setAuthBusy] = useState(false);
-  const [adminUsername, setAdminUsername] = useState('');
+  const [adminUsername, setAdminUsername] = useState(initialAdminUsername);
   const [supportAdminUsername, setSupportAdminUsername] = useState<string | null>(null);
 
   const verifySupportAdminSession = useCallback(async () => {
@@ -81,11 +81,15 @@ export function useSupportConsoleAuth() {
 
   return {
     authenticated,
+    setAuthenticated,
     authError,
+    setAuthError,
     authBusy,
+    setAuthBusy,
     adminUsername,
     setAdminUsername,
     supportAdminUsername,
+    setSupportAdminUsername,
     verifySupportAdminSession,
     attemptSignIn,
     signOut,

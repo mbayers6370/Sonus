@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { apiFetch } from '../../lib/apiClient';
+import { apiFetch } from '../../../lib/apiClient';
 import { parseJsonOrThrow } from './supportConsoleDataUtils';
 
 import type {
@@ -17,6 +17,7 @@ export function useSupportConsoleSearch() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [searchError, setSearchError] = useState<string | null>(null);
 
   const [overview, setOverview] = useState<UserOverview | null>(null);
   const [progressDetail, setProgressDetail] = useState<UserProgressDetail | null>(null);
@@ -35,6 +36,7 @@ export function useSupportConsoleSearch() {
 
   const runSearch = useCallback(async () => {
     setSearchLoading(true);
+    setSearchError(null);
     try {
       const params = new URLSearchParams();
       if (query.trim()) params.set('q', query.trim());
@@ -51,11 +53,17 @@ export function useSupportConsoleSearch() {
       }
     } catch (error) {
       setSearchResults([]);
-      console.error(error);
+      setSearchError(error instanceof Error ? error.message : 'Search failed');
     } finally {
       setSearchLoading(false);
     }
   }, [query, selectedUserId]);
+
+  const clearSearchState = useCallback(() => {
+    setSearchResults([]);
+    setSelectedUserId(null);
+    setSearchError(null);
+  }, []);
 
   const loadUserDetail = useCallback(async (userId: string) => {
     setDetailLoading(true);
@@ -134,7 +142,10 @@ export function useSupportConsoleSearch() {
     setQuery,
     searchLoading,
     searchResults,
+    setSearchResults,
+    searchError,
     runSearch,
+    clearSearchState,
     selectedUserId,
     setSelectedUserId,
 

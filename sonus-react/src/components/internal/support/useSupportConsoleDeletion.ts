@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react';
-import { apiFetch } from '../../lib/apiClient';
-import { parseJsonOrThrow } from './support/supportConsoleDataUtils';
+import { apiFetch } from '../../../lib/apiClient';
+import { parseJsonOrThrow } from './supportConsoleDataUtils';
 
 import type {
   OpenDeletionRequest,
   DeletionCaseEntry,
   RecentDeletionItem,
-} from './support/supportConsoleTypes';
+} from './supportConsoleTypes';
 
 export function useSupportConsoleDeletion() {
   const [recentDeletions, setRecentDeletions] = useState<RecentDeletionItem[]>([]);
@@ -26,7 +26,7 @@ export function useSupportConsoleDeletion() {
     setRecentDeletionsError(null);
     try {
       const payload = await parseJsonOrThrow<{ items?: RecentDeletionItem[] }>(
-        await apiFetch('/v1/admin/deletions/recent', { cache: 'no-store' })
+        await apiFetch('/v1/admin/users/deletions/recent?limit=12', { cache: 'no-store' })
       );
       setRecentDeletions(payload.items || []);
     } catch (error) {
@@ -44,7 +44,7 @@ export function useSupportConsoleDeletion() {
     setOpenDeletionRequestsError(null);
     try {
       const payload = await parseJsonOrThrow<{ requests?: OpenDeletionRequest[] }>(
-        await apiFetch('/v1/admin/deletions/open-requests', { cache: 'no-store' })
+        await apiFetch('/v1/admin/deletion-requests/open?limit=20', { cache: 'no-store' })
       );
       setOpenDeletionRequests(payload.requests || []);
     } catch (error) {
@@ -58,19 +58,16 @@ export function useSupportConsoleDeletion() {
   }, []);
 
   const loadDeletionCases = useCallback(
-    async (searchQuery: string) => {
-      if (!searchQuery.trim()) {
-        setDeletionCases([]);
-        return;
-      }
+    async (searchQuery = '') => {
       setDeletionCasesLoading(true);
       setDeletionCasesError(null);
       try {
         const params = new URLSearchParams();
-        params.set('q', searchQuery.trim());
-        params.set('limit', '30');
+        params.set('limit', '40');
+        const q = searchQuery.trim();
+        if (q) params.set('q', q);
         const payload = await parseJsonOrThrow<{ cases?: DeletionCaseEntry[] }>(
-          await apiFetch(`/v1/admin/deletions/search?${params.toString()}`, {
+          await apiFetch(`/v1/admin/metrics/support/deletion-cases?${params.toString()}`, {
             cache: 'no-store',
           })
         );

@@ -43,6 +43,12 @@ import {
   toLocale,
 } from "./support/supportConsoleUi";
 import { MissTrendDelta, TrendDelta } from "./support/supportConsoleTrendChips";
+import { useSupportConsoleDashboard } from "./support/useSupportConsoleDashboard";
+import { useSupportConsoleDeletion } from "./support/useSupportConsoleDeletion";
+import { useSupportConsoleMetrics } from "./support/useSupportConsoleMetrics";
+import { useSupportConsoleAuth } from "./support/useSupportConsoleAuth";
+import { useSupportConsoleReports } from "./support/useSupportConsoleReports";
+import { useSupportConsoleSearch } from "./support/useSupportConsoleSearch";
 import { useSupportConsoleState } from "./support/useSupportConsoleState";
 
 import type {
@@ -57,15 +63,7 @@ import type {
   TimelineEntry,
   SupportNoteEntry,
   OpenDeletionRequest,
-  DeletionCaseEntry,
-  RecentDeletionItem,
-  SupportMetrics,
-  LearningMetrics,
-  WeakWordsByLanguage,
-  SpeakMissHotspotsByLanguage,
   ReviewQueueDebug,
-  QualityReportListItem,
-  QualityReportDetail,
   ExecutiveWeeklyReport,
   DeletionLifecycleReport,
   SecurityIncidentReport,
@@ -98,21 +96,47 @@ export default function SupportConsolePage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [bootLoading] = useState(false);
-  const [authenticated, setAuthenticated] = useState(false);
+  const {
+    authenticated,
+    setAuthenticated,
+    authError,
+    setAuthError,
+    authBusy,
+    setAuthBusy,
+    adminUsername,
+    setAdminUsername,
+    supportAdminUsername,
+    setSupportAdminUsername,
+    verifySupportAdminSession,
+  } = useSupportConsoleAuth(ROOT_QA_ADMIN_USERNAME);
+  const {
+    query,
+    setQuery,
+    searchLoading,
+    searchResults,
+    runSearch,
+    clearSearchState,
+    selectedUserId,
+    setSelectedUserId,
+  } = useSupportConsoleSearch();
+  const {
+    qualityReports,
+    qualityReportDetail: qualityDetail,
+    setQualityReportDetail: setQualityDetail,
+    qualityReportsLoading,
+    qualityReportsError,
+    setQualityReportsError,
+    qualityDetailLoading,
+    qualityDetailError,
+    setQualityDetailError,
+    loadQualityReports: loadQualityReportsCore,
+    loadQualityReportDetail: loadQualityReportDetailCore,
+  } = useSupportConsoleReports();
   const didBootstrapRef = useRef(false);
-  const [authError, setAuthError] = useState<string | null>(null);
-  const [authBusy, setAuthBusy] = useState(false);
-  const [adminUsername, setAdminUsername] = useState(
-    "qa-admin-f8n2x7r1@sonus.test",
-  );
   const [adminPassword, setAdminPassword] = useState("");
   const adminUsernameInputRef = useRef<HTMLInputElement | null>(null);
   const adminPasswordInputRef = useRef<HTMLInputElement | null>(null);
   const adminAutoSubmittedRef = useRef(false);
-  const [query, setQuery] = useState("");
-  const [searchLoading, setSearchLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [overview, setOverview] = useState<UserOverview | null>(null);
   const [progressDetail, setProgressDetail] =
     useState<UserProgressDetail | null>(null);
@@ -184,52 +208,14 @@ export default function SupportConsolePage() {
   const [accessApplySummary, setAccessApplySummary] =
     useState<LearningAccessApplySummary | null>(null);
   const [accessApplyModalOpen, setAccessApplyModalOpen] = useState(false);
-  const [supportMetrics, setSupportMetrics] = useState<SupportMetrics | null>(
-    null,
-  );
-  const [learningMetrics, setLearningMetrics] =
-    useState<LearningMetrics | null>(null);
-  const [weakWordsByLanguage, setWeakWordsByLanguage] =
-    useState<WeakWordsByLanguage | null>(null);
-  const [weakSpeakWordsByLanguage, setWeakSpeakWordsByLanguage] =
-    useState<WeakWordsByLanguage | null>(null);
-  const [speakMissHotspotsByLanguage, setSpeakMissHotspotsByLanguage] =
-    useState<SpeakMissHotspotsByLanguage | null>(null);
-  const [metricsLoading, setMetricsLoading] = useState(false);
-  const [metricsError, setMetricsError] = useState<string | null>(null);
   const [dashboardLoading, setDashboardLoading] = useState(false);
   const [dashboardError, setDashboardError] = useState<string | null>(null);
-  const [adminTimeline, setAdminTimeline] = useState<TimelineEntry[]>([]);
-  const [adminTimelineLoading, setAdminTimelineLoading] = useState(false);
-  const [adminTimelineError, setAdminTimelineError] = useState<string | null>(
-    null,
-  );
-  const [recentDeletions, setRecentDeletions] = useState<RecentDeletionItem[]>(
-    [],
-  );
-  const [recentDeletionsLoading, setRecentDeletionsLoading] = useState(false);
-  const [recentDeletionsError, setRecentDeletionsError] = useState<
-    string | null
-  >(null);
-  const [openDeletionRequests, setOpenDeletionRequests] = useState<
-    OpenDeletionRequest[]
-  >([]);
-  const [openDeletionRequestsLoading, setOpenDeletionRequestsLoading] =
-    useState(false);
-  const [openDeletionRequestsError, setOpenDeletionRequestsError] = useState<
-    string | null
-  >(null);
   const [requestModal, setRequestModal] = useState<OpenDeletionRequest | null>(
     null,
   );
   const [requestDecisionReason, setRequestDecisionReason] = useState("");
   const [requestDecisionBusy, setRequestDecisionBusy] = useState(false);
   const [deletionCaseSearch, setDeletionCaseSearch] = useState("");
-  const [deletionCases, setDeletionCases] = useState<DeletionCaseEntry[]>([]);
-  const [deletionCasesLoading, setDeletionCasesLoading] = useState(false);
-  const [deletionCasesError, setDeletionCasesError] = useState<string | null>(
-    null,
-  );
   const [undoBusyUserId, setUndoBusyUserId] = useState<string | null>(null);
   const [undoDeletionReason, setUndoDeletionReason] = useState("");
   const [deletingNoteId, setDeletingNoteId] = useState<string | null>(null);
@@ -243,9 +229,40 @@ export default function SupportConsolePage() {
   const [metricsWindowDays, setMetricsWindowDays] = useState<7 | 30 | 90 | 180>(
     30,
   );
-  const [supportAdminUsername, setSupportAdminUsername] = useState<
-    string | null
-  >(null);
+  const {
+    supportMetrics,
+    learningMetrics,
+    weakWordsByLanguage,
+    weakSpeakWordsByLanguage,
+    speakMissHotspotsByLanguage,
+    impactOutcomesMetrics,
+    metricsLoading,
+    metricsError,
+    loadSupportMetrics: loadSupportMetricsCore,
+    loadLearningMetrics: loadLearningMetricsCore,
+    loadImpactOutcomesMetrics: loadImpactOutcomesMetricsCore,
+    loadDashboardMetrics: loadCoreDashboardMetrics,
+  } = useSupportConsoleMetrics();
+  const {
+    adminTimeline,
+    adminTimelineLoading,
+    adminTimelineError,
+    loadAdminTimeline,
+  } = useSupportConsoleDashboard();
+  const {
+    recentDeletions,
+    recentDeletionsLoading,
+    recentDeletionsError,
+    loadRecentDeletions,
+    openDeletionRequests,
+    openDeletionRequestsLoading,
+    openDeletionRequestsError,
+    loadOpenDeletionRequests,
+    deletionCases,
+    deletionCasesLoading,
+    deletionCasesError,
+    loadDeletionCases: loadDeletionCasesCore,
+  } = useSupportConsoleDeletion();
   const [createAdminOpen, setCreateAdminOpen] = useState(false);
   const [createAdminBusy, setCreateAdminBusy] = useState(false);
   const [createAdminUsername, setCreateAdminUsername] = useState("");
@@ -276,22 +293,9 @@ export default function SupportConsolePage() {
   const [resetTokenValue, setResetTokenValue] = useState("");
   const [resetTokenPasswordValue, setResetTokenPasswordValue] = useState("");
   const [resetTokenBusy, setResetTokenBusy] = useState(false);
-  const [qualityReports, setQualityReports] = useState<QualityReportListItem[]>(
-    [],
-  );
-  const [qualityReportsLoading, setQualityReportsLoading] = useState(false);
-  const [qualityReportsError, setQualityReportsError] = useState<string | null>(
-    null,
-  );
   const [selectedQualityRunId, setSelectedQualityRunId] = useState<
     string | null
   >(null);
-  const [qualityDetail, setQualityDetail] =
-    useState<QualityReportDetail | null>(null);
-  const [qualityDetailLoading, setQualityDetailLoading] = useState(false);
-  const [qualityDetailError, setQualityDetailError] = useState<string | null>(
-    null,
-  );
   const [qualityRunBusy, setQualityRunBusy] = useState(false);
   const [qualityRunMessage, setQualityRunMessage] = useState<string | null>(
     null,
@@ -321,8 +325,6 @@ export default function SupportConsolePage() {
     useState<DbGuardrailsReport | null>(null);
   const [prodReadinessReport, setProdReadinessReport] =
     useState<ProdReadinessReport | null>(null);
-  const [impactOutcomesMetrics, setImpactOutcomesMetrics] =
-    useState<ImpactOutcomesMetrics | null>(null);
   const [dashboardGeneratedAt, setDashboardGeneratedAt] = useState<
     string | null
   >(null);
@@ -432,50 +434,6 @@ export default function SupportConsolePage() {
           : 0,
     };
   }, [impactOutcomesMetrics]);
-  const verifySupportAdminSession = useCallback(async () => {
-    if (!readSupportAdminToken()) {
-      setAuthenticated(false);
-      setSupportAdminUsername(null);
-      return false;
-    }
-    try {
-      const payload = await parseJsonOrThrow<{ username?: string }>(
-        await apiFetch("/v1/admin/auth/me", { cache: "no-store" }),
-      );
-      setAuthenticated(true);
-      setSupportAdminUsername(payload.username || null);
-      setAuthError(null);
-      return true;
-    } catch {
-      setSupportAdminToken(null);
-      setAuthenticated(false);
-      setSupportAdminUsername(null);
-      return false;
-    }
-  }, []);
-
-  const runSearch = useCallback(async () => {
-    setSearchLoading(true);
-    try {
-      const params = new URLSearchParams();
-      if (query.trim()) params.set("q", query.trim());
-      params.set("limit", "30");
-      const payload = await parseJsonOrThrow<{ users?: SearchResult[] }>(
-        await apiFetch(`/v1/admin/users/search?${params.toString()}`, {
-          cache: "no-store",
-        }),
-      );
-      const next = payload.users || [];
-      setSearchResults(next);
-      if (!selectedUserId && next[0]?.userId) {
-        setSelectedUserId(next[0].userId);
-      }
-    } catch (error) {
-      setDetailError(error instanceof Error ? error.message : "Search failed");
-    } finally {
-      setSearchLoading(false);
-    }
-  }, [query, selectedUserId]);
 
   const refreshSelectedUser = useCallback(
     async (targetUserId: string) => {
@@ -676,120 +634,30 @@ export default function SupportConsolePage() {
 
   const loadSupportMetrics = useCallback(
     async (windowDays = metricsWindowDays) => {
-      setMetricsLoading(true);
-      setMetricsError(null);
-      try {
-        const payload = await parseJsonOrThrow<SupportMetrics>(
-          await apiFetch(
-            `/v1/admin/metrics/support/overview?windowDays=${windowDays}`,
-            {
-              cache: "no-store",
-            },
-          ),
-        );
-        setSupportMetrics(payload);
-      } catch (error) {
-        setSupportMetrics(null);
-        setMetricsError(
-          error instanceof Error
-            ? error.message
-            : "Failed to load support metrics",
-        );
-      } finally {
-        setMetricsLoading(false);
-      }
+      await loadSupportMetricsCore(windowDays);
     },
-    [metricsWindowDays],
+    [loadSupportMetricsCore, metricsWindowDays],
   );
 
   const loadLearningMetrics = useCallback(
     async (windowDays = metricsWindowDays) => {
-      setMetricsLoading(true);
-      setMetricsError(null);
-      try {
-        const [
-          overviewPayload,
-          weakWordsByLanguagePayload,
-          weakSpeakWordsByLanguagePayload,
-          speakMissHotspotsByLanguagePayload,
-        ] = await Promise.all([
-          parseJsonOrThrow<LearningMetrics>(
-            await apiFetch(
-              `/v1/admin/metrics/learning/overview?windowDays=${windowDays}`,
-              {
-                cache: "no-store",
-              },
-            ),
-          ),
-          parseJsonOrThrow<WeakWordsByLanguage>(
-            await apiFetch(
-              `/v1/admin/metrics/learning/weak-words-by-language?windowDays=${windowDays}&limitPerLanguage=5`,
-              {
-                cache: "no-store",
-              },
-            ),
-          ),
-          parseJsonOrThrow<WeakWordsByLanguage>(
-            await apiFetch(
-              `/v1/admin/metrics/learning/weak-speak-words-by-language?windowDays=${windowDays}&limitPerLanguage=5`,
-              {
-                cache: "no-store",
-              },
-            ),
-          ),
-          parseJsonOrThrow<SpeakMissHotspotsByLanguage>(
-            await apiFetch(
-              `/v1/admin/metrics/learning/speak-miss-hotspots-by-language?windowDays=${windowDays}&limitPerLanguage=5&minMissesPerUser=4`,
-              {
-                cache: "no-store",
-              },
-            ),
-          ),
-        ]);
-        setLearningMetrics(overviewPayload);
-        setWeakWordsByLanguage(weakWordsByLanguagePayload);
-        setWeakSpeakWordsByLanguage(weakSpeakWordsByLanguagePayload);
-        setSpeakMissHotspotsByLanguage(speakMissHotspotsByLanguagePayload);
-      } catch (error) {
-        setLearningMetrics(null);
-        setWeakWordsByLanguage(null);
-        setWeakSpeakWordsByLanguage(null);
-        setSpeakMissHotspotsByLanguage(null);
-        setMetricsError(
-          error instanceof Error
-            ? error.message
-            : "Failed to load learning metrics",
-        );
-      } finally {
-        setMetricsLoading(false);
-      }
+      await loadLearningMetricsCore(windowDays);
     },
-    [metricsWindowDays],
+    [loadLearningMetricsCore, metricsWindowDays],
   );
 
   const loadImpactOutcomesMetrics = useCallback(
     async (windowDays = metricsWindowDays) => {
-      setMetricsLoading(true);
-      setMetricsError(null);
-      try {
-        const payload = await parseJsonOrThrow<ImpactOutcomesMetrics>(
-          await apiFetch(`/v1/admin/metrics/impact-outcomes?windowDays=${windowDays}`, {
-            cache: "no-store",
-          }),
-        );
-        setImpactOutcomesMetrics(payload);
-      } catch (error) {
-        setImpactOutcomesMetrics(null);
-        setMetricsError(
-          error instanceof Error
-            ? error.message
-            : "Failed to load impact outcomes metrics",
-        );
-      } finally {
-        setMetricsLoading(false);
-      }
+      await loadImpactOutcomesMetricsCore(windowDays);
     },
-    [metricsWindowDays],
+    [loadImpactOutcomesMetricsCore, metricsWindowDays],
+  );
+
+  const loadDeletionCases = useCallback(
+    async (query?: string) => {
+      await loadDeletionCasesCore(query ?? deletionCaseSearch);
+    },
+    [deletionCaseSearch, loadDeletionCasesCore],
   );
 
   const loadDashboardMetrics = useCallback(
@@ -797,10 +665,8 @@ export default function SupportConsolePage() {
       setDashboardLoading(true);
       setDashboardError(null);
       try {
+        await loadCoreDashboardMetrics(windowDays);
         const [
-          supportPayload,
-          learningPayload,
-          speakMissHotspotsPayload,
           executivePayload,
           deletionPayload,
           securityPayload,
@@ -810,30 +676,6 @@ export default function SupportConsolePage() {
           guardrailsPayload,
           readinessPayload,
         ] = await Promise.all([
-          parseJsonOrThrow<SupportMetrics>(
-            await apiFetch(
-              `/v1/admin/metrics/support/overview?windowDays=${windowDays}`,
-              {
-                cache: "no-store",
-              },
-            ),
-          ),
-          parseJsonOrThrow<LearningMetrics>(
-            await apiFetch(
-              `/v1/admin/metrics/learning/overview?windowDays=${windowDays}`,
-              {
-                cache: "no-store",
-              },
-            ),
-          ),
-          parseJsonOrThrow<SpeakMissHotspotsByLanguage>(
-            await apiFetch(
-              `/v1/admin/metrics/learning/speak-miss-hotspots-by-language?windowDays=${windowDays}&limitPerLanguage=4&minMissesPerUser=4`,
-              {
-                cache: "no-store",
-              },
-            ),
-          ),
           parseJsonOrThrow<ExecutiveWeeklyReport>(
             await apiFetch(
               `/v1/admin/reports/executive-weekly?windowDays=${windowDays}`,
@@ -893,9 +735,6 @@ export default function SupportConsolePage() {
             }),
           ),
         ]);
-        setSupportMetrics(supportPayload);
-        setLearningMetrics(learningPayload);
-        setSpeakMissHotspotsByLanguage(speakMissHotspotsPayload);
         setExecutiveWeeklyReport(executivePayload);
         setDeletionLifecycleReport(deletionPayload);
         setSecurityIncidentReport(securityPayload);
@@ -906,9 +745,6 @@ export default function SupportConsolePage() {
         setProdReadinessReport(readinessPayload);
         setDashboardGeneratedAt(new Date().toISOString());
       } catch (error) {
-        setSupportMetrics(null);
-        setLearningMetrics(null);
-        setSpeakMissHotspotsByLanguage(null);
         setExecutiveWeeklyReport(null);
         setDeletionLifecycleReport(null);
         setSecurityIncidentReport(null);
@@ -917,7 +753,6 @@ export default function SupportConsolePage() {
         setStorageBudgetReport(null);
         setDbGuardrailsReport(null);
         setProdReadinessReport(null);
-        setImpactOutcomesMetrics(null);
         setDashboardError(
           error instanceof Error
             ? error.message
@@ -927,176 +762,25 @@ export default function SupportConsolePage() {
         setDashboardLoading(false);
       }
     },
-    [metricsWindowDays],
-  );
-
-  const loadAdminTimeline = useCallback(async () => {
-    setAdminTimelineLoading(true);
-    setAdminTimelineError(null);
-    try {
-      let timelinePayload: { timeline?: TimelineEntry[] } | null = null;
-      try {
-        timelinePayload = await parseJsonOrThrow<{
-          timeline?: TimelineEntry[];
-        }>(
-          await apiFetch("/v1/admin/me/timeline?windowHours=24&limit=80", {
-            cache: "no-store",
-          }),
-        );
-      } catch (error) {
-        const message =
-          error instanceof Error ? error.message.toLowerCase() : "";
-        if (!message.includes("not found")) throw error;
-        timelinePayload = await parseJsonOrThrow<{
-          timeline?: TimelineEntry[];
-        }>(
-          await apiFetch("/v1/admin/timeline?windowHours=24&limit=80", {
-            cache: "no-store",
-          }),
-        );
-      }
-      setAdminTimeline(timelinePayload?.timeline || []);
-    } catch (error) {
-      setAdminTimelineError(
-        error instanceof Error
-          ? error.message
-          : "Failed to load admin timeline",
-      );
-      setAdminTimeline([]);
-    } finally {
-      setAdminTimelineLoading(false);
-    }
-  }, []);
-
-  const loadRecentDeletions = useCallback(async () => {
-    setRecentDeletionsLoading(true);
-    setRecentDeletionsError(null);
-    try {
-      const payload = await parseJsonOrThrow<{ items?: RecentDeletionItem[] }>(
-        await apiFetch("/v1/admin/users/deletions/recent?limit=12", {
-          cache: "no-store",
-        }),
-      );
-      setRecentDeletions(payload.items || []);
-    } catch (error) {
-      setRecentDeletionsError(
-        error instanceof Error
-          ? error.message
-          : "Failed to load recent deletions",
-      );
-      setRecentDeletions([]);
-    } finally {
-      setRecentDeletionsLoading(false);
-    }
-  }, []);
-
-  const loadOpenDeletionRequests = useCallback(async () => {
-    setOpenDeletionRequestsLoading(true);
-    setOpenDeletionRequestsError(null);
-    try {
-      const payload = await parseJsonOrThrow<{
-        requests?: OpenDeletionRequest[];
-      }>(
-        await apiFetch("/v1/admin/deletion-requests/open?limit=20", {
-          cache: "no-store",
-        }),
-      );
-      setOpenDeletionRequests(payload.requests || []);
-    } catch (error) {
-      setOpenDeletionRequestsError(
-        error instanceof Error
-          ? error.message
-          : "Failed to load deletion requests",
-      );
-      setOpenDeletionRequests([]);
-    } finally {
-      setOpenDeletionRequestsLoading(false);
-    }
-  }, []);
-
-  const loadDeletionCases = useCallback(
-    async (query?: string) => {
-      setDeletionCasesLoading(true);
-      setDeletionCasesError(null);
-      try {
-        const params = new URLSearchParams();
-        params.set("limit", "40");
-        const q = (query ?? deletionCaseSearch).trim();
-        if (q) params.set("q", q);
-        const payload = await parseJsonOrThrow<{ cases?: DeletionCaseEntry[] }>(
-          await apiFetch(
-            `/v1/admin/metrics/support/deletion-cases?${params.toString()}`,
-            { cache: "no-store" },
-          ),
-        );
-        setDeletionCases(payload.cases || []);
-      } catch (error) {
-        setDeletionCasesError(
-          error instanceof Error
-            ? error.message
-            : "Failed to load deletion cases",
-        );
-        setDeletionCases([]);
-      } finally {
-        setDeletionCasesLoading(false);
-      }
-    },
-    [deletionCaseSearch],
+    [loadCoreDashboardMetrics, metricsWindowDays],
   );
 
   const loadQualityReports = useCallback(async () => {
-    setQualityReportsLoading(true);
-    setQualityReportsError(null);
-    try {
-      const payload = await parseJsonOrThrow<{
-        reports?: QualityReportListItem[];
-      }>(
-        await apiFetch("/v1/admin/quality-reports?limit=40", {
-          cache: "no-store",
-        }),
-      );
-      const reports = payload.reports || [];
-      setQualityReports(reports);
-      const hasSelected = selectedQualityRunId
-        ? reports.some((entry) => entry.runId === selectedQualityRunId)
-        : false;
-      if (!hasSelected) {
-        setSelectedQualityRunId(reports[0]?.runId || null);
-      }
-    } catch (error) {
-      setQualityReportsError(
-        error instanceof Error
-          ? error.message
-          : "Failed to load quality reports",
-      );
-      setQualityReports([]);
-    } finally {
-      setQualityReportsLoading(false);
+    const reports = await loadQualityReportsCore();
+    const hasSelected = selectedQualityRunId
+      ? reports.some((entry) => entry.runId === selectedQualityRunId)
+      : false;
+    if (!hasSelected) {
+      setSelectedQualityRunId(reports[0]?.runId || null);
     }
-  }, [selectedQualityRunId]);
+  }, [loadQualityReportsCore, selectedQualityRunId]);
 
-  const loadQualityReportDetail = async (runId: string) => {
-    setQualityDetailLoading(true);
-    setQualityDetailError(null);
-    try {
-      const payload = await parseJsonOrThrow<QualityReportDetail>(
-        await apiFetch(
-          `/v1/admin/quality-reports/${encodeURIComponent(runId)}`,
-          {
-            cache: "no-store",
-          },
-        ),
-      );
-      setQualityDetail(payload);
-    } catch (error) {
-      setQualityDetailError(
-        error instanceof Error ? error.message : "Failed to load report detail",
-      );
-      setQualityDetail(null);
-    } finally {
-      setQualityDetailLoading(false);
-    }
-  };
+  const loadQualityReportDetail = useCallback(
+    async (runId: string) => {
+      await loadQualityReportDetailCore(runId);
+    },
+    [loadQualityReportDetailCore],
+  );
 
   const runProdSafeQualityReport = async () => {
     setQualityRunBusy(true);
@@ -2968,6 +2652,8 @@ export default function SupportConsolePage() {
     loadQualityReports,
     metricsWindowDays,
     runSearch,
+    setAuthenticated,
+    setSupportAdminUsername,
     verifySupportAdminSession,
     viewMode,
   ]);
@@ -3182,7 +2868,14 @@ export default function SupportConsolePage() {
       return;
     }
     void loadQualityReportDetail(selectedQualityRunId);
-  }, [authenticated, viewMode, selectedQualityRunId]);
+  }, [
+    authenticated,
+    loadQualityReportDetail,
+    selectedQualityRunId,
+    setQualityDetail,
+    setQualityDetailError,
+    viewMode,
+  ]);
 
   const runMutation = async (
     action: string,
@@ -3317,6 +3010,8 @@ export default function SupportConsolePage() {
       adminPassword,
       adminUsername,
       runSearch,
+      setAuthBusy,
+      setAuthError,
       verifySupportAdminSession,
       viewMode,
     ],
@@ -3376,6 +3071,7 @@ export default function SupportConsolePage() {
     adminPassword,
     adminUsername,
     handleSupportLogin,
+    setAdminUsername,
   ]);
 
   const handleSupportLogout = async () => {
@@ -3386,8 +3082,7 @@ export default function SupportConsolePage() {
     }
     setSupportAdminToken(null);
     setAuthenticated(false);
-    setSearchResults([]);
-    setSelectedUserId(null);
+    clearSearchState();
     setOverview(null);
     setTimeline([]);
     setSupportAdminUsername(null);

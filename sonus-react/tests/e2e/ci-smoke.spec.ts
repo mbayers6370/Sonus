@@ -116,7 +116,9 @@ test.describe('CI Smoke Tests', () => {
     await page.goto('/', { waitUntil: 'networkidle' });
 
     // Mock an API endpoint to ensure client is set up
+    let apiCallMade = false;
     await page.route('**/v1/**', async (route) => {
+      apiCallMade = true;
       await route.fulfill({
         status: 401,
         contentType: 'application/json',
@@ -131,6 +133,7 @@ test.describe('CI Smoke Tests', () => {
     // At minimum, page should not crash
     const hasContent = await page.locator('body > *').first().isVisible();
     expect(hasContent).toBeTruthy();
+    expect(apiCallMade).toBeTruthy();
   });
 
   test('critical UI elements are renderable', async ({ page }) => {

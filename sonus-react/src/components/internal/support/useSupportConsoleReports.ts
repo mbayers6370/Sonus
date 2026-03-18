@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { apiFetch } from '../../lib/apiClient';
+import { apiFetch } from '../../../lib/apiClient';
 import { parseJsonOrThrow } from './supportConsoleDataUtils';
 
 import type {
@@ -10,42 +10,47 @@ import type {
 export function useSupportConsoleReports() {
   const [qualityReports, setQualityReports] = useState<QualityReportListItem[]>([]);
   const [qualityReportDetail, setQualityReportDetail] = useState<QualityReportDetail | null>(null);
-  const [reportsLoading, setReportsLoading] = useState(false);
-  const [reportsError, setReportsError] = useState<string | null>(null);
+  const [qualityReportsLoading, setQualityReportsLoading] = useState(false);
+  const [qualityReportsError, setQualityReportsError] = useState<string | null>(null);
+  const [qualityDetailLoading, setQualityDetailLoading] = useState(false);
+  const [qualityDetailError, setQualityDetailError] = useState<string | null>(null);
   const [reportRunBusy, setReportRunBusy] = useState(false);
   const [reportRunError, setReportRunError] = useState<string | null>(null);
 
   const loadQualityReports = useCallback(async () => {
-    setReportsLoading(true);
-    setReportsError(null);
+    setQualityReportsLoading(true);
+    setQualityReportsError(null);
     try {
       const payload = await parseJsonOrThrow<{ reports: QualityReportListItem[] }>(
-        await apiFetch('/v1/admin/reports/quality', { cache: 'no-store' })
+        await apiFetch('/v1/admin/quality-reports?limit=40', { cache: 'no-store' })
       );
-      setQualityReports(payload.reports || []);
+      const reports = payload.reports || [];
+      setQualityReports(reports);
+      return reports;
     } catch (error) {
       setQualityReports([]);
-      setReportsError(error instanceof Error ? error.message : 'Failed to load quality reports');
+      setQualityReportsError(error instanceof Error ? error.message : 'Failed to load quality reports');
+      return [] as QualityReportListItem[];
     } finally {
-      setReportsLoading(false);
+      setQualityReportsLoading(false);
     }
   }, []);
 
   const loadQualityReportDetail = useCallback(async (runId: string) => {
-    setReportsLoading(true);
-    setReportsError(null);
+    setQualityDetailLoading(true);
+    setQualityDetailError(null);
     try {
       const payload = await parseJsonOrThrow<QualityReportDetail>(
-        await apiFetch(`/v1/admin/reports/quality/${runId}`, { cache: 'no-store' })
+        await apiFetch(`/v1/admin/quality-reports/${encodeURIComponent(runId)}`, { cache: 'no-store' })
       );
       setQualityReportDetail(payload);
     } catch (error) {
       setQualityReportDetail(null);
-      setReportsError(
+      setQualityDetailError(
         error instanceof Error ? error.message : `Failed to load report ${runId}`
       );
     } finally {
-      setReportsLoading(false);
+      setQualityDetailLoading(false);
     }
   }, []);
 
@@ -88,8 +93,13 @@ export function useSupportConsoleReports() {
   return {
     qualityReports,
     qualityReportDetail,
-    reportsLoading,
-    reportsError,
+    setQualityReportDetail,
+    qualityReportsLoading,
+    qualityReportsError,
+    setQualityReportsError,
+    qualityDetailLoading,
+    qualityDetailError,
+    setQualityDetailError,
     reportRunBusy,
     reportRunError,
     loadQualityReports,

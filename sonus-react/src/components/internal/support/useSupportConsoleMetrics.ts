@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { apiFetch } from '../../lib/apiClient';
+import { apiFetch } from '../../../lib/apiClient';
 import { parseJsonOrThrow } from './supportConsoleDataUtils';
 
 import type {
@@ -127,7 +127,7 @@ export function useSupportConsoleMetrics() {
           ),
           parseJsonOrThrow<SpeakMissHotspotsByLanguage>(
             await apiFetch(
-              `/v1/admin/metrics/learning/speak-miss-hotspots-by-language?windowDays=${windowDays}&limitPerLanguage=5&minMissesPerUser=4`,
+              `/v1/admin/metrics/learning/speak-miss-hotspots-by-language?windowDays=${windowDays}&limitPerLanguage=4&minMissesPerUser=4`,
               { cache: 'no-store' }
             )
           ),

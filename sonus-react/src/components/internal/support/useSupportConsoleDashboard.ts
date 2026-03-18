@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { apiFetch } from '../../lib/apiClient';
+import { apiFetch } from '../../../lib/apiClient';
 import { parseJsonOrThrow } from './supportConsoleDataUtils';
 
 import type { TimelineEntry } from './supportConsoleTypes';
@@ -13,10 +13,23 @@ export function useSupportConsoleDashboard() {
     setAdminTimelineLoading(true);
     setAdminTimelineError(null);
     try {
-      const payload = await parseJsonOrThrow<{ entries?: TimelineEntry[] }>(
-        await apiFetch('/v1/admin/timeline', { cache: 'no-store' })
-      );
-      setAdminTimeline(payload.entries || []);
+      let timelinePayload: { timeline?: TimelineEntry[] } | null = null;
+      try {
+        timelinePayload = await parseJsonOrThrow<{ timeline?: TimelineEntry[] }>(
+          await apiFetch('/v1/admin/me/timeline?windowHours=24&limit=80', {
+            cache: 'no-store',
+          })
+        );
+      } catch (error) {
+        const message = error instanceof Error ? error.message.toLowerCase() : '';
+        if (!message.includes('not found')) throw error;
+        timelinePayload = await parseJsonOrThrow<{ timeline?: TimelineEntry[] }>(
+          await apiFetch('/v1/admin/timeline?windowHours=24&limit=80', {
+            cache: 'no-store',
+          })
+        );
+      }
+      setAdminTimeline(timelinePayload?.timeline || []);
     } catch (error) {
       setAdminTimeline([]);
       setAdminTimelineError(error instanceof Error ? error.message : 'Failed to load admin timeline');
