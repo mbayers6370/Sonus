@@ -16,6 +16,7 @@ export default {
         'body': ['16px', { lineHeight: '1.5' }],
         'label': ['16px', { lineHeight: '1.4' }],
         'caption': ['10px', { lineHeight: '1.3' }],
+        'mono': ['10px', { lineHeight: '1.4' }],
       },
       colors: {
         'bg-white': 'var(--sonus-color-bg-white)',
@@ -39,11 +40,10 @@ export default {
       },
       fontFamily: {
         'sans': ['"Source Sans 3"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
-        'mono': ['"Monoist"', '"DM Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+        'mono': ['"Monoist"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
         'main': ['"Tenor Sans"', 'sans-serif'],
         'secondary': ['"Source Sans 3"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
         'noto-serif': ['"Noto Serif SC"', 'serif'],
-        'dm-mono': ['"Monoist"', '"DM Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
     },
   },
