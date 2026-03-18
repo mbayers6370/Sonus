@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { apiFetch } from '../../lib/apiClient';
-import { parseJsonOrThrow } from './support/supportConsoleDataUtils';
+import { parseJsonOrThrow } from './supportConsoleDataUtils';
 
 import type {
   SupportMetrics,
@@ -8,15 +8,7 @@ import type {
   WeakWordsByLanguage,
   SpeakMissHotspotsByLanguage,
   ImpactOutcomesMetrics,
-  ExecutiveWeeklyReport,
-  DeletionLifecycleReport,
-  SecurityIncidentReport,
-  LearningMomentumReport,
-  ActivationFunnelReport,
-  StorageBudgetReport,
-  DbGuardrailsReport,
-  ProdReadinessReport,
-} from './support/supportConsoleTypes';
+} from './supportConsoleTypes';
 
 export function useSupportConsoleMetrics() {
   const [supportMetrics, setSupportMetrics] = useState<SupportMetrics | null>(null);
@@ -122,14 +114,6 @@ export function useSupportConsoleMetrics() {
           supportPayload,
           learningPayload,
           speakMissHotspotsPayload,
-          executivePayload,
-          deletionPayload,
-          securityPayload,
-          momentumPayload,
-          funnelPayload,
-          storagePayload,
-          guardrailsPayload,
-          prodReadinessPayload,
         ] = await Promise.all([
           parseJsonOrThrow<SupportMetrics>(
             await apiFetch(`/v1/admin/metrics/support/overview?windowDays=${windowDays}`, {
@@ -146,46 +130,6 @@ export function useSupportConsoleMetrics() {
               `/v1/admin/metrics/learning/speak-miss-hotspots-by-language?windowDays=${windowDays}&limitPerLanguage=5&minMissesPerUser=4`,
               { cache: 'no-store' }
             )
-          ),
-          parseJsonOrThrow<ExecutiveWeeklyReport>(
-            await apiFetch(`/v1/admin/reports/executive-weekly?windowDays=${windowDays}`, {
-              cache: 'no-store',
-            })
-          ),
-          parseJsonOrThrow<DeletionLifecycleReport>(
-            await apiFetch(`/v1/admin/reports/deletion-lifecycle?windowDays=${windowDays}`, {
-              cache: 'no-store',
-            })
-          ),
-          parseJsonOrThrow<SecurityIncidentReport>(
-            await apiFetch(`/v1/admin/reports/security-incidents?windowDays=${windowDays}`, {
-              cache: 'no-store',
-            })
-          ),
-          parseJsonOrThrow<LearningMomentumReport>(
-            await apiFetch(`/v1/admin/reports/learning-momentum?windowDays=${windowDays}`, {
-              cache: 'no-store',
-            })
-          ),
-          parseJsonOrThrow<ActivationFunnelReport>(
-            await apiFetch(`/v1/admin/reports/activation-funnel?windowDays=${windowDays}`, {
-              cache: 'no-store',
-            })
-          ),
-          parseJsonOrThrow<StorageBudgetReport>(
-            await apiFetch(`/v1/admin/reports/storage-budget?windowDays=${windowDays}`, {
-              cache: 'no-store',
-            })
-          ),
-          parseJsonOrThrow<DbGuardrailsReport>(
-            await apiFetch(`/v1/admin/reports/db-guardrails?windowDays=${windowDays}`, {
-              cache: 'no-store',
-            })
-          ),
-          parseJsonOrThrow<ProdReadinessReport>(
-            await apiFetch(`/v1/admin/reports/prod-readiness?windowDays=${windowDays}`, {
-              cache: 'no-store',
-            })
           ),
         ]);
         setSupportMetrics(supportPayload);

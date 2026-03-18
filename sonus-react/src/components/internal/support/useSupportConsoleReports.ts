@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 import { apiFetch } from '../../lib/apiClient';
-import { parseJsonOrThrow } from './support/supportConsoleDataUtils';
+import { parseJsonOrThrow } from './supportConsoleDataUtils';
 
 import type {
   QualityReportListItem,
   QualityReportDetail,
-} from './support/supportConsoleTypes';
+} from './supportConsoleTypes';
 
 export function useSupportConsoleReports() {
   const [qualityReports, setQualityReports] = useState<QualityReportListItem[]>([]);
@@ -19,7 +19,7 @@ export function useSupportConsoleReports() {
     setReportsLoading(true);
     setReportsError(null);
     try {
-      const payload = await parseJsonOrThrow<{ reports?: QualityReportListItem[] }>(
+      const payload = await parseJsonOrThrow<{ reports: QualityReportListItem[] }>(
         await apiFetch('/v1/admin/reports/quality', { cache: 'no-store' })
       );
       setQualityReports(payload.reports || []);
@@ -53,12 +53,10 @@ export function useSupportConsoleReports() {
     setReportRunBusy(true);
     setReportRunError(null);
     try {
-      const payload = await parseJsonOrThrow<{ message?: string }>(
-        await apiFetch('/v1/admin/reports/quality/run-prod-safe', {
-          method: 'POST',
-          cache: 'no-store',
-        })
-      );
+      await apiFetch('/v1/admin/reports/quality/run-prod-safe', {
+        method: 'POST',
+        cache: 'no-store',
+      });
       // Reload reports list after running
       void loadQualityReports();
     } catch (error) {
@@ -74,12 +72,10 @@ export function useSupportConsoleReports() {
     setReportRunBusy(true);
     setReportRunError(null);
     try {
-      const payload = await parseJsonOrThrow<{ message?: string }>(
-        await apiFetch('/v1/admin/reports/quality/run-full', {
-          method: 'POST',
-          cache: 'no-store',
-        })
-      );
+      await apiFetch('/v1/admin/reports/quality/run-full', {
+        method: 'POST',
+        cache: 'no-store',
+      });
       // Reload reports list after running
       void loadQualityReports();
     } catch (error) {

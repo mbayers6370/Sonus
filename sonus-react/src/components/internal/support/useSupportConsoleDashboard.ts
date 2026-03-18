@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 import { apiFetch } from '../../lib/apiClient';
-import { parseJsonOrThrow } from './support/supportConsoleDataUtils';
+import { parseJsonOrThrow } from './supportConsoleDataUtils';
 
-import type { TimelineEntry } from './support/supportConsoleTypes';
+import type { TimelineEntry } from './supportConsoleTypes';
 
 export function useSupportConsoleDashboard() {
   const [adminTimeline, setAdminTimeline] = useState<TimelineEntry[]>([]);

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { apiFetch } from '../../lib/apiClient';
-import { parseJsonOrThrow } from './support/supportConsoleDataUtils';
+import { parseJsonOrThrow } from './supportConsoleDataUtils';
 import {
   readSupportAdminToken,
   setSupportAdminToken,
@@ -27,7 +27,7 @@ export function useSupportConsoleAuth() {
       setSupportAdminUsername(payload.username || null);
       setAuthError(null);
       return true;
-    } catch (error) {
+    } catch {
       setSupportAdminToken(null);
       setAuthenticated(false);
       setSupportAdminUsername(null);

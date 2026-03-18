@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { apiFetch } from '../../lib/apiClient';
-import { parseJsonOrThrow } from './support/supportConsoleDataUtils';
+import { parseJsonOrThrow } from './supportConsoleDataUtils';
 
 import type {
   SearchResult,
@@ -10,7 +10,7 @@ import type {
   TimelineEntry,
   SupportNoteEntry,
   ReviewQueueDebug,
-} from './support/supportConsoleTypes';
+} from './supportConsoleTypes';
 
 export function useSupportConsoleSearch() {
   const [query, setQuery] = useState('');

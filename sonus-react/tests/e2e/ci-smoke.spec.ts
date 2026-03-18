@@ -116,9 +116,7 @@ test.describe('CI Smoke Tests', () => {
     await page.goto('/', { waitUntil: 'networkidle' });
 
     // Mock an API endpoint to ensure client is set up
-    let apiCallMade = false;
     await page.route('**/v1/**', async (route) => {
-      apiCallMade = true;
       await route.fulfill({
         status: 401,
         contentType: 'application/json',
