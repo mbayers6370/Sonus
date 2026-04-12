@@ -198,6 +198,7 @@ export default function Flashcard({
       {/* Audio Controls */}
       <div className="flex gap-3 justify-center px-5 pb-3 mb-[4.7rem] sm:mb-[6.25rem] md:mb-[6.75rem]">
         <button
+          type="button"
           onClick={() => speak(ttsText, ttsReading, false, state.selectedLanguage)}
           className="flex items-center gap-1.5 px-5 py-2.5 sm:px-6 sm:py-3 bg-[var(--sonus-palette-blue)] text-white rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-colors hover:bg-[#145B7A] active:bg-[#145B7A]"
         >
@@ -205,6 +206,7 @@ export default function Flashcard({
           Listen
         </button>
         <button
+          type="button"
           onClick={() => speak(ttsText, ttsReading, true, state.selectedLanguage)}
           className="flex items-center gap-1.5 px-5 py-2.5 sm:px-6 sm:py-3 bg-white border border-[rgba(31,42,55,0.40)] text-[var(--sonus-palette-charcoal)] rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-colors hover:bg-white active:bg-white"
         >
@@ -217,6 +219,7 @@ export default function Flashcard({
       <div className="fixed left-0 right-0 z-40 px-5 pb-2 border-t border-border pt-2 bg-bg-warm/95 backdrop-blur-sm bottom-[calc(var(--sonus-bottom-nav-height,5rem)+env(safe-area-inset-bottom,0px))]">
         <div className="grid grid-cols-2 gap-2">
           <button
+            type="button"
             onClick={onPrev}
             disabled={currentIndex === 0}
             className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white border border-[rgba(31,42,55,0.35)] text-[var(--sonus-palette-charcoal)] rounded-2xl font-semibold tracking-wide transition-all hover:bg-[rgba(31,42,55,0.08)] disabled:cursor-not-allowed"
@@ -225,6 +228,7 @@ export default function Flashcard({
             Previous
           </button>
           <button
+            type="button"
             onClick={handleNext}
             className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[var(--sonus-palette-charcoal)] text-white rounded-2xl font-semibold tracking-wide transition-all hover:bg-[var(--sonus-palette-charcoal)] hover:-translate-y-0.5 hover:shadow-lg"
           >

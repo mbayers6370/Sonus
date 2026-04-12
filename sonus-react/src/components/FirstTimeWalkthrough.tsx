@@ -62,7 +62,7 @@ export default function FirstTimeWalkthrough({
       {highlightRect && (
         <div
           aria-hidden="true"
-          className="pointer-events-none fixed z-[1] rounded-xl border-[1.5px] border-white"
+          className="pointer-events-none fixed z-[1] rounded-xl border-[1.5px] border-white transition-[top,left,width,height,border-radius,box-shadow] duration-300 ease-out will-change-[top,left,width,height]"
           style={{
             top: highlightRect.top,
             left: highlightRect.left,

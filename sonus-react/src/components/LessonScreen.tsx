@@ -279,6 +279,7 @@ export default function LessonScreen({
               return (
                 <button
                   key={tab.mode}
+                  type="button"
                   onClick={() => {
                     onModeChange?.(tab.mode);
                     setLessonMode(tab.mode);
@@ -322,7 +323,6 @@ export default function LessonScreen({
         )}
         {lessonMode === 'quiz' && (
           <Quiz
-            key={`quiz-${currentWord.id}-${lessonWordIndex}`}
             word={currentWord}
             allWords={activeLesson.words}
             currentIndex={lessonWordIndex}

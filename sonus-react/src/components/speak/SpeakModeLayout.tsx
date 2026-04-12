@@ -376,6 +376,7 @@ export default function SpeakModeLayout(props: SpeakModeLayoutProps) {
             </button>
           ) : null}
           <button
+            type="button"
             onClick={props.onNext}
             disabled={!props.canAdvance}
             className="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-[var(--sonus-palette-charcoal)] text-white rounded-xl font-semibold tracking-wide transition-all hover:bg-[var(--sonus-palette-charcoal)] hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none"

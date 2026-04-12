@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
@@ -130,6 +130,12 @@ export default function Quiz({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [allChoices, setAllChoices] = useState<string[]>(() => buildChoices(word, allWords));
   const { speak } = useAudio();
+
+  useEffect(() => {
+    setSelectedAnswer(null);
+    setIsCorrect(null);
+    setAllChoices(buildChoices(word, allWords));
+  }, [word.id, currentIndex, allWords]);
   const isJapanese = (state.selectedLanguage || '').trim().toLowerCase() === 'ja';
   const ttsText = isJapanese ? (word.hiragana || word.reading || word.simp) : word.simp;
   const ttsReading = getWordReading(word);
@@ -178,10 +184,6 @@ export default function Quiz({
     if (isCorrect === null) return;
     // Persist spaced-review outcome before advancing to the next prompt.
     recordWordOutcome(word, isCorrect, isCorrect ? 'sure' : 'unsure', 'quiz');
-    setSelectedAnswer(null);
-    setIsCorrect(null);
-    const nextWord = allWords[Math.min(currentIndex + 1, allWords.length - 1)] || word;
-    setAllChoices(buildChoices(nextWord, allWords));
     onNext();
   };
 
@@ -270,6 +272,7 @@ export default function Quiz({
                   {!selectedAnswer ? (
                     <div className="mt-2">
                       <button
+                        type="button"
                         onClick={() => speak(ttsText, ttsReading, false, state.selectedLanguage)}
                         className="mx-auto w-12 h-12 rounded-full border border-white/35 bg-transparent text-white flex items-center justify-center hover:bg-white/10 transition-all"
                         aria-label="Play audio"
@@ -282,6 +285,7 @@ export default function Quiz({
               ) : (
                 <div className={hasPoliteTag ? 'mt-7' : 'mt-1'}>
                   <button
+                    type="button"
                     onClick={() => speak(ttsText, ttsReading, false, state.selectedLanguage)}
                     className="mx-auto w-12 h-12 rounded-full bg-white text-[var(--sonus-palette-charcoal)] flex items-center justify-center hover:bg-[#E5E7EB] transition-all"
                     aria-label="Play audio"
@@ -327,6 +331,7 @@ export default function Quiz({
             return (
               <button
                 key={`${choice}-${idx}`}
+                type="button"
                 onClick={() => handleAnswer(choice)}
                 disabled={!!selectedAnswer}
                 className={buttonClass}
@@ -352,6 +357,7 @@ export default function Quiz({
             </button>
           ) : null}
           <button
+            type="button"
             onClick={handleNext}
             className="w-full flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-3 sm:py-3.5 bg-[var(--sonus-palette-charcoal)] text-white rounded-2xl text-[15px] sm:text-base font-semibold tracking-wide transition-all hover:bg-[var(--sonus-palette-charcoal)] hover:-translate-y-0.5 hover:shadow-lg"
           >

@@ -152,6 +152,20 @@ export default function AppRoutes() {
     hasStructuredTour: false,
     languageLabel: 'Language',
   });
+  const navigateWithWalkthroughTransition = useCallback((path: string, options?: { replace?: boolean }) => {
+    if (typeof document !== 'undefined') {
+      const docWithTransition = document as Document & {
+        startViewTransition?: (callback: () => void) => unknown;
+      };
+      if (docWithTransition.startViewTransition) {
+        docWithTransition.startViewTransition(() => {
+          navigate(path, options);
+        });
+        return;
+      }
+    }
+    navigate(path, options);
+  }, [navigate]);
   const {
     state,
     selectLanguage,
@@ -654,8 +668,13 @@ export default function AppRoutes() {
     walkthroughStartedRef.current = true;
     setWalkthroughVisible(true);
     setWalkthroughStep(0);
-    navigate(walkthroughSteps[0]?.path || '/home', { replace: true });
-  }, [navigate, onboardingStatus, selectedLanguage, walkthroughSteps]);
+    const startPath = walkthroughSteps[0]?.path || '/home';
+    const [startPathname, startQuery = ''] = startPath.split('?');
+    const startSearch = startQuery ? `?${startQuery}` : '';
+    if (location.pathname !== startPathname || location.search !== startSearch) {
+      navigateWithWalkthroughTransition(startPath, { replace: true });
+    }
+  }, [location.pathname, location.search, navigateWithWalkthroughTransition, onboardingStatus, selectedLanguage, walkthroughSteps]);
 
   const completeWalkthrough = useCallback(async () => {
     setWalkthroughSaving(true);
@@ -681,10 +700,16 @@ export default function AppRoutes() {
     setWalkthroughStep((prev) => {
       const nextStep = Math.max(0, prev - 1);
       const targetPath = walkthroughSteps[nextStep]?.path;
-      if (targetPath) navigate(targetPath);
+      if (targetPath) {
+        const [targetPathname, targetQuery = ''] = targetPath.split('?');
+        const targetSearch = targetQuery ? `?${targetQuery}` : '';
+        if (location.pathname !== targetPathname || location.search !== targetSearch) {
+          navigateWithWalkthroughTransition(targetPath);
+        }
+      }
       return nextStep;
     });
-  }, [navigate, walkthroughSteps]);
+  }, [location.pathname, location.search, navigateWithWalkthroughTransition, walkthroughSteps]);
 
   const handleWalkthroughNext = useCallback(() => {
     if (walkthroughStep >= walkthroughSteps.length - 1) {
@@ -694,10 +719,16 @@ export default function AppRoutes() {
     setWalkthroughStep((prev) => {
       const nextStep = Math.min(walkthroughSteps.length - 1, prev + 1);
       const targetPath = walkthroughSteps[nextStep]?.path;
-      if (targetPath) navigate(targetPath);
+      if (targetPath) {
+        const [targetPathname, targetQuery = ''] = targetPath.split('?');
+        const targetSearch = targetQuery ? `?${targetQuery}` : '';
+        if (location.pathname !== targetPathname || location.search !== targetSearch) {
+          navigateWithWalkthroughTransition(targetPath);
+        }
+      }
       return nextStep;
     });
-  }, [completeWalkthrough, navigate, walkthroughStep, walkthroughSteps]);
+  }, [completeWalkthrough, location.pathname, location.search, navigateWithWalkthroughTransition, walkthroughStep, walkthroughSteps]);
 
   useEffect(() => {
     const targetId = walkthroughVisible
@@ -729,10 +760,36 @@ export default function AppRoutes() {
     let timeoutId = 0;
     let retryIntervalId = 0;
     let retryDeadlineId = 0;
+    let missingTargetClearTimeoutId = 0;
+    let hasSnappedThisStep = false;
+    let listenersAttached = false;
+    let lastMeasuredRect: {
+      top: number;
+      left: number;
+      width: number;
+      height: number;
+      borderRadius: string;
+    } | null = null;
+    let stableMeasureCount = 0;
     let observedTarget: HTMLElement | null = null;
     let observer: ResizeObserver | null = null;
     let layoutObserver: ResizeObserver | null = null;
     let domObserver: MutationObserver | null = null;
+    const clearHighlightRectSoon = () => {
+      if (missingTargetClearTimeoutId) return;
+      // During step transitions, target nodes can remount briefly. Keep the
+      // previous glow to avoid a visible blink/reload effect between steps.
+      missingTargetClearTimeoutId = window.setTimeout(() => {
+        walkthroughHighlightRectRef.current = null;
+        setWalkthroughHighlightRect(null);
+        missingTargetClearTimeoutId = 0;
+      }, 260);
+    };
+    const cancelPendingClearHighlightRect = () => {
+      if (!missingTargetClearTimeoutId) return;
+      window.clearTimeout(missingTargetClearTimeoutId);
+      missingTargetClearTimeoutId = 0;
+    };
     const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
     const alignTargetForMobileWalkthrough = (target: HTMLElement) => {
       const rect = target.getBoundingClientRect();
@@ -753,47 +810,108 @@ export default function AppRoutes() {
       });
     };
 
-    const updateRect = () => {
-      const target = document.getElementById(targetId);
-      if (!target) {
-        walkthroughHighlightRectRef.current = null;
-        setWalkthroughHighlightRect(null);
-        return;
-      }
-      const rect = target.getBoundingClientRect();
-      const computed = window.getComputedStyle(target);
-      const nextRect = {
-        top: rect.top,
-        left: rect.left,
-        width: rect.width,
-        height: rect.height,
-        borderRadius: computed.borderRadius || '1rem',
-      };
-      const prevRect = walkthroughHighlightRectRef.current;
-      const hasMeaningfulChange =
-        !prevRect ||
-        Math.abs(prevRect.top - nextRect.top) > 0.5 ||
-        Math.abs(prevRect.left - nextRect.left) > 0.5 ||
-        Math.abs(prevRect.width - nextRect.width) > 0.5 ||
-        Math.abs(prevRect.height - nextRect.height) > 0.5 ||
-        prevRect.borderRadius !== nextRect.borderRadius;
-      if (!hasMeaningfulChange) return;
-      walkthroughHighlightRectRef.current = nextRect;
-      setWalkthroughHighlightRect(nextRect);
-    };
-
     const queueUpdate = () => {
+      if (hasSnappedThisStep) return;
       window.cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(updateRect);
+    };
+
+    const rectsNearlyEqual = (
+      a: { top: number; left: number; width: number; height: number; borderRadius: string },
+      b: { top: number; left: number; width: number; height: number; borderRadius: string },
+      tolerance = 1.25
+    ) =>
+      Math.abs(a.top - b.top) <= tolerance &&
+      Math.abs(a.left - b.left) <= tolerance &&
+      Math.abs(a.width - b.width) <= tolerance &&
+      Math.abs(a.height - b.height) <= tolerance &&
+      a.borderRadius === b.borderRadius;
+
+    const commitStableRect = (rect: { top: number; left: number; width: number; height: number; borderRadius: string }) => {
+      if (hasSnappedThisStep) return;
+      walkthroughHighlightRectRef.current = rect;
+      setWalkthroughHighlightRect(rect);
+      hasSnappedThisStep = true;
+      stopLiveTracking();
+    };
+
+    const stopLiveTracking = () => {
+      if (retryIntervalId) {
+        window.clearInterval(retryIntervalId);
+        retryIntervalId = 0;
+      }
+      if (retryDeadlineId) {
+        window.clearTimeout(retryDeadlineId);
+        retryDeadlineId = 0;
+      }
+      if (observer) {
+        observer.disconnect();
+        observer = null;
+      }
+      if (layoutObserver) {
+        layoutObserver.disconnect();
+        layoutObserver = null;
+      }
+      if (domObserver) {
+        domObserver.disconnect();
+        domObserver = null;
+      }
+      if (listenersAttached) {
+        window.removeEventListener('resize', queueUpdate);
+        window.removeEventListener('scroll', queueUpdate);
+        listenersAttached = false;
+      }
+    };
+
+    const updateRect = () => {
+      if (hasSnappedThisStep) return;
+      const target = document.getElementById(targetId);
+      if (!target) {
+        clearHighlightRectSoon();
+        return;
+      }
+      cancelPendingClearHighlightRect();
+      const rect = target.getBoundingClientRect();
+      const computed = window.getComputedStyle(target);
+      const roundHalfPixel = (value: number) => Math.round(value * 2) / 2;
+      const nextRect = {
+        top: roundHalfPixel(rect.top),
+        left: roundHalfPixel(rect.left),
+        width: roundHalfPixel(rect.width),
+        height: roundHalfPixel(rect.height),
+        borderRadius: computed.borderRadius || '1rem',
+      };
+
+      if (!lastMeasuredRect) {
+        lastMeasuredRect = nextRect;
+        stableMeasureCount = 0;
+        queueUpdate();
+        return;
+      }
+
+      if (rectsNearlyEqual(lastMeasuredRect, nextRect)) {
+        stableMeasureCount += 1;
+      } else {
+        lastMeasuredRect = nextRect;
+        stableMeasureCount = 0;
+        queueUpdate();
+        return;
+      }
+
+      // Require two nearly-identical measurements before committing so the glow
+      // lands once, on the final border, instead of snapping then drifting.
+      if (stableMeasureCount >= 1) {
+        commitStableRect(nextRect);
+      }
     };
 
     const resolveAndObserveTarget = () => {
       const target = document.getElementById(targetId);
       if (!target) {
-        walkthroughHighlightRectRef.current = null;
-        setWalkthroughHighlightRect(null);
+        clearHighlightRectSoon();
         return;
       }
+      cancelPendingClearHighlightRect();
       const disableAutoAlignForLevelsStep = walkthroughStep === 1;
       if (!disableAutoAlignForLevelsStep && walkthroughAlignedStepRef.current !== walkthroughStep) {
         alignTargetForMobileWalkthrough(target);
@@ -838,20 +956,13 @@ export default function AppRoutes() {
     layoutObserver.observe(document.documentElement);
     window.addEventListener('resize', queueUpdate);
     window.addEventListener('scroll', queueUpdate, { passive: true });
+    listenersAttached = true;
 
     return () => {
       window.cancelAnimationFrame(frameId);
       window.clearTimeout(timeoutId);
-      if (retryIntervalId) window.clearInterval(retryIntervalId);
-      if (retryDeadlineId) window.clearTimeout(retryDeadlineId);
-      window.removeEventListener('resize', queueUpdate);
-      window.removeEventListener('scroll', queueUpdate);
-      if (observer) observer.disconnect();
-      if (layoutObserver) layoutObserver.disconnect();
-      if (domObserver) domObserver.disconnect();
-      layoutObserver = null;
-      domObserver = null;
-      observer = null;
+      stopLiveTracking();
+      if (missingTargetClearTimeoutId) window.clearTimeout(missingTargetClearTimeoutId);
       observedTarget = null;
     };
   }, [walkthroughStep, walkthroughVisible, location.pathname, location.search]);
