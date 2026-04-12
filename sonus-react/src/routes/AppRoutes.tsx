@@ -906,6 +906,13 @@ export default function AppRoutes() {
     };
 
     const resolveAndObserveTarget = () => {
+      if (walkthroughStep === 6) {
+        const profileLayoutReady = document.getElementById('tour-profile-layout-ready');
+        if (profileLayoutReady?.getAttribute('data-ready') !== 'true') {
+          clearHighlightRectSoon();
+          return;
+        }
+      }
       const target = document.getElementById(targetId);
       if (!target) {
         clearHighlightRectSoon();

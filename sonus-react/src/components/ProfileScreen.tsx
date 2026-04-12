@@ -227,6 +227,7 @@ export default function ProfileScreen({
   const [error, setError] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [backendOffline, setBackendOffline] = useState(false);
+  const [initialProfileLoadSettled, setInitialProfileLoadSettled] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [progress, setProgress] = useState<Progress | null>(null);
   const [displayName, setDisplayName] = useState('');
@@ -421,6 +422,8 @@ export default function ProfileScreen({
           setTimezone(browserTimezone);
         }
       }
+    } finally {
+      setInitialProfileLoadSettled(true);
     }
   }, [authEmail, isDemo, resolvedCurrentLearningLanguage, signOut, timezone]);
 
@@ -553,6 +556,12 @@ export default function ProfileScreen({
       <GlassHeader title="Profile" hideLogoOnMobile />
 
       <div className="mx-auto max-w-6xl space-y-6">
+        <div
+          id="tour-profile-layout-ready"
+          data-ready={initialProfileLoadSettled ? 'true' : 'false'}
+          aria-hidden="true"
+          className="hidden"
+        />
         {backendOffline && (
           <div className="bg-white border border-border rounded-2xl p-5 text-sm text-text-med">
             Backend appears offline. Showing local profile view.
