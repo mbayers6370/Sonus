@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Word } from '../types/lesson.types';
 import { useAudio } from '../hooks/useAudio';
@@ -126,16 +126,12 @@ export default function Quiz({
   onNext,
 }: QuizProps) {
   const { state, recordQuizResult, recordWordOutcome } = useApp();
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-  const [allChoices, setAllChoices] = useState<string[]>(() => buildChoices(word, allWords));
+  const [answersByWordId, setAnswersByWordId] = useState<Record<string, { selectedAnswer: string; isCorrect: boolean }>>({});
+  const currentAnswer = answersByWordId[word.id];
+  const selectedAnswer = currentAnswer?.selectedAnswer ?? null;
+  const isCorrect = currentAnswer?.isCorrect ?? null;
+  const allChoices = useMemo(() => buildChoices(word, allWords), [word, allWords]);
   const { speak } = useAudio();
-
-  useEffect(() => {
-    setSelectedAnswer(null);
-    setIsCorrect(null);
-    setAllChoices(buildChoices(word, allWords));
-  }, [word.id, currentIndex, allWords]);
   const isJapanese = (state.selectedLanguage || '').trim().toLowerCase() === 'ja';
   const ttsText = isJapanese ? (word.hiragana || word.reading || word.simp) : word.simp;
   const ttsReading = getWordReading(word);
@@ -157,9 +153,14 @@ export default function Quiz({
   const handleAnswer = (choice: string) => {
     if (selectedAnswer) return; // Already answered
 
-    setSelectedAnswer(choice);
     const correct = choice === word.en;
-    setIsCorrect(correct);
+    setAnswersByWordId((prev) => ({
+      ...prev,
+      [word.id]: {
+        selectedAnswer: choice,
+        isCorrect: correct,
+      },
+    }));
     sendQuizAttemptSafe({
       wordId: word.id,
       isCorrect: correct,
